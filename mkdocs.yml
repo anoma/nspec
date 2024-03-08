@@ -1,0 +1,134 @@
+site_name: Anoma Specification
+site_author: Anoma Foundation
+site_description: |
+  Specification for Anoma.
+site_url: https://nspec.anoma.net
+site_dir: site
+use_directory_urls: false
+
+
+nav: 
+  - Home: index.md
+  - Juvix index: everything.juvix.md
+  - glossary.md
+    
+extra:
+  social:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/anoma
+    - icon: fontawesome/brands/github
+      link: https://github.com/anoma
+    - icon: fontawesome/solid/blog
+      link: https://anoma.net/blog
+    - icon: fontawesome/brands/discourse
+      link: https://research.anoma.net
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/anoma
+    - icon: material/email
+      link: mailto:arts@heliax.dev
+  generator: false
+  version: 1.0
+
+theme: 
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  custom_dir: docs/overrides
+  language: en
+  name: material
+  google_analytics: G-WJWZWB2TW5
+  palette:
+    scheme: custom
+    primary: custom
+    accent: custom
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - announce.dismiss
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - navigation.tracking
+    - navigation.path
+    # - navigation.instant # for offline use
+    - search.highlight
+    - search.suggest
+    - search.sharing
+    - toc.follow
+    - header.autohide
+
+plugins:
+  - macros:
+      module_name: macros
+  - search
+  - ezglossary
+  - literate-nav
+  - section-index
+
+hooks:
+- hooks.py
+
+exclude_docs: |
+  /requirements.txt  
+  **/art-template/**/*.md
+  */**/.juvix-build/
+  
+extra_css:
+  - assets/css/extra.css
+  - assets/css/juvix-highlighting.css
+
+extra_javascript:
+  - assets/js/extra.js
+  - assets/js/mathjax.js
+  - assets/js/highlight.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+copyright: |
+  &copy; 2024 <a href="https://anoma.net">Anoma Foundation</a>
+
+# See https://squidfunk.github.io/mkdocs-material/reference/math/?h=katex#comparing-mathjax-and-katex on why we use MathJax
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.magiclink
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      use_pygments: true
+      pygments_lang_class: true
+      line_spans: __ispan
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+
+# validation:
+#   nav:
+#     omitted_files: ignore
+#     not_found: warn
+#     absolute_links: ignore
+#   links:
+#     not_found: warn
+#     absolute_links: ignore
+#     unrecognized_links: warn

@@ -1,0 +1,42 @@
+Library
+  signature HASH
+  signature SIGNER
+  signature DECRYPTOR
+  signature INTERNAL_IDENTITY
+  signature VERIFIER
+  signature ENCRYPTOR
+  signature EXTERNAL_IDENTITY
+  signature IDENTITY
+  signature SIGNS_FOR
+  signature READS_FOR
+  signature VERIFIER_NAME
+  signature ENCRYPTOR_NAME
+  functor ThresholdCompose
+  functor ThresholdComposeEncryptor
+  functor ThresholdComposeSignsFor
+  functor ThresholdComposeReadsFor
+  functor SubVerifier
+is
+  src/hash.sig
+  src/signer.sig
+  src/decryptor.sig
+  src/internal_identity.sig
+  src/verifier.sig
+  src/encryptor.sig
+  src/external_identity.sig
+  src/identity.sig
+  src/signs_for.sig
+  src/reads_for.sig
+  src/verifier_name.sig
+  src/encryptor_name.sig
+  src/threshold_compose.fun
+  src/threshold_compose_encryptor.fun
+  src/threshold_compose_signs_for.fun
+  src/threshold_compose_reads_for.fun
+  src/sub_verifier.fun
+
+  src/bytes32.sml
+
+  $/basis.cm
+  $/smlnj-lib.cm
+

@@ -1,0 +1,53 @@
+---
+env:
+  CI: true
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  INSIDERS_TOKEN: ${{ secrets.INSIDERS_TOKEN }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Configure Git Credentials
+        run: |
+          git config user.name arts
+          git config user.email arts@heliax.dev
+          
+      - name: Download latest nightly Juvix binary
+        uses: jaxxstorm/action-install-gh-release@v1.11.0
+        with:
+          cache: enable
+          repo: anoma/juvix-nightly-builds
+      - id: juvix-version
+        name: See the dev version in the documentation
+        run: |
+          echo "number=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - run: pip install -r requirements.txt
+      - run: |
+          pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
+      - run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
+      - run: |
+          cat site/search/search_index.json
+        
+      - run: mkdocs gh-deploy --force -v --no-history --config-file mkdocs.insiders.yml
+name: anoma-spec-ci
+'on':
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: 0 2 * * *
+permissions:
+  contents: write
