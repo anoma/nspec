@@ -16,17 +16,22 @@ jobs:
           git config user.email arts@heliax.dev
           
       - name: Download latest nightly Juvix binary
-        uses: jaxxstorm/action-install-gh-release@v1.11.0
+        uses: jaxxstorm/action-install-gh-release@v1.9.0
         with:
-          cache: enable
           repo: anoma/juvix-nightly-builds
+          cache: enable
+          rename-to: juvix
+          chmod: 0755
+
       - id: juvix-version
         name: See the dev version in the documentation
         run: |
-          echo "number=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+          juvix --version
+
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
+
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       - uses: actions/cache@v3
         with:
