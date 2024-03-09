@@ -1,4 +1,4 @@
-# Anoma Specs [![ci](https://github.com/anoma//actions/workflows/ci.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/ci.yml) [![pages-build-deployment](https://github.com/anoma/nspec/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/anoma/nspec/actions/workflows/pages/pages-build-deployment)
+# Anoma Specs [![anoma-spec-ci](https://github.com/anoma/nspec/actions/workflows/ci.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/ci.yml)
 
 ## Getting Started
 
