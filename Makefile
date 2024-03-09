@@ -1,7 +1,7 @@
 PORT?=8000
 VERSION?=v0.1.0
 ALIAS?=latest
-MKDOCSCONFIG?=mkdocs.insiders.yml
+MKDOCSCONFIG?=mkdocs.yml
 PIP?=pip3
 MKDOPCSFLAGS?=
 

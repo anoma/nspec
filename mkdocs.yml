@@ -10,7 +10,12 @@ use_directory_urls: false
 nav: 
   - Home: index.md
   - Juvix index: everything.juvix.md
-  - glossary.md
+  - Engines: 
+    - Engine: engine.juvix.md
+
+  - Glossaries:
+    - Abbreviations: abbreviations.md
+    - English terms: glossary.md
     
 extra:
   social:

@@ -248,7 +248,7 @@ def _has_juvix_markdown_changed(filepath: Path) -> bool:
 
 def _generate_juvix_markdown(f: Path) -> Optional[str]:
     if _has_juvix_markdown_changed(f):
-        log.warning(f"Juvix file: {f} has changed!")
+        log.warning(f"Juvix file: {f} has changed, is new, or does not exist in the cache.")
         return _run_juvix_markdown(f)
     return _juvix_markdown_cache(f)
 
@@ -267,7 +267,7 @@ def _run_juvix_markdown(_filepath: Path) -> Optional[str]:
         md_filename: str = module_name + ".md"
         rel_to_docs: Path = filepath.relative_to(DOCS_DIR)
 
-        md_flags = "--strip-prefix=docs --prefix-url=/ --stdout"
+        md_flags = "--strip-prefix=docs --folder-structure --prefix-url=/ --stdout"
         global_flags = "--no-colors"
         cmd: List[str] = [JUVIX_BIN, "markdown"] + \
             md_flags.split(" ") + [file_path] + global_flags.split(" ")
