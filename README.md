@@ -1,5 +1,9 @@
 # Anoma Specs [![anoma-spec-ci](https://github.com/anoma/nspec/actions/workflows/ci.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/ci.yml)
 
+> [!IMPORTANT] This repository is under construction. The content is not ready
+> for active use. It requires to install the Juvix compiler from source if you
+> intend to introduce any datatype or function in the code examples.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your
@@ -13,7 +17,7 @@ automatically build and deploy the website.
 - Python packages including [MkDocs](https://www.mkdocs.org/), and [Material
   for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
-- Juvix (optional)
+- We recomend to install Juvix from [source](https://github.com/anoma/juvix). Otherwise, you can install it following the steps from [our documentation](https://docs.juvix.org/).
 
 ### Installing
 
