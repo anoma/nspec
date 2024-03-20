@@ -9,6 +9,7 @@ mkdocs-git-revision-date-plugin
 mkdocs-literate-nav
 mkdocs-macros-plugin
 mkdocs-material
+mkdocs-material[imaging]
 mkdocs-pdf-export-plugin
 mkdocs-section-index
 pymdown-extensions
