@@ -1,4 +1,12 @@
----
+
+name: anoma-spec-ci
+'on':
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: 0 2 * * *
+
 env:
   CI: true
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -10,6 +18,9 @@ env:
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
   cancel-in-progress: true
+
+permissions:
+  contents: write
 
 jobs:
   deploy:
@@ -57,13 +68,3 @@ jobs:
           cat site/search/search_index.json
         
       - run: mkdocs gh-deploy --force -v --no-history --config-file mkdocs.insiders.yml
-      
-name: anoma-spec-ci
-'on':
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: 0 2 * * *
-permissions:
-  contents: write
