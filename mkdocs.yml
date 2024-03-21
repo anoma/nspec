@@ -2,7 +2,7 @@ site_name: Anoma Specification
 site_author: Anoma Foundation
 site_description: |
   Specification for Anoma.
-site_url: https://nspec.anoma.net
+site_url: https://anoma.github.io/nspec
 site_dir: site
 use_directory_urls: false
 

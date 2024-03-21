@@ -49,6 +49,10 @@ jobs:
         run: |
           juvix --version
 
+      - name: typecheck Juvix code
+        run: |
+          juvix typecheck docs/everything.juvix.md
+
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x

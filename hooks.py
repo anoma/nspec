@@ -91,6 +91,15 @@ def on_startup(command, dirty) -> None:
     timeinit = time.time()
     if not JUVIX_AVAILABLE:
         return
+    
+    # We need to type check first to avoid stdout messages
+    # of cloning the Juvix packages in the generated markdown
+
+    try:
+        subprocess.run([JUVIX_BIN, "dependencies", "update"], capture_output=True)
+    except Exception as e:
+        log.error(f"@on_startup: {e}")
+        return
 
     for _file in DOCS_DIR.rglob("*.juvix.md"):
         file: Path = _file.absolute()
@@ -275,7 +284,7 @@ def _run_juvix_markdown(_filepath: Path) -> Optional[str]:
         cmd: List[str] = [JUVIX_BIN, "markdown",
                           "--strip-prefix=docs",
                           "--folder-structure",
-                          "--prefix-url=/",
+                          "--prefix-url=/nspec/", # FIXME once CNAME is fixed
                           "--stdout",
                           file_path,
                           "--no-colors"]
@@ -700,7 +709,7 @@ def _generate_juvix_html(_filepath: Path) -> None:
     log.debug(f"@_generate_juvix_html: html_output={HTML_CACHE_DIR}")
 
     rel_path = filepath.relative_to(DOCS_DIR)
-    prefix_url = "/" + ((rel_path.parent.as_posix() + "/")
+    prefix_url = "/nspec/" + ((rel_path.parent.as_posix() + "/")
                         if rel_path.parent != Path(".") else "")
 
     cmd = [JUVIX_BIN, "html"] + \
@@ -708,7 +717,7 @@ def _generate_juvix_html(_filepath: Path) -> None:
         ["--folder-structure"] + \
         [f"--output-dir={HTML_CACHE_DIR.as_posix()}"] + \
         [f"--prefix-url={prefix_url}"] + \
-        [f"--prefix-assets=/"] + \
+        [f"--prefix-assets=/nspec/"] + \
         [filepath.as_posix()]
 
     # FIXME: --only-src is not working in combination of the flags above
