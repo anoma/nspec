@@ -272,7 +272,7 @@ def _run_juvix_markdown(_filepath: Path) -> Optional[str]:
         md_filename: str = module_name + ".md"
         rel_to_docs: Path = filepath.relative_to(DOCS_DIR)
 
-        cmd: List[str] = [JUVIX_BIN, "markdown"
+        cmd: List[str] = [JUVIX_BIN, "markdown",
                           "--strip-prefix=docs",
                           "--folder-structure",
                           "--prefix-url=/",

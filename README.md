@@ -1,8 +1,6 @@
 # Anoma Specs [![anoma-spec-ci](https://github.com/anoma/nspec/actions/workflows/ci.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/ci.yml)
 
-> [!IMPORTANT] This repository is under construction. The content is not ready
-> for active use. It requires to install the Juvix compiler from source if you
-> intend to introduce any datatype or function in the code examples.
+
 
 ## Getting Started
 
@@ -10,6 +8,9 @@ These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes. If this is not your goal,
 you can edit the files Markdown directly on GitHub, the CI/CD pipeline will
 automatically build and deploy the website.
+
+To write the content, we use Markdown files with the extension `.md` and
+`.juvix.md`. The latter is used to write code examples in Juvix (+v0.6.0).
 
 ### Prerequisites
 
