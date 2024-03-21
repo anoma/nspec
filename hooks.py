@@ -58,8 +58,8 @@ if JUVIX_AVAILABLE:
     cmd = [JUVIX_BIN, "--numeric-version"]
     result = subprocess.run(cmd, capture_output=True)
     if result.returncode == 0:
-        JUVIX_VERSION = result.stdout.decode("utf-8") 
-        log.info(f"Running Juvix v{JUVIX_VERSION}") 
+        JUVIX_VERSION = result.stdout.decode("utf-8")
+        log.info(f"Running Juvix v{JUVIX_VERSION}")
 
 # The following prevents to build html every time
 # a .juvix.md file changes.
@@ -89,7 +89,8 @@ def on_startup(command, dirty) -> None:
     config.
     """
     timeinit = time.time()
-    if not JUVIX_AVAILABLE: return
+    if not JUVIX_AVAILABLE:
+        return
 
     for _file in DOCS_DIR.rglob("*.juvix.md"):
         file: Path = _file.absolute()
@@ -100,7 +101,7 @@ def on_startup(command, dirty) -> None:
     with open(JUVIXCODE_HASH_FILE, "w") as f:
         f.write(_hash)
 
-    _html_juvix_project(config = None)
+    _html_juvix_project(config=None)
     endtime = time.time()
     log.info(f"Time elapsed: {endtime - timeinit:.2f} seconds")
     return
@@ -121,9 +122,11 @@ def on_page_read_source(page: Page, config: MkDocsConfig) -> Optional[str]:
         return output
     return page.content
 
+
 def on_post_build(config: MkDocsConfig) -> None:
     _build_aux_html(config)
     return
+
 
 def on_serve(server: Any, config: MkDocsConfig, builder: Any) -> None:
 
@@ -164,7 +167,6 @@ def on_serve(server: Any, config: MkDocsConfig, builder: Any) -> None:
     handler.on_any_event = callback_wrapper(handler.on_any_event)
 
 
-
 def on_page_markdown(markdown: str, page, config, files: Files) -> Optional[str]:
     juvix = ".juvix"
     index = "index.juvix"
@@ -194,6 +196,7 @@ def on_page_markdown(markdown: str, page, config, files: Files) -> Optional[str]
     return markdown
 
 # AUXILIARY FUNCTIONS ----------------------------------------------------
+
 
 @lru_cache(maxsize=128)
 def _juvix_markdown_cache_path(_filepath: Path) -> Optional[Path]:
@@ -244,11 +247,13 @@ def _has_juvix_markdown_changed(filepath: Path) -> bool:
     if hash_cache_path.exists() and \
             (hash_cache_text := hash_cache_path.read_text()):
         return current_hash != hash_cache_text
-    return True 
+    return True
+
 
 def _generate_juvix_markdown(f: Path) -> Optional[str]:
     if _has_juvix_markdown_changed(f):
-        log.warning(f"Juvix file: {f} has changed, is new, or does not exist in the cache.")
+        log.warning(
+            f"Juvix file: {f} has changed, is new, or does not exist in the cache.")
         return _run_juvix_markdown(f)
     return _juvix_markdown_cache(f)
 
@@ -267,10 +272,13 @@ def _run_juvix_markdown(_filepath: Path) -> Optional[str]:
         md_filename: str = module_name + ".md"
         rel_to_docs: Path = filepath.relative_to(DOCS_DIR)
 
-        md_flags = "--strip-prefix=docs --folder-structure --prefix-url=/ --stdout"
-        global_flags = "--no-colors"
-        cmd: List[str] = [JUVIX_BIN, "markdown"] + \
-            md_flags.split(" ") + [file_path] + global_flags.split(" ")
+        cmd: List[str] = [JUVIX_BIN, "markdown"
+                          "--strip-prefix=docs",
+                          "--folder-structure",
+                          "--prefix-url=/",
+                          "--stdout",
+                          file_path,
+                          "--no-colors"]
 
         log.debug("@_run_juvix_markdown: cmd=%s", ' '.join(cmd))
 
@@ -697,6 +705,7 @@ def _generate_juvix_html(_filepath: Path) -> None:
 
     cmd = [JUVIX_BIN, "html"] + \
         ["--strip-prefix=docs"] + \
+        ["--folder-structure"] + \
         [f"--output-dir={HTML_CACHE_DIR.as_posix()}"] + \
         [f"--prefix-url={prefix_url}"] + \
         [f"--prefix-assets=/"] + \
@@ -803,4 +812,3 @@ def _html_juvix_project(config: Optional[MkDocsConfig],
     if config and (site_dir := config.get("site_dir", None)):
         _move_html_cache_to_site_dir(everythingJuvix, Path(site_dir))
     return
-
