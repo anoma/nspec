@@ -18,3 +18,4 @@ mkdocs-juvix-plugin
 mkdocs-literate-nav
 mkdocs-section-index
 mkdocs-autorefs
+mike

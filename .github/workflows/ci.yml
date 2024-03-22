@@ -7,12 +7,29 @@ name: anoma-spec-ci
   schedule:
     - cron: 0 2 * * *
 
+  workflow_dispatch:
+    inputs:
+      build-type:
+        type: choice
+        description: "Docs build type"
+        default: "dev"
+        options:
+          - "dev"
+          - "latest"
+
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
 env:
   CI: true
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   INSIDERS_TOKEN: ${{ secrets.INSIDERS_TOKEN }}
-  GIT_COMMITTER_NAME: anoma-nspec
-  GIT_COMMITTER_EMAIL: arts@heliax.dev
   SKIP: ${{ github.event.inputs.skip }}
 
 concurrency:
@@ -33,8 +50,8 @@ jobs:
 
       - name: Configure Git Credentials
         run: |
-          git config user.name arts
-          git config user.email arts@heliax.dev
+          git config --global user.name arts
+          git config --global user.email arts@heliax.dev
           
       - name: Download latest nightly Juvix binary
         uses: jaxxstorm/action-install-gh-release@v1.9.0
@@ -64,11 +81,27 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
+
       - run: pip install -r requirements.txt
       - run: |
           pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
+
+      - name: Test building without material-insiders
+        run: |
+          mkdocs build --clean -v --config-file mkdocs.yml
+
       - run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
-      - run: |
-          cat site/search/search_index.json
         
       - run: mkdocs gh-deploy --force -v --no-history --config-file mkdocs.insiders.yml
+
+      - name: Deploy documentation via GitHub (for releases)
+        if: >-
+          github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+        run: |
+          MKDOCSCONFIG=mkdocs.insiders.yml make ${{ github.event.inputs.build-type }}
+
+      - name: By default, deploy DEV documentation via pushes to main
+        if: >-
+          github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
+        run: |
+          MKDOCSCONFIG=mkdocs.insiders.yml make dev
