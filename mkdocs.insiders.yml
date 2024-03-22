@@ -7,8 +7,8 @@ plugins:
       enabled: !ENV [CI, false]
   - privacy:
       enabled: !ENV [CI, false]
-      # links_attr_map:
-        # target: _blank
+      links_attr_map:
+        target: _blank
       # assets_exclude:
       #   - cdn.jsdelivr.net/npm/mathjax@3/*
       #   - giscus.app/*
@@ -71,17 +71,6 @@ extra:
   generator: false
   version:
     provider: mike
-
-  consent:
-    title: Cookie consent
-    description: >-
-      We use cookies to recognize your repeated visits and preferences, as well
-      as to measure the effectiveness of our documentation and whether users
-      find what they're searching for. With your consent, you're helping us to
-      make our documentation better.
-    actions:
-      - accept
-      - manage
 
   analytics:
     feedback:
