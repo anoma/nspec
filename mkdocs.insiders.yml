@@ -44,3 +44,56 @@ plugins:
       token: !ENV [GH_TOKEN, ""]
       branch: main
       enabled: !ENV [CI, false]
+
+  - mike:
+      canonical_version: latest
+      version_selector: true
+      css_dir: assets/css
+      javascript_dir: assets/js
+
+
+extra:
+
+  social:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/anoma
+    - icon: fontawesome/brands/github
+      link: https://github.com/anoma
+    - icon: fontawesome/solid/blog
+      link: https://anoma.net/blog
+    - icon: fontawesome/brands/discourse
+      link: https://research.anoma.net
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/anoma
+    - icon: material/email
+      link: mailto:arts@heliax.dev
+
+  generator: false
+  version:
+    provider: mike
+
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+    actions:
+      - accept
+      - manage
+
+  analytics:
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/heart
+          name: This page was helpful
+          data: 1
+          note: >-
+            Thanks for your feedback!
+        - icon: material/heart-broken
+          name: This page could be improved
+          data: 0
+          note: >-
+            Thanks for your feedback! We'll try to improve this page in the future. 

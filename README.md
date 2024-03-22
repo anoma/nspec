@@ -1,7 +1,5 @@
 # Anoma Specs [![anoma-spec-ci](https://github.com/anoma/nspec/actions/workflows/ci.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/ci.yml)
 
-
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your
@@ -10,7 +8,10 @@ you can edit the files Markdown directly on GitHub, the CI/CD pipeline will
 automatically build and deploy the website.
 
 To write the content, we use Markdown files with the extension `.md` and
-`.juvix.md`. The latter is used to write code examples in Juvix (+v0.6.0).
+`.juvix.md`. The latter is optional in case you inteded to write Juvix code
+examples in [Juvix (+v0.6.0)](https://docs.juvix.org/), or install the Juvix
+plugin for VsCode from
+[here](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
 
 ### Prerequisites
 

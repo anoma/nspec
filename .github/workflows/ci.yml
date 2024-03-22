@@ -83,17 +83,17 @@ jobs:
             mkdocs-material-
 
       - run: pip install -r requirements.txt
-      - run: |
-          pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
 
       - name: Test building without material-insiders
         run: |
           mkdocs build --clean -v --config-file mkdocs.yml
 
-      - run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
-        
-      - run: mkdocs gh-deploy --force -v --no-history --config-file mkdocs.insiders.yml
+      - run: |
+          pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
 
+      - name: Test building with material-insiders
+        run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
+        
       - name: Deploy documentation via GitHub (for releases)
         if: >-
           github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
