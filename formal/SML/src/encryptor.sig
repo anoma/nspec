@@ -1,4 +1,4 @@
-(* ANCHOR: encryptor_description *)(*
+(* --8<-- [start:encryptor_description] *)(*
 A signature describing a type `encryptor` that can cryptographically
  `encrypt` a `plaintext` (message) to create a `ciphertext` readable
  only by the corresponding `decryptor`.
@@ -21,9 +21,9 @@ Properties:
     it's "asymmetric encryption."
     In an asymmetric cryptosystem, a computationally bounded adversary
     should not be able to approximate `d` knowing only `e`.
-*)(* ANCHOR_END: encryptor_description *)
+*)(* --8<-- [end:encryptor_description] *)
 
-(* ANCHOR: encryptor *)
+(* --8<-- [start:encryptor] *)
 signature ENCRYPTOR = sig
   type encryptor
   type plaintext
@@ -31,4 +31,4 @@ signature ENCRYPTOR = sig
   val encrypt : encryptor -> plaintext -> ciphertext
   structure EncryptorHash : HASH sharing type EncryptorHash.hashable = encryptor
 end
-(* ANCHOR_END: encryptor *)
+(* --8<-- [end:encryptor] *)

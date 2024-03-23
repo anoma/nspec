@@ -1,4 +1,4 @@
-(* ANCHOR: decryptor_description *)(*
+(* --8<-- [start:decryptor_description] *)(*
 A signature describing a type `decryptor` that can cryptographically
  `decrypt` something (a `cyphertext`), resulting in a `plaintext`
  (or `NONE`, if decryption fails).
@@ -18,13 +18,13 @@ Properties:
     `D.decrypt d c = Some p` iff `c = E.encrypt e p`
   - if `d = e`, we call this "symmetric encryption," and otherwise
     it's "asymmetric encryption"
-*)(* ANCHOR_END: decryptor_description *)
+*)(* --8<-- [end:decryptor_description] *)
 
-(* ANCHOR: decryptor *)
+(* --8<-- [start:decryptor] *)
 signature DECRYPTOR = sig
   type decryptor
   type plaintext
   type cyphertext
   val decrypt : decryptor -> cyphertext -> plaintext option
 end
-(* ANCHOR_END: decryptor *)
+(* --8<-- [end:decryptor] *)

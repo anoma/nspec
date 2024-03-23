@@ -1,5 +1,4 @@
-(* --8<--[start:identity_description] *)
-(*
+(* --8<-- [start:identity_description] *)(*
 An Identity structure, formally, specifies all the types for
  corresponding internal and external identities.
 So, for a given Identity structure `I`, `I.verifier` should be the
@@ -19,11 +18,11 @@ An Identity includes:
  - a type `encryptor` that can cryptographically `encrypt` a `plaintext` (message) to create a `cyphertext` readable only by the corresponding `decryptor`.
 
 Properties are inherited from `VERIFIER`, `ENCRYPTOR`, `SIGNER`, and `DECRYPTOR`.
-*)(* --8<--[end:identity_description] *)
+*)(* --8<-- [end:identity_description] *)
 
-(* --8<--[start:identity] *)
+(* --8<-- [start:identity] *)
 signature IDENTITY = sig
   include  INTERNAL_IDENTITY
   include  EXTERNAL_IDENTITY
 end
-(* end:identity] *)
+(* --8<-- [end:identity] *)

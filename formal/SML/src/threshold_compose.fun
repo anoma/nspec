@@ -1,4 +1,4 @@
-(* ANCHOR: threshold_compose_description *)(*
+(* --8<-- [start:threshold_compose_description] *)(*
 A `ThresholdCompose` `verifier` consists of a
  threshold (`int`), and a set of `verifier`s, each paired with a
  weight (`int`).
@@ -21,6 +21,7 @@ This will let nodes reason about identities using simple
  implementations.
 
 Formally, to specify a `ThresholdCompose`, we need:
+
 - `Verifier`, the structure of the underlying `verifiers`.
 - `Signer`, the corresponding structure of the underlying `signers`.
 - `Map : ORD_MAP`, to be used to encode weights and `commitment`s.
@@ -31,6 +32,7 @@ Formally, to specify a `ThresholdCompose`, we need:
    `{threshold:int, weights : ((int * Verifier.verifier) Map.map)}`).
 
 A `ThresholdCompose` structure provides:
+
 - `structure Map : ORD_MAP` the underlying `ORD_MAP` used in
    `verifier` and `commitment`
 - `structure UnderlyingVerifier : VERIFIER` the structure describing
@@ -77,9 +79,9 @@ A `ThresholdCompose` structure provides:
    two input verifiers: a `signer` must encode the information of the
    signers for *either* `x` or `y` to sign statements `verifierOr x y`
    will verify.
-*)(* ANCHOR_END: threshold_compose_description *)
+*)(* --8<-- [end:threshold_compose_description] *)
 
-(* ANCHOR: threshold_compose *)
+(* --8<-- [start:threshold_compose] *)
 functor ThresholdCompose (
   structure Verifier:VERIFIER
   structure Signer:SIGNER sharing Signer = Verifier
@@ -113,4 +115,4 @@ functor ThresholdCompose (
                  (y: UnderlyingVerifier.verifier)
                  : verifier = verifierCompose 1 [(1,x), (1,y)]
 end
-(* ANCHOR_END: threshold_compose *)
+(* --8<-- [end:threshold_compose] *)

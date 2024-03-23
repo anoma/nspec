@@ -9,6 +9,14 @@ use_directory_urls: false
 
 nav: 
   - Home: index.md
+  - Architecture:
+    - ./architecture-1/index.md
+    - Abstractions:
+      - ./architecture-1/abstractions.md
+      - Identity: ./architecture-1/abstractions/identity.md
+    - Properties: ./architecture-1/properties.md
+    - Resource Machine: https://zenodo.org/records/10498991
+
   - Applications: 
     - applications.md
     - Primitives: 
@@ -22,11 +30,8 @@ nav:
     - Mesh messaging: ./applications/mesh-messaging.md
   - Glossary: ./glossary.md
 
-
-
   - Indexes:
     - English terms: glossary.md
-    - Abbreviations: abbreviations.md
     - Juvix Modules: everything.juvix.md
     
 extra:
@@ -75,6 +80,10 @@ theme:
     - header.autohide
 
 plugins:
+  - ezlinks:
+      warn_ambiguities: true
+      wikilinks: true
+      reference_links: true
   - macros:
       module_name: macros
   - search
@@ -84,6 +93,9 @@ plugins:
 
 hooks:
 - hooks.py
+
+watch:
+  - formal/SML
 
 exclude_docs: |
   /requirements.txt  
@@ -140,12 +152,7 @@ markdown_extensions:
       custom_checkbox: true
       clickable_checkbox: true
 
-# validation:
-#   nav:
-#     omitted_files: ignore
-#     not_found: warn
-#     absolute_links: ignore
-#   links:
-#     not_found: warn
-#     absolute_links: ignore
-#     unrecognized_links: warn
+validation:
+  links:
+    not_found: warn
+    unrecognized_links: warn

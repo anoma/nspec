@@ -14,6 +14,7 @@ mkdocs-pdf-export-plugin
 mkdocs-section-index
 pymdown-extensions
 mkdocs-ezglossary-plugin @ git+https://github.com/realtimeprojects/mkdocs-ezglossary@main
+mkdocs-ezlinked-plugin @git+https://github.com/jonaprieto/mkdocs-ezlinked-plugin
 mkdocs-juvix-plugin
 mkdocs-literate-nav
 mkdocs-section-index

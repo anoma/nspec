@@ -1,4 +1,4 @@
-(* ANCHOR: reads_for_description *)(*
+(* --8<-- [start:reads_for_description] *)(*
 Formally, a `readsFor` relation requires a type of evidence, and an
  `ENCRYPTOR` structure.
 This codifies a belief about what `DECRYPTOR`s can read other
@@ -21,12 +21,12 @@ Nodes who want to take this into account might accept some sort of
 
 Note that `readsFor` is not symmetric: `readsFor e (x,y)` does not
  imply that any `z` exists such that `readsFor z (y,x)`.
-*)(* ANCHOR_END: reads_for_description *)
+*)(* --8<-- [end:reads_for_description] *)
 
-(* ANCHOR: reads_for *)
+(* --8<-- [start:reads_for] *)
 signature READS_FOR = sig
   structure Encryptor : ENCRYPTOR
   type evidence
   val readsFor : evidence -> (Encryptor.encryptor * Encryptor.encryptor) -> bool
 end
-(* ANCHOR_END: reads_for *)
+(* --8<-- [end:reads_for] *)

@@ -1,4 +1,4 @@
-(* ANCHOR: external_identity_description *)(*
+(* --8<-- [start:external_identity_description] *)(*
 An External Identity structure specifies the necessary types and
  functions for both a Verifier and an Encyrptor.
 Implementations should ultimately include, for example,
@@ -14,11 +14,11 @@ An external_identity includes:
   corresponding `decryptor`.
 
 Properties are inherited from `VERIFIER` and `ENCRYPTOR`.
-*)(* ANCHOR_END: external_identity_description *)
+*)(* --8<-- [end:external_identity_description] *)
 
-(* ANCHOR: external_identity *)
+(* --8<-- [start:external_identity] *)
 signature EXTERNAL_IDENTITY = sig
   include VERIFIER
   include ENCRYPTOR
 end
-(* ANCHOR_END: external_identity *)
+(* --8<-- [end:external_identity] *)

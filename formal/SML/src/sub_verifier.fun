@@ -1,4 +1,4 @@
-(* ANCHOR: subverifier_description *)(*
+(* --8<-- [start:subverifier_description] *)(*
 A specific kind of identity name, wher ethe evidence is a signed
  statement from a specified parent saying that it associates this
  verifier with a specific `name`.
@@ -17,9 +17,9 @@ Here,
 - `Hash` Describes what will become the `VerifierNameHash`.
   Crucially, it must be able to hash pairs of the form
   (Parent's hash type, name)
-*)(* ANCHOR_END: subverifier_description *)
+*)(* --8<-- [end:subverifier_description] *)
 
-(* ANCHOR: subverifier *)
+(* --8<-- [start:subverifier] *)
 functor SubVerifier (
   type name
   structure Child : VERIFIER
@@ -34,4 +34,4 @@ functor SubVerifier (
     (Parent.verify pv ("I identify this Verifier with this name: ", n, Child.VerifierHash.hash(c)) pc)
     andalso (Parent.VerifierHash.OrdKey.compare(ph,(Parent.VerifierHash.hash pv)) = EQUAL)
 end
-(* ANCHOR_END: subverifier *)
+(* --8<-- [end:subverifier] *)

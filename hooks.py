@@ -1,6 +1,6 @@
 """
-This module contains various hooks and functions used in the MkDocs configuration in combination with tools such as Juvix and diff
-for Anoma Spec documentation.
+This module contains various hooks and functions used in the MkDocs configuration in combination with tools such as Juvix and diff.
+This has been developed for the Anoma Specification project.
 """
 
 from functools import lru_cache

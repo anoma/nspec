@@ -1,4 +1,4 @@
-(* ANCHOR: verifier_description *)(*
+(* --8<-- [start:verifier_description] *)(*
 A signature describing a type `verifier` that can cryptographically
  `verify` that a `commitment` (or cryptographic signature) corresponds
  to a given message (a `signable`), and was signed by the `signer`
@@ -16,9 +16,9 @@ Properties:
   - For any message `m`: `verify v m x = (x = (sign s m))`
   - for most cryptosystems, a computationally bounded adversary should not be
     able to approximate `s` knowing only `v`.
-*)(* ANCHOR_END: verifier_description *)
+*)(* --8<-- [end:verifier_description] *)
 
-(*--8<-- [start:verifier] *)
+(* --8<-- [start:verifier] *)
 signature VERIFIER = sig
   type verifier
   type signable
@@ -26,4 +26,4 @@ signature VERIFIER = sig
   val verify : verifier -> signable -> commitment -> bool
   structure VerifierHash : HASH sharing type VerifierHash.hashable = verifier
 end
-(*--8<-- [end:verifier] *)
+(* --8<-- [end:verifier] *)

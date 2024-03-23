@@ -1,4 +1,4 @@
-(* ANCHOR: signs_for_description *)(*
+(* --8<-- [start:signs_for_description] *)(*
 Formally, a `signsFor` relation requires a type of evidence, and a
  `VERIFIER` structure.
 This codifies a belief about what `verifier`'s `commitments` are
@@ -13,12 +13,12 @@ Nodes who want to take this into account might accept some sort of
 
 Note that `signsFor` is not symmetric: `signsFor e (x,y)` does not
  imply that any `z` exists such that `signsFor z (y,x)`.
-*)(* ANCHOR_END: signs_for_description *)
+*)(* --8<-- [end:signs_for_description] *)
 
-(* ANCHOR: signs_for *)
+(* --8<-- [start:signs_for] *)
 signature SIGNS_FOR = sig
   structure Verifier : VERIFIER
   type evidence
   val signsFor : evidence -> (Verifier.verifier * Verifier.verifier) -> bool
 end
-(* ANCHOR_END: signs_for *)
+(* --8<-- [end:signs_for] *)

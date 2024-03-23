@@ -2,7 +2,6 @@
 A signature describing a type `signer` that can cryptographically
  `sign` (or credibly commit) to something (a `signable`), forming a
  `commitment`.
-
 Implementations should ultimately include, for example
  [BLS](https://en.wikipedia.org/wiki/BLS_digital_signature) keys,
   which should be able to sign anything that can be marshaled into a

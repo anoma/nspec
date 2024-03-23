@@ -1,4 +1,4 @@
-(* ANCHOR: internal_identity_description *)(*
+(* --8<-- [start:internal_identity_description] *)(*
 An Internal Identity structure specifies the necessary types and
  functions for both a Signer and a Decryptor.
 Implementations should ultimately include, for example,
@@ -16,11 +16,11 @@ An internal_identity includes:
   (or `NONE`, if decryption fails).
 
 Properties are inherited from `SIGNER` and `DECRYPTOR`.
-*)(* ANCHOR_END: internal_identity_description *)
+*)(* --8<-- [end:internal_identity_description] *)
 
-(* ANCHOR: internal_identity *)
+(* --8<-- [start:internal_identity] *)
 signature INTERNAL_IDENTITY = sig
   include SIGNER
   include DECRYPTOR
 end
-(* ANCHOR_END: internal_identity *)
+(* --8<-- [end:internal_identity] *)

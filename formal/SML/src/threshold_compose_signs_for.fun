@@ -1,4 +1,4 @@
-(* ANCHOR: threshold_compose_signs_for_description *)(*
+(* --8<-- [start:threshold_compose_signs_for_description] *)(*
  A `signsFor` relation for easy comparison of
   `ThresholdCompose` `verifier`s
  _x_ `signsFor` _y_ if every underlying verifier in _x_ has no more
@@ -19,9 +19,9 @@ Other parameters necessary to define the `ThresholdCompose`
 - `ThresholdComposeHash`, which specifies a `hash` function that can
    hash our composed `verifier`s (type
    `{threshold:int, weights : ((int * S.Verifier.verifier) Map.map)}`).
-*)(* ANCHOR_END: threshold_compose_signs_for_description *)
+*)(* --8<-- [end:threshold_compose_signs_for_description] *)
 
-(* ANCHOR: threshold_compose_signs_for *)
+(* --8<-- [start:threshold_compose_signs_for] *)
 functor ThresholdComposeSignsFor(structure S:SIGNS_FOR
   structure Signer:SIGNER sharing Signer = S.Verifier
   structure Map : ORD_MAP sharing Map.Key = S.Verifier.VerifierHash.OrdKey
@@ -39,4 +39,4 @@ functor ThresholdComposeSignsFor(structure S:SIGNS_FOR
     Map.all (fn (w,v) => w*t1 <= (Map.foldl (fn ((x,v1), s) =>
       if UnderlyingSignsFor.signsFor e (v, v1) then x+s else s) 0 w1)*t0) w0
 end
-(* ANCHOR_END: threshold_compose_signs_for *)
+(* --8<-- [end:threshold_compose_signs_for] *)

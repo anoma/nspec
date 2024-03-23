@@ -1,4 +1,4 @@
-(* ANCHOR: hash_description *)(*
+(* --8<-- [start:hash_description] *)(*
 A general purpose signature describing structures that implement a hash
  function.
 The output should be an orderable type suitable for a lookup key (hence,
@@ -14,9 +14,9 @@ Properties:
 - `OrdKey.ord_key` is the type of our hash.
   It should be constant size, and totally ordered.
 - `hash` takes linear time to compute over the size of the input.
-*)(* ANCHOR_END: hash_description *)
+*)(* --8<-- [end:hash_description] *)
 
-(* ANCHOR: hash *)
+(* --8<-- [start:hash] *)
 signature HASH = sig
   structure OrdKey : ORD_KEY
   type hashable
