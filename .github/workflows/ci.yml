@@ -54,7 +54,7 @@ jobs:
         run: |
           git config --global user.name arts
           git config --global user.email arts@heliax.dev
-          
+
       - name: Download latest nightly Juvix binary
         uses: jaxxstorm/action-install-gh-release@v1.9.0
         with:
@@ -95,7 +95,7 @@ jobs:
 
       - name: Test building with material-insiders
         run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
-        
+
       - name: Deploy documentation via GitHub (for releases)
         if: >-
           github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'

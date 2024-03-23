@@ -7,7 +7,7 @@
 		- pay-to-identity
 		- pay-to-denomination
 	- rebalancing (mutual credit issuance)
-    
+
 
 causal model of events
 theory of value
@@ -15,7 +15,7 @@ want to reward whatever led to the production of this value
 
 ## Cryptographic kudos
 
-_Cryptographic kudos_ are a transferable resource class. They come in fungible and non-fungible varieties with arbitrary properties and are always associated with an initial issuing identity. In general, cryptographic kudos are _transferable_ - this is what makes them "kudos" instead of just directed or undirected relationships in those DAGs, and this is why linearity is important - although they may have specific restrictions on when or how tranfers can be performed in specific cases.  
+_Cryptographic kudos_ are a transferable resource class. They come in fungible and non-fungible varieties with arbitrary properties and are always associated with an initial issuing identity. In general, cryptographic kudos are _transferable_ - this is what makes them "kudos" instead of just directed or undirected relationships in those DAGs, and this is why linearity is important - although they may have specific restrictions on when or how tranfers can be performed in specific cases.
 
 ## Issuance
 

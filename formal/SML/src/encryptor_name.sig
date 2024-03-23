@@ -2,11 +2,11 @@
     before the relevant cryptographic values are available.
 ANCHOR: encryptor_name_description
 An `identityName` can be mapped to an appropriate `Encryptor.encryptor`
- when suitable `evidence` is found. 
+ when suitable `evidence` is found.
 Here, `checkEncryptorName` defines what evidence is acceptable for a
- `Encryptor.encryptor`. 
+ `Encryptor.encryptor`.
 Note that `identityName`s are also hashable: we require a structure
- `EncryptorNameHash` that details how to hash them. 
+ `EncryptorNameHash` that details how to hash them.
  * --8<-- [end:encryptor_name_description] *)
 (* --8<-- [start:encryptor_name] *)
 signature ENCRYPTOR_NAME = sig
@@ -17,4 +17,3 @@ signature ENCRYPTOR_NAME = sig
   structure EncryptorNameHash : HASH sharing type EncryptorNameHash.hashable = identityName
 end
 (* --8<-- [end:encryptor_name] *)
-

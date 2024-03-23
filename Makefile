@@ -38,13 +38,13 @@ mike-serve: docs
 	mike serve --dev-addr localhost:${PORT} --config-file ${MKDOCSCONFIG}
 
 .PHONY: dev
-dev: 
+dev:
 	export DEV=true
 	mike delete ${DEVALIAS} ${MIKEFLAGS} > /dev/null 2>&1 || true
 	VERSION=${DEVALIAS} ${MAKE} mike
 
 .PHONY: latest
-latest: 
+latest:
 	mike delete ${VERSION} ${MIKEFLAGS} > /dev/null 2>&1 || true
 	${MAKE} mike
 	mike alias ${VERSION} latest -u ${MIKEFLAGS}
@@ -56,10 +56,6 @@ install:
 	@echo "[!] Use a Python virtual environment if you are not using one."
 	${PIP} install -r requirements.txt
 
-.PHONY : install-pre-commit
-install-pre-commit :
-	@$(if $(PRECOMMIT),, pip install pre-commit)
-
 .PHONY : pre-commit
 pre-commit :
 	@pre-commit run --all-files
@@ -67,5 +63,3 @@ pre-commit :
 clean:
 	@rm -rf site
 	@find . -type d -name "site" -exec rm -rf {} \;
-
-

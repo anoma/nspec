@@ -7,9 +7,9 @@
 - Bond is associated with a specific validator selection function
     - Owner of the bond may redelegate (or equivalent)
 - Bond gains stake-weighted voting power on funding allocation decisions (logistic function)
-- Bonds can also be offered by the protocol for locking other assets 
+- Bonds can also be offered by the protocol for locking other assets
     - Incentive alignment mechanism
-    - Coupons still pay out in staking asset 
+    - Coupons still pay out in staking asset
 - Targeting controller sets interest (targeting lockup profiles of different denominations)
     - Protocol can also buy back bonds
     - Could include bonds of other denominations

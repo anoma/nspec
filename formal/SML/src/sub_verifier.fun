@@ -30,7 +30,7 @@ functor SubVerifier (
   structure VerifierNameHash = Hash
   type evidence = Parent.verifier * Parent.commitment
   type identityName = Parent.VerifierHash.OrdKey.ord_key * name
-  fun checkVerifierName (ph, n) c (pv, pc)  = 
+  fun checkVerifierName (ph, n) c (pv, pc)  =
     (Parent.verify pv ("I identify this Verifier with this name: ", n, Child.VerifierHash.hash(c)) pc)
     andalso (Parent.VerifierHash.OrdKey.compare(ph,(Parent.VerifierHash.hash pv)) = EQUAL)
 end

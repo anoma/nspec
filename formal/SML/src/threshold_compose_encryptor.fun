@@ -3,12 +3,12 @@
  *
  * The threshold composed `encryptor` is a threshold, and a set of weights
  * paired with `UnderlyingEncryptor.encryptor`s. There are stored in a `Map.map`
- * under their hashes, to ensure uniqueness. 
+ * under their hashes, to ensure uniqueness.
  *
  * The idea is that an encrypted `plaintext` should only be
  *  decryptable by a `decryptor` that encodes the information from a
  *  set of `decryptor`s corresponding to a set of `encryptor`s whose
- *  weight sums to at least the threshold. 
+ *  weight sums to at least the threshold.
  *)
 functor ThresholdComposeEncryptor (
   structure Encryptor:ENCRYPTOR

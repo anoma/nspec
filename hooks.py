@@ -91,7 +91,7 @@ def on_startup(command, dirty) -> None:
     timeinit = time.time()
     if not JUVIX_AVAILABLE:
         return
-    
+
     # We need to type check first to avoid stdout messages
     # of cloning the Juvix packages in the generated markdown
 

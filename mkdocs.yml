@@ -7,7 +7,7 @@ site_dir: site
 use_directory_urls: false
 
 
-nav: 
+nav:
   - Home: index.md
   - Architecture 1:
     - ./architecture-1/index.md
@@ -17,9 +17,9 @@ nav:
     - Properties: ./architecture-1/properties.md
     - Resource Machine: https://zenodo.org/records/10498991
 
-  - Applications: 
+  - Applications:
     - applications.md
-    - Primitives: 
+    - Primitives:
         - Tokens: ./applications/primitives/tokens.md
         - Attestation: ./applications/primitives/attestation.md
         - Authorization: ./applications/primitives/authorization.md
@@ -33,7 +33,7 @@ nav:
   - Indexes:
     - English terms: glossary.md
     # - Juvix Modules: everything.juvix.md
-    
+
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
@@ -51,7 +51,7 @@ extra:
   generator: false
   version: 1.0
 
-theme: 
+theme:
   logo: assets/logo.svg
   favicon: assets/logo.svg
   custom_dir: docs/overrides
@@ -98,10 +98,10 @@ watch:
   - formal/SML
 
 exclude_docs: |
-  /requirements.txt  
+  /requirements.txt
   **/art-template/**/*.md
   */**/.juvix-build/
-  
+
 extra_css:
   - assets/css/extra.css
   - assets/css/juvix-highlighting.css

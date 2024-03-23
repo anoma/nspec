@@ -41,7 +41,7 @@ window.MathJax = {
       meet: "\\sqcap",
       addsunion: "\\uplus",
       addsintersection: "\\mathrel{\\raisebox{.1em}{\\reflectbox{\\rotatebox[origin=c]{180}{\\addsunion}}}}",
-      // 
+      //
       clg: "\\textrm{CLG}\\ ",
       edge: ["{{#1}\\!-\\!{#2}}", 2],
       reality: "\\textrm{REALITY}\\ ",
@@ -87,7 +87,7 @@ window.MathJax = {
   }
 };
 
-document$.subscribe(() => { 
+document$.subscribe(() => {
   MathJax.startup.output.clearCache()
   MathJax.typesetClear()
   MathJax.texReset()

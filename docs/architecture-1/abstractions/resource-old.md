@@ -37,7 +37,7 @@ The dynamic resource data includes a unique Suffix, providing a partially ordere
 The Type of a Resource, is determined by its Resource Logic and Prefix. Resources of the same type are fungible (i.e. interchangeable) when determining balance at the scope of a Transaction.
 
 ### Resource Logic (RL)
-The Logic of a Resource is defined via a Predicate and its Arguments. It specifies under which conditions `Resources` that carry it can be created and consumed. 
+The Logic of a Resource is defined via a Predicate and its Arguments. It specifies under which conditions `Resources` that carry it can be created and consumed.
 ```haskell=
 data ResourceLogic = ResourceLogic {
   predicate :: ptxData -> Bool,
@@ -150,7 +150,7 @@ They can still be encrypted for specific recipients.
 
 ## Commitments and Nullifiers
 When a shielded transaction gets executed, the commitments of the resources (equivalent to the Resource Address) created by it are recorded by the consensus provider.
-A verifiable encryption scheme should be used to prove to the consensus provider correspondence between the commitment submitted and an encrypted resource with the new owner as recepient. This encrypted resource can be stored by the consensus provider to guarantee that the recepient can fetch it. 
+A verifiable encryption scheme should be used to prove to the consensus provider correspondence between the commitment submitted and an encrypted resource with the new owner as recepient. This encrypted resource can be stored by the consensus provider to guarantee that the recepient can fetch it.
 
 Nullifiers can always be derived from the plaintext body of a resource and need to be included in the `ptx` consuming them.
 

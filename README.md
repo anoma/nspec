@@ -24,13 +24,13 @@ plugin for VsCode from
 ### Installing
 
 1. Clone the repository
-   
+
     ```bash
     git clone http://github.com/anoma/nspec
     ```
 
 2. Install the required packages
-   
+
     ```bash
     pip3 install -r requirements.txt
     ```

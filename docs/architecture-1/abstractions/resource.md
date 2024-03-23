@@ -1,6 +1,6 @@
 # Resource
 
-_Resources_ are the atomic units of state in Anoma. 
+_Resources_ are the atomic units of state in Anoma.
 
 ## Data structure
 

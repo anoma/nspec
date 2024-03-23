@@ -41,7 +41,7 @@ happen in parallel for a while.
 Since the decision whether to include an existing term or not will be more of a
 soft question, reviewer and reader feedback will be especially important.
 
-# Definitions 
+# Definitions
 
 ## Anoma protocol
 

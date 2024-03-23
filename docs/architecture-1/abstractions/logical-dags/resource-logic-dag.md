@@ -2,14 +2,14 @@
 
 > Note: For details about the implementation of `Resources` see [Resource Management](../resource.md#resource-management).
 
-The resource logic DAG provides an abstraction of a _linear resource logic_ with which distributed applications can model finite objects. This logic is based on a concept of a _resource_, which is a unique datum created at a particular point in logical time and possibly consumed later in logical time. Each resource is an instance of a particular _resource logic_, which specifies how (under what conditions) resources of that type can be created and consumed. The resource logic DAG tracks when resources are created and when they are consumed. Resources are only allowed to be consumed after they have been created.  At any point in logical time, the resource logic DAG has a state consisting of all resources which have been created but not consumed. 
+The resource logic DAG provides an abstraction of a _linear resource logic_ with which distributed applications can model finite objects. This logic is based on a concept of a _resource_, which is a unique datum created at a particular point in logical time and possibly consumed later in logical time. Each resource is an instance of a particular _resource logic_, which specifies how (under what conditions) resources of that type can be created and consumed. The resource logic DAG tracks when resources are created and when they are consumed. Resources are only allowed to be consumed after they have been created.  At any point in logical time, the resource logic DAG has a state consisting of all resources which have been created but not consumed.
 
 The resource logic DAG also tracks linear logic violations (duplicate consumptions of the same resource, or "double spends"). Each resource has an ordered list of controller identities, where a valid signature from the last identity in the list is required to consume the resource. At any point in logical time, the latest (right-most) controller of a resource is responsible for ordering possibly conflicting transactions. Resources can be transferred to a new controller (modulo additional validation in the predicates) by appending to the list, or as a special case, they can be transferred to the previous controller (dropping an item from the end of the list). In the case of a double-spend of a resource - namely, a non-total order of two conflicting transactions both signed by the current controller - the conflict is resolved by the controller one element earlier in the list when the resource is eventually transferred back, and in the case of multiple double-spends recursively until the originator (at which point, if they also double-spend, linearity is violated, but as if the originator had just issued more resources, and in any case there is no in-system recovery possible at this point). Controller identities can be defined in particular ways which encode bespoke conflict resolution logic. Recovery from linearity violations does not require any reversal or reordering of transactions, as we keep this explicit "chain of promises" of controllers, so if some controller `I` double-spends, subsequent resources with `I` in the controller list may simply no longer be redeemable back along the original path. By accepting resources with a particular path of controllers, an application or user accepts the double-spend risk of any of the controllers, which can be mitigated by waiting for those controllers to sign over the transaction (which finalises it and guarantees future redemption from their perspective).
 
 ## Transaction DAG
 > TODO: Decide which parts of this subsection should still be moved to Resource Management.
 
-A _transaction_ in a resource logic DAG consists of a balanced set of partial transactions (`ptx`s), which consume a (possibly empty) set of existing resources and create a (possibly empty) set of new resources. Transactions are atomic, in that either the whole transaction is valid (and can be appended to / part of a valid resource logic DAG), or the transaction is not valid and cannot be appended to / included in the resource logic DAG. 
+A _transaction_ in a resource logic DAG consists of a balanced set of partial transactions (`ptx`s), which consume a (possibly empty) set of existing resources and create a (possibly empty) set of new resources. Transactions are atomic, in that either the whole transaction is valid (and can be appended to / part of a valid resource logic DAG), or the transaction is not valid and cannot be appended to / included in the resource logic DAG.
 
 > TODO: Describe the structural correspondence of `ptx`s to partially applied functions.
 
@@ -31,11 +31,11 @@ Agents, then, have _safe finality_ under the assumption of correct behavior of t
 
 ## Resource Frontier
 
-For Linear Resources, we can also derive the Resource frontier of the whole graph or subgraph(s), which consists of all resources which have been created but not consumed at that point in logical time. 
+For Linear Resources, we can also derive the Resource frontier of the whole graph or subgraph(s), which consists of all resources which have been created but not consumed at that point in logical time.
 
 For Non-Linear Resources, the Frontier contains all Resources ever created.
 
-## Resource Reference 
+## Resource Reference
 
 A `Resource Reference` is defined as the Resource Frontier of the Resources inhabiting a specific Resource Type. Typically these will be used for Types with only one inhabitant at each time in history.
 
@@ -43,7 +43,7 @@ More specific references can be defined at higher layers, using entries in stati
 
 ## Delayed execution transactions
 
-Transactions may want to choose their exact input and output resources on the basis of the state just prior to application of the transaction to the state (when it is "executed", or so to speak), in order to, for example, read the most current resource at a particular (known) key and thus avoid conflicts. To facilitate this, transactions in the resource logic DAG can also be modeled as functions which _produce_ transactions, possibly taking into account the latest resource at a particular key. This entails an ordering with respect to the keys read, so the transaction must include all keys which it might read (for which the transaction author does not necessarily know the values and/or wishes ordering to be delegated). The transaction then receives the values of those keys at the logical time of execution and can use them to compute the input and output resources. 
+Transactions may want to choose their exact input and output resources on the basis of the state just prior to application of the transaction to the state (when it is "executed", or so to speak), in order to, for example, read the most current resource at a particular (known) key and thus avoid conflicts. To facilitate this, transactions in the resource logic DAG can also be modeled as functions which _produce_ transactions, possibly taking into account the latest resource at a particular key. This entails an ordering with respect to the keys read, so the transaction must include all keys which it might read (for which the transaction author does not necessarily know the values and/or wishes ordering to be delegated). The transaction then receives the values of those keys at the logical time of execution and can use them to compute the input and output resources.
 
 > TODO: Strict ordering is required here, so if all keys do not have the same identity, we will need to create a joint identity (chimera-chain-on-demand) to try to order w.r.t. all involved resources.
 
