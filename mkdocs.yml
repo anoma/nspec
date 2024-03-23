@@ -17,6 +17,26 @@ nav:
     - Properties: ./architecture-1/properties.md
     - Resource Machine: https://zenodo.org/records/10498991
 
+  - Architecture 2:
+    - ./architecture-2/index.md
+    - Hardware Abstraction Machine:
+      - ./architecture-2/hardware-abstraction.md
+      - Local Storage Engines:
+          - ./architecture-2/hardware-abstraction/local-storage.md
+          - Local Key Value Storage Engine:
+            - ./architecture-2/hardware-abstraction/local-storage-engines/local-key-value-storage-engine.md
+            - Messages:
+              - ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages.md
+              - GetValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/get-value-KVStore-request.md
+              - GetValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/get-value-KVStore-response.md
+              - SetValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/set-value-KVStore-request.md
+              - SetValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/set-value-KVStore-response.md
+              - DeleteValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/delete-value-KVStore-request.md
+              - DeleteValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/delete-value-KVStore-response.md
+          - Notifications:
+            - ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications.md
+            - ValueChangedKVStore: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications/value-changed-KVStore.md
+
   - Applications:
     - applications.md
     - Primitives:
@@ -80,6 +100,7 @@ theme:
     - header.autohide
 
 plugins:
+  - obsidian-bridge
   - macros:
       module_name: macros
   - search

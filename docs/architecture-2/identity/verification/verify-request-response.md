@@ -1,0 +1,42 @@
+<div class="message">
+
+# VerifyRequest
+# VerifyResponse
+
+## Purpose
+
+<!-- ANCHOR: purpose -->
+A `VerifyRequest` instructs a verification engine to verify a commitment from a particular external identity, possibly using known signs-for relationships.
+
+A `VerifyResponse` contains the result of verifying a commitment in response to a [[VerifyRequest]].
+<!-- ANCHOR_END: purpose -->
+
+## Type
+
+<!-- ANCHOR: type -->
+- [[VerifyRequest]]
+- [[VerifyResponse]]
+<!-- ANCHOR_END: type -->
+
+## Behavior
+
+<!-- ANCHOR: behavior -->
+- Calls the `verify` method on the provided external identity, commitment, and data, and returns the result in an [[VerifyResponse]]
+- If `useSignsFor` is true, uses known signs-for relationships to determine whether the commitment is valid
+- If `useSignsFor` is false, only allows a commitment from the identity specifically provided
+<!-- ANCHOR_END: behavior -->
+
+## Message flow
+
+<!-- ANCHOR: messages -->
+```mermaid
+sequenceDiagram
+
+%% ANCHOR: sequence
+Any Local Engine ->>+ VerificationEngine: VerifyRequest
+VerificationEngine -->>- Any Local Engine: VerifyResponse
+%% ANCHOR_END: sequence
+```
+<!-- ANCHOR_END: messages -->
+
+</div>

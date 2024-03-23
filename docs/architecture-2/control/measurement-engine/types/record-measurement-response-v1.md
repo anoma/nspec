@@ -1,0 +1,29 @@
+# RecordMeasurementResponseV1
+
+## Purpose
+
+<!-- ANCHOR: purpose -->
+Response to a [[RecordMeasurementRequestV1#recordmeasurementrequestv1]].
+<!-- ANCHOR_END: purpose -->
+
+## Type
+
+<!-- ANCHOR: type -->
+<div class="type">
+
+*Records* with fields:
+- `Measurement Query`: [[MeasurementQueryV1#measurmeentqueryv1]]
+
+  *The query that needs to be executed to record the measurement in the database.*
+
+- `Success Operation`: [[SuccessOperationMeasurementDBV1#successoperationmeasurementdbv1]]
+
+  *The success of the operation, indicating that the KV-pair was deleted successfully or not.*
+
+
+
+</div>
+<!-- ANCHOR_END: type -->
+
+## Values
+

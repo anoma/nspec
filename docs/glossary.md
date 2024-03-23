@@ -41,7 +41,7 @@ happen in parallel for a while.
 Since the decision whether to include an existing term or not will be more of a
 soft question, reviewer and reader feedback will be especially important.
 
-# Definitions
+# Definitions 
 
 ## Anoma protocol
 
@@ -101,5 +101,3 @@ data related to the "real world" that is observed by and of interest to the agen
 
 A *system* is a virtual environment which
 consists of a set of agents interacting with each other.
-
-Read more about the world in the [conceptual context](scope/conceptual-context.md).
