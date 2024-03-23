@@ -32,7 +32,7 @@ nav:
 
   - Indexes:
     - English terms: glossary.md
-    - Juvix Modules: everything.juvix.md
+    # - Juvix Modules: everything.juvix.md
     
 extra:
   social:
