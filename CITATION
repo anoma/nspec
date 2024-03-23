@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Anoma Specifications"
+authors:
+  - family-names: "Contributors"
+    given-names: "Anoma"
+  - name: "others"
+url: "https://anoma.github.io/nspec"
+repository-code: "https://github.com/anoma/nspec"
+keywords:
+  - anoma
+  - specifications
