@@ -9,6 +9,21 @@ use_directory_urls: false
 
 nav: 
   - Home: index.md
+  - Applications: 
+    - applications.md
+    - Primitives: 
+        - Tokens: ./applications/primitives/tokens.md
+        - Attestation: ./applications/primitives/attestation.md
+        - Authorization: ./applications/primitives/authorization.md
+    - Kudos: ./applications/kudos.md
+    - Proof-of-stake: ./applications/proof-of-stake.md
+    - Generalized bartering: ./applications/generalized-bartering.md
+    - Schelling tests: ./applications/schelling-tests.md
+    - Mesh messaging: ./applications/mesh-messaging.md
+  - Glossary: ./glossary.md
+
+
+
   - Indexes:
     - English terms: glossary.md
     - Abbreviations: abbreviations.md
