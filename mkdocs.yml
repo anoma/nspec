@@ -9,7 +9,7 @@ use_directory_urls: false
 
 nav: 
   - Home: index.md
-  - Architecture:
+  - Architecture 1:
     - ./architecture-1/index.md
     - Abstractions:
       - ./architecture-1/abstractions.md
@@ -80,10 +80,10 @@ theme:
     - header.autohide
 
 plugins:
-  - ezlinks:
-      warn_ambiguities: true
-      wikilinks: true
-      reference_links: true
+  # - ezlinks:
+  #     warn_ambiguities: true
+  #     wikilinks: true
+  #     reference_links: true
   - macros:
       module_name: macros
   - search

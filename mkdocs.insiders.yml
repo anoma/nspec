@@ -1,9 +1,9 @@
 INHERIT: mkdocs.yml
 plugins:
-  - ezlinks:
-      warn_ambiguities: true
-      wikilinks: true
-      reference_links: true
+  # - ezlinks:
+  #     warn_ambiguities: true
+  #     wikilinks: true
+  #     reference_links: true
   - macros:
       module_name: macros
       verbose: false
