@@ -1,9 +1,5 @@
 INHERIT: mkdocs.yml
 plugins:
-  # - ezlinks:
-  #     warn_ambiguities: true
-  #     wikilinks: true
-  #     reference_links: true
   - macros:
       module_name: macros
       verbose: false
@@ -13,12 +9,6 @@ plugins:
       enabled: !ENV [CI, false]
       links_attr_map:
         target: _blank
-      # assets_exclude:
-      #   - cdn.jsdelivr.net/npm/mathjax@3/*
-      #   - giscus.app/*
-      #   - github.com/*
-      #   - unpkg.com/*
-      #   - art.anoma.net/*
   - search:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
       pipeline:
