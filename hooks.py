@@ -22,6 +22,7 @@ from watchdog.events import FileSystemEvent
 
 log: logging.Logger = logging.getLogger('mkdocs')
 
+JUVIX_SUPPORT = bool(int(os.environ.get("JUVIX_SUPPORT", True)))
 
 ROOT_DIR: Path = Path(__file__).parent.absolute()
 DOCS_DIR: Path = ROOT_DIR.joinpath("docs")
@@ -89,7 +90,7 @@ def on_startup(command, dirty) -> None:
     config.
     """
     timeinit = time.time()
-    if not JUVIX_AVAILABLE:
+    if JUVIX_SUPPORT and JUVIX_AVAILABLE:
         return
 
     # We need to type check first to avoid stdout messages
@@ -125,7 +126,7 @@ def on_files(files: Files, *, config: MkDocsConfig) -> Optional[Files]:
 
 def on_page_read_source(page: Page, config: MkDocsConfig) -> Optional[str]:
     filepath = Path(page.file.abs_src_path)
-    if filepath.as_posix().endswith(".juvix.md") and \
+    if JUVIX_SUPPORT and filepath.as_posix().endswith(".juvix.md") and \
             JUVIX_AVAILABLE and \
             (output := _generate_juvix_markdown(filepath)):
         return output
@@ -177,29 +178,30 @@ def on_serve(server: Any, config: MkDocsConfig, builder: Any) -> None:
 
 
 def on_page_markdown(markdown: str, page, config, files: Files) -> Optional[str]:
-    juvix = ".juvix"
-    index = "index.juvix"
-    readme = "README.juvix"
 
-    def path_change(text):
-        page.file.name = page.file.name.replace(text, "")
-        page.file.url = page.file.url.replace(text, "")
-        page.file.dest_uri = page.file.dest_uri.replace(text, "")
-        page.file.abs_dest_path = page.file.abs_dest_path.replace(
-            text, "")
+    if JUVIX_SUPPORT and JUVIX_AVAILABLE:
+        juvix = ".juvix"
+        index = "index.juvix"
+        readme = "README.juvix"
 
-        if not page.title:
-            page.title = page.file.name
+        def path_change(text):
+            page.file.name = page.file.name.replace(text, "")
+            page.file.url = page.file.url.replace(text, "")
+            page.file.dest_uri = page.file.dest_uri.replace(text, "")
+            page.file.abs_dest_path = page.file.abs_dest_path.replace(
+                text, "")
 
-    if page.file.name == index:
-        path_change(index)
-    elif page.file.name == readme:
-        path_change(readme)
-    elif page.file.name.endswith(juvix):
-        path_change(juvix)
+            if not page.title:
+                page.title = page.file.name
+
+        if page.file.name == index:
+            path_change(index)
+        elif page.file.name == readme:
+            path_change(readme)
+        elif page.file.name.endswith(juvix):
+            path_change(juvix)
 
     filepath = Path(page.file.abs_src_path)
-
     markdown = _render_diff(markdown, filepath)
     markdown = _path_versioned_links(markdown, filepath) + markdown
     return markdown
