@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Find a dynamic configuration by its key in the dynamic configuration KV-store and return the value.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -18,7 +18,7 @@ Find a dynamic configuration by its key in the dynamic configuration KV-store an
 
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 

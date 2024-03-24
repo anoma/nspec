@@ -2,15 +2,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Contains all identity records stored by the engine.
 
 Backed by the local key-value store
 (key: external identity, value: identity record).
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 *list\<([[ExternalIdentity#externalidentity]], [[IdentityRecord#identityrecord]])\>*
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

@@ -2,9 +2,9 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Storage preferences.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 

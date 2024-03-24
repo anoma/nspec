@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 After performing a search operation based on a given predicate within a specified time limit (timeout), return the result.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[LocalComputeSearchV1#localcomputesearchv1]]
@@ -20,18 +20,18 @@ After performing a search operation based on a given predicate within a specifie
 **Triggers**
 
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 After performing the search operation, return the computation results.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -41,6 +41,6 @@ Local Compute Engine -->>- Any Local Engine: LocalComputeSearchResult
 %% ANCHOR_END: sequence
 ```
 
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

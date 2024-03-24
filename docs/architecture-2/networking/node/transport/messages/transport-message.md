@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A message from/to one of the transport protocols.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TransportMessageV1#TransportMessagev1]]
@@ -18,11 +18,11 @@ A message from/to one of the transport protocols.
 **Triggers:**
 
 [[P2PMessage#p2pmessage]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 When receiving a *TransportMessage* from one of the transport protocols
 `addr` contains the source address,
 `tprefs` and `expiry` are not set,
@@ -36,11 +36,11 @@ the [[NodeIdentityRecord#nodeidentityrecord]] from the [[Network Identity Store#
 or the defaults in the local configuration of the *Transport* engine,
 `expiry` is set from the contained [[EngineMessage#enginemessage]],
 and `msg` contains the message to be sent.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -51,6 +51,6 @@ Router -) Transport: P2PMessage
 Transport -) TransportProtocol: TransportMessage
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

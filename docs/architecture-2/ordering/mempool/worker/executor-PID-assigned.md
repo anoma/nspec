@@ -1,12 +1,12 @@
 # ExecutorPIDAssigned (EPID)
-<!-- ANCHOR: blurp -->
+<!-- --8<-- [start:blurp] -->
 ## Purpose
 
 Provides the worker with an ID for newly spawned or
 available executor engine instance.
 
-<!-- ANCHOR_END: blurp -->
-<!-- ANCHOR: details -->
+<!-- --8<-- [end:blurp] -->
+<!-- --8<-- [start:details] -->
 
 
 ## Structure
@@ -27,4 +27,4 @@ The receiving worker can request the eager reads and start the execution.
   - the [[executetransaction|ExecuteTransaction]]-message to the executor
   - the will-read [[KVSReadRequest]]s to the relevant [[Shard]]s
 
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->

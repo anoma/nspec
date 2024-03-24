@@ -1,5 +1,5 @@
 # KVSRead
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 - _from_ [[Shard]]
 
 ## Purpose
@@ -10,8 +10,8 @@ When a [[Shard]] has determined what the value read is at the
  it sends a [[KVSRead]] to the appropriate [[Executor]].
 
 
-<!-- ANCHOR_END: blurb -->
-<!-- ANCHOR: details -->
+<!-- --8<-- [end:blurb] -->
+<!-- --8<-- [start:details] -->
 
 ## Structure
 | Field       | Type              | Description                               |
@@ -52,4 +52,4 @@ If this lets us finish the [[TransactionExecutable]], it may trigger
   The issuer of the [[TransactionRequest|transaction request]]
   is always provided with the [[ExecutionSummary]]
 
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->

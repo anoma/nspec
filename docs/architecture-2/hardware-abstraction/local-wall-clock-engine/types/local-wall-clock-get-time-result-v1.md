@@ -2,15 +2,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 
 Response to a [[LocalWallClockGetTimeV1#localwallclockgettimev1]]
 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -19,7 +19,7 @@ Response to a [[LocalWallClockGetTimeV1#localwallclockgettimev1]]
   *Current time according to local wall clock, typically expressed in seconds (or milliseconds) elapsed since a reference point in time (the epoch)*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 

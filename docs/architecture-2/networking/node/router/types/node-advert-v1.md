@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Advertisement of a peer's transport addresses.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Record* with fields:
@@ -36,4 +36,4 @@ Advertisement of a peer's transport addresses.
   *Signature by `id`*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

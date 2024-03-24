@@ -2,17 +2,17 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A response returned to a [[DomainRequest#domainrequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - Router $\to$ [[DomainResponse#domainresponse]] $\to$ DomainRouting
 - DomainRouting $\to$ [[DomainResponse#domainresponse]] $\to$ DomainRouting
 - DomainRouting $\to$ [[DomainResponse#domainresponse]] $\to$ Router
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 

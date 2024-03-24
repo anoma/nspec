@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Describe the purpose of the type.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Record* with fields:
@@ -42,4 +42,4 @@ Describe the purpose of the type.
   *Signature by `publisher` over the above fields*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

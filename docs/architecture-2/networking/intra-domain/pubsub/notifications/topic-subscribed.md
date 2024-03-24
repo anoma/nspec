@@ -4,21 +4,21 @@
 
 ## Purpose
 
- <!-- ANCHOR: purpose -->
+ <!-- --8<-- [start:purpose] -->
 Notification about a topic that was successfully subscribed at another peer.
- <!-- ANCHOR_END: purpose -->
+ <!-- --8<-- [end:purpose] -->
 
 ## Type
 
- <!-- ANCHOR: type -->
+ <!-- --8<-- [start:type] -->
 [[TopicRequestV1#topicrequestv1]]
 
 {{#include ../types/topic-request-v1.md:type}}
- <!-- ANCHOR_END: type -->
+ <!-- --8<-- [end:type] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -26,6 +26,6 @@ sequenceDiagram
 PubSub -) Any Local Engine: TopicSubscribed
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

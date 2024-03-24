@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `VerifyRequest` instructs a verification engine to verify a commitment from a particular external identity, possibly using known signs-for relationships.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -28,4 +28,4 @@ A `VerifyRequest` instructs a verification engine to verify a commitment from a 
 
   *Whether or not to use known signs-for relationships
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

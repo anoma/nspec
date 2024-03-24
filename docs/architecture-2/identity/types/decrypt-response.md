@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `DecryptResponse` contains the data decrypted by a decryption engine instance in response to a [[DecryptRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -20,4 +20,4 @@ A `DecryptResponse` contains the data decrypted by a decryption engine instance 
 
   *Error in decryption, if applicable*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

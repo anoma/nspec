@@ -2,14 +2,14 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -18,7 +18,7 @@ Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
   *The random number or random data in a byte value*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 

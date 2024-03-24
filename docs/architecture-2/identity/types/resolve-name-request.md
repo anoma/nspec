@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `ResolveNameRequest` asks the name engine which [[ExternalIdentity]]s are associated with a given [[IdentityName]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `ResolveNameRequest` asks the name engine which [[ExternalIdentity]]s are asso
 
   *Name to query*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

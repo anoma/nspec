@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Subscription acknowledgement.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
- <!-- ANCHOR: type -->
+ <!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicRequestV1#topicrequestv1]]
@@ -21,17 +21,17 @@ Subscription acknowledgement.
 
 [[TopicSubscribed#topicsubscribed]]
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 A [[TopicSubscribed#topicsubscribed]] notification is sent to local engines.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -40,6 +40,6 @@ PubSub ->>+ PubSub_R: Subscribe
 PubSub_R -->>- PubSub: SubscribeAck
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

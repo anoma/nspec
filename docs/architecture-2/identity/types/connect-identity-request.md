@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `ConnectIdentityRequest` instructs the identity management engine to connect an existing identity using the specified backend.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -23,4 +23,4 @@ A `ConnectIdentityRequest` instructs the identity management engine to connect a
 
   *The capabilities to request*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

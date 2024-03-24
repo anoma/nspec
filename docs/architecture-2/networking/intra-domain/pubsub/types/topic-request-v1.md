@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Request for an operation on a pub/sub topic.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Record* with fields:
@@ -18,4 +18,4 @@ Request for an operation on a pub/sub topic.
   *Pub/sub topic identity.*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

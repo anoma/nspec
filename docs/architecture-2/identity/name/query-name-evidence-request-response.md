@@ -5,28 +5,28 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `QueryNameEvidenceRequest` instructs the name engine to read and return any known [[IdentityName]]s and [[IdentityNameEvidence]] associated with a specific external identity.
 
 A `QueryNameEvidenceResponse` is returned by the name engine in response to a [[QueryNameEvidenceRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[QueryEvidenceRequest]]
 [[QueryEvidenceResponse]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 - Returns all known [[IdentityNameEvidence]] for the [[ExternalIdentity]] provided in the request
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -35,6 +35,6 @@ Any Local Engine ->>+ NameEngine: QueryEvidenceRequest
 NameEngine -->>- Any Local Engine: QueryEvidenceResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

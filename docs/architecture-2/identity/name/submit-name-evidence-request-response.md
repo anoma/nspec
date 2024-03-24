@@ -5,33 +5,33 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `SubmitNameEvidenceRequest` instructs the name engine to store a new piece of [[IdentityNameEvidence]].
 
 A `SubmitNameEvidenceResponse` is sent in response to a [[SubmitNameEvidenceRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[SubmitNameEvidenceRequest]]
 [[SubmitNameEvidenceResponse]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Describe the message reception behavior, processing logic, and possible triggers.
 - Stores the submitted evidence
 - This will affect future [[ResolveNameResponse]]s, as those depend on the set of evidence stored. 
 - Returns an error iff:
     - The [[IdentityNameEvidence]] is invalid
     - The [[IdentityNameEvidence]] was already stored
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -40,6 +40,6 @@ Any Local Engine ->>+ NameEngine: SubmitNameEvidenceRequest
 NameEngine -->>- Any Local Engine: SubmitNameEvidenceResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

@@ -1,5 +1,5 @@
 # KVSReadRequest
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 - _from_ [[Executor|Executor]]
 
 ## Purpose
@@ -17,9 +17,9 @@ in either of the following cases:
   for which it has a lazy read (a may_read in the
    [[TransactionLabel]]).
   
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
-<!-- ANCHOR: details -->
+<!-- --8<-- [start:details] -->
 
 ## Structure
 
@@ -56,4 +56,4 @@ Otherwise, future [[KVSWrite]]s and/or [[UpdateSeenAll]]s will
   `then` send a [[KVSRead]]-message to the relevant [[Executor|Executor]]
   to inform them of the value
 
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->

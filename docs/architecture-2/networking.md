@@ -28,16 +28,16 @@ Each domain has its own overlay topology, and a distinct set of P2P *intra-domai
 
 ### Terminology
 
-<!-- ANCHOR: node -->
+<!-- --8<-- [start:node] -->
 A *node* is the set of running *engine instances* that collectively participate in the network as a single entity.
 Each node has a [[Router#router]] engine instance responsible for intra- and inter-node message routing,
 and a [[Transport#transport]] engine instance responsible for inter-node connectivity.
 
 A *peer* is a connected neighbor of a *node* in the network.
-<!-- ANCHOR_END: node -->
-<!-- ANCHOR: node-id -->
+<!-- --8<-- [end:node] -->
+<!-- --8<-- [start:node-id] -->
 The *[[NodeIdentity#nodeidentity|node identity]]* in the networking context is the [[EngineIdentity#engineidentity|engine identity]] of the [[Router#router]] engine instance.
-<!-- ANCHOR_END: node-id -->
+<!-- --8<-- [end:node-id] -->
 
 ### Message passing
 

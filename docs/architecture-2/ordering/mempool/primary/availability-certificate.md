@@ -2,10 +2,10 @@
 - _from_ [Primary](../primary.md)
 
 ##### Purpose
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 The certificate informs the validator about availability of a header
 and who has taken on the responsibility of availability.
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
 ##### Structure
 | Field         | Type                                                  | Description                            |

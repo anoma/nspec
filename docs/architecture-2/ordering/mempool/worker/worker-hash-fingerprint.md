@@ -4,7 +4,7 @@
 ## Purpose
 <!-- ANCHOR:blurb -->
 The sending worker announces the completion of a worker hash so that the receiving worker can calculate a worker hash from the transaction data (that is being send independently).
-<!-- ANCHOR_END: blurb --> 
+<!-- --8<-- [end:blurb] --> 
 
 The worker hash subsequently is to be sent to the primary.
 

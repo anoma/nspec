@@ -6,12 +6,12 @@
 
 ### Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 The [[Transport#transport]] engine is responsible for
 sending and receiving messages from other nodes over the network,
 establishing and maintaining authenticated and encrypted communication channels
 to other nodes via various transport protocols.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## State
 
@@ -75,7 +75,7 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -93,6 +93,6 @@ sequenceDiagram
 
 {{#include transport/notifications/node-connect-failed.md:sequence}}
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

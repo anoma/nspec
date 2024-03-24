@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A message sent between engine instances (both local & remote).
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[EngineMessageV1#enginemessagev1]]
@@ -26,11 +26,11 @@ A message sent between engine instances (both local & remote).
 [[RelayMessage#relaymessage]]
 
 [[DomainRequest#domainrequest]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 When the router receives an *EngineMessage* from a local engine instance,
 it processes it the following way:
 
@@ -89,11 +89,11 @@ it processes it the following way:
 When processing the *EngineMessage*, the given [[RoutingPrefs#routingprefs]] and [[RoutingScope#routingscope]] is respected.
 
 > Note: The router subscribes to *[[IdentityUpdated#identityupdated]]* notifications of the [[Network Identity Store#network-identity-store]] engine, in order to keep addresses in the routing table up to date.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -108,6 +108,6 @@ Router -) Router: RelayMessage
 Router -) DomainRouting: DomainRequest
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

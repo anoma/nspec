@@ -5,30 +5,30 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `GenerateIdentityRequest` instructs the identity management engine to generate a new identity using the specified backend.
 
 A `GenerateIdentityResponse` provides the handles to decryption and commitment engine instances for a newly generated identity, or an error if a failure occurred.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[GenerateIdentityRequest]]
 [[GenerateIdentityResponse]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 - Uses the designated backend to generate a new identity
 - Creates new commitment engine and decryption engine instances
 - Returns handles to those instances in a [[GenerateIdentityResponse]]
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -37,6 +37,6 @@ Any Local Engine ->>+ IdentityManagementEngine: GenerateIdentityRequest
 IdentityManagementEngine -->>- Any Local Engine: GenerateIdentityResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

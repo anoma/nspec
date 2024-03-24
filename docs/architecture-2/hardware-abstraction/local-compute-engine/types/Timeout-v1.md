@@ -2,18 +2,18 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 The *TimeoutV1* describes the time limit after which the LocalComputeSearch operation will be terminated (if still running)
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 

@@ -2,16 +2,16 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Response to a [[JoinRequest#joinrequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ [[Domain#domain]]
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ Any Local Engine
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -30,6 +30,6 @@ The [[JoinResponse#ext-response]] is forwarded to the local engine who sent the 
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ Any Local Engine
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

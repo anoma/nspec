@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Add a measurement that is performed by an engine to the measurement database.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -18,7 +18,7 @@ Add a measurement that is performed by an engine to the measurement database.
 
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 

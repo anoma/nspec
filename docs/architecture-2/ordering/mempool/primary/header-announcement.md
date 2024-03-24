@@ -2,9 +2,9 @@
 - _from_ [Primary](../primary.md)
 
 ##### Purpose
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 A primary announces a new header via a fingerprint so that other primaries can respond with signatures over the relevant header.
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
 ##### Structure
 | Field | Type | Description |

@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `VerifyResponse` contains the result of verifying a commitment in response to a [[VerifyRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `VerifyResponse` contains the result of verifying a commitment in response to 
 
   *Whether or not verification succeeded*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

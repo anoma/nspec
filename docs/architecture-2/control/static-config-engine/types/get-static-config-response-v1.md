@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Return the found value corresponding to key in  [[GetStaticConfigRequestV1#getstaticconfigrequestv1]]. 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -21,7 +21,7 @@ Return the found value corresponding to key in  [[GetStaticConfigRequestV1#getst
   *The requested static configuration value.*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 

@@ -2,11 +2,11 @@
 - _from_ [[Primary Engine|primary]]
 
 ## Purpose
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 Sending a signature to the recipient such that
 the latter may fabricate certificates of integrity and/or availability for
 a [[Header Vertex|header vertex]] (previously announced by the recipient).
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
 ## Structure
 | Field          | Type                 | Description                                               |

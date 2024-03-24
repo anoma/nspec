@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Unsubscription request for a pub/sub topic.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicUnsubRequestV1#topicunsubrequestv1]]
@@ -22,7 +22,7 @@ Unsubscription request for a pub/sub topic.
 [[TopicUnsubResponseV1#topicunsubresponsev1]]
 
 {{#include ../types/topic-unsub-response-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Structure
 
@@ -43,7 +43,7 @@ Otherwise, if the topic does not exist yet:
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -54,6 +54,6 @@ PubSub -->>- Router: UnsubscribeResponse
 Router -->>- Any Local Engine: TopicUnsubResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

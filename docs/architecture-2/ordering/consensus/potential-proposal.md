@@ -3,9 +3,9 @@
 - _from_ [Mempool Primary](../mempool/primary.md)
 
 #### Purpose
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Communicates that a specific payload is (or isn't) a valid proposal for consensus on the chain, which consensus might decide upon.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 #### Structure
 

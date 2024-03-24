@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Response to a [[LocalWallClockGetTime#localwallclockgettime]] request. 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[LocalWallClockGetTimeResultV1#localwallclockgettimeresultv1]]
@@ -19,18 +19,18 @@ Response to a [[LocalWallClockGetTime#localwallclockgettime]] request.
 
 **Triggers**
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Give the current time according to the physical machine's internal clock system.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -40,6 +40,6 @@ Local Wall Clock Engine -->>- Any Local Engine: LocalWallClockGetTimeResult
 %% ANCHOR_END: sequence
 ```
 
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

@@ -4,14 +4,14 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Response to a [[SetValueKVStoreRequest#setvaluekvstorerequest]].
 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[SetValueKVStoreResponseV1#setvaluekvstoreresponsev1]]
@@ -20,18 +20,18 @@ Response to a [[SetValueKVStoreRequest#setvaluekvstorerequest]].
 
 **Triggers**
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 After adding the KV-pair to the KV-store, send a message indicating the success or failure of the operation.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -41,6 +41,6 @@ Local KV Storage Engine -->>- Any Local Engine: SetValueKVStoreResponse
 %% ANCHOR_END: sequence
 ```
 
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

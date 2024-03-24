@@ -1,14 +1,14 @@
 # RequestLogs
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 - _from_ [[User|User]], [[Solver|Solver]]
 
 ## Purpose
 
 Request the log of a finished execution.
 
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
-<!-- ANCHOR: details -->
+<!-- --8<-- [start:details] -->
 
 ## Structure
 <!-- This is mainly meant to specify which lock was acquired -->
@@ -25,5 +25,5 @@ none
 - to [[User|User]], [[Solver|Solver]]: [[SendLog]]  
   Answer the request with the data requested.
 
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->
 

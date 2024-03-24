@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `SubmitNameEvidenceRequest` instructs the name engine to store a new piece of [[IdentityNameEvidence]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `SubmitNameEvidenceRequest` instructs the name engine to store a new piece of 
 
   *The evidence*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

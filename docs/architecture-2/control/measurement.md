@@ -4,11 +4,11 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 The *Measurement Engine* stores measurements submitted by engines associated with timestamps.
 These measurements could be used by various protocols. 
 For example, the Networking Machine could use latency measurements to make routing decisions. 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## State
 
@@ -40,13 +40,13 @@ For example, the Networking Machine could use latency measurements to make routi
 ## Message Flow
 
 
- <!-- ANCHOR: messages -->
+ <!-- --8<-- [start:messages] -->
  ```mermaid
  sequenceDiagram
  {{#include measurement-engine/messages/record-measurement-request.md:sequence}}
  {{#include measurement-engine/messages/subscribe-measurement-request.md:sequence}}
  ```
- <!-- ANCHOR_END: messages -->
+ <!-- --8<-- [end:messages] -->
 
 </div>
 

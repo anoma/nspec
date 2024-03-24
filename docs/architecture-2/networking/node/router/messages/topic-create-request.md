@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Create a pub/sub topic and start accepting subscriptions to it.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicCreateRequestV1#topiccreaterequestv1]]
@@ -22,17 +22,17 @@ Create a pub/sub topic and start accepting subscriptions to it.
 [[TopicCreateResponseV1#topiccreateresponsev1]]
 
 {{#include ../types/topic-create-response-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 The topic is added to the [[RoutingTable#routingtable]] with an initially empty subscriber list.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -43,6 +43,6 @@ PubSub -->>- Router: StartAdvertResponse
 Router -->>- Any Local Engine: TopicCreateResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

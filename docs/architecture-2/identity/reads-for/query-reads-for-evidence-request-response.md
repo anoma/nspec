@@ -5,28 +5,28 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `QueryReadsForEvidenceRequest` instructs the reads-for engine to read and return the known reads-for evidence associated with a specific external identity.
 
 A `QueryReadsForEvidenceResponse` is returned by the reads-for engine in response to a [[QueryReadsForEvidenceRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[QueryReadsForEvidenceRequest]]
 [[QueryReadsForEvidenceResponse]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 - Returns known evidence in a [[QueryReadsForEvidenceResponse]]
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -35,6 +35,6 @@ Any Local Engine ->>+ ReadsForEngine: QueryReadsForEvidenceRequest
 ReadsForEngine -->>- Any Local Engine: QueryReadsForEvidenceResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

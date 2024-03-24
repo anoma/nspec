@@ -3,9 +3,9 @@
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Encodes a $\onea$-message that proposes a next value to have consensus upon.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 The message is sent between the participating acceptor nodes.
 
 #### Structure

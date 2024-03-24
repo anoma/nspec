@@ -1,13 +1,13 @@
 # TransactionRequest
-<!-- ANCHOR: blurp -->
+<!-- --8<-- [start:blurp] -->
 - _from_ [[User|User]], [[Solver|Solver]]
 
 ## Purpose
 A [[User#user|user]] or [[Solver#solver|solver]] requests that
 a [[TransactionCandidate#transactioncandidate|transaction candidate]]
 be ordered and executed.
-<!-- ANCHOR_END: blurp -->
-<!-- ANCHOR: details -->
+<!-- --8<-- [end:blurp] -->
+<!-- --8<-- [start:details] -->
 
 ## Structure
 
@@ -104,7 +104,7 @@ Additional user preferences can be supplied in future versions concerning
   `if` the worker has not received the same [[TransactionCandidate]] before  
   `then` reply with a [[TransactionAck]]
 -->
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->
 
 
 

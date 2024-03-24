@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Generate random numbers or other random data locally on the physical machine that the Anoma node is running.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]]
@@ -23,18 +23,18 @@ Generate random numbers or other random data locally on the physical machine tha
 
 {{#include ../types/local-randomness-get-rand-result-v1.md:type}}
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Generates a random number or other random data.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -44,6 +44,6 @@ Local Randomness Engine -->>- Any Local Engine: LocalRandomnessGetRandResult
 %% ANCHOR_END: sequence
 ```
 
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

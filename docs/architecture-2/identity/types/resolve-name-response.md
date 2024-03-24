@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `ResolveNameResponse` is returned in response to a [[ResolveNameRequest]]
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `ResolveNameResponse` is returned in response to a [[ResolveNameRequest]]
 
   *External identities with the given name*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

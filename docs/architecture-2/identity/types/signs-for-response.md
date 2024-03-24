@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `SignsForResponse` is returned in response to a [[SignsForRequest]]
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `SignsForResponse` is returned in response to a [[SignsForRequest]]
 
   *Where or not A `signsFor` B*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `GenerateIdentityResponse` provides the handles to decryption and commitment engine instances for a newly generated identity, or an error if a failure occurred.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -28,4 +28,4 @@ A `GenerateIdentityResponse` provides the handles to decryption and commitment e
 
   *Error in identity generation, if applicable*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

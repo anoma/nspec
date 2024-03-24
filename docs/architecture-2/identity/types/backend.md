@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Specifies which backend to use in order to generate or connect an identity.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 Enumeration; one of:
 - `BACKEND_LOCAL_MEMORY`
@@ -20,4 +20,4 @@ Enumeration; one of:
 - `BACKEND_REMOTE_CONNECTION`
     - specifies an external identity to route requests to
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

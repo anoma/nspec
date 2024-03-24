@@ -2,15 +2,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Request contents of a block by its content hash ID.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - Any $\to$ *BlockGetRequest* $\to$ Storage
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -20,6 +20,6 @@ Request contents of a block by its content hash ID.
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - Storage $\to$ *[[BlockGetResponse#blockgetresponse]]* $\to$ Any
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

@@ -2,15 +2,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Search for a block along the reverse publishing path of a pub/sub topic.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - Storage $\to$ *BlockSearchTopic* $\to$ Storage
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -26,7 +26,7 @@ Otherwise the request is forwarded to the parent node in the pub/sub disseminati
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - Storage $\to$ *BlockSearchTopic* $\to$ Storage
 - Storage $\to$ *[[BlockResponse#blockresponse]]* $\to$ Storage
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

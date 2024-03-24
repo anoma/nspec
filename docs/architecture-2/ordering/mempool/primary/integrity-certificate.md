@@ -2,10 +2,10 @@
 - _from_ [Primary](../primary.md)
 
 ##### Purpose
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 Integrity Certificates are the components of the signed quorums in future block headers.
 They are (learner-specific) proofs that a specific `Header` is unique for a specific primary and at a specific index (height). 
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
 ##### Structure
 | Field         | Type                                      | Description                          |

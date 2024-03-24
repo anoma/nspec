@@ -4,15 +4,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Delete a pub/sub topic and remove all subscribers.
 
 The request must come from the same engine that created the topic.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicDeleteRequestV1#topicdeleterequestv1]]
@@ -24,17 +24,17 @@ The request must come from the same engine that created the topic.
 [[TopicDeleteResponseV1#topicdeleteresponsev1]]
 
 {{#include ../types/topic-delete-response-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 The topic is removed from the [[RoutingTable#routingtable]] along with all subscribers.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -45,6 +45,6 @@ PubSub -->>- Router: StopAdvertResponse
 Router -->>- Any Local Engine: TopicDeleteResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

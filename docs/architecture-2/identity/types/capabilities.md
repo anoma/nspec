@@ -6,7 +6,7 @@ Specifies which capabilities to request when generating a new identity or connec
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 Enumeration; one of:
 - `CAPABILITY_COMMIT`
@@ -16,4 +16,4 @@ Enumeration; one of:
 - `CAPABILITY_COMMIT_AND_DECRYPT`
     - Both capabilities
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

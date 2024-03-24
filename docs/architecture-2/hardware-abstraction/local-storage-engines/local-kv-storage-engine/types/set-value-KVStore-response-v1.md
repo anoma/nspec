@@ -2,14 +2,14 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 After adding the KV-pair to the KV-store, send a message indicating the success or failure of the operation.
 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -22,7 +22,7 @@ After adding the KV-pair to the KV-store, send a message indicating the success 
   *The success of the operation, indicating that the KV-pair was stored successfully or not.*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 

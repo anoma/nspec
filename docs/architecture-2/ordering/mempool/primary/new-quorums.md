@@ -3,10 +3,10 @@
 - _from_ [[Executor]]
 
 ##### Purpose
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Informs primaries about the quorums to use for a range of heights.
 <!-- epochs? see https://github.com/anoma/specs/issues/180  -->
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ##### Structure
 

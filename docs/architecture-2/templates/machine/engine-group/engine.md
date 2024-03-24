@@ -4,9 +4,9 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Describe the purpose of the engine.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## State
 
@@ -42,7 +42,7 @@ Describe the purpose of the engine.
 
 <!-- Sequence diagram for the engine with all messages -->
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -50,6 +50,6 @@ sequenceDiagram
 
 {{#include engine/messages/other-message-name.md:sequence}}
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

@@ -3,7 +3,7 @@
 - _from_ [[Executor|Executor]]
 
 ## Purpose
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 Informs the Shard about a new write request, which happens
 in either of the following two cases:
 
@@ -15,7 +15,7 @@ in either of the following two cases:
 - A [[TransactionExecutable]] has finished, and does not actually need
    to write a value for some [[KVSKey|key]] for which it has a lazy write
    (a may_write in the [[TransactionLabel]]).
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
 <!-- ‼ can we combine KVSWrite and KVSReadRequest into a single message ? -->
 <!-- ‼ Yes, but would that save anything? I'm assuming the underlying messaging infrastructure is capable of concatenating 2 messageds together into 1 big message if it has 2 messages to send at the same time, and if that would help.  -->

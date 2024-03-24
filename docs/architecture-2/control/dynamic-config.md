@@ -4,10 +4,10 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 The *Dynamic Configuration Engine* stores dynamic configurations of the engines and notifies them about configuration changes.
 Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* allows engines to modify the configuration at runtime. 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## State
 
@@ -51,7 +51,7 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 ## Message Flow
 ![]
 
- <!-- ANCHOR: messages -->
+ <!-- --8<-- [start:messages] -->
 
  ```mermaid
 
@@ -65,6 +65,6 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 
  ```
 
- <!-- ANCHOR_END: messages -->
+ <!-- --8<-- [end:messages] -->
 
 </div>

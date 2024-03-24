@@ -4,14 +4,14 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Find stored data by its key in the KV-store and return the value.
 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[GetValueKVStoreRequestV1#getvaluekvstorerequestv1]]
@@ -25,18 +25,18 @@ Find stored data by its key in the KV-store and return the value.
 {{#include ../types/get-value-KVStore-response-v1.md:type}}
 
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Performs a key-based search operation in the KV-store to find the corresponding value.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -46,6 +46,6 @@ Local KV Storage Engine -->>- Any Local Engine: GetValueKVStoreResponse
 %% ANCHOR_END: sequence
 ```
 
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

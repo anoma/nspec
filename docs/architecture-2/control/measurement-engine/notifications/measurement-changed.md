@@ -6,7 +6,7 @@ A notification is sent when a new measurement is recorded in the measurement dat
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -23,4 +23,4 @@ A notification is sent when a new measurement is recorded in the measurement dat
   *The wall clock time of the moment the value was recorded.*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

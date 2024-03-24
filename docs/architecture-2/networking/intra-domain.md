@@ -2,12 +2,12 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 This engine group implements intra-domain P2P protocols that run and offer services inside a domain.
 
 Each domain has determines the set of protocols it runs
 and the authentication mechanism it uses.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Overview
 
@@ -86,7 +86,7 @@ and corresponding signed storage receipts with the provided guarantees.
 
 ![Multicast message](multicast.dot.svg)
 
-<!-- ANCHOR: fig-multicast-caption -->
+<!-- --8<-- [start:fig-multicast-caption] -->
 <figcaption>
 
 **Multicast (pub/sub) message** with publisher *A_X* and subscribers *B_X, C_X, D_X* sent to topic *T*.  
@@ -95,6 +95,6 @@ Multicast messages are sent along edges labeled *T*,
 while *B, C, D* are unicast messages between PubSub engine instances.
 
 </figcaption>
-<!-- ANCHOR_END: fig-multicast-caption -->
+<!-- --8<-- [end:fig-multicast-caption] -->
 
 </figure>

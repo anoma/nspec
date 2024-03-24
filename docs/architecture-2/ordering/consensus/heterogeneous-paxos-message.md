@@ -2,9 +2,9 @@
 - _from_ [Consensus](#Consensus)
 
 #### Purpose
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Intra-component message according to the consensus protocol, sent between the participating acceptor nodes.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 #### Structure
 

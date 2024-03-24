@@ -2,7 +2,7 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 This group of engines are responsible for facilitating communication
 between local engines (intra-node),
 and between engines of two directly connected remote nodes (inter-node).
@@ -10,7 +10,7 @@ and between engines of two directly connected remote nodes (inter-node).
 These engines provide message routing and network transport functionality,
 and store information about network identities:
 advertisements received from the network and associated local metadata.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Overview
 
@@ -116,14 +116,14 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 
 ![Inter-node messages](node.dot.svg)
 
-<!-- ANCHOR: fig-node-caption -->
+<!-- --8<-- [start:fig-node-caption] -->
 <figcaption>
 
 **Unicast message** from engine *A_X* to engine *A_Y*, along edges labeled *Y*.  
 **Multicast message** from publisher engine *A_Z* to topic *T*, delivered to subscribed engines *A_X* and *A_Y* by the router *A_R*, along edges labeled *T*.
 
 </figcaption>
-<!-- ANCHOR_END: fig-node-caption -->
+<!-- --8<-- [end:fig-node-caption] -->
 
 </figure>
 
@@ -131,13 +131,13 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 
 ![Unicast message](unicast.dot.svg)
 
-<!-- ANCHOR: fig-unicast-caption -->
+<!-- --8<-- [start:fig-unicast-caption] -->
 <figcaption>
 
 **Unicast message** between engine *A_X* of node *A* and engine *B_X* of node *B*,  
 via router engines *A_R* & *B_R* and transport engines *A_T* & *B_T*.
 
 </figcaption>
-<!-- ANCHOR_END: fig-unicast-caption -->
+<!-- --8<-- [end:fig-unicast-caption] -->
 
 </figure>

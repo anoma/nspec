@@ -2,9 +2,9 @@
 - _from_ [Consensus](../../consensus-v1.md)
 
 ##### Purpose
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Consensus is requesting the next anchor block to propose.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ##### Structure
 | Field | Type | Description |

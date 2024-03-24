@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `DeleteIdentityRequest` instructs the identity management engine to delete an existing identity using the specified backend.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 | Field        | Type                    | Description |
 |--------------|-------------------------|-------------|
@@ -27,4 +27,4 @@ A `DeleteIdentityRequest` instructs the identity management engine to delete an 
   *The backend to use*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

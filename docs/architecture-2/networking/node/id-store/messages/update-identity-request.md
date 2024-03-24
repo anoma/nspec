@@ -5,13 +5,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Update information associated with a given external identity.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[UpdateIdentityRequestV1#updateidentityrequestv1]]
@@ -23,17 +23,17 @@ Update information associated with a given external identity.
 [[UpdateIdentityResponseV1#updateidentityresponsev1]]
 
 {{#include ../types/update-identity-response-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Update the provided information in the local data store.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -42,6 +42,6 @@ Any Local Engine ->>+ Network Identity Store: UpdateIdentityRequest
 Network Identity Store -->>- Any Local Engine: UpdateIdentityResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

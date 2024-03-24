@@ -41,7 +41,7 @@ The *Local Key-Value Storage Engine* provides the local storage and retrieval of
 ## Message Flow
 
 
- <!-- ANCHOR: messages -->
+ <!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -54,6 +54,6 @@ Any Local Engine ->>+ Local KV Storage Engine: DeleteValueKVStoreRequest
 Local KV Storage Engine -->>- Any Local Engine: DeleteValueKVStoreResponse
 %% ANCHOR_END: sequence
 ```
- <!-- ANCHOR_END: messages -->
+ <!-- --8<-- [end:messages] -->
 
 </div>

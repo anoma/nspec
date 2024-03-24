@@ -4,31 +4,31 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `ConnectIdentityRequest` instructs the identity management engine to connect an existing identity using the specified backend.
 
 A `ConnectIdentityResponse` provides the handles to decryption and commitment engine instances for a newly connected identity, or an error if a failure occurred.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[ConnectIdentityRequest]]
 [[ConnectIdentityResponse]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 - Attempts to use the designated backend to connect the specified identity
 - Creates new commitment engine and decryption engine instances
 - Returns handles to those instances in a [[ConnectIdentityResponse]]
 - If a composed identity is requested, where the composed identity cannot be directly connected, attempt to connect the constituent components, compose them, and return the resulting engine instance handles.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -37,6 +37,6 @@ Any Local Engine ->>+ IdentityManagementEngine: ConnectIdentityRequest
 IdentityManagementEngine -->>- Any Local Engine: ConnectIdentityResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

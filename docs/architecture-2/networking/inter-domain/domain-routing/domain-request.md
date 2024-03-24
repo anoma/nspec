@@ -2,16 +2,16 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A request sent to a domain that is delivered to any domain member.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - [[Domain]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]
 - [[Domain Routing#domain-routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -25,7 +25,7 @@ A request sent to a domain that is delivered to any domain member.
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - [[Domain Routing#domain-routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]
 - [[Domain Routing#domain-routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain]]
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

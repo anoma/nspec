@@ -4,16 +4,16 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Describe the purpose of the notification.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[NotificationNameV1#notificationnamev1]]
 
 {{#include ../types/notification-name-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 </div>

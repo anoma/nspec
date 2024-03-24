@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `ConnectIdentityResponse` provides the handles to decryption and commitment engine instances for a newly connected identity, or an error if a failure occurred.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 | Field        | Type                    | Description |
 |--------------|-------------------------|-------------|
@@ -28,4 +28,4 @@ A `ConnectIdentityResponse` provides the handles to decryption and commitment en
 
   *Error in identity connection, if applicable*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

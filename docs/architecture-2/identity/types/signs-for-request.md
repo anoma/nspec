@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `SignsForRequest` asks the signs-for engine whether one identity can signs for another.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -20,4 +20,4 @@ A `SignsForRequest` asks the signs-for engine whether one identity can signs for
 
   *External identity B*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Unsubscribe from a topic at other peers.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
- <!-- ANCHOR: type -->
+ <!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicRequestV1#topicrequestv1]]
@@ -21,18 +21,18 @@ Unsubscribe from a topic at other peers.
 
 [[UnsubscribeAck#SubscribeAck]]
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 The peer the request arrived from is removed from the [[PubSubRoutingTable#pubsubroutingtable]],
 and an [[UnsubscribeAck#unsubscribeack]] is returned in response.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -41,6 +41,6 @@ PubSub ->>+ PubSub_R: Unsubscribe
 PubSub_R -->>- PubSub: UnsubscribeAck
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

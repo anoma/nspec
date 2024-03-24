@@ -4,12 +4,12 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 
 The *Local Randomness Engine* generates random numbers or data locally on the physical machine that the Anoma node is running.
 Randomness is important for various computing tasks such as cryptography.
 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## State
 
@@ -29,12 +29,12 @@ Randomness is important for various computing tasks such as cryptography.
 ## Message Flow
 
 
- <!-- ANCHOR: messages -->
+ <!-- --8<-- [start:messages] -->
  ```mermaid
  sequenceDiagram
  
  {{#include local-randomness-engine/messages/local-randomness-get-rand.md:sequence}}
  ```
- <!-- ANCHOR_END: messages -->
+ <!-- --8<-- [end:messages] -->
 
 </div>

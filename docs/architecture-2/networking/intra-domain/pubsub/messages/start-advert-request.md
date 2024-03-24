@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Start advertising a topic in the network.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
- <!-- ANCHOR: type -->
+ <!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicCreateRequestV1#topiccreaterequestv1]]
@@ -22,17 +22,17 @@ Start advertising a topic in the network.
 [[TopicResponseV1#topicresponsev1]]
 
 {{#include ../types/topic-response-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Send [[TopicAdvert#topicadvert]] to connected neighbors in the domain.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -41,6 +41,6 @@ Router ->>+ PubSub: StartAdvertRequest
 PubSub -->>- Router: StartAdvertResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

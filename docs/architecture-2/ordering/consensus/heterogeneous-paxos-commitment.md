@@ -3,9 +3,9 @@
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Encodes a $\oneb$ / $\twoa$ message used to communicate the acceptor's commitment to other acceptors.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 The message is sent between the participating acceptor nodes.
 
 #### Structure

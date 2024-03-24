@@ -4,14 +4,14 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A *RelayMessage* is used to relay an encrypted [[EngineMessage#enginemessage]] via multiple routing hops.
 It is sent between two nodes and encapsulates either an *[[EngineMessage#enginemessage]]* or another *RelayMessage*.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[RelayMessageV1#relaymessagev1]]
@@ -21,11 +21,11 @@ It is sent between two nodes and encapsulates either an *[[EngineMessage#enginem
 **Triggers:**
 
 [[EngineMessage#enginemessage]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 When the router receives a [[RelayMessage#relaymessage]]
 from a remote node via the [[Transport#transport]] engine,
 it processes it the following way:
@@ -34,11 +34,11 @@ it processes it the following way:
    either from the *source* node or to the *destination* node.
    - If not, it drop the message
 2. It decrypts the contained [[EngineMessage#enginemessage]] or [[RelayMessage#relaymessage]], and processes it.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -47,6 +47,6 @@ Router -) Router: RelayMessage
 Router -) Router: EngineMessage
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

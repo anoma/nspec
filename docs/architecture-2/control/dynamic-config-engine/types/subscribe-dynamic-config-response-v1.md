@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Response to a [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -25,7 +25,7 @@ Response to a [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]
   *The wall clock time of the moment that the subscriber was subscribed to this dynamic configuration value.*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 

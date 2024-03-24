@@ -5,28 +5,28 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `SignsForRequest` asks the signs-for engine whether one identity can signs for another.
 
 A `SignsForResponse` is returned in response to a [[SignsForRequest]]
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[SignsForRequest]]
 [[SignsForResponse]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 - Returns a [[SignsForResponse]] according to whether A `signsFor` B, given the known evidence
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -35,6 +35,6 @@ Any Local Engine ->>+ SignsForEngine: SignsForRequest
 SignsForEngine -->>- Any Local Engine: SignsForResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

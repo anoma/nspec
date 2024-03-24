@@ -7,7 +7,7 @@
 
 Establish connection to a node.
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[ConnectRequestV1#connectrequestv1]]
@@ -19,7 +19,7 @@ Establish connection to a node.
 [[ConnectResponseV1#connectresponsev1]]
 
 {{#include ../types/connect-response-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
@@ -27,7 +27,7 @@ Establish connection to the specified node, if not yet connected.
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -36,6 +36,6 @@ Topology ->>+ Transport: ConnectRequest
 Transport -->>- Topology: ConnectResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

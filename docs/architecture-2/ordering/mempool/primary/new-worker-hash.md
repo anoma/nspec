@@ -2,9 +2,9 @@
 - _from_ [Worker](../worker.md)
 
 ##### Purpose
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 The worker has completed a worker hash that the primary can process.
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
 ##### Structure
 | Field        | Type           | Description                                     |

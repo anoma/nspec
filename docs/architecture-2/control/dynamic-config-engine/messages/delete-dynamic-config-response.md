@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Response to a [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[DeleteDynamicConfigResponseV1#deletedynamicconfigresponsev1]]
@@ -20,19 +20,19 @@ Response to a [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]].
 **Triggers**
 
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Performs the requested find operation in the dynamic configurations KV-store,
 delete both the key and the value, and replies with the deleted key and value. 
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -42,6 +42,6 @@ Dynamic Config Engine -->>- Any Local Engine: DeleteDynamicConfigResponse
 %% ANCHOR_END: sequence
 ```
 
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

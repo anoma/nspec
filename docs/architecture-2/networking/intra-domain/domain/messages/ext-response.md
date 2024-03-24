@@ -2,15 +2,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 External request to a domain.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - [[Domain#domain]] $\to$ [[ExtResponse#extrequest]] $\to$ [[Domain#domain]]
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -22,6 +22,6 @@ The [[ExtResponse#ext-response]] is forwarded to the local engine who sent the [
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - [[Domain#domain]] $\to$ [[ExtResponse#extresponse]] $\to$ Any Local Engine
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

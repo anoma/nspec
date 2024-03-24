@@ -8,7 +8,7 @@ Depending on the protocol, the updated value could require an action from a subs
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -25,4 +25,4 @@ Depending on the protocol, the updated value could require an action from a subs
   *The wall clock time of the moment the value was changed.*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

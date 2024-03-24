@@ -2,12 +2,12 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 The *Local Storage Engines* provide efficient data storage and retrieval mechanisms directly on the physical machine of an Anoma node.
 These engines are specialized to meet distinct requirements of data storage and retrieval from other engines. 
 
 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Background
 Local [data storage](https://en.wikipedia.org/wiki/Data_storage) is foundational in modern computing environments. 

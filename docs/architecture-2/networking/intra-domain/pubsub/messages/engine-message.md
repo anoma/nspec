@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A message sent to a pub/sub topic by an engine.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[EngineMessageV1#enginemessagev1]]
@@ -20,22 +20,22 @@ A message sent to a pub/sub topic by an engine.
 **Triggers:**
 
 [[Event#event]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 When a local engine sends an [[EngineMessage#enginemessage]] destined to a pub/sub topic,
 the [[Router#router]] forwards it to all local engines subscribed to the message, including *PubSub*.
 
 *PubSub* then encapsulates the message in an [[Event#event]],
 and forwards it to its neighbors along the event dissemination path.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -45,6 +45,6 @@ Router -) PubSub: EngineMessage
 PubSub -) PubSub: Event
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

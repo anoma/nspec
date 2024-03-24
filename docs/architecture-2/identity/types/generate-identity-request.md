@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `GenerateIdentityRequest` instructs the identity management engine to generate a new identity using the specified backend.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -24,4 +24,4 @@ A `GenerateIdentityRequest` instructs the identity management engine to generate
 
   *Capabilities to request (decryption, commitment, or both)
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

@@ -2,9 +2,9 @@
 - _from_ [Worker](../worker.md)
 
 ##### Purpose
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 The sending worker is forwarding transaction data for the purpose of storing a copy (a trivial erasure coding share) at the receiving worker.
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
 ##### Structure
 | Field         | Type                              | Description                   |

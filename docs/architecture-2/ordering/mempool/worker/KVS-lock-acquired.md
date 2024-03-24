@@ -1,5 +1,5 @@
 # KVSLockAcquired
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 - _from_ [[Shard]]s
 
 ## Purpose
@@ -9,9 +9,9 @@ This message informs the [[Worker Engine]] that the sending [[Shard]]
  earlier [[KVSAcquireLock]] from the [[Worker Engine]].
 It is an asynchronous response.
 
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
-<!-- ANCHOR: details -->
+<!-- --8<-- [start:details] -->
 
 ## Structure
 <!-- This is mainly meant to specify which lock was acquired -->
@@ -40,7 +40,7 @@ It is an asynchronous response.
   at or before `T` will be sent by the same [[Worker Engine]]:  
   `then`  send [[UpdateSeenAll]] with `T` to all [[Shard]]s.
 
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->
 
 ## Note
 

@@ -4,22 +4,22 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A [[TopicAdvert]] has been received from another peer.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 
 ## Type
 
- <!-- ANCHOR: type -->
+ <!-- --8<-- [start:type] -->
 [[TopicCreateRequestV1#topiccreaterequestv1]]
 
 {{#include ../../../node/router/types/topic-create-request-v1.md:type}}
- <!-- ANCHOR_END: type -->
+ <!-- --8<-- [end:type] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -27,6 +27,6 @@ sequenceDiagram
 PubSub -) Any Local Engine: TopicAdvertReceived
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

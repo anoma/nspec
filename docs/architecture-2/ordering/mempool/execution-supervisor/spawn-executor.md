@@ -1,14 +1,14 @@
 # SpawnExecutor
 
-<!-- ANCHOR: blurp -->
+<!-- --8<-- [start:blurp] -->
 - _from_ [[Worker Engine|Worker]]
 
 ## Purpose
 
 Informs the supervisor about the need to spawn a new [[Executor]].
 
-<!-- ANCHOR_END: blurp -->
-<!-- ANCHOR: details -->
+<!-- --8<-- [end:blurp] -->
+<!-- --8<-- [start:details] -->
 
 ## Structure
 
@@ -25,4 +25,4 @@ A new Executor instance is spawned or (a finished Executor is reused).
 - [[ExecutorPIDAssigned]]→[[Worker Engine|Worker]]:  
   send [[ExecutorPIDAssigned]] to the worker that sent the message
 
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->

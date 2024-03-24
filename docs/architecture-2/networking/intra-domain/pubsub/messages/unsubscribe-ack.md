@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Unsubscription acknowledgement.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
- <!-- ANCHOR: type -->
+ <!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicRequestV1#topicrequestv1]]
@@ -21,17 +21,17 @@ Unsubscription acknowledgement.
 
 [[ToicUnsubscribed#topicunsubscribed]]
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 A [[TopicUnsubscribed#topicunsubscribed]] notification is sent to local engines.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -40,6 +40,6 @@ PubSub ->>+ PubSub_R: Unsubscribe
 PubSub_R -->>- PubSub: UnsubscribeAck
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

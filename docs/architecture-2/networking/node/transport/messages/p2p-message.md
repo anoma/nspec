@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 An outgoing message to be delivered to another node over the network.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[P2PMessageV1#p2pmessagev1]]
@@ -18,11 +18,11 @@ An outgoing message to be delivered to another node over the network.
 **Triggers:**
 
 [[TransportMessage#transportmessage]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 The *Transport* engine looks up the transport addresses associated with the destination peer identity
 using a *[[LookupIdentityRequest#lookupidentityrequest]]* to the [[Network Identity Store#network-identity-store]] engine.
 Address choice is influenced by the [[TransportPrefs#transportprefs]] specified in the encapsulated [[EngineMessage#enginemessage]].
@@ -40,11 +40,11 @@ When a connection cannot be established immediately, the message is queued and s
 possibly via different transport addresses,
 until the `expiry` time specified in the encapsulated [[EngineMessage#enginemessage]] is reached,
 after which the message is dropped.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -55,6 +55,6 @@ Router -) Transport: P2PMessage
 Transport -) TransportProtocol: TransportMessage
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

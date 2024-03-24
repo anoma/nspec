@@ -1,5 +1,5 @@
 # TransactionAck
-<!-- ANCHOR: blurp -->
+<!-- --8<-- [start:blurp] -->
 - _from_ [[Worker]]
 
 ## Purpose
@@ -8,9 +8,9 @@ The worker acknowledges a transaction request
 with local ordering information and a local wall clock time stamp
 that the requester can use as evidence for submission of
 a specific transaction candidate.
-<!-- ANCHOR_END: blurp -->
+<!-- --8<-- [end:blurp] -->
 
-<!-- ANCHOR: details -->
+<!-- --8<-- [start:details] -->
 
 ## Structure
 | Field          | Type              | Description                                                   |
@@ -29,4 +29,4 @@ The exact inclusion time into the batch is not communicated to the requester.
 ## Triggers
 none
 
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->

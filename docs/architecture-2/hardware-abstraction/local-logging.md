@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 
 The *Local Logging Engine* provides capabilities for recording, monitoring, analyzing, and managing events and activities
 locally on the physical machine that the Anoma node is running.
 It supports diagnostic efforts, security monitoring, performance optimization, and historical analysis to ensure the stability, security, and efficiency. 
 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## State
 
@@ -30,12 +30,12 @@ It supports diagnostic efforts, security monitoring, performance optimization, a
 ## Message Flow
 
 
- <!-- ANCHOR: messages -->
+ <!-- --8<-- [start:messages] -->
  ```mermaid
  sequenceDiagram
  {{#include local-logging-engine/messages/local-logging-append.md:sequence}}
  ```
- <!-- ANCHOR_END: messages -->
+ <!-- --8<-- [end:messages] -->
 
 </div>
 

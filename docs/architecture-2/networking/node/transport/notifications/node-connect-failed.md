@@ -1,20 +1,20 @@
 # NodeConnectFailed
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Notification sent when failed to establish a connection to a node.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[NodeTransportAddress#nodetransportaddress]]
 
 {{#include ../types/node-transport-address.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -22,4 +22,4 @@ sequenceDiagram
 Transport -) Any Local Engine: NodeConnectFailed
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->

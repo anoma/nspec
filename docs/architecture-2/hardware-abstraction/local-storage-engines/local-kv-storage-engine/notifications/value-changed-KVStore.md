@@ -5,7 +5,7 @@ When the value in the KV-store changes, engines interested in this information g
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Records* with fields:
@@ -22,4 +22,4 @@ When the value in the KV-store changes, engines interested in this information g
   *The wall clock time of the moment the value was changed.*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

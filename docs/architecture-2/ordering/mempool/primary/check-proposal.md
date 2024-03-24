@@ -2,9 +2,9 @@
 - _from_ [Consensus](#Consensus)
 
 ##### Purpose
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Requests that the Mempool check whether this Proposal is valid.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ##### Structure
 | Field | Type | Description |

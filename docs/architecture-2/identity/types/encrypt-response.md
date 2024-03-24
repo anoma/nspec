@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 An `EncryptResponse` contains the data encrypted by an encryption engine in response to an [[EncryptRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -20,4 +20,4 @@ An `EncryptResponse` contains the data encrypted by an encryption engine in resp
 
   *Error in encryption, if applicable*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

@@ -101,7 +101,7 @@ which the *Router* then forwards to *PubSub* for delivery.
 
 <!-- Sequence diagram for the engine with all messages -->
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -129,6 +129,6 @@ sequenceDiagram
 
 {{#include pubsub/notifications/topic-advert-received.md:sequence}}
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

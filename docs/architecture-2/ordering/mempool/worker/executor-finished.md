@@ -1,14 +1,14 @@
 # ExecutorFinished
-<!-- ANCHOR: blurp -->
+<!-- --8<-- [start:blurp] -->
 - _from_ [[Executor]]
 
 ## Purpose
 Informs the mempool about execution of a transaction.
 <!--  do we need this? Cf. "How to give definitive signals for deletion of transaction data" ...  https://github.com/orgs/anoma/projects/14/views/1?pane=issue&itemId=36828426 -->
 
-<!-- ANCHOR_END: blurp -->
+<!-- --8<-- [end:blurp] -->
 
-<!-- ANCHOR: details -->
+<!-- --8<-- [start:details] -->
 
 
 ## Structure
@@ -44,4 +44,4 @@ none
   including logs, valued read and the like
 -->
 
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->

@@ -2,16 +2,16 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `QueryReadsForEvidenceResponse` is returned by the reads-for engine in response to a [[QueryReadsForEvidenceRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 - `evidence`: Set<ReadsForEvidence>
 
   *Known evidence*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

@@ -4,14 +4,14 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Add a piece of data to the KV store by adding its key and the corresponding value. 
 If the key already exists, override the value. 
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[SetValueKVStoreRequestV1#setvaluekvstorerequestv1]]
@@ -24,19 +24,19 @@ If the key already exists, override the value.
 
 {{#include ../types/set-value-KVStore-response-v1.md:type}}
 
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Adds a piece of data to the KV store by inserting its key and the corresponding value.
 If the key already exists, it overrides the value.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -46,6 +46,6 @@ Local KV Storage Engine -->>- Any Local Engine: SetValueKVStoreResponse
 %% ANCHOR_END: sequence
 ```
 
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

@@ -2,16 +2,16 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Request to join a domain.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - Any Local Engine $\to$ [[JoinRequest#joinrequest]] $\to$ [[Domain#domain]]
 - [[Domain#domain]] $\to$ [[JoinRequest#joinrequest]] $\to$ [[Domain#domain]]
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -24,7 +24,7 @@ Request to join a domain.
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ [[Domain#domain]]
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ Any Local Engine
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

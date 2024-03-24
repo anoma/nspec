@@ -5,30 +5,30 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 An `EncryptRequest` instructs an encryption engine to encrypt data to a particular external identity, possibly using known reads-for relationships.
 
 An `EncryptResponse` contains the data encrypted by an encryption engine in response to an [[EncryptRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[EncryptRequest]]
 [[EncryptResponse]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 - Calls the `encrypt` method on the provided external identity and returns the result in an [[EncryptResponse]]
 - If `useReadsFor` is true, use known reads-for relationships to select the most efficient external identity
 - If `useReadsFor` is false, encrypt only to the provided identity
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -37,6 +37,6 @@ Any Local Engine ->>+ EncryptionEngine: EncryptRequest
 EncryptionEngine -->>- Any Local Engine: EncryptResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

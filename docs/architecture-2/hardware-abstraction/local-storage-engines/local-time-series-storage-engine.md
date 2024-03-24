@@ -39,7 +39,7 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
 ## Message Flow
 
 
- <!-- ANCHOR: messages -->
+ <!-- --8<-- [start:messages] -->
  ```mermaid
  sequenceDiagram
  
@@ -52,6 +52,6 @@ Any Local Engine ->>+ Local Time Series Storage Engine: DeleteDataTimeSeriesDBRe
 Local Time Series Storage Engine -->>- Any Local Engine: DeleteDataTimeSeriesDBResponse
 %% ANCHOR_END: sequence
  ```
- <!-- ANCHOR_END: messages -->
+ <!-- --8<-- [end:messages] -->
 
 </div>

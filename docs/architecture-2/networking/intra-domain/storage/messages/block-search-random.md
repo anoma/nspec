@@ -2,15 +2,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Search for a block along a random walk.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - Storage $\to$ *BlockSearchTopic* $\to$ Storage
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -28,7 +28,7 @@ If a domain is given, the choice of random node is restricted to the given domai
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - Storage $\to$ *BlockSearchRandom* $\to$ Storage
 - Storage $\to$ *[[BlockResponse#blockresponse]]* $\to$ Storage
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

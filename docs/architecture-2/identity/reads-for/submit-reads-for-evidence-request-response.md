@@ -5,32 +5,32 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `SubmitReadsForEvidenceRequest` instructs the reads-for engine to store a new piece of reads-for evidence.
 
 A `SubmitReadsForEvidenceResponse` is sent in response to a [[SubmitReadsForEvidenceRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 [[SubmitReadsForEvidenceRequest]]
 [[SubmitReadsForEvidenceResponse]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Describe the message reception behavior, processing logic, and possible triggers.
 - Stores the submitted evidence
 - Returns an error iff.
     - The evidence is invalid
     - The evidence was already stored
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -39,6 +39,6 @@ Any Local Engine ->>+ ReadsForEngine: SubmitReadsForEvidenceRequest
 ReadsForEngine -->>- Any Local Engine: SubmitReadsForEvidenceResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

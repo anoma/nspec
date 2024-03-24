@@ -2,10 +2,10 @@
 - _from_ [Worker](../worker.md)
 
 ##### Purpose
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 The worker has stored all the transactions associated with this worker hash.
 This means the primary can commit to making this content available.
-<!-- ANCHOR_END: blurb -->
+<!-- --8<-- [end:blurb] -->
 
 [//WorkerHashAvailableDiscardIssue]: # (
 It might be useful to add the possibility to

@@ -4,13 +4,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Subscription request.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
- <!-- ANCHOR: type -->
+ <!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicRequestV1#topicrequestv1]]
@@ -22,18 +22,18 @@ Subscription request.
 [[TopicResponseV1#topicresponsev1]]
 
 {{#include ../types/topic-response-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 If not already subscribed, *PubSub* subscribes to the specified topic
 by sending a P2P subscription request(s) to connected peers in the domain.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -42,6 +42,6 @@ Router ->>+ PubSub: SubscribeRequest
 PubSub -->>- Router: SubscribeResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

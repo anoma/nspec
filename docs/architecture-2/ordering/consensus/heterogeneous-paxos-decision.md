@@ -3,12 +3,12 @@
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 The message is used to notify other acceptors that a decision has been made.
 The message includes a list of messages the other acceptors need to see the decision (a quorum of $\twoa$ messages).
 Once the acceptor have received one of the decision messages for all learners, it may stop doing any kind of interesting consensus work,
 and just send these out to anyone who is still trying to do consensus.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 #### Structure
 

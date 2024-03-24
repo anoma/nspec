@@ -4,12 +4,12 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 The [[Network Identity Store#network-identity-store]] (NIS) engine stores information associated with known external identities (of peers, topics, domains, and engines), such as advertised addresses and local metadata.
 The information stored can come from various sources, such as local configuration, P2P protocols (e.g. peer sampling, clustering, pub/sub), other engines, or user input.
 
 In case of peer identities, it stores known addresses along with local routing and transport preferences, latency measurements, trust metric and trust zone (e.g. local, remote).
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## State
 
@@ -43,7 +43,7 @@ In case of peer identities, it stores known addresses along with local routing a
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -51,6 +51,6 @@ sequenceDiagram
 
 {{#include id-store/messages/update-identity-request.md:sequence}}
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

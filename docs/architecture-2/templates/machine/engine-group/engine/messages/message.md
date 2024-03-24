@@ -5,9 +5,9 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Describe the purpose of the message.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
@@ -26,7 +26,7 @@ Triggers:
   - see OtherMessageName below
 -->
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[MessageNameV1#messagenamev1]]
@@ -40,17 +40,17 @@ Triggers:
 {{#include ../types/message-name-response-v1.md:type}}
 
 [[OtherMessageName#othermessagename]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Describe the message reception behavior, processing logic, and possible triggers.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -59,6 +59,6 @@ Any Local Engine ->>+ Engine Name: MessageName
 Engine Name -->>- Any Local Engine: MessageNameResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

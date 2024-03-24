@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `SubmitReadsForEvidenceRequest` instructs the reads-for engine to store a new piece of reads-for evidence.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `SubmitReadsForEvidenceRequest` instructs the reads-for engine to store a new 
 
   *The evidence*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

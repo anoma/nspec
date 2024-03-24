@@ -45,7 +45,7 @@ The current Hardware Abstraction Machine is composed of the following five engin
 
 
 ## Communication Diagram
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -56,7 +56,7 @@ Any Hardware Abstraction Machine Engine ->>+ Local Logging Engine: Append Log
 %% ANCHOR_END: sequence
 ```
 
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 An engine communicates with the Hardware Abstraction Machine by sending a request to one of its engines 
 to perform a specific operation. 
 The Hardware Abstraction Machine engine executes the operation by interacting with the underlying hardware

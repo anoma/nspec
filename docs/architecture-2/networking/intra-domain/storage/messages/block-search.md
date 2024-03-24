@@ -2,15 +2,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Look up a block in local storage and on the network.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - Any Local Engine $\to$ *BlockLookupRequest* $\to$ Storage
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -28,6 +28,6 @@ If not found, initiate a search on the network, when either `topic` or `random` 
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - Storage $\to$ *[[BlockResponse#blockresponse]]* $\to$ Any Local Engine
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

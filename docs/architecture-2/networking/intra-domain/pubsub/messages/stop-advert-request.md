@@ -1,17 +1,17 @@
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 <div class="message">
 
 # StopAdvertRequest
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Stop advertising a topic in the network.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
- <!-- ANCHOR: type -->
+ <!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicRequestV1#topicrequestv1]]
@@ -23,16 +23,16 @@ Stop advertising a topic in the network.
 [[TopicResponseV1#topicresponsev1]]
 
 {{#include ../types/topic-response-v1.md:type}}
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [end:behavior] -->
 
 ## Message flow
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -41,6 +41,6 @@ Router ->>+ PubSub: StopAdvertRequest
 PubSub -->>- Router: StopAdvertResponse
 %% ANCHOR_END: sequence
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

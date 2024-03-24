@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `SubmitNameEvidenceResponse` is sent in response to a [[SubmitNameEvidenceRequest]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `SubmitNameEvidenceResponse` is sent in response to a [[SubmitNameEvidenceRequ
 
   *Error in evidence submission, if any*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

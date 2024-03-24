@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `DecryptRequest` instructs a decryption engine instance to decrypt data as the internal identity corresponding to that engine instance.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `DecryptRequest` instructs a decryption engine instance to decrypt data as the
 
   *Encrypted ciphertext to decrypt**
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

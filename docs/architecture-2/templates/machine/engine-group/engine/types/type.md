@@ -2,9 +2,9 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Describe the purpose of the type.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
@@ -14,7 +14,7 @@ Example for a record type used in messages below. Adapt for other types.
 Make sure to keep the format exactly as is (html tags, empty lines, formatting of `field_name` & *description*).
 -->
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Record* with fields:
@@ -28,10 +28,10 @@ Make sure to keep the format exactly as is (html tags, empty lines, formatting o
   *Description of field two.*
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 ## Values
 
-<!-- ANCHOR: values -->
+<!-- --8<-- [start:values] -->
 Description of possible/notable values. Optional.
-<!-- ANCHOR_END: values -->
+<!-- --8<-- [end:values] -->

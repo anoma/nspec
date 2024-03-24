@@ -1,5 +1,5 @@
 # ExecuteTransaction
-<!-- ANCHOR: blurb -->
+<!-- --8<-- [start:blurb] -->
 * _from_ [[Mempool Engines|Mempool]]
 
 ## Purpose
@@ -7,8 +7,8 @@ The [[Mempool Engines|mempool engines]] instruct the [[Executor]] that a new
  [[TransactionCandidate]] has been recorded, its locks are being
  acquired, and will eventually need to be executed.
 
-<!-- ANCHOR_END: blurb -->
-<!-- ANCHOR: details -->
+<!-- --8<-- [end:blurb] -->
+<!-- --8<-- [start:details] -->
 
 ## Structure
 | Field        | Type                      | Description                                                                   |
@@ -34,7 +34,7 @@ Concurrently, when the [[Worker Engine]] sends a [[KVSAcquireLock]] to
   <!-- TODO: make this precise :-/ -->
   - [[KVSReadRequest|KVSReadRequest]] to [[Shard]]
   - [[KVSWrite]] to [[Shard]]
-<!-- ANCHOR_END: details -->
+<!-- --8<-- [end:details] -->
 
 ## Notes
 

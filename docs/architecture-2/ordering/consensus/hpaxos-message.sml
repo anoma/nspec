@@ -15,7 +15,7 @@ sig
     val compare : t * t -> order
 end
 
-(* ANCHOR: sml_hpaxos_message *)
+(* --8<-- [start:sml_hpaxos_message] *)
 signature HPAXOS_MESSAGE =
 sig
     type t
@@ -62,7 +62,7 @@ sig
     (* returns a list of direct references *)
     val get_refs : t -> t list
 end
-(* ANCHOR_END: sml_hpaxos_message *)
+(* --8<-- [end:sml_hpaxos_message] *)
 
 functor MessageOrdKey (Msg : HPAXOS_MESSAGE) : ORD_KEY =
 struct

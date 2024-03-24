@@ -6,13 +6,13 @@
 
 ### Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 The [[Router#router]] is responsible for forwarding both intra-node and inter-node messages between engine instances.
 It forwards intra-node messages directly between local engines,
 and sends and receives inter-node messages via the [[Transport#transport]] engine.
 It makes routing decisions based on the [[DestinationIdentity#destinationidentity]] in [[EngineMessage#enginemessage]] headers,
 and retrieves routing information for identities from the [[Network Identity Store#network-identity-store]] engine.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## State
 
@@ -70,7 +70,7 @@ and retrieves routing information for identities from the [[Network Identity Sto
 
 <!-- Sequence diagram for the engine with all messages -->
 
-<!-- ANCHOR: messages -->
+<!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
 
@@ -88,6 +88,6 @@ sequenceDiagram
 
 {{#include router/messages/topic-unsub-request.md:sequence}}
 ```
-<!-- ANCHOR_END: messages -->
+<!-- --8<-- [end:messages] -->
 
 </div>

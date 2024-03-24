@@ -2,16 +2,16 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 External request to a domain.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - Any Local Engine $\to$ [[ExtRequest#extrequest]] $\to$ [[Domain#domain]]
 - [[Domain#domain]] $\to$ [[ExtRequest#extrequest]] $\to$ [[Domain#domain]]
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -24,7 +24,7 @@ Defined by domain protocols.
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - [[Domain#domain]] $\to$ [[DomainRequest#domain-request]] $\to$ [[Domain Routing#domain-routing]]
 - [[Domain#domain]] $\to$ [[DomainResponse#domain-response]] $\to$ [[Domain Routing#domain-routing]]
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

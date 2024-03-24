@@ -2,15 +2,15 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Request storing a block.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - Any $\to$ *BlockPutRequest* $\to$ Storage
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 ## Structure
 
@@ -22,6 +22,6 @@ Request storing a block.
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - Storage $\to$ *[[BlockPutResponse#blockputresponse]]* $\to$ Any
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

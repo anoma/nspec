@@ -2,10 +2,10 @@
 - _from_ [[Worker Engine|Mempool Worker]] <!-- formerly from [[Executor]] -->
 
 ## Purpose
-<!-- ANCHOR: blurp -->
+<!-- --8<-- [start:blurp] -->
 Inform the shard about keys that a transaction may/will read and/or
  write, at a transaction fingerprint.
-<!-- ANCHOR_END: blurp -->
+<!-- --8<-- [end:blurp] -->
 <!-- the range is the novelty w.r.t. to earlier versions of the specs -->
 
 ## Structure

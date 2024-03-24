@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Topic advertisement by a publisher.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 **Reception:**
 
 [[TopicAdvertV1#topicadvertv1]]
@@ -20,26 +20,26 @@ Topic advertisement by a publisher.
 *TopicAdvert*
 
 [[TopicAdvertReceived#topicadvertreceived]]
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
 
 
 ## Behavior
 
-<!-- ANCHOR: behavior -->
+<!-- --8<-- [start:behavior] -->
 Update topic routing table,
 snd a [[TopicAdvertReceived#topicadvertreceived]] notification,
 and forward the *TopicAdvert* to connected peers in the same domain.
-<!-- ANCHOR_END: behavior -->
+<!-- --8<-- [end:behavior] -->
 
 ## Reception
 
-<!-- ANCHOR: reception -->
+<!-- --8<-- [start:reception] -->
 - PubSub $\to$ *TopicAdvert* $\to$ PubSub
-<!-- ANCHOR_END: reception -->
+<!-- --8<-- [end:reception] -->
 
 
 ## Triggers
 
-<!-- ANCHOR: triggers -->
+<!-- --8<-- [start:triggers] -->
 - PubSub $\to$ *TopicAdvert* $\to$ PubSub
-<!-- ANCHOR_END: triggers -->
+<!-- --8<-- [end:triggers] -->

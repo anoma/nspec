@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 Destination identity of an [[EngineMessageV1#enginemessagev1]].
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 
 *Enum* with values:
@@ -28,4 +28,4 @@ Destination identity of an [[EngineMessageV1#enginemessagev1]].
 </div>
 
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

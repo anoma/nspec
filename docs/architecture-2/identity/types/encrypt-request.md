@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 An `EncryptRequest` instructs an encryption engine to encrypt data to a particular external identity, possibly using known reads-for relationships.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -24,4 +24,4 @@ An `EncryptRequest` instructs an encryption engine to encrypt data to a particul
 
   *Whether or not to use known reads-for relationships*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->

@@ -2,13 +2,13 @@
 
 ## Purpose
 
-<!-- ANCHOR: purpose -->
+<!-- --8<-- [start:purpose] -->
 A `DeleteIdentityResponse` provides the response information from an attempt to delete an identity.
-<!-- ANCHOR_END: purpose -->
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 
-<!-- ANCHOR: type -->
+<!-- --8<-- [start:type] -->
 <div class="type">
 *Record* with fields:
 
@@ -16,4 +16,4 @@ A `DeleteIdentityResponse` provides the response information from an attempt to 
 
   *Error in identity deletion, if applicable*
 </div>
-<!-- ANCHOR_END: type -->
+<!-- --8<-- [end:type] -->
