@@ -15,7 +15,7 @@ Append new values to the logbook.
 
 ### [[LocalLoggingAppendV1#localloggingappendV1]]
 
-{{#include ../types/local-logging-append-v1.md:type}}
+--8<-- "../types/local-logging-append-v1.md:type"
 
 **Triggers:**
 

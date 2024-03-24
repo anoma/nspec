@@ -15,7 +15,7 @@ Response to a [[DeleteMeasurementRequest#deletemeasurementrequest]].
 
 [[DeleteMeasurementResponseV1#deletemeasurementresponsev1]]
 
-{{#include ../types/delete-measurement-response-v1.md:type}}
+--8<-- "../types/delete-measurement-response-v1.md:type"
 
 **Triggers**
 

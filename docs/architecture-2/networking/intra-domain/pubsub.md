@@ -19,83 +19,83 @@ which the *Router* then forwards to *PubSub* for delivery.
 
 ## [[PubSubRoutingTable#pubsubroutingtable]]
 
-{{#include pubsub/types/pubsub-routing-table.md:purpose}}
+--8<-- "pubsub/types/pubsub-routing-table.md:purpose"
 
 ## Messages received
 
 ### [[TopicAdvert#topicadvert]]
 
-{{#include pubsub/messages/topic-advert.md:purpose}}
+--8<-- "pubsub/messages/topic-advert.md:purpose"
 
-{{#include pubsub/messages/topic-advert.md:type}}
+--8<-- "pubsub/messages/topic-advert.md:type"
 
 ### [[Subscribe#subscribe]]
 
-{{#include pubsub/messages/subscribe.md:purpose}}
+--8<-- "pubsub/messages/subscribe.md:purpose"
 
-{{#include pubsub/messages/subscribe.md:type}}
+--8<-- "pubsub/messages/subscribe.md:type"
 
 ### [[Unsubscribe#unsubscribe]]
 
-{{#include pubsub/messages/unsubscribe.md:purpose}}
+--8<-- "pubsub/messages/unsubscribe.md:purpose"
 
-{{#include pubsub/messages/unsubscribe.md:type}}
+--8<-- "pubsub/messages/unsubscribe.md:type"
 
 ### [[Event#event]]
 
-{{#include pubsub/messages/event.md:purpose}}
+--8<-- "pubsub/messages/event.md:purpose"
 
-{{#include pubsub/messages/event.md:type}}
+--8<-- "pubsub/messages/event.md:type"
 
 ### [[EngineMessage to PubSub#enginemessage-pubsub|EngineMessage]]
 
-{{#include pubsub/messages/engine-message.md:purpose}}
+--8<-- "pubsub/messages/engine-message.md:purpose"
 
-{{#include pubsub/messages/engine-message.md:type}}
+--8<-- "pubsub/messages/engine-message.md:type"
 
 ### [[SubscribeRequest#subscriberequest]]
 
-{{#include pubsub/messages/subscribe-request.md:purpose}}
+--8<-- "pubsub/messages/subscribe-request.md:purpose"
 
-{{#include pubsub/messages/subscribe-request.md:type}}
+--8<-- "pubsub/messages/subscribe-request.md:type"
 
 ### [[UnsubscribeRequest#unsubscriberequest]]
 
-{{#include pubsub/messages/unsubscribe-request.md:purpose}}
+--8<-- "pubsub/messages/unsubscribe-request.md:purpose"
 
-{{#include pubsub/messages/unsubscribe-request.md:type}}
+--8<-- "pubsub/messages/unsubscribe-request.md:type"
 
 ### [[StartAdvertRequest#subscriberequest]]
 
-{{#include pubsub/messages/start-advert-request.md:purpose}}
+--8<-- "pubsub/messages/start-advert-request.md:purpose"
 
-{{#include pubsub/messages/start-advert-request.md:type}}
+--8<-- "pubsub/messages/start-advert-request.md:type"
 
 ### [[StopAdvertRequest#subscriberequest]]
 
-{{#include pubsub/messages/stop-advert-request.md:purpose}}
+--8<-- "pubsub/messages/stop-advert-request.md:purpose"
 
-{{#include pubsub/messages/stop-advert-request.md:type}}
+--8<-- "pubsub/messages/stop-advert-request.md:type"
 
 ## Notifications sent
 
 ### [[TopicSubscribed#topicsubscribed]]
 
-{{#include pubsub/notifications/topic-subscribed.md:purpose}}
+--8<-- "pubsub/notifications/topic-subscribed.md:purpose"
 
-{{#include pubsub/notifications/topic-subscribed.md:type}}
+--8<-- "pubsub/notifications/topic-subscribed.md:type"
 
 ### [[TopicUnsubscribed#topicunsubscribed]]
 
-{{#include pubsub/notifications/topic-unsubscribed.md:purpose}}
+--8<-- "pubsub/notifications/topic-unsubscribed.md:purpose"
 
-{{#include pubsub/notifications/topic-unsubscribed.md:type}}
+--8<-- "pubsub/notifications/topic-unsubscribed.md:type"
 
 ### [[TopicAdvertReceived#topicadvertreceived]]
  
-{{#include pubsub/notifications/topic-advert-received.md:purpose}}
+--8<-- "pubsub/notifications/topic-advert-received.md:purpose"
 
-{{#include pubsub/notifications/topic-advert-received.md:type}}
+--8<-- "pubsub/notifications/topic-advert-received.md:type"
 
 ## Message flow
 
@@ -105,29 +105,29 @@ which the *Router* then forwards to *PubSub* for delivery.
 ```mermaid
 sequenceDiagram
 
-{{#include pubsub/messages/topic-advert.md:sequence}}
+--8<-- "pubsub/messages/topic-advert.md:sequence"
 
-{{#include pubsub/messages/event.md:sequence}}
+--8<-- "pubsub/messages/event.md:sequence"
 
-{{#include pubsub/messages/engine-message.md:sequence}}
+--8<-- "pubsub/messages/engine-message.md:sequence"
 
-{{#include pubsub/messages/subscribe.md:sequence}}
+--8<-- "pubsub/messages/subscribe.md:sequence"
 
-{{#include pubsub/messages/unsubscribe.md:sequence}}
+--8<-- "pubsub/messages/unsubscribe.md:sequence"
 
-{{#include pubsub/messages/subscribe-request.md:sequence}}
+--8<-- "pubsub/messages/subscribe-request.md:sequence"
 
-{{#include pubsub/messages/unsubscribe-request.md:sequence}}
+--8<-- "pubsub/messages/unsubscribe-request.md:sequence"
 
-{{#include pubsub/messages/start-advert-request.md:sequence}}
+--8<-- "pubsub/messages/start-advert-request.md:sequence"
 
-{{#include pubsub/messages/stop-advert-request.md:sequence}}
+--8<-- "pubsub/messages/stop-advert-request.md:sequence"
 
-{{#include pubsub/notifications/topic-subscribed.md:sequence}}
+--8<-- "pubsub/notifications/topic-subscribed.md:sequence"
 
-{{#include pubsub/notifications/topic-unsubscribed.md:sequence}}
+--8<-- "pubsub/notifications/topic-unsubscribed.md:sequence"
 
-{{#include pubsub/notifications/topic-advert-received.md:sequence}}
+--8<-- "pubsub/notifications/topic-advert-received.md:sequence"
 ```
 <!-- --8<-- [end:messages] -->
 

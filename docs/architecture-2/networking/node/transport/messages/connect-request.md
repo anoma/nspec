@@ -12,13 +12,13 @@ Establish connection to a node.
 
 [[ConnectRequestV1#connectrequestv1]]
 
-{{#include ../types/connect-request-v1.md:type}}
+--8<-- "../types/connect-request-v1.md:type"
 
 **Triggers:**
 
 [[ConnectResponseV1#connectresponsev1]]
 
-{{#include ../types/connect-response-v1.md:type}}
+--8<-- "../types/connect-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

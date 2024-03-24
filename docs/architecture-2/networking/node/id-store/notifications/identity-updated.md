@@ -12,6 +12,6 @@ Notification sent after an [[IdentityRecord#identityrecord]] has been updated.
 
 [[IdentityUpdatedV1#identityupdatedv1]]
 
-{{#include ../types/identity-updated-v1.md:type}}
+--8<-- "../types/identity-updated-v1.md:type"
 
 </div>

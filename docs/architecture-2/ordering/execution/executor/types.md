@@ -1,5 +1,5 @@
 # Types
 
-{{#include ./read-label.md}}
-{{#include ./write-label.md}}
-{{#include ./transaction-label.md}}
+--8<-- "./read-label.md"
+--8<-- "./write-label.md"
+--8<-- "./transaction-label.md"

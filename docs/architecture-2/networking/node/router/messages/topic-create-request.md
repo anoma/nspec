@@ -15,13 +15,13 @@ Create a pub/sub topic and start accepting subscriptions to it.
 
 [[TopicCreateRequestV1#topiccreaterequestv1]]
 
-{{#include ../types/topic-create-request-v1.md:type}}
+--8<-- "../types/topic-create-request-v1.md:type"
 
 **Triggers:**
 
 [[TopicCreateResponseV1#topiccreateresponsev1]]
 
-{{#include ../types/topic-create-response-v1.md:type}}
+--8<-- "../types/topic-create-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

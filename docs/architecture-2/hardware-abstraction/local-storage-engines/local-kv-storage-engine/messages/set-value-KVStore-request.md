@@ -16,13 +16,13 @@ If the key already exists, override the value.
 
 [[SetValueKVStoreRequestV1#setvaluekvstorerequestv1]]
 
-{{#include ../types/set-value-KVStore-request-v1.md:type}}
+--8<-- "../types/set-value-KVStore-request-v1.md:type"
 
 **Triggers**
 
 [[SetValueKVStoreResponseV1#setvaluekvstoreresponsev1]]
 
-{{#include ../types/set-value-KVStore-response-v1.md:type}}
+--8<-- "../types/set-value-KVStore-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

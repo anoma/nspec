@@ -15,13 +15,13 @@ Get the queried time series data and return it.
 
 [[GetDataTimeSeriesDBRequestV1#getdatatimeseriesdbrequestv1]]
 
-{{#include ../types/get-data-time-series-DB-request-v1.md:type}}
+--8<-- "../types/get-data-time-series-DB-request-v1.md:type"
 
 **Triggers**
 
 [[GetDataTimeSeriesDBResponseV1#getdatatimeseriesdbresponsev1]]
 
-{{#include ../types/get-data-time-series-DB-response-v1.md:type}}
+--8<-- "../types/get-data-time-series-DB-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

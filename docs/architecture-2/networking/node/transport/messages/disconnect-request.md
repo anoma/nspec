@@ -12,13 +12,13 @@ Establish disconnection to a node.
 
 [[DisconnectRequestV1#disconnectrequestv1]]
 
-{{#include ../types/disconnect-request-v1.md:type}}
+--8<-- "../types/disconnect-request-v1.md:type"
 
 **Triggers:**
 
 [[DisconnectResponseV1#disconnectresponsev1]]
 
-{{#include ../types/disconnect-response-v1.md:type}}
+--8<-- "../types/disconnect-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

@@ -15,7 +15,7 @@ Response to [[DeleteValueKVStoreRequest#deletevaluekvstorerequest]].
 
 [[DeleteValueKVStoreRequestV1#deletevaluekvstorerequestv1]]
 
-{{#include ../types/delete-value-KVStore-response-v1.md:type}}
+--8<-- "../types/delete-value-KVStore-response-v1.md:type"
 
 **Triggers**
 

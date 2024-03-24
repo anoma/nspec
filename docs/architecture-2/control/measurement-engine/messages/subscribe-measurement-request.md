@@ -15,13 +15,13 @@ Subscribe to a measurement key in the dynamic configuration KV-store to get noti
 
 [[SubscribeMeasurementRequestV1#subscribemeasurementrequestv1]]
 
-{{#include ../types/subscribe-measurement-request-v1.md:type}}
+--8<-- "../types/subscribe-measurement-request-v1.md:type"
 
 **Triggers**
 
 [[SubscribeMeasurementResponseV1#subscribemeasurementresponsev1]]
 
-{{#include ../types/subscribe-measurement-response-v1.md:type}}
+--8<-- "../types/subscribe-measurement-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

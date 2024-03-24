@@ -16,14 +16,14 @@ If the key already exists, override the value.
 
 [[SetDynamicConfigRequestV1#setdynamicconfigrequestv1]]
 
-{{#include ../types/set-dynamic-config-request-v1.md:type}}
+--8<-- "../types/set-dynamic-config-request-v1.md:type"
 
 
 **Triggers**
 
 [[SetDynamicConfigResponseV1#setdynamicconfigresponsev1]]
 
-{{#include ../types/set-dynamic-config-response-v1.md:type}}
+--8<-- "../types/set-dynamic-config-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

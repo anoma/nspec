@@ -25,23 +25,23 @@ The current Hardware Abstraction Machine is composed of the following five engin
 
 ### [Local Storage Engine](hardware-abstraction/local-storage.md#purpose)
 
-{{#include hardware-abstraction/local-storage.md:purpose}}
+--8<-- "hardware-abstraction/local-storage.md:purpose"
 
 ### [Local Compute Engine](hardware-abstraction/local-compute.md#purpose)
 
-{{#include hardware-abstraction/local-compute.md:purpose}}
+--8<-- "hardware-abstraction/local-compute.md:purpose"
 
 ### [Local Logging Engine](hardware-abstraction/local-logging.md#purpose)
 
-{{#include hardware-abstraction/local-logging.md:purpose}}
+--8<-- "hardware-abstraction/local-logging.md:purpose"
 
 ### [Local Wall Clock Engine](hardware-abstraction/local-wall-clock.md#purpose)
 
-{{#include hardware-abstraction/local-wall-clock.md:purpose}}
+--8<-- "hardware-abstraction/local-wall-clock.md:purpose"
 
 ### [Local Randomness Engine](hardware-abstraction/local-randomness.md#purpose)
 
-{{#include hardware-abstraction/local-randomness.md:purpose}}
+--8<-- "hardware-abstraction/local-randomness.md:purpose"
 
 
 ## Communication Diagram

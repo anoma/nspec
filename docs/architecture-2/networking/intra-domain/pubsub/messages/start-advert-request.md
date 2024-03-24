@@ -15,13 +15,13 @@ Start advertising a topic in the network.
 
 [[TopicCreateRequestV1#topiccreaterequestv1]]
 
-{{#include ../../../node/router/types/topic-create-request-v1.md:type}}
+--8<-- "../../../node/router/types/topic-create-request-v1.md:type"
 
 **Triggers:**
 
 [[TopicResponseV1#topicresponsev1]]
 
-{{#include ../types/topic-response-v1.md:type}}
+--8<-- "../types/topic-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

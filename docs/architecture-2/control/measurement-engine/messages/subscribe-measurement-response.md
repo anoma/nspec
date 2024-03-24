@@ -16,7 +16,7 @@ return a response.
 
 [[SubscribeMeasurementResponseV1#subscribemeasurementresponsev1]]
 
-{{#include ../types/subscribe-measurement-response-v1.md:type}}
+--8<-- "../types/subscribe-measurement-response-v1.md:type"
 
 **Triggers**
 

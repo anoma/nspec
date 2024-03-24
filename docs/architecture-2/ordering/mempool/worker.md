@@ -68,31 +68,31 @@ There is no precise state representation described by the V1 specs.
 
 ## [[ExecutorFinished]]
 
-{{#include worker/executor-finished.md:blurp}}
+--8<-- "worker/executor-finished.md:blurp"
 
 <details>
   <summary>Details</summary>
-{{#include worker/executor-finished.md:details}}
+--8<-- "worker/executor-finished.md:details"
 </details>
 
 
 ## [[TransactionRequest]]
 
-{{#include worker/transaction-request.md:blurp}}
+--8<-- "worker/transaction-request.md:blurp"
 
 <details>
   <summary>Details</summary>
-{{#include worker/transaction-request.md:details}}
+--8<-- "worker/transaction-request.md:details"
 </details>
 
 
 ## [[ExecutorPIDAssigned]]
 
-{{#include worker/executor-PID-assigned.md:blurp}}
+--8<-- "worker/executor-PID-assigned.md:blurp"
 
 <details>
   <summary>Details</summary>
-{{#include worker/executor-PID-assigned.md:details}}
+--8<-- "worker/executor-PID-assigned.md:details"
 </details>
 
 
@@ -101,22 +101,22 @@ There is no precise state representation described by the V1 specs.
 
 
 
-{{#include worker/KVS-lock-acquired.md:blurb}}
+--8<-- "worker/KVS-lock-acquired.md:blurb"
 
 <details>
   <summary>Details</summary>
-{{#include worker/KVS-lock-acquired.md:details}}
+--8<-- "worker/KVS-lock-acquired.md:details"
 </details>
 
 
 ## [[RequestLogs]]
 
 
-{{#include worker/request-logs.md:blurb}}
+--8<-- "worker/request-logs.md:blurb"
 
 <details>
   <summary>Details</summary>
-{{#include worker/request-logs.md:details}}
+--8<-- "worker/request-logs.md:details"
 </details>
 
 
@@ -124,14 +124,14 @@ There is no precise state representation described by the V1 specs.
 ## [`NewTransaction`](worker/new-transaction.md)
 from Worker may trigger:
 - `WorkerHashAvailable` → Primary  
-  {{#include ./primary/worker-hash-available.md:blurb}}
+  --8<-- "./primary/worker-hash-available.md:blurb"
 -->
 
 <!--
 ## [`WorkerHashFingerprint`](worker/worker-hash-fingerprint.md)
 from Worker may trigger:
 - `WorkerHashAvailable` → Primary  
-  {{#include ./primary/worker-hash-available.md:blurb}}
+  --8<-- "./primary/worker-hash-available.md:blurb"
 -->
 
 

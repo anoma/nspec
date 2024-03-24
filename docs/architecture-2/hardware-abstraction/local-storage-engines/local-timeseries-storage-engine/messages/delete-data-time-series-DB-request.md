@@ -15,13 +15,13 @@ Delete time series data from the DB.
 
 [[DeleteDataTimeSeriesDBRequestV1#deletedatatimeseriesdbrequestv1]]
 
-{{#include ../types/delete-data-time-series-DB-request-v1.md:type}}
+--8<-- "../types/delete-data-time-series-DB-request-v1.md:type"
 
 **Triggers**
 
 [[DeleteDataTimeSeriesDBResponseV1#deletedatatimeseriesdbresponsev1]]
 
-{{#include ../types/delete-data-time-series-DB-response-v1.md:type}}
+--8<-- "../types/delete-data-time-series-DB-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

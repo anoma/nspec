@@ -15,7 +15,7 @@ Response to a [[GetDynamicConfigRequestV1#getdynamicconfigrequestv1]].
 
 [[GetDynamicConfigResponseV1#getdynamicconfigresponsev1]]
 
-{{#include ../types/get-dynamic-config-response-v1.md:type}}
+--8<-- "../types/get-dynamic-config-response-v1.md:type"
 
 **Triggers**
 

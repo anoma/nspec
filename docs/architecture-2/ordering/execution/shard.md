@@ -312,13 +312,13 @@ If client reads produce signed responses, then signed responses from a weak quor
 Shards receive and react to the following messages:
 
 
-{{ #include shard/KVS-acquire-lock.md }}
+--8<-- "shard/KVS-acquire-lock.md "
 
-{{ #include shard/KVS-read-request.md }}
+--8<-- "shard/KVS-read-request.md "
 
-{{ #include shard/KVS-write.md }}
+--8<-- "shard/KVS-write.md "
 
-{{ #include shard/update-seen-all.md }}
+--8<-- "shard/update-seen-all.md "
 
 
 [^1]: For the purpose of this discussion, we call

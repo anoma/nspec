@@ -16,7 +16,7 @@ Response to a [[SetValueKVStoreRequest#setvaluekvstorerequest]].
 
 [[SetValueKVStoreResponseV1#setvaluekvstoreresponsev1]]
 
-{{#include ../types/set-value-KVStore-response-v1.md:type}}
+--8<-- "../types/set-value-KVStore-response-v1.md:type"
 
 **Triggers**
 

@@ -6,7 +6,7 @@ let x = 1 in x
 ```
 
 ```sml
-{{#include hpaxos-message.sml:sml_hpaxos_message}}
+--8<-- "hpaxos-message.sml:sml_hpaxos_message"
 ```
 
 ```sml

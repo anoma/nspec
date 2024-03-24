@@ -14,9 +14,9 @@ Describe the purpose of the engine.
 
 ### [[TypeName#typename]]
 
-{{#include engine/types/type-name.md:purpose}}
+--8<-- "engine/types/type-name.md:purpose"
 
-{{#include engine/types/type-name.md:type}}
+--8<-- "engine/types/type-name.md:type"
 
 ## Messages received
 
@@ -24,9 +24,9 @@ Describe the purpose of the engine.
 
 ### [[MessageName#messagename]]
 
-{{#include engine/messages/message-name.md:purpose}}
+--8<-- "engine/messages/message-name.md:purpose"
 
-{{#include engine/messages/message-name.md:type}}
+--8<-- "engine/messages/message-name.md:type"
 
 ## Notifications sent
 
@@ -34,9 +34,9 @@ Describe the purpose of the engine.
 
 ### [[NotificationName#notificationname]]
 
-{{#include engine/notifications/notification-name.md:purpose}}
+--8<-- "engine/notifications/notification-name.md:purpose"
 
-{{#include engine/notifications/notification-name.md:typee}}
+--8<-- "engine/notifications/notification-name.md:typee"
 
 ## Message flow
 
@@ -46,9 +46,9 @@ Describe the purpose of the engine.
 ```mermaid
 sequenceDiagram
 
-{{#include engine/messages/message-name.md:sequence}}
+--8<-- "engine/messages/message-name.md:sequence"
 
-{{#include engine/messages/other-message-name.md:sequence}}
+--8<-- "engine/messages/other-message-name.md:sequence"
 ```
 <!-- --8<-- [end:messages] -->
 

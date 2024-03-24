@@ -94,7 +94,7 @@ but these are not considered in V1.
 ![](./svgs/ordering-v1.svg)
 
 
-{{#include ./ordering/a-complete-lifecycle.md}}
+--8<-- "./ordering/a-complete-lifecycle.md"
 
 
 [^1 time stamp]: In fact it is the latter time stamp that is most relevant;

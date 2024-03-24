@@ -88,7 +88,7 @@ It makes routing decisions based on the destination identity in the message.
 
 ![Inter-node messages](networking/node.dot.svg)
 
-{{#include networking/node.md:fig-node-caption}}
+--8<-- "networking/node.md:fig-node-caption"
 
 </figure>
 
@@ -98,7 +98,7 @@ It makes routing decisions based on the destination identity in the message.
 
 ![Unicast message](networking/unicast.dot.svg)
 
-{{#include networking/node.md:fig-unicast-caption}}
+--8<-- "networking/node.md:fig-unicast-caption"
 
 </figure>
 
@@ -108,7 +108,7 @@ It makes routing decisions based on the destination identity in the message.
 
 ![Multicast message](networking/multicast.dot.svg)
 
-{{#include networking/intra-domain.md:fig-multicast-caption}}
+--8<-- "networking/intra-domain.md:fig-multicast-caption"
 
 </figure>
 
@@ -186,7 +186,7 @@ Engines are grouped based on their scope in the network architecture.
 
 #### Intra-node and inter-node protocols
 
-{{#include networking/node.md:purpose}}
+--8<-- "networking/node.md:purpose"
 
 ##### Router
 
@@ -232,7 +232,7 @@ For each [[DomainIdentity#domainidentity]], it stores the [[DomainAdvert#domaina
 
 #### Intra-domain protocols
 
-{{#include networking/intra-domain.md:purpose}}
+--8<-- "networking/intra-domain.md:purpose"
 
 #### PubSub
 

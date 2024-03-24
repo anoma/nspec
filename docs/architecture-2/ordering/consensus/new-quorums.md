@@ -1,1 +1,1 @@
-{{#include ../mempool/primary/new-quorums.md}} {TODO fix the include mess !!! }
+--8<-- "../mempool/primary/new-quorums.md" {TODO fix the include mess !!! }

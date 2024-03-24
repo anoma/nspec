@@ -15,7 +15,7 @@ Response to a [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]].
 
 [[DeleteDynamicConfigResponseV1#deletedynamicconfigresponsev1]]
 
-{{#include ../types/delete-dynamic-config-response-v1.md:type}}
+--8<-- "../types/delete-dynamic-config-response-v1.md:type"
 
 **Triggers**
 

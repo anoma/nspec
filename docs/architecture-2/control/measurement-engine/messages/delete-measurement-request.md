@@ -15,13 +15,13 @@ Find the targeted measurement and delete it from the measurement DB.
 
 [[DeleteMeasurementRequestV1#deletemeasurementrequestv1]]
 
-{{#include ../types/delete-measurement-request-v1.md:type}}
+--8<-- "../types/delete-measurement-request-v1.md:type"
 
 **Triggers**
 
 [[DeleteMeasurementResponseV1#deletemeasurementresponsev1]]
 
-{{#include ../types/delete-measurement-response-v1.md:type}}
+--8<-- "../types/delete-measurement-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

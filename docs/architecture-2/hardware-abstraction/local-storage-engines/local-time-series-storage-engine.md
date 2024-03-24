@@ -12,29 +12,29 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
 
 ### [[GetDataTimeSeriesDBRequest#getdatatimeseriesdbrequest]]
 
-{{#include local-timeseries-storage-engine/messages/get-data-time-series-DB-request.md:purpose}}
+--8<-- "local-timeseries-storage-engine/messages/get-data-time-series-DB-request.md:purpose"
 
-{{#include local-timeseries-storage-engine/messages/get-data-time-series-DB-request.md:type}}
+--8<-- "local-timeseries-storage-engine/messages/get-data-time-series-DB-request.md:type"
 
 ### [[RecordDataTimeSeriesDBRequest#recorddatatimeseriesdbrequest]]
 
-{{#include local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md:purpose}}
+--8<-- "local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md:purpose"
 
-{{#include local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md:type}}
+--8<-- "local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md:type"
 
 ### [[]DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]]
 
-{{#include local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md:purpose}}
+--8<-- "local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md:purpose"
 
-{{#include local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md:type}}
+--8<-- "local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md:type"
 
 ## Notifications sent
 
 ### [[DataChangedTimeSeriesDB#datachangedtimeseriesdb]]
 
-{{#include local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md:purpose}}
+--8<-- "local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md:purpose"
 
-{{#include local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md:type}}
+--8<-- "local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md:type"
 
 ## Message Flow
 

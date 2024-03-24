@@ -13,7 +13,7 @@ Notification about a topic that was successfully unsubscribed at another peer.
  <!-- --8<-- [start:type] -->
 [[TopicRequestV1#topicrequestv1]]
 
-{{#include ../types/topic-request-v1.md:type}}
+--8<-- "../types/topic-request-v1.md:type"
  <!-- --8<-- [end:type] -->
 
 ## Message flow

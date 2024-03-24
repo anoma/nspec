@@ -18,9 +18,9 @@ Randomness is important for various computing tasks such as cryptography.
 
 ### [[LocalRandomnessGetRand#localrandomnessgetrand]]
 
-{{#include local-randomness-engine/messages/local-randomness-get-rand.md:purpose}}
+--8<-- "local-randomness-engine/messages/local-randomness-get-rand.md:purpose"
 
-{{#include local-randomness-engine/messages/local-randomness-get-rand.md:type}}
+--8<-- "local-randomness-engine/messages/local-randomness-get-rand.md:type"
 
 
 ## Notifications Sent
@@ -33,7 +33,7 @@ Randomness is important for various computing tasks such as cryptography.
  ```mermaid
  sequenceDiagram
  
- {{#include local-randomness-engine/messages/local-randomness-get-rand.md:sequence}}
+ --8<-- "local-randomness-engine/messages/local-randomness-get-rand.md:sequence"
  ```
  <!-- --8<-- [end:messages] -->
 

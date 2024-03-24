@@ -15,13 +15,13 @@ Unsubscription request for a pub/sub topic.
 
 [[TopicUnsubRequestV1#topicunsubrequestv1]]
 
-{{#include ../types/topic-unsub-request-v1.md:type}}
+--8<-- "../types/topic-unsub-request-v1.md:type"
 
 **Triggers:**
 
 [[TopicUnsubResponseV1#topicunsubresponsev1]]
 
-{{#include ../types/topic-unsub-response-v1.md:type}}
+--8<-- "../types/topic-unsub-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Structure

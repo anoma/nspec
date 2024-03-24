@@ -15,13 +15,13 @@ Subscription request for a pub/sub topic.
 
 [[TopicSubRequestV1#topicsubrequestv1]]
 
-{{#include ../types/topic-sub-request-v1.md:type}}
+--8<-- "../types/topic-sub-request-v1.md:type"
 
 **Triggers:**
 
 [[TopicSubResponseV1#topicsubresponsev1]]
 
-{{#include ../types/topic-sub-response-v1.md:type}}
+--8<-- "../types/topic-sub-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

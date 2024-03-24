@@ -15,13 +15,13 @@ Find a static configuration by its key in the static configuration KV-store and 
 
 [[GetStaticConfigRequestV1#getstaticconfigrequestv1]]
 
-{{#include ../types/get-static-config-request-v1.md:type}}
+--8<-- "../types/get-static-config-request-v1.md:type"
 
 **Triggers**
 
 [[GetStaticConfigResponseV1#getstaticconfigresponsev1]]
 
-{{#include ../types/get-static-config-response-v1.md:type}}
+--8<-- "../types/get-static-config-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

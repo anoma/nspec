@@ -13,30 +13,30 @@ The *Local Key-Value Storage Engine* provides the local storage and retrieval of
 
 ### [[GetValueKVStoreRequest#getvaluekvstorerequest]]
 
-{{#include local-kv-storage-engine/messages/get-value-KVStore-request.md:purpose}}
+--8<-- "local-kv-storage-engine/messages/get-value-KVStore-request.md:purpose"
 
-{{#include local-kv-storage-engine/messages/get-value-KVStore-request.md:type}}
+--8<-- "local-kv-storage-engine/messages/get-value-KVStore-request.md:type"
 
 
 ### [[SetValueKVStoreRequest#setvaluekvstorerequest]]
 
-{{#include local-kv-storage-engine/messages/set-value-KVStore-request.md:purpose}}
+--8<-- "local-kv-storage-engine/messages/set-value-KVStore-request.md:purpose"
 
-{{#include local-kv-storage-engine/messages/set-value-KVStore-request.md:type}}
+--8<-- "local-kv-storage-engine/messages/set-value-KVStore-request.md:type"
 
 ### [[DeleteValueKVStoreRequest#deletevaluekvstorerequest]]
 
-{{#include local-kv-storage-engine/messages/delete-value-KVStore-request.md:purpose}}
+--8<-- "local-kv-storage-engine/messages/delete-value-KVStore-request.md:purpose"
 
-{{#include local-kv-storage-engine/messages/delete-value-KVStore-request.md:type}}
+--8<-- "local-kv-storage-engine/messages/delete-value-KVStore-request.md:type"
 
 ## Notifications sent
 
 ### [[ValueChangedKVStore#valuechangedkvstore]]
 
-{{#include local-kv-storage-engine/notifications/value-changed-KVStore.md:purpose}}
+--8<-- "local-kv-storage-engine/notifications/value-changed-KVStore.md:purpose"
 
-{{#include local-kv-storage-engine/notifications/value-changed-KVStore.md:type}}
+--8<-- "local-kv-storage-engine/notifications/value-changed-KVStore.md:type"
 
 ## Message Flow
 

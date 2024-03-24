@@ -15,13 +15,13 @@ Unsubscription request.
 
 [[TopicRequestV1#topicrequestv1]]
 
-{{#include ../types/topic-request-v1.md:type}}
+--8<-- "../types/topic-request-v1.md:type"
 
 **Triggers:**
 
 [[TopicResponseV1#topicresponsev1]]
 
-{{#include ../types/topic-response-v1.md:type}}
+--8<-- "../types/topic-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 

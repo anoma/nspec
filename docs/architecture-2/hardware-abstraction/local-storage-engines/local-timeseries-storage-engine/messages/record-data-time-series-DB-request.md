@@ -15,13 +15,13 @@ Add time series data to the DB.
 
 [[RecordDataTimeSeriesDBRequestV1#recorddatatimeseriesdbrequestv1]]
 
-{{#include ../types/record-data-time-series-DB-request-v1.md:type}}
+--8<-- "../types/record-data-time-series-DB-request-v1.md:type"
 
 **Triggers**
 
 [[RecordDataTimeSeriesDBResponseV1#recorddatatimeseriesdbresponsev1]]
 
-{{#include ../types/record-data-time-series-DB-response-v1.md:type}}
+--8<-- "../types/record-data-time-series-DB-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

@@ -15,7 +15,7 @@ A message sent between engine instances (both local & remote).
 
 [[EngineMessageV1#enginemessagev1]]
 
-{{#include ../types/engine-message-v1.md:type}}
+--8<-- "../types/engine-message-v1.md:type"
 
 **Triggers:**
 

@@ -3,21 +3,11 @@ import re
 from pathlib import *
 
 
-def replace_patterns_md(line, in_sml_block):
-    """
-    Replace patterns in a given line based on whether it is inside an SML code block.
-    """
-    include_re = r'{{#include ((../)+SML/([^}]+))}}'
-    if in_sml_block:
-        # Pattern inside SML code blocks
-        return re.sub(include_re,
-                      r'--8<-- "./formal/SML/\3"', line)
-    else:
-        # Pattern outside SML code blocks
-        return re.sub(include_re, r'--8<-- "./formal/SML/\3"\n', line)
+def replace_includes(line):
+    include_re = r'{{\s*#include ([^}]+)}}'
+    return re.sub(include_re, r'--8<-- "\1"', line)
 
-
-def replace_patterns_sml(line):
+def replace_patterns_anchors(line):
     """
     Replace anchor patterns in a given line of an SML, SIG, or FUN file.
     """
@@ -31,23 +21,20 @@ def process_file(file_path):
     """
     Process a single file, replacing patterns as required based on file type.
     """
+    if ".git" in file_path or ".cache" in file_path:
+        return
     _, file_extension = os.path.splitext(file_path)
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
     new_lines = []
-    if file_extension == '.md':
-        in_sml_block = False
+    if file_extension in ['.md','.sml', '.sig', '.fun']:
         for line in lines:
-            # Check for SML code block start or end
-            if line.strip() == "```sml":
-                in_sml_block = not in_sml_block
-                new_lines.append(line)
-            else:
-                new_lines.append(replace_patterns_md(line, in_sml_block))
-    elif file_extension in ['.sml', '.sig', '.fun']:
-        for line in lines:
-            new_lines.append(replace_patterns_sml(line))
+            line = replace_patterns_anchors(line)
+            line = replace_includes(line)
+            new_lines.append(line)
+    else:
+        new_lines = lines
 
     # Write the changes back to the file if there are modifications
     with open(file_path, 'w', encoding='utf-8') as file:
@@ -55,7 +42,6 @@ def process_file(file_path):
 
 
 def process_directory(directory: Path):
-    # resolve the directory path
     try:
         directory = directory.resolve().absolute()
     except FileNotFoundError:
@@ -66,7 +52,7 @@ def process_directory(directory: Path):
         print(f"Processing directory {root}")
         for file in files:
             if file.endswith(('.md', '.sml', '.sig', '.fun')):
-                print(f"Processing {file}...")
+                print(f"\tProcessing {file}...")
                 file_path = os.path.join(root, file)
                 process_file(file_path)
 
@@ -74,6 +60,5 @@ def process_directory(directory: Path):
 if __name__ == "__main__":
     # directory is one level up from the script joined with the 'docs' directory
     directory = Path(__file__).parent.parent
-    print(f"Processing files in {directory} ..")
     process_directory(directory)
     print("Processing complete.")

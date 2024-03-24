@@ -16,7 +16,7 @@ Find a value by its key in the KV-store and delete both the key and the value.
 
 [[DeleteValueKVStoreRequestV1#deletevaluekvstorerequestv1]]
 
-{{#include ../types/delete-value-KVStore-request-v1.md:type}}
+--8<-- "../types/delete-value-KVStore-request-v1.md:type"
 
 
 **Triggers**
@@ -24,7 +24,7 @@ Find a value by its key in the KV-store and delete both the key and the value.
 
 [[DeleteValueKVStoreResponseV1#deletevaluekvstoreresponsev1]]
 
-{{#include ../types/delete-value-KVStore-response-v1.md:type}}
+--8<-- "../types/delete-value-KVStore-response-v1.md:type"
 
 
 

@@ -19,9 +19,9 @@ provides an interface for getting real-time clock functionality.
 
 ### [[LocalWallClockGetTime#localwallclockgettime]]
 
-{{#include local-wall-clock-engine/messages/local-wall-clock-get-time.md:purpose}}
+--8<-- "local-wall-clock-engine/messages/local-wall-clock-get-time.md:purpose"
 
-{{#include local-wall-clock-engine/messages/local-wall-clock-get-time.md:type}}
+--8<-- "local-wall-clock-engine/messages/local-wall-clock-get-time.md:type"
 
 
 ## Notifications Sent
@@ -33,7 +33,7 @@ provides an interface for getting real-time clock functionality.
  <!-- --8<-- [start:messages] -->
  ```mermaid
  sequenceDiagram
- {{#include local-wall-clock-engine/messages/local-wall-clock-get-time.md:sequence}}
+ --8<-- "local-wall-clock-engine/messages/local-wall-clock-get-time.md:sequence"
  ```
  <!-- --8<-- [end:messages] -->
 

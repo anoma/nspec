@@ -15,7 +15,7 @@ After performing a search operation based on a given predicate within a specifie
 
 [[LocalComputeSearchV1#localcomputesearchv1]]
 
-{{#include ../types/local-compute-search-v1.md:type}}
+--8<-- "../types/local-compute-search-v1.md:type"
 
 **Triggers**
 

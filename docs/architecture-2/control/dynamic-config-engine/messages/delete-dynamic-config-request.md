@@ -15,13 +15,13 @@ Find a dynamic configuration by its key in the dynamic configuration KV-store an
 
 [[DeleteDynamicConfigRequestV1#deletedynamicconfigrequestv1]]
 
-{{#include ../types/delete-dynamic-config-request-v1.md:type}}
+--8<-- "../types/delete-dynamic-config-request-v1.md:type"
 
 **Triggers**
 
 [[DeleteDynamicConfigResponseV1#deletedynamicconfigresponseV1]]
 
-{{#include ../types/delete-dynamic-config-response-v1.md:type}}
+--8<-- "../types/delete-dynamic-config-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

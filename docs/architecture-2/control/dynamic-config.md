@@ -16,36 +16,36 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 
 ### [[GetDynamicConfigRequest#getdynamicconfigrequest]]
 
-{{#include dynamic-config-engine/messages/get-dynamic-config-request.md:purpose}}
+--8<-- "dynamic-config-engine/messages/get-dynamic-config-request.md:purpose"
 
-{{#include dynamic-config-engine/messages/get-dynamic-config-request.md:type}}
+--8<-- "dynamic-config-engine/messages/get-dynamic-config-request.md:type"
 
 ### [[SetDynamicConfigRequest#setdynamicconfigrequest]]
 
-{{#include dynamic-config-engine/messages/set-dynamic-config-request.md:purpose}}
+--8<-- "dynamic-config-engine/messages/set-dynamic-config-request.md:purpose"
 
-{{#include dynamic-config-engine/messages/set-dynamic-config-request.md:type}}
+--8<-- "dynamic-config-engine/messages/set-dynamic-config-request.md:type"
 
 ### [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]]
 
-{{#include dynamic-config-engine/messages/delete-dynamic-config-request.md:purpose}}
+--8<-- "dynamic-config-engine/messages/delete-dynamic-config-request.md:purpose"
 
-{{#include dynamic-config-engine/messages/delete-dynamic-config-request.md:type}}
+--8<-- "dynamic-config-engine/messages/delete-dynamic-config-request.md:type"
 
 ### [[SubscribeDynamicConfigRequest#subscribedynamicconfigrequest]]
 
-{{#include dynamic-config-engine/messages/subscribe-dynamic-config-request.md:purpose}}
+--8<-- "dynamic-config-engine/messages/subscribe-dynamic-config-request.md:purpose"
 
-{{#include dynamic-config-engine/messages/subscribe-dynamic-config-request.md:type}}
+--8<-- "dynamic-config-engine/messages/subscribe-dynamic-config-request.md:type"
 
 
 ## Notifications Sent
 
 ### [[DynamicConfigChanged#dynamicconfigchanged]]
 
-{{#include dynamic-config-engine/notifications/dynamic-config-changed.md:purpose}}
+--8<-- "dynamic-config-engine/notifications/dynamic-config-changed.md:purpose"
 
-{{#include dynamic-config-engine/notifications/dynamic-config-changed.md:type}}
+--8<-- "dynamic-config-engine/notifications/dynamic-config-changed.md:type"
 
 
 ## Message Flow
@@ -57,10 +57,10 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 
  sequenceDiagram
 
- {{#include dynamic-config-engine/messages/get-dynamic-config-request.md:sequence}}
- {{#include dynamic-config-engine/messages/set-dynamic-config-request.md:sequence}}
- {{#include dynamic-config-engine/messages/delete-dynamic-config-request.md:sequence}}
- {{#include dynamic-config-engine/messages/subscribe-dynamic-config-request.md:sequence}}
+ --8<-- "dynamic-config-engine/messages/get-dynamic-config-request.md:sequence"
+ --8<-- "dynamic-config-engine/messages/set-dynamic-config-request.md:sequence"
+ --8<-- "dynamic-config-engine/messages/delete-dynamic-config-request.md:sequence"
+ --8<-- "dynamic-config-engine/messages/subscribe-dynamic-config-request.md:sequence"
 
 
  ```

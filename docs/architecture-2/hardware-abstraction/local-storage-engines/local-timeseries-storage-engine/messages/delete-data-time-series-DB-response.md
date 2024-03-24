@@ -15,7 +15,7 @@ Response to a [[DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]].
 
 [[DeleteDataTimeSeriesDBResponseV1#deletedatatimeseriesdbresponsev1]]
 
-{{#include ../types/delete-data-time-series-DB-response-v1.md:type}}
+--8<-- "../types/delete-data-time-series-DB-response-v1.md:type"
 
 **Triggers**
 

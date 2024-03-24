@@ -14,7 +14,7 @@ An event sent to a topic.
 
 [[EventV1#eventv1]]
 
-{{#include ../types/event-v1.md:type}}
+--8<-- "../types/event-v1.md:type"
 
 **Triggers:**
 

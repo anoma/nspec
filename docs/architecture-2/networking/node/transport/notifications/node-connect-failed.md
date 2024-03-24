@@ -9,7 +9,7 @@ Notification sent when failed to establish a connection to a node.
 <!-- --8<-- [start:type] -->
 [[NodeTransportAddress#nodetransportaddress]]
 
-{{#include ../types/node-transport-address.md:type}}
+--8<-- "../types/node-transport-address.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Message flow

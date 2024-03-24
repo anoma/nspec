@@ -15,9 +15,9 @@ The Static Configuration Engine stores static configuration of the node that may
 
 ### [[GetStaticConfigRequest#getstaticconfigrequest]]
 
-{{#include static-config-engine/messages/get-static-config-request.md:purpose}}
+--8<-- "static-config-engine/messages/get-static-config-request.md:purpose"
 
-{{#include static-config-engine/messages/get-static-config-request.md:type}}
+--8<-- "static-config-engine/messages/get-static-config-request.md:type"
 
 
 ## Notifications Sent
@@ -29,7 +29,7 @@ The Static Configuration Engine stores static configuration of the node that may
  <!-- --8<-- [start:messages] -->
  ```mermaid
  sequenceDiagram
- {{#include static-config-engine/messages/get-static-config-request.md:sequence}}
+ --8<-- "static-config-engine/messages/get-static-config-request.md:sequence"
  ```
  <!-- --8<-- [end:messages] -->
 

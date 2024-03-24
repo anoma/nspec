@@ -15,13 +15,13 @@ Add a measurement performed by an engine to the measurement database.
 
 [[RecordMeasurementRequestV1#recordmeasurementrequestv1]]
 
-{{#include ../types/record-measurement-request-v1.md:type}}
+--8<-- "../types/record-measurement-request-v1.md:type"
 
 **Triggers**
 
 [[RecordMeasurementResponseV1#recordmeasurementresponsev1]]
 
-{{#include ../types/record-measurement-response-v1.md:type}}
+--8<-- "../types/record-measurement-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

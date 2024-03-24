@@ -19,9 +19,9 @@ It supports diagnostic efforts, security monitoring, performance optimization, a
 
 ### [[LocalLoggingAppend#localloggingappend]]
 
-{{#include local-logging-engine/messages/local-logging-append.md:purpose}}
+--8<-- "local-logging-engine/messages/local-logging-append.md:purpose"
 
-{{#include local-logging-engine/messages/local-logging-append.md:type}}
+--8<-- "local-logging-engine/messages/local-logging-append.md:type"
 
 
 ## Notifications Sent
@@ -33,7 +33,7 @@ It supports diagnostic efforts, security monitoring, performance optimization, a
  <!-- --8<-- [start:messages] -->
  ```mermaid
  sequenceDiagram
- {{#include local-logging-engine/messages/local-logging-append.md:sequence}}
+ --8<-- "local-logging-engine/messages/local-logging-append.md:sequence"
  ```
  <!-- --8<-- [end:messages] -->
 

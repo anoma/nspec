@@ -15,7 +15,7 @@ Response to a [[LocalWallClockGetTime#localwallclockgettime]] request.
 
 [[LocalWallClockGetTimeResultV1#localwallclockgettimeresultv1]]
 
-{{#include ../types/local-wall-clock-get-time-result-v1.md:type}}
+--8<-- "../types/local-wall-clock-get-time-result-v1.md:type"
 
 **Triggers**
 

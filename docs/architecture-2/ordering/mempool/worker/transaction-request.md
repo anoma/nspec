@@ -112,11 +112,11 @@ Additional user preferences can be supplied in future versions concerning
 
 <!--
 - `NewTransaction` → Worker  
-  {{#include ./worker/new-transaction.md:blurb}}
+  --8<-- "./worker/new-transaction.md:blurb"
 -->
 <!--
 - `WorkerHashFingerPrint` → Worker  
-  {{#include ./worker/worker-hash-fingerprint.md:blurb}}
+  --8<-- "./worker/worker-hash-fingerprint.md:blurb"
 -->
 
 <!-- this is gone!

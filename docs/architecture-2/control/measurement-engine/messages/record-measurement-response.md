@@ -15,7 +15,7 @@ After added a measurement performed by an engine to the measurement database, re
 
 [[RecordMeasurementRequestV1#recordmeasurementrequestv1]]
 
-{{#include ../types/record-measurement-request-v1.md:type}}
+--8<-- "../types/record-measurement-request-v1.md:type"
 
 **Triggers**
 

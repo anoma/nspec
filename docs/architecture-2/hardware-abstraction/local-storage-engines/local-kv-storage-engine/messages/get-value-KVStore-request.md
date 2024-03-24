@@ -16,13 +16,13 @@ Find stored data by its key in the KV-store and return the value.
 
 [[GetValueKVStoreRequestV1#getvaluekvstorerequestv1]]
 
-{{#include ../types/get-value-KVStore-request-v1.md:type}}
+--8<-- "../types/get-value-KVStore-request-v1.md:type"
 
 **Triggers**
 
 [[GetValueKVStoreResponseV1#getvaluekvstoreresponsev1]]
 
-{{#include ../types/get-value-KVStore-response-v1.md:type}}
+--8<-- "../types/get-value-KVStore-response-v1.md:type"
 
 
 <!-- --8<-- [end:type] -->

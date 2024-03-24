@@ -15,7 +15,7 @@ Response to a [[SubscribeDynamicConfigRequest#subscribedynamicconfigrequest]].
 
 [[SubscribeDynamicConfigResponseV1#subscribedynamicconfigresponsev1]]
 
-{{#include ../types/subscribe-dynamic-config-response-v1.md:type}}
+--8<-- "../types/subscribe-dynamic-config-response-v1.md:type"
 
 **Triggers**
 

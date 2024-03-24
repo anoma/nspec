@@ -24,15 +24,15 @@ The *Control Machine* is composed of the following three engines.
 
 ### [Dynamic Configuration Engine](control/dynamic-config.md#purpose)
 
-{{#include control/dynamic-config.md:purpose}}
+--8<-- "control/dynamic-config.md:purpose"
 
 ### [Static Configuration Engine](control/static-config.md#purpose)
 
-{{#include control/static-config.md:purpose}}
+--8<-- "control/static-config.md:purpose"
 
 ### [Measurements Engine](control/measurement.md#purpose)
 
-{{#include control/measurement.md:purpose}}
+--8<-- "control/measurement.md:purpose"
 
 
 ## Communication Diagram

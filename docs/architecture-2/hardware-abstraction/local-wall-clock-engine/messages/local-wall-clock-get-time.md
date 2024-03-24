@@ -15,13 +15,13 @@ Tracks and manages time within the local computing environment.
 
 [[LocalWallClockGetTimeV1#localwallclockgettimev1]]
 
-{{#include ../types/local-wall-clock-get-time-v1.md:type}}
+--8<-- "../types/local-wall-clock-get-time-v1.md:type"
 
 **Triggers**
 
 [[LocalWallClockGetTimeResultV1#localwallclockgettimeresultv1]]
 
-{{#include ../types/local-wall-clock-get-time-result-v1.md:type}}
+--8<-- "../types/local-wall-clock-get-time-result-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

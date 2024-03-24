@@ -13,7 +13,7 @@ Topic advertisement by a publisher.
 
 [[TopicAdvertV1#topicadvertv1]]
 
-{{#include ../types/topic-advert-v1.md:type}}
+--8<-- "../types/topic-advert-v1.md:type"
 
 **Triggers:**
 

@@ -16,7 +16,7 @@ It is sent between two nodes and encapsulates either an *[[EngineMessage#enginem
 
 [[RelayMessageV1#relaymessagev1]]
 
-{{#include ../types/relay-message-v1.md:type}}
+--8<-- "../types/relay-message-v1.md:type"
 
 **Triggers:**
 

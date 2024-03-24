@@ -15,7 +15,7 @@ A signed message sent between peers.
 
 [[P2PMessageV1#p2pmessagev1]]
 
-{{#include ../types/p2p-message-v1.md:type}}
+--8<-- "../types/p2p-message-v1.md:type"
 
 **Triggers:**
 

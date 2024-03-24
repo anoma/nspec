@@ -25,53 +25,53 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 ### [[P2PMessage to Transport#p2pmessage-transport|P2PMessage]]
 
-{{#include transport/messages/p2p-message.md:purpose}}
+--8<-- "transport/messages/p2p-message.md:purpose"
 
-{{#include transport/messages/p2p-message.md:type}}
+--8<-- "transport/messages/p2p-message.md:type"
 
 ### [[TransportMessage#transportmessage]]
 
-{{#include transport/messages/transport-message.md:purpose}}
+--8<-- "transport/messages/transport-message.md:purpose"
 
-{{#include transport/messages/transport-message.md:type}}
+--8<-- "transport/messages/transport-message.md:type"
 
 ### [[ConnectRequest#connectrequest]]
 
-{{#include transport/messages/connect-request.md:purpose}}
+--8<-- "transport/messages/connect-request.md:purpose"
 
-{{#include transport/messages/connect-request.md:type}}
+--8<-- "transport/messages/connect-request.md:type"
 
 ### [[DisconnectRequest#disconnectrequest]]
 
-{{#include transport/messages/disconnect-request.md:purpose}}
+--8<-- "transport/messages/disconnect-request.md:purpose"
 
-{{#include transport/messages/disconnect-request.md:type}}
+--8<-- "transport/messages/disconnect-request.md:type"
 
 ### [[ConnectedNodesRequest#connectednodesrequest]]
 
-{{#include transport/messages/connected-nodes-request.md:purpose}}
+--8<-- "transport/messages/connected-nodes-request.md:purpose"
 
-{{#include transport/messages/connected-nodes-request.md:type}}
+--8<-- "transport/messages/connected-nodes-request.md:type"
 
 ## Notifications sent
 
 ### [[NodeConnected#nodeconnected]]
 
-{{#include transport/notifications/node-connected.md:purpose}}
+--8<-- "transport/notifications/node-connected.md:purpose"
 
-{{#include transport/notifications/node-connected.md:type}}
+--8<-- "transport/notifications/node-connected.md:type"
 
 ### [[NodeConnectFailed#nodeconnectfailed]]
 
-{{#include transport/notifications/node-disconnected.md:purpose}}
+--8<-- "transport/notifications/node-disconnected.md:purpose"
 
-{{#include transport/notifications/node-disconnected.md:type}}
+--8<-- "transport/notifications/node-disconnected.md:type"
 
 ### [[NodeDisconnected#nodedisconnected]]
 
-{{#include transport/notifications/node-connect-failed.md:purpose}}
+--8<-- "transport/notifications/node-connect-failed.md:purpose"
 
-{{#include transport/notifications/node-connect-failed.md:type}}
+--8<-- "transport/notifications/node-connect-failed.md:type"
 
 ## Message flow
 
@@ -79,19 +79,19 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 ```mermaid
 sequenceDiagram
 
-{{#include transport/messages/transport-message.md:sequence}}
+--8<-- "transport/messages/transport-message.md:sequence"
 
-{{#include transport/messages/connect-request.md:sequence}}
+--8<-- "transport/messages/connect-request.md:sequence"
 
-{{#include transport/messages/disconnect-request.md:sequence}}
+--8<-- "transport/messages/disconnect-request.md:sequence"
 
-{{#include transport/messages/connected-nodes-request.md:sequence}}
+--8<-- "transport/messages/connected-nodes-request.md:sequence"
 
-{{#include transport/notifications/node-connected.md:sequence}}
+--8<-- "transport/notifications/node-connected.md:sequence"
 
-{{#include transport/notifications/node-disconnected.md:sequence}}
+--8<-- "transport/notifications/node-disconnected.md:sequence"
 
-{{#include transport/notifications/node-connect-failed.md:sequence}}
+--8<-- "transport/notifications/node-connect-failed.md:sequence"
 ```
 <!-- --8<-- [end:messages] -->
 

@@ -16,13 +16,13 @@ Subscribe to a dynamic configuration key in the dynamic configuration KV-store t
 [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]]
 
 
-{{#include ../types/subscribe-dynamic-config-request-v1.md:type}}
+--8<-- "../types/subscribe-dynamic-config-request-v1.md:type"
 
 **Triggers**
 
 [[SubscribeDynamicConfigResponseV1#subscribedynamicconfigresponseV1]]
 
-{{#include ../types/subscribe-dynamic-config-response-v1.md:type}}
+--8<-- "../types/subscribe-dynamic-config-response-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

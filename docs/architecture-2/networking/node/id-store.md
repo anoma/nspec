@@ -15,31 +15,31 @@ In case of peer identities, it stores known addresses along with local routing a
 
 ### [[IdentityStore#identitystore]]
 
-{{#include id-store/types/identity-store.md:purpose}}
+--8<-- "id-store/types/identity-store.md:purpose"
 
-{{#include id-store/types/identity-store.md:type}}
+--8<-- "id-store/types/identity-store.md:type"
 
 ## Messages received
 
 ### [[LookupIdentityRequest#lookupidentityrequest]]
 
-{{#include id-store/messages/lookup-identity-request.md:purpose}}
+--8<-- "id-store/messages/lookup-identity-request.md:purpose"
 
-{{#include id-store/messages/lookup-identity-request.md:type}}
+--8<-- "id-store/messages/lookup-identity-request.md:type"
 
 ### [[UpdateIdentityRequest#updateidentityrequest]]
 
-{{#include id-store/messages/update-identity-request.md:purpose}}
+--8<-- "id-store/messages/update-identity-request.md:purpose"
 
-{{#include id-store/messages/update-identity-request.md:type}}
+--8<-- "id-store/messages/update-identity-request.md:type"
 
 ## Notifications sent
 
 ### [[IdentityUpdated#identityupdated]]
 
-{{#include id-store/notifications/identity-updated.md:purpose}}
+--8<-- "id-store/notifications/identity-updated.md:purpose"
 
-{{#include id-store/notifications/identity-updated.md:type}}
+--8<-- "id-store/notifications/identity-updated.md:type"
 
 ## Message flow
 
@@ -47,9 +47,9 @@ In case of peer identities, it stores known addresses along with local routing a
 ```mermaid
 sequenceDiagram
 
-{{#include id-store/messages/lookup-identity-request.md:sequence}}
+--8<-- "id-store/messages/lookup-identity-request.md:sequence"
 
-{{#include id-store/messages/update-identity-request.md:sequence}}
+--8<-- "id-store/messages/update-identity-request.md:sequence"
 ```
 <!-- --8<-- [end:messages] -->
 

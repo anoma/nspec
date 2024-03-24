@@ -16,13 +16,13 @@ Update information associated with a given external identity.
 
 [[UpdateIdentityRequestV1#updateidentityrequestv1]]
 
-{{#include ../types/update-identity-request-v1.md:type}}
+--8<-- "../types/update-identity-request-v1.md:type"
 
 **Triggers:**
 
 [[UpdateIdentityResponseV1#updateidentityresponsev1]]
 
-{{#include ../types/update-identity-response-v1.md:type}}
+--8<-- "../types/update-identity-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

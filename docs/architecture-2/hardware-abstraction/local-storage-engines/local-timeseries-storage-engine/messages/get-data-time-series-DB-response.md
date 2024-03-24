@@ -15,7 +15,7 @@ Return the queried time series data.
 
 [[GetDataTimeSeriesDBResponseV1#getdatatimeseriesdbresponsev1]]
 
-{{#include ../types/get-data-time-series-DB-response-v1.md:type}}
+--8<-- "../types/get-data-time-series-DB-response-v1.md:type"
 
 **Triggers**
 

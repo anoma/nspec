@@ -15,7 +15,7 @@ Subscription acknowledgement.
 
 [[TopicRequestV1#topicrequestv1]]
 
-{{#include ../types/topic-request-v1.md:type}}
+--8<-- "../types/topic-request-v1.md:type"
 
 **Triggers:**
 

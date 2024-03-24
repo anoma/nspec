@@ -17,7 +17,7 @@ Return the value from the search operation which is triggered by a
 
 [[GetValueKVStoreResponseV1#getvaluekvstoreresponsev1]]
 
-{{#include ../types/get-value-KVStore-response-v1.md:type}}
+--8<-- "../types/get-value-KVStore-response-v1.md:type"
 
 **Triggers**
 

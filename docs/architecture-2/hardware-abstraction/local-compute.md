@@ -19,9 +19,9 @@ provides an interface for executing complex computational search tasks effective
 
 ### [[LocalComputeSearch#localcomputesearch]]
 
-{{#include local-compute-engine/messages/local-compute-search.md:purpose}}
+--8<-- "local-compute-engine/messages/local-compute-search.md:purpose"
 
-{{#include local-compute-engine/messages/local-compute-search.md:type}}
+--8<-- "local-compute-engine/messages/local-compute-search.md:type"
 
 
 ## Notifications Sent
@@ -33,7 +33,7 @@ provides an interface for executing complex computational search tasks effective
  <!-- --8<-- [start:messages] -->
  ```mermaid
  sequenceDiagram
- {{#include local-compute-engine/messages/local-compute-search.md:sequence}}
+ --8<-- "local-compute-engine/messages/local-compute-search.md:sequence"
  ```
  <!-- --8<-- [end:messages] -->
 

@@ -15,13 +15,13 @@ Perform a search operation based on a given predicate within a specified time li
 
 [[LocalComputeSearchV1#localcomputesearchv1]]
 
-{{#include ../types/local-compute-search-v1.md:type}}
+--8<-- "../types/local-compute-search-v1.md:type"
 
 **Triggers**
 
 [[LocalComputeSearchResultV1#localcomputesearchresultv1]]
 
-{{#include ../types/local-compute-search-result-v1.md:type}}
+--8<-- "../types/local-compute-search-result-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

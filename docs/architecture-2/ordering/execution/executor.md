@@ -57,14 +57,14 @@ here are all the messages the Executor needs to be able to receive.
 
 ## [[ExecuteTransaction]]
 
-{{ #include executor/execute-transaction.md:blurb }}
-{{ #include executor/execute-transaction.md:details }}
+--8<-- "executor/execute-transaction.md:blurb "
+--8<-- "executor/execute-transaction.md:details "
 
 
 ## [[KVSRead]]
 
-{{ #include executor/KVS-read.md:blurb }}
-{{ #include executor/KVS-read.md:details }}
+--8<-- "executor/KVS-read.md:blurb "
+--8<-- "executor/KVS-read.md:details "
 
 
 

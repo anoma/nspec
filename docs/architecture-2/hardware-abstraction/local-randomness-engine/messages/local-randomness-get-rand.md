@@ -15,13 +15,13 @@ Generate random numbers or other random data locally on the physical machine tha
 
 [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]]
 
-{{#include ../types/local-randomness-get-rand-v1.md:type}}
+--8<-- "../types/local-randomness-get-rand-v1.md:type"
 
 **Triggers**
 
 [[LocalRandomnessGetRandResultV1#localrandomnessgetrandresultv1]]
 
-{{#include ../types/local-randomness-get-rand-result-v1.md:type}}
+--8<-- "../types/local-randomness-get-rand-result-v1.md:type"
 
 <!-- --8<-- [end:type] -->
 

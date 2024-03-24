@@ -13,7 +13,7 @@ An outgoing message to be delivered to another node over the network.
 
 [[P2PMessageV1#p2pmessagev1]]
 
-{{#include ../../router/types/p2p-message-v1.md:type}}
+--8<-- "../../router/types/p2p-message-v1.md:type"
 
 **Triggers:**
 

@@ -16,13 +16,13 @@ Look up information about an  *external identity* in the local database.
 
 [[LookupIdentityRequestV1#lookupidentityrequestv1]]
 
-{{#include ../types/lookup-identity-request-v1.md:type}}
+--8<-- "../types/lookup-identity-request-v1.md:type"
 
 **Triggers:**
 
 [[LookupIdentityResponseV1#lookupidentityresponsev1]]
 
-{{#include ../types/lookup-identity-response-v1.md:type}}
+--8<-- "../types/lookup-identity-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

@@ -18,53 +18,53 @@ and retrieves routing information for identities from the [[Network Identity Sto
 
 ### [[RoutingTable#routingtable]]
 
-{{#include router/types/routing-table.md:purpose}}
+--8<-- "router/types/routing-table.md:purpose"
 
-{{#include router/types/routing-table.md:type}}
+--8<-- "router/types/routing-table.md:type"
 
 ## Messages received
 
 ### [[EngineMessage#enginemessage]]
 
-{{#include router/messages/engine-message.md:purpose}}
+--8<-- "router/messages/engine-message.md:purpose"
 
-{{#include router/messages/engine-message.md:type}}
+--8<-- "router/messages/engine-message.md:type"
 
 ### [[P2PMessage#p2pmessage]]
 
-{{#include router/messages/p2p-message.md:purpose}}
+--8<-- "router/messages/p2p-message.md:purpose"
 
-{{#include router/messages/p2p-message.md:type}}
+--8<-- "router/messages/p2p-message.md:type"
 
 ### [[RelayMessage#relaymessage]]
 
-{{#include router/messages/relay-message.md:purpose}}
+--8<-- "router/messages/relay-message.md:purpose"
 
-{{#include router/messages/relay-message.md:type}}
+--8<-- "router/messages/relay-message.md:type"
 
 ### [[TopicCreateRequest#topiccreaterequest]]
 
-{{#include router/messages/topic-create-request.md:purpose}}
+--8<-- "router/messages/topic-create-request.md:purpose"
 
-{{#include router/messages/topic-create-request.md:type}}
+--8<-- "router/messages/topic-create-request.md:type"
 
 ### [[TopicDeleteRequest#topicdeleteRequest]]
 
-{{#include router/messages/topic-delete-request.md:purpose}}
+--8<-- "router/messages/topic-delete-request.md:purpose"
 
-{{#include router/messages/topic-delete-request.md:type}}
+--8<-- "router/messages/topic-delete-request.md:type"
 
 ### [[TopicSubRequest#topicsubrequest]]
 
-{{#include router/messages/topic-sub-request.md:purpose}}
+--8<-- "router/messages/topic-sub-request.md:purpose"
 
-{{#include router/messages/topic-sub-request.md:type}}
+--8<-- "router/messages/topic-sub-request.md:type"
 
 ### [[TopicUnsubRequest#topicunsubrequest]]
 
-{{#include router/messages/topic-unsub-request.md:purpose}}
+--8<-- "router/messages/topic-unsub-request.md:purpose"
 
-{{#include router/messages/topic-unsub-request.md:type}}
+--8<-- "router/messages/topic-unsub-request.md:type"
 
 ## Message flow
 
@@ -74,19 +74,19 @@ and retrieves routing information for identities from the [[Network Identity Sto
 ```mermaid
 sequenceDiagram
 
-{{#include router/messages/engine-message.md:sequence}}
+--8<-- "router/messages/engine-message.md:sequence"
 
-{{#include router/messages/p2p-message.md:sequence}}
+--8<-- "router/messages/p2p-message.md:sequence"
 
-{{#include router/messages/relay-message.md:sequence}}
+--8<-- "router/messages/relay-message.md:sequence"
 
-{{#include router/messages/topic-create-request.md:sequence}}
+--8<-- "router/messages/topic-create-request.md:sequence"
 
-{{#include router/messages/topic-delete-request.md:sequence}}
+--8<-- "router/messages/topic-delete-request.md:sequence"
 
-{{#include router/messages/topic-sub-request.md:sequence}}
+--8<-- "router/messages/topic-sub-request.md:sequence"
 
-{{#include router/messages/topic-unsub-request.md:sequence}}
+--8<-- "router/messages/topic-unsub-request.md:sequence"
 ```
 <!-- --8<-- [end:messages] -->
 

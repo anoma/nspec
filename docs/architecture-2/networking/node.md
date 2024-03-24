@@ -18,7 +18,7 @@ advertisements received from the network and associated local metadata.
 
 #### Purpose
 
-{{#include node/router.md:purpose}}
+--8<-- "node/router.md:purpose"
 
 #### Addressing
 
@@ -57,7 +57,7 @@ and forwards it to [[Transport#transport]] for delivery over the network.
 
 #### Purpose
 
-{{#include node/transport.md:purpose}}
+--8<-- "node/transport.md:purpose"
 
 #### Connection pool
 
@@ -106,7 +106,7 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 
 ### Network Identity Store
 
-{{#include node/id-store.md:purpose}}
+--8<-- "node/id-store.md:purpose"
 
 ## Message flow
 

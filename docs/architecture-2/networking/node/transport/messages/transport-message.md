@@ -13,7 +13,7 @@ A message from/to one of the transport protocols.
 
 [[TransportMessageV1#TransportMessagev1]]
 
-{{#include ../types/transport-message-v1.md:type}}
+--8<-- "../types/transport-message-v1.md:type"
 
 **Triggers:**
 

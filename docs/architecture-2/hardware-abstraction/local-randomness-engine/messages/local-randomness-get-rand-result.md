@@ -15,7 +15,7 @@ Return the generated random numbers or other random data locally on the physical
 
 [[LocalRandomnessGetRandResultV1#localrandomnessgetrandresultv1]]
 
-{{#include ../types/local-randomness-get-rand-result-v1.md:type}}
+--8<-- "../types/local-randomness-get-rand-result-v1.md:type"
 
 **Triggers**
 

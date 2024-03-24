@@ -15,7 +15,7 @@ Response to a [[RecordDataTimeSeriesDBRequest#recorddatatimeseriesdbrequest]].
 
 [[RecordDataTimeSeriesDBResponseV1#recorddatatimeseriesdbresponsev1]]
 
-{{#include ../types/record-data-time-series-DB-response-v1.md:type}}
+--8<-- "../types/record-data-time-series-DB-response-v1.md:type"
 
 **Triggers**
 

@@ -13,7 +13,7 @@ Describe the purpose of the notification.
 <!-- --8<-- [start:type] -->
 [[NotificationNameV1#notificationnamev1]]
 
-{{#include ../types/notification-name-v1.md:type}}
+--8<-- "../types/notification-name-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 </div>

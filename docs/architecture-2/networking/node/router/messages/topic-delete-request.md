@@ -17,13 +17,13 @@ The request must come from the same engine that created the topic.
 
 [[TopicDeleteRequestV1#topicdeleterequestv1]]
 
-{{#include ../types/topic-delete-request-v1.md:type}}
+--8<-- "../types/topic-delete-request-v1.md:type"
 
 **Triggers:**
 
 [[TopicDeleteResponseV1#topicdeleteresponsev1]]
 
-{{#include ../types/topic-delete-response-v1.md:type}}
+--8<-- "../types/topic-delete-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

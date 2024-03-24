@@ -15,7 +15,7 @@ A message sent to a pub/sub topic by an engine.
 
 [[EngineMessageV1#enginemessagev1]]
 
-{{#include ../../../node/router/types/engine-message-v1.md:type}}
+--8<-- "../../../node/router/types/engine-message-v1.md:type"
 
 **Triggers:**
 

@@ -18,7 +18,7 @@ Request the list of currently connected nodes.
 
 [[ConnectedNodesResponseV1#connectednodesresponsev1]]
 
-{{#include ../types/connected-nodes-response-v1.md:type}}
+--8<-- "../types/connected-nodes-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior

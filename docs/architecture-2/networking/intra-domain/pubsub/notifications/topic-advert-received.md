@@ -14,7 +14,7 @@ A [[TopicAdvert]] has been received from another peer.
  <!-- --8<-- [start:type] -->
 [[TopicCreateRequestV1#topiccreaterequestv1]]
 
-{{#include ../../../node/router/types/topic-create-request-v1.md:type}}
+--8<-- "../../../node/router/types/topic-create-request-v1.md:type"
  <!-- --8<-- [end:type] -->
 
 ## Message flow
