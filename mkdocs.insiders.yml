@@ -1,8 +1,8 @@
 INHERIT: mkdocs.yml
 plugins:
-  - macros:
-      module_name: macros
-      verbose: false
+  # - macros:
+  #     module_name: macros
+  #     verbose: false
   - offline:
       enabled: !ENV [CI, false]
   - privacy:
