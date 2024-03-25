@@ -40,9 +40,9 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
 ## Message Flow
 
 
- <!-- --8<-- [start:messages] -->
- ```mermaid
- sequenceDiagram
+<!-- --8<-- [start:messages] -->
+```mermaid
+sequenceDiagram
  
 %% --8<-- [start:sequence]
 Any Local Engine ->>+ Local Time Series Storage Engine: GetDataTimeSeriesDBRequest
@@ -52,7 +52,7 @@ Local Time Series Storage Engine -->>- Any Local Engine: RecordDataTimeSeriesDBR
 Any Local Engine ->>+ Local Time Series Storage Engine: DeleteDataTimeSeriesDBRequest
 Local Time Series Storage Engine -->>- Any Local Engine: DeleteDataTimeSeriesDBResponse
 %% --8<-- [end:sequence]
- ```
- <!-- --8<-- [end:messages] -->
+```
+<!-- --8<-- [end:messages] -->
 
 </div>

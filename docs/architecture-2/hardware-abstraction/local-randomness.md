@@ -30,12 +30,12 @@ Randomness is important for various computing tasks such as cryptography.
 ## Message Flow
 
 
- <!-- --8<-- [start:messages] -->
- ```mermaid
- sequenceDiagram
- 
- --8<-- "local-randomness-engine/messages/local-randomness-get-rand.md:sequence"
- ```
- <!-- --8<-- [end:messages] -->
+<!-- --8<-- [start:messages] -->
+```mermaid
+sequenceDiagram
+
+--8<-- "local-randomness-engine/messages/local-randomness-get-rand.md:sequence"
+```
+<!-- --8<-- [end:messages] -->
 
 </div>

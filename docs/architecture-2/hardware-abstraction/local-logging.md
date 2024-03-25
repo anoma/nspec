@@ -31,12 +31,12 @@ It supports diagnostic efforts, security monitoring, performance optimization, a
 ## Message Flow
 
 
- <!-- --8<-- [start:messages] -->
- ```mermaid
- sequenceDiagram
- --8<-- "local-logging-engine/messages/local-logging-append.md:sequence"
- ```
- <!-- --8<-- [end:messages] -->
+<!-- --8<-- [start:messages] -->
+```mermaid
+sequenceDiagram
+--8<-- "local-logging-engine/messages/local-logging-append.md:sequence"
+```
+<!-- --8<-- [end:messages] -->
 
 </div>
 

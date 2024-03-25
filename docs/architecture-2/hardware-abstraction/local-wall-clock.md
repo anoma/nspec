@@ -31,11 +31,11 @@ provides an interface for getting real-time clock functionality.
 ## Message Flow
 
 
- <!-- --8<-- [start:messages] -->
- ```mermaid
- sequenceDiagram
- --8<-- "local-wall-clock-engine/messages/local-wall-clock-get-time.md:sequence"
- ```
- <!-- --8<-- [end:messages] -->
+<!-- --8<-- [start:messages] -->
+```mermaid
+sequenceDiagram
+--8<-- "local-wall-clock-engine/messages/local-wall-clock-get-time.md:sequence"
+```
+<!-- --8<-- [end:messages] -->
 
 </div>

@@ -518,6 +518,7 @@ plugins:
 
 hooks:
 - hooks.py
+- helpers/better_snippets.py
 
 watch:
   - formal/SML
@@ -563,8 +564,10 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.snippets:
+      check_paths: true
+      url_download: true
       auto_append:
-        - includes/abbreviations.md
+        - abbreviations.md
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.highlight:

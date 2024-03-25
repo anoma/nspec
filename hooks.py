@@ -33,6 +33,17 @@ DOTJUVIXMKDOCS_DIR.mkdir(parents=True, exist_ok=True)
 MARKDOWN_JUVIX_OUTPUT: Path = DOTJUVIXMKDOCS_DIR.joinpath(".md")
 MARKDOWN_JUVIX_OUTPUT.mkdir(parents=True, exist_ok=True)
 
+JUVIX_BIN: str = os.environ.get("JUVIX_BIN", "juvix")
+JUVIX_AVAILABLE = shutil.which(JUVIX_BIN) is not None
+JUVIX_VERSION: Optional[str] = None
+
+if JUVIX_AVAILABLE:
+    cmd = [JUVIX_BIN, "--numeric-version"]
+    result = subprocess.run(cmd, capture_output=True)
+    if result.returncode == 0:
+        JUVIX_VERSION = result.stdout.decode("utf-8")
+        log.info(f"Running Juvix v{JUVIX_VERSION}")
+
 JUVIXCODE_CACHE_DIR: Path = DOTJUVIXMKDOCS_DIR.joinpath(".juvix_md")
 JUVIXCODE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 JUVIXCODE_HASH_FILE = DOTJUVIXMKDOCS_DIR.joinpath(".hash_juvix_md")
@@ -49,18 +60,7 @@ DIFF_DIR = DOTJUVIXMKDOCS_DIR.joinpath(".diff")
 DIFF_DIR.mkdir(parents=True, exist_ok=True)
 DIFF_OPTIONS = ["--unified", "--new-file", "--text"]
 
-VALID_FILE_PATTERN = r"(\w+)?v(\d+)((\.\w+)?\.md)"
-
-JUVIX_BIN: str = os.environ.get("JUVIX_BIN", "juvix")
-JUVIX_AVAILABLE = shutil.which(JUVIX_BIN) is not None
-JUVIX_VERSION: Optional[str] = None
-
-if JUVIX_AVAILABLE:
-    cmd = [JUVIX_BIN, "--numeric-version"]
-    result = subprocess.run(cmd, capture_output=True)
-    if result.returncode == 0:
-        JUVIX_VERSION = result.stdout.decode("utf-8")
-        log.info(f"Running Juvix v{JUVIX_VERSION}")
+VERSIONED_FILE_PATTERN = r"(\w+)?v(\d+)((\.\w+)?\.md)"
 
 # The following prevents to build html every time
 # a .juvix.md file changes.
@@ -467,7 +467,7 @@ def _match_versioned_juvix_file(filepath: Path) -> bool:
     version number, and `ext` is the file extension.
     """
     filename: str = filepath.name
-    match = re.match(VALID_FILE_PATTERN, filename)
+    match = re.match(VERSIONED_FILE_PATTERN, filename)
     return bool(match)
 
 
@@ -479,7 +479,7 @@ def _get_name_version_number(filepath: Path) -> Optional[Tuple[str, int, str]]:
     """
     filename: str = filepath.name
     log.debug("@_get_name_version_number: %s", filename)
-    match = re.match(VALID_FILE_PATTERN, filename)
+    match = re.match(VERSIONED_FILE_PATTERN, filename)
     if match:
         name: str = match.group(1) if match.group(1) else ""
         version: int = int(match.group(2))

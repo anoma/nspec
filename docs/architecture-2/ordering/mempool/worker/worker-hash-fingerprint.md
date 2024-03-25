@@ -2,7 +2,7 @@
 - _from_ [Worker](../worker.md)
 
 ## Purpose
-<!-- ANCHOR:blurb -->
+<!-- --8<-- [start:blurb] -->
 The sending worker announces the completion of a worker hash so that the receiving worker can calculate a worker hash from the transaction data (that is being send independently).
 <!-- --8<-- [end:blurb] --> 
 

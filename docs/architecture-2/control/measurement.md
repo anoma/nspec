@@ -41,13 +41,13 @@ For example, the Networking Machine could use latency measurements to make routi
 ## Message Flow
 
 
- <!-- --8<-- [start:messages] -->
- ```mermaid
- sequenceDiagram
- --8<-- "measurement-engine/messages/record-measurement-request.md:sequence"
- --8<-- "measurement-engine/messages/subscribe-measurement-request.md:sequence"
- ```
- <!-- --8<-- [end:messages] -->
+<!-- --8<-- [start:messages] -->
+```mermaid
+sequenceDiagram
+--8<-- "measurement-engine/messages/record-measurement-request.md:sequence"
+--8<-- "measurement-engine/messages/subscribe-measurement-request.md:sequence"
+```
+<!-- --8<-- [end:messages] -->
 
 </div>
 

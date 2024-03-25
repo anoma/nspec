@@ -31,11 +31,11 @@ provides an interface for executing complex computational search tasks effective
 ## Message Flow
 
 
- <!-- --8<-- [start:messages] -->
- ```mermaid
- sequenceDiagram
- --8<-- "local-compute-engine/messages/local-compute-search.md:sequence"
- ```
- <!-- --8<-- [end:messages] -->
+<!-- --8<-- [start:messages] -->
+```mermaid
+sequenceDiagram
+--8<-- "local-compute-engine/messages/local-compute-search.md:sequence"
+```
+<!-- --8<-- [end:messages] -->
 
 </div>

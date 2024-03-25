@@ -50,22 +50,21 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 
 
 ## Message Flow
-![]
 
- <!-- --8<-- [start:messages] -->
+<!-- --8<-- [start:messages] -->
 
- ```mermaid
+```mermaid
 
- sequenceDiagram
+sequenceDiagram
 
- --8<-- "dynamic-config-engine/messages/get-dynamic-config-request.md:sequence"
- --8<-- "dynamic-config-engine/messages/set-dynamic-config-request.md:sequence"
- --8<-- "dynamic-config-engine/messages/delete-dynamic-config-request.md:sequence"
- --8<-- "dynamic-config-engine/messages/subscribe-dynamic-config-request.md:sequence"
+--8<-- "dynamic-config-engine/messages/get-dynamic-config-request.md:sequence"
+--8<-- "dynamic-config-engine/messages/set-dynamic-config-request.md:sequence"
+--8<-- "dynamic-config-engine/messages/delete-dynamic-config-request.md:sequence"
+--8<-- "dynamic-config-engine/messages/subscribe-dynamic-config-request.md:sequence"
 
 
- ```
+```
 
- <!-- --8<-- [end:messages] -->
+<!-- --8<-- [end:messages] -->
 
 </div>

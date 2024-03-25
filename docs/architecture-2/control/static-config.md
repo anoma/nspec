@@ -27,12 +27,12 @@ The Static Configuration Engine stores static configuration of the node that may
 ## Message Flow
 
 
- <!-- --8<-- [start:messages] -->
- ```mermaid
- sequenceDiagram
- --8<-- "static-config-engine/messages/get-static-config-request.md:sequence"
- ```
- <!-- --8<-- [end:messages] -->
+<!-- --8<-- [start:messages] -->
+```mermaid
+sequenceDiagram
+--8<-- "static-config-engine/messages/get-static-config-request.md:sequence"
+```
+<!-- --8<-- [end:messages] -->
 
 </div>
 
