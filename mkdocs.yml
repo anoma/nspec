@@ -508,7 +508,6 @@ theme:
     - header.autohide
 
 plugins:
-  # - obsidian-bridge
   # - macros:
   #     module_name: macros
   - search
@@ -516,11 +515,14 @@ plugins:
   - literate-nav
   - section-index
   - bibtex:
-    bib_file: "art.bib"
+      bib_file: "art.bib"
+  # - obsidian-bridge
+
 
 hooks:
 - hooks.py
 - helpers/better_snippets.py
+- helpers/make_alias.py
 
 watch:
   - formal/SML
