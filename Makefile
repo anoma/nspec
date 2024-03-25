@@ -23,11 +23,14 @@ MIKEFLAGS?=--push  \
 build:
 	mkdocs build --config-file ${MKDOCSCONFIG}
 
-serve:
+assets:
+	@curl -s -o art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
+
+serve: assets
 	mkdocs serve --dev-addr localhost:${PORT} --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
 .PHONY : mike
-mike:
+mike: assets
 	@git fetch --all
 	@git checkout gh-pages
 	@git pull origin gh-pages --rebase
@@ -38,13 +41,13 @@ mike-serve: docs
 	mike serve --dev-addr localhost:${PORT} --config-file ${MKDOCSCONFIG}
 
 .PHONY: dev
-dev:
+dev: assets
 	export DEV=true
 	mike delete ${DEVALIAS} ${MIKEFLAGS} > /dev/null 2>&1 || true
 	VERSION=${DEVALIAS} ${MAKE} mike
 
 .PHONY: latest
-latest:
+latest: assets
 	mike delete ${VERSION} ${MIKEFLAGS} > /dev/null 2>&1 || true
 	${MAKE} mike
 	mike alias ${VERSION} latest -u ${MIKEFLAGS}
@@ -63,3 +66,4 @@ pre-commit :
 clean:
 	@rm -rf site
 	@find . -type d -name "site" -exec rm -rf {} \;
+

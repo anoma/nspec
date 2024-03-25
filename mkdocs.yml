@@ -515,6 +515,8 @@ plugins:
   - ezglossary
   - literate-nav
   - section-index
+  - bibtex:
+    bib_file: "art.bib"
 
 hooks:
 - hooks.py
@@ -580,7 +582,12 @@ markdown_extensions:
       custom_checkbox: true
       clickable_checkbox: true
 
-# validation:
-#   links:
-#     not_found: warn
-#     unrecognized_links: warn
+validation:
+  nav:
+    omitted_files: ignore
+    not_found: warn
+    absolute_links: ignore
+  links:
+    not_found: warn
+    absolute_links: ignore
+    unrecognized_links: warn
