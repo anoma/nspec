@@ -10,7 +10,8 @@ operation satisfies the corresponding predicate.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 
 </div>

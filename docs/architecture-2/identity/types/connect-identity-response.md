@@ -9,7 +9,8 @@ A `ConnectIdentityResponse` provides the handles to decryption and commitment en
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 | Field        | Type                    | Description |
 |--------------|-------------------------|-------------|
 | `commitmentEngine` | Maybe<[[Commitment]] engine reference> | Reference to newly instantiated commitment engine |

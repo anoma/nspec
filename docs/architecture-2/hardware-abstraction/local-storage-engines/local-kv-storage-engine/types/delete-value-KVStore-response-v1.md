@@ -9,7 +9,8 @@ Indicates the success or failure of the attempt to delete the KV-pair from the K
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]

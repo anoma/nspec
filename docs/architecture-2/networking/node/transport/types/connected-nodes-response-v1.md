@@ -9,7 +9,8 @@ A list of open connections associated with node identities.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *list<([[NodeIdentity#nodeidentity]], [[TransportAddress#transportaddress]])>*
 

@@ -9,7 +9,8 @@ A `ReadsForResponse` is returned in response to a [[ReadsForRequest]]
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `readsFor`: boolean

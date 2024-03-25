@@ -9,7 +9,8 @@ Indicates whether an operation performed by [[Measurement Engine#measurement-eng
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 
 </div>

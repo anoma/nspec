@@ -10,7 +10,8 @@ Find a value by its key in the KV-store and delete both the key and the value.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]

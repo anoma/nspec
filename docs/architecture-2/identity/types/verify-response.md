@@ -9,7 +9,8 @@ A `VerifyResponse` contains the result of verifying a commitment in response to 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `result`: boolean

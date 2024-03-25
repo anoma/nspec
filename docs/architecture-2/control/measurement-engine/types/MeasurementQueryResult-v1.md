@@ -9,7 +9,8 @@ The result of the query [[MeasurementQueryV1#measurementqueryv1]]
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 </div>
 <!-- --8<-- [end:type] -->

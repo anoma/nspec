@@ -11,7 +11,8 @@ Advertisement of an engine that specifies the node where it is running.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Record* with fields:
 

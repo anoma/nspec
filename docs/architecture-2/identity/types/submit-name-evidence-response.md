@@ -9,7 +9,8 @@ A `SubmitNameEvidenceResponse` is sent in response to a [[SubmitNameEvidenceRequ
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `error`: Maybe<string>

@@ -9,7 +9,8 @@ A `QueryReadsForEvidenceResponse` is returned by the reads-for engine in respons
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 - `evidence`: Set<ReadsForEvidence>
 
   *Known evidence*

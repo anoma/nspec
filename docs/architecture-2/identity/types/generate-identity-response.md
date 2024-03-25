@@ -9,7 +9,8 @@ A `GenerateIdentityResponse` provides the handles to decryption and commitment e
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `commitmentEngine`: Maybe<[[EngineId]]>

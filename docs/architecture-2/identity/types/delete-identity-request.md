@@ -9,7 +9,8 @@ A `DeleteIdentityRequest` instructs the identity management engine to delete an 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 | Field        | Type                    | Description |
 |--------------|-------------------------|-------------|
 | `externalIdentity` | ExternalIdentity | The external identity to delete |

@@ -9,7 +9,8 @@ Response to a [[TopicUnsubRequestV1]].
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Result*
 

@@ -9,7 +9,8 @@ Return the found value corresponding to key in  [[GetStaticConfigRequestV1#getst
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]

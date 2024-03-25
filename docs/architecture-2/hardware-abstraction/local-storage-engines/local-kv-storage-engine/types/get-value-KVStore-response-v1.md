@@ -9,7 +9,8 @@ Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]

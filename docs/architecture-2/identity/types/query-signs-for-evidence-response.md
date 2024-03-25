@@ -9,7 +9,8 @@ A `QuerySignsForEvidenceResponse` is returned by the signs-for engine in respons
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `evidence`: Set<SignsForEvidence>

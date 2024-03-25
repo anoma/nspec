@@ -9,7 +9,8 @@ A `DecryptRequest` instructs a decryption engine instance to decrypt data as the
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `data`: `[]byte`

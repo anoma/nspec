@@ -9,7 +9,8 @@ Response to a [[LookupIdentityRequestV1#lookupidentityrequestv1]].
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Record* with fields:
 

@@ -9,7 +9,8 @@ The key that maps to the dynamic configuration value in the dynamic configuratio
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 

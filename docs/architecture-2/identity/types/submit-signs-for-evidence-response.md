@@ -9,7 +9,8 @@ A `SubmitSignsForEvidenceResponse` is sent in response to a [[SubmitSignsForEvid
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `error`: Maybe<string>

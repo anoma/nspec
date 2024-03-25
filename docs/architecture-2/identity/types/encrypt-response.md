@@ -9,7 +9,8 @@ An `EncryptResponse` contains the data encrypted by an encryption engine in resp
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `ciphertext`: `[]byte`

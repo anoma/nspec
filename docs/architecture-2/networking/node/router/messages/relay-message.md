@@ -1,4 +1,5 @@
-<div class="message v2">
+<div class="message v2" markdown>
+
 
 # RelayMessage
 

@@ -9,7 +9,8 @@ A `DecryptResponse` contains the data decrypted by a decryption engine instance 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `data`: `[]byte`

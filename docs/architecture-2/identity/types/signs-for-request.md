@@ -9,7 +9,8 @@ A `SignsForRequest` asks the signs-for engine whether one identity can signs for
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `externalIdentityA`: [[ExternalIdentity]]

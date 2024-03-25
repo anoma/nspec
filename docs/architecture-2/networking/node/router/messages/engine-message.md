@@ -1,4 +1,5 @@
-<div class="message">
+<div class="message" markdown>
+
 
 # EngineMessage
 
@@ -63,7 +64,8 @@ it processes it the following way:
        which might include the [[PubSub#pubsub]] engine
        that is responsible for remote delivery over a P2P publish-subscribe protocol.
 
-<div class="v2">
+<div class="v2" markdown>
+
 
 2. (cont.)
 

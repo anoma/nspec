@@ -9,7 +9,8 @@ Subscribe to a measurement key in the dynamic configuration KV-store to get noti
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Measurement Query`: [[MeasurementQueryV1#measurementqueryv1]]

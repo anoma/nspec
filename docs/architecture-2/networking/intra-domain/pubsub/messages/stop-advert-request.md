@@ -1,5 +1,6 @@
 <!-- --8<-- [end:purpose] -->
-<div class="message">
+<div class="message" markdown>
+
 
 # StopAdvertRequest
 

@@ -9,7 +9,8 @@ Delete time series data from the time series DB.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Time Series DB Query`: [[TimeSeriesDBQueryV1#timeseriesdbqueryv1]]

@@ -9,7 +9,8 @@ A `ReadsForRequest` asks the reads-for engine whether one identity can read for 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `externalIdentityA`: [[ExternalIdentity]]

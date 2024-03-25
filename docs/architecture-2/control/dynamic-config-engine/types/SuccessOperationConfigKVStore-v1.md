@@ -10,7 +10,8 @@ and [[Static Config Storage Engine#static-config-storage-engine]] was executed s
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 
 </div>

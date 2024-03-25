@@ -9,7 +9,8 @@ The command that expresses the retrieval, addition or other manipulation of data
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 </div>
 <!-- --8<-- [end:type] -->

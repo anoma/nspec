@@ -9,7 +9,8 @@ The *PredicateV1* describes the logical condition or criteria used to filter and
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 
 </div>

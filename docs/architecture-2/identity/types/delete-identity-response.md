@@ -9,7 +9,8 @@ A `DeleteIdentityResponse` provides the response information from an attempt to 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `error`: `Maybe<string>`

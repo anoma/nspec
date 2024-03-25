@@ -7,7 +7,8 @@ both locally (intra-node), and over the network (inter-node).
 The core functionality includes message routing and transport,
 upon which more complex peer-to-peer (P2P) protocols are built.
 
-<div class="v1">
+<div class="v1" markdown>
+
 
 ## Scope
 
@@ -125,7 +126,8 @@ and routing anycast messages to domains.
 
 ### Intra-domain protocols
 
-<div class="v2">
+<div class="v2" markdown>
+
 
 Inside each domain, a [[Domain#domain]] membership and an overlay [[Topology#topology]] maintenance protocol
 are responsible for responding to membership decisions,
@@ -137,7 +139,8 @@ The P2P [[PubSub#pubsub]] (publish-subscribe) protocol is responsible for event 
 from authorized publishers to subscribers,
 while the P2P [[Storage#storage]] protocol offers block storage and retrieval.
 
-<div class="v2">
+<div class="v2" markdown>
+
 
 ### Inter-domain protocols
 
@@ -224,7 +227,8 @@ For each [[NodeIdentity#nodeidentity]], it stores transport addresses in order o
 
 For each [[TopicIdentity#topicidentity]], it stores the [[PubSub#pubsub]] [[TopicAdvert#topicadvert]].
 
-<div class="v2">
+<div class="v2" markdown>
+
 
 For each [[DomainIdentity#domainidentity]], it stores the [[DomainAdvert#domainadvert]].
 

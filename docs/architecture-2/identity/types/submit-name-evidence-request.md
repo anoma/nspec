@@ -9,7 +9,8 @@ A `SubmitNameEvidenceRequest` instructs the name engine to store a new piece of 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `evidence`: [[IdentityNameEvidence]]

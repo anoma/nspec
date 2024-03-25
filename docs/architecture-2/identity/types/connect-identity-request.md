@@ -9,7 +9,8 @@ A `ConnectIdentityRequest` instructs the identity management engine to connect a
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `externalIdentity`: *[[ExternalIdentity]]*

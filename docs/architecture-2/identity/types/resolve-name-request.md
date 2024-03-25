@@ -9,7 +9,8 @@ A `ResolveNameRequest` asks the name engine which [[ExternalIdentity]]s are asso
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `name`: [[IdentityName]]

@@ -9,7 +9,8 @@ Find the targeted measurement in measurement and delete it from the measurement 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Measurement Query`: [[MeasurementQueryV1#measurementqueryv1]]

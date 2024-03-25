@@ -9,7 +9,8 @@ An `EncryptRequest` instructs an encryption engine to encrypt data to a particul
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `data`: `[]byte`

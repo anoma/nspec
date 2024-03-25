@@ -9,7 +9,8 @@ Specifies which backend to use in order to generate or connect an identity.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 Enumeration; one of:
 - `BACKEND_LOCAL_MEMORY`
     - keeps data in local (persistent) memory

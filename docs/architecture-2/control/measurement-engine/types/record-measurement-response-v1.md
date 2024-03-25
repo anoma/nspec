@@ -9,7 +9,8 @@ Response to a [[RecordMeasurementRequestV1#recordmeasurementrequestv1]].
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Measurement Query`: [[MeasurementQueryV1#measurmeentqueryv1]]

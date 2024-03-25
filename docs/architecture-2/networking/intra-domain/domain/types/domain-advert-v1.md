@@ -11,7 +11,8 @@ Advertisement of a list of peers that are members of a domain.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 - `id`: [[DomainIdentity#domainidentity]]
 

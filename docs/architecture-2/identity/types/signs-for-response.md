@@ -9,7 +9,8 @@ A `SignsForResponse` is returned in response to a [[SignsForRequest]]
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `signsFor`: boolean

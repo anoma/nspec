@@ -9,7 +9,8 @@ Generate a random number or other random data.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 
 </div>

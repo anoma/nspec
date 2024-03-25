@@ -9,7 +9,8 @@ A `ResolveNameResponse` is returned in response to a [[ResolveNameRequest]]
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `identities`: Set<[[ExternalIdentity]]>

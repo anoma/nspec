@@ -9,7 +9,8 @@ A `QueryNameEvidenceRequest` instructs the name engine to read and return any kn
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `externalIdentity`: [[ExternalIdentity]]

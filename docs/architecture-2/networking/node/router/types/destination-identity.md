@@ -9,7 +9,8 @@ Destination identity of an [[EngineMessageV1#enginemessagev1]].
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Enum* with values:
 
@@ -19,7 +20,8 @@ Destination identity of an [[EngineMessageV1#enginemessagev1]].
 
 - `Topic`: [[TopicIdentity#topicidentity]]
 
-<div class="v2">
+<div class="v2" markdown>
+
 
 - `Relay`: [[NodeIdentity#nodeidentity]]
 

@@ -9,7 +9,8 @@ Request to delete a pub/sub topic.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Record* with fields:
 

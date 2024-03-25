@@ -9,7 +9,8 @@ A `CommitRequest` instructs a commitment engine instance to produce a commitment
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `data`: *[[Signable]]*

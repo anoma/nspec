@@ -9,7 +9,8 @@ Response to a [[DeleteMeasurementRequestV1#deletemeasurementrequestv1]].
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Measurement Query`: [[MeasurementQueryV1#measurementqueryv1]]

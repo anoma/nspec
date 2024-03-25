@@ -9,7 +9,8 @@ Request to subscribe to a pub/sub topic.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Record* with fields:
 

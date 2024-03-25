@@ -9,7 +9,8 @@ The value in a string format, which needs to be added to the logbook.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 The *AppendValueV1* has empty record. 
 

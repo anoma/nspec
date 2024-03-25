@@ -9,7 +9,8 @@ The value corresponding with a [[ConfigurationKeyV1#configurationkeyv1]] in the 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 

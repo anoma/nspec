@@ -9,7 +9,8 @@ A `QuerySignsForEvidenceRequest` instructs the signs-for engine to read and retu
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `externalIdentity`: [[ExternalIdentity]]

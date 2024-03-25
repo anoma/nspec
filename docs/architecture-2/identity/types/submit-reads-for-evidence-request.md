@@ -9,7 +9,8 @@ A `SubmitReadsForEvidenceRequest` instructs the reads-for engine to store a new 
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 *Record* with fields:
 
 - `evidence`: [[ReadsForEvidence]]

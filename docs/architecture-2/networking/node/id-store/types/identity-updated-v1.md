@@ -9,7 +9,8 @@ An updated [[IdentityRecord#identityrecord]].
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Record* with fields:
 

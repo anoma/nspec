@@ -9,7 +9,8 @@ Append new values to the logbook.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `external identity`: [[ExternalIdentity#externalidentity]]

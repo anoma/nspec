@@ -9,7 +9,8 @@ When the value in the time series DB changes, engines interested in this informa
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Time Series DB Query`: [[TimeSeriesDBQueryV1#timeseriesdbqueryv1]]

@@ -9,7 +9,8 @@ Message routing scope restriction.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Enum* with values:
 

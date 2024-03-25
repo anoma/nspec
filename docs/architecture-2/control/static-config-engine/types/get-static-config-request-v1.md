@@ -9,7 +9,8 @@ Find a configuration by its key in the static configuration KV-store.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]

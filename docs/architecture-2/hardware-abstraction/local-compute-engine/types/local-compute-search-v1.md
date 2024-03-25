@@ -9,7 +9,8 @@ Perform a search operation based on a given predicate within a specified time li
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Predicate`: [[PredicateV1#predicatev1]]

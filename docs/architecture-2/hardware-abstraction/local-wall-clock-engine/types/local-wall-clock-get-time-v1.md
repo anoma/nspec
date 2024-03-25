@@ -11,7 +11,8 @@ Track and manage time within the local computing environment.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 The *LocalWallClockGetTimeV1* has an empty record. 
 

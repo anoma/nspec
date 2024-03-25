@@ -6,7 +6,8 @@ When the value in the KV-store changes, engines interested in this information g
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]

@@ -8,7 +8,8 @@ The value corresponding with a [[StorageKeyV1#storagekeyv1]] in the KV-store.
 ## Type
 
 <!-- --8<-- [start:type] -->
-<div class="type">
+<div class="type" markdown>
+
 
 *Records* with fields:
 
