@@ -43,12 +43,12 @@ Otherwise, if the topic does not exist yet:
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Router: TopicCreateRequest
 Router ->>+ PubSub: SubscribeRequest
 PubSub -->>- Router: SubscribeResponse
 Router -->>- Any Local Engine: TopicCreateResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

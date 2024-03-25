@@ -39,10 +39,10 @@ Performs  a removal operation in the measurement DB.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Dynamic Config Engine: DeleteMeasurementRequest
 Dynamic Config Engine -->>- Any Local Engine: DeleteMeasurementResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

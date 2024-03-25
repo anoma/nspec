@@ -33,10 +33,10 @@ A `ConnectIdentityResponse` provides the handles to decryption and commitment en
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ IdentityManagementEngine: ConnectIdentityRequest
 IdentityManagementEngine -->>- Any Local Engine: ConnectIdentityResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

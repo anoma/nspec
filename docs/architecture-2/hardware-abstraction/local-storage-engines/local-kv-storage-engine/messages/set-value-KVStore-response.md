@@ -36,10 +36,10 @@ After adding the KV-pair to the KV-store, send a message indicating the success 
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local KV Storage Engine: SetValueKVStoreRequest
 Local KV Storage Engine -->>- Any Local Engine: SetValueKVStoreResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

@@ -37,10 +37,10 @@ and a [[SubscribeAck#subscribeack]] is returned in response.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 PubSub ->>+ PubSub_R: Subscribe
 PubSub_R -->>- PubSub: SubscribeAck
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

@@ -40,10 +40,10 @@ Subscribes to a key from the dynamic configuration KV-store, to monitor value ch
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Dynamic Config Engine: SubscribeDynamicConfigRequest
 Dynamic Config Engine -->>- Any Local Engine: SubscribeDynamicConfigResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

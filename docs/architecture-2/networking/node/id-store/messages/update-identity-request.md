@@ -38,10 +38,10 @@ Update the provided information in the local data store.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Network Identity Store: UpdateIdentityRequest
 Network Identity Store -->>- Any Local Engine: UpdateIdentityResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

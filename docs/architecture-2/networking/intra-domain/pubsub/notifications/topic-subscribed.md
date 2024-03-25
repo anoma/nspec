@@ -23,9 +23,9 @@ Notification about a topic that was successfully subscribed at another peer.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 PubSub -) Any Local Engine: TopicSubscribed
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

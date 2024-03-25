@@ -33,10 +33,10 @@ A `DecryptResponse` contains the data decrypted by a decryption engine instance 
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ DecryptionEngine: DecryptRequest
 DecryptionEngine -->>- Any Local Engine: DecryptResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

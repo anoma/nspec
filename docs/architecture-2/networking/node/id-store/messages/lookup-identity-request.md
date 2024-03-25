@@ -38,10 +38,10 @@ Return the information associated with the requested external identity.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Network Identity Store: LookupIdentityRequest
 Network Identity Store -->>- Any Local Engine: LookupIdentityResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

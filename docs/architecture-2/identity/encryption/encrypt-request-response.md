@@ -33,10 +33,10 @@ An `EncryptResponse` contains the data encrypted by an encryption engine in resp
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ EncryptionEngine: EncryptRequest
 EncryptionEngine -->>- Any Local Engine: EncryptResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

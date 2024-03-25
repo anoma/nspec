@@ -37,10 +37,10 @@ Send [[TopicAdvert#topicadvert]] to connected neighbors in the domain.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Router ->>+ PubSub: StartAdvertRequest
 PubSub -->>- Router: StartAdvertResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

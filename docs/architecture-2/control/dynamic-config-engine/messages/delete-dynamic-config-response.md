@@ -37,10 +37,10 @@ delete both the key and the value, and replies with the deleted key and value.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Dynamic Config Engine: DeleteDynamicConfigRequest
 Dynamic Config Engine -->>- Any Local Engine: DeleteDynamicConfigResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

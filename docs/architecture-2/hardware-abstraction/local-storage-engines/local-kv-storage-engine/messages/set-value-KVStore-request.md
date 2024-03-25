@@ -41,10 +41,10 @@ If the key already exists, it overrides the value.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local KV Storage Engine: SetValueKVStoreRequest
 Local KV Storage Engine -->>- Any Local Engine: SetValueKVStoreResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

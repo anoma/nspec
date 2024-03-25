@@ -39,12 +39,12 @@ The topic is removed from the [[RoutingTable#routingtable]] along with all subsc
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Router: TopicDeleteRequest
 Router ->>+ PubSub: StopAdvertRequest
 PubSub -->>- Router: StopAdvertResponse
 Router -->>- Any Local Engine: TopicDeleteResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

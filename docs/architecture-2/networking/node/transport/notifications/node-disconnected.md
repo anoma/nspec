@@ -18,8 +18,8 @@ Notification sent when a transport connection is closed to a node.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Transport -) Any Local Engine: NodeDisconnected
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->

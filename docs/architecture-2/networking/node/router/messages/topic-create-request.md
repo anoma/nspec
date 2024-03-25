@@ -37,12 +37,12 @@ The topic is added to the [[RoutingTable#routingtable]] with an initially empty 
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Router: TopicCreateRequest
 Router ->>+ PubSub: StartAdvertRequest
 PubSub -->>- Router: StartAdvertResponse
 Router -->>- Any Local Engine: TopicCreateResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

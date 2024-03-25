@@ -39,11 +39,11 @@ by sending it to the [[Router#router]], which forwards it to local engines subsc
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Router -) PubSub: EngineMessage
 PubSub -) PubSub: Event
 PubSub -) Router: EngineMessage
 Router -) Any Local Engine: EngineMessage
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->

@@ -39,10 +39,10 @@ Add time series data to the time series DB.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local Time Series DB Engine: RecordDataTimeSeriesDBRequest
 Local Time Series DB Engine -->>- Any Local Engine: RecordDataTimeSeriesDBResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

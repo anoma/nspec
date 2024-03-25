@@ -33,10 +33,10 @@ A `VerifyResponse` contains the result of verifying a commitment in response to 
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ VerificationEngine: VerifyRequest
 VerificationEngine -->>- Any Local Engine: VerifyResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

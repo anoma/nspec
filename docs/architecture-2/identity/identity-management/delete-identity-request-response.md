@@ -34,10 +34,10 @@ A `DeleteIdentityResponse` provides the response information from an attempt to 
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ IdentityManagementEngine: DeleteIdentityRequest
 IdentityManagementEngine -->>- Any Local Engine: DeleteIdentityResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

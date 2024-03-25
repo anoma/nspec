@@ -44,12 +44,12 @@ and `msg` contains the message to be sent.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 TransportProtocol -) Transport: TransportMessage
 Transport -) Router: P2PMessage
 Router -) Transport: P2PMessage
 Transport -) TransportProtocol: TransportMessage
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

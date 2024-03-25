@@ -36,10 +36,10 @@ Adds a measurement performed by an engine to the measurement database.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Measurement Engine: RecordMeasurementRequest
 Measurement Engine -->>- Any Local Engine: RecordMeasurementResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

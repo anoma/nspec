@@ -39,10 +39,10 @@ Perform the requested search operation and return the computation results.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local Compute Engine: LocalComputeSearch
 Local Compute Engine -->>- Any Local Engine: LocalComputeSearchResult
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

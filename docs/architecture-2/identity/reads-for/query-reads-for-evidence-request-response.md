@@ -31,10 +31,10 @@ A `QueryReadsForEvidenceResponse` is returned by the reads-for engine in respons
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ ReadsForEngine: QueryReadsForEvidenceRequest
 ReadsForEngine -->>- Any Local Engine: QueryReadsForEvidenceResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

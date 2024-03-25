@@ -508,7 +508,7 @@ theme:
     - header.autohide
 
 plugins:
-  - obsidian-bridge
+  # - obsidian-bridge
   # - macros:
   #     module_name: macros
   - search

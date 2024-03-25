@@ -22,4 +22,5 @@ signature HASH = sig
   type hashable
   val hash : hashable -> OrdKey.ord_key
 end
-(* ANCHOR_HASH: hash *)
+(* --8<-- [end:hash] *)
+

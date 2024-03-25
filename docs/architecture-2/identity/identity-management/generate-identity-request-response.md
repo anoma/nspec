@@ -33,10 +33,10 @@ A `GenerateIdentityResponse` provides the handles to decryption and commitment e
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ IdentityManagementEngine: GenerateIdentityRequest
 IdentityManagementEngine -->>- Any Local Engine: GenerateIdentityResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

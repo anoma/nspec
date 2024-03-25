@@ -37,10 +37,10 @@ Replies with a status after subscribed to a query from the measurement database 
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Measurement Engine: SubscribeMeasurementRequest
 Measurement Engine -->>- Any Local Engine: SubscribeMeasurementResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

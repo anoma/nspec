@@ -24,9 +24,9 @@ A [[TopicAdvert]] has been received from another peer.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 PubSub -) Any Local Engine: TopicAdvertReceived
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

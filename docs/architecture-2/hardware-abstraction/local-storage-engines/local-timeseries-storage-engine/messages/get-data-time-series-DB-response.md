@@ -36,10 +36,10 @@ Return the queried time series data.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local Time Series DB Engine: GetDataTimeSeriesDBRequest
 Local Time Series DB Engine -->>- Any Local Engine: GetDataTimeSeriesDBResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

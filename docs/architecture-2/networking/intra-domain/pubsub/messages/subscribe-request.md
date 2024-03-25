@@ -38,10 +38,10 @@ by sending a P2P subscription request(s) to connected peers in the domain.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Router ->>+ PubSub: SubscribeRequest
 PubSub -->>- Router: SubscribeResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

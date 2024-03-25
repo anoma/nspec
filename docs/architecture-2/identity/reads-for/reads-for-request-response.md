@@ -31,10 +31,10 @@ A `ReadsForResponse` is returned in response to a [[ReadsForRequest]]
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ ReadsForEngine: ReadsForRequest
 ReadsForEngine -->>- Any Local Engine: ReadsForResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

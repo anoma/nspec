@@ -18,8 +18,8 @@ Notification sent when failed to establish a connection to a node.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Transport -) Any Local Engine: NodeConnectFailed
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->

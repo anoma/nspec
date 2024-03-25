@@ -37,10 +37,10 @@ Responds with a message, indicating that the removal operation succeeded or fail
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Dynamic Config Engine: DeleteMeasurementRequest
 Dynamic Config Engine -->>- Any Local Engine: DeleteMeasurementResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

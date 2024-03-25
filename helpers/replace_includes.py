@@ -19,17 +19,37 @@ def add_markdown_div_class(line):
     """
     Add a class to a markdown div.
     """
-    line = re.sub(r'<div\s+class=(.+)>', r'<div class=\1 markdown>\n', line)
+    line = re.sub(r'<div\s+class=(.+) [^markdown]>', r'<div class=\1 markdown>\n', line)
     return line
 
 def replace_patterns_anchors(line):
     """
-    Replace anchor patterns in a given line of an SML, SIG, or FUN file.
+    Replace anchor patterns:
+    If we see "%% ANCHOR: <name> <id>", we replace it with 
+    "--8<-- [start:<name>] <id>"
+    If we see "%% ANCHOR_END: <name> <id>", we replace it with
+    "--8<-- [end:<name>] <id>"
     """
-    line = re.sub(r'(%|[^\s]+)\s+ANCHOR:\s+([^\s]+)\s+([^\s]+)', r'\1 --8<-- [start:\2] \3', line)
-    line = re.sub(r'(%|[^\s]+)\s+ANCHOR_END:\s+([^\s]+)\s+([^\s]+)',
-                  r'\1 --8<-- [end:\2] \3', line)
+    # Corrected regular expressions to capture 'name' and 'id'
+    anchor_re = r'\%\% ANCHOR: (.+)'
+    anchor_end_re = r'\%\% ANCHOR_END: (.+)'
+    print_line = False
+    if "%% ANCHOR" in line:
+        print("****")
+        print(line)
+        print("====")
+        print_line = True
+    # Using `re.search` instead of `re.match` because `re.match` only matches at the beginning of the string.
+    if re.search(anchor_re, line):
+        line = re.sub(anchor_re, r'%% --8<-- [start:\1]', line)
+    elif re.search(anchor_end_re, line):
+        line = re.sub(anchor_end_re, r'%% --8<-- [end:\1]', line)
+    if print_line:
+        print("Original line:")
+        print(line)
+        print("-------")
     return line
+
 
 
 def process_file(file_path, directory=None):
@@ -47,7 +67,7 @@ def process_file(file_path, directory=None):
         lines = file.readlines()
 
     relative_path_to_root = os.path.relpath(file_path, start=directory)
-    print(f"{relative_path_to_root}")
+    # print(f"{relative_path_to_root}")
 
     new_lines = []
     if file_extension in ['.md','.sml', '.sig', '.fun']:
@@ -55,6 +75,10 @@ def process_file(file_path, directory=None):
         while i < len(lines):
             line = lines[i]
             line = add_markdown_div_class(line)
+            _line = replace_patterns_anchors(line)
+            if line != _line:
+                print(f"Replacing {line} with {_line}")
+                line = _line
             new_lines.append(line)
             i += 1
     else:

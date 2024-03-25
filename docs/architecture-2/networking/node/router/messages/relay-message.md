@@ -43,10 +43,10 @@ it processes it the following way:
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Router -) Router: RelayMessage
 Router -) Router: EngineMessage
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

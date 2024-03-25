@@ -55,10 +55,10 @@ Describe the message reception behavior, processing logic, and possible triggers
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Engine Name: MessageName
 Engine Name -->>- Any Local Engine: MessageNameResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

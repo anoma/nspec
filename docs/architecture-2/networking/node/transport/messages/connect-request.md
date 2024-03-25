@@ -32,10 +32,10 @@ Establish connection to the specified node, if not yet connected.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Topology ->>+ Transport: ConnectRequest
 Transport -->>- Topology: ConnectResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

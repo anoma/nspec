@@ -36,10 +36,10 @@ A [[TopicUnsubscribed#topicunsubscribed]] notification is sent to local engines.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 PubSub ->>+ PubSub_R: Unsubscribe
 PubSub_R -->>- PubSub: UnsubscribeAck
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

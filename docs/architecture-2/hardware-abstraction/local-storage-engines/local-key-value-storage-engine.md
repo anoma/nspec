@@ -46,14 +46,14 @@ The *Local Key-Value Storage Engine* provides the local storage and retrieval of
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local KV Storage Engine: GetValueKVStoreRequest
 Local KV Storage Engine -->>- Any Local Engine: GetValueKVStoreResponse
 Any Local Engine ->>+ Local KV Storage Engine: SetValueKVStoreRequest
 Local KV Storage Engine -->>- Any Local Engine: SetValueKVStoreResponse
 Any Local Engine ->>+ Local KV Storage Engine: DeleteValueKVStoreRequest
 Local KV Storage Engine -->>- Any Local Engine: DeleteValueKVStoreResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
  <!-- --8<-- [end:messages] -->
 

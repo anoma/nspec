@@ -30,10 +30,10 @@ A `CommitRequest` instructs a commitment engine instance to produce a commitment
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ CommitmentEngine: CommitRequest
 CommitmentEngine -->>- Any Local Engine: CommitResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 </div>

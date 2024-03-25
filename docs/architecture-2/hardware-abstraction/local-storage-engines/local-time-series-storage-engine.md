@@ -44,14 +44,14 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
  ```mermaid
  sequenceDiagram
  
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local Time Series Storage Engine: GetDataTimeSeriesDBRequest
 Local Time Series Storage Engine -->>- Any Local Engine: GetDataTimeSeriesDBResponse
 Any Local Engine ->>+ Local Time Series Storage Engine: RecordDataTimeSeriesDBRequest
 Local Time Series Storage Engine -->>- Any Local Engine: RecordDataTimeSeriesDBResponse
 Any Local Engine ->>+ Local Time Series Storage Engine: DeleteDataTimeSeriesDBRequest
 Local Time Series Storage Engine -->>- Any Local Engine: DeleteDataTimeSeriesDBResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
  ```
  <!-- --8<-- [end:messages] -->
 

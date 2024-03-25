@@ -99,7 +99,7 @@ When processing the *EngineMessage*, the given [[RoutingPrefs#routingprefs]] and
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Transport -) Router: P2PMessage
 Router -) Router: EngineMessage
 Router -) Any Local Engine: EngineMessage
@@ -108,7 +108,7 @@ Router -) Router: EngineMessage
 Router -) Transport: P2PMessage
 Router -) Router: RelayMessage
 Router -) DomainRouting: DomainRequest
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

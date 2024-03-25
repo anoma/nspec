@@ -23,9 +23,9 @@ Notification about a topic that was successfully unsubscribed at another peer.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 PubSub -) Any Local Engine: TopicUnsubscribed
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

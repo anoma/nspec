@@ -49,11 +49,11 @@ The current Hardware Abstraction Machine is composed of the following five engin
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Any Hardware Abstraction Machine Engine: Operation Request
 Any Hardware Abstraction Machine Engine -->>- Any Local Engine: Operation Response
 Any Hardware Abstraction Machine Engine ->>+ Local Logging Engine: Append Log
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

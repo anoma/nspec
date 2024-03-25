@@ -31,10 +31,10 @@ A `ResolveNameResponse` is returned in response to a [[ResolveNameRequest]]
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ NameEngine: ResolveNameRequest
 NameEngine -->>- Any Local Engine: ResolveNameResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

@@ -31,10 +31,10 @@ A `SignsForResponse` is returned in response to a [[SignsForRequest]]
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ SignsForEngine: SignsForRequest
 SignsForEngine -->>- Any Local Engine: SignsForResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

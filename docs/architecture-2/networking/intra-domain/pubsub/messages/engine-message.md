@@ -40,11 +40,11 @@ and forwards it to its neighbors along the event dissemination path.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine -) Router: EngineMessage
 Router -) PubSub: EngineMessage
 PubSub -) PubSub: Event
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

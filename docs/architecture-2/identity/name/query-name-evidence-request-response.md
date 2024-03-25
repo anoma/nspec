@@ -31,10 +31,10 @@ A `QueryNameEvidenceResponse` is returned by the name engine in response to a [[
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ NameEngine: QueryEvidenceRequest
 NameEngine -->>- Any Local Engine: QueryEvidenceResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

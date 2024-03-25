@@ -32,10 +32,10 @@ Disconnect from the specified node, if connected.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Topology ->>+ Transport: DisconnectRequest
 Transport -->>- Topology: DisconnectResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

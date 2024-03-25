@@ -40,10 +40,10 @@ Returns the value from the search operation which is triggered by a
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local KV Storage Engine: GetValueKVStoreRequest
 Local KV Storage Engine -->>- Any Local Engine: GetValueKVStoreResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

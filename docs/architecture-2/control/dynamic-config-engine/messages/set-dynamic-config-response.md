@@ -37,10 +37,10 @@ Adds a dynamic configuration to the dynamic configuration KV-store.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Dynamic Config Engine: SetDynamicConfigRequest
 Dynamic Config Engine -->>- Any Local Engine: SetDynamicConfigResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

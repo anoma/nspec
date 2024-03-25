@@ -36,10 +36,10 @@ Describe the message reception behavior, processing logic, and possible triggers
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ NameEngine: SubmitNameEvidenceRequest
 NameEngine -->>- Any Local Engine: SubmitNameEvidenceResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

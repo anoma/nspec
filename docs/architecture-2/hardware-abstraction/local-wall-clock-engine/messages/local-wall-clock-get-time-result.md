@@ -35,10 +35,10 @@ Give the current time according to the physical machine's internal clock system.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Any Local Engine ->>+ Local Wall Clock Engine: LocalWallClockGetTime
 Local Wall Clock Engine -->>- Any Local Engine: LocalWallClockGetTimeResult
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

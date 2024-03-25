@@ -39,10 +39,10 @@ Performs the requested search operation in the static configurations KV-store an
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 User ->>+ Static Config Engine: GetStaticConfigRequest
 Static Config Engine -->>- User: GetStaticConfigResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 
 <!-- --8<-- [end:messages] -->

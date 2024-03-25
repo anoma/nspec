@@ -37,10 +37,10 @@ Stop advertising a topic in the network.
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Router ->>+ PubSub: StopAdvertRequest
 PubSub -->>- Router: StopAdvertResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 

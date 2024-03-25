@@ -38,10 +38,10 @@ If subscribed to the given topic, PubSub unsubscribes from it by sending P2P uns
 ```mermaid
 sequenceDiagram
 
-%% ANCHOR: sequence
+%% --8<-- [start:sequence]
 Router ->>+ PubSub: UnsubscribeRequest
 PubSub -->>- Router: UnsubscribeResponse
-%% ANCHOR_END: sequence
+%% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->
 
