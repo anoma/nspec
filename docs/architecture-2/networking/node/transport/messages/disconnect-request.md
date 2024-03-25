@@ -6,7 +6,11 @@
 
 ## Purpose
 
+<!-- --8<-- [start:purpose] -->
 Establish disconnection to a node.
+<!-- --8<-- [end:purpose] -->
+
+## Type
 
 <!-- --8<-- [start:type] -->
 **Reception:**

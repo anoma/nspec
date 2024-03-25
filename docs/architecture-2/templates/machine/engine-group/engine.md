@@ -15,9 +15,9 @@ Describe the purpose of the engine.
 
 ### [[TypeName#typename]]
 
---8<-- "engine/types/type-name.md:purpose"
+<!-- --8<-- "engine/types/type-name.md:purpose" FIXME -->
 
---8<-- "engine/types/type-name.md:type"
+<!-- --8<-- "engine/types/type-name.md:type" FIXME -->
 
 ## Messages received
 
@@ -25,9 +25,9 @@ Describe the purpose of the engine.
 
 ### [[MessageName#messagename]]
 
---8<-- "engine/messages/message-name.md:purpose"
+<!-- --8<-- "engine/messages/message-name.md:purpose" FIXME -->
 
---8<-- "engine/messages/message-name.md:type"
+<!-- --8<-- "engine/messages/message-name.md:type" FIXME -->
 
 ## Notifications sent
 
@@ -35,9 +35,9 @@ Describe the purpose of the engine.
 
 ### [[NotificationName#notificationname]]
 
---8<-- "engine/notifications/notification-name.md:purpose"
+<!-- --8<-- "engine/notifications/notification-name.md:purpose" FIXME -->
 
---8<-- "engine/notifications/notification-name.md:typee"
+<!-- --8<-- "engine/notifications/notification-name.md:typee" FIXME -->
 
 ## Message flow
 
@@ -47,9 +47,9 @@ Describe the purpose of the engine.
 ```mermaid
 sequenceDiagram
 
---8<-- "engine/messages/message-name.md:sequence"
+%% --8<-- "engine/messages/message-name.md:sequence" FIXME
 
---8<-- "engine/messages/other-message-name.md:sequence"
+%% --8<-- "engine/messages/other-message-name.md:sequence" FIXME
 ```
 <!-- --8<-- [end:messages] -->
 

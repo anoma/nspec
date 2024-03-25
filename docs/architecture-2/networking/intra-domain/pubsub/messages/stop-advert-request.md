@@ -1,4 +1,3 @@
-<!-- --8<-- [end:purpose] -->
 <div class="message" markdown>
 
 

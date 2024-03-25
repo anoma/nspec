@@ -28,8 +28,6 @@ def on_pre_build(config):
         ]
         for d in dirs:
             rel_dir = os.path.relpath(os.path.join(root, d), '.')
-            print(rel_dir)
             base_path.append(rel_dir)
 
     config.mdx_configs['pymdownx.snippets']['base_path'] = base_path
-    print(f"base_path: {base_path}")

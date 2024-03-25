@@ -32,13 +32,13 @@ Triggers:
 
 [[MessageNameV1#messagenamev1]]
 
---8<-- "../types/message-name-v1.md:type"
+<!-- --8<-- "../types/message-name-v1.md:type" FIXME-->
 
 **Triggers:**
 
 [[MessageNameResponseV1#messagenameresponsev1]]
 
---8<-- "../types/message-name-response-v1.md:type"
+<!-- --8<-- "../types/message-name-response-v1.md:type" FIXME -->
 
 [[OtherMessageName#othermessagename]]
 <!-- --8<-- [end:type] -->

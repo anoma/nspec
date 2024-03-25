@@ -2,7 +2,9 @@
 
 ## Purpose
 
+<!-- --8<-- [start:purpose] -->
 A notification is sent when a new measurement is recorded in the measurement database. 
+<!-- --8<-- [end:purpose] -->
 
 ## Type
 

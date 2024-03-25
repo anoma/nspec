@@ -580,7 +580,7 @@ markdown_extensions:
       custom_checkbox: true
       clickable_checkbox: true
 
-validation:
-  links:
-    not_found: warn
-    unrecognized_links: warn
+# validation:
+#   links:
+#     not_found: warn
+#     unrecognized_links: warn
