@@ -91,7 +91,7 @@ but these are not considered in V1.
       ](https://en.wikipedia.org/wiki/State_machine_replication#State_machine)
       of the RSM.
 
-![](./svgs/ordering-v1.svg)
+![](/nspec/images/ordering-v1.svg)
 
 
 --8<-- "./ordering/a-complete-lifecycle.md"

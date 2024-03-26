@@ -123,8 +123,7 @@ We do this using a set of optimizations.
 
 ### Optimization: Per-Key Ordering
 
-![Per-key ordering (see web version for animation)](
-    keys_animated.svg)
+![Per-key ordering (see web version for animation)](/nspec/images/keys_animated.svg)
 
 [[Mempool Engines|Mempool]]
  (and after V1, [[Consensus Engine|consensus]]) provides ordering
@@ -149,8 +148,7 @@ In the diagram above, for example, [[TransactionCandidate|transaction candidates
 
 ### Optimization: Order With Respect To Writes
 
-![Order with respect to writes (see web version for animation)](
-    only_order_wrt_writes_animated.svg)
+![Order with respect to writes (see web version for animation)](/nspec/images/only_order_wrt_writes_animated.svg)
 
 In fact, Shards can send read information to an [[Executor]] as soon
  as the previous *write*'s [[TransactionCandidate]] has completed
@@ -167,8 +165,7 @@ for example, [[TransactionCandidate|transaction candidates]] `a` and `b` can run
 
 ### Optimization: Only Wait to Read
 
-![Only wait to read (see web version for animation)](
-    only_wait_to_read_animated.svg)
+![Only wait to read (see web version for animation)](/nspec/images/only_wait_to_read_animated.svg)
 
 Because we store each version written
  ([multi-version concurrent storage](
@@ -247,8 +244,7 @@ Occasionally, `heardAllReads` should be updated with later timestamps.
 Each Shard must keep track of `heardAllReads` on
 each key's multi-version timeline, so it can garbage collect old values.
 
-![Execute with partial order (see web version for animation)](
-    execute_before_consensus_animated.svg)
+![Execute with partial order (see web version for animation)](/nspec/images/execute_before_consensus_animated.svg)
 
 In the example above, our happens-before arrows have been replaced with
 _may-happen-before_ arrows,
@@ -297,7 +293,7 @@ transaction `h` will be able to execute.
 <!-- V1 does not have any read-only transactions.
 ### Optimization: Client Reads as Read-Only Transactions
 
-![Client reads as read-only transactions (see web version for animation)](read_only_animated.svg)
+![Client reads as read-only transactions (see web version for animation)](/nspec/images/read_only_animated.svg)
 
 With the above optimizations, transactions containing only read operations do not affect other transactions (or scheduling) at all.
 Therefore, they can bypass [[Mempool Engines|mempool]] and [[Consensus Engine|consensus]] altogether.

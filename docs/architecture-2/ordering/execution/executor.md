@@ -14,7 +14,7 @@ The [[Execution Engines]] might keep a pool of Executors,
 To quickly understand what an Executor does,
 let us look at the life of a transaction within the Execution Engine.
 
-![Execution Architecture](../../engines/execution_architecture_web.svg)
+![Execution Architecture](/nspec/images/execution_architecture_web.svg)
  
 - When the [[Mempool Engines|mempool]] stores a transaction,
   the execution engine assigns an executor process,

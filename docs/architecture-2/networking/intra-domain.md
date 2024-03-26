@@ -85,7 +85,7 @@ and corresponding signed storage receipts with the provided guarantees.
 
 <figure class="invertable wide img-max">
 
-![Multicast message](multicast.dot.svg)
+![Multicast message](/nspec/images/multicast.dot.svg)
 
 <!-- --8<-- [start:fig-multicast-caption] -->
 <figcaption>

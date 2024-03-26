@@ -43,11 +43,11 @@ collected over time interval such as [[AvailabilityCertificate#availabilitycerti
 
 
 ## Communication diagram
-![Communication diagram](../../images/communication-diagrams-storage.svg)
+![Communication diagram](/nspec/images/communication-diagrams-storage.svg)
 
 
 ## Example scenario
-![Example scenario](../../images/example_scenario_storage.svg)
+![Example scenario](/nspec/images/example_scenario_storage.svg)
 
 The diagram above visualized an example scenario where an Anoma node has generated an [[AvailabilityCertificate#availabilitycertificate]] (AC)
 in the [[Ordering Machine#ordering-machine]] that needs to be stored by the Local Storage Engines and sent to other Anoma nodes in the network by the [[Networking Machine#networking-machine]].   

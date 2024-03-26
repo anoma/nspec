@@ -114,7 +114,7 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 
 <figure class="invertable">
 
-![Inter-node messages](node.dot.svg)
+![Inter-node messages](/nspec/images/node.dot.svg)
 
 <!-- --8<-- [start:fig-node-caption] -->
 <figcaption>
@@ -129,7 +129,7 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 
 <figure class="invertable wide">
 
-![Unicast message](unicast.dot.svg)
+![Unicast message](/nspec/images/unicast.dot.svg)
 
 <!-- --8<-- [start:fig-unicast-caption] -->
 <figcaption>

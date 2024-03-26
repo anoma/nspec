@@ -87,7 +87,7 @@ It makes routing decisions based on the destination identity in the message.
 
 <figure class="invertable">
 
-![Inter-node messages](networking/node.dot.svg)
+![Inter-node messages](/nspec/images/node.dot.svg)
 
 --8<-- "networking/node.md:fig-node-caption"
 
@@ -97,7 +97,7 @@ It makes routing decisions based on the destination identity in the message.
 
 <figure class="invertable wide">
 
-![Unicast message](networking/unicast.dot.svg)
+![Unicast message](/nspec/images/unicast.dot.svg)
 
 --8<-- "networking/node.md:fig-unicast-caption"
 
@@ -107,7 +107,7 @@ It makes routing decisions based on the destination identity in the message.
 
 <figure class="invertable wide img-max">
 
-![Multicast message](networking/multicast.dot.svg)
+![Multicast message](/nspec/images/multicast.dot.svg)
 
 --8<-- "networking/intra-domain.md:fig-multicast-caption"
 
@@ -169,7 +169,7 @@ Both methods use domain membership similarity as a distance metric.
 
 <figure class="invertable wide">
 
-![Engines of the Networking Machine](networking/engines.dot.svg)
+![Engines of the Networking Machine](/nspec/images/engines.dot.svg)
 
 <figcaption>
 

@@ -65,7 +65,7 @@ def on_pre_build(config: MkDocsConfig):
     with open('docs/indexes/aliases.md', 'w') as f:
         f.write("# Aliases\n\n")
 
-    config['aliases'] = FuzzyMap()
+    config['aliases'] = {} # FuzzyMap()
     config['num_alias_issues'] = 0
     config['num_uses_of_aliases'] = 0
 
@@ -127,12 +127,12 @@ def on_files(files : Files, config: MkDocsConfig) -> None:
             source, meta_data = meta.get_data(handle.read())
             alias_names : Optional[List[str]] = _get_alias_names(meta_data)
             if alias_names is None or len(alias_names) < 1:
-                _title:Optional[str] = _get_page_title(source, meta_data)
-                if _title and _title not in config['aliases']:
-                    _title = _title.strip()
-                    alias_names = [_title]
-                    meta_data['alias'] = { 'name': _title , 'text': _title }
-                else:
+                # _title:Optional[str] = _get_page_title(source, meta_data)
+                # if _title and _title not in config['aliases']:
+                #     _title = _title.strip()
+                #     alias_names = [_title]
+                #     meta_data['alias'] = { 'name': _title , 'text': _title }
+                # else:
                     continue
 
             if len(alias_names) > 1:
@@ -172,11 +172,14 @@ def on_files(files : Files, config: MkDocsConfig) -> None:
         f.write(f"<h1>Aliases <small>({len(config['aliases'])})</small></h1>\n\n")
         current_letter = ''
         for_index = sorted(config['aliases'].keys()).copy()
-        for_index.remove('Aliases')
+
+        if 'Aliases' in for_index:
+            for_index.remove('Aliases')
+
         for alias in for_index:
             if alias[0].upper() != current_letter:
                 current_letter = alias[0].upper()
-                f.write(f"## {current_letter}\n\n")
+                f.write(f"\n## {current_letter}\n\n")
             right_url = f"{config['site_url'].rstrip('/')}/{config['aliases'][alias]['url'].replace('.md', '.html')}"
             f.write(f"- [{alias}]({right_url})\n")
 # Helper functions
@@ -246,7 +249,7 @@ def _replace_tag(
         url = f"{url}#{tag_bits[1]}"
 
     config['num_uses_of_aliases'] += 1
-    log.debug(
+    log.info(
         "replaced alias '%s' with '%s' to '%s'",
         alias['alias'],
         text,

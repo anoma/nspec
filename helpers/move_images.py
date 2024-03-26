@@ -6,7 +6,8 @@ from typing import Set
 # Move images contained in docs all over into the solver and move them
 # docs/assets/images using pathlib Define the source and destination directories
 
-source = Path('docs')
+source = Path('~/anoma/spec/src').expanduser()
+print("source: ", source)
 destination = Path('docs/images')
 destination.mkdir(parents=True, exist_ok=True)
 

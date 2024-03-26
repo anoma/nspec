@@ -521,9 +521,9 @@ plugins:
 
 
 hooks:
+- helpers/make_alias.py
 - hooks.py
 - helpers/better_snippets.py
-- helpers/make_alias.py
 
 watch:
   - formal/SML

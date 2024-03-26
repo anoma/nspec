@@ -111,4 +111,4 @@ Thus, the structure of the description of engine models is as follows.
 - ⋮
 - engine $N$
 
-![Message Diagram](images/rought_execution_engine_message_passing.svg)
+![Message Diagram](/nspec/images/rought_execution_engine_message_passing.svg)
