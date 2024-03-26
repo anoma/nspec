@@ -20,3 +20,4 @@ mkdocs-autorefs
 mike
 pre-commit
 mkdocs-bibtex
+fuzzywuzzy
