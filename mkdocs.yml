@@ -461,7 +461,7 @@ nav:
     - Generalized bartering: ./applications/generalized-bartering.md
     - Schelling tests: ./applications/schelling-tests.md
     - Mesh messaging: ./applications/mesh-messaging.md
-  - Others:
+  - Indexes:
     - Quick links: ./indexes/aliases.md
 
 extra:

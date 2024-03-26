@@ -91,10 +91,37 @@ def on_page_markdown(markdown: str, *, page, config: MkDocsConfig, **_) -> str:
         markdown
     )
 
-def on_files(files, config: MkDocsConfig) -> None:
+def on_files(files : Files, config: MkDocsConfig) -> None:
     """When MkDocs loads its files, extract aliases from any Markdown files
     that were found.
     """
+
+    paths_in_nav : List[str] = []
+
+    def process_item(item):
+        result = {}
+        if isinstance(item, list):
+            for i in item:
+                result.update(process_item(i))
+        elif isinstance(item, dict):
+            for key, value in item.items():
+                if isinstance(value, str):
+                    result[key] = value
+                    paths_in_nav.append(value)
+                else:
+                    result.update(process_item(value))
+        elif isinstance(item, str):
+            paths_in_nav.append(item)
+        return result
+    
+    for t,p in process_item(config['nav']).items():
+        config['aliases'][t] = {
+            'alias': t,
+            'text': t,
+            'url': p
+        }
+
+
     for file in filter(lambda f: f.is_documentation_page(), files):
         with open(file.abs_src_path, encoding='utf-8-sig', errors='strict') as handle:
             source, meta_data = meta.get_data(handle.read())
@@ -150,7 +177,8 @@ def on_files(files, config: MkDocsConfig) -> None:
             if alias[0].upper() != current_letter:
                 current_letter = alias[0].upper()
                 f.write(f"## {current_letter}\n\n")
-            f.write(f"- [{alias}](/{config['aliases'][alias]['url'].replace('.md', '.html')})\n")
+            right_url = f"{config['site_url'].rstrip('/')}/{config['aliases'][alias]['url'].replace('.md', '.html')}"
+            f.write(f"- [{alias}]({right_url})\n")
 # Helper functions
                 
 def _get_page_title(page_src: str, meta_data: dict) -> Optional[str]:
