@@ -76,15 +76,6 @@ def on_post_build(config : MkDocsConfig):
     log.info("Defined %s alias(es).", len(aliases_dict))
     log.info("Found %s alias issue(s).", num_alias_issues)
     log.info("Used %s alias(es).", num_uses_of_aliases)
-
-    with open('docs/indexes/aliases.md', 'w') as f:
-        f.write(f"<h1>Aliases <small>({len(aliases_dict)})</small></h1>\n\n")
-        current_letter = ''
-        for alias in sorted(aliases_dict.keys()):
-            if alias[0].upper() != current_letter:
-                current_letter = alias[0].upper()
-                f.write(f"## {current_letter}\n\n")
-            f.write(f"- [{alias}]({aliases_dict[alias]['url']})\n")
     aliases_dict.clear()
 
 def on_page_markdown(markdown: str, *, page, config: MkDocsConfig, **_) -> str:
@@ -150,7 +141,16 @@ def on_files(files, config: MkDocsConfig) -> None:
                 )
                 config['aliases'][alias] = new_alias
 
-
+    with open('docs/indexes/aliases.md', 'w') as f:
+        f.write(f"<h1>Aliases <small>({len(config['aliases'])})</small></h1>\n\n")
+        current_letter = ''
+        for_index = sorted(config['aliases'].keys()).copy()
+        for_index.remove('Aliases')
+        for alias in for_index:
+            if alias[0].upper() != current_letter:
+                current_letter = alias[0].upper()
+                f.write(f"## {current_letter}\n\n")
+            f.write(f"- [{alias}](/{config['aliases'][alias]['url'].replace('.md', '.html')})\n")
 # Helper functions
                 
 def _get_page_title(page_src: str, meta_data: dict) -> Optional[str]:

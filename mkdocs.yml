@@ -462,8 +462,7 @@ nav:
     - Schelling tests: ./applications/schelling-tests.md
     - Mesh messaging: ./applications/mesh-messaging.md
   - Others:
-    - Indexes:
-      - WikiLinks: ./indexes/aliases.md
+    - Quick links: ./indexes/aliases.md
 
 extra:
   social:
