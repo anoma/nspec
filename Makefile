@@ -64,6 +64,11 @@ pre-commit :
 	@pre-commit run --all-files
 
 clean:
-	@rm -rf site
+	@rm -rf site \
+			.juvix-mkdocs \
+			.juvix-build \
+			.cache \
+			.mypy_cache \
+			__pycache__
 	@find . -type d -name "site" -exec rm -rf {} \;
 

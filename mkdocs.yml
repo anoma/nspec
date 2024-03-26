@@ -518,7 +518,6 @@ plugins:
   - section-index
   - bibtex:
       bib_file: "art.bib"
-  # - obsidian-bridge
 
 
 hooks:
