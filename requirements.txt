@@ -20,4 +20,5 @@ mkdocs-autorefs
 mike
 pre-commit
 mkdocs-bibtex
+python-Levenshtein
 fuzzywuzzy
