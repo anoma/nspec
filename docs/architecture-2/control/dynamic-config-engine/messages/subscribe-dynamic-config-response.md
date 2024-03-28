@@ -6,7 +6,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Response to a [[SubscribeDynamicConfigRequest#subscribedynamicconfigrequest]].
+Response to a [[SubscribeDynamicConfigRequest#subscribedynamicconfigrequest|asdfasdf]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type

@@ -535,6 +535,8 @@ exclude_docs: |
   /requirements.txt
   **/art-template/**/*.md
   */**/.juvix-build/
+  docs/indexes/*.txt
+  docs/indexes/*.dot
 
 extra_css:
   - assets/css/extra.css

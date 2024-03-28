@@ -14,72 +14,77 @@ from pathlib import Path
 from typing import Any, Callable, List, Optional, Tuple, Dict, Set
 import logging
 import re
-from fuzzywuzzy import fuzz # type: ignore
+from fuzzywuzzy import fuzz  # type: ignore
 
 log: logging.Logger = logging.getLogger('mkdocs')
 
 INDEXES_DIR = Path('docs/indexes')
 INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 
+ROOT_DIR = Path(__file__).parent.parent
+DOCS_DIR = ROOT_DIR / 'docs'
 
 """ Example of a wikilink:
 [[path-hint:page#anchor|display text]]
 """
-
+# Updated Regex Pattern to Include Optional Hint
 WIKILINK_PATTERN = re.compile(r"""
-    \[\[                          # Opening brackets
-    (?P<hint>(?:[^\]|#\n]+/)*?)   # Optional hint path, non-greedy
-    (?P<page>[^\]|#\n]+?)         # Page name, excluding closing brackets, pipe, hash for anchors, and newlines, non-greedy
-    (?:                           # Non-capturing group for optional sections
-        #                         # Hash for anchors
-        (?P<anchor>[^\]|\n]+)     # Anchor text, excluding closing brackets and newlines
-    )?                            # Anchor is optional
-    (?:                           # Non-capturing group for optional display text
-        \|                        # Pipe separating page/anchor from display text
-        (?P<display>[^\]\n]+)     # Display text, excluding closing brackets and newlines
-    )?                            # Display text is optional
-    \]\]                          # Closing brackets
-""", re.VERBOSE | re.DOTALL)
+(?:\\)?\[\[                      # Matches the start of a wikilink (optionally escaped)
+(?:(?P<hint>[^:]+):)?            # Optionally captures the hint text before a colon
+(?P<page>[^|\]#]+)               # Captures the page name (up to a |, ], or #)
+(?:\#(?P<anchor>[^|\]]+))?       # Optionally captures the anchor (up to a | or ])
+(?:\|(?P<display>[^\]]+))?       # Optionally captures the display text (up to a ])
+\]\]                             # Matches the end of a wikilink
+""", re.VERBOSE)
+
+
+class Ocurrence:
+    path: str
+    line: int
+    column: int = 0
+
+    def __init__(self, path: str, line: int, column: int):
+        self.path = path
+        self.line = line
+        self.column = column
+
+    def __str__(self):
+        return f"{self.path}:{self.line}:{self.column}"
 
 class WikiLink:
     def __init__(self, page: str, hint: Optional[str] = None, anchor: Optional[str] = None, display: Optional[str] = None):
         self.page: str = page.strip()
         self.hint: Optional[str] = hint.strip() if hint else None
-        self.anchor: Optional[str] = anchor.strip(
-        )[1:] if anchor and anchor.startswith('#') else None
+        self.anchor: Optional[str] = anchor.strip() if anchor else None
         self.display: Optional[str] = display.strip() if display else None
-        self.references: List[Any] = []
-
-    def __str__(self):
-        link = f"[[{self.hint}:{self.page}"
-        if self.anchor:
-            link += f"#{self.anchor}"
-        if self.display:
-            link += f"|{self.display}"
-        link += "]]"
-        return link
+        self.references: List[Ocurrence] = []
 
     def __hash__(self):
         return hash(self.page)
 
     def __repr__(self):
-        return f"WikiLink(alias={self.page}, hint={self.hint}, anchor={self.anchor}, display={self.display})"
+        s = f"page={self.page}, "
+        if self.hint:
+            s += f"hint={self.hint}, "
+        if self.anchor:
+            s += f"anchor={self.anchor}, "
+        if self.display:
+            s += f"display={self.display}"
+        return f"WikiLink({s})"
 
-    def to_markdown(self):
-        return f"[{self.display or self.page}]({self.hint}:{self.page}{f'#{self.anchor}' if self.anchor else ''})"
+    def to_markdown(self, path):
+        md_path =path.replace('./', '/nspec/').replace('.md', '.html')
+        return f"[{self.display or self.page}]({md_path}{f'#{self.anchor}' if self.anchor else ''})"
 
-    def add_reference(self, page: Any):
-        self.references.append(page)
-
-    def references_to_list_markdown(self):
-        return '\n'.join([f"- {page}" for page in self.references])
+    def add_reference(self, ocurrence: Ocurrence):
+        self.references.append(ocurrence)
 
 # ------------------------------------------------------------------------------
-# The generation of the graph of links and cross-references is only based on the
-# navigation structure of the site. This is a limitation of the current version
-# of the plugin. The reason is that we run this routin before the (real) build
-# starts, as we later add content at the end of each markdown file, in case it
-# is mentioned somewhere by a wikilink.
+# The generation of cross-references graph is currently limited to the
+# navigation structure of the site. This limitation exists because this routine
+# is executed before the actual build starts. Additional content is added to
+# each markdown file at the end, in case it is referenced by a wikilink.
+
 
 def on_pre_build(config: MkDocsConfig):
     """Executed before the build begins. Initializes the aliases dictionary
@@ -90,8 +95,9 @@ def on_pre_build(config: MkDocsConfig):
 
     # a graph where the nodes are the pages (src_path) and the edges are
     # determined by the (wikilinks) references, initially.
-        
-    config['wiklink_graph'] = {}
+
+    config['wikilinks'] = set()
+    config['wikilinks_per_url'] = {}
     config['url_alias'] = {}
     config['alias_url'] = {}
 
@@ -101,34 +107,6 @@ def on_pre_build(config: MkDocsConfig):
             config['alias_url'][page_alias] = [url]
         else:
             config['alias_url'][page_alias].append(url)
-
-    # print(config['url_alias'])
-    # print("-----")
-    # with open(".dict", 'w') as f:
-    #     for k, v in config['alias_url'].items():
-    #         f.write(f"{k} -> {v}\n")
-    # print("-----")
-    # while True:
-    #     key = input("Enter a key: ")
-    #     if key in config['alias_url']:
-    #         print(config['alias_url'][key])
-    #         results = config['alias_url'][key]
-    #         # use fuzzy matching to find the closest element in the list
-    #         # given a hint
-    #         if len(results) >1:
-    #             hint = input("Enter a hint: ")
-    #             coefficients = {k: fuzz.WRatio(k, hint) for k in results}
-    #             n = len(results)
-    #             result = sorted(coefficients, key=lambda k: coefficients[k], reverse=True)[:n]
-    #             keypairs = [(k, coefficients[k]) 
-    #                         for k in result]
-    #             for k, v in keypairs:
-    #                 print(f"{k} -> {v}")
-        # print("Possible matches: Add hint to disembiguate")
-        # for k in config['alias_url'].get_k_closest(key, 5):
-        #     print(k)
-    # exit()
-
 
 def _extract_aliases_from_nav(item, parent_key=None):
     result = []
@@ -146,67 +124,66 @@ def _extract_aliases_from_nav(item, parent_key=None):
                 result.extend(_extract_aliases_from_nav(v, k))
     return result
 
-def _get_aliases_from_nav(config: MkDocsConfig) -> MkDocsConfig:
+def on_post_build(config: MkDocsConfig):
+    """Executed after the build ends. Writes the aliases to a markdown file."""
+    with open(INDEXES_DIR / 'aliases.txt', 'a') as f:
+        f.write(f"\n\n## Aliases\n\n")
+        for alias, urls in config['alias_url'].items():
+            f.write(f"- [{alias}]({urls[0]})\n")
+            for url in urls[1:]:
+                f.write(f"  - [{url}]({url})\n")
 
-    paths_in_nav:List[Tuple[str, str]] = []
+    with open(INDEXES_DIR / 'wikilinks.txt', 'w') as f:
+        f.write(f"# Wikilinks\n\n")
+        for url, wikilinks in config['wikilinks_per_url'].items():
+            f.write(f"## {url}\n\n")
+            for wikilink in wikilinks:
+                f.write(f"- {wikilink}\n")
+                for reference in wikilink.references:
+                    f.write(f"  - {reference}\n")
 
-    print(_extract_aliases_from_nav(config['nav']))
-    print(len(_extract_aliases_from_nav(config['nav'])))
-    print(len(set(_extract_aliases_from_nav(config['nav']))))
+    with open(INDEXES_DIR / 'wikilinks.dot', 'w') as f:
+        f.write(f"digraph G {{\n")
+        for wikilink in config['wikilinks']:
+            for reference in wikilink.references:
+                f.write(f'"{wikilink.page}" -> "{reference}"\n')
+        f.write(f"}}\n")
 
-    # for t, p in process_item(config['nav']).items():
-    #     config['alias']['by_url'][p] = \
-    #         config['alias']['by_title'].setdefault(p, []).append(t)
-    #     config['alias']['by_title'][t] = p
+def on_page_markdown(markdown: str, *, page: Page, config: MkDocsConfig, **_) -> str:
+    """Replace wikilinks by markdown links. The preprocessing step
+    should be smart, avoiding to replace links inside code blocks, html
+    comments, and mermaid diagrams.
+    """
 
-    # print(config['alias']['by_url'])
-    # print(paths_in_nav)
-    # check if paths_in_nav has any duplicates using the second element
+    current_page = page
+    url_relative = DOCS_DIR / Path(current_page.url.replace('.html', '.md'))
 
-    exit()
+    lines = markdown.split('\n')
+    for i, line in enumerate(lines.copy()):
+        matches = WIKILINK_PATTERN.finditer(line)
+        for match in matches:
+            link = WikiLink(page=match.group('page'), hint=match.group('hint'), anchor=match.group('anchor'),
+                            display=match.group('display'))
+            ocurrence = Ocurrence(url_relative.as_posix(), i + 1, match.start())
+            link.add_reference(ocurrence)
+            if not link.page in config['alias_url']:
+                log.warning(f"{link} at '{ocurrence}' is not defined in the navigation.")
+            else:
+                if len(config['alias_url'][link.page]) > 1:
+                    log.error(f"{link} at '{ocurrence}' is ambiguous. It could be any of {config['alias_url'][link.page]}. Please add a path hint where the page is, e.g. [[A/B:page#anchor|text]].")
+                if len(config['alias_url'][link.page]) == 1:
+                    path = config['alias_url'][link.page][0]
+                    md_link = link.to_markdown(path)
+                    lines[i] = lines[i].replace(match.group(0), md_link)
 
-# def on_post_build(config: MkDocsConfig):
-#     aliases_dict = config.get('aliases', {})
-#     num_alias_issues = config.get('num_alias_issues', 0)
-#     num_uses_of_aliases = config.get('num_uses_of_aliases', 0)
+            config['wikilinks'].add(link)
 
-#     log.info("Defined %s alias(es).", len(aliases_dict))
-#     log.info("Found %s alias issue(s).", num_alias_issues)
-#     log.info("Used %s alias(es).", num_uses_of_aliases)
-#     aliases_dict.clear()
+            if url_relative not in config['wikilinks_per_url']:
+                config['wikilinks_per_url'][url_relative] = set()
+            config['wikilinks_per_url'][url_relative].add(link)
+    return '\n'.join(lines)
 
-
-# def on_page_markdown(markdown: str, *, page: Page, config: MkDocsConfig, **_) -> str:
-#     """Replaces any alias tags on the page with markdown links."""
-#     current_page = page
-#     print("current_page: ", current_page.file.src_path)
-
-#     matches = WIKILINK_PATTERN.finditer(markdown)
-
-#     if current_page.file.src_path.endswith('dynamic-config-changed.md'):
-#         print("current_page: ", current_page.file.src_path)
-
-#         for match in matches:
-#             wikilink = WikiLink(
-#                 alias=match.group('page'),
-#                 anchor=match.group('anchor'),
-#                 display=match.group('display')
-#             )
-#             print(wikilink)
-#         exit()
-#     return ""
-
-#     # return re.sub(
-#     #     ALIAS_TAG_REGEX,
-#     #     lambda match: _replace_tag(
-#     #         match,
-#     #         current_page.file,
-#     #         config
-#     #     ),
-#     #     markdown,
-#     #     count=0,
-#     #     flags=re.MULTILINE
-#     # )
+    # if current_page.file.src_path.endswith('dynamic-config-changed.md'):
 
 
 # def on_files(files: Files, config: MkDocsConfig) -> None:
@@ -378,5 +355,3 @@ def _get_aliases_from_nav(config: MkDocsConfig) -> MkDocsConfig:
 #     while True:
 #         key = input("Enter a key: ")
 #         print(a[key])
-
-

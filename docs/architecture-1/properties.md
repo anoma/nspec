@@ -1,8 +1,15 @@
 # Properties of Anoma instances
 
+[[DeleteDynamicConfigRequestV1#deletedynamicconfigrequestv1| this is text]]
+[[WWW]]
+
+[[DeleteDynamicConfigRequestV1#deletedynamicconfigrequestv1]]
+[[A/b/c/d:eeeeee|joder]]
+[[A/b/c/d:eeeeee|joder|more text]]
+
 ## Inclusion fairness
 Every transaction candidate submitted by users
-to the [[Ordering Machine|ordering machine]]
+to the [[A/B:Ordering Machine#asdf|ordering machine]]
 will eventually be executed (although execution may run into errors).
 The user may be required to pay inclusion fees
 to accommodate for limited bandwidth or storage.
