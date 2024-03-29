@@ -6,7 +6,7 @@ The rationale behind this information is that
 if a transaction definitely write to a set of keys,
 there is no need to wait for previous read or writes to this key.
 <!--
-handling "may write"s in the most efficient manner is actually 
+handling "may write"s in the most efficient manner is actually
 quite the challenge!
 -->
 
@@ -23,5 +23,5 @@ we can represent potentially infinite sets of keys.
 
 
 <!--
-This is *not* a message in its own right, but this type is used in the fields of other messages. 
+This is *not* a message in its own right, but this type is used in the fields of other messages.
 -->

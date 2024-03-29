@@ -21,6 +21,6 @@ The sending worker is forwarding transaction data for the purpose of storing a c
   determined by the receiving worker.
 
 ##### Triggers
-- to [Primary](../primary.md): [`WorkerHashAvailable`](../primary/worker-hash-available.md)  
-  `If` the received transaction is completing the underlying data of a received worker hash  
-  `then` send the worker hash to the primary (signaling its availability)  
+- to [Primary](../primary.md): [`WorkerHashAvailable`](../primary/worker-hash-available.md)
+  `If` the received transaction is completing the underlying data of a received worker hash
+  `then` send the worker hash to the primary (signaling its availability)

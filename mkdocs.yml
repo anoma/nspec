@@ -9,7 +9,7 @@ use_directory_urls: false
 
 nav:
   - Home: index.md
-  - Architecture 1: 
+  - Architecture 1:
     - ./architecture-1.md
     - Abstractions:
       - ./architecture-1/abstractions.md
@@ -19,9 +19,6 @@ nav:
 
   - Architecture 2:
     - ./architecture-2.md
-    - Abstractions:
-      - ./architecture-2/abstractions.md
-      - Identity: ./architecture-2/abstractions/identity.md
     - Hardware Abstraction Machine:
       - ./architecture-2/hardware-abstraction.md
       - Local Storage Engines:

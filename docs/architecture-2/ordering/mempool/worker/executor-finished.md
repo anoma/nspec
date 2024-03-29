@@ -22,7 +22,7 @@ Informs the mempool about execution of a transaction.
 <!--
 ```rust!
 struct ExecutorFinished {
-  executable_hash : Hash, // a hash of the [TransactionExecutable] should uniquely identify it without being too repetitive. 
+  executable_hash : Hash, // a hash of the [TransactionExecutable] should uniquely identify it without being too repetitive.
   timestamp : Timestamp, // the timestamp at which the transaction was executed (represents its position in the Mempool DAG)
 }
 ```
@@ -39,7 +39,7 @@ Also, it allows for compiling block data and signing their hashes as commitment.
 ## Triggers
 none
 <!--
-- to [[User]],[[Worker]]: [[ExecutionSummary]]  
+- to [[User]],[[Worker]]: [[ExecutionSummary]]
   send the user information about how the transaction was executed
   including logs, valued read and the like
 -->

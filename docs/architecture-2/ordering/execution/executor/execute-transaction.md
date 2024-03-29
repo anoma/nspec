@@ -27,7 +27,7 @@ Concurrently, when the [[Worker Engine]] sends a [[KVSAcquireLock]] to
 
 
 ## Triggers
-- {[[KVSReadRequest|KVSReadRequest]], [[KVSWrite]]}→[[Shard]]s:  
+- {[[KVSReadRequest|KVSReadRequest]], [[KVSWrite]]}→[[Shard]]s:
   In the course of evaluating the
    *executor function*,
    lazy reads are requested, and final writes are output.

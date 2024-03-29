@@ -199,7 +199,7 @@ def on_page_markdown(markdown: str, *, page: Page, config: MkDocsConfig, **_) ->
             if url_relative not in config['wikilinks_per_url']:
                 config['wikilinks_per_url'][url_relative] = set()
             config['wikilinks_per_url'][url_relative].add(link)
-            
+
     return '\n'.join(lines)
 
 

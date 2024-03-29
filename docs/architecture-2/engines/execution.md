@@ -93,7 +93,7 @@ The Execution Engine might keep a pool of Executor Processes, or spin a new one 
 ### Life of a Transaction
 
 ![Execution Architecture](/nspec/images/execution_architecture_web.svg)
- 
+
 - When the [mempool](mempool.md#mempool) stores a transaction, the execution engine assigns an executor process, using that transaction's text.
 - Once the [mempool](mempool.md#mempool) has assigned a timestamp to a transaction, it communicates that timestamp to each of the shards in the transaction's label, and establishes communication channels between the shards and teh transaction's executor process.
 Each shard then stores that timestamp in its timeline.

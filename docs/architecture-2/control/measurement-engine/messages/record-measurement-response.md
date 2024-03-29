@@ -6,7 +6,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-After added a measurement performed by an engine to the measurement database, return the result of the operation. 
+After added a measurement performed by an engine to the measurement database, return the result of the operation.
 <!-- --8<-- [end:purpose] -->
 
 ## Type

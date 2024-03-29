@@ -24,6 +24,6 @@ Once a we have enough ordering information to establish the unique write precedi
 
 #### Triggers
 
-- to [Executor](../executor.md): [`KVSRead`](../executor/KVS-read.md)  
-  `for each` locked key for which we have established a unique write value,  
+- to [Executor](../executor.md): [`KVSRead`](../executor/KVS-read.md)
+  `for each` locked key for which we have established a unique write value,
   send a `KVSRead` message to the appropriate Executor <!-- ‼ and once more capitalization .. -->

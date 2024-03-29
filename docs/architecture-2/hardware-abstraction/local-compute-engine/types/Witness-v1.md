@@ -18,4 +18,3 @@ operation satisfies the corresponding predicate.
 <!-- --8<-- [end:type] -->
 
 ## Values
-

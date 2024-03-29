@@ -3,7 +3,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-The command that expresses the retrieval, addition or other manipulation of data in the time series database. 
+The command that expresses the retrieval, addition or other manipulation of data in the time series database.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -16,4 +16,3 @@ The command that expresses the retrieval, addition or other manipulation of data
 <!-- --8<-- [end:type] -->
 
 ## Values
-

@@ -173,7 +173,7 @@ Both methods use domain membership similarity as a distance metric.
 
 <figcaption>
 
-**Engines of the Networking Machine.**  
+**Engines of the Networking Machine.**
 Octagons are engines with a single instance per node.
 Double octagons are engines with multiple instances.
 Solid arrows mark unicast message flow directions.

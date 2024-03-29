@@ -61,23 +61,23 @@ Additional user preferences can be supplied in future versions concerning
 
 ## Triggers
 <!-- new ! -->
-- [[KVSAcquireLock]]→[[Shard]], [[SpawnExecutor]] → [[Execution Supervisor]]  
+- [[KVSAcquireLock]]→[[Shard]], [[SpawnExecutor]] → [[Execution Supervisor]]
   `if` the worker has not seen this [[TransactionRequest]]
-  before (or "recently")  
-  `and` a [[TxFingerprint]] is assigned to the transaction candidate  
+  before (or "recently")
+  `and` a [[TxFingerprint]] is assigned to the transaction candidate
   `then`
   - send [[KVSAcquireLock]]-messages to the relevant [[Shard]]s
   - send [[SpawnExecutor]] to the [[Execution Supervisor]]
 
 <!--
-- to [Worker](../worker.md#worker): [`NewTransaction`](new-transaction.md)  
-  `if` storage was available and the transaction is stored  
+- to [Worker](../worker.md#worker): [`NewTransaction`](new-transaction.md)
+  `if` storage was available and the transaction is stored
   `then` send a copy of the transaction to _all_ mirror workers
-- to [Primary](../primary.md#primary): [`NewWorkerHash`](../primary/new-worker-hash.md)  
-  `if` the transaction completes a batch  
+- to [Primary](../primary.md#primary): [`NewWorkerHash`](../primary/new-worker-hash.md)
+  `if` the transaction completes a batch
   `then` send the corresponding new worker hash to the primary
-- to [Worker](../worker.md#worker): [`WorkerHashFingerPrint`](worker-hash-fingerprint.md)  
-  `if` the transaction completes a batch  
+- to [Worker](../worker.md#worker): [`WorkerHashFingerPrint`](worker-hash-fingerprint.md)
+  `if` the transaction completes a batch
   `then` send the fingerprint of the new worker hash to _all_ mirror workers
 -->
 
@@ -85,23 +85,23 @@ Additional user preferences can be supplied in future versions concerning
 
 
 <!-- TODO: move this as a response to EPID message -->
-- to [[Executor]]: [[ExecuteTransaction]]  
+- to [[Executor]]: [[ExecuteTransaction]]
     `if` the worker has not seen this [[TransactionCandidate]]
-    before (or "recently") after resubmission [^1]  
-    `and` a [[TxFingerprint]] is assigned to the transaction candidate  
+    before (or "recently") after resubmission [^1]
+    `and` a [[TxFingerprint]] is assigned to the transaction candidate
     `and` (as an optional pre-condition)
-        the worker has seen a [[KVSLockAcquired]] message for this transaction  
+        the worker has seen a [[KVSLockAcquired]] message for this transaction
     `then` spawn a new executor process and send it
         an [[ExecuteTransaction]] message
-        
+
 <!-- old version
-- to [[Executor]] : [[ExecuteTransaction]]  
-  `if` the worker has not received the same [[TransactionCandidate]] before  
+- to [[Executor]] : [[ExecuteTransaction]]
+  `if` the worker has not received the same [[TransactionCandidate]] before
   `then` the worker sends this [[TransactionCandidate]] to
   the [[Execution Engines|execution engine]] via [[ExecuteTransaction]]
   after spawning an Executor Process via the Execution Supervisor.
-- to [[User]] / [[Solver]]: [[TransactionAck]]  
-  `if` the worker has not received the same [[TransactionCandidate]] before  
+- to [[User]] / [[Solver]]: [[TransactionAck]]
+  `if` the worker has not received the same [[TransactionCandidate]] before
   `then` reply with a [[TransactionAck]]
 -->
 <!-- --8<-- [end:details] -->
@@ -111,16 +111,16 @@ Additional user preferences can be supplied in future versions concerning
 
 
 <!--
-- `NewTransaction` → Worker  
+- `NewTransaction` → Worker
   --8<-- "./worker/new-transaction.md:blurb"
 -->
 <!--
-- `WorkerHashFingerPrint` → Worker  
+- `WorkerHashFingerPrint` → Worker
   --8<-- "./worker/worker-hash-fingerprint.md:blurb"
 -->
 
 <!-- this is gone!
-- to [[Shard]]: [[BatchCompleted]]  
+- to [[Shard]]: [[BatchCompleted]]
   `if` the transaction request completes a batch
   `then` send the respective [[BatchCompleted]]
   to all relevant [[Shard|shards]]

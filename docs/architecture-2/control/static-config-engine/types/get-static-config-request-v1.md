@@ -3,7 +3,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Find a configuration by its key in the static configuration KV-store. 
+Find a configuration by its key in the static configuration KV-store.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -21,4 +21,3 @@ Find a configuration by its key in the static configuration KV-store.
 <!-- --8<-- [end:type] -->
 
 ## Values
-

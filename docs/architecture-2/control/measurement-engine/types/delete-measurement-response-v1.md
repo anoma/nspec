@@ -26,4 +26,3 @@ Response to a [[DeleteMeasurementRequestV1#deletemeasurementrequestv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
-

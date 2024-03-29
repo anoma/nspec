@@ -26,4 +26,3 @@ After adding the KV-pair to the KV-store, send a message indicating the success 
 <!-- --8<-- [end:type] -->
 
 ## Values
-

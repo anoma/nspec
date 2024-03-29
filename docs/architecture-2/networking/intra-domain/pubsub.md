@@ -93,7 +93,7 @@ which the *Router* then forwards to *PubSub* for delivery.
 --8<-- "pubsub/notifications/topic-unsubscribed.md:type"
 
 ### [[TopicAdvertReceived#topicadvertreceived]]
- 
+
 --8<-- "pubsub/notifications/topic-advert-received.md:purpose"
 
 --8<-- "pubsub/notifications/topic-advert-received.md:type"

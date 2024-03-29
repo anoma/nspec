@@ -17,4 +17,3 @@ Generate a random number or other random data.
 <!-- --8<-- [end:type] -->
 
 ## Values
-

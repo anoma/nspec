@@ -90,9 +90,9 @@ and corresponding signed storage receipts with the provided guarantees.
 <!-- --8<-- [start:fig-multicast-caption] -->
 <figcaption>
 
-**Multicast (pub/sub) message** with publisher *A_X* and subscribers *B_X, C_X, D_X* sent to topic *T*.  
-Published by node *A* and forwarded to node *B* and *C*, then from node *B* to node *D*.  
-Multicast messages are sent along edges labeled *T*,  
+**Multicast (pub/sub) message** with publisher *A_X* and subscribers *B_X, C_X, D_X* sent to topic *T*.
+Published by node *A* and forwarded to node *B* and *C*, then from node *B* to node *D*.
+Multicast messages are sent along edges labeled *T*,
 while *B, C, D* are unicast messages between PubSub engine instances.
 
 </figcaption>

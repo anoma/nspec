@@ -20,8 +20,8 @@ at the receiving worker.
 
 ##### Triggers
 - to [Primary](#Primary): [`WorkerHashAvailable`](#WorkerHashAvailable)
-  `If` the received transaction data is completing a worker hash copy / erasure coding share  
-  `then` notify the primary that the respective worker hash is available  
+  `If` the received transaction data is completing a worker hash copy / erasure coding share
+  `then` notify the primary that the respective worker hash is available
 - to ["execution"](#execution)
   `If` {TODO get this sorted} conditions to be figured out 😅
   `then` notify the relevant shards that they will get tx data from this worker (if they want?)

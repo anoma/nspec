@@ -26,4 +26,3 @@ Response to a [[DeleteDynamicConfigRequestV1#deletedynamicconfigrequestv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
-

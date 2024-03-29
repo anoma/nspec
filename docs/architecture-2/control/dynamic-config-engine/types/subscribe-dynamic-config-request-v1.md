@@ -22,4 +22,3 @@ Subscribe to a dynamic configuration key in the dynamic configuration KV-store t
 <!-- --8<-- [end:type] -->
 
 ## Values
-

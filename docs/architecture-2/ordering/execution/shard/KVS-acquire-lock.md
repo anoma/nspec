@@ -18,7 +18,7 @@ Inform the shard about keys that a transaction may/will read and/or
 | `may_write_keys`  | [[KVSKey]] set| Keys this transaction _may_ write. Future reads are dependent on the [[KVSWrite]] for this [[TxFingerprint]], or, if that has a `None`, the previous value.|
 | `curator`| [[ExternalIdentity]] | the [[Worker Engine]] in charge of the corresponding transactions     |
 | `executor`| [[ExternalIdentity]] | the [[Executor|Executor]] for this [[TransactionCandidate]]|
-| `timestamp`| [[TxFingerprint]] | specifies the transaction affiliated with these locks. 
+| `timestamp`| [[TxFingerprint]] | specifies the transaction affiliated with these locks.
 
 
 The `lazy_read_keys` and `eager_read_keys` may not overlap.
@@ -29,13 +29,13 @@ There must be one `KVSAcquireLock` per [[Shard]]
  all information is to be provided in totality or not at all.[^1]
 
 Note that future versions may use some kind of structured `Key`s to
- encode "Sets" containing infinitely many `Key`s. 
-For V1, however, simple HashSets or similar are fine. 
+ encode "Sets" containing infinitely many `Key`s.
+For V1, however, simple HashSets or similar are fine.
 
 ## Effects
 
 - The [[Shard]] stores the respective "locks" for all keys in its timeline.
-  - these are the "markers" described in [[Shard]] State. 
+  - these are the "markers" described in [[Shard]] State.
 - The `eager_read_keys` will be served as soon as possible
   (by sending `KVSRead`-messages to the [[Executor|executor]]).
 - The [[Shard]] immediately informs the [[Worker Engine|curator]] that
@@ -44,12 +44,12 @@ For V1, however, simple HashSets or similar are fine.
 
 ## Triggers
 
-- _to_ [[Worker Engine]]: [[KVSLockAcquired]]  
+- _to_ [[Worker Engine]]: [[KVSLockAcquired]]
   send a [[KVSLockAcquired]] message to the [[Worker Engine|curator]],
-      signaling that the locks of this message will be accounted for.  
-- to [[Executor|executor]]:  [[KVSRead]]  
+      signaling that the locks of this message will be accounted for.
+- to [[Executor|executor]]:  [[KVSRead]]
   `for each` recorded `eager_read_key` in this shard's timeline
-  for which the most recent written value is established: 
+  for which the most recent written value is established:
   send a [[KVSRead]] message to the [[Executor|Executor]].
 
 [^1]: Note that transaction requests come with all this information
