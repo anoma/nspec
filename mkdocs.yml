@@ -524,9 +524,10 @@ plugins:
 
 
 hooks:
-- helpers/make_alias.py
-- hooks.py
-- helpers/better_snippets.py
+- hooks/links.py
+- hooks/differ.py
+- hooks/juvix.py
+- hooks/better_snippets.py
 
 watch:
   - formal/SML

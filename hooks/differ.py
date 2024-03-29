@@ -19,18 +19,16 @@ from mkdocs.structure.files import Files
 
 log: logging.Logger = logging.getLogger('mkdocs')
 
-ROOT_DIR: Path = Path(__file__).parent.absolute()
+ROOT_DIR: Path = Path(__file__).parent.parent.absolute()
 DOCS_DIR: Path = ROOT_DIR.joinpath("docs")
 
-DOTJUVIXMKDOCS_DIR: Path = ROOT_DIR.joinpath(".juvix-mkdocs")
-DOTJUVIXMKDOCS_DIR.mkdir(parents=True, exist_ok=True)
-
-HASH_DIR: Path = DOTJUVIXMKDOCS_DIR.joinpath(".hash")
-HASH_DIR.mkdir(parents=True, exist_ok=True)
+CACHE_HOOKS: Path = ROOT_DIR.joinpath(".hooks")
+CACHE_HOOKS.mkdir(parents=True, exist_ok=True)
 
 DIFF_BIN: str = os.environ.get("DIFF_BIN", "diff")
 DIFF_AVAILABLE = shutil.which(DIFF_BIN) is not None
-DIFF_DIR = DOTJUVIXMKDOCS_DIR.joinpath(".diff")
+
+DIFF_DIR = CACHE_HOOKS.joinpath(".diff")
 DIFF_DIR.mkdir(parents=True, exist_ok=True)
 DIFF_OPTIONS = ["--unified", "--new-file", "--text"]
 

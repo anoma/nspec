@@ -21,7 +21,7 @@ log: logging.Logger = logging.getLogger('mkdocs')
 INDEXES_DIR = Path('docs/indexes')
 INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 
-ROOT_DIR = Path(__file__).parent.parent
+ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / 'docs'
 
 """ Example of a wikilink:
@@ -158,8 +158,25 @@ def on_page_markdown(markdown: str, *, page: Page, config: MkDocsConfig, **_) ->
     current_page = page
     url_relative = DOCS_DIR / Path(current_page.url.replace('.html', '.md'))
 
+    # The processing of wikilinks is done in a line-by-line basis and only for
+    # documments found in the navigation structure.
+    if ("./" + current_page.url.replace(".html", ".md")) not in config['url_alias']:
+        log.warning(f"{current_page.url} is not defined in the navigation.")
+        log.warning(f"with {url_relative}.")
+        return markdown
+
     lines = markdown.split('\n')
+    in_code_block = False
+    in_html_comment = False
     for i, line in enumerate(lines.copy()):
+        if line.strip().startswith('```'):
+            in_code_block = not in_code_block
+        if '<!--' in line:
+            in_html_comment = True
+        if '-->' in line:
+            in_html_comment = False
+        if in_code_block or in_html_comment:
+            continue
         matches = WIKILINK_PATTERN.finditer(line)
         for match in matches:
             link = WikiLink(page=match.group('page'), hint=match.group('hint'), anchor=match.group('anchor'),
@@ -170,7 +187,8 @@ def on_page_markdown(markdown: str, *, page: Page, config: MkDocsConfig, **_) ->
                 log.warning(f"{link} at '{ocurrence}' is not defined in the navigation.")
             else:
                 if len(config['alias_url'][link.page]) > 1:
-                    log.error(f"{link} at '{ocurrence}' is ambiguous. It could be any of {config['alias_url'][link.page]}. Please add a path hint where the page is, e.g. [[A/B:page#anchor|text]].")
+                    possible_pages = ", ".join(config['alias_url'][link.page])
+                    log.error(f"{link} at '{ocurrence}' is ambiguous. It could refer to any of the following pages: {possible_pages}. Please add a path hint to disambiguate, e.g. [[folderA/subfolderB:page#anchor|display text]].")
                 if len(config['alias_url'][link.page]) == 1:
                     path = config['alias_url'][link.page][0]
                     md_link = link.to_markdown(path)
@@ -181,9 +199,9 @@ def on_page_markdown(markdown: str, *, page: Page, config: MkDocsConfig, **_) ->
             if url_relative not in config['wikilinks_per_url']:
                 config['wikilinks_per_url'][url_relative] = set()
             config['wikilinks_per_url'][url_relative].add(link)
+            
     return '\n'.join(lines)
 
-    # if current_page.file.src_path.endswith('dynamic-config-changed.md'):
 
 
 # def on_files(files: Files, config: MkDocsConfig) -> None:
