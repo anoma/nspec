@@ -9,7 +9,7 @@ Requests that the Mempool check whether this Proposal is valid.
 ##### Structure
 | Field | Type | Description |
 |-------|------|-------------|
-| `chain_id` | [`ChainId`](../../types/allofthem-v1.md#chainid) | the chain id |
+| `chain_id` | [`ChainId`](../../types/allofthem.md#chainid) | the chain id |
 | `payload`  | [`HeaderFingerprint`](#HeaderFingerprint) | the fingerprint of the block |
 
 ##### Effects

@@ -2,12 +2,7 @@
 
 import logging
 import os
-from pathlib import Path
-from typing import Any, Callable, List, Optional, Tuple
-
 from mkdocs.config.defaults import MkDocsConfig
-from mkdocs.structure.files import Files
-from mkdocs.structure.pages import Page
 
 log: logging.Logger = logging.getLogger('mkdocs')
 
