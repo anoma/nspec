@@ -21,7 +21,7 @@ Depending on the protocol, the updated value could require an action from a subs
 
   *The updated dynamic configuration value the subscriber is subscribed to.*
 
-- `Epoch Timestamp`: [[A/B:EpochTimestampV1#epochtimestampv1| the epoch time of the moment the value was changed.]]
+- `Epoch Timestamp`: [[EpochTimestampV1#epochtimestampv1| the epoch time of the moment the value was changed.]]
 
   *The epoch time of the moment the value was changed.*
 - 

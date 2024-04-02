@@ -523,7 +523,6 @@ plugins:
       bib_file: "art.bib"
       
 hooks:
-# - hooks/better_snippets.py
 # - hooks/test.py
 - hooks/links.py
 # - hooks/differ.py

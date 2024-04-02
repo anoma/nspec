@@ -44,7 +44,6 @@ WIKILINK_PATTERN = re.compile(r"""
 \]\]
 """, re.VERBOSE)
 
-
 class Ocurrence:
     path: str
     line: int
@@ -90,14 +89,14 @@ class WikiLink:
         return f"[{self.display or self.page}]({md_path}{f'#{self.anchor}' if self.anchor else ''})"
 
 
-def on_config(config: MkDocsConfig, **kwargs):
+def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
     if 'pymdownx.snippets' in config['markdown_extensions']:
         config['markdown_extensions'].remove('pymdownx.snippets')
     config.markdown_extensions.append(WLExtension(config))
     return config
 
 
-def on_pre_build(config: MkDocsConfig):
+def on_pre_build(config: MkDocsConfig) -> None:
     if not Path(INDEXES_DIR / 'aliases.md').exists():
         with open(INDEXES_DIR / 'aliases.md', 'w') as f:
             f.write("# Aliases\n\n")
@@ -247,62 +246,7 @@ def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -
         # the page is not linked in the navigation, on purpose.
         log.debug(f"""{md_path} is not linked in the navigation.""")
     return markdown
-#     if "ordering-v1" in md_path:
-#         print(markdown)
-#         exit()
-
-#     lines = markdown.split('\n')
-
-#     in_code_block = False
-#     in_html_comment = False
-#     in_script = False
-#     in_div = False
-
-#     for i, line in enumerate(lines.copy()):
-#         if line.strip().startswith('```'):
-#             in_code_block = not in_code_block
-#         if '<!--' in line:
-#             in_html_comment = True
-#         if '-->' in line:
-#             in_html_comment = False
-#         if '<script' in line:
-#             in_script = True
-#         if '</script>' in line:
-#             in_script = False
-#         if '<div' in line:
-#             in_div = True
-#         if '</div>' in line:
-#             in_div = False
-#         if in_code_block or in_html_comment or in_script or in_div:
-#             continue
-#         matches = WIKILINK_PATTERN.finditer(line)
-
-#         for match in matches:
-#             link = WikiLink(page=match.group('page'), hint=match.group('hint'), anchor=match.group('anchor'),
-#                             display=match.group('display'))
-#             ocurrence = Ocurrence(url_relative.as_posix(),
-#                                   i + 1, match.start() + 2)
-
-#             if not link.page in config['url_for']:
-#                 # log.info(f"{ocurrence}\n'{link.text}'does target a non-existing page.")
-#                 lines[i] = lines[i].replace(match.group(0),
-#                                             link.text)
-#                 config['wikilinks_issues'] += 1
-
-#             elif len(config['url_for'][link.page]) > 1:
-
-#                 possible_pages = "\n- ".join(config['url_for'][link.page])
-
-#                 log.warning(f"""{link.text} at '{ocurrence}' is ambiguous. It could refer to any of the following pages:\n{possible_pages}\n
-#                 Please add a path hint to disambiguate, e.g. [[folderA/subfolderB:page#anchor|display text]].""")
-#                 config['wikilinks_issues'] += 1
-
-#             elif len(config['url_for'][link.page]) == 1:
-#                 path = config['url_for'][link.page][0]
-#                 md_link = link.to_markdown(path)
-#                 lines[i] = lines[i].replace(match.group(0), md_link)
-#     return '\n'.join(lines)
-
+    
 # ------------------------------------------------------------------------------
 # Helper functions
 
@@ -331,7 +275,6 @@ def _get_page_title(page_src: str, meta_data: dict) -> Optional[str]:
         if 'title' in meta_data and isinstance(meta_data['title'], str)
         else get_markdown_title(page_src)
     )
-
 
 def _get_alias_names(meta_data: dict):
     """Returns the list of configured alias names."""
