@@ -3,7 +3,7 @@
 ## Purpose
 <!-- --8<-- [start:purpose] -->
 Indicates whether an operation performed by [[Local Key-Value Storage Engine#local-key-value-storage-engine]]
-was executed successfully or not.
+was executed successfully or not. 
 
 <!-- --8<-- [end:purpose] -->
 
@@ -20,5 +20,5 @@ was executed successfully or not.
 ## Values
 
 Boolean value where:
-- `1`: Operation was successful.
+- `1`: Operation was successful. 
 - `0`: Operation was unsuccessful.

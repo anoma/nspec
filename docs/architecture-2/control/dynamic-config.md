@@ -7,7 +7,7 @@
 
 <!-- --8<-- [start:purpose] -->
 The *Dynamic Configuration Engine* stores dynamic configurations of the engines and notifies them about configuration changes.
-Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* allows engines to modify the configuration at runtime.
+Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* allows engines to modify the configuration at runtime. 
 <!-- --8<-- [end:purpose] -->
 
 ## State

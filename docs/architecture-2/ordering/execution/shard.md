@@ -12,7 +12,7 @@ For V1, we assume there is only a single shard.
 <!-- NOT RELEVANT FOR V1:
     ---
     Different shards may be on different physical machines.
-    (‼ in fact, machine ideally should always be distributable,
+    (‼ in fact, machine ideally should always be distributable, 
     so we can save on all of these different physcial machine explanations in
     the operational spec)
     Redistributing state between shards is called *Re-Sharding*.
@@ -58,8 +58,8 @@ For each [[Worker Engine|Worker Engine]], the Shard maintains:
    [[Worker Engine|Worker Engine]].
   For [[WorkerEngine]], this cannot be *after* the corresponding
    *write* [[TxFingerprint|timestamp]].
-  We will also maintain these from each Read Backend worker.
-  Together, these represent `heardAllReads`.
+  We will also maintain these from each Read Backend worker. 
+  Together, these represent `heardAllReads`. 
 -->
 For each [key](../execution.md#state) (assigned to this Shard):
 - A set of [[TxFingerprint|time‍stamps]] of known
@@ -69,7 +69,7 @@ For each [key](../execution.md#state) (assigned to this Shard):
      by that [[TransactionCandidate]] using a [[KVSWrite]] message
   - A marker indicating that this [[TransactionCandidate]] may
      (or will) write to this key, but this Shard has not yet received
-     a corresponding [[KVSWrite]] message.
+     a corresponding [[KVSWrite]] message. 
   - A marker indicating that this [[TransactionCandidate]] *will* read
      this value, and an [[ExternalIdentity]] corresponding to the
      relevant [[Executor]].
@@ -84,23 +84,23 @@ For each [key](../execution.md#state) (assigned to this Shard):
      Shard updates this marker to a "*will* read" marker.
 <!-- not relevant for V1
 - If a [[TxFingerprint|time‍stamps]] has no corresponding markers or
-   values written, we don't have to store it.
+   values written, we don't have to store it. 
 - If a value written is before `heardAllReads`, and there are no pending
    reads or writes before it, then we can remove all *earlier* values
-   written.
+   written. 
 Additionally, the Shard maintains:
 - A complete copy of the DAG structure produced by the
-   [[Mempool Engines]].
+   [[Mempool Engines]]. 
   This includes a set of all [[NarwhalBlockHeader]]s.
   For [[TxFingerprint|time‍stamps]] before `SeenAllRead`, if there are
    no keys with a pending read or write before that
-   [[TxFingerprint|timestamp]], we can delete old DAG structure.
+   [[TxFingerprint|timestamp]], we can delete old DAG structure. 
 - In versions > V1, a complete copy of the sequence of Anchors chosen
    by [[Consensus Engine]].
   This is a sequence of consensus decisions.
   For [[TxFingerprint|time‍stamps]] before `heardAllReads`, if there are
    no keys with a pending read or write before that
-   [[TxFingerprint|timestamp]], we can delete old anchors.
+   [[TxFingerprint|timestamp]], we can delete old anchors. 
 -->
 
 ## Shard Optimizations
@@ -111,7 +111,7 @@ We want to *execute* each [[TransactionCandidate]] (evaluate the
     https://en.wikipedia.org/wiki/Serializability):
  each [[TransactionCandidate]]'s reads and writes should be *as if*
  they were executed in the total order determined by
-  the [[Mempool Engines|mempool]] (and
+  the [[Mempool Engines|mempool]] (and 
   [[Consensus Engine|consensus]], from V2 onward).
 In fact, the simplest correct implementation amounts to executing all
  [[TransactionCandidate|transaction candidates]] sequentially, repeatedly applying the
@@ -204,15 +204,15 @@ In order to know which write happens most recently before a given
  `heardAllWrites`.
 The Shard is guaranteed to never receive another [[KVSAcquireLock]]
  with a write operation and
-  [[TxFingerprint|a timestamp]] before  `heardAllWrites`.
-In general, a Shard cannot send a [[KVSRead]] for
+  [[TxFingerprint|a timestamp]] before  `heardAllWrites`. 
+In general, a Shard cannot send a [[KVSRead]] for 
  [[TxFingerprint|a timestamp]] unless
-  [[TxFingerprint|the timestamp]] is before `heardAllWrites`.
-For V1, `heardAllWrites` consists of a [[TxFingerprint]] from the
+  [[TxFingerprint|the timestamp]] is before `heardAllWrites`. 
+For V1, `heardAllWrites` consists of a [[TxFingerprint]] from the 
  [[Worker Engine|sole worker engine]] such that [[Worker Engine|the worker engine]] is certain
  (based on [[KVSLockAcquired]]s) that the Shard has already seen all
  the [[KVSAcquireLock]]s it will ever send at or before that
- [[TxFingerprint]].
+ [[TxFingerprint]]. 
 
 <!-- the rest of this is not relevant for V1
 

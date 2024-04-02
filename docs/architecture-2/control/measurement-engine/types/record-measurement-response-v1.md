@@ -27,3 +27,4 @@ Response to a [[RecordMeasurementRequestV1#recordmeasurementrequestv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

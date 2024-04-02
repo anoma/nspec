@@ -13,7 +13,7 @@ search:
 
 !!! warning
 
-    This documentation website is under heavy development. The content is incomplete and may be inaccurate. Please refer to the [Anoma Foundation](https://anoma.net) for
+    This documentation website is under heavy development. The content is incomplete and may be inaccurate. Please refer to the [Anoma Foundation](https://anoma.net) for 
     the most up-to-date information.
 
 Anoma is a privacy-preserving, distributed, trust-aware operating system. Like a

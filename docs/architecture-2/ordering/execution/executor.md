@@ -15,7 +15,7 @@ To quickly understand what an Executor does,
 let us look at the life of a transaction within the Execution Engine.
 
 ![Execution Architecture](/nspec/images/execution_architecture_web.svg)
-
+ 
 - When the [[Mempool Engines|mempool]] stores a transaction,
   the execution engine assigns an executor process,
   using that transaction's text. <! FIXME 'text' is executable ?  >
@@ -65,3 +65,6 @@ here are all the messages the Executor needs to be able to receive.
 
 --8<-- "executor/KVS-read.md:blurb "
 --8<-- "executor/KVS-read.md:details "
+
+
+

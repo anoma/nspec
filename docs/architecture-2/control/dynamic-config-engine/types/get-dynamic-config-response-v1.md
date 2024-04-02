@@ -25,3 +25,4 @@ Response to a [[GetDynamicConfigRequestV1#getdynamicconfigrequestv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

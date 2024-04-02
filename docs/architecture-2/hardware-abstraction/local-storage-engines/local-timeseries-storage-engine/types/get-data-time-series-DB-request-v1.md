@@ -22,3 +22,4 @@ Retrieve the queried time series data.
 <!-- --8<-- [end:type] -->
 
 ## Values
+

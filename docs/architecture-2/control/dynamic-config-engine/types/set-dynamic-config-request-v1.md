@@ -16,7 +16,7 @@ Add a dynamic configuration to the dynamic configuration KV-store by inserting i
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]
 
   *The key that of the dynamic configuration value that is going to be added to the dynamic configuration KV-store.*
--
+- 
 - `Config Value`: [[ConfigurationValueV1#configurationvaluev1]]
 
   *The requested dynamic configuration value.*
@@ -25,3 +25,4 @@ Add a dynamic configuration to the dynamic configuration KV-store by inserting i
 <!-- --8<-- [end:type] -->
 
 ## Values
+

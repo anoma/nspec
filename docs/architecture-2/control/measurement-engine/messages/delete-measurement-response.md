@@ -27,7 +27,7 @@ Response to a [[DeleteMeasurementRequest#deletemeasurementrequest]].
 ## Behavior
 
 <!-- --8<-- [start:behavior] -->
-Responds with a message, indicating that the removal operation succeeded or failed.
+Responds with a message, indicating that the removal operation succeeded or failed. 
 <!-- --8<-- [end:behavior] -->
 
 

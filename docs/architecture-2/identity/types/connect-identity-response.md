@@ -23,7 +23,7 @@ A `ConnectIdentityResponse` provides the handles to decryption and commitment en
 
   *Reference to newly instantiated commitment engine*
 - `decryptionEngine`: Maybe<[[EngineId]]>
-
+  
   *Reference to newly instantiated commitment engine*
 - `error`: *Maybe<string>*
 

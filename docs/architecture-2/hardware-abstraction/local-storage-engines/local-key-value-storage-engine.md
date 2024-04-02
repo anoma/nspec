@@ -5,7 +5,7 @@
 
 ## Purpose
 
-The *Local Key-Value Storage Engine* provides the local storage and retrieval of data in a key-value format.
+The *Local Key-Value Storage Engine* provides the local storage and retrieval of data in a key-value format. 
 
 ## State
 

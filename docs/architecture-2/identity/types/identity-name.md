@@ -3,8 +3,8 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Serves as an alias for an [[ExternalIdentity]] in anoma.
-This is useful when we do not yet have the (cryptographic) specifics for an identity, but we want to refer to it anyway.
+Serves as an alias for an [[ExternalIdentity]] in anoma. 
+This is useful when we do not yet have the (cryptographic) specifics for an identity, but we want to refer to it anyway. 
 These are resolved by the [[Name Engine]].
 
 This _implements_ the [Identity Name Abstraction from architecture-1](../../../architecture-1/abstractions/identity.md#identity-names).

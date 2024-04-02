@@ -18,7 +18,7 @@ Furthermore, partial order information can suffice to start concurrent
 (such as sending messages to a user or solver)
 perform those effects from the [[Executor]] process within the [[Execution Engines]].
 
-In V1, following each state update, the [[Mempool Engines|mempool]]'s [[Worker Engine]] is informed, so that it can garbage collect information and log results.
+In V1, following each state update, the [[Mempool Engines|mempool]]'s [[Worker Engine]] is informed, so that it can garbage collect information and log results. 
 
 <!-- Tobias: mention update of learner graph, here or elsewhere? -->
 
@@ -61,7 +61,7 @@ All state reads outside of Transaction Candidates (including for backups,
 -->
 In specifying the [[Execution Engines]],
 we abstract over the contents of the state machine,
-or exactly what has to be done to update it given a [[TransactionCandidate]].
+or exactly what has to be done to update it given a [[TransactionCandidate]]. 
 The state of Anoma's state machine will contain
 [[Resource| Resources]], [[Nullifier|Nullifiers]],
 and [[Commitment|Commitments]],
@@ -78,13 +78,13 @@ a single validator that is maintaining a single state machine.
 V1 does not include any kind of garbage collection or deletion of old state.
 
 <!-- Each Validator maintains its own Execution Engine group for each chain it maintains (for chimera chains, it maintains 1 execution engine group per [[Base Chain|base chain]]).
-These are complete replicas of the state machine, with complete replication of Transaction Candidate execution.
-Future optimizations may allow for distributed proofs of various kinds allowing some validators to skip some of the execution.
+These are complete replicas of the state machine, with complete replication of Transaction Candidate execution. 
+Future optimizations may allow for distributed proofs of various kinds allowing some validators to skip some of the execution. 
 
 We do, however, allow for checkpointing:
-By performing a full-state read from a weak quorum of validators, a validator can learn the complete state of the state machine at a particular timestamp (for V1, this is a [[TxFingerprint]]), and then compute all the Transaction Candidates thereafter.
-It should not have to compute from genesis.
-No one should need to store a complete history of all Transaction Candidates or past state values.
+By performing a full-state read from a weak quorum of validators, a validator can learn the complete state of the state machine at a particular timestamp (for V1, this is a [[TxFingerprint]]), and then compute all the Transaction Candidates thereafter. 
+It should not have to compute from genesis. 
+No one should need to store a complete history of all Transaction Candidates or past state values. 
 -->
 
 ## Functionality
@@ -223,7 +223,7 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
 
 ## Engines Overview
 
-<!-- {TODO: adapt}
+<!-- {TODO: adapt} 
 ![Execution Architecture](execution/rough_execution_engine_message_passing_web.svg)
 -->
 
@@ -231,7 +231,7 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
 [[Shard|Shards]] store and update the state of the RSM.
 Different shards may be on different machines.[^8]
 Within a Validator, Keys are partitioned across the
- [[Shard|Shards]] for load-balancing.
+ [[Shard|Shards]] for load-balancing. 
 Redistributing state between [[Shard|Shards]] is called *re-sharding*.
 For V1, we assume there will be no re-sharding.
 
@@ -291,7 +291,7 @@ To save on communication costs,
 For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
  through the [[Mempool Engines|mempool]].
 
-<!--
+<!-- 
 ## Life of a Transaction
 
 ![Execution Architecture](/nspec/images/execution_architecture_web.svg)
@@ -371,7 +371,7 @@ For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
 
 [^7]: Recall that we may known what this state is as soon as
     all _relevant_ previous transactions are executed,
-    i.e., those that may have an effect on the keys read.
+    i.e., those that may have an effect on the keys read. 
 
 [^8]: For V2, the number of shards may be variable
     and the challenge of re-sharding needs to be addressed.

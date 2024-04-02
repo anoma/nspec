@@ -6,7 +6,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Get the queried time series data and return it.
+Get the queried time series data and return it. 
 <!-- --8<-- [end:purpose] -->
 
 ## Type

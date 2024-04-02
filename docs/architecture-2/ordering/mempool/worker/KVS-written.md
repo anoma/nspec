@@ -11,3 +11,4 @@ executed TxFingerprint.
 | fingerprint | TxFingerprint | the transaction that finished execution |
 | `values`    | `Key`⇀bytes   | a map of  values written                |
 | `executor`  | ID-set        | the (set) of executors involved         |
+

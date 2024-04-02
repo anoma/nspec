@@ -23,3 +23,4 @@ Response to a [[LocalWallClockGetTimeV1#localwallclockgettimev1]]
 <!-- --8<-- [end:type] -->
 
 ## Values
+

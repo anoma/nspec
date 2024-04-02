@@ -7,8 +7,8 @@
 
 <!-- --8<-- [start:purpose] -->
 The *Measurement Engine* stores measurements submitted by engines associated with timestamps.
-These measurements could be used by various protocols.
-For example, the Networking Machine could use latency measurements to make routing decisions.
+These measurements could be used by various protocols. 
+For example, the Networking Machine could use latency measurements to make routing decisions. 
 <!-- --8<-- [end:purpose] -->
 
 ## State
@@ -50,3 +50,4 @@ sequenceDiagram
 <!-- --8<-- [end:messages] -->
 
 </div>
+

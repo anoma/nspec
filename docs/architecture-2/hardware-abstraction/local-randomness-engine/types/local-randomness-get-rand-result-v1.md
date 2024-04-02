@@ -22,3 +22,4 @@ Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

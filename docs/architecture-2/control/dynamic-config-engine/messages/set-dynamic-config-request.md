@@ -7,7 +7,7 @@
 
 <!-- --8<-- [start:purpose] -->
 Add a dynamic configuration by adding its key and the corresponding value to the dynamic configuration KV-store.
-If the key already exists, override the value.
+If the key already exists, override the value. 
 <!-- --8<-- [end:purpose] -->
 
 ## Type

@@ -22,7 +22,7 @@ A new Executor instance is spawned or (a finished Executor is reused).
 
 ## Triggers
 
-- [[ExecutorPIDAssigned]]→[[Worker Engine|Worker]]:
+- [[ExecutorPIDAssigned]]→[[Worker Engine|Worker]]:  
   send [[ExecutorPIDAssigned]] to the worker that sent the message
 
 <!-- --8<-- [end:details] -->

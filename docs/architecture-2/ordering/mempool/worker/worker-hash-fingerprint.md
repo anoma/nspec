@@ -4,7 +4,7 @@
 ## Purpose
 <!-- --8<-- [start:blurb] -->
 The sending worker announces the completion of a worker hash so that the receiving worker can calculate a worker hash from the transaction data (that is being send independently).
-<!-- --8<-- [end:blurb] -->
+<!-- --8<-- [end:blurb] --> 
 
 The worker hash subsequently is to be sent to the primary.
 
@@ -23,5 +23,5 @@ Transaction data is sent independently.
   after receiving (and storing) the relevant transaction data.
 
 ## Triggers
-- to [Primary](../primary.md): [`WorkerHashAvailable`](../primary/worker-hash-available.md)
-  `always` send the computed worker hash to the primary (signaling availability)
+- to [Primary](../primary.md): [`WorkerHashAvailable`](../primary/worker-hash-available.md)  
+  `always` send the computed worker hash to the primary (signaling availability)  

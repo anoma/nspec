@@ -7,8 +7,8 @@
 
 <!-- --8<-- [start:purpose] -->
 
-The *Local Compute Engine* performs computational search tasks locally on the physical machine the Anoma node is running.
-It abstracts away the details of the underlying hardware and
+The *Local Compute Engine* performs computational search tasks locally on the physical machine the Anoma node is running. 
+It abstracts away the details of the underlying hardware and 
 provides an interface for executing complex computational search tasks effectively.
 
 <!-- --8<-- [end:purpose] -->

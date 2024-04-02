@@ -6,7 +6,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Response to a [[LocalWallClockGetTime#localwallclockgettime]] request.
+Response to a [[LocalWallClockGetTime#localwallclockgettime]] request. 
 <!-- --8<-- [end:purpose] -->
 
 ## Type

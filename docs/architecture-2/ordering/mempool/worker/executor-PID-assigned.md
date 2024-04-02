@@ -21,7 +21,7 @@ available executor engine instance.
 The receiving worker can request the eager reads and start the execution.
 
 ## Triggers
-- [[executetransaction|ExecuteTransaction]]→[[executor|Executor]], [[KVSReadRequest]]→[[Shard]]s:
+- [[executetransaction|ExecuteTransaction]]→[[executor|Executor]], [[KVSReadRequest]]→[[Shard]]s:  
   for the next transaction to be executed,
   the worker sends
   - the [[executetransaction|ExecuteTransaction]]-message to the executor

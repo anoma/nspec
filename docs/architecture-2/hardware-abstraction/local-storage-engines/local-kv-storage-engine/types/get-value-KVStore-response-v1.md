@@ -3,7 +3,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
+Return the value corresponding to [[StorageKeyV1#storagekeyv1]]. 
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -26,3 +26,4 @@ Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

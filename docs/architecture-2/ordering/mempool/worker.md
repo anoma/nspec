@@ -123,14 +123,14 @@ There is no precise state representation described by the V1 specs.
 <!--
 ## [`NewTransaction`](worker/new-transaction.md)
 from Worker may trigger:
-- `WorkerHashAvailable` → Primary
+- `WorkerHashAvailable` → Primary  
   --8<-- "./primary/worker-hash-available.md:blurb"
 -->
 
 <!--
 ## [`WorkerHashFingerprint`](worker/worker-hash-fingerprint.md)
 from Worker may trigger:
-- `WorkerHashAvailable` → Primary
+- `WorkerHashAvailable` → Primary  
   --8<-- "./primary/worker-hash-available.md:blurb"
 -->
 

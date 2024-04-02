@@ -26,14 +26,18 @@ which leads to different signatures different for integrity only and combined co
 - This might complete the validity check of a proposal that was received by consensus.
 
 ## Triggers
-- to [[Primary Engine|primaries]]: [[AvailabilityCertified]]
+- to [[Primary Engine|primaries]]: [[AvailabilityCertified]]  
   `if`
-  the received signature completes the availability certificate of the header vertex
+  the received signature completes the availability certificate of the header vertex  
   `then`
   the certificate is formed and broadcast to all (relevant) primaries
-- to [Primary](../primary.md): [`IntegrityCertificate`](./integrity-certificate.md)
-  `if` the received signature completes some integrity certificate of the header vertex
+- to [Primary](../primary.md): [`IntegrityCertificate`](./integrity-certificate.md)  
+  `if` the received signature completes some integrity certificate of the header vertex  
   `then` send each of the completed integrity certificates to all relevant validators
-- to [Consensus](../../consensus-v1.md): [`PotentialProposal`](../../consensus/potential-proposal.md)
-  `if` there is a pending request for a proposal
-  `then` sent the new block as the best candidate for a proposal.
+- to [Consensus](../../consensus-v1.md): [`PotentialProposal`](../../consensus/potential-proposal.md)  
+  `if` there is a pending request for a proposal  
+  `then` sent the new block as the best candidate for a proposal.  
+
+
+
+

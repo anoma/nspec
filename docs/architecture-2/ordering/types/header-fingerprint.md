@@ -9,3 +9,4 @@ using easily available information.
 | `height`    | natural number         | the height in the header chain of the same primary                                      |
 | `batches`   | [[WHFingerprint]] list | a list of worker hash fingerprints, referencing a list of batches                       |
 | `cert_hash` | [[Hash]]               | the hash of the availability certificate of the previous header (unless at height zero) |
+

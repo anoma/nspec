@@ -28,7 +28,7 @@ Return the value from the search operation which is triggered by a
 ## Behavior
 
 <!-- --8<-- [start:behavior] -->
-Returns the value from the search operation which is triggered by a
+Returns the value from the search operation which is triggered by a 
 [[GetValueKVStoreRequest#getvaluekvstorerequest]].
 
 <!-- --8<-- [end:behavior] -->

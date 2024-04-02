@@ -22,7 +22,8 @@ Request the log of a finished execution.
 none
 
 ## Triggers
-- to [[User|User]], [[Solver|Solver]]: [[SendLog]]
+- to [[User|User]], [[Solver|Solver]]: [[SendLog]]  
   Answer the request with the data requested.
 
 <!-- --8<-- [end:details] -->
+

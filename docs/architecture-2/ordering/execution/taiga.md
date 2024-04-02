@@ -16,7 +16,7 @@ Taiga was heavily inspired by [Zcash Orchard](https://github.com/zcash/zips/blob
 
 ## Functions provided by Taiga
 
-- **create a transaction:** users create initial transactions to announce what they offer and request, including constraints. These transactions are sent to the intent gossip network to be matched with other transactions. Solvers create transactions to match the intents of the users.
+- **create a transaction:** users create initial transactions to announce what they offer and request, including constraints. These transactions are sent to the intent gossip network to be matched with other transactions. Solvers create transactions to match the intents of the users. 
 - **verify a transaction:** each transaction contains proofs attesting to its correctness. When a solver receives transactions from the intent gossip network, they must verify the proofs.
 - **compose transactions:** solvers combine transactions to build a balanced transaction that satisfies the intents of the involved parties.
 
@@ -186,7 +186,7 @@ Private inputs ($w$):
 - $tag$ that identifies the resource for which the resource logic is being checked
 - custom private inputs
 
-Each resource logic has a fixed number of public inputs and unlimited amount of private inputs. Currently, the allowed number of public inputs is limited to $25$.
+Each resource logic has a fixed number of public inputs and unlimited amount of private inputs. Currently, the allowed number of public inputs is limited to $25$. 
 
 #### Checks
 As the resource plaintexts are private inputs, to make sure that resources that the circuit received indeed the ones that correspond to the public parameters, every RL circuit must check:
@@ -213,7 +213,7 @@ The check is done in two steps:
 1. The Compliance circuit checks that the RL commitment $cm_{l}$ is derived with the $l$ the resource refers to:
 $cm_{l} = RLCommit(l, rcm_{l})$
 2. The verifier circuit checks that the RL commitment is computed using the $vk_{logic}$ that is used to validate the RL proof:
-$cm_{l} = RLCommit(VKCommit(vk_{logic}), rcm_{l}) (l = VKCommit(vk_{logic}))$
+$cm_{l} = RLCommit(VKCommit(vk_{logic}), rcm_{l}) (l = VKCommit(vk_{logic}))$ 
 
 > $VKCommit$ is not implemented yet and currently $l = Blake2b(vk_{logic})$
 
@@ -227,7 +227,7 @@ TBD: Halo2 accumulation
 
 #### 5. Delta (balance commitment) & delta proof
 
-Delta parameter is used to ensure balance across the resources in a transaction. In Taiga, delta is computed directly for compliance pairs and transactions (not for individual resources).
+Delta parameter is used to ensure balance across the resources in a transaction. In Taiga, delta is computed directly for compliance pairs and transactions (not for individual resources). 
 
 For a compliance pair of one input and one output resources, delta is computed as follows:
 
@@ -298,15 +298,15 @@ A transaction is valid if:
     - $Verify(\pi_{l}, vk_{logic}, LogicPublicInput) = True$
     - Public input consistency: resource logic public input $nf$ and $cm$ are the same as in the compliance public input
 3. Binding signature is valid for $\Delta_{tx}$
-
+ 
 > **Note:** Currently, each resource requires a separate RL proof, even if they belong to the same application. Eventually the RL might be called just once per $tx$, meaning that if the $tx$ has 2 or more resources belonging to the same application, the total amount of non-ephemeral proofs is reduced.
 
 > **Note:** It is possible that a resource logic requires checks of other logics in order to be satisfied. In that case, the total amount of logic proofs verified could be more than $2n$, but we can count such check as a single check.
 
 ### Taiga state
 Taiga doesn't store a state, but Taiga produces state changes (that will be executed elsewhere), that include:
-- For each created resource $r$, $CMtree.WRITE(r.cm)$,
-- For each consumed resource $r$, $NFset.WRITE(r.nf)$,
+- For each created resource $r$, $CMtree.WRITE(r.cm)$, 
+- For each consumed resource $r$, $NFset.WRITE(r.nf)$, 
 
 ## 8. Communication between the shielded and transparent pools
 State transitions that do not preserve privacy are called *transparent*. Assuming that the system allows both transparent and shielded state transitions, we say that all of the valid resources created as a result of shielded state transitions form a *shielded pool* and the valid resources created as a result of transparent state transitions form a *transparent pool*. The action of moving data from transparent to shielded pool is called *shielding*, the opposite is called *unshielding*. Shielding (or unshielding) is done by consuming resources in one pool and creating the corresponding resources in the other. *Balancing value* $v^{balance}$ indicates the data move between the pools:

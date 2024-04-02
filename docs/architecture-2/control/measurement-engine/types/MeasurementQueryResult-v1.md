@@ -16,3 +16,4 @@ The result of the query [[MeasurementQueryV1#measurementqueryv1]]
 <!-- --8<-- [end:type] -->
 
 ## Values
+

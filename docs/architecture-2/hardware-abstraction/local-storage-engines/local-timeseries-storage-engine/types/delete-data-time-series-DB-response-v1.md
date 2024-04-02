@@ -26,3 +26,4 @@ Response to a [[DeleteDataTimeSeriesDBRequestV1#deletedatatimeseriesdbrequestv1]
 <!-- --8<-- [end:type] -->
 
 ## Values
+

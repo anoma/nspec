@@ -27,7 +27,7 @@ see above WorkerHashAvailableDiscardIssue
 )
 
 ##### Triggers
-- to [Primary](../primary.md): [`HeaderCommitment`](./header-commitment.md)
-  `if` the worker hash completes an announced header
+- to [Primary](../primary.md): [`HeaderCommitment`](./header-commitment.md)  
+  `if` the worker hash completes an announced header  
   _and_ signing this header contributes to an availability certificate
   `then` the primary sends a signature over the header to the creator of the header

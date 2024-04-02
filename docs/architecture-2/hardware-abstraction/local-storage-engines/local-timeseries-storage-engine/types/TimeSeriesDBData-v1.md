@@ -17,3 +17,4 @@ A piece of data in the time series DB.
 <!-- --8<-- [end:type] -->
 
 ## Values
+

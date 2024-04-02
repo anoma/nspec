@@ -16,7 +16,7 @@ in either of the following cases:
   the value for some [[KVSkey|key]]
   for which it has a lazy read (a may_read in the
    [[TransactionLabel]]).
-
+  
 <!-- --8<-- [end:blurb] -->
 
 <!-- --8<-- [start:details] -->
@@ -34,25 +34,25 @@ If `actual` is `false`, this just means that there is no dependency on
 
 ## Effects
 A [[Shard]] should delay processing a [[KVSReadRequest]] until it has
- completed processing [[KVSAcquireLock]] for the
- [[TxFingerprint|same timestamp]].
+ completed processing [[KVSAcquireLock]] for the 
+ [[TxFingerprint|same timestamp]]. 
 
 Then, if `actual` is false, the Shard is done reading the value, and
- can remove the *may read* marker from state.
+ can remove the *may read* marker from state. 
 
 If `actual` is true, the Shard replaces the *may read* marker with a
  *will read* marker.
-If the Shard knows the unique previous value written before
+If the Shard knows the unique previous value written before 
  [[TxFingerprint|this timestamp]], it sends that value in a [[KVSRead]] to
- the [[Executor|Executor]] and removes the *will read* marker from state.
+ the [[Executor|Executor]] and removes the *will read* marker from state. 
 Otherwise, future [[KVSWrite]]s and/or [[UpdateSeenAll]]s will
  identify this unique previous value written, and trigger the
- [[KVSRead]].
+ [[KVSRead]]. 
 
 ## Triggers
 
-- _to_ [[Executor|Executor]]: [[KVSRead]]
-  `if` the Shard has determined the unique value written prior to this "lock"
+- _to_ [[Executor|Executor]]: [[KVSRead]]  
+  `if` the Shard has determined the unique value written prior to this "lock"  
   `then` send a [[KVSRead]]-message to the relevant [[Executor|Executor]]
   to inform them of the value
 

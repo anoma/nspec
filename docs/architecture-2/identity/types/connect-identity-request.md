@@ -17,7 +17,7 @@ A `ConnectIdentityRequest` instructs the identity management engine to connect a
 
   *The external identity to connect*
 - `backend`: *[[Backend]]*
-
+  
   *The backend to use*
 
 - `capabilities`: *[[Capabilities]]*

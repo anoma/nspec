@@ -43,7 +43,7 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
 <!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram
-
+ 
 %% --8<-- [start:sequence]
 Any Local Engine ->>+ Local Time Series Storage Engine: GetDataTimeSeriesDBRequest
 Local Time Series Storage Engine -->>- Any Local Engine: GetDataTimeSeriesDBResponse

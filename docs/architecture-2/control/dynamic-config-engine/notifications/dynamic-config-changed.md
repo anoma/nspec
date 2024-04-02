@@ -2,9 +2,9 @@
 
 ## Purpose
 
-When a dynamic configuration value changes to which subscribers are subscribed,
-they get notified in accordance with the pub-sub communication pattern.
-Depending on the protocol, the updated value could require an action from a subscribed engine.
+When a dynamic configuration value changes to which subscribers are subscribed, 
+they get notified in accordance with the pub-sub communication pattern. 
+Depending on the protocol, the updated value could require an action from a subscribed engine. 
 
 ## Type
 
@@ -24,7 +24,7 @@ Depending on the protocol, the updated value could require an action from a subs
 - `Epoch Timestamp`: [[A/B:EpochTimestampV1#epochtimestampv1| the epoch time of the moment the value was changed.]]
 
   *The epoch time of the moment the value was changed.*
--
+- 
   *The wall clock time of the moment the value was changed.*
 
 </div>

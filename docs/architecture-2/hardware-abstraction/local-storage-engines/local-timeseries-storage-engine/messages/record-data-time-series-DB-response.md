@@ -26,7 +26,7 @@ Response to a [[RecordDataTimeSeriesDBRequest#recorddatatimeseriesdbrequest]].
 ## Behavior
 
 <!-- --8<-- [start:behavior] -->
-Performs the requested data record operation in the time series DB.
+Performs the requested data record operation in the time series DB. 
 <!-- --8<-- [end:behavior] -->
 
 

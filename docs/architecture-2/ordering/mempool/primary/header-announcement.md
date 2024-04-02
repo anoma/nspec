@@ -15,7 +15,7 @@ A primary announces a new header via a fingerprint so that other primaries can r
 - The receiving Primary deduces the contents of the announced header.
 
 ##### Triggers
-- to [Primary](../primary.md): [HeaderCommitment](./header-commitment.md)
-  `if` all relevant worker hashes are known
-  _and_ there is sufficient storage
+- to [Primary](../primary.md): [HeaderCommitment](./header-commitment.md)  
+  `if` all relevant worker hashes are known  
+  _and_ there is sufficient storage  
   `then` re-construct the header, sign the header, and send the signature to the creator of the header
