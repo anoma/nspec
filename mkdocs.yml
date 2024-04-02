@@ -484,7 +484,7 @@ extra:
 theme:
   logo: assets/logo.svg
   favicon: assets/logo.svg
-  custom_dir: docs/overrides
+  custom_dir: overrides
   language: en
   name: material
   google_analytics: G-WJWZWB2TW5
