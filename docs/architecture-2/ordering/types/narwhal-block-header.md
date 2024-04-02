@@ -5,7 +5,7 @@ each of which reference a quorum of blocks.
 
 | Field            | Type                               | Description                                          |                 |
 |------------------|------------------------------------|------------------------------------------------------|-----------------|
-| `id`             | [[Identity]]                       | the ɪᴅ of the creating primary                       |                 |
+| `id`             | [[architecture-2/abstractions:Identity]]                       | the ɪᴅ of the creating primary                       |                 |
 | `height`         | natural number                     | the creator-relative height of the block header      |                 |
 | `worker_hashes`  | [[WorkerHash]] list                | the list of [[Worker Hash                            | worker hashes]] |
 | `predecessor`    | [[AvailabilityCertificate]] option | the availability certificate of the preceding header |                 |

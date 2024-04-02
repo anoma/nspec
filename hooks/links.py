@@ -29,13 +29,15 @@ INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / 'docs'
 
+SITE_PATH ='/nspec/'
+
 """ Example of a wikilink with a path hint:
 [[path-hint:page#anchor|display text]]
 """
 
 WIKILINK_PATTERN = re.compile(r"""
 (?:\\)?\[\[
-(?:(?P<hint>[^:]+):)?
+(?:(?P<hint>[^:|\]]+):)?
 (?P<page>[^|\]#]+)
 (?:\#(?P<anchor>[^|\]]+))?
 (?:\|(?P<display>[^\]]+))?
@@ -83,7 +85,7 @@ class WikiLink:
         return f"WikiLink({s})"
 
     def to_markdown(self, path):
-        md_path = path.replace('./', '/nspec/').replace('.md', '.html')
+        md_path = path.replace('./', SITE_PATH).replace('.md', '.html')
         return f"[{self.display or self.page}]({md_path}{f'#{self.anchor}' if self.anchor else ''})"
 
 
@@ -156,7 +158,7 @@ class WLExtension(Extension):
 
         sp = SnippetPreprocessor(sc, md)
         self.wlpp = WLPreprocessor(self.mkconfig, sp)
-        md.preprocessors.register(self.wlpp, 'wl-pp', 50)
+        md.preprocessors.register(self.wlpp, 'wl-pp', 100)
 
 
 class WLPreprocessor(Preprocessor):
@@ -206,8 +208,10 @@ class WLPreprocessor(Preprocessor):
                                 display=match.group('display'))
                 ocurrence = Ocurrence(current_page_url,
                                       i + 1, match.start() + 2)
+                
+                link_page = link.page.replace('-', ' ')
 
-                if not link.page in config['url_for']:
+                if not link_page in config['url_for']:
                     
                     log.debug(f"{ocurrence}\n'{link.text}'does target a non-existing page. Check the aliases in the navigation or on each page.")
                     
@@ -216,18 +220,41 @@ class WLPreprocessor(Preprocessor):
                     
                     config['wikilinks_issues'] += 1
 
-                elif len(config['url_for'][link.page]) > 1:
+                elif len(config['url_for'][link_page]) > 1:
 
-                    possible_pages = "\n  ".join(config['url_for'][link.page])
+                    possible_pages = config['url_for'][link_page]
 
-                    log.warning(f"""{ocurrence}\nReference: {link.text} at '{ocurrence}' is ambiguous. It could refer to any of the following pages:\n  {possible_pages}\nPlease revise the page alias or add a path hint to disambiguate, e.g. [[folderA/subfolderB:page#anchor|display text]].""")
+                    # heuristic to suggest the most likely page
+                    hint = link.hint if link.hint else ''
+                    token = hint + link_page
+                    fun_normalise =lambda s : s.replace('_', ' ').replace('-', ' ').replace(':', ' ').replace('/', ' ').replace('.md', '')
+                    coefficients = {p : fuzz.WRatio(
+                        fun_normalise(p), token) for p in possible_pages}
+                    sorted_pages = sorted(possible_pages, key=lambda p: coefficients[p], reverse=True)
+
+                    list_possible_pages_with_score = [f"{p} ({coefficients[p]})" for p in sorted_pages]
+
+                    if len(list_possible_pages_with_score) > 1:
+                        list_possible_pages_with_score[0] = \
+                            f"{list_possible_pages_with_score[0]} (most likely, used for now)"
+                    _list = '\n  '.join(list_possible_pages_with_score)
+
+                    log.warning(f"""{ocurrence}\nReference: '{link_page}' at '{ocurrence}' is ambiguous. It could refer to any of the following pages:\n  {_list}\nPlease revise the page alias or add a path hint to disambiguate, e.g. [[folderA/subfolderB:page#anchor|display text]].""")
 
                     config['wikilinks_issues'] += 1
+                    
+                    # rewrite the url to the first page in the list
+                    if len(sorted_pages) > 0:
+                        config['url_for'][link_page] = [sorted_pages[0]]
 
-                elif len(config['url_for'][link.page]) == 1:
-                    path = config['url_for'][link.page][0]
+                # print(config['url_for']['User'])
+                if link_page in config['url_for'] and \
+                    len(config['url_for'][link_page]) == 1:
+                    path = config['url_for'][link_page][0]
                     md_link = link.to_markdown(path)
                     lines[i] = lines[i].replace(match.group(0), md_link)
+                else:
+                    log.warning(f"{ocurrence}:\n Page '{link_page}' no linked in the navigation.\n  - {link}")
         return lines
 
 
@@ -239,8 +266,6 @@ def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -
     config['current_page'] = page # needed for the preprocessor
     md_path = "./" + page.url.replace(".html", ".md")
     if md_path not in config['aliases_for']:
-        # The page could be a draft or a work in progress. Or simply,
-        # the page is not linked in the navigation, on purpose.
         log.debug(f"""{md_path} is not linked in the navigation.""")
     return markdown
     

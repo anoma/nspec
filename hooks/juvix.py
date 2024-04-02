@@ -41,7 +41,7 @@ if JUVIX_AVAILABLE:
     result = subprocess.run(cmd, capture_output=True)
     if result.returncode == 0:
         JUVIX_VERSION = result.stdout.decode("utf-8")
-        log.info(f"Running Juvix v{JUVIX_VERSION}")
+        log.info(f"Using Juvix v{JUVIX_VERSION} to render Juvix Markdown files.")
 
 JUVIXCODE_CACHE_DIR: Path = CACHE_HOOKS.joinpath(".juvix_md")
 JUVIXCODE_CACHE_DIR.mkdir(parents=True, exist_ok=True)

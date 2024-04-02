@@ -20,6 +20,6 @@ They are (learner-specific) proofs that a specific `Header` is unique for a spec
 
 ##### Triggers
 - to [Primary](../primary.md): [`HeaderAnnouncement`](./header-announcement.md)  
-  `if` the received integrity certificate completes a signed quorum for a new [`NarwhalBlockHeader`](../../types/allofthem-v1.md#narwhalblockheader)    
+  `if` the received integrity certificate completes a signed quorum for a new [`NarwhalBlockHeader`](../../types/allofthem.md#narwhalblockheader)    
   `then` announce the header to all (relevant) primaries (cf. the similar reaction to [NewWorkerHash](./new-worker-hash.md))  
 
