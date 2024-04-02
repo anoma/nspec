@@ -523,10 +523,9 @@ plugins:
       bib_file: "art.bib"
       
 hooks:
-# - hooks/test.py
 - hooks/links.py
-# - hooks/differ.py
-# - hooks/juvix.py
+- hooks/differ.py
+- hooks/juvix.py
 
 watch:
   - formal/SML

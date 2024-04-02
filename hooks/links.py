@@ -1,9 +1,7 @@
 
 """
-Add support for wiki-style links in MkDocs in tandem for snippets. Generate a
-graph of references between pages. Self-contained plugin that does not require
-any external dependencies, as it's being used as a hook in the MkDocs build
-process.
+Add better support for wiki-style links in MkDocs in tandem of pydownx_snippets,
+that existing plugins out there.
 """
 
 import re
@@ -220,10 +218,9 @@ class WLPreprocessor(Preprocessor):
 
                 elif len(config['url_for'][link.page]) > 1:
 
-                    possible_pages = "\n- ".join(config['url_for'][link.page])
+                    possible_pages = "\n  ".join(config['url_for'][link.page])
 
-                    log.warning(f"""{ocurrence}\nReference: {link.text} at '{ocurrence}' is ambiguous. It could refer to any of the following pages:\n{possible_pages}\n
-                    Please revise the page alias or add a path hint to disambiguate, e.g. [[folderA/subfolderB:page#anchor|display text]].""")
+                    log.warning(f"""{ocurrence}\nReference: {link.text} at '{ocurrence}' is ambiguous. It could refer to any of the following pages:\n  {possible_pages}\nPlease revise the page alias or add a path hint to disambiguate, e.g. [[folderA/subfolderB:page#anchor|display text]].""")
 
                     config['wikilinks_issues'] += 1
 
@@ -247,8 +244,7 @@ def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -
         log.debug(f"""{md_path} is not linked in the navigation.""")
     return markdown
     
-# ------------------------------------------------------------------------------
-# Helper functions
+# AUXILIARY FUNCTIONS ----------------------------------------------
 
 def _extract_aliases_from_nav(item, parent_key=None):
     result = []
