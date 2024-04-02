@@ -10,11 +10,6 @@ from mkdocs.config.defaults import MkDocsConfig
 
 ROOT_DIR = Path(__file__).parent.parent
 
-# if snippet is present in the config. remove it from the prepocesor to
-# avoid duplication. then make sure to use proper configuration from mkdocs.yml
-# if not, use this configuration.
-
-
 def on_config(config: MkDocsConfig, **kwargs):
     if 'pymdownx.snippets' in config['markdown_extensions']:
         config['markdown_extensions'].remove('pymdownx.snippets')
@@ -32,8 +27,8 @@ class WLExtension(Extension):
         self.mkconfig = mkconfig
 
         if 'pymdownx.snippets' in self.mkconfig.mdx_configs:
-            bpath = self.mkconfig.mdx_configs['pymdownx.snippets'].get('base_path', [
-                                                                       '.', 'includes'])
+            bpath = self.mkconfig.mdx_configs['pymdownx.snippets']\
+                .get('base_path', ['.', 'includes'])
 
             excluded_dirs = ['.', '__', 'site', 'env', 'venv']
 
@@ -51,8 +46,7 @@ class WLExtension(Extension):
         self.md = md
         md.registerExtension(self)
 
-        # preprocessors
-
+        # Snippet extension preprocessor
         sc = self.mkconfig.mdx_configs['pymdownx.snippets']
         sc.setdefault('dedent_subsections', True)
         sc.setdefault('url_request_headers', {})
@@ -77,5 +71,4 @@ class WLPreprocessor(Preprocessor):
 
     def run(self, lines):
         _lines = self.snippet_preprocessor.run(lines)
-
-        return []
+        return _lines

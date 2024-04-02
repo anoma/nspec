@@ -521,8 +521,8 @@ plugins:
       
 hooks:
 # - hooks/better_snippets.py
-- hooks/test.py
-# - hooks/links.py
+# - hooks/test.py
+- hooks/links.py
 # - hooks/differ.py
 # - hooks/juvix.py
 
