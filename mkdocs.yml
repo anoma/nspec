@@ -432,8 +432,8 @@ nav:
           - SpawnExecutor: ./architecture-2/ordering/mempool/execution-supervisor/spawn-executor.md
         - Worker Engine:
           - ./architecture-2/ordering/mempool/worker.md
-          - ExecutorFinished: architecture-2/ordering/mempool/worker/executor-finished.md
-          - ExecutorPIDAssigned: architecture-2/ordering/mempool/worker/executor-PID-assigned.md
+          - ExecutorFinished: ./architecture-2/ordering/mempool/worker/executor-finished.md
+          - ExecutorPIDAssigned: ./architecture-2/ordering/mempool/worker/executor-PID-assigned.md
           - KVSLockAcquired: ./architecture-2/ordering/mempool/worker/KVS-lock-acquired.md
           - TransactionRequest: ./architecture-2/ordering/mempool/worker/transaction-request.md
           - RequestLogs: ./architecture-2/ordering/mempool/worker/request-logs.md
@@ -451,7 +451,7 @@ nav:
           - ExecuteTransaction: ./architecture-2/ordering/execution/executor/execute-transaction.md
           - KVSRead: ./architecture-2/ordering/execution/executor/KVS-read.md
   - Applications:
-    - applications.md
+    - ./applications.md
     - Primitives:
         - Tokens: ./applications/primitives/tokens.md
         - Attestation: ./applications/primitives/attestation.md
