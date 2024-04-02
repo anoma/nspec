@@ -9,7 +9,7 @@ Consensus is requesting the next anchor block to propose.
 ##### Structure
 | Field | Type | Description |
 |-------|------|-------------|
-| `chain_id` | [`ChainId`](../../types/allofthem-v1.md#chainid) | the chain in question |
+| `chain_id` | [[Common types#chainid|`ChainId`]] | the chain in question |
 
 ##### Effects
 

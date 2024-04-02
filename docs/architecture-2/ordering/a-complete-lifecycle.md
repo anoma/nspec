@@ -74,7 +74,7 @@ Example:
 
 ### Acknowledging the Users's TransactionRequest
 
-_at [[Worker Engine]]__
+_at [[Worker Engine]]_
 
 Once it is clear that the transaction can be included into the current
  batch, the transaction candidate is "stamped" with the current
@@ -147,7 +147,7 @@ Hence, the supervisor itself may be a concurrently running group of engines.
 _at [[Execution Supervisor]]_
 
 - [[ExecutorPIDAssigned]]→[[Worker Engine|Worker]]  
-  Send the [[Identity|external identity]] of a "fresh" executor engine instance,
+  Send the [[architecture-2:Identity|external identity]] of a "fresh" executor engine instance,
   either newly spawned or a waiting in a fixed pool of available executors.
 
 <!-- TODO add one supervisor for each executor -->

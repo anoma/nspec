@@ -9,7 +9,7 @@ use_directory_urls: false
 
 nav:
   - Home: index.md
-  - Architecture 1:
+  - Architecture 1: 
     - ./architecture-1.md
     - Abstractions:
       - ./architecture-1/abstractions.md
@@ -412,7 +412,7 @@ nav:
     - Ordering Machine:
       - ./architecture-2/ordering-v1.md
       - Common types:
-        - ./architecture-2/ordering/types/allofthem-v1.md
+        - ./architecture-2/ordering/types/allofthem.md
         - KVSDatum: ./architecture-2/ordering/types/KVS-datum.md
         - KVSKey: ./architecture-2/ordering/types/KVS-key.md
         - ExecutionSummary: ./architecture-2/ordering/types/execution-summary.md
@@ -432,8 +432,8 @@ nav:
           - SpawnExecutor: ./architecture-2/ordering/mempool/execution-supervisor/spawn-executor.md
         - Worker Engine:
           - ./architecture-2/ordering/mempool/worker.md
-          - ExecutorFinished: architecture-2/ordering/mempool/worker/executor-finished.md
-          - ExecutorPIDAssigned: architecture-2/ordering/mempool/worker/executor-PID-assigned.md
+          - ExecutorFinished: ./architecture-2/ordering/mempool/worker/executor-finished.md
+          - ExecutorPIDAssigned: ./architecture-2/ordering/mempool/worker/executor-PID-assigned.md
           - KVSLockAcquired: ./architecture-2/ordering/mempool/worker/KVS-lock-acquired.md
           - TransactionRequest: ./architecture-2/ordering/mempool/worker/transaction-request.md
           - RequestLogs: ./architecture-2/ordering/mempool/worker/request-logs.md
@@ -451,7 +451,7 @@ nav:
           - ExecuteTransaction: ./architecture-2/ordering/execution/executor/execute-transaction.md
           - KVSRead: ./architecture-2/ordering/execution/executor/KVS-read.md
   - Applications:
-    - applications.md
+    - ./applications.md
     - Primitives:
         - Tokens: ./applications/primitives/tokens.md
         - Attestation: ./applications/primitives/attestation.md
@@ -518,12 +518,11 @@ plugins:
   - section-index
   - bibtex:
       bib_file: "art.bib"
-
-
+      
 hooks:
-- helpers/make_alias.py
-- hooks.py
-- helpers/better_snippets.py
+- hooks/links.py
+- hooks/differ.py
+- hooks/juvix.py
 
 watch:
   - formal/SML
@@ -532,6 +531,8 @@ exclude_docs: |
   /requirements.txt
   **/art-template/**/*.md
   */**/.juvix-build/
+  docs/indexes/*.txt
+  docs/indexes/*.dot
 
 extra_css:
   - assets/css/extra.css
@@ -550,6 +551,16 @@ copyright: |
 # See https://squidfunk.github.io/mkdocs-material/reference/math/?h=katex#comparing-mathjax-and-katex on why we use MathJax
 
 markdown_extensions:
+  - pymdownx.snippets:
+      check_paths: true
+      url_download: true
+      auto_append:
+        - docs/abbreviations.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - abbr
   - admonition
   - attr_list
@@ -563,16 +574,6 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.snippets:
-      check_paths: true
-      url_download: true
-      auto_append:
-        - abbreviations.md
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.highlight:

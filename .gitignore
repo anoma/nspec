@@ -288,6 +288,7 @@ __pycache__/
 site/
 **/.juvix-build/
 .juvix-mkdocs/
+.hooks/
 .cache/
 **/html/
 
@@ -295,4 +296,4 @@ site/
 markdown/
 
 env/
-docs/indexes/aliases.md
+docs/indexes/
