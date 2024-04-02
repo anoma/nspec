@@ -29,4 +29,3 @@ Response to a [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]
 <!-- --8<-- [end:type] -->
 
 ## Values
-

@@ -11,7 +11,7 @@ Describe the purpose of the engine group.
 <!-- Provide any relevant background -->
 
 ## Scope
-<!-- Set reader expectations. 
+<!-- Set reader expectations.
      What should the expect to understand after readint this?
      What should they expect to not understand after reading this? Is that further reading or background information we assume?
      Are we deliberately leaving some stuff unspecified? Why? (e.g. engineering decisions or chain-specific decisions) -->

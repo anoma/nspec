@@ -10,4 +10,3 @@ type ReadTransactionRequest = SignedMessage<ExecuteReadTransaction>
 ###### To Executor
 See [`ExecuteReadTransaction`](#ExecuteReadTransaction).
 {TODO make a folder for the read backend}
-

@@ -21,7 +21,7 @@ The worker has completed a worker hash that the primary can process.
 There is nothing to do in `v1`
 as all ordering information can be inferred by the execution.
 <!--
-- to [Primary](../primary.md): [`HeaderAnnouncement`](./header-announcement.md)  
-  `if` this worker hash completes a block header  
+- to [Primary](../primary.md): [`HeaderAnnouncement`](./header-announcement.md)
+  `if` this worker hash completes a block header
   `then` announce the header to all (relevant) primaries
 -->

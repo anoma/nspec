@@ -25,4 +25,3 @@ Perform a search operation based on a given predicate within a specified time li
 <!-- --8<-- [end:type] -->
 
 ## Values
-

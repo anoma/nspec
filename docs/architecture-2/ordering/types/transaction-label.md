@@ -12,5 +12,5 @@ Specifies which keys a transaction execution may/will read/write.
 | `write` | [[WriteLabel]] | the keys a transaction may or must write to  |
 
 <!--
-This is *not* a message in its own right, but this type is used in the fields of other messages. 
+This is *not* a message in its own right, but this type is used in the fields of other messages.
 -->

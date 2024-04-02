@@ -6,7 +6,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Add time series data to the DB. 
+Add time series data to the DB.
 <!-- --8<-- [end:purpose] -->
 
 ## Type

@@ -27,4 +27,3 @@ Append new values to the logbook.
 <!-- --8<-- [end:type] -->
 
 ## Values
-

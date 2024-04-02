@@ -9,7 +9,7 @@ use_directory_urls: false
 
 nav:
   - Home: index.md
-  - Architecture 1: 
+  - Architecture 1:
     - ./architecture-1.md
     - Abstractions:
       - ./architecture-1/abstractions.md
@@ -518,7 +518,7 @@ plugins:
   - section-index
   - bibtex:
       bib_file: "art.bib"
-      
+
 hooks:
 - hooks/links.py
 - hooks/differ.py

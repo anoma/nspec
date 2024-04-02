@@ -18,4 +18,3 @@ The value corresponding with a [[ConfigurationKeyV1#configurationkeyv1]] in the 
 <!-- --8<-- [end:type] -->
 
 ## Values
-

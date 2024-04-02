@@ -14,10 +14,9 @@ Track and manage time within the local computing environment.
 <div class="type" markdown>
 
 
-The *LocalWallClockGetTimeV1* has an empty record. 
+The *LocalWallClockGetTimeV1* has an empty record.
 
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
-

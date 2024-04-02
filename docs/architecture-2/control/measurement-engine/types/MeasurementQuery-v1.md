@@ -3,7 +3,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-The query that needs to be executed to add, delete or manipulate measurements in the database. 
+The query that needs to be executed to add, delete or manipulate measurements in the database.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -16,4 +16,3 @@ The query that needs to be executed to add, delete or manipulate measurements in
 <!-- --8<-- [end:type] -->
 
 ## Values
-

@@ -9,6 +9,6 @@ TODO
 
 ## Type
 
-<!-- --8<-- [start:type] --> 
+<!-- --8<-- [start:type] -->
 A *list* of type [[PubSubRoutingTableEntry#pubsubroutingtableentry]].
 <!-- --8<-- [end:type] -->

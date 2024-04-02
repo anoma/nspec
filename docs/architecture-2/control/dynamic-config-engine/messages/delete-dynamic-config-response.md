@@ -27,7 +27,7 @@ Response to a [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]].
 
 <!-- --8<-- [start:behavior] -->
 Performs the requested find operation in the dynamic configurations KV-store,
-delete both the key and the value, and replies with the deleted key and value. 
+delete both the key and the value, and replies with the deleted key and value.
 <!-- --8<-- [end:behavior] -->
 
 

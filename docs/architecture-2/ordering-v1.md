@@ -25,8 +25,8 @@ https://en.wikipedia.org/wiki/Distributed_computing)<!--
 a [replicated state machine](
     https://en.wikipedia.org/wiki/State_machine_replication) (RSM).
 This state machine must represent all anoma state, including commitments and nullifiers.
-The Ordering Machine, however, does not need to understand the full complexity of the anoma state: only that it can be represented as a Key Value Store, where [[TransactionCandidate]]s each read some (arbitrary) data from keys, and can write some (arbitrary) data to keys. 
-We outline the full requirements of the abstraction boundary with the State Machine in the [[Execution Engines]] page. 
+The Ordering Machine, however, does not need to understand the full complexity of the anoma state: only that it can be represented as a Key Value Store, where [[TransactionCandidate]]s each read some (arbitrary) data from keys, and can write some (arbitrary) data to keys.
+We outline the full requirements of the abstraction boundary with the State Machine in the [[Execution Engines]] page.
 
 In V1,
 the implementation is running on a single physical machine.
@@ -53,7 +53,7 @@ because it is one of the most important components from V2 onward,
 although it is not present in V1.
 
 ## Overview
-[[TransactionRequest|Transaction requests]] trigger transaction processing. 
+[[TransactionRequest|Transaction requests]] trigger transaction processing.
 [[User]]s or [[Solver]]s send [[TransactionRequest|transaction requests]]
 to the ordering machine: more specifically,
 to a [[Worker Engine|worker engine]].
@@ -63,14 +63,14 @@ Successfully processing a [[TransactionRequest|transaction request]] amounts to
 invoking the [transition function](
 https://en.wikipedia.org/wiki/State_machine_replication#State_machine)
 of the RSM,
-according to an agreed upon order 
+according to an agreed upon order
 (determined by the [[Mempool Engines|mempool]]
 in collaboration with [[Consensus Engine|consensus]]).
 Typical transactions contain read and write operations to
 a “global” key-value store representing the state of the RSM.
 In general, transactions may have side effects besides state updates,
 but these are not considered in V1.
-<!-- TODO: Are they ignored? 
+<!-- TODO: Are they ignored?
      Are ExecutionSummary and pub sub information of execution data
       side effects?  -->
 
@@ -79,7 +79,7 @@ but these are not considered in V1.
   (pre-)processing them for consensus and execution.
 - The trivial consensus problem is already implicitly solved
   by _the_ [[Worker Engine|worker]] in V1.
-  - In V1, there is only one [[Worker Engine|worker]]. 
+  - In V1, there is only one [[Worker Engine|worker]].
     There will be multiple (on each Node) in future versions.
 - The [[Execution Engines|execution engines]] execute
   the transactions:

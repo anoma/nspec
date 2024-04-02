@@ -31,4 +31,3 @@ Response to a [[SubscribeMeasurementRequestV1#subscribemeasurementrequestv1]]
 <!-- --8<-- [end:type] -->
 
 ## Values
-

@@ -3,7 +3,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-The value in a string format, which needs to be added to the logbook. 
+The value in a string format, which needs to be added to the logbook.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -12,7 +12,7 @@ The value in a string format, which needs to be added to the logbook.
 <div class="type" markdown>
 
 
-The *AppendValueV1* has empty record. 
+The *AppendValueV1* has empty record.
 
 
 
@@ -20,4 +20,3 @@ The *AppendValueV1* has empty record.
 <!-- --8<-- [end:type] -->
 
 ## Values
-

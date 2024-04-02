@@ -31,23 +31,23 @@ in either of the following two cases:
 #### Effects
 
 A [[Shard]] should delay processing a [[KVSWrite]] until it has
- completed processing [[KVSAcquireLock]] for the 
- [[TxFingerprint|same timestamp]]. 
+ completed processing [[KVSAcquireLock]] for the
+ [[TxFingerprint|same timestamp]].
 
-If the `datum` is `None`, then remove the *may write* marker from 
- [[TxFingerprint|this timestamp]] in state. 
+If the `datum` is `None`, then remove the *may write* marker from
+ [[TxFingerprint|this timestamp]] in state.
 Any reads waiting to read what is written here must instead read from
- the previous write. 
+ the previous write.
 - One way to accomplish this is to copy the previous write as a
-    "value written" at [[TxFingerprint|this timestamp]] in state. 
+    "value written" at [[TxFingerprint|this timestamp]] in state.
 
 If `datum` is occupied, then remove the *may write* or *will write*
  marker from  [[TxFingerprint|this timestamp]] in state, and record the
- value written at [[TxFingerprint|this timestamp]] in state. 
+ value written at [[TxFingerprint|this timestamp]] in state.
 
 This may trigger a [[KVSRead]] if there are any *will read* markers
  for which  [[TxFingerprint|this timestamp]] is the unique previous
- write. 
+ write.
 
 <!--
 any garbage collection of old locking info is elided in V1
@@ -56,6 +56,6 @@ any garbage collection of old locking info is elided in V1
 
 ## Triggers
 
-- _to_ [[Executor|Executor]]: [[KVSRead]]  
-   `for each` *will read* lock dependent on this write:  
+- _to_ [[Executor|Executor]]: [[KVSRead]]
+   `for each` *will read* lock dependent on this write:
     send a [[KVSRead]] to the  [[Executor|relevant Executor]] with the value written.
