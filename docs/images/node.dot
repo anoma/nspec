@@ -14,7 +14,7 @@ digraph {
   # dark theme
   # fontcolor = white
   # node [color=white; fontcolor=white]
-  # edge [color="#999999"]
+  # edge [color="#999999"
 
   node [shape=circle; style=bold]
 

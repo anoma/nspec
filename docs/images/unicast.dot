@@ -14,30 +14,46 @@ digraph {
   # dark theme
   # fontcolor = white
   # node [color=white; fontcolor=white]
-  # edge [color="#999999"]
+  # edge [color="#999999"
 
   node [shape=circle; style=bold]
 
   subgraph cluster_a {
     label = "Node A"
+    labeljust = l
 
     A_R [shape=doublecircle]
     A_T
-    A_Y
     A_X
+    A_Y
     A_Z
+  }
+
+  subgraph cluster_b {
+    label = "Node B"
+    labeljust = r
+
+    B_R [shape=doublecircle]
+    B_T
+    B_Y
+    B_X
+    B_Z
   }
 
   # Engine connections
   edge [len=1; dir=none]
 
   A_R -> { A_T A_X A_Y A_Z }
+  B_R -> { B_T B_X B_Y B_Z }
+
+  # Network connections
+  edge [len=5; style=dashed];
+
+  A_T -> B_T
 
   # Message paths
-  edge [len=3; dir=forward; style=dashed]
+  edge [len=3; dir=forward; style=dashed; color=red]
 
-  A_X -> A_R -> A_Y [color=red; label="Y"]
-
-  A_Z -> A_R -> {A_X A_Y} [color=blue; label="T"]
+  A_X -> A_R -> A_T -> B_T -> B_R -> B_X
 
 }

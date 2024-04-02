@@ -17,7 +17,7 @@ for root, dirs, files in os.walk(source):
     for file in files:
         if file.endswith('.png') or file.endswith('.jpg') or \
         file.endswith('.jpeg') or file.endswith('.svg') or \
-        file.endswith('.gif'):
+        file.endswith('.gif') or file.endswith('.dot'):
             if  'docs/assets' in root or "docs/images" in root:
                 continue
             move = False

@@ -87,7 +87,7 @@ It makes routing decisions based on the destination identity in the message.
 
 <figure class="invertable">
 
-![Inter-node messages](/nspec/images/node.dot.svg)
+![Inter-node messages](/nspec/images/node.dot)
 
 --8<-- "networking/node.md:fig-node-caption"
 
