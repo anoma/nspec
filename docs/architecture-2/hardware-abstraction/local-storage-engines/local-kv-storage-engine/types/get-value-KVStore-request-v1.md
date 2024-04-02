@@ -22,4 +22,3 @@ Perform a key-based search operation in the KV-store to find the corresponding v
 <!-- --8<-- [end:type] -->
 
 ## Values
-

@@ -22,4 +22,3 @@ Find a dynamic configuration by its key in the dynamic configuration KV-store an
 <!-- --8<-- [end:type] -->
 
 ## Values
-

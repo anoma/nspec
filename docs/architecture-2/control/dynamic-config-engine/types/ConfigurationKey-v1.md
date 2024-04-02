@@ -18,4 +18,3 @@ The key that maps to the dynamic configuration value in the dynamic configuratio
 <!-- --8<-- [end:type] -->
 
 ## Values
-

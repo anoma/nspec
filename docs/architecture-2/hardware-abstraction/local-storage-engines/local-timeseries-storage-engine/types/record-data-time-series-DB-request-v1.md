@@ -23,4 +23,3 @@ Add time series data to the time series DB.
 <!-- --8<-- [end:type] -->
 
 ## Values
-

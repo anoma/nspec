@@ -23,4 +23,3 @@ Find the targeted measurement in measurement and delete it from the measurement 
 <!-- --8<-- [end:type] -->
 
 ## Values
-

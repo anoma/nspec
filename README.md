@@ -4,22 +4,27 @@
 
 These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes. If this is not your goal,
-you can edit the files Markdown directly on GitHub, the CI/CD pipeline will
-automatically build and deploy the website.
+you can edit the files Markdown directly on GitHub, open a PR with the changes,
+and the CI/CD pipeline will automatically build and deploy the website, once
+the PR is merged.
 
-To write the content, we use Markdown files with the extension `.md` and
-`.juvix.md`. The latter is optional in case you inteded to write Juvix code
-examples in [Juvix (+v0.6.0)](https://docs.juvix.org/), or install the Juvix
-plugin for VsCode from
-[here](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
+To write the content, we use Markdown with some extensions as described in the
+[Material for MkDocs's reference](https://squidfunk.github.io/mkdocs-material/reference/).
+
+In addition, we support the use of Juvix code examples in the files with the
+`.juvix.md` extension. These files are rendered using [Juvix
+(+v0.6.0)](https://docs.juvix.org/), and and if you want to make sure that the
+code examples are correct, you must have Juvix installed on your machine. One
+way to do this is to install the Juvix plugin for VsCode from [the
+marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
 
 ### Prerequisites
 
-- Python 3.6 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
-- Python packages including [MkDocs](https://www.mkdocs.org/), and [Material
-  for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+The following are the prerequisites to build the website locally:
 
-- We recomend to install Juvix from [source](https://github.com/anoma/juvix). Otherwise, you can install it following the steps from [our documentation](https://docs.juvix.org/).
+- Python 3.6 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
+- As mentioned, we recomend to install Juvix.
+
 
 ### Installing
 
@@ -29,26 +34,36 @@ plugin for VsCode from
     git clone http://github.com/anoma/nspec
     ```
 
-2. Install the required packages
+2. Create a virtual environment
+
+    ```bash
+    python3 -m venv venv
+    ```
+
+3. Install the required packages
 
     ```bash
     pip3 install -r requirements.txt
     ```
 
-## Building the Website
+4. Make sure that everything is working by building the website
 
-Once you have everything set up, you can build the website using MkDocs. Run the
-following command in your terminal:
+    ```bash
+    mkdocs build
+    ```
 
-```bash
-mkdocs serve
-```
+  Here, you should see the website being built in the `site` directory.
+  Some warnings and info messages are expected, but if you see any error, please
+  open an issue.
 
-## Serving the Website Locally
+5. To serve the website locally, run the following command:
 
-Once you have built the website, you can serve it locally to see your changes in
-real time. Run the following command in your terminal:
+    ```bash
+    mkdocs serve
+    ```
 
-```bash
-mkdocs serve
-```
+6. If you expect to use some [Material's insiders
+feature](https://squidfunk.github.io/mkdocs-material/reference/), reach us,
+because we need to provide you a token to use it. However, this is not necessary
+to write the content or to build the website, at least to see the basic
+structure.

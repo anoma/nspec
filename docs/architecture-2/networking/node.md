@@ -119,7 +119,7 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 <!-- --8<-- [start:fig-node-caption] -->
 <figcaption>
 
-**Unicast message** from engine *A_X* to engine *A_Y*, along edges labeled *Y*.  
+**Unicast message** from engine *A_X* to engine *A_Y*, along edges labeled *Y*.
 **Multicast message** from publisher engine *A_Z* to topic *T*, delivered to subscribed engines *A_X* and *A_Y* by the router *A_R*, along edges labeled *T*.
 
 </figcaption>
@@ -134,7 +134,7 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 <!-- --8<-- [start:fig-unicast-caption] -->
 <figcaption>
 
-**Unicast message** between engine *A_X* of node *A* and engine *B_X* of node *B*,  
+**Unicast message** between engine *A_X* of node *A* and engine *B_X* of node *B*,
 via router engines *A_R* & *B_R* and transport engines *A_T* & *B_T*.
 
 </figcaption>

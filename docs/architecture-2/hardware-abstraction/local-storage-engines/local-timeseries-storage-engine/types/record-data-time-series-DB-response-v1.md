@@ -26,4 +26,3 @@ Response to a [[RecordDataTimeSeriesDBRequestV1#recorddatatimeseriesdbrequestv1]
 <!-- --8<-- [end:type] -->
 
 ## Values
-

@@ -33,11 +33,11 @@ It is an asynchronous response.
      for earlier transactions can be freed.
 
 ## Triggers
-- to [[Shard]]s: [[UpdateSeenAll]]  
+- to [[Shard]]s: [[UpdateSeenAll]]
   `if`  we can now be certain that there is some new [[TxFingerprint]] `T`,
   after (the last one) of the previously sent [[UpdateSeenAll]],
   such that no more [[KVSAcquireLock]]-messages featuring timestamps
-  at or before `T` will be sent by the same [[Worker Engine]]:  
+  at or before `T` will be sent by the same [[Worker Engine]]:
   `then`  send [[UpdateSeenAll]] with `T` to all [[Shard]]s.
 
 <!-- --8<-- [end:details] -->
@@ -46,10 +46,10 @@ It is an asynchronous response.
 
 Otherwise, a Shard might hear about a
  [[KVSAcquireLock]] only after
- it has heard [[UpdateSeenAll]] with a later [[TxFingerprint]], 
+ it has heard [[UpdateSeenAll]] with a later [[TxFingerprint]],
  causing it to execute the "later" transaction before it learned of
  the "earlier" one, which could allow the "later" transaction to read
- the wrong value from state. 
+ the wrong value from state.
 Therefore, it is important to let [[Worker Engine]]s know which
  [[KVSAcquireLock]]s the shard has received.
 

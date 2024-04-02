@@ -109,5 +109,3 @@ is already fixing a total order.
   transaction is finished.
   This information will be used for garbage collection
   from V2 onward.
-
-

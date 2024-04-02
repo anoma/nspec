@@ -22,4 +22,3 @@ Find a value by its key in the KV-store and delete both the key and the value.
 <!-- --8<-- [end:type] -->
 
 ## Values
-

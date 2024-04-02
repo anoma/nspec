@@ -174,36 +174,36 @@ Below is the specification of the consensus component in terms of all the messag
 
 from [Mempool Primary](./mempool/primary.md) may trigger:
 
-- `HPaxosProposal` → Consensus  
+- `HPaxosProposal` → Consensus
   --8<-- "consensus/heterogeneous-paxos-proposal.md:purpose"
 
 ### [HPaxosProposal](consensus/heterogeneous-paxos-proposal.md)
 
 from [Consensus](consensus.md) may trigger:
 
-- `HPaxosCommitment` → Consensus  
+- `HPaxosCommitment` → Consensus
   --8<-- "consensus/heterogeneous-paxos-commitment.md:purpose"
-- `CheckProposal` → Mempool Primary  
+- `CheckProposal` → Mempool Primary
   --8<-- "mempool/primary/check-proposal.md:purpose"
 
 ### [HPaxosCommitment](consensus/heterogeneous-paxos-commitment.md)
 
 from [Consensus](consensus.md) may trigger:
 
-- `HPaxosCommitment` → Consensus  
+- `HPaxosCommitment` → Consensus
   --8<-- "consensus/heterogeneous-paxos-commitment.md:purpose"
-- `RequestProposal` → Mempool Primary  
+- `RequestProposal` → Mempool Primary
   --8<-- "mempool/primary/request-proposal.md:purpose"
-- `AnchorChosen` → Execution Shards  
+- `AnchorChosen` → Execution Shards
   --8<-- "execution/shard/anchor-chosen.md:purpose"
 
 ### [HPaxosDecision](consensus/heterogeneous-paxos-decision.md)
 
 from [Consensus](consensus.md) may trigger:
 
-- `RequestProposal` → Mempool Primary  
+- `RequestProposal` → Mempool Primary
   --8<-- "mempool/primary/request-proposal.md:purpose"
-- `AnchorChosen` → Execution Shards  
+- `AnchorChosen` → Execution Shards
   --8<-- "execution/shard/anchor-chosen.md:purpose"
 
 ### [NewQuorums](consensus/new-quorums.md)

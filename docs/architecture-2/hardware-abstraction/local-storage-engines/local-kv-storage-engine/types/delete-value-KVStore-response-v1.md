@@ -26,4 +26,3 @@ Indicates the success or failure of the attempt to delete the KV-pair from the K
 <!-- --8<-- [end:type] -->
 
 ## Values
-

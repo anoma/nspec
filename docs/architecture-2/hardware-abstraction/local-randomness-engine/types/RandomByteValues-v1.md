@@ -3,7 +3,7 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-The random number or random data in a byte format. 
+The random number or random data in a byte format.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -16,4 +16,3 @@ The random number or random data in a byte format.
 <!-- --8<-- [end:type] -->
 
 ## Values
-

@@ -40,7 +40,7 @@ We will go through all the messages exchanged between
    [[NewTransaction|new transaction]].
   Transaction copies are stored such that other nodes can retrieve
    them if they need to.
-  The [[Worker Engine|worker]] also 
+  The [[Worker Engine|worker]] also
    [[ExecuteTransaction|sends the transaction]] to its validator's
    [[Executor Engine|execution engine, starting a new executor process]].
 
@@ -75,12 +75,12 @@ We will go through all the messages exchanged between
   The primary then sends
    [[TimestampOrderingInformation|transaction ordering information]]
    about transactions referenced in $X$ to all of its validator's
-   [[Execution Engines|execution engine's]] [[Shard Engine|shards]]. 
+   [[Execution Engines|execution engine's]] [[Shard Engine|shards]].
 
 - Workers on other validators will receive all relevant transactions for vertex $X$.
   For each transaction referenced by $X$'s worker hashes, workers
    store a copy.
-  These [[Worker Engine|workers]] also 
+  These [[Worker Engine|workers]] also
    [[ExecuteTransaction|send the transaction]] to their validator's
    [[Executor Engine|execution engine, starting a new executor process]].
   When a worker has stored copies of an entire batch, it sends a
@@ -132,13 +132,13 @@ We will go through all the messages exchanged between
 ### Consensus
 The [[Consensus Engine]] uses Heterogeneous Paxos to establish a
  total order of vertices in the Mempool DAG for each learner.
-This in turn implies a total order of transactions. 
+This in turn implies a total order of transactions.
 To this end, Validators on each chain try to achieve consensus on a
- vertex for each height (after genesis). 
+ vertex for each height (after genesis).
 
 - When it is a validator's turn to propose a vertex for some height,
    it [[RequestProposal|queries the mempool]] and receives a
-   [[PotentialProposal|valid recent vertex]] in response. 
+   [[PotentialProposal|valid recent vertex]] in response.
   The validator then
   [[HPaxosProposal|proposes this vertex to all the other validators on the chain]].
 
@@ -149,13 +149,13 @@ To this end, Validators on each chain try to achieve consensus on a
    then the [[Consensus Engine]]
    [[HPaxosCommitment|responds to all of the other validators]].
   Completing consensus takes at least 2 rounds of
-   [[HPaxosCommitment|messages after the proposal]]. 
+   [[HPaxosCommitment|messages after the proposal]].
 
 - When a validator can prove that a learner has decided on a vertex
    for a height, it broadcasts
    [[HPaxosDecision|the proof of this decision]] to all other
    validators' [[Consensus Engine|consensus engines]], which
-   eventually allows consensus to terminate. 
+   eventually allows consensus to terminate.
   It also sends its own [[Execution Engines|execution engine's]]
    [[Shard Engine|shards]] the [[AnchorChosen|chosen vertex]],
    so they can learn the total order of vertices, and by extension,
@@ -165,16 +165,16 @@ To this end, Validators on each chain try to achieve consensus on a
 - When the [[Worker Engine|mempool worker]] sends the
    [[Execution Engines|execution engine]] a
    [[ExecuteTransaction|transaction]] $T$, a new
-   [[Executor Engine|Executor]] spins up. 
-  State within the replicated state machine is divided into Key-Value pairs. 
+   [[Executor Engine|Executor]] spins up.
+  State within the replicated state machine is divided into Key-Value pairs.
   For each portion of Key space $T$'s label permits it to read or
    write, it [[KVSAcquireLock|acquires a lock]] on the appropriate
-   [[Shard Engine|shards]]. 
+   [[Shard Engine|shards]].
   For a transparent asset transfer, the keys read store proofs
    that the sender has the asset (and has not yet transfered it), and
    the keys written store proofs that the sender has transferred
-   the asset. 
-  Note that some keys can be both read and written. 
+   the asset.
+  Note that some keys can be both read and written.
 
 - For each key read, when the relevant [[Shard Engine|Shard]] learns
    the precise data to be read at that time (identifies a unique
@@ -198,7 +198,7 @@ To this end, Validators on each chain try to achieve consensus on a
    perform other side effects
    (such as sending messages to the client), so long as the state
    changes $T$ makes remain deterministic, depending only on $T$ and
-   on the values read. 
+   on the values read.
 
 - If $T$ completes without writing values to some of the keys on which
    it has write locks,
@@ -206,8 +206,8 @@ To this end, Validators on each chain try to achieve consensus on a
 
 - When $T$ completes, it
    [[ExecutorFinished|informs the mempool worker]] that this
-   transaction is finished. 
-  This information is later used for garbage collection. 
+   transaction is finished.
+  This information is later used for garbage collection.
 
 
 

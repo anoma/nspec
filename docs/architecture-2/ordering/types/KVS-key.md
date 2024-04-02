@@ -14,5 +14,3 @@ In V1, the default is a 256-bit hash.
 If $n$ shards are used, for $n\in \mathbb{N}$,
 then shard $i$ will be responsible for a key $k$
 if, and only if, $k \equiv i \mod n$.
-
-

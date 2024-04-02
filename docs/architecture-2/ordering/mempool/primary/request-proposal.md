@@ -16,6 +16,6 @@ Consensus is requesting the next anchor block to propose.
 - The newest fresh proposal is sent _or_ the next anchor block will be sent.
 
 ##### Triggers
-- _to_ [Consensus](../../consensus-v1.md): [`PotentialProposal`](../../consensus/potential-proposal.md)  
-  `if` a fresh proposal is ready  
-  `then` send the fresh proposal to consensus  
+- _to_ [Consensus](../../consensus-v1.md): [`PotentialProposal`](../../consensus/potential-proposal.md)
+  `if` a fresh proposal is ready
+  `then` send the fresh proposal to consensus

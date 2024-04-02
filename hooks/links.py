@@ -177,7 +177,7 @@ class WLPreprocessor(Preprocessor):
             url_relative = DOCS_DIR / \
                 Path(config['current_page'].url.replace('.html', '.md'))
             current_page_url = url_relative.as_posix()
-        
+
         in_code_block = False
         in_html_comment = False
         in_script = False
@@ -200,7 +200,7 @@ class WLPreprocessor(Preprocessor):
                 in_div = False
             if in_code_block or in_html_comment or in_script or in_div:
                 continue
-            
+
             matches = WIKILINK_PATTERN.finditer(line)
 
             for match in matches:
@@ -208,16 +208,16 @@ class WLPreprocessor(Preprocessor):
                                 display=match.group('display'))
                 ocurrence = Ocurrence(current_page_url,
                                       i + 1, match.start() + 2)
-                
+
                 link_page = link.page.replace('-', ' ')
 
                 if not link_page in config['url_for']:
-                    
+
                     log.debug(f"{ocurrence}\n'{link.text}'does target a non-existing page. Check the aliases in the navigation or on each page.")
-                    
+
                     lines[i] = lines[i].replace(match.group(0),
                                                 link.text)
-                    
+
                     config['wikilinks_issues'] += 1
 
                 elif len(config['url_for'][link_page]) > 1:
@@ -242,7 +242,7 @@ class WLPreprocessor(Preprocessor):
                     log.warning(f"""{ocurrence}\nReference: '{link_page}' at '{ocurrence}' is ambiguous. It could refer to any of the following pages:\n  {_list}\nPlease revise the page alias or add a path hint to disambiguate, e.g. [[folderA/subfolderB:page#anchor|display text]].""")
 
                     config['wikilinks_issues'] += 1
-                    
+
                     # rewrite the url to the first page in the list
                     if len(sorted_pages) > 0:
                         config['url_for'][link_page] = [sorted_pages[0]]
@@ -268,7 +268,7 @@ def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -
     if md_path not in config['aliases_for']:
         log.debug(f"""{md_path} is not linked in the navigation.""")
     return markdown
-    
+
 # AUXILIARY FUNCTIONS ----------------------------------------------
 
 def _extract_aliases_from_nav(item, parent_key=None):
