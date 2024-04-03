@@ -26,7 +26,6 @@ nav:
         - Local Key Value Storage Engine:
           - ./architecture-2/hardware-abstraction/local-storage-engines/local-key-value-storage-engine.md
           - Messages:
-            - ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages.md
             - GetValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/get-value-KVStore-request.md
             - GetValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/get-value-KVStore-response.md
             - SetValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/set-value-KVStore-request.md
@@ -487,6 +486,8 @@ theme:
     - content.tooltips
     - navigation.tracking
     - navigation.path
+    - navigation.sections
+    # - navigation.indexes
     # - navigation.instant # for offline use
     - search.highlight
     - search.suggest
@@ -497,7 +498,6 @@ theme:
 plugins:
   - search
   - ezglossary
-  - literate-nav
   - section-index
   - bibtex:
       bib_file: "art.bib"
