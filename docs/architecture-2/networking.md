@@ -201,7 +201,7 @@ in which case the [[EngineMessage#enginemessage]] is encrypted and wrapped in a 
 The message routing algorithm is described in the [[EngineMessage#enginemessage]] section.
 
 
-!!! note 
+!!! note
 
     An implementation may optimize intra-node messaging between local engine instances, such that they communicate directly instead of via the router.
 

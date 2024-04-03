@@ -80,7 +80,7 @@ we provide the following.
 
 <!-- TODO: Even when the following renders, it is not really clear what the structure of the description is. -->
 
-<!-- 
+<!--
 Thus, the structure of the description of engine models is as follows.
 
 - Engine 1
@@ -112,7 +112,7 @@ Thus, the structure of the description of engine models is as follows.
     _<↑link to sub-directory `MessageType_i_{m_i}`>_
     _\[…\]_
 - ⋮
-- engine $N$ 
+- engine $N$
 -->
 
 ![Message Diagram](rought_execution_engine_message_passing.svg)

@@ -1,6 +1,6 @@
 # Resource logic DAGs
 
-!!! note 
+!!! note
 
     For details about the implementation of `Resources` see [Resource Management](../resource.md#resource-management).
 
@@ -17,7 +17,7 @@ A _transaction_ in a resource logic DAG consists of a balanced set of partial tr
 > TODO: Describe the structural correspondence of `ptx`s to partially applied functions.
 
 !!! note
-    
+
     For validation criteria of Transactions, see [here](../resource.md#transactions-tx).
 
 A transaction is _consistent_ w.r.t. a physical DAG `D` if and only if:

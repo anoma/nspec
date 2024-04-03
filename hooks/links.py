@@ -29,6 +29,8 @@ INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / 'docs'
 
+ROOT_URL = '/nspec/' # update according to site_url
+
 """ Example of a wikilink with a path hint:
 [[path-hint:page#anchor|display text]]
 """
@@ -90,11 +92,10 @@ def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
     config.markdown_extensions.append(WLExtension(config))
     return config
 
-
 def on_pre_build(config: MkDocsConfig) -> None:
     if not Path(INDEXES_DIR / 'aliases.md').exists():
         with open(INDEXES_DIR / 'aliases.md', 'w') as f:
-            f.write("# Aliases\n\n")
+            f.write("# Links \n\n")
 
     config['to_url'] = {}
     config['from_url'] = {}
@@ -113,15 +114,15 @@ def on_pre_build(config: MkDocsConfig) -> None:
     config['current_page'] = None  # current page being processed
 
 
-def on_files(files, config) -> None:
+def on_files(files : Files, config : MkDocsConfig) -> None:
     """When MkDocs loads its files, extract aliases from any Markdown files
-    that were found. 
+    that were found.
     """
     for file in filter(lambda f: f.is_documentation_page(), files):
         with open(file.abs_src_path, encoding='utf-8-sig', errors='strict') as handle:
             source, meta_data = meta.get_data(handle.read())
             alias_names : Optional[List[str]] = _get_alias_names(meta_data)
-            
+
             if alias_names is None or len(alias_names) < 1:
                 _title:Optional[str] = _get_page_title(source, meta_data)
 
@@ -129,10 +130,13 @@ def on_files(files, config) -> None:
                     _title = _title.strip()
                     _title = re.sub(r'^[\'"`]|["\'`]$', '', _title)
                     if _title not in config['url_for']:
-                        config['url_for'][_title] = [file.src_uri]
-                        config['aliases_for'][file.src_uri] = [_title]
+                        
+                        url = (Path(".") / Path(file.src_uri)).as_posix()
+
+                        config['url_for'][_title] = [url]
+                        config['aliases_for'][url] = [_title]
                     else:
-                        log.debug(f"Title '{_title}' is already in use, so it will not be added to the aliases table for '{file.src_uri}'")
+                        log.debug(f"Title '{_title}' is already in use, so it will not be added to the aliases table for '{url}'")
 
     with open(DOCS_DIR / "indexes" / "aliases.md", 'w') as f:
         f.write(f"<h1>Aliases <small>({len(config['url_for'])})</small></h1>\n\n")
@@ -146,12 +150,10 @@ def on_files(files, config) -> None:
             if alias[0].upper() != current_letter:
                 current_letter = alias[0].upper()
                 f.write(f"\n## {current_letter}\n\n")
-            if 'http' in config['url_for'][alias]:
-                right_url = config['url_for'][alias]
-            elif config['site_url'].endswith('nspec/'):
-                right_url = f"{config['site_url'].rstrip('/')}/{config['url_for'][alias][0].lstrip('./').replace('.md', '.html')}"
-            f.write(f"- [{alias}]({right_url})\n")
-
+            
+            if len(config['url_for'][alias]) > 0:
+                right_url = _fix_url(root=config['site_url'], url=config['url_for'][alias][0], html=True)
+                f.write(f"- [{alias}]({right_url})\n")
 
 def on_post_build(config: MkDocsConfig):
     log.info(f"Found {config['wikilinks_issues']} wikilinks issues.")
@@ -225,7 +227,7 @@ class WLPreprocessor(Preprocessor):
                 Path(config['current_page'].url.replace('.html', '.md'))
             current_page_url = url_relative.as_posix()
 
-            log.warning(f"CURRENT PAGE: {current_page_url}")
+            log.debug(f"CURRENT PAGE: {current_page_url}")
 
         in_code_block = False
         in_html_comment = False
@@ -283,21 +285,22 @@ class WLPreprocessor(Preprocessor):
 
                 if link_page in config['url_for'] and \
                     len(config['url_for'][link_page]) == 1:
-                    
+
                     path = config['url_for'][link_page][0]
 
                     root_url = config['site_url']
-                    if '127.0.0.1' in root_url or 'localhost' in root_url:
-                        root_url = '/nspec/' 
 
-                    md_path = path.replace('./', root_url)\
-                            .replace('.md', '.html')
-                    
-                    md_link = f"[{link.display or link.page}]({md_path}{f'#{link.anchor}' if link.anchor else ''})"            
+                    if '127.0.0.1' in root_url or 'localhost' in root_url:
+                        root_url = ROOT_URL
+
+                    md_path = _fix_url(root=root_url, url = path, html=True)
+
+                    md_link = f"[{link.display or link.page}]({md_path}{f'#{link.anchor}' if link.anchor else ''})"
+
                     lines[i] = lines[i].replace(match.group(0), md_link)
-                    log.info(f"{ocurrence}:\nResolved link for page:\n  {link_page} -> {md_path}")
+                    log.debug(f"{ocurrence}:\nResolved link for page:\n  {link_page} -> {md_path}")
                 else:
-                    log.error(f"{ocurrence}:\nUnable to resolve a link for page:\n  {link_page}")
+                    log.error(f"{ocurrence}:\nUnable to resolve reference\n  {link_page}")
                     lines[i] = lines[i].replace(match.group(0), link.text)
                     config['wikilinks_issues'] += 1
         return lines
@@ -332,6 +335,15 @@ def _extract_aliases_from_nav(item, parent_key=None):
                 result.extend(_extract_aliases_from_nav(v, k))
     return result
 
+
+def _fix_url(root:str, url:str, html:bool=False) -> str:
+    right_url = url.lstrip('.').lstrip('/')
+    _root = root
+    if _root.endswith(ROOT_URL):
+        _root = root.rstrip('/')
+    if html: 
+        right_url = right_url.replace('.md', '.html')
+    return _root + "/" + right_url
 
 def _get_page_title(page_src: str, meta_data: dict) -> Optional[str]:
     """Returns the title of the page. The title in the meta data section

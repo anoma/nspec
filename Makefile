@@ -23,6 +23,10 @@ MIKEFLAGS?=--push  \
 build:
 	mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
+.PHONY: test-build
+test-build: export MKDOCSFLAGS=--clean
+test-build:
+	@mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 assets:
 	@curl -s -o art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
 

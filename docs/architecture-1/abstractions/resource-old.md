@@ -61,7 +61,7 @@ Creation of new Resources happens via Ephemeral Resources inside a partial trans
 
     For a fungible token, new tokens may be created with a valid signature from the issuing identity and they may be spent/consumed with a valid signature from the identity which currently owns them.
 
-!!! note 
+!!! note
 
     The Resource Logic is tied to everything influencing the fungibility of a Resource (Proof System and Static Data), we separate Predicates and Data, not for semantic reasons, but to reduce implementation complexity. The RL can optionally call external predicates which are stored in `resource_data_dynamic` or other `Resource`s.
 
