@@ -10,9 +10,7 @@ import os
 import re
 import shutil
 import subprocess
-import hashlib
 from pathlib import Path
-import time
 from typing import List, Optional, Tuple
 
 from mkdocs.structure.files import Files

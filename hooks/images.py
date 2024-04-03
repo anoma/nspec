@@ -19,6 +19,7 @@ INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / 'docs'
 IMAGES_DIR = DOCS_DIR / 'images'
+ROOT_URL = "/nspec/"
 
 IMAGES_PATTERN = re.compile(r"""
 !\[
@@ -140,14 +141,14 @@ class ImgPreprocessor(Preprocessor):
                     config['images_issues'] += 1
                     log.error(f"{ocurrence}\n [!] Image not found. Expected location:\n==> {img_location}")
 
-                root_url = config['site_url']
-                if '127.0.0.1' in root_url or 'localhost' in root_url:
-                    # only for local development
-                    root_url = '/nspec/' # hardcoded for now
+                # root_url = config['site_url']
+                # if '127.0.0.1' in root_url or 'localhost' in root_url:
+                #     # only for local development
+                #     root_url = '/nspec/' # hardcoded for now
+                
+                new_url = _fix_url(root=config['site_url'], url=img_location.relative_to(DOCS_DIR).as_posix(), html=True)
 
-                new_url = root_url / \
-                    img_location.relative_to(DOCS_DIR)
-                lines[i] = lines[i].replace(_url, new_url.as_posix())
+                lines[i] = lines[i].replace(_url, new_url)
 
                 log.debug(f"{ocurrence}\n[!] Image URL: {_url}\nwas replaced by the following URL:\n ==> {new_url}")
         return lines
@@ -156,3 +157,13 @@ class ImgPreprocessor(Preprocessor):
 def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -> str:
     config['current_page'] = page  # needed for the preprocessor
     return markdown
+
+
+def _fix_url(root:str, url:str, html:bool=False) -> str:
+    right_url = url.lstrip('.').lstrip('/')
+    _root = root
+    if _root.endswith(ROOT_URL):
+        _root = root.rstrip('/')
+    if html: 
+        right_url = right_url.replace('.md', '.html')
+    return _root + "/" + right_url
