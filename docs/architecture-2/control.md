@@ -37,4 +37,4 @@ The *Control Machine* is composed of the following three engines.
 
 ## Communication Diagram
 
-![Communication diagram](/nspec/images/communication-diagram-control-machine.svg)
+![Communication diagram](communication-diagram-control-machine.svg)

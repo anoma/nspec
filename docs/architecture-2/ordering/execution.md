@@ -139,7 +139,7 @@ For V1, we do not assume any key structure, so [[TransactionLabel]]s
 
 #### Transaction Candidate Labels
 
-![State Machine API](/nspec/images/state_machine_API_web.svg)
+![State Machine API](state_machine_API_web.svg)
 
 [[TransactionCandidate]]s are *[[TransactionLabel|labeled]]* with a
  set of keys they can read, and a set of keys they can write.
@@ -253,7 +253,7 @@ This is [multi-version concurrent storage](
     https://en.wikipedia.org/wiki/Multiversion_concurrency_control).
 
 
-![Per-key ordering (see web version for animation)](/nspec/images/keys_animated.svg)
+![Per-key ordering (see web version for animation)](keys_animated.svg)
 
 When a [[Shard]] has determined the value a [[TransactionCandidate]]
  reads from a key, it sends that value to the corresponding
@@ -272,7 +272,7 @@ Each [[TransactionCandidate]] is assigned its own [[Executor|Executor]]
 The Execution Engines might keep a pool of [[Executor|Executors]], or spin a
  new one up with each [[TransactionCandidate]].
 
-![Execution Architecture](/nspec/images/execution_architecture_web.svg)
+![Execution Architecture](execution_architecture_web.svg)
 
 The [[Executor|Executor]] sends [[KVSReadRequest|read requests]] to the
  relevant [[Shard|Shards]] to obtain values the [[TransactionCandidate]]
@@ -294,7 +294,7 @@ For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
 <!--
 ## Life of a Transaction
 
-![Execution Architecture](/nspec/images/execution_architecture_web.svg)
+![Execution Architecture](execution_architecture_web.svg)
 
 - When the [[Mempool Engines|mempool engine]] stores a transaction candidate,
   the mempool worker informs the relevant shards about

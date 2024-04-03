@@ -49,7 +49,7 @@ Typhon can be broken down into three engines:
 - an [execution engine](./engines/execution.md#execution), which executes the transactions on the state machine.
 
 We expect each Anoma participant (*validator*) will run processes for all three engines.
-![layer diagram](/nspec/images/layers_web.svg)
+![layer diagram](layers_web.svg)
 Above, a _client_ can be a [solver](./engines/solver.md#solver), ferveo, or anyone else who generates transactions to be ordered.
 The critical path of the protocol is shown in thicker arrows, with other crucial messages shown in narrower arrows.
 

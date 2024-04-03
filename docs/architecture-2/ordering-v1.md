@@ -94,7 +94,6 @@ but these are not considered in V1.
 ![](ordering-v1.svg)
 
 
-
 --8<-- "./ordering/a-complete-lifecycle.md"
 
 

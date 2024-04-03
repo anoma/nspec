@@ -1,6 +1,8 @@
 
 import re
 import os
+import shutil
+import subprocess
 import mkdocs.plugins
 import logging
 from typing import Any, Callable, List, Optional, Tuple, Dict, Set
@@ -23,12 +25,22 @@ INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / 'docs'
+IMAGES_DIR = DOCS_DIR / 'images'
 
 IMAGES_PATTERN = re.compile(r"""
 !\[
 (?P<caption>[^\]]*)\]\(
 (?P<url>[^\)]+)\)
 """, re.VERBOSE)
+
+
+DOT_BIN = os.getenv('DOT_BIN', 'dot')
+USE_DOT = bool(os.getenv('USE_DOT', True))
+
+if not shutil.which(DOT_BIN):
+    log.error(
+        f"Graphviz not found. Please install it and set the DOT_BIN environment variable.")
+    USE_DOT = False
 
 
 class Ocurrence:
@@ -104,20 +116,44 @@ class ImgPreprocessor(Preprocessor):
             matches = IMAGES_PATTERN.finditer(line)
 
             for match in matches:
-                caption = match.group('caption')
                 url = Path(match.group('url'))
-                # extract the name of the image file
-                image_fname = url.name
-                new_url = Path(config['site_url']) / "images" / image_fname
-
-                whole_match = match.group(0)
+                if url.as_posix().startswith('http'):
+                    continue
 
                 ocurrence = Ocurrence(current_page_url,
                                       i + 1, match.start() + 2)
-                log.debug(f"{ocurrence}\n{whole_match}\n- file_name: {url.name}\n- new_url: {new_url}")
 
-                lines[i] = lines[i].replace(url.name, new_url.as_posix())
-                # exit()
+                image_fname = url.name
+                img_location = IMAGES_DIR / url.name
+
+                if image_fname.endswith('.dot.svg') and USE_DOT:
+                    dot_file = image_fname.replace('.dot.svg', '.dot')
+                    dot_location = IMAGES_DIR / dot_file
+                    log.debug(f"{ocurrence}\nGenerating SVG from DOT file: {
+                              dot_location}")
+                    
+                    if not dot_location.exists():
+                        log.info(
+                            f"{dot_location} not found. Skipping SVG generation.")
+
+                    cmd = f"{DOT_BIN} -Tsvg {dot_location.as_posix()
+                                             } -o {DOCS_DIR / img_location}"
+
+                    output = subprocess.run(cmd, shell=True, check=True)
+
+                    if output.returncode != 0:
+                        log.error(f"Error running graphviz: {output}")
+
+                if not img_location.exists():
+                    config['images_issues'] += 1
+                    log.error(f"{ocurrence}\n [!] Image not found. Expected location:\n{img_location}")
+                    exit(1)
+
+                # new_url = Path(config['site_url']) / location
+
+                # log.info(f"{ocurrence}\n{whole_match}\n- Image file name: {url.name}\n- new_url: {new_url}")
+
+                # lines[i] = lines[i].replace(url.name, new_url.as_posix())
         return lines
 
 
