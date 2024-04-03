@@ -125,49 +125,13 @@ def on_files(files, config) -> None:
             if alias_names is None or len(alias_names) < 1:
                 _title:Optional[str] = _get_page_title(source, meta_data)
 
-                if _title and _title not in config['url_for']:
+                if _title:
                     _title = _title.strip()
-                    config['url_for'][_title] = [file.src_uri]
-                    config['aliases_for'][file.src_uri] = [_title]
-
-        #             meta_data['alias'] = { 'name': _title }
-        #         else:
-        #             continue
-
-        #     if len(alias_names) > 1:
-        #         log.info(
-        #             '%s defines %d aliases:', file.url, len(alias_names)
-        #         )
-        #     for alias in alias_names:
-        #         existing = aliases.get(alias)
-        #         if existing is not None:
-        #             log.warning(
-        #                 "%s: alias %s already defined in %s, skipping.",
-        #                 file.src_uri,
-        #                 alias,
-        #                 existing['url']
-        #             )
-        #             continue
-
-        #         new_alias = {
-        #             'alias': alias,
-        #             'text': (
-        #                 meta_data['alias']['text']
-        #                 # if meta_data['alias'] is a dictionary and 'text' is a key
-        #                 if isinstance(meta_data['alias'], dict) and \
-        #                     'text' in meta_data['alias']
-        #                 else _get_page_title(source, meta_data)
-        #             ),
-        #             'url': file.src_uri,
-        #         }
-        #         log.info(
-        #             "Alias %s to %s",
-        #             alias,
-        #             new_alias['url']
-        #         )
-        #         aliases[alias] = new_alias
-    # exit()
-
+                    if _title not in config['url_for']:
+                        config['url_for'][_title] = [file.src_uri]
+                        config['aliases_for'][file.src_uri] = [_title]
+                    else:
+                        log.debug(f"Title '{_title}' is already in use, so it will not be added to the aliases table for '{file.src_uri}'")
 
 class WLExtension(Extension):
 
