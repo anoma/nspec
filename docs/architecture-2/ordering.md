@@ -212,6 +212,7 @@ To this end, Validators on each chain try to achieve consensus on a
 
 
 ## Certificates and the Mempool DAG
+
 Availability and integrity certificates describe a “global” mempool ᴅᴀɢ consisting of two types of edges:
 primary-specific ones and learner-specific ones.
 Primary-specific edges correspond to certificates of availability;

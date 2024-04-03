@@ -1,19 +1,24 @@
 # Resource logic DAGs
 
-> Note: For details about the implementation of `Resources` see [Resource Management](../resource.md#resource-management).
+!!! note 
+
+    For details about the implementation of `Resources` see [Resource Management](../resource.md#resource-management).
 
 The resource logic DAG provides an abstraction of a _linear resource logic_ with which distributed applications can model finite objects. This logic is based on a concept of a _resource_, which is a unique datum created at a particular point in logical time and possibly consumed later in logical time. Each resource is an instance of a particular _resource logic_, which specifies how (under what conditions) resources of that type can be created and consumed. The resource logic DAG tracks when resources are created and when they are consumed. Resources are only allowed to be consumed after they have been created.  At any point in logical time, the resource logic DAG has a state consisting of all resources which have been created but not consumed.
 
 The resource logic DAG also tracks linear logic violations (duplicate consumptions of the same resource, or "double spends"). Each resource has an ordered list of controller identities, where a valid signature from the last identity in the list is required to consume the resource. At any point in logical time, the latest (right-most) controller of a resource is responsible for ordering possibly conflicting transactions. Resources can be transferred to a new controller (modulo additional validation in the predicates) by appending to the list, or as a special case, they can be transferred to the previous controller (dropping an item from the end of the list). In the case of a double-spend of a resource - namely, a non-total order of two conflicting transactions both signed by the current controller - the conflict is resolved by the controller one element earlier in the list when the resource is eventually transferred back, and in the case of multiple double-spends recursively until the originator (at which point, if they also double-spend, linearity is violated, but as if the originator had just issued more resources, and in any case there is no in-system recovery possible at this point). Controller identities can be defined in particular ways which encode bespoke conflict resolution logic. Recovery from linearity violations does not require any reversal or reordering of transactions, as we keep this explicit "chain of promises" of controllers, so if some controller `I` double-spends, subsequent resources with `I` in the controller list may simply no longer be redeemable back along the original path. By accepting resources with a particular path of controllers, an application or user accepts the double-spend risk of any of the controllers, which can be mitigated by waiting for those controllers to sign over the transaction (which finalises it and guarantees future redemption from their perspective).
 
 ## Transaction DAG
+
 > TODO: Decide which parts of this subsection should still be moved to Resource Management.
 
 A _transaction_ in a resource logic DAG consists of a balanced set of partial transactions (`ptx`s), which consume a (possibly empty) set of existing resources and create a (possibly empty) set of new resources. Transactions are atomic, in that either the whole transaction is valid (and can be appended to / part of a valid resource logic DAG), or the transaction is not valid and cannot be appended to / included in the resource logic DAG.
 
 > TODO: Describe the structural correspondence of `ptx`s to partially applied functions.
 
-> Note: For validation criteria of Transactions, see [here](../resource.md#transactions-tx).
+!!! note
+    
+    For validation criteria of Transactions, see [here](../resource.md#transactions-tx).
 
 A transaction is _consistent_ w.r.t. a physical DAG `D` if and only if:
 - All consumed resources were previously created by a transaction in the history, which was itself (recursively) consistent and final

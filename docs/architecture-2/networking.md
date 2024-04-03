@@ -162,11 +162,11 @@ Both methods use domain membership similarity as a distance metric.
 
 ## Software architecture
 
-<figure class="invertable wide">
+<figure class="invertable wide" markdown="span">
 
-![Engines of the Networking Machine](engines.dot.svg)
+![Engines of the Networking Machine](engines.dot.svg){ width="450" }
 
-<figcaption>
+<figcaption markdown="span">
 
 **Engines of the Networking Machine.**
 Octagons are engines with a single instance per node.
@@ -200,7 +200,10 @@ in which case the [[EngineMessage#enginemessage]] is encrypted and wrapped in a 
 
 The message routing algorithm is described in the [[EngineMessage#enginemessage]] section.
 
-> Note: an implementation may optimize intra-node messaging between local engine instances, such that they communicate directly instead of via the router.
+
+!!! note 
+
+    An implementation may optimize intra-node messaging between local engine instances, such that they communicate directly instead of via the router.
 
 ##### Transport
 

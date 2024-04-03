@@ -113,6 +113,26 @@ def on_pre_build(config: MkDocsConfig) -> None:
     config['current_page'] = None  # current page being processed
 
 
+def on_files(files, config) -> None:
+    """When MkDocs loads its files, extract aliases from any Markdown files
+    that were found. 
+    """
+    for file in filter(lambda f: f.is_documentation_page(), files):
+        with open(file.abs_src_path, encoding='utf-8-sig', errors='strict') as handle:
+            source, meta_data = meta.get_data(handle.read())
+            alias_names : Optional[List[str]] = _get_alias_names(meta_data)
+            
+            if alias_names is None or len(alias_names) < 1:
+                _title:Optional[str] = _get_page_title(source, meta_data)
+
+                if _title:
+                    _title = _title.strip()
+                    if _title not in config['url_for']:
+                        config['url_for'][_title] = [file.src_uri]
+                        config['aliases_for'][file.src_uri] = [_title]
+                    else:
+                        log.debug(f"Title '{_title}' is already in use, so it will not be added to the aliases table for '{file.src_uri}'")
+
 class WLExtension(Extension):
 
     def __init__(self, mkconfig):
@@ -155,7 +175,6 @@ class WLExtension(Extension):
         self.wlpp = WLPreprocessor(self.mkconfig, sp)
         md.preprocessors.register(self.wlpp, 'wl-pp', 100)
 
-
 class WLPreprocessor(Preprocessor):
     def __init__(self, mkconfig, snippet_preprocessor):
         self.mkconfig = mkconfig
@@ -169,14 +188,16 @@ class WLPreprocessor(Preprocessor):
         config = self.mkconfig
         current_page_url = None
         if 'current_page' in config and isinstance(config['current_page'], Page):
+
             url_relative = DOCS_DIR / \
                 Path(config['current_page'].url.replace('.html', '.md'))
             current_page_url = url_relative.as_posix()
 
+            log.warning(f"CURRENT PAGE: {current_page_url}")
+
         in_code_block = False
         in_html_comment = False
         in_script = False
-        in_div = False
 
         for i, line in enumerate(lines.copy()):
             if line.strip().startswith('```'):
@@ -189,11 +210,7 @@ class WLPreprocessor(Preprocessor):
                 in_script = True
             if '</script>' in line:
                 in_script = False
-            if '<div' in line:
-                in_div = True
-            if '</div>' in line:
-                in_div = False
-            if in_code_block or in_html_comment or in_script or in_div:
+            if in_code_block or in_html_comment or in_script:
                 continue
 
             matches = WIKILINK_PATTERN.finditer(line)
@@ -206,16 +223,7 @@ class WLPreprocessor(Preprocessor):
 
                 link_page = link.page.replace('-', ' ')
 
-                if not link_page in config['url_for']:
-
-                    log.debug(f"{ocurrence}\n'{link.text}'does target a non-existing page. Check the aliases in the navigation or on each page.")
-
-                    lines[i] = lines[i].replace(match.group(0),
-                                                link.text)
-
-                    config['wikilinks_issues'] += 1
-
-                elif len(config['url_for'][link_page]) > 1:
+                if len(config['url_for'].get(link_page, [])) > 1:
 
                     possible_pages = config['url_for'][link_page]
 
@@ -238,21 +246,28 @@ class WLPreprocessor(Preprocessor):
 
                     config['wikilinks_issues'] += 1
 
-                    # rewrite the url to the first page in the list
                     if len(sorted_pages) > 0:
                         config['url_for'][link_page] = [sorted_pages[0]]
 
-                # print(config['url_for']['User'])
                 if link_page in config['url_for'] and \
                     len(config['url_for'][link_page]) == 1:
+                    
                     path = config['url_for'][link_page][0]
-                    md_path = path.replace('./', config['site_url'])\
-                            .replace('.md', '.html')
-                    md_link = f"[{link.display or link.page}]({md_path}{f'#{link.anchor}' if link.anchor else ''})"            
 
+                    root_url = config['site_url']
+                    if '127.0.0.1' in root_url or 'localhost' in root_url:
+                        root_url = '/nspec/' 
+
+                    md_path = path.replace('./', root_url)\
+                            .replace('.md', '.html')
+                    
+                    md_link = f"[{link.display or link.page}]({md_path}{f'#{link.anchor}' if link.anchor else ''})"            
                     lines[i] = lines[i].replace(match.group(0), md_link)
+                    log.info(f"{ocurrence}:\nResolved link for page:\n  {link_page} -> {md_path}")
                 else:
-                    log.debug(f"{ocurrence}:\n Wikilink's page'{link_page}' no linked in the navigation.")
+                    log.error(f"{ocurrence}:\nUnable to resolve a link for page:\n  {link_page}")
+                    lines[i] = lines[i].replace(match.group(0), link.text)
+                    config['wikilinks_issues'] += 1
         return lines
 
 
