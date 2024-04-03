@@ -29,8 +29,6 @@ INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / 'docs'
 
-SITE_PATH ='/nspec/'
-
 """ Example of a wikilink with a path hint:
 [[path-hint:page#anchor|display text]]
 """
@@ -59,6 +57,7 @@ class Ocurrence:
 
 
 class WikiLink:
+
     def __init__(self, page: str, hint: Optional[str] = None, anchor: Optional[str] = None, display: Optional[str] = None):
         self.page: str = page.strip()
         self.hint: Optional[str] = hint.strip() if hint else None
@@ -83,10 +82,6 @@ class WikiLink:
         if self.display:
             s += f"display={self.display}"
         return f"WikiLink({s})"
-
-    def to_markdown(self, path):
-        md_path = path.replace('./', SITE_PATH).replace('.md', '.html')
-        return f"[{self.display or self.page}]({md_path}{f'#{self.anchor}' if self.anchor else ''})"
 
 
 def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
@@ -251,7 +246,10 @@ class WLPreprocessor(Preprocessor):
                 if link_page in config['url_for'] and \
                     len(config['url_for'][link_page]) == 1:
                     path = config['url_for'][link_page][0]
-                    md_link = link.to_markdown(path)
+                    md_path = path.replace('./', config['site_url'])\
+                            .replace('.md', '.html')
+                    md_link = f"[{link.display or link.page}]({md_path}{f'#{link.anchor}' if link.anchor else ''})"            
+
                     lines[i] = lines[i].replace(match.group(0), md_link)
                 else:
                     log.warning(f"{ocurrence}:\n Page '{link_page}' no linked in the navigation.\n  - {link}")
