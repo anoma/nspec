@@ -297,3 +297,4 @@ markdown/
 
 env/
 docs/indexes/
+docs/images/*.dot.svg
