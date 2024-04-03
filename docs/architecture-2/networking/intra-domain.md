@@ -83,12 +83,12 @@ and corresponding signed storage receipts with the provided guarantees.
 
 <!-- Diagram illustrating message flows between engines -->
 
-<figure class="invertable wide img-max">
+<figure class="invertable wide img-max" markdown="span">
 
 ![Multicast message](multicast.dot.svg)
 
 <!-- --8<-- [start:fig-multicast-caption] -->
-<figcaption>
+<figcaption markdown="span">
 
 **Multicast (pub/sub) message** with publisher *A_X* and subscribers *B_X, C_X, D_X* sent to topic *T*.
 Published by node *A* and forwarded to node *B* and *C*, then from node *B* to node *D*.

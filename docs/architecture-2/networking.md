@@ -85,32 +85,28 @@ It makes routing decisions based on the destination identity in the message.
 
 #### Intra-node unicast & multicast messages
 
-<figure class="invertable">
 
-![Inter-node messages](node.dot.svg)
+<figure markdown="span">
 
+![Inter-node messages](node.dot.svg){ width="450" }
 --8<-- "networking/node.md:fig-node-caption"
-
 </figure>
+
 
 #### Inter-node unicast messages
 
-<figure class="invertable wide">
+<figure class="invertable wide" markdown="span">
 
-![Unicast message](unicast.dot.svg)
-
+![Unicast message](unicast.dot.svg){ width="450" }
 --8<-- "networking/node.md:fig-unicast-caption"
-
 </figure>
 
 #### Inter-node multicast messages
 
-<figure class="invertable wide img-max">
+<figure class="invertable wide img-max" markdown="span">
 
-![Multicast message](multicast.dot.svg)
-
+![Multicast message](multicast.dot.svg){ width="450" }
 --8<-- "networking/intra-domain.md:fig-multicast-caption"
-
 </figure>
 
 
@@ -127,7 +123,6 @@ and routing anycast messages to domains.
 ### Intra-domain protocols
 
 <div class="v2" markdown>
-
 
 Inside each domain, a [[Domain#domain]] membership and an overlay [[Topology#topology]] maintenance protocol
 are responsible for responding to membership decisions,
