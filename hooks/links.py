@@ -127,11 +127,43 @@ def on_files(files, config) -> None:
 
                 if _title:
                     _title = _title.strip()
+                    _title = re.sub(r'^[\'"`]|["\'`]$', '', _title)
                     if _title not in config['url_for']:
                         config['url_for'][_title] = [file.src_uri]
                         config['aliases_for'][file.src_uri] = [_title]
                     else:
                         log.debug(f"Title '{_title}' is already in use, so it will not be added to the aliases table for '{file.src_uri}'")
+
+    with open(DOCS_DIR / "indexes" / "aliases.md", 'w') as f:
+        f.write(f"<h1>Aliases <small>({len(config['url_for'])})</small></h1>\n\n")
+        current_letter = ''
+        for_index = sorted(config['url_for'].keys()).copy()
+
+        if 'Aliases' in for_index:
+            for_index.remove('Aliases')
+
+        for alias in for_index:
+            if alias[0].upper() != current_letter:
+                current_letter = alias[0].upper()
+                f.write(f"\n## {current_letter}\n\n")
+            if 'http' in config['url_for'][alias]:
+                right_url = config['url_for'][alias]
+            elif config['site_url'].endswith('nspec/'):
+                right_url = f"{config['site_url'].rstrip('/')}/{config['url_for'][alias][0].lstrip('./').replace('.md', '.html')}"
+            f.write(f"- [{alias}]({right_url})\n")
+
+
+def on_post_build(config: MkDocsConfig):
+    log.info(f"Found {config['wikilinks_issues']} wikilinks issues.")
+
+    """Executed after the build ends. Writes the aliases to a markdown file."""
+    with open(INDEXES_DIR / 'aliases.txt', 'a') as f:
+        f.write(f"\n\n## Aliases\n\n")
+        for alias, urls in config['aliases_for'].items():
+            f.write(f"- [{alias}]({urls[0]})\n")
+            for url in urls[1:]:
+                f.write(f"  - [{url}]({url})\n")
+
 
 class WLExtension(Extension):
 
