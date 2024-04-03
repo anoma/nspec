@@ -116,7 +116,8 @@ class ImgPreprocessor(Preprocessor):
             matches = IMAGES_PATTERN.finditer(line)
 
             for match in matches:
-                url = Path(match.group('url'))
+                _url = match.group('url')
+                url = Path(_url)
                 if url.as_posix().startswith('http'):
                     continue
 
@@ -131,7 +132,7 @@ class ImgPreprocessor(Preprocessor):
                     dot_location = IMAGES_DIR / dot_file
                     log.debug(f"{ocurrence}\nGenerating SVG from DOT file: {
                               dot_location}")
-                    
+
                     if not dot_location.exists():
                         log.info(
                             f"{dot_location} not found. Skipping SVG generation.")
@@ -146,14 +147,12 @@ class ImgPreprocessor(Preprocessor):
 
                 if not img_location.exists():
                     config['images_issues'] += 1
-                    log.error(f"{ocurrence}\n [!] Image not found. Expected location:\n{img_location}")
+                    log.error(f"{ocurrence}\n [!] Image not found. Expected location:\n==> {
+                              img_location}")
                     exit(1)
-
-                # new_url = Path(config['site_url']) / location
-
-                # log.info(f"{ocurrence}\n{whole_match}\n- Image file name: {url.name}\n- new_url: {new_url}")
-
-                # lines[i] = lines[i].replace(url.name, new_url.as_posix())
+                new_url = config['site_url'] / \
+                    img_location.relative_to(DOCS_DIR)
+                lines[i] = lines[i].replace(_url, new_url.as_posix())
         return lines
 
 
