@@ -26,7 +26,7 @@ The message is sent between the participating acceptor nodes.
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)
 
 <!---
-```rust!
+```rust
 struct DirectReferences {
   chain_id : ChainId,
   height : Height,

@@ -25,7 +25,7 @@ The message is sent between the participating acceptor nodes.
 - to [Mempool](#Mempool): [`CheckProposal`](#CheckProposal)
 
 <!---
-```rust!
+```rust
 struct Proposal {
   chain_id : ChainId,
   height : Height,

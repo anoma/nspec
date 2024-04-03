@@ -12,7 +12,7 @@ There are three variants of the message, dependent on the message purpose accord
 
 ##### `HeterogeneousPaxosMessage`
 
-```rust!
+```rust
 enum HeterogeneousPaxosMessage {
   /// encodes a 1A
   HpmProposal(SignedMessage<Proposal>),
@@ -60,7 +60,7 @@ and just send these out to anyone who is still trying to do consensus.
 | `message_quorum` | `DirectReferences` | direct references to a quorum of messages |
 
 <!---
-```rust!
+```rust
 struct Proposal {
   chain_id : ChainId,
   height : Height,

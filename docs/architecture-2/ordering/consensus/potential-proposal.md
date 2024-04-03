@@ -25,7 +25,7 @@ Communicates that a specific payload is (or isn't) a valid proposal for consensu
 - to [Consensus](#Consensus): [`HPaxosProposal`](#HPaxosProposal)
 
 <!--
-```rust!
+```rust
 /// Communicates that a specific payload is (or isn't) a valid proposal for consensus on the chain.
 struct PotentialProposal {
   chain_id : ChainId,

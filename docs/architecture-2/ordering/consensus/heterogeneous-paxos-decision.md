@@ -23,7 +23,7 @@ and just send these out to anyone who is still trying to do consensus.
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)
 
 <!---
-```rust!
+```rust
 struct Decision {
   // This is more of an optimization: sometimes it's helpful to tell someone that a decision has
   // been made, and send over the list of messages they need to see the decision (a quorum of 2As).

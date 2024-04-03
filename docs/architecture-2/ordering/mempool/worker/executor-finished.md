@@ -20,7 +20,7 @@ Informs the mempool about execution of a transaction.
 
 
 <!--
-```rust!
+```rust
 struct ExecutorFinished {
   executable_hash : Hash, // a hash of the [TransactionExecutable] should uniquely identify it without being too repetitive.
   timestamp : Timestamp, // the timestamp at which the transaction was executed (represents its position in the Mempool DAG)

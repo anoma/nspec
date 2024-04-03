@@ -62,8 +62,26 @@ The following are the prerequisites to build the website locally:
     mkdocs serve
     ```
 
-6. If you expect to use some [Material's insiders
-feature](https://squidfunk.github.io/mkdocs-material/reference/), reach us,
-because we need to provide you a token to use it. However, this is not necessary
-to write the content or to build the website, at least to see the basic
-structure.
+Alternatively, you can run the following command to serve the website without
+only error messages:
+
+```bash
+MKDOCSFLAGS=--quiet make serve
+```
+
+6. Accessing Material Insider Features
+
+For access to [Material for MkDocs
+Insiders](https://squidfunk.github.io/mkdocs-material/reference/) features,
+contact us to obtain a token. However, you can still build the website without
+these features. So, to use insiders features (you require to set the `GH_TOKEN`),
+
+```bash
+pip3 install -r insiders.requirements.txt
+```
+
+and run, for example:
+
+```bash
+MKDOCSFLAGS=--quiet MKDOCSCONFIG=mkdocs.insiders.yml make serve
+```
