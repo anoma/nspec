@@ -18,7 +18,7 @@ plugins:
   - literate-nav
   - section-index
   - glightbox
-
+  - typeset
   - git-revision-date-localized:
       type: timeago
       custom_format: "%d. %B %Y"
@@ -30,15 +30,14 @@ plugins:
         - index.md
       enabled: !ENV [CI, false]
       strict: true
-
   - git-committers:
       repository: anoma/nspec
       token: !ENV [GH_TOKEN, ""]
       branch: main
       enabled: !ENV [CI, false]
-
   - mike:
       canonical_version: latest
+      alias_type: copy
       version_selector: true
       css_dir: docs/assets/css
       javascript_dir: docs/assets/js

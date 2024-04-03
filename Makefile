@@ -3,7 +3,7 @@ VERSION?=$(shell cat VERSION)
 ALIAS?=latest
 MKDOCSCONFIG?=mkdocs.yml
 PIP?=pip3
-MKDOPCSFLAGS?=
+MKDOCSFLAGS?=--quiet
 
 DEV?=true
 DEVALIAS?="dev"
@@ -21,7 +21,7 @@ MIKEFLAGS?=--push  \
 	--config-file ${MKDOCSCONFIG}
 
 build:
-	mkdocs build --config-file ${MKDOCSCONFIG}
+	mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
 assets:
 	@curl -s -o art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
