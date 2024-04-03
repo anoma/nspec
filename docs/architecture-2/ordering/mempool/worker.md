@@ -70,7 +70,7 @@ There is no precise state representation described by the V1 specs.
 
 --8<-- "worker/executor-finished.md:blurp"
 
-<details>
+<details  markdown="1">
   <summary>Details</summary>
 --8<-- "worker/executor-finished.md:details"
 </details>
@@ -80,7 +80,7 @@ There is no precise state representation described by the V1 specs.
 
 --8<-- "worker/transaction-request.md:blurp"
 
-<details>
+<details  markdown="1">
   <summary>Details</summary>
 --8<-- "worker/transaction-request.md:details"
 </details>
@@ -90,7 +90,7 @@ There is no precise state representation described by the V1 specs.
 
 --8<-- "worker/executor-PID-assigned.md:blurp"
 
-<details>
+<details  markdown="1">
   <summary>Details</summary>
 --8<-- "worker/executor-PID-assigned.md:details"
 </details>
@@ -103,7 +103,7 @@ There is no precise state representation described by the V1 specs.
 
 --8<-- "worker/KVS-lock-acquired.md:blurb"
 
-<details>
+<details  markdown="1">
   <summary>Details</summary>
 --8<-- "worker/KVS-lock-acquired.md:details"
 </details>
@@ -114,7 +114,7 @@ There is no precise state representation described by the V1 specs.
 
 --8<-- "worker/request-logs.md:blurb"
 
-<details>
+<details  markdown="1">
   <summary>Details</summary>
 --8<-- "worker/request-logs.md:details"
 </details>

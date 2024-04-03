@@ -13,7 +13,7 @@ by geo-distributed executors to allow for collocation with shards.
 ## [[SpawnExecutor]]
 
 --8<-- "./execution-supervisor/spawn-executor.md:blurp"
-<details>
+<details  markdown="1">
     <summary>Details</summary>
 --8<-- "./execution-supervisor/spawn-executor.md:details"
 </details>
