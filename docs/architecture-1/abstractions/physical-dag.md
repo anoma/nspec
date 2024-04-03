@@ -46,6 +46,6 @@ A honest agent behaves as following:
     - This is unenforceable, but detectable: two observations from the same identity, neither of which includes the other in its transitive witness set, constitute a violation of total transmission order, and these violations can be processed in some fashion by higher-layer logical DAGs (e.g. slashing).
     - Higher layers processing the physical DAG may or may not care about this, but the physical DAG layer should provide sufficient structure to detect such violations of total transmission order efficiently. This could be done by keeping a witness set in each message, which must be correctly updated to include all of the witnesses in the message's transitive witness history. Two observations from the same identity, neither of which includes the other in its witness set, consitute a violation of total transmission order (this can be checked in `O(log n)`).
 
-!!! note 
+!!! note
 
     There is no notion of linearity at this layer, only total transmission order.

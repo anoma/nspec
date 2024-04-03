@@ -51,7 +51,7 @@ TODO: is this different from `Timestamp`?
 
 ```rust
 type ClockTime = ()
-``` 
+```
 
 #### `Identity`
 
