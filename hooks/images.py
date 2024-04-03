@@ -123,15 +123,13 @@ class ImgPreprocessor(Preprocessor):
                 if image_fname.endswith('.dot.svg') and USE_DOT:
                     dot_file = image_fname.replace('.dot.svg', '.dot')
                     dot_location = IMAGES_DIR / dot_file
-                    log.debug(f"{ocurrence}\nGenerating SVG from DOT file: {
-                              dot_location}")
+                    log.debug(f"{ocurrence}\nGenerating SVG from DOT file: {dot_location}")
 
                     if not dot_location.exists():
                         log.info(
                             f"{dot_location} not found. Skipping SVG generation.")
 
-                    cmd = f"{DOT_BIN} -Tsvg {dot_location.as_posix()
-                                             } -o {DOCS_DIR / img_location}"
+                    cmd = f"{DOT_BIN} -Tsvg {dot_location.as_posix()} -o {DOCS_DIR / img_location}"
 
                     output = subprocess.run(cmd, shell=True, check=True)
 
@@ -140,8 +138,7 @@ class ImgPreprocessor(Preprocessor):
 
                 if not img_location.exists():
                     config['images_issues'] += 1
-                    log.error(f"{ocurrence}\n [!] Image not found. Expected location:\n==> {
-                              img_location}")
+                    log.error(f"{ocurrence}\n [!] Image not found. Expected location:\n==> {img_location}")
 
                 root_url = config['site_url']
                 if '127.0.0.1' in root_url or 'localhost' in root_url:
@@ -152,8 +149,7 @@ class ImgPreprocessor(Preprocessor):
                     img_location.relative_to(DOCS_DIR)
                 lines[i] = lines[i].replace(_url, new_url.as_posix())
 
-                log.debug(f"{ocurrence}\n[!] Image URL: {
-                            _url}\nwas replaced by the following URL:\n ==> {new_url}")
+                log.debug(f"{ocurrence}\n[!] Image URL: {_url}\nwas replaced by the following URL:\n ==> {new_url}")
         return lines
 
 

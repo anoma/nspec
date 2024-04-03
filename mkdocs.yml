@@ -37,7 +37,6 @@ nav:
             - ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications.md
             - ValueChangedKVStore: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications/value-changed-KVStore.md
           - Types:
-            - ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types.md
             - GetValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/get-value-KVStore-request-v1.md
             - GetValueKVStoreResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/get-value-KVStore-response-v1.md
             - SetValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/set-value-KVStore-request-v1.md
@@ -61,7 +60,6 @@ nav:
             - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/notifications.md
             - DataChangedTimeSeriesDB: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md
           - Types:
-            - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types.md
             - GetDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/get-data-time-series-DB-request-v1.md
             - GetDataTimeSeriesDBResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/get-data-time-series-DB-response-v1.md
             - RecordDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/record-data-time-series-DB-request-v1.md
@@ -78,7 +76,6 @@ nav:
           - LocalComputeSearchResult: ./architecture-2/hardware-abstraction/local-compute-engine/messages/local-compute-search-result.md
         - Notifications: ./architecture-2/hardware-abstraction/local-compute-engine/notifications.md
         - Types:
-          - ./architecture-2/hardware-abstraction/local-compute-engine/types.md
           - LocalComputeSearchV1: ./architecture-2/hardware-abstraction/local-compute-engine/types/local-compute-search-v1.md
           - LocalComputeSearchResultV1: ./architecture-2/hardware-abstraction/local-compute-engine/types/local-compute-search-result-v1.md
           - PredicateV1: ./architecture-2/hardware-abstraction/local-compute-engine/types/Predicate-v1.md
@@ -92,7 +89,6 @@ nav:
           - LocalRandomnessGetRandResult: ./architecture-2/hardware-abstraction/local-randomness-engine/messages/local-randomness-get-rand-result.md
         - Notifications: ./architecture-2/hardware-abstraction/local-randomness-engine/notifications.md
         - Types:
-          - ./architecture-2/hardware-abstraction/local-randomness-engine/types.md
           - LocalRandomnessGetRandV1: ./architecture-2/hardware-abstraction/local-randomness-engine/types/local-randomness-get-rand-v1.md
           - LocalRandomnessGetRandResultV1: ./architecture-2/hardware-abstraction/local-randomness-engine/types/local-randomness-get-rand-result-v1.md
           - RandomByteValuesV1: ./architecture-2/hardware-abstraction/local-randomness-engine/types/RandomByteValues-v1.md
@@ -104,7 +100,6 @@ nav:
           - LocalWallClockGetTimeResult: ./architecture-2/hardware-abstraction/local-wall-clock-engine/messages/local-wall-clock-get-time-result.md
         - Notifications: ./architecture-2/hardware-abstraction/local-wall-clock-engine/notifications.md
         - Types:
-          - ./architecture-2/hardware-abstraction/local-wall-clock-engine/types.md
           - LocalWallClockGetTimeV1: ./architecture-2/hardware-abstraction/local-wall-clock-engine/types/local-wall-clock-get-time-v1.md
           - LocalWallClockGetTimeResultV1: ./architecture-2/hardware-abstraction/local-wall-clock-engine/types/local-wall-clock-get-time-result-v1.md
           - EpochTimestampV1: ./architecture-2/hardware-abstraction/local-wall-clock-engine/types/EpochTimestamp-v1.md
@@ -115,7 +110,6 @@ nav:
           - LocalLoggingAppend: ./architecture-2/hardware-abstraction/local-logging-engine/messages/local-logging-append.md
         - Notifications: ./architecture-2/hardware-abstraction/local-logging-engine/notifications.md
         - Types:
-          - ./architecture-2/hardware-abstraction/local-logging-engine/types.md
           - LocalLoggingAppendV1: ./architecture-2/hardware-abstraction/local-logging-engine/types/local-logging-append-v1.md
           - AppendValueV1: ./architecture-2/hardware-abstraction/local-logging-engine/types/AppendValue-v1.md
     - Control Machine:
@@ -128,7 +122,6 @@ nav:
           - GetStaticConfigResponse: ./architecture-2/control/static-config-engine/messages/get-static-config-response.md
         - Notifications: ./architecture-2/control/static-config-engine/notifications.md
         - Types:
-          - ./architecture-2/control/static-config-engine/types.md
           - GetStaticConfigRequestV1: ./architecture-2/control/static-config-engine/types/get-static-config-request-v1.md
           - GetStaticConfigResponseV1: ./architecture-2/control/static-config-engine/types/get-static-config-response-v1.md
       - Dynamic Configuration Engine:
@@ -147,7 +140,6 @@ nav:
           - ./architecture-2/control/dynamic-config-engine/notifications.md
           - DynamicConfigChanged: ./architecture-2/control/dynamic-config-engine/notifications/dynamic-config-changed.md
         - Types:
-          - ./architecture-2/control/dynamic-config-engine/types.md
           - GetDynamicConfigRequestV1: ./architecture-2/control/dynamic-config-engine/types/get-dynamic-config-request-v1.md
           - GetDynamicConfigResponseV1: ./architecture-2/control/dynamic-config-engine/types/get-dynamic-config-response-v1.md
           - SetDynamicConfigRequestV1: ./architecture-2/control/dynamic-config-engine/types/set-dynamic-config-request-v1.md
@@ -173,7 +165,6 @@ nav:
           - ./architecture-2/control/measurement-engine/notifications.md
           - MeasurementRecorded: ./architecture-2/control/measurement-engine/notifications/measurement-changed.md
         - Types:
-          - ./architecture-2/control/measurement-engine/types.md
           - RecordMeasurementRequestV1: ./architecture-2/control/measurement-engine/types/record-measurement-request-v1.md
           - RecordMeasurementResponseV1: ./architecture-2/control/measurement-engine/types/record-measurement-response-v1.md
           - DeleteMeasurementRequestV1: ./architecture-2/control/measurement-engine/types/delete-measurement-request-v1.md
@@ -186,7 +177,6 @@ nav:
     - Identity Machine:
       - ./architecture-2/identity.md
       - Types:
-        - ./architecture-2/identity/types.md
         - Backend: ./architecture-2/identity/types/backend.md
         - Capabilities: ./architecture-2/identity/types/capabilities.md
         - ExternalIdentity: ./architecture-2/identity/types/external-identity.md
@@ -281,7 +271,6 @@ nav:
             - StopAdvertRequest: ./architecture-2/networking/node/router/messages/stop-advert-request.md
             - StopAdvertResponse: ./architecture-2/networking/node/router/messages/stop-advert-request.md
           - Types:
-            - ./architecture-2/networking/node/router/types.md
             - RoutingTable: ./architecture-2/networking/node/router/types/routing-table.md
             - RoutingTableEntry: ./architecture-2/networking/node/router/types/routing-table-entry.md
             - RoutingTableDest: ./architecture-2/networking/node/router/types/routing-table-dest.md
@@ -327,7 +316,6 @@ nav:
             - NodeConnectFailed: ./architecture-2/networking/node/transport/notifications/node-connect-failed.md
             - NodeDisconnected: ./architecture-2/networking/node/transport/notifications/node-disconnected.md
           - Types:
-            - ./architecture-2/networking/node/transport/types.md
             - TransportAddress: ./architecture-2/networking/node/transport/types/transport-address.md
             - ConnectionPrefs: ./architecture-2/networking/node/transport/types/connection-prefs.md
             - TransportPrefs: ./architecture-2/networking/node/transport/types/transport-prefs.md
@@ -353,7 +341,6 @@ nav:
             - ./architecture-2/networking/node/id-store/notifications.md
             - IdentityUpdated: ./architecture-2/networking/node/id-store/notifications/identity-updated.md
           - Types:
-            - ./architecture-2/networking/node/id-store/types.md
             - IdentityStore: ./architecture-2/networking/node/id-store/types/identity-store.md
             - IdentityRecord: ./architecture-2/networking/node/id-store/types/identity-record.md
             - EngineIdentityRecord: ./architecture-2/networking/node/id-store/types/engine-identity-record.md
@@ -388,7 +375,6 @@ nav:
             - TopicUnsubscribed: ./architecture-2/networking/intra-domain/pubsub/notifications/topic-unsubscribed.md
             - TopicAdvertReceived: ./architecture-2/networking/intra-domain/pubsub/notifications/topic-advert-received.md
           - Types:
-            - ./architecture-2/networking/intra-domain/pubsub/types.md
             - PubSubRoutingTable: ./architecture-2/networking/intra-domain/pubsub/types/pubsub-routing-table.md
             - PubSubRoutingTableEntry: ./architecture-2/networking/intra-domain/pubsub/types/pubsub-routing-table-entry.md
             - TopicAdvertV1: ./architecture-2/networking/intra-domain/pubsub/types/topic-advert-v1.md
@@ -407,7 +393,6 @@ nav:
             - BlockSearchTopic: ./architecture-2/networking/intra-domain/storage/messages/block-search-topic.md
             - BlockSearchRandom: ./architecture-2/networking/intra-domain/storage/messages/block-search-random.md
           - Types:
-            - ./architecture-2/networking/intra-domain/storage/types.md
             - StoragePrefs: ./architecture-2/networking/intra-domain/storage/types/storage-prefs.md
     - Ordering Machine:
       - ./architecture-2/ordering-v1.md
