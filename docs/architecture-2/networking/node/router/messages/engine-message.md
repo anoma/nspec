@@ -90,7 +90,9 @@ it processes it the following way:
 
 When processing the *EngineMessage*, the given [[RoutingPrefs#routingprefs]] and [[RoutingScope#routingscope]] is respected.
 
-> Note: The router subscribes to *[[IdentityUpdated#identityupdated]]* notifications of the [[Network Identity Store#network-identity-store]] engine, in order to keep addresses in the routing table up to date.
+!!! note
+
+    The router subscribes to *[[IdentityUpdated#identityupdated]]* notifications of the [[Network Identity Store#network-identity-store]] engine, in order to keep addresses in the routing table up to date.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow

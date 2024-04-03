@@ -57,9 +57,13 @@ data ptxData = ptxData {
 
 Creation of new Resources happens via Ephemeral Resources inside a partial transaction. Ephemeral meaning that they count towards balance, but are not stored long term, though the proof for their validity is. TODO Taiga: Is this correct?
 
-> Example: For a fungible token, new tokens may be created with a valid signature from the issuing identity and they may be spent/consumed with a valid signature from the identity which currently owns them.
+!!! example
 
-> Note: The Resource Logic is tied to everything influencing the fungibility of a Resource (Proof System and Static Data), we separate Predicates and Data, not for semantic reasons, but to reduce implementation complexity. The RL can optionally call external predicates which are stored in `resource_data_dynamic` or other `Resource`s.
+    For a fungible token, new tokens may be created with a valid signature from the issuing identity and they may be spent/consumed with a valid signature from the identity which currently owns them.
+
+!!! note 
+
+    The Resource Logic is tied to everything influencing the fungibility of a Resource (Proof System and Static Data), we separate Predicates and Data, not for semantic reasons, but to reduce implementation complexity. The RL can optionally call external predicates which are stored in `resource_data_dynamic` or other `Resource`s.
 
 #### Proof System and Functional Commitment Scheme
 The proof system and functional commitment scheme determine the type of privacy and soundness guarantees for shielded partial transactions. They are encoded as a ByteString. TODO Taiga: Is this correct?

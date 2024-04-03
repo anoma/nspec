@@ -314,4 +314,6 @@ State transitions that do not preserve privacy are called *transparent*. Assumin
 - $v^{balance} < 0$ refers to the value moved from the transparent to the shielded pool
 - $v^{balance} > 0$ refers to the value moved from the shielded to the transparent pool
 
-> Note that the balancing value corresponds to the data flow between pools only for transactions processed in post-ordering execution. Transactions before ordering might not necessarily correctly represent the data flow between the pools.
+!!! note
+
+     That the balancing value corresponds to the data flow between pools only for transactions processed in post-ordering execution. Transactions before ordering might not necessarily correctly represent the data flow between the pools.

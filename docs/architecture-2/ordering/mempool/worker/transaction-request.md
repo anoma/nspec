@@ -1,8 +1,10 @@
 # TransactionRequest
+
 <!-- --8<-- [start:blurp] -->
 - _from_ [[User|User]], [[Solver|Solver]]
 
 ## Purpose
+
 A [[User#user|user]] or [[Solver#solver|solver]] requests that
 a [[TransactionCandidate#transactioncandidate|transaction candidate]]
 be ordered and executed.
@@ -37,6 +39,7 @@ Additional user preferences can be supplied in future versions concerning
 
 
 ## Effects
+
 - The receiving worker is obliged to store the new transaction
   (until after execution)
   _unless it is out of storage_.
@@ -60,6 +63,7 @@ Additional user preferences can be supplied in future versions concerning
   <!--BE ALERT: consecutive transaction numbers, but arbitrary order-->
 
 ## Triggers
+
 <!-- new ! -->
 - [[KVSAcquireLock]]→[[Shard]], [[SpawnExecutor]] → [[Execution Supervisor]]
   `if` the worker has not seen this [[TransactionRequest]]
@@ -68,20 +72,6 @@ Additional user preferences can be supplied in future versions concerning
   `then`
   - send [[KVSAcquireLock]]-messages to the relevant [[Shard]]s
   - send [[SpawnExecutor]] to the [[Execution Supervisor]]
-
-<!--
-- to [Worker](../worker.md#worker): [`NewTransaction`](new-transaction.md)
-  `if` storage was available and the transaction is stored
-  `then` send a copy of the transaction to _all_ mirror workers
-- to [Primary](../primary.md#primary): [`NewWorkerHash`](../primary/new-worker-hash.md)
-  `if` the transaction completes a batch
-  `then` send the corresponding new worker hash to the primary
-- to [Worker](../worker.md#worker): [`WorkerHashFingerPrint`](worker-hash-fingerprint.md)
-  `if` the transaction completes a batch
-  `then` send the fingerprint of the new worker hash to _all_ mirror workers
--->
-
-<!-- new ! -->
 
 
 <!-- TODO: move this as a response to EPID message -->
@@ -93,35 +83,4 @@ Additional user preferences can be supplied in future versions concerning
         the worker has seen a [[KVSLockAcquired]] message for this transaction
     `then` spawn a new executor process and send it
         an [[ExecuteTransaction]] message
-
-<!-- old version
-- to [[Executor]] : [[ExecuteTransaction]]
-  `if` the worker has not received the same [[TransactionCandidate]] before
-  `then` the worker sends this [[TransactionCandidate]] to
-  the [[Execution Engines|execution engine]] via [[ExecuteTransaction]]
-  after spawning an Executor Process via the Execution Supervisor.
-- to [[User]] / [[Solver]]: [[TransactionAck]]
-  `if` the worker has not received the same [[TransactionCandidate]] before
-  `then` reply with a [[TransactionAck]]
--->
 <!-- --8<-- [end:details] -->
-
-
-
-
-
-<!--
-- `NewTransaction` → Worker
-  --8<-- "./worker/new-transaction.md:blurb"
--->
-<!--
-- `WorkerHashFingerPrint` → Worker
-  --8<-- "./worker/worker-hash-fingerprint.md:blurb"
--->
-
-<!-- this is gone!
-- to [[Shard]]: [[BatchCompleted]]
-  `if` the transaction request completes a batch
-  `then` send the respective [[BatchCompleted]]
-  to all relevant [[Shard|shards]]
--->

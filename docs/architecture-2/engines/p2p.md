@@ -12,7 +12,9 @@ The logical pub/sub interface allows higher layers to send to and receive from e
 
 Topics are self-authenticating, in that only messages which satisfy the topic predicate can be sent on the topic. Where we need to track strings for routing tables, the content address of the function can be used. If nodes publish invalid messages on the topic (which do not satisfy the predicates), other nodes should refuse to relay those messages and ban the peers.
 
-> Note: The difference between topics and external identities is that topics cannot be encrypted to. In the future (with witness encryption or similar) it may be possible to unify these concepts.
+!!! note
+
+    The difference between topics and external identities is that topics cannot be encrypted to. In the future (with witness encryption or similar) it may be possible to unify these concepts.
 
 > TODO: Give examples for usecases at different points in the spectrum of Identity/Topic combinations.
 
