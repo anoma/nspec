@@ -145,7 +145,7 @@ class ImgPreprocessor(Preprocessor):
                 # if '127.0.0.1' in root_url or 'localhost' in root_url:
                 #     # only for local development
                 #     root_url = '/nspec/' # hardcoded for now
-                
+
                 new_url = _fix_url(root=config['site_url'], url=img_location.relative_to(DOCS_DIR).as_posix(), html=True)
 
                 lines[i] = lines[i].replace(_url, new_url)
@@ -164,6 +164,6 @@ def _fix_url(root:str, url:str, html:bool=False) -> str:
     _root = root
     if _root.endswith(ROOT_URL):
         _root = root.rstrip('/')
-    if html: 
+    if html:
         right_url = right_url.replace('.md', '.html')
     return _root + "/" + right_url

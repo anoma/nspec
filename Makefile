@@ -13,7 +13,6 @@ PWD=$(CURDIR)
 MAKEAUXFLAGS?=-s
 MAKE=make ${MAKEAUXFLAGS}
 
-PORT?=8000
 MKDOCSCONFIG?=mkdocs.yml
 MIKEFLAGS?=--push  \
 	--remote origin  \

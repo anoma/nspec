@@ -130,7 +130,7 @@ def on_files(files : Files, config : MkDocsConfig) -> None:
                     _title = _title.strip()
                     _title = re.sub(r'^[\'"`]|["\'`]$', '', _title)
                     if _title not in config['url_for']:
-                        
+
                         url = (Path(".") / Path(file.src_uri)).as_posix()
 
                         config['url_for'][_title] = [url]
@@ -150,7 +150,7 @@ def on_files(files : Files, config : MkDocsConfig) -> None:
             if alias[0].upper() != current_letter:
                 current_letter = alias[0].upper()
                 f.write(f"\n## {current_letter}\n\n")
-            
+
             if len(config['url_for'][alias]) > 0:
                 right_url = _fix_url(root=config['site_url'], url=config['url_for'][alias][0], html=True)
                 f.write(f"- [{alias}]({right_url})\n")
@@ -341,7 +341,7 @@ def _fix_url(root:str, url:str, html:bool=False) -> str:
     _root = root
     if _root.endswith(ROOT_URL):
         _root = root.rstrip('/')
-    if html: 
+    if html:
         right_url = right_url.replace('.md', '.html')
     return _root + "/" + right_url
 

@@ -13,7 +13,7 @@ To write the content, we use Markdown with some extensions as described in the
 
 In addition, we support the use of Juvix code examples in the files with the
 `.juvix.md` extension. These files are rendered using [Juvix
-(+v0.6.0)](https://docs.juvix.org/), and and if you want to make sure that the
+(+v0.6.1)](https://docs.juvix.org/), and and if you want to make sure that the
 code examples are correct, you must have Juvix installed on your machine. One
 way to do this is to install the Juvix plugin for VsCode from [the
 marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
