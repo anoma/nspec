@@ -17,6 +17,7 @@ mkdocs-ezglossary-plugin @ git+https://github.com/realtimeprojects/mkdocs-ezglos
 mkdocs-literate-nav
 mkdocs-section-index
 mkdocs-autorefs
+mkdocs-glightbox
 mike
 pre-commit
 mkdocs-bibtex

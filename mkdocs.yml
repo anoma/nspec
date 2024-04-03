@@ -516,12 +516,13 @@ plugins:
   - section-index
   - bibtex:
       bib_file: "art.bib"
+  - glightbox
 
 hooks:
 - hooks/links.py
 - hooks/images.py
-# - hooks/differ.py
-# - hooks/juvix.py
+- hooks/differ.py
+- hooks/juvix.py
 
 watch:
   - formal/SML

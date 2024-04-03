@@ -3,20 +3,13 @@ import re
 import os
 import shutil
 import subprocess
-import mkdocs.plugins
 import logging
-from typing import Any, Callable, List, Optional, Tuple, Dict, Set
-from pymdownx.snippets import SnippetExtension, SnippetPreprocessor  # type: ignore
-from pymdownx.snippets import DEFAULT_URL_SIZE,  DEFAULT_URL_TIMEOUT  # type: ignore
 from pathlib import Path
-from mkdocs.utils import meta, get_markdown_title, get_relative_url
 from mkdocs.structure.pages import Page
-from mkdocs.structure.files import File, Files
+from mkdocs.structure.files import Files
 from mkdocs.config.defaults import MkDocsConfig
-from mkdocs.config import Config, config_options
 from markdown.preprocessors import Preprocessor  # type: ignore
 from markdown.extensions import Extension  # type: ignore
-from fuzzywuzzy import fuzz  # type: ignore
 
 log: logging.Logger = logging.getLogger('mkdocs')
 
@@ -149,10 +142,18 @@ class ImgPreprocessor(Preprocessor):
                     config['images_issues'] += 1
                     log.error(f"{ocurrence}\n [!] Image not found. Expected location:\n==> {
                               img_location}")
-                    exit(1)
-                new_url = config['site_url'] / \
+
+                root_url = config['site_url']
+                if '127.0.0.1' in root_url or 'localhost' in root_url:
+                    # only for local development
+                    root_url = '/nspec/' # hardcoded for now
+
+                new_url = root_url / \
                     img_location.relative_to(DOCS_DIR)
                 lines[i] = lines[i].replace(_url, new_url.as_posix())
+
+                log.debug(f"{ocurrence}\n[!] Image URL: {
+                            _url}\nwas replaced by the following URL:\n ==> {new_url}")
         return lines
 
 
