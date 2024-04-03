@@ -516,6 +516,7 @@ plugins:
   - section-index
   - bibtex:
       bib_file: "art.bib"
+  - glightbox
 
 hooks:
 - hooks/links.py

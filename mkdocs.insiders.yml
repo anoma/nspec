@@ -17,6 +17,7 @@ plugins:
   - ezglossary
   - literate-nav
   - section-index
+  - glightbox
 
   - git-revision-date-localized:
       type: timeago

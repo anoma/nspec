@@ -144,7 +144,7 @@ class ImgPreprocessor(Preprocessor):
                               img_location}")
 
                 root_url = config['site_url']
-                if '127.0.0.1' in root_url:
+                if '127.0.0.1' in root_url or 'localhost' in root_url:
                     # only for local development
                     root_url = '/nspec/' # hardcoded for now
 
