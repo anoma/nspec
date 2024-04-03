@@ -510,8 +510,6 @@ theme:
     - header.autohide
 
 plugins:
-  # - macros:
-  #     module_name: macros
   - search
   - ezglossary
   - literate-nav
@@ -521,8 +519,9 @@ plugins:
 
 hooks:
 - hooks/links.py
-- hooks/differ.py
-- hooks/juvix.py
+- hooks/images.py
+# - hooks/differ.py
+# - hooks/juvix.py
 
 watch:
   - formal/SML

@@ -252,7 +252,7 @@ class WLPreprocessor(Preprocessor):
 
                     lines[i] = lines[i].replace(match.group(0), md_link)
                 else:
-                    log.warning(f"{ocurrence}:\n Page '{link_page}' no linked in the navigation.\n  - {link}")
+                    log.debug(f"{ocurrence}:\n Wikilink's page'{link_page}' no linked in the navigation.")
         return lines
 
 
