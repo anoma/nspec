@@ -21,6 +21,7 @@ Important notes:
 - Engines are _logical_ processes, not physical ones. Any mapping of logical to physical processes is possible as long as the logical properties are adhered to.
 
 Engines:
+
 - [P2P](./engines/p2p.md#p2p)
 - [Mempool](./engines/mempool.md#mempool)
 - [Consensus](./engines/consensus-v1.md#consensus)

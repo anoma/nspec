@@ -1,3 +1,7 @@
+---
+alias: EngineSolver
+---
+
 # Solver
 
 - *Inputs*
