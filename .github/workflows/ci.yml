@@ -85,7 +85,7 @@ jobs:
             mkdocs-material-
 
       - name: Install Linux dependencies
-        run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant
+        run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
 
       - run: pip install -r requirements.txt
 
