@@ -521,6 +521,7 @@ plugins:
 
 hooks:
 - hooks/links.py
+- hooks/images.py
 - hooks/differ.py
 - hooks/juvix.py
 

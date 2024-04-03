@@ -1,6 +1,6 @@
 INHERIT: mkdocs.yml
 plugins:
-  # - macros:
+  - macros
   #     module_name: macros
   #     verbose: false
   - offline:
