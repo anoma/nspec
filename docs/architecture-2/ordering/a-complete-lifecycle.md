@@ -93,7 +93,7 @@ _at [[Worker Engine]]_
 One may want to order each transaction request within a batch only
  after a minimum number of other requests are received such that they
  can be "slightly" re-ordered within a _very short_ time
- period---for several reasons.[^2]
+ period---for several reasons.
 <!-- TODO: add footnote / explain exactly the issues this avoids -->
 
 ### Assigning a transaction number
