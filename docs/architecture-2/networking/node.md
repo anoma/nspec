@@ -112,7 +112,7 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 
 <!-- Diagram illustrating message flows between engines -->
 
-<figure class="invertable">
+<figure class="invertable" markdown="span">
 
 ![Inter-node messages](node.dot.svg)
 
