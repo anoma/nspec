@@ -1,4 +1,6 @@
-# P2PMessage {#p2pmessage-transport}
+# P2PMessage 
+
+<div id="p2pmessage-transport"></div>
 
 ## Purpose
 

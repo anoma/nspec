@@ -96,7 +96,7 @@ contact us to obtain a token. However, you can still build the website without
 these features. So, to use insiders features (you require to set the `GH_TOKEN`),
 
 ```bash
-pip3 install -r requirements.insiders.txt 
+pip3 install -r requirements.insiders.txt
 ```
 
 and run, for example:

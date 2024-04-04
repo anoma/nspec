@@ -1,7 +1,13 @@
 INHERIT: mkdocs.yml
 plugins:
   - privacy:
-      enabled: !ENV [CI, false]
+      enabled: true
+      log: false
+      assets: true
+      assets_fetch: true
+      assets_exclude:
+        - cdn.jsdelivr.net/npm/mathjax@3/*
+        - giscus.app/*
       links_attr_map:
         target: _blank
   - search:
@@ -38,7 +44,12 @@ plugins:
       version_selector: true
       css_dir: docs/assets/css
       javascript_dir: docs/assets/js
-
+  - macros:
+      module_name: macros
+      j2_block_start_string: "{@@"
+      j2_block_end_string: "@@}"
+      j2_variable_start_string: "{@"
+      j2_variable_end_string: "@}"
 
 extra:
 
