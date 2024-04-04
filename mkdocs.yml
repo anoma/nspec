@@ -1,7 +1,8 @@
 site_name: Anoma Specification
 site_author: Anoma Foundation
 site_description: |
-  Specification for Anoma.
+  The Anoma Specification is a collection of documents that describe the
+  architecture, design, and implementation of the Anoma Network.
 site_url: https://anoma.github.io/nspec/
 site_dir: site
 use_directory_urls: false
@@ -493,15 +494,15 @@ theme:
     - search.suggest
     - search.sharing
     - toc.follow
-    - header.autohide
+    # - header.autohide
 
 plugins:
   - search
   - ezglossary
   - section-index
+  - glightbox
   - bibtex:
       bib_file: "art.bib"
-  - glightbox
 
 hooks:
 - hooks/links.py
