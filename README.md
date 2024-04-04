@@ -37,8 +37,27 @@ The following are the prerequisites to build the website locally:
 2. Create a virtual environment
 
     ```bash
-    python3 -m venv venv
+    python3 -m venv env
     ```
+
+Make sure to activate the virtual environment before proceeding. If you are using
+`bash`, you can do this by running:
+
+```bash
+source env/bin/activate
+```
+
+On `fish`, you can do this by running:
+
+```bash
+source env/bin/activate.fish
+```
+
+On `zsh`, you can do this by running:
+
+```bash
+source env/bin/activate.zsh
+```
 
 3. Install the required packages
 
