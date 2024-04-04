@@ -6,8 +6,9 @@ plugins:
       assets: true
       assets_fetch: true
       assets_exclude:
-        - cdn.jsdelivr.net/npm/mathjax@3/*
+        - cdn.jsdelivr.net/npm/mathjax*
         - giscus.app/*
+        - unpkg.com/*
       links_attr_map:
         target: _blank
   - search:
