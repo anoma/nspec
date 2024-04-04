@@ -503,6 +503,12 @@ plugins:
   - glightbox
   - bibtex:
       bib_file: "art.bib"
+  - macros:      
+      module_name: macros
+      j2_block_start_string: "{@@"
+      j2_block_end_string: "@@}"
+      j2_variable_start_string: "{@"
+      j2_variable_end_string: "@}"
 
 hooks:
 - hooks/links.py
@@ -529,7 +535,7 @@ extra_javascript:
   - assets/js/highlight.js
   - assets/js/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-svg.js
 
 copyright: |
   &copy; 2024 <a href="https://anoma.net">Anoma Foundation</a>
@@ -567,6 +573,9 @@ markdown_extensions:
       pygments_lang_class: true
       line_spans: __ispan
   - pymdownx.tabbed:
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
       alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
