@@ -8,6 +8,7 @@ from mkdocs.structure.files import Files
 from mkdocs.config.defaults import MkDocsConfig
 from markdown.preprocessors import Preprocessor  # type: ignore
 from markdown.extensions import Extension  # type: ignore
+from typing import List
 
 log: logging.Logger = logging.getLogger('mkdocs')
 
@@ -50,10 +51,10 @@ class RTExtension(Extension):
 
 class RTPreprocessor(Preprocessor):
 
-    def __init__(self, mkconfig):
+    def __init__(self, mkconfig: MkDocsConfig):
         self.mkconfig = mkconfig
 
-    def run(self, lines):
+    def run(self, lines :List[str]) -> List[str]:
 
         config = self.mkconfig
         current_page_url = None
@@ -80,9 +81,10 @@ class RTPreprocessor(Preprocessor):
                         message += lines[J].strip()
                     else:
                         break
-                todo = TodoOcurrence(current_page_url, I, nwspaces, message)
-                if REPORT_TODOS:
-                    log.warning(todo)
+                if current_page_url:
+                    todo = TodoOcurrence(current_page_url, I, nwspaces, message)
+                    if REPORT_TODOS:
+                        log.warning(todo)
                 I = J
             else:
                 final_lines.append(line)
