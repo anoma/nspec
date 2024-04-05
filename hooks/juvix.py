@@ -21,7 +21,7 @@ from watchdog.events import FileSystemEvent
 
 log: logging.Logger = logging.getLogger('mkdocs')
 
-JUVIX_SUPPORT = bool(int(os.environ.get("JUVIX_SUPPORT", True)))
+JUVIX_SUPPORT = bool(os.environ.get("JUVIX_SUPPORT", True))
 
 ROOT_DIR: Path = Path(__file__).parent.parent.absolute()
 DOCS_DIR: Path = ROOT_DIR.joinpath("docs")
