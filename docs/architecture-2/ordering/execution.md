@@ -223,9 +223,11 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
 
 ## Engines Overview
 
-<!-- {TODO: adapt}
-![Execution Architecture](execution/rough_execution_engine_message_passing_web.svg)
--->
+!!! todo
+
+    adapt
+
+    ![Execution Architecture](execution/rough_execution_engine_message_passing_web.svg)
 
 ### Shards
 [[Shard|Shards]] store and update the state of the RSM.

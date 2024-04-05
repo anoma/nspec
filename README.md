@@ -23,8 +23,8 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
 The following are the prerequisites to build the website locally:
 
 - Python 3.6 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
+- To deploy the website locally, you would need to install `graphviz` to render *dot* files.
 - As mentioned, we recomend to install Juvix.
-
 
 ### Installing
 
@@ -40,24 +40,24 @@ The following are the prerequisites to build the website locally:
     python3 -m venv env
     ```
 
-Make sure to activate the virtual environment before proceeding. If you are using
-`bash`, you can do this by running:
+    Make sure to activate the virtual environment before proceeding. If you are using
+    `bash`, you can do this by running:
 
-```bash
-source env/bin/activate
-```
+    ```bash
+    source env/bin/activate
+    ```
 
-On `fish`, you can do this by running:
+    On `fish`, you can do this by running:
 
-```bash
-source env/bin/activate.fish
-```
+    ```bash
+    source env/bin/activate.fish
+    ```
 
-On `zsh`, you can do this by running:
+    On `zsh`, you can do this by running:
 
-```bash
-source env/bin/activate.zsh
-```
+    ```bash
+    source env/bin/activate.zsh
+    ```
 
 3. Install the required packages
 
@@ -81,12 +81,12 @@ source env/bin/activate.zsh
     mkdocs serve
     ```
 
-Alternatively, you can run the following command to serve the website without
-only error messages:
+    Alternatively, you can run the following command to serve the website without
+    only error messages:
 
-```bash
-MKDOCSFLAGS=--quiet make serve
-```
+    ```bash
+    MKDOCSFLAGS=--quiet make serve
+    ```
 
 6. Accessing Material Insider Features
 

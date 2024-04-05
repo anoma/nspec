@@ -17,7 +17,9 @@ The message is sent between the participating acceptor nodes.
 | `timestamp` | `ClockTime` ||
 | `proposal` | `NarwhalBlock` | proposed value |
 
-<!-- **TODO** should this also include some kind of Hash representing who the proposer thinks the current  "quorums" are? That would ensure some kind of double-check, but may not be necessary... -->
+!!! todo
+
+    should this also include some kind of Hash representing who the proposer thinks the current  "quorums" are? That would ensure some kind of double-check, but may not be necessary...
 
 #### Triggers
 

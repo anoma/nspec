@@ -24,13 +24,6 @@ the very same transaction candidate which either has failed or
 a needs to be executed again, e.g., because it is a recurring payment.
 
 
-<!--TODO
-| `user_preferences` | TODO                     | how to respond (single worker/reliably), etc. |
--->
-<!--
-| `chain_id` | [[ChainId]]              | the chosen chain (if not “the” default) |
--->
-
 This is the "bare-bone" version for V1.
 Additional user preferences can be supplied in future versions concerning
 - how the response will be given
@@ -74,7 +67,11 @@ Additional user preferences can be supplied in future versions concerning
   - send [[SpawnExecutor]] to the [[Execution Supervisor]]
 
 
-<!-- TODO: move this as a response to EPID message -->
+!!! todo
+
+    move this as a response to EPID message
+
+
 - to [[Executor]]: [[ExecuteTransaction]]
     `if` the worker has not seen this [[TransactionCandidate]]
     before (or "recently") after resubmission [^1]

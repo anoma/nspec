@@ -15,7 +15,10 @@ It is important that  [[Worker Engine|the Worker Engine]] has received
 In other words,
 shards know about all possible read and write requests of [[TransactionCandidate]]s
 for which the worker is curator and may come earlier.
-<!--TODO: rephrase the above -->
+
+!!! todo
+
+    rephrase the above paragraph
 
 Each [[Worker Engine|worker engine]] only needs to send the [[Shard Engine]] [[UpdateSeenAll]] messages concerning worker-specific ordering (batch number and sequence number within the batch).
 This means that each [[Shard Engine]] needs to hear from  [[Worker Engine|every Worker Engine]] periodically to be sure it is not waiting for any transactions.

@@ -1,5 +1,7 @@
 
-*TODO* Describe the extended state and auxiliary functions
+!!! todo
+
+    Describe the extended state and auxiliary functions
 
 ```ocaml
 let x = 1 in x

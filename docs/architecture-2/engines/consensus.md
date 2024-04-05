@@ -415,11 +415,15 @@ Slashing: there are a number of offenses
 * Equivocation (caught)
 
 ### Fees
-> The first question is once there is no demand for atomic batches of transactions, do we keep the chimera chain alive?
+!!! quote
+
+     The first question is once there is no demand for atomic batches of transactions, do we keep the chimera chain alive?
 
 We need to figure out whether killing the chimera chain (and potentially requiring a new genesis later) is not too expensive.
 
-> The second question is whether we update the quroum changes whenever they happen or when we have a transaction?
+!!! quote
+
+     The second question is whether we update the quroum changes whenever they happen or when we have a transaction?
 
 The first option is expensive and can lead to attack if not handled well. We need to figure out whether the latter option is safe.
 

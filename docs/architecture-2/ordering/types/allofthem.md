@@ -44,10 +44,9 @@ type SequenceNumber = u64
 
 #### `ClockTime`
 
-<!-- [//TobiasOnClockTime]: # ( What do we need this for? )
+!!! todo
 
-TODO: is this different from `Timestamp`?
--->
+    Tobias: What do we need this for? is this different from `Timestamp`?
 
 ```rust
 type ClockTime = ()
@@ -140,21 +139,30 @@ struct Transaction {}
 #### `TransactionExecutable`
 
 ```rust
-/// Everything this transaction needs to do post-ordering, including any interesting calculations, or proof checks. TODO
 struct TransactionExecutable {}
 ```
+
+!!! todo
+
+    Everything this transaction needs to do post-ordering, including any interesting calculations, or proof checks.
 
 #### `KVSKey`
 
 ```rust
-/// Keys in the key-value-store that is state. Currently unspecified. TODO
 struct KVSKey {}
 ```
 
+!!! todo
+
+    Keys in the key-value-store that is state. Currently unspecified.
+
 #### `KVSDatum`
 ```rust
-/// Data in the key-value-store that is state. Some kind of binary blob? TODO
 struct KVSDatum {}
 ```
+
+!!! todo
+
+    Data in the key-value-store that is state. Some kind of binary blob?
 
 <!-- ### Executor API specific types -->

@@ -12,7 +12,8 @@ The ordering machine is a set of communicating engines that collaborate in
 - [[Execution Engines|executing]] the
   [[TransactionCandidate|transaction candidates]],
 - updated the [[Shard|state]] accordingly,
-- making the state available.<!--TODO ...-->
+- making the state available.
+
 
 ### Background
 <!-- we might just "require" no internal links in the background section -->
@@ -70,9 +71,12 @@ Typical transactions contain read and write operations to
 a “global” key-value store representing the state of the RSM.
 In general, transactions may have side effects besides state updates,
 but these are not considered in V1.
-<!-- TODO: Are they ignored?
-     Are ExecutionSummary and pub sub information of execution data
-      side effects?  -->
+
+!!! todo
+
+    Are they ignored?
+    Are ExecutionSummary and pub sub information of execution data
+      side effects?
 
 - The [[Mempool Engines|mempool engines]] are responsible for
   managing [[TxData|transaction data]],

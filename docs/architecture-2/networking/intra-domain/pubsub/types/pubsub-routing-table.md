@@ -3,7 +3,10 @@
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-TODO
+
+!!! todo
+
+    Pending a proper description.
 <!-- --8<-- [end:purpose] -->
 
 

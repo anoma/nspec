@@ -141,11 +141,6 @@ class ImgPreprocessor(Preprocessor):
                     config['images_issues'] += 1
                     log.error(f"{ocurrence}\n [!] Image not found. Expected location:\n==> {img_location}")
 
-                # root_url = config['site_url']
-                # if '127.0.0.1' in root_url or 'localhost' in root_url:
-                #     # only for local development
-                #     root_url = '/nspec/' # hardcoded for now
-
                 new_url = _fix_url(root=config['site_url'], url=img_location.relative_to(DOCS_DIR).as_posix(), html=True)
 
                 lines[i] = lines[i].replace(_url, new_url)

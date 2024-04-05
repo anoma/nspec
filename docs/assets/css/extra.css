@@ -69,3 +69,30 @@ a.version-link {
   text-decoration: none;
   transition: background-color 0.2s ease;
 }
+
+
+:root {
+  --md-admonition-icon--todo: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm1.5 4.5h4v-4h-4Zm8.25-5a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Zm0 6a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Zm0 6a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Zm-2.97-2.53a.75.75 0 0 1 0 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47 2.97-2.97a.75.75 0 0 1 1.06 0Z"/></svg>')
+}
+.md-typeset .admonition.todo,
+.md-typeset details.todo {
+  border-color: rgb(238, 121, 117);
+}
+.md-typeset .todo > .admonition-title,
+.md-typeset .todo > summary {
+  background-color: rgba(238, 121, 117, 0.1);
+}
+.md-typeset .todo > .admonition-title::before,
+.md-typeset .todo > summary::before {
+  background-color: rgb(238, 121, 117);
+  -webkit-mask-image: var(--md-admonition-icon--todo);
+          mask-image: var(--md-admonition-icon--todo);
+}
+
+/* Classic */
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-width: 0;
+  border-left-width: 4px;
+}
