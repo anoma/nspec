@@ -30,8 +30,10 @@ Input messages to the compute engine specify:
 - An optional _algorithm_ (by hash) to use in searching
 - A maximum search cost in time and space usage (after which the compute engine will stop searching), including precision requested
 
-> TODO: Figure exact units for time and space bounds.
+!!! todo
 
+     Figure exact units for time and space bounds.
+    
 ```haskell
 data ComputeRequest = ComputeRequest {
     predicate :: Hash,
@@ -63,7 +65,8 @@ data ComputeResult = ComputeResult {
 
 The compute engine internally tracks available resources (time and space) available.
 
-TODO:
-- Queue compute requests (perhaps priority queue) to avoid overloading available resources
-- Define some message types for querying available resources
-- Think about boundaries of networked compute abstraction layer vs local compute abstraction layer
+!!! todo
+
+    - Queue compute requests (perhaps priority queue) to avoid overloading available resources
+    - Define some message types for querying available resources
+    - Think about boundaries of networked compute abstraction layer vs local compute abstraction layer

@@ -23,8 +23,10 @@ Define the _commitment_ of a resource $R_{commitment}$ as $hash(R)$.
 
 Define the _address_ of a resource $R_{address}$ as $R_{commitment}$.
 
-> TODO: Same as the commitment for now.
+!!! todo
 
+     Same as the commitment for now.
+    
 Define the _nullifier_ of a resource $R_{nullifier}$ as $n$ such that $hash(n) = R_{nc}$.
 
 Define the _kind_ of a resource $R_{kind}$ as $hash(R_{logic}, R_{label})$.

@@ -8,8 +8,10 @@ type Engine State InMsg OutMsg = (State, Set InMsg) -> (State, Set OutMsg)
 
 This interface is _compositional_, where two engines can be combined by routing specific messages to and from each other, to form a third engine which is a specific composition of the two.
 
-> TODO: Specify this further.
+!!! todo
 
+     Specify this further.
+    
 Structuring the implementation as a composition of engines has many benefits:
 - A clean separation of concerns between different areas of concern in the protocol (e.g. network layer interfacing, consensus message processing, signature generation).
 - Easier upgrades, as engine implementations can be independently upgraded as long as interface properties (at the level of the engine function as above) are still satisfied.

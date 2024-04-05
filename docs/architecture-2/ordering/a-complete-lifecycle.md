@@ -44,13 +44,15 @@ $T = \Bigl(\mathit{code},
     \underbrace{(r_e,r_l)}_{\text{read label}},
     \overbrace{(w_w,w_m)}^{\text{write label}}\Bigr)$
 
-> transaction executable $\mathit{code}$
-> eager read keys $r_e$
-> lazy read keys $r_l$
-> $w_w$ will-write keys
-> $w_m$ may-write keys
+!!! quote
 
-
+    transaction executable $\mathit{code}$
+    eager read keys $r_e$
+    lazy read keys $r_l$
+    $w_w$ will-write keys
+    $w_m$ may-write keys
+    
+    
 The User transmits the [[TransactionCandidate]],
 packaged as a [[TransactionRequest]],
 to the [[Worker Engine|worker]].
@@ -94,7 +96,13 @@ One may want to order each transaction request within a batch only
  after a minimum number of other requests are received such that they
  can be "slightly" re-ordered within a _very short_ time
  period---for several reasons.
-<!-- TODO: add footnote / explain exactly the issues this avoids -->
+
+
+!!! todo
+
+    add footnote / explain exactly the issues this avoids
+
+
 
 ### Assigning a transaction number
 
@@ -150,7 +158,9 @@ _at [[Execution Supervisor]]_
   Send the [[architecture-2:Identity|external identity]] of a "fresh" executor engine instance,
   either newly spawned or a waiting in a fixed pool of available executors.
 
-<!-- TODO add one supervisor for each executor -->
+!!! todo
+
+     add one supervisor for each executor -->
 
 ### Informing shard(s) about upcoming read and write requests
 

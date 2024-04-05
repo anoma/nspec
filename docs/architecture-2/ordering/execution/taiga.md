@@ -22,9 +22,13 @@ Taiga was heavily inspired by [Zcash Orchard](https://github.com/zcash/zips/blob
 
 The following sections describe the protocol for shielded state transitions.
 
-> **Note:** ⚠️ Instantiations and some of the exact formulas are unstable ⚠️
+!!! note
 
-> **Note:** To learn more about Taiga as a standalone component, check [the Taiga repository](https://github.com/anoma/taiga)
+    Instantiations and some of the exact formulas are unstable
+
+!!! note
+
+    To learn more about Taiga as a standalone component, check [the Taiga repository](https://github.com/anoma/taiga)
 
 
 ## 1. Proving systems
@@ -75,7 +79,10 @@ The table below describes the components of a resource, also referred as a resou
 |$npk$|$cm_{nk}$||Commitment to the nullifier key $nk$ that will be used to derive the resource's nullifier. $npk = NKCommit(nk)$|
 |$rseed$||$\mathbb{F}_p$|A random commitment trapdoor|
 
-> **Note:** the value size cannot be bigger or close to the curve's scalar field size (to avoid overflowing) but besides that there are no strict reasons for choosing 64. We can use more resources to express a value that doesn't fit in one resource (splitting the value into limbs). Having bigger value size requires fewer resources to express such a value and is more efficient. For example, a value size of 128 bits would require two times less resources to express a maximum value
+!!! note
+
+    The value size cannot be bigger or close to the curve's scalar field size (to avoid overflowing) but besides that there are no strict reasons for choosing 64. We can use more resources to express a value that doesn't fit in one resource (splitting the value into limbs). Having bigger value size requires fewer resources to express such a value and is more efficient. For example, a value size of 128 bits would require two times less resources to express a maximum value
+
 ### 2.2 Computable fields
 
 #### 2.2.1 Resource kind
@@ -89,7 +96,9 @@ $K = PRF^{kind}(l, label)$
 This an intermediate computed parameter used in the computation of resource commitment and resource nullifier.
 $\psi = PRF^{\psi}(0, rseed, nonce)$
 
-> **Note**: unstable
+!!! note
+
+    unstable
 
 #### 2.2.3 $rcm$
 
@@ -97,8 +106,10 @@ This parameter is used as randomness when computing the resource commitment.
 
 $rcm = PRF^{rcm}(1, rseed, nonce)$
 
-> **Note**: unstable
+!!! quote
 
+    unstable
+    
 #### 2.2.4 Resource commitment
 
 Resource commitment allows to prove the existence of the resource without revealing the resource plaintext. For a resource $r$, the resource commitment is computed as follows: $cm = \mathrm{ResourceCommit}(r.l, r.label, r.v, r.npk, r.nonce, r.\psi, r.eph, r.q., r.rcm)$.
@@ -129,9 +140,11 @@ $ce = Encrypt(resource, sk)$
 Not all of the resource fields require to be encrypted (e.g. the resource commitment), and the encrypted fields may vary depending on the application. To make sure it is flexible enough, the encryption check is performed in RL circuits (as opposed to verifying the encryption in the compliance circuit).
 
 ### 2.6 Ephemeral resources
+
 Ephemeral resources are resources for which the existence (i.e., Merkle path to its commitment in the $CMtree$) is not checked when the resource is being consumed. Unlike some other systems (e.g., Zcash), resource's ephemerality isn't defined by its quantity (i.e., resources of quantity 0 are not necessarily ephemeral), instead, it is explicitly defined by the ephemerality flag $eph$. Non-zero value ephemeral resources can be handy for carrying additional constraints (e.g. intents) and for balancing transactions.
 
 ## 3. Circuits
+
 ### 3.1 The Compliance Circuit
 
 The compliance circuit `ComplianceCircuit(x; w)` checks that a transaction satisfies the Taiga rules. The Compliance circuit performs checks over $1$ input and $1$ output resource, which sometimes referred as a compliance pair. A transaction containing $n$ input and $n$ output resources requires $n$ Compliance proofs. If the number of input and output resources isn't equal, ephemeral notes can be used to make them equal. The circuit is arithmetized over $\mathbb{F}_p$.
@@ -152,8 +165,10 @@ Private inputs ($w$):
 4. $r^{out}$ - output resource plaintext
 5. $(l^{out}, rcm^{out}_{l})$ - $cm_{l}^{out}$ opening
 
-> **Note:** opening of a parameter contains every component of the parameter
+!!! quote
 
+     **Note:** opening of a parameter contains every component of the parameter
+    
 #### Checks
 - For the input resource:
     - If `eph = true`, check that the resource is a valid resource in $rt$: there is a path in Merkle tree with root $rt$ to a resource commitment $cm$ that opens to $r$
@@ -168,8 +183,10 @@ Private inputs ($w$):
     - Kind integrity: $K = PRF^{kind}(l^{out}, label^{out})$
 - Delta integrity: $delta = DeltaCommit(q_{in}, q_{out}, K_{in}, K_{out}, rcd)$
 
-> **Note:** unlike [MASP](https://github.com/anoma/masp), the value base in Taiga is not used to compute resource's commitment and the compliance circuit doesn't take $kind$ as private input but computes it from the resource fields, and it is checked for both input and output resources.
+!!! quote
 
+     **Note:** unlike [MASP](https://github.com/anoma/masp), the value base in Taiga is not used to compute resource's commitment and the compliance circuit doesn't take $kind$ as private input but computes it from the resource fields, and it is checked for both input and output resources.
+    
 ### 3.2 Resource Logic (RL) circuits
 Resource logic is a circuit containing the application logic. Resource logics take $m$ input and $n$ output resources, are represented as Halo2 circuits `RL(x; w) ⟶ 0/1` and arithmetized over $\mathbb{F}_p$.
 
@@ -195,8 +212,10 @@ As the resource plaintexts are private inputs, to make sure that resources that 
 2. Output resource commitment integrity: for each $i ∈ {1, …, n}, cm_i = ResourceCommit(r)$
 3. Encrypted output resource integrity: for each $i ∈ {1, …, n}, ce_i = Encrypt(r, pub\_recv)$
 
->**Note:** encryption can be customized per application. Some applications might encrypt more fields, others - less. The size of the encrypted resource does leak some information.
+!!! quote
 
+    **Note:** encryption can be customized per application. Some applications might encrypt more fields, others - less. The size of the encrypted resource does leak some information.
+    
 All other constraints enforced by RL circuits are custom.
 
 #### Finding the owned resources
@@ -215,7 +234,9 @@ $cm_{l} = RLCommit(l, rcm_{l})$
 2. The verifier circuit checks that the RL commitment is computed using the $vk_{logic}$ that is used to validate the RL proof:
 $cm_{l} = RLCommit(VKCommit(vk_{logic}), rcm_{l}) (l = VKCommit(vk_{logic}))$
 
-> $VKCommit$ is not implemented yet and currently $l = Blake2b(vk_{logic})$
+!!! quote
+
+    $VKCommit$ is not implemented yet and currently $l = Blake2b(vk_{logic})$
 
 
 As the outer commitment $RLCommit$ is verified in both the compliance and verifier circuit which are arithmetized over different fields, the outer commitment instantiation should be efficient over both fields.
@@ -223,6 +244,7 @@ As the outer commitment $RLCommit$ is verified in both the compliance and verifi
 As the inner commitment $VKCommit$ is only opened in the verifier circuit, it only needs to be efficient over the $E_O$ scalar field.
 
 ## 4. Circuit Accumulation
+
 TBD: Halo2 accumulation
 
 #### 5. Delta (balance commitment) & delta proof
@@ -299,10 +321,15 @@ A transaction is valid if:
     - Public input consistency: resource logic public input $nf$ and $cm$ are the same as in the compliance public input
 3. Binding signature is valid for $\Delta_{tx}$
 
-> **Note:** Currently, each resource requires a separate RL proof, even if they belong to the same application. Eventually the RL might be called just once per $tx$, meaning that if the $tx$ has 2 or more resources belonging to the same application, the total amount of non-ephemeral proofs is reduced.
+!!! quote
 
-> **Note:** It is possible that a resource logic requires checks of other logics in order to be satisfied. In that case, the total amount of logic proofs verified could be more than $2n$, but we can count such check as a single check.
+     **Note:** Currently, each resource requires a separate RL proof, even if they belong to the same application. Eventually the RL might be called just once per $tx$, meaning that if the $tx$ has 2 or more resources belonging to the same application, the total amount of non-ephemeral proofs is reduced.
+    
 
+!!! quote
+
+     **Note:** It is possible that a resource logic requires checks of other logics in order to be satisfied. In that case, the total amount of logic proofs verified could be more than $2n$, but we can count such check as a single check.
+    
 ### Taiga state
 Taiga doesn't store a state, but Taiga produces state changes (that will be executed elsewhere), that include:
 - For each created resource $r$, $CMtree.WRITE(r.cm)$,

@@ -41,4 +41,6 @@ Payment can be made to the holders of a particular kudo denomination at a partic
 
 Payment can be made to the holders of a particular kudo denomination over time (integral), who then can claim it fraction-by-time pro-rata later.
 
-> TODO: Here, we might need a human-time shared clock, since that's kinda what we want to model.
+!!! todo
+
+     Here, we might need a human-time shared clock, since that's kinda what we want to model.

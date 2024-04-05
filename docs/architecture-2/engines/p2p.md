@@ -16,10 +16,15 @@ Topics are self-authenticating, in that only messages which satisfy the topic pr
 
     The difference between topics and external identities is that topics cannot be encrypted to. In the future (with witness encryption or similar) it may be possible to unify these concepts.
 
-> TODO: Give examples for usecases at different points in the spectrum of Identity/Topic combinations.
+!!! todo
 
-> TODO: Simple local filtering on topics (i.e. subtopics) and potentially optimisations by broadcasting local filters.
+     Give examples for usecases at different points in the spectrum of Identity/Topic combinations.
+    
 
+!!! todo
+
+     Simple local filtering on topics (i.e. subtopics) and potentially optimisations by broadcasting local filters.
+    
 ```haskell
 type Topic = Message -> Bool
 
@@ -83,18 +88,25 @@ Sub-protocols:
 
 Logical routing should take into account compositionality of identities - e.g., if routes to Alice, Bob, and Charlie are known, but a route to (Alice && Bob && Charlie) is not, individual routes can be automatically tried. This state is constructed from physical address announcement messages sent (and signed) by particular external identities.
 
-> TODO: Figure out details around implicit vs explicit domains and expected topologies under some reasonable assumptions.
+!!! todo
 
-> TODO: Figure out details around privacy-preservation in internal messages. Maybe the higher-layer should provide a default routing preference function which applies also to internal messages and can implement something like implicit domains (e.g. to restrict data leakage to a set of known nodes).
+     Figure out details around implicit vs explicit domains and expected topologies under some reasonable assumptions.
+    
 
+!!! todo
+
+     Figure out details around privacy-preservation in internal messages. Maybe the higher-layer should provide a default routing preference function which applies also to internal messages and can implement something like implicit domains (e.g. to restrict data leakage to a set of known nodes).
+    
 ---
 
 ## Physical send/recv
 
 Underlying physical networking layers are expected to expose an opaque type `PhysicalAddress`, to which messages can be sent and from which they might be receieved. Physical networking could be instantiated by a base physical protocol such as TCP/IP or UDP/IP, or a more complex layered one such as Tor or a mixnet. The physical layer need provide only two functions, `send` and `onRecv`, which act as one would expect. Messages are assumed to be delivered either completely or not at all, but the physical layer is not expected to provide any form of authentication, ordering, or reliable delivery - those concerns are handled by higher layers.
 
-> TODO: Work remains to be done to integrate the privacy properties which might be provided by Tor or a mixnet into the privacy preferences and  trust graph, which the higher-level logical layers might be able to reason about. This will likely need to be an abstract model of their properties, to be used by the information flow control system.
+!!! todo
 
+     Work remains to be done to integrate the privacy properties which might be provided by Tor or a mixnet into the privacy preferences and  trust graph, which the higher-level logical layers might be able to reason about. This will likely need to be an abstract model of their properties, to be used by the information flow control system.
+    
 ```haskell
 type PhysicalAddress
 
