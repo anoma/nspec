@@ -33,6 +33,10 @@ env:
   SKIP: ${{ github.event.inputs.skip }}
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
+  REMOVE_TODOS: true
+  REPORT_TODOS: true
+  REPORT_BROKEN_WIKILINKS: true
+  JUVIX_SUPPORT: true
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"

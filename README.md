@@ -72,8 +72,6 @@ The following are the prerequisites to build the website locally:
     ```
 
   Here, you should see the website being built in the `site` directory.
-  Some warnings and info messages are expected, but if you see any error, please
-  open an issue.
 
 5. To serve the website locally, run the following command:
 
@@ -81,14 +79,21 @@ The following are the prerequisites to build the website locally:
     mkdocs serve
     ```
 
-    Alternatively, you can run the following command to serve the website without
-    only error messages:
+6. By default, both `make build` or `make serve` are configured to use the
+    `--quiet` flag that suppresses the output of the build process, including
+    warnings and errors. If you want to see the output, you can run:
 
     ```bash
-    MKDOCSFLAGS=--quiet make serve
+    MKDOCSFLAGS= make build
     ```
 
-6. Accessing Material Insider Features
+    or better
+
+    ```bash
+    make test-build
+    ```
+
+7. Accessing Material Insider Features
 
 For access to [Material for MkDocs
 Insiders](https://squidfunk.github.io/mkdocs-material/reference/) features,
@@ -104,3 +109,12 @@ and run, for example:
 ```bash
 MKDOCSFLAGS=--quiet MKDOCSCONFIG=mkdocs.insiders.yml make serve
 ```
+
+
+#### Goodies
+
+- To see the list of todos in the project, run:
+
+    ```bash
+    python todos.py
+    ```

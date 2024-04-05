@@ -22,8 +22,11 @@ MIKEFLAGS?=--push  \
 build:
 	mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
+
 .PHONY: test-build
 test-build: export MKDOCSFLAGS=--clean
+test-build: export REPORT_TODOS=true
+test-build: export REPORT_BROKEN_LINKS=true
 test-build:
 	@mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 assets:
@@ -57,6 +60,7 @@ latest: assets
 	mike set-default ${MIKEFLAGS} ${VERSION}
 	git tag -d v${VERSION} > /dev/null 2>&1 || true
 	git tag -a v${VERSION} -m "Release v${VERSION}"
+
 
 install:
 	@echo "[!] Use a Python virtual environment if you are not using one."
