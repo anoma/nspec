@@ -19,8 +19,8 @@ The predecessor uniquely determines the vector of learner-specific heights and
 the signed_quorums may only reference the directly preceding block for each
 learner.
 
-!!! todo 
-    
+!!! todo
+
     spell this out and/or link it
 
 

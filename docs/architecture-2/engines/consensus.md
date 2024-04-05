@@ -418,13 +418,13 @@ Slashing: there are a number of offenses
 !!! quote
 
      The first question is once there is no demand for atomic batches of transactions, do we keep the chimera chain alive?
-    
+
 We need to figure out whether killing the chimera chain (and potentially requiring a new genesis later) is not too expensive.
 
 !!! quote
 
      The second question is whether we update the quroum changes whenever they happen or when we have a transaction?
-    
+
 The first option is expensive and can lead to attack if not handled well. We need to figure out whether the latter option is safe.
 
 * If the answer is yes for first question and we pick the first option for the second question:

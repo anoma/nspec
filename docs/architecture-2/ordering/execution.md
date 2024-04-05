@@ -223,8 +223,8 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
 
 ## Engines Overview
 
-!!! todo 
-    
+!!! todo
+
     adapt
 
     ![Execution Architecture](execution/rough_execution_engine_message_passing_web.svg)

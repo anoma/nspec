@@ -33,7 +33,7 @@ Input messages to the compute engine specify:
 !!! todo
 
      Figure exact units for time and space bounds.
-    
+
 ```haskell
 data ComputeRequest = ComputeRequest {
     predicate :: Hash,

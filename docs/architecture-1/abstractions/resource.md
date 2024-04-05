@@ -26,7 +26,7 @@ Define the _address_ of a resource $R_{address}$ as $R_{commitment}$.
 !!! todo
 
      Same as the commitment for now.
-    
+
 Define the _nullifier_ of a resource $R_{nullifier}$ as $n$ such that $hash(n) = R_{nc}$.
 
 Define the _kind_ of a resource $R_{kind}$ as $hash(R_{logic}, R_{label})$.

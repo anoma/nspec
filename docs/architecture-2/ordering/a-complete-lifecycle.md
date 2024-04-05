@@ -3,8 +3,8 @@ Let us consider a typical/generic case
 of what transaction submission triggers in the ordering machine.
 Note that all message sending is asynchronous.
 
-!!! todo 
-    
+!!! todo
+
     removed `ExecutorProcess--)ExecutorProcess: .` just before
      `activate ExecutorProcess`. I'm not sure what it represented. -->
 
@@ -54,8 +54,8 @@ $T = \Bigl(\mathit{code},
     lazy read keys $r_l$
     $w_w$ will-write keys
     $w_m$ may-write keys
-    
-    
+
+
 The User transmits the [[TransactionCandidate]],
 packaged as a [[TransactionRequest]],
 to the [[Worker Engine|worker]].

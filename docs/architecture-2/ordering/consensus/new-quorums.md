@@ -1,5 +1,5 @@
---8<-- "../mempool/primary/new-quorums.md" 
+--8<-- "../mempool/primary/new-quorums.md"
 
-!!! todo 
+!!! todo
 
     fix the include mess !!!

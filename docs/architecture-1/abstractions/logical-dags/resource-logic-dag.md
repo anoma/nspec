@@ -13,13 +13,13 @@ The resource logic DAG also tracks linear logic violations (duplicate consumptio
 !!! todo
 
      Decide which parts of this subsection should still be moved to Resource Management.
-    
+
 A _transaction_ in a resource logic DAG consists of a balanced set of partial transactions (`ptx`s), which consume a (possibly empty) set of existing resources and create a (possibly empty) set of new resources. Transactions are atomic, in that either the whole transaction is valid (and can be appended to / part of a valid resource logic DAG), or the transaction is not valid and cannot be appended to / included in the resource logic DAG.
 
 !!! todo
 
      Describe the structural correspondence of `ptx`s to partially applied functions.
-    
+
 !!! note
 
     For validation criteria of Transactions, see [here](../resource.md#transactions-tx).
@@ -57,12 +57,12 @@ Transactions may want to choose their exact input and output resources on the ba
 !!! todo
 
      Strict ordering is required here, so if all keys do not have the same identity, we will need to create a joint identity (chimera-chain-on-demand) to try to order w.r.t. all involved resources.
-    
+
 
 !!! todo
 
      I think we can/should combine this with executable transaction so in-between states are possible.
-    
+
 ```haskell
 data DelayedTx
   = DelayedTx {
@@ -89,13 +89,13 @@ From a particular resource logic DAG, an observer can calculate a _state_ as a k
 !!! todo
 
      Examples for data and values.
-    
+
 ---
 
 !!! todo
 
      This section is notes, readers please ignore.
-    
+
 Outstanding topics:
 - What exactly is the desired logic of a finality predicate? I think, from the intent layer, it is: "among the transactions which consume my intent and are valid, pick this one". It should not be more general than that because other constraints could have been encoded into the predicates already - finality predicate is only for _ranking_ in information uncertainty, and it is an _ordering_ which should also reference a _logical time_ (w.r.t. some identity). Then the question becoems how ranking functions are _combined_ across intents - we should be able to retain the guarantee that between two transactions with the same intents, where all intent authors prefer the latter, the former is not accepted. Given a set of intents included in a set of transactions, the ranking functions give a partial order to the transactions.  -- then these should _not_ be first-class, rather they are part of the definition of an identity, since ordering/ranking is concerned. So instead we should contemplate ways of encoding this into consensus providers'
 - Previously we had this concept of a "virtual resource" for modelling non-linear (infinitely consumable) things. However, since often these were physical-DAG-dependent, I think identity is the right abstraction here instead, maybe it would be good to come up with some motivating examples.

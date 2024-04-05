@@ -78,7 +78,7 @@ we provide the following.
    in particular to allow for several instances of the same engine.
    -->
 
-!!! todo 
+!!! todo
 
     Even when the following renders, it is not really clear what the structure of the description is.
 

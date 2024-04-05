@@ -1,7 +1,7 @@
 # Read Backend
 The ReadBackend is a component intended for light client reads.
 
-!!! todo 
+!!! todo
 
     We have not spent much time thinking about this one.
 
@@ -15,5 +15,5 @@ type ReadTransactionRequest = SignedMessage<ExecuteReadTransaction>
 See [`ExecuteReadTransaction`](#ExecuteReadTransaction).
 
 !!! todo
-    
+
     make a folder for the read backend

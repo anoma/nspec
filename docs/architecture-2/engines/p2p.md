@@ -19,12 +19,12 @@ Topics are self-authenticating, in that only messages which satisfy the topic pr
 !!! todo
 
      Give examples for usecases at different points in the spectrum of Identity/Topic combinations.
-    
+
 
 !!! todo
 
      Simple local filtering on topics (i.e. subtopics) and potentially optimisations by broadcasting local filters.
-    
+
 ```haskell
 type Topic = Message -> Bool
 
@@ -91,12 +91,12 @@ Logical routing should take into account compositionality of identities - e.g., 
 !!! todo
 
      Figure out details around implicit vs explicit domains and expected topologies under some reasonable assumptions.
-    
+
 
 !!! todo
 
      Figure out details around privacy-preservation in internal messages. Maybe the higher-layer should provide a default routing preference function which applies also to internal messages and can implement something like implicit domains (e.g. to restrict data leakage to a set of known nodes).
-    
+
 ---
 
 ## Physical send/recv
@@ -106,7 +106,7 @@ Underlying physical networking layers are expected to expose an opaque type `Phy
 !!! todo
 
      Work remains to be done to integrate the privacy properties which might be provided by Tor or a mixnet into the privacy preferences and  trust graph, which the higher-level logical layers might be able to reason about. This will likely need to be an abstract model of their properties, to be used by the information flow control system.
-    
+
 ```haskell
 type PhysicalAddress
 

@@ -44,7 +44,7 @@ type SequenceNumber = u64
 
 #### `ClockTime`
 
-!!! todo 
+!!! todo
 
     Tobias: What do we need this for? is this different from `Timestamp`?
 
@@ -152,7 +152,7 @@ struct TransactionExecutable {}
 struct KVSKey {}
 ```
 
-!!! todo 
+!!! todo
 
     Keys in the key-value-store that is state. Currently unspecified.
 

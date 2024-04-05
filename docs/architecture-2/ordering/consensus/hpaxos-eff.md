@@ -1,6 +1,6 @@
 
 !!! todo
-    
+
     Describe the extended state and auxiliary functions
 
 ```ocaml

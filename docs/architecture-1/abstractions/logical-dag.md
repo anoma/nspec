@@ -11,13 +11,13 @@ class LogicalDAG l s where
 !!! todo
 
      Specify this property (preservation of ordering structure). Would we ever want to violate this?
-    
+
 Particular logical DAG algorithms, if their assumptions are met, generally guarantee that any two observers using that algorithm to compute or verify a logical DAG will not accept conflicting logical DAGs even if they have different partial information about the physical DAG (for definitions of "conflicting" which are specific to the logical DAG algorithm in question), and that these two observers will eventually compute isomorphic logical DAGs after receiving each other's physical DAG information (i.e. logical DAGs over the same subsets of a physical DAG are isomorphic w.r.t. to reordering of receipt of those subsets) for some relevant definition of "isomorphic" (possibly computing the same state `s`).
 
 !!! todo
 
      Specify this property (eventual agreement, isomorphism w.r.t. reordering?)
-    
+
 The verifiable compute primitive comes in play here, in that particular agents may be willing to accept a logical DAG or state as valid if the above predicates are proven by a verifiable compute scheme (or possibly parts are proven by different schemes) in a configuration which matches their security assumptions.
 
 ## Transaction DAG
@@ -44,4 +44,4 @@ There may be many transaction types which do not need to care about each other, 
 !!! todo
 
      Figure out the logical DAG inheritance relations more clearly.
-    
+

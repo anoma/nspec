@@ -55,10 +55,10 @@ data ptxData = ptxData {
 }
 ```
 
-Creation of new Resources happens via Ephemeral Resources inside a partial transaction. Ephemeral meaning that they count towards balance, but are not stored long term, though the proof for their validity is. 
+Creation of new Resources happens via Ephemeral Resources inside a partial transaction. Ephemeral meaning that they count towards balance, but are not stored long term, though the proof for their validity is.
 
 !!! todo
-     
+
      Taiga: Is this correct?
 
 !!! example
@@ -70,15 +70,15 @@ Creation of new Resources happens via Ephemeral Resources inside a partial trans
     The Resource Logic is tied to everything influencing the fungibility of a Resource (Proof System and Static Data), we separate Predicates and Data, not for semantic reasons, but to reduce implementation complexity. The RL can optionally call external predicates which are stored in `resource_data_dynamic` or other `Resource`s.
 
 #### Proof System and Functional Commitment Scheme
-The proof system and functional commitment scheme determine the type of privacy and soundness guarantees for shielded partial transactions. They are encoded as a ByteString. 
+The proof system and functional commitment scheme determine the type of privacy and soundness guarantees for shielded partial transactions. They are encoded as a ByteString.
 
 
-!!! todo 
-          
+!!! todo
+
      Taiga: Is this correct?
 
-!!! todo 
-     
+!!! todo
+
      How do we carry proofs and commitments through the transaction lifecycle? Do we store them with the ptx's which created them?
 
 #### Controllers
@@ -101,7 +101,7 @@ This way we gain the following options by using signatures of upstream Controlle
 !!! todo
 
      Should this be a List or a DAG?
-    
+
 ### Prefix
 The Prefix encodes information that not affect the behavior of the Resources inhabiting it, but determines a unique subtype with the same behaviors. It can for example be a set of Random Hashes or contain the Addresses of parties relevant to higher layers, e.g. Originator and Intended users of a Resource Type.
 
@@ -111,7 +111,7 @@ The Suffix must be a nonce within the scope determined by a Prefix, to uniquely 
 !!! todo
 
      What exactly should the suffix be? Should it always be a the output of a cryptographic hash function, or just a bytestring of equivalent size? Should it be only one Hash size wide, or potentially a list as well?
-    
+
 ### Quantity
 Resources carry an integer Quantity. Resources with quantity > 1 can be split into an arbitrary amount of Resources of the same Type with Quantity of at least = 1. The splitting of Resources happens via `ptx`s using Ephemeral Resources as a dummy input.
 
@@ -163,7 +163,7 @@ Extra data can contain e.g. additional signatures and messages.
 !!! todo
 
      Do we want Executable for `ptx`s? How would they look like?
-    
+
 ```haskell=
 valid_ptx :: PartialTx -> Boolean
 valid_ptx (PartialTx inr outr) = all (map (\r -> logic r inr outr) (inr <> outr))
@@ -172,7 +172,7 @@ valid_ptx (PartialTx inr outr) = all (map (\r -> logic r inr outr) (inr <> outr)
 !!! todo
 
      Write out details about commitment and nullifier handling in the shielded case.
-    
+
 ### Differences between Shielded and Transparent Partial Transactions
 Transparent `ptx`s are shielded `ptx`s for which we preserve the plaintext input and output Resources (or pointers to it). This way, validation of Predicates can happen at any time against the plaintext Resources.
 
@@ -214,12 +214,12 @@ check_transaction ptxs = all (map valid_ptx ptxs) && sum (map balance_delta ptxs
 !!! todo
 
      Find a clearer/more accessible represenation than haskell syntax
-    
+
 
 !!! todo
 
      Write out details about commitment and nullifier handling in the shielded case.
-    
+
 ### Executables
 Scope = TX mandatory, ptx = optional
 
@@ -235,7 +235,7 @@ An executable contains the machinery to infer from the `ptx`s what is supposed t
 !!! todo
 
      Concretize this
-    
+
 !!! todo
 
      Specify what exactly no-op's should look like
@@ -243,7 +243,7 @@ An executable contains the machinery to infer from the `ptx`s what is supposed t
 !!! todo
 
      Where do Executables come from? How does a TX get supplied with one?
-    
+
 ## Further Considerations
 
 ### Intent

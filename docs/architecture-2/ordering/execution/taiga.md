@@ -109,7 +109,7 @@ $rcm = PRF^{rcm}(1, rseed, nonce)$
 !!! quote
 
     unstable
-    
+
 #### 2.2.4 Resource commitment
 
 Resource commitment allows to prove the existence of the resource without revealing the resource plaintext. For a resource $r$, the resource commitment is computed as follows: $cm = \mathrm{ResourceCommit}(r.l, r.label, r.v, r.npk, r.nonce, r.\psi, r.eph, r.q., r.rcm)$.
@@ -168,7 +168,7 @@ Private inputs ($w$):
 !!! note
 
      opening of a parameter contains every component of the parameter
-    
+
 #### Checks
 - For the input resource:
     - If `eph = true`, check that the resource is a valid resource in $rt$: there is a path in Merkle tree with root $rt$ to a resource commitment $cm$ that opens to $r$
@@ -186,7 +186,7 @@ Private inputs ($w$):
 !!! note
 
      unlike [MASP](https://github.com/anoma/masp), the value base in Taiga is not used to compute resource's commitment and the compliance circuit doesn't take $kind$ as private input but computes it from the resource fields, and it is checked for both input and output resources.
-    
+
 ### 3.2 Resource Logic (RL) circuits
 Resource logic is a circuit containing the application logic. Resource logics take $m$ input and $n$ output resources, are represented as Halo2 circuits `RL(x; w) ⟶ 0/1` and arithmetized over $\mathbb{F}_p$.
 
@@ -215,7 +215,7 @@ As the resource plaintexts are private inputs, to make sure that resources that 
 !!! quote
 
     **Note:** encryption can be customized per application. Some applications might encrypt more fields, others - less. The size of the encrypted resource does leak some information.
-    
+
 All other constraints enforced by RL circuits are custom.
 
 #### Finding the owned resources
@@ -324,12 +324,12 @@ A transaction is valid if:
 !!! note
 
      Currently, each resource requires a separate RL proof, even if they belong to the same application. Eventually the RL might be called just once per $tx$, meaning that if the $tx$ has 2 or more resources belonging to the same application, the total amount of non-ephemeral proofs is reduced.
-    
+
 
 !!! note
 
      It is possible that a resource logic requires checks of other logics in order to be satisfied. In that case, the total amount of logic proofs verified could be more than $2n$, but we can count such check as a single check.
-    
+
 ### Taiga state
 Taiga doesn't store a state, but Taiga produces state changes (that will be executed elsewhere), that include:
 - For each created resource $r$, $CMtree.WRITE(r.cm)$,

@@ -10,7 +10,7 @@ In other words, this is a way for an Agent to describe which of their owned `Res
 !!! quote
 
      Assertions dictated by the rest of the system, e.g. `Balance` must also hold, independently of `Intents`.
-    
+
 To concretize that, we formulate `Intents` as [Constraint Satisfaction Problems (CSP)](./solvers/csp.md#csp).
 
 ## Solving
