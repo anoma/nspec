@@ -30,13 +30,13 @@ def find_todos(file_path):
                     if lines[j].startswith(' '* nwspaces):
                         message += lines[j].strip()
                     else:
-                        break  
-                short_message = message[:200] + (message[200:] and '...')       
+                        break
+                short_message = message[:200] + (message[200:] and '...')
 
                 # print the abs_path in red color
                 print(f"\033[91m{abs_path}\033[0m:{i}:1:\n  {short_message.strip()}\n", file=sys.stderr)
 
-    return num_todo_entries                
+    return num_todo_entries
 
 
 def find_all_todos(directory_path):

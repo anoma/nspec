@@ -64,13 +64,12 @@ class RTPreprocessor(Preprocessor):
                 Path(config['current_page'].url.replace('.html', '.md'))
             current_page_url = url_relative.as_posix()
 
-        final_lines = []
-        num_todo_entries = 0
         I = 0
+        final_lines = []
         while I < len(lines):
             line = lines[I]
             if line.strip().startswith("!!! todo"):
-                num_todo_entries += 1
+                config['todos'] = config.get('todos', 0) + 1
                 _line = line.lstrip()
                 nwspaces = len(line) - len(_line)
                 message = ""
@@ -80,7 +79,7 @@ class RTPreprocessor(Preprocessor):
                     if lines[J].startswith(' '* nwspaces):
                         message += lines[J].strip()
                     else:
-                        break  
+                        break
                 todo = TodoOcurrence(current_page_url, I, nwspaces, message)
                 if REPORT_TODOS:
                     log.warning(todo)
@@ -92,8 +91,13 @@ class RTPreprocessor(Preprocessor):
 
 def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
     config.markdown_extensions.append(RTExtension(config))
+    config['todos'] = 0
     return config
 
 def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -> str:
     config['current_page'] = page  # needed for the preprocessor
     return markdown
+
+def on_post_build(config: MkDocsConfig, **kwargs):
+    if config['todos'] > 0:
+        log.info(f"Found {config['todos']} TODOs in the documentation.")

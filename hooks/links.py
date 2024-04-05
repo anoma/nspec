@@ -8,8 +8,8 @@ import re
 import os
 import mkdocs.plugins
 import logging
-from typing import Any, Callable, List, Optional, Tuple, Dict, Set
-from pymdownx.snippets import SnippetExtension, SnippetPreprocessor  # type: ignore
+from typing import List, Optional
+from pymdownx.snippets import SnippetPreprocessor  # type: ignore
 from pymdownx.snippets import DEFAULT_URL_SIZE,  DEFAULT_URL_TIMEOUT  # type: ignore
 from pathlib import Path
 from mkdocs.utils import meta, get_markdown_title, get_relative_url
@@ -29,7 +29,8 @@ INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / 'docs'
 
-ROOT_URL = '/nspec/' # update according to site_url
+SITE_URL = os.environ.get('SITE_URL', '/nspec/')
+REPORT_BROKEN_WIKILINKS = bool(os.environ.get('REPORT_BROKEN_WIKILINKS', False))
 
 """ Example of a wikilink with a path hint:
 [[path-hint:page#anchor|display text]]
@@ -291,7 +292,7 @@ class WLPreprocessor(Preprocessor):
                     root_url = config['site_url']
 
                     if '127.0.0.1' in root_url or 'localhost' in root_url:
-                        root_url = ROOT_URL
+                        root_url = SITE_URL
 
                     md_path = _fix_url(root=root_url, url = path, html=True)
 
@@ -300,7 +301,13 @@ class WLPreprocessor(Preprocessor):
                     lines[i] = lines[i].replace(match.group(0), md_link)
                     log.debug(f"{ocurrence}:\nResolved link for page:\n  {link_page} -> {md_path}")
                 else:
-                    log.error(f"{ocurrence}:\nUnable to resolve reference\n  {link_page}")
+                    msg = f"{ocurrence}:\nUnable to resolve reference\n  {link_page}"
+
+                    if REPORT_BROKEN_WIKILINKS:
+                        log.error(msg)
+                    else:
+                        log.warning(msg)
+
                     lines[i] = lines[i].replace(match.group(0), link.text)
                     config['wikilinks_issues'] += 1
         return lines
@@ -309,8 +316,8 @@ class WLPreprocessor(Preprocessor):
 @mkdocs.plugins.event_priority(-200)
 def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -> str:
     """Replace wikilinks by markdown links. This process avoids to replace links
-#     inside code blocks and html comments.
-#     """
+    inside code blocks and html comments.
+    """
     config['current_page'] = page # needed for the preprocessor
     md_path = "./" + page.url.replace(".html", ".md")
     if md_path not in config['aliases_for']:
@@ -339,7 +346,7 @@ def _extract_aliases_from_nav(item, parent_key=None):
 def _fix_url(root:str, url:str, html:bool=False) -> str:
     right_url = url.lstrip('.').lstrip('/')
     _root = root
-    if _root.endswith(ROOT_URL):
+    if _root.endswith(SITE_URL):
         _root = root.rstrip('/')
     if html:
         right_url = right_url.replace('.md', '.html')
@@ -360,7 +367,6 @@ def _get_alias_names(meta_data: dict):
         return None
     aliases = meta_data['alias']
     if isinstance(aliases, list):
-        # If the alias meta data is a list, ensure that they're strings
         return list(filter(lambda value: isinstance(value, str), aliases))
     if isinstance(aliases, dict) and 'name' in aliases:
         return [aliases['name']]
