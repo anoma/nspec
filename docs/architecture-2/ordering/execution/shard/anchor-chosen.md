@@ -18,7 +18,10 @@ Inform shards about the most recently decided value by the consensus.
 
 #### Effects
 The shard learns more ordering information. In particular, with this and enough `TimestampOrderingInformation` messages, it should be able to order all transactions before the new `anchor`.
-{TODO I guess, we need a proper talk on how to represent partial dependencies }
+
+!!! todo
+  
+    I guess, we need a proper talk on how to represent partial dependencies.
 
 Once a we have enough ordering information to establish the unique write preceding a key on which there is a read lock, and we have a value for that write, we can send that value to the relevant Executor.
 

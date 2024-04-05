@@ -165,9 +165,9 @@ Private inputs ($w$):
 4. $r^{out}$ - output resource plaintext
 5. $(l^{out}, rcm^{out}_{l})$ - $cm_{l}^{out}$ opening
 
-!!! quote
+!!! note
 
-     **Note:** opening of a parameter contains every component of the parameter
+     opening of a parameter contains every component of the parameter
     
 #### Checks
 - For the input resource:
@@ -183,9 +183,9 @@ Private inputs ($w$):
     - Kind integrity: $K = PRF^{kind}(l^{out}, label^{out})$
 - Delta integrity: $delta = DeltaCommit(q_{in}, q_{out}, K_{in}, K_{out}, rcd)$
 
-!!! quote
+!!! note
 
-     **Note:** unlike [MASP](https://github.com/anoma/masp), the value base in Taiga is not used to compute resource's commitment and the compliance circuit doesn't take $kind$ as private input but computes it from the resource fields, and it is checked for both input and output resources.
+     unlike [MASP](https://github.com/anoma/masp), the value base in Taiga is not used to compute resource's commitment and the compliance circuit doesn't take $kind$ as private input but computes it from the resource fields, and it is checked for both input and output resources.
     
 ### 3.2 Resource Logic (RL) circuits
 Resource logic is a circuit containing the application logic. Resource logics take $m$ input and $n$ output resources, are represented as Halo2 circuits `RL(x; w) ⟶ 0/1` and arithmetized over $\mathbb{F}_p$.
@@ -321,14 +321,14 @@ A transaction is valid if:
     - Public input consistency: resource logic public input $nf$ and $cm$ are the same as in the compliance public input
 3. Binding signature is valid for $\Delta_{tx}$
 
-!!! quote
+!!! note
 
-     **Note:** Currently, each resource requires a separate RL proof, even if they belong to the same application. Eventually the RL might be called just once per $tx$, meaning that if the $tx$ has 2 or more resources belonging to the same application, the total amount of non-ephemeral proofs is reduced.
+     Currently, each resource requires a separate RL proof, even if they belong to the same application. Eventually the RL might be called just once per $tx$, meaning that if the $tx$ has 2 or more resources belonging to the same application, the total amount of non-ephemeral proofs is reduced.
     
 
-!!! quote
+!!! note
 
-     **Note:** It is possible that a resource logic requires checks of other logics in order to be satisfied. In that case, the total amount of logic proofs verified could be more than $2n$, but we can count such check as a single check.
+     It is possible that a resource logic requires checks of other logics in order to be satisfied. In that case, the total amount of logic proofs verified could be more than $2n$, but we can count such check as a single check.
     
 ### Taiga state
 Taiga doesn't store a state, but Taiga produces state changes (that will be executed elsewhere), that include:

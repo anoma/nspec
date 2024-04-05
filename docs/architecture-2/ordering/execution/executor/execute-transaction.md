@@ -31,13 +31,18 @@ Concurrently, when the [[Worker Engine]] sends a [[KVSAcquireLock]] to
   In the course of evaluating the
    *executor function*,
    lazy reads are requested, and final writes are output.
-  <!-- TODO: make this precise :-/ -->
+
   - [[KVSReadRequest|KVSReadRequest]] to [[Shard]]
   - [[KVSWrite]] to [[Shard]]
+
+  !!! todo
+      make this precise :-/ 
 <!-- --8<-- [end:details] -->
 
 ## Notes
 
 - Getting served read requests amounts to locks being granted by the shards.
 
-<!-- TODO: contention footprint description -->
+!!! todo
+
+    contention footprint description

@@ -3,8 +3,11 @@ Let us consider a typical/generic case
 of what transaction submission triggers in the ordering machine.
 Note that all message sending is asynchronous.
 
-<!-- TODO: removed `ExecutorProcess--)ExecutorProcess: .` just before
+!!! todo 
+    
+    removed `ExecutorProcess--)ExecutorProcess: .` just before
      `activate ExecutorProcess`. I'm not sure what it represented. -->
+
 ```mermaid
 sequenceDiagram
     participant User
@@ -211,7 +214,11 @@ _at [[Executor]]_
 
 _at [[Executor]]_
 
-- [[KVSWrite]]<!--TODO this should be a Request!--> → [[Shard]]s
+!!! todo
+
+    this should be a Request!
+
+- [[KVSWrite]] → [[Shard]]s
   When the [[TransactionCandidate|transaction candidate]] has run,
   for each write lock, the
   [[Executor]] informs the relevant [[Shard]] of a value to write

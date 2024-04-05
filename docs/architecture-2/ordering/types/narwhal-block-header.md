@@ -15,5 +15,12 @@ each of which reference a quorum of blocks.
 The height of genesis is zero and at that is the only height where the availability certificate is `none`.
 The list of signed quorums may be empty and must be empty at genesis, i.e., if `height` is zero.
 
-The predecessor uniquely determines the vector of learner-specific heights<!-- TODO spell this out and/or link it -->and
-the signed_quorums may only reference the directly preceding block for each learner.
+The predecessor uniquely determines the vector of learner-specific heights and
+the signed_quorums may only reference the directly preceding block for each
+learner.
+
+!!! todo 
+    
+    spell this out and/or link it
+
+

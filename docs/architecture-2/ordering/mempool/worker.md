@@ -64,7 +64,9 @@ Each worker keeps track of
 
 There is no precise state representation described by the V1 specs.
 
-<!-- TODO: the following almost certainly are not the template we want -->
+!!! todo
+
+    the following almost certainly are not the template we want -->
 
 ## [[ExecutorFinished]]
 
@@ -135,7 +137,9 @@ from Worker may trigger:
 -->
 
 
-<!-- TODO: we need to find better places for these footnotes
+!!! todo
+
+    we need to find better places for these footnotes
 
 [^1]: It might be too expensive to check from genesis;
     transaction requests could have a parameter for

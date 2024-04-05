@@ -55,7 +55,11 @@ data ptxData = ptxData {
 }
 ```
 
-Creation of new Resources happens via Ephemeral Resources inside a partial transaction. Ephemeral meaning that they count towards balance, but are not stored long term, though the proof for their validity is. TODO Taiga: Is this correct?
+Creation of new Resources happens via Ephemeral Resources inside a partial transaction. Ephemeral meaning that they count towards balance, but are not stored long term, though the proof for their validity is. 
+
+!!! todo
+     
+     Taiga: Is this correct?
 
 !!! example
 
@@ -66,11 +70,19 @@ Creation of new Resources happens via Ephemeral Resources inside a partial trans
     The Resource Logic is tied to everything influencing the fungibility of a Resource (Proof System and Static Data), we separate Predicates and Data, not for semantic reasons, but to reduce implementation complexity. The RL can optionally call external predicates which are stored in `resource_data_dynamic` or other `Resource`s.
 
 #### Proof System and Functional Commitment Scheme
-The proof system and functional commitment scheme determine the type of privacy and soundness guarantees for shielded partial transactions. They are encoded as a ByteString. TODO Taiga: Is this correct?
+The proof system and functional commitment scheme determine the type of privacy and soundness guarantees for shielded partial transactions. They are encoded as a ByteString. 
 
-TODO: How do we carry proofs and commitments through the transaction lifecycle? Do we store them with the ptx's which created them?
+
+!!! todo 
+          
+     Taiga: Is this correct?
+
+!!! todo 
+     
+     How do we carry proofs and commitments through the transaction lifecycle? Do we store them with the ptx's which created them?
 
 #### Controllers
+
 Controllers are the Identities (e.g. consensus providers) that determine the order of (p)txs including the given Resource. The first controller in the list is known as the resource originator.
 By signing a message, a Controller promises to not sign another message committing to an equivocation of the signed message.
 It is recommended to assume finality only after checking Controller Signatures on (p)txs.
@@ -252,7 +264,10 @@ If we want to upgrade the proof system or other static data of a Resource Type, 
 ### Relationship between Notes and Resources
 
 There is a conceptual 1:1 correspondence between a Resource and a Note.
-TODO: These names/objects should be unified and we need to do a thorough examination of what is left to do to move it into practice.
+
+!!! todo
+
+     These names/objects should be unified and we need to do a thorough examination of what is left to do to move it into practice.
 
 ## Lifecycle of a Transaction
 
