@@ -44,6 +44,3 @@ Payment can be made to the holders of a particular kudo denomination over time (
 !!! todo
 
      Here, we might need a human-time shared clock, since that's kinda what we want to model.
-
-
-{@ config['todos'] @}
