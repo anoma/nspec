@@ -1,27 +1,53 @@
+"""
+This script reports all the todo entries in the markdown files in the given directory.
+"""
 import os
 import glob
+import sys
 
-def report_todo_entries(file_path):
+def find_todos(file_path):
+    """
+    Reports the todo entries in a given file.
+    """
+    num_todo_entries = 0
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.readlines()
         for i, line in enumerate(lines, start=1):
             if line.strip().startswith("!!! todo"):
-                # Report the todo entry
-                # Prepare the message by joining this line and the next few lines until they're not indented
-                message = line.strip()
-                for j in range(i+1, min(i+4, len(lines))):  # Look ahead a few lines for the full message
-                    next_line = lines[j].strip()
-                    if next_line.startswith('    '):  # Assuming continuation lines are indented
-                        message += ' ' + next_line[4:]  # Append with a space, remove indentation
+                num_todo_entries += 1
+                _line = line.lstrip()
+                nwspaces = len(line) - len(_line)
+
+                message = ""
+                for j in range(i+1, len(lines)):
+                    if len(lines[j].strip()) == 0:
+                        continue
+                    if lines[j].startswith(' '* nwspaces):
+                        message += lines[j].strip()
                     else:
-                        break  # Stop if the next line is not a continuation of the TODO
-                message = message  # Truncate to 140 chars if longer
+                        break  
+                short_message = message[:50] + (message[50:] and '...')       
 
-                print(f"{os.path.abspath(file_path)}:{i}:1: {message}")
+                abs_path = os.path.abspath(file_path)
 
-def report_all_todos_in_directory(directory_path):
+                print(f"{abs_path}:{i}:1:\n  {short_message.strip()}\n", file=sys.stderr)
+    return num_todo_entries                
+
+
+def find_all_todos(directory_path):
+    total = 0
     for markdown_file in glob.glob(os.path.join(directory_path, '**', '*.md'), recursive=True):
-        report_todo_entries(markdown_file)
+        total += find_todos(markdown_file)
 
-# Replace './docs' with the path to your specific directory if different
-report_all_todos_in_directory('./docs')
+    print(f"Todo entries: {total}")
+
+if __name__ == "__main__":
+    # read args otherwise use './docs' as default
+    if len(sys.argv) == 2:
+        folder = sys.argv[1]
+        if not os.path.isdir(folder):
+            print(f"Error: {folder} is not a directory", file=sys.stderr)
+            sys.exit(1)
+        find_all_todos(sys.argv[1])
+    else:
+        find_all_todos('./docs')
