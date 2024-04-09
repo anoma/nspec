@@ -38,8 +38,6 @@ env:
   REPORT_BROKEN_WIKILINKS: true
   PREPROCESS_JUVIX_MD: true
 
-: true
-
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
   cancel-in-progress: true
