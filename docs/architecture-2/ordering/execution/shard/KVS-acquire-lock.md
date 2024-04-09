@@ -12,7 +12,6 @@ Inform the shard about keys that a transaction may/will read and/or
 
 ## Structure
 
-
 | Field | Type | Description |
 |-------|------|-------------|
 | `lazy_read_keys` | [[KVSKey]] set | Keys this transaction _may_ read (only send values read in response to [[KVSReadRequest]]s)|
@@ -22,7 +21,6 @@ Inform the shard about keys that a transaction may/will read and/or
 | `curator`| [[ExternalIdentity]] | the [[Worker Engine]] in charge of the corresponding transactions     |
 | `executor`| [[ExternalIdentity]] | the [[Executor|Executor]] for this [[TransactionCandidate]]|
 | `timestamp`| [[TxFingerprint]] | specifies the transaction affiliated with these locks.
-
 
 The `lazy_read_keys` and `eager_read_keys` may not overlap.
 In the same way,  `will_write_keys` and `may_write_keys` must be
@@ -37,7 +35,6 @@ For V1, however, simple HashSets or similar are fine.
 
 ## Effects
 
-
 - The [[Shard]] stores the respective "locks" for all keys in its timeline.
   - these are the "markers" described in [[Shard]] State.
 - The `eager_read_keys` will be served as soon as possible
@@ -47,7 +44,6 @@ For V1, however, simple HashSets or similar are fine.
    [[Worker Engine|curator]] can prepare [[UpdateSeenAll]] messages.
 
 ## Triggers
-
 
 - _to_ [[Worker Engine]]: [[KVSLockAcquired]]
   send a [[KVSLockAcquired]] message to the [[Worker Engine|curator]],

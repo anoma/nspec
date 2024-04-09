@@ -1,10 +1,8 @@
 # Domain Routing
 
-
 Route a message to any known domain member.
 
 ## [[DomainRequest#domainrequest]]
-
 
 --8<-- "domain-routing/domain-request.md:purpose"
 
@@ -15,7 +13,6 @@ Triggers:
 --8<-- "domain-routing/domain-request.md:triggers"
 
 ## [[DomainResponse#domainresponse]]
-
 
 --8<-- "domain-routing/domain-response.md:purpose"
 

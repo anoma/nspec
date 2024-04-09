@@ -1,8 +1,6 @@
 # LookupIdentityRequestV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Request to look up information about an  *external identity*.
@@ -10,10 +8,8 @@ Request to look up information about an  *external identity*.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

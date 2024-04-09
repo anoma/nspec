@@ -1,6 +1,5 @@
 # WorkerHash
 
-
 In V1,
 we do not use worker hashes in the sense of Narwhal
 or related DAG-based mempools.

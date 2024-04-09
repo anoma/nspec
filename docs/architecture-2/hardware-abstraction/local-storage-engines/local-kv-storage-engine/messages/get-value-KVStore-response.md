@@ -1,11 +1,8 @@
 <div class="message" markdown>
 
-
 # GetValueKVStoreResponse
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Return the value from the search operation which is triggered by a
@@ -14,7 +11,6 @@ Return the value from the search operation which is triggered by a
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -25,11 +21,9 @@ Return the value from the search operation which is triggered by a
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 Returns the value from the search operation which is triggered by a
@@ -37,9 +31,7 @@ Returns the value from the search operation which is triggered by a
 
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

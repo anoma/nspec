@@ -1,6 +1,5 @@
 # SuccessOperationConfigKVStoreV1
 
-
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
@@ -11,17 +10,13 @@ and [[Static Config Storage Engine#static-config-storage-engine]] was executed s
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
-
 
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
-
 
 Boolean value where:
 - `1`: Operation was successful.

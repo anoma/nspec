@@ -1,8 +1,6 @@
 # TopicUnsubResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[TopicUnsubRequestV1]].
@@ -10,10 +8,8 @@ Response to a [[TopicUnsubRequestV1]].
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Result*
 
@@ -21,7 +17,6 @@ Response to a [[TopicUnsubRequestV1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
-
 
 - *OK*: Topic unsubscribed.
 - *ERROR*: Topic was not subscribed.

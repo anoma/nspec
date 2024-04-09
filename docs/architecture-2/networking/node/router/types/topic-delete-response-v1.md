@@ -1,8 +1,6 @@
 # TopicDeleteResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[TopicDeleteRequestV1]].
@@ -10,10 +8,8 @@ Response to a [[TopicDeleteRequestV1]].
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Result*
 
@@ -21,7 +17,6 @@ Response to a [[TopicDeleteRequestV1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
-
 
 - *OK*: Topic deleted.
 - *ERROR*: Topic unknown.

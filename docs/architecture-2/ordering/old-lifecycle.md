@@ -1,6 +1,5 @@
 ## Transaction life cycle: from request to execution
 
-
 Consider the “life cycle” of a transparent asset transfer $T$.
 
 ### Mempool
@@ -12,7 +11,6 @@ Consider the “life cycle” of a transparent asset transfer $T$.
   and thus likely will choose one of its own workers to process the request.
   The transaction will be included in the current batch of transactions
   or a later one.
-
 
 - Workers [[TransactionAck|acknowledge]] transaction requests by sending
   a local wall clock time stamp at which they have opened the batch into which
@@ -32,7 +30,6 @@ Consider the “life cycle” of a transparent asset transfer $T$.
   read and write requests that are to be performed now and later
   via [[KVSAcquireLock]] messages.
 
-
 - Worker $W$ will eventually complete the current batch of transactions $B$
   (after  receiving a number of additional transactions);
   a _batch_ is simply a list of transactions.
@@ -40,7 +37,6 @@ Consider the “life cycle” of a transparent asset transfer $T$.
   called _batch numbers_.
   Whenever a new batch is opened,
   the worker also take the local wall clock time stamp for the new batch.
-
 
 <!--
 After closing batch $B$, worker $W$:

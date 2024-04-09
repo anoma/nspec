@@ -1,8 +1,6 @@
 # ConfigurationValueV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 The value corresponding with a [[ConfigurationKeyV1#configurationkeyv1]] in the config KV-store.
@@ -10,10 +8,8 @@ The value corresponding with a [[ConfigurationKeyV1#configurationkeyv1]] in the 
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 

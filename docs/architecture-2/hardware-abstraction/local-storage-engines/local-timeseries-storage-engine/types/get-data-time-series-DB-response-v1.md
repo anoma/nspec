@@ -1,8 +1,6 @@
 # GetDataTimeSeriesDBResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Return the queried time series data.
@@ -10,10 +8,8 @@ Return the queried time series data.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Time Series DB Query`: [[TimeSeriesDBQueryV1#timeseriesdbqueryv1]]
@@ -23,7 +19,6 @@ Return the queried time series data.
 - `Time Series DB Data`: [[TimeSeriesDBDataV1#timeseriesdbdatav1]]
 
   *The requested time series data.*
-
 
 </div>
 <!-- --8<-- [end:type] -->

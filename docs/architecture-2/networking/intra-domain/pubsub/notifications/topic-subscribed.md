@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # TopicSubscribed
 
-
 ## Purpose
-
 
  <!-- --8<-- [start:purpose] -->
 Notification about a topic that was successfully subscribed at another peer.
  <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
  <!-- --8<-- [start:type] -->
 [[TopicRequestV1#topicrequestv1]]
@@ -21,7 +17,6 @@ Notification about a topic that was successfully subscribed at another peer.
  <!-- --8<-- [end:type] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

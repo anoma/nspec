@@ -1,6 +1,5 @@
 # Proof-of-stake
 
-
 - Tokens of a particular denomination can be locked for a configurable period of time in a non-fungible bond
 - Bond can be claimed in the future with rewards as indicated (fixed-rate or variable-rate)
 - Bond can be soulbound (?)

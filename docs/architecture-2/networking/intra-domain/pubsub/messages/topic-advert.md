@@ -1,15 +1,12 @@
 # TopicAdvert
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Topic advertisement by a publisher.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -25,9 +22,7 @@ Topic advertisement by a publisher.
 [[TopicAdvertReceived#topicadvertreceived]]
 <!-- --8<-- [end:type] -->
 
-
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 Update topic routing table,
@@ -37,22 +32,17 @@ and forward the *TopicAdvert* to connected peers in the same domain.
 
 ## Reception
 
-
 <!-- --8<-- [start:reception] -->
 - PubSub $\to$ *TopicAdvert* $\to$ PubSub
 <!-- --8<-- [end:reception] -->
 
-
 ## Triggers
-
 
 <!-- --8<-- [start:triggers] -->
 - PubSub $\to$ *TopicAdvert* $\to$ PubSub
 <!-- --8<-- [end:triggers] -->
 
-
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

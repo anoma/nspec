@@ -1,6 +1,5 @@
 # Engines
 
-
 Anoma's implementation is structured as a set of communication _engines_. An _engine_ can be understood as a deterministic logical process operating within a trusted domain, and can be characterised as a function, parameterised over a state type, input message type, and output message type, taking a tuple of the current state and a set of input messages, and returning a tuple of a new state and a set of output messages.
 
 ```haskell
@@ -42,7 +41,6 @@ Engines:
 note: typhon and taiga
 
 ## Summary
-
 
 Typhon stores, orders, and executes transactions on Anoma blockchains.
 It is intended as a replacement for [Tendermint](https://tendermint.com/core/).

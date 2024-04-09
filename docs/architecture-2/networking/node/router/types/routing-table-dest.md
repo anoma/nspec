@@ -1,13 +1,10 @@
 # RoutingTableDest
 
-
 ## Purpose
-
 
 Destination of a [[RoutingTable#routingtable]] entry.
 
 ## Type
-
 
 *Enum* with the following possible values.
 

@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # LocalRandomnessGetRandResult
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Return the generated random numbers or other random data locally on the physical machine that the Anoma node is running.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -23,20 +19,15 @@ Return the generated random numbers or other random data locally on the physical
 
 **Triggers**
 
-
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 Return the generated random number or other random data.
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

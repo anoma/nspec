@@ -1,14 +1,10 @@
 <div class="engine" markdown>
 
-
 # Transport
-
 
 ## Overview
 
-
 ### Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 The [[Transport#transport]] engine is responsible for
@@ -19,7 +15,6 @@ to other nodes via various transport protocols.
 
 ## State
 
-
 The *Transport* engine maintains a [[ConnectionPool#connectionpool]],
 a *pool of open connections* associated with [[NodeIdentity#nodeidentity|node identities]]
 of connected nodes.
@@ -28,9 +23,7 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 ## Messages received
 
-
 ### [[P2PMessage to Transport#p2pmessage-transport|P2PMessage]]
-
 
 --8<-- "transport/messages/p2p-message.md:purpose"
 
@@ -38,13 +31,11 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 ### [[TransportMessage#transportmessage]]
 
-
 --8<-- "transport/messages/transport-message.md:purpose"
 
 --8<-- "transport/messages/transport-message.md:type"
 
 ### [[ConnectRequest#connectrequest]]
-
 
 --8<-- "transport/messages/connect-request.md:purpose"
 
@@ -52,13 +43,11 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 ### [[DisconnectRequest#disconnectrequest]]
 
-
 --8<-- "transport/messages/disconnect-request.md:purpose"
 
 --8<-- "transport/messages/disconnect-request.md:type"
 
 ### [[ConnectedNodesRequest#connectednodesrequest]]
-
 
 --8<-- "transport/messages/connected-nodes-request.md:purpose"
 
@@ -66,9 +55,7 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 ## Notifications sent
 
-
 ### [[NodeConnected#nodeconnected]]
-
 
 --8<-- "transport/notifications/node-connected.md:purpose"
 
@@ -76,20 +63,17 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 ### [[NodeConnectFailed#nodeconnectfailed]]
 
-
 --8<-- "transport/notifications/node-disconnected.md:purpose"
 
 --8<-- "transport/notifications/node-disconnected.md:type"
 
 ### [[NodeDisconnected#nodedisconnected]]
 
-
 --8<-- "transport/notifications/node-connect-failed.md:purpose"
 
 --8<-- "transport/notifications/node-connect-failed.md:type"
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

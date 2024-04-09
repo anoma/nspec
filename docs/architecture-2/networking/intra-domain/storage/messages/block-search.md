@@ -1,8 +1,6 @@
 # BlockLookupRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Look up a block in local storage and on the network.
@@ -10,13 +8,11 @@ Look up a block in local storage and on the network.
 
 ## Reception
 
-
 <!-- --8<-- [start:reception] -->
 - Any Local Engine $\to$ *BlockLookupRequest* $\to$ Storage
 <!-- --8<-- [end:reception] -->
 
 ## Structure
-
 
 | Field    | Type                                          | Description                          |
 |----------|-----------------------------------------------|--------------------------------------|
@@ -27,12 +23,10 @@ Look up a block in local storage and on the network.
 
 ## Behavior
 
-
 First query the local storage for the block.
 If not found, initiate a search on the network, when either `topic` or `random` is enabled.
 
 ## Triggers
-
 
 <!-- --8<-- [start:triggers] -->
 - Storage $\to$ *[[BlockResponse#blockresponse]]* $\to$ Any Local Engine

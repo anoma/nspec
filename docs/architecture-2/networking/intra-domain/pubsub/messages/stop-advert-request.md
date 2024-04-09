@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # StopAdvertRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Stop advertising a topic in the network.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
  <!-- --8<-- [start:type] -->
 **Reception:**
@@ -30,12 +26,10 @@ Stop advertising a topic in the network.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

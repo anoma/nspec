@@ -1,8 +1,6 @@
 # TopicResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[TopicRequestV1]].
@@ -10,10 +8,8 @@ Response to a [[TopicRequestV1]].
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Result*
 
@@ -21,7 +17,6 @@ Response to a [[TopicRequestV1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
-
 
 - *OK*: Success
 - *ERROR*: Failure

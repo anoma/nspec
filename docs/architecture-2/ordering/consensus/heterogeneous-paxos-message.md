@@ -10,11 +10,9 @@ Intra-component message according to the consensus protocol, sent between the pa
 
 #### Structure
 
-
 There are three variants of the message, dependent on the message purpose according to the [protocol specification]().
 
 ##### `HeterogeneousPaxosMessage`
-
 
 ```rust
 enum HeterogeneousPaxosMessage {
@@ -28,7 +26,6 @@ enum HeterogeneousPaxosMessage {
 ```
 
 ##### `Proposal` structure
-
 
 Encodes a $\onea$ message that proposes a next value to have consensus upon.
 
@@ -45,7 +42,6 @@ Encodes a $\onea$ message that proposes a next value to have consensus upon.
 
 ##### `DirectReferences` structure
 
-
 Encodes a $\oneb$ / $\twoa$ message used to communicate the acceptor's commitment to other acceptors.
 
 | Field | Type | Description |
@@ -56,7 +52,6 @@ Encodes a $\oneb$ / $\twoa$ message used to communicate the acceptor's commitmen
 | `prev` | [`Hash`](#Hash) | hash of the previous message sent by acceptor, `0` otherwise |
 
 ##### `Decision` structure
-
 
 The message of this kind is used to notify other acceptors that a decision has been made.
 The message includes a list of messages the other acceptors need to see the decision (a quorum of 2A messages).

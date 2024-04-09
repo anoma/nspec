@@ -1,12 +1,10 @@
 <div class="message" markdown>
 
-
 # VerifyRequest
 
 # VerifyResponse
 
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A `VerifyRequest` instructs a verification engine to verify a commitment from a particular external identity, possibly using known signs-for relationships.
@@ -16,14 +14,12 @@ A `VerifyResponse` contains the result of verifying a commitment in response to 
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 - [[VerifyRequest]]
 - [[VerifyResponse]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 - Calls the `verify` method on the provided external identity, commitment, and data, and returns the result in an [[VerifyResponse]]
@@ -32,7 +28,6 @@ A `VerifyResponse` contains the result of verifying a commitment in response to 
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

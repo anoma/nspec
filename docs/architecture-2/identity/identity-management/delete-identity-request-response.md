@@ -1,12 +1,10 @@
 <div class="message" markdown>
 
-
 # DeleteIdentityRequest
 
 # DeleteIdentityResponse
 
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Describe the purpose of the message.
@@ -17,14 +15,12 @@ A `DeleteIdentityResponse` provides the response information from an attempt to 
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 [[DeleteIdentityRequest]]
 [[DeleteIdentityResponse]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 - Attempts to use the designated backend to delete the specified identity
@@ -33,7 +29,6 @@ A `DeleteIdentityResponse` provides the response information from an attempt to 
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

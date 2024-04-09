@@ -1,8 +1,6 @@
 # EpochTimestampV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 
@@ -12,10 +10,8 @@ Current time according to local wall clock, typically expressed in seconds (or m
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 </div>
 <!-- --8<-- [end:type] -->

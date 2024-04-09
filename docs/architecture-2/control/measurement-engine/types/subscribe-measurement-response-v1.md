@@ -1,8 +1,6 @@
 # SubscribeMeasurementResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[SubscribeMeasurementRequestV1#subscribemeasurementrequestv1]]
@@ -10,10 +8,8 @@ Response to a [[SubscribeMeasurementRequestV1#subscribemeasurementrequestv1]]
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Measurement Query`: [[MeasurementQueryV1#measurementqueryv1]]
@@ -27,8 +23,6 @@ Response to a [[SubscribeMeasurementRequestV1#subscribemeasurementrequestv1]]
 - `Epoch Timestamp`: [[EpochTimestampV1#epochtimestampv1]]
 
   *The wall clock time of the moment that the subscriber was subscribed to this query.*
-
-
 
 </div>
 <!-- --8<-- [end:type] -->

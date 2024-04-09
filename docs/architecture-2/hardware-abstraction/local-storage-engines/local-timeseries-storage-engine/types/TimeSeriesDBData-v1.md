@@ -1,9 +1,6 @@
 # TimeSeriesDBDataV1
 
-
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A piece of data in the time series DB.
@@ -11,10 +8,8 @@ A piece of data in the time series DB.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 </div>
 <!-- --8<-- [end:type] -->

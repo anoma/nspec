@@ -1,6 +1,5 @@
 # Storage
 
-
 - *Inputs*
     - Data to store with preferences (locality, redundancy, duration)
     - Requests to fetch data

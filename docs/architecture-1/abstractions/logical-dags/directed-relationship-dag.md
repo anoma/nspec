@@ -1,6 +1,5 @@
 # Directed relationship DAG
 
-
 The directed relationship DAG tracks directed relationships between pairs of identities, where the first identity can establish or unestablish the relationship at will. The "following" relationship on social media, for example, typically has this structure. The state of the directed relationship DAG at any point in logical time is the set of relationships created more recently than they were destroyed (if at all), i.e. the set of outstanding relationships most recently consented to by the first identity.
 
 ```haskell

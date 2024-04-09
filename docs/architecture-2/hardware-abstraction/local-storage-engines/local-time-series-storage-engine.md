@@ -1,22 +1,16 @@
 <div class="engine" markdown>
 
-
 # Local Time Series Storage Engine
 
-
 ## Purpose
-
 
 The *Local Time Series Storage Engine* provides local storage and retrieval of time series data.
 
 ## State
 
-
 ## Messages received
 
-
 ### [[GetDataTimeSeriesDBRequest#getdatatimeseriesdbrequest]]
-
 
 --8<-- "local-timeseries-storage-engine/messages/get-data-time-series-DB-request.md:purpose"
 
@@ -24,13 +18,11 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
 
 ### [[RecordDataTimeSeriesDBRequest#recorddatatimeseriesdbrequest]]
 
-
 --8<-- "local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md:purpose"
 
 --8<-- "local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md:type"
 
 ### [[]DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]]
-
 
 --8<-- "local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md:purpose"
 
@@ -38,17 +30,13 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
 
 ## Notifications sent
 
-
 ### [[DataChangedTimeSeriesDB#datachangedtimeseriesdb]]
-
 
 --8<-- "local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md:purpose"
 
 --8<-- "local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md:type"
 
 ## Message Flow
-
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

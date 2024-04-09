@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # DeleteMeasurementRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Find the targeted measurement and delete it from the measurement DB.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -31,14 +27,11 @@ Find the targeted measurement and delete it from the measurement DB.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 Performs  a removal operation in the measurement DB.
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

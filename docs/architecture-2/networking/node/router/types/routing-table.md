@@ -1,8 +1,6 @@
 # RoutingTable
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 The router maintains a routing table that associates message destination identities
@@ -15,7 +13,6 @@ which the Router learns about by subscribing to [[IdentityUpdated#identityupdate
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 *list\<[[RoutingTableEntry#routingtableentry]]\>*

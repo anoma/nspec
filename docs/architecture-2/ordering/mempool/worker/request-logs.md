@@ -5,7 +5,6 @@
 
 ## Purpose
 
-
 Request the log of a finished execution.
 
 <!-- --8<-- [end:blurb] -->

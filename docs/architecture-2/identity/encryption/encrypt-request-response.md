@@ -1,12 +1,10 @@
 <div class="message" markdown>
 
-
 # EncryptRequest
 
 # EncryptResponse
 
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 An `EncryptRequest` instructs an encryption engine to encrypt data to a particular external identity, possibly using known reads-for relationships.
@@ -16,14 +14,12 @@ An `EncryptResponse` contains the data encrypted by an encryption engine in resp
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 [[EncryptRequest]]
 [[EncryptResponse]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 - Calls the `encrypt` method on the provided external identity and returns the result in an [[EncryptResponse]]
@@ -32,7 +28,6 @@ An `EncryptResponse` contains the data encrypted by an encryption engine in resp
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

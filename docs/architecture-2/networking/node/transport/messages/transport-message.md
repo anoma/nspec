@@ -1,15 +1,12 @@
 # TransportMessage
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A message from/to one of the transport protocols.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -24,7 +21,6 @@ A message from/to one of the transport protocols.
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 When receiving a *TransportMessage* from one of the transport protocols
@@ -43,7 +39,6 @@ and `msg` contains the message to be sent.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # TopicUnsubRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Unsubscription request for a pub/sub topic.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -30,14 +26,12 @@ Unsubscription request for a pub/sub topic.
 
 ## Structure
 
-
 | Field   | Type                            | Description                                                      |
 |---------|---------------------------------|------------------------------------------------------------------|
 | `topic` | *[[TopicIdentity#topicidentity]]*           | Topic ID to unsubscribe                                          |
 | `scope` | *[[RoutingScope#routingscope]]* | Whether the unsubscription request should be sent to the network |
 
 ## Behavior
-
 
 If the topic does not exist yet in the [[RoutingTable#routingtable]],
 the [[EngineIdentity#engineidentity]] of the requesting engine is added to the [[RoutingTable#routingtable]],
@@ -48,7 +42,6 @@ Otherwise, if the topic does not exist yet:
 - when the `scope` is *Any*, the [[Router#router]] sends a [[SubscribeRequest#subscriberequest]] to [[PubSub#pubsub]]
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

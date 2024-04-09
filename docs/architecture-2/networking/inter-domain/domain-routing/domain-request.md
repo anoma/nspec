@@ -1,8 +1,6 @@
 # DomainRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A request sent to a domain that is delivered to any domain member.
@@ -10,14 +8,12 @@ A request sent to a domain that is delivered to any domain member.
 
 ## Reception
 
-
 <!-- --8<-- [start:reception] -->
 - [[Domain]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]
 - [[Domain Routing#domain-routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]
 <!-- --8<-- [end:reception] -->
 
 ## Structure
-
 
 | Field      | Type                                           | Description                               |
 |------------|------------------------------------------------|-------------------------------------------|
@@ -28,7 +24,6 @@ A request sent to a domain that is delivered to any domain member.
 | `body`     | *Vec\<u8\>*                                    | Serialized message body.                  |
 
 ## Triggers
-
 
 <!-- --8<-- [start:triggers] -->
 - [[Domain Routing#domain-routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]

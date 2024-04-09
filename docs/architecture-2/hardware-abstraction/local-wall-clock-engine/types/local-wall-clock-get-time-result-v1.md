@@ -1,8 +1,6 @@
 # LocalWallClockGetTimeResultV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 
@@ -12,10 +10,8 @@ Response to a [[LocalWallClockGetTimeV1#localwallclockgettimev1]]
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Epoch Timestamp`: [[EpochTimestampV1#epochtimestampv1]]

@@ -1,15 +1,12 @@
 # ConnectIdentityResponse
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A `ConnectIdentityResponse` provides the handles to decryption and commitment engine instances for a newly connected identity, or an error if a failure occurred.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

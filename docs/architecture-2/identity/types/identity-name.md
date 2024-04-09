@@ -1,8 +1,6 @@
 # IdentityName
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Serves as an alias for an [[ExternalIdentity]] in anoma.
@@ -13,9 +11,7 @@ This _implements_ the [Identity Name Abstraction from architecture-1](../../../a
 This means that, as far as our SML is concerned, we will need a `structure` matching the `VERIFIER_NAME` and `ENCRYPTOR_NAME` `signature`s,  where the `identityName` type is this IdentityName.
 <!-- --8<-- [end:purpose] -->
 
-
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 There are (infinitely) many ways to make an IdentityName, so this is a sum type.

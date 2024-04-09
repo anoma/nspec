@@ -5,7 +5,6 @@
 
 ## Purpose
 
-
 This message informs the [[Worker Engine]] that the sending [[Shard]]
  has recorded upcoming read or write requests to a key specified in an
  earlier [[KVSAcquireLock]] from the [[Worker Engine]].
@@ -49,7 +48,6 @@ It is an asynchronous response.
 
 ## Note
 
-
 Otherwise, a Shard might hear about a
  [[KVSAcquireLock]] only after
  it has heard [[UpdateSeenAll]] with a later [[TxFingerprint]],
@@ -58,7 +56,6 @@ Otherwise, a Shard might hear about a
  the wrong value from state.
 Therefore, it is important to let [[Worker Engine]]s know which
  [[KVSAcquireLock]]s the shard has received.
-
 
 [^1]: In this way, a lock may be granted without knowing about declared access
 that would have to be served before.

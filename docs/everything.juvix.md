@@ -1,7 +1,6 @@
 
 # Juvix Modules
 
-
 ```juvix
 module docs.everything;
 

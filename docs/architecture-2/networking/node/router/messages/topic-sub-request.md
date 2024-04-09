@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # TopicSubRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Subscription request for a pub/sub topic.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -30,7 +26,6 @@ Subscription request for a pub/sub topic.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 If the topic already exists in the [[RoutingTable#routingtable]],
 the [[EngineIdentity#engineidentity]] of the requesting engine is added to the [[RoutingTable#routingtable]],
@@ -42,7 +37,6 @@ Otherwise, if the topic does not exist yet:
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

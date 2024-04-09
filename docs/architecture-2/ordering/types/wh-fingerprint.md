@@ -1,6 +1,5 @@
 # `WHFingerprint`
 
-
 The fingerprint of a worker hash.
 
 | Field       | Type           | Description                                                   |

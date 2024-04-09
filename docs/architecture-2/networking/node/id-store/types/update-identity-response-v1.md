@@ -1,8 +1,6 @@
 # UpdateIdentityResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to an [[UpdateIdentityRequest#updateidentityrequest]].
@@ -10,10 +8,8 @@ Response to an [[UpdateIdentityRequest#updateidentityrequest]].
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

@@ -1,6 +1,5 @@
 # Ordering and Execution Engines
 
-
 The ordering and execution engines receive transaction requests from users,
 order the transaction requests, and
 finally execute them.
@@ -32,9 +31,7 @@ We will go through all the messages exchanged between
   <!-- Here we of course have already the example that
   workers might have some kind of priority service... -->
 
-
 ### Mempool
-
 
 - The [[Worker Engine|worker]] $W$ then
    sends copies of this transaction request $R_T$ to
@@ -214,10 +211,7 @@ To this end, Validators on each chain try to achieve consensus on a
    transaction is finished.
   This information is later used for garbage collection.
 
-
-
 ## Certificates and the Mempool DAG
-
 
 Availability and integrity certificates describe a “global” mempool ᴅᴀɢ consisting of two types of edges:
 primary-specific ones and learner-specific ones.

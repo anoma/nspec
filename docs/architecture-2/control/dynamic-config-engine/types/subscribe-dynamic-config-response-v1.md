@@ -1,8 +1,6 @@
 # SubscribeDynamicConfigResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]].
@@ -10,10 +8,8 @@ Response to a [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]

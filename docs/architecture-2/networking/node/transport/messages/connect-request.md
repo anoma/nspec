@@ -1,19 +1,16 @@
 <div class="message" markdown>
 
-
 # ConnectRequest
 
 # ConnectResponse
 
 ## Purpose
 
-
 <!-- --8<-- [start:purpose] -->
 Establish connection to a node.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -31,11 +28,9 @@ Establish connection to a node.
 
 ## Behavior
 
-
 Establish connection to the specified node, if not yet connected.
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

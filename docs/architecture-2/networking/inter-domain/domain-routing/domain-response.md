@@ -1,15 +1,12 @@
 # DomainResponse
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A response returned to a [[DomainRequest#domainrequest]].
 <!-- --8<-- [end:purpose] -->
 
 ## Reception
-
 
 <!-- --8<-- [start:reception] -->
 - Router $\to$ [[DomainResponse#domainresponse]] $\to$ DomainRouting
@@ -18,7 +15,6 @@ A response returned to a [[DomainRequest#domainrequest]].
 <!-- --8<-- [end:reception] -->
 
 ## Structure
-
 
 | Field      | Type                                           | Description                                                         |
 |------------|------------------------------------------------|---------------------------------------------------------------------|

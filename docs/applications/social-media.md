@@ -1,6 +1,5 @@
 # Social media
 
-
 - Follower-relationships or friend-relationships
 - Local algorithms for ranking/sorting
 - Encryption to friends-only (at the time of post).

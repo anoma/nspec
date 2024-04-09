@@ -25,7 +25,6 @@ in either of the following cases:
 
 ## Structure
 
-
 | Field       | Type        | Description                                           |
 |-------------|-------------|-------------------------------------------------------|
 | `timestamp` | [[TxFingerprint]] | we need the value at this logical timestamp           |
@@ -54,7 +53,6 @@ Otherwise, future [[KVSWrite]]s and/or [[UpdateSeenAll]]s will
  [[KVSRead]].
 
 ## Triggers
-
 
 - _to_ [[Executor|Executor]]: [[KVSRead]]
   `if` the Shard has determined the unique value written prior to this "lock"

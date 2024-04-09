@@ -1,8 +1,6 @@
 # P2PMessageV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Message between two nodes.
@@ -10,10 +8,8 @@ Message between two nodes.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

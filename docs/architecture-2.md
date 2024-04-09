@@ -12,7 +12,6 @@ The specification is organized into the following sections:
 
 ## Engine models
 
-
 All engines communicate via message passing, following the paradigm of message passing concurrency.
 Thus,
 the only direct state manipulations that engine instances can perform are local state changes. <!--

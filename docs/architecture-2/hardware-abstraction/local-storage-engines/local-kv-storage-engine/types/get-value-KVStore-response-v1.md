@@ -1,8 +1,6 @@
 # GetValueKVStoreResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
@@ -10,10 +8,8 @@ Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]
@@ -23,7 +19,6 @@ Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
 - `Storage Value`: [[StorageValueV1#storagevaluev1]]
 
   *The requested value in the KV-store.*
-
 
 </div>
 <!-- --8<-- [end:type] -->

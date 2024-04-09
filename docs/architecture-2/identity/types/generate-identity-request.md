@@ -1,15 +1,12 @@
 # GenerateIdentityRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A `GenerateIdentityRequest` instructs the identity management engine to generate a new identity using the specified backend.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

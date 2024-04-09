@@ -1,14 +1,10 @@
 <div class="engine" markdown>
 
-
 # Router
-
 
 ## Overview
 
-
 ### Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 The [[Router#router]] is responsible for forwarding both intra-node and inter-node messages between engine instances.
@@ -20,9 +16,7 @@ and retrieves routing information for identities from the [[Network Identity Sto
 
 ## State
 
-
 ### [[RoutingTable#routingtable]]
-
 
 --8<-- "router/types/routing-table.md:purpose"
 
@@ -30,9 +24,7 @@ and retrieves routing information for identities from the [[Network Identity Sto
 
 ## Messages received
 
-
 ### [[EngineMessage#enginemessage]]
-
 
 --8<-- "router/messages/engine-message.md:purpose"
 
@@ -40,13 +32,11 @@ and retrieves routing information for identities from the [[Network Identity Sto
 
 ### [[P2PMessage#p2pmessage]]
 
-
 --8<-- "router/messages/p2p-message.md:purpose"
 
 --8<-- "router/messages/p2p-message.md:type"
 
 ### [[RelayMessage#relaymessage]]
-
 
 --8<-- "router/messages/relay-message.md:purpose"
 
@@ -54,13 +44,11 @@ and retrieves routing information for identities from the [[Network Identity Sto
 
 ### [[TopicCreateRequest#topiccreaterequest]]
 
-
 --8<-- "router/messages/topic-create-request.md:purpose"
 
 --8<-- "router/messages/topic-create-request.md:type"
 
 ### [[TopicDeleteRequest#topicdeleteRequest]]
-
 
 --8<-- "router/messages/topic-delete-request.md:purpose"
 
@@ -68,20 +56,17 @@ and retrieves routing information for identities from the [[Network Identity Sto
 
 ### [[TopicSubRequest#topicsubrequest]]
 
-
 --8<-- "router/messages/topic-sub-request.md:purpose"
 
 --8<-- "router/messages/topic-sub-request.md:type"
 
 ### [[TopicUnsubRequest#topicunsubrequest]]
 
-
 --8<-- "router/messages/topic-unsub-request.md:purpose"
 
 --8<-- "router/messages/topic-unsub-request.md:type"
 
 ## Message flow
-
 
 <!-- Sequence diagram for the engine with all messages -->
 

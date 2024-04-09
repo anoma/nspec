@@ -1,13 +1,10 @@
 # RoutingTableTopic
 
-
 ## Purpose
-
 
 A pub/sub topic in a routing table entry.
 
 ## Type
-
 
 *Struct* with the following fields.
 

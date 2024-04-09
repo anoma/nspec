@@ -1,8 +1,6 @@
 # RelayMessageV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Relayed message.
@@ -10,10 +8,8 @@ Relayed message.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

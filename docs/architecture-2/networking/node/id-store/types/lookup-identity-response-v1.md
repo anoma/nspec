@@ -1,8 +1,6 @@
 # LookupIdentityResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[LookupIdentityRequestV1#lookupidentityrequestv1]].
@@ -10,10 +8,8 @@ Response to a [[LookupIdentityRequestV1#lookupidentityrequestv1]].
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

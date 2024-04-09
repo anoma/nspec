@@ -1,8 +1,6 @@
 # NodeTransportAddress
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Node with its transport address
@@ -10,10 +8,8 @@ Node with its transport address
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

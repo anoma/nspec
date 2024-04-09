@@ -1,8 +1,6 @@
 # Intra-domain P2P protocols
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 This engine group implements intra-domain P2P protocols that run and offer services inside a domain.
@@ -13,12 +11,9 @@ and the authentication mechanism it uses.
 
 ## Overview
 
-
 <div class="v2" markdown>
 
-
 ### Topology
-
 
 The Topology engine is responsible for overlay topology and membership management of a domain.
 The overlay maintenance protocol keeps the overlay connected despite high level of node failures.
@@ -28,12 +23,10 @@ The membership protocol provides a partial view of the online members known loca
 
 ### PubSub
 
-
 The PubSub engine is responsible for P2P topic-based publish-subscribe event dissemination.
 It offers reliable causal delivery semantics with low latency.
 
 #### Topics
-
 
 Each topic has a [[TopicIdentity#topicidentity]], a set of publishers, and a set of subscribers.
 
@@ -47,7 +40,6 @@ Advertisements and events without a valid signature are dropped and not forwarde
 
 #### Events
 
-
 An *event* is a message sent to a topic by an authorized publisher.
 An event may have causal dependencies, which need to be delivered beforehand.
 The protocol includes a recovery mechanism for lost messages to ensure reliability,
@@ -55,7 +47,6 @@ which can be detected by either gaps in per-publisher sequence numbers,
 or a missing dependency.
 
 #### Usage
-
 
 Engines access the pub/sub service via the [[Router#router]],
 and do not directly talk to the [[PubSub#pubsub]] engine.
@@ -69,7 +60,6 @@ This allows republishing received events locally, and publishing events of local
 The message flow diagram below shows intra-node and inter-node pub/sub messaging.
 
 ### Storage
-
 
 The Storage engine provides P2P block storage.
 
@@ -89,7 +79,6 @@ Durability guarantees are ensured by storage requests that include the desired l
 and corresponding signed storage receipts with the provided guarantees.
 
 ## Message flow
-
 
 <!-- Diagram illustrating message flows between engines -->
 

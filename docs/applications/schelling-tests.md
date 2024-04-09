@@ -1,6 +1,5 @@
 # Schelling tests
 
-
 - Data input: outside semantics (relation `R`).
 - Assumptions
     - Some agreement on relation semantics

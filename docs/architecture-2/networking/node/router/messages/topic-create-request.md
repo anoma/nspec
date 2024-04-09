@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # TopicCreateRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Create a pub/sub topic and start accepting subscriptions to it.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -30,13 +26,11 @@ Create a pub/sub topic and start accepting subscriptions to it.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 The topic is added to the [[RoutingTable#routingtable]] with an initially empty subscriber list.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

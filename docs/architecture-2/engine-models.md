@@ -1,6 +1,5 @@
 # Engine Models
 
-
 Engines communicate via message passing.
 Each _message_ consists of a header and a body.
 The _header_ gives information about the sender and the intended destination,
@@ -49,7 +48,6 @@ we provide the following.
    in the sense of [Hoare triples](https://en.wikipedia.org/wiki/Hoare_logic#Hoare_triple),
    in particular to allow for several instances of the same engine.
    -->
-
 
 Thus, the structure of the description of engine models is as follows.
 

@@ -1,6 +1,5 @@
 # Mempool
 
-
 ## Summary
 
 Validators run the mempool protocol.
@@ -40,7 +39,6 @@ That block references blocks from prior rounds.
 Primaries assemble headers (both their own and for other primaries) from collections of worker hashes, and references to prior blocks.
 They then sign votes, stating that they will not vote for conflicting headers, and (optionally) that their workers have indeed stored the referenced transactions.
 Primaries collect votes concerning their own headers, producing blocks: aggregated signatures showing a header is unique.
-
 
 More formally, we present the Heterogeneous Narwhal protocol as the composition of two crucial pieces: the Heterogeneous Narwhal Availability protocol, and the Heterogeneous Narwhal Integrity protocol.
 
@@ -98,7 +96,6 @@ Each Header contains:
 Headers should be relatively small.
 Each primary then sends the header to all the other primaries.
 
-
 When a Primary receives a Header, it can produce an *Availability Vote* (which is a digital signature) iff
 - the primary has stored its share of all Signed Quorums referenced,
 - the primary has received messages from its workers indicating that they have stored their shares of all the Batches referenced
@@ -111,8 +108,6 @@ Specifically, they may have:
 - Signed Batch Headers from their listening Workers
 - Signed Quorum shares received earlier from the Primary
 - Availability Certificate received earlier from the Primary
-
-
 
 ## Heterogeneous Narwhal Integrity Protocol
 
@@ -141,9 +136,6 @@ Here is an example timeline of a Primary producing headers, availability certifi
 Blocks are color coded by learner and include a round number.
 Headers display *Learner Vectors*.
 ![Single Primary Timeline](primary_timeline.svg)
-
-
-
 
 ## DAG Properties
 

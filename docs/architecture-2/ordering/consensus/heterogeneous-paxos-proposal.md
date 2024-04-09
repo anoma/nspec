@@ -1,6 +1,5 @@
 ### `HPaxosProposal`
 
-
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
@@ -11,7 +10,6 @@ Encodes a $\onea$-message that proposes a next value to have consensus upon.
 The message is sent between the participating acceptor nodes.
 
 #### Structure
-
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
@@ -25,7 +23,6 @@ The message is sent between the participating acceptor nodes.
     should this also include some kind of Hash representing who the proposer thinks the current  "quorums" are? That would ensure some kind of double-check, but may not be necessary...
 
 #### Triggers
-
 
 - to [Consensus](../consensus-v1.md): [`HPaxosCommitment`](./heterogeneous-paxos-commitment.md)
 - to [Mempool](#Mempool): [`CheckProposal`](#CheckProposal)

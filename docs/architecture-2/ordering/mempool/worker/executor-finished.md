@@ -12,15 +12,12 @@ Informs the mempool about execution of a transaction.
 
 <!-- --8<-- [start:details] -->
 
-
 ## Structure
 
 | Field         | Type                  | Description                                                |
 |---------------|-----------------------|------------------------------------------------------------|
 | `fingerprint` | [[TxFingerprint]]     | a descriptor for executed transaction                      |
 | `log_key`     | [[Local Storage Key]] | handle to the transaction log of the transaction execution |
-
-
 
 <!--
 ```rust

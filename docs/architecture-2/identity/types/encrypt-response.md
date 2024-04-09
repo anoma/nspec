@@ -1,15 +1,12 @@
 # EncryptResponse
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 An `EncryptResponse` contains the data encrypted by an encryption engine in response to an [[EncryptRequest]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

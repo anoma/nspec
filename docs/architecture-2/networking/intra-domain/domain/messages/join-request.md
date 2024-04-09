@@ -1,8 +1,6 @@
 # JoinRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Request to join a domain.
@@ -10,14 +8,12 @@ Request to join a domain.
 
 ## Reception
 
-
 <!-- --8<-- [start:reception] -->
 - Any Local Engine $\to$ [[JoinRequest#joinrequest]] $\to$ [[Domain#domain]]
 - [[Domain#domain]] $\to$ [[JoinRequest#joinrequest]] $\to$ [[Domain#domain]]
 <!-- --8<-- [end:reception] -->
 
 ## Structure
-
 
 | Field       | Type                  | Description                    |
 |-------------|-----------------------|--------------------------------|
@@ -27,7 +23,6 @@ Request to join a domain.
 | `sig`       | *Signature*           | Signature by `requestor`       |
 
 ## Triggers
-
 
 <!-- --8<-- [start:triggers] -->
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ [[Domain#domain]]

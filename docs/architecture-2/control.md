@@ -1,6 +1,5 @@
 # Control Machine
 
-
 ## Purpose
 
 The *Control Machine* aims to centralize the management of configuration settings and measurement data within the
@@ -22,28 +21,22 @@ the [Dynamic Configuration Engine](control/dynamic-config.md), the [Static Confi
 Together, these engines manage dynamic configurations, static configurations, and measurement data, respectively,
 providing essential functionality for system control and monitoring.
 
-
 ## Overview
 
 The *Control Machine* is composed of the following three engines.
 
 ### [Dynamic Configuration Engine](control/dynamic-config.md#purpose)
 
-
 --8<-- "control/dynamic-config.md:purpose"
 
 ### [Static Configuration Engine](control/static-config.md#purpose)
-
 
 --8<-- "control/static-config.md:purpose"
 
 ### [Measurements Engine](control/measurement.md#purpose)
 
-
 --8<-- "control/measurement.md:purpose"
 
-
 ## Communication Diagram
-
 
 ![Communication diagram](communication-diagram-control-machine.svg)

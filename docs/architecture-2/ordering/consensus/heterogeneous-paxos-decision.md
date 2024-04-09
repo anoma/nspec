@@ -1,6 +1,5 @@
 ### `HPaxosDecision`
 
-
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
@@ -14,14 +13,12 @@ and just send these out to anyone who is still trying to do consensus.
 
 #### Structure
 
-
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | `learner` | `Learner` | learner instance |
 | `message_quorum` | `DirectReferences` | direct references to a quorum of messages |
 
 #### Triggers
-
 
 - to [Mempool](#Mempool): [`RequestProposal`](#RequestProposal)
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)

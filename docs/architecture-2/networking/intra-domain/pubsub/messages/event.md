@@ -1,16 +1,12 @@
 # Event
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 An event sent to a topic.
 <!-- --8<-- [end:purpose] -->
 
-
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,7 +24,6 @@ An event sent to a topic.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 The *Event* is forwarded in the network along topic dissemination paths.
 It contains an encapsulated [[EngineMessage#enginemessage]] addressed from an engine to the topic.
@@ -38,7 +33,6 @@ by sending it to the [[Router#router]], which forwards it to local engines subsc
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

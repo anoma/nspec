@@ -1,6 +1,5 @@
 # Tokens
 
-
 *Tokens* are transferrable units of accounting.
 
 The resource logic of tokens enforces two properties:

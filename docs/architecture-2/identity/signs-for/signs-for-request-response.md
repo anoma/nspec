@@ -1,12 +1,10 @@
 <div class="message" markdown>
 
-
 # SignsForRequest
 
 # SignsForResponse
 
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A `SignsForRequest` asks the signs-for engine whether one identity can signs for another.
@@ -16,7 +14,6 @@ A `SignsForResponse` is returned in response to a [[SignsForRequest]]
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 [[SignsForRequest]]
 [[SignsForResponse]]
@@ -24,13 +21,11 @@ A `SignsForResponse` is returned in response to a [[SignsForRequest]]
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 - Returns a [[SignsForResponse]] according to whether A `signsFor` B, given the known evidence
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

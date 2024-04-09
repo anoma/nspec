@@ -1,8 +1,6 @@
 # JoinResponse
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[JoinRequest#joinrequest]].
@@ -10,14 +8,12 @@ Response to a [[JoinRequest#joinrequest]].
 
 ## Reception
 
-
 <!-- --8<-- [start:reception] -->
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ [[Domain#domain]]
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ Any Local Engine
 <!-- --8<-- [end:reception] -->
 
 ## Structure
-
 
 | Field       | Type               | Description                                                       |
 |-------------|--------------------|-------------------------------------------------------------------|
@@ -30,11 +26,9 @@ Response to a [[JoinRequest#joinrequest]].
 
 ## Effects
 
-
 The [[JoinResponse#ext-response]] is forwarded to the local engine who sent the [[JoinRequest#joinrequest]].
 
 ## Triggers
-
 
 <!-- --8<-- [start:triggers] -->
 - [[Domain#domain]] $\to$ [[JoinResponse#joinresponse]] $\to$ Any Local Engine

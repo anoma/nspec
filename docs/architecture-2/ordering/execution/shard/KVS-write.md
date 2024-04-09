@@ -1,6 +1,5 @@
 # KVSWrite
 
-
 - _from_ [[Executor|Executor]]
 
 ## Purpose
@@ -24,7 +23,6 @@ in either of the following two cases:
 
 ## Structure
 
-
 | Field       | Type               | Description                                                                                                                  |
 |-------------|--------------------|------------------------------------------------------------------------------------------------------------------------------|
 | `timestamp` | [[TxFingerprint]]  | the logical time at which we are writing this data.                                                                          |
@@ -32,7 +30,6 @@ in either of the following two cases:
 | `datum`     | [[KVSDatum]] option | the new data to be associated with the key. No datum should only be used in a "may_write," and means don't change this value |
 
 #### Effects
-
 
 A [[Shard]] should delay processing a [[KVSWrite]] until it has
  completed processing [[KVSAcquireLock]] for the
@@ -57,9 +54,7 @@ This may trigger a [[KVSRead]] if there are any *will read* markers
 any garbage collection of old locking info is elided in V1
 -->
 
-
 ## Triggers
-
 
 - _to_ [[Executor|Executor]]: [[KVSRead]]
    `for each` *will read* lock dependent on this write:

@@ -21,7 +21,6 @@ Requests that the Mempool check whether this Proposal is valid.
 
 ##### Triggers
 
-
 - _to_ [Consensus](#Consensus): [`PotentialProposal`](../../consensus/potential-proposal.md)
   `if` the header is known or a conflicting header is present
   `then` answer the request accordingly

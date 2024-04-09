@@ -1,15 +1,12 @@
 # ResolveNameResponse
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A `ResolveNameResponse` is returned in response to a [[ResolveNameRequest]]
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

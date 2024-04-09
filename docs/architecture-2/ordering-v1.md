@@ -1,11 +1,8 @@
 # Ordering Machine
 
-
 ## Introduction
 
-
 ### Purpose
-
 
 The ordering machine is a set of communicating engines that collaborate in
 - receiving [[TransactionCandidate|transaction candidates]] from
@@ -16,7 +13,6 @@ The ordering machine is a set of communicating engines that collaborate in
   [[TransactionCandidate|transaction candidates]],
 - updated the [[Shard|state]] accordingly,
 - making the state available.
-
 
 ### Background
 
@@ -102,9 +98,7 @@ but these are not considered in V1.
 
 ![](ordering-v1.svg)
 
-
 --8<-- "./ordering/a-complete-lifecycle.md"
-
 
 [^1 time stamp]: In fact it is the latter time stamp that is most relevant;
     the former is merely an indicator about performance of the worker.

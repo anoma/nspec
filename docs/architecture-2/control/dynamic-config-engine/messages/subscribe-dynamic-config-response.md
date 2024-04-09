@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # SubscribeDynamicConfigResponse
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[SubscribeDynamicConfigRequest#subscribedynamicconfigrequest]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -23,20 +19,15 @@ Response to a [[SubscribeDynamicConfigRequest#subscribedynamicconfigrequest]].
 
 **Triggers**
 
-
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 Subscribes to a key from the dynamic configuration KV-store, to monitor value changes.
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

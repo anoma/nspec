@@ -1,6 +1,5 @@
 # NewQuorums
 
-
 - _from_ [[Executor]]
 
 ##### Purpose
@@ -12,7 +11,6 @@ Informs primaries about the quorums to use for a range of heights.
 
 ##### Structure
 
-
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | `chain_id` | [[Common types#allofthem|ChainId]] | the chain Id |
@@ -22,11 +20,9 @@ Informs primaries about the quorums to use for a range of heights.
 
 ##### Effects
 
-
 The new learner graph structure is known.
 
 ##### Triggers
-
 
 _none_
 

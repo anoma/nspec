@@ -1,8 +1,6 @@
 # AppendValueV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 The value in a string format, which needs to be added to the logbook.
@@ -10,14 +8,10 @@ The value in a string format, which needs to be added to the logbook.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 The *AppendValueV1* has empty record.
-
-
 
 </div>
 <!-- --8<-- [end:type] -->

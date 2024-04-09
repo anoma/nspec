@@ -1,8 +1,6 @@
 # Anoma Specs [![anoma-spec-ci](https://github.com/anoma/nspec/actions/workflows/ci.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/ci.yml)
 
-
 ## Getting Started
-
 
 These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes. If this is not your goal,
@@ -22,7 +20,6 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
 
 ### Prerequisites
 
-
 The following are the prerequisites to build the website locally:
 
 - Python 3.6 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
@@ -30,7 +27,6 @@ The following are the prerequisites to build the website locally:
 - As mentioned, we recomend to install Juvix.
 
 ### Installing
-
 
 1. Clone the repository
 
@@ -114,9 +110,7 @@ and run, for example:
 MKDOCSFLAGS=--quiet MKDOCSCONFIG=mkdocs.insiders.yml make serve
 ```
 
-
 #### Goodies
-
 
 - To see the list of todos in the project, run:
 

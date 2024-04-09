@@ -1,12 +1,10 @@
 # NodeDisconnected
 
-
 <!-- --8<-- [start:purpose] -->
 Notification sent when a transport connection is closed to a node.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 [[NodeTransportAddress#nodetransportaddress]]
@@ -15,7 +13,6 @@ Notification sent when a transport connection is closed to a node.
 <!-- --8<-- [end:type] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

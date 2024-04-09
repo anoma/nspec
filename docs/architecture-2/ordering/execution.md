@@ -1,6 +1,5 @@
 # Execution
 
-
 **Purpose**
 
 Given a total order of
@@ -142,7 +141,6 @@ For V1, we do not assume any key structure, so [[TransactionLabel]]s
 
 #### Transaction Candidate Labels
 
-
 ![State Machine API](state_machine_API_web.svg)
 
 [[TransactionCandidate]]s are *[[TransactionLabel|labeled]]* with a
@@ -209,7 +207,6 @@ After executing a [[TransactionCandidate]], the state of the write
 
 #### Timestamps
 
-
 Each Transaction Candidate has a logical *[[TxFingerprint|timestamp]]*
  which conveys ordering information relative to other
  [[TransactionCandidate|transaction candidates]].
@@ -226,9 +223,7 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
  each [[TransactionCandidate]] in the total order of their
  [[TxFingerprint|timestamps]].
 
-
 ## Engines Overview
-
 
 !!! todo
 
@@ -245,7 +240,6 @@ Within a Validator, Keys are partitioned across the
 Redistributing state between [[Shard|Shards]] is called *re-sharding*.
 For V1, we assume there will be no re-sharding.
 
-
 <!-- NOT RELEVANT TO V1
 Each Shard is specific to a blockchain, and each shard in a chimera chain is specific to 1 base chain.
 However, as an optimization, an implementation could conceivably use 1 process to do the work of multiple shards with different base chains so long as those shards are identical, and fork that process if / when the base chains diverge.
@@ -261,7 +255,6 @@ This requires [[Shard|Shards]] to receive and process ordering information
  [[TransactionCandidate]] that writes to that Key.
 This is [multi-version concurrent storage](
     https://en.wikipedia.org/wiki/Multiversion_concurrency_control).
-
 
 ![Per-key ordering (see web version for animation)](keys_animated.svg)
 
@@ -305,7 +298,6 @@ For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
 
 <!--
 ## Life of a Transaction
-
 
 ![Execution Architecture](execution_architecture_web.svg)
 
@@ -354,7 +346,6 @@ For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
 -->
 
 <!-- think a bit more about IO ... -->
-
 
 [^1]: For V1, the mempool is already determining a total order,
     because we only have a single unique worker

@@ -1,8 +1,6 @@
 # BlockSearchRandom
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Search for a block along a random walk.
@@ -10,13 +8,11 @@ Search for a block along a random walk.
 
 ## Reception
 
-
 <!-- --8<-- [start:reception] -->
 - Storage $\to$ *BlockSearchTopic* $\to$ Storage
 <!-- --8<-- [end:reception] -->
 
 ## Structure
-
 
 | Field       | Type                                          | Description                          |
 |-------------|-----------------------------------------------|--------------------------------------|
@@ -26,13 +22,11 @@ Search for a block along a random walk.
 
 ## Behavior
 
-
 If the block is available locally, a [[BlockSearchResponse#blocksearchresponse] is returned to the requestor.
 Otherwise the request is forwarded to a random connected node.
 If a domain is given, the choice of random node is restricted to the given domain.
 
 ## Triggers
-
 
 <!-- --8<-- [start:triggers] -->
 - Storage $\to$ *BlockSearchRandom* $\to$ Storage

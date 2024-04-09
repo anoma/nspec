@@ -1,10 +1,8 @@
 # Resource
 
-
 _Resources_ are the atomic units of state in Anoma.
 
 ## Data structure
-
 
 Define a _resource_ $R$ as a seven-tuple $(F, F, F, F, F, F, 0 | 1)$ with fields named as follows:
 - $R_{logic\_hash}$ of type $F$
@@ -18,7 +16,6 @@ Define a _resource_ $R$ as a seven-tuple $(F, F, F, F, F, F, 0 | 1)$ with fields
 Resources are constant-size ($6F + 1$).
 
 ## Computed fields
-
 
 Resources with $R_{ephemerality} = 0_P$ are known as _ephemeral_, while resources with $R_{ephemerality} = 1_P$ are known as _persistent_.
 

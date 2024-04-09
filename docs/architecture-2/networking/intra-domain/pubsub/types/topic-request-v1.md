@@ -1,8 +1,6 @@
 # TopicRequestV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Request for an operation on a pub/sub topic.
@@ -10,10 +8,8 @@ Request for an operation on a pub/sub topic.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

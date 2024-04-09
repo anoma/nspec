@@ -1,8 +1,6 @@
 # IdentityUpdatedV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 An updated [[IdentityRecord#identityrecord]].
@@ -10,10 +8,8 @@ An updated [[IdentityRecord#identityrecord]].
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

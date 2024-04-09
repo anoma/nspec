@@ -3,24 +3,19 @@
 <!-- --8<-- [start:blurp] -->
 ## Purpose
 
-
 Provides the worker with an ID for newly spawned or
 available executor engine instance.
 
 <!-- --8<-- [end:blurp] -->
 <!-- --8<-- [start:details] -->
 
-
 ## Structure
-
 
 | Field  | Type                 | Description                                        |
 |--------|----------------------|----------------------------------------------------|
 | `epid` | [[ExternalIdentity]] | the ID of the spawned [[executor|Executor]]-engine instance |
 
-
 ## Effects
-
 
 The receiving worker can request the eager reads and start the execution.
 

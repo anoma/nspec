@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # LocalComputeSearch
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Perform a search operation based on a given predicate within a specified time limit (timeout).
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -31,14 +27,11 @@ Perform a search operation based on a given predicate within a specified time li
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 Perform the requested search operation and return the computation results.
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

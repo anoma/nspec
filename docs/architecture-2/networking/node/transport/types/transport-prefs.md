@@ -1,13 +1,10 @@
 # TransportPrefs
 
-
 ## Purpose
-
 
 Transport preferences.
 
 ## Type
-
 
 *Struct* with the following fields.
 

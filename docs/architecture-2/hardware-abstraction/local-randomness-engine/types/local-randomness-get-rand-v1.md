@@ -1,8 +1,6 @@
 # LocalRandomnessGetRandV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Generate a random number or other random data.
@@ -10,11 +8,8 @@ Generate a random number or other random data.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
-
 
 </div>
 <!-- --8<-- [end:type] -->

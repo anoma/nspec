@@ -1,11 +1,8 @@
 <div class="message" markdown>
 
-
 # DeleteValueKVStoreRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Find a value by its key in the KV-store and delete both the key and the value.
@@ -14,7 +11,6 @@ Find a value by its key in the KV-store and delete both the key and the value.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 **Reception:**
 
@@ -22,29 +18,22 @@ Find a value by its key in the KV-store and delete both the key and the value.
 
 --8<-- "../types/delete-value-KVStore-request-v1.md:type"
 
-
 **Triggers**
-
 
 [[DeleteValueKVStoreResponseV1#deletevaluekvstoreresponsev1]]
 
 --8<-- "../types/delete-value-KVStore-response-v1.md:type"
 
-
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 Finds a value by its key in the KV-store and delete both the key and the value.
 
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

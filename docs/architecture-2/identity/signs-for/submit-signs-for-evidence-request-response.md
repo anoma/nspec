@@ -1,12 +1,10 @@
 <div class="message" markdown>
 
-
 # SubmitSignsForEvidenceRequest
 
 # SubmitSignsForEvidenceResponse
 
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A `SubmitSignsForEvidenceRequest` instructs the signs-for engine to store a new piece of signs-for evidence.
@@ -16,14 +14,12 @@ A `SubmitSignsForEvidenceResponse` is sent in response to a [[SubmitSignsForEvid
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 [[SubmitSignsForEvidenceRequest]]
 [[SubmitSignsForEvidenceResponse]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 - Stores the submitted evidence
@@ -33,7 +29,6 @@ A `SubmitSignsForEvidenceResponse` is sent in response to a [[SubmitSignsForEvid
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

@@ -5,7 +5,6 @@
 
 ## Purpose
 
-
 The worker acknowledges a transaction request
 with local ordering information and a local wall clock time stamp
 that the requester can use as evidence for submission of

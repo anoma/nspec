@@ -1,8 +1,6 @@
 # Intra-node & inter-node protocols
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 This group of engines are responsible for facilitating communication
@@ -16,17 +14,13 @@ advertisements received from the network and associated local metadata.
 
 ## Overview
 
-
 ### Router
 
-
 #### Purpose
-
 
 --8<-- "node/router.md:purpose"
 
 #### Addressing
-
 
 Both the source and destination address of an [[EngineMessage#enginemessage]]
 is an [[ExternalIdentity#externalidentity]].
@@ -46,7 +40,6 @@ The *node identity* is defined as the external identity of the [[Router#router]]
 
 #### Routing
 
-
 The Router makes routing decisions based on the [[DestinationIdentity#destinationidentity]] of an [[EngineMessage#enginemessage]],
 and forwards the message either to one or more local engines,
 or to the [[Transport#transport]] engine for delivery to a remote node.
@@ -55,7 +48,6 @@ The message processing and routing process is described in the [[EngineMessage#e
 
 #### Inter-node messages
 
-
 When forwarding an [[EngineMessage#enginemessage]] to a remote node,
 the *Router* wraps it in [[P2PMessage#p2pmessage]],
 signs it with its [[NodeIdentity#nodeidentity]] key,
@@ -63,14 +55,11 @@ and forwards it to [[Transport#transport]] for delivery over the network.
 
 ### Transport
 
-
 #### Purpose
-
 
 --8<-- "node/transport.md:purpose"
 
 #### Connection pool
-
 
 The *Transport* engine maintains a pool of connections to remote nodes,
 which can be either permanent or ephemeral.
@@ -79,7 +68,6 @@ and lost in case of a network error.
 Permanent connections are maintained indefinitely and reconnected when the connection fails.
 
 #### Transport protocols
-
 
 The *Transport* engine delivers messages over the network via various transport protocols,
 either using protocols directly over IP (such as QUIC or Secure WebSocket),
@@ -92,7 +80,6 @@ which is done by the [[Router#router]] instead,
 by signing and verifying each sent and received [[P2PMessage#p2pmessage]].
 
 #### Transport preferences
-
 
 Transport protocol choice is based on [[TransportPrefs#transportprefs|Transport preferences]]
 that can be specified in either
@@ -107,7 +94,6 @@ and local measurements (e.g. latency) and preferences (e.g. prefer LAN over WAN 
 
 #### Connection establishement
 
-
 To establish a connection, the Transport engine needs a [[TransportAddress#transportaddress]] to connect to,
 which contains the transport protocol and address for the network connection.
 
@@ -120,11 +106,9 @@ While at the end of the connection, a [[PeerDisconnected#peerdisconnected]] noti
 
 ### Network Identity Store
 
-
 --8<-- "node/id-store.md:purpose"
 
 ## Message flow
-
 
 <!-- Diagram illustrating message flows between engines -->
 

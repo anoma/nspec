@@ -1,6 +1,5 @@
 # Decryption
 
-
 The _decryption engine_ holds sufficient information to decrypt data encrypted to identities controlled by this node.
 
 - *Inputs*

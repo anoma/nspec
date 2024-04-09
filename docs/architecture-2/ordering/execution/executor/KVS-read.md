@@ -11,7 +11,6 @@ When a [[Shard]] has determined what the value read is at the
  appropriate [[TxFingerprint|timestamp]],
  it sends a [[KVSRead]] to the appropriate [[Executor]].
 
-
 <!-- --8<-- [end:blurb] -->
 <!-- --8<-- [start:details] -->
 

@@ -1,13 +1,10 @@
 # Local Storage Engines
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 The *Local Storage Engines* provide efficient data storage and retrieval mechanisms directly on the physical machine of an Anoma node.
 These engines are specialized to meet distinct requirements of data storage and retrieval from other engines.
-
 
 <!-- --8<-- [end:purpose] -->
 
@@ -23,8 +20,6 @@ This ranges from simple routing data in the [[Networking Machine#networking-mach
 such as transaction batches from the [[Ordering Machine#ordering-machine]].
 
 ## Scope
-
-
 
 ## Functionality
 
@@ -47,11 +42,9 @@ configuration storage.
 - The [[Local Time-Series Storage Engine#local-time-series-storage-engine]] is usually optimized for storing and analyzing time-stamped data points
 collected over time interval such as [[AvailabilityCertificate#availabilitycertificate]].
 
-
 ## Communication diagram
 
 ![Communication diagram](communication-diagrams-storage.svg)
-
 
 ## Example scenario
 

@@ -4,13 +4,11 @@
 
 ## Purpose
 
-
 <!-- --8<-- [start:purpose] -->
 Request the list of currently connected nodes.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -26,13 +24,11 @@ Request the list of currently connected nodes.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 Return the list of currently connected nodes from the [[ConnectionPool#connectionpool]].
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

@@ -1,13 +1,11 @@
 # KVSWritten
 
-
 ## Purpose
 
 Inform the worker about all values written for a given
 executed TxFingerprint.
 
 ## Structure
-
 
 | Field       | Type          | Description                             |
 |-------------|---------------|-----------------------------------------|

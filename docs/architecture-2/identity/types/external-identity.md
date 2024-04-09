@@ -1,8 +1,6 @@
 # ExternalIdentity
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Designates an identity in anoma.
@@ -14,7 +12,6 @@ This means that, as far as our SML is concerned, we will need a `structure` matc
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 There are (infinitely) many ways to make an ExternalIdentity, so this is a sum type.

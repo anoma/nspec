@@ -1,13 +1,10 @@
 # TransportAddress
 
-
 ## Purpose
-
 
 A transport address.
 
 ## Type
-
 
 One of the following types, depending on the transport protocol.
 
@@ -18,7 +15,6 @@ One of the following types, depending on the transport protocol.
 - ...
 
 ### QUICAddr & WSSAddr
-
 
 For transports over IP that use X.509 certificates (such as QUIC & Secure WebSocket),
 the destination IP address & port, as well as the certificate issuer public key is given.
@@ -31,7 +27,6 @@ The latter is used to verify the transport certificate of the remote peer.
 | `cert_issuer` | *[[ExternalIdentity#externalidentity]]* | Certificate issuer public key |
 
 #### TorAddr & VeilidAddr
-
 
 For transports that use public key addressing (such as Tor & Veilid),
 the destination public key address is given,

@@ -1,8 +1,6 @@
 # TransactionAck
 
-
 ## Purpose
-
 
 A `TransactionAck` is
 a potentially instant notification for a received transaction
@@ -10,7 +8,6 @@ notifying about the batch number of the worker
 and when this batch was started according to the worker's local time.
 
 ## Structure
-
 
 | Field          | Type                 | Description                                                  |
 |----------------|----------------------|--------------------------------------------------------------|
@@ -20,9 +17,7 @@ and when this batch was started according to the worker's local time.
 | `collector_id` | [[ExternalIdentity]] | the ɪᴅ of the worker engine that collected the transaction   |
 | signature      | bytes                | the signature of the collecting worker engine over the above |
 
-
 ## Note
-
 
 We cannot make use of a [[TxFingerprint]] of the transaction,
 because there might be a slight delay between message reception

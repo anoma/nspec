@@ -1,13 +1,10 @@
 # EngineIdentityRecord
 
-
 ## Purpose
-
 
 Record stored about an engine identity.
 
 ## Type
-
 
 *Struct* with the following fields.
 

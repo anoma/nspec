@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # LocalWallClockGetTimeResult
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[LocalWallClockGetTime#localwallclockgettime]] request.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -27,14 +23,11 @@ Response to a [[LocalWallClockGetTime#localwallclockgettime]] request.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 Give the current time according to the physical machine's internal clock system.
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

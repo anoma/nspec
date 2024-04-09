@@ -1,13 +1,10 @@
 # TopicIdentityRecord
 
-
 ## Purpose
-
 
 Record stored about a pub/sub topic identity.
 
 ## Type
-
 
 *Struct* with the following fields.
 

@@ -1,8 +1,6 @@
 # SetValueKVStoreRequestV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Add a piece of data to the KV store by adding its key and the corresponding value.
@@ -11,10 +9,8 @@ If the key already exists, override the value.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]

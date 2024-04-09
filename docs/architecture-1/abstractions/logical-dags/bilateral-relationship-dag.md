@@ -1,6 +1,5 @@
 # Bilateral relationship DAG
 
-
 The bilateral (or undirected) relationship DAG tracks bilateral (undirected) relationships between pairs of identities, where both identities must consent to the relationship, but either can disestablish it. The "friendship" relationship on social media, for example, typically has this structure. The state of the bilateral relationship DAG at any point in logical time is the set of relationships created more recently than they were destroyed (if at all) by either party, i.e. the set of outstanding relationships most recently consented to by both parties.
 
 ```haskell

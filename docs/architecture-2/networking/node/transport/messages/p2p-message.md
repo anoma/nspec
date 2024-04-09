@@ -1,17 +1,14 @@
 # P2PMessage
 
-
 <div id="p2pmessage-transport"></div>
 
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 An outgoing message to be delivered to another node over the network.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -26,7 +23,6 @@ An outgoing message to be delivered to another node over the network.
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 The *Transport* engine looks up the transport addresses associated with the destination peer identity
@@ -49,7 +45,6 @@ after which the message is dropped.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

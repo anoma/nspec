@@ -1,20 +1,16 @@
 <div class="message" markdown>
 
-
 # EngineMessage
-
 
 <div id="enginemessage-pubsub"></div>
 
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A message sent to a pub/sub topic by an engine.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,9 +24,7 @@ A message sent to a pub/sub topic by an engine.
 [[Event#event]]
 <!-- --8<-- [end:type] -->
 
-
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 When a local engine sends an [[EngineMessage#enginemessage]] destined to a pub/sub topic,
@@ -41,7 +35,6 @@ and forwards it to its neighbors along the event dissemination path.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

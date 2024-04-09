@@ -16,7 +16,6 @@ They are (learner-specific) proofs that a specific `Header` is unique for a spec
 | `fingerprint` | [`HeaderFingerprint`](#HeaderFingerprint) | the fingerprint of the signed header |
 | `signatures`  | bytes list                                | the actual signatures                |
 
-
 ##### Effects
 
 - Integrity certificates can contribute to a new signed quorum,

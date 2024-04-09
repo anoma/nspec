@@ -1,6 +1,5 @@
 ### `PotentialProposal`
 
-
 - _from_ [Mempool Primary](../mempool/primary.md)
 
 #### Purpose
@@ -11,7 +10,6 @@ Communicates that a specific payload is (or isn't) a valid proposal for consensu
 
 #### Structure
 
-
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | `chain_id` | [`ChainId`](#ChainId) | the chain ID |
@@ -20,12 +18,10 @@ Communicates that a specific payload is (or isn't) a valid proposal for consensu
 
 #### Effects
 
-
 - The valid payload value received in `PotentialProposal` is a potential value to be proposed (1A message).
 - Having received a proposal (1A) message with this payload, the acceptor can now send a commitment (1B) message.
 
 #### Triggers
-
 
 - to [Consensus](#Consensus): [`HPaxosProposal`](#HPaxosProposal)
 

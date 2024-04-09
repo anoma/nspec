@@ -1,15 +1,12 @@
 # Backend
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Specifies which backend to use in order to generate or connect an identity.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

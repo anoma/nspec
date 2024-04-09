@@ -10,13 +10,11 @@ at the receiving worker.
 
 ##### Structure
 
-
 | Field           | Type                    | Description                    |
 | -----           | ----                    | -----------                    |
 | `tx_data`       | [`TxData`](#TxData)     | the transaction data to store  |
 | `fingerprint`   | [`TxFingerprint`]()     | the transaction's fingerprint  |
 | ...             | ...                     | ...                            |
-
 
 ##### Effects
 

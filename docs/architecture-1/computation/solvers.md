@@ -1,6 +1,5 @@
 # Solvers
 
-
 To talk about `Solving` for `Intents`, let us introduce some terminology:
 
 ## Intents

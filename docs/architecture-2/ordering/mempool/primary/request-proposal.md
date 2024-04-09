@@ -16,7 +16,6 @@ Consensus is requesting the next anchor block to propose.
 
 ##### Effects
 
-
 - The newest fresh proposal is sent _or_ the next anchor block will be sent.
 
 ##### Triggers

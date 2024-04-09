@@ -1,15 +1,12 @@
 # VerifyRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 A `VerifyRequest` instructs a verification engine to verify a commitment from a particular external identity, possibly using known signs-for relationships.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

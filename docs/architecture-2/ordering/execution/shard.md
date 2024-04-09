@@ -1,6 +1,5 @@
 # Shard
 
-
 The Shards together store and update the
  [state](../execution.md#state) of the replicated state machine and
   together are a component of the [[Execution Engines]].
@@ -45,7 +44,6 @@ This is [multi-version concurrent storage](
 -->
 
 ## State (of the shard)
-
 
 For each [[Worker Engine|Worker Engine]], the Shard maintains:
 -  [[TxFingerprint|A timestamp]], such that all
@@ -123,9 +121,7 @@ However, we want to compute concurrently as possible, for minimum
  latency.
 We do this using a set of optimizations.
 
-
 ### Optimization: Per-Key Ordering
-
 
 ![Per-key ordering (see web version for animation)](keys_animated.svg)
 
@@ -152,7 +148,6 @@ In the diagram above, for example, [[TransactionCandidate|transaction candidates
 
 ### Optimization: Order With Respect To Writes
 
-
 ![Order with respect to writes (see web version for animation)](only_order_wrt_writes_animated.svg)
 
 In fact, Shards can send read information to an [[Executor]] as soon
@@ -170,7 +165,6 @@ for example, [[TransactionCandidate|transaction candidates]] `a` and `b` can run
 
 ### Optimization: Only Wait to Read
 
-
 ![Only wait to read (see web version for animation)](only_wait_to_read_animated.svg)
 
 Because we store each version written
@@ -187,7 +181,6 @@ In the diagram above, for example, only green _happens-before_ arrows
 <!-- not relevant for V1
 ### Optimization: Execute With Partial Order
 
-
 Some [[Mempool Engines|mempools, including Narwhal]],
 can provide partial order information on transactions
 even before consensus has determined a total order.
@@ -203,7 +196,6 @@ and that write has executed.
 -->
 
 ### heardAllWrites
-
 
 In order to know which write happens most recently before a given
  read, the Shard must know that no further writes will be added to
@@ -243,7 +235,6 @@ this can of course be done at any time.
 
 #### heardAllReads
 
-
 We want to allow Typhon to eventually garbage-collect old state.
 [[Mempool Engines|mempool]] and [[Consensus Engine|consensus]] should
 communicate a lower bound timestamp to the execution engine,
@@ -263,7 +254,6 @@ Note that not all transactions can be executed with
 this partial order information.
 
 #### Conflicts
-
 
 There are three types of conflicts that can prevent a transaction from
 being executable without more ordering information.
@@ -304,7 +294,6 @@ transaction `h` will be able to execute.
 <!-- V1 does not have any read-only transactions.
 ### Optimization: Client Reads as Read-Only Transactions
 
-
 ![Client reads as read-only transactions (see web version for animation)](read_only_animated.svg)
 
 With the above optimizations, transactions containing only read operations do not affect other transactions (or scheduling) at all.
@@ -315,11 +304,9 @@ In the diagram above, transaction `f` is read-only.
 If client reads produce signed responses, then signed responses from a weak quorum of validators would form a *light client proof*.
 -->
 
-
 # Shard Incoming Messages
 
 Shards receive and react to the following messages:
-
 
 --8<-- "shard/KVS-acquire-lock.md "
 
@@ -328,7 +315,6 @@ Shards receive and react to the following messages:
 --8<-- "shard/KVS-write.md "
 
 --8<-- "shard/update-seen-all.md "
-
 
 [^1]: For the purpose of this discussion, we call
     a _write lock request_ a [[KVSAcquireLock]] message

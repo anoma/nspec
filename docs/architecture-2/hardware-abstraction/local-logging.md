@@ -1,11 +1,8 @@
 <div class="engine" markdown>
 
-
 # Local Logging Engine
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 
@@ -17,26 +14,17 @@ It supports diagnostic efforts, security monitoring, performance optimization, a
 
 ## State
 
-
-
 ## Messages Received
 
-
 ### [[LocalLoggingAppend#localloggingappend]]
-
 
 --8<-- "local-logging-engine/messages/local-logging-append.md:purpose"
 
 --8<-- "local-logging-engine/messages/local-logging-append.md:type"
 
-
 ## Notifications Sent
 
-
-
 ## Message Flow
-
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

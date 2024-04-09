@@ -1,6 +1,5 @@
 # Resource Management
 
-
 This section specifies the building blocks of the Resource Management System that constitutes the contents of Messages and the substrate on which higher layers (e.g. logical DAGs representing some kind of State) are built.
 
 ## Addresses
@@ -78,7 +77,6 @@ Creation of new Resources happens via Ephemeral Resources inside a partial trans
 
 The proof system and functional commitment scheme determine the type of privacy and soundness guarantees for shielded partial transactions. They are encoded as a ByteString.
 
-
 !!! todo
 
      Taiga: Is this correct?
@@ -88,7 +86,6 @@ The proof system and functional commitment scheme determine the type of privacy 
      How do we carry proofs and commitments through the transaction lifecycle? Do we store them with the ptx's which created them?
 
 #### Controllers
-
 
 Controllers are the Identities (e.g. consensus providers) that determine the order of (p)txs including the given Resource. The first controller in the list is known as the resource originator.
 By signing a message, a Controller promises to not sign another message committing to an equivocation of the signed message.
@@ -234,7 +231,6 @@ check_transaction ptxs = all (map valid_ptx ptxs) && sum (map balance_delta ptxs
 
      Find a clearer/more accessible represenation than haskell syntax
 
-
 !!! todo
 
      Write out details about commitment and nullifier handling in the shielded case.
@@ -266,7 +262,6 @@ An executable contains the machinery to infer from the `ptx`s what is supposed t
 
 ## Further Considerations
 
-
 ### Intent
 
 Intent can be encoded in two ways:
@@ -287,7 +282,6 @@ If we want to upgrade the proof system or other static data of a Resource Type, 
 
 ### Relationship between Notes and Resources
 
-
 There is a conceptual 1:1 correspondence between a Resource and a Note.
 
 !!! todo
@@ -295,7 +289,6 @@ There is a conceptual 1:1 correspondence between a Resource and a Note.
      These names/objects should be unified and we need to do a thorough examination of what is left to do to move it into practice.
 
 ## Lifecycle of a Transaction
-
 
 (*Actions in italic*, States in regular font)
 

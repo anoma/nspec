@@ -1,19 +1,16 @@
 <div class="message" markdown>
 
-
 # MessageName
 
 # MessageNameResponse (if applicable)
 
 ## Purpose
 
-
 <!-- --8<-- [start:purpose] -->
 Describe the purpose of the message.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!--
 Link to the types of received and triggered messages.
@@ -48,13 +45,11 @@ Triggers:
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 Describe the message reception behavior, processing logic, and possible triggers.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

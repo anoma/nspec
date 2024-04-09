@@ -1,8 +1,6 @@
 # Prerequisite primitives
 
-
 ## Canonical compute representation
-
 
 The protocol requires a [*canonical* serialisation](../glossary.md#canonical-serialization) of [Turing-equivalent](../glossary.md#turing-complete) functions and data.
 
@@ -20,9 +18,7 @@ For the remainder of this specification, this canonical representation is taken 
 
 ## Cryptographic components
 
-
 ### Canonical collision-resistant one-way hash function
-
 
 The protocol requires a so-called "hash" function which computes a fixed-length output from a variable-length preimage.
 
@@ -37,7 +33,6 @@ Throughout the remainder of this document, serialisation can be assumed to take 
 This hash function does not necessarily need to be canonical - it could be negotiated between groups of agents - but for the sake of simplicity we will assume henceforth that it is.
 
 ### Verifiable computation scheme
-
 
 We assume an abstract verifiable computation scheme operating over arbitrary types and relations such that all agents have access to the following interface:
 

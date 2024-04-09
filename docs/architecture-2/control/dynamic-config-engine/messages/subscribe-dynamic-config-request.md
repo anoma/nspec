@@ -1,11 +1,8 @@
 <div class="message" markdown>
 
-
 # SubscribeDynamicConfigRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Subscribe to a dynamic configuration key in the dynamic configuration KV-store to get notified when the corresponding value changes.
@@ -13,12 +10,10 @@ Subscribe to a dynamic configuration key in the dynamic configuration KV-store t
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 **Reception:**
 
 [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]]
-
 
 --8<-- "../types/subscribe-dynamic-config-request-v1.md:type"
 
@@ -32,14 +27,11 @@ Subscribe to a dynamic configuration key in the dynamic configuration KV-store t
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 Subscribes to a key from the dynamic configuration KV-store, to monitor value changes.
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

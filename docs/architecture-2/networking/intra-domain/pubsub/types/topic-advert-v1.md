@@ -1,8 +1,6 @@
 # TopicAdvertV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Topic advertisement.
@@ -10,10 +8,8 @@ Topic advertisement.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

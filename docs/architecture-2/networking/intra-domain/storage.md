@@ -1,13 +1,10 @@
 # Storage
 
-
 ## Purpose
-
 
 Content-addressed block storage.
 
 ## [[BlockLookupRequest#blocklookuprequest]]
-
 
 From Any Local Engine, may trigger:
 
@@ -15,13 +12,11 @@ From Any Local Engine, may trigger:
 
 ## [[BlockGetRequest#blockgetrequest]]
 
-
 From any local engine, may trigger:
 
 - [[BlockResult#blockresult]]
 
 ## [[BlockPutRequest#blockputrequest]]
-
 
 From any local engine, may trigger:
 
@@ -29,14 +24,12 @@ From any local engine, may trigger:
 
 ## [[BlockSearchTopic#blocksearchtopic]]
 
-
 From Storage, may trigger:
 
 - [[BlockSearchTopic#blocksearchtopic]]
 - [[BlockResult#blockresult]]
 
 ## [[BlockSearchRandom#blocksearchrandom]]
-
 
 From Storage, may trigger:
 

@@ -1,8 +1,6 @@
 # UpdateIdentityRequestV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Update information associated with a given external identity.
@@ -10,10 +8,8 @@ Update information associated with a given external identity.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

@@ -10,7 +10,6 @@ Thus, it makes sense to make precise, what the purpose of the message is.
 
 ##### Structure
 
-
 | Field           | Type                    | Description                    |
 | -----           | ----                    | -----------                    |
 | `name_of_field` | [`TypeName`](#TypeLink) | describe the field information |

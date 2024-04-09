@@ -1,15 +1,12 @@
 # StoragePrefs
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Storage preferences.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 *Struct* with the following fields.
 

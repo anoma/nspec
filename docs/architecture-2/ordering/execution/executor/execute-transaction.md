@@ -29,7 +29,6 @@ Concurrently, when the [[Worker Engine]] sends a [[KVSAcquireLock]] to
  [[Shard]]s, they can include *eager reads*, which will result in
  [[KVSRead]]s sent to this [[Executor]].
 
-
 ## Triggers
 
 - {[[KVSReadRequest|KVSReadRequest]], [[KVSWrite]]}→[[Shard]]s:
@@ -45,7 +44,6 @@ Concurrently, when the [[Worker Engine]] sends a [[KVSAcquireLock]] to
 <!-- --8<-- [end:details] -->
 
 ## Notes
-
 
 - Getting served read requests amounts to locks being granted by the shards.
 

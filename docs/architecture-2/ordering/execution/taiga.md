@@ -1,6 +1,5 @@
 # Taiga
 
-
 Taiga is a concrete instantiation of the [[Resource Machine|Anoma Resource Machine]] used to compute and verify state transition proposals. Taiga defines what a valid transaction is and provides the means to produce and verify transactions.
 
 A valid **transaction** is defined by two criteria:
@@ -11,13 +10,11 @@ Actors and agents use Taiga to produce and verify the proofs required to form tr
 
 ## Resource model
 
-
 Being an instance of the Anoma Resource Machine, Taiga is designed in the resource model, where resources represent atomic units of the state. Taiga supports shielded state transitions with the help of zero-knowledge proofs, commitment schemes, signatures, and other privacy-preserving techniques. Resources are distributed and stored in an encrypted form. Taiga uses proof recursion to provide function privacy for custom logics.
 
 Taiga was heavily inspired by [Zcash Orchard](https://github.com/zcash/zips/blob/main/protocol/protocol.pdf) and [ZEXE](https://eprint.iacr.org/2018/962).
 
 ## Functions provided by Taiga
-
 
 - **create a transaction:** users create initial transactions to announce what they offer and request, including constraints. These transactions are sent to the intent gossip network to be matched with other transactions. Solvers create transactions to match the intents of the users.
 - **verify a transaction:** each transaction contains proofs attesting to its correctness. When a solver receives transactions from the intent gossip network, they must verify the proofs.
@@ -33,9 +30,7 @@ The following sections describe the protocol for shielded state transitions.
 
     To learn more about Taiga as a standalone component, check [the Taiga repository](https://github.com/anoma/taiga)
 
-
 ## 1. Proving systems
-
 
 The table below contains the description of how resource machine proof types are instantiated by Taiga.
 
@@ -74,7 +69,6 @@ A *resource* is an immutable particle of an application state. The state is upda
 
 ### 2.1 Resource plaintext
 
-
 The table below describes the components of a resource, also referred as a resource plaintext.
 
 |Variable|Formula|Type/size|Description|
@@ -94,16 +88,13 @@ The table below describes the components of a resource, also referred as a resou
 
 ### 2.2 Computable fields
 
-
 #### 2.2.1 Resource kind
-
 
 Each resource has a kind that refers to the application the resource belongs to. It is derived from the resource's logic and label as follows:
 
 $K = PRF^{kind}(l, label)$
 
 #### 2.2.2 $\psi$
-
 
 This an intermediate computed parameter used in the computation of resource commitment and resource nullifier.
 $\psi = PRF^{\psi}(0, rseed, nonce)$
@@ -113,7 +104,6 @@ $\psi = PRF^{\psi}(0, rseed, nonce)$
     unstable
 
 #### 2.2.3 $rcm$
-
 
 This parameter is used as randomness when computing the resource commitment.
 
@@ -125,18 +115,15 @@ $rcm = PRF^{rcm}(1, rseed, nonce)$
 
 #### 2.2.4 Resource commitment
 
-
 Resource commitment allows to prove the existence of the resource without revealing the resource plaintext. For a resource $r$, the resource commitment is computed as follows: $cm = \mathrm{ResourceCommit}(r.l, r.label, r.v, r.npk, r.nonce, r.\psi, r.eph, r.q., r.rcm)$.
 
 Resource commitments are stored in a global append-only commitment tree $CMtree$, which contains commitments to all of the resources that were ever created. $CMtree$ is a cryptographic accumulator implemented as a Merkle tree. To prove the resource's existence, a path to the resource's commitment leaf is provided as a witness (private input).
 
 #### 2.2.5 Nullifier
 
-
 Revealing the resource's nullifier invalidates the resource. All nullifiers are stored in a global append-only nullifier set $NFset$. Given the nullifier key $nk$ and a resource $r$, the nullifier $nf$ is computed as follows: $nf = DeriveNullifier_{nk}(r) = PRF_{nf}(r.nk, r.nonce, r.\psi, r.cm)$
 
 ##### 2.2.5.1 Nullifier key $nk$
-
 
 Each created resource plaintext contains a nullifier public key $npk$ that commits to some nullifier key $nk$. This nullifier key have to be used to compute the resource's nullifier. The knowledge of the resource's nullifier key is necessary (but not sufficient) to create the resource's nullifier and invalidate the resource.
 
@@ -158,14 +145,11 @@ Not all of the resource fields require to be encrypted (e.g. the resource commit
 
 ### 2.6 Ephemeral resources
 
-
 Ephemeral resources are resources for which the existence (i.e., Merkle path to its commitment in the $CMtree$) is not checked when the resource is being consumed. Unlike some other systems (e.g., Zcash), resource's ephemerality isn't defined by its quantity (i.e., resources of quantity 0 are not necessarily ephemeral), instead, it is explicitly defined by the ephemerality flag $eph$. Non-zero value ephemeral resources can be handy for carrying additional constraints (e.g. intents) and for balancing transactions.
 
 ## 3. Circuits
 
-
 ### 3.1 The Compliance Circuit
-
 
 The compliance circuit `ComplianceCircuit(x; w)` checks that a transaction satisfies the Taiga rules. The Compliance circuit performs checks over $1$ input and $1$ output resource, which sometimes referred as a compliance pair. A transaction containing $n$ input and $n$ output resources requires $n$ Compliance proofs. If the number of input and output resources isn't equal, ephemeral notes can be used to make them equal. The circuit is arithmetized over $\mathbb{F}_p$.
 
@@ -265,18 +249,15 @@ $cm_{l} = RLCommit(VKCommit(vk_{logic}), rcm_{l}) (l = VKCommit(vk_{logic}))$
 
     $VKCommit$ is not implemented yet and currently $l = Blake2b(vk_{logic})$
 
-
 As the outer commitment $RLCommit$ is verified in both the compliance and verifier circuit which are arithmetized over different fields, the outer commitment instantiation should be efficient over both fields.
 
 As the inner commitment $VKCommit$ is only opened in the verifier circuit, it only needs to be efficient over the $E_O$ scalar field.
 
 ## 4. Circuit Accumulation
 
-
 TBD: Halo2 accumulation
 
 #### 5. Delta (balance commitment) & delta proof
-
 
 Delta parameter is used to ensure balance across the resources in a transaction. In Taiga, delta is computed directly for compliance pairs and transactions (not for individual resources).
 
@@ -328,7 +309,6 @@ Taiga transaction is balanced if for each resource kind: $\sum_i{v_i^{in}} - \su
 
 ## 7. Transaction
 
-
 #### Components
 
 Each Taiga $tx$ contains:
@@ -359,7 +339,6 @@ A transaction is valid if:
 !!! note
 
      Currently, each resource requires a separate RL proof, even if they belong to the same application. Eventually the RL might be called just once per $tx$, meaning that if the $tx$ has 2 or more resources belonging to the same application, the total amount of non-ephemeral proofs is reduced.
-
 
 !!! note
 

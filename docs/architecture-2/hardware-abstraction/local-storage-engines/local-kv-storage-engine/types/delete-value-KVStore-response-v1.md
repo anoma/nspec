@@ -1,8 +1,6 @@
 # DeleteValueKVStoreResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Indicates the success or failure of the attempt to delete the KV-pair from the KV store.
@@ -10,10 +8,8 @@ Indicates the success or failure of the attempt to delete the KV-pair from the K
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]
@@ -23,7 +19,6 @@ Indicates the success or failure of the attempt to delete the KV-pair from the K
 - `Success Operation`: [[SuccessOperationV1#successoperationv1]]
 
   *The success of the operation, indicating that the KV-pair was deleted successfully or not.*
-
 
 </div>
 <!-- --8<-- [end:type] -->

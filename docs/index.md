@@ -11,7 +11,6 @@ search:
 
 # Anoma Specification
 
-
 !!! warning
 
     This documentation website is under heavy development. The content is incomplete and may be inaccurate. Please refer to the [Anoma Foundation](https://anoma.net) for
@@ -98,6 +97,5 @@ Foundation](https://anoma.foundation/). Contributions are welcome.
 !!! note
 
     These documents are not yet complete. If you're reading this page right now, there's a high chance you might be interested in [Namada](https://namada.net).
-
 
 Happy reading!

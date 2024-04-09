@@ -1,8 +1,6 @@
 # DynamicConfigChanged
 
-
 ## Purpose
-
 
 When a dynamic configuration value changes to which subscribers are subscribed,
 they get notified in accordance with the pub-sub communication pattern.
@@ -10,10 +8,8 @@ Depending on the protocol, the updated value could require an action from a subs
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]

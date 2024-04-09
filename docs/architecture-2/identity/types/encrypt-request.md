@@ -1,15 +1,12 @@
 # EncryptRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 An `EncryptRequest` instructs an encryption engine to encrypt data to a particular external identity, possibly using known reads-for relationships.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

@@ -1,15 +1,12 @@
 # TxFingerprint
 
-
 ## Purpose
-
 
 The fingerprint of a transaction allows to refer to a transaction succinctly
 and gives additional information about the provenance,
 primarily used by engines of the ordering machine.
 
 ## Structure
-
 
 | Field          | Type                 | Description                                                            |
 |----------------|----------------------|------------------------------------------------------------------------|
@@ -19,7 +16,6 @@ primarily used by engines of the ordering machine.
 | `last`         | boolean              | true if and only if the txNumber is the maximal one in this batch      |
 
 ## Note
-
 
 We do not have any field of the hash of the referenced transaction.
 A `TxFingerprint` is ordering information that is

@@ -21,7 +21,6 @@ a [[Header Vertex|header vertex]] (previously announced by the recipient).
 The signature is taken over the pair of the fingerprint _and_ the availability flag,
 which leads to different signatures different for integrity only and combined commitments.
 
-
 ## Effects
 
 - The primary stores the signature to form a certificate of availability and/or integrity

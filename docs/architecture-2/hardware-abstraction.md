@@ -1,6 +1,5 @@
 # Hardware Abstraction Machine
 
-
 ## Purpose
 
 The *Hardware Abstraction Machine* provides a standardized interface for engines
@@ -23,36 +22,29 @@ resources such as CPU, memory, and storage.
 For V1, we assume that the Hardware Abstraction Machine provides other engines access to local storage, compute, time management, and logging functionalities
 of the physical machine an Anoma node is running.
 
-
 ## Overview
 
 The current Hardware Abstraction Machine is composed of the following five engines.
 
 ### [Local Storage Engine](hardware-abstraction/local-storage.md#purpose)
 
-
 --8<-- "hardware-abstraction/local-storage.md:purpose"
 
 ### [Local Compute Engine](hardware-abstraction/local-compute.md#purpose)
-
 
 --8<-- "hardware-abstraction/local-compute.md:purpose"
 
 ### [Local Logging Engine](hardware-abstraction/local-logging.md#purpose)
 
-
 --8<-- "hardware-abstraction/local-logging.md:purpose"
 
 ### [Local Wall Clock Engine](hardware-abstraction/local-wall-clock.md#purpose)
-
 
 --8<-- "hardware-abstraction/local-wall-clock.md:purpose"
 
 ### [Local Randomness Engine](hardware-abstraction/local-randomness.md#purpose)
 
-
 --8<-- "hardware-abstraction/local-randomness.md:purpose"
-
 
 ## Communication Diagram
 

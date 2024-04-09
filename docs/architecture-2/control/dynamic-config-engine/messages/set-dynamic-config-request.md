@@ -1,11 +1,8 @@
 <div class="message" markdown>
 
-
 # SetDynamicConfigRequest
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Add a dynamic configuration by adding its key and the corresponding value to the dynamic configuration KV-store.
@@ -14,14 +11,12 @@ If the key already exists, override the value.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 **Reception:**
 
 [[SetDynamicConfigRequestV1#setdynamicconfigrequestv1]]
 
 --8<-- "../types/set-dynamic-config-request-v1.md:type"
-
 
 **Triggers**
 
@@ -33,14 +28,11 @@ If the key already exists, override the value.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 Adds a dynamic configuration to the dynamic configuration KV-store.
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

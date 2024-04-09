@@ -1,6 +1,5 @@
 # Executor / Executor Process
 
-
 Conceptually, Executors  run the
  [executor function](../execution.md#executor-function) in order to
  compute transaction outputs, including state updates
@@ -60,13 +59,10 @@ here are all the messages the Executor needs to be able to receive.
 
 ## [[ExecuteTransaction]]
 
-
 --8<-- "executor/execute-transaction.md:blurb "
 --8<-- "executor/execute-transaction.md:details "
 
-
 ## [[KVSRead]]
-
 
 --8<-- "executor/KVS-read.md:blurb "
 --8<-- "executor/KVS-read.md:details "

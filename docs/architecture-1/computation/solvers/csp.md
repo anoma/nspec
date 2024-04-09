@@ -1,6 +1,5 @@
 # Constraint Satisfaction Problems (CSP)
 
-
 One way to formulate an `Intent` is as a [Constraint Satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction_problem).
 
 It is a very natural formulation, since we can encode `Predicates` over `Resources` as `Constraints` over `Variables`. This approach enables us to use results from a rich research history and it has interesting special cases, e.g. Linear Programming.
@@ -31,7 +30,6 @@ Turning a `Transaction` containing a set of `Partial Transactions`, which in tur
 - Solution: All `Predicates` from all the above `Resources` evaluate to `True`.
 
 ## Example: The three coloring Problem
-
 
 In a fully connected graph $G$ with vertices $v \in V$, edges $e \in E$ each vertex is supposed to be painted in a color  $c \in \{Blue, Red, Green\}$ with no $v_1, v_2$ sharing an edge having the same color.
 

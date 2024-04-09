@@ -1,8 +1,6 @@
 # LocalComputeSearchResultV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[LocalComputeSearchV1#localcomputesearchv1]]
@@ -10,10 +8,8 @@ Response to a [[LocalComputeSearchV1#localcomputesearchv1]]
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Predicate`: [[PredicateV1#predicatev1]]

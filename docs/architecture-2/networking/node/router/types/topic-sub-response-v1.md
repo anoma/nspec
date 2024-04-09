@@ -1,8 +1,6 @@
 # TopicSubResponseV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[TopicSubRequestV1]].
@@ -10,10 +8,8 @@ Response to a [[TopicSubRequestV1]].
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Result*
 
@@ -21,7 +17,6 @@ Response to a [[TopicSubRequestV1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
-
 
 - *OK*: Topic subscribed.
 - *ERROR*: Topic already subscribed.

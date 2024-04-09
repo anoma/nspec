@@ -1,15 +1,12 @@
 # TypeName
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Describe the purpose of the type.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!--
 Type definition.
@@ -19,7 +16,6 @@ Make sure to keep the format exactly as is (html tags, empty lines, formatting o
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 
@@ -35,7 +31,6 @@ Make sure to keep the format exactly as is (html tags, empty lines, formatting o
 <!-- --8<-- [end:type] -->
 
 ## Values
-
 
 <!-- --8<-- [start:values] -->
 Description of possible/notable values. Optional.

@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # RecordMeasurementResponse
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 After added a measurement performed by an engine to the measurement database, return the result of the operation.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -23,19 +19,15 @@ After added a measurement performed by an engine to the measurement database, re
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 Adds a measurement performed by an engine to the measurement database.
 <!-- --8<-- [end:behavior] -->
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

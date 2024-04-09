@@ -6,7 +6,6 @@
 
 ## Purpose
 
-
 <!-- --8<-- [start:purpose] -->
 A `ConnectIdentityRequest` instructs the identity management engine to connect an existing identity using the specified backend.
 
@@ -15,14 +14,12 @@ A `ConnectIdentityResponse` provides the handles to decryption and commitment en
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 [[ConnectIdentityRequest]]
 [[ConnectIdentityResponse]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
-
 
 <!-- --8<-- [start:behavior] -->
 - Attempts to use the designated backend to connect the specified identity
@@ -32,7 +29,6 @@ A `ConnectIdentityResponse` provides the handles to decryption and commitment en
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

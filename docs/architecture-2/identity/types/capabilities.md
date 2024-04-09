@@ -1,13 +1,10 @@
 # Capabilities
 
-
 ## Purpose
-
 
 Specifies which capabilities to request when generating a new identity or connecting an existing one.
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

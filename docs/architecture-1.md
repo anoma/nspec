@@ -1,6 +1,5 @@
 # Architecture v1
 
-
 We first describe on the highest level of abstraction what it means to be a
 correct implementation of Anoma and how it is architectured. This already
 involves some design choices and assumptions, e.g., about which entities

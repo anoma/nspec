@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # SubscribeAck
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Subscription acknowledgement.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
  <!-- --8<-- [start:type] -->
 **Reception:**
@@ -29,13 +25,11 @@ Subscription acknowledgement.
 
 ## Behavior
 
-
 <!-- --8<-- [start:behavior] -->
 A [[TopicSubscribed#topicsubscribed]] notification is sent to local engines.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

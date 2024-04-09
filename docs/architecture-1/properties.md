@@ -1,6 +1,5 @@
 # Properties of Anoma instances
 
-
 ## Inclusion fairness
 
 Every transaction candidate submitted by users
@@ -45,7 +44,6 @@ if they wish to be informed.
 
 <!--
 ## Execution IO
-
 
 <<The executor engines send themselves the new values of the key-value store.>>
 -->

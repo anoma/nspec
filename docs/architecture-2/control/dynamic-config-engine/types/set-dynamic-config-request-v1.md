@@ -1,8 +1,6 @@
 # SetDynamicConfigRequestV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Add a dynamic configuration to the dynamic configuration KV-store by inserting its key and the corresponding value.
@@ -10,10 +8,8 @@ Add a dynamic configuration to the dynamic configuration KV-store by inserting i
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Records* with fields:
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]

@@ -1,8 +1,6 @@
 # EventV1
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Describe the purpose of the type.
@@ -10,10 +8,8 @@ Describe the purpose of the type.
 
 ## Type
 
-
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
 
 *Record* with fields:
 

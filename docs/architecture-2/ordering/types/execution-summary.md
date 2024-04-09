@@ -1,8 +1,6 @@
 # ExecutionSummary
 
-
 ## Purpose
-
 
 The data structure for holding all information about
 the execution of a transaction candidate
@@ -10,7 +8,6 @@ that could be made available to the issuer of
 the corresponding transaction request.
 
 ## Structure
-
 
 | Field            | Type                          | Description                                  |
 |------------------|-------------------------------|----------------------------------------------|
@@ -20,6 +17,5 @@ the corresponding transaction request.
 | `log_key`        | [[Local Storage Key]]         | the key at which the execution log is stored |
 
 ## Note
-
 
 By default, the `log_key` is the hash of the execution log.

@@ -1,18 +1,14 @@
 <div class="message" markdown>
 
-
 # NotificationName
 
-
 ## Purpose
-
 
 <!-- --8<-- [start:purpose] -->
 Describe the purpose of the notification.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
-
 
 <!-- --8<-- [start:type] -->
 [[NotificationNameV1#notificationnamev1]]
