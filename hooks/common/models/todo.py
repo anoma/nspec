@@ -11,7 +11,7 @@ class Todo(FileLoc):
             self.message[:100] + "..." if len(self.message) > 100 else self.message
         )
         location = super().__str__()
-        return f"\033[92m{location}\033[0m \n - {short_msg}"
+        return f"\033[92m{location}\033[0m \n TODO: {short_msg}"
 
     def __repr__(self):
         return self.__str__()

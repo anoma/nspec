@@ -53,6 +53,9 @@ class ImgExtension(Extension):
     def __init__(self, mkconfig: MkDocsConfig):
         self.mkconfig = mkconfig
 
+    def __repr__(self):
+        return "ImgExtension"
+
     def extendMarkdown(self, md):  # noqa: N802
 
         self.md = md
@@ -64,7 +67,7 @@ class ImgExtension(Extension):
 
 def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
     imgext_instance = ImgExtension(mkconfig=config)
-    config.markdown_extensions.append(str(imgext_instance))
+    config.markdown_extensions.append(imgext_instance)  # type: ignore
     return config
 
 

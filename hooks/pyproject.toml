@@ -10,3 +10,17 @@ dependencies = ['mkdocs', 'click']
 
 [project.scripts]
 todos = "common:cli.todos.main"
+
+[tool.mypy]
+python_version = "2.7"
+warn_return_any = true
+warn_unused_configs = true
+exclude = [
+    '^__init__\.pyi$'
+]
+
+
+[[tool.mypy.overrides]]
+module = ["common"]
+warn_return_any = false
+ignore_missing_imports = true

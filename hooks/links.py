@@ -233,13 +233,16 @@ class WLPreprocessor(Preprocessor):
             matches = WIKILINK_PATTERN.finditer(line)
 
             for match in matches:
+
+                loc = FileLoc(current_page_url, i + 1, match.start() + 2)
+
                 link = WikiLink(
                     page=match.group("page"),
                     hint=match.group("hint"),
                     anchor=match.group("anchor"),
                     display=match.group("display"),
+                    fileloc=loc,
                 )
-                loc = FileLoc(current_page_url, i + 1, match.start() + 2)
 
                 link_page = link.page.replace("-", " ")
 
