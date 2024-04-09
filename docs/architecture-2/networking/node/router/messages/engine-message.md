@@ -3,13 +3,16 @@
 
 # EngineMessage
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A message sent between engine instances (both local & remote).
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -30,6 +33,7 @@ A message sent between engine instances (both local & remote).
 <!-- --8<-- [end:type] -->
 
 ## Behavior
+
 
 <!-- --8<-- [start:behavior] -->
 When the router receives an *EngineMessage* from a local engine instance,
@@ -96,6 +100,7 @@ When processing the *EngineMessage*, the given [[RoutingPrefs#routingprefs]] and
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

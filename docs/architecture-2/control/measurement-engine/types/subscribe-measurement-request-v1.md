@@ -1,12 +1,15 @@
 # SubscribeMeasurementRequestV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Subscribe to a measurement key in the dynamic configuration KV-store to get notified when the corresponding value changes.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -22,3 +25,4 @@ Subscribe to a measurement key in the dynamic configuration KV-store to get noti
 <!-- --8<-- [end:type] -->
 
 ## Values
+

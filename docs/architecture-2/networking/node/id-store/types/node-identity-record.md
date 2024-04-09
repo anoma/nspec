@@ -1,10 +1,13 @@
 # NodeIdentityRecord
 
+
 ## Purpose
+
 
 Record stored about a node identity.
 
 ## Type
+
 
 *Struct* with the following fields.
 

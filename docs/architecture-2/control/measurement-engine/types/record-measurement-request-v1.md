@@ -1,12 +1,15 @@
 # RecordMeasurementRequestV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Add a measurement that is performed by an engine to the measurement database.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -22,3 +25,4 @@ Add a measurement that is performed by an engine to the measurement database.
 <!-- --8<-- [end:type] -->
 
 ## Values
+

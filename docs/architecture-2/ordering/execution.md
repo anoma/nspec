@@ -1,5 +1,6 @@
 # Execution
 
+
 **Purpose**
 
 Given a total order of
@@ -88,6 +89,7 @@ No one should need to store a complete history of all Transaction Candidates or 
 -->
 
 ## Functionality
+
 ### High Level Protocols
 The main functionality of the Execution engine is
  serializable [[TransactionCandidate]] execution.
@@ -115,6 +117,7 @@ We can increase concurrency of transaction by partitioning state
  parallel).
 
 ### Responsibilities
+
 #### State
 The core purpose of the Execution Engine group is
  updating and maintaining the state of the RSM.
@@ -139,6 +142,7 @@ For V1, we do not assume any key structure, so [[TransactionLabel]]s
 
 #### Transaction Candidate Labels
 
+
 ![State Machine API](state_machine_API_web.svg)
 
 [[TransactionCandidate]]s are *[[TransactionLabel|labeled]]* with a
@@ -159,6 +163,7 @@ Moreover, each [[TransactionCandidate]]'s effects must be a
  of the keys in its read set in RSM state.
 
 #### Executor Function
+
 In order to define a state machine, we assume a fixed
  *Executor Function*:
 
@@ -204,6 +209,7 @@ After executing a [[TransactionCandidate]], the state of the write
 
 #### Timestamps
 
+
 Each Transaction Candidate has a logical *[[TxFingerprint|timestamp]]*
  which conveys ordering information relative to other
  [[TransactionCandidate|transaction candidates]].
@@ -223,6 +229,7 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
 
 ## Engines Overview
 
+
 !!! todo
 
     adapt
@@ -230,6 +237,7 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
     ![Execution Architecture](execution/rough_execution_engine_message_passing_web.svg)
 
 ### Shards
+
 [[Shard|Shards]] store and update the state of the RSM.
 Different shards may be on different machines.[^8]
 Within a Validator, Keys are partitioned across the
@@ -266,6 +274,7 @@ In the [[Shard]] page, we detail optimizations for getting read values
 -->
 
 ### Executors aka Executor Processes
+
 [Executors](execution/executor.md) are processes that compute the
  Executor Function and communicate results to the [[Shard|Shards]].
 Each [[TransactionCandidate]] is assigned its own [[Executor|Executor]]
@@ -290,11 +299,13 @@ To save on communication costs,
  or both.
 
 ### Read Backend
+
 For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
  through the [[Mempool Engines|mempool]].
 
 <!--
 ## Life of a Transaction
+
 
 ![Execution Architecture](execution_architecture_web.svg)
 

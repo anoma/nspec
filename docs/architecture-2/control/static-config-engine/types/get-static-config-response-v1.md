@@ -1,12 +1,15 @@
 # GetStaticConfigResponseV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Return the found value corresponding to key in  [[GetStaticConfigRequestV1#getstaticconfigrequestv1]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -25,3 +28,4 @@ Return the found value corresponding to key in  [[GetStaticConfigRequestV1#getst
 <!-- --8<-- [end:type] -->
 
 ## Values
+

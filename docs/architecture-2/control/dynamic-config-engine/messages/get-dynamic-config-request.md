@@ -3,13 +3,16 @@
 
 # GetDynamicConfigRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Find a dynamic configuration by its key in the dynamic configuration KV-store and return the value.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,12 +31,14 @@ Find a dynamic configuration by its key in the dynamic configuration KV-store an
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Performs the requested search operation in the dynamic configurations KV-store and returns the value.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

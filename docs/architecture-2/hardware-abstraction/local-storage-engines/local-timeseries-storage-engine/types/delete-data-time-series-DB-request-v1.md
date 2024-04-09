@@ -1,12 +1,15 @@
 # DeleteDataTimeSeriesDBRequestV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Delete time series data from the time series DB.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -23,3 +26,4 @@ Delete time series data from the time series DB.
 <!-- --8<-- [end:type] -->
 
 ## Values
+

@@ -1,5 +1,6 @@
 # `NarwhalBlockHeader`
 
+
 Primaries organize batches of transactions into block headers that may also contain signed quorums,
 each of which reference a quorum of blocks.
 

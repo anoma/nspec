@@ -3,7 +3,9 @@
 
 # Network Identity Store
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 The [[Network Identity Store#network-identity-store]] (NIS) engine stores information associated with known external identities (of peers, topics, domains, and engines), such as advertised addresses and local metadata.
@@ -14,7 +16,9 @@ In case of peer identities, it stores known addresses along with local routing a
 
 ## State
 
+
 ### [[IdentityStore#identitystore]]
+
 
 --8<-- "id-store/types/identity-store.md:purpose"
 
@@ -22,7 +26,9 @@ In case of peer identities, it stores known addresses along with local routing a
 
 ## Messages received
 
+
 ### [[LookupIdentityRequest#lookupidentityrequest]]
+
 
 --8<-- "id-store/messages/lookup-identity-request.md:purpose"
 
@@ -30,19 +36,23 @@ In case of peer identities, it stores known addresses along with local routing a
 
 ### [[UpdateIdentityRequest#updateidentityrequest]]
 
+
 --8<-- "id-store/messages/update-identity-request.md:purpose"
 
 --8<-- "id-store/messages/update-identity-request.md:type"
 
 ## Notifications sent
 
+
 ### [[IdentityUpdated#identityupdated]]
+
 
 --8<-- "id-store/notifications/identity-updated.md:purpose"
 
 --8<-- "id-store/notifications/identity-updated.md:type"
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

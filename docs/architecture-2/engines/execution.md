@@ -1,5 +1,6 @@
 # Execution
 
+
 Inputs:
 - transactions (from [Mempool](mempool.md#mempool))
 - partial transaction ordering information (from [Mempool](mempool.md#mempool))
@@ -17,13 +18,16 @@ Accounting: executions actually performed, parallelization (perhaps)
 
 # Execution Engine
 
+
 ## Summary
+
 
 Given a total order (from the [consensus](consensus-v1.md#consensus)) of transactions (from the [mempool](mempool.md#mempool)), the execution engine updates and stores the "current" state of the [replicated state machine](https://en.wikipedia.org/wiki/State_machine_replication), using as much concurrency as possible.
 Outputs from the execution engine allow light clients to read the current state.
 When the execution engine has finished with a transaction, it communicates to the [mempool](mempool.md#mempool) that the transaction can be garbage-collected from storage.
 
 ## State
+
 
 State is stored as mutable *Data* (unlimited size blobs of binary), each of which is identified with an immutable *Key*.
 If you want to mutate a Key associated with specific Data, that's equivalent to deleting the Data associated with the old Key, and writing it to the new Key.
@@ -36,9 +40,11 @@ This makes Re-Sharding challenging.
 
 ## State Machine API
 
+
 ![State Machine API](state_machine_API_web.svg)
 
 ### Transaction Labels
+
 
 For each Learner, transactions are *labeled* with a set of keys they can read, and a set of keys they can write.
 
@@ -47,6 +53,7 @@ $read :  \left\langle Learner, Transaction \right\rangle \rightarrow \left\{Key\
 $write : \left\langle Learner, Transaction \right\rangle \rightarrow \left\{Key\right\}$
 
 ### Executor Function
+
 
 In order to define a state machine for use with Typhon, we require an *Executor Function*:
 
@@ -63,10 +70,12 @@ Outputs:
 - Some IO side-effects, including sending messages to clients or whatever.
 
 ## Execution Engine Architecture
+
 Our architecture is heavily inspired by [Calvin: Fast Distributed Transactions for Partitioned Database Systems](http://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf).
 It facilitates concurrency while maintaining [serializability](https://en.wikipedia.org/wiki/Serializability) using the [mempool](mempool.md#mempool) and [consensus](consensus-v1.md#consensus) components as a sequencer.
 
 ### Timestamps
+
 
 Each Transaction has a *Timestamp* which conveys ordering information relative to other transactions.
 Timestamps, and thus transactions, are partially ordered.
@@ -74,6 +83,7 @@ As shards learn more information from [consensus](consensus-v1.md#consensus) or 
 For [Heterogeneous Narwhal](mempool.md#mempool), these timestamps may be tuples of $\left\langle validator\_id, block\_header\_height, transaction\_hash\right\rangle$
 
 ### Shards
+
 
 *Shards* are processes that store and update state.
 Different shards may be on different machines. Redistributing state between shards is called *Re-Sharding*.
@@ -86,11 +96,13 @@ This is [multi-version concurrent storage](https://en.wikipedia.org/wiki/Multive
 
 ### Executor Processes
 
+
 *Executor Processes* are processes that actually run the Executor Function and compute updates.
 Executor Processes can be co-located with shards.
 The Execution Engine might keep a pool of Executor Processes, or spin a new one up with each transaction.
 
 ### Life of a Transaction
+
 
 ![Execution Architecture](execution_architecture_web.svg)
 
@@ -106,12 +118,14 @@ Each shard then stores that timestamp in its timeline.
 - For each key written, the shard waits to receive data written from the executor process, and stores it.
 
 ## Serializable Transaction Execution
+
 We want to *execute* each transaction (evaluate the executor function in order to compute the data written) while preserving [serializability](https://en.wikipedia.org/wiki/Serializability): each transaction's reads and writes should be *as if* the transactions were executed in the order determined by [consensus](consensus-v1.md#consensus).
 We can imagine the simplest system as executing each transaction, after they're ordered by [consensus](consensus-v1.md#consensus), sequentially, using the executor function.
 However, we want to compute concurrently as possible, for minimum latency.
 We do this using a set of optimizaitons.
 
 ### Optimization: Per-Key Ordering
+
 
 ![Per-key ordering (see web version for animation)](keys_animated.svg)
 
@@ -121,6 +135,7 @@ However, transactions that don't touch the same keys can be run simultaneously.
 In the diagram above, for example, transactions `c` and `d` can run concurrently, as can transactions `e` and `f`, and transactions `h` and `j`.
 
 ### Optimization: Order With Respect To Writes
+
 
 ![Order with respect to writes (see web version for animation)](only_order_wrt_writes_animated.svg)
 
@@ -132,6 +147,7 @@ In the diagram above, for example, transactions `a` and `b` can run concurrently
 
 ### Optimization: Only Wait to Read
 
+
 ![Only wait to read (see web version for animation)](only_wait_to_read_animated.svg)
 
 Because we store each version written ([multi-version concurrent storage](https://en.wikipedia.org/wiki/Multiversion_concurrency_control)), we do not have to execute writes in order.
@@ -141,11 +157,13 @@ Transactions `a`, `b`, `c`, and `j` can all be executed concurrently, as can tra
 
 ### Optimization: Execute With Partial Order
 
+
 Some [mempools, including Narwhal](mempool.md#mempool) can provide partial order information on transactions even before consensus has determined a total order.
 This allows Typhon to execute some transactions before a total ordering is known.
 In general, for a given key, a shard can send read information to an executor when it knows precisely which write happens most recently before the read, and that write has executed.
 
 #### heardAllWrites
+
 
 In order to known which write happens most recently before a given read, Typhon must know that no further writes will be added to the timeline before the read.
 [Mempool](mempool.md#mempool) and [consensus](consensus-v1.md#consensus) should communicate a lower bound timestamp to the execution engine, called $heardAllWrites$, before which no more transactions containing any write operations will be sent to the execution engine.
@@ -159,6 +177,7 @@ Since that doesn't depend on state, this can of course be done at any time.
 
 #### heardAllReads
 
+
 We want to allow Typhon to eventually garbage-collect old state.
 [Mempool](mempool.md#mempool) and [consensus](consensus-v1.md#consensus) should communicate a lower bound timestamp to the execution engine, called $heardAllReads$, before which there will be no more read transactions send to the execution engine.
 Occasionally, $heardAllReads$ should be updated with later timestamps.
@@ -170,6 +189,7 @@ In the example above, our "Happens Before" arrows have been replaced with "May H
 Note that not all transactions can be executed with this partial order information.
 
 #### Conflicts
+
 
 There are 3 types of conflicts that can prevent a transaction from being executable without more ordering information.
 - *Write/Write Conflicts* occur when a shard cannot identify the most recent write before a given read.
@@ -184,6 +204,7 @@ The Read/Write conflict is resolved: transaction `g` reads the data transaction 
 Then the transitive conflict is also resolved: transaction `h` will be able to execute.
 
 ### Optimization: Client Reads as Read-Only Transactions
+
 
 ![Client reads as read-only transactions (see web version for animation)](read_only_animated.svg)
 

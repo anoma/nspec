@@ -3,13 +3,16 @@
 
 # LocalComputeSearchResult
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 After performing a search operation based on a given predicate within a specified time limit (timeout), return the result.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -25,12 +28,14 @@ After performing a search operation based on a given predicate within a specifie
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 After performing the search operation, return the computation results.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

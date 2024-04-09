@@ -3,7 +3,9 @@
 
 # Local Randomness Engine
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 
@@ -15,9 +17,12 @@ Randomness is important for various computing tasks such as cryptography.
 ## State
 
 
+
 ## Messages Received
 
+
 ### [[LocalRandomnessGetRand#localrandomnessgetrand]]
+
 
 --8<-- "local-randomness-engine/messages/local-randomness-get-rand.md:purpose"
 
@@ -27,7 +32,9 @@ Randomness is important for various computing tasks such as cryptography.
 ## Notifications Sent
 
 
+
 ## Message Flow
+
 
 
 <!-- --8<-- [start:messages] -->

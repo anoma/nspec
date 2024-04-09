@@ -3,13 +3,16 @@
 
 # DeleteDynamicConfigResponse
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -25,6 +28,7 @@ Response to a [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]].
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Performs the requested find operation in the dynamic configurations KV-store,
 delete both the key and the value, and replies with the deleted key and value.
@@ -32,6 +36,7 @@ delete both the key and the value, and replies with the deleted key and value.
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

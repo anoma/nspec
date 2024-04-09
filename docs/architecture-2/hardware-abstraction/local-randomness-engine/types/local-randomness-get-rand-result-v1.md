@@ -1,6 +1,8 @@
 # LocalRandomnessGetRandResultV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
@@ -8,6 +10,7 @@ Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -22,3 +25,4 @@ Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

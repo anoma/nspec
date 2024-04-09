@@ -1,12 +1,15 @@
 # SubscribeDynamicConfigRequestV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Subscribe to a dynamic configuration key in the dynamic configuration KV-store to get corresponding notified when the value changes.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -22,3 +25,4 @@ Subscribe to a dynamic configuration key in the dynamic configuration KV-store t
 <!-- --8<-- [end:type] -->
 
 ## Values
+

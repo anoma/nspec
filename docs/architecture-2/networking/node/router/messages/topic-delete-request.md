@@ -3,7 +3,9 @@
 
 # TopicDeleteRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Delete a pub/sub topic and remove all subscribers.
@@ -12,6 +14,7 @@ The request must come from the same engine that created the topic.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -29,11 +32,13 @@ The request must come from the same engine that created the topic.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 The topic is removed from the [[RoutingTable#routingtable]] along with all subscribers.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

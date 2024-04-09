@@ -2,9 +2,11 @@
 
 
 # QuerySignsForEvidenceRequest
+
 # QuerySignsForEvidenceResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A `QuerySignsForEvidenceRequest` instructs the signs-for engine to read and return the known signs-for evidence associated with a specific external identity.
@@ -14,6 +16,7 @@ A `QuerySignsForEvidenceResponse` is returned by the signs-for engine in respons
 
 ## Type
 
+
 <!-- --8<-- [start:type] -->
 [[QuerySignsForEvidenceRequest]]
 [[QuerySignsForEvidenceResponse]]
@@ -21,11 +24,13 @@ A `QuerySignsForEvidenceResponse` is returned by the signs-for engine in respons
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 - Returns known evidence in a [[QuerySignsForEvidenceResponse]]
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

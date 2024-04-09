@@ -1,7 +1,9 @@
 # KVSAcquireLock
+
 - _from_ [[Worker Engine|Mempool Worker]] <!-- formerly from [[Executor]] -->
 
 ## Purpose
+
 <!-- --8<-- [start:blurp] -->
 Inform the shard about keys that a transaction may/will read and/or
  write, at a transaction fingerprint.
@@ -9,6 +11,7 @@ Inform the shard about keys that a transaction may/will read and/or
 <!-- the range is the novelty w.r.t. to earlier versions of the specs -->
 
 ## Structure
+
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -34,6 +37,7 @@ For V1, however, simple HashSets or similar are fine.
 
 ## Effects
 
+
 - The [[Shard]] stores the respective "locks" for all keys in its timeline.
   - these are the "markers" described in [[Shard]] State.
 - The `eager_read_keys` will be served as soon as possible
@@ -43,6 +47,7 @@ For V1, however, simple HashSets or similar are fine.
    [[Worker Engine|curator]] can prepare [[UpdateSeenAll]] messages.
 
 ## Triggers
+
 
 - _to_ [[Worker Engine]]: [[KVSLockAcquired]]
   send a [[KVSLockAcquired]] message to the [[Worker Engine|curator]],

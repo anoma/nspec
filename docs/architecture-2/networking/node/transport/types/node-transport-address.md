@@ -1,12 +1,15 @@
 # NodeTransportAddress
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Node with its transport address
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

@@ -3,13 +3,16 @@
 
 # GetDynamicConfigResponse
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[GetDynamicConfigRequestV1#getdynamicconfigrequestv1]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -25,12 +28,14 @@ Response to a [[GetDynamicConfigRequestV1#getdynamicconfigrequestv1]].
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Performs the requested search operation in the dynamic configurations KV-store and returns the value.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

@@ -3,13 +3,16 @@
 
 # RecordMeasurementRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Add a measurement performed by an engine to the measurement database.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,12 +31,14 @@ Add a measurement performed by an engine to the measurement database.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Adds a measurement performed by an engine to the measurement database.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

@@ -2,9 +2,11 @@
 
 
 # QueryReadsForEvidenceRequest
+
 # QueryReadsForEvidenceResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A `QueryReadsForEvidenceRequest` instructs the reads-for engine to read and return the known reads-for evidence associated with a specific external identity.
@@ -14,6 +16,7 @@ A `QueryReadsForEvidenceResponse` is returned by the reads-for engine in respons
 
 ## Type
 
+
 <!-- --8<-- [start:type] -->
 [[QueryReadsForEvidenceRequest]]
 [[QueryReadsForEvidenceResponse]]
@@ -21,11 +24,13 @@ A `QueryReadsForEvidenceResponse` is returned by the reads-for engine in respons
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 - Returns known evidence in a [[QueryReadsForEvidenceResponse]]
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

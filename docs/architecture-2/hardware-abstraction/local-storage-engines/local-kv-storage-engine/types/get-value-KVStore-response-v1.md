@@ -1,12 +1,15 @@
 # GetValueKVStoreResponseV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -26,3 +29,4 @@ Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

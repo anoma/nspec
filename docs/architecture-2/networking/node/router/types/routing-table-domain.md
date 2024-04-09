@@ -1,10 +1,13 @@
 # RoutingTableDomain
 
+
 ## Purpose
+
 
 A domain in a routing table entry.
 
 ## Type
+
 
 *Struct* with the following fields.
 

@@ -3,7 +3,9 @@
 
 # TopicAdvertReceived
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A [[TopicAdvert]] has been received from another peer.
@@ -12,6 +14,7 @@ A [[TopicAdvert]] has been received from another peer.
 
 ## Type
 
+
  <!-- --8<-- [start:type] -->
 [[TopicCreateRequestV1#topiccreaterequestv1]]
 
@@ -19,6 +22,7 @@ A [[TopicAdvert]] has been received from another peer.
  <!-- --8<-- [end:type] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

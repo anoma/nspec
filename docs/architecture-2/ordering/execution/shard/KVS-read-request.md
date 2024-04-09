@@ -1,8 +1,10 @@
 # KVSReadRequest
+
 <!-- --8<-- [start:blurb] -->
 - _from_ [[Executor|Executor]]
 
 ## Purpose
+
 Informs the Shard about a new read request, which happens
 in either of the following cases:
 
@@ -23,6 +25,7 @@ in either of the following cases:
 
 ## Structure
 
+
 | Field       | Type        | Description                                           |
 |-------------|-------------|-------------------------------------------------------|
 | `timestamp` | [[TxFingerprint]] | we need the value at this logical timestamp           |
@@ -33,6 +36,7 @@ If `actual` is `false`, this just means that there is no dependency on
  this key in the current execution.
 
 ## Effects
+
 A [[Shard]] should delay processing a [[KVSReadRequest]] until it has
  completed processing [[KVSAcquireLock]] for the
  [[TxFingerprint|same timestamp]].
@@ -50,6 +54,7 @@ Otherwise, future [[KVSWrite]]s and/or [[UpdateSeenAll]]s will
  [[KVSRead]].
 
 ## Triggers
+
 
 - _to_ [[Executor|Executor]]: [[KVSRead]]
   `if` the Shard has determined the unique value written prior to this "lock"

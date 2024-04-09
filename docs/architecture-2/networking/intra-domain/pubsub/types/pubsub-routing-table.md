@@ -1,6 +1,8 @@
 # PubSubRoutingTable
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 
@@ -11,6 +13,7 @@
 
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 A *list* of type [[PubSubRoutingTableEntry#pubsubroutingtableentry]].

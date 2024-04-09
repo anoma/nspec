@@ -2,15 +2,18 @@
 
 
 # UpdateIdentityRequest
+
 # UpdateIdentityResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Update information associated with a given external identity.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,11 +31,13 @@ Update information associated with a given external identity.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Update the provided information in the local data store.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

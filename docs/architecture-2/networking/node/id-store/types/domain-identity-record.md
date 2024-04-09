@@ -1,10 +1,13 @@
 # DomainIdentityRecord
 
+
 ## Purpose
+
 
 Record stored about a domain identity.
 
 ## Type
+
 
 *Struct* with the following fields.
 

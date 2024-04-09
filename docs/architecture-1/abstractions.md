@@ -1,5 +1,6 @@
 # Basic types
 
+
 _"There are two kinds of data structures: DAGs, and bad data structures." - unknown_
 
 Anoma's protocol layers themselves form an information-theoretic DAG, in that higher layers can depend on information from lower layers, but not vice-versa -- lower layers are blind to the syntax and semantics of higher layers, and data of concern to higher layers is represented in lower layers as opaque bytestrings. This rule, however, is partially broken in one place -- an identity can be defined in such a way that it evolves in logical time, and thus depends on a particular view of a logical DAG -- but there is still a DAG in time, the cycle is only in this document.

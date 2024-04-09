@@ -1,6 +1,8 @@
 # WriteLabel
 
+
 ## Purpose
+
 The WriteLabel specifies which keys a transaction may and will write to.
 The rationale behind this information is that
 if a transaction definitely write to a set of keys,
@@ -11,6 +13,7 @@ quite the challenge!
 -->
 
 ## Structure
+
 
 | Field       | Type           | Description                                            |
 |-------------|----------------|--------------------------------------------------------|

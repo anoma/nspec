@@ -1,10 +1,13 @@
 # TransportSecurityPrefs
 
+
 ## Purpose
+
 
 Transport privacy preferences.
 
 ## Type
+
 
 *Enum* with the following possible values.
 

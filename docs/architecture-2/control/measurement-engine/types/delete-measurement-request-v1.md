@@ -1,12 +1,15 @@
 # DeleteMeasurementRequestV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Find the targeted measurement in measurement and delete it from the measurement DB.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -23,3 +26,4 @@ Find the targeted measurement in measurement and delete it from the measurement 
 <!-- --8<-- [end:type] -->
 
 ## Values
+

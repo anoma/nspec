@@ -3,7 +3,9 @@
 
 # LocalLoggingAppend
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Append new values to the logbook.
@@ -11,10 +13,12 @@ Append new values to the logbook.
 
 ## Type
 
+
 <!-- --8<-- [start:type] -->
 **Reception:**
 
 ### [[LocalLoggingAppendV1#localloggingappendV1]]
+
 
 --8<-- "../types/local-logging-append-v1.md:type"
 
@@ -24,12 +28,14 @@ Append new values to the logbook.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Appends the new value to the logbook.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

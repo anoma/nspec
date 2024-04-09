@@ -1,9 +1,11 @@
 # TransactionRequest
 
+
 <!-- --8<-- [start:blurp] -->
 - _from_ [[User|User]], [[Solver|Solver]]
 
 ## Purpose
+
 
 A [[User#user|user]] or [[Solver#solver|solver]] requests that
 a [[TransactionCandidate#transactioncandidate|transaction candidate]]
@@ -12,6 +14,7 @@ be ordered and executed.
 <!-- --8<-- [start:details] -->
 
 ## Structure
+
 
 | Field          | Type                     | Description                          |
 |----------------|--------------------------|--------------------------------------|
@@ -32,6 +35,7 @@ Additional user preferences can be supplied in future versions concerning
 
 
 ## Effects
+
 
 - The receiving worker is obliged to store the new transaction
   (until after execution)
@@ -56,6 +60,7 @@ Additional user preferences can be supplied in future versions concerning
   <!--BE ALERT: consecutive transaction numbers, but arbitrary order-->
 
 ## Triggers
+
 
 <!-- new ! -->
 - [[KVSAcquireLock]]→[[Shard]], [[SpawnExecutor]] → [[Execution Supervisor]]

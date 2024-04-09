@@ -1,14 +1,18 @@
 # NodeAdvert
 
+
 # NodeAdvertV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Advertisement of a peer's transport addresses.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

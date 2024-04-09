@@ -3,13 +3,16 @@
 
 # DeleteDataTimeSeriesDBRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Delete time series data from the DB.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,12 +31,14 @@ Delete time series data from the DB.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Delete time series data from the time series DB.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

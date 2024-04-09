@@ -3,13 +3,16 @@
 
 # RecordDataTimeSeriesDBRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Add time series data to the DB.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,12 +31,14 @@ Add time series data to the DB.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Add time series data to the time series DB.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

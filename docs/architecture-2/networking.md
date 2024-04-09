@@ -1,6 +1,8 @@
 # Networking Machine
 
+
 ## Purpose
+
 
 The Networking Machine is responsible for message passing between engine instances,
 both locally (intra-node), and over the network (inter-node).
@@ -11,6 +13,7 @@ upon which more complex peer-to-peer (P2P) protocols are built.
 
 
 ## Scope
+
 
 The Anoma v1 network is limited to the following.
 - The network consists of multiple nodes that can establish direct connections with each other over QUIC/TLS transport protocols.
@@ -27,7 +30,9 @@ Each domain has its own overlay topology, and a distinct set of P2P *intra-domai
 
 ## Overview
 
+
 ### Terminology
+
 
 <!-- --8<-- [start:node] -->
 A *node* is the set of running *engine instances* that collectively participate in the network as a single entity.
@@ -42,6 +47,7 @@ The *[[NodeIdentity#nodeidentity|node identity]]* in the networking context is t
 
 ### Message passing
 
+
 Communication between [[Architecture 2#engine-models|engines]] follows the actor model
 with asynchronous message passing between engines.
 
@@ -55,6 +61,7 @@ in the often used request-response pattern,
 or a forwarding decision in a network protocol.
 
 ### Message transmission, addressing, routing
+
 
 Message transmission in the network is either
 one-to-one (unicast), few-to-many (multicast), or one-to-any (anycast).
@@ -83,7 +90,9 @@ It makes routing decisions based on the destination identity in the message.
 
 ### Message flow
 
+
 #### Intra-node unicast & multicast messages
+
 
 
 <figure markdown="span">
@@ -95,6 +104,7 @@ It makes routing decisions based on the destination identity in the message.
 
 #### Inter-node unicast messages
 
+
 <figure class="invertable wide" markdown="span">
 
 ![Unicast message](unicast.dot.svg){ width="450" }
@@ -102,6 +112,7 @@ It makes routing decisions based on the destination identity in the message.
 </figure>
 
 #### Inter-node multicast messages
+
 
 <figure class="invertable wide img-max" markdown="span">
 
@@ -112,6 +123,7 @@ It makes routing decisions based on the destination identity in the message.
 
 ## Network architecture
 
+
 The network consists of several sovereign domains with heterogenous protocols,
 where each domain maintains its own peer-to-peer overlay topology,
 manages its own membership,
@@ -121,6 +133,7 @@ clustering nodes based on domain membership
 and routing anycast messages to domains.
 
 ### Intra-domain protocols
+
 
 <div class="v2" markdown>
 
@@ -138,6 +151,7 @@ while the P2P [[Storage#storage]] protocol offers block storage and retrieval.
 
 
 ### Inter-domain protocols
+
 
 Two inter-domain gossip protocol run in parallel: a Trust-Aware [[Peer Sampling#peer-sampling]] (TAPS) and a Trust-Aware [[Clustering#clustering]] (TAC) protocol.
 The two protocols together construct a small world network, where TAPS provides continuously changing long-range routing links,
@@ -162,6 +176,7 @@ Both methods use domain membership similarity as a distance metric.
 
 ## Software architecture
 
+
 <figure class="invertable wide" markdown="span">
 
 ![Engines of the Networking Machine](engines.dot.svg){ width="450" }
@@ -180,13 +195,16 @@ Dotted arrows mark messages sent via the Router.
 
 ### Engines
 
+
 Engines are grouped based on their scope in the network architecture.
 
 #### Intra-node and inter-node protocols
 
+
 --8<-- "networking/node.md:purpose"
 
 ##### Router
+
 
 The [[Router#router]] engine is responsible for [[EngineMessage#enginemessage|message]] routing
 and handles both inter-node and intra-node messages.
@@ -207,11 +225,13 @@ The message routing algorithm is described in the [[EngineMessage#enginemessage]
 
 ##### Transport
 
+
 The [[Transport#transport]] engine is responsible for establishing and maintaining encrypted transport connections between peers.
 It supports various network transport protocols that are chosen according to transport preferences
 set by locally on a per-message or per-node basis, and defaults to the remote node's preferences specified in a [[NodeAdvert#nodeadvert]] message.
 
 ##### Network Identity Store
+
 
 The [[Network Identity Store#network-identity-store]] engine maintains a [[IdentityStore#identitystore|data store]] with [[IdentityRecord#identityrecord|records]]
 that contain information associated with identities of engines, nodes, pub/sub topics, and domains.
@@ -234,12 +254,15 @@ For each [[DomainIdentity#domainidentity]], it stores the [[DomainAdvert#domaina
 
 #### Intra-domain protocols
 
+
 --8<-- "networking/intra-domain.md:purpose"
 
 #### PubSub
 
+
 The [[PubSub#pubsub]] engine implements a P2P topic-based pub/sub protocol and performs inter-node multicast message routing within a domain.
 
 #### Storage
+
 
 The [[Storage#storage]] engine implements a P2P block storage protocol.

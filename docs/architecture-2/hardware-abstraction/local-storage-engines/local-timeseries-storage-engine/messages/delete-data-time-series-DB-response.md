@@ -3,13 +3,16 @@
 
 # RecordDataTimeSeriesDBResponse
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -25,12 +28,14 @@ Response to a [[DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]].
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Performs the requested data record delete operation in the time series DB.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

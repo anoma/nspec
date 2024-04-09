@@ -1,8 +1,11 @@
 # Ordering Machine
 
+
 ## Introduction
 
+
 ### Purpose
+
 
 The ordering machine is a set of communicating engines that collaborate in
 - receiving [[TransactionCandidate|transaction candidates]] from
@@ -16,6 +19,7 @@ The ordering machine is a set of communicating engines that collaborate in
 
 
 ### Background
+
 <!-- we might just "require" no internal links in the background section -->
 In full generality,
 Anoma nodes form a [distributed system](
@@ -54,6 +58,7 @@ because it is one of the most important components from V2 onward,
 although it is not present in V1.
 
 ## Overview
+
 [[TransactionRequest|Transaction requests]] trigger transaction processing.
 [[User]]s or [[Solver]]s send [[TransactionRequest|transaction requests]]
 to the ordering machine: more specifically,

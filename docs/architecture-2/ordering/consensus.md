@@ -1,17 +1,22 @@
 # Consensus
 
+
 ## Introduction
+
 ### Purpose
 Consensus component establishes a totally ordered sequence of headers received from the [mempool](mempool.md) DAG.
 This establishes a total order of transactions for the [execution engine](execution.md) to execute.
 
 ### Background
+
 The consensus algorithm is based on [Heterogeneous Paxos](https://arxiv.org/abs/2011.08253).
 
 ### Scope
 
 
+
 ## Overview
+
 
 
 
@@ -31,6 +36,7 @@ who are interested in chain $\alpha$ alone, chain $\beta$ alone, and both chains
 
 ## Functionality
 
+
 Acceptors need to be aware of the different definitions of learners in order to be able to know which behavior is defined as correct.
 This set of the agents for learners might be empty or have overlaps, which must be respected by the acceptors regardless.
 
@@ -38,6 +44,7 @@ Values are agreed upon in rounds.
 
 <!-- Next, we describe how the communication for a consensus round works. -->
 ### Informal protocol round description
+
 
 The communication is carried out by sending and receiving messages in four (possibly overlapping) phases:
 
@@ -57,15 +64,18 @@ The acceptors caught in sending non-wellformed messages might be punished by the
 
 #### $\onea$-message: proposing a value
 
+
 Proposer proposes a next value by sending a $1a$-message to the acceptors.
 The message carries a _unique_ ballot value, containing the proposed value to agree on and the round timestamp (round number).
 We assume that the set of all possible ballot values is linearly ordered.
 
 #### $\oneb$-message: acknowledging receiving the proposal
 
+
 On receipt of a $\onea$-message, an acceptor sends an acknowledgement of its receipt to all other acceptors and learners in the form of $\oneb$-message.
 
 #### $\twoa$-message: establishing consensus
+
 
 When an acceptor receives $1b$ messages for the highest ballot number it has seen from a learner $l_\alpha$’s [quorum](consensus/hpaxos-formal.md#definition-quorums-in-messages) of acceptors,
 it sends a $\twoa$-message labeled with $l_\alpha$.
@@ -79,6 +89,7 @@ The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for wh
 
 #### Termination: finalizing consensus value
 
+
 A learner $\red{l_\alpha}$ decides on a value $v \in \Value$ when it receives a set $\red{q_\alpha}$ of $\twoa$-messages
 labeled with $l_\alpha$ with the same proposed value $v$ and ballot $b$ from one of its quorums of acceptors.
 We call such a set a _decision_ and write $\decision{\red \alpha}{b, \red{q_\alpha}}$.
@@ -91,6 +102,7 @@ This ensures that any message received by a real acceptor is received by all rea
 
 #### Protocol message structure
 
+
 Any $\oneb$ and $\twoa$-message $m$ signed by the acceptor $A$ has the following fields:
 
 - `prev` — a reference to the previous message sent by $A$, if such exists.
@@ -100,6 +112,7 @@ Any $\oneb$ and $\twoa$-message $m$ signed by the acceptor $A$ has the following
 To ensure that acceptors and learners _fully understand_ each message they receive, they delay doing any computation on it (sometimes called delivery) until they have received all the messages in `refs`. As a result, acceptors and learners will always process messages from any given sender in the order they were sent, but also from any messages that sender received, and recursively.
 
 ### Pseudocode
+
 
 We assume that there is a way to assign to every wellformed message $m$ a unique ballot number that the message belongs to.
 We shall denote the ballot number assigning function as $\ba{m}$.
@@ -160,17 +173,21 @@ def run():
 
 ### Efficient Implementation
 
+
 The efficient implementation of consensus is described [here](consensus/hpaxos-eff.md).
 
 ## Communication diagram
+
 
 <!-- Diagram illustrating message flows between engines -->
 
 ## Messages Received
 
+
 Below is the specification of the consensus component in terms of all the messages the component must be able to receive and react to.
 
 ### [PotentialProposal](consensus/potential-proposal.md)
+
 
 from [Mempool Primary](./mempool/primary.md) may trigger:
 
@@ -178,6 +195,7 @@ from [Mempool Primary](./mempool/primary.md) may trigger:
   --8<-- "consensus/heterogeneous-paxos-proposal.md:purpose"
 
 ### [HPaxosProposal](consensus/heterogeneous-paxos-proposal.md)
+
 
 from [Consensus](consensus.md) may trigger:
 
@@ -187,6 +205,7 @@ from [Consensus](consensus.md) may trigger:
   --8<-- "mempool/primary/check-proposal.md:purpose"
 
 ### [HPaxosCommitment](consensus/heterogeneous-paxos-commitment.md)
+
 
 from [Consensus](consensus.md) may trigger:
 
@@ -199,6 +218,7 @@ from [Consensus](consensus.md) may trigger:
 
 ### [HPaxosDecision](consensus/heterogeneous-paxos-decision.md)
 
+
 from [Consensus](consensus.md) may trigger:
 
 - `RequestProposal` → Mempool Primary
@@ -208,11 +228,14 @@ from [Consensus](consensus.md) may trigger:
 
 ### [NewQuorums](consensus/new-quorums.md)
 
+
 from [Executor](./execution/executor.md) may trigger: _none_
 
 ## Example scenario
+
 
 <!-- Short message cascade from a typical common message sent to the machine  -->
 <!-- E.g. an example of the common case "life of a transaction or whatever" flow from inputs to outputs -->
 
 ## Further reading
+

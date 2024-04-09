@@ -3,13 +3,16 @@
 
 # StartAdvertRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Start advertising a topic in the network.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
  <!-- --8<-- [start:type] -->
 **Reception:**
@@ -27,11 +30,13 @@ Start advertising a topic in the network.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Send [[TopicAdvert#topicadvert]] to connected neighbors in the domain.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

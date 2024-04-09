@@ -1,6 +1,8 @@
 # Types
 
+
 #### `ChainId`
+
 
 Typhon might be operating one big multi-instance, several separate base ledgers, a bunch of "binary" chimera chains, etc. Each of these is identified by a single value of type `ChainId`.
 
@@ -10,6 +12,7 @@ type ChainId = u64
 ```
 
 #### `Height`
+
 
 Heights occur in different contexts and flavours, e.g., the height of a consensus instance that is running for a specific anchor block in the mempool,
 the position of a block header in the chain of block headers relative to a single validator or the learner-specific height of an anchor block in the mempool ᴅᴀɢ.
@@ -21,6 +24,7 @@ type Height = u64
 
 #### `SequenceNumber`
 
+
 Each transaction in a batch of transactions (or transaction requests) has a sequence number assigned by the receiving worker. This number is relative to the current batch.
 
 ```rust
@@ -29,6 +33,7 @@ type SequenceNumber = u64
 ```
 
 #### `BatchNumber`
+
 
 Batches collected by workers have consecutive numbers. Each `BatchNumber`-`SequenceNumber` pair singles out a transaction collected at a worker.
 
@@ -39,10 +44,12 @@ type SequenceNumber = u64
 
 #### `Timestamp`
 
+
 <!-- [//TobiasOnTimeStamps]: # ( We'll talk about this; each transaction has a batch number and a sequence number at a specific validator; these can be considered their logical worker-local timestamp ) -->
 
 
 #### `ClockTime`
+
 
 !!! todo
 
@@ -54,6 +61,7 @@ type ClockTime = ()
 
 #### `Identity`
 
+
 see [[Identity]]
 
 ```rust
@@ -63,6 +71,7 @@ struct Identity {}
 
 #### `Hash`
 
+
 A hash has the shape of sufficiently many bytes.
 ```rust
 /// Hash value, e.g., https://docs.rs/keccak-hash/latest/keccak_hash/struct.H256.html
@@ -70,6 +79,7 @@ type Hash = [u8; 32]
 ```
 
 #### `Signature`
+
 
 <!-- [//TobiasOnSignatures]: # ( well, we probably need more detail here :-/ ) -->
 
@@ -79,6 +89,7 @@ struct Signature {}
 ```
 
 #### `Learner`
+
 
 One can think of a learner as a group of individual with the same trust assumptions.
 
@@ -91,12 +102,14 @@ struct Learner {
 
 #### `Quorums`
 
+
 ```rust
 /// all learner-specific quorums in the shap of a map
 type Quorums = std::collections::BTreeMap<Learner,LiveQuorums>
 ```
 
 #### `LiveQuorums`
+
 
 This is "just" a set of quorums.
 
@@ -106,6 +119,7 @@ type LiveQuorums = std::collections::BTreeSet<LiveQuorum>
 ```
 
 #### `LiveQuorum`
+
 
 This is "just" a set of validators.
 
@@ -117,12 +131,14 @@ type LiveQuorum = std::collections::BTreeSet<ValidatorId>
 
 #### `NarwhalBlockHeader`
 
+
 ```rust
 /// Narwhal block header
 struct NarwhalBlockHeader {}
 ```
 
 #### `NarwhalBlock`
+
 
 ```rust
 /// Narwhal block
@@ -131,12 +147,14 @@ struct NarwhalBlock {}
 
 #### `Transaction`
 
+
 ```rust
 /// Executable code and the like
 struct Transaction {}
 ```
 
 #### `TransactionExecutable`
+
 
 ```rust
 struct TransactionExecutable {}
@@ -148,6 +166,7 @@ struct TransactionExecutable {}
 
 #### `KVSKey`
 
+
 ```rust
 struct KVSKey {}
 ```
@@ -157,6 +176,7 @@ struct KVSKey {}
     Keys in the key-value-store that is state. Currently unspecified.
 
 #### `KVSDatum`
+
 ```rust
 struct KVSDatum {}
 ```

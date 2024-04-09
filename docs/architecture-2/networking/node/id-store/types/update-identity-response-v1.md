@@ -1,12 +1,15 @@
 # UpdateIdentityResponseV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Response to an [[UpdateIdentityRequest#updateidentityrequest]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

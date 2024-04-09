@@ -1,12 +1,15 @@
 # SuccessOperationMeasurementDBV1
 
+
 ## Purpose
+
 <!-- --8<-- [start:purpose] -->
 Indicates whether an operation performed by [[Measurement Engine#measurement-engine]]
 
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -17,6 +20,7 @@ Indicates whether an operation performed by [[Measurement Engine#measurement-eng
 <!-- --8<-- [end:type] -->
 
 ## Values
+
 
 Boolean value where:
 - `1`: Operation was successful.

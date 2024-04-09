@@ -3,7 +3,9 @@
 
 # Dynamic Configuration Engine
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 The *Dynamic Configuration Engine* stores dynamic configurations of the engines and notifies them about configuration changes.
@@ -13,9 +15,12 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 ## State
 
 
+
 ## Messages Received
 
+
 ### [[GetDynamicConfigRequest#getdynamicconfigrequest]]
+
 
 --8<-- "dynamic-config-engine/messages/get-dynamic-config-request.md:purpose"
 
@@ -23,6 +28,7 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 

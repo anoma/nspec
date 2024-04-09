@@ -1,12 +1,15 @@
 # Mempool
 
+
 ## Summary
+
 Validators run the mempool protocol.
 They receive transactions from clients, store them, and make them available for the [execution engine](execution.md#execution-engine) to read.
 The mempool protocol, which is based on [Narwhal](https://arxiv.org/abs/2105.11827) also produces a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph) of *headers*, which reference batches of transactions (via hash), and prove that those transactions are available for the [execution engine](execution.md#execution-engine).
 These headers are ultimately what the [consensus](consensus-v1.md#consensus) decides on, in order to establish a total order of transactions.
 
 ## Heterogeneous Narwhal
+
 The core idea here is that we run an instance of Narwhal for each learner.
 For chimera chains, an "atomic batch" of transactions can be stored in any involved learner's Narwhal.
 
@@ -17,16 +20,19 @@ This should not be a problem, since in Heterogeneous Paxos, for any connected le
 This ensures that, within a finite number of rounds (3, I think), any transaction batch referenced by a weak quorum of batches in its own Narwhal will be (transitively) referenced by all batches in all Narwhals for entangled learners.
 
 ### Overview
+
 Like [Narwhal](https://arxiv.org/abs/2105.11827), Heterogeneous Narwhal Validators have multiple concurrent processes (which can even run on separate machines).
 Each validator has one *primary* process and many *worker* processes.
 When a client submits a transaction, they first send it to a worker process.
 
 #### Workers
+
 Worker processes ensure transactions are available.
 Transactions are batched, and erasure-coded (possibly simply replicated) across a *weak quorum for every learner* of workers, and only signed hashes of those batches are sent to primaries.
 This separates the high-bandwidth work of replicating transactions from the ordering work of the primaries.
 
 #### Primaries
+
 Primary processes establish a partial order of transaction batches (and by extension transactions), in the form of a structured DAG.
 The DAG proceeds in *rounds* for each learner: each primary produces at most one block for each (correct) learner in each round.
 That block references blocks from prior rounds.
@@ -39,6 +45,7 @@ Primaries collect votes concerning their own headers, producing blocks: aggregat
 More formally, we present the Heterogeneous Narwhal protocol as the composition of two crucial pieces: the Heterogeneous Narwhal Availability protocol, and the Heterogeneous Narwhal Integrity protocol.
 
 ### Vocabulary
+
 - *Learner*s dictate trust decisions: just like in Heterogeneous Paxos, we use a Learner Graph. In diagrams, we usually represent learners with colors (red and blue).
 - <img src="quorum.svg" alt="quorum" height="12pt"/> *Quorum*: a set of validators sufficient for a Learner to make blocks. Each Learner has a set of quorums.
 - *Intact Learner*: any 2 quorums for an Intact Learner have a correct validator in their intersection. Most of our guarantees apply only to Intact Learners.
@@ -61,10 +68,12 @@ Some guarantees apply pairwise to Entangled Learners: they are, in a sense, guar
 ![Data Structure](data_structure.svg)
 
 ## Heterogeneous Narwhal Availability Protocol
+
 ![Availability Protocol Time-Space Diagram](workers.svg)
 (note the giant curly-brace represents a Weak Quorum of validators)
 
 ### Batches and Worker Hashes
+
 When a worker has collected a batch of transactions, it transmits erasure shares (possibly full copies) of those transactions to other workers on a *weak quorum for every learner* of validators.
 What's important about this erasure coding is that any Quorum of any Learner can reconstruct every transaction.
 Furthermore, workers must be able to verify that they are in fact storing the correct Erasure Share of the data referenced in the Worker Hash.
@@ -75,6 +84,7 @@ When it has completed a batch, a worker also transmits a signed *Worker Hash* to
 We do not specify when workers should complete batches, but perhaps it should be after some timeout, or perhaps primaries should signal workers to complete batches. Batches should not be empty.
 
 ### Signed Quorums and Headers
+
 Primaries ultimately produce blocks for each round, for each Learner, and send those blocks to other Primaries.
 When a primary for validator `V` has received blocks for learner `L` and round `R` from an entire quorum of validators for learner `L`, it signs that collection, producing a *Signed Quorum* object, which identifies the validator `V`, the learner `L`, and the round `R`.
 The Signed Quorum is then broadcast (or erasure coded) to primaries on a *weak quorum for every learner* of validators.
@@ -105,6 +115,7 @@ Specifically, they may have:
 
 
 ## Heterogeneous Narwhal Integrity Protocol
+
 So far, only Signed Quorums have been Learner-specific: everything else requires a weak quorum for every learner.
 However, in the Integrity Protocol, almost everything is Learner-specific.
 Furthermore, Workers are not involved in the Integrity Protocol: only Primaries.
@@ -135,6 +146,7 @@ Headers display *Learner Vectors*.
 
 
 ## DAG Properties
+
 Independently, the blocks for each Learner form a DAG with the same properties as in the original Narwhal:
 ![Blue DAG](quorums_blue_5_red_0.svg)
 (In these diagrams, blocks reference prior blocks from the same Primary; I just didn't draw those arrows)
@@ -155,15 +167,18 @@ Furthermore, rounds of different learners are not totally ordered.
 Red round 3 cannot really be said to happen before, or after, blue round 4.
 
 ### Fair Broadcast
+
 In Homogeneous Narwhal, any block which is referenced by a weak quorum in the following round will be (transitively) referenced by all blocks thereafter. Heterogeneous Narwhal has analogous guarantees:
 
 #### Any block for learner `A`  referenced by a weak quorum for learner `A` will, after 3 rounds, be (transitively) referenced by all future blocks of learners entangled with `A`.
+
 Specifically, such a block `B` in round `R`, will be (transitively) referenced by all `A`-blocks in round `R+2`.
 
 Consider the first round for learner `B` using at least a quorum of headers either used in `A` round `R+2` or after their primaries' headers for `A` round `R+2`.
 Given that Learner `B` is entangled with `A`, any `B`-quorum for this round will be a descendant of an `A`-block from round `R+2`, and therefore, of `B`.
 
 ## Consensus
+
 ![Leader Path](leader_path_3.svg)
 
 In order to establish a total order of transactions, we use [Heterogeneous Paxos](consensus-v1.md#consensus) to decide on an ever-growing path through the DAG (for each Learner).
@@ -176,6 +191,7 @@ Crucially, if two learners are not entangled, and their blocks never reference e
 This does require a minimal amount of fairness from consensus itself: as long as blocks for learner `L` keep getting proposed (indefinitely), consensus should eventually append one of them to the path.
 
 ### Choosing a total order
+
 Given a consensus-defined path, we can impose a total order on all transactions which are ancestors of any block in the path.
 We require only that, given some block `B` in the path, all transactions which are ancestors of `B` are ordered before all transactions which are not ancestors of `B`.
 Among the transactiosn which are ancestors of `B` but not of its predecessor in the path, total order can be imposed by some arbitrary deterministic function.

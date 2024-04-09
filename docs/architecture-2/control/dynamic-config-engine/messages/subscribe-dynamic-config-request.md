@@ -3,13 +3,16 @@
 
 # SubscribeDynamicConfigRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Subscribe to a dynamic configuration key in the dynamic configuration KV-store to get notified when the corresponding value changes.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -29,12 +32,14 @@ Subscribe to a dynamic configuration key in the dynamic configuration KV-store t
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Subscribes to a key from the dynamic configuration KV-store, to monitor value changes.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

@@ -3,7 +3,9 @@
 
 # Static Configuration Engine
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 The Static Configuration Engine stores static configuration of the node that may not be change by other engines at runtime.
@@ -12,9 +14,12 @@ The Static Configuration Engine stores static configuration of the node that may
 ## State
 
 
+
 ## Messages Received
 
+
 ### [[GetStaticConfigRequest#getstaticconfigrequest]]
+
 
 --8<-- "static-config-engine/messages/get-static-config-request.md:purpose"
 
@@ -24,7 +29,9 @@ The Static Configuration Engine stores static configuration of the node that may
 ## Notifications Sent
 
 
+
 ## Message Flow
+
 
 
 <!-- --8<-- [start:messages] -->

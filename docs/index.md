@@ -11,6 +11,7 @@ search:
 
 # Anoma Specification
 
+
 !!! warning
 
     This documentation website is under heavy development. The content is incomplete and may be inaccurate. Please refer to the [Anoma Foundation](https://anoma.net) for

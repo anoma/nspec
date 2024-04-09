@@ -1,5 +1,6 @@
 # Strategy synthesis
 
+
 - *Inputs*
     User instructions
 - *Outputs*

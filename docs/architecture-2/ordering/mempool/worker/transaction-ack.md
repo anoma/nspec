@@ -1,8 +1,10 @@
 # TransactionAck
+
 <!-- --8<-- [start:blurp] -->
 - _from_ [[Worker]]
 
 ## Purpose
+
 
 The worker acknowledges a transaction request
 with local ordering information and a local wall clock time stamp
@@ -13,6 +15,7 @@ a specific transaction candidate.
 <!-- --8<-- [start:details] -->
 
 ## Structure
+
 | Field          | Type              | Description                                                   |
 |----------------|-------------------|---------------------------------------------------------------|
 | `txHash`       | [[Hash]]          | the hash of the acknowledged transaction candidate            |
@@ -24,9 +27,11 @@ The time stamp is the time of when the batch with `batch_number` was opened.
 The exact inclusion time into the batch is not communicated to the requester.
 
 ## Effects
+
 - The user has evidence for having submitted a transaction to a worker.
 
 ## Triggers
+
 none
 
 <!-- --8<-- [end:details] -->

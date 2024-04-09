@@ -1,14 +1,18 @@
 # TrustValue
 
+
 ## Purpose
+
 
 Express trust for a peer.
 
 ## Type
 
+
 *u8*
 
 ## Values
+
 
 - Range: `0..255`
 - Notable values:

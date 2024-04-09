@@ -3,13 +3,16 @@
 
 # Unsubscribe
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Unsubscribe from a topic at other peers.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
  <!-- --8<-- [start:type] -->
 **Reception:**
@@ -26,12 +29,14 @@ Unsubscribe from a topic at other peers.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 The peer the request arrived from is removed from the [[PubSubRoutingTable#pubsubroutingtable]],
 and an [[UnsubscribeAck#unsubscribeack]] is returned in response.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

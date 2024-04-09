@@ -1,12 +1,15 @@
 # DeleteDynamicConfigResponseV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[DeleteDynamicConfigRequestV1#deletedynamicconfigrequestv1]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -26,3 +29,4 @@ Response to a [[DeleteDynamicConfigRequestV1#deletedynamicconfigrequestv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

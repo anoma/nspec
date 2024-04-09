@@ -3,7 +3,9 @@
 
 # DeleteValueKVStoreRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Find a value by its key in the KV-store and delete both the key and the value.
@@ -11,6 +13,7 @@ Find a value by its key in the KV-store and delete both the key and the value.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -33,6 +36,7 @@ Find a value by its key in the KV-store and delete both the key and the value.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Finds a value by its key in the KV-store and delete both the key and the value.
 
@@ -40,6 +44,7 @@ Finds a value by its key in the KV-store and delete both the key and the value.
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

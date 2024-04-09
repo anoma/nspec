@@ -1,10 +1,13 @@
 # ConnectionPrefs
 
+
 ## Purpose
+
 
 Connection preferences for a peer
 
 ## Type
+
 
 *Enum* with one the following values:
 

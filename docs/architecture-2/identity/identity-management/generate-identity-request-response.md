@@ -2,9 +2,11 @@
 
 
 # GenerateIdentityRequest
+
 # GenerateIdentityResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A `GenerateIdentityRequest` instructs the identity management engine to generate a new identity using the specified backend.
@@ -14,12 +16,14 @@ A `GenerateIdentityResponse` provides the handles to decryption and commitment e
 
 ## Type
 
+
 <!-- --8<-- [start:type] -->
 [[GenerateIdentityRequest]]
 [[GenerateIdentityResponse]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
+
 
 <!-- --8<-- [start:behavior] -->
 - Uses the designated backend to generate a new identity
@@ -28,6 +32,7 @@ A `GenerateIdentityResponse` provides the handles to decryption and commitment e
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

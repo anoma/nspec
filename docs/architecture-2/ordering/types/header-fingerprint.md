@@ -1,5 +1,6 @@
 # `HeaderFingerprint`
 
+
 The header fingerprint describes an actual header succinctly,
 using easily available information.
 

@@ -3,13 +3,16 @@
 
 # GetStaticConfigRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Find a static configuration by its key in the static configuration KV-store and return it.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,12 +31,14 @@ Find a static configuration by its key in the static configuration KV-store and 
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Performs the requested search operation in the static configurations KV-store and returns the value.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

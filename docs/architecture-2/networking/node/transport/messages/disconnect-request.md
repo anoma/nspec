@@ -2,15 +2,18 @@
 
 
 # DisconnectRequest
+
 # DisconnectResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Establish disconnection to a node.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,9 +31,11 @@ Establish disconnection to a node.
 
 ## Behavior
 
+
 Disconnect from the specified node, if connected.
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

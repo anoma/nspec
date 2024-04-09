@@ -1,8 +1,10 @@
 ## Transaction life cycle: from request to execution
 
+
 Consider the “life cycle” of a transparent asset transfer $T$.
 
 ### Mempool
+
 - First,
   user $U$ sends a [[TransactionRequest|transaction request]]
   $R_T$ to a [[Worker Engine|worker]] $W$.
@@ -53,6 +55,7 @@ overkill for V1 as we might scratch the primary anyway
 -->
 
 ### Consensus
+
 As consensus is trivial in the single validator setting,
 the ordering of transactions by the worker is already a total order,
 namely the lexicographic order on [[TxFingerprint|transaction fingerprints]].
@@ -61,6 +64,7 @@ what in general would only be _partial_ ordering information by the worker,
 is already fixing a total order.
 
 ### Execution
+
 - When the [[Worker Engine|mempool worker]] has spawned
   a new [[Executor Process|Executor]] (via the supervisor),
   [[ExecuteTransaction|transaction]] $T$

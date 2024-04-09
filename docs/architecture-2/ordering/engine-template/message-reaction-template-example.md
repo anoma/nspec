@@ -1,12 +1,15 @@
 #### `NewTransaction`
+
 - _from_ [Worker](#Worker)
 
 ##### Purpose
+
 The sending worker is forwarding transaction data for
 the purpose of storing a copy (a trivial erasure coding share)
 at the receiving worker.
 
 ##### Structure
+
 
 | Field           | Type                    | Description                    |
 | -----           | ----                    | -----------                    |
@@ -16,9 +19,11 @@ at the receiving worker.
 
 
 ##### Effects
+
 - A correct worker will keep the message available until post-order execution.
 
 ##### Triggers
+
 - to [Primary](#Primary): [`WorkerHashAvailable`](#WorkerHashAvailable)
   `If` the received transaction data is completing a worker hash copy / erasure coding share
   `then` notify the primary that the respective worker hash is available

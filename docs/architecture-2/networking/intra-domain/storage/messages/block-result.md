@@ -1,12 +1,15 @@
 # BlockResponse
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Response to a block request.
 <!-- --8<-- [end:purpose] -->
 
 ## Structure
+
 
 | Field     | Type                            | Description         |
 |-----------|---------------------------------|---------------------|

@@ -1,5 +1,6 @@
 # Ordering and Execution Engines
 
+
 The ordering and execution engines receive transaction requests from users,
 order the transaction requests, and
 finally execute them.
@@ -13,6 +14,7 @@ finally execute them.
   and take care of maintaining the global state of the chain.
 
 ## The transaction: from request to execution
+
 Consider the “life cycle” of a transparent asset transfer $T$.
 We will go through all the messages exchanged between
  [[Mempool Engines|mempool]], [[Consensus Engine|consensus]], and
@@ -32,6 +34,7 @@ We will go through all the messages exchanged between
 
 
 ### Mempool
+
 
 - The [[Worker Engine|worker]] $W$ then
    sends copies of this transaction request $R_T$ to
@@ -130,6 +133,7 @@ We will go through all the messages exchanged between
    transaction $T$.
 
 ### Consensus
+
 The [[Consensus Engine]] uses Heterogeneous Paxos to establish a
  total order of vertices in the Mempool DAG for each learner.
 This in turn implies a total order of transactions.
@@ -162,6 +166,7 @@ To this end, Validators on each chain try to achieve consensus on a
    transactions.
 
 ### Execution
+
 - When the [[Worker Engine|mempool worker]] sends the
    [[Execution Engines|execution engine]] a
    [[ExecuteTransaction|transaction]] $T$, a new
@@ -212,6 +217,7 @@ To this end, Validators on each chain try to achieve consensus on a
 
 
 ## Certificates and the Mempool DAG
+
 
 Availability and integrity certificates describe a “global” mempool ᴅᴀɢ consisting of two types of edges:
 primary-specific ones and learner-specific ones.

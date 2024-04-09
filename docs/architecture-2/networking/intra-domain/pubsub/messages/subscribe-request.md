@@ -3,13 +3,16 @@
 
 # SubscribeRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Subscription request.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
  <!-- --8<-- [start:type] -->
 **Reception:**
@@ -27,12 +30,14 @@ Subscription request.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 If not already subscribed, *PubSub* subscribes to the specified topic
 by sending a P2P subscription request(s) to connected peers in the domain.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

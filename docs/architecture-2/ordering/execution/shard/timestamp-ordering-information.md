@@ -1,12 +1,15 @@
 ### TimestampOrderingInformation
 
+
 * _from_ [Mempool](#Mempool)
 
 #### Purpose
 
+
 While each transaction comes with a `Timestamp`, the shards do not actually know the order of those timestamps until the DAG is built, and consensus decisions are made. This message represents the mempool communicating (partial) timestamp ordering. These are broadcast to all shards.
 
 #### Structure
+
 
 !!! todo
 
@@ -24,9 +27,11 @@ While each transaction comes with a `Timestamp`, the shards do not actually know
 
 ### Effects
 
+
 As shards learn more ordering information, they can finally complete reads (since they learn which writes most recently occurred).
 
 ### Triggers
+
 
 - _to_ [Executor](../executor.md): [`KVSRead`](../executor/KVS-read.md)
   `for each` locked key for which we have established a unique write value,

@@ -1,5 +1,6 @@
 # Entanglement
 
+
 _Entanglement_ is a relation that maps a pair of identities to a scalar. Different kinds of entanglement may have different codomains, but usually entanglement is normalised to a unitless real number between 0 and 1, which may be rounded to a fixed precision (up to and including the 1-bit entanglement of 0 or 1). There are many different measures, or dimensions, of entanglement, which can themselves be composed in different ways. Entanglement can be _asymmetric_, if the order of identities matters, or _symmetric_, if it doesn't (`entanglement a b = entanglement b a`). Entanglement is generally defined recursively over the network of identity relations, such that the system can build up a unified model from purely local agent user inputs. Such a measure is useful primarily because it allwos _comparison_, which in turn can be used for _ordering_ and _choice_. To prime intuition, let's go through a few examples:
 
 - _Directed follower entanglement_, which can be measured from the [directed relationship DAG](./logical-dags/directed-relationship-dag.md#directed-relationship-dag), is a measure of directed flow in following relationships.

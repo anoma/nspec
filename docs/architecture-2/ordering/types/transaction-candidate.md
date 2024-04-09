@@ -1,5 +1,6 @@
 # TransactionCandidate
 
+
 The basic unit of data that users send to
 the [[Mempool Engines|mempool]] for the purpose of ordering and execution
 (aka [processing](https://en.wikipedia.org/wiki/Transaction_processing))

@@ -2,9 +2,11 @@
 
 
 # ReadsForRequest
+
 # ReadsForResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A `ReadsForRequest` asks the reads-for engine whether one identity can read for another.
@@ -14,6 +16,7 @@ A `ReadsForResponse` is returned in response to a [[ReadsForRequest]]
 
 ## Type
 
+
 <!-- --8<-- [start:type] -->
 [[ReadsForRequest]]
 [[ReadsForResponse]]
@@ -21,11 +24,13 @@ A `ReadsForResponse` is returned in response to a [[ReadsForRequest]]
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 - Returns a [[ReadsForResponse]] according to whether A `readsFor` B, given the known evidence
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

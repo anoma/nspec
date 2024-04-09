@@ -1,4 +1,5 @@
 # Mempool
+
 The mempool receives transaction requests
 and stores them such that they are available for the
 [[Execution Engines|execution engines]].
@@ -13,6 +14,7 @@ the mempool is roughly a FIFO queue that takes
 transaction requests and passes them on to execution.
 
 ## Components
+
 - [[Worker Engine|Workers]] receive
   transaction requests from users or solvers and
   keep transaction data available for executors,

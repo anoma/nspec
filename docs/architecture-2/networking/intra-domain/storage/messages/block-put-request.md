@@ -1,6 +1,8 @@
 # BlockPutRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Request storing a block.
@@ -8,11 +10,13 @@ Request storing a block.
 
 ## Reception
 
+
 <!-- --8<-- [start:reception] -->
 - Any $\to$ *BlockPutRequest* $\to$ Storage
 <!-- --8<-- [end:reception] -->
 
 ## Structure
+
 
 | Field     | Type                  | Description               |
 |-----------|-----------------------|---------------------------|
@@ -21,6 +25,7 @@ Request storing a block.
 | `prefs`   | *StoragePrefs*        | Block storage preferences |
 
 ## Triggers
+
 
 <!-- --8<-- [start:triggers] -->
 - Storage $\to$ *[[BlockPutResponse#blockputresponse]]* $\to$ Any

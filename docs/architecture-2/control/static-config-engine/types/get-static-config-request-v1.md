@@ -1,12 +1,15 @@
 # GetStaticConfigRequestV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Find a configuration by its key in the static configuration KV-store.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -21,3 +24,4 @@ Find a configuration by its key in the static configuration KV-store.
 <!-- --8<-- [end:type] -->
 
 ## Values
+

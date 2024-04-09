@@ -1,10 +1,13 @@
 # PubSubRoutingTableEntry
 
+
 ## Purpose
+
 
 A pub/sub routing table entry.
 
 ## Type
+
 
 A *struct* with the following fields:
 

@@ -1,4 +1,5 @@
 ## A life cycle with some details
+
 Let us consider a typical/generic case
 of what transaction submission triggers in the ordering machine.
 Note that all message sending is asynchronous.
@@ -38,6 +39,7 @@ sequenceDiagram
 
 
 ### The origin of the request
+
 
 _at user_
 
@@ -79,6 +81,7 @@ Example:
 
 ### Acknowledging the Users's TransactionRequest
 
+
 _at [[Worker Engine]]_
 
 Once it is clear that the transaction can be included into the current
@@ -92,6 +95,7 @@ Once it is clear that the transaction can be included into the current
 
 
 ### Buffering and shuffling (optional)
+
 
 _at [[Worker Engine]]_
 
@@ -108,6 +112,7 @@ One may want to order each transaction request within a batch only
 
 
 ### Assigning a transaction number
+
 
 _at [[Worker Engine]]_
 
@@ -130,6 +135,7 @@ in which case
 This may slightly change in V2.
 
 ### Requesting an available executor engine
+
 
 _at [[Worker Engine]]_
 
@@ -155,6 +161,7 @@ Hence, the supervisor itself may be a concurrently running group of engines.
 
 ### Providing a "fresh" executor
 
+
 _at [[Execution Supervisor]]_
 
 - [[ExecutorPIDAssigned]]→[[Worker Engine|Worker]]
@@ -166,6 +173,7 @@ _at [[Execution Supervisor]]_
      add one supervisor for each executor -->
 
 ### Informing shard(s) about upcoming read and write requests
+
 
 _at [[Worker Engine]]_
 
@@ -179,6 +187,7 @@ If it helps, these messages can be batched and sent periodically.
 
 ### Notifying the curator about acquired locks
 
+
 _at [[Shard]]_
 
 - [[KVSLockAcquired]] → [[Worker Engine]]
@@ -188,6 +197,7 @@ _at [[Shard]]_
 
 
 ### Starting transaction execution
+
 
 _at [[Worker Engine]]_
 
@@ -203,6 +213,7 @@ _at [[Worker Engine]]_
 
 ### Sending read requests
 
+
 _at [[Executor]]_
 
 - [[KVSReadRequest]] → [[Shard]]
@@ -211,6 +222,7 @@ _at [[Executor]]_
   send the optional read requests to the [[Shard]].
 
 ### Sending write requests
+
 
 _at [[Executor]]_
 
@@ -226,6 +238,7 @@ _at [[Executor]]_
 
 
 ### Notifying shards about locks "seen"
+
 
 _at [[Worker Engine]]_
 
@@ -243,6 +256,7 @@ _at [[Worker Engine]]_
 
 ### Serving read and write requests from executors
 
+
 _at [[Shard]]s_
 
 - [[KVSRead]] → [[Executor]]
@@ -255,6 +269,7 @@ _at [[Shard]]s_
 
 ### Handling transaction candidate side effects
 
+
 _at [[Executor]]_
 
 In addition to updates to state,
@@ -263,6 +278,7 @@ transaction candidates can do other stuff
 This can include logging and sending messages to users.
 
 #### Informing users about results and logs
+
 
 The user is informed about the results of the transaction outcome.
 In future versions (from V2 onward), this comes in two flavors:
@@ -275,6 +291,7 @@ In future versions (from V2 onward), this comes in two flavors:
 
 #### Signing state update commitment
 
+
 If a "block" is completed, a commitment to state updates,
 e.g., a hash of the state deltas +++
 
@@ -282,6 +299,7 @@ e.g., a hash of the state deltas +++
 
 
 ### Informing the curator about execution termination
+
 
 _at [[Executor]]_
 

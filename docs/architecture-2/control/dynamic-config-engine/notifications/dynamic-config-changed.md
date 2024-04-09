@@ -1,12 +1,15 @@
 # DynamicConfigChanged
 
+
 ## Purpose
+
 
 When a dynamic configuration value changes to which subscribers are subscribed,
 they get notified in accordance with the pub-sub communication pattern.
 Depending on the protocol, the updated value could require an action from a subscribed engine.
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

@@ -1,12 +1,15 @@
 # ReadsForRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A `ReadsForRequest` asks the reads-for engine whether one identity can read for another.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

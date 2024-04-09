@@ -1,6 +1,8 @@
 # Formal definition of WellFormed
 
+
 ## Definition: Message Signer
+
 
 $$
   \sig{\green x : \Message} \triangleq
@@ -8,6 +10,7 @@ $$
 $$
 
 ## Definition: Message Set Signers
+
 
 We extend $\sig{}$ over sets of messages, to mean the set of signers of those messages:
 $$
@@ -21,6 +24,7 @@ Ballot proposals ($1a$-messages) do not reference other messages.
 We define the transitive references of a message, which should include every message the sender has ever sent or received, as follows.
 
 ## Definition: Transitive References
+
 
 $$
   \tran{\green x} \triangleq
@@ -38,6 +42,7 @@ Similarly to the definition above, we define transitive history of the messages 
 
 ## Definition: Transitive History
 
+
 $$
   \prevtran{\green x} \triangleq \cb{\green x} \cup \prevtran{\green x.\prev}
 $$
@@ -45,6 +50,7 @@ $$
 Clearly, for any message $\green x$ originating from a safe acceptor, the messages of $\prevtran{\green x}$ form a linear history chain with respect to $\prev$ field.
 
 ## Definition: Get1a
+
 
 We define $1a$-message that started the ballot of the message as the highest ballot value $1a$-message visible from it.
 $$
@@ -55,12 +61,14 @@ Since every proposed ballot is unique, the function $\geta{}$ is well-defined.
 
 ## Definition: Ballot Numbers
 
+
 The ballot number of the message is the highest ballot number among the visible $1a$s.
 $$
   \ba{\green x} \triangleq \geta{\green x}.ballot
 $$
 
 ## Definition: Value of a Message
+
 
 The value of a the message is the value of the highest ballot number among the visible $1a$s.
 $$
@@ -70,6 +78,7 @@ $$
 sing the above auxiliary functions, we formally define decisions by
 
 ## Definition: Decision
+
 
 $$
   \decision{\red \alpha}{b, \red{q_\alpha}} \triangleq
@@ -83,6 +92,7 @@ $$
 To define what makes a _wellformed_ $\twoa$ message, it requires checking whether two learners might be entangled, and (unless we can prove they are not entangled), whether one of them might have already decided.
 
 ## Definition: Caught
+
 
 Some behavior can create a proof that an acceptor is Byzantine.
 Unlike Byzantine Paxos, our acceptors and learners must adapt to Byzantine behavior.
@@ -104,6 +114,7 @@ $$
 
 ## Definition: Connected
 
+
 When some acceptors are proved Byzantine, some learners need not agree,
 meaning that any safe set of acceptors $\reallysafe$ isn't in the edge between them in the learner graph $\lgraph$, i.e.,
 at least one acceptor in each safe set in the edge is proven Byzantine.
@@ -119,6 +130,7 @@ $$
 $$
 
 ## Definition: Buried
+
 
 A $\twoa$-message can become irrelevant if, after a time, an entire quorum of acceptors has seen $\twoa$s with different values,
 <span style="background-color: #E2E2FF">the same learner</span>, and higher ballot numbers.
@@ -144,6 +156,7 @@ $$
 We shall say that the message $\green x$ is _unburied_ (in the context of a later message $\purple y$) if it is not buried (in the context of $\purple y$).
 
 ## Definition: Connected $\twoa$-messages
+
 
 Entangled learners must agree, but learners that are not connected are not entangled, so they need not agree.
 Intuitively, a $\oneb$-message references a $\twoa$-message to demonstrate that some learner may have decided some value.
@@ -177,6 +190,7 @@ $$
 
 ## Definition: Fresh
 
+
 Acceptors send a $\oneb$-message whenever they receive a $\onea$-message with a ballot number higher than they have yet seen.
 However, this does not mean that the $\oneb$'s value (which is the same as the $\onea$'s) agrees with that of $\twoa$-messages the acceptor has already sent.
 We call a $\oneb$-message _fresh_ (with respect to a learner) when its value agrees with that of unburied $\twoa$-messages the acceptor has sent.
@@ -187,6 +201,7 @@ $$
 $$
 
 ## Definition: Quorums in Messages
+
 
 $\twoa$-messages reference _quorums of messages_ with the same value and ballot.
 A $\twoa$'s quorums are formed from [fresh](#definition-fresh) $\oneb$-messages with the same ballot and value.
@@ -202,6 +217,7 @@ $$
 $$
 
 ## Definition: WellFormed
+
 
 We define what it means for a message to be _wellformed_.
 $$

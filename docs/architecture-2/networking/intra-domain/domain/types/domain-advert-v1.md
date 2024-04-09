@@ -1,14 +1,18 @@
 # DomainAdvert
 
+
 # DomainAdvertV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Advertisement of a list of peers that are members of a domain.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

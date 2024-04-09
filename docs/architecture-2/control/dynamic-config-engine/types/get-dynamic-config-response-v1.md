@@ -1,12 +1,15 @@
 # GetDynamicConfigResponseV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Response to a [[GetDynamicConfigRequestV1#getdynamicconfigrequestv1]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -25,3 +28,4 @@ Response to a [[GetDynamicConfigRequestV1#getdynamicconfigrequestv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

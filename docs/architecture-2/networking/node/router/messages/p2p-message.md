@@ -3,13 +3,16 @@
 
 # P2PMessage
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A signed message sent between peers.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -25,12 +28,14 @@ A signed message sent between peers.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 The *Router* verifies the signature, and if valid, it processes the contained *[[EngineMessage#enginemessage]]* or *[[RelayMessage#relaymessage]]*.
 Otherwise discards the message, and disconnects from the peer by sending a *[[DisconnectRequest#disconnectrequest]]* message to *[[Transport#transport]]*.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

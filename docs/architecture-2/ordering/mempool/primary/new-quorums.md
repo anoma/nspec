@@ -1,14 +1,17 @@
 # NewQuorums
 
+
 - _from_ [[Executor]]
 
 ##### Purpose
+
 <!-- --8<-- [start:purpose] -->
 Informs primaries about the quorums to use for a range of heights.
 <!-- epochs? see https://github.com/anoma/specs/issues/180  -->
 <!-- --8<-- [end:purpose] -->
 
 ##### Structure
+
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
@@ -19,9 +22,11 @@ Informs primaries about the quorums to use for a range of heights.
 
 ##### Effects
 
+
 The new learner graph structure is known.
 
 ##### Triggers
+
 
 _none_
 

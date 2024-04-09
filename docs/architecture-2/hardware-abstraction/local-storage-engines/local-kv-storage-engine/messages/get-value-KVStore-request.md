@@ -3,7 +3,9 @@
 
 # GetValueKVStoreRequest
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Find stored data by its key in the KV-store and return the value.
@@ -11,6 +13,7 @@ Find stored data by its key in the KV-store and return the value.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -30,12 +33,14 @@ Find stored data by its key in the KV-store and return the value.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Performs a key-based search operation in the KV-store to find the corresponding value.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

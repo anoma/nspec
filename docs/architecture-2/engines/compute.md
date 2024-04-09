@@ -1,5 +1,6 @@
 # Compute
 
+
 - *Inputs*
     - Computational searches to perform
 - *Outputs*
@@ -14,6 +15,7 @@ The _compute engine_ is responsible for performing expensive computation, i.e. s
 
 ## State
 
+
 The compute engine keeps in state:
 - A local cache of solutions satisfying particular predicates
 - A local cache of algorithms to use to solve particular predicates
@@ -24,6 +26,7 @@ data ComputeEngineState = ComputeEngineState {
 ```
 
 ## Input messages
+
 
 Input messages to the compute engine specify:
 - A _predicate_ (by hash) which a valid solution must satisfy
@@ -45,6 +48,7 @@ data ComputeRequest = ComputeRequest {
 
 ## Output messages
 
+
 Output messages from the compute engine specify:
 - The _predicate_ (by hash)
 - The _algorithm_ used, if specific (by hash)
@@ -62,6 +66,7 @@ data ComputeResult = ComputeResult {
 ```
 
 ## Internal accounting
+
 
 The compute engine internally tracks available resources (time and space) available.
 

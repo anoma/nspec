@@ -1,5 +1,6 @@
 # Availability Certificate
 
+
 An availability certificate is a block header together with
 a [[Global Weak Quorum|global weak quorum]] of signatures from primaries.
 The signatures might either be a plain list,

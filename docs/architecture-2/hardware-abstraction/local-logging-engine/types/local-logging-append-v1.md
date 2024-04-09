@@ -1,12 +1,15 @@
 # LocalLoggingAppendV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Append new values to the logbook.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -27,3 +30,4 @@ Append new values to the logbook.
 <!-- --8<-- [end:type] -->
 
 ## Values
+

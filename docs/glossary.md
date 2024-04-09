@@ -1,7 +1,9 @@
 # English Glossary
 
 
+
 ## How to use this Glossary
+
 
 Since this specification is (for now at least) a work in progress, many sections
 are still in flux. To make it easier to understand, as well as preserve
@@ -10,12 +12,14 @@ below:
 
 ### Introducing New Terminology
 
+
 1. When introduction a new term, we list it here and link to the section of the
    spec containing its definition.
 2. Once a section has become reasonably stable we add short explanations to the
    terms used in them.
 
 ### Using Existing Terminology
+
 
 1. When using a term that has been defined elsewhere, we list it here and link
    to an external reference, which should captures the sense of our usage.
@@ -30,6 +34,7 @@ An existing term should be included in the following cases (incomplete list):
 
 ## Collaborative Glossary Maintenance
 
+
 To get the glossary into shape, its maintenance will have the following phases:
 
 1. Section authors add terms introduced and used in their sections.
@@ -43,12 +48,15 @@ soft question, reviewer and reader feedback will be especially important.
 
 # Definitions
 
+
 ## Anoma protocol
+
 
 The Anoma protocol is the logical framework which [agents](#agent) use to read,
 create, and process [messages](#message).
 
 ## Agent
+
 
 An *agent* is a non-deterministic, stateful entity which can send and receive
 messages.
@@ -71,6 +79,7 @@ The latter is especially important as *causal accounting* requires correspondenc
 
 ## Canonical serialization
 
+
 A *canonical serialization* refers to a standardized way of representing data or
 functions as a series of bytes that can be transmitted across a network.
 
@@ -78,14 +87,17 @@ Canonical serialization are fully discussed in Primitives.
 
 ## Turing-equivalent
 
+
 "Turing-equivalent" means that the functions and data being transmitted can be
 computed by a Turing machine, a well-known theoretical model of computation.
 
 ## Message
 
+
 A *message* is any datum sent between agents.
 
 ## State
+
 
 A *state* may refer to the state of an agent, the state of the world, or the state of the system.
 
@@ -98,6 +110,7 @@ over (partially ordered) time.
 data related to the "real world" that is observed by and of interest to the agents.
 
 ## System
+
 
 A *system* is a virtual environment which
 consists of a set of agents interacting with each other.

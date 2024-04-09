@@ -1,12 +1,15 @@
 # LocalComputeSearchV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Perform a search operation based on a given predicate within a specified time limit (timeout).
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -25,3 +28,4 @@ Perform a search operation based on a given predicate within a specified time li
 <!-- --8<-- [end:type] -->
 
 ## Values
+

@@ -1,5 +1,6 @@
 # `SignedQuorum`
 
+
 A signed quorum is a signature over a list of blocks whose creators together form a learner-specific quorum.
 
 | Field          | Type                  | Description                       |

@@ -1,12 +1,15 @@
 # MeasurementQueryResultV1
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 The result of the query [[MeasurementQueryV1#measurementqueryv1]]
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
@@ -16,3 +19,4 @@ The result of the query [[MeasurementQueryV1#measurementqueryv1]]
 <!-- --8<-- [end:type] -->
 
 ## Values
+

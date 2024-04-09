@@ -1,6 +1,8 @@
 # ReadLabel
 
+
 ## Purpose
+
 
 The ReadLabel specifies which keys a transaction may and will read from.
 The rationale behind this information is that
@@ -9,6 +11,7 @@ the corresponding [[KVSReadRequest]]s can be issued even
 before spawning an executor.
 
 ## Structure
+
 
 | Field       | Type           | Description                                            |
 |-------------|----------------|--------------------------------------------------------|
@@ -20,6 +23,7 @@ after imposing a tree-structure on keys (or something similar),
 we can represent potentially infinite sets of keys.
 
 ## Notes
+
 
 Occasionally,
 we refer to "may read"-keys also as lazy reads

@@ -1,12 +1,15 @@
 #### NewWorkerHash
+
 - _from_ [Worker](../worker.md)
 
 ##### Purpose
+
 <!-- --8<-- [start:blurb] -->
 The worker has completed a worker hash that the primary can process.
 <!-- --8<-- [end:blurb] -->
 
 ##### Structure
+
 | Field        | Type           | Description                                     |
 |--------------|----------------|-------------------------------------------------|
 | `batch_hash` | bytes          | the hash of the list of transactions            |
@@ -15,9 +18,11 @@ The worker has completed a worker hash that the primary can process.
 | `signature`  | bytes          | the signature of the worker over the batch hash |
 
 ##### Effects
+
 - The primary's next block header should include this worker hash.
 
 ##### Triggers
+
 There is nothing to do in `v1`
 as all ordering information can be inferred by the execution.
 <!--

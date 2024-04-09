@@ -1,9 +1,11 @@
 # UpdateSeenAll
 
+
 - _from_ [[Mempool Engines|Mempool Engines]]
 
 
 ## Purpose
+
 
 In order to actually serve read requests,
 the Shard needs to know that it will not receive more
@@ -27,6 +29,7 @@ From there, the Shard uses [[TimestampOrderingInformation]] about the Narwhal DA
 
 ## Structure
 
+
 | Field       | Type              | Description                                                    |
 |-------------|-------------------|----------------------------------------------------------------|
 | `timestamp` | [[TxFingerprint]] | represents a the position in the total order (in V1)           |
@@ -42,6 +45,7 @@ and we do have garbage collection protocols.
 
 ## Effects
 
+
 Shards can now identify the unique previous write prior to each read at or before [[TxFingerprint|this timestamp]].
 <!-- In V2, this is not necessarily true: they may not have total order yet. -->
 If that unique previous write has a value written, and the read is marked *will read*, they can send a [[KVSRead]] with that value to the [[Executor|relevant Executor]].
@@ -49,6 +53,7 @@ If that unique previous write has a value written, and the read is marked *will 
 
 
 ## Triggers
+
 
 - _to_ [[Executor|Executor]]: [[KVSRead]]
   `for each` *will read* for which we have established a unique previous write value

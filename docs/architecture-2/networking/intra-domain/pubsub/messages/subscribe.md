@@ -3,13 +3,16 @@
 
 # Subscribe
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Subscribe to a topic at another peer.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
  <!-- --8<-- [start:type] -->
 **Reception:**
@@ -26,12 +29,14 @@ Subscribe to a topic at another peer.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 The peer the request arrived from is added to the [[PubSubRoutingTable#pubsubroutingtable]],
 and a [[SubscribeAck#subscribeack]] is returned in response.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

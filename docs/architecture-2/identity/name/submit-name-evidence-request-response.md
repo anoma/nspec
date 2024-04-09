@@ -2,9 +2,11 @@
 
 
 # SubmitNameEvidenceRequest
+
 # SubmitNameEvidenceResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A `SubmitNameEvidenceRequest` instructs the name engine to store a new piece of [[IdentityNameEvidence]].
@@ -14,12 +16,14 @@ A `SubmitNameEvidenceResponse` is sent in response to a [[SubmitNameEvidenceRequ
 
 ## Type
 
+
 <!-- --8<-- [start:type] -->
 [[SubmitNameEvidenceRequest]]
 [[SubmitNameEvidenceResponse]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
+
 
 <!-- --8<-- [start:behavior] -->
 Describe the message reception behavior, processing logic, and possible triggers.
@@ -31,6 +35,7 @@ Describe the message reception behavior, processing logic, and possible triggers
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

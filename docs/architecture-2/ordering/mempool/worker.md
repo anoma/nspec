@@ -1,6 +1,8 @@
 # Worker
 
+
 ## Purpose
+
 
 Workers are one of the [[Mempool Engines#mempool-engines|mempool engines]]
 and, in V1, they are _the_ only one and there is only a single worker.
@@ -53,6 +55,7 @@ batched sets of read write lables to shards---which might be _empty_!
 
 ## State
 
+
 Each worker keeps track of
 - the current batch number (consecutively numbered)
 - the list of [[TransactionCandidate|transaction candidate|]]s in each batch
@@ -70,6 +73,7 @@ There is no precise state representation described by the V1 specs.
 
 ## [[ExecutorFinished]]
 
+
 --8<-- "worker/executor-finished.md:blurp"
 
 <details  markdown="1">
@@ -80,6 +84,7 @@ There is no precise state representation described by the V1 specs.
 
 ## [[TransactionRequest]]
 
+
 --8<-- "worker/transaction-request.md:blurp"
 
 <details  markdown="1">
@@ -89,6 +94,7 @@ There is no precise state representation described by the V1 specs.
 
 
 ## [[ExecutorPIDAssigned]]
+
 
 --8<-- "worker/executor-PID-assigned.md:blurp"
 
@@ -103,6 +109,7 @@ There is no precise state representation described by the V1 specs.
 
 
 
+
 --8<-- "worker/KVS-lock-acquired.md:blurb"
 
 <details  markdown="1">
@@ -112,6 +119,7 @@ There is no precise state representation described by the V1 specs.
 
 
 ## [[RequestLogs]]
+
 
 
 --8<-- "worker/request-logs.md:blurb"
@@ -124,6 +132,7 @@ There is no precise state representation described by the V1 specs.
 
 <!--
 ## [`NewTransaction`](worker/new-transaction.md)
+
 from Worker may trigger:
 - `WorkerHashAvailable` → Primary
   --8<-- "./primary/worker-hash-available.md:blurb"
@@ -131,6 +140,7 @@ from Worker may trigger:
 
 <!--
 ## [`WorkerHashFingerprint`](worker/worker-hash-fingerprint.md)
+
 from Worker may trigger:
 - `WorkerHashAvailable` → Primary
   --8<-- "./primary/worker-hash-available.md:blurb"

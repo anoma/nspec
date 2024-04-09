@@ -1,12 +1,15 @@
 # ValueChangedKVStore
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 When the value in the KV-store changes, engines interested in this information get notified.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>

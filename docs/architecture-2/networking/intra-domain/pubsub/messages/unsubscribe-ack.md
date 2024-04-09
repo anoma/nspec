@@ -3,13 +3,16 @@
 
 # UnsubscribeAck
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Unsubscription acknowledgement.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
  <!-- --8<-- [start:type] -->
 **Reception:**
@@ -26,11 +29,13 @@ Unsubscription acknowledgement.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 A [[TopicUnsubscribed#topicunsubscribed]] notification is sent to local engines.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

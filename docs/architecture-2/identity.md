@@ -1,5 +1,6 @@
 # Identity Machine
 
+
 The identity machine is responsible for management of data and operations related to identities, including:
 - creating & deleting identities, handled by the [Identity Management Engine](./identity/identity-management.md)
 - encrypting to & decrypting as identities, handled by the [Encryption Engine](./identity/encryption.md) and [Decryption Engine](./identity/decryption.md)

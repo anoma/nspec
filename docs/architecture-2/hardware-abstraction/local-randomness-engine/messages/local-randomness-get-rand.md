@@ -3,13 +3,16 @@
 
 # LocalRandomnessGetRand
 
+
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Generate random numbers or other random data locally on the physical machine that the Anoma node is running.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,12 +31,14 @@ Generate random numbers or other random data locally on the physical machine tha
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Generates a random number or other random data.
 <!-- --8<-- [end:behavior] -->
 
 
 ## Message Flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

@@ -1,5 +1,6 @@
 # Host model
 
+
 Host machines must possess:
 - Classical computation (Turing machine)
 - The ability to send and receive messages on any number of physical network interfaces
@@ -7,6 +8,7 @@ Host machines must possess:
 - For user input and control, a trusted user interface
 
 ## Computational model
+
 
 Fix a finite set of finite fields $F_{i}$ ($i$ is the index).
 
@@ -34,8 +36,10 @@ The designated hash function $H$ maps arbitrary lists of $F_i$ to the designated
 
 ## Computational costs
 
+
 We assume bounded, known costs in energy and local (clock) time for all finite field operations defined above.
 
 ## Memory costs
+
 
 We assume a boundable, known, monotonically increasing cost of nonlocality of reference ([ref](https://en.wikipedia.org/wiki/Locality_of_reference)).

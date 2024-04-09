@@ -2,9 +2,11 @@
 
 
 # QueryNameEvidenceRequest
+
 # QueryNameEvidenceResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A `QueryNameEvidenceRequest` instructs the name engine to read and return any known [[IdentityName]]s and [[IdentityNameEvidence]] associated with a specific external identity.
@@ -14,6 +16,7 @@ A `QueryNameEvidenceResponse` is returned by the name engine in response to a [[
 
 ## Type
 
+
 <!-- --8<-- [start:type] -->
 [[QueryEvidenceRequest]]
 [[QueryEvidenceResponse]]
@@ -21,11 +24,13 @@ A `QueryNameEvidenceResponse` is returned by the name engine in response to a [[
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 - Returns all known [[IdentityNameEvidence]] for the [[ExternalIdentity]] provided in the request
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

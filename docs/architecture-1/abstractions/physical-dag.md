@@ -1,8 +1,10 @@
 # Physical DAG
 
+
 The _physical DAG_ is the layer directly on top of the lowest-layer network, responsible for providing local partial ordering information. This DAG is singular, in that any message can reference any other message created at this layer. Different observers may see and perform computations on different sub-physical-DAGs (just in accordance with which messages they have actually received) - but any observer in possession of any particular message can check whether or not it has received all transitively referenced messages, guaranteeing that two observers treating the same message as the current state and performing the same computations on parts of the past physical DAG (w.r.t. that message) will end up with the same results. The physical DAG has no knowledge of linearity, consensus, or validity semantics - those are the responsibility of higher layers - it is only responsible for carrying information about local ordering (when a particular identity saw particular events).
 
 ### Definitions
+
 
 An `Observation` is a type of message which attests to witnessing some data (possibly other messages), and provides a signature along with an external identity.
 
@@ -31,6 +33,7 @@ The witnesses in an observation can include any other observation `o` (just `com
      Efficiency / anti-DoS note 2: Although there is a singular physical DAG, agents still choose who to receive messages from and whether or not to witness them, and will likely refuse to accept & include other messages carrying a high computational load unless they are specifically paid to process them, incentives are aligned a-priori, or similar.
 
 ### Properties
+
 
 The physical DAG provides local partial ordering information, in that an observation by an agent with identity `I` of witness set `{w}` proves that `I` knew about all witnesses in `{w}` no later than the creation of this observation (assuming non-invertability of the hash function), which itself can then be referenced in later observations by that agent and by others, establishing a partial order between witnesses.
 

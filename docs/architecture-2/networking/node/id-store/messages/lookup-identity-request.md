@@ -2,15 +2,18 @@
 
 
 # LookupIdentityRequest
+
 # LookupIdentityResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 Look up information about an  *external identity* in the local database.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 **Reception:**
@@ -28,11 +31,13 @@ Look up information about an  *external identity* in the local database.
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 Return the information associated with the requested external identity.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

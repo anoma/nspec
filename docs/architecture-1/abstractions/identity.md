@@ -1,5 +1,6 @@
 # Identity
 
+
 The base abstraction of the protocol is a knowledge-based identity
  interface, where the identity of an agent is defined entirely on the
  basis of whether or not they know some secret information.
@@ -17,7 +18,9 @@ This identity interface is independent of the particular cryptographic
 
 ## Identity Interface
 
+
 ### Internal Identity
+
 
 An internal identity includes private information necessary for
  signing and decryption.
@@ -26,6 +29,7 @@ We specify both using
  [SML signatures](https://www.cs.cornell.edu/riccardo/prog-smlnj/notes-011001.pdf#page=64).
 
 #### Signer SML Signature
+
 
 --8<-- "./formal/SML/src/signer.sig:signer_description"
 
@@ -36,6 +40,7 @@ We specify both using
 
 #### Decryptor SML Signature
 
+
 --8<-- "./formal/SML/src/decryptor.sig:decryptor_description"
 
 ```sml
@@ -44,6 +49,7 @@ We specify both using
 ```
 
 #### Internal Identity SML Signature
+
 
 An Internal Identity structure, then, simply specifies everything
  specified by both Signer and Decryptor.
@@ -56,6 +62,7 @@ An Internal Identity structure, then, simply specifies everything
 ```
 
 ### External Identity
+
 
 An external identity includes only public information.
 An external identity can verify signatures produced by an
@@ -70,6 +77,7 @@ Each is _hashable_: any
 
 #### Verifier SML Signature
 
+
 --8<-- "./formal/SML/src/verifier.sig:verifier_description"
 
 ```sml
@@ -79,6 +87,7 @@ Each is _hashable_: any
 
 #### Encryptor SML Signature
 
+
 --8<-- "./formal/SML/src/encryptor.sig:encryptor_description"
 
 
@@ -87,6 +96,7 @@ Each is _hashable_: any
 ```
 
 #### External Identity SML Signature
+
 
  An external identity, then, simply specifies everything specified by
  both Verifier and Encryptor.
@@ -100,6 +110,7 @@ Each is _hashable_: any
 
 ### Identity SML Signature
 
+
 --8<-- "./formal/SML/src/identity.sig:identity_description"
 
 
@@ -108,6 +119,7 @@ Each is _hashable_: any
 ```
 
 ## SignsFor Relation
+
 
 Some identities may have the authority to sign statements on
  behalf of other identities.
@@ -124,6 +136,7 @@ The `signsFor` relation becomes especially useful with regard to
 
 ### SignsFor Evidence
 
+
 We do not specify all the ways one might know if one identity
  `signsFor` another.
 In general, an [Identity Engine](#identity-engine) might accept
@@ -137,6 +150,7 @@ Note that `signsFor` evidence cannot be revoked, and so a `signsFor`
 
 #### SignsFor SML Signature
 
+
 --8<-- "./formal/SML/src/signs_for.sig:signs_for_description"
 
 ```sml
@@ -146,6 +160,7 @@ Note that `signsFor` evidence cannot be revoked, and so a `signsFor`
 
 ### SignsFor Equivalence
 
+
 We can also define a kind of identity _equivalence_:
  _A_ `signsSameAs` _B_ precisely when _A_ `signsFor` _B_
  and _B_ `signsFor` _A_.
@@ -154,6 +169,7 @@ This means that (in general), if you want to sign a message as _A_,
  safe to just use _B_ instead, and vice versa.
 
 ## ReadsFor Relation
+
 
 Similar to `signsFor`, it is useful to sometimes note that one
  identity can read information encrypted to another identity.
@@ -172,6 +188,7 @@ The `readsFor` relation becomes especially useful with regard to
 
 ### ReadsFor Evidence
 
+
 We do not specify all the ways one might know if one identity
  `readsFor` another.
 In general, an [Identity Engine](#identity-engine) might accept
@@ -181,6 +198,7 @@ As one simple form of evidence, we can specify a format for signed
 
 #### ReadsFor SML Signature
 
+
 --8<-- "./formal/SML/src/reads_for.sig:reads_for_description"
 
 
@@ -189,6 +207,7 @@ As one simple form of evidence, we can specify a format for signed
 ```
 
 ### Equivalence
+
 
 We can also define a kind of identity _equivalence_:
  _A_ `readsSameAs` _B_ precisely when _A_ `readsFor` _B_ and
@@ -203,10 +222,12 @@ This means that (in general) _A_ and _B_ can be used interchangeably.
 
 ## Composition
 
+
 There are a variety of ways to refer to groups of identities as
  single, larger identities.
 
 ### Threshold Composition
+
 
 Suppose we want an identity _M_ that refers to any majority from a
  set of shareholders.
@@ -235,6 +256,7 @@ There are several ways we could imagine constructing Threshold
 
 #### Threshold Composition SML Signature (Signer and Verifier)
 
+
 --8<-- "./formal/SML/src/threshold_compose.fun:threshold_compose_description"
 
 ```sml
@@ -259,6 +281,7 @@ We can also derive some `signsFor` and `readsFor` relations that must
 
 #### `signsFor` Threshold Composition
 
+
 Like any identity, Threshold Composition Identities can define any
  number of ways to delegate signing power, or be delegated signing
  power.
@@ -273,6 +296,7 @@ This implies that any collection of identities that can sign as _A_
 ```
 
 #### `readsFor` Threshold Composition
+
 
 Like any identity, ThresholdCompositionIdentities can have arbitrary
  `readsFor` relationships.
@@ -289,6 +313,7 @@ This implies that any collection of identities that can read messages
 
 ### "And" Identities
 
+
 We can compose identities with conjunction: _A_ `&&` _B_ is the
  identity which requires an agent to have both _A_'s internal identity
  and _B_'s internal identity to sign or decrypt.
@@ -297,6 +322,7 @@ In practice, _A_ `&&` _B_ can be defined as a special case of
  Threshold composition (see `verifierAnd` above).
 
 ### "Or" Identities
+
 
 We can compose identities with disjunction as well: _A_ `||` _B_
  requires an agent to have either _A_'s internal identity or _B_'s
@@ -314,6 +340,7 @@ In several important cases, however, this takes much more space to
  threshold composition abstraction.
 
 ### Opaque Composition
+
 
 A group of agents can also compose an opaque identity,
  s.t. composition information is not available to the outside.
@@ -339,10 +366,12 @@ Once equivalence is proven, however, one could use the threshold
 
 ## Special identities
 
+
 The following special identities illustrate the generality of our
 identity abstractions:
 
 ### "True / All"
+
 
 Anyone can sign and decrypt (`verify` returns true and `encrypt`
  returns the plaintext).
@@ -355,6 +384,7 @@ The _true_ identity preserves structure under conjunction
 
 ### "False / None"
 
+
 No one can sign or decrypt (`verify` returns false and `encrypt`
  returns empty string). No secret knowledge exists that fulfills these
  requirements, so no agent can take on this identity.
@@ -364,6 +394,7 @@ The _false_ identity forgets structure under disjunction
  disjunction (_x_ `||` _false_ `equivalent` _x_).
 
 ## Identity Names
+
 
 Sometimes it is useful to have a name for an external identity before
  the relevant cryptographic values are available.
@@ -396,6 +427,7 @@ The same name can refer to to both a `verifier` and an `encryptor`.
 
 #### Verifier Name SML Signature
 
+
 --8<-- "./formal/SML/src/verifier_name.sig:verifier_name_description"
 
 
@@ -404,6 +436,7 @@ The same name can refer to to both a `verifier` and an `encryptor`.
 ```
 
 #### Encryptor Name SML Signature
+
 
 --8<-- "./formal/SML/src/encryptor_name.sig:encryptor_name_description"
 
@@ -428,6 +461,7 @@ Usually, multiple external identities only have the same identity name
 
 ### Sub-Identities
 
+
 One particularly common case for identity names is when one party
  (the super-identity) wants to designate a specific name they use to
  refer to another identity.
@@ -445,6 +479,7 @@ In this case, the predicate should check that the super-identity has
  sub-identity.
 
 ### "." Notation
+
 
 Because sub-identities using string names are so common, we have a
  short-cut notation for expressing identity names.
@@ -488,6 +523,7 @@ This is an example a place where "sub-identity-ness" is not
 
 ### Identity Engine
 
+
 In practice, using Identity Names requires each physical machine to
  maintain a mapping from identity names to known external identities.
 The machine does not have to store the accompanying evidence for each,
@@ -509,6 +545,7 @@ For example, if an agent wants to encrypt a message to
  (such as a threshold encryption identity) with cheaper encryption.
 
 ### Identity Name Resolution
+
 
 There is no general mechanism for finding external identities
  (and accompanying evidence) for _arbitrary_ identity names, with

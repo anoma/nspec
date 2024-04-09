@@ -1,15 +1,18 @@
 <div class="message" markdown>
 
 # CommitRequest
+
 # CommitResponse
 
 ## Purpose
+
 
 <!-- --8<-- [start:purpose] -->
 A `CommitRequest` instructs a commitment engine instance to produce a commitment by the internal identity corresponding to that engine instance.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
+
 
 <!-- --8<-- [start:type] -->
 [[CommitRequest]]
@@ -18,6 +21,7 @@ A `CommitRequest` instructs a commitment engine instance to produce a commitment
 
 ## Behavior
 
+
 <!-- --8<-- [start:behavior] -->
 - Uses the `sign` method on the corresponding `Signer` to generate a commitment
     - Depending on the backend, this may involve I/O to an external device.
@@ -25,6 +29,7 @@ A `CommitRequest` instructs a commitment engine instance to produce a commitment
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow
+
 
 <!-- --8<-- [start:messages] -->
 ```mermaid
