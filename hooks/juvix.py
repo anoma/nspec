@@ -9,7 +9,6 @@ import shutil
 import subprocess
 import hashlib
 from pathlib import Path
-import time
 from typing import Any, Callable, List, Optional, Tuple
 
 import pathspec
@@ -23,7 +22,7 @@ from common.cache import compute_sha_over_folder, hash_file, hash_file_hash_obj
 
 log: logging.Logger = logging.getLogger("mkdocs")
 
-PREPROCESS_JUVIX_MD = bool(os.environ.get("JUVIX_SUPPORT", True))
+PREPROCESS_JUVIX_MD = bool(os.environ.get("PREPROCESS_JUVIX_MD", True))
 
 ROOT_URL = "/nspec/"
 ROOT_DIR: Path = Path(__file__).parent.parent.absolute()
@@ -58,7 +57,7 @@ HTML_CACHE_DIR: Path = CACHE_HOOKS.joinpath(".html")
 
 # The following prevents to build html every time
 # a .juvix.md file changes.
-FAST = bool(int(os.environ.get("FAST", True)))
+FAST = bool(os.environ.get("FAST", True))
 
 try:
     subprocess.run([JUVIX_BIN, "--version"], capture_output=True)
@@ -78,8 +77,8 @@ def on_config(config) -> None:
     JUVIXCODE_HASH_FILE. Generate the HTML Juvix project using the provided
     config.
     """
-
     if not PREPROCESS_JUVIX_MD or not JUVIX_AVAILABLE:
+        log.info("Juvix support is disabled.")
         return
 
     try:
@@ -120,6 +119,10 @@ def on_page_read_source(page: Page, config: MkDocsConfig) -> Optional[str]:
 
 
 def on_post_build(config: MkDocsConfig) -> None:
+
+    if not PREPROCESS_JUVIX_MD or not JUVIX_AVAILABLE:
+        return
+
     juvix = JuvixPreprocessor(config)
     juvix.build_aux_html()
     return
