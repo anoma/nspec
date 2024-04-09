@@ -279,13 +279,12 @@ class JuvixPreprocessor:
             md_filename: str = module_name + ".md"
             rel_to_docs: Path = filepath.relative_to(DOCS_DIR)
 
-            site_dir = self.mkconfig.get("site_dir", ROOT_URL)
             cmd: List[str] = [
                 JUVIX_BIN,
                 "markdown",
                 "--strip-prefix=docs",
                 "--folder-structure",
-                "--prefix-url=/nspec/",  # FIXME once CNAME is fixed
+                "--prefix-url={self.site_url}",  # FIXME once CNAME is fixed
                 "--stdout",
                 file_path,
                 "--no-colors",
