@@ -282,9 +282,7 @@ class WLPreprocessor(Preprocessor):
                     )
 
                     config["wikilinks_issues"] += 1
-
-                    if len(sorted_pages) > 0:
-                        config["url_for"][link_page] = [sorted_pages[0]]
+                    config["url_for"][link_page] = [sorted_pages[0]]
 
                 if (
                     link_page in config["url_for"]
@@ -303,6 +301,7 @@ class WLPreprocessor(Preprocessor):
                     md_link = f"[{link.display or link.page}]({md_path}{f'#{link.anchor}' if link.anchor else ''})"
 
                     lines[i] = lines[i].replace(match.group(0), md_link)
+
                     log.debug(
                         f"{loc}:\nResolved link for page:\n  {link_page} -> {md_path}"
                     )
@@ -310,8 +309,6 @@ class WLPreprocessor(Preprocessor):
                     msg = f"{loc}:\nUnable to resolve reference\n  {link_page}"
 
                     if REPORT_BROKEN_WIKILINKS:
-                        log.error(msg)
-                    else:
                         log.warning(msg)
 
                     lines[i] = lines[i].replace(match.group(0), link.text)

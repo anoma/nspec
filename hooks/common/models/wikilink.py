@@ -1,5 +1,6 @@
 from typing import Optional
 from common.models.fileloc import FileLoc
+from common.models.link import Link
 
 
 class WikiLink:

@@ -1,10 +1,8 @@
 from typing import Optional
 from mkdocs.utils import get_markdown_title
 
-ROOT_URL = "/nspec/"
 
-
-def fix_url(root: str, url: str, html: bool = False) -> str:
+def fix_url(root: str, url: str, html: bool = False, ROOT_URL="/nspec/") -> str:
     right_url = url.lstrip(".").lstrip("/")
     _root = root
     if _root.endswith(ROOT_URL):
