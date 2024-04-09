@@ -8,7 +8,6 @@ Record stored about a domain identity.
 
 *Struct* with the following fields.
 
-
 | Field    | Type                                | Description          |
 |----------|-------------------------------------|----------------------|
 | `id`     | *[[DomainIdentity#domainidentity]]* | Domain identity      |

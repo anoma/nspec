@@ -13,6 +13,7 @@ finally execute them.
   and take care of maintaining the global state of the chain.
 
 ## The transaction: from request to execution
+
 Consider the “life cycle” of a transparent asset transfer $T$.
 We will go through all the messages exchanged between
  [[Mempool Engines|mempool]], [[Consensus Engine|consensus]], and
@@ -29,7 +30,6 @@ We will go through all the messages exchanged between
    and thus likely will choose one of its own workers.
   <!-- Here we of course have already the example that
   workers might have some kind of priority service... -->
-
 
 ### Mempool
 
@@ -130,6 +130,7 @@ We will go through all the messages exchanged between
    transaction $T$.
 
 ### Consensus
+
 The [[Consensus Engine]] uses Heterogeneous Paxos to establish a
  total order of vertices in the Mempool DAG for each learner.
 This in turn implies a total order of transactions.
@@ -162,6 +163,7 @@ To this end, Validators on each chain try to achieve consensus on a
    transactions.
 
 ### Execution
+
 - When the [[Worker Engine|mempool worker]] sends the
    [[Execution Engines|execution engine]] a
    [[ExecuteTransaction|transaction]] $T$, a new
@@ -208,8 +210,6 @@ To this end, Validators on each chain try to achieve consensus on a
    [[ExecutorFinished|informs the mempool worker]] that this
    transaction is finished.
   This information is later used for garbage collection.
-
-
 
 ## Certificates and the Mempool DAG
 

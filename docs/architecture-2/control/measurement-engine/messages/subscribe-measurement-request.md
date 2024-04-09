@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # SubscribeMeasurementRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Subscribe to a measurement key in the dynamic configuration KV-store to get noti
 <!-- --8<-- [start:behavior] -->
 Subscribes to a query from the measurement database to monitor value changes.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # LocalComputeSearch
 
 ## Purpose
@@ -31,7 +30,6 @@ Perform a search operation based on a given predicate within a specified time li
 <!-- --8<-- [start:behavior] -->
 Perform the requested search operation and return the computation results.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

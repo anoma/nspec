@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # DeleteValueKVStoreResponse
 
 ## Purpose
@@ -20,8 +19,6 @@ Response to [[DeleteValueKVStoreRequest#deletevaluekvstorerequest]].
 
 **Triggers**
 
-
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -29,7 +26,6 @@ Response to [[DeleteValueKVStoreRequest#deletevaluekvstorerequest]].
 <!-- --8<-- [start:behavior] -->
 After deleting the KV-pair from the KV-store, send a message indicating the success or failure of the operation.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

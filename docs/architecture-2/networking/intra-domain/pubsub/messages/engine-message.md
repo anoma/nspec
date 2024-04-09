@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # EngineMessage
 
 <div id="enginemessage-pubsub"></div>
@@ -24,7 +23,6 @@ A message sent to a pub/sub topic by an engine.
 
 [[Event#event]]
 <!-- --8<-- [end:type] -->
-
 
 ## Behavior
 

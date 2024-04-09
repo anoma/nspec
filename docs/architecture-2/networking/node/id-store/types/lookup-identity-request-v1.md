@@ -11,7 +11,6 @@ Request to look up information about an  *external identity*.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `id`: [[ExternalIdentity#externalidentity]]

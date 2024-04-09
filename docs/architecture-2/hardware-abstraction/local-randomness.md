@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Local Randomness Engine
 
 ## Purpose
@@ -14,7 +13,6 @@ Randomness is important for various computing tasks such as cryptography.
 
 ## State
 
-
 ## Messages Received
 
 ### [[LocalRandomnessGetRand#localrandomnessgetrand]]
@@ -23,12 +21,9 @@ Randomness is important for various computing tasks such as cryptography.
 
 --8<-- "local-randomness-engine/messages/local-randomness-get-rand.md:type"
 
-
 ## Notifications Sent
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

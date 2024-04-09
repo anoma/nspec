@@ -11,9 +11,8 @@ The *TimeoutV1* describes the time limit after which the LocalComputeSearch oper
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
-
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

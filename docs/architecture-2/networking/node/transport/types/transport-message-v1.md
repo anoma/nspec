@@ -11,7 +11,6 @@ Describe the purpose of the type.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `addr`: [[TransportAddress#transportaddress]]

@@ -12,7 +12,6 @@ Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Random Byte Values`: [[RandomByteValuesV1#randombytevaluesv1]]
 
@@ -22,3 +21,4 @@ Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
 <!-- --8<-- [end:type] -->
 
 ## Values
+

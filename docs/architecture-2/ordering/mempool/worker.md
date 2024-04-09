@@ -77,7 +77,6 @@ There is no precise state representation described by the V1 specs.
 --8<-- "worker/executor-finished.md:details"
 </details>
 
-
 ## [[TransactionRequest]]
 
 --8<-- "worker/transaction-request.md:blurp"
@@ -86,7 +85,6 @@ There is no precise state representation described by the V1 specs.
   <summary>Details</summary>
 --8<-- "worker/transaction-request.md:details"
 </details>
-
 
 ## [[ExecutorPIDAssigned]]
 
@@ -97,11 +95,7 @@ There is no precise state representation described by the V1 specs.
 --8<-- "worker/executor-PID-assigned.md:details"
 </details>
 
-
-
 ## [[KVSLockAcquired]]
-
-
 
 --8<-- "worker/KVS-lock-acquired.md:blurb"
 
@@ -110,9 +104,7 @@ There is no precise state representation described by the V1 specs.
 --8<-- "worker/KVS-lock-acquired.md:details"
 </details>
 
-
 ## [[RequestLogs]]
-
 
 --8<-- "worker/request-logs.md:blurb"
 
@@ -121,9 +113,9 @@ There is no precise state representation described by the V1 specs.
 --8<-- "worker/request-logs.md:details"
 </details>
 
-
 <!--
 ## [`NewTransaction`](worker/new-transaction.md)
+
 from Worker may trigger:
 - `WorkerHashAvailable` → Primary
   --8<-- "./primary/worker-hash-available.md:blurb"
@@ -131,11 +123,11 @@ from Worker may trigger:
 
 <!--
 ## [`WorkerHashFingerprint`](worker/worker-hash-fingerprint.md)
+
 from Worker may trigger:
 - `WorkerHashAvailable` → Primary
   --8<-- "./primary/worker-hash-available.md:blurb"
 -->
-
 
 !!! todo
 
@@ -165,7 +157,6 @@ from Worker may trigger:
     however, in V1, we can omit primaries as they do not serve any purpose.
     In V1, there is only a single worker,
     which can be though of as featuring also as its primary.
-
 
 [^5]: In future versions,
     IO is output of results from the responsible workers

@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Dynamic Configuration Engine
 
 ## Purpose
@@ -12,7 +11,6 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 
 ## State
 
-
 ## Messages Received
 
 ### [[GetDynamicConfigRequest#getdynamicconfigrequest]]
@@ -20,7 +18,6 @@ Unlike the *Static Configuration Engine*, the *Dynamic Configuration Engine* all
 --8<-- "dynamic-config-engine/messages/get-dynamic-config-request.md:purpose"
 
 --8<-- "dynamic-config-engine/messages/get-dynamic-config-request.md:type"
-
 
 ## Message Flow
 
@@ -34,7 +31,6 @@ sequenceDiagram
 --8<-- "dynamic-config-engine/messages/set-dynamic-config-request.md:sequence"
 --8<-- "dynamic-config-engine/messages/delete-dynamic-config-request.md:sequence"
 --8<-- "dynamic-config-engine/messages/subscribe-dynamic-config-request.md:sequence"
-
 
 ```
 

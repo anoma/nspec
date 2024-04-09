@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # LocalRandomnessGetRandResult
 
 ## Purpose
@@ -20,8 +19,6 @@ Return the generated random numbers or other random data locally on the physical
 
 **Triggers**
 
-
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -29,7 +26,6 @@ Return the generated random numbers or other random data locally on the physical
 <!-- --8<-- [start:behavior] -->
 Return the generated random number or other random data.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

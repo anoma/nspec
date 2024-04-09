@@ -1,7 +1,9 @@
 # KVSAcquireLock
+
 - _from_ [[Worker Engine|Mempool Worker]] <!-- formerly from [[Executor]] -->
 
 ## Purpose
+
 <!-- --8<-- [start:blurp] -->
 Inform the shard about keys that a transaction may/will read and/or
  write, at a transaction fingerprint.
@@ -19,7 +21,6 @@ Inform the shard about keys that a transaction may/will read and/or
 | `curator`| [[ExternalIdentity]] | the [[Worker Engine]] in charge of the corresponding transactions     |
 | `executor`| [[ExternalIdentity]] | the [[Executor|Executor]] for this [[TransactionCandidate]]|
 | `timestamp`| [[TxFingerprint]] | specifies the transaction affiliated with these locks.
-
 
 The `lazy_read_keys` and `eager_read_keys` may not overlap.
 In the same way,  `will_write_keys` and `may_write_keys` must be

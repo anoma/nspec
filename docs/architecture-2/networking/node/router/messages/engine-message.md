@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # EngineMessage
 
 ## Purpose
@@ -65,7 +64,6 @@ it processes it the following way:
        that is responsible for remote delivery over a P2P publish-subscribe protocol.
 
 <div class="v2" markdown>
-
 
 2. (cont.)
 

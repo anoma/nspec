@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Local Key-Value Storage Engine
 
 ## Purpose
@@ -9,7 +8,6 @@ The *Local Key-Value Storage Engine* provides the local storage and retrieval of
 
 ## State
 
-
 ## Messages received
 
 ### [[GetValueKVStoreRequest#getvaluekvstorerequest]]
@@ -17,7 +15,6 @@ The *Local Key-Value Storage Engine* provides the local storage and retrieval of
 --8<-- "local-kv-storage-engine/messages/get-value-KVStore-request.md:purpose"
 
 --8<-- "local-kv-storage-engine/messages/get-value-KVStore-request.md:type"
-
 
 ### [[SetValueKVStoreRequest#setvaluekvstorerequest]]
 
@@ -40,7 +37,6 @@ The *Local Key-Value Storage Engine* provides the local storage and retrieval of
 --8<-- "local-kv-storage-engine/notifications/value-changed-KVStore.md:type"
 
 ## Message Flow
-
 
  <!-- --8<-- [start:messages] -->
 ```mermaid

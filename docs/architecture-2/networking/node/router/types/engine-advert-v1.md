@@ -13,7 +13,6 @@ Advertisement of an engine that specifies the node where it is running.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `id`: [[EngineIdentity#engineidentity]]

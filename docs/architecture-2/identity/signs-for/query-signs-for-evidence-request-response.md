@@ -1,7 +1,7 @@
 <div class="message" markdown>
 
-
 # QuerySignsForEvidenceRequest
+
 # QuerySignsForEvidenceResponse
 
 ## Purpose

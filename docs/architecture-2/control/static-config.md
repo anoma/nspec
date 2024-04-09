@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Static Configuration Engine
 
 ## Purpose
@@ -11,7 +10,6 @@ The Static Configuration Engine stores static configuration of the node that may
 
 ## State
 
-
 ## Messages Received
 
 ### [[GetStaticConfigRequest#getstaticconfigrequest]]
@@ -20,12 +18,9 @@ The Static Configuration Engine stores static configuration of the node that may
 
 --8<-- "static-config-engine/messages/get-static-config-request.md:type"
 
-
 ## Notifications Sent
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

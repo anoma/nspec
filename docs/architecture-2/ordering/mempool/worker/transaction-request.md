@@ -18,18 +18,15 @@ be ordered and executed.
 | `tx`           | [[TransactionCandidate]] | the actual transaction to be ordered |
 | `resubmission` | [[TxFingerprint]] option | reference to the previous occurrence |
 
-
 The resubmission indicates if there was a previous occurrence of
 the very same transaction candidate which either has failed or
 a needs to be executed again, e.g., because it is a recurring payment.
-
 
 This is the "bare-bone" version for V1.
 Additional user preferences can be supplied in future versions concerning
 - how the response will be given
 - how long duplicate checks are to be performed
 - etc.
-
 
 ## Effects
 
@@ -66,11 +63,9 @@ Additional user preferences can be supplied in future versions concerning
   - send [[KVSAcquireLock]]-messages to the relevant [[Shard]]s
   - send [[SpawnExecutor]] to the [[Execution Supervisor]]
 
-
 !!! todo
 
     move this as a response to EPID message
-
 
 - to [[Executor]]: [[ExecuteTransaction]]
     `if` the worker has not seen this [[TransactionCandidate]]

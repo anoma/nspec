@@ -11,7 +11,6 @@ Response to a [[LookupIdentityRequestV1#lookupidentityrequestv1]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `id`: [[ExternalIdentity#externalidentity]]

@@ -30,7 +30,6 @@ The following sections describe the protocol for shielded state transitions.
 
     To learn more about Taiga as a standalone component, check [the Taiga repository](https://github.com/anoma/taiga)
 
-
 ## 1. Proving systems
 
 The table below contains the description of how resource machine proof types are instantiated by Taiga.
@@ -44,9 +43,11 @@ The table below contains the description of how resource machine proof types are
 A zero-knowledge proving system is used to produce zero-knowledge proofs for the compliance circuit and resource logic circuits. The compliance circuit is fixed, resource logic circuits are custom and require at least two-layer recursion to achieve function privacy. Currently, Taiga uses Halo2 with IPA FCS and [Pasta curves](https://github.com/zcash/pasta) to create proofs for these circuits.
 
 ### 1.1 zk-SNARK circuits
+
 A circuit $C$ is represented as polynomials over the chosen curve's **scalar field**, following [plonk-ish arithmetization](https://zcash.github.io/halo2/concepts/arithmetization.html). Proof elements are generated over the curve's **base field**.
 
 ### 1.2 Elliptic curves
+
 ||Name|Scalar field| Base field|Purpose|Instantiation|
 |-|-|-|-|-|-|
 |$E_I$|Inner curve|$\mathbb{F}_q$|$\mathbb{F}_p$|ECC gadget| [Pallas](https://github.com/zcash/pasta#pallasvesta-supporting-evidence)
@@ -54,6 +55,7 @@ A circuit $C$ is represented as polynomials over the chosen curve's **scalar fie
 |$E_O$|Outer curve|$\mathbb{F}_q$|$\mathbb{F}_p$|Accumulation circuit| Pallas|
 
 ### 1.3 Proving system interfaces
+
 ||Interface|Description|
 |-|-|-|
 |__Generate Verifying key__|`keygen_vk(C) ⟶ vk`|`C` is turned into a *verifying key* — a succint representation of the circuit that the verifier uses to verify a proof|
@@ -62,6 +64,7 @@ A circuit $C$ is represented as polynomials over the chosen curve's **scalar fie
 |__Verify__|`V(vk, x, π) ⟶ 0/1`|Verify the proof|
 
 ## 2. Resources
+
 A *resource* is an immutable particle of an application state. The state is updated by consuming and creating resources.
 
 ### 2.1 Resource plaintext
@@ -127,6 +130,7 @@ Each created resource plaintext contains a nullifier public key $npk$ that commi
 $nk \mathop{\longleftarrow}\limits^{R} \mathbb{F}_p$
 
 ### 2.5 Verifiable encryption
+
 Encryption is used for in-band distribution of resources. Encrypted resources are stored on the blockchain, the receiver can scan the blockhcain trying to decrypt the transactions to find the resources that were sent to them.
 
 We want the encryption to be verifiable to make sure the receiver of the resources can decrypt them. In other systems like Zcash the sender and the creator of the resource are the same actor, and it doesn't make sense for the sender to send a corrupted message to the receiver (essentially burning the resource), but in Taiga the resources are often created and sent by different parties.
@@ -150,6 +154,7 @@ Ephemeral resources are resources for which the existence (i.e., Merkle path to 
 The compliance circuit `ComplianceCircuit(x; w)` checks that a transaction satisfies the Taiga rules. The Compliance circuit performs checks over $1$ input and $1$ output resource, which sometimes referred as a compliance pair. A transaction containing $n$ input and $n$ output resources requires $n$ Compliance proofs. If the number of input and output resources isn't equal, ephemeral notes can be used to make them equal. The circuit is arithmetized over $\mathbb{F}_p$.
 
 #### Inputs
+
 Public inputs ($x$):
 1. $rt$ - $CMtree$ root
 2. $cm$ - output resource commitment
@@ -170,6 +175,7 @@ Private inputs ($w$):
      opening of a parameter contains every component of the parameter
 
 #### Checks
+
 - For the input resource:
     - If `eph = true`, check that the resource is a valid resource in $rt$: there is a path in Merkle tree with root $rt$ to a resource commitment $cm$ that opens to $r$
       - $path$ leads from $rt$ to $cm$
@@ -188,9 +194,11 @@ Private inputs ($w$):
      unlike [MASP](https://github.com/anoma/masp), the value base in Taiga is not used to compute resource's commitment and the compliance circuit doesn't take $kind$ as private input but computes it from the resource fields, and it is checked for both input and output resources.
 
 ### 3.2 Resource Logic (RL) circuits
+
 Resource logic is a circuit containing the application logic. Resource logics take $m$ input and $n$ output resources, are represented as Halo2 circuits `RL(x; w) ⟶ 0/1` and arithmetized over $\mathbb{F}_p$.
 
 #### Inputs
+
 Public inputs ($x$):
 - $nf_1, …, nf_m$ - input resource nullifiers
 - $cm_1, …, cm_n$ - output resource commitments
@@ -206,6 +214,7 @@ Private inputs ($w$):
 Each resource logic has a fixed number of public inputs and unlimited amount of private inputs. Currently, the allowed number of public inputs is limited to $25$.
 
 #### Checks
+
 As the resource plaintexts are private inputs, to make sure that resources that the circuit received indeed the ones that correspond to the public parameters, every RL circuit must check:
 
 1. Input resource nullifier integrity: for each $i ∈ {1, …, m}, nf_i = DeriveNullifier_{nk}(nonce, \psi, cm)$
@@ -219,9 +228,11 @@ As the resource plaintexts are private inputs, to make sure that resources that 
 All other constraints enforced by RL circuits are custom.
 
 #### Finding the owned resources
+
 A resource logic takes all resources from the current $tx$ as input which requires a mechanism to determine which resource is the resource being currently checked. Currently, to determine that, Taiga passes the resource commitment (for output resources) or the nullifier (for input resources) of the owned resource as a tag. The RL identifies the resource that is being checked by its tag.
 
 #### RL commitment
+
 In the presence of a RL proof for a certain resource, RL commitment is used to make sure the right RL is checked for the resource. It makes sure that $vk_{logic}$ the resource refers to and $vk_{logic}$ used to validate the RL proof are the same.
 
 RL commitment has a nested structure:
@@ -237,7 +248,6 @@ $cm_{l} = RLCommit(VKCommit(vk_{logic}), rcm_{l}) (l = VKCommit(vk_{logic}))$
 !!! quote
 
     $VKCommit$ is not implemented yet and currently $l = Blake2b(vk_{logic})$
-
 
 As the outer commitment $RLCommit$ is verified in both the compliance and verifier circuit which are arithmetized over different fields, the outer commitment instantiation should be efficient over both fields.
 
@@ -272,12 +282,15 @@ $\Delta_{tx} =  \sum{\Delta_{compl_i}}$
 For a transaction $tx$ composed from transactions $tx_1$ and $tx_2$, $\Delta_{tx} = \Delta_{tx_1} + \Delta_{tx_2}$.
 
 ### 5.1 Binding signature (delta proof)
+
 Binding signature is used to prove that the transaction is correctly balanced. Delta parameters produced in each transaction used to compose the current transaction being checked are accumulated and checked against the commitment to the expected net value change. Currently, Taiga uses the same binding signature mechanism as Zcash Orchard.
 
 #### Taiga balance vs Application balance
+
 Taiga transaction is balanced if for each resource kind: $\sum_i{v_i^{in}} - \sum_j{v_j^{out}} = v^{balance}$, where $v^{balance}$ is the balancing value. Applications have their own definitions of balance that might differ from the Taiga definition. For example, some applications might allow to create more output value from less input value, which makes the total value change $v^{balance}$ non-zero. In case when Taiga's balancing value is assumed to be zero, the application-specific balance is different from the Taiga balance and the application needs to make sure the transaction is balanced in the Taiga sense by adding some non-zero value ephemeral resources to the transaction.
 
 ## 6. Instantiations
+
 |Function|Instantiation|Domain/Range|Description|
 |-|-|-|-|
 |$PRF^{nf}$|Poseidon|$\mathbb{F_p^4} \rightarrow \mathbb F_p$|$PRF^{nf}_{nk}(nonce, \psi, cm) = Poseidon(nk, nonce, \psi, cm)$|
@@ -297,6 +310,7 @@ Taiga transaction is balanced if for each resource kind: $\sum_i{v_i^{in}} - \su
 ## 7. Transaction
 
 #### Components
+
 Each Taiga $tx$ contains:
 - $n$ compliance proof records (one compliance proof covers one input and one output resource), each containing:
     - $\pi_{compl}$ - compliance proof
@@ -312,6 +326,7 @@ Each Taiga $tx$ contains:
 - preference function $\Phi$
 
 #### Validity of a transaction
+
 A transaction is valid if:
 1. For each compliance proof:
     - if `eph = true`, `rt` must be a valid $CMtree$ root.
@@ -325,17 +340,18 @@ A transaction is valid if:
 
      Currently, each resource requires a separate RL proof, even if they belong to the same application. Eventually the RL might be called just once per $tx$, meaning that if the $tx$ has 2 or more resources belonging to the same application, the total amount of non-ephemeral proofs is reduced.
 
-
 !!! note
 
      It is possible that a resource logic requires checks of other logics in order to be satisfied. In that case, the total amount of logic proofs verified could be more than $2n$, but we can count such check as a single check.
 
 ### Taiga state
+
 Taiga doesn't store a state, but Taiga produces state changes (that will be executed elsewhere), that include:
 - For each created resource $r$, $CMtree.WRITE(r.cm)$,
 - For each consumed resource $r$, $NFset.WRITE(r.nf)$,
 
 ## 8. Communication between the shielded and transparent pools
+
 State transitions that do not preserve privacy are called *transparent*. Assuming that the system allows both transparent and shielded state transitions, we say that all of the valid resources created as a result of shielded state transitions form a *shielded pool* and the valid resources created as a result of transparent state transitions form a *transparent pool*. The action of moving data from transparent to shielded pool is called *shielding*, the opposite is called *unshielding*. Shielding (or unshielding) is done by consuming resources in one pool and creating the corresponding resources in the other. *Balancing value* $v^{balance}$ indicates the data move between the pools:
 - $v^{balance} = 0$ if the current transaction doesn't move data between pools
 - $v^{balance} < 0$ refers to the value moved from the transparent to the shielded pool

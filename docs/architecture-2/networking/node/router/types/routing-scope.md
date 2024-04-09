@@ -11,7 +11,6 @@ Message routing scope restriction.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Enum* with values:
 
 - `Local`

@@ -1,6 +1,7 @@
 <div class="message" markdown>
 
 # ConnectIdentityRequest
+
 # ConnectIdentityResponse
 
 ## Purpose

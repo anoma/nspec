@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # DeleteMeasurementRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Find the targeted measurement and delete it from the measurement DB.
 <!-- --8<-- [start:behavior] -->
 Performs  a removal operation in the measurement DB.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

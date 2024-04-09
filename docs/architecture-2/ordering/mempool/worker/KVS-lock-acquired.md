@@ -1,4 +1,5 @@
 # KVSLockAcquired
+
 <!-- --8<-- [start:blurb] -->
 - _from_ [[Shard]]s
 
@@ -14,6 +15,7 @@ It is an asynchronous response.
 <!-- --8<-- [start:details] -->
 
 ## Structure
+
 <!-- This is mainly meant to specify which lock was acquired -->
 
 | Field         | Type              | Description                                                                             |
@@ -24,6 +26,7 @@ It is an asynchronous response.
 | `optional`    | `bool`            | `true` for may_write or may_read, `false` for will_write or will_read                   |
 
 ## Effects
+
 - The [[Worker Engine]] adds this lock to a store of lock acquisitions
    that have been recorded by the shards such that it may be able to
    send  [[UpdateSeenAll]] messages with greater [[TxFingerprint]]s
@@ -33,6 +36,7 @@ It is an asynchronous response.
      for earlier transactions can be freed.
 
 ## Triggers
+
 - to [[Shard]]s: [[UpdateSeenAll]]
   `if`  we can now be certain that there is some new [[TxFingerprint]] `T`,
   after (the last one) of the previously sent [[UpdateSeenAll]],
@@ -52,7 +56,6 @@ Otherwise, a Shard might hear about a
  the wrong value from state.
 Therefore, it is important to let [[Worker Engine]]s know which
  [[KVSAcquireLock]]s the shard has received.
-
 
 [^1]: In this way, a lock may be granted without knowing about declared access
 that would have to be served before.

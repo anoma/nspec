@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # GetValueKVStoreRequest
 
 ## Purpose
@@ -25,7 +24,6 @@ Find stored data by its key in the KV-store and return the value.
 
 --8<-- "../types/get-value-KVStore-response-v1.md:type"
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -33,7 +31,6 @@ Find stored data by its key in the KV-store and return the value.
 <!-- --8<-- [start:behavior] -->
 Performs a key-based search operation in the KV-store to find the corresponding value.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

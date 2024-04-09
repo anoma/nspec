@@ -16,7 +16,6 @@ A `DeleteIdentityRequest` instructs the identity management engine to delete an 
 | `externalIdentity` | ExternalIdentity | The external identity to delete |
 | `backend` | *[Backend](../types/backend.md)* | The backend to use  |
 
-
 *Record* with fields:
 
 - `externalIdentity`: [[ExternalIdentity]]

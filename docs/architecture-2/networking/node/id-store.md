@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Network Identity Store
 
 ## Purpose

@@ -11,7 +11,6 @@ Find a configuration by its key in the static configuration KV-store.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]
 
@@ -21,3 +20,4 @@ Find a configuration by its key in the static configuration KV-store.
 <!-- --8<-- [end:type] -->
 
 ## Values
+

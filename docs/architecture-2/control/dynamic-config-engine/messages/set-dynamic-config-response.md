@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # SetDynamicConfigResponse
 
 ## Purpose
@@ -20,8 +19,6 @@ Response to a [[SetDynamicConfigRequestV1#setdynamicconfigrequestv1]].
 
 **Triggers**
 
-
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -29,7 +26,6 @@ Response to a [[SetDynamicConfigRequestV1#setdynamicconfigrequestv1]].
 <!-- --8<-- [start:behavior] -->
 Adds a dynamic configuration to the dynamic configuration KV-store.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

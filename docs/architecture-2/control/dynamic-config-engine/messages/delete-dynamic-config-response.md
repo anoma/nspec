@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # DeleteDynamicConfigResponse
 
 ## Purpose
@@ -20,7 +19,6 @@ Response to a [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]].
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -29,7 +27,6 @@ Response to a [[DeleteDynamicConfigRequest#deletedynamicconfigrequest]].
 Performs the requested find operation in the dynamic configurations KV-store,
 delete both the key and the value, and replies with the deleted key and value.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

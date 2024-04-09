@@ -11,7 +11,6 @@ Update information associated with a given external identity.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `id`: [[ExternalIdentity#externalidentity]]

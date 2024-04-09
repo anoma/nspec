@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # DeleteMeasurementResponse
 
 ## Purpose
@@ -20,8 +19,6 @@ Response to a [[DeleteMeasurementRequest#deletemeasurementrequest]].
 
 **Triggers**
 
-
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -29,7 +26,6 @@ Response to a [[DeleteMeasurementRequest#deletemeasurementrequest]].
 <!-- --8<-- [start:behavior] -->
 Responds with a message, indicating that the removal operation succeeded or failed.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Local Compute Engine
 
 ## Purpose
@@ -15,7 +14,6 @@ provides an interface for executing complex computational search tasks effective
 
 ## State
 
-
 ## Messages Received
 
 ### [[LocalComputeSearch#localcomputesearch]]
@@ -24,12 +22,9 @@ provides an interface for executing complex computational search tasks effective
 
 --8<-- "local-compute-engine/messages/local-compute-search.md:type"
 
-
 ## Notifications Sent
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

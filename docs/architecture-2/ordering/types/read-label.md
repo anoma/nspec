@@ -25,8 +25,6 @@ Occasionally,
 we refer to "may read"-keys also as lazy reads
 as they potentially only issued on demand.
 
-
-
 <!--
 This is *not* a message in its own right, but this type is used in the fields of other messages.
 -->

@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # DeleteDataTimeSeriesDBRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Delete time series data from the DB.
 <!-- --8<-- [start:behavior] -->
 Delete time series data from the time series DB.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

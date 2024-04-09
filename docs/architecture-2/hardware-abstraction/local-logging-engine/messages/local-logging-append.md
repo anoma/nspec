@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # LocalLoggingAppend
 
 ## Purpose
@@ -27,7 +26,6 @@ Append new values to the logbook.
 <!-- --8<-- [start:behavior] -->
 Appends the new value to the logbook.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

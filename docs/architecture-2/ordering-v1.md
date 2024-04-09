@@ -14,8 +14,8 @@ The ordering machine is a set of communicating engines that collaborate in
 - updated the [[Shard|state]] accordingly,
 - making the state available.
 
-
 ### Background
+
 <!-- we might just "require" no internal links in the background section -->
 In full generality,
 Anoma nodes form a [distributed system](
@@ -54,6 +54,7 @@ because it is one of the most important components from V2 onward,
 although it is not present in V1.
 
 ## Overview
+
 [[TransactionRequest|Transaction requests]] trigger transaction processing.
 [[User]]s or [[Solver]]s send [[TransactionRequest|transaction requests]]
 to the ordering machine: more specifically,
@@ -97,9 +98,7 @@ but these are not considered in V1.
 
 ![](ordering-v1.svg)
 
-
 --8<-- "./ordering/a-complete-lifecycle.md"
-
 
 [^1 time stamp]: In fact it is the latter time stamp that is most relevant;
     the former is merely an indicator about performance of the worker.

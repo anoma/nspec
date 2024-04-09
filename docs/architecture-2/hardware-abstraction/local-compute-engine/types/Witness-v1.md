@@ -12,9 +12,8 @@ operation satisfies the corresponding predicate.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
-
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

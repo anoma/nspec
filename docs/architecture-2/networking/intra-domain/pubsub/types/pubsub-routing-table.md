@@ -9,7 +9,6 @@
     Pending a proper description.
 <!-- --8<-- [end:purpose] -->
 
-
 ## Type
 
 <!-- --8<-- [start:type] -->

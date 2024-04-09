@@ -1,8 +1,10 @@
 # KVSReadRequest
+
 <!-- --8<-- [start:blurb] -->
 - _from_ [[Executor|Executor]]
 
 ## Purpose
+
 Informs the Shard about a new read request, which happens
 in either of the following cases:
 
@@ -33,6 +35,7 @@ If `actual` is `false`, this just means that there is no dependency on
  this key in the current execution.
 
 ## Effects
+
 A [[Shard]] should delay processing a [[KVSReadRequest]] until it has
  completed processing [[KVSAcquireLock]] for the
  [[TxFingerprint|same timestamp]].

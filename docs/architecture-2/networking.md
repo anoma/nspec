@@ -9,7 +9,6 @@ upon which more complex peer-to-peer (P2P) protocols are built.
 
 <div class="v1" markdown>
 
-
 ## Scope
 
 The Anoma v1 network is limited to the following.
@@ -85,13 +84,11 @@ It makes routing decisions based on the destination identity in the message.
 
 #### Intra-node unicast & multicast messages
 
-
 <figure markdown="span">
 
 ![Inter-node messages](node.dot.svg){ width="450" }
 --8<-- "networking/node.md:fig-node-caption"
 </figure>
-
 
 #### Inter-node unicast messages
 
@@ -108,7 +105,6 @@ It makes routing decisions based on the destination identity in the message.
 ![Multicast message](multicast.dot.svg){ width="450" }
 --8<-- "networking/intra-domain.md:fig-multicast-caption"
 </figure>
-
 
 ## Network architecture
 
@@ -135,7 +131,6 @@ from authorized publishers to subscribers,
 while the P2P [[Storage#storage]] protocol offers block storage and retrieval.
 
 <div class="v2" markdown>
-
 
 ### Inter-domain protocols
 
@@ -200,7 +195,6 @@ in which case the [[EngineMessage#enginemessage]] is encrypted and wrapped in a 
 
 The message routing algorithm is described in the [[EngineMessage#enginemessage]] section.
 
-
 !!! note
 
     An implementation may optimize intra-node messaging between local engine instances, such that they communicate directly instead of via the router.
@@ -226,7 +220,6 @@ For each [[NodeIdentity#nodeidentity]], it stores transport addresses in order o
 For each [[TopicIdentity#topicidentity]], it stores the [[PubSub#pubsub]] [[TopicAdvert#topicadvert]].
 
 <div class="v2" markdown>
-
 
 For each [[DomainIdentity#domainidentity]], it stores the [[DomainAdvert#domainadvert]].
 

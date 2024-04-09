@@ -1,7 +1,7 @@
 <div class="message" markdown>
 
-
 # QueryNameEvidenceRequest
+
 # QueryNameEvidenceResponse
 
 ## Purpose

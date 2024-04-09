@@ -98,5 +98,4 @@ Foundation](https://anoma.foundation/). Contributions are welcome.
 
     These documents are not yet complete. If you're reading this page right now, there's a high chance you might be interested in [Namada](https://namada.net).
 
-
 Happy reading!

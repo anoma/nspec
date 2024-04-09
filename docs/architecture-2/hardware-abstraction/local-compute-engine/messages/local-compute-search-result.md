@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # LocalComputeSearchResult
 
 ## Purpose
@@ -20,7 +19,6 @@ After performing a search operation based on a given predicate within a specifie
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -28,7 +26,6 @@ After performing a search operation based on a given predicate within a specifie
 <!-- --8<-- [start:behavior] -->
 After performing the search operation, return the computation results.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

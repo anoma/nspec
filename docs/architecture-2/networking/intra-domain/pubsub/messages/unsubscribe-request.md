@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # UnsubscribeRequest
 
 ## Purpose
@@ -24,7 +23,6 @@ Unsubscription request.
 
 --8<-- "../types/topic-response-v1.md:type"
 <!-- --8<-- [end:type] -->
-
 
 ## Behavior
 

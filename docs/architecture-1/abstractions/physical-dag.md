@@ -25,7 +25,6 @@ The witnesses in an observation can include any other observation `o` (just `com
 
      Efficiency / anti-DoS note: We do not want agents downstream of a particular observation to need to do any processing of witnessed events in the past history of that observation which they do not care about. To reduce data processing, the `witnesses` set could instead be a tree itself, such that agents need only retrieve a path in order to verify the witnessing of a particular datum.
 
-
 !!! quote
 
      Efficiency / anti-DoS note 2: Although there is a singular physical DAG, agents still choose who to receive messages from and whether or not to witness them, and will likely refuse to accept & include other messages carrying a high computational load unless they are specifically paid to process them, incentives are aligned a-priori, or similar.

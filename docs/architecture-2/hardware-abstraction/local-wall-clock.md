@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Local Wall Clock Engine
 
 ## Purpose
@@ -15,7 +14,6 @@ provides an interface for getting real-time clock functionality.
 
 ## State
 
-
 ## Messages Received
 
 ### [[LocalWallClockGetTime#localwallclockgettime]]
@@ -24,12 +22,9 @@ provides an interface for getting real-time clock functionality.
 
 --8<-- "local-wall-clock-engine/messages/local-wall-clock-get-time.md:type"
 
-
 ## Notifications Sent
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

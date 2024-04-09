@@ -1,19 +1,21 @@
 # KVSRead
+
 <!-- --8<-- [start:blurb] -->
 - _from_ [[Shard]]
 
 ## Purpose
+
 [[Executor]]s have to read data from keys to execute
  [[TransactionCandidate]]s.
 When a [[Shard]] has determined what the value read is at the
  appropriate [[TxFingerprint|timestamp]],
  it sends a [[KVSRead]] to the appropriate [[Executor]].
 
-
 <!-- --8<-- [end:blurb] -->
 <!-- --8<-- [start:details] -->
 
 ## Structure
+
 | Field       | Type              | Description                               |
 |-------------|-------------------|-------------------------------------------|
 | `timestamp` | [[TxFingerprint|TxFingerprint]] | the timestamp at which the datum was read |
@@ -25,6 +27,7 @@ The [[TxFingerprint|timestamp]] should match the
  [[Executor]].
 
 ## Effects
+
 These read values are input for the [[TransactionExecutable]].
 Some may be lazy inputs, and some may never be used, but they're all
  inputs.
@@ -33,6 +36,7 @@ If this lets us finish the [[TransactionExecutable]], it may trigger
  [[Executor]] entirely.
 
 ## Triggers
+
 - to [[Shard]]: [[KVSWrite]]
   `for each` value the [[TransactionExecutable]] outputs to write
   send a [[KVSWrite]] message to the appropriate [[Shard]]

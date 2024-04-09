@@ -1,8 +1,10 @@
 # ExecutorFinished
+
 <!-- --8<-- [start:blurp] -->
 - _from_ [[Executor]]
 
 ## Purpose
+
 Informs the mempool about execution of a transaction.
 <!--  do we need this? Cf. "How to give definitive signals for deletion of transaction data" ...  https://github.com/orgs/anoma/projects/14/views/1?pane=issue&itemId=36828426 -->
 
@@ -10,14 +12,12 @@ Informs the mempool about execution of a transaction.
 
 <!-- --8<-- [start:details] -->
 
-
 ## Structure
+
 | Field         | Type                  | Description                                                |
 |---------------|-----------------------|------------------------------------------------------------|
 | `fingerprint` | [[TxFingerprint]]     | a descriptor for executed transaction                      |
 | `log_key`     | [[Local Storage Key]] | handle to the transaction log of the transaction execution |
-
-
 
 <!--
 ```rust
@@ -29,6 +29,7 @@ struct ExecutorFinished {
 -->
 
 ## Effects
+
 This message is a pre-requisite for enabling garbage collection in the mempool.
 The log_key can be used by the user to request data about the transaction.
 In V1, this is kept as long as the instance is running.
@@ -37,6 +38,7 @@ Also, it allows for compiling block data and signing their hashes as commitment.
 -->
 
 ## Triggers
+
 none
 <!--
 - to [[User]],[[Worker]]: [[ExecutionSummary]]

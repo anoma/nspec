@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # GetDynamicConfigRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Find a dynamic configuration by its key in the dynamic configuration KV-store an
 <!-- --8<-- [start:behavior] -->
 Performs the requested search operation in the dynamic configurations KV-store and returns the value.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

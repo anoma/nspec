@@ -104,6 +104,7 @@ Additionally, the Shard maintains:
 -->
 
 ## Shard Optimizations
+
 We want to *execute* each [[TransactionCandidate]] (evaluate the
  [executor function](../execution.md#executor-function)
  in order to compute the data written)
@@ -119,7 +120,6 @@ In fact, the simplest correct implementation amounts to executing all
 However, we want to compute concurrently as possible, for minimum
  latency.
 We do this using a set of optimizations.
-
 
 ### Optimization: Per-Key Ordering
 
@@ -192,6 +192,7 @@ it knows precisely which write happens most recently before the read,
 and that write has executed.
 
 #### heardAllWrites
+
 -->
 
 ### heardAllWrites
@@ -303,10 +304,9 @@ In the diagram above, transaction `f` is read-only.
 If client reads produce signed responses, then signed responses from a weak quorum of validators would form a *light client proof*.
 -->
 
-
 # Shard Incoming Messages
-Shards receive and react to the following messages:
 
+Shards receive and react to the following messages:
 
 --8<-- "shard/KVS-acquire-lock.md "
 
@@ -315,7 +315,6 @@ Shards receive and react to the following messages:
 --8<-- "shard/KVS-write.md "
 
 --8<-- "shard/update-seen-all.md "
-
 
 [^1]: For the purpose of this discussion, we call
     a _write lock request_ a [[KVSAcquireLock]] message

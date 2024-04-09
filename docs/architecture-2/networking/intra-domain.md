@@ -13,7 +13,6 @@ and the authentication mechanism it uses.
 
 <div class="v2" markdown>
 
-
 ### Topology
 
 The Topology engine is responsible for overlay topology and membership management of a domain.

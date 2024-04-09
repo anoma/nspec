@@ -1,6 +1,7 @@
 # WriteLabel
 
 ## Purpose
+
 The WriteLabel specifies which keys a transaction may and will write to.
 The rationale behind this information is that
 if a transaction definitely write to a set of keys,
@@ -20,7 +21,6 @@ quite the challenge!
 From V2 onward,
 after imposing a tree-structure on keys (or something similar),
 we can represent potentially infinite sets of keys.
-
 
 <!--
 This is *not* a message in its own right, but this type is used in the fields of other messages.

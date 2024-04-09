@@ -59,11 +59,13 @@ in which learner-specific ᴅᴀɢs exists as sub-graphs.
 
 <!--
 ## [`CheckProposal`](primary/check-proposal.md) from [Consensus](../consensus-v1.md)
+
 - [`PotentialProposal`](../consensus/potential-proposal.md) → [Consensus](../consensus-v1.md)
   let [Consensus](../consensus-v1.md) know if this is a valid proposal (i.e. it's actually a header in the DAG), or if some conflicting header exists. This may require waiting until some [`HeaderCommitment`](primary/header-commitment.md) arrives.
 -->
 <!--
 ## [`RequestProposal`](primary/request-proposal.md) from [Consensus](../consensus-v1.md)
+
 - [`PotentialProposal`](../consensus/potential-proposal.md) → [Consensus](../consensus-v1.md)
   Send [Consensus](../consensus-v1.md) a Header suitable to be committed as the next anchor block, if any are available. Otherwise, wait until one is available and then send it.
 -->

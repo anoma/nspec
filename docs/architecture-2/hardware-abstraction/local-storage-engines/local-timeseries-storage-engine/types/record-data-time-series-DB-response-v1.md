@@ -11,7 +11,6 @@ Response to a [[RecordDataTimeSeriesDBRequestV1#recorddatatimeseriesdbrequestv1]
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Time Series DB Query`: [[TimeSeriesDBQueryV1#timeseriesdbqueryv1]]
 
@@ -21,8 +20,8 @@ Response to a [[RecordDataTimeSeriesDBRequestV1#recorddatatimeseriesdbrequestv1]
 
   *The success of the operation, indicating that the KV-pair was stored successfully or not.*
 
-
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

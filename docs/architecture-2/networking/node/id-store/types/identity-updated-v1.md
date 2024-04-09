@@ -11,7 +11,6 @@ An updated [[IdentityRecord#identityrecord]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `id`: [[ExternalIdentity#externalidentity]]

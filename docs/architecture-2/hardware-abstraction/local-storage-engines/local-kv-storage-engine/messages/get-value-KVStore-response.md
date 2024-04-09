@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # GetValueKVStoreResponse
 
 ## Purpose
@@ -22,7 +21,6 @@ Return the value from the search operation which is triggered by a
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -32,7 +30,6 @@ Returns the value from the search operation which is triggered by a
 [[GetValueKVStoreRequest#getvaluekvstorerequest]].
 
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

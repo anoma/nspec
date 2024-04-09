@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # GetStaticConfigRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Find a static configuration by its key in the static configuration KV-store and 
 <!-- --8<-- [start:behavior] -->
 Performs the requested search operation in the static configurations KV-store and returns the value.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

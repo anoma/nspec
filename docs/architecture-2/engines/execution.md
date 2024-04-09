@@ -63,6 +63,7 @@ Outputs:
 - Some IO side-effects, including sending messages to clients or whatever.
 
 ## Execution Engine Architecture
+
 Our architecture is heavily inspired by [Calvin: Fast Distributed Transactions for Partitioned Database Systems](http://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf).
 It facilitates concurrency while maintaining [serializability](https://en.wikipedia.org/wiki/Serializability) using the [mempool](mempool.md#mempool) and [consensus](consensus-v1.md#consensus) components as a sequencer.
 
@@ -106,6 +107,7 @@ Each shard then stores that timestamp in its timeline.
 - For each key written, the shard waits to receive data written from the executor process, and stores it.
 
 ## Serializable Transaction Execution
+
 We want to *execute* each transaction (evaluate the executor function in order to compute the data written) while preserving [serializability](https://en.wikipedia.org/wiki/Serializability): each transaction's reads and writes should be *as if* the transactions were executed in the order determined by [consensus](consensus-v1.md#consensus).
 We can imagine the simplest system as executing each transaction, after they're ordered by [consensus](consensus-v1.md#consensus), sequentially, using the executor function.
 However, we want to compute concurrently as possible, for minimum latency.

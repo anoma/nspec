@@ -88,6 +88,7 @@ No one should need to store a complete history of all Transaction Candidates or 
 -->
 
 ## Functionality
+
 ### High Level Protocols
 The main functionality of the Execution engine is
  serializable [[TransactionCandidate]] execution.
@@ -115,6 +116,7 @@ We can increase concurrency of transaction by partitioning state
  parallel).
 
 ### Responsibilities
+
 #### State
 The core purpose of the Execution Engine group is
  updating and maintaining the state of the RSM.
@@ -159,6 +161,7 @@ Moreover, each [[TransactionCandidate]]'s effects must be a
  of the keys in its read set in RSM state.
 
 #### Executor Function
+
 In order to define a state machine, we assume a fixed
  *Executor Function*:
 
@@ -220,7 +223,6 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
  each [[TransactionCandidate]] in the total order of their
  [[TxFingerprint|timestamps]].
 
-
 ## Engines Overview
 
 !!! todo
@@ -230,13 +232,13 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
     ![Execution Architecture](execution/rough_execution_engine_message_passing_web.svg)
 
 ### Shards
+
 [[Shard|Shards]] store and update the state of the RSM.
 Different shards may be on different machines.[^8]
 Within a Validator, Keys are partitioned across the
  [[Shard|Shards]] for load-balancing.
 Redistributing state between [[Shard|Shards]] is called *re-sharding*.
 For V1, we assume there will be no re-sharding.
-
 
 <!-- NOT RELEVANT TO V1
 Each Shard is specific to a blockchain, and each shard in a chimera chain is specific to 1 base chain.
@@ -254,7 +256,6 @@ This requires [[Shard|Shards]] to receive and process ordering information
 This is [multi-version concurrent storage](
     https://en.wikipedia.org/wiki/Multiversion_concurrency_control).
 
-
 ![Per-key ordering (see web version for animation)](keys_animated.svg)
 
 When a [[Shard]] has determined the value a [[TransactionCandidate]]
@@ -266,6 +267,7 @@ In the [[Shard]] page, we detail optimizations for getting read values
 -->
 
 ### Executors aka Executor Processes
+
 [Executors](execution/executor.md) are processes that compute the
  Executor Function and communicate results to the [[Shard|Shards]].
 Each [[TransactionCandidate]] is assigned its own [[Executor|Executor]]
@@ -290,6 +292,7 @@ To save on communication costs,
  or both.
 
 ### Read Backend
+
 For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
  through the [[Mempool Engines|mempool]].
 
@@ -343,7 +346,6 @@ For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
 -->
 
 <!-- think a bit more about IO ... -->
-
 
 [^1]: For V1, the mempool is already determining a total order,
     because we only have a single unique worker

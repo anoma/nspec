@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Measurement Engine
 
 ## Purpose
@@ -12,7 +11,6 @@ For example, the Networking Machine could use latency measurements to make routi
 <!-- --8<-- [end:purpose] -->
 
 ## State
-
 
 ## Messages Received
 
@@ -28,7 +26,6 @@ For example, the Networking Machine could use latency measurements to make routi
 
 --8<-- "measurement-engine/messages/subscribe-measurement-request.md:type"
 
-
 ## Notifications Sent
 
 ### [[MeasurementChanged#measurementchanged]]
@@ -37,9 +34,7 @@ For example, the Networking Machine could use latency measurements to make routi
 
 --8<-- "measurement-engine/notifications/measurement-changed.md:type"
 
-
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid

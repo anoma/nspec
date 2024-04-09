@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # DeleteDynamicConfigRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Find a dynamic configuration by its key in the dynamic configuration KV-store an
 <!-- --8<-- [start:behavior] -->
 Performs the requested find operation in the dynamic configurations KV-store and delete both the key and the value.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

@@ -13,7 +13,6 @@ Response to a [[LocalWallClockGetTimeV1#localwallclockgettimev1]]
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Epoch Timestamp`: [[EpochTimestampV1#epochtimestampv1]]
 
@@ -23,3 +22,4 @@ Response to a [[LocalWallClockGetTimeV1#localwallclockgettimev1]]
 <!-- --8<-- [end:type] -->
 
 ## Values
+

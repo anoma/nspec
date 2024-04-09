@@ -11,10 +11,10 @@ The key that maps to the dynamic configuration value in the dynamic configuratio
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

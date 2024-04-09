@@ -11,10 +11,10 @@ The key that maps to the data value in the KV-store.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

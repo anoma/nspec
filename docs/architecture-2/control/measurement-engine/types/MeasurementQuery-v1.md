@@ -11,8 +11,8 @@ The query that needs to be executed to add, delete or manipulate measurements in
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # LocalWallClockGetTimeResult
 
 ## Purpose
@@ -27,7 +26,6 @@ Response to a [[LocalWallClockGetTime#localwallclockgettime]] request.
 <!-- --8<-- [start:behavior] -->
 Give the current time according to the physical machine's internal clock system.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

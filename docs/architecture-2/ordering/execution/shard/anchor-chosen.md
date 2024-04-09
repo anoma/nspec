@@ -3,6 +3,7 @@
 - _from_ [Consensus](../../consensus-v1.md)
 
 #### Purpose
+
 <!-- --8<-- [start:purpose] -->
 Inform shards about the most recently decided value by the consensus.
 <!-- --8<-- [end:purpose] -->
@@ -17,6 +18,7 @@ Inform shards about the most recently decided value by the consensus.
 | `anchor` | `NarwhalBlock` | the value that consensus decided upon |
 
 #### Effects
+
 The shard learns more ordering information. In particular, with this and enough `TimestampOrderingInformation` messages, it should be able to order all transactions before the new `anchor`.
 
 !!! todo

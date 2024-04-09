@@ -1,6 +1,5 @@
 <div class="message v2" markdown>
 
-
 # RelayMessage
 
 ## Purpose

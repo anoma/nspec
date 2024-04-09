@@ -3,6 +3,7 @@
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
+
 <!-- --8<-- [start:purpose] -->
 The message is used to notify other acceptors that a decision has been made.
 The message includes a list of messages the other acceptors need to see the decision (a quorum of $\twoa$ messages).

@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # SetValueKVStoreResponse
 
 ## Purpose
@@ -28,7 +27,6 @@ Response to a [[SetValueKVStoreRequest#setvaluekvstorerequest]].
 <!-- --8<-- [start:behavior] -->
 After adding the KV-pair to the KV-store, send a message indicating the success or failure of the operation.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

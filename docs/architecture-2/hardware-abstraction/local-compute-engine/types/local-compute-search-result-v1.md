@@ -11,7 +11,6 @@ Response to a [[LocalComputeSearchV1#localcomputesearchv1]]
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Predicate`: [[PredicateV1#predicatev1]]
 
@@ -25,3 +24,4 @@ Response to a [[LocalComputeSearchV1#localcomputesearchv1]]
 <!-- --8<-- [end:type] -->
 
 ## Values
+

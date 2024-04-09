@@ -3,6 +3,7 @@
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
+
 <!-- --8<-- [start:purpose] -->
 Encodes a $\oneb$ / $\twoa$ message used to communicate the acceptor's commitment to other acceptors.
 <!-- --8<-- [end:purpose] -->

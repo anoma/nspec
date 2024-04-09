@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # SubscribeMeasurementResponse
 
 ## Purpose
@@ -21,7 +20,6 @@ return a response.
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -29,7 +27,6 @@ return a response.
 <!-- --8<-- [start:behavior] -->
 Replies with a status after subscribed to a query from the measurement database to monitor value changes.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

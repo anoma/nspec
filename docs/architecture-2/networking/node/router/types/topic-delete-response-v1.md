@@ -11,7 +11,6 @@ Response to a [[TopicDeleteRequestV1]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Result*
 
 </div>

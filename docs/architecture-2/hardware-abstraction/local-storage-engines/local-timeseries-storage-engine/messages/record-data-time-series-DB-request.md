@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # RecordDataTimeSeriesDBRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Add time series data to the DB.
 <!-- --8<-- [start:behavior] -->
 Add time series data to the time series DB.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

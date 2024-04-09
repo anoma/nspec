@@ -41,7 +41,6 @@ type SequenceNumber = u64
 
 <!-- [//TobiasOnTimeStamps]: # ( We'll talk about this; each transaction has a batch number and a sequence number at a specific validator; these can be considered their logical worker-local timestamp ) -->
 
-
 #### `ClockTime`
 
 !!! todo
@@ -114,7 +113,6 @@ This is "just" a set of validators.
 type LiveQuorum = std::collections::BTreeSet<ValidatorId>
 ```
 
-
 #### `NarwhalBlockHeader`
 
 ```rust
@@ -157,6 +155,7 @@ struct KVSKey {}
     Keys in the key-value-store that is state. Currently unspecified.
 
 #### `KVSDatum`
+
 ```rust
 struct KVSDatum {}
 ```

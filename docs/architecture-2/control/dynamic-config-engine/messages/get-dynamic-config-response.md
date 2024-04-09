@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # GetDynamicConfigResponse
 
 ## Purpose
@@ -20,7 +19,6 @@ Response to a [[GetDynamicConfigRequestV1#getdynamicconfigrequestv1]].
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -28,7 +26,6 @@ Response to a [[GetDynamicConfigRequestV1#getdynamicconfigrequestv1]].
 <!-- --8<-- [start:behavior] -->
 Performs the requested search operation in the dynamic configurations KV-store and returns the value.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

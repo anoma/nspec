@@ -1,4 +1,5 @@
 # ExecutorPIDAssigned (EPID)
+
 <!-- --8<-- [start:blurp] -->
 ## Purpose
 
@@ -8,19 +9,18 @@ available executor engine instance.
 <!-- --8<-- [end:blurp] -->
 <!-- --8<-- [start:details] -->
 
-
 ## Structure
 
 | Field  | Type                 | Description                                        |
 |--------|----------------------|----------------------------------------------------|
 | `epid` | [[ExternalIdentity]] | the ID of the spawned [[executor|Executor]]-engine instance |
 
-
 ## Effects
 
 The receiving worker can request the eager reads and start the execution.
 
 ## Triggers
+
 - [[executetransaction|ExecuteTransaction]]→[[executor|Executor]], [[KVSReadRequest]]→[[Shard]]s:
   for the next transaction to be executed,
   the worker sends

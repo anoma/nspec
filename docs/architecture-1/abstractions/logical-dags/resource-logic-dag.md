@@ -58,7 +58,6 @@ Transactions may want to choose their exact input and output resources on the ba
 
      Strict ordering is required here, so if all keys do not have the same identity, we will need to create a joint identity (chimera-chain-on-demand) to try to order w.r.t. all involved resources.
 
-
 !!! todo
 
      I think we can/should combine this with executable transaction so in-between states are possible.

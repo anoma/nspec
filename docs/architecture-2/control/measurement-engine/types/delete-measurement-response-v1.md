@@ -11,7 +11,6 @@ Response to a [[DeleteMeasurementRequestV1#deletemeasurementrequestv1]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Measurement Query`: [[MeasurementQueryV1#measurementqueryv1]]
 
@@ -21,8 +20,8 @@ Response to a [[DeleteMeasurementRequestV1#deletemeasurementrequestv1]].
 
   *The success of the operation, indicating that the KV-pair was deleted successfully or not.*
 
-
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

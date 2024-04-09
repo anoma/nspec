@@ -11,7 +11,6 @@ Request connection to a node.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `node`: [[NodeIdentity#nodeidentity]]

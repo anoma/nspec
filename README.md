@@ -110,7 +110,6 @@ and run, for example:
 MKDOCSFLAGS=--quiet MKDOCSCONFIG=mkdocs.insiders.yml make serve
 ```
 
-
 #### Goodies
 
 - To see the list of todos in the project, run:

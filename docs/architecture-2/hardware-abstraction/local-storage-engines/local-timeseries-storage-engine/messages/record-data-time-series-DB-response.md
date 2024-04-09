@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # RecordDataTimeSeriesDBResponse
 
 ## Purpose
@@ -20,7 +19,6 @@ Response to a [[RecordDataTimeSeriesDBRequest#recorddatatimeseriesdbrequest]].
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -28,7 +26,6 @@ Response to a [[RecordDataTimeSeriesDBRequest#recorddatatimeseriesdbrequest]].
 <!-- --8<-- [start:behavior] -->
 Performs the requested data record operation in the time series DB.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

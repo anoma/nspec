@@ -3,6 +3,7 @@
 - _from_ [[Executor|Executor]]
 
 ## Purpose
+
 <!-- --8<-- [start:blurb] -->
 Informs the Shard about a new write request, which happens
 in either of the following two cases:
@@ -52,7 +53,6 @@ This may trigger a [[KVSRead]] if there are any *will read* markers
 <!--
 any garbage collection of old locking info is elided in V1
 -->
-
 
 ## Triggers
 

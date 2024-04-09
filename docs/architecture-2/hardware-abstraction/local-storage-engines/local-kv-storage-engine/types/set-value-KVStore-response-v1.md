@@ -12,7 +12,6 @@ After adding the KV-pair to the KV-store, send a message indicating the success 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]
 
@@ -26,3 +25,4 @@ After adding the KV-pair to the KV-store, send a message indicating the success 
 <!-- --8<-- [end:type] -->
 
 ## Values
+

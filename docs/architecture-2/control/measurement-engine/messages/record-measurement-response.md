@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # RecordMeasurementResponse
 
 ## Purpose
@@ -20,7 +19,6 @@ After added a measurement performed by an engine to the measurement database, re
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -28,7 +26,6 @@ After added a measurement performed by an engine to the measurement database, re
 <!-- --8<-- [start:behavior] -->
 Adds a measurement performed by an engine to the measurement database.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

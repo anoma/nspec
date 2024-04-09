@@ -1,7 +1,7 @@
 <div class="message" markdown>
 
-
 # MessageName
+
 # MessageNameResponse (if applicable)
 
 ## Purpose

@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # LocalWallClockGetTime
 
 ## Purpose
@@ -31,7 +30,6 @@ Tracks and manages time within the local computing environment.
 <!-- --8<-- [start:behavior] -->
 Give the current time according to the physical machine's internal clock system.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

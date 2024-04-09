@@ -1,7 +1,9 @@
 # HeaderCommitment
+
 - _from_ [[Primary Engine|primary]]
 
 ## Purpose
+
 <!-- --8<-- [start:blurb] -->
 Sending a signature to the recipient such that
 the latter may fabricate certificates of integrity and/or availability for
@@ -9,6 +11,7 @@ a [[Header Vertex|header vertex]] (previously announced by the recipient).
 <!-- --8<-- [end:blurb] -->
 
 ## Structure
+
 | Field          | Type                 | Description                                               |
 |----------------|----------------------|-----------------------------------------------------------|
 | `fingerprint`  | [[HdVtxFingerprint]] | the fingerprint of the signed header vertex               |
@@ -18,14 +21,15 @@ a [[Header Vertex|header vertex]] (previously announced by the recipient).
 The signature is taken over the pair of the fingerprint _and_ the availability flag,
 which leads to different signatures different for integrity only and combined commitments.
 
-
 ## Effects
+
 - The primary stores the signature to form a certificate of availability and/or integrity
   unless already sufficiently many signatures were received.
 - This might complete the formation of a learner-specific block to be proposed.
 - This might complete the validity check of a proposal that was received by consensus.
 
 ## Triggers
+
 - to [[Primary Engine|primaries]]: [[AvailabilityCertified]]
   `if`
   the received signature completes the availability certificate of the header vertex

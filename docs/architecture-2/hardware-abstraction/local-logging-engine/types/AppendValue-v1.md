@@ -11,12 +11,10 @@ The value in a string format, which needs to be added to the logbook.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 The *AppendValueV1* has empty record.
-
-
 
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

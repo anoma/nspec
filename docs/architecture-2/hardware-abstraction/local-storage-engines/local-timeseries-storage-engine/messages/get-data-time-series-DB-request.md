@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # GetDataTimeSeriesDBRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Get the queried time series data and return it.
 <!-- --8<-- [start:behavior] -->
 Performs the requested search operation in the time series DB and returns the value.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

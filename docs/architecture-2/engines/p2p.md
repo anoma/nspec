@@ -20,7 +20,6 @@ Topics are self-authenticating, in that only messages which satisfy the topic pr
 
      Give examples for usecases at different points in the spectrum of Identity/Topic combinations.
 
-
 !!! todo
 
      Simple local filtering on topics (i.e. subtopics) and potentially optimisations by broadcasting local filters.
@@ -91,7 +90,6 @@ Logical routing should take into account compositionality of identities - e.g., 
 !!! todo
 
      Figure out details around implicit vs explicit domains and expected topologies under some reasonable assumptions.
-
 
 !!! todo
 

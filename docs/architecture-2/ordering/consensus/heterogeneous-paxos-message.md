@@ -1,7 +1,9 @@
 ### `HeterogeneousPaxosMessage`
+
 - _from_ [Consensus](#Consensus)
 
 #### Purpose
+
 <!-- --8<-- [start:purpose] -->
 Intra-component message according to the consensus protocol, sent between the participating acceptor nodes.
 <!-- --8<-- [end:purpose] -->
@@ -91,6 +93,7 @@ struct Decision {
 -->
 
 #### Triggers
+
 - to [Consensus](#Consensus): [`HeterogeneousPaxosMessage`](#HeterogeneousPaxosMessage)
 - to [Mempool](#Mempool): [`CheckProposal`](#CheckProposal), [`RequestProposal`](#RequestProposal)
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)

@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # SetValueKVStoreRequest
 
 ## Purpose
@@ -33,7 +32,6 @@ If the key already exists, override the value.
 Adds a piece of data to the KV store by inserting its key and the corresponding value.
 If the key already exists, it overrides the value.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

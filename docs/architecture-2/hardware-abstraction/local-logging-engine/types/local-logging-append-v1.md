@@ -11,7 +11,6 @@ Append new values to the logbook.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `external identity`: [[ExternalIdentity#externalidentity]]
 
@@ -21,9 +20,8 @@ Append new values to the logbook.
 
   *The value in a string format, which needs to be added to the logbook*
 
-
-
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

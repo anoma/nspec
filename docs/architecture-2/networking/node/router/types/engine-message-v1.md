@@ -11,7 +11,6 @@ A message sent between two engine instances .
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `src`: [[EngineIdentity#engineidentity]]

@@ -11,7 +11,6 @@ Node with its transport address
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `node`: [[NodeIdentity#nodeidentity]]

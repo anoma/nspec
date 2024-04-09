@@ -22,7 +22,6 @@ Topic advertisement by a publisher.
 [[TopicAdvertReceived#topicadvertreceived]]
 <!-- --8<-- [end:type] -->
 
-
 ## Behavior
 
 <!-- --8<-- [start:behavior] -->
@@ -37,13 +36,11 @@ and forward the *TopicAdvert* to connected peers in the same domain.
 - PubSub $\to$ *TopicAdvert* $\to$ PubSub
 <!-- --8<-- [end:reception] -->
 
-
 ## Triggers
 
 <!-- --8<-- [start:triggers] -->
 - PubSub $\to$ *TopicAdvert* $\to$ PubSub
 <!-- --8<-- [end:triggers] -->
-
 
 ## Message flow
 

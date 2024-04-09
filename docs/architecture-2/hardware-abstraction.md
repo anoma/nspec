@@ -1,6 +1,7 @@
 # Hardware Abstraction Machine
 
 ## Purpose
+
 The *Hardware Abstraction Machine* provides a standardized interface for engines
 to interact with the underlying hardware components of the physical machine Anoma nodes are running.
 By decoupling engine software from specific hardware implementations,
@@ -8,6 +9,7 @@ the Hardware Abstract Machine abstracts away complexities and facilitate cross-p
 development and deployment.
 
 ## Background
+
 Historically, developers that wanted to write a program had to know how each underlying hardware device communicated with
 the rest of the system to ensure the software's compatibility. With a [hardware abstraction layer](https://en.wikipedia.org/wiki/Hardware_abstraction)
 developers can just talk to the operating system what the hardware device should do,
@@ -16,11 +18,12 @@ Anoma's Hardware Abstraction Machine thus provides an interface for accessing ha
 resources such as CPU, memory, and storage.
 
 ## Scope
+
 For V1, we assume that the Hardware Abstraction Machine provides other engines access to local storage, compute, time management, and logging functionalities
 of the physical machine an Anoma node is running.
 
-
 ## Overview
+
 The current Hardware Abstraction Machine is composed of the following five engines.
 
 ### [Local Storage Engine](hardware-abstraction/local-storage.md#purpose)
@@ -43,8 +46,8 @@ The current Hardware Abstraction Machine is composed of the following five engin
 
 --8<-- "hardware-abstraction/local-randomness.md:purpose"
 
-
 ## Communication Diagram
+
 <!-- --8<-- [start:messages] -->
 ```mermaid
 sequenceDiagram

@@ -1,7 +1,7 @@
 <div class="message" markdown>
 
-
 # VerifyRequest
+
 # VerifyResponse
 
 ## Purpose

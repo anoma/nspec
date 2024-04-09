@@ -11,9 +11,8 @@ Generate a random number or other random data.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
-
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

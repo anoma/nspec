@@ -17,7 +17,6 @@ Make sure to keep the format exactly as is (html tags, empty lines, formatting o
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `field_one`: [[SomeType#sometype]]

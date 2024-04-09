@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # RecordMeasurementRequest
 
 ## Purpose
@@ -31,7 +30,6 @@ Add a measurement performed by an engine to the measurement database.
 <!-- --8<-- [start:behavior] -->
 Adds a measurement performed by an engine to the measurement database.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

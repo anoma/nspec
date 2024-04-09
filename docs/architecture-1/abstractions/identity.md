@@ -29,7 +29,6 @@ We specify both using
 
 --8<-- "./formal/SML/src/signer.sig:signer_description"
 
-
 ```sml
 --8<-- "./formal/SML/src/signer.sig:signer"
 ```
@@ -49,7 +48,6 @@ An Internal Identity structure, then, simply specifies everything
  specified by both Signer and Decryptor.
 
 --8<-- "./formal/SML/src/internal_identity.sig:internal_identity_description"
-
 
 ```sml
 --8<-- "./formal/SML/src/internal_identity.sig:internal_identity"
@@ -81,7 +79,6 @@ Each is _hashable_: any
 
 --8<-- "./formal/SML/src/encryptor.sig:encryptor_description"
 
-
 ```sml
 --8<-- "./formal/SML/src/encryptor.sig:encryptor"
 ```
@@ -102,7 +99,6 @@ Each is _hashable_: any
 
 --8<-- "./formal/SML/src/identity.sig:identity_description"
 
-
 ```sml
 --8<-- "./formal/SML/src/identity.sig:identity"
 ```
@@ -120,7 +116,6 @@ This means `signsFor` is transitive: if _A_ `signsFor` _B_ and
  _B_ `signsFor` _C_, then _A_ `signsFor` _C_.
 The `signsFor` relation becomes especially useful with regard to
  [composed identities, discussed below](#composition).
-
 
 ### SignsFor Evidence
 
@@ -183,7 +178,6 @@ As one simple form of evidence, we can specify a format for signed
 
 --8<-- "./formal/SML/src/reads_for.sig:reads_for_description"
 
-
 ```sml
 --8<-- "./formal/SML/src/reads_for.sig:reads_for"
 ```
@@ -216,7 +210,6 @@ A signature from _M_ would require that a majority of shareholders
 To construct _M_, we start with a set of shareholder identities, each
  paired with a _weight_ (their share), and define a weight threshold
  which specifies the minimum weight for a "majority."
-
 
 There are several ways we could imagine constructing Threshold
  Composition Identities, but without specifying _anything_ about the
@@ -398,7 +391,6 @@ The same name can refer to to both a `verifier` and an `encryptor`.
 
 --8<-- "./formal/SML/src/verifier_name.sig:verifier_name_description"
 
-
 ```sml
 --8<-- "./formal/SML/src/verifier_name.sig:verifier_name"
 ```
@@ -466,7 +458,6 @@ Formally, we use `(hash(Alice), "foo")` as the SML representation of
  _Alice.foo_:
 
 --8<-- "./formal/SML/src/sub_verifier.fun:subverifier_description"
-
 
 ```sml
 --8<-- "./formal/SML/src/sub_verifier.fun:subverifier"

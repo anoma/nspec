@@ -11,6 +11,7 @@ The [[Execution Engines]] might keep a pool of Executors,
 
 <!--
 ## Life of a Transaction
+
 To quickly understand what an Executor does,
 let us look at the life of a transaction within the Execution Engine.
 
@@ -52,6 +53,7 @@ let us look at the life of a transaction within the Execution Engine.
 -->
 
 # Executor Incoming Messages
+
 To specify the Executor interface,
 here are all the messages the Executor needs to be able to receive.
 
@@ -59,7 +61,6 @@ here are all the messages the Executor needs to be able to receive.
 
 --8<-- "executor/execute-transaction.md:blurb "
 --8<-- "executor/execute-transaction.md:details "
-
 
 ## [[KVSRead]]
 

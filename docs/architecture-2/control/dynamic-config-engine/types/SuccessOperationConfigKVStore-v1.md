@@ -1,6 +1,7 @@
 # SuccessOperationConfigKVStoreV1
 
 ## Purpose
+
 <!-- --8<-- [start:purpose] -->
 Indicates whether an operation performed by [[Dynamic Config Storage Engine#dynamic-config-storage-engine]]
 and [[Static Config Storage Engine#static-config-storage-engine]] was executed successfully or not.
@@ -11,8 +12,6 @@ and [[Static Config Storage Engine#static-config-storage-engine]] was executed s
 
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
-
-
 
 </div>
 <!-- --8<-- [end:type] -->

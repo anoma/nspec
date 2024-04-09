@@ -11,9 +11,8 @@ The *PredicateV1* describes the logical condition or criteria used to filter and
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
-
 </div>
 <!-- --8<-- [end:type] -->
 
 ## Values
+

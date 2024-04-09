@@ -1,19 +1,18 @@
 # Consensus
 
 ## Introduction
+
 ### Purpose
 Consensus component establishes a totally ordered sequence of headers received from the [mempool](mempool.md) DAG.
 This establishes a total order of transactions for the [execution engine](execution.md) to execute.
 
 ### Background
+
 The consensus algorithm is based on [Heterogeneous Paxos](https://arxiv.org/abs/2011.08253).
 
 ### Scope
 
-
 ## Overview
-
-
 
 The protocol involves three kinds of agents: _proposers_, _acceptors_ and _learners_.
 Each validator may play the role of any combination of the three kinds of agents.
@@ -216,3 +215,4 @@ from [Executor](./execution/executor.md) may trigger: _none_
 <!-- E.g. an example of the common case "life of a transaction or whatever" flow from inputs to outputs -->
 
 ## Further reading
+

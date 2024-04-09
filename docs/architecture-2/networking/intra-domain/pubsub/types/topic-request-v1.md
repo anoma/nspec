@@ -11,7 +11,6 @@ Request for an operation on a pub/sub topic.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `topic`: [[TopicIdentity#topicidentity]]

@@ -11,7 +11,6 @@ Relayed message.
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Record* with fields:
 
 - `src`: [[NodeIdentity#nodeidentity]]

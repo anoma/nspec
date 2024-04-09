@@ -11,7 +11,6 @@ Destination identity of an [[EngineMessageV1#enginemessagev1]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Enum* with values:
 
 - `Engine`: [[EngineIdentity#engineidentity]]
@@ -21,7 +20,6 @@ Destination identity of an [[EngineMessageV1#enginemessagev1]].
 - `Topic`: [[TopicIdentity#topicidentity]]
 
 <div class="v2" markdown>
-
 
 - `Relay`: [[NodeIdentity#nodeidentity]]
 

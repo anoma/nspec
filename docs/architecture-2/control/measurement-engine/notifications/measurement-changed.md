@@ -11,7 +11,6 @@ A notification is sent when a new measurement is recorded in the measurement dat
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Measurement Query`: [[MeasurementQueryV1#measurementqueryv1]]
 

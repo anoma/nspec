@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # TopicDeleteRequest
 
 ## Purpose

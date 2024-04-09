@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # RecordDataTimeSeriesDBResponse
 
 ## Purpose
@@ -20,7 +19,6 @@ Response to a [[DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]].
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -28,7 +26,6 @@ Response to a [[DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]].
 <!-- --8<-- [start:behavior] -->
 Performs the requested data record delete operation in the time series DB.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

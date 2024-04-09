@@ -3,6 +3,7 @@
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
+
 <!-- --8<-- [start:purpose] -->
 Encodes a $\onea$-message that proposes a next value to have consensus upon.
 <!-- --8<-- [end:purpose] -->

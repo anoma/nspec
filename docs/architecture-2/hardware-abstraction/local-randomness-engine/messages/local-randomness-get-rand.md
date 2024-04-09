@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # LocalRandomnessGetRand
 
 ## Purpose
@@ -31,7 +30,6 @@ Generate random numbers or other random data locally on the physical machine tha
 <!-- --8<-- [start:behavior] -->
 Generates a random number or other random data.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

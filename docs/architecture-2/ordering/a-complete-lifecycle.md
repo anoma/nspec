@@ -1,4 +1,5 @@
 ## A life cycle with some details
+
 Let us consider a typical/generic case
 of what transaction submission triggers in the ordering machine.
 Note that all message sending is asynchronous.
@@ -35,8 +36,6 @@ sequenceDiagram
     deactivate ExecutorProcess
 ```
 
-
-
 ### The origin of the request
 
 _at user_
@@ -54,7 +53,6 @@ $T = \Bigl(\mathit{code},
     lazy read keys $r_l$
     $w_w$ will-write keys
     $w_m$ may-write keys
-
 
 The User transmits the [[TransactionCandidate]],
 packaged as a [[TransactionRequest]],
@@ -85,11 +83,9 @@ Once it is clear that the transaction can be included into the current
  batch, the transaction candidate is "stamped" with the current
  _batch number_.
 
-
 - [[TransactionAck]] → user
   This is mainly for purposes of UX,
   but gives also information for re-submission strategies.
-
 
 ### Buffering and shuffling (optional)
 
@@ -100,12 +96,9 @@ One may want to order each transaction request within a batch only
  can be "slightly" re-ordered within a _very short_ time
  period---for several reasons.
 
-
 !!! todo
 
     add footnote / explain exactly the issues this avoids
-
-
 
 ### Assigning a transaction number
 
@@ -186,7 +179,6 @@ _at [[Shard]]_
   or "recorded" for this [[Worker Engine]]'s [[TransactionCandidate]].
   This becomes crucial below, at "Notifying shards about locks seen."
 
-
 ### Starting transaction execution
 
 _at [[Worker Engine]]_
@@ -224,7 +216,6 @@ _at [[Executor]]_
   [[Executor]] informs the relevant [[Shard]] of a value to write
   (or, for `may_write`s, maybe to not update this value).
 
-
 ### Notifying shards about locks "seen"
 
 _at [[Worker Engine]]_
@@ -239,7 +230,6 @@ _at [[Worker Engine]]_
   This is crucial, because [[Shard]]s cannot "read" values from
    storage at a particular [[TxFingerprint]] until they are sure that
    no writes with earlier [[TxFingerprint]]s will happen.
-
 
 ### Serving read and write requests from executors
 
@@ -279,7 +269,6 @@ If a "block" is completed, a commitment to state updates,
 e.g., a hash of the state deltas +++
 
 -->
-
 
 ### Informing the curator about execution termination
 

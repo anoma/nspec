@@ -6,7 +6,6 @@
 An event sent to a topic.
 <!-- --8<-- [end:purpose] -->
 
-
 ## Type
 
 <!-- --8<-- [start:type] -->

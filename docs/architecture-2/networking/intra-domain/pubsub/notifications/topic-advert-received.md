@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # TopicAdvertReceived
 
 ## Purpose
@@ -8,7 +7,6 @@
 <!-- --8<-- [start:purpose] -->
 A [[TopicAdvert]] has been received from another peer.
 <!-- --8<-- [end:purpose] -->
-
 
 ## Type
 

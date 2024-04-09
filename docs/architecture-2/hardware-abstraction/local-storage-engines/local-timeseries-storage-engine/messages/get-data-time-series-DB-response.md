@@ -1,6 +1,5 @@
 <div class="message" markdown>
 
-
 # GetDataTimeSeriesDBResponse
 
 ## Purpose
@@ -20,7 +19,6 @@ Return the queried time series data.
 
 **Triggers**
 
-
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -28,7 +26,6 @@ Return the queried time series data.
 <!-- --8<-- [start:behavior] -->
 Return the queried time series data.
 <!-- --8<-- [end:behavior] -->
-
 
 ## Message Flow
 

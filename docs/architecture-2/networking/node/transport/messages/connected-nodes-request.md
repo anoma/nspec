@@ -1,4 +1,5 @@
 # ConnectedNodesRequest
+
 # ConnectedNodesResponse
 
 ## Purpose

@@ -3,6 +3,7 @@
 - _from_ [Mempool Primary](../mempool/primary.md)
 
 #### Purpose
+
 <!-- --8<-- [start:purpose] -->
 Communicates that a specific payload is (or isn't) a valid proposal for consensus on the chain, which consensus might decide upon.
 <!-- --8<-- [end:purpose] -->

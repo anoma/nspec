@@ -11,7 +11,6 @@ Response to a [[ConnectRequestV1]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Result*
 
 </div>

@@ -11,7 +11,6 @@ Response to a [[DisconnectRequestV1]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Result*
 
 </div>

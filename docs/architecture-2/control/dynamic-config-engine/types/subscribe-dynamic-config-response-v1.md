@@ -11,7 +11,6 @@ Response to a [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-
 *Records* with fields:
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]
 
@@ -29,3 +28,4 @@ Response to a [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]
 <!-- --8<-- [end:type] -->
 
 ## Values
+

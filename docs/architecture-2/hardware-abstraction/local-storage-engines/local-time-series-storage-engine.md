@@ -1,6 +1,5 @@
 <div class="engine" markdown>
 
-
 # Local Time Series Storage Engine
 
 ## Purpose
@@ -38,7 +37,6 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
 --8<-- "local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md:type"
 
 ## Message Flow
-
 
 <!-- --8<-- [start:messages] -->
 ```mermaid
