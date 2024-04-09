@@ -298,3 +298,14 @@ markdown/
 env/
 docs/indexes/
 docs/images/*.dot.svg
+
+# Python specific ignores
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+

@@ -36,7 +36,8 @@ env:
   REMOVE_TODOS: true
   REPORT_TODOS: true
   REPORT_BROKEN_WIKILINKS: true
-  JUVIX_SUPPORT: true
+  PREPROCESS_JUVIX_MD: true
+  DIFF_ENABLED: true
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"

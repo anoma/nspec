@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "common"
+version = "0.0.1"
+requires-python = ">=3.11"
+dependencies = ['mkdocs', 'click']
+
+[project.scripts]
+todos = "common:cli.todos.main"
+
+[tool.mypy]
+python_version = "2.7"
+warn_return_any = true
+warn_unused_configs = true
+exclude = [
+    '^__init__\.pyi$'
+]
+
+
+[[tool.mypy.overrides]]
+module = ["common"]
+warn_return_any = false
+ignore_missing_imports = true

@@ -112,8 +112,10 @@ MKDOCSFLAGS=--quiet MKDOCSCONFIG=mkdocs.insiders.yml make serve
 
 #### Goodies
 
-- To see the list of todos in the project, run:
+- To see the list of todos in the project, just run:
 
     ```bash
-    python todos.py
+    todos
     ```
+
+This is a CLI tool that it's installed with the `requirements.txt` file.

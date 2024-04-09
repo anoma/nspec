@@ -448,6 +448,8 @@ nav:
     - Mesh messaging: ./applications/mesh-messaging.md
   - Indexes:
     - Quick links: ./indexes/aliases.md
+    - Juvix Modules:
+      - ./engine.juvix.md
 
 extra:
   social:
