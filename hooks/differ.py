@@ -15,7 +15,7 @@ from typing import List, Optional, Tuple
 
 from mkdocs.structure.files import Files
 
-log: logging.Logger = logging.getLogger('mkdocs')
+log: logging.Logger = logging.getLogger("mkdocs")
 
 ROOT_DIR: Path = Path(__file__).parent.parent.absolute()
 DOCS_DIR: Path = ROOT_DIR.joinpath("docs")
@@ -36,7 +36,8 @@ try:
     subprocess.run([DIFF_BIN, "--version"], capture_output=True)
 except FileNotFoundError:
     log.warning(
-        "The diff binary is not available. Please install diff and make sure it's available in the PATH.")
+        "The diff binary is not available. Please install diff and make sure it's available in the PATH."
+    )
 
 
 def on_page_markdown(markdown: str, page, config, files: Files) -> Optional[str]:
@@ -45,22 +46,23 @@ def on_page_markdown(markdown: str, page, config, files: Files) -> Optional[str]
     markdown = _path_versioned_links(markdown, filepath) + markdown
     return markdown
 
+
 # AUXILIARY FUNCTIONS ----------------------------------------------------
 
+
 def _path_versioned_links(markdown: str, filepath: Path) -> str:
-    _prev_version = _markdown_link_filepath_version(
-        filepath, -1, just_url=True)
+    _prev_version = _markdown_link_filepath_version(filepath, -1, just_url=True)
     _next_version = _markdown_link_filepath_version(filepath, 1, just_url=True)
     if _prev_version or _next_version:
-        txt = "<small class=\"version-list\">"
+        txt = '<small class="version-list">'
         if _prev_version:
-            txt += f"<a class=\"version-link\" \
-                href=\"{_prev_version}\">Previous version</a>"
+            txt += f'<a class="version-link" \
+                href="{_prev_version}">Previous version</a>'
         if _prev_version and _next_version:
             txt += " | "
         if _next_version:
-            txt += f"<a class=\"version-link\" \
-                    href=\"{_next_version}\">Next version</a>"
+            txt += f'<a class="version-link" \
+                    href="{_next_version}">Next version</a>'
         txt += "</small>\n"
         return txt
     return ""
@@ -73,12 +75,17 @@ def _markdown_diff(diff_file: Path, indent: int = 0) -> Optional[str]:
         _diff_content = f.read()
     lines: List[str] = _diff_content.split("\n")
     lines = ["```diff"] + lines + ["```"]
-    def add_indents(x): return " " * indent + x
+
+    def add_indents(x):
+        return " " * indent + x
+
     diff_content = "\n".join(map(add_indents, lines))
     return diff_content
 
 
-def _markdown_link_filepath_version(filepath: Path, counter: int, just_url: bool = False) -> Optional[str]:
+def _markdown_link_filepath_version(
+    filepath: Path, counter: int, just_url: bool = False
+) -> Optional[str]:
     _version = _compute_filepath_version(filepath, counter)
     if _version:
         info = _get_name_version_number(_version)
@@ -119,7 +126,7 @@ def _render_diff(markdown: str, filepath, folded: bool = True) -> str:
         elif next_diff:
             admonition_title = "Changes to next version"
 
-        txt = f"{callout} diff \"{admonition_title}\"\n\n"
+        txt = f'{callout} diff "{admonition_title}"\n\n'
 
         md_this_version = _markdown_link_filepath_version(filepath, 0)
         md_prev_version = _markdown_link_filepath_version(filepath, -1)
@@ -136,15 +143,15 @@ def _render_diff(markdown: str, filepath, folded: bool = True) -> str:
         if indent == 8:
             if prev_diff:
                 prev_title = "Changes from previous version"
-                txt += " "*4 + f"=== \"{prev_title}:\"\n\n"
+                txt += " " * 4 + f'=== "{prev_title}:"\n\n'
                 txt += prev_diff + "\n\n"
             if next_diff:
                 next_title = "Changes to next version"
-                txt += " "*4 + f"=== \"{next_title}\"\n\n"
+                txt += " " * 4 + f'=== "{next_title}"\n\n'
                 txt += next_diff + "\n\n"
         elif indent == 4:
-            txt += ((prev_diff + "\n\n") if prev_diff else "")
-            txt += ((next_diff + "\n\n") if next_diff else "")
+            txt += (prev_diff + "\n\n") if prev_diff else ""
+            txt += (next_diff + "\n\n") if next_diff else ""
         return markdown + "\n\n" + txt
 
     return markdown
@@ -178,7 +185,9 @@ def _get_name_version_number(filepath: Path) -> Optional[Tuple[str, int, str]]:
     return None
 
 
-def _compute_filepath_version(filepath: Path, counter: int, check_exists: bool = True) -> Optional[Path]:
+def _compute_filepath_version(
+    filepath: Path, counter: int, check_exists: bool = True
+) -> Optional[Path]:
     """
     Computes the new filepath with an updated version number (integer) based on the original filepath.
 
@@ -197,7 +206,8 @@ def _compute_filepath_version(filepath: Path, counter: int, check_exists: bool =
         newversion = version + counter
         if newversion <= 0:
             log.debug(
-                "@_compute_filepath_version: The version number cannot be negative.")
+                "@_compute_filepath_version: The version number cannot be negative."
+            )
             return None
         new_filename = f"{name}v{newversion}.juvix.md"
         log.debug("@_compute_filepath_version: new_filename=%s", new_filename)
@@ -233,13 +243,11 @@ def _run_diff(_newer: Path, _older: Path) -> Optional[str]:
         return None
 
     if not _newer.exists():
-        log.debug(
-            f"The file {_newer.as_posix()} does not exist.")
+        log.debug(f"The file {_newer.as_posix()} does not exist.")
         return None
 
     if not _older.exists():
-        log.debug(
-            f"The file {_older.as_posix()} does not exist.")
+        log.debug(f"The file {_older.as_posix()} does not exist.")
         return None
 
     if _newer.parent == _older.parent:
@@ -253,7 +261,7 @@ def _run_diff(_newer: Path, _older: Path) -> Optional[str]:
 
     cmd = [DIFF_BIN] + DIFF_OPTIONS + [older_path, newer_path]
     cd = subprocess.run(cmd, cwd=folder, capture_output=True)
-    log.debug("%s", ' '.join(cmd))
+    log.debug("%s", " ".join(cmd))
 
     if cd.returncode == 0:
         log.debug("The diff says that the files are the same.")
@@ -281,8 +289,7 @@ def _compute_diff_with_version(filepath: Path, counter: int) -> Optional[str]:
         Optional[str]: The difference between the two versions of the file as a
         string, or None if no difference is found.
     """
-    _different_version: Optional[Path] = _compute_filepath_version(
-        filepath, counter)
+    _different_version: Optional[Path] = _compute_filepath_version(filepath, counter)
     if _different_version:
         if counter < 0:
             return _run_diff(filepath, _different_version)
@@ -343,7 +350,9 @@ def _write_diff_next_version(filepath: Path) -> Optional[Path]:
     return _write_diff_file_version(filepath, 1)
 
 
-def _write_diff_previous_next_version(filepath: Path) -> Optional[Tuple[Optional[Path], Optional[Path]]]:
+def _write_diff_previous_next_version(
+    filepath: Path,
+) -> Optional[Tuple[Optional[Path], Optional[Path]]]:
     """
     Writes the diff between the previous and next version of a file.
     To compute the diff, the file name must match the pattern `namevX.ext`.
@@ -353,6 +362,5 @@ def _write_diff_previous_next_version(filepath: Path) -> Optional[Tuple[Optional
         with_prev = _write_diff_previous_version(filepath)
         with_next = _write_diff_next_version(filepath)
         return (with_prev, with_next)
-    log.debug(
-        f"The file name ({filepath}) does not match the pattern `namevX.ext`.")
+    log.debug(f"The file name ({filepath}) does not match the pattern `namevX.ext`.")
     return None

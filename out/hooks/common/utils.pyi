@@ -1,0 +1,3 @@
+ROOT_URL: str
+
+def fix_url(root: str, url: str, html: bool = False) -> str: ...

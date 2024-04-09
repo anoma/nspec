@@ -19,7 +19,7 @@ from mkdocs.structure.files import Files
 from mkdocs.structure.pages import Page
 from watchdog.events import FileSystemEvent
 
-log: logging.Logger = logging.getLogger('mkdocs')
+log: logging.Logger = logging.getLogger("mkdocs")
 
 JUVIX_SUPPORT = bool(os.environ.get("JUVIX_SUPPORT", True))
 
@@ -61,7 +61,9 @@ try:
     subprocess.run([JUVIX_BIN, "--version"], capture_output=True)
 except FileNotFoundError:
     log.warning(
-        "The Juvix binary is not available. Please install Juvix and make sure it's available in the PATH.")
+        "The Juvix binary is not available. Please install Juvix and make sure it's available in the PATH."
+    )
+
 
 def on_startup(command, dirty) -> None:
     """
@@ -110,9 +112,12 @@ def on_files(files: Files, *, config: MkDocsConfig) -> Optional[Files]:
 
 def on_page_read_source(page: Page, config: MkDocsConfig) -> Optional[str]:
     filepath = Path(page.file.abs_src_path)
-    if JUVIX_SUPPORT and filepath.as_posix().endswith(".juvix.md") and \
-            JUVIX_AVAILABLE and \
-            (output := _generate_juvix_markdown(filepath)):
+    if (
+        JUVIX_SUPPORT
+        and filepath.as_posix().endswith(".juvix.md")
+        and JUVIX_AVAILABLE
+        and (output := _generate_juvix_markdown(filepath))
+    ):
         return output
     return page.content
 
@@ -128,9 +133,12 @@ def on_serve(server: Any, config: MkDocsConfig, builder: Any) -> None:
 
     with open(ROOT_DIR / ".gitignore") as file:
         gitignore = pathspec.PathSpec.from_lines(
-            pathspec.patterns.GitWildMatchPattern, file)
+            pathspec.patterns.GitWildMatchPattern, file  # type: ignore
+        )
 
-    def callback_wrapper(callback: Callable[[FileSystemEvent], None]) -> Callable[[FileSystemEvent], None]:
+    def callback_wrapper(
+        callback: Callable[[FileSystemEvent], None]
+    ) -> Callable[[FileSystemEvent], None]:
         def wrapper(event: FileSystemEvent) -> None:
             if gitignore.match_file(
                 Path(event.src_path).relative_to(config.docs_dir).as_posix()
@@ -145,8 +153,10 @@ def on_serve(server: Any, config: MkDocsConfig, builder: Any) -> None:
             if fpathstr.endswith(".juvix.md"):
                 log.debug("Juvix file changed: %s", fpathstr)
                 log.debug(
-                    "Hyperlinks to Juvix code external to the docs folder will not work. Only in the build mode they will generate.")
+                    "Hyperlinks to Juvix code external to the docs folder will not work. Only in the build mode they will generate."
+                )
             return callback(event)
+
         return wrapper
 
     handler = (
@@ -172,8 +182,7 @@ def on_page_markdown(markdown: str, page, config, files: Files) -> Optional[str]
             page.file.name = page.file.name.replace(text, "")
             page.file.url = page.file.url.replace(text, "")
             page.file.dest_uri = page.file.dest_uri.replace(text, "")
-            page.file.abs_dest_path = page.file.abs_dest_path.replace(
-                text, "")
+            page.file.abs_dest_path = page.file.abs_dest_path.replace(text, "")
 
             if not page.title:
                 page.title = page.file.name
@@ -186,7 +195,9 @@ def on_page_markdown(markdown: str, page, config, files: Files) -> Optional[str]
             path_change(juvix)
     return markdown
 
+
 # AUXILIARY FUNCTIONS ----------------------------------------------------
+
 
 @lru_cache(maxsize=128)
 def _juvix_markdown_cache_path(_filepath: Path) -> Optional[Path]:
@@ -194,9 +205,9 @@ def _juvix_markdown_cache_path(_filepath: Path) -> Optional[Path]:
     md_filename = filepath.name.replace(".juvix.md", ".md")
     rel_to_docs = filepath.relative_to(DOCS_DIR)
 
-    cache_filepath = MARKDOWN_JUVIX_OUTPUT \
-        .joinpath(rel_to_docs.parent) \
-        .joinpath(md_filename)
+    cache_filepath = MARKDOWN_JUVIX_OUTPUT.joinpath(rel_to_docs.parent).joinpath(
+        md_filename
+    )
     return cache_filepath
 
 
@@ -234,8 +245,7 @@ def _write_hash_file(filepath: Path) -> Optional[Tuple[Path, str]]:
 def _has_juvix_markdown_changed(filepath: Path) -> bool:
     current_hash = _hash_file(filepath)
     hash_cache_path = _compute_hash_filepath_location(filepath)
-    if hash_cache_path.exists() and \
-            (hash_cache_text := hash_cache_path.read_text()):
+    if hash_cache_path.exists() and (hash_cache_text := hash_cache_path.read_text()):
         return current_hash != hash_cache_text
     return True
 
@@ -243,7 +253,8 @@ def _has_juvix_markdown_changed(filepath: Path) -> bool:
 def _generate_juvix_markdown(f: Path) -> Optional[str]:
     if _has_juvix_markdown_changed(f):
         log.warning(
-            f"Juvix file: {f} has changed, is new, or does not exist in the cache.")
+            f"Juvix file: {f} has changed, is new, or does not exist in the cache."
+        )
         return _run_juvix_markdown(f)
     return _juvix_markdown_cache(f)
 
@@ -262,34 +273,33 @@ def _run_juvix_markdown(_filepath: Path) -> Optional[str]:
         md_filename: str = module_name + ".md"
         rel_to_docs: Path = filepath.relative_to(DOCS_DIR)
 
-        cmd: List[str] = [JUVIX_BIN, "markdown",
-                          "--strip-prefix=docs",
-                          "--folder-structure",
-                          "--prefix-url=/nspec/", # FIXME once CNAME is fixed
-                          "--stdout",
-                          file_path,
-                          "--no-colors"]
+        cmd: List[str] = [
+            JUVIX_BIN,
+            "markdown",
+            "--strip-prefix=docs",
+            "--folder-structure",
+            "--prefix-url=/nspec/",  # FIXME once CNAME is fixed
+            "--stdout",
+            file_path,
+            "--no-colors",
+        ]
 
-        log.debug("@_run_juvix_markdown: cmd=%s", ' '.join(cmd))
+        log.debug("@_run_juvix_markdown: cmd=%s", " ".join(cmd))
 
-        completed_process = subprocess.run(
-            cmd, cwd=DOCS_DIR, capture_output=True)
+        completed_process = subprocess.run(cmd, cwd=DOCS_DIR, capture_output=True)
 
         if completed_process.returncode != 0:
-            log.error("%s",
-                      completed_process.stderr.decode("utf-8"))
+            log.error("%s", completed_process.stderr.decode("utf-8"))
             error_message = completed_process.stderr.decode("utf-8")
             error_message = error_message.replace("\n", " ").strip()
 
             format_head = f"!!! failure\n\n    {error_message}\n\n"
 
-            return format_head + filepath.read_text()\
-                .replace("```juvix", "```")
+            return format_head + filepath.read_text().replace("```juvix", "```")
 
         md_output: str = completed_process.stdout.decode("utf-8")
 
-        new_folder: Path = MARKDOWN_JUVIX_OUTPUT \
-            .joinpath(rel_to_docs.parent)
+        new_folder: Path = MARKDOWN_JUVIX_OUTPUT.joinpath(rel_to_docs.parent)
         new_folder.mkdir(parents=True, exist_ok=True)
         new_md_path: Path = new_folder.joinpath(md_filename)
 
@@ -299,8 +309,7 @@ def _run_juvix_markdown(_filepath: Path) -> Optional[str]:
         raw_path: Path = JUVIXCODE_CACHE_DIR.joinpath(rel_to_docs)
         raw_path.parent.mkdir(parents=True, exist_ok=True)
 
-        log.debug("@_run_juvix_markdown: copying file: %s to %s",
-                  filepath, raw_path)
+        log.debug("@_run_juvix_markdown: copying file: %s to %s", filepath, raw_path)
         try:
             shutil.copy(filepath, raw_path)
         except Exception as e:
@@ -312,12 +321,12 @@ def _run_juvix_markdown(_filepath: Path) -> Optional[str]:
 
 def _build_aux_html(config: MkDocsConfig) -> None:
 
-    if not JUVIXCODE_CACHE_DIR.exists() or \
-            not list(JUVIXCODE_CACHE_DIR.glob("*")):
+    if not JUVIXCODE_CACHE_DIR.exists() or not list(JUVIXCODE_CACHE_DIR.glob("*")):
         return
 
-    sha_filecontent = JUVIXCODE_HASH_FILE\
-        .read_text() if JUVIXCODE_HASH_FILE.exists() else None
+    sha_filecontent = (
+        JUVIXCODE_HASH_FILE.read_text() if JUVIXCODE_HASH_FILE.exists() else None
+    )
 
     current_sha: str = _compute_sha_over_folder(JUVIXCODE_CACHE_DIR)
 
@@ -335,23 +344,24 @@ def _build_aux_html(config: MkDocsConfig) -> None:
         return
     _html_juvix_project(config, generate=not html_exists)
 
+
 def _compute_sha_over_folder(_folder_path: Path) -> str:
-    """ Compute the sha with respect to the structure of a folder. """
+    """Compute the sha with respect to the structure of a folder."""
 
     folder_path = _folder_path.absolute().as_posix()
     sha_hash: hashlib._Hash = hashlib.sha256()
     for root, dirs, files in os.walk(folder_path):
         for names in sorted(dirs):
-            sha_hash.update(names.encode('utf-8'))
+            sha_hash.update(names.encode("utf-8"))
         for filename in sorted(files):
             file_path = os.path.join(root, filename)
-            sha_hash.update(file_path.encode('utf-8'))
+            sha_hash.update(file_path.encode("utf-8"))
             _hash_file_hash_obj(sha_hash, Path(file_path))
     return sha_hash.hexdigest()
 
 
 def _hash_file_hash_obj(hash_obj, filepath: Path):
-    with open(filepath, 'rb') as f:
+    with open(filepath, "rb") as f:
         while chunk := f.read(8192):
             hash_obj.update(chunk)
 
@@ -375,16 +385,19 @@ def _generate_juvix_html(_filepath: Path) -> None:
     log.debug(f"@_generate_juvix_html: html_output={HTML_CACHE_DIR}")
 
     rel_path = filepath.relative_to(DOCS_DIR)
-    prefix_url = "/nspec/" + ((rel_path.parent.as_posix() + "/")
-                        if rel_path.parent != Path(".") else "")
+    prefix_url = "/nspec/" + (
+        (rel_path.parent.as_posix() + "/") if rel_path.parent != Path(".") else ""
+    )
 
-    cmd = [JUVIX_BIN, "html"] + \
-        ["--strip-prefix=docs"] + \
-        ["--folder-structure"] + \
-        [f"--output-dir={HTML_CACHE_DIR.as_posix()}"] + \
-        [f"--prefix-url={prefix_url}"] + \
-        [f"--prefix-assets=/nspec/"] + \
-        [filepath.as_posix()]
+    cmd = (
+        [JUVIX_BIN, "html"]
+        + ["--strip-prefix=docs"]
+        + ["--folder-structure"]
+        + [f"--output-dir={HTML_CACHE_DIR.as_posix()}"]
+        + [f"--prefix-url={prefix_url}"]
+        + [f"--prefix-assets=/nspec/"]
+        + [filepath.as_posix()]
+    )
 
     # FIXME: --only-src is not working in combination of the flags above
     # so, for the time being, we generate the regular html.
@@ -393,8 +406,7 @@ def _generate_juvix_html(_filepath: Path) -> None:
 
     cd = subprocess.run(cmd, cwd=DOCS_DIR, capture_output=True)
     if cd.returncode != 0:
-        log.error(cd.stderr.decode("utf-8") + "\n\n"
-                  + "Fix the error first.")
+        log.error(cd.stderr.decode("utf-8") + "\n\n" + "Fix the error first.")
         return
 
     # The following is necessary as this project may
@@ -405,8 +417,7 @@ def _generate_juvix_html(_filepath: Path) -> None:
     if assets_in_html.exists():
         shutil.rmtree(assets_in_html, ignore_errors=True)
 
-    shutil.copytree(good_assets, HTML_CACHE_DIR.joinpath("assets"),
-                    dirs_exist_ok=True)
+    shutil.copytree(good_assets, HTML_CACHE_DIR.joinpath("assets"), dirs_exist_ok=True)
 
 
 def _move_html_cache_to_site_dir(filepath: Path, site_dir: Path) -> None:
@@ -438,14 +449,13 @@ def _move_html_cache_to_site_dir(filepath: Path, site_dir: Path) -> None:
             log.debug(f"@_generate_juvix_html: filename: {filename}")
             just_name = filename.replace(".juvix.md", "")
             html_file = just_name + ".html"
-            html_file_path = HTML_CACHE_DIR \
-                .joinpath(path_rel_raw.parent) \
-                .joinpath(html_file)
+            html_file_path = HTML_CACHE_DIR.joinpath(path_rel_raw.parent).joinpath(
+                html_file
+            )
 
             log.debug(f"@_generate_juvix_html: html_file: {html_file_path}")
             if html_file_path.exists():
-                log.debug(
-                    f"@_generate_juvix_html: removing file {html_file_path}")
+                log.debug(f"@_generate_juvix_html: removing file {html_file_path}")
                 html_file_path.unlink()
 
     index_file = HTML_CACHE_DIR.joinpath("index.html")
@@ -453,26 +463,25 @@ def _move_html_cache_to_site_dir(filepath: Path, site_dir: Path) -> None:
         index_file.unlink()
 
     log.debug(
-        f"@generate_juvix_html: copying folder: {HTML_CACHE_DIR} to {dest_folder}")
+        f"@generate_juvix_html: copying folder: {HTML_CACHE_DIR} to {dest_folder}"
+    )
     shutil.copytree(HTML_CACHE_DIR, dest_folder, dirs_exist_ok=True)
     return
 
 
-def _html_juvix_project(config: Optional[MkDocsConfig],
-                        generate: bool = True
-                        ) -> None:
-    """ Generate HTML from Juvix files. """
+def _html_juvix_project(config: Optional[MkDocsConfig], generate: bool = True) -> None:
+    """Generate HTML from Juvix files."""
 
     everythingJuvix = DOCS_DIR.joinpath("everything.juvix.md")
 
     if not everythingJuvix.exists():
         log.warning(
-            "The file 'docs/everything.juvix.md' does not exist. It is recommended to create this file to avoid excessive builds.")
+            "The file 'docs/everything.juvix.md' does not exist. It is recommended to create this file to avoid excessive builds."
+        )
 
         juvix_md_files = list(DOCS_DIR.rglob("*.juvix.md"))
 
-        log.debug(
-            f"@_generate_juvix_html: Found {len(juvix_md_files)} juvix files")
+        log.debug(f"@_generate_juvix_html: Found {len(juvix_md_files)} juvix files")
 
         for f in juvix_md_files:
             _generate_juvix_html(f)
@@ -482,7 +491,8 @@ def _html_juvix_project(config: Optional[MkDocsConfig],
 
     if generate:
         log.info(
-            "Generating HTML from Juvix files using 'docs/everything.juvix.md' as the main file. This may take a while the first time.")
+            "Generating HTML from Juvix files using 'docs/everything.juvix.md' as the main file. This may take a while the first time."
+        )
         _generate_juvix_html(everythingJuvix)
     if config and (site_dir := config.get("site_dir", None)):
         _move_html_cache_to_site_dir(everythingJuvix, Path(site_dir))
