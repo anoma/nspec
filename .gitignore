@@ -296,7 +296,6 @@ site/
 markdown/
 
 env/
-docs/indexes/
 docs/images/*.dot.svg
 
 # Python specific ignores

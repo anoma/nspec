@@ -17,10 +17,16 @@ log: logging.Logger = logging.getLogger("mkdocs")
 INDEXES_DIR = Path("docs/indexes")
 INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 
+ROOT_URL = "/nspec/"
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 IMAGES_DIR = DOCS_DIR / "images"
-ROOT_URL = "/nspec/"
+
+CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+CACHE_IMAGES = CACHE_DIR / ".images"
+CACHE_IMAGES.mkdir(parents=True, exist_ok=True)
 
 IMAGES_PATTERN = re.compile(
     r"""
@@ -40,12 +46,6 @@ if not shutil.which(DOT_BIN):
         f"Graphviz not found. Please install it and set the DOT_BIN environment variable."
     )
     USE_DOT = False
-
-
-def on_pre_build(config: MkDocsConfig) -> None:
-    config["images_issues"] = 0
-    config["images"] = {}  # page: [image]
-    config.setdefault("current_page", None)  # current page being processed
 
 
 class ImgExtension(Extension):
@@ -68,6 +68,10 @@ class ImgExtension(Extension):
 def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
     imgext_instance = ImgExtension(mkconfig=config)
     config.markdown_extensions.append(imgext_instance)  # type: ignore
+
+    config["images"] = {}  # page: [image]
+    config.setdefault("current_page", None)  # current page being processed
+    config["images_issues"] = 0
     return config
 
 
@@ -117,7 +121,10 @@ class ImgPreprocessor(Preprocessor):
                 loc = FileLoc(current_page_url, i + 1, match.start() + 2)
 
                 image_fname = url.name
-                img_location = IMAGES_DIR / url.name
+                img_cache = CACHE_IMAGES / image_fname
+
+                if not CACHE_IMAGES.exists():
+                    CACHE_IMAGES.mkdir(parents=True, exist_ok=True)
 
                 if image_fname.endswith(".dot.svg") and USE_DOT:
                     dot_file = image_fname.replace(".dot.svg", ".dot")
@@ -126,23 +133,27 @@ class ImgPreprocessor(Preprocessor):
 
                     if not dot_location.exists():
                         log.info(f"{dot_location} not found. Skipping SVG generation.")
+                        continue
 
-                    cmd = f"{DOT_BIN} -Tsvg {dot_location.as_posix()} -o {DOCS_DIR / img_location}"
+                    cmd = f"{DOT_BIN} -Tsvg {dot_location.as_posix()} -o {img_cache.absolute().as_posix()}"
+
+                    log.debug(f"Running command: {cmd}")
 
                     output = subprocess.run(cmd, shell=True, check=True)
 
                     if output.returncode != 0:
                         log.error(f"Error running graphviz: {output}")
 
-                if not img_location.exists():
-                    config["images_issues"] += 1
-                    log.error(
-                        f"{loc}\n [!] Image not found. Expected location:\n==> {img_location}"
-                    )
+                    if not img_cache.exists():
+                        config["images_issues"] += 1
+                        log.error(
+                            f"{loc}\n [!] Image not found. Expected location:\n==> {img_cache}"
+                        )
 
+                img_expected_location = IMAGES_DIR / image_fname
                 new_url = fix_url(
                     root=config["site_url"],
-                    url=img_location.relative_to(DOCS_DIR).as_posix(),
+                    url=img_expected_location.relative_to(DOCS_DIR).as_posix(),
                     html=True,
                 )
 
@@ -157,3 +168,14 @@ class ImgPreprocessor(Preprocessor):
 def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -> str:
     config["current_page"] = page  # needed for the preprocessor
     return markdown
+
+
+def on_post_build(config: MkDocsConfig) -> None:
+    if config["images_issues"] > 0:
+        log.error(
+            f"\n[!] {config['images_issues']} image(s) not found. Please check the logs for more details."
+        )
+    else:
+        site_dir = config.get("site_dir", "site")
+        log.info(f"Copying images to {site_dir}/images")
+        shutil.copytree(CACHE_IMAGES, Path(site_dir) / "images", dirs_exist_ok=True)

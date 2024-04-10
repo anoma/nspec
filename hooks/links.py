@@ -20,6 +20,7 @@ from markdown.extensions import Extension  # type: ignore
 from fuzzywuzzy import fuzz  # type: ignore
 from common.models import WikiLink, FileLoc
 from common.utils import fix_url, get_page_title
+import json
 
 log: logging.Logger = logging.getLogger("mkdocs")
 
@@ -31,6 +32,13 @@ DOCS_DIR = ROOT_DIR / "docs"
 
 SITE_URL = os.environ.get("SITE_URL", "/nspec/")
 REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", False))
+
+
+CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+LINKS_JSON = CACHE_DIR / "aliases.json"
+
 
 """ Example of a wikilink with a path hint:
 [[path-hint:page#anchor|display text]]
@@ -59,13 +67,6 @@ def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
 
 
 def on_pre_build(config: MkDocsConfig) -> None:
-    if not Path(INDEXES_DIR / "aliases.md").exists():
-        with open(INDEXES_DIR / "aliases.md", "w") as f:
-            f.write("# Links \n\n")
-
-    config["to_url"] = {}
-    config["from_url"] = {}
-
     config["aliases_for"] = {}
     config["url_for"] = {}
 
@@ -106,36 +107,24 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
                             f"Title '{_title}' is already in use, so it will not be added to the aliases table for '{url}'"
                         )
 
-    with open(DOCS_DIR / "indexes" / "aliases.md", "w") as f:
-        f.write(f"<h1>Aliases <small>({len(config['url_for'])})</small></h1>\n\n")
-        current_letter = ""
-        for_index = sorted(config["url_for"].keys()).copy()
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    if LINKS_JSON.exists():
+        LINKS_JSON.unlink()
 
-        if "Aliases" in for_index:
-            for_index.remove("Aliases")
-
-        for alias in for_index:
-            if alias[0].upper() != current_letter:
-                current_letter = alias[0].upper()
-                f.write(f"\n## {current_letter}\n\n")
-
-            if len(config["url_for"][alias]) > 0:
-                right_url = fix_url(
-                    root=config["site_url"], url=config["url_for"][alias][0], html=True
-                )
-                f.write(f"- [{alias}]({right_url})\n")
-
-
-def on_post_build(config: MkDocsConfig):
-    log.info(f"Found {config['wikilinks_issues']} wikilinks issues.")
-
-    """Executed after the build ends. Writes the aliases to a markdown file."""
-    with open(INDEXES_DIR / "aliases.txt", "a") as f:
-        f.write(f"\n\n## Aliases\n\n")
-        for alias, urls in config["aliases_for"].items():
-            f.write(f"- [{alias}]({urls[0]})\n")
-            for url in urls[1:]:
-                f.write(f"  - [{url}]({url})\n")
+    with open(LINKS_JSON, "w") as f:
+        json.dump(
+            {
+                "aliases_for": {
+                    k: [str(p) for p in v] for k, v in config["aliases_for"].items()
+                },
+                "url_for": {
+                    k: [fix_url(url=p, root=SITE_URL, html=True) for p in v]
+                    for k, v in config["url_for"].items()
+                },
+            },
+            f,
+            indent=2,
+        )
 
 
 class WLExtension(Extension):
@@ -193,10 +182,7 @@ class WLPreprocessor(Preprocessor):
         self.snippet_preprocessor = snippet_preprocessor
 
     def run(self, lines):
-        _lines = self.snippet_preprocessor.run(lines)
-        return self._run(_lines)
-
-    def _run(self, lines):
+        lines = self.snippet_preprocessor.run(lines)
         config = self.mkconfig
         current_page_url = None
         if "current_page" in config and isinstance(config["current_page"], Page):
@@ -326,9 +312,6 @@ def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -
     if md_path not in config["aliases_for"]:
         log.debug(f"""{md_path} is not linked in the navigation.""")
     return markdown
-
-
-# AUXILIARY FUNCTIONS ----------------------------------------------
 
 
 def _extract_aliases_from_nav(item, parent_key=None):
