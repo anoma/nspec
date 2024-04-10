@@ -106,6 +106,9 @@ jobs:
       - name: Test building with material-insiders
         run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
 
+      - name: Checkout changes
+        run: git checkout -f juvix.lock.yaml
+
       - name: Deploy documentation via GitHub (for releases)
         if: >-
           github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
