@@ -1,6 +1,9 @@
 import os
+from functools import lru_cache
 import hashlib
 from pathlib import Path
+
+from typing import Optional
 
 
 def compute_sha_over_folder(_folder_path: Path) -> str:
@@ -29,3 +32,17 @@ def hash_file(_filepath: Path):
     _hash_obj = hashlib.sha256()
     hash_file_hash_obj(_hash_obj, filepath)
     return _hash_obj.hexdigest()
+
+
+@lru_cache(maxsize=128)
+def compute_hash_filepath(_filepath: Path, hash_dir: Optional[Path] = None) -> Path:
+    """
+    Computes the hash file path location for the given file path.
+    """
+    hash_obj = hashlib.sha256()
+    filepath = _filepath.absolute()
+    hash_obj.update(filepath.as_posix().encode("utf8"))
+    hash_filename = hash_obj.hexdigest()
+    if hash_dir is None:
+        return Path(hash_filename)
+    return hash_dir.joinpath(hash_filename)

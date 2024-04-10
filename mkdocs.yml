@@ -447,9 +447,8 @@ nav:
     - Schelling tests: ./applications/schelling-tests.md
     - Mesh messaging: ./applications/mesh-messaging.md
   - Indexes:
-    - Quick links: ./indexes/aliases.md
-    - Juvix Modules:
-      - ./engine.juvix.md
+    - Quick links: ./indexes/links.md
+    - Juvix Modules: ./indexes/juvix_modules.md
 
 extra:
   social:
@@ -506,6 +505,7 @@ plugins:
   - bibtex:
       bib_file: "art.bib"
   - macros:
+      verbose: false
       module_name: macros
       j2_block_start_string: "{@@"
       j2_block_end_string: "@@}"
@@ -528,6 +528,7 @@ exclude_docs: |
   */**/.juvix-build/
   docs/indexes/*.txt
   docs/indexes/*.dot
+  docs/images/*.dot.svg
 
 extra_css:
   - assets/css/extra.css
