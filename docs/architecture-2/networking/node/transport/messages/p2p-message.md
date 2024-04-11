@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # P2PMessage
 
 <div id="p2pmessage-transport"></div>

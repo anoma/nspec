@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Taiga
 
 Taiga is a concrete instantiation of the [[Resource Machine|Anoma Resource Machine]] used to compute and verify state transition proposals. Taiga defines what a valid transaction is and provides the means to produce and verify transactions.

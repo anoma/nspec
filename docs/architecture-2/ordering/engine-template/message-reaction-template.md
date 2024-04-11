@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 #### `SomeMessageToReactTo`
 
 - _from_ [SendingEngine](#SendingEngine), [AnotherSendingEngine](#AnotherSendingEngine)

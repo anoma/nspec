@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Authorization
 
 Authorisation is performed by user-defined resource logics. Users can send a message by creating a resource that can only be created by a valid partial transaction including their account resource and the creation of the message resource. Typically, users will use stateful authorisation (carried by a non-fungible token, essentially) which they can upgrade over time.

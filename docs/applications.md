@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Applications
 
 Applications consist of a set of related resource logics. The state of any particular application is sharded across the system, and may be under many different controllers. Applications, of course, can restrict themselves to specific sets or paths of controllers with appropriate checks in the predicates, but by default Anoma's architecture is designed to provide a clean separation of application design and security choices, such that application developers can choose the data model and predicate logic but users can choose the security assumptions.

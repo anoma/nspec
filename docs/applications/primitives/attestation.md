@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Attestation
 
 *Attestations* are non-transferable credentials associated with an issuing party (making the attestation) and a party about which they attest something (the receiver of the credential). Attestations can include arbitrary data, which may be meaningful (e.g. the details of a specific degree earned), and can be verified by other parties in a transaction.

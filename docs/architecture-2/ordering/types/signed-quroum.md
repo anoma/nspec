@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # `SignedQuorum`
 
 A signed quorum is a signature over a list of blocks whose creators together form a learner-specific quorum.

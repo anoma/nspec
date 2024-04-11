@@ -1,5 +1,8 @@
 ---
 alias: EngineSolver
+icon: material/file-document-outline
+search:
+  exclude: false
 ---
 
 # Solver

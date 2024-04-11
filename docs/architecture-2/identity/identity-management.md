@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Identity Management Engine
 
 The identity management engine is responsible for generating, connecting, and deleting identities. It abstracts a uniform interface over identities created with different "backends", including, for example:

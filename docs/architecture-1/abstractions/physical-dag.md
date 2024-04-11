@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Physical DAG
 
 The _physical DAG_ is the layer directly on top of the lowest-layer network, responsible for providing local partial ordering information. This DAG is singular, in that any message can reference any other message created at this layer. Different observers may see and perform computations on different sub-physical-DAGs (just in accordance with which messages they have actually received) - but any observer in possession of any particular message can check whether or not it has received all transitively referenced messages, guaranteeing that two observers treating the same message as the current state and performing the same computations on parts of the past physical DAG (w.r.t. that message) will end up with the same results. The physical DAG has no knowledge of linearity, consensus, or validity semantics - those are the responsibility of higher layers - it is only responsible for carrying information about local ordering (when a particular identity saw particular events).

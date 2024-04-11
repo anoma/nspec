@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 ## Transaction life cycle: from request to execution
 
 Consider the “life cycle” of a transparent asset transfer $T$.

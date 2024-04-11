@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Logical DAG
 
 A _logical DAG_ is a DAG computed from a view (the partial information of history which an agent has access to) corresponding to a particular message from the physical DAG according to a particular algorithm. To facilitate incremental verification and computation, logical DAGs are uniquely defined by their predicates. Different logical DAG predicates may guarantee additional structural properties (such as linearity, predicate validity, consensus w.r.t. an identity set, etc.) possibly subject to additional assumptions about the behaviour of particular agents. Logical DAG predicates are of type `PhysicalDAG -> t -> Bool` for some logical DAG type `t`, where a valid logical DAG for a particular physical DAG is any inhabitant of `t` such that the predicate holds. Generally, logical DAGs preserve partial ordering information from the physical DAG, in that if an event A occurred no later than event B in the physical DAG, A must occur no later than B in any valid corresponding logical DAG. Logical DAGs also have a "state" type, which is computed deterministically from the logical DAG at the point in logical time of interest.

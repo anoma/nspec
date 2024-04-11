@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Basic types
 
 _"There are two kinds of data structures: DAGs, and bad data structures." - unknown_

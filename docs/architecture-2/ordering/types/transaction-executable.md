@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # TransactionExecutable
 
 All information about what to do after a transaction is ordered, e.g., calculations, or proof checks,

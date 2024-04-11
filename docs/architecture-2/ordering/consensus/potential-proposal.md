@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 ### `PotentialProposal`
 
 - _from_ [Mempool Primary](../mempool/primary.md)

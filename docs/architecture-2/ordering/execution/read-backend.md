@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Read Backend
 
 The ReadBackend is a component intended for light client reads.

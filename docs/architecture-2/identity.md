@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Identity Machine
 
 The identity machine is responsible for management of data and operations related to identities, including:

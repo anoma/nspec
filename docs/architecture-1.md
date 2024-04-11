@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Architecture v1
 
 We first describe on the highest level of abstraction what it means to be a

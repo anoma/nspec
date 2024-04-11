@@ -1,5 +1,7 @@
 ---
 icon: material/keyboard
+search:
+  exclude: false
 ---
 
 # Juvix Modules

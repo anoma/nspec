@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # `NarwhalBlockHeader`
 
 Primaries organize batches of transactions into block headers that may also contain signed quorums,

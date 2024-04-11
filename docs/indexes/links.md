@@ -1,5 +1,7 @@
 ---
 icon: material/link
+search:
+  exclude: false
 ---
 
 # Quick Links

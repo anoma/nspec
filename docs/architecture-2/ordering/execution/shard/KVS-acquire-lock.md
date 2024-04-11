@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # KVSAcquireLock
 
 - _from_ [[Worker Engine|Mempool Worker]] <!-- formerly from [[Executor]] -->

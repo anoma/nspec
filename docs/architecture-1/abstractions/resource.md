@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Resource
 
 _Resources_ are the atomic units of state in Anoma.

@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # NodeDisconnected
 
 <!-- --8<-- [start:purpose] -->

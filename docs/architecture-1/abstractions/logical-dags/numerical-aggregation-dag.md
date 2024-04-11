@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Numerical aggregation DAG
 
 As a simple logical DAG, consider a numerical aggregation DAG: transactions are non-negative integers, state is computed by adding, and there are no conflicts.

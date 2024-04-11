@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # UpdateSeenAll
 
 - _from_ [[Mempool Engines|Mempool Engines]]

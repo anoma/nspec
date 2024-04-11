@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Proof-of-stake
 
 - Tokens of a particular denomination can be locked for a configurable period of time in a non-fungible bond

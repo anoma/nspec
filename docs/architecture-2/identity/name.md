@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Naming Engine
 
 The naming engine is responsible for tracking naming information as described in [Identity Names](../../architecture-1/abstractions/identity.md#identity-names). It supports name resolution, submitting name evidence, and querying name evidence.

@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 ## A life cycle with some details
 
 Let us consider a typical/generic case

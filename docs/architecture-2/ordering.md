@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Ordering and Execution Engines
 
 The ordering and execution engines receive transaction requests from users,

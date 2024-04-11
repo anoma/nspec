@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Identity
 
 The base abstraction of the protocol is a knowledge-based identity

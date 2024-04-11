@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 ### AnchorChosen
 
 - _from_ [Consensus](../../consensus-v1.md)

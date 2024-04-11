@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 #### WorkerHashAvailable
 
 - _from_ [Worker](../worker.md)
