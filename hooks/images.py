@@ -38,8 +38,9 @@ IMAGES_PATTERN = re.compile(
 )
 
 
-DOT_BIN = os.getenv("DOT_BIN", "dot")
 USE_DOT = bool(os.getenv("USE_DOT", True))
+DOT_BIN = os.getenv("DOT_BIN", "dot")
+DOT_FLAGS = os.getenv("DOT_FLAGS", "-Tsvg")
 
 if not shutil.which(DOT_BIN):
     log.error(
@@ -135,7 +136,7 @@ class ImgPreprocessor(Preprocessor):
                         log.info(f"{dot_location} not found. Skipping SVG generation.")
                         continue
 
-                    cmd = f"{DOT_BIN} -Tsvg {dot_location.as_posix()} -o {img_cache.absolute().as_posix()}"
+                    cmd = f"{DOT_BIN} {DOT_FLAGS} {dot_location.as_posix()} -o {img_cache.absolute().as_posix()}"
 
                     log.debug(f"Running command: {cmd}")
 

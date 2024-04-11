@@ -9,6 +9,6 @@ participate, what actions they can perform, and hardware requirements.
   machines must have in order to run Anoma.
 - Primitives describes the basic cryptographic primitives and associated
   assumptions.
-- [Abstractions](./architecture-1/abstractions.md) describes the basic abstractions defined by the protocol.
-- [Properties](./architecture-1/properties.md) describes the properties that the protocol
+- [[Abstractions]] describes the basic abstractions defined by the protocol.
+- [[Properties]] describes the properties that the protocol
   should satisfy.

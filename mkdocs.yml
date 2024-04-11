@@ -487,6 +487,7 @@ theme:
     - content.code.copy
     - content.tooltips
     - navigation.tracking
+    - navigation.footer
     - navigation.path
     - navigation.sections
     # - navigation.indexes

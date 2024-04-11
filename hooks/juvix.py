@@ -199,15 +199,18 @@ class JuvixPreprocessor:
             )
             return
 
-        try:
-            log.info("Updating Juvix dependencies...")
-            subprocess.run([JUVIX_BIN, "dependencies", "update"], capture_output=True)
-        except Exception as e:
-            log.error(f"A problem occurred while updating Juvix dependencies: {e}")
-            return
-
     def pre_build(self) -> None:
         global FIRST_RUN
+
+        if FIRST_RUN:
+            try:
+                log.info("Updating Juvix dependencies...")
+                subprocess.run(
+                    [JUVIX_BIN, "dependencies", "update"], capture_output=True
+                )
+            except Exception as e:
+                log.error(f"A problem occurred while updating Juvix dependencies: {e}")
+                return
 
         log.info("Generating Markdown for all .juvix.md files.")
         for _file in DOCS_DIR.rglob("*.juvix.md"):
