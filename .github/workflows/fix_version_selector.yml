@@ -1,0 +1,27 @@
+name: Update Versions
+
+on:
+  push:
+    branches:
+      - gh-pages
+
+jobs:
+  update-versions:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/gh-pages'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Remove versions starting with "pull"
+        run: |
+          jq 'map(select(.version | startswith("pull") | not))' versions.json > temp.json && mv temp.json versions.json
+        shell: bash
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add versions.json
+          git commit -m "Remove versions starting with 'pull'"
+          git push

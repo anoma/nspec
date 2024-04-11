@@ -42,7 +42,7 @@ plugins:
   - mike:
       canonical_version: latest
       alias_type: copy
-      version_selector: false
+      version_selector: true
       css_dir: docs/assets/css
       javascript_dir: docs/assets/js
   - macros:
