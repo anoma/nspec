@@ -3,6 +3,8 @@ from mkdocs.utils import get_markdown_title
 
 
 def fix_url(root: str, url: str, html: bool = False, ROOT_URL="/nspec/") -> str:
+    if url.startswith("http"):
+        return url
     right_url = url.lstrip(".").lstrip("/")
     _root = root
     if _root.endswith(ROOT_URL):

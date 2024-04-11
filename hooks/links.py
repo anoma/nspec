@@ -117,7 +117,10 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
                     k: [str(p) for p in v] for k, v in config["aliases_for"].items()
                 },
                 "url_for": {
-                    k: [fix_url(url=p, root=SITE_URL, html=True) for p in v]
+                    k: [
+                        fix_url(url=p, root=config.get("site_url", SITE_URL), html=True)
+                        for p in v
+                    ]
                     for k, v in config["url_for"].items()
                 },
             },
@@ -256,14 +259,14 @@ class WLPreprocessor(Preprocessor):
                         f"{p} ({coefficients[p]})" for p in sorted_pages
                     ]
 
-                    if len(list_possible_pages_with_score) > 1:
-                        list_possible_pages_with_score[0] = (
-                            f"{list_possible_pages_with_score[0]} (most likely, used for now)"
-                        )
+                    list_possible_pages_with_score[0] = (
+                        f"{list_possible_pages_with_score[0]} (most likely, used for now)"
+                    )
+
                     _list = "\n  ".join(list_possible_pages_with_score)
 
                     log.warning(
-                        f"""{loc}\nReference: '{link_page}' at '{loc}' is ambiguous. It could refer to any of the following pages:\n  {_list}\nPlease revise the page alias or add a path hint to disambiguate, e.g. [[folderA/subfolderB:page#anchor|display text]]."""
+                        f"""{loc}\nReference: '{link_page}' at '{loc}' is ambiguous. It could refer to any of the following pages:\n  {_list}\nPlease revise the page alias or add a path hint to disambiguate, e.g. [[folderHintA/subfolderHintB:page#anchor|display text]]."""
                     )
 
                     config["wikilinks_issues"] += 1
@@ -303,9 +306,6 @@ class WLPreprocessor(Preprocessor):
 
 @mkdocs.plugins.event_priority(-200)
 def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -> str:
-    """Replace wikilinks by markdown links. This process avoids to replace links
-    inside code blocks and html comments.
-    """
     config["current_page"] = page  # needed for the preprocessor
     md_path = "./" + page.url.replace(".html", ".md")
     if md_path not in config["aliases_for"]:

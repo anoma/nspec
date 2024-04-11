@@ -1,6 +1,6 @@
 ---
 icon: material/home
-description: Anoma Spec
+description: A work-in-progress specification for the Anoma protocol.
 hide:
   - toc
 social:
