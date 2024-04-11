@@ -50,6 +50,7 @@ permissions:
 
 jobs:
   deploy:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
