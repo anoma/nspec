@@ -1,6 +1,7 @@
-name: Update Versions
+name: update-version-selector
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - gh-pages
@@ -8,7 +9,6 @@ on:
 jobs:
   update-versions:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/gh-pages'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -18,10 +18,16 @@ jobs:
           jq 'map(select(.version | startswith("pull") | not))' versions.json > temp.json && mv temp.json versions.json
         shell: bash
 
-      - name: Commit and push changes
+      - name: Commit and push changes if there are changes
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add versions.json
-          git commit -m "Remove versions starting with 'pull'"
-          git push
+          # Check if there are any changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Remove versions starting with 'pull'"
+            git push
+          fi
+
