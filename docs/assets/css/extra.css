@@ -1,3 +1,8 @@
+
+html {
+  font-size: calc(125% * 1.1); /* <- 1.1 equals + 10% – adjust to taste */
+}
+
 .md-search__form {
   border-radius: 2rem;
   border: 2px solid #af57571a;
