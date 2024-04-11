@@ -123,7 +123,7 @@ jobs:
           MSG: "The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
 
       - name: Delete the PR preview if the PR is closed or merged
-        if: steps.deploy-preview.outputs.success == 'true' && github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
+        if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
         run: |
           DEVALIAS='pull-${{ github.event.pull_request.number }}' make delete-alias
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "The preview of this PR has been deleted."
