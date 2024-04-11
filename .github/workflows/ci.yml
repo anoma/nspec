@@ -107,31 +107,23 @@ jobs:
         run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
 
       - name: Set the version for mike
+        id: deploy-preview
         if: >-
           github.event_name == 'pull_request'
         run: |
           DEVALIAS="pull-${{ github.event.pull_request.number }}" MKDOCSCONFIG=mkdocs.insiders.yml make dev
 
-      - name: Delete the PR preview if the PR is closed or merged
-        if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
-        run: |
-          DEVALIAS='pull-${{ github.event.pull_request.number }}' make delete-alias
-
       - name: Comment the PR with the preview link
         if: >-
-          github.event_name == 'pull_request'
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const issue_number = ${{ github.event.pull_request.number }};
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue_number,
-              body: 'The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/dev/'
-            });
+          steps.deploy-preview.outputs.success == 'true' && github.event_name == 'pull_request'
+        run: gh pr comment ${{ github.event.pull_request.number }} --body "$MSG"
+        env:
+          MSG: "The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
 
+      - name: Delete the PR preview if the PR is closed or merged
+        if: steps.deploy-preview.outputs.success == 'true' && github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
+        run: |
+          DEVALIAS='pull-${{ github.event.pull_request.number }}' make delete-alias
 
       - name: Deploy documentation via GitHub (for releases)
         if: >-
