@@ -116,7 +116,7 @@ jobs:
       - name: Comment the PR with the preview link
         if: >-
            github.event_name == 'pull_request'
-        run: gh pr comment ${{ github.event.pull_request.number }} --body "$MSG"
+        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "$MSG"
         env:
           MSG: "The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
 
