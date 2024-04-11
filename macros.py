@@ -30,36 +30,38 @@ def define_env(env):
     env.variables.version = "v2"
     env.variables.last_updated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Generate the list of aliases by letter
+    @env.macro
+    def get_aliases():
+        aliases_file = CACHE_DIR / "aliases.json"
+        aliases_json = load_json_file(aliases_file)
+        aliases = aliases_json.get("url_for", {})
+        keys = sorted(list(aliases.keys()))
+        aliases_by_letter = {}
+        current_letter = None
+        for alias in keys:
+            letter = alias[0].upper()
+            if letter != current_letter:
+                current_letter = letter
+                aliases_by_letter[current_letter] = []
+            aliases_by_letter[current_letter].append(
+                {"alias": alias, "url": aliases[alias]}
+            )
+        return aliases_by_letter
 
-    aliases_file = CACHE_DIR / "aliases.json"
-    env.variables.aliases_by_letter = {}
-    aliases_json = load_json_file(aliases_file)
-    aliases = aliases_json.get("url_for", {})
-    keys = sorted(list(aliases.keys()))
-    current_letter = None
-    for alias in keys:
-        letter = alias[0].upper()
-        if letter != current_letter:
-            current_letter = letter
-            env.variables.aliases_by_letter[current_letter] = []
-        env.variables.aliases_by_letter[current_letter].append(
-            {"alias": alias, "url": aliases[alias]}
-        )
-
-    # Generate the list of Juvix modules by letter
-
-    juvix_modules_file = CACHE_DIR / "juvix_modules.json"
-    env.variables.juvix_modules_by_letter = {}
-    env.variables.juvix_modules = load_json_file(juvix_modules_file)
-    sorted(env.variables.juvix_modules, key=lambda x: x["module_name"])
-    current_letter = None
-    for mod in env.variables.juvix_modules:
-        letter = mod["module_name"][0].upper()
-        if letter != current_letter:
-            current_letter = letter
-            env.variables.juvix_modules_by_letter[current_letter] = []
-        env.variables.juvix_modules_by_letter[current_letter].append(mod)
+    @env.macro
+    def get_juvix_modules():
+        juvix_modules_file = CACHE_DIR / "juvix_modules.json"
+        juvix_modules_by_letter = {}
+        juvix_modules = load_json_file(juvix_modules_file)
+        sorted(juvix_modules, key=lambda x: x["module_name"])
+        current_letter = None
+        for mod in juvix_modules:
+            letter = mod["module_name"][0].upper()
+            if letter != current_letter:
+                current_letter = letter
+                juvix_modules_by_letter[current_letter] = []
+            juvix_modules_by_letter[current_letter].append(mod)
+        return juvix_modules_by_letter
 
     @env.macro
     def date(d):
