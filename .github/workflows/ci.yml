@@ -106,8 +106,16 @@ jobs:
       - name: Test building with material-insiders
         run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
 
-      - name: Checkout changes
-        run: git checkout -f juvix.lock.yaml
+      - name: Set the version for mike
+        if: >-
+          github.event_name == 'pull_request'
+        run: |
+          DEVALIAS="PR-${{ github.event.pull_request.number }}" MKDOCSCONFIG=mkdocs.insiders.yml make dev
+
+      - name: Delete the PR preview if the PR is closed or merged
+        if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
+        run: |
+          DEVALIAS='PR-${{ github.event.pull_request.number }}' make delete-alias
 
       - name: Deploy documentation via GitHub (for releases)
         if: >-
