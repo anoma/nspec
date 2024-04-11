@@ -1,4 +1,3 @@
-
 class FileLoc:
     path: str
     line: int

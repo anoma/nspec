@@ -1,4 +1,5 @@
 from typing import Optional
+
 from mkdocs.utils import get_markdown_title
 
 

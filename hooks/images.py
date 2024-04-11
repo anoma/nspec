@@ -1,16 +1,17 @@
-import re
+import logging
 import os
+import re
 import shutil
 import subprocess
-import logging
 from pathlib import Path
-from mkdocs.structure.pages import Page
-from mkdocs.structure.files import Files
-from mkdocs.config.defaults import MkDocsConfig
-from markdown.preprocessors import Preprocessor  # type: ignore
-from markdown.extensions import Extension  # type: ignore
-from common.utils import fix_url
+
 from common.models.fileloc import FileLoc
+from common.utils import fix_url
+from markdown.extensions import Extension  # type: ignore
+from markdown.preprocessors import Preprocessor  # type: ignore
+from mkdocs.config.defaults import MkDocsConfig
+from mkdocs.structure.files import Files
+from mkdocs.structure.pages import Page
 
 log: logging.Logger = logging.getLogger("mkdocs")
 

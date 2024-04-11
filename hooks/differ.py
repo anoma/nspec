@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 from common.utils import fix_url
-
 from mkdocs.structure.files import Files
 
 log: logging.Logger = logging.getLogger("mkdocs")

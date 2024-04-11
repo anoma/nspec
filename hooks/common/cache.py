@@ -1,8 +1,7 @@
+import hashlib
 import os
 from functools import lru_cache
-import hashlib
 from pathlib import Path
-
 from typing import Optional
 
 

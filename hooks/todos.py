@@ -2,18 +2,18 @@
 This plugin is used to find and report TODOs in the documentation.
 """
 
-import re
-import os
 import logging
+import os
+import re
 from pathlib import Path
-from mkdocs.structure.pages import Page
-from mkdocs.structure.files import Files
-from mkdocs.config.defaults import MkDocsConfig
-from markdown.preprocessors import Preprocessor  # type: ignore
-from markdown.extensions import Extension  # type: ignore
 from typing import List
 
 from common.models.todo import Todo
+from markdown.extensions import Extension  # type: ignore
+from markdown.preprocessors import Preprocessor  # type: ignore
+from mkdocs.config.defaults import MkDocsConfig
+from mkdocs.structure.files import Files
+from mkdocs.structure.pages import Page
 
 log: logging.Logger = logging.getLogger("mkdocs")
 
@@ -105,4 +105,6 @@ def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -
 
 def on_post_build(config: MkDocsConfig, **kwargs):
     if config["todos"] > 0:
-        log.info(f"Found {config['todos']} TODOs in the documentation.")
+        log.info(
+            f"Found {config['todos']} TODOs in the documentation. Run `todos` to see them."
+        )

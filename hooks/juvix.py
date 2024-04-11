@@ -2,27 +2,22 @@
 This hook here is used to render Juvix clickable html from Juvix markdown files.
 """
 
-from functools import lru_cache
 import json
 import logging
 import os
 import shutil
 import subprocess
+from functools import lru_cache
 from pathlib import Path
-from typing import Any, Callable, List, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pathspec
+from common.cache import compute_hash_filepath, compute_sha_over_folder, hash_file
+from common.utils import fix_url
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.files import Files
 from mkdocs.structure.pages import Page
 from watchdog.events import FileSystemEvent
-
-from common.utils import fix_url
-from common.cache import (
-    compute_sha_over_folder,
-    hash_file,
-    compute_hash_filepath,
-)
 
 log: logging.Logger = logging.getLogger("mkdocs")
 

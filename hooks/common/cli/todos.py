@@ -4,9 +4,10 @@ directory. You could use grep but this script is more user-friendly and provides
 a better output.
 """
 
-import os
 import glob
+import os
 import sys
+
 import click
 
 

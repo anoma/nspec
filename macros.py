@@ -1,8 +1,8 @@
-from datetime import datetime
-import os
-from pathlib import Path
-import logging
 import json
+import logging
+import os
+from datetime import datetime
+from pathlib import Path
 
 INDEXES_DIR = Path("docs/indexes")
 INDEXES_DIR.mkdir(parents=True, exist_ok=True)
@@ -68,11 +68,11 @@ def define_env(env):
         return datetime.strptime(d, "%Y-%m-%d")
 
 
-def on_pre_page_macros(env):
-    """
-    Actions to be performed before the page macros are expanded.
-    """
-    env.markdown += f"<!-- Last updated: {env.variables.last_updated} -->"
+# def on_pre_page_macros(env):
+#     """
+#     Actions to be performed before the page macros are expanded.
+#     """
+#     env.markdown += f"<!-- Last updated: {env.variables.last_updated} -->"
 
 
 def on_post_page_macros(env):

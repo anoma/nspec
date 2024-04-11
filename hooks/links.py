@@ -3,24 +3,24 @@ Add better support for wiki-style links in MkDocs in tandem of pydownx_snippets,
 that existing plugins out there.
 """
 
-import re
-import os
-import mkdocs.plugins
-import logging
-from typing import List, Optional
-from pymdownx.snippets import SnippetPreprocessor  # type: ignore
-from pymdownx.snippets import DEFAULT_URL_SIZE, DEFAULT_URL_TIMEOUT  # type: ignore
-from pathlib import Path
-from mkdocs.utils import meta
-from mkdocs.structure.pages import Page
-from mkdocs.structure.files import Files
-from mkdocs.config.defaults import MkDocsConfig
-from markdown.preprocessors import Preprocessor  # type: ignore
-from markdown.extensions import Extension  # type: ignore
-from fuzzywuzzy import fuzz  # type: ignore
-from common.models import WikiLink, FileLoc
-from common.utils import fix_url, get_page_title
 import json
+import logging
+import os
+import re
+from pathlib import Path
+from typing import List, Optional
+
+import mkdocs.plugins
+from common.models import FileLoc, WikiLink
+from common.utils import fix_url, get_page_title
+from fuzzywuzzy import fuzz  # type: ignore
+from markdown.extensions import Extension  # type: ignore
+from markdown.preprocessors import Preprocessor  # type: ignore
+from mkdocs.config.defaults import MkDocsConfig
+from mkdocs.structure.files import Files
+from mkdocs.structure.pages import Page
+from mkdocs.utils import meta
+from pymdownx.snippets import DEFAULT_URL_SIZE, DEFAULT_URL_TIMEOUT, SnippetPreprocessor
 
 log: logging.Logger = logging.getLogger("mkdocs")
 
