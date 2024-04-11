@@ -31,8 +31,7 @@ ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 
 SITE_URL = os.environ.get("SITE_URL", "/nspec/")
-REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", False))
-
+REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", True))
 
 CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)

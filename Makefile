@@ -3,7 +3,7 @@ VERSION?=$(shell cat VERSION)
 ALIAS?=latest
 MKDOCSCONFIG?=mkdocs.yml
 PIP?=pip3
-MKDOCSFLAGS?=--quiet
+MKDOCSFLAGS?=
 
 DEV?=true
 DEVALIAS?="dev"

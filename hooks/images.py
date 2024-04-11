@@ -177,5 +177,4 @@ def on_post_build(config: MkDocsConfig) -> None:
         )
     else:
         site_dir = config.get("site_dir", "site")
-        log.info(f"Copying images to {site_dir}/images")
         shutil.copytree(CACHE_IMAGES, Path(site_dir) / "images", dirs_exist_ok=True)
