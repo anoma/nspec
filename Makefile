@@ -29,9 +29,12 @@ test-build: export REPORT_TODOS=true
 test-build: export REPORT_BROKEN_LINKS=true
 test-build:
 	@mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
+
+.PHONY: assets
 assets:
 	@curl -s -o art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
 
+.PHONY: serve
 serve: assets
 	mkdocs serve --dev-addr localhost:${PORT} --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
@@ -43,6 +46,7 @@ mike: assets
 	@git checkout main
 	mike deploy ${VERSION} ${MIKEFLAGS}
 
+.PHONY: mike-serve
 mike-serve: docs
 	mike serve --dev-addr localhost:${PORT} --config-file ${MKDOCSCONFIG}
 
@@ -51,6 +55,10 @@ dev: assets
 	export DEV=true
 	mike delete ${DEVALIAS} ${MIKEFLAGS} > /dev/null 2>&1 || true
 	VERSION=${DEVALIAS} ${MAKE} mike
+
+.PHONY: delete-alias
+delete-alias:
+	mike delete ${DEVALIAS} ${MIKEFLAGS} > /dev/null 2>&1 || true
 
 .PHONY: latest
 latest: assets
