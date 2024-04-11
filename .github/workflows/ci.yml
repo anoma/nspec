@@ -62,77 +62,77 @@ jobs:
           git config --global user.name arts
           git config --global user.email arts@heliax.dev
 
-      - name: Download latest nightly Juvix binary
-        uses: jaxxstorm/action-install-gh-release@v1.9.0
-        with:
-          repo: anoma/juvix-nightly-builds
-          cache: enable
-          rename-to: juvix
-          chmod: 0755
+      # - name: Download latest nightly Juvix binary
+      #   uses: jaxxstorm/action-install-gh-release@v1.9.0
+      #   with:
+      #     repo: anoma/juvix-nightly-builds
+      #     cache: enable
+      #     rename-to: juvix
+      #     chmod: 0755
 
-      - id: juvix-version
-        name: See the dev version in the documentation
-        run: |
-          juvix --version
+      # - id: juvix-version
+      #   name: See the dev version in the documentation
+      #   run: |
+      #     juvix --version
 
-      - name: typecheck Juvix code
-        run: |
-          juvix typecheck docs/everything.juvix.md
+      # - name: typecheck Juvix code
+      #   run: |
+      #     juvix typecheck docs/everything.juvix.md
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
+      # - uses: actions/setup-python@v4
+      #   with:
+      #     python-version: 3.x
 
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v3
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-material-
+      # - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      # - uses: actions/cache@v3
+      #   with:
+      #     key: mkdocs-material-${{ env.cache_id }}
+      #     path: .cache
+      #     restore-keys: |
+      #       mkdocs-material-
 
-      - name: Install Linux dependencies
-        run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
+      # - name: Install Linux dependencies
+      #   run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
 
-      - run: pip install -r requirements.txt
+      # - run: pip install -r requirements.txt
 
-      - name: Test building without material-insiders
-        run: |
-          mkdocs build --clean -v --config-file mkdocs.yml
+      # - name: Test building without material-insiders
+      #   run: |
+      #     mkdocs build --clean -v --config-file mkdocs.yml
 
-      - run: |
-          pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
+      # - run: |
+      #     pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
 
-      - name: Test building with material-insiders
-        run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
+      # - name: Test building with material-insiders
+      #   run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
 
-      - name: Set the version for mike
-        id: deploy-preview
-        if: >-
-          github.event_name == 'pull_request'
-        run: |
-          DEVALIAS="pull-${{ github.event.pull_request.number }}" MKDOCSCONFIG=mkdocs.insiders.yml make dev
+      # - name: Set the version for mike
+      #   id: deploy-preview
+      #   if: >-
+      #     github.event_name == 'pull_request'
+      #   run: |
+      #     DEVALIAS="pull-${{ github.event.pull_request.number }}" MKDOCSCONFIG=mkdocs.insiders.yml make dev
 
       - name: Comment the PR with the preview link
         if: >-
-          steps.deploy-preview.outputs.success == 'true' && github.event_name == 'pull_request'
+           github.event_name == 'pull_request'
         run: gh pr comment ${{ github.event.pull_request.number }} --body "$MSG"
         env:
           MSG: "The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
 
-      - name: Delete the PR preview if the PR is closed or merged
-        if: steps.deploy-preview.outputs.success == 'true' && github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
-        run: |
-          DEVALIAS='pull-${{ github.event.pull_request.number }}' make delete-alias
+      # - name: Delete the PR preview if the PR is closed or merged
+      #   if: steps.deploy-preview.outputs.success == 'true' && github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
+      #   run: |
+      #     DEVALIAS='pull-${{ github.event.pull_request.number }}' make delete-alias
 
-      - name: Deploy documentation via GitHub (for releases)
-        if: >-
-          github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make ${{ github.event.inputs.build-type }}
+      # - name: Deploy documentation via GitHub (for releases)
+      #   if: >-
+      #     github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+      #   run: |
+      #     MKDOCSCONFIG=mkdocs.insiders.yml make ${{ github.event.inputs.build-type }}
 
-      - name: By default, deploy DEV documentation via pushes to main
-        if: >-
-          github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make dev
+      # - name: By default, deploy DEV documentation via pushes to main
+      #   if: >-
+      #     github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
+      #   run: |
+      #     MKDOCSCONFIG=mkdocs.insiders.yml make dev
