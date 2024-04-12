@@ -133,7 +133,7 @@ jobs:
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Check the logs. ${{ steps.deploy-preview.outputs}}"
 
       - name: Set the version for mike
-        id: deploy-preview
+        id: deploy-preview-set-version
         if: >-
           github.event_name == 'pull_request'
         run: |
