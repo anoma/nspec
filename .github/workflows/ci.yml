@@ -105,7 +105,7 @@ jobs:
         run: |
           mkdocs build --clean --config-file mkdocs.yml
 
-      - if: failure()
+      - if: ${{ failure() }}
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs." || true
 
@@ -115,7 +115,7 @@ jobs:
       - name: Test building with material-insiders
         run: mkdocs build --clean --config-file mkdocs.insiders.yml
 
-      - if: failure()
+      - if: ${{ failure() }}
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs." || true
 
@@ -136,7 +136,7 @@ jobs:
 
       - name: Update comment if the last step failed
         if: >-
-          github.event_name == 'pull_request' && failure()
+          ${{ failure() && github.event_name == 'pull_request' }}
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Please check the logs." || true
 
