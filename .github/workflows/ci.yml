@@ -139,31 +139,10 @@ jobs:
           github.event_name == 'pull_request'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR is being built." || true
-
-      - name: Set the version for mike
-        id: deploy-preview-set-version
-        if: >-
-          github.event_name == 'pull_request'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make dev
+          # Deploy the preview
+          mkdocs gh-deploy --config-file mkdocs.insiders.yml --remote-branch gh-pages --site-dir $SITE_URL --verbose
         env:
-          DEVALIAS: pull-${{ github.event.pull_request.number }}
-
-      - name: Remove versions starting with "pull"
-        if: github.event_name == 'pull_request'
-        shell: bash
-        run: |
-          git checkout gh-pages
-          # remove versions starting with "pull"
-          jq 'map(select(.version | startswith("pull") | not))' versions.json > temp.json && mv temp.json versions.json
-          git add versions.json
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Remove versions starting with 'pull'"
-            git push
-          fi
-          git checkout ${{ github.head_ref }}
+          SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
 
       - name: Update PR comment if the last step failed
         if: >-
@@ -181,7 +160,13 @@ jobs:
       - name: Delete the PR preview if the PR is closed or merged
         if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
         run: |
-          DEVALIAS='pull-${{ github.event.pull_request.number }}' make delete-alias
+          git checkout gh-pages
+          if [-d "pull-${{ github.event.pull_request.number }}"]; then
+            rm -rf "pull-${{ github.event.pull_request.number }}"
+            git add .
+            git commit -m "Delete preview for PR #${{ github.event.pull_request.number }}"
+            git push
+          fi
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR has been deleted." || true
 
       - name: Deploy documentation via GitHub (for releases)
