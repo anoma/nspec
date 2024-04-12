@@ -94,7 +94,7 @@ jobs:
           restore-keys: |
             mkdocs-material-
 
-      - run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "Please wait. This comment will be updated with the build status or the preview link."
+      - run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "Please wait. This comment will be updated with the build status or the preview link." || true
 
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
@@ -107,7 +107,7 @@ jobs:
 
       - if: failure()
         run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs." || true
 
       - run: |
           pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
@@ -117,14 +117,14 @@ jobs:
 
       - if: failure()
         run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs." || true
 
       - name: Deploying Preview
         id: deploy-preview
         if: >-
           github.event_name == 'pull_request'
         run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR is being built."
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR is being built." || true
 
 
       - name: Set the version for mike
@@ -138,12 +138,12 @@ jobs:
         if: >-
           github.event_name == 'pull_request' && failure()
         run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Please check the logs."
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Please check the logs." || true
 
       - name: Comment the PR with the preview link
         if: >-
            github.event_name == 'pull_request' && github.event.action == 'opened'
-        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
+        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG" || true
         env:
           MSG: "Success! The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
 
@@ -151,7 +151,7 @@ jobs:
         if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
         run: |
           DEVALIAS='pull-${{ github.event.pull_request.number }}' make delete-alias
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "The preview of this PR has been deleted."
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR has been deleted." || true
 
       - name: Deploy documentation via GitHub (for releases)
         if: >-
