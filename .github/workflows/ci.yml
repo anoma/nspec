@@ -94,6 +94,8 @@ jobs:
           restore-keys: |
             mkdocs-material-
 
+      - run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "Please wait. This comment will be updated with the build status or the preview link."
+
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
 
@@ -103,8 +105,7 @@ jobs:
         run: |
           mkdocs build --clean --config-file mkdocs.yml
 
-      - name: Update comments in the PR if the last step fails
-        if: failure()
+      - if: failure()
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
 
@@ -114,16 +115,22 @@ jobs:
       - name: Test building with material-insiders
         run: mkdocs build --clean --config-file mkdocs.insiders.yml
 
-      - name: Update comments in the PR if the last step fails
-        if: failure()
+      - if: failure()
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
 
       - name: Deploying Preview
+        id: deploy-preview
         if: >-
           github.event_name == 'pull_request'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR is being built."
+
+      - name: Update comment if the last step failed
+        if: >-
+          github.event_name == 'pull_request' && failure()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Check the logs. ${{ steps.deploy-preview.outputs}}"
 
       - name: Set the version for mike
         id: deploy-preview
