@@ -79,6 +79,8 @@ pre-commit :
 	@pre-commit run --all-files
 
 clean:
+	@if [ -d "env" ]; then rm -rf env; fi
+	@if [ -d ".hooks" ]; then rm -rf .hooks; fi
 	@rm -rf site \
 			.juvix-mkdocs \
 			.juvix-build \

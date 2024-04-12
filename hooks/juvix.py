@@ -74,7 +74,7 @@ def on_startup(command, dirty):
 
 def on_config(config) -> None:
 
-    juvix = JuvixPreprocessor(mkconfig=config)
+    juvix = JuvixPreprocessor(config=config)
     config["juvix_preprocessor"] = juvix
     return
 
@@ -176,11 +176,11 @@ def on_page_markdown(markdown: str, page, config, files: Files) -> Optional[str]
 
 class JuvixPreprocessor:
 
-    def __init__(self, mkconfig: MkDocsConfig):
-        self.mkconfig = mkconfig
+    def __init__(self, config: MkDocsConfig):
+        self.mkconfig = config
         self.juvix_md_files: List[Dict[str, Any]] = []
-        self.site_url = mkconfig.get("site_url", ROOT_URL)
-        self.site_dir = mkconfig.get("site_dir", None)
+        self.site_url = config.get("site_url", ROOT_URL)
+        self.site_dir = config.get("site_dir", None)
 
         if not JUVIX_AVAILABLE:
             log.info(
@@ -216,9 +216,9 @@ class JuvixPreprocessor:
             url = fix_url(
                 root=self.site_url,
                 url=relative_to.as_posix().replace(".juvix.md", ".html"),
-                html=True,
-                ROOT_URL=ROOT_URL,
+                use_html_ext=True,
             )
+
             self.juvix_md_files.append(
                 {
                     "module_name": self.unqualified_module_name(file),
@@ -273,10 +273,7 @@ class JuvixPreprocessor:
                         everythingJuvix
                     ),
                     "url": fix_url(
-                        root=self.site_url,
-                        url="everything.juvix.md",
-                        html=True,
-                        ROOT_URL=ROOT_URL,
+                        root=self.site_url, url="everything.juvix.md", use_html_ext=True
                     ),
                 }
             ]
@@ -302,9 +299,11 @@ class JuvixPreprocessor:
         filepath = _filepath.absolute()
         rel_path = filepath.relative_to(DOCS_DIR)
 
-        prefix_url = self.site_url + (
-            (rel_path.parent.as_posix() + "/") if rel_path.parent != Path(".") else ""
-        )
+        # prefix_url = self.site_url + (
+        #     (rel_path.parent.as_posix() + "/") if rel_path.parent != Path(".") else ""
+        # )
+
+        prefix_url = fix_url(root=self.site_url, url=rel_path.parent.as_posix())
 
         log.debug(f"prefix_url={prefix_url}")
 
@@ -424,6 +423,8 @@ class JuvixPreprocessor:
             fposix,
             "--no-colors",
         ]
+
+        log.debug(f"cmd={' '.join(cmd)}")
 
         pp = subprocess.run(cmd, cwd=DOCS_DIR, capture_output=True)
 

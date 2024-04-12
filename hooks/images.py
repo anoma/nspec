@@ -156,7 +156,7 @@ class ImgPreprocessor(Preprocessor):
                 new_url = fix_url(
                     root=config["site_url"],
                     url=img_expected_location.relative_to(DOCS_DIR).as_posix(),
-                    html=True,
+                    use_html_ext=True,
                 )
 
                 lines[i] = lines[i].replace(_url, new_url)

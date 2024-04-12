@@ -3,16 +3,15 @@ from typing import Optional
 from mkdocs.utils import get_markdown_title
 
 
-def fix_url(root: str, url: str, html: bool = False, ROOT_URL="/nspec/") -> str:
+def fix_url(url: str, use_html_ext: bool = False, root: str = "/nspec/") -> str:
     if url.startswith("http"):
         return url
+
     right_url = url.lstrip(".").lstrip("/")
-    _root = root
-    if _root.endswith(ROOT_URL):
-        _root = root.rstrip("/")
-    if html:
+    if use_html_ext:
         right_url = right_url.replace(".md", ".html")
-    return _root + "/" + right_url
+
+    return root.rstrip("/") + "/" + right_url
 
 
 def get_page_title(page_src: str, meta_data: dict) -> Optional[str]:
