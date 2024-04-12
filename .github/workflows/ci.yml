@@ -85,7 +85,7 @@ jobs:
         with:
           python-version: 3.x
 
-      - run: 
+      - run: |
         echo "cache_id=$(date --utc '+%V')-hashFiles('hooks/**/*.py')" >> $GITHUB_ENV
 
       - uses: actions/cache@v3
