@@ -126,11 +126,6 @@ jobs:
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR is being built."
 
-      - name: Update comment if the last step failed
-        if: >-
-          github.event_name == 'pull_request' && failure()
-        run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Check the logs. ${{ steps.deploy-preview.outputs}}"
 
       - name: Set the version for mike
         id: deploy-preview-set-version
@@ -138,6 +133,12 @@ jobs:
           github.event_name == 'pull_request'
         run: |
           DEVALIAS="pull-${{ github.event.pull_request.number }}" MKDOCSCONFIG=mkdocs.insiders.yml make dev
+
+      - name: Update comment if the last step failed
+        if: >-
+          github.event_name == 'pull_request' && failure()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Please check the logs."
 
       - name: Comment the PR with the preview link
         if: >-
