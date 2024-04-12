@@ -95,10 +95,10 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
                 if _title:
                     _title = _title.strip()
                     _title = re.sub(r'^[\'"`]|["\'`]$', "", _title)
+
                     if _title not in config["url_for"]:
 
                         url = (Path(".") / Path(file.src_uri)).as_posix()
-
                         config["url_for"][_title] = [url]
                         config["aliases_for"][url] = [_title]
                     else:
@@ -118,7 +118,11 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
                 },
                 "url_for": {
                     k: [
-                        fix_url(url=p, root=config.get("site_url", SITE_URL), use_html_ext=True)
+                        fix_url(
+                            root=config.get("site_url", SITE_URL),
+                            url=p,
+                            use_html_ext=True,
+                        )
                         for p in v
                     ]
                     for k, v in config["url_for"].items()
@@ -284,7 +288,7 @@ class WLPreprocessor(Preprocessor):
                     if "127.0.0.1" in root_url or "localhost" in root_url:
                         root_url = SITE_URL
 
-                    md_path = fix_url(root=root_url, url=path, use_html_ext=True)
+                    md_path = fix_url(root=root_url, url=path, use_html_ext=False)
 
                     md_link = f"[{link.display or link.page}]({md_path}{f'#{link.anchor}' if link.anchor else ''})"
 
