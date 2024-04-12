@@ -217,7 +217,6 @@ class JuvixPreprocessor:
                 root=self.site_url,
                 url=relative_to.as_posix().replace(".juvix.md", ".html"),
                 use_html_ext=True,
-                root_url_default=ROOT_URL,
             )
 
             self.juvix_md_files.append(
@@ -274,10 +273,7 @@ class JuvixPreprocessor:
                         everythingJuvix
                     ),
                     "url": fix_url(
-                        root=self.site_url,
-                        url="everything.juvix.md",
-                        use_html_ext=True,
-                        root_url_default=ROOT_URL,
+                        root=self.site_url, url="everything.juvix.md", use_html_ext=True
                     ),
                 }
             ]
@@ -307,11 +303,7 @@ class JuvixPreprocessor:
         #     (rel_path.parent.as_posix() + "/") if rel_path.parent != Path(".") else ""
         # )
 
-        prefix_url = fix_url(
-            root=self.site_url,
-            url=rel_path.parent.as_posix(),
-            root_url_default=ROOT_URL,
-        )
+        prefix_url = fix_url(root=self.site_url, url=rel_path.parent.as_posix())
 
         log.debug(f"prefix_url={prefix_url}")
 
