@@ -9,6 +9,10 @@ search:
     exclude: true
 ---
 
+{@@ if version @@}
+[{@ version @}](#){ .md-button }
+{@@ endif @@}
+
 # Anoma Specification
 
 Anoma is a privacy-preserving, distributed, trust-aware operating system. Like a

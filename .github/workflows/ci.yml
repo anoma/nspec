@@ -86,7 +86,7 @@ jobs:
           python-version: 3.x
 
       - run: echo "cache_id=$(date --utc '+%V')-${{ github.run_id }}" >> $GITHUB_ENV
-        
+
       - uses: actions/cache@v3
         with:
           key: mkdocs-material-${{ env.cache_id }}
@@ -95,7 +95,9 @@ jobs:
             mkdocs-material-
 
       - name: comment on PR
-        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "Please wait. This comment will be updated with the build status or the preview link." || true
+        if: >-
+          github.event_name == 'pull_request' && github.event.action == 'opened'
+        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "Please wait. This comment will be updated with the build status or the preview link." || true
 
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
@@ -108,7 +110,7 @@ jobs:
           mkdocs build --clean --config-file mkdocs.yml
 
       - name: comment on PR
-        if: failure()
+        if: failure() && github.event_name == 'pull_request'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs." || true
 
@@ -139,13 +141,29 @@ jobs:
         run: |
           DEVALIAS="pull-${{ github.event.pull_request.number }}" MKDOCSCONFIG=mkdocs.insiders.yml make dev
 
-      - name: Update comment if the last step failed
+      - name: Remove versions starting with "pull"
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          git checkout gh-pages
+          # remove versions starting with "pull"
+          jq 'map(select(.version | startswith("pull") | not))' versions.json > temp.json && mv temp.json versions.json
+          git add versions.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Remove versions starting with 'pull'"
+            git push
+          fi
+          git checkout ${{ github.head_ref }}
+
+      - name: Update PR comment if the last step failed
         if: >-
           github.event_name == 'pull_request' && failure()
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Please check the logs." || true
 
-      - name: Comment the PR with the preview link
+      - name: Report PR preview link
         if: >-
            github.event_name == 'pull_request' && success()
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG" || true
