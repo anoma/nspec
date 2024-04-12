@@ -40,6 +40,8 @@ env:
   DIFF_ENABLED: true
   REMOVE_CACHE: true
   USE_DOT: true
+  VERSION_SELECTOR: ${{ github.event_name != 'pull_request' }}
+
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
@@ -142,7 +144,9 @@ jobs:
         if: >-
           github.event_name == 'pull_request'
         run: |
-          DEVALIAS="pull-${{ github.event.pull_request.number }}" MKDOCSCONFIG=mkdocs.insiders.yml make dev
+          MKDOCSCONFIG=mkdocs.insiders.yml make dev
+        env:
+          DEVALIAS: pull-${{ github.event.pull_request.number }}
 
       - name: Remove versions starting with "pull"
         if: github.event_name == 'pull_request'
