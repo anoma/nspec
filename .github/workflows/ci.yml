@@ -56,6 +56,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+
+      - name: comment on PR
+        if: >-
+          github.event_name == 'pull_request'
+        run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG" || true
+        env:
+          MSG: "Please wait. This comment will be updated with the build status or the preview link."
+          GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
+
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -95,14 +104,6 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-
-      - name: comment on PR
-        if: >-
-          github.event_name == 'pull_request'
-        run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG" || true
-        env:
-          MSG: "Please wait. This comment will be updated with the build status or the preview link."
-          GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
 
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
@@ -175,7 +176,7 @@ jobs:
            github.event_name == 'pull_request' && success()
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG" || true
         env:
-          MSG: "Success! The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
+          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/ in a few minutes.\n\nPlease note that this link will be deleted when the PR is closed or merged."
 
       - name: Delete the PR preview if the PR is closed or merged
         if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
