@@ -96,7 +96,7 @@ jobs:
         with:
           python-version: 3.x
 
-      - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/requirements.txt' )-${{ hashFiles( '**/*.py' )" >> $GITHUB_ENV
+      - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/requirements.txt' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
 
       - uses: actions/cache@v3
         with:
@@ -126,7 +126,7 @@ jobs:
 
       - name: Test building with material-insiders
         run: |
-          mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir pull-${{ github.event.pull_request.number }} 
+          mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir pull-${{ github.event.pull_request.number }}
         env:
           SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
 
@@ -142,7 +142,7 @@ jobs:
           github.event_name == 'pull_request'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR is being built." || true
-          
+
       - name: Deploy Preview
         if: >-
           github.event_name == 'pull_request' && success()
@@ -152,7 +152,7 @@ jobs:
           folder: pull-${{ github.event.pull_request.number }}
           target_folder: pull-${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          clean: false 
+          clean: false
 
       - name: Report PR preview link
         if: >-
