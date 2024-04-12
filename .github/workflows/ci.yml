@@ -136,7 +136,7 @@ jobs:
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs." || true
 
-      - name: Deploying Preview
+      - name: Comment on PR
         id: deploy-preview
         if: >-
           github.event_name == 'pull_request'
@@ -150,7 +150,7 @@ jobs:
         with:
           branch: gh-pages
           folder: pull-${{ github.event.pull_request.number }}
-          target_folder: pull-${{ github.event.pull_request.number }}
+          target-folder: pull-${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
 
