@@ -126,28 +126,16 @@ jobs:
 
       - name: Clone gh-pages branch for preview
         run: |
-          git clone --branch gh-pages --single-branch
+          rm -rf gh-pages
+          git clone --branch gh-pages --single-branch https://github.com/anoma/nspec.git gh-pages
           mkdir -p gh-pages/pull-${{ github.event.pull_request.number }}
 
       - name: Test building with material-insiders
         run: |
-          mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir gh-pages/pull-${{ github.event.pull_request.number }}
+          mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir gh-pages/pull-${{ github.event.pull_request.number }} 
         env:
           SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
 
-      - name: Deploy documentation via GitHub (for releases)
-        if: >-
-          github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make ${{ github.event.inputs.build-type }}
-
-      - name: By default, deploy DEV documentation via pushes to main
-        if: >-
-          github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make dev
-
-      ## Deploy the preview
 
       - name: comment on PR
         if: >-
@@ -195,4 +183,5 @@ jobs:
             git push
           fi
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR has been deleted." || true
+
 
