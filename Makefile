@@ -14,13 +14,11 @@ MAKEAUXFLAGS?=-s
 MAKE=make ${MAKEAUXFLAGS}
 
 MKDOCSCONFIG?=mkdocs.yml
-MIKEPUSHFLAGS?=--push \
-	--remote origin \
-	--branch gh-pages \
+MIKEFLAGS?=--push  \
+	--remote origin  \
+	--branch gh-pages  \
 	--ignore-remote-status \
-	--allow-empty 
-MIKEFLAGS?=${MIKEPUSHFLAGS} \
-	--debug \
+	--allow-empty \
 	--config-file ${MKDOCSCONFIG}
 
 build:
