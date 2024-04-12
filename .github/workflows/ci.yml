@@ -10,12 +10,12 @@ name: anoma-spec-ci
   workflow_dispatch:
     inputs:
       build-type:
-      type: choice
-      description: "Docs build type"
-      default: "dev"
-      options:
-        - "dev"
-        - "latest"
+        type: choice
+        description: "Docs build type"
+        default: "dev"
+        options:
+          - "dev"
+          - "latest"
 
   pull_request:
     branches:
