@@ -17,6 +17,9 @@ MKDOCSCONFIG?=mkdocs.yml
 MIKEFLAGS?=--push  \
 	--remote origin  \
 	--branch gh-pages  \
+	--ignore-remote-status \
+	--allow-empty \
+	--debug \
 	--config-file ${MKDOCSCONFIG}
 
 build:
