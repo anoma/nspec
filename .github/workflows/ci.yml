@@ -97,7 +97,7 @@ jobs:
       - name: comment on PR
         if: >-
           github.event_name == 'pull_request'
-        run: gh $GH_FLAGS --edit-last --body $MSG || gh $GH_FLAGS --body $MSG || true
+        run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG" || true
         env:
           MSG: "Please wait. This comment will be updated with the build status or the preview link."
           GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }} 
