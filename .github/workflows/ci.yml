@@ -96,8 +96,11 @@ jobs:
 
       - name: comment on PR
         if: >-
-          github.event_name == 'pull_request' && github.event.action == 'opened'
-        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "Please wait. This comment will be updated with the build status or the preview link." || true
+          github.event_name == 'pull_request'
+        run: gh $GH_FLAGS --edit-last --body $MSG || gh $GH_FLAGS --body $MSG || true
+        env:
+          MSG: "Please wait. This comment will be updated with the build status or the preview link."
+          GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }} 
 
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
