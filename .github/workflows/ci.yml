@@ -10,12 +10,12 @@ name: anoma-spec-ci
   workflow_dispatch:
     inputs:
       build-type:
-        type: choice
-        description: "Docs build type"
-        default: "dev"
-        options:
-          - "dev"
-          - "latest"
+      type: choice
+      description: "Docs build type"
+      default: "dev"
+      options:
+        - "dev"
+        - "latest"
 
   pull_request:
     branches:
@@ -85,7 +85,9 @@ jobs:
         with:
           python-version: 3.x
 
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - run: 
+        echo "cache_id=$(date --utc '+%V')-hashFiles('hooks/**/*.py')" >> $GITHUB_ENV
+
       - uses: actions/cache@v3
         with:
           key: mkdocs-material-${{ env.cache_id }}
@@ -100,13 +102,29 @@ jobs:
 
       - name: Test building without material-insiders
         run: |
-          mkdocs build --clean -v --config-file mkdocs.yml
+          mkdocs build --clean --config-file mkdocs.yml
+
+      - name: Update comments in the PR if the last step fails
+        if: failure()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
 
       - run: |
           pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
 
       - name: Test building with material-insiders
-        run: mkdocs build --clean -v --config-file mkdocs.insiders.yml
+        run: mkdocs build --clean --config-file mkdocs.insiders.yml
+
+      - name: Update comments in the PR if the last step fails
+        if: failure()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
+
+      - name: Deploying Preview
+        if: >-
+          github.event_name == 'pull_request'
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR is being built."
 
       - name: Set the version for mike
         id: deploy-preview
@@ -118,9 +136,9 @@ jobs:
       - name: Comment the PR with the preview link
         if: >-
            github.event_name == 'pull_request' && github.event.action == 'opened'
-        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "$MSG"
+        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
-          MSG: "The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
+          MSG: "Success! The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
 
       - name: Delete the PR preview if the PR is closed or merged
         if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
