@@ -97,14 +97,9 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
                     _title = re.sub(r'^[\'"`]|["\'`]$', "", _title)
 
                     if _title not in config["url_for"]:
-
                         url = (Path(".") / Path(file.src_uri)).as_posix()
                         config["url_for"][_title] = [url]
                         config["aliases_for"][url] = [_title]
-                    else:
-                        log.debug(
-                            f"Title '{_title}' is already in use, so it will not be added to the aliases table for '{url}'"
-                        )
 
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     if LINKS_JSON.exists():
