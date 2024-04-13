@@ -46,8 +46,10 @@ Concurrently, when the [[Worker Engine]] sends a [[KVSAcquireLock]] to
   - [[KVSReadRequest|KVSReadRequest]] to [[Shard]]
   - [[KVSWrite]] to [[Shard]]
 
-  !!! todo
-      make this precise :-/
+!!! todo
+
+    make this precise :-/
+
 <!-- --8<-- [end:details] -->
 
 ## Notes

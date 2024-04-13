@@ -27,7 +27,6 @@ build:
 
 .PHONY: test-build
 test-build: export MKDOCSFLAGS=--clean
-test-build: export REPORT_TODOS=true
 test-build: export REPORT_BROKEN_LINKS=true
 test-build:
 	@mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}

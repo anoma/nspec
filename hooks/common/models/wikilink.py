@@ -11,13 +11,13 @@ class WikiLink:
         hint: Optional[str] = None,
         anchor: Optional[str] = None,
         display: Optional[str] = None,
-        fileloc: Optional[FileLoc] = None,
+        loc: Optional[FileLoc] = None,
     ):
         self.page: str = page.strip()
         self.hint: Optional[str] = hint.strip() if hint else None
         self.anchor: Optional[str] = anchor.strip() if anchor else None
         self.display: Optional[str] = display.strip() if display else None
-        self.fileloc: Optional[FileLoc] = fileloc
+        self.loc: Optional[FileLoc] = loc
 
     def __hash__(self):
         return hash(self.page)
@@ -35,5 +35,5 @@ class WikiLink:
       {'Hint: ' + self.hint if self.hint else ''}
       {'Anchor: ' + self.anchor if self.anchor else ''}
       {'Display: ' + self.display if self.display else ''}
-      {'FileLoc: ' + str(self.fileloc) if self.fileloc else ''}
+      {'Loc: ' + str(self.loc) if self.loc else ''}
     """

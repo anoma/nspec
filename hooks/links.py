@@ -9,10 +9,11 @@ import os
 import re
 from pathlib import Path
 from typing import List, Optional
+from urllib.parse import urljoin
 
 import mkdocs.plugins
 from common.models import FileLoc, WikiLink
-from common.utils import fix_url, get_page_title
+from common.utils import fix_site_url, get_page_title
 from fuzzywuzzy import fuzz  # type: ignore
 from markdown.extensions import Extension  # type: ignore
 from markdown.preprocessors import Preprocessor  # type: ignore
@@ -24,9 +25,6 @@ from pymdownx.snippets import DEFAULT_URL_SIZE, DEFAULT_URL_TIMEOUT, SnippetPrep
 
 log: logging.Logger = logging.getLogger("mkdocs")
 
-INDEXES_DIR = Path("docs/indexes")
-INDEXES_DIR.mkdir(parents=True, exist_ok=True)
-
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 
@@ -37,7 +35,6 @@ CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 LINKS_JSON = CACHE_DIR / "aliases.json"
-
 
 """ Example of a wikilink with a path hint:
 [[path-hint:page#anchor|display text]]
@@ -57,26 +54,25 @@ WIKILINK_PATTERN = re.compile(
 
 
 def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
+    config = fix_site_url(config)
     if "pymdownx.snippets" in config["markdown_extensions"]:
         config["markdown_extensions"].remove("pymdownx.snippets")
     wl_extension = WLExtension(mkconfig=config)
     config.markdown_extensions.append(wl_extension)  # type: ignore
-    # exit()
     return config
 
 
 def on_pre_build(config: MkDocsConfig) -> None:
     config["aliases_for"] = {}
     config["url_for"] = {}
-
     config["wikilinks_issues"] = 0
 
-    for url, page in _extract_aliases_from_nav(config["nav"]):
+    for _url, page in _extract_aliases_from_nav(config["nav"]):
+        url = urljoin(config["site_url"], _url)
         config["aliases_for"][url] = [page]
-        if not page in config["url_for"]:
-            config["url_for"][page] = [url]
-        else:
-            config["url_for"][page].append(url)
+        config["url_for"].setdefault(page, [])
+        config["url_for"][page].append(url)
+
     config["current_page"] = None  # current page being processed
 
 
@@ -97,28 +93,20 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
                     _title = re.sub(r'^[\'"`]|["\'`]$', "", _title)
 
                     if _title not in config["url_for"]:
-                        url = (Path(".") / Path(file.src_uri)).as_posix()
+                        url = urljoin(config["site_url"], file.url)
                         config["url_for"][_title] = [url]
                         config["aliases_for"][url] = [_title]
 
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
     if LINKS_JSON.exists():
         LINKS_JSON.unlink()
 
     with open(LINKS_JSON, "w") as f:
         json.dump(
             {
-                "aliases_for": {
-                    k: [str(p) for p in v] for k, v in config["aliases_for"].items()
-                },
+                "aliases_for": config.get("aliases_for", {}),
                 "url_for": {
                     k: [
-                        fix_url(
-                            root=config.get("site_url", SITE_URL),
-                            url=p,
-                            use_html_ext=True,
-                        )
-                        for p in v
+                        p.replace(".md", ".html") if p.endswith(".md") else p for p in v
                     ]
                     for k, v in config["url_for"].items()
                 },
@@ -186,6 +174,7 @@ class WLPreprocessor(Preprocessor):
         lines = self.snippet_preprocessor.run(lines)
         config = self.mkconfig
         current_page_url = None
+
         if "current_page" in config and isinstance(config["current_page"], Page):
 
             url_relative = DOCS_DIR / Path(
@@ -228,7 +217,7 @@ class WLPreprocessor(Preprocessor):
                     hint=match.group("hint"),
                     anchor=match.group("anchor"),
                     display=match.group("display"),
-                    fileloc=loc,
+                    loc=loc,
                 )
 
                 link_page = link.page.replace("-", " ")
@@ -280,19 +269,16 @@ class WLPreprocessor(Preprocessor):
 
                     path = config["url_for"][link_page][0]
 
-                    root_url = config["site_url"]
+                    html_path = urljoin(
+                        config["site_url"], path.replace(".md", ".html")
+                    )
 
-                    if "127.0.0.1" in root_url or "localhost" in root_url:
-                        root_url = SITE_URL
-
-                    md_path = fix_url(root=root_url, url=path, use_html_ext=False)
-
-                    md_link = f"[{link.display or link.page}]({md_path}{f'#{link.anchor}' if link.anchor else ''})"
+                    md_link = f"[{link.display or link.page}]({html_path}{f'#{link.anchor}' if link.anchor else ''})"
 
                     lines[i] = lines[i].replace(match.group(0), md_link)
 
                     log.debug(
-                        f"{loc}:\nResolved link for page:\n  {link_page} -> {md_path}"
+                        f"{loc}:\nResolved link for page:\n  {link_page} -> {html_path}"
                     )
                 else:
                     msg = f"{loc}:\nUnable to resolve reference\n  {link_page}"

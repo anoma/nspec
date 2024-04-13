@@ -4,13 +4,9 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-INDEXES_DIR = Path("docs/indexes")
-INDEXES_DIR.mkdir(parents=True, exist_ok=True)
-
 ROOT_DIR = Path(__file__).parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 
-SITE_URL = os.environ.get("SITE_URL", "/nspec/")
 REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", False))
 
 CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
@@ -28,10 +24,17 @@ def load_json_file(file_path):
 
 def define_env(env):
     env.variables.last_updated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    env.variables.preview = False
+    env.variables.pull_request = False
+    env.variables.pr_number = None
 
-    _version = os.environ.get("DEVALIAS", "")
-    if _version and _version != "latest" and _version != "dev":
-        env.variables.version = _version
+    SITE_DIR = os.environ.get("SITE_DIR", "")
+    if SITE_DIR:
+        if SITE_DIR.startswith("pull") or SITE_DIR.startswith("dev"):
+            env.variables.preview = True
+        if SITE_DIR.startswith("pull"):
+            env.variables.pull_request = True
+            env.variables.pr_number = SITE_DIR
 
     @env.macro
     def get_aliases():
@@ -71,11 +74,11 @@ def define_env(env):
         return datetime.strptime(d, "%Y-%m-%d")
 
 
-# def on_pre_page_macros(env):
-#     """
-#     Actions to be performed before the page macros are expanded.
-#     """
-#     env.markdown += f"<!-- Last updated: {env.variables.last_updated} -->"
+def on_pre_page_macros(env):
+    """
+    Actions to be performed before the page macros are expanded.
+    """
+    pass
 
 
 def on_post_page_macros(env):

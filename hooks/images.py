@@ -4,9 +4,10 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
+from urllib.parse import urljoin
 
 from common.models.fileloc import FileLoc
-from common.utils import fix_url
+from common.utils import fix_site_url
 from markdown.extensions import Extension  # type: ignore
 from markdown.preprocessors import Preprocessor  # type: ignore
 from mkdocs.config.defaults import MkDocsConfig
@@ -68,6 +69,8 @@ class ImgExtension(Extension):
 
 
 def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
+    config = fix_site_url(config)
+
     imgext_instance = ImgExtension(mkconfig=config)
     config.markdown_extensions.append(imgext_instance)  # type: ignore
 
@@ -153,10 +156,10 @@ class ImgPreprocessor(Preprocessor):
                         )
 
                 img_expected_location = IMAGES_DIR / image_fname
-                new_url = fix_url(
-                    root=config["site_url"],
-                    url=img_expected_location.relative_to(DOCS_DIR).as_posix(),
-                    use_html_ext=True,
+
+                new_url = urljoin(
+                    config["site_url"],
+                    img_expected_location.relative_to(DOCS_DIR).as_posix(),
                 )
 
                 lines[i] = lines[i].replace(_url, new_url)

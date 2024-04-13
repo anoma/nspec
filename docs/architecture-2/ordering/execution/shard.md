@@ -315,13 +315,13 @@ If client reads produce signed responses, then signed responses from a weak quor
 
 Shards receive and react to the following messages:
 
---8<-- "shard/KVS-acquire-lock.md "
+--8<-- "shard/KVS-acquire-lock.md:all"
 
---8<-- "shard/KVS-read-request.md "
+--8<-- "shard/KVS-read-request.md:all"
 
---8<-- "shard/KVS-write.md "
+--8<-- "shard/KVS-write.md:all"
 
---8<-- "shard/update-seen-all.md "
+--8<-- "shard/update-seen-all.md:all"
 
 [^1]: For the purpose of this discussion, we call
     a _write lock request_ a [[KVSAcquireLock]] message

@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
---8<-- "../mempool/primary/new-quorums.md"
+--8<-- "../mempool/primary/new-quorums.md:all"
 
 !!! todo
 

@@ -83,8 +83,7 @@ but these are not considered in V1.
 !!! todo
 
     Are they ignored?
-    Are ExecutionSummary and pub sub information of execution data
-      side effects?
+    Are ExecutionSummary and pub sub information of execution data side effects?
 
 - The [[Mempool Engines|mempool engines]] are responsible for
   managing [[TxData|transaction data]],
@@ -105,7 +104,7 @@ but these are not considered in V1.
 
 ![](ordering-v1.svg)
 
---8<-- "./ordering/a-complete-lifecycle.md"
+--8<-- "./ordering/a-complete-lifecycle.md:all"
 
 [^1 time stamp]: In fact it is the latter time stamp that is most relevant;
     the former is merely an indicator about performance of the worker.

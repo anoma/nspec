@@ -9,8 +9,6 @@ plugins:
         - cdn.jsdelivr.net/npm/mathjax*
         - giscus.app/*
         - unpkg.com/*
-      links_attr_map:
-        target: _blank
   - search:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
       pipeline:

@@ -1,17 +1,19 @@
-from typing import Optional
+import os
+from typing import Dict, Optional
+from urllib.parse import urljoin
 
+from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.utils import get_markdown_title
 
 
-def fix_url(url: str, use_html_ext: bool = False, root: str = "/nspec/") -> str:
-    if url.startswith("http"):
-        return url
-
-    right_url = url.lstrip(".").lstrip("/")
-    if use_html_ext:
-        right_url = right_url.replace(".md", ".html")
-
-    return root.rstrip("/") + "/" + right_url
+def fix_site_url(config: MkDocsConfig) -> MkDocsConfig:
+    version = os.environ.get("MIKE_DOCS_VERSION", "")
+    config["docs_version"] = version
+    if version and "site_url" in config and config.get("site_url"):
+        if config["canonical_version"] is not None:
+            version = config["canonical_version"]
+        config["site_url"] = urljoin(config["site_url"], version)
+    return config
 
 
 def get_page_title(page_src: str, meta_data: dict) -> Optional[str]:
