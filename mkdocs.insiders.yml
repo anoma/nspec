@@ -11,10 +11,10 @@ plugins:
         - unpkg.com/*
   - search:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-      pipeline:
-        - stemmer
-        - stopWordFilter
-        - trimmer
+      # pipeline:
+      #   - stemmer
+      #   - stopWordFilter
+      #   - trimmer
   - social
   - tags
   - ezglossary
@@ -38,7 +38,6 @@ plugins:
       branch: main
       enabled: !ENV [CI, false]
   - mike:
-      canonical_version: latest
       alias_type: copy
       version_selector: !ENV [VERSION_SELECTOR, true]
       css_dir: docs/assets/css

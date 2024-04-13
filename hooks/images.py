@@ -19,7 +19,6 @@ log: logging.Logger = logging.getLogger("mkdocs")
 INDEXES_DIR = Path("docs/indexes")
 INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 
-ROOT_URL = "/nspec/"
 ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 IMAGES_DIR = DOCS_DIR / "images"
@@ -70,7 +69,6 @@ class ImgExtension(Extension):
 
 def on_config(config: MkDocsConfig, **kwargs) -> MkDocsConfig:
     config = fix_site_url(config)
-
     imgext_instance = ImgExtension(mkconfig=config)
     config.markdown_extensions.append(imgext_instance)  # type: ignore
 

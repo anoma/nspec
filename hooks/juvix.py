@@ -291,16 +291,14 @@ class JuvixPreprocessor:
         HTML_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
         filepath = _filepath.absolute()
-        rel_path = filepath.relative_to(DOCS_DIR)
 
-        prefix_url = urljoin(self.site_url, url=rel_path.parent.as_posix())
         cmd = (
             [JUVIX_BIN, "html"]
             + ["--strip-prefix=docs"]
             + ["--folder-structure"]
             + [f"--output-dir={HTML_CACHE_DIR.as_posix()}"]
-            + [f"--prefix-url={prefix_url}"]
-            + [f"--prefix-assets={prefix_url}"]
+            + [f"--prefix-url={self.site_url}"]
+            + [f"--prefix-assets={self.site_url}"]
             + [filepath.as_posix()]
         )
 

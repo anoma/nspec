@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Dict, Optional
 from urllib.parse import urljoin
@@ -5,14 +6,33 @@ from urllib.parse import urljoin
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.utils import get_markdown_title
 
+log = logging.getLogger("mkdocs")
+
 
 def fix_site_url(config: MkDocsConfig) -> MkDocsConfig:
-    version = os.environ.get("MIKE_DOCS_VERSION", "")
+
+    if os.environ.get("SITE_URL"):
+        config["site_url"] = os.environ["SITE_URL"]
+        if not config["site_url"].endswith("/"):
+            config["site_url"] += "/"
+        log.info("Using SITE_URL environment variable: %s", os.environ["SITE_URL"])
+        return config
+
+    log.info("SITE_URL environment variable not set")
+
+    version = os.environ.get("MIKE_DOCS_VERSION")
+
+    if version:
+        log.info(f"Using MIKE_DOCS_VERSION environment variable: {version}")
+
+    if not config["site_url"].endswith("/"):
+        config["site_url"] += "/"
+
+    log.info(f"site_url: {config['site_url']}")
     config["docs_version"] = version
-    if version and "site_url" in config and config.get("site_url"):
-        if config["canonical_version"] is not None:
-            version = config["canonical_version"]
-        config["site_url"] = urljoin(config["site_url"], version)
+
+    log.info(f"Set site_url to {config['site_url']}")
+    os.environ["SITE_URL"] = config["site_url"]
     return config
 
 

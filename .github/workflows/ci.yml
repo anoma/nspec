@@ -12,10 +12,10 @@ name: anoma-spec-ci
       build-type:
         type: choice
         description: "Docs build type"
-        default: "dev"
+        default: dev
         options:
-          - "dev"
-          - "latest"
+          - dev
+          - latest
 
   pull_request:
     branches:
@@ -48,7 +48,7 @@ permissions:
   repository-projects: write
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
 
@@ -202,20 +202,17 @@ jobs:
 
       # -------------------------------------------------------------
 
-      - name: Run MkDocs Insiders (Main branch)
+      - name: Run MkDocs Insiders (Main branch Workflow Dispatch)
         if: >-
           github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         run: |
           MKDOCSCONFIG=mkdocs.insiders.yml make ${{ github.event.inputs.build-type }}
-        env:
-          SITE_DIR: ${{ github.event.inputs.build-type }}
-          SITE_URL: https://anoma.github.io/nspec/${{ env.SITE_DIR }}/
 
-      - name:
+      - name: Run MkDocs Insiders (Main branch - Push)
         if: >-
           github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
         run: |
           MKDOCSCONFIG=mkdocs.insiders.yml make dev
         env:
           SITE_DIR: dev
-          SITE_URL: https://anoma.github.io/nspec/${{ env.SITE_DIR }}/
+          SITE_URL: https://anoma.github.io/nspec/dev/

@@ -85,7 +85,6 @@ class RTPreprocessor(Preprocessor):
                 ROW = I
                 while I < len(lines):
                     s = lines[I]
-                    I += 1
                     if in_message:
                         if len(s.strip()) > 0:
                             message += s + "\n"
@@ -93,6 +92,7 @@ class RTPreprocessor(Preprocessor):
                             break
                     elif len(s.strip()) == 0:
                         in_message = True
+                    I += 1
 
                 if current_page_url:
 

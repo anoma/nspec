@@ -6,7 +6,7 @@ PIP?=pip3
 MKDOCSFLAGS?=
 
 DEV?=true
-DEVALIAS?="dev"
+DEVALIAS?=dev
 
 PWD=$(CURDIR)
 
@@ -14,7 +14,8 @@ MAKEAUXFLAGS?=-s
 MAKE=make ${MAKEAUXFLAGS}
 
 MKDOCSCONFIG?=mkdocs.yml
-MIKEFLAGS?=--push  \
+MIKEPUSHFLAGS?=--push
+MIKEFLAGS?=${MIKEPUSHFLAGS} \
 	--remote origin  \
 	--branch gh-pages  \
 	--allow-empty \
@@ -45,31 +46,31 @@ mike: assets
 	@git checkout gh-pages
 	@git pull origin gh-pages --rebase
 	@git checkout main
-	mike deploy ${VERSION} ${MIKEFLAGS}
+	mike deploy ${VERSION} ${MIKEFLAGS} -t ${VERSION}
 
 .PHONY: mike-serve
 mike-serve: docs
 	mike serve --dev-addr localhost:${PORT} --config-file ${MKDOCSCONFIG}
 
-.PHONY: dev
-dev: assets
-	export DEV=true
-	mike delete ${DEVALIAS} ${MIKEFLAGS} > /dev/null 2>&1 || true
-	VERSION=${DEVALIAS} ${MAKE} mike
-
 .PHONY: delete-alias
 delete-alias:
-	mike delete ${DEVALIAS} ${MIKEFLAGS} > /dev/null 2>&1 || true
+	mike delete ${VERSION} ${MIKEFLAGS} > /dev/null 2>&1 || true
+
+.PHONY: dev
+dev: export VERSION=${DEVALIAS}
+dev: export DEV=true
+dev: assets
+	${MAKE} delete-alias
+	${MAKE} mike
 
 .PHONY: latest
 latest: assets
-	mike delete ${VERSION} ${MIKEFLAGS} > /dev/null 2>&1 || true
+	${MAKE} delete-alias
 	${MAKE} mike
 	mike alias ${VERSION} latest -u ${MIKEFLAGS}
 	mike set-default ${MIKEFLAGS} ${VERSION}
 	git tag -d v${VERSION} > /dev/null 2>&1 || true
 	git tag -a v${VERSION} -m "Release v${VERSION}"
-
 
 install:
 	@echo "[!] Use a Python virtual environment if you are not using one."
