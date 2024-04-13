@@ -247,9 +247,11 @@ class WLPreprocessor(Preprocessor):
                         .replace("/", " ")
                         .replace(".md", "")
                     )
+
                     coefficients = {
                         p: fuzz.WRatio(fun_normalise(p), token) for p in possible_pages
                     }
+
                     sorted_pages = sorted(
                         possible_pages, key=lambda p: coefficients[p], reverse=True
                     )

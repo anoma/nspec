@@ -29,7 +29,9 @@ def load_json_file(file_path):
 def define_env(env):
     env.variables.last_updated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    env.variables.version = os.environ.get("DEVALIAS", "")
+    _version = os.environ.get("DEVALIAS", "")
+    if _version and _version != "latest" and _version != "dev":
+        env.variables.version = _version
 
     @env.macro
     def get_aliases():

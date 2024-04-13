@@ -40,6 +40,8 @@ env:
   DIFF_ENABLED: true
   REMOVE_CACHE: true
   USE_DOT: true
+  VERSION_SELECTOR: ${{ github.event_name != 'pull_request' }}
+
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
@@ -54,6 +56,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+
+      - name: comment on PR
+        if: >-
+          github.event_name == 'pull_request'
+        run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG" || true
+        env:
+          MSG: "Please wait. This comment will be updated with the build status or the preview link."
+          GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
+
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -85,7 +96,7 @@ jobs:
         with:
           python-version: 3.x
 
-      - run: echo "cache_id=$(date --utc '+%V')-${{ github.run_id }}" >> $GITHUB_ENV
+      - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/requirements.txt' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
 
       - uses: actions/cache@v3
         with:
@@ -93,11 +104,6 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-
-      - name: comment on PR
-        if: >-
-          github.event_name == 'pull_request' && github.event.action == 'opened'
-        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --body "Please wait. This comment will be updated with the build status or the preview link." || true
 
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
@@ -119,7 +125,10 @@ jobs:
           pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
 
       - name: Test building with material-insiders
-        run: mkdocs build --clean --config-file mkdocs.insiders.yml
+        run: |
+          mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir pull-${{ github.event.pull_request.number }}
+        env:
+          SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
 
       - name: comment on PR
         if: >-
@@ -127,35 +136,30 @@ jobs:
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs." || true
 
-      - name: Deploying Preview
+      - name: Comment on PR
         id: deploy-preview
         if: >-
           github.event_name == 'pull_request'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR is being built." || true
 
-      - name: Set the version for mike
-        id: deploy-preview-set-version
+      - name: Deploy Preview
         if: >-
-          github.event_name == 'pull_request'
-        run: |
-          DEVALIAS="pull-${{ github.event.pull_request.number }}" MKDOCSCONFIG=mkdocs.insiders.yml make dev
+          github.event_name == 'pull_request' && success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: pull-${{ github.event.pull_request.number }}
+          target-folder: pull-${{ github.event.pull_request.number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: false
 
-      - name: Remove versions starting with "pull"
-        if: github.event_name == 'pull_request'
-        shell: bash
-        run: |
-          git checkout gh-pages
-          # remove versions starting with "pull"
-          jq 'map(select(.version | startswith("pull") | not))' versions.json > temp.json && mv temp.json versions.json
-          git add versions.json
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Remove versions starting with 'pull'"
-            git push
-          fi
-          git checkout ${{ github.head_ref }}
+      - name: Report PR preview link
+        if: >-
+           github.event_name == 'pull_request' && success()
+        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG" || true
+        env:
+          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/ in a few minutes.\n\nPlease note that this link will be deleted when the PR is closed or merged."
 
       - name: Update PR comment if the last step failed
         if: >-
@@ -163,27 +167,16 @@ jobs:
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Please check the logs." || true
 
-      - name: Report PR preview link
-        if: >-
-           github.event_name == 'pull_request' && success()
-        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG" || true
-        env:
-          MSG: "Success! The preview of this PR is available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/"
-
       - name: Delete the PR preview if the PR is closed or merged
         if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
         run: |
-          DEVALIAS='pull-${{ github.event.pull_request.number }}' make delete-alias
+          git checkout gh-pages
+          if [-d "pull-${{ github.event.pull_request.number }}"]; then
+            rm -rf "pull-${{ github.event.pull_request.number }}"
+            git add .
+            git commit -m "Delete preview for PR #${{ github.event.pull_request.number }}"
+            git push
+          fi
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR has been deleted." || true
 
-      - name: Deploy documentation via GitHub (for releases)
-        if: >-
-          github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make ${{ github.event.inputs.build-type }}
 
-      - name: By default, deploy DEV documentation via pushes to main
-        if: >-
-          github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make dev
