@@ -110,12 +110,10 @@ and run, for example:
 MKDOCSFLAGS=--quiet MKDOCSCONFIG=mkdocs.insiders.yml make serve
 ```
 
-#### Goodies
+### Deployment
 
-- To see the list of todos in the project, just run:
+- To see the list of todos in the markdown files, just run:
 
     ```bash
-    todos
+    grep -r "!!! todo" docs
     ```
-
-This is a CLI tool that it's installed with the `requirements.txt` file.

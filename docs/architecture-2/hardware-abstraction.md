@@ -65,8 +65,8 @@ Any Hardware Abstraction Machine Engine -->>- Any Local Engine: Operation Respon
 Any Hardware Abstraction Machine Engine ->>+ Local Logging Engine: Append Log
 %% --8<-- [end:sequence]
 ```
-
 <!-- --8<-- [end:messages] -->
+
 An engine communicates with the Hardware Abstraction Machine by sending a request to one of its engines
 to perform a specific operation.
 The Hardware Abstraction Machine engine executes the operation by interacting with the underlying hardware

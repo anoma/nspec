@@ -5,6 +5,8 @@ search:
   boost: 2
 ---
 
+<!-- --8<-- [start:all] -->
+
 # KVSWrite
 
 - _from_ [[Executor|Executor]]
@@ -66,3 +68,5 @@ any garbage collection of old locking info is elided in V1
 - _to_ [[Executor|Executor]]: [[KVSRead]]
    `for each` *will read* lock dependent on this write:
     send a [[KVSRead]] to the  [[Executor|relevant Executor]] with the value written.
+
+<!-- --8<-- [end:all] -->

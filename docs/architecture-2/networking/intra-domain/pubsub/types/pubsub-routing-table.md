@@ -14,6 +14,7 @@ search:
 !!! todo
 
     Pending a proper description.
+    
 <!-- --8<-- [end:purpose] -->
 
 ## Type

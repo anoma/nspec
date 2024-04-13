@@ -5,6 +5,8 @@ search:
   boost: 2
 ---
 
+<!-- --8<-- [start:all] -->
+
 ## A life cycle with some details
 
 Let us consider a typical/generic case
@@ -286,3 +288,5 @@ _at [[Executor]]_
   This triggers a log dump at the [[Worker Engine]],
    and will be used for garbage collection from V2 onward.
   For logging purposes, we could encode values read / written in here.
+
+<!-- --8<-- [end:all] -->

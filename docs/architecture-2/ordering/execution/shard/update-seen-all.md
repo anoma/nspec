@@ -5,6 +5,8 @@ search:
   boost: 2
 ---
 
+<!-- --8<-- [start:all] -->
+
 # UpdateSeenAll
 
 - _from_ [[Mempool Engines|Mempool Engines]]
@@ -54,3 +56,5 @@ If that unique previous write has a value written, and the read is marked *will 
 - _to_ [[Executor|Executor]]: [[KVSRead]]
   `for each` *will read* for which we have established a unique previous write value
   send a `KVSRead` message to the relevant [[Executor|Executor]]
+
+<!-- --8<-- [end:all] -->

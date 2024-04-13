@@ -5,6 +5,8 @@ search:
   boost: 2
 ---
 
+<!-- --8<-- [start:all] -->
+
 # KVSReadRequest
 
 <!-- --8<-- [start:blurb] -->
@@ -67,3 +69,6 @@ Otherwise, future [[KVSWrite]]s and/or [[UpdateSeenAll]]s will
   to inform them of the value
 
 <!-- --8<-- [end:details] -->
+
+
+<!-- --8<-- [end:all] -->

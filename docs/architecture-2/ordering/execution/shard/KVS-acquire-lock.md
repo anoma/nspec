@@ -5,6 +5,8 @@ search:
   boost: 2
 ---
 
+<!-- --8<-- [start:all] -->
+
 # KVSAcquireLock
 
 - _from_ [[Worker Engine|Mempool Worker]] <!-- formerly from [[Executor]] -->
@@ -62,3 +64,5 @@ For V1, however, simple HashSets or similar are fine.
 
 [^1]: Note that transaction requests come with all this information
     at once for each transaction candidate.
+
+<!-- --8<-- [end:all] -->

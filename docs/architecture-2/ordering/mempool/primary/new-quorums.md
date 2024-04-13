@@ -5,6 +5,8 @@ search:
   boost: 2
 ---
 
+<!-- --8<-- [start:all] -->
+
 # NewQuorums
 
 - _from_ [[Executor]]
@@ -43,3 +45,6 @@ struct NewQuorums {
 }
 ```
 -->
+
+
+<!-- --8<-- [end:all] -->
