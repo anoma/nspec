@@ -37,7 +37,6 @@ env:
   REPORT_BROKEN_WIKILINKS: true
   PREPROCESS_JUVIX_MD: true
   DIFF_ENABLED: true
-  REMOVE_CACHE: true
   USE_DOT: true
   VERSION_SELECTOR: ${{ github.event_name != 'pull_request' }}
 
@@ -128,6 +127,12 @@ jobs:
           mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir pull-${{ github.event.pull_request.number }}
         env:
           SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
+
+      - name: Show aliases
+        run: cat .hooks/aliases.json
+
+      - name: Show juvix_modules
+        run: cat .hooks/juvix_modules.json
 
       - name: comment on PR
         if: >-

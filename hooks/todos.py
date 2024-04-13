@@ -100,7 +100,7 @@ class RTPreprocessor(Preprocessor):
                         path=current_page_url,
                         line=ROW + offset + 1,
                         column=0,
-                        message=message,
+                        text=message,
                     )
                     if REPORT_TODOS:
                         log.warning(todo)

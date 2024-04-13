@@ -12,13 +12,13 @@ import shutil
 import subprocess
 from pathlib import Path
 from typing import List, Optional, Tuple
+from urllib.parse import urljoin
 
-from common.utils import fix_url
+from common.utils import fix_site_url
 from mkdocs.structure.files import Files
 
 log: logging.Logger = logging.getLogger("mkdocs")
 
-ROOT_URL: str = "/nspec/"
 ROOT_DIR: Path = Path(__file__).parent.parent.absolute()
 DOCS_DIR: Path = ROOT_DIR.joinpath("docs")
 
@@ -44,15 +44,15 @@ except FileNotFoundError:
     )
 
 
+def on_config(config, **kwargs):
+    return fix_site_url(config)
+
+
 class DiffPreprocessor:
 
     def __init__(self, config):
         self.mkconfig = config
-
-    @property
-    def site_url(self) -> str:
-        _site_url = self.mkconfig.get("site_url", ROOT_URL)
-        return _site_url.rstrip("/") + "/"
+        self.site_url = config.get("site_url", "")
 
     def _path_versioned_links(self, markdown: str, filepath: Path) -> str:
         _prev_version = self._markdown_link_filepath_version(
@@ -98,7 +98,9 @@ class DiffPreprocessor:
                 rel_path = _version.absolute().relative_to(DOCS_DIR)
 
                 parent = rel_path.parent.as_posix()
-                url = f"{self.site_url}{parent}/{name}v{version}.html"
+                url = urljoin(self.site_url, parent)
+                url = urljoin(url, f"{name}v{version}.html")
+
                 if just_url:
                     return url
                 return f"[{rel_path}]({url})"

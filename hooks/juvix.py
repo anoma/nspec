@@ -10,10 +10,11 @@ import subprocess
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
+from urllib.parse import urljoin
 
 import pathspec
 from common.cache import compute_hash_filepath, compute_sha_over_folder, hash_file
-from common.utils import fix_url
+from common.utils import fix_site_url
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.files import Files
 from mkdocs.structure.pages import Page
@@ -22,22 +23,19 @@ from watchdog.events import FileSystemEvent
 log: logging.Logger = logging.getLogger("mkdocs")
 
 PREPROCESS_JUVIX_MD = bool(os.environ.get("PREPROCESS_JUVIX_MD", True))
-
-ROOT_URL = "/nspec/"
 ROOT_DIR: Path = Path(__file__).parent.parent.absolute()
-DOCS_DIR: Path = ROOT_DIR.joinpath("docs")
-
+DOCS_DIR: Path = ROOT_DIR / "docs"
 REMOVE_CACHE = bool(os.environ.get("REMOVE_CACHE", False))
-
-CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
-
-MARKDOWN_JUVIX_OUTPUT: Path = CACHE_DIR.joinpath(".md")
-MARKDOWN_JUVIX_OUTPUT.mkdir(parents=True, exist_ok=True)
-
+CACHE_DIR: Path = ROOT_DIR / ".hooks"
+MARKDOWN_JUVIX_OUTPUT: Path = CACHE_DIR / ".md"
 JUVIX_BIN: str = os.environ.get("JUVIX_BIN", "juvix")
 JUVIX_AVAILABLE = shutil.which(JUVIX_BIN) is not None
 JUVIX_VERSION: Optional[str] = None
+JUVIXCODE_CACHE_DIR: Path = CACHE_DIR / ".juvix_md"
+JUVIXCODE_HASH_FILE = CACHE_DIR / ".hash_juvix_md"
+HASH_DIR: Path = CACHE_DIR / ".hash"
+HTML_CACHE_DIR: Path = CACHE_DIR / ".html"
+FIRST_RUN = True
 
 if JUVIX_AVAILABLE:
     cmd = [JUVIX_BIN, "--numeric-version"]
@@ -45,17 +43,6 @@ if JUVIX_AVAILABLE:
     if result.returncode == 0:
         JUVIX_VERSION = result.stdout.decode("utf-8")
         log.info(f"Using Juvix v{JUVIX_VERSION} to render Juvix Markdown files.")
-
-JUVIXCODE_CACHE_DIR: Path = CACHE_DIR.joinpath(".juvix_md")
-JUVIXCODE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
-JUVIXCODE_HASH_FILE = CACHE_DIR.joinpath(".hash_juvix_md")
-
-HASH_DIR: Path = CACHE_DIR.joinpath(".hash")
-HASH_DIR.mkdir(parents=True, exist_ok=True)
-
-HTML_CACHE_DIR: Path = CACHE_DIR.joinpath(".html")
-
-FIRST_RUN = True
 
 try:
     subprocess.run([JUVIX_BIN, "--version"], capture_output=True)
@@ -65,18 +52,25 @@ except FileNotFoundError:
     )
 
 
+def create_cache_dirs():
+    MARKDOWN_JUVIX_OUTPUT.mkdir(parents=True, exist_ok=True)
+    JUVIXCODE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    HASH_DIR.mkdir(parents=True, exist_ok=True)
+    HTML_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+
 def on_startup(command, dirty):
     if REMOVE_CACHE:
         shutil.rmtree(CACHE_DIR, ignore_errors=True)
-        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        create_cache_dirs()
     return
 
 
-def on_config(config) -> None:
-
-    juvix = JuvixPreprocessor(config=config)
+def on_config(config):
+    config = fix_site_url(config)
+    juvix = JuvixPreprocessor(config)
     config["juvix_preprocessor"] = juvix
-    return
+    return config
 
 
 def on_files(files: Files, *, config: MkDocsConfig) -> Optional[Files]:
@@ -179,8 +173,10 @@ class JuvixPreprocessor:
     def __init__(self, config: MkDocsConfig):
         self.mkconfig = config
         self.juvix_md_files: List[Dict[str, Any]] = []
-        self.site_url = config.get("site_url", ROOT_URL)
         self.site_dir = config.get("site_dir", None)
+        self.site_url = config.get("site_url", "")
+        if not self.site_url.endswith("/"):
+            self.site_url += "/"
 
         if not JUVIX_AVAILABLE:
             log.info(
@@ -213,10 +209,8 @@ class JuvixPreprocessor:
 
             relative_to: Path = file.relative_to(DOCS_DIR)
 
-            url = fix_url(
-                root=self.site_url,
-                url=relative_to.as_posix().replace(".juvix.md", ".html"),
-                use_html_ext=True,
+            url = urljoin(
+                self.site_url, relative_to.as_posix().replace(".juvix.md", ".html")
             )
 
             self.juvix_md_files.append(
@@ -272,8 +266,8 @@ class JuvixPreprocessor:
                     "qualified_module_name": self.qualified_module_name(
                         everythingJuvix
                     ),
-                    "url": fix_url(
-                        root=self.site_url, url="everything.juvix.md", use_html_ext=True
+                    "url": urljoin(self.site_url, "everything.juvix.md").replace(
+                        ".juvix.md", ".html"
                     ),
                 }
             ]
@@ -299,14 +293,7 @@ class JuvixPreprocessor:
         filepath = _filepath.absolute()
         rel_path = filepath.relative_to(DOCS_DIR)
 
-        # prefix_url = self.site_url + (
-        #     (rel_path.parent.as_posix() + "/") if rel_path.parent != Path(".") else ""
-        # )
-
-        prefix_url = fix_url(root=self.site_url, url=rel_path.parent.as_posix())
-
-        log.debug(f"prefix_url={prefix_url}")
-
+        prefix_url = urljoin(self.site_url, url=rel_path.parent.as_posix())
         cmd = (
             [JUVIX_BIN, "html"]
             + ["--strip-prefix=docs"]
@@ -317,7 +304,7 @@ class JuvixPreprocessor:
             + [filepath.as_posix()]
         )
 
-        log.debug(f"cmd={' '.join(cmd)}")
+        log.info(f"Juvix call:\n  {' '.join(cmd)}")
 
         cd = subprocess.run(cmd, cwd=DOCS_DIR, capture_output=True)
         if cd.returncode != 0:
@@ -388,10 +375,25 @@ class JuvixPreprocessor:
         return os.path.basename(fposix).replace(".juvix.md", "")
 
     def qualified_module_name(self, filepath: Path) -> Optional[str]:
-        relative_to_docs = filepath.relative_to(DOCS_DIR)
+        absolute_path = filepath.absolute()
+        cmd = [JUVIX_BIN, "dev", "root", absolute_path.as_posix()]
+        pp = subprocess.run(cmd, cwd=DOCS_DIR, capture_output=True)
+        root = None
+        try:
+            root = pp.stdout.decode("utf-8").strip()
+        except Exception as e:
+            log.error(f"Error running Juvix dev root: {e}")
+            return None
+
+        if not root:
+            return None
+
+        relative_to_root = filepath.relative_to(Path(root))
+
+        # fixme use juvix dev root
 
         qualified_name = (
-            relative_to_docs.as_posix()
+            relative_to_root.as_posix()
             .replace(".juvix.md", "")
             .replace("./", "")
             .replace("/", ".")
@@ -424,7 +426,7 @@ class JuvixPreprocessor:
             "--no-colors",
         ]
 
-        log.debug(f"cmd={' '.join(cmd)}")
+        log.debug(f"Juvix\n {' '.join(cmd)}")
 
         pp = subprocess.run(cmd, cwd=DOCS_DIR, capture_output=True)
 
@@ -444,6 +446,7 @@ class JuvixPreprocessor:
         if md_filename is None:
             log.debug(f"Could not determine the markdown file name for: {fposix}")
             return None
+
         new_md_path: Path = new_folder.joinpath(md_filename)
 
         with open(new_md_path, "w") as f:
@@ -513,6 +516,7 @@ def move_html_cache_to_site_dir(filepath: Path, site_dir: Path) -> None:
                 html_file_path.unlink()
 
     index_file = HTML_CACHE_DIR.joinpath("index.html")
+
     if index_file.exists():
         index_file.unlink()
 

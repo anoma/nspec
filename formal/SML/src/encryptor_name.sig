@@ -6,7 +6,7 @@ An `identityName` can be mapped to an appropriate `Encryptor.encryptor`
 Here, `checkEncryptorName` defines what evidence is acceptable for a
  `Encryptor.encryptor`.
 Note that `identityName`s are also hashable: we require a structure
- `EncryptorNameHash` that details how to hash them. 
+ `EncryptorNameHash` that details how to hash them.
 *)(* --8<-- [end:encryptor_name_description] *)
 (* --8<-- [start:encryptor_name] *)
 signature ENCRYPTOR_NAME = sig
