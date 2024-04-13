@@ -65,6 +65,8 @@ class RTPreprocessor(Preprocessor):
             current_page_url = url_relative.as_posix()
             current_page_abs = config["current_page"].file.abs_src_path
 
+        without_todos = []
+
         offset = 1
         with open(current_page_abs, "r") as f:
             first_line = f.readline()
@@ -72,8 +74,6 @@ class RTPreprocessor(Preprocessor):
                 while f.readline().strip() != "---":
                     offset += 1
                 offset += 1
-
-        without_todos = []
 
         I = 0
         while I < len(lines):
@@ -107,6 +107,7 @@ class RTPreprocessor(Preprocessor):
             else:
                 without_todos.append(line)
             I += 1
+
         return lines if SHOW_TODOS_IN_MD else without_todos
 
 
