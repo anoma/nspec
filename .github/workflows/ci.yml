@@ -125,10 +125,10 @@ jobs:
         if: >-
           github.event_name == 'pull_request'
         run: |
-          mkdocs build --clean --config-file mkdocs.yml --site-dir ${{ env.SITE_DIR }}
+          mkdocs build --clean --config-file mkdocs.yml --site-dir ${{SITE_DIR }}
         env:
           SITE_DIR: pull-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/${{ env.SITE_DIR }}
+          SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
 
       - name: comment on PR (Pull Request)
         if: failure() && github.event_name == 'pull_request'
@@ -143,10 +143,10 @@ jobs:
         if: github.event_name == 'pull_request'
         id: test-build-mkdocs-insiders
         run: |
-          mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir ${{ env.SITE_DIR }}
+          mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir ${{SITE_DIR }}
         env:
           SITE_DIR: pull-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pull-${{ env.SITE_DIR }}
+          SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
 
       - name: The build failed with MkDocs Insiders comment (Pull Request)
         if: github.even_name == 'pull_request' && steps.test-build-mkdocs-insiders.outcome == 'failure'
