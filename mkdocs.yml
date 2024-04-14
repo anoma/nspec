@@ -523,6 +523,7 @@ hooks:
 
 watch:
   - formal/SML
+  - overrides
 
 exclude_docs: |
   /requirements.txt

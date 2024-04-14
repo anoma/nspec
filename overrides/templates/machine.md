@@ -1,6 +1,16 @@
-# Machine Name
+{% extends "main.html" %}
 
-## Purpose
+{% block content %}
+
+
+# PURPOSE
+
+{% block purpose %}
+
+
+{% endblock %}
+
+
 
 ## Background
 
@@ -13,3 +23,5 @@
 ## Communication diagram
 
 <!-- Diagram illustrating message flows between engines -->
+
+{% endblock %}

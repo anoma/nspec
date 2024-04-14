@@ -15,7 +15,6 @@ def fix_site_url(config: MkDocsConfig) -> MkDocsConfig:
         config["site_url"] = os.environ["SITE_URL"]
         if not config["site_url"].endswith("/"):
             config["site_url"] += "/"
-        log.info("Using SITE_URL environment variable: %s", os.environ["SITE_URL"])
         return config
 
     log.info("SITE_URL environment variable not set")
