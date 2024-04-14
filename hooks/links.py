@@ -29,7 +29,7 @@ ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 
 SITE_URL = os.environ.get("SITE_URL", "/nspec/")
-REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", True))
+REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", False))
 
 CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -236,11 +236,9 @@ class WLPreprocessor(Preprocessor):
                         .replace("/", " ")
                         .replace(".md", "")
                     )
-
                     coefficients = {
                         p: fuzz.WRatio(fun_normalise(p), token) for p in possible_pages
                     }
-
                     sorted_pages = sorted(
                         possible_pages, key=lambda p: coefficients[p], reverse=True
                     )
@@ -270,7 +268,8 @@ class WLPreprocessor(Preprocessor):
                     path = config["url_for"][link_page][0]
 
                     html_path = urljoin(
-                        config["site_url"], path.replace(".md", ".html")
+                        config["site_url"],
+                        path.replace(".juvix", "").replace(".md", ".html"),
                     )
 
                     md_link = f"[{link.display or link.page}]({html_path}{f'#{link.anchor}' if link.anchor else ''})"
@@ -294,9 +293,6 @@ class WLPreprocessor(Preprocessor):
 @mkdocs.plugins.event_priority(-200)
 def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -> str:
     config["current_page"] = page  # needed for the preprocessor
-    md_path = "./" + page.url.replace(".html", ".md")
-    if md_path not in config["aliases_for"]:
-        log.debug(f"""{md_path} is not linked in the navigation.""")
     return markdown
 
 

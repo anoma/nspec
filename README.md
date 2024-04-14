@@ -1,5 +1,7 @@
 # Anoma Specs [![anoma-spec-ci](https://github.com/anoma/nspec/actions/workflows/ci.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/ci.yml)
 
+<!-- --8<-- [start:all]-- -->
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your
@@ -23,8 +25,8 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
 The following are the prerequisites to build the website locally:
 
 - Python 3.6 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
-- To deploy the website locally, you would need to install `graphviz` to render *dot* files.
-- As mentioned, we recomend to install Juvix.
+- To deploy the website locally, you would need to install `graphviz` to generate SVG files for *dot* files.
+- As mentioned, we would need `juvix` to render the Juvix code examples.
 
 ### Installing
 
@@ -39,6 +41,8 @@ The following are the prerequisites to build the website locally:
     ```bash
     python3 -m venv env
     ```
+
+    <details> <summary> Activate the virtual environment </summary>
 
     Make sure to activate the virtual environment before proceeding. If you are using
     `bash`, you can do this by running:
@@ -59,7 +63,9 @@ The following are the prerequisites to build the website locally:
     source env/bin/activate.zsh
     ```
 
-3. Install the required packages
+    </details>
+
+3. Install the required packages (preferably in the virtual environment)
 
     ```bash
     pip3 install -r requirements.txt
@@ -71,7 +77,7 @@ The following are the prerequisites to build the website locally:
     mkdocs build
     ```
 
-  Here, you should see the website being built in the `site` directory.
+    This command will generate the website in the `site` directory.
 
 5. To serve the website locally, run the following command:
 
@@ -79,41 +85,23 @@ The following are the prerequisites to build the website locally:
     mkdocs serve
     ```
 
-6. By default, both `make build` or `make serve` are configured to use the
+    Take into account that this webserver will automatically reload the website
+    when you make changes to the files, and it is not especially fast.
+
+    <details> <summary> Builds with quiet mode </summary>
+
+     By default, both `make build` or `make serve` are not configured to use the
     `--quiet` flag that suppresses the output of the build process, including
-    warnings and errors. If you want to see the output, you can run:
+    warnings and errors. If you don't see all this output, you can run:
 
     ```bash
-    MKDOCSFLAGS= make build
+    MKDOCSFLAGS=--quiet make build
     ```
-
-    or better
 
     ```bash
     make test-build
     ```
 
-7. Accessing Material Insider Features
+    </details>
 
-For access to [Material for MkDocs
-Insiders](https://squidfunk.github.io/mkdocs-material/reference/) features,
-contact us to obtain a token. However, you can still build the website without
-these features. So, to use insiders features (you require to set the `GH_TOKEN`),
-
-```bash
-pip3 install -r requirements.insiders.txt
-```
-
-and run, for example:
-
-```bash
-MKDOCSFLAGS=--quiet MKDOCSCONFIG=mkdocs.insiders.yml make serve
-```
-
-### Deployment
-
-- To see the list of todos in the markdown files, just run:
-
-    ```bash
-    grep -r "!!! todo" docs
-    ```
+<!-- --8<-- [end:all]-- -->

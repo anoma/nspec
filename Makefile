@@ -1,6 +1,5 @@
 PORT?=8000
 VERSION?=$(shell cat VERSION)
-ALIAS?=latest
 MKDOCSCONFIG?=mkdocs.yml
 PIP?=pip3
 MKDOCSFLAGS?=
