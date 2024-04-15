@@ -7,10 +7,8 @@ purpose: yyyy
 
 # Using Templates
 
-All the templates are stored in the `overrides/templates` directory. 
+All the templates are stored in the `overrides/templates` directory.
 
-{% block purpose %}
-{{ super() }}
-XXXXXXXXXX
+!!! info
 
-{% endblock %}
+    This is not working yet.

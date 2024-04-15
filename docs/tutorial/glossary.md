@@ -7,7 +7,7 @@ tags:
     - Makefile
 ---
 
-We use the ezglossary plugin to create a glossary of terms. 
+We use the ezglossary plugin to create a glossary of terms.
 
 !!! todo
 

@@ -1,7 +1,9 @@
 
+/*
 html {
-  font-size: calc(125% * 1.1); /* <- 1.1 equals + 10% – adjust to taste */
+  font-size: calc(125% * 0.9); /* <- 1.1 equals + 10% – adjust to taste */
 }
+*/
 
 .md-search__form {
   border-radius: 2rem;
