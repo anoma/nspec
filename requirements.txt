@@ -1,7 +1,5 @@
 mkdocs
 mkdocs-bibtex
-mkdocs-blog-plugin
-mkdocs-ezglossary-plugin
 mkdocs-git-authors-plugin
 mkdocs-git-committers-plugin-2
 mkdocs-git-revision-date-localized-plugin
@@ -10,17 +8,14 @@ mkdocs-literate-nav
 mkdocs-macros-plugin
 mkdocs-material
 mkdocs-material[imaging]
-mkdocs-pdf-export-plugin
 mkdocs-section-index
 pymdown-extensions
 mkdocs-ezglossary-plugin @ git+https://github.com/realtimeprojects/mkdocs-ezglossary@main
-mkdocs-literate-nav
 mkdocs-section-index
 mkdocs-autorefs
 mkdocs-glightbox
 mike
 pre-commit
-mkdocs-bibtex
 python-Levenshtein
 fuzzywuzzy
 ./hooks
