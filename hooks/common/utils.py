@@ -1,7 +1,6 @@
 import logging
 import os
-from typing import Dict, Optional
-from urllib.parse import urljoin
+from typing import Optional
 
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.utils import get_markdown_title
