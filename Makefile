@@ -1,8 +1,6 @@
 PORT?=8000
 VERSION?=$(shell cat VERSION)
-MKDOCSCONFIG?=mkdocs.yml
 PIP?=pip3
-MKDOCSFLAGS?=
 
 DEV?=true
 DEVALIAS?=dev
@@ -13,6 +11,8 @@ MAKEAUXFLAGS?=-s
 MAKE=make ${MAKEAUXFLAGS}
 
 MKDOCSCONFIG?=mkdocs.yml
+MKDOCSFLAGS?=
+
 MIKEPUSHFLAGS?=--push
 MIKEFLAGS?=${MIKEPUSHFLAGS} \
 	--remote origin  \
@@ -21,6 +21,8 @@ MIKEFLAGS?=${MIKEPUSHFLAGS} \
 	--ignore-remote-status \
 	--config-file ${MKDOCSCONFIG}
 
+GITBRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
+
 build:
 	mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
@@ -28,6 +30,7 @@ build:
 .PHONY: test-build
 test-build: export MKDOCSFLAGS=--clean
 test-build: export REPORT_BROKEN_LINKS=true
+test-build: export REMOVE_CACHE=true
 test-build:
 	@mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
@@ -44,7 +47,7 @@ mike: assets
 	@git fetch --all
 	@git checkout gh-pages
 	@git pull origin gh-pages --rebase
-	@git checkout main
+	@git checkout ${GITBRANCH}
 	mike deploy ${VERSION} ${MIKEFLAGS} -t ${VERSION}
 
 .PHONY: mike-serve
