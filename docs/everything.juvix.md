@@ -9,7 +9,7 @@ search:
 # Everything
 
 ```juvix
-module docs.everything;
+module everything;
 
-import docs.engine;
+import engine;
 ```

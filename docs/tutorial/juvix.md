@@ -32,7 +32,7 @@ expressions. This means submodules cannot be split across blocks. The name of
 
 ```markdown
 ```juvix
-module docs.tutorial.basics where
+module tutorial.basics where
 ```
 ```
 

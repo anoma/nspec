@@ -17,7 +17,7 @@ Addresses of Resources and other objects, e.g. Resource Logics/Predicates, are c
 
 Resources are the atomic units of the system.
 
-```haskell=
+```haskell
 data Resource = Resource {
   header :: ResourceHeader,
   body :: ResourceBody,
@@ -49,7 +49,7 @@ The Type of a Resource, is determined by its Resource Logic and Prefix. Resource
 ### Resource Logic (RL)
 
 The Logic of a Resource is defined via a Predicate and its Arguments. It specifies under which conditions `Resources` that carry it can be created and consumed.
-```haskell=
+```haskell
 data ResourceLogic = ResourceLogic {
   predicate :: ptxData -> Bool,
   arguments :: ByteString,
@@ -60,7 +60,7 @@ Predicate Arguments must contain information about the Proof System and Controll
 
 The scope of a Resource Logic is a Partial Transaction and contains all Data carried by the resources which are consumed and created in it.
 
-```haskell=
+```haskell
 data ptxData = ptxData {
   resources :: [Resource],
 }
@@ -164,7 +164,7 @@ A `ptx` is the scope for `Resource Logic`s and `Dynamic Predicates`, the validit
 
 A partial transaction is _valid_ if and only if the predicates of all the resources consumed and created are valid.
 
-```haskell=
+```haskell
 data PartialTx = PartialTx {
   input_resources :: [Resource],
   output_resources :: [Resource],
@@ -184,7 +184,7 @@ Extra data can contain e.g. additional signatures and messages.
 
      Do we want Executable for `ptx`s? How would they look like?
 
-```haskell=
+```haskell
 valid_ptx :: PartialTx -> Boolean
 valid_ptx (PartialTx inr outr) = all (map (\r -> logic r inr outr) (inr <> outr))
 ```
@@ -214,14 +214,14 @@ A transaction is _balanced_ if and only if the input and output sets of each Res
 
 A transaction is _valid_ if and only if the `ptx`s it contains are valid and it is balanced.
 
-```haskell=
+```haskell
 data Tx = Tx {
   partial_txs :: [PartialTx],
   executable :: Executable,
 }
 ```
 
-```haskell=
+```haskell
 denomination :: Resource -> ByteString
 denomination r = serialize (logic r) <> static_data r
 
@@ -246,7 +246,7 @@ check_transaction ptxs = all (map valid_ptx ptxs) && sum (map balance_delta ptxs
 
 Scope = TX mandatory, ptx = optional
 
-```haskell=
+```haskell
 data Executable = Executable {
   read_keys :: [TyphonDBKey],
   write_keys :: [TyphonDBKey],

@@ -23,13 +23,6 @@ DOCS_DIR = ROOT_DIR / "docs"
 SHOW_TODOS_IN_MD = bool(os.environ.get("SHOW_TODOS_IN_MD", False))
 REPORT_TODOS = bool(os.environ.get("REPORT_TODOS", False))
 
-IMAGES_PATTERN = re.compile(
-    r"""
-\s+!!!\s+todo\s+(?P<title>.+)
-""",
-    re.VERBOSE,
-)
-
 
 class RTExtension(Extension):
 
@@ -57,6 +50,7 @@ class RTPreprocessor(Preprocessor):
 
         config = self.mkconfig
         current_page_url = None
+        preprocess_page = SHOW_TODOS_IN_MD
 
         if "current_page" in config and isinstance(config["current_page"], Page):
             url_relative = DOCS_DIR / Path(
@@ -64,6 +58,12 @@ class RTPreprocessor(Preprocessor):
             )
             current_page_url = url_relative.as_posix()
             current_page_abs = config["current_page"].file.abs_src_path
+
+            if "todos" in config["current_page"].meta:
+                preprocess_page = bool(config["current_page"].meta["todos"])
+
+        if not preprocess_page:
+            return lines
 
         without_todos = []
 

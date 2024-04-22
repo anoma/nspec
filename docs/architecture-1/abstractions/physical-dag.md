@@ -13,7 +13,7 @@ The _physical DAG_ is the layer directly on top of the lowest-layer network, res
 
 An `Observation` is a type of message which attests to witnessing some data (possibly other messages), and provides a signature along with an external identity.
 
-```haskell=
+```haskell
 data ObservationMessage
   = Observation {
     witnesses :: Set Hash,

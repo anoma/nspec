@@ -4,6 +4,7 @@ tags:
   - wikilinks
   - images
   - snippets
+todos: False
 ---
 
 # Markdown Basics for Anoma Documentation
@@ -93,14 +94,14 @@ Images should be go in the `docs/images` folder.
 To add an image, apply the following syntax:
 
 ```markdown
-![Alt Text](logo.svg)
+![Alt Text](logo.svg){: width="200"}
 ```
 
 #### Displayed Image Example
 
 The syntax above will render the image in your document like so:
 
-![Alt Text](logo.svg)
+![Alt Text](logo.svg){: width="200"}
 
 !!! tip "Enhanced Image Display"
 
@@ -144,9 +145,10 @@ in the Anoma documentation.
 
 ## Todos
 
-Incorporate todos with this syntax:
+Incorporate todos with the following syntax:
 
-```markdown
+
+```text
 !!! todo
 
     Content of the todo
@@ -160,4 +162,4 @@ The above renders as:
 
 !!! note
 
-Be aware that todos are automatically removed from the online version.
+    Be aware that todos are automatically removed from the online version. If you want to keep them, set `todos: True` in the front matter.

@@ -284,7 +284,6 @@ This implies that any collection of identities that can read messages
 
 ```sml
 --8<-- "./formal/SML/src/threshold_compose_reads_for.fun:threshold_compose_reads_for"
-
 ```
 
 ### "And" Identities

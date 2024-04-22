@@ -11,7 +11,7 @@ search:
 Something interesting here...
 
 ```juvix
-module docs.engine;
+module engine;
 
 import Stdlib.Prelude open;
 
