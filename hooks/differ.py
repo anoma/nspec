@@ -111,7 +111,6 @@ if DIFF_ENABLED:
                         .replace(".md", ".html")
                     )
 
-                    log.error(f"rel_path: {rel_path}")
                     url = urljoin(self.site_url, rel_path)
 
                     if just_url:

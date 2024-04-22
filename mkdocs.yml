@@ -504,6 +504,7 @@ plugins:
   - ezglossary
   - section-index
   - glightbox
+  - juvix
   - bibtex:
       bib_file: "art.bib"
   - macros:
@@ -519,7 +520,6 @@ hooks:
 - hooks/images.py
 - hooks/todos.py
 - hooks/differ.py
-- hooks/juvix.py
 
 watch:
   - formal/SML

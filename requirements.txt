@@ -18,6 +18,7 @@ mkdocs-literate-nav
 mkdocs-section-index
 mkdocs-autorefs
 mkdocs-glightbox
+mkdocs-juvix-plugin
 mike
 pre-commit
 mkdocs-bibtex
