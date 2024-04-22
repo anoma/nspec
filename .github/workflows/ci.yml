@@ -25,6 +25,7 @@ name: anoma-spec-ci
       - reopened
       - synchronize
       - ready_for_review
+      - closed
 
 env:
   CI: true
@@ -121,7 +122,6 @@ jobs:
           path: .hooks
           restore-keys: |
             hooks-
-
 
       - name: Build MkDocs (Pull Request)
         if: >-

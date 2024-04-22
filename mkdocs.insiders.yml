@@ -20,7 +20,7 @@ plugins:
   - ezglossary
   - section-index
   - glightbox
-  # - typeset
+  - juvix 
   - git-revision-date-localized:
       type: timeago
       custom_format: "%d. %B %Y"
