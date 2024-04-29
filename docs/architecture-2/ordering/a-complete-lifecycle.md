@@ -51,9 +51,9 @@ _at user_
 
 The user creates a [[TransactionCandidate]] $T$.
 
-$T = \Bigl(\mathit{code},
+$$T = \Bigl(\mathit{code},
     \underbrace{(r_e,r_l)}_{\text{read label}},
-    \overbrace{(w_w,w_m)}^{\text{write label}}\Bigr)$
+    \overbrace{(w_w,w_m)}^{\text{write label}}\Bigr)$$
 
 !!! quote
 
@@ -68,7 +68,8 @@ packaged as a [[TransactionRequest]],
 to the [[Worker Engine|worker]].
 
 - [[TransactionRequest]] → [[Worker Engine]]
-  This message is the origin of the life cycle.
+
+    This message is the origin of the life cycle.
 
 <!-- this is Isaac's original post
 https://github.com/anoma/specs/issues/430#issuecomment-1935077194:
@@ -93,17 +94,17 @@ Once it is clear that the transaction can be included into the current
  _batch number_.
 
 - [[TransactionAck]] → user
-  This is mainly for purposes of UX,
-  but gives also information for re-submission strategies.
+
+    This is mainly for purposes of UX,
+    but gives also information for re-submission strategies.
 
 ### Buffering and shuffling (optional)
 
 _at [[Worker Engine]]_
 
-One may want to order each transaction request within a batch only
- after a minimum number of other requests are received such that they
- can be "slightly" re-ordered within a _very short_ time
- period---for several reasons.
+One may want to order each transaction request within a batch only after a
+ minimum number of other requests are received such that they can be "slightly"
+ re-ordered within a _very short_ time period---for several reasons.
 
 !!! todo
 
@@ -140,8 +141,9 @@ The [[Worker Engine]] either directly spawns an [[Executor]] process
  _Executor Process ID_ (EPID).
 
 - [[SpawnExecutor]]→[[Execution Supervisor]]
-  Request a fresh process id of an available [[Executor]],
-  typically a newly spawned executor engine instance.
+
+    Request a fresh process id of an available [[Executor]],
+    typically a newly spawned executor engine instance.
 
 Note that the [[Execution Supervisor]] cannot, in general,
 wait for some existing [[Executor]] processes to terminate
@@ -160,8 +162,9 @@ Hence, the supervisor itself may be a concurrently running group of engines.
 _at [[Execution Supervisor]]_
 
 - [[ExecutorPIDAssigned]]→[[Worker Engine|Worker]]
-  Send the [[architecture-2:Identity|external identity]] of a "fresh" executor engine instance,
-  either newly spawned or a waiting in a fixed pool of available executors.
+
+    Send the [[architecture-2:Identity|external identity]] of a "fresh" executor engine instance,
+    either newly spawned or a waiting in a fixed pool of available executors.
 
 !!! todo
 
@@ -172,10 +175,11 @@ _at [[Execution Supervisor]]_
 _at [[Worker Engine]]_
 
 - [[KVSAcquireLock]] → [[Shard]]s
-  The [[Worker Engine]] informs all relevant [[Shard]]s about locks
-   for this [[TransactionCandidate]] (at this [[TxFingerprint]]).
-  This also  allows the shard to prepare for read and write requests
-   (which can be used for optimizations like warming up disk storage).
+
+    The [[Worker Engine]] informs all relevant [[Shard]]s about locks
+    for this [[TransactionCandidate]] (at this [[TxFingerprint]]).
+    This also  allows the shard to prepare for read and write requests
+    (which can be used for optimizations like warming up disk storage).
 
 If it helps, these messages can be batched and sent periodically.
 
@@ -184,32 +188,35 @@ If it helps, these messages can be batched and sent periodically.
 _at [[Shard]]_
 
 - [[KVSLockAcquired]] → [[Worker Engine]]
-  The [[Shard]] informs the [[Worker Engine]] about locks acquired
-  or "recorded" for this [[Worker Engine]]'s [[TransactionCandidate]].
-  This becomes crucial below, at "Notifying shards about locks seen."
+
+    The [[Shard]] informs the [[Worker Engine]] about locks acquired
+    or "recorded" for this [[Worker Engine]]'s [[TransactionCandidate]].
+    This becomes crucial below, at "Notifying shards about locks seen."
 
 ### Starting transaction execution
 
 _at [[Worker Engine]]_
 
 - [[ExecuteTransaction]] → [[Executor]]
-  This will trigger the actual execution.
-  This execution _includes_ any finalization or resource logic checks.
-   _Reads_, for executor process purposes, include any reads of state
-   necessary for any post-ordering execution, resource logic checks,
-   or anything else dependent on the "current" state of the state
-   machine.
-  _Writes_, for purposes of the state machine, include only final,
-   valid updates to state that are definitely committed.
+
+    This will trigger the actual execution.
+    This execution _includes_ any finalization or resource logic checks.
+    _Reads_, for executor process purposes, include any reads of state
+    necessary for any post-ordering execution, resource logic checks,
+    or anything else dependent on the "current" state of the state
+    machine.
+    _Writes_, for purposes of the state machine, include only final,
+    valid updates to state that are definitely committed.
 
 ### Sending read requests
 
 _at [[Executor]]_
 
 - [[KVSReadRequest]] → [[Shard]]
-  While executing the transaction
-  (depending on previous reads and or static data in the code)
-  send the optional read requests to the [[Shard]].
+
+    While executing the transaction
+    (depending on previous reads and or static data in the code)
+    send the optional read requests to the [[Shard]].
 
 ### Sending write requests
 
@@ -220,37 +227,40 @@ _at [[Executor]]_
     this should be a Request!
 
 - [[KVSWrite]] → [[Shard]]s
-  When the [[TransactionCandidate|transaction candidate]] has run,
-  for each write lock, the
-  [[Executor]] informs the relevant [[Shard]] of a value to write
-  (or, for `may_write`s, maybe to not update this value).
+
+    When the [[TransactionCandidate|transaction candidate]] has run,
+    for each write lock, the
+    [[Executor]] informs the relevant [[Shard]] of a value to write
+    (or, for `may_write`s, maybe to not update this value).
 
 ### Notifying shards about locks "seen"
 
 _at [[Worker Engine]]_
 
 - [[UpdateSeenAll]] → [[Shard]]s
-  The [[Worker Engine]] informs each [[Shard]] of the greatest
-   [[TxFingerprint]] such that it can be sure
-   (because it has heard enough [[KVSLockAcquired]] messages)
-   that the [[Shard]] will never hear a
-   [[KVSAcquireLock]] from this [[Worker Engine]] with an equal or
-   lower [[TxFingerprint]] in the future.
-  This is crucial, because [[Shard]]s cannot "read" values from
-   storage at a particular [[TxFingerprint]] until they are sure that
-   no writes with earlier [[TxFingerprint]]s will happen.
+
+    The [[Worker Engine]] informs each [[Shard]] of the greatest
+    [[TxFingerprint]] such that it can be sure
+    (because it has heard enough [[KVSLockAcquired]] messages)
+    that the [[Shard]] will never hear a
+    [[KVSAcquireLock]] from this [[Worker Engine]] with an equal or
+    lower [[TxFingerprint]] in the future.
+    This is crucial, because [[Shard]]s cannot "read" values from
+    storage at a particular [[TxFingerprint]] until they are sure that
+    no writes with earlier [[TxFingerprint]]s will happen.
 
 ### Serving read and write requests from executors
 
 _at [[Shard]]s_
 
 - [[KVSRead]] → [[Executor]]
-  For each read lock, if all preceding write locks have been
-   recorded, and the unique preceding write has produced a value, the
-   [[Shard]] can read a value.
-  For _eager_ reads (as defined in [[KVSAcquireLock]]), it sends this
-   value immediately to the [[Executor]], and for _lazy_ reads, it
-   sends it in response to a [[KVSReadRequest]] from the [[Executor]].
+
+    For each read lock, if all preceding write locks have been
+    recorded, and the unique preceding write has produced a value, the
+    [[Shard]] can read a value.
+    For _eager_ reads (as defined in [[KVSAcquireLock]]), it sends this
+    value immediately to the [[Executor]], and for _lazy_ reads, it
+    sends it in response to a [[KVSReadRequest]] from the [[Executor]].
 
 ### Handling transaction candidate side effects
 
@@ -265,8 +275,10 @@ This can include logging and sending messages to users.
 
 The user is informed about the results of the transaction outcome.
 In future versions (from V2 onward), this comes in two flavors:
+
 - communication from only one validator's executor process
   (probably whatever validator the user submitted to)
+
 - some reliable transmission protocol between
   the user and at least a weak quorum of validators.
 
@@ -284,9 +296,10 @@ e.g., a hash of the state deltas +++
 _at [[Executor]]_
 
 - [[ExecutorFinished]] → [[Worker Engine]]
-  Notify the [[Worker Engine]] about the finished execution.
-  This triggers a log dump at the [[Worker Engine]],
-   and will be used for garbage collection from V2 onward.
-  For logging purposes, we could encode values read / written in here.
+
+    Notify the [[Worker Engine]] about the finished execution.
+    This triggers a log dump at the [[Worker Engine]],
+    and will be used for garbage collection from V2 onward.
+    For logging purposes, we could encode values read / written in here.
 
 <!-- --8<-- [end:all] -->

@@ -12,13 +12,18 @@ search:
 ### Purpose
 
 The ordering machine is a set of communicating engines that collaborate in
+
 - receiving [[TransactionCandidate|transaction candidates]] from
   users or solvers
+
 - [[Mempool Engines|ordering]] these requests for
   [[Execution Engines|execution]],
+
 - [[Execution Engines|executing]] the
   [[TransactionCandidate|transaction candidates]],
+
 - updated the [[Shard|state]] accordingly,
+
 - making the state available.
 
 ### Background
@@ -33,7 +38,7 @@ https://en.wikipedia.org/wiki/Distributed_computing)<!--
 a [replicated state machine](
     https://en.wikipedia.org/wiki/State_machine_replication) (RSM).
 This state machine must represent all anoma state, including commitments and nullifiers.
-The Ordering Machine, however, does not need to understand the full complexity of the anoma state: only that it can be represented as a Key Value Store, where [[TransactionCandidate]]s each read some (arbitrary) data from keys, and can write some (arbitrary) data to keys.
+The Ordering Machine, however, does not need to understand the full complexity of the anoma state: only that it can be represented as a Key Value Store, where [[TransactionCandidate|transaction candidates]] each read some (arbitrary) data from keys, and can write some (arbitrary) data to keys.
 We outline the full requirements of the abstraction boundary with the State Machine in the [[Execution Engines]] page.
 
 In V1,
@@ -88,15 +93,20 @@ but these are not considered in V1.
 - The [[Mempool Engines|mempool engines]] are responsible for
   managing [[TxData|transaction data]],
   (pre-)processing them for consensus and execution.
+
 - The trivial consensus problem is already implicitly solved
   by _the_ [[Worker Engine|worker]] in V1.
+  
   - In V1, there is only one [[Worker Engine|worker]].
     There will be multiple (on each Node) in future versions.
+
 - The [[Execution Engines|execution engines]] execute
   the transactions:
+
   - [[Shard]]s maintain the local copy of the global state (of the RSM),
     i.e., serve read and write requests of [[Executor]]s
     to the key-value store (of the RSM).
+    
   - [[Executor]]s process [[TransactionCandidate|transaction candidates]], effectively
      invoking the [transition function
       ](https://en.wikipedia.org/wiki/State_machine_replication#State_machine)

@@ -43,13 +43,13 @@ collected over time interval. Examples include the [[AvailabilityCertificate#ava
 The *Hardware Abstraction Machine* incorporates two specialized storage engines designed to cater to distinct data storage
 and retrieval requirements from other engines:
 
-- The [[Local Key-Value Storage Engine#local-key-value-storage-engine]] provides
+- The [[Local Key-Value Storage Engine#local-key-value-storage-engine]] (KV) provides
 a flexible and efficient mechanism for storing and retrieving data in a
 key-value format on the physical machine an Anoma node is running. Key-value
 storage is suitable for scenarios that require fast data access and low-latency
 operations such as configuration storage.
 
-- The [[Local Time-Series Storage Engine#local-time-series-storage-engine]] is
+- The [[Local Time-Series Storage Engine#local-time-series-storage-engine]] (TS) is
 usually optimized for storing and analyzing time-stamped data points collected
 over time interval such as [[AvailabilityCertificate#availabilitycertificate]].
 
