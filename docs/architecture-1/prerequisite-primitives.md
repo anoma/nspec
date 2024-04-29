@@ -17,7 +17,7 @@ Being *canonical* for a serialisation $s$ means that there exists a function $d$
 such that, for any function or data $x$, all the agents using the protocol agree
 that the following equation holds.
 
-$$s(\mathsf{eval}(d(x))) = x.$
+$$s(\mathsf{eval}(d(x))) = x.$$
 
 In what follows, we assume any serialisation is canonical, unless otherwise specified. Internal representations of compute may vary as long as this external equivalence holds. Certain additional correspondences of internal representations may be required for particular verifiable computation schemes (see below).
 
@@ -69,8 +69,21 @@ This scheme may be instantiated in various ways with different properties and di
 
 For example, let's take three common instantiations:
 
-- The _trivial_ scheme is one where computation is simply replicated. The trivial scheme is defined as `verify(a, b, predicate, _) = predicate a b` (with proof type `()`). It has no extra security assumptions but is not succinct.
-- The _trusted delegation_ scheme is one where computation is delegated to a known, trusted party whose work is not checked. The trusted delegation scheme is defined as `verify(a, b, predicate, proof) = checkSignature (a, b, predicate) proof`, where the trusted party is assumed to produce such a signature only if `predicate a b = 1`. This scheme is succinct but requires a trusted party assumption (which could be generalised to a threshold quorum in the obvious way). Note that since the computation is still verifiable, a signer of `(a, b, predicate)` where `predicate a b = 0` could be held accountable by anyone else who later checked the predicate.
+- The _trivial_ scheme is one where computation is simply replicated. The
+  trivial scheme is defined as `verify(a, b, predicate, _) = predicate a b`
+  (with proof type `()`). It has no extra security assumptions but is not
+  succinct.
+
+- The _trusted delegation_ scheme is one where computation is delegated to a
+  known, trusted party whose work is not checked. The trusted delegation scheme
+  is defined as `verify(a, b, predicate, proof) = checkSignature (a, b,
+  predicate) proof`, where the trusted party is assumed to produce such a
+  signature only if `predicate a b = 1`. This scheme is succinct but requires a
+  trusted party assumption (which could be generalised to a threshold quorum in
+  the obvious way). Note that since the computation is still verifiable, a
+  signer of `(a, b, predicate)` where `predicate a b = 0` could be held
+  accountable by anyone else who later checked the predicate.
+
 - The _succinct proof-of-knowledge_ scheme is one where the result of computation is attested to with a cryptographic proof (of the sort commonly instantiated by modern-day SNARKs & STARKs). Succint proof-of-knowledge schemes provide succinctness as well as veriability subject to the scheme-specific cryptographic assumptions. They may also possibly be _zero-knowledge_, in which the verifier learns nothing other than `predicate a b = 1` (in this case, and in others, `a` and `b` will often be "hidden" with hash functions, such that the verifier knows only `hash a` and `hash b` but the substance of the relation obtains over the preimages).
 
 Global consensus on the verifiable computation scheme is not required, and there is no canonical one, but agents must agree on a particular scheme to use for a particular case of verifiable computation, and agents must know the `Proof` type and `prove` / `verify` functions for any scheme which they use.

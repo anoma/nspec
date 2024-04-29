@@ -1,0 +1,9 @@
+module architecture-2.engines.test;
+
+axiom X : Type;
+axiom Y : Type;
+axiom Pair : Type -> Type -> Type;
+
+type A := mkA {
+  a : Pair X Y;
+};

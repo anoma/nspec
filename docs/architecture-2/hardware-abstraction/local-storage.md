@@ -42,12 +42,16 @@ collected over time interval. Examples include the [[AvailabilityCertificate#ava
 
 The *Hardware Abstraction Machine* incorporates two specialized storage engines designed to cater to distinct data storage
 and retrieval requirements from other engines:
-- The [[Local Key-Value Storage Engine#local-key-value-storage-engine]] provides a flexible and efficient mechanism for storing and retrieving
-data in a key-value format on the physical machine an Anoma node is running.
-Key-value storage is suitable for scenarios that require fast data access and low-latency operations such as
-configuration storage.
-- The [[Local Time-Series Storage Engine#local-time-series-storage-engine]] is usually optimized for storing and analyzing time-stamped data points
-collected over time interval such as [[AvailabilityCertificate#availabilitycertificate]].
+
+- The [[Local Key-Value Storage Engine#local-key-value-storage-engine]] provides
+a flexible and efficient mechanism for storing and retrieving data in a
+key-value format on the physical machine an Anoma node is running. Key-value
+storage is suitable for scenarios that require fast data access and low-latency
+operations such as configuration storage.
+
+- The [[Local Time-Series Storage Engine#local-time-series-storage-engine]] is
+usually optimized for storing and analyzing time-stamped data points collected
+over time interval such as [[AvailabilityCertificate#availabilitycertificate]].
 
 ## Communication diagram
 
@@ -62,5 +66,5 @@ in the [[Ordering Machine#ordering-machine]] that needs to be stored by the Loca
 The *Ordering Machine* sends the AC to the [[Router#router]]. The *Router Engine* records the AC in the [[Local Time-Series Storage Engine#local-time-series-storage-engine]]
 and then request the transport identity from one of [[Local Key-Value Storage Engine#local-key-value-storage-engine]] instances that stores routing information.
 
-## Further reading
+<!-- ## Further reading -->
 

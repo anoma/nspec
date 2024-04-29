@@ -9,9 +9,9 @@ search:
 
 Anoma's implementation is structured as a set of communication _engines_. An _engine_ can be understood as a deterministic logical process operating within a trusted domain, and can be characterised as a function, parameterised over a state type, input message type, and output message type, taking a tuple of the current state and a set of input messages, and returning a tuple of a new state and a set of output messages.
 
-```haskell
+<!-- ```haskell
 type Engine State InMsg OutMsg = (State, Set InMsg) -> (State, Set OutMsg)
-```
+``` -->
 
 This interface is _compositional_, where two engines can be combined by routing specific messages to and from each other, to form a third engine which is a specific composition of the two.
 
@@ -20,13 +20,19 @@ This interface is _compositional_, where two engines can be combined by routing 
      Specify this further.
 
 Structuring the implementation as a composition of engines has many benefits:
+
 - A clean separation of concerns between different areas of concern in the protocol (e.g. network layer interfacing, consensus message processing, signature generation).
+
 - Easier upgrades, as engine implementations can be independently upgraded as long as interface properties (at the level of the engine function as above) are still satisfied.
+
 - The possibility of hot reloading. Typiucally, engines can be hot reloaded as long as interface properties are still satisfied and state is appropriately transferred - messages are just queued.
+
 - Different engines can be property tested and formally verified independently, since they have independently articulated properties. Testing and verification of engine compositions can build on these efforts.
+
 - A natural mapping to separate physical processors or machines. Engines are assumed to operate within a single trust domain, but can otherwise be separated and run in parallel, in the form of separate cores on the same physical machine, multiple physical machines across a network boundary, etc.
 
 Important notes:
+
 - Engines are _logical_ processes, not physical ones. Any mapping of logical to physical processes is possible as long as the logical properties are adhered to.
 
 Engines:
@@ -36,7 +42,7 @@ Engines:
 - [Consensus](./engines/consensus-v1.md#consensus)
 - [Execution](./engines/execution.md#execution)
 - [Storage](./engines/storage.md#storage)
-- [Compute](./engines/compute.md#compute)
+- [Compute](./engines/compute.juvix.md#compute)
 - [Solver](./engines/solver.md#solver)
 - [Commitment](./engines/commitment.md#commitment)
 - [Decryption](./engines/decryption.md#decryption)
@@ -54,8 +60,11 @@ It is intended as a replacement for [Tendermint](https://tendermint.com/core/).
 [We have a brief overview presentation of some of the features of Typhon here](https://youtu.be/n4MlYO_ls4M?t=7687).
 
 Typhon can be broken down into three engines:
+
 - a [mempool](./engines/mempool.md#mempool), which receives transaction requests and stores them
+
 - a [consensus](./engines/consensus-v1.md#consensus), which orders transaction requests collected by the mempool, and
+
 - an [execution engine](./engines/execution.md#execution), which executes the transactions on the state machine.
 
 We expect each Anoma participant (*validator*) will run processes for all three engines.

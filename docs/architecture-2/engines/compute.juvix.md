@@ -5,6 +5,10 @@ search:
   boost: 2
 ---
 
+```juvix
+module architecture-2.engines.compute;
+```
+
 # Compute
 
 - *Inputs*
@@ -24,9 +28,9 @@ The compute engine keeps in state:
 - A local cache of solutions satisfying particular predicates
 - A local cache of algorithms to use to solve particular predicates
 
-```haskell
-data ComputeEngineState = ComputeEngineState {
-}
+```juvix
+type ComputeEngineState := mkComputeEngineState {
+};
 ```
 
 ## Input messages
@@ -40,13 +44,19 @@ Input messages to the compute engine specify:
 
      Figure exact units for time and space bounds.
 
-```haskell
-data ComputeRequest = ComputeRequest {
-    predicate :: Hash,
-    algorithm :: Maybe Hash,
-    max_cost_time :: (Integer, Rational),
-    max_cost_space :: (Integer, Rational)
-}
+```juvix
+axiom Hash : Type;
+axiom Maybe : Type -> Type;
+axiom Integer : Type;
+axiom Rational : Type;
+axiom Pair : Type -> Type -> Type;
+
+type ComputeRequest := mkComputeRequest {
+    predicate : Hash;
+    algorithm : Maybe Hash;
+    max_cost_time : Pair Integer Rational;
+    max_cost_space : Pair Integer Rational
+};
 ```
 
 ## Output messages
@@ -57,13 +67,13 @@ Output messages from the compute engine specify:
 - The _solution_ found, if one was found (by hash)
 - Cost (in time and space) actually incurred, and precision of cost estimates
 
-```haskell
-data ComputeResult = ComputeResult {
-    predicate :: Hash,
-    algorithm :: Maybe Hash,
-    solution :: Maybe Hash,
-    actual_cost_time :: (Integer, Rational),
-    actual_cost_space :: (Integer, Rational)
+```juvix
+type ComputeResult := mkComputeResult {
+    predicate : Hash;
+    algorithm : Maybe Hash;
+    solution : Maybe Hash;
+    actual_cost_time : Pair Integer Rational;
+    actual_cost_space : Pair Integer Rational;
 }
 ```
 
