@@ -19,9 +19,13 @@ upon which more complex peer-to-peer (P2P) protocols are built.
 ## Scope
 
 The Anoma v1 network is limited to the following.
+
 - The network consists of multiple nodes that can establish direct connections with each other over QUIC/TLS transport protocols.
+
 - Nodes know about each other's addresses by explicitly adding [[NodeAdvert#nodeadvert]]s to their configuration.
+
 - Engines can send unicast and multicast (pub/sub) messages to both local and remote engines.
+
 - Pub/sub is limited to a single publisher with directly connected subscribers.
 
 The Anoma v2 network is going to support domains, dynamic P2P overlays, and P2P routing protocols.

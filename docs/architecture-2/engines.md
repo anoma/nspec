@@ -83,6 +83,8 @@ This establishes a total order of transactions for the [execution engine](./engi
 [Read more here.](./engines/consensus-v1.md#consensus)
 
 - **[Execution Engine](./engines/execution.md#execution):** Given a total order of transactions, the [execution engine](./engines/execution.md#execution) updates and stores the "current" state , using as much concurrency as possible.
+
+
 Proofs from the execution engine allow light clients to read the current state.
 When the execution engine has processed a transaction, it communicates to the [mempool](./engines/mempool.md#mempool) that the transaction can data can be garbage-collected from storage.
 [Read more here.](./engines/execution.md#execution)
