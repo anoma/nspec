@@ -12,9 +12,13 @@ The operational architecture specification concerns the state evolution of Anoma
 The specification is organized into the following sections:
 
 - [Hardware Abstraction Machine](./architecture-2/hardware-abstraction.md)
+
 - [Control Machine](./architecture-2/control.md)
+
 - [Identity Machine](./architecture-2/identity.md)
+
 - [Networking Machine](./architecture-2/networking.md)
+
 - [Ordering Machine](./architecture-2/ordering-v1.md)
 
 ## Engine models
@@ -45,7 +49,7 @@ The type of the _body_ almost always depends on the specific type of message.
 For each engine,
 we provide the following.
 
-1. _A list of type **names**_. Each _type name_ is a string that specifies
+- _A list of type **names**_. Each _type name_ is a string that specifies
    the type of message bodies that the engine has to be able to process
    (with the additional context that the header provides). <!--
    Type names are also used for naming the places in the Petri net model.
@@ -53,17 +57,17 @@ we provide the following.
    Optionally,
    each type name in this list is mapped to a set of protocols to which it belongs.
 
-2. _A list of pairs of type names and engines for message reactions_.  Each type
+- _A list of pairs of type names and engines for message reactions_.  Each type
    name has a “static” approximation of all message reactions that a received
    message might trigger. Typically, there is no need to add identities or
    addresses of engine instance here.
 
-3. _A type for each type name_. The type of the message body is called _message
+-  _A type for each type name_. The type of the message body is called _message
    type_ as short hand for _message body type_. The message type does not need
    to re-iterate information of the message header. It is allowed that several
    type names refer to the message type.
 
-4. _The types and behavior for each message body type_.  Using links to GitHub,
+- _The types and behavior for each message body type_.  Using links to GitHub,
    Message types should be specified as SML types/datatypes (eventually matching
    the restrictions of [colorsets](https://cpntools.org/2018/01/12/color-sets/)
    of CPN Tools, i.e., only datatypes without proper recursion / induction). The
