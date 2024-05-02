@@ -5,7 +5,13 @@ search:
   boost: 2
 ---
 
+
 # P2P
+
+```juvix hide
+module architecture-2.engines.p2p;
+```
+
 
 ## Network abstraction layer
 
@@ -55,13 +61,20 @@ should refuse to relay those messages and ban the peers.
 
      Simple local filtering on topics (i.e. subtopics) and potentially optimisations by broadcasting local filters.
 
-```haskell
-type Topic = Message -> Bool
+```juvix
+axiom Message : Type;
+type Bool := True | False;
+axiom ByteString : Type;
 
-logicalSend :: ExternalIdentity -> Topic -> Message -> IO ()
-logicalOnRecv :: (ExternalIdentity -> Topic -> Message -> IO ()) -> IO () -- note: clarify notation for callback functions
-logicalSub :: Topic -> IO ()
-logicalUnsub :: Topic -> IO ()
+axiom ExternalIdentity : Type;
+axiom Topic : Type;
+axiom IO : Type;
+
+
+axiom logicalSend : ExternalIdentity -> Topic -> Message -> IO;
+axiom logicalOnRecv : (ExternalIdentity -> Topic -> Message -> IO) -> IO ;-- note: clarify notation for callback functions
+axiom logicalSub : Topic -> IO ;
+axiom logicalUnsub : Topic -> IO ;
 ```
 
 ## P2P intelligence engine (PIE 🥧)
@@ -188,11 +201,10 @@ higher layers.
 
      Work remains to be done to integrate the privacy properties which might be provided by Tor or a mixnet into the privacy preferences and  trust graph, which the higher-level logical layers might be able to reason about. This will likely need to be an abstract model of their properties, to be used by the information flow control system.
 
-```haskell
-type PhysicalAddress
-
-send :: PhysicalAddress -> ByteString -> IO ()
-onRecv :: (PhysicalAddress -> ByteString -> IO ()) -> IO ()
+```juvix
+axiom PhysicalAddress : Type;
+axiom send : PhysicalAddress -> ByteString -> IO;
+axiom onRecv : (PhysicalAddress -> ByteString -> IO) -> IO;
 ```
 
 Physical routing also requires an underlying state, but as existing stacks can

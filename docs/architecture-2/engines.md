@@ -37,7 +37,7 @@ Important notes:
 
 Engines:
 
-- [P2P](./engines/p2p.md#p2p)
+- [P2P](./engines/p2p.juvix.md#p2p)
 - [Mempool](./engines/mempool.md#mempool)
 - [Consensus](./engines/consensus-v1.md#consensus)
 - [Execution](./engines/execution.md#execution)
