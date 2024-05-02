@@ -22,11 +22,17 @@ This set must include the two-element binary field $F_b$ and a designated hash f
 Each field $F_i$ provides the following primitive operations:
 
 - Multiplication: $*_{F_i}$, with type $F_i \to F_i \to F_i$
+
 - Addition: $+_{F_i}$, with type $F_i \to F_i \to F_i$
+
 - Additive identity: $0_{F_i}$, with type $F_i$
+
 - Multiplicative identity: $1_{F_i}$, with type $F_i$
+
 - Additive inverse: $-_{F_i}$, with type $F_i \to F_i$
+
 - Multiplicative inverse: $1/_{F_i}$, with type $F_i \to F_i$
+
 - Equality: $=_{F_i}$, with type $F_i \to F_i \to {0_{F_b} | 1_{F_b}}$
 
 Each field $F_i$ has order ${F_{i_{order}}}$.

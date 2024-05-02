@@ -35,12 +35,17 @@ A transaction is _consistent_ w.r.t. a physical DAG `D` if and only if:
 - All consumed resources were previously created by a transaction in the history, which was itself (recursively) consistent and final
 
 A transaction is _final_ w.r.t. a physical DAG `D` if and only if:
+
 - it is balanced and valid
+
 - it is consistent w.r.t. `D`
+
 - the latest owners of all consumed resources have signed over it in `D`
+
 - all consumed resources have not been consumed by another antecedent transaction in `D` which was itself final
 
 In the case of two _conflicting_ transactions, where the rightmost controller(s) `c` did not totally order them, resolution is defined as:
+
 - the transaction ordered first by the rightmost controller after dropping the last element of the list, or in case of another conflict (by them), drop the last element of the list and repeat. if the end of the list is reached, both transactions are valid (this may violate linearity guarantees), and we rely on some sort of out-of-band fault resolution
 
 Agents, then, have _safe finality_ under the assumption of correct behavior of the earliest controller in the list from whom they have obtained a signature.
@@ -86,11 +91,21 @@ type State = Set Resource
 ```
 
 A resource logic DAG is valid if and only if:
-- all transactions are valid by the conditions as above
-- all transactions are included in the same order as their data in the physical DAG (i.e. if `a` happens no later than `b` in the physical DAG, `a` happens no later than `b` in the logical DAG)
-  - within ordering determined by the physical DAG, creations and consumptions determine ordering within the logical DAG, i.e. a transaction `b` which consumes a resource created by `a` happens after `a`
 
-From a particular resource logic DAG, an observer can calculate a _state_ as a key-value mapping by taking `key(resource)` and `(data resource, value resource)` for all resources created but not yet consumed (by final transactions) in the history of that DAG.
+- all transactions are valid by the conditions as above
+
+- all transactions are included in the same order as their data in the physical
+  DAG (i.e. if `a` happens no later than `b` in the physical DAG, `a` happens no
+  later than `b` in the logical DAG)
+
+  - within ordering determined by the physical DAG, creations and consumptions
+    determine ordering within the logical DAG, i.e. a transaction `b` which
+    consumes a resource created by `a` happens after `a`
+
+From a particular resource logic DAG, an observer can calculate a _state_ as a
+key-value mapping by taking `key(resource)` and `(data resource, value
+resource)` for all resources created but not yet consumed (by final
+transactions) in the history of that DAG.
 
 !!! todo
 
@@ -103,6 +118,26 @@ From a particular resource logic DAG, an observer can calculate a _state_ as a k
      This section is notes, readers please ignore.
 
 Outstanding topics:
-- What exactly is the desired logic of a finality predicate? I think, from the intent layer, it is: "among the transactions which consume my intent and are valid, pick this one". It should not be more general than that because other constraints could have been encoded into the predicates already - finality predicate is only for _ranking_ in information uncertainty, and it is an _ordering_ which should also reference a _logical time_ (w.r.t. some identity). Then the question becoems how ranking functions are _combined_ across intents - we should be able to retain the guarantee that between two transactions with the same intents, where all intent authors prefer the latter, the former is not accepted. Given a set of intents included in a set of transactions, the ranking functions give a partial order to the transactions.  -- then these should _not_ be first-class, rather they are part of the definition of an identity, since ordering/ranking is concerned. So instead we should contemplate ways of encoding this into consensus providers'
-- Previously we had this concept of a "virtual resource" for modelling non-linear (infinitely consumable) things. However, since often these were physical-DAG-dependent, I think identity is the right abstraction here instead, maybe it would be good to come up with some motivating examples.
-- Spell out how nullifiers and commitments can be used to track linearity efficiently here.
+
+- What exactly is the desired logic of a finality predicate? I think, from the
+  intent layer, it is: "among the transactions which consume my intent and are
+  valid, pick this one". It should not be more general than that because other
+  constraints could have been encoded into the predicates already - finality
+  predicate is only for _ranking_ in information uncertainty, and it is an
+  _ordering_ which should also reference a _logical time_ (w.r.t. some
+  identity). Then the question becoems how ranking functions are _combined_
+  across intents - we should be able to retain the guarantee that between two
+  transactions with the same intents, where all intent authors prefer the
+  latter, the former is not accepted. Given a set of intents included in a set
+  of transactions, the ranking functions give a partial order to the
+  transactions.  -- then these should _not_ be first-class, rather they are part
+  of the definition of an identity, since ordering/ranking is concerned. So
+  instead we should contemplate ways of encoding this into consensus providers'
+
+- Previously we had this concept of a "virtual resource" for modelling
+  non-linear (infinitely consumable) things. However, since often these were
+  physical-DAG-dependent, I think identity is the right abstraction here
+  instead, maybe it would be good to come up with some motivating examples.
+
+- Spell out how nullifiers and commitments can be used to track linearity
+  efficiently here.
