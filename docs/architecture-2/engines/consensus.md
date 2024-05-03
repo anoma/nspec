@@ -223,39 +223,61 @@ Suppose we have two learners $l_1$ and $l_2$ from two different blockchains.
 
 <!--To propose a chimera block, proposers send $1a$ messages, each carrying a value (the atomic transaction for example) and unique ballot number (round identifier), to all acceptors. -->
 
-A proposer proposes a new block by sending a $1a$ message to all acceptors, which includes
+A proposer proposes a new block by sending a $1a$ message to all acceptors,
+which includes
+
 - a value (the atomic transaction for example)
+
 - a unique ballot number (round identifier)
-- a message containing the hash of the proposed block along with a time stamp of the ballot initiation.
 
-If there is an existing chimera chain, the proposer can built upon that chain and if the proposer is starting a new chimera chain it needs to lock some funds for that.
+- a message containing the hash of the proposed block along with a time stamp of
+  the ballot initiation.
 
-Also, the acceptor needs to check validity as soon as possible: don't even "receive" an invalid proposal (or at least don't send a "1b" message in response).
+If there is an existing chimera chain, the proposer can built upon that chain
+and if the proposer is starting a new chimera chain it needs to lock some funds
+for that.
+
+Also, the acceptor needs to check validity as soon as possible: don't even
+"receive" an invalid proposal (or at least don't send a "1b" message in
+response).
 
 #### **$1b$ message: acknowledging receiving proposals**
 
-On receipt of a $1a$ message, an acceptor sends an ackowledgement of its receipt to all other acceptors and learners in the form of $1b$ message.
+On receipt of a $1a$ message, an acceptor sends an ackowledgement of its receipt
+to all other acceptors and learners in the form of $1b$ message.
 
 #### **$2a$ message: establishing consensus**
 
-When an acceptor receives a $1b$ message for the highest ballot number it has seen from a learner $l_1$’s quorum of acceptors, it sends a $2a$ message labeled with $l_1$ and that ballot number.
+When an acceptor receives a $1b$ message for the highest ballot number it has
+seen from a learner $l_1$’s quorum of acceptors, it sends a $2a$ message labeled
+with $l_1$ and that ballot number.
 
-There is one exception: once a safe acceptor sends a $2a$ message $m$ for a learner $l_1$, it never sends a $2a$ message with a different value for a learner $l_2$, unless one of the following is true:
-* It knows that a quorum of acceptors has seen $2a$ messages with learner $l_1$ and ballot number higher than $m$.
-* It has seen Byzantine behavior that proves $l_1$ and $l_2$ do not have to agree.
+There is one exception: once a safe acceptor sends a $2a$ message $m$ for a
+learner $l_1$, it never sends a $2a$ message with a different value for a
+learner $l_2$, unless one of the following is true:
+
+* It knows that a quorum of acceptors has seen $2a$ messages with learner $l_1$
+  and ballot number higher than $m$.
+
+* It has seen Byzantine behavior that proves $l_1$ and $l_2$ do not have to
+  agree.
 
 ##### Specifics of establishing Consensus
 
-In order to make a learner decide, we need to show that another, _Entangled_ learner could not already have decided.
+In order to make a learner decide, we need to show that another, _Entangled_
+learner could not already have decided.
 
 ##### Definition: Entangled
 
-In an execution, two learners are _entangled_ if their failure assumptions matched the failures that actually happen:
+In an execution, two learners are _entangled_ if their failure assumptions
+matched the failures that actually happen:
+
 $$
 \entangled{\red a}{\blue b} \triangleq \reallysafe \in \edge{\red a}{\blue b}
 $$
 
-If some learner $l_1$ does not agree with some other learner $l_3$, then learner $l_2$ cannot possibly agree with both $l_1$ and $l_3$.
+If some learner $l_1$ does not agree with some other learner $l_3$, then learner
+$l_2$ cannot possibly agree with both $l_1$ and $l_3$.
 
 ##### Definition: Heterogeneous Agreement
 
@@ -265,17 +287,22 @@ If some learner $l_1$ does not agree with some other learner $l_3$, then learner
 ##### Definition: Accurate Learner
 
 An _accurate_ learner is [entangled](#definition-entangled) with itself:
+
 $$
 \accurate{\red a} \triangleq \entangled{\red a}{\red a}
 $$
 
-A learner whose quorums contain too many failures is inaccurate. This is the equivalent of a chain that can fork.
+A learner whose quorums contain too many failures is inaccurate. This is the
+equivalent of a chain that can fork.
 
-In order to prevent entangled disagreement, we must define the conditions that will ultimately make learners decide:
+In order to prevent entangled disagreement, we must define the conditions that
+will ultimately make learners decide:
 
 ##### Definition: Get1a
 
-It is useful to refer to the $1a$ that started the ballot of a message: the highest ballot number $1a$ in its transitive references.
+It is useful to refer to the $1a$ that started the ballot of a message: the
+highest ballot number $1a$ in its transitive references.
+
 $$
 \geta{\green x} \triangleq
 \argmax_{\blue m:\textit{1a}\in\tran{\green x}}{\blue{m.ballot}}
@@ -283,30 +310,38 @@ $$
 
 ##### Definition: Ballot Numbers
 
-The ballot number of a $1a$ is part of the message, and the ballot number of anything else is the highest ballot number among the $1a$s it (transitively) references.
+The ballot number of a $1a$ is part of the message, and the ballot number of
+anything else is the highest ballot number among the $1a$s it (transitively)
+references.
+
 $$
   \ba{\green x} \triangleq \geta{\green x}.ballot
 $$
 
 ##### Definition: Value of a Message
 
-The value of a $1a$ is part of the message, and the value of anything else is the value of the highest ballot $1a$  among the messages it (transitively) references.
-$$
-  \va{\green x} \triangleq \geta{\green x}.value
-$$
+The value of a $1a$ is part of the message, and the value of anything else is
+the value of the highest ballot $1a$  among the messages it (transitively)
+  references. $$ \va{\green x} \triangleq \geta{\green x}.value $$
 
 #### **Terminate: Finalizing blocks**
 
-A learner $l_1$ decides when it receives $2a$ messages with the same ballot number from one of its quorums of acceptors.
+A learner $l_1$ decides when it receives $2a$ messages with the same ballot
+number from one of its quorums of acceptors.
 
-If no decision can be reached within a certain time, proposers must begin a new round (with a higher timestamp, and thus a higher Ballot). Proposers can start a new round by proposing a new block or by trying to finalize the same block again (in case there was no consensus).
+If no decision can be reached within a certain time, proposers must begin a new
+round (with a higher timestamp, and thus a higher Ballot). Proposers can start a
+new round by proposing a new block or by trying to finalize the same block again
+(in case there was no consensus).
 
 ##### Definition: Decision
 
-A learner decides when it has observed a set of $2a$ messages with the same ballot, sent by a quorum of acceptors. This will allow the learner to _decide_ on the value of the $2a$ messages in the set. We call such a set a _decision_:
-$$
-  \decision{\red a}{\red{q_a}} \triangleq
-    \sig{\red{q_a}} \in \red{Q_a}
+A learner decides when it has observed a set of $2a$ messages with the same
+ballot, sent by a quorum of acceptors. This will allow the learner to _decide_
+on the value of the $2a$ messages in the set. We call such a set a _decision_:
+
+
+$$ \decision{\red a}{\red{q_a}} \triangleq \sig{\red{q_a}} \in \red{Q_a}
   \ \land\
   \forall \cb{\green x,\blue y} \subseteq \red{q_a} . \ \p{\andlinesThree
     {\ba{\green x}=\ba{\blue y}}
@@ -314,11 +349,19 @@ $$
     {\green x:\textit{2a}}}
 $$
 
-Now we are ready to discuss what makes a _Well-Formed_ $2a$ message. This requires considering whether two learners might be entangled, and (unless we can prove they are not engangled), whether one of them might have already decided:
+Now we are ready to discuss what makes a _Well-Formed_ $2a$ message. This
+requires considering whether two learners might be entangled, and (unless we can
+prove they are not engangled), whether one of them might have already decided:
 
 ##### Definition: Caught
 
-Some behavior can create proof that an acceptor is Byzantine. Unlike Byzantine Paxos, our acceptors and learners must adapt to Byzantine behavior.  We say that an acceptor $\purple p$ is _Caught_ in a message $\green x$ if the transitive references of the messages include evidence such as two messages, $\red m$ and $\blue{m^\prime}$, both signed by $\purple p$, in which neither is featured in the other's transitive references (safe acceptors transitively reference all prior messages).
+Some behavior can create proof that an acceptor is Byzantine. Unlike Byzantine
+Paxos, our acceptors and learners must adapt to Byzantine behavior.  We say that
+an acceptor $\purple p$ is _Caught_ in a message $\green x$ if the transitive
+references of the messages include evidence such as two messages, $\red m$ and
+$\blue{m^\prime}$, both signed by $\purple p$, in which neither is featured in
+the other's transitive references (safe acceptors transitively reference all
+prior messages).
 
 $$
   \caught{\green x} \triangleq
@@ -346,7 +389,11 @@ $$
 
 ##### Definition: Buried
 
-A $2a$ message can become irrelevant if, after a time, an entire quorum of acceptors has seen $2a$s with different values, <span style="background-color: #E2E2FF">the same learner</span>, and higher ballot numbers. We call such a $2a$ _buried_ (in the context of some later message $\purple y$):
+A $2a$ message can become irrelevant if, after a time, an entire quorum of
+acceptors has seen $2a$s with different values, <span style="background-color:
+#E2E2FF">the same learner</span>, and higher ballot numbers. We call such a $2a$
+_buried_ (in the context of some later message $\purple y$):
+
 $$
   \buried{\green x : \textit{2a}}{ \purple y} \triangleq
   \cb{\tallpipe{\sig{\red m}}{\andlinesSix
@@ -362,7 +409,15 @@ $$
 
 ##### Definition: Connected 2a Messages
 
-Entangled learners must agree, but learners that are not connected are not entangled, so they need not agree. Intuitively, a $1b$ message references a $2a$ message to demonstrate that some learner may have decided some value. For learner $\red a$, it can be useful to find the set of $2a$ messages from the same sender as a message ${\green x}$ (and sent earlier) which are still [unburied](#definition-buried) and for learners connected to $\red a$. The $1b$ cannot be used to make any new $2a$ messages for learner $\red a$ that have values different from these $2a$ messages.
+Entangled learners must agree, but learners that are not connected are not
+entangled, so they need not agree. Intuitively, a $1b$ message references a $2a$
+message to demonstrate that some learner may have decided some value. For
+learner $\red a$, it can be useful to find the set of $2a$ messages from the
+same sender as a message ${\green x}$ (and sent earlier) which are still
+[unburied](#definition-buried) and for learners connected to $\red a$. The $1b$
+cannot be used to make any new $2a$ messages for learner $\red a$ that have
+values different from these $2a$ messages.
+
 $$
       \cona{\hetdiff{\red a}}{\green x} \triangleq
       \cb{\tallpipe{\blue m}{\andlinesFive
@@ -398,6 +453,7 @@ $$
 ##### Definition: Well-Formed
 
 We define what it means for a message to be _well-formed_.
+
 $$
   \begin{array}{l}
 WellFormed(\purple u : \textit{1a}) \triangleq
@@ -416,22 +472,30 @@ WellFormed(\red z : \textit{2a}) \triangleq
 \end{array}
 $$
 
-An acceptor who has received a $1b$ sends a $2a$ for every learner for which it can produce a Well-formed $2a$.
+An acceptor who has received a $1b$ sends a $2a$ for every learner for which it
+can produce a Well-formed $2a$.
 
-Before processing a received message, acceptors and learners check if the message is well-formed. Non-wellformed messages are rejected.
+Before processing a received message, acceptors and learners check if the
+message is well-formed. Non-wellformed messages are rejected.
 
 ### Incentive Model
 
 Goal:
+
 * Incentivizing token holders to put down their stake for security
+
 * Disincentivizing byzantine behavior
 
 Rewards:
+
 * Participating in consensus based on backing stake: this includes validating and voting
+
 * Producing blocks
 
 Slashing: there are a number of offenses
+
 * Invalid blocks
+
 * Equivocation (caught)
 
 ### Fees
@@ -440,64 +504,130 @@ Slashing: there are a number of offenses
 
      The first question is once there is no demand for atomic batches of transactions, do we keep the chimera chain alive?
 
-We need to figure out whether killing the chimera chain (and potentially requiring a new genesis later) is not too expensive.
+We need to figure out whether killing the chimera chain (and potentially
+requiring a new genesis later) is not too expensive.
 
 !!! quote
 
      The second question is whether we update the quroum changes whenever they happen or when we have a transaction?
 
-The first option is expensive and can lead to attack if not handled well. We need to figure out whether the latter option is safe.
+The first option is expensive and can lead to attack if not handled well. We
+need to figure out whether the latter option is safe.
 
-* If the answer is yes for first question and we pick the first option for the second question:
+* If the answer is yes for first question and we pick the first option for the
+  second question:
 
-Since all chimera chains need to be updated when the quorums on the base chains change, we need to figure out who pays for these updates. For example, a chimera chain might have had a block produced last week, but since the has been updated 200 times that is 200 blocks that do not have any transactions with transaction fees. If this is not paid by anyone, it becomes a burden for acceptors and an attack vector for the adversary.
+Since all chimera chains need to be updated when the quorums on the base chains
+change, we need to figure out who pays for these updates. For example, a chimera
+chain might have had a block produced last week, but since the has been updated
+200 times that is 200 blocks that do not have any transactions with transaction
+fees. If this is not paid by anyone, it becomes a burden for acceptors and an
+attack vector for the adversary.
 
-We may need to add a "locked" fee for making new chimera chains. In particular, we don't want an attacker to make a lot of chains, forcing base chains to update all of them with each quorum change.
+We may need to add a "locked" fee for making new chimera chains. In particular,
+we don't want an attacker to make a lot of chains, forcing base chains to update
+all of them with each quorum change.
 
-Alternatively, each "chimera chain" could keep an account on each base chain that is funded by a portion of transaction fees, from which a small fee is extracted with each validator update. When the account runs dry, the (parent)base chains are allowed to kill the chimera chain (even if there are still objects on there). We could allow anyone to contribute to these accounts. We could even prohibit anyone who did not contribute from sending IBC messages between chimera and parent chains.
+Alternatively, each "chimera chain" could keep an account on each base chain
+that is funded by a portion of transaction fees, from which a small fee is
+extracted with each validator update. When the account runs dry, the
+(parent)base chains are allowed to kill the chimera chain (even if there are
+still objects on there). We could allow anyone to contribute to these accounts.
+We could even prohibit anyone who did not contribute from sending IBC messages
+between chimera and parent chains.
 
 ## Security Discussion
 
-Note that the chimera cannot guarantee atomicty under the same adversary assumption as the base chains. For example, if we assume the adversary to control less than 1/3 of the stake to assure safety on the base chains, atomicity is not guaranteed for such an adversary but only a weaker one. This is important for users so they can decide whether for their transaction chimera chians would be secure enough.
+Note that the chimera cannot guarantee atomicty under the same adversary
+assumption as the base chains. For example, if we assume the adversary to
+control less than 1/3 of the stake to assure safety on the base chains,
+atomicity is not guaranteed for such an adversary but only a weaker one. This is
+important for users so they can decide whether for their transaction chimera
+chians would be secure enough.
 
-By setting the quorums of each learner to be the same as the quorums of the corresponding base chain, we ensure that each learner's view is *as consistent* as the base chain. Specifically, two instantiations of the learner for some base chain $A$ should decide on the same blocks in any chimera chain, unless the adversary is powerful enough to fork chain $A$.
+By setting the quorums of each learner to be the same as the quorums of the
+corresponding base chain, we ensure that each learner's view is *as consistent*
+as the base chain. Specifically, two instantiations of the learner for some base
+chain $A$ should decide on the same blocks in any chimera chain, unless the
+adversary is powerful enough to fork chain $A$.
 
-"Accurate" (or "self-engangled") learners (defined above) correspond to base chains where the adversary is in fact powerful enough to fork the chain. Proving that a learner is accurate is equivalent to proving that its base chain cannot fork.
+"Accurate" (or "self-engangled") learners (defined above) correspond to base
+chains where the adversary is in fact powerful enough to fork the chain. Proving
+that a learner is accurate is equivalent to proving that its base chain cannot
+fork.
 
-Two learners $\red{a}$ and $\blue{b}$ corresponding to different base chains will decide on the same blocks (which is what makes atomic batches useful), so long as one of the safe sets in $\edge{\red{a}}{\blue{b}}$ is composed entirely of safe acceptors. The stake backing these safe sets represents the "assurance" that atomic batches remain atomic, as well as the maximum slashing punishment should they lose atomicity.
+Two learners $\red{a}$ and $\blue{b}$ corresponding to different base chains
+will decide on the same blocks (which is what makes atomic batches useful), so
+long as one of the safe sets in $\edge{\red{a}}{\blue{b}}$ is composed entirely
+of safe acceptors. The stake backing these safe sets represents the "assurance"
+that atomic batches remain atomic, as well as the maximum slashing punishment
+should they lose atomicity.
 
-Loss of atomicity is a bit like a "trusted bridge" that turns out not to be trustworthy: each state machine within the chimera chain has as much integrity as its base chain, but atomicity properties of multi-state-machine atomic batches have a lesser, but still well-defined, guarantee. Loss of atomicty allows double spending on the chimera chain. And while misbehavior has happened in such an attack it is not trivial to slash the misbehaving acceptor since according to each chain everything has been carried out correctly.
+Loss of atomicity is a bit like a "trusted bridge" that turns out not to be
+trustworthy: each state machine within the chimera chain has as much integrity
+as its base chain, but atomicity properties of multi-state-machine atomic
+batches have a lesser, but still well-defined, guarantee. Loss of atomicty
+allows double spending on the chimera chain. And while misbehavior has happened
+in such an attack it is not trivial to slash the misbehaving acceptor since
+according to each chain everything has been carried out correctly.
 
 ## Open Challenges
 
 ### Programming Model
 
 #### Atomic Batches
-We'll need a way to specify that a batch of transactions should be committed together or not at all. Ideally, this should communicate to the programmer how reliably this atomicity is (see "practical considerations" below). On an chimera chain, batches can include transactions from any of their "main chains". If we want to have match-making, transactions will need to be able to say something like "if I'm in an atomic batch that matches these criteria, then do this...".
+
+We'll need a way to specify that a batch of transactions should be committed
+together or not at all. Ideally, this should communicate to the programmer how
+reliably this atomicity is (see "practical considerations" below). On an chimera
+chain, batches can include transactions from any of their "main chains". If we
+want to have match-making, transactions will need to be able to say something
+like "if I'm in an atomic batch that matches these criteria, then do this...".
 
 Each atomic batch should be scheduled within one block.
 
-(We encode transactions with Portobuff and Borsht.) We need define structures such that transactions can be bundled and cannot be carried out separately.
+(We encode transactions with Portobuff and Borsht.) We need define structures
+such that transactions can be bundled and cannot be carried out separately.
 
 #### Atomic Communication
 
-Transactions within an atomic batch need to be able to send information to each other (and back). For example, in a market with a fluctuating exchange rate, a market transaction could send a message to an account, which transfers money, and sends a message to another account, which transfers goods. We need a language in which this communication takes place with minimal constraints on the state machines involved, so we should probably adapt the IBC communication language.
+Transactions within an atomic batch need to be able to send information to each
+other (and back). For example, in a market with a fluctuating exchange rate, a
+market transaction could send a message to an account, which transfers money,
+and sends a message to another account, which transfers goods. We need a
+language in which this communication takes place with minimal constraints on the
+state machines involved, so we should probably adapt the IBC communication
+language.
 
-We need to figure out inter-chain communication works for transactions communicating with each other within an atomic batch.
+We need to figure out inter-chain communication works for transactions
+communicating with each other within an atomic batch.
 
 #### Can we have synchronous (in terms of blocks) IBC?
 
-Yes: when the quorums involved in two chains are the same, then we can guarantee that (unless there are sufficient failures to fork the chain) an IBC message sent in one chain will arrive at the other chain (in a transaction) within a specific number (perhaps as few as 1?) of blocks. This is because some of the machines in the quorum that approved the "send" transaction must be in the quorum that decides the next block, so they can refuse to decide on blocks that lack the "receive" transaction.
+Yes: when the quorums involved in two chains are the same, then we can guarantee
+that (unless there are sufficient failures to fork the chain) an IBC message
+sent in one chain will arrive at the other chain (in a transaction) within a
+specific number (perhaps as few as 1?) of blocks. This is because some of the
+machines in the quorum that approved the "send" transaction must be in the
+quorum that decides the next block, so they can refuse to decide on blocks that
+lack the "receive" transaction.
 
-Note that we may need to rate-limit sends to ensure that all sends can be received in time (availability).
+Note that we may need to rate-limit sends to ensure that all sends can be
+received in time (availability).
 
 Note also that blinding transactions makes this hard.
 
 ### Match Making
 
-We can in priciple do cross-chain match-making. If we want an on-chain market, an chimera chain might be a good place to do it. However, full nodes in the gossip layer might be able to gather sets of transactions that match the transactions' "If I'm in an atomic batch ..." criteria, bundle them into atomic batches, and then send those off to be committed.
+We can in priciple do cross-chain match-making. If we want an on-chain market,
+an chimera chain might be a good place to do it. However, full nodes in the
+gossip layer might be able to gather sets of transactions that match the
+transactions' "If I'm in an atomic batch ..." criteria, bundle them into atomic
+batches, and then send those off to be committed.
 
-We may want to incorporate some incentive scheme for good match-making. Matchmakers include nodes who are full nodes on both chains, and in principle could include any node who sees the request transactions.
+We may want to incorporate some incentive scheme for good match-making.
+Matchmakers include nodes who are full nodes on both chains, and in principle
+could include any node who sees the request transactions.
 
 ### Changing Quorums?
 
@@ -505,25 +635,41 @@ We may want to incorporate some incentive scheme for good match-making. Matchmak
 
 #### 2 Phase Commit
 
-We could require that any quorum-chainging transaction has to be 2-phase committed. Essentially, the "main chain" announces that it won't progress beyond a certain block until everyone has appended a new block that sets the (same) new quorums, and sends a response by IBC. It can then progress only with IBC responses from all the other chains that use these quorums.
+We could require that any quorum-chainging transaction has to be 2-phase
+committed. Essentially, the "main chain" announces that it won't progress beyond
+a certain block until everyone has appended a new block that sets the (same) new
+quorums, and sends a response by IBC. It can then progress only with IBC
+responses from all the other chains that use these quorums.
 
 <!--This solution is potentially slow: arbitrarily many chains may have to be involved. That said, at least in principle, they all have the same safety and liveness properties.-->
 
 #### Synchronous IBC
 
-We may be able to leverage our "synchronous" IBC idea above for faster quorum changes. The difficulty is that it allows a finite number of blocks to be appended to the chimera chains before they receive the quorum change method. These chains can be arbitrarily slow, so that could take arbitrarily long.
+We may be able to leverage our "synchronous" IBC idea above for faster quorum
+changes. The difficulty is that it allows a finite number of blocks to be
+appended to the chimera chains before they receive the quorum change method.
+These chains can be arbitrarily slow, so that could take arbitrarily long.
 
-Need to figure out inter-machine communication for acceptors, since they might run many machines.
+Need to figure out inter-machine communication for acceptors, since they might
+run many machines.
 
 ---
 
 ## Discussion Questions /Practical Considerations
 
 * Optimizing messgaing: Pipelining (from Hotstuff), Kauri, BFTree
+
 * Replicating state machines
+
 * Probems Tendermint has:
+
     * Doesnt allow many validators
+
     * Lightclient design
+
 * Optimizing recoveryfrom slow finalization: Separating block prosuction from finalizing, finalzing more than one block
+
 * ABCI ++? Another version of it
+
 * Look into other papers of Dalia Malkhi / Fast HotStuff?
+

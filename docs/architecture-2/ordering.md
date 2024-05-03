@@ -10,12 +10,15 @@ search:
 The ordering and execution engines receive transaction requests from users,
 order the transaction requests, and
 finally execute them.
+
 - The [[Mempool Engines|mempool engines]] are responsible for
   storing transaction data and linking them suitably into
   a “global” directed acyclic graph of vertices,
   each of which references the submitted transactions (via [[WorkerHash|worker hashes]]).
+
 - The [[Consensus Engine|consensus engine]] is responsible for choosing anchor blocks
   in collaboration with the mempool engines.
+
 - The [[Execution Engines|execution engines]] execute the transactions
   and take care of maintaining the global state of the chain.
 
@@ -60,13 +63,15 @@ We will go through all the messages exchanged between
    and a sequence number $s_{R_T}$ within batch $B$.
   (In fact, the triple $(W,n_b,s_{R_T)}$ is the _transaction fingerprint_ of $T$.)
   After closing batch $B$, worker $W$:
-  - informs its primary $P$ (another engine within the same validator) of the
-    [[NewWorkerHash|new worker hash]] $H_B$ for the batch $B$
-    (this will be included in a vertex of the [mempool ᴅᴀɢ](#certificates-and-the-mempool-dag)),
-    and
-  - messages all mirror workers,
-    notifying them of the [[WorkerHashFingerprint|fingerprint of the new worker hash]]
-    (such that they can also make their primaries aware of the worker hash $H_B$).
+
+   - informs its primary $P$ (another engine within the same validator) of the
+      [[NewWorkerHash|new worker hash]] $H_B$ for the batch $B$
+      (this will be included in a vertex of the [mempool ᴅᴀɢ](#certificates-and-the-mempool-dag)),
+      and
+
+   - messages all mirror workers,
+      notifying them of the [[WorkerHashFingerprint|fingerprint of the new worker hash]]
+      (such that they can also make their primaries aware of the worker hash $H_B$).
 
 - The primary $P$ eventually creates a new vertex $X$
   (including additional worker hashes from other workers on the same validator).
@@ -232,10 +237,13 @@ each signature of a signed quorum of a vertex corresponds to
 an outgoing edge that points to the vertex that was signed
 and is labeled with the primary that signed the vertex.
 The following properties hold:
+
 - all paths to genesis vertices from a given vertex are of the same length and, moreover,
   contain the same number of edges for each learner,
   which means that it makes sense to define for each vertex a unique _height_ relative to each learner
+
 - every pair of outgoing learner-specific edges of the same learner that have the same primary label must
   point to different targets
+
 - the set of primary labels of outgoing edges of every vertex form
   a learner-specific quorum (for the learner-specific vertex height).

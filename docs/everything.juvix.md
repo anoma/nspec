@@ -12,4 +12,6 @@ search:
 module everything;
 
 import engine;
+import architecture-2.engines.compute;
+import architecture-2.engines.p2p;
 ```

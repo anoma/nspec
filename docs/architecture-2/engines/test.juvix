@@ -1,0 +1,21 @@
+module architecture-2.engines.test;
+
+-- type Bool := False | True;
+
+-- import Stdlib.Data.String;
+
+-- type Hash := String;
+
+-- type ComputeRequest := mkComputeRequest {
+--     predicate : Hash;
+--     -- algorithm : Maybe Hash;
+--     -- max_cost_time : Pair Integer Rational;
+--     -- max_cost_space : Pair Integer Rational
+-- };
+
+axiom X : Type;
+axiom B : Type -> Type;
+
+type A := mkA {
+  a : B X;
+};

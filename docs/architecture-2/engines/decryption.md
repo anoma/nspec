@@ -11,9 +11,12 @@ The _decryption engine_ holds sufficient information to decrypt data encrypted t
 
 - *Inputs*
     Decryption instructions
+
 - *Outputs*
     Decrypted data
+
 - *Preferences*
     What to decrypt
+
 - *Accounting*
     What was decrypted

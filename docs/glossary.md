@@ -31,7 +31,9 @@ below:
 An existing term should be included in the following cases (incomplete list):
 
 - If it is central to the understanding of concepts in the spec.
+
 - If it is hard to look up, e.g. different subfields have different definitions.
+
 - If it is likely that the intended audience of the containing sections is unfamiliar with it.
 
 ## Collaborative Glossary Maintenance

@@ -102,8 +102,11 @@ Precedence of Controller signatures is ordered by their position in the list, i.
 Because of this, the list positions should correspond to Trust, from most trusted in the front, to least trusted at the end.
 
 This way we gain the following options by using signatures of upstream Controllers:
+
 - Resolving conflicts created by defecting Controllers.
-- Updating the Controller list, when the most downstream Controller is offline or defected.
+
+- Updating the Controller list, when the most downstream Controller is offline
+  or defected.
 
 !!! todo
 
