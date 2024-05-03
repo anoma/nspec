@@ -15,7 +15,7 @@ search:
 	- rpgf
 		- pay-to-identity
 		- pay-to-denomination
-		
+
 	- rebalancing (mutual credit issuance)
 
 causal model of events theory of value want to reward whatever led to the
