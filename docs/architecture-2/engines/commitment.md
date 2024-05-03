@@ -9,10 +9,13 @@ search:
 
 - *Inputs*
     Signing instructions
+
 - *Outputs*
     Signatures
+
 - *Preferences*
     What to sign, what to commit to
+
 - *Accounting*
     What was signed
 

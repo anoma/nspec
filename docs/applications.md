@@ -16,8 +16,13 @@ In contrast to many blockchain systems which have separate software packages for
 The applications section in this specification document describes a set of common primitives and classes of example applications suitable for different kinds of coordination. This section is neither exhaustive nor intended to describe particular applications in exact detail, but rather to provide an overview and guidance for how to think about developing applications on Anoma.
 
 - [Primitives](./applications/primitives.md#primitives)
+
 - [Kudos](./applications/kudos.md#kudos)
+
 - [Proof-of-stake](./applications/proof-of-stake.md#proof-of-stake)
+
 - [Generalized bartering](./applications/generalized-bartering.md#generalized-bartering)
+
 - [Schelling tests](./applications/schelling-tests.md#schelling-tests)
+
 - [Mesh messaging](./applications/mesh-messaging.md#mesh-messaging)

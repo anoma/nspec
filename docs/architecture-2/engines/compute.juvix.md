@@ -13,10 +13,15 @@ module architecture-2.engines.compute;
 
 - *Inputs*
     - Computational searches to perform
+
 - *Outputs*
+
     - Results of computational searches
+
 - *Preferences*
+
     - Who to delegate computational search to
+
 - *Accounting*
     - Computational searches actually performed, time taken
 
@@ -25,7 +30,9 @@ The _compute engine_ is responsible for performing expensive computation, i.e. s
 ## State
 
 The compute engine keeps in state:
+
 - A local cache of solutions satisfying particular predicates
+
 - A local cache of algorithms to use to solve particular predicates
 
 ```juvix
@@ -36,9 +43,13 @@ type ComputeEngineState := mkComputeEngineState {
 ## Input messages
 
 Input messages to the compute engine specify:
+
 - A _predicate_ (by hash) which a valid solution must satisfy
+
 - An optional _algorithm_ (by hash) to use in searching
+
 - A maximum search cost in time and space usage (after which the compute engine will stop searching), including precision requested
+
 
 !!! todo
 
@@ -62,9 +73,13 @@ type ComputeRequest := mkComputeRequest {
 ## Output messages
 
 Output messages from the compute engine specify:
+
 - The _predicate_ (by hash)
+
 - The _algorithm_ used, if specific (by hash)
+
 - The _solution_ found, if one was found (by hash)
+
 - Cost (in time and space) actually incurred, and precision of cost estimates
 
 ```juvix

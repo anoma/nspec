@@ -18,8 +18,11 @@ Linear Programming.
 ## CSP Definition
 
 A CSP consists of the following sets:
+
 - $X = \{X_1, \ldots,X_n\}$ its Variables
+
 - $D = \{D_1, \ldots, D_n\}$ the Domains of Values for its Variables
+
 - $C = \{C_1, \ldots, C_m\}$ its Constraints
 
 Any variable $X_i$ can take values from its corresponding domain $D_i$.

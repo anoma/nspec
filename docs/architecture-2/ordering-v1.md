@@ -58,7 +58,9 @@ The collection of all engines of the [[Ordering Machine|ordering machine]] is
 organized into three groups:
 
 - [[Mempool Engines]];
+
 - [[Consensus Engine]];
+
 - [[Execution Engines]].
 
 We mention the consensus engine,
