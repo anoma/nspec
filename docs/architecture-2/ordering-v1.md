@@ -96,7 +96,7 @@ but these are not considered in V1.
 
 - The trivial consensus problem is already implicitly solved
   by _the_ [[Worker Engine|worker]] in V1.
-  
+
   - In V1, there is only one [[Worker Engine|worker]].
     There will be multiple (on each Node) in future versions.
 
@@ -106,7 +106,7 @@ but these are not considered in V1.
   - [[Shard]]s maintain the local copy of the global state (of the RSM),
     i.e., serve read and write requests of [[Executor]]s
     to the key-value store (of the RSM).
-    
+
   - [[Executor]]s process [[TransactionCandidate|transaction candidates]], effectively
      invoking the [transition function
       ](https://en.wikipedia.org/wiki/State_machine_replication#State_machine)

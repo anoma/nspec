@@ -68,7 +68,7 @@ We will go through all the messages exchanged between
       [[NewWorkerHash|new worker hash]] $H_B$ for the batch $B$
       (this will be included in a vertex of the [mempool ᴅᴀɢ](#certificates-and-the-mempool-dag)),
       and
-  
+
    - messages all mirror workers,
       notifying them of the [[WorkerHashFingerprint|fingerprint of the new worker hash]]
       (such that they can also make their primaries aware of the worker hash $H_B$).
