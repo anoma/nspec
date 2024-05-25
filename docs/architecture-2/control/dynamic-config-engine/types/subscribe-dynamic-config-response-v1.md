@@ -19,6 +19,7 @@ Response to a [[SubscribeDynamicConfigRequestV1#subscribedynamicconfigrequestv1]
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]
 
   *The key of the dynamic configuration value the subscriber wants to subscribe to in the dynamic configuration KV-store.*

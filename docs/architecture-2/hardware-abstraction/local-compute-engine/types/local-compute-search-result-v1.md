@@ -19,6 +19,7 @@ Response to a [[LocalComputeSearchV1#localcomputesearchv1]]
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Predicate`: [[PredicateV1#predicatev1]]
 
   *Predicate describing the search operation*

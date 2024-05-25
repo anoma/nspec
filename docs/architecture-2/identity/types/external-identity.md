@@ -25,6 +25,7 @@ There are (infinitely) many ways to make an ExternalIdentity, so this is a sum t
 Here we list _some_ of the options that should be available.
 
 One of:
+
 - `ed25519`
 - `secp256k1`
 - `BLS`

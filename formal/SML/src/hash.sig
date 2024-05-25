@@ -9,11 +9,16 @@ Example implementations could implement
  [Rescue128](https://eprint.iacr.org/2019/426), etc.
 
 Properties:
+
 - `(compare(hash a , hash b) = EQUAL) = (a = b)`
+
 - In general, `hash a` should convey no other information about `a`
+
 - `OrdKey.ord_key` is the type of our hash.
   It should be constant size, and totally ordered.
+
 - `hash` takes linear time to compute over the size of the input.
+
 *)(* --8<-- [end:hash_description] *)
 
 (* --8<-- [start:hash] *)

@@ -19,6 +19,7 @@ Specifies which backend to use in order to generate or connect an identity.
 <div class="type" markdown>
 
 Enumeration; one of:
+
 - `BACKEND_LOCAL_MEMORY`
     - keeps data in local (persistent) memory
     - specifies a symmetric encryption key to encrypt the identity with

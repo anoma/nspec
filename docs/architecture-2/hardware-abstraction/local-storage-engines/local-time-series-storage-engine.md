@@ -29,7 +29,7 @@ The *Local Time Series Storage Engine* provides local storage and retrieval of t
 
 --8<-- "local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md:type"
 
-### [[]DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]]
+### [[DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]]
 
 --8<-- "local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md:purpose"
 

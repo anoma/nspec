@@ -26,7 +26,7 @@ Advertisement of a peer's transport addresses.
 
   *Node ID*
 
-- `addrs`: Vec\<([[TransportAddress]], u8)\>
+- `addrs`: Vec<([[TransportAddress]], u8)>
 
   *Transport addresses with preferences expressed as weights*
 

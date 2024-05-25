@@ -26,6 +26,7 @@ Each element also specifies here what kind of [[IdentityNameEvidence]] is necess
 At the moment, we support 2 types of IdentityNames:
 
 One of:
+
 - `LOCAL_NAME`
   - Structure: `string`
   - [[IdentityNameEvidence]]: NONE

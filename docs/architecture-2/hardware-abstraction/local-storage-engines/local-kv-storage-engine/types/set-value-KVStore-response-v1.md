@@ -20,6 +20,7 @@ After adding the KV-pair to the KV-store, send a message indicating the success 
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]
 
   *The key that that identifies the piece of data in the KV-store.*

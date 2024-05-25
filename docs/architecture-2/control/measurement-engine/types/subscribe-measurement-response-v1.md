@@ -19,6 +19,7 @@ Response to a [[SubscribeMeasurementRequestV1#subscribemeasurementrequestv1]]
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Measurement Query`: [[MeasurementQueryV1#measurementqueryv1]]
 
   *The measurement query the subscriber is now subscribed to.*

@@ -19,6 +19,7 @@ Response to a [[SetDynamicConfigRequestV1#setdynamicconfigrequestv1]].
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]
 
   *The key that maps to the added dynamic configuration value in the dynamic configuration KV-store.*

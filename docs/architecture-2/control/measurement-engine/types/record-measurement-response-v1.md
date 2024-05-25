@@ -19,6 +19,7 @@ Response to a [[RecordMeasurementRequestV1#recordmeasurementrequestv1]].
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Measurement Query`: [[MeasurementQueryV1#measurmeentqueryv1]]
 
   *The query that needs to be executed to record the measurement in the database.*

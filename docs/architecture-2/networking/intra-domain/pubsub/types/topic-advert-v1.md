@@ -24,7 +24,7 @@ Topic advertisement.
 
   *Topic ID*
 
-- `tags`: list\<string\>
+- `tags`: list<string>
 
   *List of optional tags to facilitate subscribing to new topics with relevant tags*
 

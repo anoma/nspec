@@ -32,11 +32,12 @@ plugins:
         - index.md
       enabled: !ENV [CI, false]
       strict: true
-  - git-committers:
-      repository: anoma/nspec
-      token: !ENV [GH_TOKEN, ""]
-      branch: main
-      enabled: !ENV [CI, false]
+  # not for now.
+  # - git-committers:
+  #     repository: anoma/nspec
+  #     token: !ENV [GH_TOKEN, ""]
+  #     branch: main
+  #     enabled: !ENV [CI, false]
   - mike:
       alias_type: copy
       version_selector: !ENV [VERSION_SELECTOR, true]

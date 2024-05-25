@@ -88,6 +88,7 @@ allowing fine-grained tradeoffs between various constraints.
 ### Information from above
 
 From above, PIE receives:
+
 - Trust/entanglement information. For now this is assumed to be of the form of a
   scalar from 0 to 1 describing the entanglement between two external
   identities, such that 0 is unknown, 1 is completely trusted, and everything in

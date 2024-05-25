@@ -8,9 +8,11 @@ Implementations should ultimately include, for example,
  marshaled into a bytestring to form an integer.
 
 An internal_identity includes:
+
 - a type `signer` that can cryptographically
   `sign` (or credibly commit) to something (a `signable`), forming a
   `commitment`.
+
 - a type `decryptor` that can cryptographically `decrypt` something
   (a `cyphertext`), resulting in a `plaintext`
   (or `NONE`, if decryption fails).

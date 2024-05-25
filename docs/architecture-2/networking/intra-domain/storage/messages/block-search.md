@@ -24,9 +24,9 @@ Look up a block in local storage and on the network.
 | Field    | Type                                          | Description                          |
 |----------|-----------------------------------------------|--------------------------------------|
 | `block`  | *[[BlockId#blockid]]*                         | Block ID                             |
-| `topic`  | *Option\<[[TopicIdentity#topicidentity]]\>*   | Enable search in a PubSub topic      |
+| `topic`  | *Option<[[TopicIdentity#topicidentity]]>*   | Enable search in a PubSub topic      |
 | `random` | *bool*                                        | Enable search using random walk      |
-| `domain` | *Option\<[[DomainIdentity#domainidentity]]\>* | Restrict the random walk to a domain |
+| `domain` | *Option<[[DomainIdentity#domainidentity]]>* | Restrict the random walk to a domain |
 
 ## Behavior
 

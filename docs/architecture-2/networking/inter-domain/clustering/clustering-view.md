@@ -19,7 +19,7 @@ Clustering view exchange.
 
 | Field  | Type                | Description |
 |--------|---------------------|-------------|
-| `view` | *Vec\<NodeAdvert\>* | View        |
+| `view` | *Vec<NodeAdvert>* | View        |
 
 ## Triggers
 

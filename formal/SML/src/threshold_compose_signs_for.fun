@@ -12,10 +12,13 @@ No additional evidence is required.
 
 Other parameters necessary to define the `ThresholdCompose`
  `verifiers` include:
+
 - `Signer`, the corresponding structure of the underlying `signers`.
+
 - `Map : ORD_MAP`, to be used to encode weights and `commitment`s.
   (Note that this needs `Map.Key` to be the hash type of the
    underlying `S.Verifier`)
+
 - `ThresholdComposeHash`, which specifies a `hash` function that can
    hash our composed `verifier`s (type
    `{threshold:int, weights : ((int * S.Verifier.verifier) Map.map)}`).

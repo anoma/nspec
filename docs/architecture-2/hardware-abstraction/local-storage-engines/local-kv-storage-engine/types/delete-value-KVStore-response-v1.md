@@ -19,6 +19,7 @@ Indicates the success or failure of the attempt to delete the KV-pair from the K
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]
 
   *The key that that identifies the piece of data in the KV-store.*

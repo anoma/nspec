@@ -221,6 +221,7 @@ To construct _M_, we start with a set of shareholder identities, each
 There are several ways we could imagine constructing Threshold
  Composition Identities, but without specifying _anything_ about the
  underlying identities:
+
 - A threshold composition identity signature is a map from (hashes of)
    external identities, to signatures.
   To verify a signature for some message `x`, we verify each signature
@@ -245,6 +246,7 @@ There are several ways we could imagine constructing Threshold
 While this construction is rather naive, it is general, and crucially,
  we can reason about equivalence with any number of more interesting
  schemes:
+
 - We can show that a threshold RSA signature scheme `signsSameAs` as a
    Threshold Composition Identity.
 - We can show that a secret sharing scheme `readsSameAs` a

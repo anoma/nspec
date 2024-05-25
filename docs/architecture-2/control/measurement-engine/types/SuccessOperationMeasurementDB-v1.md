@@ -25,5 +25,6 @@ Indicates whether an operation performed by [[Measurement Engine#measurement-eng
 ## Values
 
 Boolean value where:
+
 - `1`: Operation was successful.
 - `0`: Operation was unsuccessful.

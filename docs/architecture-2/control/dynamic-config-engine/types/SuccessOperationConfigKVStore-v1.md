@@ -26,5 +26,6 @@ and [[Static Config Storage Engine#static-config-storage-engine]] was executed s
 ## Values
 
 Boolean value where:
+
 - `1`: Operation was successful.
 - `0`: Operation was unsuccessful.

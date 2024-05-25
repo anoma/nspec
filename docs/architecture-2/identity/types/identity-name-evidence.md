@@ -25,6 +25,7 @@ Each element here corresponds to a specific element of [[IdentityName]].
 At the moment, we support 1 types of IdentityNameEvidence:
 
 One of:
+
 - `DOT`
   - Structure a signed statement from Parent designating that some [[ExternalIdentity]] corresponds to Child.
   - These implement the ["." Notation Sub-Identity abstraction](../../../architecture-1/abstractions/identity.md#-notation).

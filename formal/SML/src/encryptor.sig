@@ -11,16 +11,22 @@ Implementations should ultimately include, for example,
  can be  unmarshaled from a bitstring.
 
 Properties:
+
+
 - `encrypt` should take polynomial time (in the size of its inputs)
+
 - Each `E:ENCRYPTOR` should have a corresponding `D:DECRYPTOR`, and
   each `d: D.decryptor` has a corresponding `e: E.encryptor` such
   that:
+
   - for all `c : D.cyphertext`, `p : D.plaintext`:
     `D.decrypt d c = Some p` iff `c = E.encrypt e p`
+
   - if `d = e`, we call this "symmetric encryption," and otherwise
     it's "asymmetric encryption."
     In an asymmetric cryptosystem, a computationally bounded adversary
     should not be able to approximate `d` knowing only `e`.
+
 *)(* --8<-- [end:encryptor_description] *)
 
 (* --8<-- [start:encryptor] *)

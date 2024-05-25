@@ -32,20 +32,20 @@ A message sent between two engine instances .
 
   *Message ID: unique per `src`-`dst` pairs*
 
-- `reply_to`: Option\<u64\>
+- `reply_to`: Option<u64>
 
   *`id` of a previous message this message is in reply to*
 
-- `expiry` Option\<[[Time#time]]\>
+- `expiry` Option<[[Time#time]]>
 
   *Expiry time for outgoing messages.*
   *See [[P2PMessage to Transport#p2pmessage-transport|P2PMessage]] & [[TransportMessage#transportmessage]].*
 
-- `rprefs`: Option\<[[RoutingPrefs]]\>
+- `rprefs`: Option<[[RoutingPrefs]]>
 
   *Routing preferences*
 
-- `tprefs`: Option\<[[TransportPrefs]]\>
+- `tprefs`: Option<[[TransportPrefs]]>
 
   *Transport preferences*
 
@@ -53,11 +53,11 @@ A message sent between two engine instances .
 
   *Protocol & version used in `body`*
 
-- `body`: Vec\<u8\>
+- `body`: Vec<u8>
 
   *Serialized message body*
 
-- `sig`: Option\<[[Signature#signature]]\>
+- `sig`: Option<[[Signature#signature]]>
 
   *Signature over the above fields by `src`*
 

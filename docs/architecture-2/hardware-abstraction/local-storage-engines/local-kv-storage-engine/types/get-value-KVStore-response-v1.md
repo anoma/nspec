@@ -19,6 +19,7 @@ Return the value corresponding to [[StorageKeyV1#storagekeyv1]].
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]
 
   *The key that maps to the requested value in the KV-store.*

@@ -24,7 +24,7 @@ Advertisement of a list of peers that are members of a domain.
 
   *Domain ID*
 
-- `nodes`: Vec\<NodeIdentity\>
+- `nodes`: Vec<NodeIdentity>
 
   *List of nodes that handle external requests from non-members*
 

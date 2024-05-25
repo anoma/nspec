@@ -480,8 +480,8 @@ theme:
     primary: custom
     accent: custom
   font:
-    text: Roboto
-    code: Roboto Mono
+    text: Open Sans
+    code: Fira Code
   features:
     - announce.dismiss
     - content.code.annotate

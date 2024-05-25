@@ -26,5 +26,6 @@ was executed successfully or not.
 ## Values
 
 Boolean value where:
+
 - `1`: Operation was successful.
 - `0`: Operation was unsuccessful.

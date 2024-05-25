@@ -32,6 +32,7 @@ A _transaction_ in a resource logic DAG consists of a balanced set of partial tr
     For validation criteria of Transactions, see [here](../resource.md#transactions-tx).
 
 A transaction is _consistent_ w.r.t. a physical DAG `D` if and only if:
+
 - All consumed resources were previously created by a transaction in the history, which was itself (recursively) consistent and final
 
 A transaction is _final_ w.r.t. a physical DAG `D` if and only if:

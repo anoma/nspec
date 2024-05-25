@@ -20,13 +20,9 @@ Request to delete a pub/sub topic.
 
 *Record* with fields:
 
-- `topic`: [[TopicIdentity#topicidentity]]
+- `topic`: [[TopicIdentity#topicidentity]] *Pub/sub topic identity.*
 
-  *Pub/sub topic identity.*
-
-- `scope`: [[RoutingScope#routingscope]]
-
-  *Whether the topic should be stopped being advertised on the network.*
+- `scope`: [[RoutingScope#routingscope]]  *Whether the topic should be stopped being advertised on the network.*
 
 </div>
 <!-- --8<-- [end:type] -->

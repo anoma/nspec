@@ -19,6 +19,7 @@ Add a dynamic configuration to the dynamic configuration KV-store by inserting i
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]
 
   *The key that of the dynamic configuration value that is going to be added to the dynamic configuration KV-store.*

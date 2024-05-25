@@ -32,15 +32,15 @@ Describe the purpose of the type.
 
   *Sequence number of publisher*
 
-- `deps`: Vec\<EventId\>
+- `deps`: Vec<EventId>
 
   *Events this event depends on*
 
-- `seen`: Vec\<EventId\>
+- `seen`: Vec<EventId>
 
   *Independent events recently seen*
 
-- `body`: Vec\<u8\>
+- `body`: Vec<u8>
 
   *Encapsulated [[EngineMessage#enginemessage]]*
 

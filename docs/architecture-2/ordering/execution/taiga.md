@@ -10,6 +10,7 @@ search:
 Taiga is a concrete instantiation of the [[Resource Machine|Anoma Resource Machine]] used to compute and verify state transition proposals. Taiga defines what a valid transaction is and provides the means to produce and verify transactions.
 
 A valid **transaction** is defined by two criteria:
+
 - applications the state of which is being affected by the proposed state transition authorize the change
 - the proposed state transition doesn't violate the Taiga rules
 
@@ -207,12 +208,14 @@ Resource logic is a circuit containing the application logic. Resource logics ta
 #### Inputs
 
 Public inputs ($x$):
+
 - $nf_1, …, nf_m$ - input resource nullifiers
 - $cm_1, …, cm_n$ - output resource commitments
 - $ce_1, …, ce_n$ - encrypted output resources
 - custom public inputs
 
 Private inputs ($w$):
+
 - $r^{in}_1, …, r^{in}_m$ - input resources openings
 - $r^{out}_1, …, r^{out}_n$ - output resources openings
 - $tag$ that identifies the resource for which the resource logic is being checked
@@ -243,6 +246,7 @@ A resource logic takes all resources from the current $tx$ as input which requir
 In the presence of a RL proof for a certain resource, RL commitment is used to make sure the right RL is checked for the resource. It makes sure that $vk_{logic}$ the resource refers to and $vk_{logic}$ used to validate the RL proof are the same.
 
 RL commitment has a nested structure:
+
 - $cm_{l} = RLCommit(l, rcm_{l})$
 - $l = VKCommit(vk_{logic})$
 
@@ -319,6 +323,7 @@ Taiga transaction is balanced if for each resource kind: $\sum_i{v_i^{in}} - \su
 #### Components
 
 Each Taiga $tx$ contains:
+
 - $n$ compliance proof records (one compliance proof covers one input and one output resource), each containing:
     - $\pi_{compl}$ - compliance proof
     - $vk_{compl}$ - compliance circuit verifying key
@@ -354,12 +359,14 @@ A transaction is valid if:
 ### Taiga state
 
 Taiga doesn't store a state, but Taiga produces state changes (that will be executed elsewhere), that include:
+
 - For each created resource $r$, $CMtree.WRITE(r.cm)$,
 - For each consumed resource $r$, $NFset.WRITE(r.nf)$,
 
 ## 8. Communication between the shielded and transparent pools
 
 State transitions that do not preserve privacy are called *transparent*. Assuming that the system allows both transparent and shielded state transitions, we say that all of the valid resources created as a result of shielded state transitions form a *shielded pool* and the valid resources created as a result of transparent state transitions form a *transparent pool*. The action of moving data from transparent to shielded pool is called *shielding*, the opposite is called *unshielding*. Shielding (or unshielding) is done by consuming resources in one pool and creating the corresponding resources in the other. *Balancing value* $v^{balance}$ indicates the data move between the pools:
+
 - $v^{balance} = 0$ if the current transaction doesn't move data between pools
 - $v^{balance} < 0$ refers to the value moved from the transparent to the shielded pool
 - $v^{balance} > 0$ refers to the value moved from the shielded to the transparent pool

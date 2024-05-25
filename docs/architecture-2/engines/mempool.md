@@ -20,6 +20,7 @@ The core idea here is that we run an instance of Narwhal for each learner.
 For chimera chains, an "atomic batch" of transactions can be stored in any involved learner's Narwhal.
 
 We also make 2 key changes:
+
 - The availability proofs must show that any transaction is sufficiently available for all learners.
 This should not be a problem, since in Heterogeneous Paxos, for any connected learner graph, any learner's quorum is a weak quorum for all learners.
 - Whenever a validator's Narwhal primary produces a batch, it must link in that batch not only to a quorum of that learner's block headers from the prior round, but also to the most recent batch this validator has produced *for any learner*.
@@ -97,6 +98,7 @@ Much like batches, it is important that any Quorum for any Learner can re-constr
 
 Periodically, each primary `P` produces *Headers*.
 Each Header contains:
+
 - a set of signed Worker Hashes, all signed by `P`'s validator
 - a hash referencing at most one Signed Quorum per Learner, all signed  by `P`
 - an *Availability Certificate* (we'll get to how those are made shortly) for the previous Header `P` issued.
@@ -112,6 +114,7 @@ When a primary receives Availability Votes for a Header from a weak quorum for e
 Availability Certificates should be small.
 Note that, if primaries broadcast Availability Certificates as soon as they produce them, other primaries may have all the components necessary to "receive" a Header even before the Header's Primary actually sends it.
 Specifically, they may have:
+
 - Signed Batch Headers from their listening Workers
 - Signed Quorum shares received earlier from the Primary
 - Availability Certificate received earlier from the Primary

@@ -8,11 +8,15 @@ Implementations should ultimately include, for example
   bitstring.
 
 Properties:
+
 - In general, every `S:SIGNER` needs a corresponding `V:VERIFIER`, and
   every `s:S.signer` needs a corresponding `v:V.verifier`, such that:
+
   - For any message `m`: `verify v m x = (x = (sign s m))`
+
   - for most cryptosystems, a computationally bounded adversary should not be
     able to approximate `s` knowing only `v`.
+
 *)(* --8<-- [end:signer_description] *)
 
 (* --8<-- [start:signer] *)

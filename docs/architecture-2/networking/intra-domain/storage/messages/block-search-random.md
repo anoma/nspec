@@ -24,7 +24,7 @@ Search for a block along a random walk.
 | Field       | Type                                          | Description                          |
 |-------------|-----------------------------------------------|--------------------------------------|
 | `block`     | *[[BlockId#blockid]]*                         | Block ID                             |
-| `domain`    | *Option\<[[DomainIdentity#domainidentity]]\>* | Restrict the random walk to a domain |
+| `domain`    | *Option<[[DomainIdentity#domainidentity]]>* | Restrict the random walk to a domain |
 | `requestor` | *[[NodeIdentity#nodeidentity]]*               | Requestor's Peer ID                  |
 
 ## Behavior

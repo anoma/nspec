@@ -33,16 +33,16 @@ Thus, it makes sense to make precise, what the purpose of the message is.
 ##### Triggers
 
 - to [Engine](#Engine): [`ReactionMessage`](#ReactionMessage), [`AnotherMessage`](#AnotherMessage)
-  `if` \<condition1 one liner\>
-  `then` \<message1 contents description\>
+  `if` <condition1 one liner>
+  `then` <message1 contents description>
   &
-  `if` \<condition2 one liner\>
-  `then` \<message2 contents description\>
+  `if` <condition2 one liner>
+  `then` <message2 contents description>
   &
   ...
   &
-  `if` \<condition$n$ one liner\>
-  `then` \<message$n$ contents description\>
+  `if` <condition$n$ one liner>
+  `then` <message$n$ contents description>
 
 - to [AnotherEngine](#AnotherEngine): [`AnotherReactionMessage`](#AnoterReactionMessage), [`YetAnotherMessage`](#YetAnotherMessage)
   _\[...\]_

@@ -12,10 +12,15 @@ Implementations should ultimately include, for example,
  public / private keys sytems.
 
 An Identity includes:
- - a type `signer` that can cryptographically `sign` (or credibly commit) to something (a `signable`), forming a `commitment`.
- - a type `decryptor` that can cryptographically `decrypt` something (a `cyphertext`), resulting in a `plaintext` (or `NONE`, if decryption fails).
- - a type `verifier` that can cryptographically `verify` that a `commitment` (or cryptographic signature) corresponds to a given message (a `signable`), and was signed by the `signer` corresponding to this `verifier`.
- - a type `encryptor` that can cryptographically `encrypt` a `plaintext` (message) to create a `cyphertext` readable only by the corresponding `decryptor`.
+
+
+- a type `signer` that can cryptographically `sign` (or credibly commit) to something (a `signable`), forming a `commitment`.
+
+- a type `decryptor` that can cryptographically `decrypt` something (a `cyphertext`), resulting in a `plaintext` (or `NONE`, if decryption fails).
+
+- a type `verifier` that can cryptographically `verify` that a `commitment` (or cryptographic signature) corresponds to a given message (a `signable`), and was signed by the `signer` corresponding to this `verifier`.
+
+- a type `encryptor` that can cryptographically `encrypt` a `plaintext` (message) to create a `cyphertext` readable only by the corresponding `decryptor`.
 
 Properties are inherited from `VERIFIER`, `ENCRYPTOR`, `SIGNER`, and `DECRYPTOR`.
 *)(* --8<-- [end:identity_description] *)

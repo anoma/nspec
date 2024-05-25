@@ -177,10 +177,12 @@ $\mathsf{executor\_function}\colon
 \to \left(  \wp(\mathit{Keys}\times \mathit{Data})\times \mathit{IO–commands} \right)$
 
 Inputs:
+
 - the previous state, represented as a function from Keys to Data
 - the [[TransactionCandidate]] itself
 
 Outputs:
+
 - The new $\left\langle \mathit{key}, \mathit{data}\right\rangle$
    pairs to be written to state.
   - Naively, these must include all the Keys in $\mathsf{write}(T)$,

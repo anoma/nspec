@@ -20,17 +20,11 @@ Request to create a pub/sub topic.
 
 *Record* with fields:
 
-- `topic`: [[TopicIdentity#topicidentity]]
+- `topic`: [[TopicIdentity#topicidentity]] *Pub/sub topic identity.*
 
-  *Pub/sub topic identity.*
+- `scope`: [[RoutingScope#routingscope]]  *Whether the topic should be advertised over the network.*
 
-- `scope`: [[RoutingScope#routingscope]]
-
-  *Whether the topic should be advertised over the network.*
-
-- `advert`: Option\<[[TopicAdvertV1#topicadvertv1]]\>
-
-  *Topic advertisement to send to the network, when the `scope` allows.*
+- `advert`: Option<[[TopicAdvertV1#topicadvertv1]]>  *Topic advertisement to send to the network, when the `scope` allows.*
 
 </div>
 <!-- --8<-- [end:type] -->

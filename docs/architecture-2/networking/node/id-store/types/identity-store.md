@@ -19,5 +19,5 @@ Backed by the local key-value store
 ## Type
 
 <!-- --8<-- [start:type] -->
-*list\<([[ExternalIdentity#externalidentity]], [[IdentityRecord#identityrecord]])\>*
+*list<([[ExternalIdentity#externalidentity]], [[IdentityRecord#identityrecord]])>*
 <!-- --8<-- [end:type] -->

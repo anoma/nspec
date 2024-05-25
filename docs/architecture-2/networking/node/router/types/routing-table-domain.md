@@ -17,4 +17,4 @@ A domain in a routing table entry.
 
 | Field     | Type                       | Description                  |
 |-----------|----------------------------|------------------------------|
-| `members` | *Vec\<[[NodeIdentity#nodeidentity]]\>* | List of known domain members |
+| `members` | *Vec<[[NodeIdentity#nodeidentity]]>* | List of known domain members |

@@ -4,16 +4,21 @@ A specific kind of identity name, wher ethe evidence is a signed
  verifier with a specific `name`.
 
 Here,
+
 - `name` is the type the parent identifies with a child.
   For example, for `name = string`, and some identity Alice, we can specify
   `(hash(Alice),"bob")`, or _Alice.bob_, as the identity that
   Alice refers to as `"bob"`.
+
 - `Child` : `VERIFIER` type that can be identified with a name.
+
 - `Parent` : `VERIFIER` type that signs evidence statements.
+
   Crucially, it must be able to sign tuples of the form
   (string, name, Child's hash type)
   In our example, where Alice refers to Bob as Alice.`"bob"`, `Child` describes
   Bob, `Parent` describes Alice, and `name` describes `"bob"`.
+
 - `Hash` Describes what will become the `VerifierNameHash`.
   Crucially, it must be able to hash pairs of the form
   (Parent's hash type, name)

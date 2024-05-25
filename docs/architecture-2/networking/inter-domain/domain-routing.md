@@ -14,9 +14,11 @@ Route a message to any known domain member.
 --8<-- "domain-routing/domain-request.md:purpose"
 
 Reception:
+
 --8<-- "domain-routing/domain-request.md:reception"
 
 Triggers:
+
 --8<-- "domain-routing/domain-request.md:triggers"
 
 ## [[DomainResponse#domainresponse]]
@@ -24,4 +26,5 @@ Triggers:
 --8<-- "domain-routing/domain-response.md:purpose"
 
 Reception:
+
 --8<-- "domain-routing/domain-response.md:reception"

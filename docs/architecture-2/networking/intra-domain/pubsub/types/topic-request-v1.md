@@ -20,9 +20,7 @@ Request for an operation on a pub/sub topic.
 
 *Record* with fields:
 
-- `topic`: [[TopicIdentity#topicidentity]]
-
-  *Pub/sub topic identity.*
+- `topic`: [[TopicIdentity#topicidentity]] *Pub/sub topic identity.*
 
 </div>
 <!-- --8<-- [end:type] -->

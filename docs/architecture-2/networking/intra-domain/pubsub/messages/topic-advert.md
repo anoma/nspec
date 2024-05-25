@@ -54,7 +54,7 @@ and forward the *TopicAdvert* to connected peers in the same domain.
 <!-- --8<-- [start:messages] -->
 ```mermaid
 %% --8<-- [start:sequence]
-TODO
+%% TODO
 %% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->

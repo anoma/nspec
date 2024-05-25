@@ -26,7 +26,7 @@ Request to join a domain.
 |-------------|-----------------------|--------------------------------|
 | `requestor` | *ExternalIdentity*    | External identity of requestor |
 | `domain`    | *ExternalIdentity*    | Domain ID to join              |
-| `auth`      | *Option\<Vec\<u8\>\>* | Optional authentication data   |
+| `auth`      | *Option<Vec<u8>>* | Optional authentication data   |
 | `sig`       | *Signature*           | Signature by `requestor`       |
 
 ## Triggers

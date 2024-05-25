@@ -19,6 +19,7 @@ Perform a search operation based on a given predicate within a specified time li
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Predicate`: [[PredicateV1#predicatev1]]
 
   *Predicate describing the search operation*

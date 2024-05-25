@@ -47,6 +47,7 @@ Consider the “life cycle” of a transparent asset transfer $T$.
 
 <!--
 After closing batch $B$, worker $W$:
+
 - informs its primary $P$ (another engine within the same validator) of the
     [[NewWorkerHash|new worker hash]] $H_B$ for the batch $B$
 overkill for V1 as we might scratch the primary anyway

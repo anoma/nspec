@@ -77,6 +77,7 @@ https://github.com/anoma/specs/issues/430#issuecomment-1935077194:
 Each validator should have 1 executor, so yes, each validator should replicate these side effects.
 
 Example:
+
 - suppose the User wants to know if  / when whatever was supposed to happen as a result of their TransactionCandidate actually happened.
   - obviously they can't rely on a message from any single Validator, since (after V1) no one validator is necessarily trustworthy. They therefore have to receive messages from at least a (weak) quorum of validators.
   - They could include in their TransactionCandidate a side effect of the form: send a message to USER containing DETAILS ABOUT WHATEVER JUST HAPPENED.

@@ -39,6 +39,7 @@ the [[EngineIdentity#engineidentity]] of the requesting engine is added to the [
 and  a *[[TopicSubResponse#topicsubresponse]]* is returned with a success result.
 
 Otherwise, if the topic does not exist yet:
+
 - when the `scope` is *LocalOnly*, an error is returned
 - when the `scope` is *Any*, the [[Router#router]] sends a [[SubscribeRequest#subscriberequest]] to [[PubSub#pubsub]]
 <!-- --8<-- [end:behavior] -->

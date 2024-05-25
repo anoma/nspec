@@ -22,5 +22,5 @@ which the Router learns about by subscribing to [[IdentityUpdated#identityupdate
 ## Type
 
 <!-- --8<-- [start:type] -->
-*list\<[[RoutingTableEntry#routingtableentry]]\>*
+*list<[[RoutingTableEntry#routingtableentry]]>*
 <!-- --8<-- [end:type] -->

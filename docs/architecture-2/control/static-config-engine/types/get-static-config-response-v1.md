@@ -19,6 +19,7 @@ Return the found value corresponding to key in  [[GetStaticConfigRequestV1#getst
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Config Key`: [[ConfigurationKeyV1#configurationkeyv1]]
 
   *Key that maps to the requested static configuration value in the static configuration KV-store.*

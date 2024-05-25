@@ -17,6 +17,7 @@ search:
     Decisions made, intents created
 
 Examples:
+
 - Automatically grant kudos for trade between compute, storage, network resources
 - Automatically rebalance kudo portfolio
 - Decide whether to use locally controlled liquidity for solving

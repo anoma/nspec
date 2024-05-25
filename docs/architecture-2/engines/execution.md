@@ -193,8 +193,7 @@ and transactions `h` and `j`.
 
 ### Optimization: Order With Respect To Writes
 
-![Order with respect to writes (see web version for
-animation)](only_order_wrt_writes_animated.svg)
+![Order with respect to writes (see web version for animation)](only_order_wrt_writes_animated.svg)
 
 In fact, shards can send read information to an executor process as soon as the
 previous write has completed. All shards really need to keep track of is a total
@@ -206,8 +205,7 @@ In the diagram above, for example, transactions `a` and `b` can run concurrently
 
 ### Optimization: Only Wait to Read
 
-![Only wait to read (see web version for
-animation)](only_wait_to_read_animated.svg)
+![Only wait to read (see web version for animation)](only_wait_to_read_animated.svg)
 
 Because we store each version written ([multi-version concurrent
 storage](https://en.wikipedia.org/wiki/Multiversion_concurrency_control)), we do
@@ -255,8 +253,7 @@ the execution engine. Occasionally, $heardAllReads$ should be updated with later
 timestamps. Each Shard must keep track of $heardAllReads$ on each key's
 multi-version timeline, so it can garbage collect old values.
 
-![Execute with partial order (see web version for
-animation)](execute_before_consensus_animated.svg)
+![Execute with partial order (see web version foranimation)](execute_before_consensus_animated.svg)
 
 In the example above, our "Happens Before" arrows have been replaced with "May
 Happen Before" arrows, representing partial ordering information from the

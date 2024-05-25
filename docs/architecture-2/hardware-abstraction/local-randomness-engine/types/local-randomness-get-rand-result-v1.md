@@ -20,6 +20,7 @@ Response to a [[LocalRandomnessGetRandV1#localrandomnessgetrandv1]].
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Random Byte Values`: [[RandomByteValuesV1#randombytevaluesv1]]
 
   *The random number or random data in a byte value*

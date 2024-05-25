@@ -16,9 +16,11 @@ Describe the purpose of the message.
 Link to the types of received and triggered messages.
 
 Reception:
+
 - Link to the latest version of the type that corresponds to the message.
 
 Triggers:
+
 - Request-Response pattern:
   - link to response type and include the type definition
   - see MessageNameResponseV1 below

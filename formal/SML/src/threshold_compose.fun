@@ -23,10 +23,13 @@ This will let nodes reason about identities using simple
 Formally, to specify a `ThresholdCompose`, we need:
 
 - `Verifier`, the structure of the underlying `verifiers`.
+
 - `Signer`, the corresponding structure of the underlying `signers`.
+
 - `Map : ORD_MAP`, to be used to encode weights and `commitment`s.
   (Note that this needs `Map.Key` to be the hash type of the
    underlying `Verifier`)
+
 - `ThresholdComposeHash`, which specifies a `hash` function that can
    hash our composed `verifier`s (type
    `{threshold:int, weights : ((int * Verifier.verifier) Map.map)}`).
@@ -35,46 +38,61 @@ A `ThresholdCompose` structure provides:
 
 - `structure Map : ORD_MAP` the underlying `ORD_MAP` used in
    `verifier` and `commitment`
+
 - `structure UnderlyingVerifier : VERIFIER` the structure describing
    the types of the underlying `verifier`s which can be composed.
+
 - `structure UnderlyingSigner : SIGNER` the structure describing
    the types of the underlying `signer`s which can be composed.
+
 - `structure VerifierHash : HASH` describes the hash function for
    hashing these composed `verifiers`
+
 - `type signer` is the type of composed signers.
    These are just `UnderlyingSigner.signer Map.map`, meaning each is
    stored under the hash of the corresponding
    `UnderlyingVerifier.verifier`.
    `signer` does not need to encode weights or threshold.
+
 - `type verifier` the type of composed verifiers. These are
    `{threshold:int, weights : ((int * UnderlyingVerifier.verifier) Map.map)}`
+
 - `type signable` the type of message that can be signed. This is
    exactly the same as what the underlying verifiers can sign
    (`UnderlyingVerifier.signable`).
+
 - `type commitment` describes composed signatures, these are a
    `Map.map` from hashes of underlying verifiers
    (`UnderlyingVerifier.VerifierHash.OrdKey.ord_key`) to signatures
    (`UnderlyingVerifier.commitment`)
+
 - `fun sign` creates a `commitment` using all
    `UnderlyingSigner.signer`s in the composed `signer`.
+
 - `fun verify` returns true iff the set of valid commitments included
    correspond to a set of `UnderlyingVerifier.verifier`s whose weights
    sum to at least the threshold.
+
 - `fun signerCompose` is constructs a composed `signer` from a list of
    `UnderlyingVerifier.verifier * UnderlyingSigner.signer` pairs.
    Note that each `signer` must be paired with its correct `verifier`,
     or the composed `signer` will not produce verifiable
     `commitment`s.
+
 - `fun verifierCompose` is useful for constructing the composition of
    a list of verifiers.
   Returns a composed `verifier`.
   Its arguments are:
+
   - the threshold (`int`)
+  
   - a `list` of weight (`int`), `UnderlyingVerifier.verifier` pairs.
+
 - `fun verifierAnd` creates a composed `verifier` that is the "&&" of
    two input verifiers: a `signer` must encode the information of the
    signers for *both* `x` and `y` to sign statements `verifierAnd x y`
    will verify.
+   
 - `fun verifierOr` creates a composed `verifier` that is the "||" of
    two input verifiers: a `signer` must encode the information of the
    signers for *either* `x` or `y` to sign statements `verifierOr x y`

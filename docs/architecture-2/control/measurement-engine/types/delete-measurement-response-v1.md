@@ -19,6 +19,7 @@ Response to a [[DeleteMeasurementRequestV1#deletemeasurementrequestv1]].
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Measurement Query`: [[MeasurementQueryV1#measurementqueryv1]]
 
   *The query that describes the measurement removal operation.

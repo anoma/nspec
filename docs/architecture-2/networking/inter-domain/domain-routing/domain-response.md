@@ -28,6 +28,6 @@ A response returned to a [[DomainRequest#domainrequest]].
 | `domain`   | *[[ExternalIdentity#externalidentity]]*        | External identity of domain                                         |
 | `src`      | *[[ExternalIdentity#externalidentity]]*        | External identity of sender                                         |
 | `dst`      | *[[ExternalIdentity#externalidentity]]*        | External identity of recipient                                      |
-| `path`     | *Vec\<[[ExternalIdentity#externalidentity]]\>* | Reverse path of the corresponding *[[DomainRequest#domainrequest]]* |
+| `path`     | *Vec<[[ExternalIdentity#externalidentity]]>* | Reverse path of the corresponding *[[DomainRequest#domainrequest]]* |
 | `protocol` | *[[Protocol#protocol]]*                        | Protocol & version used in `body`                                   |
-| `body`     | *Vec\<u8\>*                                    | Serialized message body.                                            |
+| `body`     | *Vec<u8>*                                    | Serialized message body.                                            |

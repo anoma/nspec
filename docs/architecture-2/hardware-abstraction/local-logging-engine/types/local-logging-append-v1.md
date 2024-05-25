@@ -19,6 +19,7 @@ Append new values to the logbook.
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `external identity`: [[ExternalIdentity#externalidentity]]
 
   *External identity of the engine that wants to append the values to the logbook*

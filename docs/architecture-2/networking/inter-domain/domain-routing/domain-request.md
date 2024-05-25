@@ -26,9 +26,9 @@ A request sent to a domain that is delivered to any domain member.
 |------------|------------------------------------------------|-------------------------------------------|
 | `src`      | *[[ExternalIdentity#externalidentity]]*        | External identity of sender               |
 | `domain`   | *[[ExternalIdentity#externalidentity]]*        | External identity of destination domain   |
-| `path`     | *Vec\<[[ExternalIdentity#externalidentity]]\>* | Path of the request, updated at each hop. |
+| `path`     | *Vec<[[ExternalIdentity#externalidentity]]>* | Path of the request, updated at each hop. |
 | `protocol` | *[[Protocol#protocol]]*                        | Protocol & version used in `body`         |
-| `body`     | *Vec\<u8\>*                                    | Serialized message body.                  |
+| `body`     | *Vec<u8>*                                    | Serialized message body.                  |
 
 ## Triggers
 

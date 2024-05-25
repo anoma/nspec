@@ -19,6 +19,7 @@ When the value in the KV-store changes, engines interested in this information g
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]
 
   *The key that that identifies the changed piece of data in the KV-store.*

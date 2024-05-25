@@ -43,6 +43,7 @@ The physical DAG provides local partial ordering information, in that an observa
 Agents will have local rules around when to create & send an observation at all (creating an observation without sending it is equivalent to not creating an observation at all, since it could have been equivalently created later whenever an agent sends something).
 
 Examples of rules:
+
 - Send an observation every second (or every time tick `t` based on a internal clock)
 - Send an observation on a particular condition (e.g. some other messages from my fellow consensus provider agents)
 - Send an observation when requested by some other agent
@@ -50,6 +51,7 @@ Examples of rules:
 More frequent observations provide higher-granularity partial ordering information.
 
 A honest agent behaves as following:
+
 - When sending an observation, they include in the witness set all observations which they have seen since the last observation they sent.
     - Thus, all data the agent has ever seen will be included in the transitive backreference graph of their observations
     - This is unenforceable and undetectable, since we can never prove that a node received a message until they have witnessed it (by adding receipts of some sort, we could have a method of detection, but observations are effectively a receipt already so this is redundant, we would end up in a regress of infinite receipts).

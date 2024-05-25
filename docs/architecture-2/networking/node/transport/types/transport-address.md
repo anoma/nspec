@@ -41,4 +41,4 @@ possibly together with additional transport-specific dial information.
 
 | Field  | Type        | Description |
 |--------|-------------|-------------|
-| `addr` | *Vec\<u8\>* | Address     |
+| `addr` | *Vec<u8>* | Address     |

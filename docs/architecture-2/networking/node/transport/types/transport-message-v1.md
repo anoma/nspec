@@ -24,11 +24,11 @@ Describe the purpose of the type.
 
   *Source or destination address*
 
-- `tprefs`: Option\<[[TransportPrefs#transportprefs]]\>
+- `tprefs`: Option<[[TransportPrefs#transportprefs]]>
 
   *Transport preferences for outgoing messages*
 
-- `expiry`: Option\<[[Time#time]]\>
+- `expiry`: Option<[[Time#time]]>
 
   *Expiry time for outgoing messages*
 

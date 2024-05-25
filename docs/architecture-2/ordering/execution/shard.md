@@ -53,6 +53,7 @@ This is [multi-version concurrent storage](
 ## State (of the shard)
 
 For each [[Worker Engine|Worker Engine]], the Shard maintains:
+
 -  [[TxFingerprint|A timestamp]], such that all
    _[[KVSAcquireLock|write lock requests]]_[^1] for
    transaction candidates with earlier timestamps that this worker curates
@@ -69,6 +70,7 @@ For each [[Worker Engine|Worker Engine]], the Shard maintains:
   Together, these represent `heardAllReads`.
 -->
 For each [key](../execution.md#state) (assigned to this Shard):
+
 - A set of [[TxFingerprint|time‍stamps]] of known
    [[TransactionCandidate|transaction candidates]] that read and/or write that key, and for
    each, some subset of:
@@ -96,6 +98,7 @@ For each [key](../execution.md#state) (assigned to this Shard):
    reads or writes before it, then we can remove all *earlier* values
    written.
 Additionally, the Shard maintains:
+
 - A complete copy of the DAG structure produced by the
    [[Mempool Engines]].
   This includes a set of all [[NarwhalBlockHeader]]s.

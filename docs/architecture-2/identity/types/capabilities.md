@@ -17,6 +17,7 @@ Specifies which capabilities to request when generating a new identity or connec
 <div class="type" markdown>
 
 Enumeration; one of:
+
 - `CAPABILITY_COMMIT`
     - The capability to generate commitments as the identity
 - `CAPABILITY_DECRYPT`

@@ -19,6 +19,7 @@ When the value in the time series DB changes, engines interested in this informa
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Time Series DB Query`: [[TimeSeriesDBQueryV1#timeseriesdbqueryv1]]
 
   *The query that expresses the desire change of the time series DB.*

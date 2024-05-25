@@ -20,6 +20,7 @@ If the key already exists, override the value.
 <div class="type" markdown>
 
 *Records* with fields:
+
 - `Storage Key`: [[StorageKeyV1#storagekeyv1]]
 
   *The key that that identifies the piece of data in the KV-store.*
