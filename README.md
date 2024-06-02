@@ -62,7 +62,7 @@ The following are the prerequisites to build the website locally:
     On `zsh`, you can do this by running:
 
     ```bash
-    source env/bin/activate.zsh
+    source env/bin/activate
     ```
 
     </details>

@@ -450,6 +450,14 @@ nav:
   - Indexes:
     - Quick links: ./indexes/links.md
     - Juvix Modules: ./indexes/juvix_modules.md
+  - For Anoma contributors:
+    - Install: ./tutorial/install.md
+    - Basics:
+      - ./tutorial/basics.md
+      - Using Juvix code: ./tutorial/juvix.md
+      - Including diffs:
+        - ./tutorial/differ.md
+        - Example of diff rendering: ./tutorial/file-v1.md
 
 extra:
   social:
@@ -490,6 +498,8 @@ theme:
     - navigation.tracking
     - navigation.footer
     - navigation.path
+    - navigation.expand
+    - navigation.prune
     - navigation.sections
     # - navigation.indexes
     # - navigation.instant # for offline use

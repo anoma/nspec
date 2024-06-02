@@ -5,14 +5,6 @@ tags:
 ---
 
 
-!!! todo
-
-    - [ ] Add example of defining a Juvix module in a page.
-    - [ ] Options to skip Juvix preprocessing when building/serving the site.
-    - [ ] Add example of how to reference a Juvix module in a page.
-    - [ ] Add example of how to reference a Juvix term in a page.
-    - [ ] Advice on how to organize Juvix modules in the project.
-
 
 # Juvix Code
 
@@ -26,16 +18,39 @@ Very important to note is that the first Juvix code block must declare a module
 with the name of the file, and each block should be a sequence of well-defined
 expressions. This means submodules cannot be split across blocks. The name of
  module must follow the folder structure of the file is in. For example, the
- file `docs/tutorial/basics.juvix.md` must declare the module
-`docs.tutorial.basics`.
+ file `tutorial/basics.juvix.md` must declare the module
+`tutorial.basics`.
+
+<pre><code>```juvix
+module tutorial.basics;
+-- ...
+```</code></pre>
 
 
-```markdown
-```juvix
-module tutorial.basics where
-```
-```
 
 Refer to the [`everything.juvix.md`](../everything.juvix.md) file located in the `docs` folder to see an example.
+
+Juvix code blocks come with a few extra features, such as the ability to hide the
+code block from the final output. This is done by adding the `hide` attribute to
+the code block. For example:
+
+<pre><code>```juvix hide
+module tutorial.basics;
+-- ...
+```</code></pre>
+
+Another feature is the ability to extract inner module statements from the code
+block. This is done by adding the `extract-module-statements` attribute to the
+code block. This option can be accompanied by a number to indicate the number of
+statements to extract. For example, the following would only display the content 
+inside the module `B`, that is, the module `C`.
+
+<pre><code>```juvix extract-module-statements 1
+module B;
+module C;
+-- ...
+```</code></pre>
+
+
 
 !!! tip
