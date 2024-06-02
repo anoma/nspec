@@ -17,7 +17,7 @@ plugins:
       #   - trimmer
   - social
   - tags
-  - ezglossary
+  # - ezglossary
   - section-index
   - glightbox
   - juvix
