@@ -16,8 +16,8 @@ nav:
       - ./tutorial/differ.md
       - Example of diff rendering: ./tutorial/file-v1.md
     - Using Juvix code: ./tutorial/juvix.md
-    - Using templates: ./tutorial/templates.md
-    - Using glossary: ./tutorial/glossary.md
+    # - Using templates: ./tutorial/templates.md
+    # - Using glossary: ./tutorial/glossary.md
 
 theme:
   logo: assets/logo.svg
