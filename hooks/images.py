@@ -48,8 +48,8 @@ if IMAGES_ENABLED:
     DOT_FLAGS = os.getenv("DOT_FLAGS", "-Tsvg")
 
     if not shutil.which(DOT_BIN):
-        log.error(
-            f"Graphviz not found. Please install it and set the DOT_BIN environment variable."
+        log.warning(
+            f"Graphviz not found. Please install it otherwise dot pictures won't render correctly."
         )
         USE_DOT = False
 
