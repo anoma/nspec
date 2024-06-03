@@ -20,23 +20,17 @@ code examples are correct, you must have Juvix installed on your machine. One
 way to do this is to install the Juvix plugin for VsCode from [the
 marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
 
-### Prerequisites
+### Installing with Python
 
-The following are the prerequisites to build the website locally:
+1. Install prerequisites
 
-- Python 3.9 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
+    The following are the prerequisites to build the website locally:
 
-- To deploy the website locally, you would need to install `graphviz` to generate SVG files for *dot* files.
+    - Python 3.9 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
 
-- As mentioned, we would need `juvix` to render the Juvix code examples.
+    - To deploy the website locally, you would need to install `graphviz` to generate SVG files for *dot* files.
 
-### Installing
-
-1. Clone the repository
-
-    ```bash
-    git clone http://github.com/anoma/nspec
-    ```
+    - As mentioned, we would need `juvix` to render the Juvix code examples.
 
 2. Create a virtual environment
 
@@ -67,21 +61,42 @@ The following are the prerequisites to build the website locally:
 
     </details>
 
-3. Install the required packages (preferably in the virtual environment)
+3. Install the required packages (preferably in the virtual environment) using either Poetry or PIP:
+
+
+    1. Using Poetry (preferred):
+
+    ```bash
+    poetry install
+    ```
+
+    2. Using PIP:
 
     ```bash
     pip3 install -r requirements.txt
     ```
 
-4. Make sure that everything is working by building the website
+### Development shell with Nix
+
+1. Install Nix: https://nixos.org/download/
+
+2. Enable Nix Flakes: https://nixos.wiki/wiki/flakes
+
+3. Enter development shell:
+
+    ```bash
+    nix develop
+    ```
+
+### Building the specs
+
+1. To generate the website in the `site/` directory, run:
 
     ```bash
     mkdocs build
     ```
 
-    This command will generate the website in the `site` directory.
-
-5. To serve the website locally, run the following command:
+2. To serve the website locally, run the following command:
 
     ```bash
     mkdocs serve
@@ -90,20 +105,20 @@ The following are the prerequisites to build the website locally:
     Take into account that this webserver will automatically reload the website
     when you make changes to the files, and it is not especially fast.
 
-    <details> <summary> Builds with quiet mode </summary>
+<details> <summary> Builds with quiet mode </summary>
 
-     By default, both `make build` or `make serve` are not configured to use the
-    `--quiet` flag that suppresses the output of the build process, including
-    warnings and errors. If you don't see all this output, you can run:
+By default, both `make build` or `make serve` are not configured to use the
+`--quiet` flag that suppresses the output of the build process, including
+warnings and errors. If you don't see all this output, you can run:
 
-    ```bash
-    MKDOCSFLAGS=--quiet make build
-    ```
+```bash
+MKDOCSFLAGS=--quiet make build
+```
 
-    ```bash
-    make test-build
-    ```
+```bash
+make test-build
+```
 
-    </details>
+</details>
 
 <!-- --8<-- [end:all]-- -->

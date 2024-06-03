@@ -10,7 +10,7 @@ mkdocs-material
 mkdocs-material[imaging]
 mkdocs-section-index
 pymdown-extensions
-mkdocs-ezglossary-plugin @ git+https://github.com/realtimeprojects/mkdocs-ezglossary@main
+mkdocs-ezglossary-plugin
 mkdocs-section-index
 mkdocs-autorefs
 mkdocs-glightbox
