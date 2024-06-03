@@ -113,6 +113,7 @@ nav:
           - LocalLoggingAppendV1: ./architecture-2/hardware-abstraction/local-logging-engine/types/local-logging-append-v1.md
           - AppendValueV1: ./architecture-2/hardware-abstraction/local-logging-engine/types/AppendValue-v1.md
     - Control Machine:
+        - ./architecture-2/engines/configuration.md
     - Identity Machine:
       - ./architecture-2/identity.md
       - Types:
