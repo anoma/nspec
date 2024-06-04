@@ -19,7 +19,7 @@ The specification is organized into the following sections:
 
 - [Networking Machine](./architecture-2/networking.md)
 
-- [Ordering Machine](./architecture-2/ordering-v1.md)
+- [Ordering Machine](./architecture-2/ordering.md)
 
 ## Engine models
 
