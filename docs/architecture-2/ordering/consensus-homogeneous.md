@@ -26,7 +26,8 @@ Here we adapt for the homogeneous case, in which there is only one _learner_.
 The protocol involves two kinds of agents: _proposers_ and _acceptors_.
 Each validator may play the role of any combination of the two kinds of agents.
 
-**Proposer** initiate a round by a proposing a value to agree upon. We denote a set of possible consensus values $\mathcal{V}$.
+**Proposer** initiate a round by a proposing a value to agree upon.
+We denote a set of possible consensus values $\Value$.
 
 **Acceptors** are agents who agree on the proposed values and an agent may be acceptor for more than one chain (instance).
 No correct acceptor acts on any _invalid_ decided value.
@@ -63,7 +64,7 @@ The acceptors caught in sending non-wellformed messages might be punished by the
 
 #### $\onea$-message: proposing a value
 
-Proposer proposes a next value by sending a $1a$-message to the acceptors.
+Proposer proposes a next value by sending a $\onea$-message to the acceptors.
 The message carries a _unique_ ballot value, containing the proposed value to agree on and the round timestamp (round number).
 We assume that the set of all possible ballot values is linearly ordered.
 
@@ -73,10 +74,14 @@ On receipt of a $\onea$-message, an acceptor sends an acknowledgement of its rec
 
 #### $\twoa$-message: establishing consensus
 
-When an acceptor receives $1b$ messages for the highest ballot number it has seen from a learner $l_\alpha$’s [quorum](consensus/hpaxos-formal.md#definition-quorums-in-messages) of acceptors,
-it sends a $\twoa$-message labeled with $l_\alpha$.
-However, there is one restriction: once a safe acceptor has sent a $\twoa$-message $m$ for a learner $l_\alpha$,
-it never sends a $\twoa$-message with a different value for a learner $l_\beta$, unless one of the following is true:
+When an acceptor receives $\oneb$ messages for the highest ballot number it has seen
+from a <!-- learner $l_\alpha$’s --> [quorum](consensus/hpaxos-formal.md#definition-quorums-in-messages) of acceptors,
+it sends a $\twoa$-message.
+<!-- labeled with $l_\alpha$. -->
+
+However, there is one restriction:
+once a safe acceptor has sent a $\twoa$-message $m$, <!-- for a learner $l_\alpha$ --> it
+never sends a $\twoa$-message with a different value for a learner $l_\beta$, unless one of the following is true:
 
 - It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with learner $l_\alpha$ and ballot number higher than $m$.
 - It has seen Byzantine behavior that proves $l_\alpha$ and $l_\beta$ do not have to agree.
