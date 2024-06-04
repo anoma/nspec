@@ -42,7 +42,7 @@ module tutorial.basics;
 Another feature is the ability to extract inner module statements from the code
 block. This is done by adding the `extract-module-statements` attribute to the
 code block. This option can be accompanied by a number to indicate the number of
-statements to extract. For example, the following would only display the content 
+statements to extract. For example, the following would only display the content
 inside the module `B`, that is, the module `C`.
 
 <pre><code>```juvix extract-module-statements 1

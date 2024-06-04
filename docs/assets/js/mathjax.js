@@ -13,6 +13,7 @@ window.MathJax = {
     processEnvironments: true,
     packages: { '[+]': ['color'] },
     macros: {
+      // ----------------------------------------------------------------------
       red: ["{\\color{red}{#1}}", 1],
       green: ["{\\color{green}{#1}}", 1],
       blue: ["{\\color{blue}{#1}}", 1],
@@ -32,6 +33,7 @@ window.MathJax = {
       purple: ["{\\color{purple}{#1}}", 1],
       teal: ["{\\color{teal}{#1}}", 1],
       violet: ["{\\color{violet}{#1}}", 1],
+      // ----------------------------------------------------------------------
       xspace: "\\ ",
       p: ["{\\left( #1 \\right)}", 1],
       cb: ["{\\left\\{ #1 \\right\\}}", 1],
@@ -47,7 +49,15 @@ window.MathJax = {
       meet: "\\sqcap",
       addsunion: "\\uplus",
       addsintersection: "\\mathrel{\\raisebox{.1em}{\\reflectbox{\\rotatebox[origin=c]{180}{\\addsunion}}}}",
-      //
+
+      clg : "\\textrm{CLG}\\ ",
+      lgraph : "\\mathcal{G}",
+
+      onea: "{1a}",
+      twoa: "{2a}",
+      Value: "\\mathcal{V}",
+      Message: "\\mathit{Message}",
+      Learner: "\\mathit{Learner}",
       clg: "\\textrm{CLG}\\ ",
       edge: ["{{#1}\\!-\\!{#2}}", 2],
       reality: "\\textrm{REALITY}\\ ",
@@ -67,11 +77,14 @@ window.MathJax = {
       qa: ["\\textrm{q}\\left(#1\\right)", 1],
       fresh: ["\\textrm{fresh}_{#1}\\left(#2\\right)", 2],
       buried: ["\\textrm{Buried}\\left(#1, #2\\right)", 2],
+      burying: ["\\textrm{Burying}\\left(#1, #2\\right)", 2],
       cona: ["\\textrm{Con2as}_{#1}\\left(#2\\right)", 2],
       iffound: ["\\textrm{IfFound}\\left(#1,#2\\right)", 2],
       vbr: ["\\textrm{R}_{#1}\\left(#2, #3\\right)", 3],
+      caughtEvidence: ["\\textrm{CaughtEvidence}\\left(#1\\right)", 1],
       va: ["\\textrm{V}\\left(#1\\right)", 1],
       vb: ["\\textrm{V}_{#1}\\left(#2\\right)", 2],
+      wellformed : ["\\textrm{WellFormed}\\left(#1\\right)", 1],
       decision: ["\\textrm{Decision}_{#1}\\left(#2\\right)", 2],
       argmax: "\\operatorname*{argmax}",
       andlinesTwo: ["\\begin{array}{r l} & {#1} \\\\ \\land & {#2} \\end{array}", 2],
