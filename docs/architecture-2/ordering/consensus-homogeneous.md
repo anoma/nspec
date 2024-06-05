@@ -17,7 +17,7 @@ This establishes a total order of transactions for the [execution engine](execut
 
 The consensus algorithm is based on [Heterogeneous Paxos](https://arxiv.org/abs/2011.08253).
 It incorporates optimizations from the Heterogeneous Paxos 2.0 ART report, [a draft of which can be found here](https://www.dropbox.com/scl/fi/msxr901ipaqv64f9wjbhg/ART_HPaxos_2-2.pdf?rlkey=7m837xzamnfwh7cks7k5nsxy4&dl=0).
-Here we adapt for the homogeneous case, in which there is only one _learner_. 
+Here we adapt for the homogeneous case, in which there is only one _learner_, denoted by $\red{\alpha}$.
 
 ### Scope
 
@@ -91,9 +91,9 @@ The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for wh
 
 #### Termination: finalizing consensus value
 
-A learner <!-- $\red{l_\alpha}$ --> decides on a value $v \in \Value$ when it receives a set <!-- $\red{q_\alpha}$ --> $\red{q}$ of $\twoa$-messages <!-- labeled with $l_\alpha$ --> with
+The learner $\red{\alpha} decides on a value $v \in \Value$ when it receives a set $\red{q_\alpha}$ of $\twoa$-messages <!-- labeled with $l_\alpha$ --> with
 the same proposed value $v$ and ballot $b$ from one of its quorums of acceptors.
-We call such a set a _decision_. <!-- and write $\decision{\red \alpha}{b, \red{q_\alpha}}$. -->
+We call such a set a [_decision_](consensus/hpaxos-formal.md#definition-decision).  <!-- and write $\decision{\red \alpha}{b, \red{q_\alpha}}$. -->
 
 If no decision can be reached within a certain time, proposers must begin a new round (with a higher timestamp, and thus a higher ballot).
 Proposers can start a new round by proposing a new value or by trying to finalize the same value again (in case there was no consensus).
