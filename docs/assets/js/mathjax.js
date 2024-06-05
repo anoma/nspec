@@ -69,7 +69,7 @@ window.MathJax = {
       prevtran: ["\\textrm{PrevTran}\\left(#1\\right)", 1],
       sig: ["\\textrm{Sig}\\left(#1\\right)", 1],
       geta: ["\\textrm{Get1a}\\left(#1\\right)", 1],
-      ba: ["\\textrm{b}\\left(#1\\right)", 1],
+      ba: ["\\textrm{B}\\left(#1\\right)", 1],
       caughtEvidence: ["\\textrm{CaughtEvidence}\\left(#1\\right)", 1],
       caught: ["\\textrm{Caught}\\left(#1\\right)", 1],
       con: ["\\textrm{Con}_{#1}\\left(#2\\right)", 2],
