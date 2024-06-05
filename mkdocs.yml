@@ -18,6 +18,7 @@ nav:
       - ./scope/protocol-desiderata.md  
 
   - Protocol Architecture:
+    - ./protocol-architecture.md
     - Architecture 1:
       - ./architecture-1.md
       - Abstractions:
@@ -383,18 +384,28 @@ nav:
             - ./architecture-2/ordering/execution/executor.md
             - ExecuteTransaction: ./architecture-2/ordering/execution/executor/execute-transaction.md
             - KVSRead: ./architecture-2/ordering/execution/executor/KVS-read.md
+
   - Application Architecture:
-    - ./applications.md
+    - ./application-architecture.md
+    - Definitions:
+      - ./application-architecture/definitions.md
+    - Patterns:
+      - ./application-architecture/patterns.md
+      - Counter:
+        - ./application-architecture/patterns/counter.md
+      - Dynamic code loading:
+        - ./application-architecture/patterns/dynamic-code-loading.md
     - Primitives:
-        - ./applications/primitives.md
-        - Tokens: ./applications/primitives/tokens.md
-        - Attestation: ./applications/primitives/attestation.md
-        - Authorization: ./applications/primitives/authorization.md
-    - Kudos: ./applications/kudos.md
-    - Proof-of-stake: ./applications/proof-of-stake.md
-    - Generalized bartering: ./applications/generalized-bartering.md
-    - Schelling tests: ./applications/schelling-tests.md
-    - Mesh messaging: ./applications/mesh-messaging.md
+        - ./application-architecture/primitives.md
+        - Tokens: ./application-architecture/primitives/tokens.md
+        - Attestation: ./application-architecture/primitives/attestation.md
+        - Authorization: ./application-architecture/primitives/authorization.md
+    - System applications:
+      - ./application-architecture/system-applications.md
+      - Proof-of-stake:
+        - ./application-architecture/system-applications/proof-of-stake.md
+    - Scale-free kudos: ./application-architecture/kudos.md
+    - Schelling tests: ./application-architecture/schelling-tests.md
 
   - Concrete Implementation:
     - Data encoding:
