@@ -88,24 +88,24 @@ Using the above auxiliary functions, we formally define decisions by
 
 ## Definition: Decision
 
-For any set of messages $\red{q_\alpha}$
+For any set of messages $\blue{s}$ and ballot $b$
 
 $$
-  \decision{\red \alpha}{b, \red{q_\alpha}} \eqdef
-  \sig{\red{q_\alpha}} \in \red{Q_\alpha} \land
-  \forall \green x \in \red{q_\alpha}.\,
-    \green x:\twoa \land
+  \Decision{\red\alpha}{b, \blue s} \eqdef
+  \sig{\blue s} \in Q_{\red\alpha} \land
+  \forall {\green x},{\purple y} \in {\blue s}.\,
+    \vartype{\green x}{\twoa} \land
     \ba{\green x} = b
 $$
 
 <!-- HPaxos 2.0 definition -->
 <!-- $$
-  \decision{\red \alpha}{b, \red{q_\alpha}} \eqdef
-  \sig{\red{q_\alpha}} \in \red{Q_\alpha} \land
-  \forall \green x \in \red{q_\alpha}.\,
-    \green x:\twoa \land
-    \ba{\green x} = b \land
-    \green{x.lrn} = {\red \alpha}
+  \Decision{\red\alpha}{\blue s} \eqdef
+  \sig{\blue s} \in Q_{\red\alpha} \land
+  \forall {\green x},{\purple y} \in {\blue s}.\,
+    \vartype{\green x}{\twoa} \land
+    {\red\alpha} \in \green{x.\mlearner} \land
+    \ba{\green x} = \ba{\purple y}
 $$ -->
 
 To define what makes a _wellformed_ $\twoa$ message, it requires checking whether two learners might be entangled, and (unless we can prove they are not entangled), whether one of them might have already decided.
@@ -132,7 +132,7 @@ $$
 
 ## Definition: Connected
 
-When some acceptors are proved Byzantine, some learners need not agree,
+__TODO__ When some acceptors are proved Byzantine, some learners need not agree,
 meaning that any safe set of acceptors $\reallysafe$ isn't in the edge between them in the learner graph $\lgraph$, i.e.,
 at least one acceptor in each safe set in the edge is proven Byzantine.
 Homogeneous learners are always connected unless there are so many failures no consensus is required.
@@ -150,28 +150,27 @@ $$
 
 A $\twoa$-message can become irrelevant if, after a time, an entire quorum of acceptors has seen $\twoa$s with different values,
 <span style="background-color: #E2E2FF">the same learner</span>, and higher ballot numbers.
-We call such a $\twoa$ _buried_ (in the context of some later message $\purple y$).
+We call such a $\twoa$ _buried_ (in the context of some later message $\green y$).
 
 $$
-  \burying{{\blue z}}{{\green x} : \twoa} \eqdef
-  z:\twoa \land
+  \burying{{\blue z}}{{\purple x}} \eqdef
+  \vartype{\blue z}{\twoa} \land
   \ba{\blue z} > \ba{\green x} \land
-  \va{\blue z} \ne \va{\green x} \land
-  \hetdiff{\blue{z.lrn} = \green{x.lrn}}
+  \va{\blue z} \ne \va{\green x}
 $$
 
 $$
-  \buried{\green x : \twoa}{\purple y} \eqdef
+  \buried{{\red\alpha}}{\vartype{\purple x}{\twoa}}{\green y} \eqdef
   \sig{\cb{
-    {\red m} \in \tran{\purple y} \mid
-    \exists {\blue z} \in \tran{\red m}.\, \burying{\blue z}{\green x}
+    {\orange m} \in \tran{\green y} \mid
+    \exists {\blue z} \in \tran{\orange m}.\burying{\blue z}{\purple x}
   }}
-  \in \green{Q_{\hetdiff{x.lrn}}}
+  \in Q_{\red\alpha}
 $$
 
 We shall say that the message $\green x$ is _unburied_ (in the context of a later message $\purple y$) if it is not buried (in the context of $\purple y$).
 
-## Definition: Connected $\twoa$-messages
+## Definition: Connected 2a-messages
 
 Entangled learners must agree, but learners that are not connected are not entangled, so they need not agree.
 Intuitively, a $\oneb$-message references a $\twoa$-message to demonstrate that some learner may have decided some value.
@@ -191,16 +190,17 @@ The $\oneb$ cannot be used to make any new $\twoa$-messages for learner $\red \a
 $$ -->
 
 $$
-  \cona{\hetdiff{\red \alpha}}{\green x} \eqdef
+  \cona{\hetdiff{\red\alpha}}{\green x} \eqdef
   \cb{
     \tallpipe
     {{\blue m} \in \tran{\green x}}
     {\andlinesFour
       {\blue m : \textit{2a}}
       {\sig{\blue m} = \sig{\green x}}
-      {\lnot \buried{\blue m}{\green x}}
-      {\hetdiff{\blue{m.lrn} \in \con{\red \alpha}{\green x}}}
-  }}
+      {\lnot \buried{\red\alpha}{\blue m}{\green x}}
+      {\hetdiff{\blue{m.lrn} \in \con{\red\alpha}{\green x}}}
+    }
+  }
 $$
 
 ## Definition: Fresh
