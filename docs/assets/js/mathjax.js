@@ -98,7 +98,8 @@ window.MathJax = {
       orlinesFour: ["\\begin{array}{r l} & {#1} \\\\ \\lor & {#2} \\\\ \\lor & {#3} \\\\ \\lor & {#4} \\end{array}", 4],
       orlinesFive: ["\\begin{array}{r l} & {#1} \\\\ \\lor & {#2} \\\\ \\lor & {#3} \\\\ \\lor & {#4} \\\\ \\lor & {#5} \\end{array}", 5],
       hetdifftext: ["\\colorbox{LightBlue}{#1}", 1],
-      hetdiff: ["\\hetdifftext{$\\displaystyle#1$}", 1]
+      // hetdiff: ["\\hetdifftext{$\\displaystyle#1$}", 1]
+      hetdiff: ["{#1}", 1]
     }
   },
   options: {
