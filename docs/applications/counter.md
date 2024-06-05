@@ -43,3 +43,5 @@ Counter resource represents a simple counter.
 - Update case: The value of the created resource must be set to $n + 1$ where $n$ is the value of the consumed resource of the same kind.
 
 In this simple version, updating the counter doesn't require any special permissions but the counter resource logic can be modified to be more complex with more restricted counter update rules.
+
+![image](/docs/images/counter%20application.svg)
