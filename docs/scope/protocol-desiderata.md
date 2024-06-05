@@ -1,10 +1,19 @@
 # Protocol desiderata
 
+What is the flow from world model to desiderata?
+- Different permissions (action-capacities) in the world
+- Model these (e.g. linear resources)
+- Promise some correspondence
+    - Transfer you a sandwich
+- Agree on changes to the database
+    - Propagate to changes to the world
+
 ## Intent machine
 
 !!! todo
 
-    describe basics of intent machine
+    Describe basics of intent machine
+
 
 ## Heterogeneous trust
 
@@ -21,14 +30,25 @@ imagine that we had an oracle?
 
 ## Information flow control
 
+- Participants know some information
+- Disclose information about that information
+- Reason about transitive disclosure
+- Bound transitive disclosure subject to trust assumptions
+- 
+
 !!! todo
 
-    orthogonality of information disclosure
-    expression of preferences
+    Orthogonality of information disclosure
+    Restriction to expressed preferences under trust assumptions
 
 ## Model convergence
 
 !!! todo
 
-    convergence of distribution of state
-    convergence of estimations
+    Convergence of distribution of state
+    Convergence of estimations
+
+
+!!! todo
+
+    Imagine an omniscient observer who can see all messages and all private information. 
