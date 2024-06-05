@@ -132,24 +132,30 @@ $$
 
 ## Definition: Connected
 
-__TODO__ When some acceptors are proved Byzantine, some learners need not agree,
+__TODO__
+When some acceptors are proved Byzantine, some learners need not agree,
 meaning that any safe set of acceptors $\reallysafe$ isn't in the edge between them in the learner graph $\lgraph$, i.e.,
 at least one acceptor in each safe set in the edge is proven Byzantine.
 Homogeneous learners are always connected unless there are so many failures no consensus is required.
 
 $$
   \con{\red \alpha}{\green x} \eqdef
+    \exists {\purple s} \in \edge{\red\alpha}{\red\alpha} \in \lgraph.\,
+    {\purple s} \cap \caught{\green x} = \emptyset
+$$
+<!-- HPaxos 2.0 definition -->
+<!-- $$
+  \con{\red \alpha}{\green x} \eqdef
   \cb{
     {\blue \beta} \in \Learner \mid
-    \exists {\purple s} \in \edge{\red \alpha}{\blue \beta} \in \lgraph.\,
+    \exists {\purple s} \in \edge{\red\alpha}{\blue\beta} \in \lgraph.\,
     {\purple s} \cap \caught{\green x} = \emptyset
   }
-$$
+$$ -->
 
 ## Definition: Buried
 
-A $\twoa$-message can become irrelevant if, after a time, an entire quorum of acceptors has seen $\twoa$s with different values,
-<span style="background-color: #E2E2FF">the same learner</span>, and higher ballot numbers.
+A $\twoa$-message can become irrelevant if, after a time, an entire quorum of acceptors has seen $\twoa$s with different values, <!-- <span style="background-color: #E2E2FF">the same learner</span>, --> and higher ballot numbers.
 We call such a $\twoa$ _buried_ (in the context of some later message $\green y$).
 
 $$
@@ -172,36 +178,40 @@ We shall say that the message $\green x$ is _unburied_ (in the context of a late
 
 ## Definition: Connected 2a-messages
 
+__TODO__
 Entangled learners must agree, but learners that are not connected are not entangled, so they need not agree.
 Intuitively, a $\oneb$-message references a $\twoa$-message to demonstrate that some learner may have decided some value.
 For learner $\red \alpha$, it can be useful to find the set of $\twoa$-messages from the same sender as a message ${\green x}$ (and sent earlier)
 which are still [unburied](#definition-buried) and for learners connected to $\red \alpha$.
 The $\oneb$ cannot be used to make any new $\twoa$-messages for learner $\red \alpha$ that have values different from these $\twoa$-messages.
 
-<!-- $$
-  \cona{\hetdiff{\red \alpha}}{\green x} \eqdef
-  \cb{
-    {\blue m} \in \tran{\green x} \mid
-    {\blue m : \twoa} \land
-    {\sig{\blue m} = \sig{\green x}} \land
-    {\lnot \buried{\blue m}{\green x}} \land
-    {\hetdiff{\blue{m.lrn} \in \con{\red \alpha}{\green x}}}
-  }
-$$ -->
-
 $$
   \cona{\hetdiff{\red\alpha}}{\green x} \eqdef
   \cb{
     \tallpipe
-    {{\blue m} \in \tran{\green x}}
-    {\andlinesFour
-      {\blue m : \textit{2a}}
-      {\sig{\blue m} = \sig{\green x}}
-      {\lnot \buried{\red\alpha}{\blue m}{\green x}}
-      {\hetdiff{\blue{m.lrn} \in \con{\red\alpha}{\green x}}}
-    }
+    {{\purple m} \in \tran{\green x}}
+    {\begin{array}{l}
+      \phantom{\land}\, \vartype{\purple m}{\twoa} \\
+      \land\, {\sig{\purple m} = \sig{\green x}} \\
+      \land\, \con{\red \alpha}{\green x} \\
+      \land\, \lnot \buried{\red\alpha}{\purple m}{\green x}
+     \end{array}}
   }
 $$
+<!-- HPaxos 2.0 definition -->
+<!-- $$
+  \cona{\hetdiff{\red\alpha}}{\green x} \eqdef
+  \cb{
+    \tallpipe
+    {{\purple m} \in \tran{\green x}}
+    {\begin{array}{l}
+      \phantom{\land}\, \vartype{\purple m}{\twoa} \\
+      \land\, {\sig{\purple m} = \sig{\green x}} \\
+      \land\, \exists \blue{\beta} \in \con{\red \alpha}{\green x}.\,
+          \lnot \buried{\blue \beta}{\purple m}{\green x}
+     \end{array}}
+  }
+$$ -->
 
 ## Definition: Fresh
 
