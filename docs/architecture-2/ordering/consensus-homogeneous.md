@@ -87,11 +87,11 @@ it sends a $\twoa$-message.
 <!-- labeled with $l_\alpha$. -->
 
 However, there is one restriction:
-once a safe acceptor has sent a $\twoa$-message $m$, <!-- for a learner $l_\alpha$ --> it
-never sends a $\twoa$-message with a different value for a learner $l_\beta$, unless one of the following is true: __TODO__
+once a safe acceptor has sent a $\twoa$-message $m$, <!-- for a learner $\red\alpha$ --> it
+never sends a $\twoa$-message with a different value, <!-- for a learner $\blue\beta$ --> unless one of the following is true:
 
-- It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with learner $l_\alpha$ and ballot number higher than $m$.
-- It has seen Byzantine behavior that proves $l_\alpha$ and $l_\beta$ do not have to agree.
+- It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with <!-- learner $\red\alpha$ and --> ballot number higher than $m$.
+- It has seen Byzantine behavior that proves $l_\alpha$ and $l_\beta$ do not have to agree. __TODO__
 
 The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for which it can produce a wellformed $\twoa$.
 
