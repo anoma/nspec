@@ -10,33 +10,39 @@ search:
 ## Introduction
 
 ### Purpose
+
 Consensus component establishes a totally ordered sequence of headers received from the [mempool](mempool.md) DAG.
 This establishes a total order of transactions for the [execution engine](execution.md) to execute.
 
 ### Background
 
 The consensus algorithm is based on [Heterogeneous Paxos](https://arxiv.org/abs/2011.08253).
-It incorporates optimizations from the Heterogeneous Paxos 2.0 ART report, [a draft of which can be found here](https://www.dropbox.com/scl/fi/msxr901ipaqv64f9wjbhg/ART_HPaxos_2-2.pdf?rlkey=7m837xzamnfwh7cks7k5nsxy4&dl=0).
-Here we adapt for the homogeneous case, in which there is only one _learner_, denoted by $\red{\alpha}$.
+It incorporates optimizations from the [Heterogeneous Paxos 2.0 ART report](https://art.anoma.net/),
+[a draft of which can be found here](https://www.dropbox.com/scl/fi/msxr901ipaqv64f9wjbhg/ART_HPaxos_2-2.pdf?rlkey=7m837xzamnfwh7cks7k5nsxy4&dl=0).
+Here we adapt for the homogeneous case, in which there is only one _learner_.
 
 ### Scope
+
+__TODO__
 
 ## Overview
 
 The protocol involves two kinds of agents: _proposers_ and _acceptors_.
 Each validator may play the role of any combination of the two kinds of agents.
 
-**Proposer** initiate a round by a proposing a value to agree upon.
+__Proposer__ initiate a round by a proposing a value to agree upon.
 We denote a set of possible consensus values $\Value$.
 
-**Acceptors** are agents who agree on the proposed values and an agent may be acceptor for more than one chain (instance).
+__Acceptors__ are agents who agree on the proposed values and an agent may be acceptor for more than one chain (instance).
 No correct acceptor acts on any _invalid_ decided value.
 This requires that proposals can be checked for validity.
 Non-byzantine correct acceptors are also called _honest_, _safe_, or _real_.
 
-**Learners** are agents who are interested in values decided by consensus on particular chains.
+__Learners__ are agents who are interested in values decided by consensus on particular chains.
 As this is a Homogeneous Paxos, all learners are interested in only one chain, and make the same failure assumptions. 
 Their quorums are determined by the chain's protocol (e.g. proof of stake).
+We denote the set of learners by $\Learner$.
+In the homogeneous case, the set of learners is a singleton, $\Learner = \cb{\red\alpha}$.
 
 ## Functionality
 
@@ -91,7 +97,7 @@ The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for wh
 
 #### Termination: finalizing consensus value
 
-The learner $\red{\alpha} decides on a value $v \in \Value$ when it receives a set $\red{q_\alpha}$ of $\twoa$-messages <!-- labeled with $l_\alpha$ --> with
+The learner $\red{\alpha}$ decides on a value $v \in \Value$ when it receives a set $q_\red{\alpha}$ of $\twoa$-messages <!-- labeled with $l_\alpha$ --> with
 the same proposed value $v$ and ballot $b$ from one of its quorums of acceptors.
 We call such a set a [_decision_](consensus/hpaxos-formal.md#definition-decision).  <!-- and write $\decision{\red \alpha}{b, \red{q_\alpha}}$. -->
 
@@ -122,7 +128,6 @@ We assume that every acceptor maintains an internal state with the following str
 
 - `known_messages` — a set of all processed messages, initially empty;
 - `recent_messages` — a set of all messages the acceptor has sent or received since (and including) the last message it sent, initially empty;
-- `previous_message` — the most recent message the acceptor has sent, is such exists, initially special non-message value.
 
 ```python
 def init():
@@ -171,9 +176,9 @@ def run():
         process_message(m)
 ```
 
-### Efficient Implementation
+<!-- ### Efficient Implementation
 
-The efficient implementation of consensus is described [here](consensus/hpaxos-eff.md).
+The efficient implementation of consensus is described [here](consensus/hpaxos-eff.md). -->
 
 ## Communication diagram
 
