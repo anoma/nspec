@@ -65,14 +65,15 @@ Since every proposed ballot is unique, the function $\geta{}$ is well-defined.
 
 ## Definition: Ballot Numbers
 
-The ballot number of the message is the highest ballot number among the visible $1a$s.
+The ballot number of the message is the highest ballot number among the visible $\onea$ messages.
+
 $$
   \ba{\green x} \triangleq \geta{\green x}.ballot
 $$
 
 ## Definition: Value of a Message
 
-The value of a the message is the value of the highest ballot number among the visible $1a$s.
+The value of a the message is the value of the highest ballot number among the visible $\onea$ messages.
 
 $$
   \va{\green x} \triangleq \geta{\green x}.value
