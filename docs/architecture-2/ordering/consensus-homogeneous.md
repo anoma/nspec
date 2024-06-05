@@ -131,6 +131,52 @@ We assume that every acceptor maintains an internal state with the following str
 
 ```python
 def init():
+  known_messages = {}
+  recent_messages = {}
+  prev_message = NON_MESSAGE
+
+def process_1a(m):
+  with z = 1b(prev = prev_message, refs = union(recent_messages, {m}):
+    if WellFormedOneB(z):
+      recent_messages = {z}
+      prev_message = z
+      broadcast(z)
+
+def process_1b(m):
+  with z = 2a(prev = prev_message, refs = union(recent_messages, {m})):
+    assume WellFormedTwoA(z)
+    recent_messages = {z}
+    prev_message = z
+    broadcast(z)
+
+def process_2a(m):
+  recent_messages.insert(m)
+
+# def receive(m):
+#   assume not m in known_messages
+#   assume foreach r in m.refs: r in known_messages
+#   known_messages.insert(m)
+
+def process_message(m):
+  if not m in known_messages:
+    for r in m.refs:
+      while not r in known_messages:
+        wait()
+
+  if WellFormed(m):
+    known_messages.insert(m)
+    if m.type == "1a":
+      process_1a(m)
+    else if m.type == "1b":
+      process_1b(m)
+    else:
+      process_2a(m)
+
+######
+# OLD
+######
+
+def init():
     known_messages = {}
     recent_messages = {}
     previous_message = NON_MESSAGE
