@@ -7,6 +7,10 @@ search:
 
 # Formal definition of WellFormed
 
+## Assumption: homogenous case
+
+We assume that the set of learners is a singleton, $\Learner = \cb{\red\alpha}$.
+
 ## Definition: Message Signer
 
 $$
@@ -132,7 +136,7 @@ $$
 
 ## Definition: Connected
 
-__TODO__
+__TODO RENAME?__
 When some acceptors are proved Byzantine, some learners need not agree,
 meaning that any safe set of acceptors $\reallysafe$ isn't in the edge between them in the learner graph $\lgraph$, i.e.,
 at least one acceptor in each safe set in the edge is proven Byzantine.
@@ -178,7 +182,7 @@ We shall say that the message $\green x$ is _unburied_ (in the context of a late
 
 ## Definition: Connected 2a-messages
 
-__TODO__
+__TODO REWRITE__
 Entangled learners must agree, but learners that are not connected are not entangled, so they need not agree.
 Intuitively, a $\oneb$-message references a $\twoa$-message to demonstrate that some learner may have decided some value.
 For learner $\red \alpha$, it can be useful to find the set of $\twoa$-messages from the same sender as a message ${\green x}$ (and sent earlier)
