@@ -17,6 +17,7 @@ $$
 ## Definition: Message Set Signers
 
 We extend $\sig{}$ over sets of messages, to mean the set of signers of those messages:
+
 $$
   \sig{\green M : 2^{\Message}} \triangleq
   \cb{{\sig{\blue m}} \mid {\blue m \in \green M}}
@@ -54,10 +55,12 @@ Clearly, for any message $\green x$ originating from a safe acceptor, the messag
 ## Definition: Get1a
 
 We define $1a$-message that started the ballot of the message as the highest ballot value $1a$-message visible from it.
+
 $$
   \geta{\green x} \triangleq
   \argmax_{\blue m:\textit{1a} \in \tran{\green x}}{\blue{m.ballot}}
 $$
+
 Since every proposed ballot is unique, the function $\geta{}$ is well-defined.
 
 ## Definition: Ballot Numbers
@@ -70,11 +73,12 @@ $$
 ## Definition: Value of a Message
 
 The value of a the message is the value of the highest ballot number among the visible $1a$s.
+
 $$
   \va{\green x} \triangleq \geta{\green x}.value
 $$
 
-sing the above auxiliary functions, we formally define decisions by
+Using the above auxiliary functions, we formally define decisions by
 
 ## Definition: Decision
 
