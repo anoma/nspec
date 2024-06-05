@@ -281,3 +281,5 @@ from [Executor](./execution/executor.md) may trigger: _none_
 
 ## Further reading
 
+1. Isaac Sheff, Xinwen Wang, Robbert van Renesse, and Andrew C. Myers. Heterogeneous Paxos: Technical Report, 2020.
+2. Aleksandr Karbyshev, Isaac Sheff. Heterogeneous Paxos 2.0: the Specs, 2024.
