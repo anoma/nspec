@@ -12,7 +12,8 @@ search:
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Find a value by its key in the KV-store and delete both the key and the value.
+Find a value by its key in the KV-store. Keep the key stored and tombstone it by setting its value to
+a preselected constant value.
 
 <!-- --8<-- [end:purpose] -->
 
