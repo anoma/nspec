@@ -7,63 +7,44 @@ search:
 
 # Kudos
 
-- fungible assets ~ cryptographic kudos
+## Cryptographic Kudos
+_Cryptographic kudos_ are a resource class in which every resource is associated with the identity of the initial creator of a resource, called the instantiator. 
+They come in fungible/non-fungible as well as transferable/non-transferable varieties with optional additional constraints. 
 
-	- issuance
-	- point-in-time payments (multihop)
+They enable a rich set of applications and mechanism design approaches and are one of the core primitives of anoma.
 
-	- rpgf
-		- pay-to-identity
-		- pay-to-denomination
+Example use cases: 
+- For each packet A routes for B, B instantiates and transfers one kudo of the kind `B_routing` and transfers it to A, with the promise to route one packet for whoever offers one `B_routing` kudo.
 
-	- rebalancing (mutual credit issuance)
+## Kudo Kind
+The kind of a kudo is determined by its resource logic and label. 
+Different logic components exist for fungible or non-fungible, as well as transferable or non-transferable, leading to six different kudo logics.
+The label contains the external identity of the instantiator (the initial creator of any single kudo) and an optional suffix for the creation of different subkinds. 
 
-causal model of events theory of value want to reward whatever led to the
-production of this value
+## Ownership 
+Each kudo has a current owner set in the value field denoted by an external identity, which is the only identity that can authorize a transfer (see below).
 
-## Cryptographic kudos
+## Instantiation
+Any identity can act as an instantiator for all kudo kinds bound to their identity.
+To instantiate a kudo, a TX must be generated which consumes a special resource (TBD: marked by a bitfield) that is created out of nothing, creating a kudo with the owner set to the instantiator.
 
-_Cryptographic kudos_ are a transferable resource class. They come in fungible
-and non-fungible varieties with arbitrary properties and are always associated
-with an initial issuing identity. In general, cryptographic kudos are
-_transferable_ - this is what makes them "kudos" instead of just directed or
-undirected relationships in those DAGs, and this is why linearity is important -
-although they may have specific restrictions on when or how tranfers can be
-performed in specific cases.
-
-## Issuance
-
-Kudos cam be issued with a signature from the identity of their initial
-controller. Different denominations of kudos could possibly limit the rate of
-issuance with respect to a known external clock, but in general limitations on
-rate of issuance are not assumed for many of the systemic properties of
-interest.
+For a kudo to be valid, the logic must check for a proof of this TX to be present.
 
 ## Transfer
+To transfer a kudo, the current owner of a kudo sets up a transaction consuming the kudo and creating a new one of the same kind, placing the recipients external identity in the owner field and signing over the resource.
 
-Kudos can be transferred with a signature from their latest (rightmost)
-controller.
+During validation of a TX we check that for each resource of a certain kind that gets created, a resource of the same kind was consumed and a signature of the former owner exists.
 
-## Liquidity provisioning
+### Non-Transferable Kudos
+Non-transferable kudos can only be transferred a single time by the instantiator, who is the initial owner. 
 
-Kudo liquidity can be provisioned using appropriate intents (partial
-transactions).
+## Kudo Swaps
+In the case of transferable kudos, swap intents can be formulated.
+To enable solving, this can also be done with unbalanced TXs.
 
-## Routing
+Example:
+A wants to route packets via C, but C only accepts `B_routing` kudos.
+A can then formulate an intent swapping any A kudos, e.g. `A_routing` or `A_storage` kudos for `B_routing` or `C_routing` kudos.
 
-Routes can be found for possible chained kudo exchanges in a privacy-preserving
-way by consulting the associated issuing identities.
-
-## Pay-to-holders
-
-Payment can be made to the holders of a particular kudo denomination at a
-particular point in logical time, who then can claim it pro-rata later.
-
-## Pay-to-holders-integral
-
-Payment can be made to the holders of a particular kudo denomination over time
-(integral), who then can claim it fraction-by-time pro-rata later.
-
-!!! todo
-
-     Here, we might need a human-time shared clock, since that's kinda what we want to model.
+### Solving
+Solving could be performed by e.g. cycle finding algorithm or SAT solvers.
