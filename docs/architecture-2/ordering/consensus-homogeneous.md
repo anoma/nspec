@@ -35,11 +35,12 @@ This requires that proposals can be checked for validity.
 Non-byzantine correct acceptors are also called _honest_, _safe_, or _real_.
 
 **Learners** are agents who are interested in values decided by consensus on particular chains.
-As this is a Homogeneous Paxos, all learners are intersted in only one chain, and make the same failure assumptions. 
+As this is a Homogeneous Paxos, all learners are interested in only one chain, and make the same failure assumptions. 
 Their quorums are determined by the chain's protocol (e.g. proof of stake).
 
 ## Functionality
-Acceptors need to are aware of the learners and their quorums.
+
+Acceptors need to are aware of the learners and their quorums. __TODO__
 
 Values are agreed upon in rounds.
 
@@ -81,7 +82,7 @@ it sends a $\twoa$-message.
 
 However, there is one restriction:
 once a safe acceptor has sent a $\twoa$-message $m$, <!-- for a learner $l_\alpha$ --> it
-never sends a $\twoa$-message with a different value for a learner $l_\beta$, unless one of the following is true:
+never sends a $\twoa$-message with a different value for a learner $l_\beta$, unless one of the following is true: __TODO__
 
 - It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with learner $l_\alpha$ and ballot number higher than $m$.
 - It has seen Byzantine behavior that proves $l_\alpha$ and $l_\beta$ do not have to agree.
@@ -90,15 +91,15 @@ The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for wh
 
 #### Termination: finalizing consensus value
 
-A learner $\red{l_\alpha}$ decides on a value $v \in \Value$ when it receives a set $\red{q_\alpha}$ of $\twoa$-messages
-labeled with $l_\alpha$ with the same proposed value $v$ and ballot $b$ from one of its quorums of acceptors.
-We call such a set a _decision_ and write $\decision{\red \alpha}{b, \red{q_\alpha}}$.
+A learner <!-- $\red{l_\alpha}$ --> decides on a value $v \in \Value$ when it receives a set <!-- $\red{q_\alpha}$ --> $\red{q}$ of $\twoa$-messages <!-- labeled with $l_\alpha$ --> with
+the same proposed value $v$ and ballot $b$ from one of its quorums of acceptors.
+We call such a set a _decision_. <!-- and write $\decision{\red \alpha}{b, \red{q_\alpha}}$. -->
 
 If no decision can be reached within a certain time, proposers must begin a new round (with a higher timestamp, and thus a higher ballot).
 Proposers can start a new round by proposing a new value or by trying to finalize the same value again (in case there was no consensus).
 
-In general, acceptor relay all sent or received messages to all learners and other acceptors.
-This ensures that any message received by a real acceptor is received by all real acceptors and learners.
+In general, acceptor relay all sent or received messages to <!-- all learners --> the learner and all other acceptors.
+This ensures that any message received by a real acceptor is received by all real acceptors and the learner.
 
 #### Protocol message structure
 
@@ -106,9 +107,10 @@ Any $\oneb$ and $\twoa$-message $m$ signed by the acceptor $A$ has the following
 
 - `prev` — a reference to the previous message sent by $A$, if such exists.
 - `refs` — a set of hashes of message referenced by $m$. They are the messages that $A$ has received since between sending $m$ and the previous to $m$ message, including the previous message itself.
-- `lrn` — a learner tag: an identifier of the relevant chain (for $\twoa$-messages only).
+<!-- - `lrn` — a learner tag: an identifier of the relevant chain (for $\twoa$-messages only). -->
 
-To ensure that acceptors and learners _fully understand_ each message they receive, they delay doing any computation on it (sometimes called delivery) until they have received all the messages in `refs`. As a result, acceptors and learners will always process messages from any given sender in the order they were sent, but also from any messages that sender received, and recursively.
+To ensure that acceptors and learners _fully understand_ each message they receive, they delay doing any computation on it (sometimes called delivery) until they have received all the messages in `refs`.
+As a result, acceptors and learners will always process messages from any given sender in the order they were sent, but also from any messages that sender received, and recursively.
 
 ### Pseudocode
 
