@@ -63,17 +63,17 @@ The acceptors caught in sending non-wellformed messages might be punished by the
 
 <!-- Suppose we have two learners $l_\alpha$ and $l_\beta$ which refer to agents that are interested in blockchain $\alpha$ and blockchain $\beta$. -->
 
-#### $\onea$-message: proposing a value
+#### 1a-message: proposing a value
 
 Proposer proposes a next value by sending a $\onea$-message to the acceptors.
 The message carries a _unique_ ballot value, containing the proposed value to agree on and the round timestamp (round number).
 We assume that the set of all possible ballot values is linearly ordered.
 
-#### $\oneb$-message: acknowledging receiving the proposal
+#### 1b-message: acknowledging receiving the proposal
 
 On receipt of a $\onea$-message, an acceptor sends an acknowledgement of its receipt to all other acceptors and learners in the form of $\oneb$-message.
 
-#### $\twoa$-message: establishing consensus
+#### 2a-message: establishing consensus
 
 When an acceptor receives $\oneb$ messages for the highest ballot number it has seen
 from a <!-- learner $l_\alpha$’s --> [quorum](consensus/hpaxos-formal.md#definition-quorums-in-messages) of acceptors,
