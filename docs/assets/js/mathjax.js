@@ -13,6 +13,7 @@ window.MathJax = {
     processEnvironments: true,
     packages: { '[+]': ['color'] },
     macros: {
+      eqdef: "\\triangleq",
       red: ["{\\color{red}{#1}}", 1],
       green: ["{\\color{green}{#1}}", 1],
       blue: ["{\\color{blue}{#1}}", 1],
@@ -32,7 +33,6 @@ window.MathJax = {
       purple: ["{\\color{purple}{#1}}", 1],
       teal: ["{\\color{teal}{#1}}", 1],
       violet: ["{\\color{violet}{#1}}", 1],
-      xspace: "\\ ",
       p: ["{\\left( #1 \\right)}", 1],
       cb: ["{\\left\\{ #1 \\right\\}}", 1],
       sqb: ["{\\left[ #1 \\right]}", 1],
@@ -48,7 +48,9 @@ window.MathJax = {
       addsunion: "\\uplus",
       addsintersection: "\\mathrel{\\raisebox{.1em}{\\reflectbox{\\rotatebox[origin=c]{180}{\\addsunion}}}}",
       //
+      Learner: "\\textrm{Learner}",
       clg: "\\textrm{CLG}\\ ",
+      lgraph: "\\mathcal{G}",
       edge: ["{{#1}\\!-\\!{#2}}", 2],
       reality: "\\textrm{REALITY}\\ ",
       reallysafe: "\\mathcal{S}\\ ",
