@@ -48,7 +48,7 @@ window.MathJax = {
       addsunion: "\\uplus",
       addsintersection: "\\mathrel{\\raisebox{.1em}{\\reflectbox{\\rotatebox[origin=c]{180}{\\addsunion}}}}",
       //
-      Learner: "\\textrm{Learner}",
+      Learner: "\\mathbb{L}",
       clg: "\\textrm{CLG}\\ ",
       lgraph: "\\mathcal{G}",
       edge: ["{{#1}\\!-\\!{#2}}", 2],
@@ -86,7 +86,7 @@ window.MathJax = {
       vb: ["\\textrm{V}_{#1}\\left(#2\\right)", 2],
       vartype: ["{#1}:{#2}", 2],
       Decision: ["\\textrm{Decision}_{#1}\\left(#2\\right)", 2],
-      wellformed: ["\\textrm{Wellformed}\\,({#1})", 1],
+      wellformed: ["\\textrm{WellFormed}({#1})", 1],
       argmax: "\\operatorname*{argmax}",
       andlinesTwo: ["\\begin{array}{r l} & {#1} \\\\ \\land & {#2} \\end{array}", 2],
       andlinesThree: ["\\begin{array}{r l} & {#1} \\\\ \\land & {#2} \\\\ \\land & {#3} \\end{array}", 3],
