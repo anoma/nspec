@@ -224,7 +224,7 @@ Below, we present the acceptor algorithm in pseudocode.
 def init():
   known_messages = {}
   recent_messages = {}
-  previous_message = NON_MESSAGE
+  previous_message = None
 
 def process_1a(m):
   with z = 1b(prev = prev_message, refs = set(recent_messages).union({m})):
@@ -265,7 +265,7 @@ The learner algorithm in pseudocode is presented below.
 ```python title="Learner algorithm"
 def init():
   known_messages = {}
-  decision = NON_VALUE
+  decision = None
 
 def process_message(m):
   if not m in known_messages:
