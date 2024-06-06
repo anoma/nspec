@@ -72,7 +72,7 @@ although it is not present in V1.
 [[TransactionRequest|Transaction requests]] trigger transaction processing.
 [[User]]s or [[Solver]]s send [[TransactionRequest|transaction requests]]
 to the ordering machine: more specifically,
-to a [[Worker Engine|worker engine]].
+to a [[Mempool Engine|mempool engine]].
 The ordering machine will eventually order and execute
 the [[TransactionCandidate|transaction candidates]] included in these requests.
 Successfully processing a [[TransactionRequest|transaction request]] amounts to
@@ -80,7 +80,7 @@ invoking the [transition function](
 https://en.wikipedia.org/wiki/State_machine_replication#State_machine)
 of the RSM,
 according to an agreed upon order
-(determined by the [[Mempool Engines|mempool]]
+(determined by the [[Ordering Engine|mempool]]
 in collaboration with [[Consensus Engine|consensus]]).
 Typical transactions contain read and write operations to
 a “global” key-value store representing the state of the RSM.
@@ -97,19 +97,19 @@ but these are not considered in V1.
   (pre-)processing them for consensus and execution.
 
 - The trivial consensus problem is already implicitly solved
-  by _the_ [[Worker Engine|worker]] in V1.
+  by _the_ [[Ordering Engine|orderer]] in V1.
 
-  - In V1, there is only one [[Worker Engine|worker]].
+  - In V1, there is only one [[Ordering Engine|orderer]].
     There will be multiple (on each Node) in future versions.
 
-- The [[Execution Engines|execution engines]] execute
+- The [[Workers|workers]] execute
   the transactions:
 
   - [[Shard]]s maintain the local copy of the global state (of the RSM),
-    i.e., serve read and write requests of [[Executor]]s
+    i.e., serve read and write requests of [[Worker]]s
     to the key-value store (of the RSM).
 
-  - [[Executor]]s process [[TransactionCandidate|transaction candidates]], effectively
+  - [[Worker]]s process [[TransactionCandidate|transaction candidates]], effectively
      invoking the [transition function
       ](https://en.wikipedia.org/wiki/State_machine_replication#State_machine)
       of the RSM.
@@ -119,9 +119,9 @@ but these are not considered in V1.
 --8<-- "./ordering/a-complete-lifecycle.md:all"
 
 [^1 time stamp]: In fact it is the latter time stamp that is most relevant;
-    the former is merely an indicator about performance of the worker.
+    the former is merely an indicator about performance of the mempool.
 
 [^1]: This response may be delayed until the TxFingerprint is assigned.
     In V2,
     the "shuffling" of transactions may be pseudo-random
-    so that we can quickly pass on transaction data to mirror workers.
+    so that we can quickly pass on transaction data to mirror orderers.
