@@ -60,7 +60,7 @@ I shutdown the dumper task given in the Engine field.
 - `Router.Addr.t()`
   *Dumper Engine Address*
 
-**Output*
+**Output**
 
 No user-visible output on success.
 
