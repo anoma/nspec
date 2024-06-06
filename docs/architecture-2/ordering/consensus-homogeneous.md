@@ -300,7 +300,40 @@ One way to accomplish this is to include timestamps in the (most significant bit
 - During its time window, an agent proposes the value of the highest 2a its local acceptor knows (or a vertex from the mempool, if it knows no 2as). 
 - For reasons detailed in the original liveness proof from Heterogeneous Paxos, proposers should propose 3 times during their time window, equally spaced. If proposer clock skew is bounded (even if the bound is unknown), this guarantees the learner eventually decides. 
 
-__TODO__: actual pseudocode for proposers
+As an optimization, proposers can stop proposing if they can produce a collection of messages that qualify as a _decision_, and then broadcast that to all learners. 
+
+```python title="proposer pseudocode"
+def init(proposer_schedule) # determined for this height's consensus instance
+  known_messages = {}
+  schedule = proposer_schedule
+  proposal_from_mempool = None
+  restart_timer() 
+
+def restart_timer()
+  if exists s in subsets(known_messages) such that Decision(s):
+    forall m in s:
+      broadcast(m)
+  else:
+    window = my_first_time_window_after_now(schedule)
+    start_timer( window.start, self.on_timeout)
+    start_timer( window.start + (0.33 * window.duration), self.on_timeout)
+    start_timer( window.start + (0.66 * window.duration), self.on_timeout)
+    start_timer( window.start + (0.66 * window.duration), self.restart_timer)
+
+def process_message(m):
+  if WellFormed(m):
+    known_messages.insert(m)
+
+def receive_proposal_from_mempool(p):
+  proposal_from_mempool = m
+
+def on_timeout(last_known_timer):
+   if exists m of type 2a in known_messages:
+     broadcast(argmax(lambda m : B(m) ,
+       filter(lambda m: m has type 2a, known_messages)))
+   elif proposal_from_mempool is not None:
+     broadcast(proposal_from_mempool)
+```
 
 
 
