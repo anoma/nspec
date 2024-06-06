@@ -345,47 +345,52 @@ The efficient implementation of consensus is described [here](consensus/hpaxos-e
 
 Below is the specification of the consensus component in terms of all the messages the component must be able to receive and react to.
 
-### [PotentialProposal](consensus/potential-proposal.md)
+### [[PotentialProposal]]
 
-from [Mempool Primary](./mempool/primary.md) may trigger:
+--8<-- "consensus/potential-proposal.md:purpose"
 
-- `HPaxosProposal` → Consensus
-  --8<-- "consensus/heterogeneous-paxos-proposal.md:purpose"
+<details markdown="1">
+  <summary>Details</summary>
+--8<-- "consensus/potential-proposal.md:details"
+</details>
 
-### [HPaxosProposal](consensus/heterogeneous-paxos-proposal.md)
+### [[HPaxosProposal]]
 
-from [Consensus](consensus.md) may trigger:
+--8<-- "consensus/heterogeneous-paxos-proposal.md:purpose"
 
-- `HPaxosCommitment` → Consensus
-  --8<-- "consensus/heterogeneous-paxos-commitment.md:purpose"
-- `CheckProposal` → Mempool Primary
-  --8<-- "mempool/primary/check-proposal.md:purpose"
+<details markdown="1">
+  <summary>Details</summary>
+--8<-- "consensus/heterogeneous-paxos-proposal.md:details"
+</details>
 
-### [HPaxosCommitment](consensus/heterogeneous-paxos-commitment.md)
+### [[HPaxosCommitment]]
 
-from [Consensus](consensus.md) may trigger:
+--8<-- "consensus/heterogeneous-paxos-commitment.md:purpose"
 
-- `HPaxosCommitment` → Consensus
-  --8<-- "consensus/heterogeneous-paxos-commitment.md:purpose"
-- `RequestProposal` → Mempool Primary
-  --8<-- "mempool/primary/request-proposal.md:purpose"
-- `AnchorChosen` → Execution Shards
-  --8<-- "execution/shard/anchor-chosen.md:purpose"
+<details markdown="1">
+  <summary>Details</summary>
+--8<-- "consensus/heterogeneous-paxos-commitment.md:details"
+</details>
 
-### [HPaxosDecision](consensus/heterogeneous-paxos-decision.md)
+### [[HPaxosDecision]]
 
-from [Consensus](consensus.md) may trigger:
+--8<-- "consensus/heterogeneous-paxos-decision.md:purpose"
 
-- `RequestProposal` → Mempool Primary
-  --8<-- "mempool/primary/request-proposal.md:purpose"
-- `AnchorChosen` → Execution Shards
-  --8<-- "execution/shard/anchor-chosen.md:purpose"
+<details markdown="1">
+  <summary>Details</summary>
+--8<-- "consensus/heterogeneous-paxos-decision.md:details"
+</details>
 
-### [NewQuorums](consensus/new-quorums.md)
+### NewQuorums
 
-from [Executor](./execution/executor.md) may trigger: _none_
+--8<-- "consensus/new-quorums.md:purpose"
 
-## Example scenario
+<details markdown="1">
+  <summary>Details</summary>
+--8<-- "consensus/new-quorums.md:details"
+</details>
+
+<!-- ## Example scenario -->
 
 <!-- Short message cascade from a typical common message sent to the machine  -->
 <!-- E.g. an example of the common case "life of a transaction or whatever" flow from inputs to outputs -->

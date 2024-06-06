@@ -7,16 +7,17 @@ search:
 
 ### `HPaxosDecision`
 
+<!-- --8<-- [start:purpose] -->
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
 
-<!-- --8<-- [start:purpose] -->
 The message is used to notify other acceptors that a decision has been made.
+<!-- --8<-- [end:purpose] -->
+<!-- --8<-- [start:details] -->
 The message includes a list of messages the other acceptors need to see the decision (a quorum of $\twoa$ messages).
 Once the acceptor have received one of the decision messages for all learners, it may stop doing any kind of interesting consensus work,
 and just send these out to anyone who is still trying to do consensus.
-<!-- --8<-- [end:purpose] -->
 
 #### Structure
 
@@ -30,6 +31,7 @@ and just send these out to anyone who is still trying to do consensus.
 - to [Mempool](#Mempool): [`RequestProposal`](#RequestProposal)
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)
 
+<!-- --8<-- [start:details] -->
 <!---
 ```rust
 struct Decision {

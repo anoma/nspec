@@ -7,13 +7,14 @@ search:
 
 ### `HPaxosCommitment`
 
-- _from_ [Consensus](../consensus-v1.md)
+<!-- --8<-- [start:purpose] -->
+- _from_ [Consensus](../consensus-homogeneous.md)
 
 #### Purpose
 
-<!-- --8<-- [start:purpose] -->
 Encodes a $\oneb$ / $\twoa$ message used to communicate the acceptor's commitment to other acceptors.
 <!-- --8<-- [end:purpose] -->
+<!-- --8<-- [start:details] -->
 The message is sent between the participating acceptor nodes.
 
 #### Structure
@@ -35,6 +36,7 @@ The message is sent between the participating acceptor nodes.
 - to [Mempool](#Mempool): [`RequestProposal`](#RequestProposal)
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)
 
+<!-- --8<-- [end:details] -->
 <!---
 ```rust
 struct DirectReferences {

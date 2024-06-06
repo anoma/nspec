@@ -7,13 +7,14 @@ search:
 
 ### `HPaxosProposal`
 
+<!-- --8<-- [start:purpose] -->
 - _from_ [Consensus](../consensus-v1.md)
 
 #### Purpose
 
-<!-- --8<-- [start:purpose] -->
 Encodes a $\onea$-message that proposes a next value to have consensus upon.
 <!-- --8<-- [end:purpose] -->
+<!-- --8<-- [start:details] -->
 The message is sent between the participating acceptor nodes.
 
 #### Structure
@@ -34,6 +35,7 @@ The message is sent between the participating acceptor nodes.
 - to [Consensus](../consensus-v1.md): [`HPaxosCommitment`](./heterogeneous-paxos-commitment.md)
 - to [Mempool](#Mempool): [`CheckProposal`](#CheckProposal)
 
+<!-- --8<-- [end:details] -->
 <!---
 ```rust
 struct Proposal {
