@@ -222,6 +222,27 @@ def run():
         process_message(m)
 ```
 
+The learner algorithm in pseudocode is presented below.
+
+```python
+def init():
+  known_messages = {}
+  decision = NON_VALUE
+
+def process_message(m):
+  if not m in known_messages:
+    for r in m.refs:
+      while not r in known_messages:
+        wait()
+  if WellFormed(m):
+    known_messages.insert(m)
+
+def decide():
+  foreach s in subsets(known_messages):
+    if Decision(s):
+      decision = V(s)
+```
+
 <!-- ### Efficient Implementation
 
 The efficient implementation of consensus is described [here](consensus/hpaxos-eff.md). -->
