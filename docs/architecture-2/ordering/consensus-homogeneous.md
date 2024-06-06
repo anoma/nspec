@@ -11,7 +11,7 @@ search:
 
 ### Purpose
 
-Consensus component establishes a totally ordered sequence of headers received from the [mempool](mempool.md) DAG.
+Consensus establishes a totally ordered sequence of headers received from the [mempool](mempool.md) DAG.
 This establishes a total order of transactions for the [execution engine](execution.md) to execute.
 
 ### Background
@@ -33,13 +33,13 @@ Each validator may play the role of any combination of the two kinds of agents.
 __Proposer__ initiate a round by a proposing a value to agree upon.
 We denote a set of possible consensus values $\Value$.
 
-__Acceptors__ are agents who agree on the proposed values and an agent may be acceptor for more than one chain (instance).
+__Acceptors__ are agents who actually perform the consensus protocol (sending and receiving messages).
 No correct acceptor acts on any _invalid_ decided value.
 This requires that proposals can be checked for validity.
 Non-byzantine correct acceptors are also called _honest_, _safe_, or _real_.
 
-__Learners__ are agents who are interested in values decided by consensus on particular chains.
-As this is a Homogeneous Paxos, all learners are interested in only one chain, and make the same failure assumptions. 
+__Learners__ are agents who are interested in values decided by consensus (they only need to receive messages).
+As this is a Homogeneous Paxos, all learners and acceptors are interested in only one chain, and make the same failure assumptions. 
 Their quorums are determined by the chain's protocol (e.g. proof of stake).
 We denote the set of learners by $\Learner$.
 In the homogeneous case, the set of learners is a singleton, $\Learner = \cb{\red\alpha}$.
@@ -62,8 +62,8 @@ Consensus rounds send and receive messages in four (possibly overlapping) phases
 
 The first three phases correspond to three types of intra-component messages: $\onea$, $\oneb$ and $\twoa$, respectively.
 
-Before processing a received message $m$, acceptors and learners check if the message is [_wellformed_](consensus/hpaxos-formal.md#definition-wellformed).
-The formal definition of the wellformedness relation, denoted by $\wellformed{m}$, is given [here](consensus/hpaxos-formal.md).
+Before processing a received message $m$, acceptors and learners check if the message is [_wellformed_](consensus/homogeneouspaxos-formal.md#definition-wellformed).
+The formal definition of the wellformedness relation, denoted by $\wellformed{m}$, is given [here](consensus/homogeneouspaxos-formal.md).
 Non-wellformed messages are rejected.
 The acceptors caught in sending non-wellformed messages might be punished by the protocol.
 
@@ -82,7 +82,7 @@ On receipt of a $\onea$-message, an acceptor sends an acknowledgement of its rec
 #### 2a-message: establishing consensus
 
 When an acceptor receives $\oneb$ messages for the highest ballot number it has seen
-from a <!-- learner $l_\alpha$’s --> [quorum](consensus/hpaxos-formal.md#definition-quorums-in-messages) of acceptors,
+from a <!-- learner $l_\alpha$’s --> [quorum](consensus/homogeneouspaxos-formal.md#definition-quorums-in-messages) of acceptors,
 it sends a $\twoa$-message.
 <!-- labeled with $l_\alpha$. -->
 
@@ -99,7 +99,7 @@ The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for wh
 
 The learner $\red{\alpha}$ decides on a value $v \in \Value$ when it receives a set $q_\red{\alpha}$ of $\twoa$-messages <!-- labeled with $l_\alpha$ --> with
 the same proposed value $v$ and ballot $b$ from one of its quorums of acceptors.
-We call such a set a [_decision_](consensus/hpaxos-formal.md#definition-decision).  <!-- and write $\decision{\red \alpha}{b, \red{q_\alpha}}$. -->
+We call such a set a [_decision_](consensus/homogeneouspaxos-formal.md#definition-decision).  <!-- and write $\decision{\red \alpha}{b, \red{q_\alpha}}$. -->
 
 If no decision can be reached within a certain time, proposers must begin a new round (with a higher timestamp, and thus a higher ballot).
 Proposers can start a new round by proposing a new value or by trying to finalize the same value again (in case there was no consensus).
@@ -122,7 +122,7 @@ As a result, acceptors and learners will always process messages from any given 
 
 We assume that there is a way to assign to every wellformed message $m$ a unique ballot number that the message belongs to.
 We shall denote the ballot number assigning function as $\ba{m}$.
-The formal definition of the function can be found [here](consensus/hpaxos-formal.md#definition-ballot-numbers).
+The formal definition of the function can be found [here](consensus/homogeneouspaxos-formal.md#definition-ballot-numbers).
 
 We assume that every acceptor maintains an internal state with the following structures:
 
