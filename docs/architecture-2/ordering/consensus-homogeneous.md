@@ -70,17 +70,17 @@ In general, for any quorum $q_{\red\alpha} \in Q_{\red\alpha}$, any superset of 
 Formally,
 
 $$
-  \forall q_{\red\alpha} \in Q_{\red\alpha}.\,
-  \forall q^\prime_{\red\alpha} \supseteq q_{\red\alpha}.\,
-  q^\prime_{\red\alpha} \in Q{\red\alpha}
+  \forall q \in Q_{\red\alpha}.\,
+  \forall q^\prime \supseteq q.\,
+  q^\prime \in Q{\red\alpha}
 $$
 
 ### Safe Sets
 
-In general, the  learner $\red\alpha$  wants its decision to _agree_: if it makes 2 decisions, they should carry the same value.
+In general, the learner $\red\alpha$  wants its decision to _agree_: if it makes 2 decisions, they should carry the same value.
 Unfortunately, there is no way to ensure $\red\alpha$ both liveness (it eventually decides) and agreement, under all conditions.
-_Safe sets_ $\red{safe_\alpha}$ characterize when $\red\alpha$ is guaranteed agreement. 
-Each safe set is a set of acceptors, and $\red\alpha$ is guaranteed agreement when at least one safe set consists entirely of safe (if not necessarily live) acceptors. 
+_Safe sets_ $\red{safe_\alpha}$ characterize when $\red\alpha$ is guaranteed agreement.
+Each safe set is a set of acceptors, and $\red\alpha$ is guaranteed agreement when at least one safe set consists entirely of safe (if not necessarily live) acceptors.
 Like quorums, adding more safe acceptors doesn't hurt $\red\alpha$'s guarantees:
 
 $$
@@ -89,31 +89,34 @@ $$
   s^\prime \in \Safe{\red\alpha}
 $$
 
-Safe sets and quorums are related: Paxos requires that all quorums intersect on a safe acceptor to guarantee agreement. 
+Safe sets and quorums are related: Paxos requires that all quorums intersect on a safe acceptor to guarantee agreement.
 Therefore we require:
 
 $$
-\forall q_{\red\alpha}, q^\prime_{\red\alpha} \in Q{\red\alpha} .\ 
-\forall s \in \red{safe_\alpha}.\ 
-q_{\red\alpha} \cap q^\prime_{\red\alpha} \cap s \ne \emptyset
+  \forall q, q^\prime \in Q{\red\alpha}.\,
+  \forall s \in \Safe{\red\alpha}.\,
+  q \cap q^\prime \cap s \ne \emptyset
 $$
 
 For many systems (including most proof of stake systems), the safe sets are simply all sets with this property.
 
 ### Desired Properties
+
 Paxos ultimately guarantees that if a quorum is safe and live ($\reallylive \cap \reallysafe \in Q_{\red\alpha}$), the learner $\red\alpha$ eventually decides.
 
-Paxos also guarantees that if a safe set is safe ($\reallysafe \in Q_\red{safe_\alpha}$), all decisions the learner $\red\alpha$ makes have the same value.
+Paxos also guarantees that if a safe set is safe ($\reallysafe \in Q_\red{\alpha}$), all decisions the learner $\red\alpha$ makes have the same value.
 
 ### Accurate
+
 We say that learner $\red\alpha$ is _accurate_ if its decisions must agree.
 
 $$
-\accurate{\red\alpha} \eqdef\reallysafe \in Q_\red{safe_\alpha} 
+  \accurate{\red\alpha} \eqdef \reallysafe \in Q_\red{\alpha}
 $$
 
 ## Functionality
-All agents know $\red{safe_\alpha}$ and $Q_{\red\alpha}$.
+
+All agents know $\Safe{\red\alpha}$ and $Q_{\red\alpha}$.
 
 Values are agreed upon in rounds.
 
