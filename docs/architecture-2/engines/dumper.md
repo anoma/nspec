@@ -9,7 +9,7 @@ search:
 
 ## Overall Philosophy
 
-Snapshotting is an important functionality for Anoma. To make sure that the snapshotting is done systematically, we introduce a robust Dumper engine. The Engine asks for the system to dump all of its core data to snapshot the system once a certain number of block are executed.
+Snapshotting is an important functionality for Anoma. To ensure that the snapshotting is done systematically, we introduce a robust _Dumper_ engine. The Engine asks for the system to dump all of its core data to snapshot the system once a certain number of block are executed.
 
 That is, the user can set the system to snapshot on every n-th block creation.
 
