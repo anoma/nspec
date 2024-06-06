@@ -27,12 +27,12 @@ module tutorial.basics;
 ```</code></pre>
 
 
+Refer to the [`everything.juvix.md`](../everything.juvix.md) file located in the
+`docs` folder to see an example.
 
-Refer to the [`everything.juvix.md`](../everything.juvix.md) file located in the `docs` folder to see an example.
-
-Juvix code blocks come with a few extra features, such as the ability to hide the
-code block from the final output. This is done by adding the `hide` attribute to
-the code block. For example:
+Juvix code blocks come with a few extra features, such as the ability to hide
+the code block from the final output. This is done by adding the `hide`
+attribute to the code block. For example:
 
 <pre><code>```juvix hide
 module tutorial.basics;

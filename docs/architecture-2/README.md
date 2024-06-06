@@ -10,15 +10,13 @@ search:
 The operational architecture specification concerns the state evolution of Anoma instances, broken into smaller steps: which messages are exchanged, how computation is performed on the level of function calls, and which intermediate states are reachable.
 The specification is organized into the following sections:
 
-- [Hardware Abstraction Machine](./architecture-2/hardware-abstraction.md)
+- [Hardware Abstraction Machine](./hardware-abstraction.md)
 
-- [Control Machine](./architecture-2/control.md)
+- [Identity Machine](./identity.md)
 
-- [Identity Machine](./architecture-2/identity.md)
+- [Networking Machine](./networking.md)
 
-- [Networking Machine](./architecture-2/networking.md)
-
-- [Ordering Machine](./architecture-2/ordering-v1.md)
+- [Ordering Machine](./ordering-v1.md)
 
 ## Engine models
 

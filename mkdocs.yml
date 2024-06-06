@@ -16,10 +16,10 @@ nav:
     - Identity: ./architecture-1/abstractions/identity.md
     - Properties: ./architecture-1/properties.md
     - Resource Machine: ./resource-machine.md
-
   - Architecture 2:
     - ./architecture-2/README.md
-    - Hardware Abstraction Machine: ./architecture-2/hardware-abstraction.md
+    - Hardware Abstraction Machine: 
+      - ./architecture-2/hardware-abstraction.md
       - Local Storage Engines:
         - ./architecture-2/hardware-abstraction/local-storage.md
         - Local Key Value Storage Engine:
@@ -365,12 +365,13 @@ nav:
     - Quick links: ./indexes/links.md
     - Juvix Modules: ./indexes/juvix_modules.md
   - For Anoma contributors:
+    - ./tutorial/index.md
     - Install: ./tutorial/install.md
-    - Basics:
-      - ./tutorial/basics.md
+    - Markdown:
+      - ./tutorial/markdown/README.md
       - Using Juvix code: ./tutorial/juvix.md
       - Including diffs:
-        - ./tutorial/differ.md
+        - ./tutorial/differ/README.md
         - Example of diff rendering: ./tutorial/file-v1.md
 
 extra:
