@@ -1,17 +1,3 @@
----
-icon: material/file-document-check
-search:
-  exclude: false
-  boost: 2
-tags:
-  - blockchain technology
-  - protocol design
-  - resource machine
-categories:
-  - article
-  - publication
-toc: true
----
 
 # Resource Machine
 

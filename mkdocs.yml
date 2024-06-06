@@ -375,56 +375,56 @@ nav:
   #       - ./tutorial/differ/index.md
   #       - Example of diff rendering: ./tutorial/file-v1.md
 
-extra:
-  # social:
-  #   - icon: fontawesome/brands/x-twitter
-  #     link: https://x.com/anoma
-  #   - icon: fontawesome/brands/github
-  #     link: https://github.com/anoma
-  #   - icon: fontawesome/solid/blog
-  #     link: https://anoma.net/blog
-  #   - icon: fontawesome/brands/discourse
-  #     link: https://research.anoma.net
-  #   - icon: fontawesome/brands/youtube
-  #     link: https://youtube.com/anoma
-  #   - icon: material/email
-  #     link: mailto:arts@heliax.dev
-  generator: false
-  version: 1.0
+# extra:
+#   # social:
+#   #   - icon: fontawesome/brands/x-twitter
+#   #     link: https://x.com/anoma
+#   #   - icon: fontawesome/brands/github
+#   #     link: https://github.com/anoma
+#   #   - icon: fontawesome/solid/blog
+#   #     link: https://anoma.net/blog
+#   #   - icon: fontawesome/brands/discourse
+#   #     link: https://research.anoma.net
+#   #   - icon: fontawesome/brands/youtube
+#   #     link: https://youtube.com/anoma
+#   #   - icon: material/email
+#   #     link: mailto:arts@heliax.dev
+#   generator: false
+#   version: 1.0
 
 theme:
   name: material
-#   # logo: assets/logo.svg
-#   # favicon: assets/logo.svg
-#   # custom_dir: overrides
-#   language: en
-#   google_analytics: G-WJWZWB2TW5
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  # custom_dir: overrides
+  language: en
+  google_analytics: G-WJWZWB2TW5
 #   # palette:
 #   #   scheme: custom
 #   #   primary: custom
 #   #   accent: custom
-#   font:
-#     text: Open Sans
-#     code: Fira Code
-#   features:
-#     - announce.dismiss
-#     - content.code.annotate
-#     - content.code.copy
-#     - content.tooltips
-#     # - navigation.tracking
-#     - navigation.footer
-#     # - navigation.path
-#     # - navigation.expand
-#     # - navigation.prune
-#     # # - navigation.sections
-#     - navigation.instant 
-#     - navigation.instant.preview
-#     - navigation.indexes
-#     - search.highlight
-#     - search.suggest
-#     - search.sharing
-#     - toc.follow
-#     # - header.autohide
+  font:
+    text: Open Sans
+    code: Fira Code
+  features:
+    - announce.dismiss
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    # - navigation.tracking
+    - navigation.footer
+    # - navigation.path
+    # - navigation.expand
+    # - navigation.prune
+    # # - navigation.sections
+    - navigation.instant 
+    - navigation.instant.preview
+    - navigation.indexes
+    - search.highlight
+    - search.suggest
+    - search.sharing
+    - toc.follow
+    # - header.autohide
 
 plugins:
   - search
@@ -461,7 +461,7 @@ exclude_docs: |
   docs/images/*.dot.svg
 
 extra_css:
-  - ./assets/css/extra.css
+  - ./assets/css/style.css
 #   - assets/css/juvix-highlighting.css
 
 # extra_javascript:
