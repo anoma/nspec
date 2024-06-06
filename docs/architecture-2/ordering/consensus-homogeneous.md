@@ -44,9 +44,65 @@ Their quorums are determined by the chain's protocol (e.g. proof of stake).
 We denote the set of learners by $\Learner$.
 In the homogeneous case, the set of learners is a singleton, $\Learner = \cb{\red\alpha}$.
 
-## Functionality
+## Trust Model
+For the homogeneous case, learner $\red\alpha$ is characterized by 2 sets: _quorums_ $Q_{\red \alpha}$ and _safe sets_ $\red{safe_\alpha}$.
 
-Acceptors need to are aware of the learners and their quorums. __TODO__
+### Reality
+We call the unknown set of acceptors who are actually _live_ (will always eventually send a message according to the protocol) $\reallylive$.
+Other acceptors may be called _unlive_, _crash-prone_, or just _crashed_.
+
+We call the unknown set of acceptors who are actually _safe_ (will never send messages other than those specified by the protocol) $\reallysafe$. 
+Other acceptors may be called _unsafe_ or _Byzantine_. 
+
+The learner $\red\alpha$ does not send any messages according to the protocol, so it's not meaningful to talk about it being live or safe. 
+
+Unfortunately, no one knowns $\reallylive$ and $\reallysafe$, so we now characterize the assumptions $\red\alpha$ must make in order to get guarantees.
+
+
+### Quorums
+A [quorum](https://en.wikipedia.org/wiki/Quorum_(distributed_computing)) is a set of acceptors sufficient to make $\red\alpha$ decide.
+Whenever any quorum remains safe and live, $\red\alpha$ should _eventually_ reach a decision. 
+Quorums are determined by chain policy (e.g. proof of stake). 
+We designate the set of quorums $Q_{\red\alpha}$ (so each element of $Q_{\red\alpha}$ is a set of acceptors). 
+In general, for any quorum $q_{\red\alpha} \in Q_{\red\alpha}$, any superset of acceptors is also a quorum (adding more safe and live acceptors doesn't make $\red\alpha$ no longer able to decide). 
+
+$$
+\forall q_{\red\alpha} \in Q_{\red\alpha} .\ 
+\forall q^\prime_{\red\alpha} \supset q_{\red\alpha} . \ 
+q^\prime_{\red\alpha} \in Q{\red\alpha}
+$$
+
+### Safe Sets
+In general, the  learner $\red\alpha$  wants its decision to _agree_: if it makes 2 decisions, they should carry the same value.
+Unfortunately, there is no way to ensure $\red\alpha$ both liveness (it eventually decides) and agreement, under all conditions.
+_Safe sets_ $\red{safe_\alpha}$ characterize when $\red\alpha$ is guaranteed agreement. 
+Each safe set is a set of acceptors, and $\red\alpha$ is guaranteed agreement when at least one safe set consists entirely of safe (if not necessarily live) acceptors. 
+Like quorums, adding more safe acceptors doesn't hurt $\red\alpha$'s guarantees:
+
+$$
+\forall s \in \red{safe_\alpha}.\ 
+\forall s^\prime \supset s.\ 
+s^\prime \in  \red{safe_\alpha}
+$$
+
+Safe sets and quorums are related: Paxos requires that all quorums intersect on a safe acceptor to guarantee agreement. 
+Therefore we require:
+
+$$
+\forall q_{\red\alpha}, q^\prime_{\red\alpha} \in Q{\red\alpha} .\ 
+\forall s \in \red{safe_\alpha}.\ 
+q_{\red\alpha} \cap q^\prime_{\red\alpha} \cap s \ne \emptyset
+$$
+
+For many systems (including most proof of stake systems), the safe sets are simply all sets with this property.
+
+### Desired Properties
+Paxos ultimately guarantees that if a quorum is safe and live ($\reallylive \cap \reallysafe \in Q_{\red\alpha}$), the learner $\red\alpha$ eventually decides.
+
+Paxos also guarantees that if a safe set is safe ($\reallysafe \in \red{safe_\alpha}$), all decisions the learner $\red\alpha$ makes have the same value.
+
+## Functionality
+All agents know $\red{safe_\alpha}$ and $Q_{\red\alpha}$.
 
 Values are agreed upon in rounds.
 
