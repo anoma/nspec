@@ -123,7 +123,7 @@ Each anchor vertex is decided using an independent instance of consensus.
 This could be referred to as the "separate consensus for each height" approach.
 
 Here we discuss the workings of a single consensus instance, parameterized by some height.
-The possible values $\Values$ are therefore vertices from the Mempool.
+The possible values $\Value$ are therefore vertices from the Mempool.
 The decided vertex becomes the anchor vertex for this height.
 
 Within the consensus instance, values are agreed upon in rounds.
