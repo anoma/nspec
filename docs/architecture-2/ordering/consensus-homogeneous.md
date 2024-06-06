@@ -198,7 +198,7 @@ We assume that there is a way to assign to every wellformed message $m$ a unique
 We shall denote the ballot number assigning function as $\ba{m}$.
 The formal definition of the function can be found [here](consensus/homogeneouspaxos-formal.md#definition-ballot-numbers).
 
-#### Acceptors 
+#### Acceptors
 
 We assume that every acceptor maintains an internal state with the following structures:
 
@@ -216,7 +216,7 @@ def init():
 
 def process_1a(m):
   assert m.type == "1a"
-  with z = 1b(prev = prev_message, refs = union(recent_messages, {m}):
+  with z = 1b(prev = prev_message, refs = set(recent_messages).union({m})):
     if WellFormedOneB(z):
       recent_messages = {z}
       previous_message = z
@@ -224,7 +224,7 @@ def process_1a(m):
 
 def process_1b(m):
   assert m.type == "1b"
-  with z = 2a(prev = prev_message, refs = union(recent_messages, {m})):
+  with z = 2a(prev = prev_message, refs = set(recent_messages).union({m})):
     assume WellFormedTwoA(z)
     recent_messages = {z}
     previous_message = z
@@ -251,6 +251,7 @@ def process_message(m):
 ```
 
 #### Learners
+
 The learner algorithm in pseudocode is presented below.
 
 ```python
@@ -273,6 +274,7 @@ def decide():
 ```
 
 #### Proposers
+
 For simplicity, we assume the same validators act as proposers and acceptors. 
 This ensures that if there is a safe and live acceptor, there is a safe and live proposer.
 The proposers should be chosen in a round-robin fashion, with increasing time-outs. 
