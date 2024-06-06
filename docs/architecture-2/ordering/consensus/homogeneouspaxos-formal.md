@@ -135,14 +135,15 @@ $$
 **Caught proofs processing**: Caught evidences of misbehavior can be used, e.g., for the acceptor punishment, such as slashing in the context of proof-of-stake protection mechanism.
 
 ## Definition: Accurate _as of_ a Message $\green x$
-When some acceptors are proved Byzantine, $\red\alpha$ may no longer be _accurate_, meaning its decisions no longer need to agree. 
-This happens when the safe set of acceptors isn't in the learner's safe sets: $\reallysafe\not\in \red{safe_\alpha}$, i.e.
+
+When some acceptors are proved Byzantine, $\red\alpha$ may no longer be _accurate_, meaning its decisions no longer need to agree.
+This happens when the safe set of acceptors isn't in the learner's safe sets: $\reallysafe \not\in \Safe{\red\alpha}$, i.e.,
 at least one acceptor in each safe set is proven Byzantine.
-With the $\caught{}{}$ relation, we can talk about whether $\red \alpha$ can still be accurate as of a given message (as opposed to proven to be inaccurate): 
+With the $\caught{}{}$ relation, we can talk about whether $\red \alpha$ can still be accurate as of a given message (as opposed to proven to be inaccurate):
 
 $$
   \textrm{Acc}\p{\green x} \eqdef
-    \exists {\purple s} \in \red{safe_\alpha} .\,
+    \exists {\purple s} \in \Safe{\red\alpha} .\,
     {\purple s} \cap \caught{\green x} = \emptyset
 $$
 <!-- HPaxos 2.0 definition -->
