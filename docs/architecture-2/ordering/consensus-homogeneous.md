@@ -58,13 +58,14 @@ Other acceptors may be called _unsafe_ or _Byzantine_.
 
 The learner $\red\alpha$ does not send any messages according to the protocol, so it's not meaningful to talk about it being live or safe.
 
-Unfortunately, no one knowns $\reallylive$ and $\reallysafe$, so we now characterize the assumptions $\red\alpha$ must make in order to get guarantees.
+Unfortunately, no one knowns $\reallylive$ and $\reallysafe$, so we now characterize the assumptions $\red\alpha$ must make
+in order to get safety and liveness guarantees.
 
 ### Quorums
 
 A [quorum](https://en.wikipedia.org/wiki/Quorum_(distributed_computing)) is a set of acceptors sufficient to make $\red\alpha$ decide.
 Whenever any quorum remains safe and live, $\red\alpha$ should _eventually_ reach a decision.
-Quorums are determined by chain policy (e.g. proof of stake).
+Quorums are determined by chain policy (e.g., proof of stake).
 We designate the set of quorums $Q_{\red\alpha}$ (so each element of $Q_{\red\alpha}$ is a set of acceptors).
 In general, for any quorum $q_{\red\alpha} \in Q_{\red\alpha}$, any superset of acceptors is also a quorum (adding more safe and live acceptors doesn't make $\red\alpha$ no longer able to decide).
 Formally,
@@ -77,9 +78,9 @@ $$
 
 ### Safe Sets
 
-In general, the learner $\red\alpha$  wants its decision to _agree_: if it makes 2 decisions, they should carry the same value.
+In general, the learner $\red\alpha$  wants its decision to _agree_: if it makes two decisions, they should carry the same value.
 Unfortunately, there is no way to ensure $\red\alpha$ both liveness (it eventually decides) and agreement, under all conditions.
-_Safe sets_ $\red{safe_\alpha}$ characterize when $\red\alpha$ is guaranteed agreement.
+_Safe sets_ $\Safe{\red\alpha}$ characterize when $\red\alpha$ is guaranteed agreement.
 Each safe set is a set of acceptors, and $\red\alpha$ is guaranteed agreement when at least one safe set consists entirely of safe (if not necessarily live) acceptors.
 Like quorums, adding more safe acceptors doesn't hurt $\red\alpha$'s guarantees:
 
