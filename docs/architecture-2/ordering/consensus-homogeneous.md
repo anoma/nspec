@@ -274,10 +274,10 @@ The proposers should be chosen in a round-robin fashion, with increasing time-ou
 
 One way to accomplish this is to include timestamps in the (most significant bits of) the ballot value of each proposal:
 
-- We then allocate ``time windows'' to proposers according to some pre-determined function based on the state of the chain (perhaps the timestamp of the narwhal vertex chosen in the previous instance of consensus, for the previous height). 
+- We then allocate ``time windows'' to proposers according to some pre-determined function based on the state of the chain (perhaps based on the timestamp of the narwhal vertex chosen in the previous instance of consensus, for the previous height). 
 - These time windows cycle through all the proposers, with increasing duration. 
 - Proposals with a time stamp outside a time window of their signer are not well-formed.
-- All agents delay receipt of all proposals until their own clock matches or excedes the time stamp of the proposal. 
+- All agents delay receipt of all proposals until their own clock matches or exceeds the time stamp of the proposal. 
 - During its time window, an agent proposes the value of the highest 2a its local acceptor knows (or a new value, if it knows no 2as). 
 - For reasons detailed in the original liveness proof from Heterogeneous Paxos, proposers should propose 3 times during their time window, equally spaced. 
 
