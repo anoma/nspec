@@ -134,13 +134,14 @@ $$
 
 **Caught proofs processing**: Caught evidences of misbehavior can be used, e.g., for the acceptor punishment, such as slashing in the context of proof-of-stake protection mechanism.
 
-## Definition: Connected
+## Definition: Accurate _as of_ a Message $\green x$
 When some acceptors are proved Byzantine, $\red\alpha$ may no longer be _accurate_, meaning its decisions no longer need to agree. 
 This happens when the safe set of acceptors isn't in the learner's safe sets: $\reallysafe\not\in \red{safe_\alpha}$, i.e.
 at least one acceptor in each safe set is proven Byzantine.
+With the $\caught{}{}$ relation, we can talk about whether $\red \alpha$ can still be accurate as of a given message (as opposed to proven to be inaccurate): 
 
 $$
-  acc\p{\green x} \eqdef
+  \textrm{Acc}\p{\green x} \eqdef
     \exists {\purple s} \in \red{safe_\alpha} .\,
     {\purple s} \cap \caught{\green x} = \emptyset
 $$
@@ -178,13 +179,10 @@ $$
 We shall say that the message $\green x$ is _unburied_ (in the context of a later message $\purple y$) if it is not buried (in the context of $\purple y$).
 
 ## Definition: Connected 2a-messages
-
-__TODO REWRITE__
-Entangled learners must agree, but learners that are not connected are not entangled, so they need not agree.
-Intuitively, a $\oneb$-message references a $\twoa$-message to demonstrate that some learner may have decided some value.
 For learner $\red \alpha$, it can be useful to find the set of $\twoa$-messages from the same sender as a message ${\green x}$ (and sent earlier)
 which are still [unburied](#definition-buried) and for learners connected to $\red \alpha$.
-The $\oneb$ cannot be used to make any new $\twoa$-messages for learner $\red \alpha$ that have values different from these $\twoa$-messages.
+We call these 2as "connected" for reasons which make more sense in full heterogeneous paxos. 
+If a message $\green x$ proves that $\red \alpha$ is not _accurate_, then it is in some sense not "bound" by earlier $\twoa$-messages: $\red \alpha$ can decide contradictory values. 
 
 $$
   \cona{\hetdiff{\red\alpha}}{\green x} \eqdef
@@ -194,7 +192,7 @@ $$
     {\begin{array}{l}
       \phantom{\land}\, \vartype{\purple m}{\twoa} \\
       \land\, {\sig{\purple m} = \sig{\green x}} \\
-      \land\, acc\p{\red \alpha}{\green x} \\
+      \land\, \textrm{Acc}\p{\green x} \\
       \land\, \lnot \buried{\red\alpha}{\purple m}{\green x}
      \end{array}}
   }
