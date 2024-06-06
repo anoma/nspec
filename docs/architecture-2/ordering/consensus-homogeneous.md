@@ -273,16 +273,17 @@ def decide():
 
 #### Proposers
 For simplicity, we assume the same validators act as proposers and acceptors. 
+This ensures that if there is a safe and live acceptor, there is a safe and live proposer.
 The proposers should be chosen in a round-robin fashion, with increasing time-outs. 
 
 One way to accomplish this is to include timestamps in the (most significant bits of) the ballot value of each proposal:
 
 - We then allocate ``time windows'' to proposers according to some pre-determined function based on the state of the chain (perhaps based on the timestamp of the narwhal vertex chosen in the previous instance of consensus, for the previous height). 
-- These time windows cycle through all the proposers, with increasing duration. 
+- These time windows cycle through all the proposers, with increasing duration (at least linearly, possibly exponentially, we can only know what schedule works best experimentally). 
 - Proposals with a time stamp outside a time window of their signer are not well-formed.
 - All agents delay receipt of all proposals until their own clock matches or exceeds the time stamp of the proposal. 
 - During its time window, an agent proposes the value of the highest 2a its local acceptor knows (or a new value, if it knows no 2as). 
-- For reasons detailed in the original liveness proof from Heterogeneous Paxos, proposers should propose 3 times during their time window, equally spaced. 
+- For reasons detailed in the original liveness proof from Heterogeneous Paxos, proposers should propose 3 times during their time window, equally spaced. If proposer clock skew is bounded (even if the bound is unknown), this guarantees the learner eventually decides. 
 
 __TODO__: actual pseudocode for proposers
 
