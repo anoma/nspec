@@ -228,12 +228,22 @@ $$
 $\twoa$-messages reference _quorums of messages_ with the same value and ballot.
 A $\twoa$'s quorums are formed from [fresh](#definition-fresh) $\oneb$-messages with the same ballot and value.
 
-$$
+<!-- HPaxos 2.0 definition -->
+<!-- $$
   \qa{\green x : \twoa} \eqdef
   \cb{\tallpipe
     {\red m \in \tran{\green x}}
     {{\red m : \oneb} \land
      {\fresh{\hetdiff{\green{x.lrn}}}{\red m}} \land
+     {\ba{\red m} = \ba{\green x}}}
+  }
+$$ -->
+$$
+  \qa{\green x : \twoa} \eqdef
+  \cb{\tallpipe
+    {\red m \in \tran{\green x}}
+    {{\red m : \oneb} \land
+     {\fresh{\red\alpha}{\red m}} \land
      {\ba{\red m} = \ba{\green x}}}
   }
 $$
