@@ -220,7 +220,7 @@ We assume that every acceptor maintains an internal state with the following str
 
 Below, we present the acceptor algorithm in pseudocode.
 
-```python
+```python title="Acceptor algorithm"
 def init():
   known_messages = {}
   recent_messages = {}
@@ -262,7 +262,7 @@ def process_message(m):
 
 The learner algorithm in pseudocode is presented below.
 
-```python
+```python title="Learner algorithm"
 def init():
   known_messages = {}
   decision = NON_VALUE
