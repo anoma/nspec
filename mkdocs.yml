@@ -11,17 +11,15 @@ use_directory_urls: false
 nav:
   - Home: index.md
   - Architecture 1:
-    - ./architecture-1.md
-    - Abstractions:
-      - ./architecture-1/abstractions.md
-      - Identity: ./architecture-1/abstractions/identity.md
+    - ./architecture-1/README.md
+    - Basic types: ./architecture-1/abstractions.md
+    - Identity: ./architecture-1/abstractions/identity.md
     - Properties: ./architecture-1/properties.md
     - Resource Machine: ./resource-machine.md
 
   - Architecture 2:
-    - ./architecture-2.md
-    - Hardware Abstraction Machine:
-      - ./architecture-2/hardware-abstraction.md
+    - ./architecture-2/README.md
+    - Hardware Abstraction Machine: ./architecture-2/hardware-abstraction.md
       - Local Storage Engines:
         - ./architecture-2/hardware-abstraction/local-storage.md
         - Local Key Value Storage Engine:
@@ -428,7 +426,6 @@ theme:
 plugins:
   - search
   # - ezglossary
-  - section-index
   - glightbox
   - juvix
   - bibtex:
