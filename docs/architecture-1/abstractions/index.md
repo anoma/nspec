@@ -1,11 +1,11 @@
 ---
-icon: material/file-document-outline
+# icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
 ---
 
-# Basic types
+# Basic Abstractions
 
 _"There are two kinds of data structures: DAGs, and bad data structures." - unknown_
 
@@ -26,7 +26,9 @@ abstractions and relations can provide the requisite theoretical basis for
 understanding what it is exactly that the system does and ensure complete
 deduplication of engineering efforts.
 
-!!! question "Prove this (unique up to isomorphism)" If it doesn't hold we've
+!!! todo 
+
+    Question: "Prove this (unique up to isomorphism)" If it doesn't hold we've
     probably described something slightly incorrectly.
 
 Parameters are external input to the system, or derived from the combination of
@@ -39,8 +41,8 @@ mechanism.
 
     Although this document does not use the language or process and cannot claim a similar depth of expertise, we have taken some inspiration from Conal Elliot's [denotational design](https://www.typetheoryforall.com/2022/08/04/21-Conal-Eliott-2.html).
 
-- [Identity](./abstractions/identity.md#identity)
-- [Resource Management](./abstractions/resource.md#resource-management)
-- [Physical DAG](./abstractions/physical-dag.md#physical-dag)
-- [Logical DAG](./abstractions/logical-dag.md#logical-dag)
-- [Entanglement](./abstractions/entanglement.md#entanglement)
+- [Identity](./identity.md#identity)
+- [Resource Management](./resource.md#resource-management)
+- [Physical DAG](./physical-dag.md#physical-dag)
+- [Logical DAG](./logical-dag.md#logical-dag)
+- [Entanglement](./entanglement.md#entanglement)

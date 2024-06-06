@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+# icon: material/pillar
 search:
   exclude: false
   boost: 2
