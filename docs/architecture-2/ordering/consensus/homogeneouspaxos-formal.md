@@ -135,16 +135,13 @@ $$
 **Caught proofs processing**: Caught evidences of misbehavior can be used, e.g., for the acceptor punishment, such as slashing in the context of proof-of-stake protection mechanism.
 
 ## Definition: Connected
-
-__TODO RENAME?__
-When some acceptors are proved Byzantine, some learners need not agree,
-meaning that any safe set of acceptors $\reallysafe$ isn't in the edge between them in the learner graph $\lgraph$, i.e.,
-at least one acceptor in each safe set in the edge is proven Byzantine.
-Homogeneous learners are always connected unless there are so many failures no consensus is required.
+When some acceptors are proved Byzantine, $\red\alpha$ may no longer be _accurate_, meaning its decisions no longer need to agree. 
+This happens when the safe set of acceptors isn't in the learner's safe sets: $\reallysafe\not\in \red{safe_\alpha}$, i.e.
+at least one acceptor in each safe set is proven Byzantine.
 
 $$
-  \con{\red \alpha}{\green x} \eqdef
-    \exists {\purple s} \in \edge{\red\alpha}{\red\alpha} \in \lgraph.\,
+  acc\p{\green x} \eqdef
+    \exists {\purple s} \in \red{safe_\alpha} .\,
     {\purple s} \cap \caught{\green x} = \emptyset
 $$
 <!-- HPaxos 2.0 definition -->
@@ -197,7 +194,7 @@ $$
     {\begin{array}{l}
       \phantom{\land}\, \vartype{\purple m}{\twoa} \\
       \land\, {\sig{\purple m} = \sig{\green x}} \\
-      \land\, \con{\red \alpha}{\green x} \\
+      \land\, acc\p{\red \alpha}{\green x} \\
       \land\, \lnot \buried{\red\alpha}{\purple m}{\green x}
      \end{array}}
   }
