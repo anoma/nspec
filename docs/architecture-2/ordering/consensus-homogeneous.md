@@ -128,98 +128,50 @@ We assume that every acceptor maintains an internal state with the following str
 
 - `known_messages` — a set of all processed messages, initially empty;
 - `recent_messages` — a set of all messages the acceptor has sent or received since (and including) the last message it sent, initially empty;
+- `previous_message`  — the most recent message the acceptor has sent, is such exists, initially containing a special non-message value.
+
+Below, we present the acceptor algorithm in pseudocode.
 
 ```python
 def init():
   known_messages = {}
   recent_messages = {}
-  prev_message = NON_MESSAGE
+  previous_message = NON_MESSAGE
 
 def process_1a(m):
+  assert m.type == "1a"
   with z = 1b(prev = prev_message, refs = union(recent_messages, {m}):
     if WellFormedOneB(z):
       recent_messages = {z}
-      prev_message = z
+      previous_message = z
       broadcast(z)
 
 def process_1b(m):
+  assert m.type == "1b"
   with z = 2a(prev = prev_message, refs = union(recent_messages, {m})):
     assume WellFormedTwoA(z)
     recent_messages = {z}
-    prev_message = z
+    previous_message = z
     broadcast(z)
 
 def process_2a(m):
+  assert m.type == "2a"
   recent_messages.insert(m)
 
-# def receive(m):
-#   assume not m in known_messages
-#   assume foreach r in m.refs: r in known_messages
-#   known_messages.insert(m)
-
 def process_message(m):
-  if not m in known_messages:
+  if m not in known_messages:
     for r in m.refs:
       while not r in known_messages:
         wait()
 
-  if WellFormed(m):
-    known_messages.insert(m)
-    if m.type == "1a":
-      process_1a(m)
-    else if m.type == "1b":
-      process_1b(m)
-    else:
-      process_2a(m)
-
-######
-# OLD
-######
-
-def init():
-    known_messages = {}
-    recent_messages = {}
-    previous_message = NON_MESSAGE
-
-def process_message(m):
-    # ignore messages that have been already processed
-    if m in known_messages:
-        return
-
-    # forward message to all acceptors and learners
-    broadcast(m)
-
-    known_messages.insert(m)
-    recent_messages.insert(m)
-
-    if m.type == "1a":
-        new_1b = 1b(prev = previous_message, refs = recent_messages)
-        recent_messages = {}
-        previous_message = new_1b
-        process_message(new_1b)
-
-    else if m.type == "1b" and B(m) == max ([B(x) for x in known_messages]):
-        foreach learner in Learner:
-            new_2a = 2a(prev = previous_message, refs = recent_messages, lrn = learner)
-            if WellFormed(new_2a):
-                recent_messages = {}
-                previous_message = new_2a
-                process_message(new_2a)
-
-def run():
-    # initialize state
-    init()
-
-    # main loop
-    while True:
-        m = deliver_next_wellformed_message()
-        # the function must guarantee that:
-        # 1) the messages are delivered in the order they were sent, i.e.,
-        assert foreach r in m.refs: r in known_messages
-        # holds, and
-        # 2) the delivered messages are wellformed
-
-        process_message(m)
+    if WellFormed(m):
+      known_messages.insert(m)
+      if m.type == "1a":
+        process_1a(m)
+      else if m.type == "1b":
+        process_1b(m)
+      else:
+        process_2a(m)
 ```
 
 The learner algorithm in pseudocode is presented below.
