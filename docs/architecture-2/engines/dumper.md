@@ -15,7 +15,7 @@ That is, the user can set the system to snapshot on every n-th block creation.
 
 ## Initialization
 
-To initialize the engine, we need to specify a non-negative integer. Given such an integer `n` we will then ask to dump state once an executed block will have number divisible by `n` (assuming the first block created bears number 1).
+To initialize the engine, we need to specify a non-negative integer. Given such an integer, `n`, we will then ask to dump the state once an executed block has a number divisible by `n` (assuming the first block created bears number 1).
 
 Other than that, we need access to the configuration engine in order to ask it for the path where to store the snapshot, the task field, which tracks the current asyncronous process keeping track of block execution.
 
