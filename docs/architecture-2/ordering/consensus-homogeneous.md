@@ -227,14 +227,14 @@ def init():
   previous_message = None
 
 def process_1a(m):
-  with z = 1b(prev = prev_message, refs = set(recent_messages).union({m})):
+  with z = 1b(prev = prev_message, refs = recent_messages ∪ {m}):
     if WellFormedOneB(z):
       recent_messages = {z}
       previous_message = z
       broadcast(z)
 
 def process_1b(m):
-  with z = 2a(prev = prev_message, refs = set(recent_messages).union({m})):
+  with z = 2a(prev = prev_message, refs = recent_messages ∪ {m}):
     if WellFormedTwoA(z):
       recent_messages = {z}
       previous_message = z
@@ -252,7 +252,7 @@ def process_message(m):
       known_messages.insert(m)
       if m.type == "1a":
         process_1a(m)
-      else if m.type == "1b":
+      elif m.type == "1b":
         process_1b(m)
       else:
         process_2a(m)
@@ -311,10 +311,10 @@ def restart_timer()
       broadcast(m)
   else:
     window = my_first_time_window_after_now(schedule)
-    start_timer( window.start, self.on_timeout)
-    start_timer( window.start + (0.33 * window.duration), self.on_timeout)
-    start_timer( window.start + (0.66 * window.duration), self.on_timeout)
-    start_timer( window.start + (0.66 * window.duration), self.restart_timer)
+    start_timer(window.start, self.on_timeout)
+    start_timer(window.start + (0.33 * window.duration), self.on_timeout)
+    start_timer(window.start + (0.66 * window.duration), self.on_timeout)
+    start_timer(window.start + (0.66 * window.duration), self.restart_timer)
 
 def process_message(m):
   if WellFormed(m):
@@ -324,14 +324,13 @@ def receive_proposal_from_mempool(p):
   proposal_from_mempool = m
 
 def on_timeout(last_known_timer):
-   if exists m of type 2a in known_messages:
-     broadcast(argmax(lambda m : B(m) ,
-       filter(lambda m: m has type 2a, known_messages)))
-   elif proposal_from_mempool is not None:
+  if exists m in known_messages and m.type == "2a":
+    broadcast(
+      argmax(lambda m : B(m), filter(lambda m: m has type 2a, known_messages))
+    )
+  elif proposal_from_mempool is not None:
      broadcast(proposal_from_mempool)
 ```
-
-
 
 <!-- ### Efficient Implementation
 
