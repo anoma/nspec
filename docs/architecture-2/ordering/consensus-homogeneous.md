@@ -27,10 +27,10 @@ __TODO__
 
 ## Overview
 
-The protocol involves two kinds of agents: _proposers_ and _acceptors_.
+The protocol involves three kinds of agents: _proposers_, _acceptors_, and _learners_.
 Each validator may play the role of any combination of the two kinds of agents.
 
-__Proposer__ initiate a round by a proposing a value to agree upon.
+__Proposers__ initiate a round by a proposing a value to agree upon.
 We denote a set of possible consensus values $\Value$.
 
 __Acceptors__ are agents who actually perform the consensus protocol (sending and receiving messages).
