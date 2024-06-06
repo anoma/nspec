@@ -11,7 +11,7 @@ This example describes the mechanics of counters associated with a specific cont
 
 ## CounterId resource (application)
 
-CounterId resource represents a counter tied to a specific controller that is used to initialise other counters. In a sense, it can be seen as a counter of counters. CounterId resource can be seen as an atomic counter (ina broad sense) application. For that reason, we describe it in the application terms. 
+`CounterId` resource represents a counter tied to a specific controller that is used to initialise other counters. In a sense, it can be seen as a counter of counters. `CounterId` resource can be seen as an atomic counter (in a broad sense) application. For that reason, we describe it in the application terms. 
 
 ### CounterId application interface
 
