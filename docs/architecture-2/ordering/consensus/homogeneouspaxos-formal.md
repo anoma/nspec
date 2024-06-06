@@ -238,28 +238,35 @@ $$
   }
 $$
 
+## Definition: Chain property
+
+$$
+  \ChainRef({\green x}) \eqdef
+    \green{x.\prev} \neq \bot \to
+      \green{x.\prev} \in \green{x.\refs} \land
+      \sig{\green{x.prev}} = \sig{\green x}
+$$
+
 ## Definition: WellFormed
 
 We define what it means for a message to be _wellformed_.
 
 $$
   \begin{array}{l}
-    \wellformed{\purple u : \onea} \eqdef
-    {\purple u}.\refs = \emptyset
-    \\
-    \wellformed{\green x : \oneb} \eqdef
-    {\green x}.\refs \ne \emptyset
-    \land
+    \WellFormedOneB{\green x} \eqdef
     \forall \blue y \in \tran{\green x} .\,
-      \green x \ne \blue y
-      \land
-      \blue y \ne \geta{\green x}
-      \Rightarrow
-      \ba{\blue y} \ne \ba{\green x}
+    \green x \ne \blue y \land \blue y \ne \geta{\green x}
+    \to \ba{\blue y} \ne \ba{\green x}
     \\
-    \wellformed{\red z : \twoa} \eqdef
-    {\red z}.\refs \ne \emptyset
-    \land
-    \sig{\qa{\red z}} \in \red{Q_{\hetdiff{z.lrn}}}
-\end{array}
+    \WellFormedTwoA{\green x} \eqdef
+    \qa{\green x} \in \green{Q_{\red{\alpha}}}
+    \\
+    \wellformed{\green x} \eqdef \\
+    \qquad
+    \phantom{\land}\, \ChainRef({\green x})
+    \\ \qquad
+    \land\, \p{\vartype{\green x}{\oneb} \to (\exists {\red z} \in \green{x.\refs}.\,\vartype{\red z}{\onea}) \land \WellFormedOneB{\green x}}
+    \\ \qquad
+    \land\, \p{\vartype{\green x}{\twoa} \to {\green x}.\refs \neq \emptyset \land \WellFormedTwoA{\green x}}
+  \end{array}
 $$
