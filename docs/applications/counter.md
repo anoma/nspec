@@ -20,7 +20,7 @@ This example describes the mechanics of counters associated with a specific cont
 
 ### CounterId application logic constraints
 
-- The quantity of each counterId resource must be the same, set to a non-zero constant value $q$. 
+- The quantity of each `CounterId` resource must be the same, set to a non-zero constant value $q$. 
 - Each CounterId resource must have the controller's public key in the label. 
 - A signature from the controller authorising the transaction must be provided (verified with the key stored in the label).
 - Init case: The value (representing the current count) must be set to 0. The transaction must be balanced by a consumed ephemeral resource of the same kind. 
