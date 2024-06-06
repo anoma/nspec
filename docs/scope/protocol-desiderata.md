@@ -34,7 +34,6 @@ imagine that we had an oracle?
 - Disclose information about that information
 - Reason about transitive disclosure
 - Bound transitive disclosure subject to trust assumptions
-- 
 
 !!! todo
 

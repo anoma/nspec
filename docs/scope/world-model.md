@@ -99,7 +99,9 @@ What is a protocol in this context?
 - Way to automatically respond to messages
 
 
-## 
+!!! todo
+
+      Cleanup / reorganize / remove the rest of this old content.
 
 ## Agents
 
