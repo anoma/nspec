@@ -298,7 +298,7 @@ One way to accomplish this is to include timestamps in the (most significant bit
 
 As an optimization, proposers can stop proposing if they can produce a collection of messages that qualify as a _decision_, and then broadcast that to all learners. 
 
-```python title="proposer pseudocode"
+```python title="Proposer algorithm"
 def init(proposer_schedule) # determined for this height's consensus instance
   known_messages = {}
   schedule = proposer_schedule
