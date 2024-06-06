@@ -180,6 +180,7 @@ $$
 We shall say that the message $\green x$ is _unburied_ (in the context of a later message $\purple y$) if it is not buried (in the context of $\purple y$).
 
 ## Definition: Connected 2a-messages
+
 For learner $\red \alpha$, it can be useful to find the set of $\twoa$-messages from the same sender as a message ${\green x}$ (and sent earlier)
 which are still [unburied](#definition-buried) and for learners connected to $\red \alpha$.
 We call these 2as "connected" for reasons which make more sense in full heterogeneous paxos. 
