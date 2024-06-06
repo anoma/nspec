@@ -134,9 +134,12 @@ The acceptors caught in sending non-wellformed messages might be punished by the
 
 #### 1a-message: proposing a value
 
-Proposer proposes a next value by sending a $\onea$-message to the acceptors.
+A proposer proposes a next value by sending a $\onea$-message to the acceptors.
 The message carries a _unique_ ballot value, containing the proposed value to agree on and the round timestamp (round number).
 We assume that the set of all possible ballot values is linearly ordered.
+
+Proposers can safely propose any value at any time. 
+However, the learner $\red\alpha$ will reach a decision more quickly if a proposal has a higher ballot than previous proposals, and a value that agrees with recent $\twoa$-messages.
 
 #### 1b-message: acknowledging receiving the proposal
 
@@ -186,6 +189,8 @@ As a result, acceptors and learners will always process messages from any given 
 We assume that there is a way to assign to every wellformed message $m$ a unique ballot number that the message belongs to.
 We shall denote the ballot number assigning function as $\ba{m}$.
 The formal definition of the function can be found [here](consensus/homogeneouspaxos-formal.md#definition-ballot-numbers).
+
+#### Acceptors 
 
 We assume that every acceptor maintains an internal state with the following structures:
 
@@ -237,6 +242,7 @@ def process_message(m):
         process_2a(m)
 ```
 
+#### Learners
 The learner algorithm in pseudocode is presented below.
 
 ```python
@@ -257,6 +263,23 @@ def decide():
     if Decision(s):
       decision = V(s)
 ```
+
+#### Proposers
+For simplicity, we assume the same validators act as proposers and acceptors. 
+The proposers should be chosen in a round-robin fashion, with increasing time-outs. 
+
+One way to accomplish this is to include timestamps in the (most significant bits of) the ballot value of each proposal:
+
+- We then allocate ``time windows'' to proposers according to some pre-determined function based on the state of the chain (perhaps the timestamp of the narwhal vertex chosen in the previous instance of consensus, for the previous height). 
+- These time windows cycle through all the proposers, with increasing duration. 
+- Proposals with a time stamp outside a time window of their signer are not well-formed.
+- All agents delay receipt of all proposals until their own clock matches or excedes the time stamp of the proposal. 
+- During its time window, an agent proposes the value of the highest 2a its local acceptor knows (or a new value, if it knows no 2as). 
+- For reasons detailed in the original liveness proof from Heterogeneous Paxos, proposers should propose 3 times during their time window, equally spaced. 
+
+__TODO__: actual pseudocode for proposers
+
+
 
 <!-- ### Efficient Implementation
 
