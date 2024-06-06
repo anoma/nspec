@@ -72,7 +72,7 @@ Formally,
 $$
   \forall q \in Q_{\red\alpha}.\,
   \forall q^\prime \supseteq q.\,
-  q^\prime \in Q{\red\alpha}
+  q^\prime \in Q_{\red\alpha}
 $$
 
 ### Safe Sets
@@ -93,7 +93,7 @@ Safe sets and quorums are related: Paxos requires that all quorums intersect on 
 Therefore we require:
 
 $$
-  \forall q, q^\prime \in Q{\red\alpha}.\,
+  \forall q, q^\prime \in Q_{\red\alpha}.\,
   \forall s \in \Safe{\red\alpha}.\,
   q \cap q^\prime \cap s \ne \emptyset
 $$
