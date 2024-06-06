@@ -28,7 +28,7 @@ The state types are provided as follows:
 - `field(:configuration, Router.Addr.t())`
   *The address of the configuration engine*
 - `field(:task, Task.t(), enforce: false)`
-  *The task engaged in waiting for the apporpriate block execution and directly asking for a system snapshot*
+  *The task engaged in waiting for the appropriate block execution and directly asking for a system snapshot*
 
 ## Public API
 
