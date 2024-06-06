@@ -227,7 +227,6 @@ def init():
   previous_message = NON_MESSAGE
 
 def process_1a(m):
-  assert m.type == "1a"
   with z = 1b(prev = prev_message, refs = set(recent_messages).union({m})):
     if WellFormedOneB(z):
       recent_messages = {z}
@@ -235,15 +234,13 @@ def process_1a(m):
       broadcast(z)
 
 def process_1b(m):
-  assert m.type == "1b"
   with z = 2a(prev = prev_message, refs = set(recent_messages).union({m})):
-    assume WellFormedTwoA(z)
-    recent_messages = {z}
-    previous_message = z
-    broadcast(z)
+    if WellFormedTwoA(z):
+      recent_messages = {z}
+      previous_message = z
+      broadcast(z)
 
 def process_2a(m):
-  assert m.type == "2a"
   recent_messages.insert(m)
 
 def process_message(m):
@@ -251,7 +248,6 @@ def process_message(m):
     for r in m.refs:
       while not r in known_messages:
         wait()
-
     if WellFormed(m):
       known_messages.insert(m)
       if m.type == "1a":
@@ -276,8 +272,8 @@ def process_message(m):
     for r in m.refs:
       while not r in known_messages:
         wait()
-  if WellFormed(m):
-    known_messages.insert(m)
+    if WellFormed(m):
+      known_messages.insert(m)
 
 def decide():
   foreach s in subsets(known_messages):
