@@ -119,7 +119,14 @@ $$
 
 All agents know $\Safe{\red\alpha}$ and $Q_{\red\alpha}$.
 
-Values are agreed upon in rounds.
+Each anchor vertex is decided using an independent instance of consensus.
+This could be referred to as the "separate consensus for each height" approach.
+
+Here we discuss the workings of a single consensus instance, parameterized by some height.
+The possible values $\Values$ are therefore vertices from the Mempool.
+The decided vertex becomes the anchor vertex for this height.
+
+Within the consensus instance, values are agreed upon in rounds.
 
 <!-- Next, we describe how the communication for a consensus round works. -->
 ### Informal protocol round description
@@ -285,7 +292,7 @@ One way to accomplish this is to include timestamps in the (most significant bit
 - These time windows cycle through all the proposers, with increasing duration (at least linearly, possibly exponentially, we can only know what schedule works best experimentally). 
 - Proposals with a time stamp outside a time window of their signer are not well-formed.
 - All agents delay receipt of all proposals until their own clock matches or exceeds the time stamp of the proposal. 
-- During its time window, an agent proposes the value of the highest 2a its local acceptor knows (or a new value, if it knows no 2as). 
+- During its time window, an agent proposes the value of the highest 2a its local acceptor knows (or a vertex from the mempool, if it knows no 2as). 
 - For reasons detailed in the original liveness proof from Heterogeneous Paxos, proposers should propose 3 times during their time window, equally spaced. If proposer clock skew is bounded (even if the bound is unknown), this guarantees the learner eventually decides. 
 
 __TODO__: actual pseudocode for proposers
