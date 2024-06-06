@@ -142,7 +142,7 @@ at least one acceptor in each safe set is proven Byzantine.
 With the $\caught{}{}$ relation, we can talk about whether $\red \alpha$ can still be accurate as of a given message (as opposed to proven to be inaccurate):
 
 $$
-  \textrm{Acc}\p{\green x} \eqdef
+  \Acc{\red\alpha}{\green x} \eqdef
     \exists {\purple s} \in \Safe{\red\alpha} .\,
     {\purple s} \cap \caught{\green x} = \emptyset
 $$
@@ -193,7 +193,7 @@ $$
     {\begin{array}{l}
       \phantom{\land}\, \vartype{\purple m}{\twoa} \\
       \land\, {\sig{\purple m} = \sig{\green x}} \\
-      \land\, \textrm{Acc}\p{\green x} \\
+      \land\, \Acc{\red\alpha}{\green x} \\
       \land\, \lnot \buried{\red\alpha}{\purple m}{\green x}
      \end{array}}
   }

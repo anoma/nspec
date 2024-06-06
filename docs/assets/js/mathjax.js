@@ -61,6 +61,7 @@ window.MathJax = {
       accurate: ["\\textrm{Accurate}\\left(#1\\right)", 1],
       terminating: ["\\textrm{Terminating}\\left(#1\\right)", 1],
       Safe: ["\\textrm{Safe}_{#1}", 1],
+      Acc: ["\\textrm{Acc}_{#1}({#2})", 2],
       Value: "\\mathcal{V}",
       Message: "\\textrm{Message}",
       onea: "\\textrm{1a}",
