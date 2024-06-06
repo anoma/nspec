@@ -99,7 +99,14 @@ For many systems (including most proof of stake systems), the safe sets are simp
 ### Desired Properties
 Paxos ultimately guarantees that if a quorum is safe and live ($\reallylive \cap \reallysafe \in Q_{\red\alpha}$), the learner $\red\alpha$ eventually decides.
 
-Paxos also guarantees that if a safe set is safe ($\reallysafe \in \red{safe_\alpha}$), all decisions the learner $\red\alpha$ makes have the same value.
+Paxos also guarantees that if a safe set is safe ($\reallysafe \in Q_\red{safe_\alpha}$), all decisions the learner $\red\alpha$ makes have the same value.
+
+### Accurate
+We say that learner $\red\alpha$ is _accurate_ if its decisions must agree.
+
+$$
+\accurate{\red\alpha} \eqdef\reallysafe \in Q_\red{safe_\alpha} 
+$$
 
 ## Functionality
 All agents know $\red{safe_\alpha}$ and $Q_{\red\alpha}$.
@@ -146,8 +153,8 @@ However, there is one restriction:
 once a safe acceptor has sent a $\twoa$-message $m$, <!-- for a learner $\red\alpha$ --> it
 never sends a $\twoa$-message with a different value, <!-- for a learner $\blue\beta$ --> unless one of the following is true:
 
-- It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with <!-- learner $\red\alpha$ and --> ballot number higher than $m$.
-- It has seen Byzantine behavior that proves $l_\alpha$ and $l_\beta$ do not have to agree. __TODO__
+- It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with <!-- learner $\red\alpha$ and --> ballot number higher than $m$. (In which case we call $m$ "_buried_.")
+- It has seen Byzantine behavior that proves $\red\alpha$ is not _accurate_, in which case decisions do not have to agree.
 
 The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for which it can produce a wellformed $\twoa$.
 
