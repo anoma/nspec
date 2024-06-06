@@ -92,14 +92,14 @@ Using the above auxiliary functions, we formally define decisions by
 
 ## Definition: Decision
 
-For any set of messages $\blue{s}$ and ballot $b$
+For any set of messages $\blue{s}$ <!-- and ballot $b$ -->
 
 $$
-  \Decision{\red\alpha}{b, \blue s} \eqdef
+  \Decision{\red\alpha}{\blue s} \eqdef
   \sig{\blue s} \in Q_{\red\alpha} \land
   \forall {\green x},{\purple y} \in {\blue s}.\,
     \vartype{\green x}{\twoa} \land
-    \ba{\green x} = b
+    \ba{\green x} = \ba{\purple y}
 $$
 
 <!-- HPaxos 2.0 definition -->
