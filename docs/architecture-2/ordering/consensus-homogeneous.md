@@ -23,7 +23,12 @@ Here we adapt for the homogeneous case, in which there is only one _learner_.
 
 ### Scope
 
-__TODO__
+The Consensus Engine is responsible for establishing a total order on transaction candidates produced by the [mempool](mempool.md).
+
+We start by describing the consensus protocol informally, as well as the protocol trust model for the homogeneous case and the desired properties.
+Finally, we provide a pseudocode for its agents.
+
+The necessary formal definitions are given in the [dedicated page](consensus/homogeneouspaxos-formal.md).
 
 ## Overview
 
