@@ -7,16 +7,18 @@ search:
 
 # Ordering and Execution Engines
 
-The ordering and execution engines receive transaction requests from users,
+The ordering and execution engines receive transaction requests from users,<!--
+TODO user/client/... what do we do?-->
 order the transaction requests, and
 finally execute them.
 
 - The [[Mempool Engines|mempool engines]] are responsible for
   storing transaction data and linking them suitably into
   a “global” directed acyclic graph of vertices,
-  each of which references the submitted transactions (via [[WorkerHash|worker hashes]]).
+  each of which references the submitted transaction candidate
+  (via [[WorkerHash|worker hashes]]).
 
-- The [[Consensus Engine|consensus engine]] is responsible for choosing anchor blocks
+- The [[Consensus Engine|consensus engine]] is responsible for choosing anchor vertices
   in collaboration with the mempool engines.
 
 - The [[Execution Engines|execution engines]] execute the transactions
@@ -132,7 +134,7 @@ We will go through all the messages exchanged between
    validator at each [[Header Height|vertex height]].
   Thus, the [[Consensus Engine]] requires an
    [[IntegrityCertificate|integrity certificate]] to make vertex $X$
-   proposable as an [[Anchor Block|anchor block]].
+   proposable as an [[Anchor Block|anchor block]].<!-- anchor vertex ⁈ -->
   As other primaries need to check the validity of anchor block
    proposals, [[IntegrityCertificate|integrity certificates]] are
    broadcast to all validators for the relevant learner(s).
