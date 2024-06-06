@@ -44,4 +44,4 @@ Counter resource represents a simple counter.
 
 In this simple version, updating the counter doesn't require any special permissions but the counter resource logic can be modified to be more complex with more restricted counter update rules.
 
-![image](/docs/images/counter%20application.svg)
+![image](/docs/images/counter_application.svg)
