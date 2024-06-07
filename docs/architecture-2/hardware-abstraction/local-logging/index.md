@@ -13,9 +13,11 @@ search:
 
 <!-- --8<-- [start:purpose] -->
 
-The *Local Logging Engine* provides capabilities for recording, monitoring, analyzing, and managing events and activities
-locally on the physical machine that the Anoma node is running.
-It supports diagnostic efforts, security monitoring, performance optimization, and historical analysis to ensure the stability, security, and efficiency.
+The *Local Logging Engine* provides capabilities for recording, monitoring,
+analyzing, and managing events and activities locally on the physical machine
+that the Anoma node is running. It supports diagnostic efforts, security
+monitoring, performance optimization, and historical analysis to ensure the
+stability, security, and efficiency.
 
 <!-- --8<-- [end:purpose] -->
 

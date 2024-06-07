@@ -39,11 +39,11 @@ The current Hardware Abstraction Machine is composed of the following five engin
 
 ### [Local Logging Engine](hardware-abstraction/local-logging.md#purpose)
 
---8<-- "hardware-abstraction/local-logging.md:purpose"
+--8<-- "hardware-abstraction/local-logging/index.md:purpose"
 
 ### [Local Wall Clock Engine](hardware-abstraction/local-wall-clock.md#purpose)
 
---8<-- "hardware-abstraction/local-wall-clock.md:purpose"
+--8<-- "hardware-abstraction/local-wall-clock/index.md:purpose"
 
 ## Communication Diagram
 
