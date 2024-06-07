@@ -41,8 +41,7 @@ mechanism.
 
     Although this document does not use the language or process and cannot claim a similar depth of expertise, we have taken some inspiration from Conal Elliot's [denotational design](https://www.typetheoryforall.com/2022/08/04/21-Conal-Eliott-2.html).
 
+
 - [Identity](./identity.md#identity)
 - [Resource Management](./resource.md#resource-management)
-- [Physical DAG](./physical-dag.md#physical-dag)
-- [Logical DAG](./logical-dag.md#logical-dag)
-- [Entanglement](./entanglement.md#entanglement)
+
