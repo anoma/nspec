@@ -210,6 +210,11 @@ We assume that there is a way to assign to every wellformed message $m$ a unique
 We shall denote the ballot number assigning function as $\ba{m}$.
 The formal definition of the function can be found [here](consensus/homogeneouspaxos-formal.md#definition-ballot-numbers).
 
+#### Broadcast
+We assume a `broadcast` primitive that ensures that all messages sent or received by a safe and live agent are eventually received by all agents. 
+One way to implement this is to have live agents echo messages received to all other live agents. 
+More efficient implementations may involve explicit requests for unreceived messages referenced in other messages `refs` fields. 
+
 #### Acceptors
 
 We assume that every acceptor maintains an internal state with the following structures:
