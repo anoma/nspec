@@ -17,8 +17,6 @@ plugins:
       #   - trimmer
   - social
   - tags
-  # - ezglossary
-  - section-index
   - glightbox
   - juvix
   - git-revision-date-localized:
