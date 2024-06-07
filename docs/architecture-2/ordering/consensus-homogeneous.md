@@ -382,15 +382,6 @@ Below is the specification of the consensus component in terms of all the messag
 --8<-- "consensus/heterogeneous-paxos-decision.md:details"
 </details>
 
-### NewQuorums
-
---8<-- "consensus/new-quorums.md:purpose"
-
-<details markdown="1">
-  <summary>Details</summary>
---8<-- "consensus/new-quorums.md:details"
-</details>
-
 <!-- ## Example scenario -->
 
 <!-- Short message cascade from a typical common message sent to the machine  -->

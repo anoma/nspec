@@ -22,13 +22,14 @@ The message is sent between the participating acceptor nodes.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | `chain_id` | [`ChainId`](#ChainId) | the chain Id |
+| `timestamp` | `ClockTime` ||
 | `height` | `Height` | height of the block |
-| `refs` | [`Vec<Hash>`](#Hash) | hashes of messages seen by the acceptor recently |
-| `prev` | [`Hash`](#Hash) | hash of the previous message sent by acceptor, `0` otherwise |
+| `proposal` | `NarwhalBlock` | proposed value |
 
-!!! todo
+<!-- !!! todo
 
     should this also include some kind of Hash representing who the proposer thinks the current  "quorums" are? That would ensure some kind of double-check, but may not be necessary...
+-->
 
 #### Triggers
 
