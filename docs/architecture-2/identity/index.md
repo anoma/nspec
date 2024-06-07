@@ -9,7 +9,7 @@ search:
 
 The identity machine is responsible for management of data and operations related to identities, including:
 
-- creating & deleting identities, handled by the [Identity Management Engine](./identity/identity-management.md)
+- creating & deleting identities, handled by the [Identity Management Engine](./identity/identity-management/index.md)
 
 - encrypting to & decrypting as identities, handled by the [Encryption Engine](./identity/encryption.md) and [Decryption Engine](./identity/decryption.md)
 
@@ -21,10 +21,10 @@ The identity machine is responsible for management of data and operations relate
 
 - tracking relationships between identities, including
 
-    - which identities can sign for other identities, handled by the [Signs For Engine](./identity/signs-for.md)
+    - which identities can sign for other identities, handled by the [Signs For Engine](./identity/signs-for/index.md)
 
     - which identities can read for other identities, handled by the [Reads For Engine](./identity/reads-for.md)
 
-- tracking names associated to identities, handled by the [Name Engine](./identity/name.md)
+- tracking names associated to identities, handled by the [Name Engine](./identity/name/index.md)
 
-An _identity_ is as defined in [Identity](../architecture-1/abstractions/identity.md).
+An _identity_ is as defined in [Identity](../architecture-1/abstractions/identity/index.md).

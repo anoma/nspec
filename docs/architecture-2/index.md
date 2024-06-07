@@ -10,11 +10,11 @@ search:
 The operational architecture specification concerns the state evolution of Anoma instances, broken into smaller steps: which messages are exchanged, how computation is performed on the level of function calls, and which intermediate states are reachable.
 The specification is organized into the following sections:
 
-- [Hardware Abstraction Machine](./hardware-abstraction.md)
+- [Hardware Abstraction Machine](./hardware-abstraction/index.md)
 
-- [Identity Machine](./identity.md)
+- [Identity Machine](./identity/index.md)
 
-- [Networking Machine](./networking.md)
+- [Networking Machine](./networking/index.md)
 
 - [Ordering Machine](./ordering-v1.md)
 
@@ -22,10 +22,12 @@ The specification is organized into the following sections:
 
 All engines communicate via message passing, following the paradigm of message
 passing concurrency. Thus, the only direct state manipulations that engine
-instances can perform are local state changes. <!-- (In a sense, there is no
-such thing as **the** _global state_ of a chain, but only local views). --> All
-instances of a specific kind of engine share their _behavior_, which is defined
-as a function that
+instances can perform are local state changes. 
+
+<!-- (In a sense, there is no such thing as **the** _global state_ of a chain, but only local views). --> 
+
+All instances of a specific kind of engine share their _behavior_, which is
+defined as a function that
 
 - takes a message and the current local state of an engine instance as input and
 

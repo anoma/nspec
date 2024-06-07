@@ -9,23 +9,21 @@ search:
 
 **Purpose**
 
-Given a total order of
-[[TransactionCandidate|transaction candidates]]
-(from the [[Mempool Engines|mempool]]),[^1]
-the [[Execution Engines|execution engine]] updates "the" state of the
-[replicated state machine](
-https://en.wikipedia.org/wiki/State_machine_replication)
-by executing them.
-The [[Execution Engines|execution engine]] uses state dependency
- [[TransactionLabel|labels]] to calculate updates concurrently when
- possible.
+Given a total order of [[TransactionCandidate|transaction candidates]] (from the
+[[Mempool Engines|mempool]]),[^1] the [[Execution Engines|execution engine]]
+updates "the" state of the [replicated state machine](
+https://en.wikipedia.org/wiki/State_machine_replication) by executing them. The
+[[Execution Engines|execution engine]] uses state dependency
+[[TransactionLabel|labels]] to calculate updates concurrently when possible.
 Furthermore, partial order information can suffice to start concurrent
- computation, even before mempool and consensus determine a total order.
-[[TransactionCandidate|Transaction candidates]] that include side effects
-(such as sending messages to a user or solver)
-perform those effects from the [[Executor]] process within the [[Execution Engines]].
+computation, even before mempool and consensus determine a total order.
+ [[TransactionCandidate|Transaction candidates]] that include side effects (such
+ as sending messages to a user or solver) perform those effects from the
+[[Executor]] process within the [[Execution Engines]].
 
-In V1, following each state update, the [[Mempool Engines|mempool]]'s [[Worker Engine]] is informed, so that it can garbage collect information and log results.
+In V1, following each state update, the [[Mempool Engines|mempool]]'s [[Worker
+Engine]] is informed, so that it can garbage collect information and log
+results.
 
 <!-- Tobias: mention update of learner graph, here or elsewhere? -->
 
@@ -33,56 +31,47 @@ In V1, following each state update, the [[Mempool Engines|mempool]]'s [[Worker E
 
 The [[Ordering Machine|ordering machine]] maintains a
 [replicated state machine](
-https://en.wikipedia.org/wiki/State_machine_replication),
-which is a core concept of [distributed systems](
-https://en.wikipedia.org/wiki/Distributed_computing).
-The architecture of the ordering machine is an adaptation of
-[_Calvin: Fast Distributed Transactions for Partitioned Database Systems_](
-http://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf),
-to [Narwhal's](
-https://arxiv.org/abs/2105.11827) scale-out architecture.
-The execution engine exploits concurrency of transactions,
-using the idea of [serializability](
-https://en.wikipedia.org/wiki/Serializability)
-(a key concept of [Transaction processing systems](
-https://en.wikipedia.org/wiki/Transaction_processing) and databases).
-Given that we follow a pre-determined total order of transactions,
-we have what has been called
-[deterministic execution scheduling](
-    https://www.cs.umd.edu/~abadi/papers/determinism-vldb10.pdf).
-In V1,
-the mempool alone suffices to determine the total order
-(without the need for any [[Consensus Engine]]).
+https://en.wikipedia.org/wiki/State_machine_replication), which is a core
+concept of [distributed systems](
+https://en.wikipedia.org/wiki/Distributed_computing). The architecture of the
+ordering machine is an adaptation of [_Calvin: Fast Distributed Transactions for
+Partitioned Database Systems_](
+http://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf), to
+[Narwhal's]( https://arxiv.org/abs/2105.11827) scale-out architecture. The
+execution engine exploits concurrency of transactions, using the idea of
+[serializability]( https://en.wikipedia.org/wiki/Serializability) (a key concept
+of [Transaction processing systems](
+https://en.wikipedia.org/wiki/Transaction_processing) and databases). Given that
+we follow a pre-determined total order of transactions, we have what has been
+called [deterministic execution scheduling](
+https://www.cs.umd.edu/~abadi/papers/determinism-vldb10.pdf). In V1, the mempool
+alone suffices to determine the total order (without the need for any
+[[Consensus Engine]]).
 
 **Scope**
 
-The Execution Engine group is responsible for
-updating and maintaining the state of the state machine.
-It relies on the
-[[Mempool Engines|mempool]] to store and order
-[[TransactionCandidate|transaction candidates]].[^4]
+The Execution Engine group is responsible for updating and maintaining the state
+of the state machine. It relies on the [[Mempool Engines|mempool]] to store and
+order [[TransactionCandidate|transaction candidates]].[^4]
 
 <!--
 All state reads outside of Transaction Candidates (including for backups,
 [merkleization](https://en.wikipedia.org/wiki/Merkle_tree), etc.) can be done through the Read Backend, which does not exist in V1.
 -->
-In specifying the [[Execution Engines]],
-we abstract over the contents of the state machine,
-or exactly what has to be done to update it given a [[TransactionCandidate]].
-The state of Anoma's state machine will contain
-[[Resource| Resources]], [[Nullifier|Nullifiers]],
-and [[Commitment|Commitments]],
-and executing each [[TransactionCandidate|Transaction Candidate]] will require,
-among other things,
-checking the respective [[Resource Logic]]s of the involved resources.
-Roughly,
-the state and precise "code" of transactions are
-essentially a type parameter.[^2]
 
-For V1,
-we assume that there is
-a single validator that is maintaining a single state machine.
-V1 does not include any kind of garbage collection or deletion of old state.
+In specifying the [[Execution Engines]], we abstract over the contents of the
+state machine, or exactly what has to be done to update it given a
+[[TransactionCandidate]]. The state of Anoma's state machine will contain
+[[Resource| Resources]], [[Nullifier|Nullifiers]], and
+[[Commitment|Commitments]], and executing each
+[[TransactionCandidate|Transaction Candidate]] will require, among other things,
+checking the respective [[Resource Logic]]s of the involved resources. Roughly,
+the state and precise "code" of transactions are essentially a type
+parameter.[^2]
+
+For V1, we assume that there is a single validator that is maintaining a single
+state machine. V1 does not include any kind of garbage collection or deletion of
+old state.
 
 <!-- Each Validator maintains its own Execution Engine group for each chain it maintains (for chimera chains, it maintains 1 execution engine group per [[Base Chain|base chain]]).
 These are complete replicas of the state machine, with complete replication of Transaction Candidate execution.
@@ -97,46 +86,37 @@ No one should need to store a complete history of all Transaction Candidates or 
 ## Functionality
 
 ### High Level Protocols
-The main functionality of the Execution engine is
- serializable [[TransactionCandidate]] execution.
-We want to *execute* each [[TransactionCandidate]],
-i.e., read the necessary values from storage,
-evaluate the executor function,
-and write the computed results to state,
-concurrently but [serializably](
-https://en.wikipedia.org/wiki/Serializability):
-each Transaction Candidate's reads and writes should be
-*as if* the [[TransactionCandidate]]s were executed in
-the total order chosen by the [[Mempool Engines|mempool]].[^5]
-As this order is fixed, we can use
-[deterministic execution scheduling](https://www.cs.umd.edu/~abadi/papers/determinism-vldb10.pdf).
 
-We can imagine the simplest system as executing each
- [[TransactionCandidate]], after they are ordered, sequentially in the
- fixed order.
-However, we want to exploit concurrency of transactions as much as
- possible to minimize latency.
-Several optimizations improve over sequential execution.
-We can increase concurrency of transaction by partitioning state
- as key/value pairs: we can execute [[TransactionCandidate]]s
- that only access disjoint sets of keys *concurrently* (or even in
- parallel).
+The main functionality of the Execution engine is serializable
+ [[TransactionCandidate]] execution. We want to *execute* each
+[[TransactionCandidate]], i.e., read the necessary values from storage, evaluate
+the executor function, and write the computed results to state, concurrently but
+[serializably]( https://en.wikipedia.org/wiki/Serializability): each Transaction
+Candidate's reads and writes should be *as if* the [[TransactionCandidate]]s
+were executed in the total order chosen by the [[Mempool Engines|mempool]].[^5]
+As this order is fixed, we can use [deterministic execution
+scheduling](https://www.cs.umd.edu/~abadi/papers/determinism-vldb10.pdf).
+
+We can imagine the simplest system as executing each [[TransactionCandidate]],
+ after they are ordered, sequentially in the fixed order. However, we want to
+ exploit concurrency of transactions as much as possible to minimize latency.
+Several optimizations improve over sequential execution. We can increase
+ concurrency of transaction by partitioning state as key/value pairs: we can
+execute [[TransactionCandidate]]s that only access disjoint sets of keys
+*concurrently* (or even in parallel).
 
 ### Responsibilities
 
 #### State
-The core purpose of the Execution Engine group is
- updating and maintaining the state of the RSM.
-As an abstraction, we assume state is stored as mutable *Data*
- (unlimited size blobs of binary), each of which is accessed using an
- immutable *Key*.
-If we want to mutate a Key associated with specific Data, that means
- that we have to delete the Data associated with the old Key, and
- write a copy of the data to the new Key.
-Keys that have never had Data written to them are mapped to an empty
- value.
-Thus, we can
- [create, read, update, and delete](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) Keys.
+
+The core purpose of the Execution Engine group is updating and maintaining the
+ state of the RSM. As an abstraction, we assume state is stored as mutable
+*Data* (unlimited size blobs of binary), each of which is accessed using an
+ immutable *Key*. If we want to mutate a Key associated with specific Data, that
+ means that we have to delete the Data associated with the old Key, and write a
+copy of the data to the new Key. Keys that have never had Data written to them
+ are mapped to an empty value. Thus, we can [create, read, update, and
+ delete](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) Keys.
 These are the only primitives we use.[^6]
 
 <!-- Tobias: do we need to talk about re-sharding here? -->
@@ -151,20 +131,18 @@ For V1, we do not assume any key structure, so [[TransactionLabel]]s
 ![State Machine API](state_machine_API_web.svg)
 
 [[TransactionCandidate]]s are *[[TransactionLabel|labeled]]* with a
- set of keys they can read, and a set of keys they can write.
-Writing $\wp\mathit{Keys}$ for the powerset of all keys, we have the
- following:
+ set of keys they can read, and a set of keys they can write. Writing
+$\wp\mathit{Keys}$ for the powerset of all keys, we have the following:
 <!--{v2 only} For Chimera Chains, there is a label for each base chain.-->
 
 $\mathsf{read–keys}:   \mathit{Tx\_Candidates} \rightarrow \wp\mathit{Keys}$
 
 $\mathsf{write–keys}: \mathit{Tx\_Candidates} \rightarrow \wp\mathit{Keys}$
 
-The Execution Engines must not allow a [[TransactionCandidate]] to
- affect any key outside of its write set, aborting the transaction
- with an error message.
-Moreover, each [[TransactionCandidate]]'s effects must be a
- deterministic function of the [[TransactionCandidate]] and the values
+The Execution Engines must not allow a [[TransactionCandidate]] to affect any
+ key outside of its write set, aborting the transaction with an error message.
+ Moreover, each [[TransactionCandidate]]'s effects must be a deterministic
+function of the [[TransactionCandidate]] and the values
  of the keys in its read set in RSM state.
 
 #### Executor Function
@@ -238,7 +216,7 @@ The state stored at each [[TxFingerprint|timestamp]] must be the one
 
     adapt
 
-    ![Execution Architecture](execution/rough_execution_engine_message_passing_web.svg)
+    ![Execution Architecture](rough_execution_engine_message_passing_web.svg)
 
 ### Shards
 
@@ -277,7 +255,7 @@ In the [[Shard]] page, we detail optimizations for getting read values
 
 ### Executors aka Executor Processes
 
-[Executors](execution/executor.md) are processes that compute the
+[Executors](executor/index.md) are processes that compute the
  Executor Function and communicate results to the [[Shard|Shards]].
 Each [[TransactionCandidate]] is assigned its own [[Executor|Executor]]
  process, which receives the full [[TransactionExecutable]] from the

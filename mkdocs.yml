@@ -272,7 +272,7 @@ nav:
       - Intra domain protocols:
         - ./architecture-2/networking/intra-domain/index.md
         - PubSub:
-          - ./architecture-2/networking/intra-domain/pubsub.md
+          - ./architecture-2/networking/intra-domain/pubsub/index.md
           - Messages:
             - ./architecture-2/networking/intra-domain/pubsub/messages.md
             - TopicAdvert: ./architecture-2/networking/intra-domain/pubsub/messages/topic-advert.md
@@ -285,7 +285,7 @@ nav:
             - Unsubscribe: ./architecture-2/networking/intra-domain/pubsub/messages/unsubscribe.md
             - UnsubscribeAck: ./architecture-2/networking/intra-domain/pubsub/messages/unsubscribe-ack.md
           - Notifications:
-            - ./architecture-2/networking/intra-domain/pubsub/notifications.md
+            - ./architecture-2/networking/intra-domain/pubsub/notifications/index.md
             - TopicSubscribed: ./architecture-2/networking/intra-domain/pubsub/notifications/topic-subscribed.md
             - TopicUnsubscribed: ./architecture-2/networking/intra-domain/pubsub/notifications/topic-unsubscribed.md
             - TopicAdvertReceived: ./architecture-2/networking/intra-domain/pubsub/notifications/topic-advert-received.md

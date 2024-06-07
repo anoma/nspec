@@ -8,7 +8,7 @@ search:
 # Shard
 
 The Shards together store and update the
- [state](../execution.md#state) of the replicated state machine and
+ [state](../index.md#state) of the replicated state machine and
   together are a component of the [[Execution Engines]].
 They provide [[Executor]]s with input data and update the state
  according to the results of [[Executor]]s' computations.
@@ -58,8 +58,8 @@ For each [[Worker Engine|Worker Engine]], the Shard maintains:
    _[[KVSAcquireLock|write lock requests]]_[^1] for
    transaction candidates with earlier timestamps that this worker curates
    have already been received.
-  Together, these timestamps represent [`heardAllWrites`](
-  ./shard.md#heardallwrites).
+  Together, these timestamps represent `heardAllWrites`
+  
 <!-- not relevant for V1
 - In versions > V1, another [[TxFingerprint|timestamp]], before which
    the Shard will receive no further *read* requests from this
@@ -69,7 +69,7 @@ For each [[Worker Engine|Worker Engine]], the Shard maintains:
   We will also maintain these from each Read Backend worker.
   Together, these represent `heardAllReads`.
 -->
-For each [key](../execution.md#state) (assigned to this Shard):
+For each [key](../index.md#state) (assigned to this Shard):
 
 - A set of [[TxFingerprint|time‍stamps]] of known
    [[TransactionCandidate|transaction candidates]] that read and/or write that key, and for
@@ -115,21 +115,17 @@ Additionally, the Shard maintains:
 
 ## Shard Optimizations
 
-We want to *execute* each [[TransactionCandidate]] (evaluate the
- [executor function](../execution.md#executor-function)
- in order to compute the data written)
- using the idea of [serializability](
-    https://en.wikipedia.org/wiki/Serializability):
- each [[TransactionCandidate]]'s reads and writes should be *as if*
- they were executed in the total order determined by
-  the [[Mempool Engines|mempool]] (and
-  [[Consensus Engine|consensus]], from V2 onward).
-In fact, the simplest correct implementation amounts to executing all
- [[TransactionCandidate|transaction candidates]] sequentially, repeatedly applying the
- executor function in a loop.
-However, we want to compute concurrently as possible, for minimum
- latency.
-We do this using a set of optimizations.
+We want to *execute* each [[TransactionCandidate]] (evaluate the [executor
+function](../index.md#executor-function) in order to compute the data
+written) using the idea of [serializability](
+https://en.wikipedia.org/wiki/Serializability): each [[TransactionCandidate]]'s
+reads and writes should be *as if* they were executed in the total order
+determined by the [[Mempool Engines|mempool]] (and [[Consensus
+Engine|consensus]], from V2 onward). In fact, the simplest correct
+implementation amounts to executing all [[TransactionCandidate|transaction
+candidates]] sequentially, repeatedly applying the executor function in a loop.
+However, we want to compute concurrently as possible, for minimum latency. We do
+this using a set of optimizations.
 
 ### Optimization: Per-Key Ordering
 

@@ -7,8 +7,8 @@ search:
 
 # Primitives
 
-- [Tokens](./primitives/tokens.md#tokens)
+- [Tokens](./tokens.md#tokens)
 
-- [Attestation](./primitives/attestation.md#attestation)
+- [Attestation](./attestation.md#attestation)
 
-- [Authorization](./primitives/authorization.md#authorization)
+- [Authorization](./authorization.md#authorization)
