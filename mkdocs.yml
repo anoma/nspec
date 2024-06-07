@@ -68,7 +68,7 @@ nav:
             - TimeSeriesDBDataV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/TimeSeriesDBData-v1.md
             - TimeSeriesDBQueryV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/TimeSeriesDBQuery-v1.md
       - Local Wall Clock Engine:
-        - ./architecture-2/hardware-abstraction/local-wall-clock/index.md
+        - ./architecture-2/hardware-abstraction/local-wall-clock-engine/index.md
         - Messages:
           - ./architecture-2/hardware-abstraction/local-wall-clock-engine/messages.md
           - LocalWallClockGetTime: ./architecture-2/hardware-abstraction/local-wall-clock-engine/messages/local-wall-clock-get-time.md
@@ -79,7 +79,7 @@ nav:
           - LocalWallClockGetTimeResultV1: ./architecture-2/hardware-abstraction/local-wall-clock-engine/types/local-wall-clock-get-time-result-v1.md
           - EpochTimestampV1: ./architecture-2/hardware-abstraction/local-wall-clock-engine/types/EpochTimestamp-v1.md
       - Local Logging Engine:
-        - ./architecture-2/hardware-abstraction/local-logging/index.md
+        - ./architecture-2/hardware-abstraction/local-logging-engine/index.md
         - Messages:
           - ./architecture-2/hardware-abstraction/local-logging-engine/messages.md
           - LocalLoggingAppend: ./architecture-2/hardware-abstraction/local-logging-engine/messages/local-logging-append.md

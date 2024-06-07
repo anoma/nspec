@@ -16,7 +16,7 @@ The specification is organized into the following sections:
 
 - [Networking Machine](./networking/index.md)
 
-- [Ordering Machine](./ordering-v1.md)
+- [Ordering Machine](./ordering.md)
 
 ## Engine models
 
