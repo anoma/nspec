@@ -10,63 +10,63 @@ use_directory_urls: false
 
 nav:
   - index.md
-  - System architecture:
+  - System Architecture:
     - ./architecture-1/index.md
     - Abstractions:
       - ./architecture-1/abstractions/index.md
       - Identity: ./architecture-1/abstractions/identity.md
     - Properties: ./architecture-1/properties.md
     - Resource Machine: ./resource-machine.md
-  # - Node Architecture:
-  #   - ./architecture-2/index.md
-  #   - Hardware Abstraction Machine: 
-  #     - ./architecture-2/hardware-abstraction.md
-  #     - Local Storage Engines:
-  #       - ./architecture-2/hardware-abstraction/local-storage.md
-  #       - Local Key Value Storage Engine:
-  #         - ./architecture-2/hardware-abstraction/local-storage-engines/local-key-value-storage-engine.md
-  #         - Messages:
-  #           - GetValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/get-value-KVStore-request.md
-  #           - GetValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/get-value-KVStore-response.md
-  #           - SetValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/set-value-KVStore-request.md
-  #           - SetValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/set-value-KVStore-response.md
-  #           - DeleteValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/delete-value-KVStore-request.md
-  #           - DeleteValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/delete-value-KVStore-response.md
-  #         - Notifications:
-  #           - ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications.md
-  #           - ValueChangedKVStore: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications/value-changed-KVStore.md
-  #         - Types:
-  #           - GetValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/get-value-KVStore-request-v1.md
-  #           - GetValueKVStoreResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/get-value-KVStore-response-v1.md
-  #           - SetValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/set-value-KVStore-request-v1.md
-  #           - SetValueKVStoreResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/set-value-KVStore-response-v1.md
-  #           - DeleteValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/delete-value-KVStore-request-v1.md
-  #           - DeleteValueKVStoreResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/delete-value-KVStore-response-v1.md
-  #           - StorageKeyV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/StorageKey-v1.md
-  #           - StorageValueV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/StorageValue-v1.md
-  #           - SuccessOperationV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/SuccessOperationKVStore-v1.md
-  #       - Local Time Series Storage Engine:
-  #         - ./architecture-2/hardware-abstraction/local-storage-engines/local-time-series-storage-engine.md
-  #         - Messages:
-  #           - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages.md
-  #           - GetDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/get-data-time-series-DB-request.md
-  #           - GetDataTimeSeriesDBResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/get-data-time-series-DB-response.md
-  #           - RecordDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md
-  #           - RecordDataTimeSeriesDBResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/record-data-time-series-DB-response.md
-  #           - DeleteDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md
-  #           - DeleteDataTimeSeriesDBResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/delete-data-time-series-DB-response.md
-  #         - Notifications:
-  #           - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/notifications.md
-  #           - DataChangedTimeSeriesDB: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md
-  #         - Types:
-  #           - GetDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/get-data-time-series-DB-request-v1.md
-  #           - GetDataTimeSeriesDBResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/get-data-time-series-DB-response-v1.md
-  #           - RecordDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/record-data-time-series-DB-request-v1.md
-  #           - RecordDataTimeSeriesDBResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/record-data-time-series-DB-response-v1.md
-  #           - DeleteDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/delete-data-time-series-DB-request-v1.md
-  #           - DeleteDataTimeSeriesDBResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/delete-data-time-series-DB-response-v1.md
-  #           - TimeSeriesDBDataV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/TimeSeriesDBData-v1.md
-  #           - TimeSeriesDBQueryV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/TimeSeriesDBQuery-v1.md
+  - Node Architecture:
+    - ./architecture-2/index.md
+    - Hardware Abstraction Machine: 
+      - ./architecture-2/hardware-abstraction/index.md
+      - Local Storage Engines:
+        - ./architecture-2/hardware-abstraction/local-storage-engines/index.md
+        - Local Key Value Storage Engine:
+          - ./architecture-2/hardware-abstraction/local-storage-engines/local-key-value-storage-engine/index.md
+          - Messages:
+            - GetValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/get-value-KVStore-request.md
+            - GetValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/get-value-KVStore-response.md
+            - SetValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/set-value-KVStore-request.md
+            - SetValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/set-value-KVStore-response.md
+            - DeleteValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/delete-value-KVStore-request.md
+            - DeleteValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/delete-value-KVStore-response.md
+          - Notifications:
+            - ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications.md
+            - ValueChangedKVStore: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications/value-changed-KVStore.md
+          - Types:
+            - GetValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/get-value-KVStore-request-v1.md
+            - GetValueKVStoreResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/get-value-KVStore-response-v1.md
+            - SetValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/set-value-KVStore-request-v1.md
+            - SetValueKVStoreResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/set-value-KVStore-response-v1.md
+            - DeleteValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/delete-value-KVStore-request-v1.md
+            - DeleteValueKVStoreResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/delete-value-KVStore-response-v1.md
+            - StorageKeyV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/StorageKey-v1.md
+            - StorageValueV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/StorageValue-v1.md
+            - SuccessOperationV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/SuccessOperationKVStore-v1.md
+        - Local Time Series Storage Engine:
+          - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/index.md
+          - Messages:
+            - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages.md
+            - GetDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/get-data-time-series-DB-request.md
+            - GetDataTimeSeriesDBResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/get-data-time-series-DB-response.md
+            - RecordDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md
+            - RecordDataTimeSeriesDBResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/record-data-time-series-DB-response.md
+            - DeleteDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md
+            - DeleteDataTimeSeriesDBResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/delete-data-time-series-DB-response.md
+          - Notifications:
+            - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/notifications.md
+            - DataChangedTimeSeriesDB: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md
+          - Types:
+            - GetDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/get-data-time-series-DB-request-v1.md
+            - GetDataTimeSeriesDBResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/get-data-time-series-DB-response-v1.md
+            - RecordDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/record-data-time-series-DB-request-v1.md
+            - RecordDataTimeSeriesDBResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/record-data-time-series-DB-response-v1.md
+            - DeleteDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/delete-data-time-series-DB-request-v1.md
+            - DeleteDataTimeSeriesDBResponseV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/delete-data-time-series-DB-response-v1.md
+            - TimeSeriesDBDataV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/TimeSeriesDBData-v1.md
+            - TimeSeriesDBQueryV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/TimeSeriesDBQuery-v1.md
   #     - Local Wall Clock Engine:
   #       - ./architecture-2/hardware-abstraction/local-wall-clock.md
   #       - Messages:
@@ -350,59 +350,82 @@ nav:
   #         - ./architecture-2/ordering/execution/executor.md
   #         - ExecuteTransaction: ./architecture-2/ordering/execution/executor/execute-transaction.md
   #         - KVSRead: ./architecture-2/ordering/execution/executor/KVS-read.md
-  # - Applications:
-  #   - ./applications.md
-  #   - Primitives:
-  #       - ./applications/primitives.md
-  #       - Tokens: ./applications/primitives/tokens.md
-  #       - Attestation: ./applications/primitives/attestation.md
-  #       - Authorization: ./applications/primitives/authorization.md
-  #   - Kudos: ./applications/kudos.md
-  #   - Proof-of-stake: ./applications/proof-of-stake.md
-  #   - Generalized bartering: ./applications/generalized-bartering.md
-  #   - Schelling tests: ./applications/schelling-tests.md
-  #   - Mesh messaging: ./applications/mesh-messaging.md
-  # - Indexes:
-  #   - Quick links: ./indexes/links.md
-  #   - Juvix Modules: ./indexes/juvix_modules.md
-  # - For Anoma contributors:
-  #   - ./tutorial/index.md
-  #   - Install: ./tutorial/install.md
-  #   - Markdown:
-  #     - ./tutorial/markdown/index.md
-  #     - Using Juvix code: ./tutorial/juvix.md
-  #     - Including diffs:
-  #       - ./tutorial/differ/index.md
-  #       - Example of diff rendering: ./tutorial/file-v1.md
+  - Applications:
+    - ./applications/index.md
+    - Primitives:
+        - ./applications/primitives/index.md
+        - Tokens: ./applications/primitives/tokens.md
+        - Attestation: ./applications/primitives/attestation.md
+        - Authorization: ./applications/primitives/authorization.md
+    - Kudos: ./applications/kudos.md
+    - Proof-of-stake: ./applications/proof-of-stake.md
+    - Generalized bartering: ./applications/generalized-bartering.md
+    - Schelling tests: ./applications/schelling-tests.md
+    - Mesh messaging: ./applications/mesh-messaging.md
+  - Indexes:
+    - ./indexes/index.md
+    - Quick links: ./indexes/links.md
+    - Juvix Modules: ./indexes/juvix_modules.md
+  - For Spec writers:
+    - ./tutorial/index.md
+    - Install: ./tutorial/install.md
+    - Markdown:
+      - ./tutorial/markdown/index.md
+      - Using Juvix code: ./tutorial/juvix.md
+      - Including diffs:
+        - ./tutorial/differ/index.md
+        - Example of diff rendering: ./tutorial/file-v1.md
 
-# extra:
-#   # social:
-#   #   - icon: fontawesome/brands/x-twitter
-#   #     link: https://x.com/anoma
-#   #   - icon: fontawesome/brands/github
-#   #     link: https://github.com/anoma
-#   #   - icon: fontawesome/solid/blog
-#   #     link: https://anoma.net/blog
-#   #   - icon: fontawesome/brands/discourse
-#   #     link: https://research.anoma.net
-#   #   - icon: fontawesome/brands/youtube
-#   #     link: https://youtube.com/anoma
-#   #   - icon: material/email
-#   #     link: mailto:arts@heliax.dev
-#   generator: false
-#   version: 1.0
+extra:
+  social:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/anoma
+    - icon: fontawesome/brands/github
+      link: https://github.com/anoma
+    - icon: fontawesome/solid/blog
+      link: https://anoma.net/blog
+    - icon: fontawesome/brands/discourse
+      link: https://research.anoma.net
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/anoma
+    - icon: material/email
+      link: mailto:arts@heliax.dev
+  generator: false
+  version: 1.0
 
 theme:
   name: material
   logo: assets/logo.svg
   favicon: assets/logo.svg
-  # custom_dir: overrides
+  custom_dir: overrides
   language: en
   google_analytics: G-WJWZWB2TW5
-#   # palette:
-#   #   scheme: custom
-#   #   primary: custom
-#   #   accent: custom
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: white
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      primary: white
+      accent: red
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
   font:
     text: Open Sans
     code: Fira Code
@@ -413,12 +436,12 @@ theme:
     - content.tooltips
     # - navigation.tracking
     - navigation.footer
-    # - navigation.path
-    # - navigation.expand
-    # - navigation.prune
-    # # - navigation.sections
-    - navigation.instant 
-    - navigation.instant.preview
+    - navigation.path
+    - navigation.expand
+    - navigation.prune
+    - navigation.tabs
+    # - navigation.instant 
+    # - navigation.instant.preview
     - navigation.indexes
     - search.highlight
     - search.suggest
@@ -428,7 +451,6 @@ theme:
 
 plugins:
   - search
-  # - ezglossary
   - glightbox
   - juvix
   - bibtex:
@@ -450,7 +472,7 @@ hooks:
 watch:
   - docs/assets
   - formal/SML
-  # - overrides
+  - overrides
 
 exclude_docs: |
   /requirements.txt
@@ -462,17 +484,17 @@ exclude_docs: |
 
 extra_css:
   - ./assets/css/style.css
-#   - assets/css/juvix-highlighting.css
+  - assets/css/juvix-highlighting.css
 
-# extra_javascript:
-#   - assets/js/extra.js
-#   # - assets/js/highlight.js
-#   - assets/js/mathjax.js
-#   - https://polyfill.io/v3/polyfill.min.js?features=es6
-#   - https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-svg.js
+extra_javascript:
+  - assets/js/extra.js
+  - assets/js/highlight.js
+  - assets/js/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-svg.js
 
-# copyright: |
-#   &copy; 2024 <a href="https://anoma.net">Anoma Foundation</a>
+copyright: |
+  &copy; 2024 <a href="https://anoma.net">Anoma Foundation</a>
 
 # See https://squidfunk.github.io/mkdocs-material/reference/math/?h=katex#comparing-mathjax-and-katex on why we use MathJax
 

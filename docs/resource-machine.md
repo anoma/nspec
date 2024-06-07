@@ -1,10 +1,19 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+tags: resource-machine, protocol, commitment, nullifier, accumulator, resource logic
+hide:
+- toc
+---
 
 # Resource Machine
 
 The Anoma Resource Machine is a key component of the Anoma protocol, responsible
 for managing state updates based on user preferences.
 
-- [10.5281/zenodo.10498991](https://doi.org/10.5281/zenodo.10498991).
+- [10.5281/zenodo.10498991](https://doi.org/10.5281/zenodo.10498991)
 - [ART Index](https://art.anoma.net/list#paper-10498991)
 
 ## Abstract

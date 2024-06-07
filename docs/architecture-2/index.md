@@ -1,5 +1,5 @@
 ---
-icon: material/pillar
+icon: material/graph
 search:
   exclude: false
   boost: 2
@@ -88,39 +88,5 @@ provide the following.
 
     Even when the following renders, it is not really clear what the structure of the description is.
 
-<!--
-Thus, the structure of the description of engine models is as follows.
-
-- Engine 1
-  _\[…\]_
-- Engine 2
-  _\[…\]_
-- ⋮
-- Engine $i$
-  - MessageTypeName_$i_1$ \[$\scriptscriptstyle\{<\mathrm{protocols}(i,1)>\}$\]
-    _<↑link sub-directory `MessageType_i_1`>_
-    _\[…\]_
-  - ⋮
-  - MessageTypeName_$i_j$ \[$\scriptscriptstyle[\{<\mathrm{protocols}(i,j)>\}$\]
-    _<↑link to sub-directory `MessageType_i_j`>_
-    from _<engine $\tilde \imath_j$>_ may trigger:
-
-    - ReactionTypeName_$p_{i,j,1}$ → Engine_$q_{i,j,1}$,…,Engine_$q_{i,j,n_{i,j,1}}$
-      _<one liner i,j,1>_
-    - ReactionTypeName_$p_{i,j,2}$ → Engine_$q_{i,j,2}$,…,Engine_$q_{i,j,n_{i,j,2}}$
-      _<one liner i,j,2>_
-    - ⋮
-    - ReactionTypeName_$p_{i,j,k}$ → Engine_$q_{i,j,k}$,…,Engine_$q_{i,j,n_{i,j,k}}$
-      _<one liner i,j,k>_
-    - ⋮
-    - ReactionTypeName_$p_{i,j,m_{i,j}}$ → Engine_$q_{i,j,m_{i,j}}$,…,Engine_$q_{i,j,n_{i,j,m_{i,j}}}$
-      _<one liner i,j,$m_{i,j}$>_
-  - ⋮
-  - MessageTypeName_$i_{m_i}$ \[$\scriptscriptstyle\{<\mathrm{protocols}(i,m_i)>\}$\]
-    _<↑link to sub-directory `MessageType_i_{m_i}`>_
-    _\[…\]_
-- ⋮
-- engine $N$
--->
 
 ![Message Diagram](rought_execution_engine_message_passing.svg)

@@ -1,5 +1,5 @@
 ---
-# icon: material/pillar
+icon: material/pillar
 search:
   exclude: false
   boost: 2
