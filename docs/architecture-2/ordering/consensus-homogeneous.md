@@ -239,11 +239,16 @@ def process_1a(m):
       broadcast(z)
 
 def process_1b(m):
-  with z = 2a(prev = prev_message, refs = recent_messages):
+  with z = 2a(prev = prev_message, refs = recent_messages ∪ {m}):
     if WellFormedTwoA(z):
       recent_messages = {z}
       previous_message = z
       broadcast(z)
+    else:
+      recent_messages.insert(m)
+
+def process_2a(m):
+  recent_messages.insert(m)
 
 def process_message(m):
   if m not in known_messages:
@@ -254,11 +259,12 @@ def process_message(m):
       known_messages.insert(m)
       if m.type == "1a":
         process_1a(m)
-      recent_messages.insert(m)
       if m.type == "1b":
         process_1b(m)
+      if m.type == "2a":
+        process_2a(m)
 ```
-Note that we do not have a `process_2a` method, as the only thing we need to do is insert it in `known_messages` and `recent_messages`, which we do in `process_message`.
+<!-- Note that we do not have a `process_2a` method, as the only thing we need to do is insert it in `known_messages` and `recent_messages`, which we do in `process_message`. -->
 
 #### Learners
 
