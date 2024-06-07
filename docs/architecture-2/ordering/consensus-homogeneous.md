@@ -257,8 +257,6 @@ def process_message(m):
       recent_messages.insert(m)
       if m.type == "1b":
         process_1b(m)
-      else:
-        process_2a(m)
 ```
 Note that we do not have a `process_2a` method, as the only thing we need to do is insert it in `known_messages` and `recent_messages`, which we do in `process_message`.
 
