@@ -48,7 +48,7 @@ Counter resource represents a simple counter.
 In this simple version, updating the counter requires no special permissions but the counter resource logic can be modified to be more complex and have more restricted counter update rules.
 
 <figure markdown="span">
-![image](/docs/images/counter_application.svg){ width="450" }
+![image](/docs/images/counter_diagram.svg){ width="450" }
 <figcaption markdown="span">
 CounterId and Counter applications interfaces
 </figcaption>
