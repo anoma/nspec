@@ -42,7 +42,7 @@ Pub/sub messages are sent between local engine instances via the [[Router#router
 that manages subscriptions and routes messages,
 whereas inter-node pub/sub messages are handled by the [[PubSub#pubsub]] engine.
 
-When an [[EngineMessage#enginemessage]] is sent between peers, it is wrapped in a [[P2PMessage#p2pmessage]] and signed by the source [[NodeIdentity#nodeidentity]].
+When an [[EngineMessage#enginemessage]] is sent between peers, it is wrapped in a [[NodeMessage#nodemessage]] and signed by the source [[NodeIdentity#nodeidentity]].
 The *node identity* is defined as the external identity of the [[Router#router]] engine instance of a node.
 
 #### Routing
@@ -56,7 +56,7 @@ The message processing and routing process is described in the [[EngineMessage#e
 #### Inter-node messages
 
 When forwarding an [[EngineMessage#enginemessage]] to a remote node,
-the *Router* wraps it in [[P2PMessage#p2pmessage]],
+the *Router* wraps it in [[NodeMessage#nodemessage]],
 signs it with its [[NodeIdentity#nodeidentity]] key,
 and forwards it to [[Transport#transport]] for delivery over the network.
 
@@ -84,7 +84,7 @@ or via asynchronous, delay-tolerant networks.
 Transport protocols are responsible for the authentication and encryption of each sent and received [[TransportMessage#transportmessage]],
 but not responsible for authenticating or verifying remote [[NodeIdentity#nodeidentity|node identities]],
 which is done by the [[Router#router]] instead,
-by signing and verifying each sent and received [[P2PMessage#p2pmessage]].
+by signing and verifying each sent and received [[NodeMessage#nodemessage]].
 
 #### Transport preferences
 

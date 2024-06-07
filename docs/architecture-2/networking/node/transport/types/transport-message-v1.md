@@ -32,7 +32,7 @@ Describe the purpose of the type.
 
   *Expiry time for outgoing messages*
 
-- `msg`: [[P2PMessageV1#p2pmessagev1]]
+- `msg`: [[NodeMessageV1#nodemessagev1]]
 
   *Encapsulated message*
 

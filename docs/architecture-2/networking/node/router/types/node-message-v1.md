@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# P2PMessageV1
+# NodeMessageV1
 
 ## Purpose
 

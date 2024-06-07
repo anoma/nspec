@@ -39,7 +39,7 @@ A message sent between two engine instances .
 - `expiry` Option<[[Time#time]]>
 
   *Expiry time for outgoing messages.*
-  *See [[P2PMessage to Transport#p2pmessage-transport|P2PMessage]] & [[TransportMessage#transportmessage]].*
+  *See [[NodeMessage to Transport#nodemessage-transport|NodeMessage]] & [[TransportMessage#transportmessage]].*
 
 - `rprefs`: Option<[[RoutingPrefs]]>
 

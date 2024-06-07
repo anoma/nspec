@@ -37,11 +37,11 @@ and retrieves routing information for identities from the [[Network Identity Sto
 
 --8<-- "router/messages/engine-message.md:type"
 
-### [[P2PMessage#p2pmessage]]
+### [[NodeMessage#nodemessage]]
 
---8<-- "router/messages/p2p-message.md:purpose"
+--8<-- "router/messages/node-message.md:purpose"
 
---8<-- "router/messages/p2p-message.md:type"
+--8<-- "router/messages/node-message.md:type"
 
 ### [[RelayMessage#relaymessage]]
 
@@ -83,7 +83,7 @@ sequenceDiagram
 
 --8<-- "router/messages/engine-message.md:sequence"
 
---8<-- "router/messages/p2p-message.md:sequence"
+--8<-- "router/messages/node-message.md:sequence"
 
 --8<-- "router/messages/relay-message.md:sequence"
 

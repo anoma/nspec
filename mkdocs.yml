@@ -174,7 +174,7 @@ nav:
             - Messages:
               - EngineMessage: ./architecture-2/networking/node/router/messages/engine-message.md
               - RelayMessage: ./architecture-2/networking/node/router/messages/relay-message.md
-              - P2PMessage: ./architecture-2/networking/node/router/messages/p2p-message.md
+              - NodeMessage: ./architecture-2/networking/node/router/messages/node-message.md
               - TopicCreateRequest: ./architecture-2/networking/node/router/messages/topic-create-request.md
               - TopicCreateResponse: ./architecture-2/networking/node/router/messages/topic-create-request.md
               - TopicDeleteRequest: ./architecture-2/networking/node/router/messages/topic-delete-request.md
@@ -205,7 +205,7 @@ nav:
               - EngineAdvert: ./architecture-2/networking/node/router/types/engine-advert-v1.md
               - EngineAdvertV1: ./architecture-2/networking/node/router/types/engine-advert-v1.md
               - EngineMessageV1: ./architecture-2/networking/node/router/types/engine-message-v1.md
-              - P2PMessageV1: ./architecture-2/networking/node/router/types/p2p-message-v1.md
+              - NodeMessageV1: ./architecture-2/networking/node/router/types/node-message-v1.md
               - RelayMessageV1: ./architecture-2/networking/node/router/types/relay-message-v1.md
               - TopicCreateRequestV1: ./architecture-2/networking/node/router/types/topic-create-request-v1.md
               - TopicCreateResponseV1: ./architecture-2/networking/node/router/types/topic-create-response-v1.md
@@ -219,7 +219,7 @@ nav:
           - Transport:
             - ./architecture-2/networking/node/transport/index.md
             - Messages:
-              - P2PMessage to Transport: ./architecture-2/networking/node/transport/messages/p2p-message.md
+              - NodeMessage to Transport: ./architecture-2/networking/node/transport/messages/node-message.md
               - TransportMessage: ./architecture-2/networking/node/transport/messages/transport-message.md
               - ConnectRequest: ./architecture-2/networking/node/transport/messages/connect-request.md
               - ConnectResponse: ./architecture-2/networking/node/transport/messages/connect-request.md

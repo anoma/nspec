@@ -24,7 +24,7 @@ A message from/to one of the transport protocols.
 
 **Triggers:**
 
-[[P2PMessage#p2pmessage]]
+[[NodeMessage#nodemessage]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -34,7 +34,7 @@ When receiving a *TransportMessage* from one of the transport protocols
 `addr` contains the source address,
 `tprefs` and `expiry` are not set,
 and `msg` contains the message received.
-Upon reception, *Transport* forwards the contained *[[P2PMessage#p2pmessage]]* to the *[[Router#router]]*.
+Upon reception, *Transport* forwards the contained *[[NodeMessage#nodemessage]]* to the *[[Router#router]]*.
 
 When sending a *TransportMessage* via one of the transport prototocols,
 `addr` contains the destination address,
@@ -53,8 +53,8 @@ sequenceDiagram
 
 %% --8<-- [start:sequence]
 TransportProtocol -) Transport: TransportMessage
-Transport -) Router: P2PMessage
-Router -) Transport: P2PMessage
+Transport -) Router: NodeMessage
+Router -) Transport: NodeMessage
 Transport -) TransportProtocol: TransportMessage
 %% --8<-- [end:sequence]
 ```

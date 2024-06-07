@@ -30,11 +30,11 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 ## Messages received
 
-### [[P2PMessage to Transport#p2pmessage-transport|P2PMessage]]
+### [[NodeMessage to Transport#nodemessage-transport|NodeMessage]]
 
---8<-- "transport/messages/p2p-message.md:purpose"
+--8<-- "transport/messages/node-message.md:purpose"
 
---8<-- "transport/messages/p2p-message.md:type"
+--8<-- "transport/messages/node-message.md:type"
 
 ### [[TransportMessage#transportmessage]]
 

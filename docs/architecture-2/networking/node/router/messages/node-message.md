@@ -7,12 +7,12 @@ search:
 
 <div class="message" markdown>
 
-# P2PMessage
+# NodeMessage
 
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-A signed message sent between peers.
+A signed message sent between two nodes.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -20,9 +20,9 @@ A signed message sent between peers.
 <!-- --8<-- [start:type] -->
 **Reception:**
 
-[[P2PMessageV1#p2pmessagev1]]
+[[NodeMessageV1#nodemessagev1]]
 
---8<-- "../types/p2p-message-v1.md:type"
+--8<-- "../types/node-message-v1.md:type"
 
 **Triggers:**
 
@@ -43,7 +43,7 @@ Otherwise discards the message, and disconnects from the peer by sending a *[[Di
 sequenceDiagram
 
 %% --8<-- [start:sequence]
-Transport -) Router: P2PMessage
+Transport -) Router: NodeMessage
 Router -) Any Local Engine: EngineMessage
 %% --8<-- [end:sequence]
 ```

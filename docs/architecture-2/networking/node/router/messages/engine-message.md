@@ -28,7 +28,7 @@ A message sent between engine instances (both local & remote).
 
 [[EngineMessage#enginemessage]]
 
-[[P2PMessage#p2pmessage]]
+[[NodeMessage#nodemessage]]
 
 [[RelayMessage#relaymessage]]
 
@@ -57,7 +57,7 @@ it processes it the following way:
 
    - Node ([[NodeIdentity#nodeidentity]]): unicast message to a remote node
 
-     - The *Router* wraps the *EngineMessage* in a [[P2PMessage#p2pmessage]]
+     - The *Router* wraps the *EngineMessage* in a [[NodeMessage#nodemessage]]
        with the *destination* set to the remote node's identity,
        and the *source* set to the local node's identity
        (which equals to the engine instance identity of the *Router*),
@@ -80,7 +80,7 @@ it processes it the following way:
        with the *destination* set to the external identity from the routing table,
        the *source* set to the local node identity,
        and signs it with its identity key.
-     - The *Router* then wraps the [[RelayMessage#relaymessage]] in a [[P2PMessage#p2pmessage]]
+     - The *Router* then wraps the [[RelayMessage#relaymessage]] in a [[NodeMessage#nodemessage]]
        and sends it to [[Transport#transport]] for delivery over the network.
 
    - Domain ([[DomainIdentity#domainidentity]]): anycast message to a domain
@@ -107,12 +107,12 @@ When processing the *EngineMessage*, the given [[RoutingPrefs#routingprefs]] and
 sequenceDiagram
 
 %% --8<-- [start:sequence]
-Transport -) Router: P2PMessage
+Transport -) Router: NodeMessage
 Router -) Router: EngineMessage
 Router -) Any Local Engine: EngineMessage
 Any Local Engine -) Router: EngineMessage
 Router -) Router: EngineMessage
-Router -) Transport: P2PMessage
+Router -) Transport: NodeMessage
 Router -) Router: RelayMessage
 Router -) DomainRouting: DomainRequest
 %% --8<-- [end:sequence]

@@ -5,9 +5,9 @@ search:
   boost: 2
 ---
 
-# P2PMessage
+# NodeMessage
 
-<div id="p2pmessage-transport"></div>
+<div id="nodemessage-transport"></div>
 
 ## Purpose
 
@@ -20,9 +20,9 @@ An outgoing message to be delivered to another node over the network.
 <!-- --8<-- [start:type] -->
 **Reception:**
 
-[[P2PMessageV1#p2pmessagev1]]
+[[NodeMessageV1#nodemessagev1]]
 
---8<-- "../../router/types/p2p-message-v1.md:type"
+--8<-- "../../router/types/node-message-v1.md:type"
 
 **Triggers:**
 
@@ -37,7 +37,7 @@ using a *[[LookupIdentityRequest#lookupidentityrequest]]* to the [[Network Ident
 Address choice is influenced by the [[TransportPrefs#transportprefs]] specified in the encapsulated [[EngineMessage#enginemessage]].
 If this lookup fails, the message is dropped.
 
-*Transport* then wraps the *[[P2PMessage#p2pmessage]]* in a *[[TransportMessage#transportmessage]]*
+*Transport* then wraps the *[[NodeMessage#nodemessage]]* in a *[[TransportMessage#transportmessage]]*
 with the selected *[[TransportAddress#transportaddress]]*.
 and sends it to the network using the corresponding transport protocol,
 establishing a new connection if not connected yet to the destination.
@@ -59,8 +59,8 @@ sequenceDiagram
 
 %% --8<-- [start:sequence]
 TransportProtocol -) Transport: TransportMessage
-Transport -) Router: P2PMessage
-Router -) Transport: P2PMessage
+Transport -) Router: NodeMessage
+Router -) Transport: NodeMessage
 Transport -) TransportProtocol: TransportMessage
 %% --8<-- [end:sequence]
 ```
