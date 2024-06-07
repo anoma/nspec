@@ -10,7 +10,7 @@ search:
 _"There are two kinds of data structures: DAGs, and bad data structures." - unknown_
 
 Anoma's protocol layers themselves form an information-theoretic DAG, in that
-higher layers can depend on information from lower layers, but not vice-versa 
+higher layers can depend on information from lower layers, but not vice-versa
 --lower layers are blind to the syntax and semantics of higher layers, and data of
 concern to higher layers is represented in lower layers as opaque bytestrings.
 This rule, however, is partially broken in one place-- an identity can be
@@ -26,7 +26,7 @@ abstractions and relations can provide the requisite theoretical basis for
 understanding what it is exactly that the system does and ensure complete
 deduplication of engineering efforts.
 
-!!! todo 
+!!! todo
 
     Question: "Prove this (unique up to isomorphism)" If it doesn't hold we've
     probably described something slightly incorrectly.

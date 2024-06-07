@@ -1,10 +1,10 @@
-from typing import Optional
 from pathlib import Path
+from typing import Optional
 
 
 class FileLoc:
     path: str
-    _filepath : Path
+    _filepath: Path
     line: int
     column: int = 0
     text: Optional[str] = None
@@ -18,7 +18,7 @@ class FileLoc:
 
     def filename(self) -> str:
         return self._filepath.name
-    
+
     def set_filename(self, filename: str):
         self._filepath = self._filepath.with_name(filename)
         self.path = str(self._filepath)

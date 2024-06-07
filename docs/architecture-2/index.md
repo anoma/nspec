@@ -22,9 +22,9 @@ The specification is organized into the following sections:
 
 All engines communicate via message passing, following the paradigm of message
 passing concurrency. Thus, the only direct state manipulations that engine
-instances can perform are local state changes. 
+instances can perform are local state changes.
 
-<!-- (In a sense, there is no such thing as **the** _global state_ of a chain, but only local views). --> 
+<!-- (In a sense, there is no such thing as **the** _global state_ of a chain, but only local views). -->
 
 All instances of a specific kind of engine share their _behavior_, which is
 defined as a function that

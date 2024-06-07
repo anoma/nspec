@@ -19,7 +19,7 @@ nav:
     - Resource Machine: ./resource-machine.md
   - Node Architecture:
     - ./architecture-2/index.md
-    - Hardware Abstraction Machine: 
+    - Hardware Abstraction Machine:
       - ./architecture-2/hardware-abstraction/index.md
       - Local Storage Engines:
         - ./architecture-2/hardware-abstraction/local-storage-engines/index.md
@@ -410,7 +410,7 @@ theme:
 
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
-      scheme: default 
+      scheme: default
       primary: white
       accent: red
       toggle:
@@ -440,7 +440,7 @@ theme:
     - navigation.expand
     - navigation.prune
     - navigation.tabs
-    # - navigation.instant 
+    # - navigation.instant
     # - navigation.instant.preview
     - navigation.indexes
     - search.highlight

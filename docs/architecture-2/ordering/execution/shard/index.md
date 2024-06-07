@@ -59,7 +59,7 @@ For each [[Worker Engine|Worker Engine]], the Shard maintains:
    transaction candidates with earlier timestamps that this worker curates
    have already been received.
   Together, these timestamps represent `heardAllWrites`
-  
+
 <!-- not relevant for V1
 - In versions > V1, another [[TxFingerprint|timestamp]], before which
    the Shard will receive no further *read* requests from this
