@@ -21,8 +21,8 @@ When an identity is generated or connected, the identity management engine does 
 
 ## Messages
 
-- [GenerateIdentityRequestResponse](./identity-management/generate-identity-request-response.md)
+- [GenerateIdentityRequestResponse](./generate-identity-request-response.md)
 
-- [ConnectIdentityRequestResponse](./identity-management/connect-identity-request-response.md)
+- [ConnectIdentityRequestResponse](./connect-identity-request-response.md)
 
-- [DeleteIdentityRequestResponse](./identity-management/delete-identity-request-response.md)
+- [DeleteIdentityRequestResponse](./delete-identity-request-response.md)

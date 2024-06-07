@@ -1,57 +1,54 @@
 ---
-icon: material/file-document-outline
+icon: material/graph
 search:
   exclude: false
   boost: 2
 ---
 
-# Architecture 2
-
+# Introduction
 ​
 The operational architecture specification concerns the state evolution of Anoma instances, broken into smaller steps: which messages are exchanged, how computation is performed on the level of function calls, and which intermediate states are reachable.
 The specification is organized into the following sections:
 
-- [Hardware Abstraction Machine](./architecture-2/hardware-abstraction.md)
+- [Hardware Abstraction Machine](./hardware-abstraction/index.md)
 
-- [Control Machine](./architecture-2/control.md)
+- [Identity Machine](./identity/index.md)
 
-- [Identity Machine](./architecture-2/identity.md)
+- [Networking Machine](./networking/index.md)
 
-- [Networking Machine](./architecture-2/networking.md)
-
-- [Ordering Machine](./architecture-2/ordering-v1.md)
+- [Ordering Machine](./ordering.md)
 
 ## Engine models
 
-All engines communicate via message passing, following the paradigm of message passing concurrency.
-Thus,
-the only direct state manipulations that engine instances can perform are local state changes. <!--
-(In a sense, there is no such thing as **the** _global state_ of a chain,
-but only local views). -->
-All instances of a specific kind of engine share their _behavior_,
-which is defined as a function that
+All engines communicate via message passing, following the paradigm of message
+passing concurrency. Thus, the only direct state manipulations that engine
+instances can perform are local state changes.
 
-- takes a message and the current local state of an engine instance as input
-  and
+<!-- (In a sense, there is no such thing as **the** _global state_ of a chain, but only local views). -->
 
-- computes the set of new messages (to be sent to other engine instances as reaction to the received message)
-  and, optionally, a state update.
+All instances of a specific kind of engine share their _behavior_, which is
+defined as a function that
 
-By default, the local state of an engine instance is a (subset of) all messages that are sent and received.
+- takes a message and the current local state of an engine instance as input and
+
+- computes the set of new messages (to be sent to other engine instances as
+  reaction to the received message) and, optionally, a state update.
+
+By default, the local state of an engine instance is a (subset of) all messages
+that are sent and received.
 
 **On Engine Models**
 
-Engines communicate via message passing.
-Each _message_ consists of a header and a body.
-The _header_ gives information about the sender and the intended destination,
-e.g., in the form of ɪᴅs or addresses.
-The type of the _body_ almost always depends on the specific type of message.
-For each engine,
-we provide the following.
+Engines communicate via message passing. Each _message_ consists of a header and
+a body. The _header_ gives information about the sender and the intended
+destination, e.g., in the form of ɪᴅs or addresses. The type of the _body_
+almost always depends on the specific type of message. For each engine, we
+provide the following.
 
 - _A list of type **names**_. Each _type name_ is a string that specifies
    the type of message bodies that the engine has to be able to process
-   (with the additional context that the header provides). <!--
+   (with the additional context that the header provides).
+    <!--
    Type names are also used for naming the places in the Petri net model.
    -->
    Optionally,
@@ -93,39 +90,5 @@ we provide the following.
 
     Even when the following renders, it is not really clear what the structure of the description is.
 
-<!--
-Thus, the structure of the description of engine models is as follows.
-
-- Engine 1
-  _\[…\]_
-- Engine 2
-  _\[…\]_
-- ⋮
-- Engine $i$
-  - MessageTypeName_$i_1$ \[$\scriptscriptstyle\{<\mathrm{protocols}(i,1)>\}$\]
-    _<↑link sub-directory `MessageType_i_1`>_
-    _\[…\]_
-  - ⋮
-  - MessageTypeName_$i_j$ \[$\scriptscriptstyle[\{<\mathrm{protocols}(i,j)>\}$\]
-    _<↑link to sub-directory `MessageType_i_j`>_
-    from _<engine $\tilde \imath_j$>_ may trigger:
-
-    - ReactionTypeName_$p_{i,j,1}$ → Engine_$q_{i,j,1}$,…,Engine_$q_{i,j,n_{i,j,1}}$
-      _<one liner i,j,1>_
-    - ReactionTypeName_$p_{i,j,2}$ → Engine_$q_{i,j,2}$,…,Engine_$q_{i,j,n_{i,j,2}}$
-      _<one liner i,j,2>_
-    - ⋮
-    - ReactionTypeName_$p_{i,j,k}$ → Engine_$q_{i,j,k}$,…,Engine_$q_{i,j,n_{i,j,k}}$
-      _<one liner i,j,k>_
-    - ⋮
-    - ReactionTypeName_$p_{i,j,m_{i,j}}$ → Engine_$q_{i,j,m_{i,j}}$,…,Engine_$q_{i,j,n_{i,j,m_{i,j}}}$
-      _<one liner i,j,$m_{i,j}$>_
-  - ⋮
-  - MessageTypeName_$i_{m_i}$ \[$\scriptscriptstyle\{<\mathrm{protocols}(i,m_i)>\}$\]
-    _<↑link to sub-directory `MessageType_i_{m_i}`>_
-    _\[…\]_
-- ⋮
-- engine $N$
--->
 
 ![Message Diagram](rought_execution_engine_message_passing.svg)

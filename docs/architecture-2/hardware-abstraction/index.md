@@ -33,17 +33,17 @@ of the physical machine an Anoma node is running.
 
 The current Hardware Abstraction Machine is composed of the following five engines.
 
-### [Local Storage Engine](hardware-abstraction/local-storage.md#purpose)
+### [Local Storage Engine](./local-storage-engines/index.md#purpose)
 
---8<-- "hardware-abstraction/local-storage.md:purpose"
+--8<-- "./local-storage-engines/index.md:purpose"
 
-### [Local Logging Engine](hardware-abstraction/local-logging.md#purpose)
+### [Local Logging Engine](./local-logging-engine/index.md#purpose)
 
---8<-- "hardware-abstraction/local-logging.md:purpose"
+--8<-- "./local-logging-engine/index.md:purpose"
 
-### [Local Wall Clock Engine](hardware-abstraction/local-wall-clock.md#purpose)
+### [Local Wall Clock Engine](./local-wall-clock-engine/index.md#purpose)
 
---8<-- "hardware-abstraction/local-wall-clock.md:purpose"
+--8<-- "./local-wall-clock-engine/index.md:purpose"
 
 ## Communication Diagram
 

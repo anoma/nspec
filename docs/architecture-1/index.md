@@ -1,11 +1,11 @@
 ---
-icon: material/file-document-outline
+icon: material/pillar
 search:
   exclude: false
   boost: 2
 ---
 
-# Architecture v1
+# Introduction
 
 We first describe on the highest level of abstraction what it means to be a
 correct implementation of Anoma and how it is architectured. This already
