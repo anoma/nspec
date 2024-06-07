@@ -3,7 +3,13 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
-tags: resource-machine, protocol, commitment, nullifier, accumulator, resource logic
+tags: 
+  - resource-machine
+  - protocol
+  - commitment
+  - nullifier
+  - accumulator
+  - resource logic
 hide:
 - toc
 ---
