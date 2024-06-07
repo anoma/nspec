@@ -216,6 +216,11 @@ One way to implement this is to have live agents echo messages received to all o
 More efficient implementations may involve explicit requests for unreceived messages referenced in other messages `refs` fields. 
 
 #### Acceptors
+In Paxos terms, `HPaxosProposal` messages below  are called $\onea$ messages.
+`HPaxosCommitment` messages (below) with an empty `lrn` field are called $\oneb$ messages, and if `lrn` is not empty, they are called $\twoa$ messages. 
+Here we detail how acceptors process $\onea$, $\oneb$, and $\twoa$ messages.
+
+
 
 We assume that every acceptor maintains an internal state with the following structures:
 
@@ -264,7 +269,7 @@ def process_message(m):
       if m.type == "2a":
         process_2a(m)
 ```
-<!-- Note that we do not have a `process_2a` method, as the only thing we need to do is insert it in `known_messages` and `recent_messages`, which we do in `process_message`. -->
+On receipt of an `HPaxosDecision` message, an acceptor can broadcast the `HPaxosDecision` and all the messages on which it depends, and then halt: everyone else can reach the same decision from the broadcast data. 
 
 #### Learners
 
@@ -288,6 +293,7 @@ def decide():
     if Decision(s):
       decision = V(s)
 ```
+On making a decision, learners send `HPaxosDecision` messages, described below. 
 
 #### Proposers
 
