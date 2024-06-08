@@ -20,12 +20,12 @@ name: anoma-spec-ci
   pull_request:
     branches:
       - main
-      - v1
-      - v2
+      - 'v**'
     types:
       - opened
-      - reopened
       - synchronize
+      - reopened
+      - edited
       - ready_for_review
       - closed
 
