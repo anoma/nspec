@@ -59,7 +59,7 @@ We call the unknown set of acceptors who are actually _live_ (will always eventu
 Other acceptors may be called _unlive_, _crash-prone_, or just _crashed_.
 
 We call the unknown set of acceptors who are actually _safe_ (will never send messages other than those specified by the protocol) $\reallysafe$.
-Other acceptors may be called _unsafe_ or _Byzantine_. 
+Other acceptors may be called _unsafe_ or _Byzantine_.
 
 The learner $\red\alpha$ does not send any messages according to the protocol, so it's not meaningful to talk about it being live or safe.
 
@@ -199,7 +199,7 @@ This ensures that any message received by a real acceptor is received by all rea
 
 Any $\oneb$ and $\twoa$-message $m$ signed by the acceptor $A$ has the following fields:
 
-- `prev` — a reference to the previous message sent by $A$, if such exists.
+- `prev` — a reference to the previous message sent by $A$, if such exists; otherwise, `None`.
 - `refs` — a set of hashes of message referenced by $m$. They are the messages that $A$ has received since between sending $m$ and the previous to $m$ message, including the previous message itself.
 <!-- - `lrn` — a learner tag: an identifier of the relevant chain (for $\twoa$-messages only). -->
 
@@ -210,19 +210,19 @@ As a result, acceptors and learners will always process messages from any given 
 
 We assume that there is a way to assign to every wellformed message $m$ a unique ballot number that the message belongs to.
 We shall denote the ballot number assigning function as $\ba{m}$.
-The formal definition of the function can be found [here](consensus/homogeneouspaxos-formal.md#definition-ballot-numbers).
+The formal definition of the function can be found [here](consensus/homogeneous-paxos-formal.md#definition-ballot-numbers).
 
 #### Broadcast
+
 We assume a `broadcast` primitive that ensures that all messages sent or received by a safe and live agent are eventually received by all agents. 
 One way to implement this is to have live agents echo messages received to all other live agents. 
 More efficient implementations may involve explicit requests for unreceived messages referenced in other messages `refs` fields. 
 
 #### Acceptors
+
 In Paxos terms, `HPaxosProposal` messages below  are called $\onea$ messages.
 `HPaxosCommitment` messages (below) with an empty `lrn` field are called $\oneb$ messages, and if `lrn` is not empty, they are called $\twoa$ messages. 
 Here we detail how acceptors process $\onea$, $\oneb$, and $\twoa$ messages.
-
-
 
 We assume that every acceptor maintains an internal state with the following structures:
 
@@ -271,7 +271,8 @@ def process_message(m):
       if m.type == "2a":
         process_2a(m)
 ```
-On receipt of an `HPaxosDecision` message, an acceptor can broadcast the `HPaxosDecision` and all the messages on which it depends, and then halt: everyone else can reach the same decision from the broadcast data. 
+
+On receipt of an `HPaxosDecision` message, an acceptor can broadcast the `HPaxosDecision` and all the messages on which it is based, and then halt: everyone else can reach the same decision from the broadcast data. 
 
 #### Learners
 
