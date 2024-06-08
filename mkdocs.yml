@@ -356,6 +356,7 @@ nav:
         - Tokens: ./applications/primitives/tokens.md
         - Attestation: ./applications/primitives/attestation.md
         - Authorization: ./applications/primitives/authorization.md
+    - Counter: ./applications/counter.md
     - Kudos: ./applications/kudos.md
     - Proof-of-stake: ./applications/proof-of-stake.md
     - Generalized bartering: ./applications/generalized-bartering.md
