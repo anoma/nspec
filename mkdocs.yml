@@ -454,7 +454,7 @@ plugins:
   - glightbox
   - juvix
   - bibtex:
-      bib_file: "art.bib"
+      bib_dir: "docs/references"
   - macros:
       verbose: false
       module_name: macros

@@ -35,7 +35,7 @@ test-build:
 	@mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
 art.bib:
-	@curl -s -o art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
+	@curl -s -o docs/references/art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
 
 .PHONY: serve
 serve:
