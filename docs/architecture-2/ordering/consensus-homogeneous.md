@@ -28,7 +28,7 @@ The Consensus Engine is responsible for establishing a total order on transactio
 We start by describing the consensus protocol informally, as well as the protocol trust model for the homogeneous case and the desired properties.
 Finally, we provide a pseudocode for its agents.
 
-The necessary formal definitions are given in the [dedicated page](consensus/homogeneouspaxos-formal.md).
+The necessary formal definitions are given in the [dedicated page](consensus/homogeneous-paxos-formal.md).
 
 ## Overview
 
@@ -145,8 +145,8 @@ Consensus rounds send and receive messages in four (possibly overlapping) phases
 
 The first three phases correspond to three types of intra-component messages: $\onea$, $\oneb$ and $\twoa$, respectively.
 
-Before processing a received message $m$, acceptors and learners check if the message is [_wellformed_](consensus/homogeneouspaxos-formal.md#definition-wellformed).
-The formal definition of the wellformedness relation, denoted by $\wellformed{m}$, is given [here](consensus/homogeneouspaxos-formal.md).
+Before processing a received message $m$, acceptors and learners check if the message is [_wellformed_](consensus/homogeneous-paxos-formal.md#definition-wellformed).
+The formal definition of the wellformedness relation, denoted by $\wellformed{m}$, is given [here](consensus/homogeneous-paxos-formal.md).
 Non-wellformed messages are rejected.
 The acceptors caught in sending non-wellformed messages might be punished by the protocol.
 
@@ -168,7 +168,7 @@ On receipt of a $\onea$-message, an acceptor sends an acknowledgement of its rec
 #### 2a-message: establishing consensus
 
 When an acceptor receives $\oneb$ messages for the highest ballot number it has seen
-from a <!-- learner $l_\alpha$’s --> [quorum](consensus/homogeneouspaxos-formal.md#definition-quorums-in-messages) of acceptors,
+from a <!-- learner $l_\alpha$’s --> [quorum](consensus/homogeneous-paxos-formal.md#definition-quorums-in-messages) of acceptors,
 it sends a $\twoa$-message.
 <!-- labeled with $l_\alpha$. -->
 
@@ -176,16 +176,18 @@ However, there is one restriction:
 once a safe acceptor has sent a $\twoa$-message $m$, <!-- for a learner $\red\alpha$ --> it
 never sends a $\twoa$-message with a different value, <!-- for a learner $\blue\beta$ --> unless one of the following is true:
 
-- It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with <!-- learner $\red\alpha$ and --> ballot number higher than $m$. (In which case we call $m$ "_buried_.")
+- It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with <!-- learner $\red\alpha$ and --> ballot number higher than $m$.
+  (In which case we call $m$ ["_buried_"](consensus/homogeneous-paxos-formal.md#definition-buried).)
 - It has seen Byzantine behavior that proves $\red\alpha$ is not _accurate_, in which case decisions do not have to agree.
 
-The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for which it can produce a wellformed $\twoa$.
+<!-- The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for which it can produce a wellformed $\twoa$. -->
+The acceptor who has received a $\oneb$ sends a $\twoa$ if it can produce a wellformed $\twoa$-message.
 
 #### Termination: finalizing consensus value
 
 The learner $\red{\alpha}$ decides on a value $v \in \Value$ when it receives a set $q_\red{\alpha}$ of $\twoa$-messages <!-- labeled with $l_\alpha$ --> with
 the same proposed value $v$ and ballot $b$ from one of its quorums of acceptors.
-We call such a set a [_decision_](consensus/homogeneouspaxos-formal.md#definition-decision).  <!-- and write $\decision{\red \alpha}{b, \red{q_\alpha}}$. -->
+We call such a set a [_decision_](consensus/homogeneous-paxos-formal.md#definition-decision).  <!-- and write $\decision{\red \alpha}{b, \red{q_\alpha}}$. -->
 
 If no decision can be reached within a certain time, proposers must begin a new round (with a higher timestamp, and thus a higher ballot).
 Proposers can start a new round by proposing a new value or by trying to finalize the same value again (in case there was no consensus).
