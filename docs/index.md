@@ -23,29 +23,29 @@ search:
 
 # Anoma Specification
 
-Anoma is a privacy-preserving, distributed, trust-aware operating system. Like a
-typical operating system, Anoma is a platform on top of which applications can
-run. It provides memory isolation, inter-application communication, and
-execution. Unlike a typical operating system, Anoma is built for multi-party
-_intent-centric_ applications. An _intent_, so named because it conveys an
-intention, is a message sent by a user describing a preferred state of the
-system. After a user sends an intent, two phases take place: _counterparty
-discovery_ and _settlement_. In the _counterparty discovery_ phase, network
-participants examine and match compatible intents, forming transactions which
-enact particular state changes. Transactions then enter the _settlement_ phase
-for ordering, execution, and confirmation by consensus, after which users can
-read the updated state. Anoma assumes a model of _heterogeneous trust_, where
-users express trust preferences in their intents, only intents with compatible
-trust preferences can be matched, and consensus rounds are performed on demand
-to facilitate settlement. To applications, Anoma provides a host environment and
-state model that handle all of the complex parts of intent-centric,
-privacy-preserving, and distributed operation. Anoma also comes with a compiler
-toolchain which allows developers to write Anoma-compatible programs in
-high-level languages, abstracting the particulars of compilation to the
-cryptographic primitives required for privacy-preserving operation. This
-standardisation allows developers to focus on their application-specific logic
-and enables applications to interoperate in both the counterparty discovery and
-settlement phases.
+Anoma is a privacy-preserving, distributed, trust-aware operating system
+[@sheff2020heterogeneous]. Like a typical operating system, Anoma is a platform [@typhonGithub]
+on top of which applications can run. It provides memory isolation,
+inter-application communication, and execution. Unlike a typical operating
+system, Anoma is built for multi-party _intent-centric_ applications. An
+_intent_, so named because it conveys an intention, is a message sent by a user
+describing a preferred state of the system. After a user sends an intent, two
+phases take place: _counterparty discovery_ and _settlement_. In the
+_counterparty discovery_ phase, network participants examine and match
+compatible intents, forming transactions which enact particular state changes.
+Transactions then enter the _settlement_ phase for ordering, execution, and
+confirmation by consensus, after which users can read the updated state. Anoma
+assumes a model of _heterogeneous trust_, where users express trust preferences
+in their intents, only intents with compatible trust preferences can be matched,
+and consensus rounds are performed on demand to facilitate settlement. To
+applications, Anoma provides a host environment and state model that handle all
+of the complex parts of intent-centric, privacy-preserving, and distributed
+operation. Anoma also comes with a compiler toolchain which allows developers to
+write Anoma-compatible programs in high-level languages, abstracting the
+particulars of compilation to the cryptographic primitives required for
+privacy-preserving operation. This standardisation allows developers to focus on
+their application-specific logic and enables applications to interoperate in
+both the counterparty discovery and settlement phases.
 
 Anoma's multi-party intent-centric architecture is designed for applications
 concerned with coordination of socio-economic processes dealing with resources,
