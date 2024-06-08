@@ -24,7 +24,7 @@ and just send these out to anyone who is still trying to do consensus.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | `learner` | `Learner` | learner instance |
-| `message_quorum` | [`Vec<DirectReference>`] | direct references to a quorum of messages |
+| `message_quorum` | [`Vec<DirectReference>`]() | direct references to a quorum of messages |
 
 #### Triggers
 
