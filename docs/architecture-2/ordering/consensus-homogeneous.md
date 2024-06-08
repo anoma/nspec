@@ -45,7 +45,7 @@ Non-byzantine correct acceptors are also called _honest_, _safe_, or _real_.
 
 __Learners__ are agents who are interested in values decided by consensus (they only need to receive messages).
 As this is a Homogeneous Paxos, all learners and acceptors are interested in only one chain, and make the same failure assumptions. 
-Their quorums are determined by the chain's protocol (e.g. proof of stake).
+Their quorums are determined by the chain's protocol (e.g., proof of stake).
 We denote the set of learners by $\Learner$.
 In the homogeneous case, the set of learners is a singleton, $\Learner = \cb{\red\alpha}$.
 
@@ -108,9 +108,9 @@ For many systems (including most proof of stake systems), the safe sets are simp
 
 ### Desired Properties
 
-Paxos ultimately guarantees that if a quorum is safe and live ($\reallylive \cap \reallysafe \in Q_{\red\alpha}$), the learner $\red\alpha$ eventually decides.
+* __Termination:__ Paxos ultimately guarantees that if a quorum is safe and live ($\reallylive \cap \reallysafe \in Q_{\red\alpha}$), the learner $\red\alpha$ eventually decides.
 
-Paxos also guarantees that if a safe set is safe ($\reallysafe \in Q_\red{\alpha}$), all decisions the learner $\red\alpha$ makes have the same value.
+* __Safety:__ Paxos also guarantees that if a safe set is safe ($\reallysafe \in Q_\red{\alpha}$), all decisions the learner $\red\alpha$ makes have the same value.
 
 ### Accurate
 
