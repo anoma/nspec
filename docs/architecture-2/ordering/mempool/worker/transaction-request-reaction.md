@@ -5,29 +5,20 @@ search:
   boost: 2
 ---
 
-# TransactionRequest
+# Process incoming transaction ordering request
 
 <!-- --8<-- [start:blurp] -->
 - _from_ [[User|User]], [[Solver|Solver]]
 
 ## Purpose
 
-A [[User#user|user]] or [[Solver#solver|solver]] requests that
-a [[TransactionCandidate#transactioncandidate|transaction candidate]]
+A [[User|user]] or [[Solver|solver]] requests that
+a [[TransactionCandidate|transaction candidate]]
 be ordered and executed.
 <!-- --8<-- [end:blurp] -->
 <!-- --8<-- [start:details] -->
 
-## Structure
 
-| Field          | Type                     | Description                          |
-|----------------|--------------------------|--------------------------------------|
-| `tx`           | [[TransactionCandidate]] | the actual transaction to be ordered |
-| `resubmission` | [[TxFingerprint]] option | reference to the previous occurrence |
-
-The resubmission indicates if there was a previous occurrence of
-the very same transaction candidate which either has failed or
-a needs to be executed again, e.g., because it is a recurring payment.
 
 This is the "bare-bone" version for V1.
 Additional user preferences can be supplied in future versions concerning
