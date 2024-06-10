@@ -311,7 +311,7 @@ nav:
           - Types:
             - StoragePrefs: ./architecture-2/networking/intra-domain/storage/types/storage-prefs.md
     - Ordering Machine:
-      - ./architecture-2/ordering-v1.md
+      - ./architecture-2/ordering.md
       - Common types:
         - ./architecture-2/ordering/types/allofthem.md
         - KVSDatum: ./architecture-2/ordering/types/KVS-datum.md
