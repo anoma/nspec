@@ -14,40 +14,52 @@ store them,
 and make them available for the [[Execution Engines|execution engine]] to read.
 The mempool protocol,
 which is based on [Narwhal](https://arxiv.org/abs/2105.11827) also produces
-a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph) of _vertices_,<!--
+a [ᴅᴀɢ](https://en.wikipedia.org/wiki/Directed_acyclic_graph) of _vertices_,<!--
 TODO: change to vertices? -->[^1]
 which reference batches of transaction candidates (via hash), 
 and prove that those transaction candidates are available for 
 the [[Execution Engines|execution engine]].
-These vertices (or hashes of them) are what validators propose as values in the [[Consensus|consensus protocol]],
-in order to establish a total order of transaction candidates.
+Vertices of the mempool ᴅᴀɢ (or hashes of them) are 
+what validators propose as values in the [[Consensus|consensus protocol]],
+in order to impose a total order on transaction candidates.
 
 [^1]: We are close in terminology to Bullshark<!-- citation needed-->,
 concerning the mempool ᴅᴀɢ.
 
 
-## Narwhal + predecessor links
+## Narwhal-esque mempool protocol
 
-While keeping true to the "spirit"  of the original Narwhal protocol,
-the mempool protocol is incorporating 
-one additional type of edge[^2] in the mempool ᴅᴀɢ:
+The mempool protocol is building a ᴅᴀɢ of vertices
+like [Narwhal](https://arxiv.org/abs/2105.11827),
+but terminology is adapted, avoiding the word `block`.
+In particular a _block header_ will be called a _vertex_,
+very much like in Bullshark.
 
-[^2]: The additional edge will become relevant for the heterogeneous setting.
+
+
+<!--
+but with one additional type of edge[^2]:
+
+[^2]: The additional edge type will become relevant
+	  in heterogeneous mempools.
 
 >Whenever a validator's Narwhal primary produces a vertex,
 >it must reference in that vertex not only 
->a quorum of vertices from the previous round, but<!-- TODO change 'round' to '?'--> 
+>a quorum of vertices from the previous round, but
 >also the most recent vertex that was produced by that validator.
 
-Moreover, 
+Moreover,
 we distinguish between certificates of availability and integrity.
+-->
+
+
 
 ### Overview
 
 Each validator node has
 
-- one *primary* engine and
-- many *worker* engines.
+- one [[Primary Engine|_primary_ engine]] and
+- many [[Worker Engine|_worker_ engines]].
 
 A client 
 must choose one or several specific worker engine on one or several validator nodes
@@ -55,12 +67,13 @@ as destination <!-- "target" in actor speak-->for each transaction candidate ord
 
 #### Workers
 
-Worker enginees ensure transaction candidates are available.
-Transaction candidates are batched.
-Each batch is erasure-coded (possibly simply copied) across 
-a *weak quorum* of workers;
-note that 
-only signed hashes of those batches are sent to primaries.
+Worker enginees ensure transaction candidates are available
+until it is known that sufficiently many validators have ordered and exectued them.
+The first worker task is the batching of transaction candidates into batches.
+Copies of transaction batches are distributed to at least a *weak quorum* of
+worker engines on other validators.
+note that primaries only receive suitable "digests" 
+in the form of worker hashes.
 The rationale is that, in this way,
 the high-bandwidth work of replicating transaction candidates 
 is done by workers instead of primaries,
@@ -70,8 +83,8 @@ avoiding the "leader bottleneck" <!-- citation needed
 #### Primaries 
 
 Primary engines establish a partial order of transaction candidate vertices
-(and by extension transaction candidates), in the form of a structured DAG.
-The DAG proceeds in *rounds*:
+(and by extension transaction candidates), in the form of a structured ᴅᴀɢ.
+The ᴅᴀɢ proceeds in *rounds*:
 each primary produces at most one vertex in each round.
 That vertex references vertices from prior rounds.
 
@@ -79,9 +92,11 @@ Primaries assemble vertices (both their own and for other primaries) from collec
 They then sign votes, stating that they will not vote for conflicting vertices, and (optionally) that their workers have indeed stored the referenced transaction candidates.
 Primaries collect votes concerning their own vertices, producing vertices: aggregated signatures showing a vertex is unique.
 
+<!--
+
 More formally, we present the Heterogeneous Narwhal protocol as the composition of two crucial pieces: the Heterogeneous Narwhal Availability protocol, and the Heterogeneous Narwhal Integrity protocol.
 
-<!--
+
 
 ### Vocabulary
 
@@ -182,7 +197,7 @@ Vertices display *Learner Vectors*.
 
 ## DAG Properties
 
-Independently, the vertices for each Learner form a DAG with the same properties as in the original Narwhal:
+Independently, the vertices for each Learner form a ᴅᴀɢ with the same properties as in the original Narwhal:
 ![Blue DAG](quorums_blue_5_red_0.svg)
 (In these diagrams, vertices reference prior vertices from the same Primary; I just didn't draw those arrows)
 
@@ -193,7 +208,7 @@ In round 5, Primary 3 can produce a block if it has received a quorum of round 4
 Of course, primaries do not necessarily produce vertices for the same round at the same literal time.
 Here we see primaries producing vertices for round 3 for red learner at different times, depending on when they finish batches, or receive a round 2 quorum, or enough votes:
 ![Blue DAG](quorums_blue_0_red_3.svg)
-In Heterogeneous Narwhal, these two DAGs are being created simultaneously (using the same sequence of Vertices from each Primary, and many of the same Votes):
+In Heterogeneous Narwhal, these two ᴅᴀɢs are being created simultaneously (using the same sequence of Vertices from each Primary, and many of the same Votes):
 ![Blue and Red DAG](quorums_blue_5_red_3.svg)
 Note that round numbers for different learners do not have to be close to each other.
 Red round 3 vertices are produced after blue round 5 vertices, and that's ok.
@@ -216,7 +231,7 @@ Given that Learner `B` is entangled with `A`, any `B`-quorum for this round will
 
 ![Leader Path](leader_path_3.svg)
 
-In order to establish a total order of transactions, we use [Heterogeneous Paxos](consensus-v1.md#consensus) to decide on an ever-growing path through the DAG (for each Learner).
+In order to establish a total order of transactions, we use [Heterogeneous Paxos](consensus-v1.md#consensus) to decide on an ever-growing path through the ᴅᴀɢ (for each Learner).
 Heterogeneous Paxos guarantees that, if two Learners are *entangled*, they will decide on the same path.
 In order to guarantee liveness (and fairness) for each Learner's transactions, we require that:
 
