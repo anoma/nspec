@@ -9,12 +9,11 @@ search:
 
 ## Purpose
 
-Workers are one of the [[Mempool Engines#mempool-engines|mempool engines]]
-and, in V1, they are _the_ only one and there is only a single worker.
+Workers are one of the [[Mempool Engines|mempool engines]].
 
 <!--[^4]-->
-The worker receives transaction requests from users and
-[[Solver#solver|solvers]] and batches these transaction requests, assigning a
+The worker receives transaction requests from [[Mempool User|users]] and
+[[Solver|solvers]] and batches these transaction requests, assigning a
 unique [[TxFingerprint#txfingerprint|TxFingerprint]] to every new transaction.
 Each transaction candidate will be sent to an [[Executor#executor|Executor]]
 inside an [[ExecuteTransaction#executetransaction|ExecuteTransaction]] message.
@@ -84,11 +83,11 @@ There is no precise state representation described by the V1 specs.
 
 ## [[TransactionRequest]]
 
---8<-- "worker/transaction-request.md:blurp"
+--8<-- "worker/transaction-request-reaction.md:blurp"
 
 <details  markdown="1">
   <summary>Details</summary>
---8<-- "worker/transaction-request.md:details"
+--8<-- "worker/transaction-request-reaction.md:details"
 </details>
 
 ## [[ExecutorPIDAssigned]]
