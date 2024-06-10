@@ -1,10 +1,10 @@
-# Guarded Actions Xi {V2 Template ⊂ V3 Template}
+# Actions Xi and Guard Xi {V2 Template ⊂ V3 Template}
 
-## Guard
+## Guard Xi
 
 `<description of conditions for the action (cf. _event_ in event-driven machine) >`
 
-## Action
+## Action Xi
 
 `<description of "action" cf. Dijkstra's GCL >`
 
