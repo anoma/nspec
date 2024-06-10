@@ -323,14 +323,15 @@ nav:
         - TxFingerprint: ./architecture-2/ordering/types/tx-fingerprint.md
         - TransactionAck: ./architecture-2/ordering/types/transaction-ack.md
         - TransactionLabel: ./architecture-2/ordering/types/transaction-label.md
+        - TransactionRequest: ./architecture-2/ordering/types/transaction-request.md
         - ReadLabel: ./architecture-2/ordering/types/read-label.md
         - WriteLabel: ./architecture-2/ordering/types/write-label.md
         - WorkerHash: ./architecture-2/ordering/types/worker-hash.md
       - Mempool Engines:
         - ./architecture-2/ordering/mempool.md
-        - Execution Supervisor:
-          - ./architecture-2/ordering/mempool/execution-supervisor.md
-          - SpawnExecutor: ./architecture-2/ordering/mempool/execution-supervisor/spawn-executor.md
+        - Primary Engine:
+          - ./architecture-2/ordering/mempool/primary.md
+
         - Worker Engine:
           - ./architecture-2/ordering/mempool/worker.md
           - ExecutorFinished: ./architecture-2/ordering/mempool/worker/executor-finished.md
