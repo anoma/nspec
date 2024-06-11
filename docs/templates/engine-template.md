@@ -18,7 +18,7 @@
 
 ## _All_ "Conversation Partners" (Engine _types_)
 
-### EgnineType `X1
+### EngineType `X1
 
 .  
 .  
