@@ -46,7 +46,7 @@ We will go through all the messages exchanged between
 ### Mempool
 
 - The [[Worker Engine|worker]] $W$ then
-   sends copies of this transaction request $R_T$ to
+   sends copies of this [[TransactionRequest|transaction request]] $R_T$ to
    all its mirror workers $W_1, \dotsc, W_n$ such that
    all correct validators (eventually) become aware of the
    [[NewTransaction|new transaction]].
