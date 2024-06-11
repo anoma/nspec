@@ -95,11 +95,14 @@ Using the above auxiliary functions, we formally define decisions by
 For any set of messages $\blue{s}$ <!-- and ballot $b$ -->
 
 $$
+\begin{array}{l}
   \Decision{\red\alpha}{\blue s} \eqdef
+  \\ \qquad
   \sig{\blue s} \in Q_{\red\alpha} \land
   \forall {\green x},{\purple y} \in {\blue s}.\,
     \vartype{\green x}{\twoa} \land
     \ba{\green x} = \ba{\purple y}
+\end{array}
 $$
 
 <!-- HPaxos 2.0 definition -->
@@ -121,15 +124,21 @@ Unlike Byzantine Paxos, our acceptors and learners must adapt to Byzantine behav
 We say that an acceptor $\purple p$ is _caught_ in a message $\green x$ if the transitive references of $\green x$ include evidence such as two messages, $\red m$ and $\blue{m^\prime}$, both signed by $\purple p$, in which neither is featured in the other's transitive history chain.
 
 $$
+\begin{array}{l}
   \caughtEvidence{{\red m}, {\blue{m'}}} \eqdef
+  \\ \qquad
   \sig{\red m} = \sig{\blue{ m^\prime}} \land
   \red m \not\in \prevtran{\blue{m^\prime}} \land
   \blue{m^\prime} \not\in \prevtran{\red m}
+\end{array}
 $$
 
 $$
+\begin{array}{l}
   \caught{\green x} \eqdef
+  \\ \qquad
   \sig{\cb{{\red m} \in \tran{\green x} \mid \exists {\blue{m'}} \in \tran{\green x}.\,\caughtEvidence{{\green x}, {\red m}, {\blue{m'}}}}}
+\end{array}
 $$
 
 **Caught proofs processing**: Caught evidences of misbehavior can be used, e.g., for the acceptor punishment, such as slashing in the context of proof-of-stake protection mechanism.
@@ -169,12 +178,15 @@ $$
 $$
 
 $$
+\begin{array}{l}
   \buried{{\red\alpha}}{\vartype{\purple x}{\twoa}}{\green y} \eqdef
+  \\ \qquad
   \sig{\cb{
     {\orange m} \in \tran{\green y} \mid
     \exists {\blue z} \in \tran{\orange m}.\burying{\blue z}{\purple x}
   }}
   \in Q_{\red\alpha}
+\end{array}
 $$
 
 We shall say that the message $\green x$ is _unburied_ (in the context of a later message $\purple y$) if it is not buried (in the context of $\purple y$).
@@ -244,19 +256,24 @@ $$
   \qa{\green x : \twoa} \eqdef
   \cb{\tallpipe
     {\red m \in \tran{\green x}}
-    {{\red m : \oneb} \land
-     {\fresh{\red\alpha}{\red m}} \land
-     {\ba{\red m} = \ba{\green x}}}
+    {\begin{array}{l}
+     \phantom{\land}\,\vartype{\red m}{\oneb} \\
+     \land\, {\fresh{\red\alpha}{\red m}} \\
+     \land\, {\ba{\red m} = \ba{\green x}}
+     \end{array}}
   }
 $$
 
 ## Definition: Chain property
 
 $$
+\begin{array}{l}
   \ChainRef({\green x}) \eqdef
+  \\ \qquad
     \green{x.\prev} \neq \bot \to
       \green{x.\prev} \in \green{x.\refs} \land
       \sig{\green{x.prev}} = \sig{\green x}
+\end{array}
 $$
 
 ## Definition: WellFormed
@@ -264,21 +281,22 @@ $$
 We define what it means for a message to be _wellformed_.
 
 $$
-  \begin{array}{l}
-    \WellFormedOneB{\green x} \eqdef
-    \forall \blue y \in \tran{\green x} .\,
-    \green x \ne \blue y \land \blue y \ne \geta{\green x}
-    \to \ba{\blue y} \ne \ba{\green x}
-    \\
-    \WellFormedTwoA{\green x} \eqdef
-    \qa{\green x} \in \green{Q_{\red{\alpha}}}
-    \\
-    \wellformed{\green x} \eqdef \\
-    \qquad
-    \phantom{\land}\, \ChainRef({\green x})
-    \\ \qquad
-    \land\, \p{\vartype{\green x}{\oneb} \to (\exists {\red z} \in \green{x.\refs}.\,\vartype{\red z}{\onea}) \land \WellFormedOneB{\green x}}
-    \\ \qquad
-    \land\, \p{\vartype{\green x}{\twoa} \to {\green x}.\refs \neq \emptyset \land \WellFormedTwoA{\green x}}
-  \end{array}
+\begin{array}{l}
+  \WellFormedOneB{\green x} \eqdef
+  \\ \qquad
+  \forall \blue y \in \tran{\green x} .\,
+  \green x \ne \blue y \land \blue y \ne \geta{\green x}
+  \to \ba{\blue y} \ne \ba{\green x}
+  \\\\
+  \WellFormedTwoA{\green x} \eqdef
+  \qa{\green x} \in \green{Q_{\red{\alpha}}}
+  \\\\
+  \wellformed{\green x} \eqdef \\
+  \qquad
+  \phantom{\land}\, \ChainRef({\green x})
+  \\ \qquad
+  \land\, \p{\vartype{\green x}{\oneb} \to (\exists {\red z} \in \green{x.\refs}.\,\vartype{\red z}{\onea}) \land \WellFormedOneB{\green x}}
+  \\ \qquad
+  \land\, \p{\vartype{\green x}{\twoa} \to {\green x}.\refs \neq \emptyset \land \WellFormedTwoA{\green x}}
+\end{array}
 $$
