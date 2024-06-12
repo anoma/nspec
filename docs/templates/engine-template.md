@@ -4,6 +4,12 @@
 
 `<one paragraph on the purpose>`
 
+Describe what the role of this engine is in the context,
+be it
+
+- internal to an Anoma node or
+- in an Anoma instance at large.
+
 ## EngineX-specific types
 
 This section describes all types that are specific to an engine. 
