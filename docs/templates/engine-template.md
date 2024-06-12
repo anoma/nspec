@@ -6,7 +6,11 @@
 
 ## EngineX-specific types
 
-### TypeX1 
+This section describes all types that are specific to an engine. 
+
+### TypeX1: local engine-specific state
+
+### TypeX2 
 
 .  
 .  
