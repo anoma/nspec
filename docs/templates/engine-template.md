@@ -133,10 +133,19 @@ erDiagram
 
 ## Guarded Actions
 
-### Guarded action $1$ (click for details?)
+### Guarded action $1$ 
+
+<details>
+  <summary>single phrase on guarded action $1$</summary>
+  <p>Guarded action one description</p>
+</details> 
 
 .  
 .  
 .  
 
-### Guarded action $n$ (click for details?)
+### Guarded action $n$ 
+<details>
+  <summary>single phrase on guarded action $n$</summary>
+  <p>Guarded action one description</p>
+</details> 
