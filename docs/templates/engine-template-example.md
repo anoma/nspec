@@ -42,7 +42,7 @@ erDiagram
 
 ### Bidder
 
-The bidder will send bids and wait for announcment of the winner.
+The bidder will send bids and wait for announcement of the winner.
 
 ## Guarded Actions
 
