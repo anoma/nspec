@@ -98,12 +98,31 @@ sequenceDiagram
     deactivate ExecutorProcess
 ```
 
-
-
-
 ## _All_ "Conversation Partners" (Engine _types_)
 
-### EngineType `X1
+### Conversation Diagram (optional)
+
+Who is talking to whom and `EngineX` in particular about what?
+For a high-level overview, 
+something like a [conversation diagram](https://sparxsystems.com/enterprise_architect_user_guide/16.1/modeling_languages/bpmn_2_0_conversation.html) can be helpful.
+We could simply (ab-)use mermaid entity relationship diagrams here.
+
+Taking again the example of workers in Narwhal,
+the worker is in communication with other workers,
+the user and the primary. 
+A partial diagram would be the following.
+
+```mermaid
+erDiagram
+  Primary ||--o{ WorkerHash : receive
+  WorkerHash ||--|| WorkerX : sent
+  WorkerX ||--|{ NewTransaction : broadcast
+  NewTransaction ||--|{ MirrorWorker : listen
+  User ||--o{ TransactionRequest : send
+  TransactionRequest ||--|| WorkerX : receive
+```
+
+### EngineTypeX1
 
 .  
 .  
@@ -111,7 +130,6 @@ sequenceDiagram
 
 
 ### EngineTypeXm
-
 
 ## Guarded Actions
 
