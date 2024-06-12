@@ -338,6 +338,7 @@ nav:
           - ExecutorPIDAssigned: ./architecture-2/ordering/mempool/worker/executor-PID-assigned.md
           - KVSLockAcquired: ./architecture-2/ordering/mempool/worker/KVS-lock-acquired.md
           - Transaction Request Reception: ./architecture-2/ordering/mempool/worker/transaction-request-reaction.md
+          - New Transaction Reception: ./architecture-2/ordering/mempool/worker/new-transaction-reaction.md
           - RequestLogs: ./architecture-2/ordering/mempool/worker/request-logs.md
       - Consensus Engine: ./architecture-2/ordering/consensus-v1.md
       - Execution Engines:

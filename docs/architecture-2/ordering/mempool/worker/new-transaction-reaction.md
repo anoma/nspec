@@ -5,14 +5,19 @@ search:
   boost: 2
 ---
 
-#### NewTransaction
+# Incoming `NewTransaction` processing
 
-- _from_ [Worker](../worker.md)
+Typical direct causes are:
 
-##### Purpose
+- [[Worker]]s, having received a new transaction candidate
+
+## Purpose
 
 <!-- --8<-- [start:blurb] -->
-The sending worker is forwarding transaction data for the purpose of storing a copy (a trivial erasure coding share) at the receiving worker.
+The sending worker is forwarding a copy of 
+a new transaction candidate `tx`
+for the purpose of storing a copy 
+(until after execution).
 <!-- --8<-- [end:blurb] -->
 
 ##### Structure
