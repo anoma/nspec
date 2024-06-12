@@ -147,5 +147,5 @@ erDiagram
 ### Guarded action $n$ 
 <details>
   <summary>single phrase on guarded action $n$</summary>
-  <p>Guarded action one description</p>
+  <p>Guarded action n description</p>
 </details> 
