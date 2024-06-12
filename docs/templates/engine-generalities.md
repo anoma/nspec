@@ -3,7 +3,7 @@
 ## Introduction
 
 In rough analogy to the actor model,
-where systems consist of actors that communcate via message passing,
+where systems consist of actors that communicate via message passing,
 every Anoma instance consists of a finite collection of
 _engine instances_ that communicate by sending messages to each other.
 The behavior of each engine instance
@@ -29,7 +29,7 @@ local time in engine instances.
 The role of the template is the organization of 
 the specification of engine types and their engine instances.
 
-## On the lcoal information at egnine instances
+## On the local information at engine instances
 
 Each engine instance has
 - an identity, namely a pair of
