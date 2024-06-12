@@ -31,6 +31,76 @@ sequenceDiagram
 	Note right of EngineX: This explains the typical purpose of EngineX
 ```
 
+The following is a good example of a larger diagram,
+which concerns several engines
+taken from the [v1 specs](https://specs.anoma.net/v1/architecture-2/ordering-v1.html#a-life-cycle-with-some-details).
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Worker
+    participant ExecutionSupervisor
+    participant ExecutorProcess
+    User-)Worker: TransactionRequest
+    Worker--)Worker: fix batch №
+    Worker-)User: TransactionAck
+    Worker--)Worker: Buffering & Shuffling
+    Worker--)Worker: fix tx №
+    Worker-)ExecutionSupervisor: spawnExecutor
+    ExecutionSupervisor-)Worker: EPID
+    Worker-)ExecutorProcess: ExecuteTransaction
+    Worker-)Shard: KVSAcquireLock
+    Shard-)Worker: KVSLockAcquired
+    Worker-)Shard: UpdateSeenAll
+    activate ExecutorProcess
+    ExecutorProcess-)Shard: KVSReadRequest
+    Shard-)ExecutorProcess: KVSRead
+    ExecutorProcess-)Shard: KVSWrite(Request)
+    %%    ExecutorProcess-)WhereToIdontKnow: pub sub information of execution data
+    ExecutorProcess-)User: ExecutionSummary
+    ExecutorProcess-)Worker: ExecutorFinished
+    deactivate ExecutorProcess
+```
+
+For an engine page,
+it may be sufficient to
+"cut out" a portion of such a larger diagram, or
+mark it as in the following variation of the previous diagram.
+
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Worker
+    participant ExecutionSupervisor
+    participant ExecutorProcess
+    User-)Worker: TransactionRequest
+    Worker--)Worker: fix batch №
+    Worker-)User: TransactionAck
+    Worker--)Worker: Buffering & Shuffling
+    Worker--)Worker: fix tx №
+    rect rgb(191, 223, 255)
+      note right of Worker: ExecutionSupervisor in action
+      Worker-)ExecutionSupervisor: spawnExecutor
+      ExecutionSupervisor-)Worker: EPID
+    end
+    Worker-)ExecutorProcess: ExecuteTransaction
+    Worker-)Shard: KVSAcquireLock
+    Shard-)Worker: KVSLockAcquired
+    Worker-)Shard: UpdateSeenAll
+    activate ExecutorProcess
+    ExecutorProcess-)Shard: KVSReadRequest
+    Shard-)ExecutorProcess: KVSRead
+    ExecutorProcess-)Shard: KVSWrite(Request)
+    %%    ExecutorProcess-)WhereToIdontKnow: pub sub information of execution data
+    ExecutorProcess-)User: ExecutionSummary
+    ExecutorProcess-)Worker: ExecutorFinished
+    deactivate ExecutorProcess
+```
+
+
+
+
 ## _All_ "Conversation Partners" (Engine _types_)
 
 ### EngineType `X1
