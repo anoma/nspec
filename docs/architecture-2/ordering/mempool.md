@@ -52,8 +52,6 @@ Moreover,
 we distinguish between certificates of availability and integrity.
 -->
 
-
-
 ## Overview
 
 Each validator node has
@@ -92,6 +90,31 @@ That vertex references vertices from prior rounds.
 Primaries assemble vertices (both their own and for other primaries) from collections of worker hashes, and references to prior vertices.
 They then sign votes, stating that they will not vote for conflicting vertices, and (optionally) that their workers have indeed stored the referenced transaction candidates.
 Primaries collect votes concerning their own vertices, producing vertices: aggregated signatures showing a vertex is unique.
+
+
+## Transaction life-cycle for transaction inclusion
+
+Assuming validators $A,B,C,D$ 
+each have two workers,
+we have workers $A_1, B_1, C_1, D_1, A_2, B_2, C_2, D_2$. 
+We suppose that the user has chosen Worker $A_1$
+to submit a transaction request.
+
+
+```mermaid
+sequenceDiagram
+	participant User
+	participant WorkerA1
+	participant WorkerB1
+    participant WorkerC1
+    participant WorkerD1
+	participant PrimaryA
+    participant PrimaryB
+    participant PrimaryC
+    participant PrimaryD
+	User-)WorkerA1: "TransactionRequest Req"
+```
+
 
 <!--
 
