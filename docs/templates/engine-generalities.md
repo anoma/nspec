@@ -31,21 +31,33 @@ the specification of engine types and their engine instances.
 
 ## On the local information at engine instances
 
-Each engine instance has
-- an identity, namely a pair of
+Each engine instance, at any given point in local time,
+has local information, namely 
+- its identity, given by a pair of
   - an external identity and
   - an internal identity
-- mailboxes that store received messages in a list, in more detail
-  - a finite set of mailboxes, typically non-empty
-  - a map from (engine-relative) mailbox identifiers to the above mailboxes
-  - optionally, each mailbox may have a mailbox-state
-- a finite set of _acquaintances_ (borrowing actor terminology), in more detail
+- its mailboxes that store received messages, represented by
+  - a finite set of mailbox identifiers (MID for short), typically non-empty
+  - a map from these mailbox identifiers to pairs of
+    - a list of messages that were sent to the MID but not processed yet-the associated mailbox
+    - an optional mailbox-specific state (for quick processing of incoming messages)
+- a finite set of _named acquaintances_,[^2] represented by
   - a finite set of names
-  - a map from names to the idenetities of an engine instance
-- a local clock
-- memory for previously set timers (that are still relevant)
-- memory for spawned process that do not have a cryptographic identity yet
+  - a map from these names to the identities of the acquaintances
+- memory for previously set timers, given by 
+  - a finite set of timer handles
+  - a map from these timer handles to the requested notification time
+- optionally,  memory for names of spawned engines that do not have a cryptographic id yet
 - engine-specific local state
+- the current time 
+
+The engine's identity is unchangeable,
+but a new "continuation engine" could be spawned with a new identifier.
+
+
+
+
+[^2]: Here, we borrow actor terminology.
 
 ## On egnine types
 
