@@ -1,0 +1,1 @@
+This section contains basic types used throughout the protocol.
