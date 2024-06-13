@@ -103,6 +103,8 @@ What is a protocol in this context?
 
       Cleanup / reorganize / remove the rest of this old content.
 
+<!--
+
 ## Agents
 
 The Anoma architecture operates on the basis of *agents*. The architecture does not presume any sort of global view or global time. It also does not presume any particular _motivations_ of agents, but rather describes the state of the system as a function of the decisions taken by agents over (partially ordered) time. 
@@ -147,3 +149,5 @@ The Anoma architecture operates on the basis of *agents*. The architecture does 
 5. Anoma does not presume any _a priori_ agreement on semantics, units of measurement, data of interest, means of measurement, capabilities of agents, actions possible to take, knowledge of conditional probability distributions, etc.
 
 In general, Anoma aims to allow these agents to infer the underlying causal structure of this world and coordinate their actions within it to better satisfy their preferences. The rest of this specification defines the _Anoma protocol_, which is specific logic that agents run to read, create, and process messages. For convenience, the Anoma protocol shall be referred to henceforth as just _the protocol_.
+
+-->
