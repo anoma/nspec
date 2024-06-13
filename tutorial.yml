@@ -56,7 +56,7 @@ plugins:
   - section-index
   - glightbox
   - bibtex:
-      bib_file: "art.bib"
+      bib_dir: "docs/references"
   - macros:
       verbose: false
       module_name: macros
