@@ -1,4 +1,10 @@
-# On engines in the Anoma specification
+---
+icon: octicons/gear-16
+search:
+  exclude: false
+---
+
+# On Engines in the Anoma Specification
 
 ## Introduction
 

@@ -1,3 +1,9 @@
+---
+icon: octicons/code-16
+search:
+  exclude: false
+---
+
 # Finalize Auction when deadline elapses {V2 Template Example}
 
 Typical direct causes are
