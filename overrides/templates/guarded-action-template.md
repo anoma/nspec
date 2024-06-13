@@ -28,7 +28,7 @@ The following conditions are permissible guards:
 
 For the time being, guards can check only a single message at once.
 `<description of conditions for the action (cf. _event_ in event-driven machine) >`
-
+Guards can provide information (a la pattern-matching) which can then be used in the action.
 ## Action Xi
 
 `<description of "action" cf. Dijkstra's GCL >`
