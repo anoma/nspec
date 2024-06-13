@@ -1,6 +1,9 @@
+import logging
 from typing import Optional
 
 from common.models.fileloc import FileLoc
+
+log: logging.Logger = logging.getLogger("mkdocs")
 
 
 class WikiLink:

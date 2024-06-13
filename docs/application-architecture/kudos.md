@@ -10,14 +10,14 @@ search:
 ## Cryptographic Kudos
 
 _Cryptographic kudos_ are a resource class in which every resource is associated
-with the identity of the initial creator of a resource, called the _instantiator_. 
+with the identity of the initial creator of a resource, called the _instantiator_.
 They come in fungible/non-fungible as well as transferable/non-transferable
-varieties with optional additional constraints. 
+varieties with optional additional constraints.
 
 Kudos enable a rich set of applications and mechanism design approaches and are
 one of the core primitives of Anoma.
 
-Example use cases: 
+Example use cases:
 
 - For each packet $A$ routes for $B$, $B$ instantiates and transfers one kudo of the
   kind `B_routing` and transfers it to $A$, with the promise to route one packet
@@ -29,9 +29,9 @@ The kind of a kudo is determined by its *resource logic* and *label*. Different
 logic components exist for fungible or non-fungible, as well as transferable or
 non-transferable, leading to six different kudo logics. The label contains the
 external identity of the instantiator (the initial creator of any single kudo)
-and an optional suffix for the creation of different subkinds. 
+and an optional suffix for the creation of different subkinds.
 
-## Ownership 
+## Ownership
 
 Each kudo has a current owner set in the value field denoted by an external
 identity, which is the only identity that can authorize a transfer (see below).
@@ -58,7 +58,7 @@ former owner exists.
 ### Non-Transferable Kudos
 
 Non-transferable kudos can only be transferred a single time by the
-instantiator, who is the initial owner. 
+instantiator, who is the initial owner.
 
 ## Kudo Swaps
 

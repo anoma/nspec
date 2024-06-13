@@ -35,6 +35,6 @@ As shards learn more ordering information, they can finally complete reads (sinc
 
 ### Triggers
 
-- _to_ [Executor](../executor.md): [`KVSRead`](../executor/KVS-read.md)
+- _to_ [Executor](./index.md): [`KVSRead`](../executor/KVS-read.md)
   `for each` locked key for which we have established a unique write value,
   send a `KVSRead` message to the appropriate Executor

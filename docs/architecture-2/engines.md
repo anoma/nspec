@@ -48,6 +48,8 @@ Engines:
 - [Decryption](./engines/decryption.md#decryption)
 - [Strategy](./engines/strategy.md#strategy)
 - [Interaction](./engines/interaction.md#interaction)
+- [Pinger](./engines/pinger.md#pinger)
+- [Dumper](./engines/dumper.md#dumper)
 
 ---
 

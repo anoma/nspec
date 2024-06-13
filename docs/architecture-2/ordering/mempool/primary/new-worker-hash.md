@@ -7,7 +7,7 @@ search:
 
 #### NewWorkerHash
 
-- _from_ [Worker](../worker.md)
+- _from_ [Worker](../index.md)
 
 ##### Purpose
 
