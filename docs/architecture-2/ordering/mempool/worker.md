@@ -9,8 +9,17 @@ search:
 
 ## Purpose
 
-Workers are one of the [[Mempool Engines#mempool-engines|mempool engines]]
-and, in V1, they are _the_ only one and there is only a single worker.
+Workers are one of the [[Mempool Engines|mempool engines]].
+All workers receive transaction requests from users and solvers.
+Given the "stream" of requests that they are receiving from users and solvers as input,
+each worker produces a sequence of batches of transaction candidates.
+Transaction batches are stored and worker hashes for them are fabricated
+and sent to their primary, which is building the actual mempool DAG
+that is referencing the batches via hashes.
+
+!!! todo
+
+	fix/revise the rest of this page
 
 <!--[^4]-->
 The worker receives transaction requests from users and
