@@ -1,5 +1,7 @@
 ---
-icon: material/language-markdown
+icon: octicons/markdown-16
+search:
+  exclude: false
 tags:
   - wikilinks
   - images
