@@ -124,17 +124,12 @@ We do this using a set of optimizations.
 ![Per-key ordering (see web version for animation)](keys_animated.svg)
 
 [[Mempool Engines|Mempool]]
- (and after V1, [[Consensus Engine|consensus]]) provides ordering
+ and  [[Consensus Engine|consensus]] provides ordering
  information for  [[TxFingerprint|the time‍stamps]].
 Thus, relative to each key,
 [[TransactionCandidate|transaction candidates]] can be totally ordered by the
  [Happens Before](https://en.wikipedia.org/wiki/Happened-before)
  relationship.
-Since [[TxFingerprint|the only time‍stamps]] in V1 are [[TxFingerprint]]s, and
- V1 has only  [[Worker Engine|one worker engine]], [[TxFingerprint|the set of time‍stamps]] is
- totally ordered, so the
- [Happens Before](https://en.wikipedia.org/wiki/Happened-before)
- relationship is a total order.
 With a total ordering of [[TransactionCandidate|transaction candidates]], Shards can send
  read information ([[KVSRead]]s) to [[Executor]]s as soon as the
  previous [[TransactionCandidate]] is complete.
@@ -202,8 +197,8 @@ The Shard is guaranteed to never receive another [[KVSAcquireLock]]
 In general, a Shard cannot send a [[KVSRead]] for
  a Timestamp unless
   the Timestamp is before `heardAllWrites`.
-For V1, `heardAllWrites` consists of a [[TxFingerprint]] from the
- [[Worker Engine|sole worker engine]] such that [[Worker Engine|the worker engine]] is certain
+`heardAllWrites` consists of a [[TxFingerprint]] from each
+ [[Worker Engine|worker engine]] such that [[Worker Engine|the worker engine]] is certain
  (based on [[KVSLockAcquired]]s) that the Shard has already seen all
  the [[KVSAcquireLock]]s it will ever send at or before that
  [[TxFingerprint]].

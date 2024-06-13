@@ -192,17 +192,11 @@ Outputs:
   additional information provided in
   [[TransactionRequest|transaction requests]] that
   the worker can pass to the executor (in the [[ExecuteTransaction]] message).
-  <!-- quick fix begin--> In V1,
-  the issuer of the [[TransactionRequest|transaction request]]
-  is always informed about the result of execution
-  in the form of an [[ExecutionSummary]].<!-- quick fix end-->
 
 When the execution engine group _executes_ a [[TransactionCandidate]],
- it read the keys from the state that would be reached by execution
+ it read the keys from the state that would be reached by executing
  all preceding [[TransactionCandidate]]s[^7]
- (for V1, these are totally ordered w.r.t.
- [[TxFingerprint|transaction fingerprints]]) to compute the
- $\mathsf{executor\_function}$, and then updates its state.
+  to compute the $\mathsf{executor\_function}$, and then updates its state.
 After executing a [[TransactionCandidate]], the state of the write
  keys must reflect the result of the $\mathsf{executor\_function}$ as
  applied to the read keys.
@@ -221,7 +215,7 @@ Logical timestamps should include:
 - a [[TxFingerprint]]
 - a hash of the transaction candidate
 
-For each mempool worker, tiemstamp ordering should be consistent with 
+For each mempool worker, timestamp ordering should be consistent with 
  the lexicographic order of _batch number_ and _transaction number_
  (where the latter is unique w.r.t. each batch).
 
@@ -265,10 +259,8 @@ This is [multi-version concurrent storage](
 When a [[Shard]] has determined the value a [[TransactionCandidate]]
  reads from a key, it sends that value to the corresponding
  *[[Executor]]*.
-<!-- NOT IN V1
 In the [[Shard]] page, we detail optimizations for getting read values
  to [[Executor]]s as quickly as possible.
--->
 
 ### Executors aka Executor Processes
 
@@ -354,9 +346,10 @@ We detail the Read Backend engine [here](execution/read-backend.md#read-backend)
 
 <!-- think a bit more about IO ... -->
 
-[^1]: For V1, the mempool is already determining a total order,
-    because we only have a single unique worker
+[^1]: For V1, the mempool was already determining a total order,
+    because we only had a single unique worker
     and transaction fingerprints already provide all information of a total order.
+    This is no longer true in V2.
 
 [^2]: In fact, this could be made precise using abstract data types.
 
