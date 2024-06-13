@@ -11,6 +11,17 @@ use_directory_urls: false
 nav:
   - index.md
   - ToC: table-of-contents.md
+
+  - Scope:
+    - ./scope.md
+    - World model:
+      - ./scope/world-model.md
+    - Protocol desiderata:
+      - ./scope/protocol-desiderata.md
+
+  - Basic Types:
+    - ./basic-types/index.md
+
   - System Architecture:
     - ./architecture-1/index.md
     - Abstractions:
@@ -19,6 +30,8 @@ nav:
     - Resource Machine: ./resource-machine.md
   - Node Architecture:
     - ./architecture-2/index.md
+    - Modules:
+      - ./architecture-2/modules/index.md
     - Hardware Abstraction Machine:
       - ./architecture-2/hardware-abstraction/index.md
       - Local Storage Engines:
@@ -338,19 +351,35 @@ nav:
           - ./architecture-2/ordering/execution/executor/index.md
           - ExecuteTransaction: ./architecture-2/ordering/execution/executor/execute-transaction.md
           - KVSRead: ./architecture-2/ordering/execution/executor/KVS-read.md
-  - Applications:
-    - ./applications/index.md
+
+  - Application Architecture:
+    - ./application-architecture/index.md
+    - Definitions:
+      - ./application-architecture/definitions.md
+    - Patterns:
+      - ./application-architecture/patterns.md
+      - Counter:
+        - ./application-architecture/patterns/counter.md
+      - Dynamic code loading:
+        - ./application-architecture/patterns/dynamic-code-loading.md
     - Primitives:
-        - ./applications/primitives/index.md
-        - Tokens: ./applications/primitives/tokens.md
-        - Attestation: ./applications/primitives/attestation.md
-        - Authorization: ./applications/primitives/authorization.md
-    - Counter: ./applications/counter.md
-    - Kudos: ./applications/kudos.md
-    - Proof-of-stake: ./applications/proof-of-stake.md
-    - Generalized bartering: ./applications/generalized-bartering.md
-    - Schelling tests: ./applications/schelling-tests.md
-    - Mesh messaging: ./applications/mesh-messaging.md
+        - ./application-architecture/primitives/index.md
+        - Tokens: ./application-architecture/primitives/tokens.md
+        - Attestation: ./application-architecture/primitives/attestation.md
+        - Authorization: ./application-architecture/primitives/authorization.md
+    - System applications:
+      - ./application-architecture/system-applications.md
+      - Proof-of-stake:
+        - ./application-architecture/system-applications/proof-of-stake.md
+    - Scale-free kudos: ./application-architecture/kudos.md
+    - Schelling tests: ./application-architecture/schelling-tests.md
+
+  - Concrete Implementation:
+    - Data encoding:
+      - ./concrete-implementation/data-encoding.md
+    - Resource machine backends:
+      - ./concrete-implementation/resource-machine-backends.md
+
   - Indexes:
     - ./indexes/index.md
     - Quick links: ./indexes/links.md
