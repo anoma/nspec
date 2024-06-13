@@ -17,6 +17,8 @@ Transaction batches are stored and worker hashes for them are fabricated
 and sent to their primary, which is building the actual mempool DAG
 that is referencing the batches via hashes.
 
+
+
 ---
 
 !!! note
@@ -24,9 +26,95 @@ that is referencing the batches via hashes.
 	here is a (temporary) list of references to the TLA+ spec, 
 	called [Doris](https://en.wikipedia.org/wiki/Doris_(Oceanid))
 
+### tla-types
+
 - [Batches](https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L69-L75) in the formal spec are abstracting away from the containing transaction candidates. Thus, the internal structure of batches is only specified in specs.anaoma.net / nspec.
 
+### tla-actions
 
+The list of all action is described in the [tla-spec](https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L742-L789)
+
+- [BatchBC](https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L755-L758)
+  - [def](https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L809-L842)
+
+```
+(* - Batch broadcast "BatchBC" (message "Batch"):                          *)
+(*                                                                         *)
+(*   A worker broadcasts a                                                 *)
+(*   batch, stores it, and forwards it to its primary for vertex inclusion. *)
+```
+
+
+
+- https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L760-L763
+
+```
+(* - Batch storing "StoreBatch" (NO message ):                             *)
+(*                                                                         *)
+(*   Reception of a batch, storing and hashing such that recieved vertices   *)
+(*   can be validated and acknowledged by the primary.                     *)
+```
+- https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L765-L770
+```
+(* - Batch broadcast "BatchBC" (message "Batch"):                          *)
+(*                                                                         *)
+(*   A worker broadcasts a                                                 *)
+(*   batch, stores it, and forwards it to its primary for vertex inclusion. *)
+```
+
+- https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L772-L774
+```
+(* - Vertex acknowledgement "Ack" (message "Ack")                           *)
+(*                                                                         *)
+(*   Receive a vertex, check its validity, store it, & acknowledge it.      *)
+```
+
+- https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L776-L779
+```
+(* - Certificate broadcats "CertBC" (message "Cert")                       *)
+(*                                                                         *)
+(*   Take an acknowledgement quorum of a proposed vertex, aggregate it      *)
+(*   into a ceritificate, and broadcast the certificate.                   *)
+```
+
+- https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L781-L783
+```
+(* - Store a vertex certificate "StoreVertex" (NO message)                   *)
+(*                                                                         *)
+(*   “Receive” a certificate of availability and store it.                 *)
+```
+
+- https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L785-L788
+```
+(* - Advancing the local round 'AdvanceRound' (NO message)                 *)
+(*                                                                         *)
+(*   A validator moves to the next round,                                  *)
+(*   after receiving a quorum of vertex certificates.                       *)
+```
+
+-
+```
+```
+
+-
+```
+```
+
+-
+```
+```
+
+-
+```
+```
+
+-
+```
+```
+
+-
+```
+```
 
 
 
