@@ -20,13 +20,12 @@ nav:
 
   - Basic Types:
     - ./basic-types/index.md
+    - Identity: ./basic-types/identity.md
+    - Resource: ./basic-types/resource.md
+    - Resource Machine: ./basic-types/resource-machine.md
 
   - System Architecture:
     - ./architecture-1/index.md
-    - Abstractions:
-      - ./architecture-1/abstractions/index.md
-      - Identity: ./architecture-1/abstractions/identity.md
-    - Resource Machine: ./resource-machine.md
   - Node Architecture:
     - ./architecture-2/index.md
     - Modules:
