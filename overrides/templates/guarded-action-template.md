@@ -9,7 +9,7 @@ Ideally, given an event, at most one guard becomes enabled;
 if several guards are enabled given an event,
 priorities of guards may be used to resolve unwanted non-determinism. 
 However, on the level of specs,
-it may be useful to marke the non-determinism
+it may be useful to mark the non-determinism
 provided that any resolution of non-determinism is correct.
 
 Each guard comes with an associated action that is executed
@@ -22,7 +22,11 @@ if the guard is evaluated to true (and has highest priority).
 
 ## Guard Xi
 
+The following conditions are permissible guards:
+- Received a message matching some pattern from another engine
+- Received a message (timer elapsed) matching some pattern from my clock
 
+For the time being, guards can check only a single message at once.
 `<description of conditions for the action (cf. _event_ in event-driven machine) >`
 
 ## Action Xi

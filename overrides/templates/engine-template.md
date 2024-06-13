@@ -140,7 +140,7 @@ erDiagram
 ### EngineTypeXm
 
 ## Guarded Actions
-
+By default, guarded actions should be inlined in the same page. If an engine has too many guarded actions (and thereby putting them all in one page would be unworkable), they can be split out into separate files and linked.
 ### Guarded action $1$ 
 
 <details>
