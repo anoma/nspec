@@ -61,9 +61,10 @@ Each validator node has
 - one [[Primary Engine|_primary_ engine]] and
 - many [[Worker Engine|_worker_ engines]].
 
-A client 
-must choose one or several specific worker engine on one or several validator nodes
-as destination <!-- "target" in actor speak-->for each transaction candidate ordering request.
+A user or solver must choose at least
+one concrete worker engine instance on some validator node
+as destination <!-- "target" in actor speak-->for each transaction candidate ordering request;
+as an alternative strategy, one may choose a random worker engine.
 
 #### Workers
 
