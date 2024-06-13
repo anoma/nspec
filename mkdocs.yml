@@ -10,7 +10,7 @@ use_directory_urls: false
 
 nav:
   - index.md
-  - ToC: ./toc.md
+  - ToC: table-of-contents.md
   - System Architecture:
     - ./architecture-1/index.md
     - Abstractions:
