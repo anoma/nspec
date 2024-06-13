@@ -17,6 +17,23 @@ Transaction batches are stored and worker hashes for them are fabricated
 and sent to their primary, which is building the actual mempool DAG
 that is referencing the batches via hashes.
 
+---
+
+!!! note
+
+	here is a (temporary) list of references to the TLA+ spec, 
+	called [Doris](https://en.wikipedia.org/wiki/Doris_(Oceanid))
+
+- [Batches](https://github.com/anoma/typhon/blob/a58ae2117256ec5f6153fbc0d53809e27825b4a5/tla/Doris.tla#L70-L76) in the formal spec are abstracting away from the containing transaction candidates. Thus, the internal structure of batches is only specified in specs.anaoma.net / nspec.
+
+
+
+
+
+---
+
+##
+
 !!! todo
 
 	fix/revise the rest of this page
