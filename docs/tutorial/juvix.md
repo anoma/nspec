@@ -27,12 +27,12 @@ module tutorial.basics;
 ```</code></pre>
 
 
+Refer to the [`everything.juvix.md`](../everything.juvix.md) file located in the
+`docs` folder to see an example.
 
-Refer to the [`everything.juvix.md`](../everything.juvix.md) file located in the `docs` folder to see an example.
-
-Juvix code blocks come with a few extra features, such as the ability to hide the
-code block from the final output. This is done by adding the `hide` attribute to
-the code block. For example:
+Juvix code blocks come with a few extra features, such as the ability to hide
+the code block from the final output. This is done by adding the `hide`
+attribute to the code block. For example:
 
 <pre><code>```juvix hide
 module tutorial.basics;
@@ -42,7 +42,7 @@ module tutorial.basics;
 Another feature is the ability to extract inner module statements from the code
 block. This is done by adding the `extract-module-statements` attribute to the
 code block. This option can be accompanied by a number to indicate the number of
-statements to extract. For example, the following would only display the content 
+statements to extract. For example, the following would only display the content
 inside the module `B`, that is, the module `C`.
 
 <pre><code>```juvix extract-module-statements 1

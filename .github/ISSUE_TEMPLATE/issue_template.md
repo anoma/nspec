@@ -1,20 +1,22 @@
 ---
 name: Task
-about: Template for promise graph tasks
+about: Template for Promise Graph tasks
 title:
 labels:
 assignees:
 ---
 customer:
 performer:
-deadline: <yyyy-mm-dd>
+deadline:
 estimated:
-started: <yyyy-mm-dd>
+started:
 actual:
-completed: <yyyy-mm-dd>
+completed:
+confirmed:
 dependencies:
 - [ ]
-
+supersedes:
+-
 ---
 
 <definition of done>

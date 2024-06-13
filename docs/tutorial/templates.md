@@ -1,6 +1,6 @@
 ---
 icon: material/dice-1
-template: templates/machine.md
+# template: templates/machine.md
 machine_name: xxxx
 purpose: yyyy
 ---
