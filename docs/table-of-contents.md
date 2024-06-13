@@ -1,5 +1,8 @@
 ---
 icon: material/table-of-contents
+hide:
+  - toc
+  - navigation
 social:
   cards: false
 search:
