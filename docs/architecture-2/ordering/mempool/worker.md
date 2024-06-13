@@ -24,7 +24,7 @@ that is referencing the batches via hashes.
 	here is a (temporary) list of references to the TLA+ spec, 
 	called [Doris](https://en.wikipedia.org/wiki/Doris_(Oceanid))
 
-- [Batches](https://github.com/anoma/typhon/blob/a58ae2117256ec5f6153fbc0d53809e27825b4a5/tla/Doris.tla#L70-L76) in the formal spec are abstracting away from the containing transaction candidates. Thus, the internal structure of batches is only specified in specs.anaoma.net / nspec.
+- [Batches](https://github.com/anoma/typhon/blob/2e810a1e0546a66c1c530d978c330967010ce080/tla/Doris.tla#L69-L75) in the formal spec are abstracting away from the containing transaction candidates. Thus, the internal structure of batches is only specified in specs.anaoma.net / nspec.
 
 
 
