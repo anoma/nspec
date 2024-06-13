@@ -10,6 +10,7 @@ use_directory_urls: false
 
 nav:
   - index.md
+  - ToC: table-of-contents.md
   - System Architecture:
     - ./architecture-1/index.md
     - Abstractions:
@@ -32,7 +33,6 @@ nav:
             - DeleteValueKVStoreRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/delete-value-KVStore-request.md
             - DeleteValueKVStoreResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/messages/delete-value-KVStore-response.md
           - Notifications:
-            - ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications.md
             - ValueChangedKVStore: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/notifications/value-changed-KVStore.md
           - Types:
             - GetValueKVStoreRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-kv-storage-engine/types/get-value-KVStore-request-v1.md
@@ -47,7 +47,6 @@ nav:
         - Local Time Series Storage Engine:
           - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/index.md
           - Messages:
-            - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages.md
             - GetDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/get-data-time-series-DB-request.md
             - GetDataTimeSeriesDBResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/get-data-time-series-DB-response.md
             - RecordDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/record-data-time-series-DB-request.md
@@ -55,7 +54,6 @@ nav:
             - DeleteDataTimeSeriesDBRequest: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/delete-data-time-series-DB-request.md
             - DeleteDataTimeSeriesDBResponse: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/messages/delete-data-time-series-DB-response.md
           - Notifications:
-            - ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/notifications.md
             - DataChangedTimeSeriesDB: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/notifications/data-changed-time-series-DB.md
           - Types:
             - GetDataTimeSeriesDBRequestV1: ./architecture-2/hardware-abstraction/local-storage-engines/local-timeseries-storage-engine/types/get-data-time-series-DB-request-v1.md
@@ -69,7 +67,6 @@ nav:
       - Local Wall Clock Engine:
         - ./architecture-2/hardware-abstraction/local-wall-clock-engine/index.md
         - Messages:
-          - ./architecture-2/hardware-abstraction/local-wall-clock-engine/messages.md
           - LocalWallClockGetTime: ./architecture-2/hardware-abstraction/local-wall-clock-engine/messages/local-wall-clock-get-time.md
           - LocalWallClockGetTimeResult: ./architecture-2/hardware-abstraction/local-wall-clock-engine/messages/local-wall-clock-get-time-result.md
         - Notifications: ./architecture-2/hardware-abstraction/local-wall-clock-engine/notifications.md
@@ -80,7 +77,6 @@ nav:
       - Local Logging Engine:
         - ./architecture-2/hardware-abstraction/local-logging-engine/index.md
         - Messages:
-          - ./architecture-2/hardware-abstraction/local-logging-engine/messages.md
           - LocalLoggingAppend: ./architecture-2/hardware-abstraction/local-logging-engine/messages/local-logging-append.md
         - Notifications: ./architecture-2/hardware-abstraction/local-logging-engine/notifications.md
         - Types:
@@ -141,10 +137,10 @@ nav:
         - ./architecture-2/identity/encryption/index.md
         - EncryptRequestResponse: ./architecture-2/identity/encryption/encrypt-request-response.md
       - Commitment Engine:
-        - ./architecture-2/identity/commitment.md
+        - ./architecture-2/identity/commitment/index.md
         - CommitRequestResponse: ./architecture-2/identity/commitment/commit-request-response.md
       - Verification Engine:
-        - ./architecture-2/identity/verification.md
+        - ./architecture-2/identity/verification/index.md
         - VerifyRequestResponse: ./architecture-2/identity/verification/verify-request-response.md
       - Reads For Engine:
         - ./architecture-2/identity/reads-for/index.md
@@ -168,7 +164,6 @@ nav:
         - Router:
           - ./architecture-2/networking/node/router/index.md
           - Messages:
-            - ./architecture-2/networking/node/router/messages.md
             - EngineMessage: ./architecture-2/networking/node/router/messages/engine-message.md
             - RelayMessage: ./architecture-2/networking/node/router/messages/relay-message.md
             - P2PMessage: ./architecture-2/networking/node/router/messages/p2p-message.md
@@ -216,7 +211,6 @@ nav:
         - Transport:
           - ./architecture-2/networking/node/transport/index.md
           - Messages:
-            - ./architecture-2/networking/node/transport/messages.md
             - P2PMessage to Transport: ./architecture-2/networking/node/transport/messages/p2p-message.md
             - TransportMessage: ./architecture-2/networking/node/transport/messages/transport-message.md
             - ConnectRequest: ./architecture-2/networking/node/transport/messages/connect-request.md
@@ -225,7 +219,6 @@ nav:
             - DisconnectResponse: ./architecture-2/networking/node/transport/messages/disconnect-request.md
             - ConnectedNodesRequest: ./architecture-2/networking/node/transport/messages/connected-nodes-request.md
           - Notifications:
-            - ./architecture-2/networking/node/transport/notifications.md
             - NodeConnected: ./architecture-2/networking/node/transport/notifications/node-connected.md
             - NodeConnectFailed: ./architecture-2/networking/node/transport/notifications/node-connect-failed.md
             - NodeDisconnected: ./architecture-2/networking/node/transport/notifications/node-disconnected.md
@@ -246,7 +239,6 @@ nav:
         - Network Identity Store:
           - ./architecture-2/networking/node/id-store/index.md
           - Messages:
-            - ./architecture-2/networking/node/id-store/messages.md
             - LookupIdentityRequest: ./architecture-2/networking/node/id-store/messages/lookup-identity-request.md
             - LookupIdentityResponse: ./architecture-2/networking/node/id-store/messages/lookup-identity-request.md
             - UpdateIdentityRequest: ./architecture-2/networking/node/id-store/messages/update-identity-request.md
@@ -273,7 +265,6 @@ nav:
         - PubSub:
           - ./architecture-2/networking/intra-domain/pubsub/index.md
           - Messages:
-            - ./architecture-2/networking/intra-domain/pubsub/messages.md
             - TopicAdvert: ./architecture-2/networking/intra-domain/pubsub/messages/topic-advert.md
             - Event: ./architecture-2/networking/intra-domain/pubsub/messages/event.md
             - EngineMessage to PubSub: ./architecture-2/networking/intra-domain/pubsub/messages/engine-message.md
@@ -284,7 +275,6 @@ nav:
             - Unsubscribe: ./architecture-2/networking/intra-domain/pubsub/messages/unsubscribe.md
             - UnsubscribeAck: ./architecture-2/networking/intra-domain/pubsub/messages/unsubscribe-ack.md
           - Notifications:
-            - ./architecture-2/networking/intra-domain/pubsub/notifications/index.md
             - TopicSubscribed: ./architecture-2/networking/intra-domain/pubsub/notifications/topic-subscribed.md
             - TopicUnsubscribed: ./architecture-2/networking/intra-domain/pubsub/notifications/topic-unsubscribed.md
             - TopicAdvertReceived: ./architecture-2/networking/intra-domain/pubsub/notifications/topic-advert-received.md
@@ -298,7 +288,6 @@ nav:
         - Storage:
           - ./architecture-2/networking/intra-domain/storage/index.md
           - Messages:
-            - ./architecture-2/networking/intra-domain/storage/messages.md
             - BlockLookupRequest: ./architecture-2/networking/intra-domain/storage/messages/block-lookup-request.md
             - BlockResult: ./architecture-2/networking/intra-domain/storage/messages/block-result.md
             - BlockGetRequest: ./architecture-2/networking/intra-domain/storage/messages/block-get-request.md
