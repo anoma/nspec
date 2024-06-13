@@ -12,21 +12,19 @@ be it
 
 ## EngineX-specific types
 
-This section describes all types that are specific to an engine. 
+This section describes all types that are specific to an engine. Types should be defined in the most local place in which they are used. For example, if a type is only used in one engine, it should be defined in this section for that engine. If a type is used in multiple engines, it should be defined in the highest-level composed engine which contains all of the engines in which it is used. If a type is used everywhere, it should be defined in the basic types section.
 
-### TypeX1: local engine-specific state
+### Engine State Type
 
-### TypeX2 
 
 .  
 .  
 .  
 
-### TypeXk
 
 ## [paradigmatic message sequence diagram] (optional)
 
-We can use `mermaid` diagrams here.
+We can use `mermaid` diagrams here. This diagram should be included for machines and high-level engine groups. It is optional for small component engines.
 
 ```mermaid
 sequenceDiagram
@@ -115,7 +113,7 @@ sequenceDiagram
 Who is talking to whom and `EngineX` in particular about what?
 For a high-level overview, 
 something like a [conversation diagram](https://sparxsystems.com/enterprise_architect_user_guide/16.1/modeling_languages/bpmn_2_0_conversation.html) can be helpful.
-We could simply (ab-)use mermaid entity relationship diagrams here.
+We could simply (ab-)use mermaid entity relationship diagrams here. This diagram should be included for machines and high-level engine groups. It is optional for small component engines.
 
 Taking again the example of workers in Narwhal,
 the worker is in communication with other workers,
