@@ -121,3 +121,24 @@ Besides updates to the changeable data, the transition function produces
 - requests for spawning new processes
 - the messages to be sent
 - the timers to be set on the clock
+
+# Template files
+
+
+??? "Engine template"
+
+    !!! info 
+
+        The following template can be found in the `overrides/templates/engine-template.md` file.
+    
+
+    --8<-- "./../overrides/templates/engine-template.md"
+
+??? "Guarded action template"
+
+
+    !!! info 
+
+        The following template can be found in the `overrides/templates/guarded-action-template.md` file.
+
+    --8<-- "./../overrides/templates/guarded-action-template.md"
