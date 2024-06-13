@@ -3,24 +3,11 @@ name: anoma-spec-ci
 'on':
   push:
     branches:
-      - main
+      - 'v**'
   schedule:
     - cron: 0 2 * * *
 
-  workflow_dispatch:
-    inputs:
-      build-type:
-        type: choice
-        description: "Docs build type"
-        default: dev
-        options:
-          - dev
-          - latest
-
   pull_request:
-    branches:
-      - main
-      - 'v**'
     types:
       - opened
       - synchronize
@@ -71,7 +58,7 @@ jobs:
           github.event_name == 'pull_request'
         run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG" || true
         env:
-          MSG: "The build is in progress. Please wait for the preview link."
+          MSG: "The build is in progress. Please wait for the preview link. It will be available in a few minutes."
           GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
 
       - name: Download latest nightly Juvix binary
@@ -131,8 +118,8 @@ jobs:
         run: |
           mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
         env:
-          SITE_DIR: pull-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
+          SITE_DIR: pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
 
       - name: comment on PR (Pull Request)
         if: failure() && github.event_name == 'pull_request'
@@ -149,19 +136,13 @@ jobs:
         run: |
           mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
-          SITE_DIR: pull-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}
+          SITE_DIR: pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
 
       - name: The build failed with MkDocs Insiders comment (Pull Request)
         if: github.even_name == 'pull_request' && steps.test-build-mkdocs-insiders.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs." || true
-
-      - name: Cat aliases and juvix_modules
-        if: github.event_name == 'pull_request'
-        run: |
-          cat .hooks/aliases.json
-          cat .hooks/juvix_modules.json
 
       - name: Deploy Preview comment (Pull Request)
         if: github.event_name == 'pull_request' &&
@@ -169,23 +150,13 @@ jobs:
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "Basic build successful and build with MkDocs Insiders successful. We are now deploying the preview." || true
 
-      - name: Build tutorial (Pull Request)
-        id: build-tutorial-pull
-        if: >-
-          github.event_name == 'pull_request'
-        run: |
-          mkdocs build --clean --config-file tutorial.yml --site-dir $SITE_DIR
-        env:
-          SITE_DIR: pull-${{ github.event.pull_request.number }}/tutorial
-          SITE_URL:  https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/tutorial/
-
       - name: Deploy Preview (Pull Request)
         if: github.event_name == 'pull_request' && success()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: pull-${{ github.event.pull_request.number }}
-          target-folder: pull-${{ github.event.pull_request.number }}
+          folder: pr-${{ github.event.pull_request.number }}
+          target-folder: pr-${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
 
@@ -194,7 +165,7 @@ jobs:
            github.event_name == 'pull_request' && success()
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG" || true
         env:
-          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pull-${{ github.event.pull_request.number }}/ in a few minutes.\n\nPlease note that this link will be deleted when the PR is closed or merged."
+          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/ in a few minutes.\n\nPlease note that this link will be deleted when the PR is closed or merged."
 
       - name: Failed preview build comment (Pull Request)
         if: >-
@@ -206,8 +177,8 @@ jobs:
         if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
         run: |
           git checkout gh-pages
-          if [-d "pull-${{ github.event.pull_request.number }}"]; then
-            rm -rf "pull-${{ github.event.pull_request.number }}"
+          if [-d "pr-${{ github.event.pull_request.number }}"]; then
+            rm -rf "pr-${{ github.event.pull_request.number }}"
             git add .
             git commit -m "Delete preview for PR #${{ github.event.pull_request.number }}"
             git push
@@ -216,37 +187,12 @@ jobs:
 
       # -------------------------------------------------------------
 
-      - name: Run MkDocs Insiders (Main branch Workflow Dispatch)
-        if: >-
-          github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make ${{ github.event.inputs.build-type }}
-
-      - name: Run MkDocs Insiders (Main branch - Push)
-        if: >-
-          github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch'
-        run: |
-          MKDOCSCONFIG=mkdocs.insiders.yml make dev
+      - name: Run MkDocs Insiders (Push)
+        if: github.event_name != 'pull_request'
+        run: make deploy
         env:
-          SITE_DIR: dev
-          SITE_URL: https://anoma.github.io/nspec/dev/
-
-      - name: Build tutorial
-        run: |
-          mkdocs build --clean --config-file tutorial.yml --site-dir $SITE_DIR
-        if: >-
-          github.ref == 'refs/heads/main'
-        env:
-          SITE_DIR: tutorial
-          SITE_URL: https://anoma.github.io/nspec/tutorial/
-
-      - name: Deploy Preview (Main branch)
-        if : >-
-          github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: tutorial
-          target-folder: tutorial
-          token: ${{ secrets.GITHUB_TOKEN }}
-          clean: false
+          GITBRANCH: ${{github.ref}}
+          MKDOCSCONFIG: mkdocs.insiders.yml
+          VERSION: ${{github.ref}}
+          SITE_DIR: ${{ github.ref }}
+          SITE_URL: https://anoma.github.io/nspec/${{ github.ref }}
