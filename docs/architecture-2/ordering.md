@@ -225,25 +225,24 @@ To this end, Validators on each chain try to achieve consensus on a
 
 ## Certificates and the Mempool DAG
 
-Availability and integrity certificates describe a “global” mempool ᴅᴀɢ consisting of two types of edges:
-primary-specific ones and learner-specific ones.
-Primary-specific edges correspond to certificates of availability;
-they are of out-degree one (except for degree zero for genesis nodes) and
-they point to _the_ previous vertex that the primary has produced.
-Lerner-specific edges correspond to signatures of signed quorums,
-are optional,
-and they are forbidden as outgoing edges of genesis vertices;
-each signature of a signed quorum of a vertex corresponds to
-an outgoing edge that points to the vertex that was signed
-and is labeled with the primary that signed the vertex.
-The following properties hold:
+Availability and integrity certificates describe a “global” mempool ᴅᴀɢ
+consisting of two types of edges: primary-specific ones and learner-specific
+ones. Primary-specific edges correspond to certificates of availability; they
+are of out-degree one (except for degree zero for genesis nodes) and they point
+to _the_ previous vertex that the primary has produced. Lerner-specific edges
+correspond to signatures of signed quorums, are optional, and they are forbidden
+as outgoing edges of genesis vertices; each signature of a signed quorum of a
+vertex corresponds to an outgoing edge that points to the vertex that was signed
+and is labeled with the primary that signed the vertex. The following properties
+hold:
 
-- all paths to genesis vertices from a given vertex are of the same length and, moreover,
-  contain the same number of edges for each learner,
-  which means that it makes sense to define for each vertex a unique _height_ relative to each learner
+- all paths to genesis vertices from a given vertex are of the same length and,
+  moreover, contain the same number of edges for each learner, which means that
+  it makes sense to define for each vertex a unique _height_ relative to each
+  learner
 
-- every pair of outgoing learner-specific edges of the same learner that have the same primary label must
-  point to different targets
+- every pair of outgoing learner-specific edges of the same learner that have
+  the same primary label must point to different targets
 
-- the set of primary labels of outgoing edges of every vertex form
-  a learner-specific quorum (for the learner-specific vertex height).
+- the set of primary labels of outgoing edges of every vertex form a
+  learner-specific quorum (for the learner-specific vertex height).

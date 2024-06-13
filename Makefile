@@ -34,16 +34,15 @@ test-build: export REMOVE_CACHE=true
 test-build:
 	@mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
-.PHONY: assets
-assets:
-	@curl -s -o art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
+art.bib:
+	@curl -s -o docs/references/art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
 
 .PHONY: serve
-serve: assets
+serve:
 	mkdocs serve --dev-addr localhost:${PORT} --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
 .PHONY : mike
-mike: assets
+mike:
 	@git fetch --all
 	@git checkout gh-pages
 	@git pull origin gh-pages --rebase
@@ -61,12 +60,12 @@ delete-alias:
 .PHONY: dev
 dev: export VERSION=${DEVALIAS}
 dev: export DEV=true
-dev: assets
+dev:
 	${MAKE} delete-alias
 	${MAKE} mike
 
 .PHONY: latest
-latest: assets
+latest:
 	${MAKE} delete-alias
 	${MAKE} mike
 	mike alias ${VERSION} latest -u ${MIKEFLAGS}

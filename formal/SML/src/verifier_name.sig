@@ -6,7 +6,7 @@ An `identityName` can be mapped to an appropriate `Verifier.verifier`
  when suitable `evidence` is found.
 Here, `checkVerifierName` defines what evidence is acceptable for a
  `Verifier.verifier`.
- 
+
 Note that `identityName`s are also hashable: we require a structure
  `VerifierNameHash` that details how to hash them.
 *)(* --8<-- [end:verifier_name_description] *)
