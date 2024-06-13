@@ -54,7 +54,7 @@ we distinguish between certificates of availability and integrity.
 
 
 
-### Overview
+## Overview
 
 Each validator node has
 
@@ -66,7 +66,7 @@ one concrete worker engine instance on some validator node
 as destination <!-- "target" in actor speak-->for each transaction candidate ordering request;
 as an alternative strategy, one may choose a random worker engine.
 
-#### Workers
+### Workers
 
 Worker enginees ensure transaction candidates are available
 until it is known that sufficiently many validators have ordered and exectued them.
@@ -81,7 +81,7 @@ is done by workers instead of primaries,
 avoiding the "leader bottleneck" <!-- citation needed 
 -->such that consensus decisions are faster and/or cheaper.
 
-#### Primaries 
+### Primaries 
 
 Primary engines establish a partial order of transaction candidate vertices
 (and by extension transaction candidates), in the form of a structured ᴅᴀɢ.
