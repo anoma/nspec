@@ -326,7 +326,7 @@ nav:
         - ReadLabel: ./architecture-2/ordering/types/read-label.md
         - WriteLabel: ./architecture-2/ordering/types/write-label.md
         - WorkerHash: ./architecture-2/ordering/types/worker-hash.md
-      - Mempool Engines:
+      - Mempool engines:
         - ./architecture-2/ordering/mempool/index.md
         - Execution Supervisor:
           - ./architecture-2/ordering/mempool/execution-supervisor/index.md
@@ -339,7 +339,7 @@ nav:
           - TransactionRequest: ./architecture-2/ordering/mempool/worker/transaction-request.md
           - RequestLogs: ./architecture-2/ordering/mempool/worker/request-logs.md
       - Consensus Engine: ./architecture-2/ordering/consensus-v1.md
-      - Execution Engines:
+      - Execution engines:
         - ./architecture-2/ordering/execution/index.md
         - Shard:
           - ./architecture-2/ordering/execution/shard/index.md
@@ -384,11 +384,11 @@ nav:
     - ./indexes/index.md
     - Quick links: ./indexes/links.md
     - Juvix Modules: ./indexes/juvix_modules.md
-  - For Spec writers:
+  - For Spec-writers:
     - ./tutorial/index.md
     - Install: ./tutorial/install.md
     - Markdown:
-      - ./tutorial/markdown/index.md
+      - ./tutorial/md/index.md
       - Using Juvix code: ./tutorial/juvix.md
       - Including diffs:
         - ./tutorial/differ/index.md
