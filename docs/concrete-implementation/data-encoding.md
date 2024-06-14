@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Data encoding
 
 The protocol uses [SSZ](https://github.com/ethereum/consensus-specs/blob/dev/ssz/simple-serialize.md), with the following mapping:
