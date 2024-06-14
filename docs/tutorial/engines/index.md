@@ -123,8 +123,23 @@ Besides updates to the changeable data, the transition function produces
 - the messages to be sent
 - the timers to be set on the clock
 
+## Transition functions via guarded actions
 
-# Template files
+The Anoma specification defines transition functions
+via a set of guarded actions.
+The word `action` is taken from Lamport's temporal logic of actions,
+`guarded` is taken from Dijkstra's guarded command language,
+and indeed, guarded actions are a mix of the two.
+Roughly,
+the idea of guarded actions is to split up
+the set of possible inputs of the state transition function into
+a finite number of cases, each of which corresponds to a _kind_ of events.
+However,
+there may be concurrency and conflicts between guarded actions,
+which need to be handled with care or resolved.
+The details of guarded actions are explained in the template.
+
+## Template files
 
 
 ??? "Engine template"
