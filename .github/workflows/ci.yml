@@ -173,18 +173,6 @@ jobs:
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Please check the logs." || true
 
-      - name: Delete the PR preview if the PR is closed or merged (Pull Request)
-        if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed')
-        run: |
-          git checkout gh-pages
-          if [-d "pr-${{ github.event.pull_request.number }}"]; then
-            rm -rf "pr-${{ github.event.pull_request.number }}"
-            git add .
-            git commit -m "Delete preview for PR #${{ github.event.pull_request.number }}"
-            git push
-          fi
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR has been deleted." || true
-
       # -------------------------------------------------------------
 
       - name: Run MkDocs Insiders (Push)
