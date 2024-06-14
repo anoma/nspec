@@ -8,7 +8,7 @@ search:
 ### `PotentialProposal`
 
 <!-- --8<-- [start:purpose] -->
-- _from_ [Mempool Primary](../mempool/primary.md)
+- _from_ [[Primary]]
 
 #### Purpose
 
