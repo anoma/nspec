@@ -28,7 +28,7 @@ The following conditions are permissible guards:
 
 For the time being, guards can check only a single message at once.
 `<description of conditions for the action (cf. _event_ in event-driven machine) >`
-Guards can provide information (a la pattern-matching) which can then be used in the action.
+Guards can provide information (a la pattern-matching) which can then be used in the action. Each guard should come with a specified type `LocalData -> Maybe<T>` where `T` is the data that the guard will bind (pattern-match) out of the local data if (and only if) it matches.
 ## Action Xi
 
 `<description of "action" cf. Dijkstra's GCL >`
