@@ -15,7 +15,7 @@ The auctioneer is responsible for a single auction.
 
 ### Bool${}^2$: the local engine specific state
 
-Keep track of wether the auction is started
+Keep track of whether the auction is started
 and whether the deadline has passed.
 
 ### Bid
