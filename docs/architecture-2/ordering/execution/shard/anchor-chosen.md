@@ -34,7 +34,7 @@ Once we have enough ordering information to establish the unique write preceding
 
 #### Triggers
 
-- to [Executor](../executor.md): [`KVSRead`](../executor/KVS-read.md)
+- to [Executor](./../executor/index.md): [`KVSRead`](../executor/KVS-read.md)
   `for each` locked key for which we have established a unique write value,
   send a `KVSRead` message to the appropriate Executor. 
 

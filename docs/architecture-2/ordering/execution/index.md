@@ -276,11 +276,11 @@ To save on communication costs,
 
 ### Read Backend
 
-[Read-only Transaction Candidates](../engines/execution.md#optimization-client-reads-as-read-only-transactions) generalize state reads: any time someone wants to read (or compute something from) the official state on the validator (without changing it), it's a read-only transaction. 
+[Read-only Transaction Candidates](../../engines/execution.md#optimization-client-reads-as-read-only-transactions) generalize state reads: any time someone wants to read (or compute something from) the official state on the validator (without changing it), it's a read-only transaction. 
 We need a public-facing process that communicates with the shards and executors much like the mempool.
-The primary difference between the [Read Backend](execution/read-backend.md#read-backend) and the mempool in terms of interface is just that its transactions cannot write to state.
+The primary difference between the [Read Backend](./read-backend.md#read-backend) and the mempool in terms of interface is just that its transactions cannot write to state.
 
-We detail the Read Backend engine [here](execution/read-backend.md#read-backend).
+We detail the Read Backend engine [here](./read-backend.md#read-backend).
 
 <!--
 ## Life of a Transaction
