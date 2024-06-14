@@ -387,6 +387,10 @@ nav:
       - Including diffs:
         - ./tutorial/differ/index.md
         - Example of diff rendering: ./tutorial/file-v1.md
+    - Engines:
+      - ./tutorial/engines/index.md
+      - Engine template example: ./tutorial/engines/engine-template-example.md
+      - Guarded action example: ./tutorial/engines/guarded-action-example.md
 
 extra:
   social:
