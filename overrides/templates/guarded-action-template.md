@@ -1,9 +1,20 @@
-#  {V2 Template ⊂ V3 Template}
+# Guarded Action `<` _Name of guarded action- `>` {V2 Template ⊂ V3 Template}
 
-Each guard is a predicate that decides if a certain "action" is enabled
-based on local information only---whence the name.
+Each guard specifies a predicate that
+decides if a certain "action" is enabled
+based on local information only---whence the name;
+in order to allow for typical pattern matching techniques,
+we complement the predicate with an output of "matched" arguments.
 
-All guards of an engine are evaluated whenever a new event occurs.
+!!! todo
+	
+	add juvix type here
+
+In theory,
+all guards of an engine are evaluated whenever a new event occurs
+in parallel; 
+in practice, for specific case, one may want to choose 
+a more efficient, but equivalent strategy.
 
 Ideally, given an event, at most one guard becomes enabled;
 if several guards are enabled given an event,
@@ -17,8 +28,7 @@ if the guard is evaluated to true (and has highest priority).
 
 !!! Note
 
-	New events are "muted" for the time of guard execution.
-
+	New events are "muted" for the time of guard and action execution.
 
 ## Guard Xi
 
