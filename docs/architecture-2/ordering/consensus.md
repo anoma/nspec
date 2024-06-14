@@ -16,7 +16,7 @@ This establishes a total order of transactions for the [execution engine](./exec
 
 ### Background
 
-The consensus algorithm is based on [Heterogeneous Paxos](https://arxiv.org/abs/2011.08253).
+The consensus algorithm is based on Heterogeneous Paxos[@sheff2020heterogeneous]
 
 ### Scope
 
