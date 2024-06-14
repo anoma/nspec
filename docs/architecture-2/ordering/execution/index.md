@@ -59,8 +59,6 @@ All state reads outside of Transaction Candidates (including for backups,
 [merkleization](https://en.wikipedia.org/wiki/Merkle_tree), etc.) can be done through the Read Backend, which does not exist in V1.
 -->
 
-<<<<<<< HEAD:docs/architecture-2/ordering/execution.md
-=======
 In specifying the [[Execution Engines]], we abstract over the contents of the
 state machine, or exactly what has to be done to update it given a
 [[TransactionCandidate]]. The state of Anoma's state machine will contain
@@ -74,7 +72,6 @@ parameter.[^2]
 For V1, we assume that there is a single validator that is maintaining a single
 state machine. V1 does not include any kind of garbage collection or deletion of
 old state.
->>>>>>> v2:docs/architecture-2/ordering/execution/index.md
 
 Each Validator maintains its own Execution Engine group.
 These are complete replicas of the state machine, with complete replication of Transaction Candidate execution.
@@ -212,16 +209,12 @@ The state stored at each Timestamp must be the one
  Timestamps.
 
 ## Engines Overview
-<<<<<<< HEAD:docs/architecture-2/ordering/execution.md
-![Execution Architecture](execution/rough_execution_engine_message_passing_web.svg)
-=======
 
 !!! todo
 
     adapt
 
     ![Execution Architecture](rough_execution_engine_message_passing_web.svg)
->>>>>>> v2:docs/architecture-2/ordering/execution/index.md
 
 ### Shards
 
