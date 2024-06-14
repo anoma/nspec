@@ -8,7 +8,7 @@ search:
 ### `HPaxosCommitment`
 
 <!-- --8<-- [start:purpose] -->
-- _from_ [Consensus](../consensus-homogeneous.md)
+- _from_ [[Consensus Engine]]
 
 #### Purpose
 
