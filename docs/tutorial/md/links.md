@@ -41,6 +41,22 @@ possible.
   [[Reference Page]]
   ```
 
+The "Reference Page" is the name/key use in the navigation of the documentation,
+found in the `nav` attribute of the `mkdocs.yml` file. For example,
+
+```yaml
+nav:
+  - Home: index.md
+  - MyRef X: reference.md
+```
+
+provides the following wikilink:
+
+```markdown
+[[MyRef X]]
+```
+
+
 - Anchors are optional:
 
   ```markdown

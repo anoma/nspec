@@ -42,3 +42,19 @@ categories:
   - tutorial
 ---
 ```
+
+!!! warning
+
+    Any new markdown file added to the `docs` directory must, in principle, have
+    an entry in the `mkdocs.yml` file, precisely in the `nav` section. 
+
+    The filename may be relevant depending on where it is placed in the
+    navigation. For example, any file intended to be the landing page of a section, say Section X, must be named `index.md` and placed right below the `Section X` item. Children of `Section X` do not need to follow any specific naming convention. 
+
+    ```
+    ...
+    - Section X:
+        - ./path-to/index.md
+        - NameRef Child1 : ./path-to/child1.md
+        - NameRef Child2 : ./path-to/child2.md
+    ```
