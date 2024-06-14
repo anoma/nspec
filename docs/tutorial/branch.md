@@ -69,7 +69,7 @@ different, possibly older version, the steps are similar.
 
     ```bash
     git checkout vX # Replace vX with the current version
-    git checkout -b your-name-issue-identifier
+    git checkout -b your-name/issue-identifier
     ```
 
 ### Rebasing Your Work
@@ -85,7 +85,7 @@ the pull request.
 - Switch to your working branch:
 
     ```bash
-    git checkout your-name-issue-identifier
+    git checkout your-name/issue-identifier
     ```
 
 - Initiate the rebase onto the target branch (e.g., `vX`):
@@ -112,13 +112,13 @@ the pull request.
 - Once the rebase is finished, push the changes to the remote repository.
 
 ```bash
-git push origin your-name-issue-identifier
+git push origin your-name/issue-identifier
 ```
 
 - A force push may be required if the rebase altered the branch history:
 
 ```bash
-git push origin your-name-issue-identifier --force-with-lease
+git push origin your-name/issue-identifier --force-with-lease
 ```
 
 ## Important Notes
