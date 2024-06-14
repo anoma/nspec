@@ -383,8 +383,13 @@ nav:
       - ./tutorial/install/index.md
     - Markdown:
       - ./tutorial/md/index.md
-      - Using Juvix code: ./tutorial/juvix.md
-      - Including diffs:
+      - Wiki-style links: ./tutorial/md/links.md
+      - Images: ./tutorial/md/images.md
+      - Todos: ./tutorial/md/todos.md
+      - Snippets: ./tutorial/md/snippets.md
+      - Citations: ./tutorial/md/citations.md
+      - Juvix code: ./tutorial/juvix.md
+      - Diffs:
         - ./tutorial/differ/index.md
         - Example of diff rendering: ./tutorial/file-v1.md
 
