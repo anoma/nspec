@@ -71,9 +71,10 @@ but a new "continuation engine" could be spawned with a new identifier.
 ## On engine types
 
 An engine type is in bijective correspondence to a function that
-describes how every instance that is based on this function behaves.
-It takes as input local data, 
-and each item of local data is in one of the following three categories:
+describes how every instance that is based on this function behaves;
+we may just speak of an engine type as if it was a function.
+This function takes as input all local data of engine instances. 
+each item of local data falls into one of the following three categories:
 
 - information that is not changed (as part result of mere state transition):
     - the cryptographic identity
@@ -86,6 +87,11 @@ and each item of local data is in one of the following three categories:
 As this function is strongly typed in the formal model / in juvix, 
 the engine type thus determines a list of types, which seems long.
 Thus, let us "annotate" the above list.
+
+
+!!! todo
+
+	clean up the following annonated quote (ignore for the review for the moment) 🙏
 
 > - an {engine independent type for the} identity, namely a pair of
 >     - an external identity {type} and
