@@ -365,16 +365,13 @@ nav:
         - Authorization: ./application-architecture/primitives/authorization.md
     - System applications:
       - ./application-architecture/system-applications.md
-      - Proof-of-stake:
-        - ./application-architecture/system-applications/proof-of-stake.md
+      - Proof-of-stake: ./application-architecture/system-applications/proof-of-stake.md
     - Scale-free kudos: ./application-architecture/kudos.md
     - Schelling tests: ./application-architecture/schelling-tests.md
 
   - Concrete Implementation:
-    - Data encoding:
-      - ./concrete-implementation/data-encoding.md
-    - Resource machine backends:
-      - ./concrete-implementation/resource-machine-backends.md
+    - Data encoding: ./concrete-implementation/data-encoding.md
+    - Resource machine backends:  ./concrete-implementation/resource-machine-backends.md
 
   - Indexes:
     - ./indexes/index.md
