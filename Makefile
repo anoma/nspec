@@ -2,9 +2,6 @@ PORT?=8000
 VERSION?=$(shell cat VERSION)
 PIP?=pip3
 
-DEV?=true
-DEVALIAS?=dev
-
 PWD=$(CURDIR)
 
 MAKEAUXFLAGS?=-s
@@ -57,21 +54,17 @@ mike-serve: docs
 delete-alias:
 	mike delete ${VERSION} ${MIKEFLAGS} > /dev/null 2>&1 || true
 
-.PHONY: dev
-dev: export VERSION=${DEVALIAS}
-dev: export DEV=true
-dev:
+.PHONY: deploy
+deploy:
 	${MAKE} delete-alias
 	${MAKE} mike
-
-.PHONY: latest
-latest:
-	${MAKE} delete-alias
-	${MAKE} mike
-	mike alias ${VERSION} latest -u ${MIKEFLAGS}
-	mike set-default ${MIKEFLAGS} ${VERSION}
-	git tag -d v${VERSION} > /dev/null 2>&1 || true
-	git tag -a v${VERSION} -m "Release v${VERSION}"
+	DEFAULTVERSION=$(shell cat VERSION); \
+	if [ "${VERSION}" = "${DEFAULTVERSION}" ]; then \
+		mike set-default ${MIKEFLAGS} ${DEFAULTVERSION}; \
+		mike alias ${VERSION} latest -u ${MIKEFLAGS}; \
+	fi; \
+	git tag -d ${VERSION} > /dev/null 2>&1 || true; \
+	git tag -a ${VERSION} -m "Release ${VERSION}"
 
 install:
 	@echo "[!] Use a Python virtual environment if you are not using one."

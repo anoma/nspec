@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # World model
 
 Anoma operates with the fundamental conceptual frame of *agents* in a *world* who may often seek to share their observations of the world, pool their storage and computational resources, and coordinate their actions taken within the world for mutually preferred effect.
@@ -24,7 +31,7 @@ An agent always exists in a _world_. The _world_, in some sense, is simply the s
 
 ### Observations & actions
 
-Agents can interact with the world in two ways: by taking _observations_ of it, and by performing _actions_ within it. _Observations_ can be understood as messages received from the world, while _actions_ can be understood as messages sent to it. 
+Agents can interact with the world in two ways: by taking _observations_ of it, and by performing _actions_ within it. _Observations_ can be understood as messages received from the world, while _actions_ can be understood as messages sent to it.
 
 _Observations_ may be directed by a particular conceptualization of phenomena, in which case they are called _measurements_, and accompanied by a name of semantic significance to the agent taking the measurement, or undirected, in which case they are called _perceptions_ and unaccompanied. Observations may be initiated by the agent itself or initiated by the world.
 
@@ -107,18 +114,18 @@ What is a protocol in this context?
 
 ## Agents
 
-The Anoma architecture operates on the basis of *agents*. The architecture does not presume any sort of global view or global time. It also does not presume any particular _motivations_ of agents, but rather describes the state of the system as a function of the decisions taken by agents over (partially ordered) time. 
+The Anoma architecture operates on the basis of *agents*. The architecture does not presume any sort of global view or global time. It also does not presume any particular _motivations_ of agents, but rather describes the state of the system as a function of the decisions taken by agents over (partially ordered) time.
 
 1. *Agent* is a primary notion in the Anoma protocol that aims to extend/replace
    the notion of _process_ in the distributed systems literature.
 
 2. _Agents_ are assumed to have the ability to:
-    - generate local randomness, 
-    - locally store and retrieve data, 
-    - perform arbitrary classical computations, 
+    - generate local randomness,
+    - locally store and retrieve data,
+    - perform arbitrary classical computations,
     - create, send, receive and read messages over an
         arbitrary, asynchronous physical network.
-   
+
 2. Agents _may_ have local input (e.g. human user input) and/or local randomness
    (e.g. from a hardware random number generator).
 

@@ -38,16 +38,16 @@ This section describes an example of a simplified version of the Proof-of-Stake 
 |$B_{owner}$| Refers to the delegator
 
 #### Bond logic
-- Create: 
+- Create:
     - Verify $T$ kind to be the governance token kind (for both the created and consumed resource)
     - A token resource $T$ was transferred from $T_{owner}$ to the pool:
         - Consumed token resource belonged to $T_{owner}$
         - Created token resource belongs to the pool
         - $T_{quantity}^{consumed} = T_{quantity}^{created}$
-    - $B_{quantity}$ = $T_{quantity}$ 
+    - $B_{quantity}$ = $T_{quantity}$
     - $B_{owner}$ = $T_{owner}$
 
-- Consume: 
+- Consume:
     - A withdrawal of kind $W$ is consumed
         - Verify $W$ kind
 
@@ -88,19 +88,19 @@ This section describes an example of a simplified version of the Proof-of-Stake 
 #### Infraction logic
 - Create:
     - Verify a proof of misbehaviour of the validator $I_{validator}$ at $I_{timestamp}$
-- Consume: 
+- Consume:
     - Never
 
 ### VotingPower
 |Field|Description|
 |-|-|
 |$VP_{map}$| contains a map between validators and their current voting power
-|$VP_{timestamp}$| defines the time period for which the voting power is computed 
+|$VP_{timestamp}$| defines the time period for which the voting power is computed
 
 #### VotingPower logic
 - Create:
     - Provided with all bonds (read data, not consumed), iterate over them and compute the voting power for each validator: $VP_{map}[V] = \Sigma_{B_{validator} = V}{B_{quantity}}$
-- Consume: 
+- Consume:
     - Never
 
 ## PoS application

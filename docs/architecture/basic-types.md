@@ -5,4 +5,6 @@ search:
   boost: 2
 ---
 
-# Counter
+# Basic types
+
+This section contains basic types used throughout the protocol.

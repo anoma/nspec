@@ -47,10 +47,7 @@ overview and guidance for how to think about developing applications on Anoma.
 
 - [Kudos](./kudos.md#kudos)
 
-- [Proof-of-stake](./proof-of-stake.md#proof-of-stake)
-
-- [Generalized bartering](./generalized-bartering.md#generalized-bartering)
+- [Proof-of-stake](./system-applications/proof-of-stake.md#proof-of-stake)
 
 - [Schelling tests](./schelling-tests.md#schelling-tests)
 
-- [Mesh messaging](./mesh-messaging.md#mesh-messaging)
