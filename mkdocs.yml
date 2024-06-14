@@ -379,9 +379,10 @@ nav:
     - Juvix Modules: ./indexes/juvix_modules.md
   - For Spec-writers:
     - ./tutorial/index.md
-    - Preparing working environment:
+    - Prepare working environment: 
       - ./tutorial/install/index.md
-    - Markdown:
+    - Git Workflow: ./tutorial/branch.md
+    - Write using Markdown plus Anoma extensions:
       - ./tutorial/md/index.md
       - Wiki-style links: ./tutorial/md/links.md
       - Images: ./tutorial/md/images.md
