@@ -334,7 +334,9 @@ nav:
             - KVSLockAcquired: ./architecture-2/ordering/mempool/worker/KVS-lock-acquired.md
             - TransactionRequest: ./architecture-2/ordering/mempool/worker/transaction-request.md
             - RequestLogs: ./architecture-2/ordering/mempool/worker/request-logs.md
-        - Consensus Engine: ./architecture-2/ordering/consensus-homogeneous.md
+        - Consensus Engine:
+          - ./architecture-2/ordering/consensus-homogeneous.md
+          - Formal Definitions: ./architecture-2/ordering/consensus/homogeneous-paxos-formal.md
         - Execution engines:
           - ./architecture-2/ordering/execution/index.md
           - Shard:
