@@ -8,87 +8,82 @@ search:
 
 ## Introduction
 
-In rough analogy to the actor model,
-where systems consist of actors that communicate via message passing,
-every Anoma instance consists of a finite collection of
+The Anoma specification is inspiredy by the actor model,[^3]
+where systems consist of actors that communicate via message passing:
+every Anoma instance is considered as a finite[^4] collection of
 _engine instances_ that communicate by sending messages to each other.
-The behavior of each engine instance
-is determined by a _state transition function_ that is
-invoked whenever an event occurs at the engine instance,
+The behavior of each engine instance—i.e., 
+how it reacts to receiving a message in 
+the context of previously sent messages—is
+determined by a _state transition function_.
+the latter is invoked whenever an event occurs at the engine instance,
 typically, the arrival of a new message.[^1]
 The most important fact is that
 the Anoma specification describes 
-a fixed finite number of _state transition functions_ 
+a _fixed_ finite number of state transition functions 
 such that
-the behaviour of every (correct and non-faulty) engine instance in Anoma
-is determined by exactly one of these _state transition functions_.
+the behaviour of every (correct and non-faulty) engine instance in an Anoma instance
+is determined by exactly one of these state transition functions.
 We dub the equivalence class of engine instances that share 
-the same _state transition function_ an _engine type_.
+the same state transition function an _engine type_.
 
 We now describe in more detail the "internal" structure of
 each engine instance; this is also a deliberate design choice.
-Then, we describe how the corresponding engine type can be described.
+<!-- Then, we describe how the corresponding engine type can be described. -->
 
-[^1]: We also will allow for elapsing of timers,
-which is a technical detail concerning the handling of 
-local time in engine instances.
-The role of the template is the organization of 
-the specification of engine types and their engine instances.
+## On the local data of engine instances
 
-## On the local information at engine instances
+Each engine instance, at any given moment (in local time),
+has the following local data (directly and exclusively accessible):
 
-Each engine instance, at any given point in local time,
-has local information, namely 
+- its _identity_, given by a pair of
+    - an [[External Identity|external identity]] and
+    - an [[Internal Identity|internal identity]]
 
-- its identity, given by a pair of
-    - an external identity and
-    - an internal identity
+- its mailboxes that store received messages, represented by a pair of
 
-- its mailboxes that store received messages, represented by
+  - a finite set of _mailbox identifiers_ (MID for short), typically non-empty
 
-  - a finite set of mailbox identifiers (MID for short), typically non-empty
-
-  - a map from these mailbox identifiers to pairs of
-    - a list of messages that were sent to the MID but not processed yet-the associated mailbox
+  - a function that maps mailbox identifiers to pairs of
+    - a list of messages that were sent to the MID but not processed yet
     - an optional mailbox-specific state (for quick processing of incoming messages)
 
 - a finite set of _named acquaintances_,[^2] represented by
     - a finite set of names
-    - a map from these names to the identities of the acquaintances
+    - a map from these names to the [[External Identity|external identities]] of
+	  the acquaintances
 
-- memory for previously set timers, given by 
+- memory for previously set timers, given by
     - a finite set of timer handles
     - a map from these timer handles to the requested notification time
 
-- optionally,  memory for names of spawned engines that do not have a
-  cryptographic id yet
+- optionally,  memory for names of spawned engines that 
+  do not have a cryptographic id yet
 
 - engine-specific local state
+
 - the current time 
 
 The engine's identity is unchangeable,
 but a new "continuation engine" could be spawned with a new identifier.
 
 
-
-
-[^2]: Here, we borrow actor terminology.
-
 ## On engine types
 
 An engine type is in bijective correspondence to a function that
 describes how every instance that is based on this function behaves.
-It has some inputs, which belong to one of three categories:
+It takes as input local data, 
+and each item of local data is in one of the following three categories:
 
-- information that is not changed (as part result of mere state transition
-  function):
-    - the cryptographic identifier
+- information that is not changed (as part result of mere state transition):
+    - the cryptographic identity
 - specific information about the event that has occurred
     - for a message, the time of arrival and the actual message
-    - for a timer that has elapsed, the "handle" of the timer
-- all other local information (as described above)
+    - for a timer that has elapsed, the _handle_ of the timer
+- all other local data (as described above in the section
+  `On the local data of engine instances`)
 
-As this function is strongly typed in the formal model, 
+As this function is strongly typed in the formal model / in juvix, 
 the engine type thus determines a list of types, which seems long.
 Thus, let us "annotate" the above list.
 
@@ -122,6 +117,7 @@ Besides updates to the changeable data, the transition function produces
 - the messages to be sent
 - the timers to be set on the clock
 
+
 # Template files
 
 
@@ -142,3 +138,25 @@ Besides updates to the changeable data, the transition function produces
         The following template can be found in the `overrides/templates/guarded-action-template.md` file.
 
     --8<-- "./../overrides/templates/guarded-action-template.md"
+
+---
+
+<!-- footnotes -->
+
+[^1]: We also will allow for elapsing of timers,
+which is a technical detail concerning the handling of 
+local time in engine instances.
+The role of the template is the organization of 
+the specification of engine types and their engine instances.
+
+[^2]: Here, we borrow actor terminology.
+
+[^3]: At the time of writing V2 specs, further relevant sources are
+    [Selectors](https://dl.acm.org/doi/10.1145/2687357.2687360) and
+	[mailbox types](https://simonjf.com/writing/pat.pdf);
+	we shall refer to the latter as _mailbox usage_ types
+	to avoid a name clash with
+	the type of messages that are contained in mailboxes.
+
+[^4]: The specification does not fix any bound on 
+	the number of engines in existence.
