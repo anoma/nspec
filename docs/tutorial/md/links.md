@@ -13,7 +13,7 @@ todos: False
 
 Wikilinks offer a simple method for citing and referencing other pages in the
 documentation without lengthy URLs. **Wikilinks are the preferred method for
-linking to other pages** in the documentation, so plese use them whenever
+linking to other pages** in the documentation, so please use them whenever
 possible.
 
 ```
