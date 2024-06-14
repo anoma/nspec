@@ -22,16 +22,28 @@ if the guard is evaluated to true (and has highest priority).
 
 ## Guard Xi
 
+<!-- this seemed to be outdated -->
 The following conditions are permissible guards:
 - Received a message matching some pattern from another engine
 - Received a message (timer elapsed) matching some pattern from my clock
 
 For the time being, guards can check only a single message at once.
+<!-- -->
+
 `<description of conditions for the action (cf. _event_ in event-driven machine) >`
+<<<<<<< HEAD
 Guards can provide information (a la pattern-matching) which can then be used in the action. Each guard should come with a specified type `LocalData -> Maybe<T>` where `T` is the data that the guard will bind (pattern-match) out of the local data if (and only if) it matches.
 ## Action Xi
+=======
+Guards can provide information (a la pattern-matching) which can then be used in the action.
+## Action [`<` _ActionName_ `>`]
 
-`<description of "action" cf. Dijkstra's GCL >`
+The action of a guarded action is a function.
+I takes as input
+all local data of an engine _and also_
+the _arguments_ that are returned by the guard.
+>>>>>>> 5b63cd5ba4 (remove what may likely be outdated)
+
 
 ### state update
 
