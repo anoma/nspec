@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# (Homogeneous) Consensus
+# Consensus
 
 ## Introduction
 
