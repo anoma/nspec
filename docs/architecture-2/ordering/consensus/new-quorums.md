@@ -21,10 +21,10 @@ Informs primaries about the quorums to use for a range of heights.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| `chain_id` | [ChainId](./architecture-2/ordering/types/allofthem.md#ChainId) | the chain Id |
-| `quorums` | [Quorums](./architecture-2/ordering/types/allofthem.md#Quorums) | the chain quorums |
-| `start_height` | [Height](./architecture-2/ordering/types/allofthem.md#Height) | start height |
-| `end_height` | [Height](./architecture-2/ordering/types/allofthem.md#Height) | end height |
+| `chain_id` | [ChainId](./../types/allofthem/index.md#ChainId) | the chain Id |
+| `quorums` | [Quorums](./../types/allofthem/index.md#Quorums) | the chain quorums |
+| `start_height` | [Height](./../types/allofthem/index.md#Height) | start height |
+| `end_height` | [Height](./../types/allofthem/index.md#Height) | end height |
 
 #### Effects
 

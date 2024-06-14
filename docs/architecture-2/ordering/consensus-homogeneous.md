@@ -11,19 +11,18 @@ search:
 
 ### Purpose
 
-Consensus establishes a totally ordered sequence of headers received from the [mempool](mempool.md) DAG.
-This establishes a total order of transactions for the [execution engine](execution.md) to execute.
+Consensus establishes a totally ordered sequence of headers received from the [mempool](./mempool/index.md) DAG.
+This establishes a total order of transactions for the [execution engine](./execution/index.md) to execute.
 
 ### Background
 
-The consensus algorithm is based on [Heterogeneous Paxos](https://arxiv.org/abs/2011.08253).
-It incorporates optimizations from the [Heterogeneous Paxos 2.0 ART report](https://art.anoma.net/),
-[a draft of which can be found here](https://www.dropbox.com/scl/fi/msxr901ipaqv64f9wjbhg/ART_HPaxos_2-2.pdf?rlkey=7m837xzamnfwh7cks7k5nsxy4&dl=0).
+The consensus algorithm is based on Heterogeneous Paxos[@sheff2020heterogeneous].
+It incorporates optimizations from the [Heterogeneous Paxos 2.0 ART report](https://art.anoma.net/), a draft in progress[@karbyshevsheff2024heterogeneous].
 Here we adapt for the homogeneous case, in which there is only one _learner_.
 
 ### Scope
 
-The Consensus Engine is responsible for establishing a total order on transaction candidates produced by the [mempool](mempool.md).
+The Consensus Engine is responsible for establishing a total order on transaction candidates produced by the [mempool](./mempool/index.md).
 
 We start by describing the consensus protocol informally, as well as the protocol trust model for the homogeneous case and the desired properties.
 Finally, we provide a pseudocode for its agents.
@@ -401,8 +400,3 @@ Below is the specification of the consensus component in terms of all the messag
 
 <!-- Short message cascade from a typical common message sent to the machine  -->
 <!-- E.g. an example of the common case "life of a transaction or whatever" flow from inputs to outputs -->
-
-## Further reading
-
-1. Isaac Sheff, Xinwen Wang, Robbert van Renesse, and Andrew C. Myers. Heterogeneous Paxos: Technical Report, 2020.
-2. Aleksandr Karbyshev, Isaac Sheff. Heterogeneous Paxos 2.0: the Specs, 2024.
