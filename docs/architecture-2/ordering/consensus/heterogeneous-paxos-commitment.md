@@ -8,7 +8,7 @@ search:
 ### `HPaxosCommitment`
 
 <!-- --8<-- [start:purpose] -->
-- _from_ [[Consensus Engine]]
+- _from_ [[Consensus]]
 
 #### Purpose
 
@@ -34,7 +34,7 @@ The message is sent between the participating acceptor nodes.
 
 #### Triggers
 
-- to [Consensus](#Consensus): [`HPaxosCommitment`](#hpaxoscommitment)
+- to [[Consensus]]: [`HPaxosCommitment`](#hpaxoscommitment)
 - to [Mempool](#Mempool): [`RequestProposal`](#RequestProposal)
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)
 

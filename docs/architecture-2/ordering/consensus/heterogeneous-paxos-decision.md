@@ -8,7 +8,7 @@ search:
 ### `HPaxosDecision`
 
 <!-- --8<-- [start:purpose] -->
-- _from_ [[Consensus Engine]]
+- _from_ [[Consensus]]
 
 #### Purpose
 

@@ -30,7 +30,7 @@ Communicates that a specific payload is (or isn't) a valid proposal for consensu
 
 #### Triggers
 
-- to [Consensus](#Consensus): [`HPaxosProposal`](#hpaxosproposal)
+- to [[Consensus]]: [`HPaxosProposal`](#hpaxosproposal)
 <!-- --8<-- [end:details] -->
 <!--
 ```rust
