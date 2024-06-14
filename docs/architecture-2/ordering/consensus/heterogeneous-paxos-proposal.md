@@ -36,7 +36,7 @@ This ensures that `HPaxosProposal` ballot numbers are unique, and when proposed 
 
 #### Triggers
 
-- to [[Consensus Engine]]: [`HPaxosCommitment`](consensus/heterogeneous-paxos-commitment.md)
+- to [[Consensus Engine]]: [`HPaxosCommitment`](#hpaxoscommitment)
 - to [Mempool](#Mempool): [`CheckProposal`](#CheckProposal)
 
 <!-- --8<-- [end:details] -->

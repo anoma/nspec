@@ -28,7 +28,7 @@ and just send these out to anyone who is still trying to do consensus.
 
 #### Triggers
 
-- to [Mempool](#Mempool): [`RequestProposal`](#RequestProposal)
+- to [Mempool](#Mempool): [`RequestProposal`](#requestproposal)
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)
 
 <!-- --8<-- [start:details] -->

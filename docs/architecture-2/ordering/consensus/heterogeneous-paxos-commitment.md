@@ -34,7 +34,7 @@ The message is sent between the participating acceptor nodes.
 
 #### Triggers
 
-- to [Consensus](#Consensus): [`HPaxosCommitment`](#HPaxosCommitment)
+- to [Consensus](#Consensus): [`HPaxosCommitment`](#hpaxoscommitment)
 - to [Mempool](#Mempool): [`RequestProposal`](#RequestProposal)
 - to [Execution shards](#Shards): [`AnchorChosen`](#AnchorChosen)
 
