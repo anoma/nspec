@@ -20,14 +20,14 @@ The most important fact is that
 the Anoma specification describes 
 a fixed finite number of _state transition functions_ 
 such that
-the behavior of every (correct and non-faulty) engine instance in Anoma
+the behaviour of every (correct and non-faulty) engine instance in Anoma
 is determined by exactly one of these _state transition functions_.
 We dub the equivalence class of engine instances that share 
 the same _state transition function_ an _engine type_.
 
 We now describe in more detail the "internal" structure of
 each engine instance; this is also a deliberate design choice.
-The, we describe how the corresponding engine type can be described.
+Then, we describe how the corresponding engine type can be described.
 
 [^1]: We also will allow for elapsing of timers,
 which is a technical detail concerning the handling of 
@@ -77,25 +77,25 @@ but a new "continuation engine" could be spawned with a new identifier.
 ## On engine types
 
 An engine type is in bijective correspondence to a function that
-describes how every instance that is basen on this function behaves.
-It has a number of inputs, which belong to one of three categories:
+describes how every instance that is based on this function behaves.
+It has some inputs, which belong to one of three categories:
 
 - information that is not changed (as part result of mere state transition
   function):
     - the cryptographic identifier
-- specific information about the event that has occured
+- specific information about the event that has occurred
     - for a message, the time of arrival and the actual message
     - for a timer that has elapsed, the "handle" of the timer
 - all other local information (as described above)
 
-As this funcion is strongly typed in the formal model, 
+As this function is strongly typed in the formal model, 
 the engine type thus determines a list of types, which seems long.
 Thus, let us "annotate" the above list.
 
 > - an {engine independent type for the} identity, namely a pair of
 >     - an external identity {type} and
 >     - an internal identity {type}
-> - {types for} mailboxes that store received messages in a list, in more detail
+> - {types for} mailboxes that store received messages in a list in more detail
 >   - a finite set of mailboxes, typically non-empty {from a finite set of types
 >     for mailbox contents---not to be confused with mailbox types}
 >   - a map from (engine-relative) mailbox identifiers to the above mailboxes
@@ -106,12 +106,12 @@ Thus, let us "annotate" the above list.
 > - a finite set of _acquaintances_ (borrowing actor terminology), in more
 >   detail
   >   - a finite set of names {hence a type `ac_name`}
-  >   - a map from names to the idenetities of an engine instance {we have all
+  >   - a map from names to the identities of an engine instance {we have all
   >     those types already}
-> - a local clock {we assume one and we do not have to do anything here}
+> - a local clock {we assume one, and we do not have to do anything here}
 > - memory for previously set timers (that are still relevant) {a type of `timer
 >   handles`}
-> - memory for spawned process that do not have a cryptographic identity yet
+> - memory for spawned processes that do not have a cryptographic identity yet
 >   {here we should probably just re-use the name type for acquaintances}
 > - engine-specific local state {the one type `state` that is "really" specific
 >   to each engine}
