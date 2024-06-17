@@ -16,7 +16,7 @@ The behavior of each engine instance—i.e.,
 how it reacts to receiving a message in 
 the context of previously sent messages—is
 determined by a _state transition function_.
-The latter is invoked whenever an event occurs at the engine instance,
+The latter is invoked whenever an event is triggered at the engine instance,
 typically, the arrival of a new message.[^1]
 The most important fact is that
 the Anoma specification describes 
@@ -41,7 +41,6 @@ has the following local data (directly and exclusively accessible):
     - an [[Internal Identity|internal identity]]
 
 - its mailboxes that store received messages, represented by a pair of
-
   - a finite set of _mailbox identifiers_ (MID for short),
 	typically non-empty
   - a function that maps mailbox identifiers to pairs of
@@ -57,7 +56,7 @@ has the following local data (directly and exclusively accessible):
     - a finite set of timer handles
     - a map from these timer handles to the requested notification time
 
-- optionally,  memory for names of spawned engines that 
+- memory for names of spawned engines that 
   do not have a cryptographic id yet
 
 - engine-specific local state
@@ -74,7 +73,7 @@ An engine type is in bijective correspondence to a function that
 describes how every instance that is based on this function behaves;
 we may just speak of an engine type as if it was a function.
 This function takes as input all local data of engine instances. 
-each item of local data falls into one of the following three categories:
+Each item of local data falls into one of the following three categories:
 
 - information that is not changed (as part result of mere state transition):
     - the cryptographic identity
@@ -149,11 +148,12 @@ the set of possible inputs of the state transition function into
 a finite number of cases, 
 each of which corresponds to an _event kind_—very much like
 the transitions of a [Petri net](https://en.wikipedia.org/wiki/Petri_net#Execution_semantics)
-can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/898126).
+can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/898126),
+where events are _occurrences of transitions_ of the original net.
 However,
 guarded actions may be concurrent or in conflict with each other,
 and these situation need to be handled with care.
-The details of guarded actions are explained in the [[Engine Template|template]].
+The details of guarded actions are explained in the [[Guarded Engine Template]].
 
 ## Template files
 
