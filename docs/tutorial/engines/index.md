@@ -84,9 +84,12 @@ each item of local data falls into one of the following three categories:
 - all other local data (as described above in the section
   `On the local data of engine instances`)
 
+<!-- 
+
 As this function is strongly typed in the formal model / in juvix, 
 the engine type thus determines a list of types, which seems long.
 Thus, let us "annotate" the above list.
+
 
 
 !!! todo
@@ -116,6 +119,8 @@ Thus, let us "annotate" the above list.
 >   {here we should probably just re-use the name type for acquaintances}
 > - engine-specific local state {the one type `state` that is "really" specific
 >   to each engine}
+
+-->
 
 Besides updates to the changeable data, the transition function produces
 
