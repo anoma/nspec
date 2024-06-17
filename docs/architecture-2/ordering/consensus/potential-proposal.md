@@ -7,14 +7,14 @@ search:
 
 ### `PotentialProposal`
 
-- _from_ [Mempool Primary](../mempool/primary.md)
+<!-- --8<-- [start:purpose] -->
+- _from_ [[Primary]]
 
 #### Purpose
 
-<!-- --8<-- [start:purpose] -->
 Communicates that a specific payload is (or isn't) a valid proposal for consensus on the chain, which consensus might decide upon.
 <!-- --8<-- [end:purpose] -->
-
+<!-- --8<-- [start:details] -->
 #### Structure
 
 | Field | Type | Description |
@@ -30,8 +30,8 @@ Communicates that a specific payload is (or isn't) a valid proposal for consensu
 
 #### Triggers
 
-- to [Consensus](#Consensus): [`HPaxosProposal`](#HPaxosProposal)
-
+- to [[Consensus]]: [`HPaxosProposal`](#hpaxosproposal)
+<!-- --8<-- [end:details] -->
 <!--
 ```rust
 /// Communicates that a specific payload is (or isn't) a valid proposal for consensus on the chain.

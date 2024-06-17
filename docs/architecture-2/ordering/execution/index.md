@@ -73,15 +73,14 @@ For V1, we assume that there is a single validator that is maintaining a single
 state machine. V1 does not include any kind of garbage collection or deletion of
 old state.
 
-<!-- Each Validator maintains its own Execution Engine group for each chain it maintains (for chimera chains, it maintains 1 execution engine group per [[Base Chain|base chain]]).
+Each Validator maintains its own Execution Engine group.
 These are complete replicas of the state machine, with complete replication of Transaction Candidate execution.
 Future optimizations may allow for distributed proofs of various kinds allowing some validators to skip some of the execution.
 
 We do, however, allow for checkpointing:
-By performing a full-state read from a weak quorum of validators, a validator can learn the complete state of the state machine at a particular timestamp (for V1, this is a [[TxFingerprint]]), and then compute all the Transaction Candidates thereafter.
+By performing a full-state read from a weak quorum of validators, a validator can learn the complete state of the state machine at a particular timestamp, and then compute all the Transaction Candidates thereafter.
 It should not have to compute from genesis.
 No one should need to store a complete history of all Transaction Candidates or past state values.
--->
 
 ## Functionality
 
@@ -119,10 +118,8 @@ copy of the data to the new Key. Keys that have never had Data written to them
  delete](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) Keys.
 These are the only primitives we use.[^6]
 
-<!-- Tobias: do we need to talk about re-sharding here? -->
-<!-- Isaac: As it stands, we haven't even mentioned Shards yet, so no. -->
 
-For V1, we do not assume any key structure, so [[TransactionLabel]]s
+For V2, we do not assume any key structure, so [[TransactionLabel]]s
  will have an explicit list of Keys they can use, rather than
  something more clever.[^3]
 
@@ -177,38 +174,39 @@ Outputs:
   additional information provided in
   [[TransactionRequest|transaction requests]] that
   the worker can pass to the executor (in the [[ExecuteTransaction]] message).
-  <!-- quick fix begin--> In V1,
-  the issuer of the [[TransactionRequest|transaction request]]
-  is always informed about the result of execution
-  in the form of an [[ExecutionSummary]].<!-- quick fix end-->
 
 When the execution engine group _executes_ a [[TransactionCandidate]],
- it read the keys from the state that would be reached by execution
+ it read the keys from the state that would be reached by executing
  all preceding [[TransactionCandidate]]s[^7]
- (for V1, these are totally ordered w.r.t.
- [[TxFingerprint|transaction fingerprints]]) to compute the
- $\mathsf{executor\_function}$, and then updates its state.
+  to compute the $\mathsf{executor\_function}$, and then updates its state.
 After executing a [[TransactionCandidate]], the state of the write
  keys must reflect the result of the $\mathsf{executor\_function}$ as
  applied to the read keys.
 
 #### Timestamps
 
-Each Transaction Candidate has a logical *[[TxFingerprint|timestamp]]*
+Each Transaction Candidate has a logical *Timestamp*
  which conveys ordering information relative to other
  [[TransactionCandidate|transaction candidates]].
-[[TxFingerprint|Timestamps]], and thus [[TransactionCandidate]]s, are
+Timestamps, and thus [[TransactionCandidate]]s, are
  partially ordered.
-For V1, [[TxFingerprint|timestamps]] are
-[[TxFingerprint|transaction fingerprints]], and with
- only one [[Worker Engine]], these are totally ordered, according to
+As shards learn more information from consensus or the mempool, they are able to refine this partial order into a total order.
+Logical timestamps should include:
+
+- a mempool worker id
+- a [[TxFingerprint]]
+- a hash of the transaction candidate
+
+For each mempool worker, timestamp ordering should be consistent with 
  the lexicographic order of _batch number_ and _transaction number_
  (where the latter is unique w.r.t. each batch).
 
-The state stored at each [[TxFingerprint|timestamp]] must be the one
+!!! todo make proper logical timestamp type description file. I think we have one somewhere, and I'm not sure where. 
+
+The state stored at each Timestamp must be the one
  that would result from applying the $\mathsf{executor\_function}$ to
  each [[TransactionCandidate]] in the total order of their
- [[TxFingerprint|timestamps]].
+ Timestamps.
 
 ## Engines Overview
 
@@ -225,15 +223,15 @@ Different shards may be on different machines.[^8]
 Within a Validator, Keys are partitioned across the
  [[Shard|Shards]] for load-balancing.
 Redistributing state between [[Shard|Shards]] is called *re-sharding*.
-For V1, we assume there will be no re-sharding.
+For V2, we assume there will be no re-sharding.
 
-<!-- NOT RELEVANT TO V1
+<!-- NOT RELEVANT TO V2
 Each Shard is specific to a blockchain, and each shard in a chimera chain is specific to 1 base chain.
 However, as an optimization, an implementation could conceivably use 1 process to do the work of multiple shards with different base chains so long as those shards are identical, and fork that process if / when the base chains diverge.
 -->
 
 For each Key, each [[Shard]] maintains a (partially-ordered) timeline
- of [[TxFingerprint|timestamps]] of [[TransactionCandidate]]s that
+ of Timestamps of [[TransactionCandidate]]s that
  read or write to that Key.[^9]
 
 This requires [[Shard|Shards]] to receive and process ordering information
@@ -248,10 +246,8 @@ This is [multi-version concurrent storage](
 When a [[Shard]] has determined the value a [[TransactionCandidate]]
  reads from a key, it sends that value to the corresponding
  *[[Executor]]*.
-<!-- NOT IN V1
 In the [[Shard]] page, we detail optimizations for getting read values
  to [[Executor]]s as quickly as possible.
--->
 
 ### Executors aka Executor Processes
 
@@ -280,8 +276,11 @@ To save on communication costs,
 
 ### Read Backend
 
-For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
- through the [[Mempool Engines|mempool]].
+[Read-only Transaction Candidates](../../engines/execution.md#optimization-client-reads-as-read-only-transactions) generalize state reads: any time someone wants to read (or compute something from) the official state on the validator (without changing it), it's a read-only transaction. 
+We need a public-facing process that communicates with the shards and executors much like the mempool.
+The primary difference between the [Read Backend](./read-backend.md#read-backend) and the mempool in terms of interface is just that its transactions cannot write to state.
+
+We detail the Read Backend engine [here](./read-backend.md#read-backend).
 
 <!--
 ## Life of a Transaction
@@ -334,9 +333,10 @@ For V1, we elide the Read Backend: all [[TransactionCandidate]]s go
 
 <!-- think a bit more about IO ... -->
 
-[^1]: For V1, the mempool is already determining a total order,
-    because we only have a single unique worker
+[^1]: For V1, the mempool was already determining a total order,
+    because we only had a single unique worker
     and transaction fingerprints already provide all information of a total order.
+    This is no longer true in V2.
 
 [^2]: In fact, this could be made precise using abstract data types.
 

@@ -334,7 +334,9 @@ nav:
             - KVSLockAcquired: ./architecture-2/ordering/mempool/worker/KVS-lock-acquired.md
             - TransactionRequest: ./architecture-2/ordering/mempool/worker/transaction-request.md
             - RequestLogs: ./architecture-2/ordering/mempool/worker/request-logs.md
-        - Consensus Engine: ./architecture-2/ordering/consensus-v1.md
+        - Consensus Engine:
+          - ./architecture-2/ordering/consensus-homogeneous.md
+          - Formal Definitions: ./architecture-2/ordering/consensus/homogeneous-paxos-formal.md
         - Execution engines:
           - ./architecture-2/ordering/execution/index.md
           - Shard:
@@ -379,12 +381,18 @@ nav:
     - Juvix Modules: ./indexes/juvix_modules.md
   - For Spec-writers:
     - ./tutorial/index.md
-    - Preparing working environment:
+    - Prepare working environment: 
       - ./tutorial/install/index.md
-    - Markdown:
+    - Git Workflow: ./tutorial/branch.md
+    - Write using Markdown plus Anoma extensions:
       - ./tutorial/md/index.md
-      - Using Juvix code: ./tutorial/juvix.md
-      - Including diffs:
+      - Wiki-style links: ./tutorial/md/links.md
+      - Images: ./tutorial/md/images.md
+      - Todos: ./tutorial/md/todos.md
+      - Snippets: ./tutorial/md/snippets.md
+      - Citations: ./tutorial/md/citations.md
+      - Juvix code: ./tutorial/juvix.md
+      - Diffs:
         - ./tutorial/differ/index.md
         - Example of diff rendering: ./tutorial/file-v1.md
     - Engines:
