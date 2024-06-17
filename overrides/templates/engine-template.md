@@ -42,7 +42,7 @@ a request response interaction
 and a more complex example is given in the [[Engine Template Example]].
 
 ```mermaid
-sequenceDiagramb
+sequenceDiagram
     participant Client
     participant Server
     Client-)Server: read request for key α
