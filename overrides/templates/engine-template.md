@@ -4,25 +4,48 @@
 
 `<one paragraph on the purpose>`
 
-Describe what the role of this engine is in the context,
+Describe what the role of this engine is in context,
 be it
 
-- internal to an Anoma node or
-- in an Anoma instance at large.
+- in relation to other engine instances within an Anoma node and/or
+- in the whole Anoma instance at large.
 
 ## EngineX-specific types
 
 This section describes all types that are specific to an engine. Types should be defined in the most local place in which they are used. For example, if a type is only used in one engine, it should be defined in this section for that engine. If a type is used in multiple engines, it should be defined in the highest-level composed engine which contains all of the engines in which it is used. If a type is used everywhere, it should be defined in the basic types section.
 
-### Engine State Type
+### Engine-Specific Local State Type
 
+The type of the _engine-specific_ local state;
+note that local state is only part of all the local data.
 
-.  
-.  
-.  
+### Message types
+
+Links to all the types that this engine type may process,
+optionally as a description with the tag of a message
+where tag is used as in the [Special Delivery](https://dl.acm.org/doi/abs/10.1145/3607832).
+
+### Mailbox state type (optional)
+
+We may specify for each mailbox a type. 
 
 
 ## [paradigmatic message sequence diagram(s)] (optional)
+
+We may use one (or several) message sequence diagrams to describe
+how instance of the engine type exchange messages with other engine instances,
+be it of the same or a different type.
+The general idea is that
+each message sequence diagram in the engine type page describes
+a (pattern) for test cases.
+In the below _Client-Server_ example,
+the message sequence chart expresses the possibility of a message exchange,
+where the server responds to the request of the client;
+every implementation has to have a counterpart.
+A good practical example for how
+an actor system (or a formal model of it) gives rise to sequence diagrams
+is [stateright](https://www.stateright.rs/)'s [state explorer](https://www.stateright.rs/seeking-consensus.html#stateright-explorer).
+
 
 We can use
 [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) 
@@ -52,7 +75,8 @@ sequenceDiagram
 
 The following is a good example of a larger diagram,
 which concerns several engines
-taken from the [v1 specs](https://specs.anoma.net/v1/architecture-2/ordering-v1.html#a-life-cycle-with-some-details).
+taken from the
+[v1 specs](https://specs.anoma.net/v1/architecture-2/ordering-v1.html#a-life-cycle-with-some-details).
 
 ```mermaid
 sequenceDiagram
@@ -80,6 +104,7 @@ sequenceDiagram
     ExecutorProcess-)Worker: ExecutorFinished
     deactivate ExecutorProcess
 ```
+
 
 For an engine page,
 it may be sufficient to
