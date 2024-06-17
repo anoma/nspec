@@ -2,15 +2,22 @@
 icon: octicons/gear-16
 search:
   exclude: false
+tags:
+  - engine
+  - mailbox
+  - engine-instance
+  - engine-type
+  - guarded-action
+  - engine-acquaintances
 ---
 
 # On Engines in the Anoma Specification
 
 ## Introduction
 
-The Anoma specification is inspiredy by the actor model,[^3]
-where systems consist of actors that communicate via message passing:
-every Anoma instance is considered as a finite[^4] collection of
+The Anoma specification is inspired by the actor model[^3]
+where systems consist of actors that communicate via message passing.
+Every Anoma instance is considered as a finite[^4] collection of
 _engine instances_ that communicate by sending messages to each other.
 The behavior of each engine instance—i.e., 
 how it reacts to receiving a message in 
@@ -24,47 +31,50 @@ a _fixed_ finite number of state transition functions
 such that
 the behaviour of every (correct and non-faulty) engine instance in an Anoma instance
 is determined by exactly one of these state transition functions.
-We dub the equivalence class of engine instances that share 
-the same state transition function an _engine type_.
+We call a group of engine instances that have the same state transition function
+an **engine type**.
 
 We now describe in more detail the "internal" structure of
 each engine instance; this is also a deliberate design choice.
 <!-- Then, we describe how the corresponding engine type can be described. -->
 
-## On the local data of engine instances
+## On the local data of engine instances {.#engine-local-data}
 
-Each engine instance, at any given moment (in local time),
-has the following local data (directly and exclusively accessible):
+Each engine instance has the following local data that is directly and
+exclusively accessible at any given moment (in local time):
 
 - its _identity_, given by a pair of
-    - an [[External Identity|external identity]] and
-    - an [[Internal Identity|internal identity]]
+
+    - an [[Identity#external-identity|external identity]] and
+    - an [[Identity#internal-identity|internal identity]]
 
 - its mailboxes that store received messages, represented by a pair of
-  - a finite set of _mailbox identifiers_ (MID for short),
-	typically non-empty
-  - a function that maps mailbox identifiers to pairs of
-    - a list of messages that were sent to the MID but not processed yet
-    - an optional mailbox-specific state (for quick processing of incoming messages)
 
-- a finite set of _named acquaintances_,[^2] represented by
-    - a finite set of names
-    - a map from these names to the
-	  [[External Identity|external identities]] of the acquaintances
+    - a finite set of _mailbox identifiers_ (**MID** for short),
+    typically non-empty
+      
+        - a function that maps mailbox identifiers to pairs of
+            - a list of messages that were sent to the MID but not processed yet
+            - an optional mailbox-specific state (for quick processing of incoming messages)
+
+    - a finite set of _named acquaintances_[^2] represented by
+        - a finite set of names
+        - a map from these names to the
+          [[Identity#external-identity|external identities]] of the acquaintances
 
 - memory for previously set timers, given by
     - a finite set of timer handles
     - a map from these timer handles to the requested notification time
 
 - memory for names of spawned engines that 
-  do not have a cryptographic id yet
+  do not have a cryptographic ID yet
 
 - engine-specific local state
 
 - the current time 
 
 The engine's identity is unchangeable,
-but a new "continuation engine" could be spawned with a new identifier.
+but a new *"continuation engine"* could be spawned with a new identifier.
 
 
 ## On engine types
@@ -137,8 +147,8 @@ The word `guarded` is taken from Dijkstra's
 [temporal logic of actions (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
 and indeed, guarded actions are a mix of the two;
 the notion of action (together with local data) allows us to
-express properties in the temporal logoc [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*),
-while guards emphasize that actions have clear pre-conditions
+express properties in the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*),
+while guards emphasize that actions have clear pre-conditions,
 and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
 e.g., for deriving invariants.
 
@@ -152,7 +162,7 @@ can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/8
 where events are _occurrences of transitions_ of the original net.
 However,
 guarded actions may be concurrent or in conflict with each other,
-and these situation need to be handled with care.
+and this situation need to be handled with care.
 The details of guarded actions are explained in the [[Guarded Engine Template]].
 
 ## Template files
