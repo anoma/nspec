@@ -33,7 +33,7 @@ We may specify for each mailbox a type.
 ## [paradigmatic message sequence diagram(s)] (optional)
 
 We may use one (or several) message sequence diagrams to describe
-how instance of the engine type exchange messages with other engine instances,
+how instances of the engine type exchange messages with other engine instances,
 be it of the same or a different type.
 The general idea is that
 each message sequence diagram in the engine type page describes
@@ -146,7 +146,7 @@ sequenceDiagram
 
 ### Conversation Diagram (optional)
 
-Who is talking to whom and `EngineX` in particular about what?
+Who is talking to whom and `EngineX` in particular, and if so, about what?
 For a high-level overview, 
 something like a [conversation diagram](https://sparxsystems.com/enterprise_architect_user_guide/16.1/modeling_languages/bpmn_2_0_conversation.html) can be helpful.
 We could simply (ab-)use mermaid entity relationship diagrams here. This diagram should be included for machines and high-level engine groups. It is optional for small component engines.
@@ -166,17 +166,55 @@ erDiagram
   TransactionRequest ||--|| WorkerX : receive
 ```
 
-### EngineTypeX1
+The information from the conversation diagram could be taken from
+the list of conversation partners,
+each with a list of incoming and outgoing messages,
+relative to the current engine `EngineX`.
 
-.  
-.  
-.  
+
+### Conversation Partners of type EngineTypeX1
+
+#### incoming messages 
+
+- `<` link to type `>`
+- ...
+- `<` link to type `>`
+
+#### outgoing messages to EngineTypeX1
+
+- `<` link to type `>`
+- ...
+- `<` link to type `>`
 
 
-### EngineTypeXm
+.
+.
+.
+
+
+### Conversation Partners of type EngineTypeXm
+
+#### incoming messages 
+
+- `<` link to type `>`
+- ...
+- `<` link to type `>`
+
+#### outgoing messages to EngineTypeX1
+
+- `<` link to type `>`
+- ...
+- `<` link to type `>`
+
 
 ## Guarded Actions
+
+todo !!!
+
+	make links to the guarded action template
+
 By default, guarded actions should be inlined in the same page. If an engine has too many guarded actions (and thereby putting them all in one page would be unworkable), they can be split out into separate files and linked.
+
 ### Guarded action $1$ 
 
 <details>
