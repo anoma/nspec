@@ -12,7 +12,8 @@ search:
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Advertisement of an engine that specifies the node where it is running.
+Advertisement of an engine instance that specifies its name, the node where it is running, and an optional hash key.
+This allows to derive the [[EngineIdentity]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -22,13 +23,17 @@ Advertisement of an engine that specifies the node where it is running.
 
 *Record* with fields:
 
-- `id`: [[EngineIdentity#engineidentity]]
+- `name`: Vec<u8>
 
-  *Node ID*
+  *Engine name*
 
 - `node`: [[NodeIdentity#nodeidentity]]
 
   *Node ID where the engine is running*
+
+- `key`: Option<Vec<u8>>
+
+  *Key for hash*
 
 - `version`: u32
 
@@ -44,3 +49,7 @@ Advertisement of an engine that specifies the node where it is running.
 
 </div>
 <!-- --8<-- [end:type] -->
+
+## See also
+
+- [[EngineIdentity]]

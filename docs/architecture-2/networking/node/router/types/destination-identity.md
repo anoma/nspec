@@ -10,7 +10,7 @@ search:
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Destination identity of an [[EngineMessageV1#enginemessagev1]].
+Destination identity of an [[EngineMessageV1]].
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -20,17 +20,17 @@ Destination identity of an [[EngineMessageV1#enginemessagev1]].
 
 *Enum* with values:
 
-- `Engine`: [[EngineIdentity#engineidentity]]
+- `Engine`: [[EngineIdentity]]
 
-- `Node`: [[NodeIdentity#nodeidentity]]
+- `Node`: [[NodeIdentity]]
 
-- `Topic`: [[TopicIdentity#topicidentity]]
+- `Topic`: [[TopicIdentity]]
 
 <div class="v2" markdown>
 
-- `Relay`: [[NodeIdentity#nodeidentity]]
+- `Relay`: [[NodeIdentity]]
 
-- `Domain`: [[DomainIdentity#domainidentity]]
+- `Domain`: [[DomainIdentity]]
 
 </div>
 

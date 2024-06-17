@@ -2,7 +2,7 @@
 icon: material/file-document-outline
 search:
   exclude: false
-  boost: 2
+  boost: 5
 ---
 
 <div class="engine" markdown>
@@ -48,11 +48,17 @@ it also maintains a [[TransportSessionCache#transportsessioncache]] for this pur
 
 --8<-- "transport/messages/connect-request.md:type"
 
-### [[DisconnectRequest#disconnectrequest]]
+### [[NodeConnectRequest#connectrequest]]
 
---8<-- "transport/messages/disconnect-request.md:purpose"
+--8<-- "transport/messages/node-connect-request.md:purpose"
 
---8<-- "transport/messages/disconnect-request.md:type"
+--8<-- "transport/messages/node-connect-request.md:type"
+
+### [[NodeDisconnectRequest#disconnectrequest]]
+
+--8<-- "transport/messages/node-disconnect-request.md:purpose"
+
+--8<-- "transport/messages/node-disconnect-request.md:type"
 
 ### [[ConnectedNodesRequest#connectednodesrequest]]
 
@@ -90,7 +96,9 @@ sequenceDiagram
 
 --8<-- "transport/messages/connect-request.md:sequence"
 
---8<-- "transport/messages/disconnect-request.md:sequence"
+--8<-- "transport/messages/node-connect-request.md:sequence"
+
+--8<-- "transport/messages/node-disconnect-request.md:sequence"
 
 --8<-- "transport/messages/connected-nodes-request.md:sequence"
 

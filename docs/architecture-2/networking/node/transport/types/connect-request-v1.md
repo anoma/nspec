@@ -4,13 +4,13 @@ search:
   exclude: false
   boost: 2
 ---
-
+ 
 # ConnectRequestV1
 
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Request connection to a node.
+Request a connection to a node.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -20,9 +20,24 @@ Request connection to a node.
 
 *Record* with fields:
 
-- `node`: [[NodeIdentity#nodeidentity]]
+- `nonce`: Vec<u8>
 
-  *Node to connect to.*
+  *Nonce for challenge*
+
+- `src`: [[NodeIdentity]]
+
+  *Source node*
+
+- `dst`: [[Digest]]
+
+  *Destination node:*
+
+  $keyed\_hash(key: nonce, input: NodeIdentity)$
+
+- `src_advert_version`: Option<u32>
+
+- `dst_advert_version`: u32
+
 
 </div>
 <!-- --8<-- [end:type] -->

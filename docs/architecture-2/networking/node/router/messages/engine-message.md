@@ -20,19 +20,19 @@ A message sent between engine instances (both local & remote).
 <!-- --8<-- [start:type] -->
 **Reception:**
 
-[[EngineMessageV1#enginemessagev1]]
+[[EngineMessageV1]]
 
 --8<-- "../types/engine-message-v1.md:type"
 
 **Triggers:**
 
-[[EngineMessage#enginemessage]]
+[[EngineMessage]]
 
-[[NodeMessage#nodemessage]]
+[[NodeMessage]]
 
-[[RelayMessage#relaymessage]]
+[[RelayMessage]]
 
-[[DomainRequest#domainrequest]]
+[[DomainRequest]]
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -41,63 +41,60 @@ A message sent between engine instances (both local & remote).
 When the router receives an *EngineMessage* from a local engine instance,
 it processes it the following way:
 
-1. It looks up `dst`, the [[DestinationIdentity#destinationidentity]] in the routing table:
+1. It looks up `dst`, the [[DestinationIdentity]] in the routing table:
 
-   - If not found, it sends a [[LookupIdentityRequest#lookupidentityrequest]]
-     with the destination address to the [[Network Identity Store#network-identity-store]] engine.
-     - If the [[LookupIdentityResponse#lookupidentityresponse]] returns a result, it is added to the routing table,
+   - If not found, it sends a [[LookupIdentityRequest]]
+     with the destination address to the [[Network Identity Store]] engine.
+     - If the [[LookupIdentityResponse]] returns a result, it is added to the routing table,
        and the process continues with the next step.
 
 2. If a route is found, the *EngineMessage* is processed the following way,
-   depending on the type of [[DestinationIdentity#destinationidentity]]:
+   depending on the type of [[DestinationIdentity]]:
 
-   - Engine ([[EngineIdentity#engineidentity]]): unicast message to a local engine
+   - Engine ([[EngineIdentity]]): unicast message to a local engine
 
      - The *Router* forwards the *EngineMessage* directly to the destination engine
 
-   - Node ([[NodeIdentity#nodeidentity]]): unicast message to a remote node
+   - Node ([[NodeIdentity]]): unicast message to a remote node
 
-     - The *Router* wraps the *EngineMessage* in a [[NodeMessage#nodemessage]]
+     - The *Router* wraps the *EngineMessage* in a [[NodeMessage]]
        with the *destination* set to the remote node's identity,
-       and the *source* set to the local node's identity
-       (which equals to the engine instance identity of the *Router*),
-       then signs the message with its identity key,
-       and forwards it to the [[Transport#transport]] engine for delivery over the network.
+       then forwards it to the [[Transport]] engine for delivery over the network.
 
-   - Topic ([[TopicIdentity#topicidentity]]): multicast message to a local pub/sub topic
+   - Topic ([[TopicIdentity]]): multicast message to a local pub/sub topic
 
-     - The Router forwards the [[Message#message]] to all local engines subscribed to the multicast group,
-       which might include the [[PubSub#pubsub]] engine
+     - The Router forwards the [[Message]] to all local engines subscribed to the multicast group,
+       which might include the [[PubSub]] engine
        that is responsible for remote delivery over a P2P publish-subscribe protocol.
 
 <div class="v2" markdown>
 
 2. (cont.)
 
-   - Relay ([[NodeIdentity#nodeidentity]]): relayed message via another node
+   - Relay ([[NodeIdentity]]): relayed message via another node
 
-     - The *Router* wraps the *EngineMessage* in a [[RelayMessage#relaymessage]]
+     - The *Router* wraps the *EngineMessage* in a [[RelayMessage]]
        with the *destination* set to the external identity from the routing table,
        the *source* set to the local node identity,
        and signs it with its identity key.
-     - The *Router* then wraps the [[RelayMessage#relaymessage]] in a [[NodeMessage#nodemessage]]
-       and sends it to [[Transport#transport]] for delivery over the network.
+     - The *Router* then wraps the [[RelayMessage]] in a [[NodeMessage]]
+       and sends it to [[Transport]] for delivery over the network.
 
-   - Domain ([[DomainIdentity#domainidentity]]): anycast message to a domain
+   - Domain ([[DomainIdentity]]): anycast message to a domain
 
-     - The *Router* wraps the *EngineMessage* in a [[DomainRequest#domainrequest]]
+     - The *Router* wraps the *EngineMessage* in a [[DomainRequest]]
        with the destination set to the domain's identity and the *source* set to the local node identity.
-     - The *Router* then sends the [[DomainRequest#domainrequest]] to the [[Domain Routing#domain-routing]] engine.
+     - The *Router* then sends the [[DomainRequest]] to the [[Domain Routing]] engine.
 
 </div>
 
 3. If no route is found, the message is dropped.
 
-When processing the *EngineMessage*, the given [[RoutingPrefs#routingprefs]] and [[RoutingScope#routingscope]] is respected.
+When processing the *EngineMessage*, the given [[RoutingPrefs]] and [[RoutingScope]] is respected.
 
 !!! note
 
-    The router subscribes to *[[IdentityUpdated#identityupdated]]* notifications of the [[Network Identity Store#network-identity-store]] engine, in order to keep addresses in the routing table up to date.
+    The router subscribes to *[[IdentityUpdated]]* notifications of the [[Network Identity Store]] engine, in order to keep addresses in the routing table up to date.
 <!-- --8<-- [end:behavior] -->
 
 ## Message flow

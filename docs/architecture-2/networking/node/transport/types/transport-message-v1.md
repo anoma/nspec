@@ -20,19 +20,19 @@ Describe the purpose of the type.
 
 *Record* with fields:
 
-- `addr`: [[TransportAddress#transportaddress]]
+- `addr`: [[TransportAddress]]
 
   *Source or destination address*
 
-- `tprefs`: Option<[[TransportPrefs#transportprefs]]>
+- `tprefs`: Option<[[TransportPrefs]]>
 
   *Transport preferences for outgoing messages*
 
-- `expiry`: Option<[[Time#time]]>
+- `expiry`: Option<[[Time]]>
 
   *Expiry time for outgoing messages*
 
-- `msg`: [[NodeMessageV1#nodemessagev1]]
+- `msg`: [[EngineMessageV1]]
 
   *Encapsulated message*
 

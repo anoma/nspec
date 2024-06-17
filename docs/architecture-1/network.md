@@ -92,8 +92,8 @@ the identity of the node that hosts the engine,
 and the transport addresses of the node.
 
 Signed advertisement messages are used to bind addresses together from different layers:
-- *NodeAdvert*: binds a node address to transport addresses
 - *EngineAdvert*: binds an engine address to a node address
+- *NodeAdvert*: binds a node address to transport addresses
 - *DomainAdvert*: binds a domain address with node addresses
 
 These are transmitted either as part of network protocols between nodes or out of band,

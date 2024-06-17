@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# ConnectResponseV1
+# NodeConnectResponseV1
 
 ## Purpose
 
@@ -18,19 +18,7 @@ Response to a [[ConnectRequestV1]].
 <!-- --8<-- [start:type] -->
 <div class="type" markdown>
 
-*Record* with fields:
-
-- `nonce`: Vec<u8>
-
-  *Nonce*
-
-- : [[Digest]]
-
-  *Destination node:*
-
-  $keyed\_hash(key: nonce, input: NodeIdentity)$
-
-- `node_advert` Option<NodeAdvert>
+*Result*
 
 </div>
 <!-- --8<-- [end:type] -->

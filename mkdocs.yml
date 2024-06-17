@@ -223,8 +223,10 @@ nav:
               - TransportMessage: ./architecture-2/networking/node/transport/messages/transport-message.md
               - ConnectRequest: ./architecture-2/networking/node/transport/messages/connect-request.md
               - ConnectResponse: ./architecture-2/networking/node/transport/messages/connect-request.md
-              - DisconnectRequest: ./architecture-2/networking/node/transport/messages/disconnect-request.md
-              - DisconnectResponse: ./architecture-2/networking/node/transport/messages/disconnect-request.md
+              - NodeConnectRequest: ./architecture-2/networking/node/transport/messages/node-connect-request.md
+              - NodeConnectResponse: ./architecture-2/networking/node/transport/messages/node-connect-request.md
+              - NodeDisconnectRequest: ./architecture-2/networking/node/transport/messages/node-disconnect-request.md
+              - NodeDisconnectResponse: ./architecture-2/networking/node/transport/messages/node-disconnect-request.md
               - ConnectedNodesRequest: ./architecture-2/networking/node/transport/messages/connected-nodes-request.md
             - Notifications:
               - NodeConnected: ./architecture-2/networking/node/transport/notifications/node-connected.md
@@ -241,8 +243,10 @@ nav:
               - TransportMessageV1: ./architecture-2/networking/node/transport/types/transport-message-v1.md
               - ConnectRequestV1: ./architecture-2/networking/node/transport/types/connect-request-v1.md
               - ConnectResponseV1: ./architecture-2/networking/node/transport/types/connect-response-v1.md
-              - DisconnectRequestV1: ./architecture-2/networking/node/transport/types/disconnect-request-v1.md
-              - DisconnectResponseV1: ./architecture-2/networking/node/transport/types/disconnect-response-v1.md
+              - NodeConnectRequestV1: ./architecture-2/networking/node/transport/types/node-connect-request-v1.md
+              - NodeConnectResponseV1: ./architecture-2/networking/node/transport/types/node-connect-response-v1.md
+              - NodeDisconnectRequestV1: ./architecture-2/networking/node/transport/types/node-disconnect-request-v1.md
+              - NodeDisconnectResponseV1: ./architecture-2/networking/node/transport/types/node-disconnect-response-v1.md
               - ConnectedNodesResponseV1: ./architecture-2/networking/node/transport/types/connected-nodes-response-v1.md
           - Network Identity Store:
             - ./architecture-2/networking/node/id-store/index.md

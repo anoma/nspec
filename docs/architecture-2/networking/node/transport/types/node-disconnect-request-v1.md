@@ -20,7 +20,7 @@ Request to disconnect from a node.
 
 *Record* with fields:
 
-- `node`: [[NodeIdentity#nodeidentity]]
+- `node`: [[NodeIdentity]]
 
   *Node to disconnect from.*
 

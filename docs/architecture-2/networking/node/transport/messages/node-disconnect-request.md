@@ -7,14 +7,14 @@ search:
 
 <div class="message" markdown>
 
-# DisconnectRequest
+# NodeDisconnectRequest
 
-# DisconnectResponse
+# NodeDisconnectResponse
 
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Establish disconnection to a node.
+Disconnect from a node.
 <!-- --8<-- [end:purpose] -->
 
 ## Type
@@ -22,15 +22,15 @@ Establish disconnection to a node.
 <!-- --8<-- [start:type] -->
 **Reception:**
 
-[[DisconnectRequestV1#disconnectrequestv1]]
+[[NodeDisconnectRequestV1]]
 
---8<-- "../types/disconnect-request-v1.md:type"
+--8<-- "../types/node-disconnect-request-v1.md:type"
 
 **Triggers:**
 
-[[DisconnectResponseV1#disconnectresponsev1]]
+[[NodeDisconnectResponseV1]]
 
---8<-- "../types/disconnect-response-v1.md:type"
+--8<-- "../types/node-disconnect-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
 ## Behavior
@@ -44,8 +44,8 @@ Disconnect from the specified node, if connected.
 sequenceDiagram
 
 %% --8<-- [start:sequence]
-Topology ->>+ Transport: DisconnectRequest
-Transport -->>- Topology: DisconnectResponse
+Topology ->>+ Transport: NodeDisconnectRequest
+Transport -->>- Topology: NodeDisconnectResponse
 %% --8<-- [end:sequence]
 ```
 <!-- --8<-- [end:messages] -->

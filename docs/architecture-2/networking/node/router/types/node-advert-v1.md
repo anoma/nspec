@@ -30,6 +30,10 @@ Advertisement of a peer's transport addresses.
 
   *Transport addresses with preferences expressed as weights*
 
+- `name`: Optional<Vec<u8>>
+
+  *Node name*
+
 - `version`: u32
 
   *Version number*
