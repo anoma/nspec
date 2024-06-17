@@ -84,10 +84,22 @@ e.g., if a user is given the chance to override
 playing an engines's purely stochastic strategy 
 (in the context of a stochastic game).
 
+The full type corresponds to the transition function for
+engine _systems_ in the [formal model](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L174-L189).
+The engine local state also is in correspondence with the [state map](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L162-L169)
+of the formal model.
 
 !!! todo
 
+	establish some proper reciprocal linking scheme here 
+	
+	<!--
+
+
 	make PR for https://github.com/anoma/formanoma/tree/heindel/engine-locale
+	
+-->	
+
 
 A description of the action is necessary,
 ideally complemented with juvix code.
@@ -96,8 +108,13 @@ ideally complemented with juvix code.
 
 	simple juvix code example of client server
 
-### state update
+!!! todo
+	
+	add details according to the discussion in the PR,
+	see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
+	
 
+### state update
 
 ### messages to be sent
 
