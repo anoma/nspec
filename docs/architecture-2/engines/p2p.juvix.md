@@ -79,7 +79,7 @@ axiom logicalUnsub : Topic -> IO ;
 
 ## P2P intelligence engine (PIE 🥧)
 
-The P2P intelligence engine (PIE) is where all of the magic happens. The PIE
+The P2P intelligence engine (PIE) is where all the magic happens. The PIE
 takes information from higher protocol layers, including entanglement and
 bandwidth usage / routing preferences, and collects measurements internally
 (latency, available routes) which are both used to inform decision-making,
@@ -102,7 +102,7 @@ From above, PIE receives:
     - Latency preferences. For now this is just 1-bit of information, either
       "minimize latency" or "don't care".
 
-    - Cost preferences, with heterogenous denominations
+    - Cost preferences, with heterogeneous denominations
 
     - Trust/entanglement preferences for (intermediate) nodes
         - "avoid nodes with entanglement scores lower than X", for example

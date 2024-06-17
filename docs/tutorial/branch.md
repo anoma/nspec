@@ -75,7 +75,7 @@ different, possibly older version, the steps are similar.
 ### Rebasing Your Work
 
 Rebasing is crucial for incorporating the most recent changes from the base
-branch. Follow these steps to rebase, although somethimes you can rebase
+branch. Follow these steps to rebase, although sometimes you can rebase
 directly on GitHub, pushing the "Update branch (rebase)" button at the end of
 the pull request.
 
