@@ -7,18 +7,23 @@ search:
 
 # Formal definition of WellFormed
 
+## Assumption: homogenous case
+
+We assume that the set of learners is a singleton, $\Learner = \cb{\red\alpha}$.
+
 ## Definition: Message Signer
 
 $$
-  \sig{\green x : \Message} \triangleq
+  \sig{\green x : \Message} \eqdef
   \textrm{the acceptor or proposer that signed } {\green x}
 $$
 
 ## Definition: Message Set Signers
 
 We extend $\sig{}$ over sets of messages, to mean the set of signers of those messages:
+
 $$
-  \sig{\green M : 2^{\Message}} \triangleq
+  \sig{\green M : 2^{\Message}} \eqdef
   \cb{{\sig{\blue m}} \mid {\blue m \in \green M}}
 $$
 
@@ -30,7 +35,7 @@ We define the transitive references of a message, which should include every mes
 ## Definition: Transitive References
 
 $$
-  \tran{\green x} \triangleq
+  \tran{\green x} \eqdef
   \cb{\green x} \cup \bigcup_{\blue m \in \green{x.\refs}} \tran{\blue m}
 $$
 
@@ -46,7 +51,12 @@ Similarly to the definition above, we define transitive history of the messages 
 ## Definition: Transitive History
 
 $$
-  \prevtran{\green x} \triangleq \cb{\green x} \cup \prevtran{\green x.\prev}
+  \prevtran{\green{x}} \eqdef
+  \cb{\green x} \cup
+  \begin{cases}
+    \prevtran{\green{x.\prev}} &\text{ if } \green{x.\prev} \neq \bot \\
+    \emptyset &\text{ otherwise}
+  \end{cases}
 $$
 
 Clearly, for any message $\green x$ originating from a safe acceptor, the messages of $\prevtran{\green x}$ form a linear history chain with respect to $\prev$ field.
@@ -54,38 +64,53 @@ Clearly, for any message $\green x$ originating from a safe acceptor, the messag
 ## Definition: Get1a
 
 We define $1a$-message that started the ballot of the message as the highest ballot value $1a$-message visible from it.
+
 $$
-  \geta{\green x} \triangleq
+  \geta{\green x} \eqdef
   \argmax_{\blue m:\textit{1a} \in \tran{\green x}}{\blue{m.ballot}}
 $$
+
 Since every proposed ballot is unique, the function $\geta{}$ is well-defined.
 
 ## Definition: Ballot Numbers
 
-The ballot number of the message is the highest ballot number among the visible $1a$s.
+The ballot number of the message is the highest ballot number among the visible $\onea$ messages.
+
 $$
-  \ba{\green x} \triangleq \geta{\green x}.ballot
+  \ba{\green x} \eqdef \geta{\green x}.ballot
 $$
 
 ## Definition: Value of a Message
 
-The value of a the message is the value of the highest ballot number among the visible $1a$s.
+The value of a the message is the value of the highest ballot number among the visible $\onea$ messages.
+
 $$
-  \va{\green x} \triangleq \geta{\green x}.value
+  \va{\green x} \eqdef \geta{\green x}.value
 $$
 
-sing the above auxiliary functions, we formally define decisions by
+Using the above auxiliary functions, we formally define decisions by
 
 ## Definition: Decision
 
+For any set of messages $\blue{s}$ and ballot $b$
+
 $$
-  \decision{\red \alpha}{b, \red{q_\alpha}} \triangleq
-  \sig{\red{q_\alpha}} \in \red{Q_\alpha} \land
-  \forall \green x \in \red{q_\alpha}.\,
-    \green x:\twoa \land
-    \ba{\green x} = b \land
-    \green{x.lrn} = {\red \alpha}
+  \Decision{\red\alpha}{b, \blue s} \eqdef
+  \sig{\blue s} \in Q_{\red\alpha} \land
+  \forall {\green x},{\purple y} \in {\blue s}.\,
+    \vartype{\green x}{\twoa} \land
+    \ba{\green x} = b
 $$
+
+<!-- HPaxos 2.0 definition -->
+<!-- $$
+  \Decision{\red\alpha}{\blue s} \eqdef
+  \sig{\blue s} \in Q_{\red\alpha} \land
+  \forall {\green x},{\purple y} \in {\blue s}.\,
+    \vartype{\green x}{\twoa} \land
+    {\red\alpha} \in \green{x.\mlearner} \land
+    \ba{\green x} = \ba{\purple y}
+$$ -->
 
 To define what makes a _wellformed_ $\twoa$ message, it requires checking whether two learners might be entangled, and (unless we can prove they are not entangled), whether one of them might have already decided.
 
@@ -96,14 +121,14 @@ Unlike Byzantine Paxos, our acceptors and learners must adapt to Byzantine behav
 We say that an acceptor $\purple p$ is _caught_ in a message $\green x$ if the transitive references of $\green x$ include evidence such as two messages, $\red m$ and $\blue{m^\prime}$, both signed by $\purple p$, in which neither is featured in the other's transitive history chain.
 
 $$
-  \caughtEvidence{{\red m}, {\blue{m'}}} \triangleq
+  \caughtEvidence{{\red m}, {\blue{m'}}} \eqdef
   \sig{\red m} = \sig{\blue{ m^\prime}} \land
   \red m \not\in \prevtran{\blue{m^\prime}} \land
   \blue{m^\prime} \not\in \prevtran{\red m}
 $$
 
 $$
-  \caught{\green x} \triangleq
+  \caught{\green x} \eqdef
   \sig{\cb{{\red m} \in \tran{\green x} \mid \exists {\blue{m'}} \in \tran{\green x}.\,\caughtEvidence{{\green x}, {\red m}, {\blue{m'}}}}}
 $$
 
@@ -111,76 +136,86 @@ $$
 
 ## Definition: Connected
 
+__TODO RENAME?__
 When some acceptors are proved Byzantine, some learners need not agree,
 meaning that any safe set of acceptors $\reallysafe$ isn't in the edge between them in the learner graph $\lgraph$, i.e.,
 at least one acceptor in each safe set in the edge is proven Byzantine.
 Homogeneous learners are always connected unless there are so many failures no consensus is required.
 
 $$
-  \con{\red \alpha}{\green x} \triangleq
+  \con{\red \alpha}{\green x} \eqdef
+    \exists {\purple s} \in \edge{\red\alpha}{\red\alpha} \in \lgraph.\,
+    {\purple s} \cap \caught{\green x} = \emptyset
+$$
+<!-- HPaxos 2.0 definition -->
+<!-- $$
+  \con{\red \alpha}{\green x} \eqdef
   \cb{
     {\blue \beta} \in \Learner \mid
-    \exists {\purple s} \in \edge{\red \alpha}{\blue \beta} \in \lgraph.\,
+    \exists {\purple s} \in \edge{\red\alpha}{\blue\beta} \in \lgraph.\,
     {\purple s} \cap \caught{\green x} = \emptyset
   }
-$$
+$$ -->
 
 ## Definition: Buried
 
-A $\twoa$-message can become irrelevant if, after a time, an entire quorum of acceptors has seen $\twoa$s with different values,
-<span style="background-color: #E2E2FF">the same learner</span>, and higher ballot numbers.
-We call such a $\twoa$ _buried_ (in the context of some later message $\purple y$).
+A $\twoa$-message can become irrelevant if, after a time, an entire quorum of acceptors has seen $\twoa$s with different values, <!-- <span style="background-color: #E2E2FF">the same learner</span>, --> and higher ballot numbers.
+We call such a $\twoa$ _buried_ (in the context of some later message $\green y$).
 
 $$
-  \burying{{\blue z}}{{\green x} : \twoa} \triangleq
-  z:\twoa \land
+  \burying{{\blue z}}{{\purple x}} \eqdef
+  \vartype{\blue z}{\twoa} \land
   \ba{\blue z} > \ba{\green x} \land
-  \va{\blue z} \ne \va{\green x} \land
-  \hetdiff{\blue{z.lrn} = \green{x.lrn}}
+  \va{\blue z} \ne \va{\green x}
 $$
 
 $$
-  \buried{\green x : \twoa}{\purple y} \triangleq
+  \buried{{\red\alpha}}{\vartype{\purple x}{\twoa}}{\green y} \eqdef
   \sig{\cb{
-    {\red m} \in \tran{\purple y} \mid
-    \exists {\blue z} \in \tran{\red m}.\, \burying{\blue z}{\green x}
+    {\orange m} \in \tran{\green y} \mid
+    \exists {\blue z} \in \tran{\orange m}.\burying{\blue z}{\purple x}
   }}
-  \in \green{Q_{\hetdiff{x.lrn}}}
+  \in Q_{\red\alpha}
 $$
 
 We shall say that the message $\green x$ is _unburied_ (in the context of a later message $\purple y$) if it is not buried (in the context of $\purple y$).
 
-## Definition: Connected $\twoa$-messages
+## Definition: Connected 2a-messages
 
+__TODO REWRITE__
 Entangled learners must agree, but learners that are not connected are not entangled, so they need not agree.
 Intuitively, a $\oneb$-message references a $\twoa$-message to demonstrate that some learner may have decided some value.
 For learner $\red \alpha$, it can be useful to find the set of $\twoa$-messages from the same sender as a message ${\green x}$ (and sent earlier)
 which are still [unburied](#definition-buried) and for learners connected to $\red \alpha$.
 The $\oneb$ cannot be used to make any new $\twoa$-messages for learner $\red \alpha$ that have values different from these $\twoa$-messages.
 
-<!-- $$
-  \cona{\hetdiff{\red \alpha}}{\green x} \triangleq
-  \cb{
-    {\blue m} \in \tran{\green x} \mid
-    {\blue m : \twoa} \land
-    {\sig{\blue m} = \sig{\green x}} \land
-    {\lnot \buried{\blue m}{\green x}} \land
-    {\hetdiff{\blue{m.lrn} \in \con{\red \alpha}{\green x}}}
-  }
-$$ -->
-
 $$
-  \cona{\hetdiff{\red \alpha}}{\green x} \triangleq
+  \cona{\hetdiff{\red\alpha}}{\green x} \eqdef
   \cb{
     \tallpipe
-    {{\blue m} \in \tran{\green x}}
-    {\andlinesFour
-      {\blue m : \textit{2a}}
-      {\sig{\blue m} = \sig{\green x}}
-      {\lnot \buried{\blue m}{\green x}}
-      {\hetdiff{\blue{m.lrn} \in \con{\red \alpha}{\green x}}}
-  }}
+    {{\purple m} \in \tran{\green x}}
+    {\begin{array}{l}
+      \phantom{\land}\, \vartype{\purple m}{\twoa} \\
+      \land\, {\sig{\purple m} = \sig{\green x}} \\
+      \land\, \con{\red \alpha}{\green x} \\
+      \land\, \lnot \buried{\red\alpha}{\purple m}{\green x}
+     \end{array}}
+  }
 $$
+<!-- HPaxos 2.0 definition -->
+<!-- $$
+  \cona{\hetdiff{\red\alpha}}{\green x} \eqdef
+  \cb{
+    \tallpipe
+    {{\purple m} \in \tran{\green x}}
+    {\begin{array}{l}
+      \phantom{\land}\, \vartype{\purple m}{\twoa} \\
+      \land\, {\sig{\purple m} = \sig{\green x}} \\
+      \land\, \exists \blue{\beta} \in \con{\red \alpha}{\green x}.\,
+          \lnot \buried{\blue \beta}{\purple m}{\green x}
+     \end{array}}
+  }
+$$ -->
 
 ## Definition: Fresh
 
@@ -189,7 +224,7 @@ However, this does not mean that the $\oneb$'s value (which is the same as the $
 We call a $\oneb$-message _fresh_ (with respect to a learner) when its value agrees with that of unburied $\twoa$-messages the acceptor has sent.
 
 $$
-  \fresh{\hetdiff{\red \alpha}}{\green x : \oneb} \triangleq
+  \fresh{\hetdiff{\red \alpha}}{\green x : \oneb} \eqdef
   \forall \blue m \in \cona{\hetdiff{\red \alpha}}{\green x}.\, \va{\green x} = \va{\blue m}
 $$
 
@@ -199,7 +234,7 @@ $\twoa$-messages reference _quorums of messages_ with the same value and ballot.
 A $\twoa$'s quorums are formed from [fresh](#definition-fresh) $\oneb$-messages with the same ballot and value.
 
 $$
-  \qa{\green x : \twoa} \triangleq
+  \qa{\green x : \twoa} \eqdef
   \cb{\tallpipe
     {\red m \in \tran{\green x}}
     {{\red m : \oneb} \land
@@ -211,12 +246,13 @@ $$
 ## Definition: WellFormed
 
 We define what it means for a message to be _wellformed_.
+
 $$
   \begin{array}{l}
-    \wellformed{\purple u : \onea} \triangleq
+    \wellformed{\purple u : \onea} \eqdef
     {\purple u}.\refs = \emptyset
     \\
-    \wellformed{\green x : \oneb} \triangleq
+    \wellformed{\green x : \oneb} \eqdef
     {\green x}.\refs \ne \emptyset
     \land
     \forall \blue y \in \tran{\green x} .\,
@@ -226,7 +262,7 @@ $$
       \Rightarrow
       \ba{\blue y} \ne \ba{\green x}
     \\
-    \wellformed{\red z : \twoa} \triangleq
+    \wellformed{\red z : \twoa} \eqdef
     {\red z}.\refs \ne \emptyset
     \land
     \sig{\qa{\red z}} \in \red{Q_{\hetdiff{z.lrn}}}

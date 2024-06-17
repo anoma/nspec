@@ -3,6 +3,7 @@ icon: material/home
 description: A work-in-progress specification for the Anoma protocol.
 hide:
   - toc
+  - navigation
 social:
   cards: false
 search:

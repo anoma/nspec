@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "common"
 version = "0.0.1"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 dependencies = ['mkdocs']
 
 [tool.mypy]

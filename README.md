@@ -38,7 +38,7 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
     python3 -m venv env
     ```
 
-    <details> <summary> Activate the virtual environment </summary>
+3. Activate the virtual environment
 
     Make sure to activate the virtual environment before proceeding. If you are using
     `bash`, you can do this by running:
@@ -59,21 +59,12 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
     source env/bin/activate
     ```
 
-    </details>
+4. Install the required packages (preferably in the virtual environment) using Poetry:
 
-3. Install the required packages (preferably in the virtual environment) using either Poetry or PIP:
-
-
-    1. Using Poetry (preferred):
 
     ```bash
+    pip3 install poetry
     poetry install
-    ```
-
-    2. Using PIP:
-
-    ```bash
-    pip3 install -r requirements.txt
     ```
 
 ### Development shell with Nix

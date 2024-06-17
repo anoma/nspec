@@ -10,12 +10,13 @@ search:
 ## Introduction
 
 ### Purpose
-Consensus component establishes a totally ordered sequence of headers received from the [mempool](mempool.md) DAG.
-This establishes a total order of transactions for the [execution engine](execution.md) to execute.
+
+Consensus component establishes a totally ordered sequence of headers received from the [mempool](./mempool/index.md) DAG.
+This establishes a total order of transactions for the [execution engine](./execution/index.md) to execute.
 
 ### Background
 
-The consensus algorithm is based on [Heterogeneous Paxos](https://arxiv.org/abs/2011.08253).
+The consensus algorithm is based on Heterogeneous Paxos[@sheff2020heterogeneous]
 
 ### Scope
 
@@ -214,7 +215,7 @@ from [Consensus](consensus.md) may trigger:
 
 ### [NewQuorums](consensus/new-quorums.md)
 
-from [Executor](./execution/executor.md) may trigger: _none_
+from [Executor](./execution/executor/index.md) may trigger: _none_
 
 ## Example scenario
 

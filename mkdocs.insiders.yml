@@ -17,10 +17,10 @@ plugins:
       #   - trimmer
   - social
   - tags
-  # - ezglossary
-  - section-index
   - glightbox
   - juvix
+  - bibtex:
+      bib_dir: "docs/references"
   - git-revision-date-localized:
       type: timeago
       custom_format: "%d. %B %Y"

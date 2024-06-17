@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Consensus
+# Consensus (Old)
 
 - *Inputs*
     Consensus requests, consensus messages
