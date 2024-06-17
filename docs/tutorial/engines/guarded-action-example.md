@@ -21,16 +21,16 @@ the clock that was tracking this timer.
 
 The auctioneer is settling the second-prize auction.
 
-### state update
+### State update
 
 Discard all data, except for KYC data.
 
-### messages to be sent
+### Messages to be sent
 
 - Broadcast winning bid to all participants.
-- Notify winner with payment instrucions.
+- Notify winner with payment instructions.
 
-### engines to be spawned
+### Engines to be spawned
 
 N/A
 

@@ -23,7 +23,7 @@ and whether the deadline has passed.
 A bid is a pair of an external ID and an integer amount.
 
 
-## [paradigmatic message sequence diagram] (optional)
+## [Paradigmatic message sequence diagram] (optional)
 
 
 ```mermaid

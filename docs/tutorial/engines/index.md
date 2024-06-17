@@ -24,7 +24,7 @@ how it reacts to receiving a message in
 the context of previously sent messages—is
 determined by a _state transition function_.
 The latter is invoked whenever an event is triggered at the engine instance,
-typically, the arrival of a new message.[^1]
+typically, the arrival of a new message[^1].
 The most important fact is that
 the Anoma specification describes 
 a _fixed_ finite number of state transition functions 
@@ -198,12 +198,11 @@ the specification of engine types and their engine instances.
 
 [^2]: Here, we borrow actor terminology.
 
-[^3]: At the time of writing V2 specs, further relevant sources are
-    [Selectors](https://dl.acm.org/doi/10.1145/2687357.2687360) and
-	[mailbox types](https://simonjf.com/writing/pat.pdf);
-	we shall refer to the latter as _mailbox usage_ types
-	to avoid a name clash with
-	the type of messages that are contained in mailboxes.
+[^3]: At the time of writing V2 specs, further relevant sources are *Selectors:
+Actors with Multiple Guarded Mailboxes*[@selectors-actors-2014] and *Special
+Delivery: Programming with Mailbox Types*[@special-delivery-mailbox-types-2023].
+We shall refer to the latter as _mailbox usage_ types to avoid a name clash with
+the type of messages that are contained in mailboxes.
 
 [^4]: The specification does not fix any bound on 
 	the number of engines in existence.
