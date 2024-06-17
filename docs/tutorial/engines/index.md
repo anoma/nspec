@@ -16,7 +16,7 @@ The behavior of each engine instance—i.e.,
 how it reacts to receiving a message in 
 the context of previously sent messages—is
 determined by a _state transition function_.
-the latter is invoked whenever an event occurs at the engine instance,
+The latter is invoked whenever an event occurs at the engine instance,
 typically, the arrival of a new message.[^1]
 The most important fact is that
 the Anoma specification describes 
@@ -42,16 +42,16 @@ has the following local data (directly and exclusively accessible):
 
 - its mailboxes that store received messages, represented by a pair of
 
-  - a finite set of _mailbox identifiers_ (MID for short), typically non-empty
-
+  - a finite set of _mailbox identifiers_ (MID for short),
+	typically non-empty
   - a function that maps mailbox identifiers to pairs of
     - a list of messages that were sent to the MID but not processed yet
     - an optional mailbox-specific state (for quick processing of incoming messages)
 
 - a finite set of _named acquaintances_,[^2] represented by
     - a finite set of names
-    - a map from these names to the [[External Identity|external identities]] of
-	  the acquaintances
+    - a map from these names to the
+	  [[External Identity|external identities]] of the acquaintances
 
 - memory for previously set timers, given by
     - a finite set of timer handles
@@ -127,17 +127,28 @@ Besides updates to the changeable data, the transition function produces
 
 The Anoma specification defines transition functions
 via a set of guarded actions.
-The word `action` is taken from Lamport's temporal logic of actions,
-`guarded` is taken from Dijkstra's guarded command language,
-and indeed, guarded actions are a mix of the two.
-Roughly,
-the idea of guarded actions is to split up
+The word `guarded` is taken from Dijkstra's 
+[guarded command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
+`action` is taken from Lamport's 
+[temporal logic of actions (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
+and indeed, guarded actions are a mix of the two;
+the notion of action (together with local data) allows us to
+express properties in the temporal logoc [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*),
+while guards emphasize that actions have clear pre-conditions
+and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
+e.g., for deriving invariants.
+
+
+The basic idea of guarded actions is to split up
 the set of possible inputs of the state transition function into
-a finite number of cases, each of which corresponds to a _kind_ of events.
+a finite number of cases, 
+each of which corresponds to an _event kind_—very much like
+the transitions of a [Petri net](https://en.wikipedia.org/wiki/Petri_net#Execution_semantics)
+can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/898126).
 However,
-there may be concurrency and conflicts between guarded actions,
-which need to be handled with care or resolved.
-The details of guarded actions are explained in the template.
+guarded actions may be concurrent or in conflict with each other,
+and these situation need to be handled with care.
+The details of guarded actions are explained in the [[Engine Template|template]].
 
 ## Template files
 
@@ -181,3 +192,6 @@ the specification of engine types and their engine instances.
 
 [^4]: The specification does not fix any bound on 
 	the number of engines in existence.
+
+[^5]: Note that in TLA⁺, pre-conditions of actions are
+	present in the guise of the `ENABLED` predicate. 
