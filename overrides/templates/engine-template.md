@@ -172,7 +172,7 @@ each with a list of incoming and outgoing messages,
 relative to the current engine `EngineX`.
 
 
-### Conversation Partners of type EngineTypeX1
+### [Conversation Partners of type EngineTypeX1] (optional)
 
 #### incoming messages 
 
@@ -186,11 +186,9 @@ relative to the current engine `EngineX`.
 - ...
 - `<` link to type `>`
 
-
 .
 .
 .
-
 
 ### Conversation Partners of type EngineTypeXm
 
