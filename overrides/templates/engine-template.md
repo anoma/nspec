@@ -22,21 +22,32 @@ This section describes all types that are specific to an engine. Types should be
 .  
 
 
-## [paradigmatic message sequence diagram] (optional)
+## [paradigmatic message sequence diagram(s)] (optional)
 
-We can use `mermaid` diagrams here. This diagram should be included for machines and high-level engine groups. It is optional for small component engines.
+We can use
+[`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) 
+to draw [message sequence diagrams](https://www.uml-diagrams.org/sequence-diagrams.html),<!--
+see e.g., https://moves.rwth-aachen.de/teaching/ws-21-22/fuml/  
+- https://www.researchgate.net/profile/Joost-Pieter-Katoen/publication/221305522_Pomsets_for_MSC/links/5778102608aead7ba07461af/Pomsets-for-MSC.pdf
+- our formal model should have a precise notion of these as well, 
+  in particular if a given one can actually happen in our model
+-->
+using the `-)`-syntax by default,
+expressing that message sending is "asynchronous"[^1].
+The message sequence chart should be included for
+machines and high-level engine groups;
+it is optional for small component engines.
+A simplest possible example would be
+a request response interaction
+and a more complex example is given in the [[Engine Template Example]].
 
 ```mermaid
-sequenceDiagram
-    participant Clock
-    participant EngineX
-    participant Engineϟ
-    par Clock to EngineX
-        Clock-)EngineX: timer `Decay` elapsed
-    and Engineϟ in parallel
-        Engineϟ-)EngineX: yo
-    end
-	Note right of EngineX: This explains the typical purpose of EngineX
+sequenceDiagramb
+    participant Client
+    participant Server
+    Client-)Server: read request for key α
+	Server-)Client: current value of α is ζ
+	Note right of Server: A blockchain is a data base after all.
 ```
 
 The following is a good example of a larger diagram,
@@ -157,3 +168,9 @@ By default, guarded actions should be inlined in the same page. If an engine has
   <summary>single phrase on guarded action $n$</summary>
   <p>Guarded action n description</p>
 </details> 
+
+[^1]: By default,
+	we are working actully with the partial synchrony abstraction,
+	which in first approximation is closer to the asynchronous case
+	as even if we are after the global synchronization time,
+	we cannot know how long we would have to wait for responses to messages sent.
