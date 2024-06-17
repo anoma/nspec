@@ -46,29 +46,34 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 ## Action [`<` _ActionName_ `>`]
 
-The action of a guarded action is a function $f_{act}$.
+The action of a guarded action is a function $f_{act}$, 
+named `<` _ActionName_ `>` .
 I takes as input
 all local data of an engine _and also_
 the _arguments_ that are returned by the guard.
 In more detail, the list of inputs is
 
 - matched arguments
-- the "trigger"
-  - message read
-  - timer "handle" of elapsing timer
 - external + internal id of the engine itself (unchangeable)
+- the "event trigger"
+  - message received or
+  - timer "handle(s)" of elapsing timer(s)
 - engine-specific local state
-- messages or timer information of the trigger
 - local time (when guard evalutation started)
-- mailbox contents and state
-- remembered timers with their elapsing time
-- acquaintances of other engines
+- mailbox contents and their optional state (for every mailbox)
+- remembered timers with their scheduled time
+- acquaintances (known other engine instances)
+  - a (finite) map from names to external ids
 
-The output of the action describes
+The output of the action describes after the event has finished
 
-- updates to the above local data (except for identities)
-- messages to be sent
-- engines to be spawned
+- updates to the above local data (except for identities and arguments)
+- a finite set of messages to be sent
+- a finite of engines to be spawned, setting
+  - engine type
+  - initial state
+  - initial time
+  - a name for the process (that is unique relative to the engine)
 
 Moreover it will be possible to also use randomness 
 and "direct" user input. 
@@ -92,6 +97,7 @@ ideally complemented with juvix code.
 	simple juvix code example of client server
 
 ### state update
+
 
 ### messages to be sent
 
