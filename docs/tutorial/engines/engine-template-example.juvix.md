@@ -6,35 +6,34 @@ search:
 
 # Auctioneer 
 
-```juvix
+```juvix hide
 module tutorial.engines.engine-template-example;
 import architecture-2.engines.basic-types open;
 ```
 
 ## Purpose 
 
-The Auctioneer is taking bids and announces the winner
-after the dealine has elapsed.
-The auctioneer is responsible for a single auction.
+The Auctioneer is taking bids and announces the winner after the deadline has
+elapsed. The auctioneer is responsible for a single auction.
 
 ## Auctioneer-specific types
 
 ```juvix
-Types : List Type := [
-  State ;
+LocalTypes : List Type := [
+  LocalState ;
   Bid ;
   Winner ;
   Payment
 ];
 ```
 
-### Bool${}^2$: the engine-specific local state
+### Local State
 
 Keep track of whether the auction is started
 and whether the deadline has passed.
 
 ```juvix
-type State : Type := mkState {
+type LocalState : Type := mkLocalState {
   started : Bool;
   deadline : Bool
 };
@@ -53,7 +52,7 @@ type Bid : Type := mkBid {
 };
 ```
 
-#### second Price
+#### Second Price
 
 The second price is implicitly notifying the winner.
 
@@ -63,7 +62,7 @@ type Winner : Type := secondPrice {
 };
 ```
 
-#### payment
+#### Payment
 
 ```juvix
 type Payment : Type := pleasePay {
