@@ -139,7 +139,7 @@ Besides updates to the changeable data, the transition function produces
 - the messages to be sent
 - the timers to be set on the clock
 
-## Transition functions via guarded actions
+## Transition functions via guards and actions =: guarded actions
 
 The Anoma specification defines transition functions
 via a set of guarded actions.
@@ -154,7 +154,6 @@ while guards emphasize that actions have clear pre-conditions,
 and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
 e.g., for deriving invariants.
 
-
 The basic idea of guarded actions is to split up
 the set of possible inputs of the state transition function into
 a finite number of cases, 
@@ -166,6 +165,56 @@ However,
 guarded actions may be concurrent or in conflict with each other,
 and this situation need to be handled with care.
 The details of guarded actions are explained in the [[Guarded Engine Template]].
+
+## The coneptual structure of each Engine Type page in the specs
+
+As a short synopsis, the structure of each engine type page 
+starts with a big picture, some examples, and then the details.
+
+- engine type name (e.g., _Auctioneer_)
+  - purpose {very big picture}
+  - list of engine-specific types
+    - local state
+	- message types received and sent
+    - mailbox state types (for optimizations)
+  - message sequence diagram(s) {specific example(s)}
+  - conversation partners
+    - conversation diagram {big picture}
+    - partner A
+	  - incoming 
+	    - A1
+		- ...
+		- Anₐ
+	  - outgoing 
+        - A1
+		- ...
+		- Amₐ
+	- ...
+	- partner X
+	  - incoming 
+	    - X1
+		- ...
+		- Xnₓ
+	  - outgoing 
+        - X1
+		- ...
+		- Xmₓ
+  - guarded actions {now for the details}
+    - guarded action X1 (e.g., receive bid)
+	  - guard X1 {type `local data * trigger → arguments option`}
+	  - action X1 {type `local data * arguments → local data update * sends * timers * spawns`}
+	    - local data update {prose}
+        - messages to be sent {prose}
+		- timer to be set {prose}
+		- engines to be spawned {prose}
+	- ...	
+    - guarded action Xk (e.g., finalize auction)
+	  - guard Xk {type `local data * trigger → arguments option`}
+	  - action Xk {type `local data * arguments → local data update * sends * timers * spawns`}
+	    - local data update {prose}
+        - messages to be sent {prose}
+		- timer to be set {prose}
+		- engines to be spawned {prose}
 
 ## Template files
 
