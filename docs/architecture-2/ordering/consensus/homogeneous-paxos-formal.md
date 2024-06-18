@@ -92,14 +92,17 @@ Using the above auxiliary functions, we formally define decisions by
 
 ## Definition: Decision
 
-For any set of messages $\blue{s}$ and ballot $b$
+For any set of messages $\blue{s}$ <!-- and ballot $b$ -->
 
 $$
-  \Decision{\red\alpha}{b, \blue s} \eqdef
+\begin{array}{l}
+  \Decision{\red\alpha}{\blue s} \eqdef
+  \\ \qquad
   \sig{\blue s} \in Q_{\red\alpha} \land
   \forall {\green x},{\purple y} \in {\blue s}.\,
     \vartype{\green x}{\twoa} \land
-    \ba{\green x} = b
+    \ba{\green x} = \ba{\purple y}
+\end{array}
 $$
 
 <!-- HPaxos 2.0 definition -->
@@ -121,30 +124,35 @@ Unlike Byzantine Paxos, our acceptors and learners must adapt to Byzantine behav
 We say that an acceptor $\purple p$ is _caught_ in a message $\green x$ if the transitive references of $\green x$ include evidence such as two messages, $\red m$ and $\blue{m^\prime}$, both signed by $\purple p$, in which neither is featured in the other's transitive history chain.
 
 $$
+\begin{array}{l}
   \caughtEvidence{{\red m}, {\blue{m'}}} \eqdef
+  \\ \qquad
   \sig{\red m} = \sig{\blue{ m^\prime}} \land
   \red m \not\in \prevtran{\blue{m^\prime}} \land
   \blue{m^\prime} \not\in \prevtran{\red m}
+\end{array}
 $$
 
 $$
+\begin{array}{l}
   \caught{\green x} \eqdef
+  \\ \qquad
   \sig{\cb{{\red m} \in \tran{\green x} \mid \exists {\blue{m'}} \in \tran{\green x}.\,\caughtEvidence{{\green x}, {\red m}, {\blue{m'}}}}}
+\end{array}
 $$
 
 **Caught proofs processing**: Caught evidences of misbehavior can be used, e.g., for the acceptor punishment, such as slashing in the context of proof-of-stake protection mechanism.
 
-## Definition: Connected
+## Definition: Accurate _as of_ a Message $\green x$
 
-__TODO RENAME?__
-When some acceptors are proved Byzantine, some learners need not agree,
-meaning that any safe set of acceptors $\reallysafe$ isn't in the edge between them in the learner graph $\lgraph$, i.e.,
-at least one acceptor in each safe set in the edge is proven Byzantine.
-Homogeneous learners are always connected unless there are so many failures no consensus is required.
+When some acceptors are proved Byzantine, $\red\alpha$ may no longer be _accurate_, meaning its decisions no longer need to agree.
+This happens when the safe set of acceptors isn't in the learner's safe sets: $\reallysafe \not\in \Safe{\red\alpha}$, i.e.,
+at least one acceptor in each safe set is proven Byzantine.
+With the $\caught{}{}$ relation, we can talk about whether $\red \alpha$ can still be accurate as of a given message (as opposed to proven to be inaccurate):
 
 $$
-  \con{\red \alpha}{\green x} \eqdef
-    \exists {\purple s} \in \edge{\red\alpha}{\red\alpha} \in \lgraph.\,
+  \Acc{\red\alpha}{\green x} \eqdef
+    \exists {\purple s} \in \Safe{\red\alpha} .\,
     {\purple s} \cap \caught{\green x} = \emptyset
 $$
 <!-- HPaxos 2.0 definition -->
@@ -170,24 +178,25 @@ $$
 $$
 
 $$
+\begin{array}{l}
   \buried{{\red\alpha}}{\vartype{\purple x}{\twoa}}{\green y} \eqdef
+  \\ \qquad
   \sig{\cb{
     {\orange m} \in \tran{\green y} \mid
     \exists {\blue z} \in \tran{\orange m}.\burying{\blue z}{\purple x}
   }}
   \in Q_{\red\alpha}
+\end{array}
 $$
 
 We shall say that the message $\green x$ is _unburied_ (in the context of a later message $\purple y$) if it is not buried (in the context of $\purple y$).
 
 ## Definition: Connected 2a-messages
 
-__TODO REWRITE__
-Entangled learners must agree, but learners that are not connected are not entangled, so they need not agree.
-Intuitively, a $\oneb$-message references a $\twoa$-message to demonstrate that some learner may have decided some value.
 For learner $\red \alpha$, it can be useful to find the set of $\twoa$-messages from the same sender as a message ${\green x}$ (and sent earlier)
 which are still [unburied](#definition-buried) and for learners connected to $\red \alpha$.
-The $\oneb$ cannot be used to make any new $\twoa$-messages for learner $\red \alpha$ that have values different from these $\twoa$-messages.
+We call these 2as "connected" for reasons which make more sense in full heterogeneous paxos. 
+If a message $\green x$ proves that $\red \alpha$ is not _accurate_, then it is in some sense not "bound" by earlier $\twoa$-messages: $\red \alpha$ can decide contradictory values. 
 
 $$
   \cona{\hetdiff{\red\alpha}}{\green x} \eqdef
@@ -197,7 +206,7 @@ $$
     {\begin{array}{l}
       \phantom{\land}\, \vartype{\purple m}{\twoa} \\
       \land\, {\sig{\purple m} = \sig{\green x}} \\
-      \land\, \con{\red \alpha}{\green x} \\
+      \land\, \Acc{\red\alpha}{\green x} \\
       \land\, \lnot \buried{\red\alpha}{\purple m}{\green x}
      \end{array}}
   }
@@ -233,7 +242,8 @@ $$
 $\twoa$-messages reference _quorums of messages_ with the same value and ballot.
 A $\twoa$'s quorums are formed from [fresh](#definition-fresh) $\oneb$-messages with the same ballot and value.
 
-$$
+<!-- HPaxos 2.0 definition -->
+<!-- $$
   \qa{\green x : \twoa} \eqdef
   \cb{\tallpipe
     {\red m \in \tran{\green x}}
@@ -241,6 +251,29 @@ $$
      {\fresh{\hetdiff{\green{x.lrn}}}{\red m}} \land
      {\ba{\red m} = \ba{\green x}}}
   }
+$$ -->
+$$
+  \qa{\green x : \twoa} \eqdef
+  \cb{\tallpipe
+    {\red m \in \tran{\green x}}
+    {\begin{array}{l}
+     \phantom{\land}\,\vartype{\red m}{\oneb} \\
+     \land\, {\fresh{\red\alpha}{\red m}} \\
+     \land\, {\ba{\red m} = \ba{\green x}}
+     \end{array}}
+  }
+$$
+
+## Definition: Chain property
+
+$$
+\begin{array}{l}
+  \ChainRef({\green x}) \eqdef
+  \\ \qquad
+    \green{x.\prev} \neq \bot \to
+      \green{x.\prev} \in \green{x.\refs} \land
+      \sig{\green{x.prev}} = \sig{\green x}
+\end{array}
 $$
 
 ## Definition: WellFormed
@@ -248,23 +281,22 @@ $$
 We define what it means for a message to be _wellformed_.
 
 $$
-  \begin{array}{l}
-    \wellformed{\purple u : \onea} \eqdef
-    {\purple u}.\refs = \emptyset
-    \\
-    \wellformed{\green x : \oneb} \eqdef
-    {\green x}.\refs \ne \emptyset
-    \land
-    \forall \blue y \in \tran{\green x} .\,
-      \green x \ne \blue y
-      \land
-      \blue y \ne \geta{\green x}
-      \Rightarrow
-      \ba{\blue y} \ne \ba{\green x}
-    \\
-    \wellformed{\red z : \twoa} \eqdef
-    {\red z}.\refs \ne \emptyset
-    \land
-    \sig{\qa{\red z}} \in \red{Q_{\hetdiff{z.lrn}}}
+\begin{array}{l}
+  \WellFormedOneB{\green x} \eqdef
+  \\ \qquad
+  \forall \blue y \in \tran{\green x} .\,
+  \green x \ne \blue y \land \blue y \ne \geta{\green x}
+  \to \ba{\blue y} \ne \ba{\green x}
+  \\\\
+  \WellFormedTwoA{\green x} \eqdef
+  \qa{\green x} \in \green{Q_{\red{\alpha}}}
+  \\\\
+  \wellformed{\green x} \eqdef \\
+  \qquad
+  \phantom{\land}\, \ChainRef({\green x})
+  \\ \qquad
+  \land\, \p{\vartype{\green x}{\oneb} \to (\exists {\red z} \in \green{x.\refs}.\,\vartype{\red z}{\onea}) \land \WellFormedOneB{\green x}}
+  \\ \qquad
+  \land\, \p{\vartype{\green x}{\twoa} \to {\green x}.\refs \neq \emptyset \land \WellFormedTwoA{\green x}}
 \end{array}
 $$

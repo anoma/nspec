@@ -1,8 +1,8 @@
 ---
 icon: material/file-document-outline
 search:
-  exclude: true
+  exclude: false
+  boost: 2
 ---
 
-# Notifications
-
+# Patterns

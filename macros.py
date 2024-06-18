@@ -4,6 +4,9 @@ import os
 from datetime import datetime
 from pathlib import Path
 
+from mkdocs.structure.nav import Link, Navigation, Section
+from mkdocs.structure.pages import Page
+
 ROOT_DIR = Path(__file__).parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 
@@ -72,6 +75,60 @@ def define_env(env):
     @env.macro
     def date(d):
         return datetime.strptime(d, "%Y-%m-%d")
+
+    @env.macro
+    def type_of(x):
+        return type(x).__name__
+
+    @env.macro
+    def nav_to_dict(nav):  # type: ignore
+        if isinstance(nav, Navigation):
+            return [nav_to_dict(section) for section in nav]
+        if isinstance(nav, Section):
+            url = None
+            # here we assume the mkdocs.plugins section_index plugin is used
+            children = list(map(nav_to_dict, nav.children))
+            if len(children) >= 1:
+                if children[0].get("url") and children[0]["url"].endswith("index.md"):
+                    url = children[0]["url"]
+                    children = children[1:]
+            return {
+                "title": nav.title,
+                "url": url,
+                "children": children,
+            }
+        if isinstance(nav, Link):
+            return {"title": nav.title, "url": nav.url}
+        if isinstance(nav, Page):
+            url = nav.url
+            if not url.startswith("./") and not url.startswith("http"):
+                url = f"./{url}"
+                if url.endswith(".html"):
+                    url = url.replace(".html", ".md")
+            return {"title": nav.title, "url": str(url)}
+        return nav
+
+    @env.macro
+    def dict_to_md(nav_dict, depth=0) -> str:
+        if isinstance(nav_dict, list):
+            return "\n\n".join(dict_to_md(section, depth) for section in nav_dict)
+        indented_prefix = f"{'    ' * depth}- "
+        if isinstance(nav_dict, dict):
+            if "title" in nav_dict:
+                title = nav_dict["title"]
+                if "ToC" == title:
+                    title = "Table of Contents"
+                if "url" in nav_dict and nav_dict["url"]:
+                    item_md = (
+                        f"{indented_prefix}[{nav_dict['title']}]({nav_dict['url']})"
+                    )
+                else:
+                    item_md = f"{indented_prefix}{nav_dict['title']}"
+                if "children" in nav_dict:
+                    children_md = dict_to_md(nav_dict["children"], depth + 1)
+                    return f"{item_md}\n{children_md}"
+                return item_md
+        return f"{indented_prefix}{nav_dict}"
 
 
 def on_pre_page_macros(env):

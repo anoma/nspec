@@ -1,0 +1,54 @@
+name: cleanup tasks
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          gh extension install actions/gh-actions-cache
+
+          REPO=${{ github.repository }}
+          BRANCH="refs/pull/${{ github.event.pull_request.number }}/merge"
+
+          echo "Fetching list of cache key"
+          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
+
+          ## Setting this to not fail the workflow while deleting cache keys.
+
+          set +e
+          echo "Deleting caches..."
+          for cacheKey in $cacheKeysForPR
+          do
+              gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
+          done
+          echo "Done"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Delete PR branch
+        run: |
+          PR_ID=$(echo ${{ github.event.pull_request.head.ref }} | cut -d'/' -f 3)
+          git config --global user.name arts
+          git config --global user.email arts@heliax.dev
+          rm -rf pr-$PR_ID
+          git add .
+          git commit -m "Delete PR branch $PR_ID"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete the PR preview if the PR is closed or merged (Pull Request)
+        if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed') && success()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR has been deleted." || true

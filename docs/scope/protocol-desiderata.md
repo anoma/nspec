@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Protocol desiderata
 
 What is the flow from world model to desiderata?
@@ -50,4 +57,4 @@ imagine that we had an oracle?
 
 !!! todo
 
-    Imagine an omniscient observer who can see all messages and all private information. 
+    Imagine an omniscient observer who can see all messages and all private information.

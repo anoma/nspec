@@ -1,5 +1,5 @@
 ---
-icon: material/layers
+icon: octicons/file-diff-16
 tags:
     - diff
 ---

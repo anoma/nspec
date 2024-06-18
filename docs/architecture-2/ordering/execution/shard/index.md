@@ -13,33 +13,24 @@ The Shards together store and update the
 They provide [[Executor]]s with input data and update the state
  according to the results of [[Executor]]s' computations.
 
-<!-- Isaac: Do we assume this?
-For V1, we assume there is only a single shard.
+ Different shards may be on different physical machines.
+ <!--
+   Redistributing state between shards is called *Re-Sharding*.
+   Each Shard is specific to exactly one learner.
+   However,
+   as an optimization,
+   an implementation could conceivably use a single process to do
+   the work of multiple shards with different learners
+   so long as those shards are identical, and
+   fork that process if and when the learners diverge.
 -->
-<!-- NOT RELEVANT FOR V1:
-    ---
-    Different shards may be on different physical machines.
-    (‼ in fact, machine ideally should always be distributable,
-    so we can save on all of these different physcial machine explanations in
-    the operational spec)
-    Redistributing state between shards is called *Re-Sharding*.
-    Each Shard is specific to exactly one learner.
-    However,
-    as an optimization,
-    an implementation could conceivably use a single process to do
-    the work of multiple shards with different learners
-    so long as those shards are identical, and
-    fork that process if and when the learners diverge.
--->
+
 
 Each shard is responsible for a set of [[KVSKey]]s
 and these sets are disjoint for different shards.
 For each of the keys that a shard is responsible for, the shard maintains a
- (partially-ordered) timeline of [[TxFingerprint|time‍stamps]] of
+ (partially-ordered) timeline of Timestamps of
  [[TransactionCandidate|transaction candidates]] that may read or write to keys.
-For V1, these [[TxFingerprint|time‍stamps]] are [[TxFingerprint]]s and
-they are totally ordered, because there is only
-a single [[Worker Engine|Worker Engine]].
 Shards also keep a history of data written by each
  [[TransactionCandidate]] to each key.
 This is [multi-version concurrent storage](
@@ -54,22 +45,20 @@ This is [multi-version concurrent storage](
 
 For each [[Worker Engine|Worker Engine]], the Shard maintains:
 
--  [[TxFingerprint|A timestamp]], such that all
+-  A Timestamp, such that all
    _[[KVSAcquireLock|write lock requests]]_[^1] for
    transaction candidates with earlier timestamps that this worker curates
    have already been received.
-  Together, these timestamps represent `heardAllWrites`
-
-<!-- not relevant for V1
-- In versions > V1, another [[TxFingerprint|timestamp]], before which
+  Together, these timestamps represent [`heardAllWrites`](#heardallwrites).
+- Another Timestamp, before which
    the Shard will receive no further *read* requests from this
    [[Worker Engine|Worker Engine]].
   For [[WorkerEngine]], this cannot be *after* the corresponding
-   *write* [[TxFingerprint|timestamp]].
+   *write* Timestamps.
   We will also maintain these from each Read Backend worker.
   Together, these represent `heardAllReads`.
--->
-For each [key](../index.md#state) (assigned to this Shard):
+
+For each [key](#state) (assigned to this Shard):
 
 - A set of [[TxFingerprint|time‍stamps]] of known
    [[TransactionCandidate|transaction candidates]] that read and/or write that key, and for
@@ -91,27 +80,26 @@ For each [key](../index.md#state) (assigned to this Shard):
      relevant [[Executor]].
     If the [[Executor]] sends a [[KVSReadRequest]] for this key, the
      Shard updates this marker to a "*will* read" marker.
-<!-- not relevant for V1
-- If a [[TxFingerprint|time‍stamps]] has no corresponding markers or
+- If a Timestamp has no corresponding markers or
    values written, we don't have to store it.
 - If a value written is before `heardAllReads`, and there are no pending
    reads or writes before it, then we can remove all *earlier* values
    written.
+
 Additionally, the Shard maintains:
 
 - A complete copy of the DAG structure produced by the
    [[Mempool Engines]].
   This includes a set of all [[NarwhalBlockHeader]]s.
-  For [[TxFingerprint|time‍stamps]] before `SeenAllRead`, if there are
+  For Timestamps before `SeenAllRead`, if there are
    no keys with a pending read or write before that
-   [[TxFingerprint|timestamp]], we can delete old DAG structure.
-- In versions > V1, a complete copy of the sequence of Anchors chosen
+   Timestamp, we can delete old DAG structure.
+- A complete copy of the sequence of Anchors chosen
    by [[Consensus Engine]].
   This is a sequence of consensus decisions.
-  For [[TxFingerprint|time‍stamps]] before `heardAllReads`, if there are
+  For Timestamps before `heardAllReads`, if there are
    no keys with a pending read or write before that
-   [[TxFingerprint|timestamp]], we can delete old anchors.
--->
+   Timestamp, we can delete old anchors.
 
 ## Shard Optimizations
 
@@ -132,17 +120,12 @@ this using a set of optimizations.
 ![Per-key ordering (see web version for animation)](keys_animated.svg)
 
 [[Mempool Engines|Mempool]]
- (and after V1, [[Consensus Engine|consensus]]) provides ordering
+ and  [[Consensus Engine|consensus]] provides ordering
  information for  [[TxFingerprint|the time‍stamps]].
 Thus, relative to each key,
 [[TransactionCandidate|transaction candidates]] can be totally ordered by the
  [Happens Before](https://en.wikipedia.org/wiki/Happened-before)
  relationship.
-Since [[TxFingerprint|the only time‍stamps]] in V1 are [[TxFingerprint]]s, and
- V1 has only  [[Worker Engine|one worker engine]], [[TxFingerprint|the set of time‍stamps]] is
- totally ordered, so the
- [Happens Before](https://en.wikipedia.org/wiki/Happened-before)
- relationship is a total order.
 With a total ordering of [[TransactionCandidate|transaction candidates]], Shards can send
  read information ([[KVSRead]]s) to [[Executor]]s as soon as the
  previous [[TransactionCandidate]] is complete.
@@ -184,7 +167,6 @@ In the diagram above, for example, only green _happens-before_ arrows
 [[TransactionCandidate|transaction candidates]] `a`, `b`, `c`, and `j` can all be executed
  concurrently, as can [[TransactionCandidate|transaction candidates]] `d`, `e`, and `i`.
 
-<!-- not relevant for V1
 ### Optimization: Execute With Partial Order
 
 Some [[Mempool Engines|mempools, including Narwhal]],
@@ -197,10 +179,6 @@ a shard can send read information to an executor when
 it knows precisely which write happens most recently before the read,
 and that write has executed.
 
-#### heardAllWrites
-
--->
-
 ### heardAllWrites
 
 In order to know which write happens most recently before a given
@@ -211,17 +189,16 @@ In order to know which write happens most recently before a given
  `heardAllWrites`.
 The Shard is guaranteed to never receive another [[KVSAcquireLock]]
  with a write operation and
-  [[TxFingerprint|a timestamp]] before  `heardAllWrites`.
+  Timestamp before  `heardAllWrites`.
 In general, a Shard cannot send a [[KVSRead]] for
- [[TxFingerprint|a timestamp]] unless
-  [[TxFingerprint|the timestamp]] is before `heardAllWrites`.
-For V1, `heardAllWrites` consists of a [[TxFingerprint]] from the
- [[Worker Engine|sole worker engine]] such that [[Worker Engine|the worker engine]] is certain
+ a Timestamp unless
+  the Timestamp is before `heardAllWrites`.
+`heardAllWrites` consists of a [[TxFingerprint]] from each
+ [[Worker Engine|worker engine]] such that [[Worker Engine|the worker engine]] is certain
  (based on [[KVSLockAcquired]]s) that the Shard has already seen all
  the [[KVSAcquireLock]]s it will ever send at or before that
  [[TxFingerprint]].
 
-<!-- the rest of this is not relevant for V1
 
 This can be on a per-key basis or simply a global lower bound.
 Occasionally,
@@ -297,7 +274,6 @@ Then the transitive conflict is also resolved:
 transaction `h` will be able to execute.
 -->
 
-<!-- V1 does not have any read-only transactions.
 ### Optimization: Client Reads as Read-Only Transactions
 
 ![Client reads as read-only transactions (see web version for animation)](read_only_animated.svg)
@@ -308,7 +284,6 @@ Clients can simply send read-only transactions directly to the execution engine 
 In the diagram above, transaction `f` is read-only.
 
 If client reads produce signed responses, then signed responses from a weak quorum of validators would form a *light client proof*.
--->
 
 # Shard Incoming Messages
 
@@ -321,6 +296,10 @@ Shards receive and react to the following messages:
 --8<-- "shard/KVS-write.md:all"
 
 --8<-- "shard/update-seen-all.md:all"
+
+--8<-- "shard/timestamp-ordering-information.md:all"
+
+--8<-- "shard/anchor-chosen.md:all"
 
 [^1]: For the purpose of this discussion, we call
     a _write lock request_ a [[KVSAcquireLock]] message

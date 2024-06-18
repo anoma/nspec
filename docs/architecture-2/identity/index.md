@@ -15,9 +15,9 @@ The identity machine is responsible for management of data and operations relate
 
     - In general, a node has only one [Encryption Engine](./encryption/index.md) and one [Decryption Engine](./decryption/index.md). Each [[EncryptRequest]] or [[VerifyRequest]] specifies what identity they're referring to.
 
-- creating & verifying commitments, handled by the [Commitment Engine](./commitment.md) and [Verification Engine](./verification.md)
+- creating & verifying commitments, handled by the [Commitment Engine](./commitment/index.md) and [Verification Engine](./verification/index.md)
 
-  - Note that there is a [Commitment Engine](./commitment.md) and/or a [Verification Engine](./verification.md) created on a node for each identity the node has. References to the [Commitment Engine](./commitment.md) and/or [Verification Engine](./verification.md) can be used as a kind of permission, ensuring that only processes which have been given such a reference will be able to commit or verify with a specific identity.
+  - Note that there is a [Commitment Engine](./commitment/index.md) and/or a [Verification Engine](./verification/index.md) created on a node for each identity the node has. References to the [Commitment Engine](./commitment/index.md) and/or [Verification Engine](./verification/index.md) can be used as a kind of permission, ensuring that only processes which have been given such a reference will be able to commit or verify with a specific identity.
 
 - tracking relationships between identities, including
 
