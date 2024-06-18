@@ -46,9 +46,7 @@ tags:
 
     For more information about the foundation, please visit https://anoma.foundation.
 
-Anoma is a protocol that serves as a universal standard for developing blockchain
-applications[@goes2024anoma]. It uses intents as building blocks and deploys them through
-distributed intent machines. The protocol architecture supports interoperability at the state,
+Anoma is a distributed operating system for intent-centric applications[@goes2024anoma]. The protocol architecture supports interoperability at the state,
 network, and application levels without restricting the types of intents or computational methods
 used to solve them. This site aims to describe the architecture required to implement the Anoma
 protocol and serves as a guide for Anoma researchers and implementors.
