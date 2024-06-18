@@ -33,23 +33,7 @@ tags:
 
 # Anoma Specification
 
-Anoma is a protocol that serves as a universal standard for developing
-blockchain applications. It uses "intents" as building blocks and deploys them
-through distributed "intent machines." Anoma supports interoperability at the
-state, network, and application levels without restricting the types of intents
-or computational methods used to solve them. In order to support the modern
-needs of writing these applications, Anoma provides an environment and state
-model that manage the complexities of intent-centric, privacy-preserving, and
-distributed operations. It also includes a compiler toolchain for writing
-intent-based programs in a natural, declarative language, abstracting the
-details of compilation to the necessary cryptographic primitives for
-privacy-preserving operations.
-
-This site aims to describe the architecture required to implement
-the Anoma protocol and serves as a guide for Anoma researchers and implementors.
-
-
-??? info "Anoma Entities"
+!!! info inline end "Anoma Entities"
 
     The term "Anoma" as used on this site refers specifically to the Anoma Protocol. However, it may
     also be used elsewhere to refer to related entities such as the Anoma Network or the Anoma
@@ -62,7 +46,36 @@ the Anoma protocol and serves as a guide for Anoma researchers and implementors.
 
     For more information about the foundation, please visit https://anoma.foundation.
 
-??? question "What is a Protocol?"
+Anoma is a protocol that serves as a universal standard for developing blockchain
+applications[@goes2024anoma]. It uses intents as building blocks and deploys them through
+distributed intent machines. The protocol architecture supports interoperability at the state,
+network, and application levels without restricting the types of intents or computational methods
+used to solve them. This site aims to describe the architecture required to implement the Anoma
+protocol and serves as a guide for Anoma researchers and implementors.
 
-    What precisely we mean by "protocol"? As the words are colloquially used, Anoma is closer to a "protocol architecture" or "protocol topology", in that it defines a class of protocols which are unique up to structural isomorphism. If a "protocol" in the TCP/IP sense can be said to consist of a structure and an encoding, where the structure is constrained by the acceptable assumptions and desired properties, but the encoding makes arbitrary decisions about symbolic representation, a "protocol" in the Anoma sense fixes the structure but not the encoding. Any program preserving this structure can be said to implement the Anoma protocol. Standardisation of an encoding is likely in practice, but strictly speaking not even required for distributed consensus - agents must only agree on the encoding and decoding functions on a per-message basis in order to "understand" each other. This disctinction may seem arcane, but it is potentially of practical importance, for a few reasons:
+!!! todo "Right diagram?
+
+    J: I want here a clickable diagram that shows the architecture of the Anoma protocol. Which diagram
+    should I use? As far as I remember, the following is the most recent one. Is it correct?
+    https://research.anoma.net/t/graphing-anoma-agents-v3/341/3
+
+<figure markdown="span">
+![Message Diagram](rought_execution_engine_message_passing.svg){ width="450" }
+<figcaption markdown="span">
+The diagram illustrates the primary components of the Anoma protocol, detailing the architecture of an Anoma node and the interactions between each component within this architecture.
+</figcaption>
+</figure>
+
+As part of this project, we are also creating additional tools and libraries, including a compiler
+toolchain for writing native Anoma intent-based programs in a high-level functional programming
+language called [Juvix](https://docs.juvix.org). This compiler toolchain will handle the details of
+compiling the necessary cryptographic primitives for privacy-preserving operations. While some
+parts of the Anoma protocol are still under development, and some parts contain Juvix code snippets
+that describe the intended behaviour of the protocol.
+
+
+## Table of Contents
+
+{@ dict_to_md(nav_to_dict(navigation)) @}
+
 
