@@ -1,3 +1,9 @@
+---
+icon: octicons/project-template-24-1337
+search:
+  exclude: false
+---
+
 # EngineX {V2 Template}
 
 ## Purpose (of EngineX)
@@ -36,11 +42,11 @@ We may specify for each mailbox a type.
 
 ## [Paradigmatic message sequence diagram(s)] (optional)
 
-We can use one or more message sequence diagrams to show how instances of the
-engine type exchange messages with other engine instances, whether they are the
-same type or different types. The general idea is that each message sequence
-diagram in the engine type page describes a pattern for test cases.
-
+We can use one or more message sequence diagrams to show how
+instances of the engine type exchange messages with other engine instances, whether they are the same type or different types.
+The general idea is that 
+each message sequence diagram in the engine type page describes
+a pattern for test cases.
 
 ??? example "Client-Server Example"
 
@@ -78,7 +84,6 @@ diagram in the engine type page describes a pattern for test cases.
       Server-)Client: current value of α is ζ
       Note right of Server: A blockchain is a data base after all.
     ```
-
 
 ??? example "Several Engines Example"
 

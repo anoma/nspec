@@ -4,7 +4,7 @@ search:
   exclude: false
 ---
 
-# Finalize Auction when deadline elapses {V2 Template Example}
+# Finalize Auction on deadline elapsed {V2 Template Example}
 
 Typical direct causes are
 
@@ -27,16 +27,16 @@ Discard all data, except for KYC data.
 
 ### Messages to be sent
 
-- Broadcast winning bid to all participants.
+- Send messages to all bidders.
 - Notify winner with payment instructions.
 
 ### Engines to be spawned
 
-N/A
+None
 
 ### timers to be set
 
-N/A
+None
 
 
 

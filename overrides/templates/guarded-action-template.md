@@ -1,34 +1,38 @@
-# Guarded Action `<` _Name of guarded action- `>` {V2 Template ⊂ V3 Template}
+# `<` _Name of action- `>` on `<` _Name of guard- `>` {V2 Template ⊂ V3 Template}
 
-Each guard specifies a predicate that
-decides if a certain "action" is enabled
-based on local data only;
+Each guarded action is a pair of a guard and an action.
+The guard specifies a predicate that
+decides if the action is enabled,
+based on local data only; 
 _moreover,_ in order to allow for typical pattern matching techniques,
-we complement the predicate with an output of "matched" arguments.
-
-!!! todo
-	
-	add juvix type here
+we complement the predicate with an output of _matched arguments._
+The action takes local data and matched argument as input and 
+computes 
+- the updates to local data
+- messages to be sent
+- timers to be set, and 
+- engines to be spawned.
 
 In theory,
 all guards of an engine are evaluated in parallel,
-whenever a new event (e.g., the arrival of a message) occurs;
+each of which potentially triggers an event,
+(e.g., upon  arrival of new  message);
 in practice, for specific cases, one may want to choose 
 a more efficient, but equivalent strategy.
 
-In simple cases,
-it is never the case that several guards are enabled at the same time;
+In many simple cases,
+it is never the case that several guards become true;
 however, 
-if several guards are enabled,
+if several actions are enabled,
 priorities of guards may be used to resolve unwanted non-determinism. 
 It is necessary to mark the non-determinism if it is desired.
-
 Each guard comes with an associated action that is executed
 if the guard is satisfied (and has the highest priority).
 
 !!! Note
 
-	New events are "muted" for the time of guard and action execution.
+	New events are "muted" for the time of 
+	guard evaluation and action execution.
 
 ## Guard
 
@@ -36,7 +40,7 @@ if the guard is satisfied (and has the highest priority).
 The following conditions are permissible guards:
 - Received a message matching some pattern from another engine
 - Received a message (timer elapsed) matching some pattern from my clock
-
+¶
 For the time being, guards can check only a single message at once.
 -->
 

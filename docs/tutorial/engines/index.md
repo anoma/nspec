@@ -177,7 +177,7 @@ The details of guarded actions are explained in the [[Guarded Engine Template]].
         The following template can be found in the `overrides/templates/engine-template.md` file.
     
 
-    --8<-- "./../overrides/templates/engine-template.md"
+    --8<-- "./../overrides/templates/engine-template.md:6"
 
 ??? "Guarded action template"
 
