@@ -31,7 +31,7 @@ An agent always exists in a _world_. The _world_, in some sense, is simply the s
 
 ### Observations & actions
 
-Agents can interact with the world in two ways: by taking _observations_ of it, and by performing _actions_ within it. _Observations_ can be understood as messages received from the world, while _actions_ can be understood as messages sent to it. 
+Agents can interact with the world in two ways: by taking _observations_ of it, and by performing _actions_ within it. _Observations_ can be understood as messages received from the world, while _actions_ can be understood as messages sent to it.
 
 _Observations_ may be directed by a particular conceptualization of phenomena, in which case they are called _measurements_, and accompanied by a name of semantic significance to the agent taking the measurement, or undirected, in which case they are called _perceptions_ and unaccompanied. Observations may be initiated by the agent itself or initiated by the world.
 
