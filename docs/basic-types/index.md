@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Basic Abstractions
+# Basic Types
 
 _"There are two kinds of data structures: DAGs, and bad data structures." - unknown_
 
@@ -43,5 +43,4 @@ mechanism.
 
 
 - [Identity](./identity.md#identity)
-- [Resource Management](./resource.md#resource-management)
-
+- [Resource](./resource.md)
