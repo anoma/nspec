@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Basic Abstractions
+# Basic Types
 
 _"There are two kinds of data structures: DAGs, and bad data structures." - unknown_
 
@@ -42,6 +42,17 @@ mechanism.
     Although this document does not use the language or process and cannot claim a similar depth of expertise, we have taken some inspiration from Conal Elliot's [denotational design](https://www.typetheoryforall.com/2022/08/04/21-Conal-Eliott-2.html).
 
 
-- [Identity](./identity.md#identity)
-- [Resource Management](./resource.md#resource-management)
+```mermaid
+flowchart LR
+  BasicTypes ["Basic Types"]
+  SystemArchitecture ["System Architecture"]
+  NodeArchitecture ["Node Architecture"]
+  BasicTypes -> SystemArchitecture
+  BasicTypes -> NodeArchitecture
+```
 
+Basic types are types which are used across multiple Anoma nodes and must be defined in order to describe what properties the system itself provides.
+
+- [Identity](./identity.md#identity)
+- [Resource](./resource.md)
+- [Resource Machine](./resource-machine.md)
