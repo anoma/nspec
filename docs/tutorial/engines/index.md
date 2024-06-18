@@ -30,11 +30,11 @@ the Anoma specification describes
 a _fixed_ finite number of state transition functions 
 such that
 the behaviour of every (correct and non-faulty) engine instance in an Anoma instance
-is determined by exactly one of these state transition functions.
+is determined by exactly one of these state transition functions.<!-- add footnote to engine system locale ["axiom" state_partition](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L192) -->
 
 !!! definition 
 
-	We call the set of all engine instances that share the same state transition function an _engine type._ 
+	We call the set of all engine instances that share the same state transition function the _engine type_ of the state transition function.
 
 We now describe in more detail the "internal" structure of
 each engine instance; this is also a deliberate design choice.
@@ -55,14 +55,14 @@ exclusively accessible at any given moment (in local time):
     - a finite set of _mailbox identifiers_ (**MID** for short),
     typically non-empty
       
-        - a function that maps mailbox identifiers to pairs of
-            - a list of messages that were sent to the MID but not processed yet
-            - an optional mailbox-specific state (for quick processing of incoming messages)
+    - a function that maps mailbox identifiers to pairs of
+		- a list of messages that were sent to the MID but not processed yet
+		- an optional mailbox-specific state (for quick processing of incoming messages)
 
-    - a finite set of _named acquaintances_[^2] represented by
-        - a finite set of names
-        - a map from these names to the
-          [[Identity#external-identity|external identities]] of the acquaintances
+  - a finite set of _named acquaintances_[^2] represented by
+    - a finite set of names
+    - a map from these names to the
+	  [[Identity#external-identity|external identities]] of the acquaintances
 
 - memory for previously set timers, given by
     - a finite set of timer handles
@@ -144,9 +144,9 @@ Besides updates to the changeable data, the transition function produces
 The Anoma specification defines transition functions
 via a set of guarded actions.
 The word `guarded` is taken from Dijkstra's 
-[guarded command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
+[_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
 `action` is taken from Lamport's 
-[temporal logic of actions (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
+[temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
 and indeed, guarded actions are a mix of the two;
 the notion of action (together with local data) allows us to
 express properties in the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*),
