@@ -28,7 +28,7 @@ Append new values to the logbook.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
 <!-- --8<-- [start:behavior] -->
 Appends the new value to the logbook.

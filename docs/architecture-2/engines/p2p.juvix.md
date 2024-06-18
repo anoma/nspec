@@ -190,13 +190,13 @@ Logical routing should take into account compositionality of identities - e.g., 
 
 Underlying physical networking layers are expected to expose an opaque type
 `PhysicalAddress`, to which messages can be sent and from which they might be
-receieved. Physical networking could be instantiated by a base physical protocol
+received. Physical networking could be instantiated by a base physical protocol
 such as TCP/IP or UDP/IP, or a more complex layered one such as Tor or a mixnet.
-The physical layer need provide only two functions, `send` and `onRecv`, which
-act as one would expect. Messages are assumed to be delivered either completely
-or not at all, but the physical layer is not expected to provide any form of
-authentication, ordering, or reliable delivery - those concerns are handled by
-higher layers.
+The physical layer needs to provide only two functions, `send` and `onRecv`,
+which act as one would expect. Messages are assumed to be delivered either
+completely or not at all, but the physical layer is not expected to provide any
+form of authentication, ordering, or reliable delivery - those concerns are
+handled by higher layers.
 
 !!! todo
 

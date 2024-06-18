@@ -28,7 +28,7 @@ Response to a [[DeleteDataTimeSeriesDBRequest#deletedatatimeseriesdbrequest]].
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
 <!-- --8<-- [start:behavior] -->
 Performs the requested data record delete operation in the time series DB.

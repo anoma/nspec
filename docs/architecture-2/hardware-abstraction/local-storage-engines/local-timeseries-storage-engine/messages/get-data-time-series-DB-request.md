@@ -32,7 +32,7 @@ Get the queried time series data and return it.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
 <!-- --8<-- [start:behavior] -->
 Performs the requested search operation in the time series DB and returns the value.

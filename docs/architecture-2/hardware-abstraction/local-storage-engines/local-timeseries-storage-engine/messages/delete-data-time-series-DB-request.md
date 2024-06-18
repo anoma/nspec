@@ -32,7 +32,7 @@ Delete time series data from the DB.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
 <!-- --8<-- [start:behavior] -->
 Delete time series data from the time series DB.
