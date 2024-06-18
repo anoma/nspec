@@ -44,3 +44,4 @@ mechanism.
 
 - [Identity](./identity.md#identity)
 - [Resource](./resource.md)
+- [Resource Machine](./resource-machine.md)
