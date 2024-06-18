@@ -9,7 +9,6 @@ social:
 search:
     exclude: true
 tags:
-    - Anoma
     - Protocol
     - Architecture
     - Applications
@@ -64,12 +63,6 @@ The diagram illustrates the primary components of the Anoma protocol, detailing 
 </figcaption>
 </figure>
 
-As part of this project, we are also creating additional tools and libraries, including a compiler
-toolchain for writing native Anoma intent-based programs in a high-level functional programming
-language called [Juvix](https://docs.juvix.org). This compiler toolchain will handle the details of
-compiling the necessary cryptographic primitives for privacy-preserving operations. While some
-parts of the Anoma protocol are still under development, and some parts contain Juvix code snippets
-that describe the intended behaviour of the protocol.
 
 
 ## Table of Contents
