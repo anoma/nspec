@@ -170,6 +170,7 @@ The details of guarded actions are explained in the [[Guarded Engine Template]].
 
 As a short synopsis, the structure of each engine type page 
 starts with a big picture, some examples, and then the details.
+A table of contents has the following structure.
 
 - engine type name (e.g., _Auctioneer_)
   - purpose {very big picture}
@@ -178,43 +179,43 @@ starts with a big picture, some examples, and then the details.
 	- message types received and sent
     - mailbox state types (for optimizations)
   - message sequence diagram(s) {specific example(s)}
-  - conversation partners
-    - conversation diagram {big picture}
-    - partner A
-	  - incoming 
-	    - A1
-		- ...
-		- Anₐ
-	  - outgoing 
-        - A1
-		- ...
-		- Amₐ
-	- ...
-	- partner X
-	  - incoming 
-	    - X1
-		- ...
-		- Xnₓ
-	  - outgoing 
-        - X1
-		- ...
-		- Xmₓ
+  - conversation diagram {big picture}  
+    - conversation partners
+        - partner A
+    		- incoming 
+	    	    - A1
+		        - ...
+		        - Anₐ
+      		- outgoing 
+                - A1
+ 		        - ...
+    		    - Amₐ
+	    - ...
+	    - partner X
+	        - incoming 
+	            - X1
+     		    - ...
+	    	    - Xnₓ
+		    - outgoing 
+		        - X1
+    		    - ...
+	    	    - Xmₓ
   - guarded actions {now for the details}
     - guarded action X1 (e.g., receive bid)
-	  - guard X1 {type `local data * trigger → arguments option`}
-	  - action X1 {type `local data * arguments → local data update * sends * timers * spawns`}
-	    - local data update {prose}
-        - messages to be sent {prose}
-		- timer to be set {prose}
-		- engines to be spawned {prose}
+  	    - guard X1 {`local data * trigger → arguments option`}
+	    - action X1 {`local data * arguments → local data update * sends * timers * spawns`}
+	        - local data update {prose}
+            - messages to be sent {prose}
+		    - timer to be set {prose}
+		    - engines to be spawned {prose}
 	- ...	
     - guarded action Xk (e.g., finalize auction)
-	  - guard Xk {type `local data * trigger → arguments option`}
-	  - action Xk {type `local data * arguments → local data update * sends * timers * spawns`}
-	    - local data update {prose}
-        - messages to be sent {prose}
-		- timer to be set {prose}
-		- engines to be spawned {prose}
+  	    - guard Xk {`local data * trigger → arguments option`}
+	    - action Xk {`local data * arguments → local data update * sends * timers * spawns`}
+	        - local data update {prose}
+            - messages to be sent {prose}
+		    - timer to be set {prose}
+		    - engines to be spawned {prose}
 
 ## Template files
 
