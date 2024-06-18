@@ -14,15 +14,17 @@ nav:
     - ./scope/index.md
     - World model: ./scope/world-model.md
     - Protocol desiderata: ./scope/protocol-desiderata.md
+
+  - Basic Types:
+    - ./basic-types/index.md
+    - Identity: ./basic-types/identity.md
+    - Resource: ./basic-types/resource.md
+    - Resource Machine: ./basic-types/resource-machine.md
+
   - Protocol Architecture:
     - ./architecture/index.md
-    - Basic Types: ./architecture/basic-types.md
     - System Architecture:
       - ./architecture-1/index.md
-      - Abstractions:
-        - ./architecture-1/abstractions/index.md
-        - Identity: ./architecture-1/abstractions/identity.md
-      - Resource Machine: ./resource-machine.md
     - Node Architecture:
       - ./architecture-2/index.md
       - Modules:
@@ -350,14 +352,14 @@ nav:
 
   - Application Architecture:
     - ./application-architecture/index.md
-    # - Definitions:
-      # - ./application-architecture/definitions.md
-    # - Patterns:
-    #   - ./application-architecture/patterns/index.md
-    #   - Counter:
-    #     - ./application-architecture/patterns/counter.md
-    #   - Dynamic code loading:
-        # - ./application-architecture/patterns/dynamic-code-loading.md
+    - Definitions:
+      - ./application-architecture/definitions.md
+    - Patterns:
+      - ./application-architecture/patterns/index.md
+      - Counter:
+        - ./application-architecture/patterns/counter.md
+      - Dynamic code loading:
+        - ./application-architecture/patterns/dynamic-code-loading.md
     - Primitives:
         - ./application-architecture/primitives/index.md
         - Tokens: ./application-architecture/primitives/tokens.md
