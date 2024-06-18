@@ -166,7 +166,7 @@ guarded actions may be concurrent or in conflict with each other,
 and this situation need to be handled with care.
 The details of guarded actions are explained in the [[Guarded Engine Template]].
 
-## The coneptual structure of each Engine Type page in the specs
+## The conceptual structure of each Engine Type page in the specs
 
 As a short synopsis, the structure of each engine type page 
 starts with a big picture, some examples, and then the details.
