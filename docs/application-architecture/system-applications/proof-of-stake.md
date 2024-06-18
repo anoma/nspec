@@ -37,7 +37,7 @@ This section describes an example of a simplified version of the Proof-of-Stake 
 |$B_{validator}$| Refers to the validator the token is delegated to
 |$B_{owner}$| Refers to the delegator
 
-#### Bond 
+#### Bond logic
 
 - Create:
     - Verify $T$ kind to be the governance token kind (for both the created and consumed resource)
@@ -115,7 +115,7 @@ $l_{PoS} = \{l_{Token}, l_{Pool}, l_{Bond}, l_{Withdrawal}, l_{Infraction}, l_{V
 1. **Delegate:** Transfer the token from $T_{owner}$ to the pool, create a `Bond` resource.
 2. **Undelegate:** Consume a `Bond` resource, create a `Withdrawal` resource.
 3. **Withdraw:** Consume a `Withdrawal` resource, transfer the corresponding token (accounting for the relevant infractions) from the pool to $W_{owner}$.
-4. **Slash:** Create an `Infraction` resource provided a proof of misbehaviour.
+4. **Slash:** Create a `Infraction` resource provided a proof of misbehaviour.
 5. **Calculate voting power:** Create a `VotingPower` resource with $VP_{timestamp} = now$.
 
 <figure markdown="span">
