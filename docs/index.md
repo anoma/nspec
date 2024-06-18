@@ -53,7 +53,7 @@ network, and application levels without restricting the types of intents or comp
 used to solve them. This site aims to describe the architecture required to implement the Anoma
 protocol and serves as a guide for Anoma researchers and implementors.
 
-!!! todo "Right diagram?
+!!! todo
 
     J: I want here a clickable diagram that shows the architecture of the Anoma protocol. Which diagram
     should I use? As far as I remember, the following is the most recent one. Is it correct?
