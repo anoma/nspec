@@ -31,8 +31,10 @@ a _fixed_ finite number of state transition functions
 such that
 the behaviour of every (correct and non-faulty) engine instance in an Anoma instance
 is determined by exactly one of these state transition functions.
-We call a group of engine instances that have the same state transition function
-an **engine type**.
+
+!!! definition 
+
+	We call the set of all engine instances that share the same state transition function an _engine type._ 
 
 We now describe in more detail the "internal" structure of
 each engine instance; this is also a deliberate design choice.
