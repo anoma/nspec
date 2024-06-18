@@ -11,6 +11,7 @@ The base abstraction of the protocol is a knowledge-based identity
  interface, where the identity of an agent is defined entirely on the
  basis of whether they know some secret information.
 
+
 Agents can use private information (likely randomness) to create an
  _internal identity_, from which they can derive an
  _external identity_ to which it corresponds.
