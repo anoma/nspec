@@ -11,6 +11,10 @@ search:
 ```juvix
 module everything;
 
+import architecture-2.engines.basic-types;
 import architecture-2.engines.compute;
 import architecture-2.engines.p2p;
+
+-- tutorial
+import tutorial.engines.engine-template-example;
 ```

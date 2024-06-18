@@ -38,7 +38,7 @@ We now describe in more detail the "internal" structure of
 each engine instance; this is also a deliberate design choice.
 <!-- Then, we describe how the corresponding engine type can be described. -->
 
-## On the local data of engine instances {.#engine-local-data}
+## On the local data of engine instances
 
 Each engine instance has the following local data that is directly and
 exclusively accessible at any given moment (in local time):
@@ -185,6 +185,10 @@ The details of guarded actions are explained in the [[Guarded Engine Template]].
         The following template can be found in the `overrides/templates/guarded-action-template.md` file.
 
     --8<-- "./../overrides/templates/guarded-action-template.md"
+
+
+--8<-- "./everything.juvix.md:8:"
+
 
 ---
 

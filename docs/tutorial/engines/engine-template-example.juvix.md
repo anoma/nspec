@@ -6,6 +6,11 @@ search:
 
 # Auctioneer 
 
+```juvix
+module tutorial.engines.engine-template-example;
+import architecture-2.engines.basic-types open;
+```
+
 ## Purpose 
 
 The Auctioneer is taking bids and announces the winner.
@@ -13,14 +18,35 @@ The auctioneer is responsible for a single auction.
 
 ## Auctioneer-specific types
 
+```juvix
+Types : List Type := [
+  State ;
+  Bid 
+];
+```
+
 ### Bool${}^2$: the local engine specific state
 
 Keep track of whether the auction is started
 and whether the deadline has passed.
 
+```juvix
+type State : Type := mkState {
+  started : Bool;
+  deadline : Bool
+};
+```
+
 ### Bid
 
 A bid is a pair of an external ID and an integer amount.
+
+```juvix
+type Bid : Type := mkBid {
+  bidder : ExternalID;
+  amount : Nat
+};
+```
 
 
 ## [Paradigmatic message sequence diagram] (optional)
@@ -64,3 +90,4 @@ The bidder will send bids and wait for announcement of the winner.
   <summary>After deadline has passed, the winner is announced.</summary>
   <p>That's it.</p>
 </details> 
+

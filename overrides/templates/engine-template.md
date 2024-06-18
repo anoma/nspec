@@ -219,7 +219,9 @@ relative to the current engine `EngineX`.
 
 See the [Guarded Action Template](https://specs.anoma.net/v2/guarded-actions.html) page for more information on guarded actions.
 
-By default, guarded actions should be inlined in the same page. If an engine has too many guarded actions (and thereby putting them all in one page would be unworkable), they can be split out into separate files and linked.
+By default, guarded actions should be inlined in the same page. If an engine has
+too many guarded actions (and thereby putting them all in one page would be
+unworkable), they can be split out into separate files and linked.
 
 ### Guarded action $1$ 
 

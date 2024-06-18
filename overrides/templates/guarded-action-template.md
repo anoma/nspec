@@ -16,7 +16,7 @@ whenever a new event (e.g., the arrival of a message) occurs;
 in practice, for specific cases, one may want to choose 
 a more efficient, but equivalent strategy.
 
-In a simple cases,
+In simple cases,
 it is never the case that several guards are enabled at the same time;
 however, 
 if several guards are enabled,
@@ -24,7 +24,7 @@ priorities of guards may be used to resolve unwanted non-determinism.
 It is necessary to mark the non-determinism if it is desired.
 
 Each guard comes with an associated action that is executed
-if the guard is satisfied (and has highest priority).
+if the guard is satisfied (and has the highest priority).
 
 !!! Note
 
@@ -48,38 +48,39 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 The action of a guarded action is a function $f_{act}$, 
 named `<` _ActionName_ `>` .
-I takes as input
+I take as input
 all local data of an engine _and also_
 the _arguments_ that are returned by the guard.
 In more detail, the list of inputs is
 
 - matched arguments
-- external + internal id of the engine itself (unchangeable)
+- external + internal ID of the engine itself (unchangeable)
 - the "event trigger"
   - message received or
   - timer "handle(s)" of elapsing timer(s)
 - engine-specific local state
-- local time (when guard evalutation started)
+- local time (when guard evaluation started)
 - mailbox contents and their optional state (for every mailbox)
 - remembered timers with their scheduled time
 - acquaintances (known other engine instances)
-  - a (finite) map from names to external ids
+  - a (finite) map from names to external IDs
 
 The output of the action describes after the event has finished
 
 - updates to the above local data (except for identities and arguments)
 - a finite set of messages to be sent
-- a finite of engines to be spawned, setting
+- a finite set of engines to be spawned, setting
   - engine type
   - initial state
   - initial time
   - a name for the process (that is unique relative to the engine)
 
-Moreover it will be possible to also use randomness 
+<!-- This needs to be revisted -->
+Moreover, it will be possible to also use randomness 
 and "direct" user input. 
 Roughly,
 the output can depend on randomness and inputs,
-possibly interdependenty, 
+possibly interdependently, 
 e.g., if a user is given the chance to override 
 playing an engines's purely stochastic strategy 
 (in the context of a stochastic game).
@@ -94,11 +95,8 @@ of the formal model.
 	establish some proper reciprocal linking scheme here 
 	
 	<!--
-
-
 	make PR for https://github.com/anoma/formanoma/tree/heindel/engine-locale
-	
--->	
+	-->	
 
 
 A description of the action is necessary,
