@@ -179,7 +179,7 @@ A table of contents has the following structure.
 	- message types received and sent
     - mailbox state types (for optimizations)
   - message sequence diagram(s) {specific example(s)}
-  - conversation diagram {big picture}  
+  - conversation diagram {big picture}
     - conversation partners
         - partner A
     		- incoming 
