@@ -52,7 +52,7 @@ A zero-knowledge proving system is used to produce zero-knowledge proofs for the
 
 ### 1.1 zk-SNARK circuits
 
-A circuit $C$ is represented as polynomials over the chosen curve's **scalar field**, following [plonk-ish arithmetization](https://zcash.GitHub.io/halo2/concepts/arithmetization.html). Proof elements are generated over the curve's **base field**.
+A circuit $C$ is represented as polynomials over the chosen curve's **scalar field**, following [plonk-ish arithmetization](https://zcash.github.io/halo2/concepts/arithmetization.html). Proof elements are generated over the curve's **base field**.
 
 ### 1.2 Elliptic curves
 
