@@ -46,9 +46,9 @@ tags:
     For more information about the foundation, please visit https://anoma.foundation.
 
 Anoma is a distributed operating system for intent-centric
-applications[@goes2024anoma]. The Anoma protocol architecture supports
+applications[@goes2024anoma]. The Anoma protocol architecture supports interoperability at the
 
-- interoperability at the state,
+- state,
 - network, and 
 - application levels 
 
