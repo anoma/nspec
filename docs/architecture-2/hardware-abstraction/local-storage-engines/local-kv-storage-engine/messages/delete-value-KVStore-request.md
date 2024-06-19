@@ -33,12 +33,12 @@ Find a value by its key in the KV-store and delete both the key and the value.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Finds a value by its key in the KV-store and delete both the key and the value.
 
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

@@ -177,7 +177,7 @@ never sends a $\twoa$-message with a different value, <!-- for a learner $\blue\
 
 - It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with <!-- learner $\red\alpha$ and --> ballot number higher than $m$.
   (In which case we call $m$ ["_buried_"](consensus/homogeneous-paxos-formal.md#definition-buried).)
-- It has seen Byzantine behavior that proves $\red\alpha$ is not _accurate_, in which case decisions do not have to agree.
+- It has seen Byzantine behaviour that proves $\red\alpha$ is not _accurate_, in which case decisions do not have to agree.
 
 <!-- The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for which it can produce a wellformed $\twoa$. -->
 The acceptor who has received a $\oneb$ sends a $\twoa$ if it can produce a wellformed $\twoa$-message.

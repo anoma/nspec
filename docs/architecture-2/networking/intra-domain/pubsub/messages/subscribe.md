@@ -30,12 +30,12 @@ Subscribe to a topic at another peer.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 The peer the request arrived from is added to the [[PubSubRoutingTable#pubsubroutingtable]],
 and a [[SubscribeAck#subscribeack]] is returned in response.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

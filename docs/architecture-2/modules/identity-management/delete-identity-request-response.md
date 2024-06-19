@@ -27,13 +27,13 @@ A `DeleteIdentityResponse` provides the response information from an attempt to 
 [[DeleteIdentityResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Attempts to use the designated backend to delete the specified identity
   - This will likely involve authentication on the backend
 - Returns a [[DeleteIdentityResponse]]
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

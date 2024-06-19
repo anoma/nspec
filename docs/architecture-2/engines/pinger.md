@@ -9,11 +9,15 @@ search:
 
 ## Overall Philosophy
 
-The Pinger Engine is designed to provide a functionality of a scheduled Mempool executor. Keeping track of the Mempool Engine address and the timer set, it calls for the Mempool to execute every specified ammount of time.
+The Pinger Engine is designed to provide a functionality of a scheduled Mempool
+executor. Keeping track of the Mempool Engine address and the timer set, it
+calls for the Mempool to execute every specified amount of time.
 
 ## Initialization
 
-The Engine requires one input, namely the Mempool address. The user may also provide a non-negative integer for the time information of the engine. If no argument is given, we assume that no timer is set.
+The Engine requires one input, namely the Mempool address. The user may also
+provide a non-negative integer for the time information of the engine. If no
+argument is given, we assume that no timer is set.
 
 ## State
 
@@ -25,6 +29,7 @@ The state types are provided as follows:
 
 - `field(:mempool, Router.Addr.t())`
   *Mempool Address*
+
 - `field(:time, non_neg_integer() | atom(), default: :no_timer)`
   *Timer field*
 
@@ -35,7 +40,8 @@ The state types are provided as follows:
 
 ## Purpose
 
-Sets the timer which the clock uses to schedule how frequently to ask Mempool for execution.
+Sets the timer which the clock uses to schedule how frequently to ask Mempool
+for execution.
 
 ## Type
 
@@ -64,18 +70,18 @@ Starts the pinger process. If no timer is specified, send a default message. Oth
 **Output*
 
 - `String.t()`
-  *Message specifying succesful launch*
+  *Message specifying successful launch*
 
 # Pinger
 
 ## Purpose
 
-The `pinger` function asks for a timer feed. If no timer is specified, sends a base message to the user. Otherwise asks to send an `execute` message to the pinger itself after a specified ammount of time.
+The `pinger` function asks for a timer feed. If no timer is specified, sends a base message to the user. Otherwise, asks to send an `execute` message to the pinger itself after a specified amount of time.
 
 **Input**
 
 - `:no_timer | non_neg_integer()`
-  *Either the messgae specifying no timer or an integer specifying time setting*
+  *Either the message specifying no timer or an integer specifying time setting*
 
 **Output**
 

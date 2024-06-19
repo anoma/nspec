@@ -26,11 +26,11 @@ A `QueryReadsForEvidenceResponse` is returned by the reads-for engine in respons
 [[QueryReadsForEvidenceResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Returns known evidence in a [[QueryReadsForEvidenceResponse]]
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

@@ -9,10 +9,10 @@ tags:
 todos: False
 ---
 
-## Wikilinks
+## Wiki links
 
-Wikilinks offer a simple method for citing and referencing other pages in the
-documentation without lengthy URLs. **Wikilinks are the preferred method for
+Wiki links offer a simple method for citing and referencing other pages in the
+documentation without lengthy URLs. **Wiki links are the preferred method for
 linking to other pages** in the documentation, so please use them whenever
 possible.
 
@@ -21,8 +21,7 @@ possible.
 ```
 
 
-
-!!! info "Resolving Wikilinks"
+!!! info "Resolving Wiki links"
 
     To resolve a wikilink, 'page' refers to the title found in the `nav` attribute of the markdown file or the `h1` level heading if not listed in `nav`. Only here, we can also use hints, for example.
 
@@ -33,9 +32,9 @@ possible.
 
     `hintpath/to` is the path (or prefix) to the file, and `anchor` is the optional anchor within the page. The `Custom caption` is the optional text to display in place of the page title.
 
-### Wikilink Syntax Examples
+### Wiki link Syntax Examples
 
-- Basic wikilink:
+- Basic wiki link:
 
   ```markdown
   [[Reference Page]]
@@ -50,7 +49,7 @@ nav:
   - MyRef X: reference.md
 ```
 
-provides the following wikilink:
+provides the following wiki link:
 
 ```markdown
 [[MyRef X]]

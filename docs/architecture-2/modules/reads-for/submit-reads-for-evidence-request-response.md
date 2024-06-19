@@ -26,15 +26,15 @@ A `SubmitReadsForEvidenceResponse` is sent in response to a [[SubmitReadsForEvid
 [[SubmitReadsForEvidenceResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
-Describe the message reception behavior, processing logic, and possible triggers.
+<!-- --8<-- [start:behaviour] -->
+Describe the message reception behaviour, processing logic, and possible triggers.
 - Stores the submitted evidence
 - Returns an error iff.
     - The evidence is invalid
     - The evidence was already stored
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

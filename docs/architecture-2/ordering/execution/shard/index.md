@@ -38,7 +38,7 @@ This is [multi-version concurrent storage](
 
 <!-- ‼ duplication of prose to be avoided via includes
     using `ANCHOR` ... ANCHOR_END "mechanics"
-    https://rust-lang.github.io/mdBook/format/mdbook.html#including-portions-of-a-file
+    https://rust-lang.GitHub.io/mdBook/format/mdbook.html#including-portions-of-a-file
 -->
 
 ## State (of the shard)
@@ -226,7 +226,7 @@ before which there will be
 no more read transactions send to the execution engine.
 Occasionally, `heardAllReads` should be updated with later timestamps.
 Each Shard must keep track of `heardAllReads` on
-each key's multi-version timeline, so it can garbage collect old values.
+each key's multi-version timeline, so it can garbage-collect old values.
 
 ![Execute with partial order (see web version for animation)](execute_before_consensus_animated.svg)
 
@@ -240,13 +240,15 @@ this partial order information.
 
 There are three types of conflicts that can prevent a transaction from
 being executable without more ordering information.
+
 - *Write/Write Conflicts*
   occur when a shard cannot identify the most recent write before a given read.
   In the diagram above,
   transaction `e` cannot execute because it is not clear whether
   transaction `b` or transaction `c` wrote most recently to the yellow key.
+
 - *Read/Write Conflicts*
-  occur when  shard cannot identify whether a read operation occurs before or
+  occur when shard cannot identify whether a read operation occurs before or
   after a write,
   so it is not clear if it should read the value from that write or
   from a previous write.
@@ -254,6 +256,7 @@ being executable without more ordering information.
   transaction `g` cannot execute because it is not clear whether
   it would read the data written to the blue key by transaction `d` or
   transaction `i`.
+
 - *Transitive Conflicts*
   occur when a shard cannot get the data for a read because
   the relevant write is conflicted.

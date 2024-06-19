@@ -10,8 +10,6 @@ use_directory_urls: false
 
 nav:
   - index.md
-  - ToC: table-of-contents.md
-
   - Scope:
     - ./scope/index.md
     - World model: ./scope/world-model.md
@@ -525,7 +523,7 @@ markdown_extensions:
       check_paths: true
       url_download: true
       auto_append:
-        - docs/abbreviations.md
+        - docs/terms.md
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid

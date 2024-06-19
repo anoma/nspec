@@ -116,8 +116,8 @@ To define what makes a _wellformed_ $\twoa$ message, it requires checking whethe
 
 ## Definition: Caught
 
-Some behavior can create a proof that an acceptor is Byzantine.
-Unlike Byzantine Paxos, our acceptors and learners must adapt to Byzantine behavior.
+Some behaviour can create a proof that an acceptor is Byzantine.
+Unlike Byzantine Paxos, our acceptors and learners must adapt to Byzantine behaviour.
 We say that an acceptor $\purple p$ is _caught_ in a message $\green x$ if the transitive references of $\green x$ include evidence such as two messages, $\red m$ and $\blue{m^\prime}$, both signed by $\purple p$, in which neither is featured in the other's transitive history chain.
 
 $$
@@ -132,7 +132,7 @@ $$
   \sig{\cb{{\red m} \in \tran{\green x} \mid \exists {\blue{m'}} \in \tran{\green x}.\,\caughtEvidence{{\green x}, {\red m}, {\blue{m'}}}}}
 $$
 
-**Caught proofs processing**: Caught evidences of misbehavior can be used, e.g., for the acceptor punishment, such as slashing in the context of proof-of-stake protection mechanism.
+**Caught proofs processing**: Caught evidences of misbehaviour can be used, e.g., for the acceptor punishment, such as slashing in the context of proof-of-stake protection mechanism.
 
 ## Definition: Connected
 

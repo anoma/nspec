@@ -9,7 +9,7 @@ search:
 
 ## Overall Philosophy
 
-Snapshotting is an important functionality for Anoma. To ensure that the snapshotting is done systematically, we introduce a robust _Dumper_ engine. The Engine asks for the system to dump all of its core data to snapshot the system once a certain number of block are executed.
+Snapshotting is an important functionality for Anoma. To ensure that the snapshotting is done systematically, we introduce a robust _Dumper_ engine. The Engine asks for the system to dump all of its core data to snapshot the system once a certain number of blocks are executed.
 
 That is, the user can set the system to snapshot on every n-th block creation.
 
@@ -17,7 +17,7 @@ That is, the user can set the system to snapshot on every n-th block creation.
 
 To initialize the engine, we need to specify a non-negative integer. Given such an integer, `n`, we will then ask to dump the state once an executed block has a number divisible by `n` (assuming the first block created bears number 1).
 
-Other than that, we need access to the configuration engine in order to ask it for the path where to store the snapshot, the task field, which tracks the current asyncronous process keeping track of block execution.
+Other than that, we need access to the configuration engine in order to ask it for the path where to store the snapshot, the task field, which tracks the current asynchronous process keeping track of block execution.
 
 ## State
 
@@ -49,11 +49,11 @@ Starts a dumping loop based on the count supplied. If an old task was present be
 
 **Output**
 
- No user-visible output on succsess.
+ No user-visible output on success.
 
 # Stop
 
-I shutdown the dumper task given in the Engine field.
+I shut down the dumper task given in the Engine field.
 
 **Input**
 
@@ -68,14 +68,14 @@ No user-visible output on success.
 
 ## Purpose
 
-The `Set_Count` function changes the count field of the given dumper engine. It shutdowns the task in the initially given state, starting a new one with the changed count parameter, registering both new task and the new count settings in the state.
+The `Set_Count` function changes the count field of the given dumper engine. It shuts down the task in the initially given state, starting a new one with the changed count parameter, registering both new task and the new count settings in the state.
 
 If the count is a non-positive integer, the function does nothing while if the fed count is nil, then it sets both the count and task to nil.
 
 **Input**
 
 - `Router.Addr.t()`
-  *Address of the Dumper ENgine*
+  *Address of the Dumper Engine*
 - `non_neg_integer() | nil`
   *New count*
 

@@ -8,6 +8,11 @@ social:
   cards: false
 search:
     exclude: true
+tags:
+    - Protocol
+    - Architecture
+    - Applications
+    - Intent
 ---
 
 {@@ if preview @@}
@@ -21,42 +26,50 @@ search:
 
 {@@ endif @@}
 
+<!-- Source of inspiration:
+- https://ethresear.ch/t/rfc-draft-anoma-as-the-universal-intent-machine-for-ethereum/19109
+ -->
+
 # Anoma Specification
 
-Anoma is a privacy-preserving, distributed, trust-aware operating system. Like a
-typical operating system, Anoma is a platform on top of which applications can
-run. It provides memory isolation, inter-application communication, and
-execution. Unlike a typical operating system, Anoma is built for multi-party
-_intent-centric_ applications. An _intent_, so named because it conveys an
-intention, is a message sent by a user describing a preferred state of the
-system. After a user sends an intent, two phases take place: _counterparty
-discovery_ and _settlement_. In the _counterparty discovery_ phase, network
-participants examine and match compatible intents, forming transactions which
-enact particular state changes. Transactions then enter the _settlement_ phase
-for ordering, execution, and confirmation by consensus, after which users can
-read the updated state. Anoma assumes a model of _heterogeneous trust_, where
-users express trust preferences in their intents, only intents with compatible
-trust preferences can be matched, and consensus rounds are performed on demand
-to facilitate settlement. To applications, Anoma provides a host environment and
-state model that handle all of the complex parts of intent-centric,
-privacy-preserving, and distributed operation. Anoma also comes with a compiler
-toolchain which allows developers to write Anoma-compatible programs in
-high-level languages, abstracting the particulars of compilation to the
-cryptographic primitives required for privacy-preserving operation. This
-standardisation allows developers to focus on their application-specific logic
-and enables applications to interoperate in both the counterparty discovery and
-settlement phases.
+!!! info inline end "Anoma Entities"
 
-Anoma's multi-party intent-centric architecture is designed for applications
-concerned with coordination of socio-economic processes dealing with resources,
-distributed capabilities (freedom of action, and control over resources), and
-agreement between agents (users) under conditions of heterogeneous trust.
-_Intents_ are computable predicates over possible states of the ledger which
-convey underlying human intentions or preferences. Anoma supports both arbitrary
-fungible measures of value (e.g. currencies) and unique (non-fungible) objects,
-so users can choose the representations and level of precision most appropriate
-to model aspects of the world which they care about.
+    The term "Anoma" as used on this site refers specifically to the Anoma Protocol. However, it may
+    also be used elsewhere to refer to related entities such as the Anoma Network or the Anoma
+    Foundation.
 
+    - The Anoma Network, which consists of nodes using the Anoma protocol.
+
+    - The Anoma Foundation, a Swiss foundation (Stiftung) established to support and coordinate the
+    Anoma protocol, network, and the surrounding ecosystem.
+
+    For more information about the foundation, please visit https://anoma.foundation.
+
+Anoma is a distributed operating system for intent-centric
+applications[@goes2024anoma]. The Anoma protocol architecture supports interoperability at the
+
+- state,
+- network, and 
+- application levels 
+
+without restricting the types of intents or computational methods used to solve
+them. 
+
+As a multi-party intent-centric architecture, Anoma is designed for applications
+concerned with 
+
+- coordination of socio-economic processes dealing with resources,
+- distributed capabilities (freedom of action, and control over resources), and
+- agreement between agents (users) under conditions of heterogeneous trust. 
+
+The same architecture supports both arbitrary fungible measures of value (e.g.
+currencies) and unique (non-fungible) objects, so users can choose the
+representations and level of precision most appropriate to model aspects of the
+world which they care about.
+
+<!-- The following is commented for now. The paragraph seems to say many things.
+Shorter the better IMO. -->
+<!--
 Anoma provides a substrate for _information flow control_, giving users
 fine-grained control over and the ability to reason about where, when, and to
 whom information may be disclosed, subject to whatever trust assumptions they
@@ -65,44 +78,30 @@ cryptographic constructions, including public key encryption, one-way hash
 functions, succinct non-interactive zero-knowledge proofs, distributed key
 generation, threshold encryption, and homomorphic encryption. Anoma's
 construction abstracts the underlying primitives by their information-theoretic
-properties, so that new primitives may be swapped in over time.
-
-<!--
-
-Anoma draws upon and synthesises prior art in the broad areas of distributed ledger architecture, cybernetic systems design, monetary anthropology, and web-of-trust construction. It relies upon results, primitives, and constructions from the academic research fields of distributed systems, cryptography, computational complexity theory, information theory, algorithmic game theory, programming language theory, and category theory, among others. Readers with expertise in one or more of these areas or fields may find it helpful to understand Anoma in relation to them.Descriptions of some of these relational structures can be found in the [angles of approach](./angles-of-approach.md#angles-of-approach) section.
-
+properties, so that new primitives may be swapped in overtime.
 -->
 
-These documents describe Anoma. They are intended to be _complete_, in that
-enough is said to define precisely what a valid implementation of Anoma must do,
-and _minimal_, in that no more is said than that.
+This site aims to describe the architecture required to implement the
+Anoma protocol and serves as a guide for Anoma researchers and implementors.
 
-Anoma is free, in both the senses of "free speech" and "free beer". The source
-for these documents is [on Github](https://github.com/anoma/specs), permissively
-licensed, and they can be forked or edited as you like. At present, this
-particular repository is stewarded by the [Anoma
-Foundation](https://anoma.foundation/). Contributions are welcome.
+<!-- The following todo would desapear on the online version. -->
 
-!!! note
+!!! todo
 
-    For clarity, the word "Anoma" is used to refer to three separate but related entities:
-    - The Anoma _protocol_, which is defined in this specification.
-    - The Anoma _network_, which is the network of nodes using the Anoma protocol.
-    - The Anoma _Foundation_, which is a Swiss foundation (Stiftung) chartered with support & coordination of the Anoma protocol, network, and surrounding ecosystem.
-     <br /><br/>
-    These documents describe the protocol only, not the network or the foundation. To learn more about the foundation, go [here](https://anoma.foundation).
-    <br/><br/>In these documents, the word "Anoma" alone refers to the Anoma protocol.
+    J: I want here a clickable diagram that shows the architecture of the Anoma protocol. Which diagram
+    should I use? As far as I remember, the following is the most recent one. Is it correct?
+    https://research.anoma.net/t/graphing-anoma-agents-v3/341/3
 
-!!! note
+    <figure markdown="span">
+    ![Message Diagram](rought_execution_engine_message_passing.svg){ width="450" }
+    <figcaption markdown="span">
+    The diagram illustrates the primary components of the Anoma protocol, detailing the architecture of an Anoma node and the interactions between each component within this architecture.
+    </figcaption>
+    </figure>
 
-    What precisely we mean by "protocol"? As the words are colloquially used, Anoma is closer to a "protocol architecture" or "protocol topology", in that it defines a class of protocols which are unique up to structural isomorphism. If a "protocol" in the TCP/IP sense can be said to consist of a structure and an encoding, where the structure is constrained by the acceptable assumptions and desired properties, but the encoding makes arbitrary decisions about symbolic representation, a "protocol" in the Anoma sense fixes the structure but not the encoding. Any program preserving this structure can be said to implement the Anoma protocol. Standardisation of an encoding is likely in practice, but strictly speaking not even required for distributed consensus - agents must only agree on the encoding and decoding functions on a per-message basis in order to "understand" each other. This disctinction may seem arcane, but it is potentially of practical importance, for a few reasons:
 
-    - A third party observing the cleartext part of the communications between two agents may not easily be able to detect whether or not they are even speaking the Anoma protocol if they do not know the specific encoding in use.
+## Table of Contents
 
-    - The Anoma protocol may be "disguised" as any sufficently general existing protocol (e.g. HTTP) in a way which cannot be automatically detected.
+{@ dict_to_md(nav_to_dict(navigation)) @}
 
-!!! note
 
-    These documents are not yet complete. If you're reading this page right now, there's a high chance you might be interested in [Namada](https://namada.net).
-
-Happy reading!

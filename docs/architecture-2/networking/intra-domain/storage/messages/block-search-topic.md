@@ -26,7 +26,7 @@ Search for a block along the reverse publishing path of a pub/sub topic.
 | `block` | *[[BlockId#blockid]]*             | Block ID    |
 | `topic` | *[[TopicIdentity#topicidentity]]* | Topic ID    |
 
-## Behavior
+## Behaviour
 
 If the block is available locally, a [[BlockSearchResponse#blocksearchresponse] is returned.
 Otherwise the request is forwarded to the parent node in the pub/sub dissemination path for the given topic.

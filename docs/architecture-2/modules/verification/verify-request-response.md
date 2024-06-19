@@ -26,13 +26,13 @@ A `VerifyResponse` contains the result of verifying a commitment in response to 
 - [[VerifyResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Calls the `verify` method on the provided external identity, commitment, and data, and returns the result in an [[VerifyResponse]]
 - If `useSignsFor` is true, uses known signs-for relationships to determine whether the commitment is valid
 - If `useSignsFor` is false, only allows a commitment from the identity specifically provided
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

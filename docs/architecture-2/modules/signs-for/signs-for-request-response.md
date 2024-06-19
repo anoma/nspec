@@ -26,11 +26,11 @@ A `SignsForResponse` is returned in response to a [[SignsForRequest]]
 [[SignsForResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Returns a [[SignsForResponse]] according to whether A `signsFor` B, given the known evidence
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

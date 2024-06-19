@@ -33,11 +33,11 @@ Look up information about an  *external identity* in the local database.
 --8<-- "../types/lookup-identity-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Return the information associated with the requested external identity.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 
