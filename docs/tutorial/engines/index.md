@@ -155,6 +155,7 @@ while guards emphasise that actions have clear pre-conditions,
 and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
 e.g., for deriving invariants.
 
+<!--
 The basic idea of guarded actions is to split up
 the set of possible inputs of the state transition function into
 a finite number of cases, 
@@ -162,6 +163,13 @@ each of which corresponds to an _event kind_—very much like
 the transitions of a [Petri net](https://en.wikipedia.org/wiki/Petri_net#Execution_semantics)
 can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/898126),
 where events are _occurrences of transitions_ of the original net.
+-->
+The basic idea of guarded actions is to describe 
+the state transition function in a modular way
+such that each (non-trivial) state transition corresponds to 
+the execution of (at least) one guarded action.[^6]
+The guard of a guarded action specifies the precondition of the action,
+which describes what state changes should happen when the guard is triggered.
 However,
 guarded actions may be concurrent or in conflict with each other,
 and this situation need to be handled with care.
@@ -266,3 +274,7 @@ the type of messages that are contained in mailboxes.
 
 [^5]: Note that in TLA⁺, pre-conditions of actions are
 	present in the guise of the `ENABLED` predicate. 
+
+[^6]: Arriving messages that do not trigger any "non-trivial" guarded action
+	are added to the mailbox they are addressed,
+	time is incremented by a default delay, and nothing else changes.
