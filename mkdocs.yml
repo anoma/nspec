@@ -19,9 +19,18 @@ nav:
 
   - Basic Types:
     - ./basic-types/index.md
-    - Identity: ./basic-types/identity.md
-    - Resource: ./basic-types/resource.md
-    - Resource Machine: ./basic-types/resource-machine.md
+    - Cryptographic primitives:
+      - ./basic-types/cryptographic-primitives/index.md
+      - Hash function: ./basic-types/cryptographic-primitives/hash-function.md
+      - Accumulator: ./basic-types/cryptographic-primitives/accumulator.md
+      - Proving System: ./basic-types/cryptographic-primitives/proving-system.md
+    - Data structures:
+      - ./basic-types/data-structures/index.md
+      - Identity: ./basic-types/identity.md
+      - Resource: ./basic-types/resource.md
+      - Transaction: ./basic-types/transaction.md
+      - Resource Machine: ./basic-types/resource-machine.md
+    - Serialisation: ./basic-types/serialisation.md
 
   - Protocol Architecture:
     - ./architecture/index.md
