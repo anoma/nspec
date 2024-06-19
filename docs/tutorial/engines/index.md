@@ -101,6 +101,41 @@ but a new *"continuation engine"* could be spawned with a new identifier.
 
 	spell out the formal in english
 
+## Transition functions via guards and actions =: guarded actions
+
+The Anoma specification defines transition functions
+via a set of guarded actions.
+The word `guarded` is taken from Dijkstra's 
+[_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
+`action` is taken from Lamport's 
+[temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
+and indeed, guarded actions are a mix of the two;
+the notion of action (together with local data) allows us to
+express properties in the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*),
+while guards emphasise that actions have clear pre-conditions,
+and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
+e.g., for deriving invariants.
+
+<!--
+The basic idea of guarded actions is to split up
+the set of possible inputs of the state transition function into
+a finite number of cases, 
+each of which corresponds to an _event kind_—very much like
+the transitions of a [Petri net](https://en.wikipedia.org/wiki/Petri_net#Execution_semantics)
+can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/898126),
+where events are _occurrences of transitions_ of the original net.
+-->
+The basic idea of guarded actions is to describe 
+the state transition function in a modular way
+such that each (non-trivial) state transition corresponds to 
+the execution of (at least) one guarded action.[^6]
+The guard of a guarded action specifies the precondition of the action,
+which describes what state changes should happen when the guard is triggered.
+However,
+guarded actions may be concurrent or in conflict with each other,
+and this situation need to be handled with care.
+The details of guarded actions are explained in the [[Guarded Engine Template]].
+
 ## On engine types
 
 An engine type is in bijective correspondence to a function that
@@ -161,40 +196,6 @@ Besides updates to the changeable data, the transition function produces
 - the messages to be sent
 - the timers to be set on the clock
 
-## Transition functions via guards and actions =: guarded actions
-
-The Anoma specification defines transition functions
-via a set of guarded actions.
-The word `guarded` is taken from Dijkstra's 
-[_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
-`action` is taken from Lamport's 
-[temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
-and indeed, guarded actions are a mix of the two;
-the notion of action (together with local data) allows us to
-express properties in the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*),
-while guards emphasise that actions have clear pre-conditions,
-and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
-e.g., for deriving invariants.
-
-<!--
-The basic idea of guarded actions is to split up
-the set of possible inputs of the state transition function into
-a finite number of cases, 
-each of which corresponds to an _event kind_—very much like
-the transitions of a [Petri net](https://en.wikipedia.org/wiki/Petri_net#Execution_semantics)
-can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/898126),
-where events are _occurrences of transitions_ of the original net.
--->
-The basic idea of guarded actions is to describe 
-the state transition function in a modular way
-such that each (non-trivial) state transition corresponds to 
-the execution of (at least) one guarded action.[^6]
-The guard of a guarded action specifies the precondition of the action,
-which describes what state changes should happen when the guard is triggered.
-However,
-guarded actions may be concurrent or in conflict with each other,
-and this situation need to be handled with care.
-The details of guarded actions are explained in the [[Guarded Engine Template]].
 
 ## The conceptual structure of each Engine Type page in the specs
 
