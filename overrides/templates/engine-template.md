@@ -172,12 +172,9 @@ A partial diagram would be the following.
 
 ```mermaid
 erDiagram
-    Primary ||--o{ WorkerHash : receive
-    WorkerHash ||--|| WorkerX : sent
-    WorkerX ||--|{ NewTransaction : broadcast
-    NewTransaction ||--|{ MirrorWorker : listen
-    User ||--o{ TransactionRequest : send
-    TransactionRequest ||--|| WorkerX : receive
+    PrimaryX }|--|| WorkerX1 : WorkerHash
+    WorkerX1 ||--|{ MirrorY1 : NewTransaction
+    User ||--|{ WorkerX1 :  TransactionRequest
 ```
 
 
