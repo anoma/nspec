@@ -13,7 +13,7 @@ tags:
 
 # On Engines in the Anoma Specification
 
-## Introduction
+## Introduction: on actors and engine instances
 
 The Anoma specification is inspired by the actor model[^3]
 where systems consist of _actors_ that communicate via message passing.
@@ -22,23 +22,39 @@ _engine instances_ that communicate by sending messages to each other.
 The behaviour of each engine instance—i.e., 
 how it reacts to receiving a message in 
 the context of previously sent messages—is
-determined by a _state transition function_.
-The latter is invoked whenever an event is triggered at the engine instance,
-typically, the arrival of a new message[^1].
+determined by a _state transition function,_
+reminiscent of the next-state function of
+[finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition) 
+(or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition)), 
+defined formally as an [Isabelle/HOL-locale](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215),
+and is explained in more concrete terms in
+the guarded action template below. <!-- needs updating -->
+The state transition function is invoked
+whenever an event (in the sense of the actor model theory) is
+triggered at the engine instance,
+typically, by the arrival of a new message[^1];
+the result of applying the state transition function to
+the local state and the event trigger describes 
+not only the state update of the engine instance, 
+but also which further actions need to be taken: 
+sending of messages, setting timers, and spawning new engine instances.
 
 Crucially,
-the Anoma specification describes 
+the Anoma specification describes
 a _fixed_ finite number of state transition functions
 such that
 the behaviour of every (correct and non-faulty) engine instance in an Anoma instance
 is determined by exactly one of these state transition functions.<!-- add footnote to engine system locale ["axiom" state_partition](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L192) -->
-
+<!-- this be moved elsewhere
 !!! definition 
-
+¶
 	We call the set of all engine instances that share the same state transition function the _engine type_ of the state transition function.
-
-We now describe in more detail the "internal" structure of
-each engine instance; this is also a deliberate design choice.
+-->
+We start by describing in more detail the "internal" structure of
+each engine instance, and the accompanying design choices.
+With that in place,
+we then describe state transition function in more detail
+before we finally come to how we actually will specify state transition functions in the anoma specification via guarded actions.
 <!-- Then, we describe how the corresponding engine type can be described. -->
 
 ## On the local data of engine instances
@@ -278,3 +294,5 @@ the type of messages that are contained in mailboxes.
 [^6]: Arriving messages that do not trigger any "non-trivial" guarded action
 	are added to the mailbox they are addressed,
 	time is incremented by a default delay, and nothing else changes.
+
+
