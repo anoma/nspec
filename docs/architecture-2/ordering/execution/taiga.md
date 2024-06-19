@@ -20,7 +20,7 @@ Actors and agents use Taiga to produce and verify the proofs required to form tr
 
 Being an instance of the Anoma Resource Machine, Taiga is designed in the resource model, where resources represent atomic units of the state. Taiga supports shielded state transitions with the help of zero-knowledge proofs, commitment schemes, signatures, and other privacy-preserving techniques. Resources are distributed and stored in an encrypted form. Taiga uses proof recursion to provide function privacy for custom logics.
 
-Taiga was heavily inspired by [Zcash Orchard](https://GitHub.com/zcash/zips/blob/main/protocol/protocol.pdf) and [ZEXE](https://eprint.iacr.org/2018/962).
+Taiga was heavily inspired by [Zcash Orchard](https://github.com/zcash/zips/blob/main/protocol/protocol.pdf) and [ZEXE](https://eprint.iacr.org/2018/962).
 
 ## Functions provided by Taiga
 
@@ -36,7 +36,7 @@ The following sections describe the protocol for shielded state transitions.
 
 !!! note
 
-    To learn more about Taiga as a standalone component, check [the Taiga repository](https://GitHub.com/anoma/taiga)
+    To learn more about Taiga as a standalone component, check [the Taiga repository](https://github.com/anoma/taiga)
 
 ## 1. Proving systems
 
@@ -48,7 +48,7 @@ The table below contains the description of how resource machine proof types are
 |Compliance proof|zk-SNARK|Halo2 + IPA FCS + Pasta curves|
 |Resource logic proof|zk-SNARK|Halo2 + IPA FCS + Pasta curves|
 
-A zero-knowledge proving system is used to produce zero-knowledge proofs for the compliance circuit and resource logic circuits. The compliance circuit is fixed, resource logic circuits are custom and require at least two-layer recursion to achieve function privacy. Currently, Taiga uses Halo2 with IPA FCS and [Pasta curves](https://GitHub.com/zcash/pasta) to create proofs for these circuits.
+A zero-knowledge proving system is used to produce zero-knowledge proofs for the compliance circuit and resource logic circuits. The compliance circuit is fixed, resource logic circuits are custom and require at least two-layer recursion to achieve function privacy. Currently, Taiga uses Halo2 with IPA FCS and [Pasta curves](https://github.com/zcash/pasta) to create proofs for these circuits.
 
 ### 1.1 zk-SNARK circuits
 
@@ -58,8 +58,8 @@ A circuit $C$ is represented as polynomials over the chosen curve's **scalar fie
 
 ||Name|Scalar field| Base field|Purpose|Instantiation|
 |-|-|-|-|-|-|
-|$E_I$|Inner curve|$\mathbb{F}_q$|$\mathbb{F}_p$|ECC gadget| [Pallas](https://GitHub.com/zcash/pasta#pallasvesta-supporting-evidence)
-|$E_M$|Main curve|$\mathbb{F}_p$|$\mathbb{F}_q$|compliance and RL circuits| [Vesta](https://GitHub.com/zcash/pasta#pallasvesta-supporting-evidence)|
+|$E_I$|Inner curve|$\mathbb{F}_q$|$\mathbb{F}_p$|ECC gadget| [Pallas](https://github.com/zcash/pasta#pallasvesta-supporting-evidence)
+|$E_M$|Main curve|$\mathbb{F}_p$|$\mathbb{F}_q$|compliance and RL circuits| [Vesta](https://github.com/zcash/pasta#pallasvesta-supporting-evidence)|
 |$E_O$|Outer curve|$\mathbb{F}_q$|$\mathbb{F}_p$|Accumulation circuit| Pallas|
 
 ### 1.3 Proving system interfaces
@@ -199,7 +199,7 @@ Private inputs ($w$):
 
 !!! note
 
-     unlike [MASP](https://GitHub.com/anoma/masp), the value base in Taiga is not used to compute resource's commitment and the compliance circuit doesn't take $kind$ as private input but computes it from the resource fields, and it is checked for both input and output resources.
+     unlike [MASP](https://github.com/anoma/masp), the value base in Taiga is not used to compute resource's commitment and the compliance circuit doesn't take $kind$ as private input but computes it from the resource fields, and it is checked for both input and output resources.
 
 ### 3.2 Resource Logic (RL) circuits
 

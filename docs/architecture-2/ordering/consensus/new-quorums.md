@@ -13,7 +13,7 @@ search:
 #### Purpose
 
 Informs primaries about the quorums to use for a range of heights.
-<!-- epochs? see https://GitHub.com/anoma/specs/issues/180  -->
+<!-- epochs? see https://github.com/anoma/specs/issues/180  -->
 <!-- --8<-- [end:purpose] -->
 <!-- --8<-- [start:details] -->
 

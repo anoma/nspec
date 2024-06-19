@@ -7,7 +7,7 @@ search:
 
 # Data encoding
 
-The protocol uses [SSZ](https://GitHub.com/ethereum/consensus-specs/blob/dev/ssz/simple-serialize.md), with the following mapping:
+The protocol uses [SSZ](https://github.com/ethereum/consensus-specs/blob/dev/ssz/simple-serialize.md), with the following mapping:
 
 !!! todo
 

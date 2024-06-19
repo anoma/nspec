@@ -19,7 +19,7 @@ tags:
 !!! info
 
 {@@ if pull_request @@}
-    This is a preview of the Anoma specification using [{@ pr_number @}](https://GitHub.com/anoma/nspec/{@ pr_number @}).
+    This is a preview of the Anoma specification using [{@ pr_number @}](https://github.com/anoma/nspec/{@ pr_number @}).
 {@@ else @@}
     This is a preview of the Anoma specification using the last commit on the `main` branch.
 {@@ endif @@}
