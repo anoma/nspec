@@ -26,16 +26,16 @@ A `SubmitNameEvidenceResponse` is sent in response to a [[SubmitNameEvidenceRequ
 [[SubmitNameEvidenceResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
-Describe the message reception behavior, processing logic, and possible triggers.
+<!-- --8<-- [start:behaviour] -->
+Describe the message reception behaviour, processing logic, and possible triggers.
 - Stores the submitted evidence
 - This will affect future [[ResolveNameResponse]]s, as those depend on the set of evidence stored.
 - Returns an error iff:
     - The [[IdentityNameEvidence]] is invalid
     - The [[IdentityNameEvidence]] was already stored
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

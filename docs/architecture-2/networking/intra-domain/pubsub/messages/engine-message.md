@@ -31,15 +31,15 @@ A message sent to a pub/sub topic by an engine.
 [[Event#event]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 When a local engine sends an [[EngineMessage#enginemessage]] destined to a pub/sub topic,
 the [[Router#router]] forwards it to all local engines subscribed to the message, including *PubSub*.
 
 *PubSub* then encapsulates the message in an [[Event#event]],
 and forwards it to its neighbors along the event dissemination path.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

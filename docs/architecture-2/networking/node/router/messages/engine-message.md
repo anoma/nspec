@@ -35,9 +35,9 @@ A message sent between engine instances (both local & remote).
 [[DomainRequest#domainrequest]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 When the router receives an *EngineMessage* from a local engine instance,
 it processes it the following way:
 
@@ -98,7 +98,7 @@ When processing the *EngineMessage*, the given [[RoutingPrefs#routingprefs]] and
 !!! note
 
     The router subscribes to *[[IdentityUpdated#identityupdated]]* notifications of the [[Network Identity Store#network-identity-store]] engine, in order to keep addresses in the routing table up to date.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

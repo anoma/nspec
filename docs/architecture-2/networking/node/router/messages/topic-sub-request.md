@@ -31,9 +31,9 @@ Subscription request for a pub/sub topic.
 --8<-- "../types/topic-sub-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 If the topic already exists in the [[RoutingTable#routingtable]],
 the [[EngineIdentity#engineidentity]] of the requesting engine is added to the [[RoutingTable#routingtable]],
 and  a *[[TopicSubResponse#topicsubresponse]]* is returned with a success result.
@@ -42,7 +42,7 @@ Otherwise, if the topic does not exist yet:
 
 - when the `scope` is *LocalOnly*, an error is returned
 - when the `scope` is *Any*, the [[Router#router]] sends a [[SubscribeRequest#subscriberequest]] to [[PubSub#pubsub]]
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

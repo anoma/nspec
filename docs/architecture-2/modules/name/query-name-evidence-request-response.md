@@ -26,11 +26,11 @@ A `QueryNameEvidenceResponse` is returned by the name engine in response to a [[
 [[QueryEvidenceResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Returns all known [[IdentityNameEvidence]] for the [[ExternalIdentity]] provided in the request
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

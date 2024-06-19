@@ -26,7 +26,7 @@ instances can perform are local state changes.
 
 <!-- (In a sense, there is no such thing as **the** _global state_ of a chain, but only local views). -->
 
-All instances of a specific kind of engine share their _behavior_, which is
+All instances of a specific kind of engine share their _behaviour_, which is
 defined as a function that
 
 - takes a message and the current local state of an engine instance as input and
@@ -64,21 +64,21 @@ provide the following.
    to re-iterate information of the message header. It is allowed that several
    type names refer to the message type.
 
-- _The types and behavior for each message body type_.  Using links to GitHub,
+- _The types and behaviour for each message body type_.  Using links to GitHub,
    Message types should be specified as SML types/datatypes (eventually matching
    the restrictions of [colorsets](https://cpntools.org/2018/01/12/color-sets/)
    of CPN Tools, i.e., only datatypes without proper recursion / induction). The
-   behavior also has to give some information about headers, and define the
-   behavior, using SML functions. This amounts to one function
+   behaviour also has to give some information about headers, and define the
+   behaviour, using SML functions. This amounts to one function
    `ReactionTypeName_`$p_{i,j,1}$ as below.
 
    <!--
    If possible,
-   we describe the behavior in terms of messages previously received.
+   we describe the behaviour in terms of messages previously received.
    This could be achieved by sending auxiliary messages to “self” (bypassing the network),
    effectively calling “self” with a new message.
 
-   The behavior should be specified as
+   The behaviour should be specified as
    [SML functions](https://cpntools.org/2018/01/09/functions-declarations-and-control-structures/)
    for [code segments](https://cpntools.org/2018/01/09/code-segments/)
    combined with [guards](https://cpntools.org/2018/01/09/guards/) that state pre-conditions

@@ -31,11 +31,11 @@ Unsubscription request.
 --8<-- "../types/topic-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 If subscribed to the given topic, PubSub unsubscribes from it by sending P2P unsubscription requests to connected peers.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

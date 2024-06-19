@@ -28,11 +28,11 @@ Response to a [[RecordDataTimeSeriesDBRequest#recorddatatimeseriesdbrequest]].
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Performs the requested data record operation in the time series DB.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

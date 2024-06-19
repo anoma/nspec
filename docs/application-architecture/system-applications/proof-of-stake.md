@@ -7,7 +7,7 @@ search:
 
 # Proof-of-stake
 
-This section describes an example of a simplified version of the Proof-of-Stake application. The goal of the PoS protocol is to assign voting power in the BFT consensus algorithm: users delegate their tokens to validators, the voting power of each validator is determined from the amount of tokens delegated to them. The delegated tokens are locked for a period of time, so that if the validator misbehaves, this behaviour could be tracked and reacted on by burning a part of the delegated tokens. This application can be a useful building block for other applications or, more generally, for the contexts that require a decision making mechanism.
+This section describes an example of a simplified version of the Proof-of-Stake application. The goal of the PoS protocol is to assign voting power in the BFT consensus algorithm: users delegate their tokens to validators, the voting power of each validator is determined from the amount of tokens delegated to them. The delegated tokens are locked for a period of time, so that if the validator misbehaves, this behaviour could be tracked and reacted on by burning a part of the delegated tokens. This application can be a useful building block for other applications or, more generally, for the contexts that require a decision-making mechanism.
 
 ## Roles
 
@@ -38,6 +38,7 @@ This section describes an example of a simplified version of the Proof-of-Stake 
 |$B_{owner}$| Refers to the delegator
 
 #### Bond logic
+
 - Create:
     - Verify $T$ kind to be the governance token kind (for both the created and consumed resource)
     - A token resource $T$ was transferred from $T_{owner}$ to the pool:

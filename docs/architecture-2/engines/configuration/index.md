@@ -7,7 +7,7 @@ search:
 
 # Configuration Engine
 
-## General Philosphy
+## General Philosophy
 
 This engine is responsible for keeping track of the settings in the
 user's configuration file. The general purpose is to read the user's

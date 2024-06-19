@@ -9,7 +9,7 @@ search:
 
 ## Purpose
 
-The fingerprint of a transaction allows to refer to a transaction succinctly
+The fingerprint of a transaction allows referring to a transaction succinctly
 and gives additional information about the provenance,
 primarily used by engines of the ordering machine.
 

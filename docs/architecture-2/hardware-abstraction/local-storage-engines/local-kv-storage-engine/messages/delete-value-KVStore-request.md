@@ -12,7 +12,8 @@ search:
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Find a value by its key in the KV-store and delete both the key and the value.
+Prevent actors capable of sending read requests to the Storage Engine to
+be able to read a previously set value for a specified key.
 
 <!-- --8<-- [end:purpose] -->
 
@@ -33,12 +34,22 @@ Find a value by its key in the KV-store and delete both the key and the value.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
-Finds a value by its key in the KV-store and delete both the key and the value.
+<!-- --8<-- [start:behaviour] -->
+Finds a value by its key in the KV-store and modifies the reading
+capabilities related to said key availiable through the Storage API.
 
-<!-- --8<-- [end:behavior] -->
+The behavior is tied directly to reading capabilities of the Storage Engine
+and hence can be described via interaction with GetValueKVStore as follows:
+
+If [[DeleteValueKVStoreRequestV1#deletevaluekvstorerequestv1]] was sent
+with key `key` specified and
+[[DeleteValueKVStoreResponseV1#deletevaluekvstoreresponsev1]] returns a
+success then [[GetValueKVStoreRequestV1#getvaluekvstorerequestv1]] sent
+with key `key` will trigger a `Nothing` response.
+
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

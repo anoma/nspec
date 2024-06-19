@@ -217,7 +217,7 @@ There are several ways we could imagine constructing Threshold
 
 - A threshold composition identity encrypted message is a map from
    (hashes of) external identities, to ciphertexts.
-  To decrypt, any subset of internal identitites with weights summing
+  To decrypt, any subset of internal identities with weights summing
    to at least the threshold must decrypt their corresponding
    ciphertexts, and the resulting plaintexts must be combined using an
    erasure coding scheme.
@@ -350,7 +350,7 @@ Identity names can also be hashed, like external identities.
 Identity names can be described in 2 structures: one for checking that
  a `verifier` corresponds with an `identityName`, and one for checking
  that an `encryptor` corresponds with an `identityName`.
-The same name can refer to to both a `verifier` and an `encryptor`.
+The same name can refer to both a `verifier` and an `encryptor`.
 
 #### Verifier Name SML Signature
 
@@ -376,7 +376,7 @@ validators for epoch `Y`.
 
 Note that multiple identity names can refer to the same external identity, and in principle,
 multiple external identities could have the same identity name. Usually, multiple external
-identities only have the same identity name when there is Byzantine behavior, but that is not
+identities only have the same identity name when there is Byzantine behaviour, but that is not
 explicitly part of the identity abstractions at this layer.
 
 ### Sub-Identities

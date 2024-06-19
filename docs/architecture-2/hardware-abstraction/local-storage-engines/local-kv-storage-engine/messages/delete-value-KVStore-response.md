@@ -28,11 +28,11 @@ Response to [[DeleteValueKVStoreRequest#deletevaluekvstorerequest]].
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 After deleting the KV-pair from the KV-store, send a message indicating the success or failure of the operation.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

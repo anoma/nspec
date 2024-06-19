@@ -26,14 +26,14 @@ A `SubmitSignsForEvidenceResponse` is sent in response to a [[SubmitSignsForEvid
 [[SubmitSignsForEvidenceResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Stores the submitted evidence
 - Returns an error iff.
     - The evidence is invalid
     - The evidence was already stored
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

@@ -30,11 +30,11 @@ Unsubscription acknowledgement.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 A [[TopicUnsubscribed#topicunsubscribed]] notification is sent to local engines.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

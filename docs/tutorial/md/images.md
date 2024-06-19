@@ -7,7 +7,7 @@ todos: False
 
 ## Including Images
 
-Images should be go in the `docs/images` folder.
+Images should be stored in the `docs/images` folder.
 
 
 ### Basic Image Syntax
