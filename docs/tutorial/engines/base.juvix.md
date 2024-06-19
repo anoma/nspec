@@ -33,19 +33,22 @@ To create (or spawn) an engine instance in Anoma, you will need the following in
 - The initial _local state_ for the engine instance.
 - The time at which the engine instance is spawned.
 
-In addition to knowing which engine you want to spawn, it's then crucial to understand the type of the local state for the engine instance.  Let's assume we have a primitive `getEngineLocalStateType` that provides such a type for a given engine identity.
+In addition to knowing which engine you want to spawn, it's then crucial to understand the type of the local state for the engine instance.  Let's assume we have a primitive `primGetEngineLocalStateType` that provides such a type for a given engine identity.
 
 ```juvix
-axiom getEngineLocalStateType : Identity -> Type;
+axiom primGetEngineLocalStateType : ExternalID -> Type;
 ```
 
 We then define the type for spawning an engine instance as follows:
 
 ```juvix
-type EngineInstanceSpawn (engineIdentity : Identity) : Type := mkEngineInstanceSpawn {
-  initialState : getEngineLocalStateType engineIdentity;
-  spawnTime : Time;
-};
+
+axiom 
+  engineInstanceSpawn : 
+     (engineIdentity : ExternalID)
+  -> (initialState : primGetEngineLocalStateType engineIdentity)
+  -> (spawnTime : Time)
+  -> Unit;
 ```
 
 ## Components of an Engine
@@ -55,7 +58,6 @@ components include:
 
 - Local environment
 - Guarded actions, which briefly are the actions that the engine can take under certain conditions
-
 
 ### Local Environment
 
@@ -107,13 +109,23 @@ type StateTransitionArguments (EngineLocalState : Type) := mkStateTransitionArgu
 ### State Transition Result
 
 ```juvix
-type StateTransitionResult (EngineLocalState : Type) := mkStateTransitionResult {
+type StateTransitionResult (EngineLocalState : Type)
+  := mkStateTransitionResult {
+  state : State;
   localEnvironment : EngineLocalEnv EngineLocalState;
   producedMessages : List Message; -- The set of messages to be sent
   timers : List Timer;
-  -- spawnedEngines : List (EngineInstanceSpawn);
+  spawnedEngines : List (Pair ExternalID EngineLocalState);   -- the set of spawned engines
 };
 ```
+
+So when executing a state transition function, the engine instance will:
+
+- Update its local state
+- Send messages
+- Provides a new state
+- Set timers
+- Spawn new engines (if necessary) via an internal call to engineInstanceSpawn
 
 ## Guarded Actions
 
@@ -124,7 +136,7 @@ A guarded action consist of a _guard_ and an _action_. The guard is a
 
 ```juvix
 type GuardedAction (EngineLocalState : Type):= mkGuardedAction {
-  guard : EngineLocalEnv EngineLocalState -> Bool;
+  guard : State -> EngineLocalEnv EngineLocalState -> Bool;
   action : StateTransition EngineLocalState
 };
 ```
