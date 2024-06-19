@@ -33,31 +33,31 @@ To create (or spawn) an engine instance in Anoma, you will need the following in
 - The initial _local state_ for the engine instance.
 - The time at which the engine instance is spawned.
 
-In addition to knowing which engine you want to spawn, it's then crucial to understand the type of the local state for the engine instance.  Let's assume we have a primitive `primGetEngineLocalStateType` that provides such a type for a given engine identity.
+In addition to knowing which engine you want to spawn, it's then crucial to understand the type of the local state for the engine instance.  
+
+Let's assume we have a primitive `primGetEngineLocalStateType` that provides such a type for a given engine identity and function that can spawn an engine instance.
 
 ```juvix
 axiom primGetEngineLocalStateType : ExternalID -> Type;
 ```
 
-We then define the type for spawning an engine instance as follows:
-
 ```juvix
-
 axiom 
-  engineInstanceSpawn : 
-     (engineIdentity : ExternalID)
-  -> (initialState : primGetEngineLocalStateType engineIdentity)
-  -> (spawnTime : Time)
-  -> Unit;
+  engineInstanceSpawn
+    : (engineIdentity : ExternalID)
+    -> (initialState : primGetEngineLocalStateType engineIdentity)
+    -> (spawnTime : Time)
+    -> Unit;
 ```
 
 ## Components of an Engine
 
-Each engine type must declare specific components relevant to its purpose. These
-components include:
+Each engine type must declare specific components relevant to its purpose. 
+For Anoma specs, these components include:
 
 - Local environment
 - Guarded actions, which briefly are the actions that the engine can take under certain conditions
+
 
 ### Local Environment
 
@@ -72,6 +72,7 @@ The local environment comprises static information in the following categories:
   partners)
 
 <!-- As part of the local state, we have specific-types. Not sure if it's useful to have that info seperately. -->
+
 
 ```juvix
 type EngineLocalEnv (LocalState : Type) := mkEngineLocalEnv {
