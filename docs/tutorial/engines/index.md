@@ -95,6 +95,11 @@ exclusively accessible at any given moment (in local time):
 The engine's identity is unchangeable,
 but a new *"continuation engine"* could be spawned with a new identifier.
 
+## On transition functions
+
+!!! todo
+
+	spell out the formal in english
 
 ## On engine types
 
