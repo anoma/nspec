@@ -29,13 +29,13 @@ Topic advertisement by a publisher.
 [[TopicAdvertReceived#topicadvertreceived]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Update topic routing table,
 snd a [[TopicAdvertReceived#topicadvertreceived]] notification,
 and forward the *TopicAdvert* to connected peers in the same domain.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Reception
 

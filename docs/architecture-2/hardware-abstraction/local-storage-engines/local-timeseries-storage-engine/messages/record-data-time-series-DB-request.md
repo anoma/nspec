@@ -32,11 +32,11 @@ Add time series data to the DB.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Add time series data to the time series DB.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

@@ -27,7 +27,7 @@ Search for a block along a random walk.
 | `domain`    | *Option<[[DomainIdentity#domainidentity]]>* | Restrict the random walk to a domain |
 | `requestor` | *[[NodeIdentity#nodeidentity]]*               | Requestor's Peer ID                  |
 
-## Behavior
+## Behaviour
 
 If the block is available locally, a [[BlockSearchResponse#blocksearchresponse] is returned to the requestor.
 Otherwise the request is forwarded to a random connected node.

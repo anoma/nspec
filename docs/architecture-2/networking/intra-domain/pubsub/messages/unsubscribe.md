@@ -30,12 +30,12 @@ Unsubscribe from a topic at other peers.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 The peer the request arrived from is removed from the [[PubSubRoutingTable#pubsubroutingtable]],
 and an [[UnsubscribeAck#unsubscribeack]] is returned in response.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

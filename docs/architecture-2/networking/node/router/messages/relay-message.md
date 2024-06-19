@@ -30,9 +30,9 @@ It is sent between two nodes and encapsulates either an *[[EngineMessage#enginem
 [[EngineMessage#enginemessage]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 When the router receives a [[RelayMessage#relaymessage]]
 from a remote node via the [[Transport#transport]] engine,
 it processes it the following way:
@@ -41,7 +41,7 @@ it processes it the following way:
    either from the *source* node or to the *destination* node.
    - If not, it drop the message
 2. It decrypts the contained [[EngineMessage#enginemessage]] or [[RelayMessage#relaymessage]], and processes it.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

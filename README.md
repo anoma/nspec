@@ -15,9 +15,9 @@ To write the content, we use Markdown with some extensions as described in the
 
 In addition, we support the use of Juvix code examples in the files with the
 `.juvix.md` extension. These files are rendered using [Juvix
-(+v0.6.1)](https://docs.juvix.org/), and and if you want to make sure that the
+(+v0.6.1)](https://docs.juvix.org/), and if you want to make sure that the
 code examples are correct, you must have Juvix installed on your machine. One
-way to do this is to install the Juvix plugin for VsCode from [the
+way to do this is to install the Juvix plugin for VS Code from [the
 marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
 
 ### Installing with Python
@@ -38,7 +38,7 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
     python3 -m venv env
     ```
 
-    <details> <summary> Activate the virtual environment </summary>
+3. Activate the virtual environment
 
     Make sure to activate the virtual environment before proceeding. If you are using
     `bash`, you can do this by running:
@@ -59,21 +59,12 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
     source env/bin/activate
     ```
 
-    </details>
+4. Install the required packages (preferably in the virtual environment) using Poetry:
 
-3. Install the required packages (preferably in the virtual environment) using either Poetry or PIP:
-
-
-    1. Using Poetry (preferred):
 
     ```bash
+    pip3 install poetry
     poetry install
-    ```
-
-    2. Using PIP:
-
-    ```bash
-    pip3 install -r requirements.txt
     ```
 
 ### Development shell with Nix
@@ -102,7 +93,7 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
     mkdocs serve
     ```
 
-    Take into account that this webserver will automatically reload the website
+    Take into account that this web server will automatically reload the website
     when you make changes to the files, and it is not especially fast.
 
 <details> <summary> Builds with quiet mode </summary>

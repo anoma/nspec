@@ -34,9 +34,9 @@ be able to read a previously set value for a specified key.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Finds a value by its key in the KV-store and modifies the reading
 capabilities related to said key availiable through the Storage API.
 
@@ -49,7 +49,7 @@ with key `key` specified and
 success then [[GetValueKVStoreRequestV1#getvaluekvstorerequestv1]] sent
 with key `key` will trigger a `Nothing` response.
 
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

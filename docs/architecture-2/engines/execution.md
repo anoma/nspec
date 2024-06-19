@@ -60,7 +60,7 @@ Re-Sharding challenging.
 
 ### Transaction Labels
 
-For each Learner, transactions are *labeled* with a set of keys they can read,
+For each Learner, transactions are *labelled* with a set of keys they can read,
 and a set of keys they can write.
 
 $read :  \left\langle Learner, Transaction \right\rangle \rightarrow
@@ -270,7 +270,7 @@ executable without more ordering information.
   execute because it's not clear whether transaction `b` or transaction `c`
   wrote most recently to the yellow key.
 
-- *Read/Write Conflicts* occur when  shard cannot identify whether a read
+- *Read/Write Conflicts* occur when shard cannot identify whether a read
   operation occurs before or after a write, so it's not clear if it should read
   the value from that write or from a previous write. In the diagram above,
   transaction `g` cannot execute because it's not clear whether it would read

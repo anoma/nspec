@@ -38,7 +38,7 @@ Unsubscription request for a pub/sub topic.
 | `topic` | *[[TopicIdentity#topicidentity]]*           | Topic ID to unsubscribe                                          |
 | `scope` | *[[RoutingScope#routingscope]]* | Whether the unsubscription request should be sent to the network |
 
-## Behavior
+## Behaviour
 
 If the topic does not exist yet in the [[RoutingTable#routingtable]],
 the [[EngineIdentity#engineidentity]] of the requesting engine is added to the [[RoutingTable#routingtable]],

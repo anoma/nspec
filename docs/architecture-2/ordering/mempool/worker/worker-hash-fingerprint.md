@@ -7,7 +7,7 @@ search:
 
 # WorkerHashFingerprint
 
-- _from_ [Worker](../worker.md)
+- _from_ [Worker](../index.md)
 
 ## Purpose
 

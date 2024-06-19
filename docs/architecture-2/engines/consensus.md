@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Consensus
+# Consensus (Old)
 
 - *Inputs*
     Consensus requests, consensus messages
@@ -22,21 +22,23 @@ search:
 
 ## Summary
 
-This specification intends to describe how heteregenous Paxos can be realized in the blockchain context. Given well-defined quorums, the protocol allows a known set $S$   $(|S|\geq1)$ of chains to construct and  carry out atomic transactions on a so-called *chimera chain*, subject to certain conditions.  The chimera chain guarantees safety and liveness subject to the usual assumption: at most a third of the stake belongs to Byzantine participants.
+This specification intends to describe how Heterogeneous Paxos can be realized in the blockchain context. Given well-defined quorums, the protocol allows a known set $S$  $(|S|\geq1)$ of chains to construct and carry out atomic transactions on a so-called *chimera chain*, subject to certain conditions.  The chimera chain guarantees safety and liveness subject to the usual assumption: at most a third of the stake belongs to Byzantine participants.
 
 The protocol involves three kinds of agents: proposers, acceptors and learners. A node may play the role of any combination of the three kinds of agents.
 
 Blocks are agreed upon in rounds.
 
-**Proposer** initate a round by a  proposing a block. Each block contains atomic batches of transactions (or even a single transaction). An atomic batch of transactions means that either all transactions in the batch are executed or none of them are executed.
+**Proposer** initiates a round by a proposing a block. Each block contains atomic batches of transactions (or even a single transaction). An atomic batch of transactions means that either all transactions in the batch are executed or none of them are executed.
 
 **Acceptors** are agents who agree on the proposed blocks and an agent may be acceptor for more than one chain. No correct acceptor acts on any invalid block. This requires checking the validation of blocks or state transition function.
 
-**Learners** are set of agents where this set is intrested in a particualar (combination of?) chain(s) meaning what the voting process decides for these chain(s). The definition of learners is based on the quorums and defined by the protocol, meaning that agents are not free not choose their own quorum setups. <!--For example, there might be three well-defined learners $l_x$ and $l_y$, and $l_xy$ which are agents who are interetsted in chain $x$ alone, chain $y$ alone, and both chain $x$ chain $y$.--> Acceptors need to be aware of the different definitions of learners in order to be able to know what correct behavior is defined as. This set of the agents for learners, might empty or have overlaps, the acceptors have to follow the deifnition regardless. <!--Acceptor of chain are considered also part of learners of that chain.-->
+**Learners** are set of agents where this set is interested in a particular (combination of?) chain(s) meaning what the voting process decides for these chain(s). The definition of learners is based on the quorums and defined by the protocol, meaning that agents are not free to choose their own quorum setups. <!--For example, there might be three well-defined learners $l_x$ and $l_y$, and $l_xy$ which are agents who are interetsted in chain $x$ alone, chain $y$ alone, and both chain $x$ chain $y$.--> Acceptors need to be aware of the different definitions of learners in order to be able to know what correct behaviour is defined as. This set of the agents for learners, might empty or have overlaps, the acceptors have to follow the definition regardless. <!--Acceptor of chain are considered also part of learners of that chain.-->
 
-We briefly describe how the communication for a consensus round works. Suppose we have two learners $l_x$ and $l_y$ which refer to agents that are interested in blockchain $x$ and blockchain $y$. Proposers propose a chimera block, by sending $1a$ messages, each carrying a value and unique ballot number (round identifier), to acceptors. All acceptors in all involved chains ($S$) send $1b$ messages to each other to communicate that they’ve received a $1a$ message. When an acceptor receives a $1b$ message for the highest ballot number it has seen from a learner $l_x$’s quorum of acceptors, it sends a $2a$ message labeled with $l_x$ and that ballot number. There is one exception: once a safe acceptor sends a $2a$ message $m$ for a learner $l_x$, it never sends a $2a$ message with a different value for a learner $l_y$, unless one of the following is true:
+We briefly describe how the communication for a consensus round works. Suppose we have two learners $l_x$ and $l_y$ which refer to agents that are interested in blockchain $x$ and blockchain $y$. Proposers propose a chimera block, by sending $1a$ messages, each carrying a value and unique ballot number (round identifier), to acceptors. All acceptors in all involved chains ($S$) send $1b$ messages to each other to communicate that they’ve received a $1a$ message. When an acceptor receives a $1b$ message for the highest ballot number it has seen from a learner $l_x$’s quorum of acceptors, it sends a $2a$ message labelled with $l_x$ and that ballot number. There is one exception: once a safe acceptor sends a $2a$ message $m$ for a learner $l_x$, it never sends a $2a$ message with a different value for a learner $l_y$, unless one of the following is true:
+
 * It knows that a quorum of acceptors has seen $2a$ messages with learner $l_x$ and ballot number higher than $m$.
-* It has seen Byzantine behavior that proves $l_x$ and $l_y$ do not have to agree.
+
+* It has seen Byzantine behaviour that proves $l_x$ and $l_y$ do not have to agree.
 
 A learner $l_x$ decides on a block when it receives $2a$ messages with the same proposed block and ballot number from one of its quorums of acceptors.
 
@@ -63,7 +65,7 @@ A learner $l_x$ decides on a block when it receives $2a$ messages with the same 
         - This means some chimera chains offer atomicity with lower (yet well-defined) levels of integrity than their base chains' no-fork guarantees.
 
 - A _proposer_ is an acceptor that may propose a new block according to the rules of the blockchain. For Typhon, the "blocks" of the consensus protocol are the headers produced by the [mempool](mempool.md#mempool). A potential proposer would need (a) data availability, (b) the ability to sign messages, ( c) something at stake (to prevent spam) and (d) the ability to communicate with the acceptors. Acceptors that are in the overlaps of quorums may especially well suited to be proposers, but other Acceptors (or even other machines) might be proposers as well.
- The Heterogeneous Paxos technical report effectively uses weighted voting for select proposer, but perhaps there are interesting tricks with VRFs that would improve efficiency.
+The Heterogeneous Paxos technical report effectively uses weighted voting for select proposer, but perhaps there are interesting tricks with VRFs that would improve efficiency.
 
 ### Assumptions
 
@@ -259,7 +261,7 @@ learner $l_2$, unless one of the following is true:
 * It knows that a quorum of acceptors has seen $2a$ messages with learner $l_1$
   and ballot number higher than $m$.
 
-* It has seen Byzantine behavior that proves $l_1$ and $l_2$ do not have to
+* It has seen Byzantine behaviour that proves $l_1$ and $l_2$ do not have to
   agree.
 
 ##### Specifics of establishing Consensus
@@ -355,8 +357,8 @@ prove they are not engangled), whether one of them might have already decided:
 
 ##### Definition: Caught
 
-Some behavior can create proof that an acceptor is Byzantine. Unlike Byzantine
-Paxos, our acceptors and learners must adapt to Byzantine behavior.  We say that
+Some behaviour can create proof that an acceptor is Byzantine. Unlike Byzantine
+Paxos, our acceptors and learners must adapt to Byzantine behaviour.  We say that
 an acceptor $\purple p$ is _Caught_ in a message $\green x$ if the transitive
 references of the messages include evidence such as two messages, $\red m$ and
 $\blue{m^\prime}$, both signed by $\purple p$, in which neither is featured in
@@ -484,7 +486,7 @@ Goal:
 
 * Incentivizing token holders to put down their stake for security
 
-* Disincentivizing byzantine behavior
+* Disincentivizing byzantine behaviour
 
 Rewards:
 
@@ -567,7 +569,7 @@ Loss of atomicity is a bit like a "trusted bridge" that turns out not to be
 trustworthy: each state machine within the chimera chain has as much integrity
 as its base chain, but atomicity properties of multi-state-machine atomic
 batches have a lesser, but still well-defined, guarantee. Loss of atomicty
-allows double spending on the chimera chain. And while misbehavior has happened
+allows double spending on the chimera chain. And while misbehaviour has happened
 in such an attack it is not trivial to slash the misbehaving acceptor since
 according to each chain everything has been carried out correctly.
 

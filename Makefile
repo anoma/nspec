@@ -2,9 +2,6 @@ PORT?=8000
 VERSION?=$(shell cat VERSION)
 PIP?=pip3
 
-DEV?=true
-DEVALIAS?=dev
-
 PWD=$(CURDIR)
 
 MAKEAUXFLAGS?=-s
@@ -34,16 +31,15 @@ test-build: export REMOVE_CACHE=true
 test-build:
 	@mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
-.PHONY: assets
-assets:
-	@curl -s -o art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
+art.bib:
+	@curl -s -o docs/references/art.bib https://art.anoma.net/art.bib || echo "[!] Failed to download art.bib"
 
 .PHONY: serve
-serve: assets
+serve:
 	mkdocs serve --dev-addr localhost:${PORT} --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
 .PHONY : mike
-mike: assets
+mike:
 	@git fetch --all
 	@git checkout gh-pages
 	@git pull origin gh-pages --rebase
@@ -58,21 +54,17 @@ mike-serve: docs
 delete-alias:
 	mike delete ${VERSION} ${MIKEFLAGS} > /dev/null 2>&1 || true
 
-.PHONY: dev
-dev: export VERSION=${DEVALIAS}
-dev: export DEV=true
-dev: assets
+.PHONY: deploy
+deploy:
 	${MAKE} delete-alias
 	${MAKE} mike
-
-.PHONY: latest
-latest: assets
-	${MAKE} delete-alias
-	${MAKE} mike
-	mike alias ${VERSION} latest -u ${MIKEFLAGS}
-	mike set-default ${MIKEFLAGS} ${VERSION}
-	git tag -d v${VERSION} > /dev/null 2>&1 || true
-	git tag -a v${VERSION} -m "Release v${VERSION}"
+	DEFAULTVERSION=$(shell cat VERSION); \
+	if [ "${VERSION}" = "${DEFAULTVERSION}" ]; then \
+		mike set-default ${MIKEFLAGS} ${DEFAULTVERSION}; \
+		mike alias ${VERSION} latest -u ${MIKEFLAGS}; \
+	fi; \
+	git tag -d ${VERSION} > /dev/null 2>&1 || true; \
+	git tag -a ${VERSION} -m "Release ${VERSION}"
 
 install:
 	@echo "[!] Use a Python virtual environment if you are not using one."

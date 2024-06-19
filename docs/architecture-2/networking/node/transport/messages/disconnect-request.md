@@ -33,7 +33,7 @@ Establish disconnection to a node.
 --8<-- "../types/disconnect-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
 Disconnect from the specified node, if connected.
 

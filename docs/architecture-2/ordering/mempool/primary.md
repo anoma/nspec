@@ -14,7 +14,7 @@ The collection of all primary engines jointly create a "global" ᴅᴀɢ of head
 in which learner-specific ᴅᴀɢs exists as sub-graphs.
 -->
 
-## [`NewWorkerHash`](primary/new-worker-hash.md) from [Worker](worker.md)
+## [`NewWorkerHash`](primary/new-worker-hash.md) from [Worker](worker/index.md)
 
 <!--
 - [`HeaderCommitment`](primary/header-commitment.md) → Primary

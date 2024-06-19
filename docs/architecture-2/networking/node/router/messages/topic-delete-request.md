@@ -33,11 +33,11 @@ The request must come from the same engine that created the topic.
 --8<-- "../types/topic-delete-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 The topic is removed from the [[RoutingTable#routingtable]] along with all subscribers.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

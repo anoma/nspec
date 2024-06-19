@@ -85,14 +85,14 @@ A `ThresholdCompose` structure provides:
   Its arguments are:
 
   - the threshold (`int`)
-  
+
   - a `list` of weight (`int`), `UnderlyingVerifier.verifier` pairs.
 
 - `fun verifierAnd` creates a composed `verifier` that is the "&&" of
    two input verifiers: a `signer` must encode the information of the
    signers for *both* `x` and `y` to sign statements `verifierAnd x y`
    will verify.
-   
+
 - `fun verifierOr` creates a composed `verifier` that is the "||" of
    two input verifiers: a `signer` must encode the information of the
    signers for *either* `x` or `y` to sign statements `verifierOr x y`

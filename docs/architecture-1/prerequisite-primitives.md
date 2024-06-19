@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+# icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
@@ -9,7 +9,7 @@ search:
 
 ## Canonical compute representation
 
-The protocol requires a [*canonical* serialisation](../glossary.md#canonical-serialization) of [Turing-equivalent](../glossary.md#turing-complete) functions and data.
+The protocol requires a [*canonical* serialisation](../glossary.md#canonical-serialization) of [Turing-equivalent](../glossary.md#turing-equivalent) functions and data.
 
 A *serialisation* can be any function which maps data to a series of bytes. The inverse function which maps a series of bytes to data is referred to as a *deserialisation*.
 
