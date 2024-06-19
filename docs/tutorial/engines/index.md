@@ -16,18 +16,19 @@ tags:
 ## Introduction
 
 The Anoma specification is inspired by the actor model[^3]
-where systems consist of actors that communicate via message passing.
-Every Anoma instance is considered as a finite[^4] collection of
+where systems consist of _actors_ that communicate via message passing.
+An Anoma node instance is modelled as a finite[^4] collection of
 _engine instances_ that communicate by sending messages to each other.
-The behavior of each engine instance—i.e., 
+The behaviour of each engine instance—i.e., 
 how it reacts to receiving a message in 
 the context of previously sent messages—is
 determined by a _state transition function_.
 The latter is invoked whenever an event is triggered at the engine instance,
 typically, the arrival of a new message[^1].
-The most important fact is that
+
+Crucially,
 the Anoma specification describes 
-a _fixed_ finite number of state transition functions 
+a _fixed_ finite number of state transition functions
 such that
 the behaviour of every (correct and non-faulty) engine instance in an Anoma instance
 is determined by exactly one of these state transition functions.<!-- add footnote to engine system locale ["axiom" state_partition](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L192) -->
@@ -135,7 +136,7 @@ Thus, let us "annotate" the above list.
 
 Besides updates to the changeable data, the transition function produces
 
-- requests for spawning new processes
+- requests for spawning new engines
 - the messages to be sent
 - the timers to be set on the clock
 

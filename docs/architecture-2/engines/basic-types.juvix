@@ -3,10 +3,32 @@ module architecture-2.engines.basic-types;
 import Stdlib.Prelude as Prelude;
 import Stdlib.Data.Product as Product;
 
-
 Nat : Type := Prelude.Nat;
+
 Bool : Type := Prelude.Bool;
-Pair (A B : Type) : Type := A Product.× B; -- this produces a bug apparently
+
+String : Type := Prelude.String;
+
+Unit : Type := Prelude.Unit;
+
+Pair (A B : Type) : Type := A Product.× B;
+
 List (A : Type) : Type := Prelude.List A;
+
 ExternalID : Type := Nat;
+
 InternalID : Type := Nat;
+
+axiom Time : Type;
+
+Identity : Type := Pair ExternalID InternalID;
+
+Message : Type := Pair Type Prelude.String;
+
+Mailbox : Type := List Message;
+
+axiom Timer : Type;
+
+axiom Trigger : Type; --TODO
+
+axiom State : Type;
