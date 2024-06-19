@@ -156,7 +156,9 @@ a pattern for test cases.
         deactivate ExecutorProcess
     ```
 
-## _All_ "Conversation Partners" (Engine _types_)
+## _All_ Conversation Partners (Engine _types_)
+
+
 
 ### Conversation Diagram (optional)
 
@@ -246,5 +248,5 @@ unworkable), they can be split out into separate files and linked.
 [^1]: By default,
 	we are working actually with the partial synchrony abstraction,
 	which in first approximation is closer to the asynchronous case
-	as even if we are after the global synchronization time,
+	as even if we are after the global synchronisation time,
 	we cannot know how long we would have to wait for responses to messages sent.
