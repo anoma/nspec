@@ -22,10 +22,6 @@ The scope section is split into two sub-sections:
 - [Protocol desiderata](./protocol-desiderata.md) describes what it is
   that the protocol must do.
 
-In Section ["Protocol Architecture"](./../architecture/index.md), we
-describes a protocol which instantiates this type and satisfies these
+In the remainder of this specification document, we
+describe a protocol which instantiates this type and satisfies these
 requirements.
-
-!!! todo
-
-    Figure out if this instantiation is in a meaningful sense "without loss of generality", and note this.
