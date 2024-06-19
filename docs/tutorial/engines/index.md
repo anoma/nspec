@@ -106,7 +106,7 @@ Thus, let us "annotate" the above list.
 
 !!! todo
 
-	clean up the following annonated quote (ignore for the review for the moment) 🙏
+	clean up the following annotated quote (ignore for the review for the moment) 🙏
 
 > - an {engine independent type for the} identity, namely a pair of
 >     - an external identity {type} and
@@ -151,7 +151,7 @@ The word `guarded` is taken from Dijkstra's
 and indeed, guarded actions are a mix of the two;
 the notion of action (together with local data) allows us to
 express properties in the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*),
-while guards emphasize that actions have clear pre-conditions,
+while guards emphasise that actions have clear pre-conditions,
 and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
 e.g., for deriving invariants.
 
@@ -178,7 +178,7 @@ A table of contents has the following structure.
   - list of engine-specific types
     - local state
 	- message types received and sent
-    - mailbox state types (for optimizations)
+    - mailbox state types (for optimisations)
   - message sequence diagram(s) {specific example(s)}
   - conversation diagram {big picture}
     - conversation partners
@@ -210,7 +210,7 @@ A table of contents has the following structure.
 		    - timer to be set {prose}
 		    - engines to be spawned {prose}
 	- ...	
-    - guarded action αk (e.g., finalize auction)
+    - guarded action αk (e.g., finalise auction)
   	    - guard αk {`local data * trigger → arguments option`}
 	    - action αk {`local data * arguments → local data update * sends * timers * spawns`}
 	        - local data update {prose}
@@ -250,7 +250,7 @@ A table of contents has the following structure.
 [^1]: We also will allow for elapsing of timers,
 which is a technical detail concerning the handling of 
 local time in engine instances.
-The role of the template is the organization of 
+The role of the template is the organisation of 
 the specification of engine types and their engine instances.
 
 [^2]: Here, we borrow actor terminology.
