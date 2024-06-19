@@ -11,4 +11,4 @@ search:
 
 # Table of Contents
 
-{@ dict_to_md(nav_to_dict(navigation)) @}
+<!-- {@ dict_to_md(nav_to_dict(navigation)) @} -->
