@@ -158,6 +158,18 @@ a pattern for test cases.
 
 ## _All_ Conversation Partners (Engine _types_)
 
+To summarise all possible message exchanges between 
+engine instances of certain types,
+we can draw a graph whose nodes are labelled with engine types
+and whose edges are labelled with message types (possibly with tags).
+For each labelled edge,
+there must be some some admissible message sequence diagram
+such that a message is sent from an engine of the source engine type
+to the target engine type.
+We borrow the term conversation diagram from
+[business process modeling](http://dx.doi.org/10.1016/B978-0-12-799959-3.00021-5).
+The conversation diagram of an engine page only contains edges 
+that have EngineX as source or target.
 
 
 ### Conversation Diagram (optional)
