@@ -31,4 +31,4 @@ axiom Timer : Type;
 
 axiom Trigger : Type; --TODO
 
-axiom State : Type;
+axiom State : Type; -- This type is used to represent the system's state and defines the domain for an engine's state transition functions. Well, part of it.

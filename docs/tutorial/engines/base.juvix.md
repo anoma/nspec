@@ -94,6 +94,7 @@ Define the arguments and results for state transition functions:
 
 ```juvix
 type StateTransitionArguments (EngineLocalState : Type) := mkStateTransitionArguments {
+  state : State;
   localEnvironment : EngineLocalEnv EngineLocalState;
   trigger : Trigger;
   time : Time; -- The time at which the state transition is triggered
