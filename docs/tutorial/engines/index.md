@@ -202,17 +202,17 @@ A table of contents has the following structure.
     		    - ...
 	    	    - Xmₓ
   - guarded actions {now for the details}
-    - guarded action X1 (e.g., receive bid)
-  	    - guard X1 {`local data * trigger → arguments option`}
-	    - action X1 {`local data * arguments → local data update * sends * timers * spawns`}
+    - guarded action α1 (e.g., receive bid)
+  	    - guard α1 {`local data * trigger → arguments option`}
+	    - action α1 {`local data * arguments → local data update * sends * timers * spawns`}
 	        - local data update {prose}
             - messages to be sent {prose}
 		    - timer to be set {prose}
 		    - engines to be spawned {prose}
 	- ...	
-    - guarded action Xk (e.g., finalize auction)
-  	    - guard Xk {`local data * trigger → arguments option`}
-	    - action Xk {`local data * arguments → local data update * sends * timers * spawns`}
+    - guarded action αk (e.g., finalize auction)
+  	    - guard αk {`local data * trigger → arguments option`}
+	    - action αk {`local data * arguments → local data update * sends * timers * spawns`}
 	        - local data update {prose}
             - messages to be sent {prose}
 		    - timer to be set {prose}
