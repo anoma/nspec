@@ -10,7 +10,7 @@ search:
 Engines communicate via message passing.
 Each _message_ consists of a header and a body.
 The _header_ gives information about the sender and the intended destination,
-e.g., in the form of ɪᴅs or addresses.
+e.g., in the form of IDs or addresses.
 The type of the _body_ almost always depends on the specific type of message.
 For each engine,
 we provide the following.
@@ -28,27 +28,27 @@ we provide the following.
    that a received message might trigger.
    Typically, there is no need to add identities or addresses of engine instance here.
 3. _A type for each type name_
-   The type of the message body is called _message type_ as short hand for _message body type_.
+   The type of the message body is called _message type_ as shorthand for _message body type_.
    The message type does not need to re-iterate information of the message header.
    It is allowed that several type names refer to the message type.
 
-4. _The types and behavior for each message body type_
-   Using links to github,
+4. _The types and behaviour for each message body type_
+   Using links to GitHub,
    Message types should be specified as
-   [color sets](https://cpntools.org/2018/01/12/color-sets/)
+   [colour sets](https://cpntools.org/2018/01/12/color-sets/)
    or as rust types as a fallback option,
    ideally both.
-   The behavior also has to give some information about headers,
-   and define the behavior,
+   The behaviour also has to give some information about headers,
+   and define the behaviour,
    using SML functions.
 
    <!--
    If possible,
-   we describe the behavior in terms of messages previously received.
+   we describe the behaviour in terms of messages previously received.
    This could be achieved by sending auxiliary messages to “self” (bypassing the network),
    effectively calling “self” with a new message.
 
-   The behavior should be specified as
+   The behaviour should be specified as
    [SML functions](https://cpntools.org/2018/01/09/functions-declarations-and-control-structures/)
    for [code segments](https://cpntools.org/2018/01/09/code-segments/)
    combined with [guards](https://cpntools.org/2018/01/09/guards/) that state pre-conditions
@@ -65,11 +65,11 @@ Thus, the structure of the description of engine models is as follows.
 - ⋮
 - Engine $i$
   - MessageTypeName_$i_1$ [$\scriptscriptstyle\{<\mathrm{protocols}(i,1)>\}$]
-    _<↑link to github repo`MessageType_i_1`>_
+    _<↑link to GitHub repo`MessageType_i_1`>_
     _[…]_
   - ⋮
   - MessageTypeName_$i_j$ [$\scriptscriptstyle\{<\mathrm{protocols}(i,j)>\}$]
-    _<↑link to github repo`MessageType_i_j`>_
+    _<↑link to GitHub repo`MessageType_i_j`>_
     - ReactionTypeName_$p_{i,j,1}$ → Engine_$q_{i,j,1}$
       _<one liner i,j,1>_
     - ReactionTypeName_$p_{i,j,2}$ → Engine_$q_{i,j,2}$
@@ -82,7 +82,7 @@ Thus, the structure of the description of engine models is as follows.
       _<one liner i,j,m_{i,j}>_
   - ⋮
   - MessageTypeName_$i_{m_i}$ [$\scriptscriptstyle\{<\mathrm{protocols}(i,m_i)>\}$]
-    _<↑link to github repo`MessageType_i_{m_i}`>_
+    _<↑link to GitHub repo`MessageType_i_{m_i}`>_
     _[…]_
 - ⋮
 - engine $N$

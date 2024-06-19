@@ -72,7 +72,7 @@ to the [[Worker Engine|worker]].
     This message is the origin of the life cycle.
 
 <!-- this is Isaac's original post
-https://github.com/anoma/specs/issues/430#issuecomment-1935077194:
+https://GitHub.com/anoma/specs/issues/430#issuecomment-1935077194:
 
 Each validator should have 1 executor, so yes, each validator should replicate these side effects.
 

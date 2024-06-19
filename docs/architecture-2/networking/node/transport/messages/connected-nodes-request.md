@@ -29,11 +29,11 @@ Request the list of currently connected nodes.
 --8<-- "../types/connected-nodes-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Return the list of currently connected nodes from the [[ConnectionPool#connectionpool]].
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

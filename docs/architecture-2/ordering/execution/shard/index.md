@@ -38,7 +38,7 @@ This is [multi-version concurrent storage](
 
 <!-- ‼ duplication of prose to be avoided via includes
     using `ANCHOR` ... ANCHOR_END "mechanics"
-    https://rust-lang.github.io/mdBook/format/mdbook.html#including-portions-of-a-file
+    https://rust-lang.GitHub.io/mdBook/format/mdbook.html#including-portions-of-a-file
 -->
 
 ## State (of the shard)

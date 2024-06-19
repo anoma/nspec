@@ -31,4 +31,4 @@ and who has taken on the responsibility of availability.
 
 (none)
 
-<!--  why do we broadcast this one? https://github.com/anoma/specs/issues/178 -->
+<!--  why do we broadcast this one? https://GitHub.com/anoma/specs/issues/178 -->

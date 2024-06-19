@@ -34,9 +34,9 @@ Get the queried time series data and return it.
 
 ## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Performs the requested search operation in the time series DB and returns the value.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

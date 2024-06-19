@@ -29,15 +29,15 @@ An event sent to a topic.
 [[EngineMessage#enginemessage]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 The *Event* is forwarded in the network along topic dissemination paths.
 It contains an encapsulated [[EngineMessage#enginemessage]] addressed from an engine to the topic.
 
 The *PubSub* engine delivers the encapsulated [[EngineMessage#enginemessage]] to local engines
 by sending it to the [[Router#router]], which forwards it to local engines subscribed to the topic.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

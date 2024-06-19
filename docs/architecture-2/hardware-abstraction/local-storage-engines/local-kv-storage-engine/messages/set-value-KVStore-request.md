@@ -33,12 +33,12 @@ If the key already exists, override the value.
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Adds a piece of data to the KV store by inserting its key and the corresponding value.
 If the key already exists, it overrides the value.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

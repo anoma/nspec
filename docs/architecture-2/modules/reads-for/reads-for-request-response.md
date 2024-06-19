@@ -26,11 +26,11 @@ A `ReadsForResponse` is returned in response to a [[ReadsForRequest]]
 [[ReadsForResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Returns a [[ReadsForResponse]] according to whether A `readsFor` B, given the known evidence
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

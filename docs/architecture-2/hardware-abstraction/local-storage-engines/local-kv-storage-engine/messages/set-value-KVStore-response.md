@@ -29,11 +29,11 @@ Response to a [[SetValueKVStoreRequest#setvaluekvstorerequest]].
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 After adding the KV-pair to the KV-store, send a message indicating the success or failure of the operation.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

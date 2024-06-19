@@ -28,7 +28,7 @@ Look up a block in local storage and on the network.
 | `random` | *bool*                                        | Enable search using random walk      |
 | `domain` | *Option<[[DomainIdentity#domainidentity]]>* | Restrict the random walk to a domain |
 
-## Behavior
+## Behaviour
 
 First query the local storage for the block.
 If not found, initiate a search on the network, when either `topic` or `random` is enabled.

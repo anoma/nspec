@@ -26,13 +26,13 @@ An `EncryptResponse` contains the data encrypted by an encryption engine in resp
 [[EncryptResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Calls the `encrypt` method on the provided external identity and returns the result in an [[EncryptResponse]]
 - If `useReadsFor` is true, use known reads-for relationships to select the most efficient external identity
 - If `useReadsFor` is false, encrypt only to the provided identity
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

@@ -13,7 +13,7 @@ search:
 ## Purpose
 
 Informs the mempool about execution of a transaction.
-<!--  do we need this? Cf. "How to give definitive signals for deletion of transaction data" ...  https://github.com/orgs/anoma/projects/14/views/1?pane=issue&itemId=36828426 -->
+<!--  do we need this? Cf. "How to give definitive signals for deletion of transaction data" ...  https://GitHub.com/orgs/anoma/projects/14/views/1?pane=issue&itemId=36828426 -->
 
 <!-- --8<-- [end:blurp] -->
 

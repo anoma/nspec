@@ -31,11 +31,11 @@ Create a pub/sub topic and start accepting subscriptions to it.
 --8<-- "../types/topic-create-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 The topic is added to the [[RoutingTable#routingtable]] with an initially empty subscriber list.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

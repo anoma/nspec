@@ -261,7 +261,7 @@ learner $l_2$, unless one of the following is true:
 * It knows that a quorum of acceptors has seen $2a$ messages with learner $l_1$
   and ballot number higher than $m$.
 
-* It has seen Byzantine behavior that proves $l_1$ and $l_2$ do not have to
+* It has seen Byzantine behaviour that proves $l_1$ and $l_2$ do not have to
   agree.
 
 ##### Specifics of establishing Consensus
@@ -357,8 +357,8 @@ prove they are not engangled), whether one of them might have already decided:
 
 ##### Definition: Caught
 
-Some behavior can create proof that an acceptor is Byzantine. Unlike Byzantine
-Paxos, our acceptors and learners must adapt to Byzantine behavior.  We say that
+Some behaviour can create proof that an acceptor is Byzantine. Unlike Byzantine
+Paxos, our acceptors and learners must adapt to Byzantine behaviour.  We say that
 an acceptor $\purple p$ is _Caught_ in a message $\green x$ if the transitive
 references of the messages include evidence such as two messages, $\red m$ and
 $\blue{m^\prime}$, both signed by $\purple p$, in which neither is featured in
@@ -486,7 +486,7 @@ Goal:
 
 * Incentivizing token holders to put down their stake for security
 
-* Disincentivizing byzantine behavior
+* Disincentivizing byzantine behaviour
 
 Rewards:
 
@@ -569,7 +569,7 @@ Loss of atomicity is a bit like a "trusted bridge" that turns out not to be
 trustworthy: each state machine within the chimera chain has as much integrity
 as its base chain, but atomicity properties of multi-state-machine atomic
 batches have a lesser, but still well-defined, guarantee. Loss of atomicty
-allows double spending on the chimera chain. And while misbehavior has happened
+allows double spending on the chimera chain. And while misbehaviour has happened
 in such an attack it is not trivial to slash the misbehaving acceptor since
 according to each chain everything has been carried out correctly.
 
