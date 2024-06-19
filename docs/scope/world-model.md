@@ -67,19 +67,25 @@ In order for the agents to build up a model of the behaviour of the world over t
 
 ## Cybernetic agency
 
-We assume that the world is _of interest_ to agents. (...) In general, agents may be interested in choosing their actions in such a manner as to regulate the probability distribution of their future observations, the probability distributions of future observations of other agents, and in general the probability distribution of inferred latent state of the world.
+We assume that the world is _of interest_ to agents: in general, agents may be interested in choosing their actions in such a manner as to regulate the probability distribution of their future observations, the probability distributions of future observations of other agents, and in general the probability distribution of inferred latent state of the world - which requires observing the world and building an internal model of it in order to better predict how actions may affect it. This capacity - to observe, record, model, predict, act, and thereby regulate - we refer to as _cybernetic agency_. Note in particular that many actions may simply be oriented towards crafting a better model, in expectation of said model being useful for prediction of the results of future actions.
 
-!!! todo
-
-      Cybernetic agency is ... blahblah
-
-!!! todo
-
-      Is cybernetics really the right word here? Can we pin this down more mathematically?
-
-!!! todo
-
-      Diagram of the cybernetic loop.
+```mermaid
+flowchart LR
+      OldWorld["Old World"]
+      Observe
+      Model
+      Predict
+      Desire
+      Act
+      NewWorld["New World"]
+      OldWorld --> Observe
+      Observe --> Model
+      Model --> Predict
+      Desire --> Predict
+      Predict --> Act
+      Act --> NewWorld
+      NewWorld --Next timestep--> OldWorld
+```
 
 ## Coordination
 
