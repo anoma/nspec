@@ -362,8 +362,7 @@ nav:
 
   - Application Architecture:
     - ./application-architecture/index.md
-    - Definitions:
-      - ./application-architecture/definitions.md
+    - Definitions: ./application-architecture/definitions.md
     - Patterns:
       - ./application-architecture/patterns/index.md
       - Counter:
@@ -384,6 +383,9 @@ nav:
   - Concrete Implementation:
     - Data encoding: ./concrete-implementation/data-encoding.md
     - Resource machine backends:  ./concrete-implementation/resource-machine-backends.md
+    - Nockma: ./concrete-implementation/nockma.md
+    - Cairo: ./concrete-implementation/cairo.md
+    - RISC0: ./concrete-implementation/risc0.md
 
   - Indexes:
     - ./indexes/index.md

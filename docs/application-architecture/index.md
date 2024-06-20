@@ -43,6 +43,8 @@ kinds of coordination. This section is neither exhaustive nor intended to
 describe particular applications in exact detail, but rather to provide an
 overview and guidance for how to think about developing applications on Anoma.
 
+- [Definitions](./definitions.md)
+
 - [Primitives](./primitives/index.md#primitives)
 
 - [Kudos](./kudos.md#kudos)
