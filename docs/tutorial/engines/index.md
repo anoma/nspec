@@ -135,13 +135,18 @@ the elapsing of a non-empty set of timers.<!--
 -->
 Each trigger comes with the local time when 
 the event is triggered,
-which we may think of as "now";
-in fact,
-the only information about the local wall-clock time in the input of the transition function 
-is 
+which we may think of as "now".
+
+_Digression on time_  <!-- 
+line break 
+-->The only information about local wall-clock time in 
+the input of the transition function 
+is
 
 - "now"—the [time](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L222) stamp of the trigger—and 
-- the set of previously set timers, each of which has a [_handle._](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L24)
+- the set of previously set timers, 
+  each of which has a
+  [_handle._](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L24)
 
 !!! note
 
@@ -162,8 +167,9 @@ first,
 we cover _absolutely pure_ transition functions,
 which do not require any source of (true) randomness
 or direct inputs from the phyiscal device the engine instance is running on;
-then, we follow up on how engine-local sources of input or randomness can be used
-to determine the actions to be taken.
+then, we follow up on 
+how engine-local sources of input or randomness can
+affect the choice of actions to be taken.
 
 #### Outputs of absolutely pure transition functions
 
@@ -171,8 +177,8 @@ The output of an absolutely pure transition function
 has five components:
 the update to the local data, 
 messages to be sent,
-timers to be set and removed, 
-engine instances to be spawned,
+update of the timers set (new ones to set, old ones to cancel),
+new engine instances to be spawned,
 the (estimated) duration of the event.
 
 ##### Timers to be set
@@ -194,17 +200,18 @@ a [map from handles to points in local time](https://github.com/anoma/formanoma/
 If new engine instances should be spawned,
 the engine instance that is requesting to spawn the new instances is
 the _parent engine instance_ (or just _parent engine,_ 
-for short).
+for short)
+and the newly spawned instance are children.
 The following data need to be given for a newly spawned engine.
 
-- the _initial state_ that the newly spawned engine will have
-  when it receives the first trigger
-- a (local) _name_,
-  unique throughout the life-time of the spawning engine instance, 
-  relative to the engine
+- the _initial state_ that the child engine instance
+  (the one it will be in when  it receives the first trigger)
+- a _name_,
+  unique throughout the life-time of the parent engine instance. 
 
 The engine instance will become "alive" 
 after the current execution of the transition function.
+
 The engine allows to address messages to
 the engine to be spawned (before it is alive),
 which brings us to the next point.
