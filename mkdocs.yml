@@ -396,6 +396,7 @@ nav:
         - Example of diff rendering: ./tutorial/file-v1.md
     - Engines:
       - ./tutorial/engines/index.md
+      - Engine Type: ./tutorial/engines/base.juvix.md
       - Engine example: ./tutorial/engines/engine-template-example.juvix.md
       - Guarded action example: ./tutorial/engines/guarded-action-example.md
 

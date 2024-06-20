@@ -13,12 +13,16 @@ tags:
 
     This document is a work in progress. Please do not review it yet.
 
+
 ```juvix hide
 module tutorial.engines.base;
 import architecture-2.engines.basic-types open;
 ```
 
 # Engines
+
+An engine is a computational entity capable of performing actions based on conditions triggered by messages from other engines, including sending messages, and spawning new engines. Each engine belongs to a specific type. Below, we outline the process for spawning an engine instance and present their general structure, that is, a type of engines.
+
 
 ## How to Spawn an Engine Instance
 
@@ -29,7 +33,7 @@ Imagine an engine as a process running on your machine. Each engine has:
 
 To create (or spawn) an engine instance in Anoma, you will need the following information:
 
-- The _identity_ of the engine instance.
+- The [[Identity#external-identity|identity]] of the engine instance.
 - The initial _local state_ for the engine instance.
 - The time at which the engine instance is spawned.
 
