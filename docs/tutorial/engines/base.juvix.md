@@ -184,6 +184,7 @@ type EngineType (EngineLocalState : Type) := mkEngineType {
 };
 ```
 
-In conclusion, we define the type `EngineType` which indicates that an engine type includes its local environment and a list of guarded actions (see Section [[Engines#on-engine-types |On Engine Types]]). It requires a type parameter, `EngineLocalState`, which defines data specific to each engine instance. For example, in a voting engine, `EngineLocalState` could be a record with fields like `votes` and `voters`, or simply the unit type if no local state is needed.
+In conclusion, we define the type `EngineType` that
+defines the structure of an engine type. It indicates that an engine (instance) includes a local environment and a list of [guarded actions](#guarded-actions) (read more on this concept in Section [[Engines#on-engine-types |On Engine Types]]). It requires a type parameter, `EngineLocalState`, which defines data specific to each engine instance. For example, in a voting engine, `EngineLocalState` could be a record with fields like `votes` and `voters`, or simply the unit type if no local state is needed.
 
 In `EngineType`, `List` is used for guarded actions to maintain their order. The sequence is crucial because if multiple guards are satisfied, actions are executed in the listed order.
