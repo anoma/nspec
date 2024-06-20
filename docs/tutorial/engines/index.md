@@ -124,8 +124,9 @@ the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25c
 
 ### Inputs of a transition function
 
-Transition functions take two kinds of data as input:
-the local state and the (time stamped) _trigger,_
+Transition functions take two chunks of data as input:
+the local state and the (time stamped) 
+[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L19)
 which is either a message that was received (and is to be processed) or
 a notification from the local clock about
 the elapsing of a non-empty set of timers.<!--
@@ -133,14 +134,25 @@ the elapsing of a non-empty set of timers.<!--
 	the message is "automatically" added to the mailbox
 -->
 Each trigger comes with the local time when 
-the event is triggered;
+the event is triggered,
+which we may think of as "now";
 in fact,
-there is no local time information other than
-"now"—the time stamp of the trigger—and the set of timers set in the past.
+the only information about the local wall-clock time in the input of the transition function 
+is 
+
+- "now"—the [time](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L222) stamp of the trigger—and 
+- the set of previously set timers, each of which has a [_handle._](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L24)
 
 !!! note
 
-	 Time is still in alpha stage.
+	The treatment of local wall-clock time is still in alpha stage, 
+	but we may need it to mitigate possible limitations of
+	the partial synchrony abstraction
+	(see, e.g.,
+	[The Economic Limits of Permissionless Consensus](https://arxiv.org/pdf/2405.09173)).
+	There are also subtleties concerning 
+	monotonicity of clock implementations in
+	common operating systems.
 
 
 ### Outputs of a transition function
@@ -153,7 +165,7 @@ or direct inputs from the phyiscal device the engine instance is running on;
 then, we follow up on how engine-local sources of input or randomness can be used
 to determine the actions to be taken.
 
-#### Outputs for absolutely pure transition functions
+#### Outputs of absolutely pure transition functions
 
 The output of an absolutely pure transition function
 has five components:
@@ -213,11 +225,32 @@ All formalities of messages are in the [`Message.thy`-theory](https://github.com
 Last but not least, 
 all local data can be updated—except for the engine identities.
 
-### Outputs for interactive transition functions
+### Outputs of interactive transition functions
 
-!!! todo
+As implementations may want to have access to "true" randomness,[^8]
+we need a way for engine instances to have access to randomness.
+For this,
+transition functions may make use the mathematical counterpart 
+of $n$-sided dice.
+Moreover,
+engine instances need to interact with the user 
+_synchronously,_
+typical for final confirmations of important actions 
+or interaction with hardware security modules.
+Such interactions with _external_ streams of input 
+are a second kind of interaction,
+and it is made possible by providing users with a finite number of choice at a time.
+Finally, 
+there may be a mix of inputs and randomness.
+For example and engine may generate a random user name and 
+the user is asked to accept or choose it manually.
 
-	describe how we can use randomness, user inputs, and "any mix" of both
+In summary,
+instead of directly producing the `Outputs of absolutely pure transition functions`,
+we have a finitely branching tree 
+whose laves are `Outputs of absolutely pure transition functions`
+and whose inner nodes are either requesting the user to pick one of a finite number of choices
+or the rolling of some $n$-sided dice.[^9]
 
 ## Transition functions via guards and actions =: guarded actions
 
@@ -425,3 +458,9 @@ the type of messages that are contained in mailboxes.
 	Probably, 
 	this should be replaced by minimal and maximal duration for an event
 	for the specification of real time engines.
+
+[^8]: A well-known example for relevance of sources of "true" randomness are
+	[cloudflare's lava lamps](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/).
+
+[^9]: See the
+	[`local_interaction`data type](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L53).
