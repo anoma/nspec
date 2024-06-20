@@ -75,20 +75,24 @@ The local environment comprises static information in the following categories:
 
 
 ```juvix
+
+
 type EngineLocalEnv (LocalState : Type) := mkEngineLocalEnv {
   engineIdentity : Identity;
   localState : LocalState;
   localTime : Time;
-  mailboxes : List Mailbox; -- TODO: replace this for Map
+  mailboxCluster : Map MailboxID Mailbox;
   timers : List Timer;
-  acquaintances : List ExternalID;
-}
+  acquaintances : List Name;  -- names of engines
+};
 ```
 
 ## State Transition Functions
 
 ```juvix
-StateTransition (EngineLocalState : Type) : Type := StateTransitionArguments EngineLocalState -> StateTransitionResult EngineLocalState;
+StateTransition (EngineLocalState : Type) : Type := 
+  StateTransitionArguments EngineLocalState 
+    -> StateTransitionResult EngineLocalState;
 ```
 
 Define the arguments and results for state transition functions:
@@ -101,7 +105,6 @@ type StateTransitionArguments (EngineLocalState : Type) := mkStateTransitionArgu
   localEnvironment : EngineLocalEnv EngineLocalState;
   trigger : Trigger;
   time : Time; -- The time at which the state transition is triggered
-  -- Mailbox business
 };
 ```
 
@@ -114,9 +117,9 @@ type StateTransitionResult (EngineLocalState : Type)
   := mkStateTransitionResult {
   state : State;
   localEnvironment : EngineLocalEnv EngineLocalState;
-  producedMessages : List Message; -- The set of messages to be sent
+  producedMessages : Mailbox; -- The set of messages to be sent
   timers : List Timer;
-  spawnedEngines : List (Pair ExternalID EngineLocalState);   -- the set of spawned engines
+  spawnedEngines : List (Pair ExternalID EngineLocalState); 
 };
 ```
 
@@ -126,7 +129,7 @@ So when executing a state transition function, the engine instance will:
 - Send messages
 - Provides a new state
 - Set timers
-- Spawn new engines (if necessary) via an internal call to engineInstanceSpawn
+- Spawn new engines (if necessary)
 
 ## Guarded Actions
 
@@ -162,7 +165,7 @@ type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
     ```
     type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
       {ReturnGuardType : Type};
-      guard : State -> EngineLocalEnv EngineLocalState -> Maybe ReturnGuardType;
+      guard : EngineLocalEnv EngineLocalState -> Maybe ReturnGuardType;
       action : ReturnGuardType -> StateTransition EngineLocalState
     };
     ```

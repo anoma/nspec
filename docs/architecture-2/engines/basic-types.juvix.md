@@ -32,11 +32,17 @@ Nat : Type := Prelude.Nat;
 Bool : Type := Prelude.Bool;
 ```
 
-- **String**: Represents sequences of characters. Used for text manipulation and
-  representation.
+- **String**: Represents sequences of characters. Used sending actual messages
+  and data.
 
 ```juvix
 String : Type := Prelude.String;
+```
+
+As a synonym for `String`, we have:
+
+```juvix
+Name : Type := Prelude.String;
 ```
 
 - **Unit**: Represents a type with a single value. Often used when a function
@@ -77,7 +83,13 @@ Map (K V : Type) : Type := Containers.Map K V;
 ### Network Identity types
 
 These types are used to represent identities within the network, both external
-and internal.
+and internal. 
+
+!!! warning
+
+    There is an ongoing discussion about cryptographic identities and how they
+    should be represented in the system, and used for representing entities in
+    the network, such as engines. So, the following types are subject to change.
 
 ```juvix
 ExternalID : Type := Nat;
@@ -92,12 +104,6 @@ InternalID : Type := Nat;
   represented as a natural number.
 
 ```juvix
-axiom Time : Type;
-```
-- **Time**: An abstract type representing time. It is used for scheduling and
-  timing events.
-
-```juvix
 Identity : Type := Pair ExternalID InternalID;
 ```
 - **Identity**: A pair combining an `ExternalID` and an `InternalID`,
@@ -108,11 +114,15 @@ Identity : Type := Pair ExternalID InternalID;
 These types are used for message passing within the system, encapsulating the
 message content and managing mailboxes.
 
-- **Message**: A pair consisting of a type and a string. This represents a
-  message with its type and content.
-  
+- **Message**: A pair consisting of a type and a string This represents a
+  message with its type and content[@special-delivery-mailbox-types-2023].
+
 ```juvix
-Message : Type := Pair Type Prelude.String;
+MessageType : Type := Type;
+Documment : Type := String;
+
+
+Message : Type := Pair MessageType Documment;
 ```
 
 - **Mailbox**: A list of messages. It represents a collection of messages
@@ -122,7 +132,21 @@ Message : Type := Pair Type Prelude.String;
 Mailbox : Type := List Message;
 ```
 
-### Triggers
+Mailboxes are indexed by their unique identifier, for
+now represented as a `Name`. This concerns the mailbox of a single engine.
+
+```juvix
+MailboxID : Type := Name;
+```
+
+### Time and Triggers
+
+- **Time**: An abstract type representing time. It is used for scheduling and
+  timing events.
+
+```juvix
+axiom Time : Type;
+```
 
 Triggers represent events that can occur in the system, such as timers.
 
@@ -147,9 +171,9 @@ as message arrivals, timer expirations, or other significant occurrences.
 axiom Trigger : Type;
 ```
 
-### System State
+### Node State
 
-This type is used to represent the system's state and defines the domain for an
+This type is used to represent the node's state and defines the domain for an
 engine's state transition functions.
 
 - **State**: An abstract type representing the state of an engine instance. It
