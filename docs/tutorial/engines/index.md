@@ -59,47 +59,165 @@ before we finally come to how we actually will specify state transition function
 
 ## On the local data of engine instances
 
-Each engine instance has the following local data that is directly and
-exclusively accessible at any given moment (in local time):
+Each engine instance has the following local data that is
+directly and exclusively accessible 
+at any given moment (in local time):
 
-- its _identity_, given by a pair of
+- its _identity_, given by a pair of<!--
+  cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L208-L209-->
 
     - an [[Identity#external-identity|external identity]] and
     - an [[Identity#internal-identity|internal identity]]
 
-- its mailboxes that store received messages, represented by a pair of
+- its mailboxes that store received messages, represented by a pair of<!--
+  cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L211-->
 
     - a finite set of _mailbox identifiers_ (**MID** for short),
-    typically non-empty
+      typically non-empty
       
     - a function that maps mailbox identifiers to pairs of
 		- a list of messages that were sent to the MID but not processed yet
 		- an optional mailbox-specific state (for quick processing of incoming messages)
 
-  - a finite set of _named acquaintances_[^2] represented by
+  - a finite set of _named acquaintances_[^2] represented by<!--
+	cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
+  -->
+
     - a finite set of names
     - a map from these names to the
 	  [[Identity#external-identity|external identities]] of the acquaintances
 
-- memory for previously set timers, given by
+- memory for previously set timers, given by<!--
+  cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L212-->
+
     - a finite set of timer handles
     - a map from these timer handles to the requested notification time
 
 - memory for names of spawned engines that 
-  do not have a cryptographic ID yet
+  do not have a cryptographic ID yet<!--
+    cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213 needs 'ext_id option though as codomain type of the fmap-->
 
-- engine-specific local state
+- engine-specific local state<!--
+  cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
-- the current time 
+- the current time[^7]<!--
+  cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L210-->
 
+These types are formalized as a [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
+link will need updating 
+-->
 The engine's identity is unchangeable,
-but a new *"continuation engine"* could be spawned with a new identifier.
+but a new *"continuation engine"* could be spawned with a new identifier,
+as will become clearer
+after transitions functions are properly introduced.
 
-## On transition functions
+## On transition functions of engine instances
+
+The anoma specification uses pure functions to describe
+the atomic computation that each engine instance performs 
+when a new message or notification from the local clock is received;
+moreover,
+the transition function also encodes the actions that should be taken.
+The formal version is
+(any interpretation of) the [`transition_function`](https://github.com/anoma/formanoma/blob/75331d688f2ae399fbebb008549b2dfda78b4e5b/Types/Engine.thy#L217) of
+the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).
+
+### Inputs of a transition function
+
+Transition functions take two kinds of data as input:
+the local state and the (time stamped) _trigger,_
+which is either a message that was received (and is to be processed) or
+a notification from the local clock about
+the elapsing of a non-empty set of timers.<!--
+	make a design choice of whether
+	the message is "automatically" added to the mailbox
+-->
+Each trigger comes with the local time when 
+the event is triggered;
+in fact,
+there is no local time information other than
+"now"—the time stamp of the trigger—and the set of timers set in the past.
+
+!!! note
+
+	 Time is still in alpha stage.
+
+
+### Outputs of a transition function
+
+We describe the outputs in two steps:
+first,
+we cover _absolutely pure_ transition functions,
+which do not require any source of (true) randomness
+or direct inputs from the phyiscal device the engine instance is running on;
+then, we follow up on how engine-local sources of input or randomness can be used
+to determine the actions to be taken.
+
+#### Outputs for absolutely pure transition functions
+
+The output of an absolutely pure transition function
+has five components:
+the update to the local data, 
+messages to be sent,
+timers to be set and removed, 
+engine instances to be spawned,
+the (estimated) duration of the event.
+
+##### Timers to be set
+
+Given the inputs,
+the transition function may decide to set new timers
+and "remove" old timers.
+As each timer has an engine-local handle,
+this amounts to updating the map of local timers, 
+cancelling superseeded timers and
+adding new timers.
+Handles should only be used once during the life-time of 
+an engine instance.
+The type of this component of the output is
+a [map from handles to points in local time](https://github.com/anoma/formanoma/blob/4ad37bc274ad25e64d15fe5f00dbd7784e339ce0/Types/Engine.thy#L230).
+
+##### Engine instances to be spawned
+
+If new engine instances should be spawned,
+the engine instance that is requesting to spawn the new instances is
+the _parent engine instance_ (or just _parent engine,_ 
+for short).
+The following data need to be given for a newly spawned engine.
+
+- the _initial state_ that the newly spawned engine will have
+  when it receives the first trigger
+- a (local) _name_,
+  unique throughout the life-time of the spawning engine instance, 
+  relative to the engine
+
+The engine instance will become "alive" 
+after the current execution of the transition function.
+The engine allows to address messages to
+the engine to be spawned (before it is alive),
+which brings us to the next point.
+
+##### Messages to be sent
+
+This is a finite set of _enveloped_ messages,
+each of which carries information about the intended recipient
+and the mailbox of the latter.
+The recipient can be picked either by an external identifier or a name.
+All formalities of messages are in the [`Message.thy`-theory](https://github.com/anoma/formanoma/blob/heindel/engine-locale/Types/Message.thy)<!--
+	link will need updating
+-->.
+
+
+##### Updates to local data
+
+Last but not least, 
+all local data can be updated—except for the engine identities.
+
+### Outputs for interactive transition functions
 
 !!! todo
 
-	spell out the formal in english
+	describe how we can use randomness, user inputs, and "any mix" of both
 
 ## Transition functions via guards and actions =: guarded actions
 
@@ -299,3 +417,11 @@ the type of messages that are contained in mailboxes.
 	time is incremented by a default delay, and nothing else changes.
 
 
+[^7]: Local time is still in alpha stage, 
+	but it could be used to implement busy waiting;
+	however,
+	the preferred way to interact with the local clock is
+	setting new timers for specific points in local time.
+	Probably, 
+	this should be replaced by minimal and maximal duration for an event
+	for the specification of real time engines.
