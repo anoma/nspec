@@ -24,7 +24,7 @@ import architecture-2.engines.basic-types open;
 An engine is a computational entity capable of performing actions based on conditions triggered by messages from other engines, including sending messages, and spawning new engines. Each engine belongs to a specific type. Below, we outline the process for spawning an engine instance and present their general structure, that is, a type of engines.
 
 
-## How to Spawn an Engine Instance
+## Spawning an engine instance
 
 Imagine an engine as a process running on your machine. Each engine has:
 
@@ -174,7 +174,8 @@ type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
     };
     ```
 
-# Resulting Engine Type
+## A type for engines
+
 
 ```juvix
 type EngineType (EngineLocalState : Type) := mkEngineType {
@@ -183,4 +184,6 @@ type EngineType (EngineLocalState : Type) := mkEngineType {
 };
 ```
 
-Then, an engine type is represented by its local environment and a list of guarded actions. We use a list instead of a set because the order of the guarded actions is crucial. If multiple guards are satisfied, the actions are executed in the sequence they appear in the list.
+In conclusion, we define the type `EngineType` which indicates that an engine type includes its local environment and a list of guarded actions (see Section [[Engines#on-engine-types |On Engine Types]]). It requires a type parameter, `EngineLocalState`, which defines data specific to each engine instance. For example, in a voting engine, `EngineLocalState` could be a record with fields like `votes` and `voters`, or simply the unit type if no local state is needed.
+
+In `EngineType`, `List` is used for guarded actions to maintain their order. The sequence is crucial because if multiple guards are satisfied, actions are executed in the listed order.
