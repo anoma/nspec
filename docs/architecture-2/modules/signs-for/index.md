@@ -7,14 +7,14 @@ search:
 
 # Signs For Engine
 
-The Signs For Engine tracks signs-for relationships between identities as
-described in [SignsForRelation](../../../architecture-1/abstractions/identity.md#signsfor-relation). It
+The Signs For Engine track signs-for relationships between identities as
+described in [[Identity#singsfor-relation|SignsForRelation]]. It
 supports querying which identities sign for another identity or can be signed
 for by it, submitting evidence that one identity signs for another, and querying
 evidence concerning known signs-for relationships.
 
 ## Messages
 
-- [SignsForRequestResponse](./signs-for-request-response.md)
-- [SubmitSignsForEvidenceRequestResponse](./submit-signs-for-evidence-request-response.md)
-- [QuerySignsForEvidenceRequestResponse](./query-signs-for-evidence-request-response.md)
+- [[SignsForRequestResponse]]
+- [[SubmitSignsForEvidenceRequestResponse]]
+- [[QuerySignsForEvidenceRequestResponse]]

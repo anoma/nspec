@@ -11,8 +11,8 @@ search:
 
 ### Purpose
 
-Consensus establishes a totally ordered sequence of headers received from the [mempool](./mempool/index.md) DAG.
-This establishes a total order of transactions for the [execution engine](./execution/index.md) to execute.
+Consensus establishes a totally ordered sequence of headers received from the [[Mempool engines|mempool]] DAG.
+This establishes a total order of transactions for the [[Execution engines|Execution engine]] to execute.
 
 ### Background
 
@@ -22,7 +22,8 @@ Here we adapt for the homogeneous case, in which there is only one _learner_.
 
 ### Scope
 
-The Consensus Engine is responsible for establishing a total order on transaction candidates produced by the [mempool](./mempool/index.md).
+The Consensus Engine is responsible for establishing a total order on
+transaction candidates produced by the [[Mempool engines|mempool]].
 
 We start by describing the consensus protocol informally, as well as the protocol trust model for the homogeneous case and the desired properties.
 Finally, we provide a pseudocode for its agents.
@@ -95,7 +96,7 @@ $$
 $$
 
 Safe sets and quorums are related: Paxos requires that all quorums intersect on a safe acceptor to guarantee agreement.
-Therefore we require:
+Therefore, we require:
 
 $$
   \forall q, q^\prime \in Q_{\red\alpha}.\,
@@ -144,8 +145,8 @@ Consensus rounds send and receive messages in four (possibly overlapping) phases
 
 The first three phases correspond to three types of intra-component messages: $\onea$, $\oneb$ and $\twoa$, respectively.
 
-Before processing a received message $m$, acceptors and learners check if the message is [_wellformed_](consensus/homogeneous-paxos-formal.md#definition-wellformed).
-The formal definition of the wellformedness relation, denoted by $\wellformed{m}$, is given [here](consensus/homogeneous-paxos-formal.md).
+Before processing a received message $m$, acceptors and learners check if the message is [_well-formed_](consensus/homogeneous-paxos-formal.md#definition-wellformed).
+The formal definition of the well-formedness relation, denoted by $\wellformed{m}$, is given [here](consensus/homogeneous-paxos-formal.md).
 Non-wellformed messages are rejected.
 The acceptors caught in sending non-wellformed messages might be punished by the protocol.
 
@@ -180,7 +181,7 @@ never sends a $\twoa$-message with a different value, <!-- for a learner $\blue\
 - It has seen Byzantine behaviour that proves $\red\alpha$ is not _accurate_, in which case decisions do not have to agree.
 
 <!-- The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for which it can produce a wellformed $\twoa$. -->
-The acceptor who has received a $\oneb$ sends a $\twoa$ if it can produce a wellformed $\twoa$-message.
+The acceptor who has received a $\oneb$ sends a $\twoa$ if it can produce a well-formed $\twoa$-message.
 
 #### Termination: finalizing consensus value
 
@@ -207,7 +208,7 @@ As a result, acceptors and learners will always process messages from any given 
 
 ### Pseudocode
 
-We assume that there is a way to assign to every wellformed message $m$ a unique ballot number that the message belongs to.
+We assume that there is a way to assign to every well-formed message $m$ a unique ballot number that the message belongs to.
 We shall denote the ballot number assigning function as $\ba{m}$.
 The formal definition of the function can be found [here](consensus/homogeneous-paxos-formal.md#definition-ballot-numbers).
 
@@ -219,7 +220,7 @@ More efficient implementations may involve explicit requests for unreceived mess
 
 #### Acceptors
 
-In Paxos terms, `HPaxosProposal` messages below  are called $\onea$ messages.
+In Paxos terms, `HPaxosProposal` messages below are called $\onea$ messages.
 `HPaxosCommitment` messages (below) with an empty `lrn` field are called $\oneb$ messages, and if `lrn` is not empty, they are called $\twoa$ messages. 
 Here we detail how acceptors process $\onea$, $\oneb$, and $\twoa$ messages.
 

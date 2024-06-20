@@ -134,37 +134,36 @@ nav:
           - QueryNameEvidenceRequest: ./architecture-2/identity/types/query-name-evidence-request.md
           - QueryNameEvidenceResponse: ./architecture-2/identity/types/query-name-evidence-response.md
         - Identity Management Engine:
-          - ./architecture-2/identity/identity-management/index.md
-          - GenerateIdentityRequestResponse: ./architecture-2/identity/identity-management/generate-identity-request-response.md
-          - ConnectIdentityRequestResponse: ./architecture-2/identity/identity-management/connect-identity-request-response.md
-          - DeleteIdentityRequestResponse: ./architecture-2/identity/identity-management/delete-identity-request-response.md
+          - ./architecture-2/modules/identity-management/index.md
+          - GenerateIdentityRequestResponse: ./architecture-2/modules/identity-management/generate-identity-request-response.md
+          - ConnectIdentityRequestResponse: ./architecture-2/modules/identity-management/connect-identity-request-response.md
         - Decryption Engine:
           - ./architecture-2/identity/decryption/index.md
           - DecryptRequestResponse: ./architecture-2/identity/decryption/decrypt-request-response.md
         - Encryption Engine:
-          - ./architecture-2/identity/encryption/index.md
-          - EncryptRequestResponse: ./architecture-2/identity/encryption/encrypt-request-response.md
+          - ./architecture-2/modules/encryption/index.md
+          - EncryptRequestResponse: ./architecture-2/modules/encryption/encrypt-request-response.md
         - Commitment Engine:
           - ./architecture-2/identity/commitment/index.md
           - CommitRequestResponse: ./architecture-2/identity/commitment/commit-request-response.md
         - Verification Engine:
-          - ./architecture-2/identity/verification/index.md
-          - VerifyRequestResponse: ./architecture-2/identity/verification/verify-request-response.md
+          - ./architecture-2/modules/verification/index.md
+          - VerifyRequestResponse: ./architecture-2/modules/verification/verify-request-response.md
         - Reads For Engine:
-          - ./architecture-2/identity/reads-for/index.md
-          - ReadsForRequestResponse: ./architecture-2/identity/reads-for/reads-for-request-response.md
-          - SubmitReadsForEvidenceRequestResponse: ./architecture-2/identity/reads-for/submit-reads-for-evidence-request-response.md
-          - QueryReadsForEvidenceRequestResponse: ./architecture-2/identity/reads-for/query-reads-for-evidence-request-response.md
+          - ./architecture-2/modules/reads-for/index.md
+          - ReadsForRequestResponse: ./architecture-2/modules/reads-for/reads-for-request-response.md
+          - SubmitReadsForEvidenceRequestResponse: ./architecture-2/modules/reads-for/submit-reads-for-evidence-request-response.md
+          - QueryReadsForEvidenceRequestResponse: ./architecture-2/modules/reads-for/query-reads-for-evidence-request-response.md
         - Signs For Engine:
-          - ./architecture-2/identity/signs-for/index.md
-          - SignsForRequestResponse: ./architecture-2/identity/signs-for/signs-for-request-response.md
-          - SubmitSignsForEvidenceRequestResponse: ./architecture-2/identity/signs-for/submit-signs-for-evidence-request-response.md
-          - QuerySignsForEvidenceRequestResponse: ./architecture-2/identity/signs-for/query-signs-for-evidence-request-response.md
+          - ./architecture-2/modules/signs-for/index.md
+          - SignsForRequestResponse: ./architecture-2/modules/signs-for/signs-for-request-response.md
+          - SubmitSignsForEvidenceRequestResponse: ./architecture-2/modules/signs-for/submit-signs-for-evidence-request-response.md
+          - QuerySignsForEvidenceRequestResponse: ./architecture-2/modules/signs-for/query-signs-for-evidence-request-response.md
         - Name Engine:
-          - ./architecture-2/identity/name/index.md
-          - ResolveNameRequestResponse: ./architecture-2/identity/name/resolve-name-request-response.md
-          - SubmitNameEvidenceRequestResponse: ./architecture-2/identity/name/submit-name-evidence-request-response.md
-          - QueryNameEvidencRequestResponse: ./architecture-2/identity/name/query-name-evidence-request-response.md
+          - ./architecture-2/modules/name/index.md
+          - ResolveNameRequestResponse: ./architecture-2/modules/name/resolve-name-request-response.md
+          - SubmitNameEvidenceRequestResponse: ./architecture-2/modules/name/submit-name-evidence-request-response.md
+          - QueryNameEvidencRequestResponse: ./architecture-2/modules/name/query-name-evidence-request-response.md
       - Networking Machine:
         - ./architecture-2/networking/index.md
         - Intra node & inter node protocols:
