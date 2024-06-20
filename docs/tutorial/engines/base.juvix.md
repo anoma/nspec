@@ -79,7 +79,7 @@ type EngineLocalEnv (LocalState : Type) := mkEngineLocalEnv {
   engineIdentity : Identity;
   localState : LocalState;
   localTime : Time;
-  mailboxes : List Mailbox;
+  mailboxes : List Mailbox; -- TODO: replace this for Map
   timers : List Timer;
   acquaintances : List ExternalID;
 }
@@ -148,7 +148,7 @@ A guarded action consist of a _guard_ and an _action_. The guard is a
 
 ```juvix
 type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
-  guard : {T : Type} -> State -> EngineLocalEnv EngineLocalState -> Maybe T;
+  guard : {T : Type} -> EngineLocalEnv EngineLocalState -> Maybe T;
   action : {T : Type} -> T -> StateTransition EngineLocalState
 };
 ```
@@ -170,7 +170,6 @@ type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
 # Resulting Engine Type
 
 ```juvix
-trait
 type EngineType (EngineLocalState : Type) := mkEngineType {
    localEnvironment : EngineLocalEnv EngineLocalState;
    guardedActions : List (GuardedAction EngineLocalState)

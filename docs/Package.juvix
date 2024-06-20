@@ -7,5 +7,5 @@ package : Package :=
     {name := "nspec";
      version := mkVersion 0 1 0;
      dependencies := [ github "anoma" "juvix-stdlib" "main"
-                     ; github "anoma" "juvix-containers" "v0.7.1"
+                     ; github "anoma" "juvix-containers" "v0.11.0"
                      ]};
