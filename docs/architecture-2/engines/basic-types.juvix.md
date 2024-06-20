@@ -171,6 +171,27 @@ as message arrivals, timer expirations, or other significant occurrences.
 axiom Trigger : Type;
 ```
 
+!!! todo
+
+    The `Trigger` type should be defined in more detail, as briefly explained in
+    https://anoma.github.io/nspec/pr-84/tutorial/engines/index.html#inputs-of-a-transition-function 
+
+
+    ```isabelle
+    datatype (
+        'msg, (* message contents/payload *)
+        'box_id:: countable, (* mailbox ids *)
+        'ext_id:: countable, (* external ids *)
+        'name::countable, (* name of an engine *)
+        'handle:: countable (* timer handles ≃ names for timers*)
+        ) trigger =
+      Msg
+        (msg: "('msg, 'box_id, 'ext_id, 'name) enveloped_message")
+        | 
+      Elapsed
+        (timers: "'handle fset") (* must be non-empty*)
+    ```
+
 ### Node State
 
 This type is used to represent the node's state and defines the domain for an

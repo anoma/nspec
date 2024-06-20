@@ -81,8 +81,8 @@ type EngineLocalEnv (LocalState : Type) := mkEngineLocalEnv {
   engineIdentity : Identity;
   localState : LocalState;
   localTime : Time;
-  mailboxCluster : Map MailboxID Mailbox;
   timers : List Timer;
+  mailboxCluster : Map MailboxID Mailbox;
   acquaintances : List Name;  -- names of engines
 };
 ```
