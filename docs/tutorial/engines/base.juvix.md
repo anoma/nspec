@@ -50,7 +50,7 @@ axiom
     -> Unit;
 ```
 
-## Components of an Engine
+## Data components of an engine
 
 Each engine type must declare specific components relevant to its purpose. 
 For Anoma specs, these components include:
@@ -135,12 +135,37 @@ A guarded action consist of a _guard_ and an _action_. The guard is a
   is a _state transition function_ describing the state transition of the engine
   instance.
 
+??? info "On the type signature of the guard function"
+
+    In principle, a guard is a predicate that evaluates the current state and local environment of the engine instance, that is, a function returning a boolean. 
+    
+    ```
+    boolean-guard : State -> EngineLocalEnv EngineLocalState -> Bool;
+    ```
+    
+    However, as a design choice, guards will return additional data of type T from the local environment if the condition is met. So, if the guard is satisfied, this data (T) will be passed to the action function; otherwise,that is, if the guard is not satisfied, no data is returned.
+    
+
 ```juvix
-type GuardedAction (EngineLocalState : Type):= mkGuardedAction {
-  guard : State -> EngineLocalEnv EngineLocalState -> Bool;
-  action : StateTransition EngineLocalState
+type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
+  guard : {T : Type} -> State -> EngineLocalEnv EngineLocalState -> Maybe T;
+  action : {T : Type} -> T -> StateTransition EngineLocalState
 };
 ```
+
+??? info "Notation: Curly braces in guard and action's type signature"
+
+    The curly braces notation used in the type signature of the guard function indicates that the type argument `T` can be ommited, as it is inferred from the return type.
+
+    Ideally, type `T` should be an implicit field of `GuardedAction`, indicating that the action takes input from the guard's evaluation when satisfied. However, this is not feasible in Juvix at the moment.
+
+    ```
+    type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
+      {ReturnGuardType : Type};
+      guard : State -> EngineLocalEnv EngineLocalState -> Maybe ReturnGuardType;
+      action : ReturnGuardType -> StateTransition EngineLocalState
+    };
+    ```
 
 # Resulting Engine Type
 
@@ -151,3 +176,5 @@ type EngineType (EngineLocalState : Type) := mkEngineType {
    guardedActions : List (GuardedAction EngineLocalState)
 };
 ```
+
+Then, an engine type is represented by its local environment and a list of guarded actions. We use a list instead of a set because the order of the guarded actions is crucial. If multiple guards are satisfied, the actions are executed in the sequence they appear in the list.

@@ -270,9 +270,6 @@ A table of contents has the following structure.
     --8<-- "./../overrides/templates/guarded-action-template.md"
 
 
---8<-- "./everything.juvix.md:8:"
-
-
 ---
 
 <!-- footnotes -->
