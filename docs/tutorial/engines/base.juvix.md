@@ -25,6 +25,10 @@ tags:
 
 # Engine Types
 
+```juvix
+EngineLabel : Type := Label;
+```
+
 This page focuses on the fundamental types and concepts necessary to define an
 engine in the Anoma Specification, specifically the types and terms in Juvix. It
 does not explore the rationale or design choices behind engines in Anoma, as
@@ -64,7 +68,7 @@ type EngineLocalEnv (LocalState : Type) (MessageType : Type)
       localTime : Time;
       timers : List Timer;
       mailboxCluster : Map MailboxID (Mailbox MessageType);
-      acquaintances : List Name;  -- names of engines
+      acquaintances : Map Name (Maybe ExternalID);
 };
 ```
 
@@ -75,8 +79,7 @@ With a local environment in place, the remaining part of an engine is its
 *guarded actions*. These actions rely on a state transition function, the core
 of an engine's operation. So we define their type first.
 
-A state transition function takes a set of arguments, including the current
-system state, the engine's local environment, and the trigger for the state
+A state transition function takes a set of arguments, including the engine's local environment, and the trigger for the state
 transition. These arguments are encapsulated in the `StateTransitionArguments`
 record type.
 
@@ -94,7 +97,6 @@ structure.
 ```juvix
 type StateTransitionArguments (EngineLocalState : Type) (MessageType : Type) 
   := mkStateTransitionArguments {
-    state : State;
     localEnvironment : EngineLocalEnv EngineLocalState MessageType;
     trigger : Trigger MessageType;
     time : Time; -- The time at which the state transition is triggered
@@ -105,14 +107,20 @@ type StateTransitionArguments (EngineLocalState : Type) (MessageType : Type)
 
 ### State Transition Result
 
+
+!!! todo
+
+    Update this type after updatng the mailbox type, which should include
+    the identities of the sender.
+
 ```juvix
+
 type StateTransitionResult (EngineLocalState : Type) (MessageType : Type)
   := mkStateTransitionResult {
-  state : State;
   localEnvironment : EngineLocalEnv EngineLocalState MessageType;
-  producedMessages : Mailbox MessageType; -- The set of messages to be sent
+  producedMessages : Mailbox MessageType;
   timers : List Timer;
-  spawnedEngines : List (Pair ExternalID EngineLocalState); 
+  spawnedEngines : List (Pair (Pair EngineLabel Name) EngineLocalState); 
 };
 ```
 
@@ -120,7 +128,6 @@ So when executing a state transition function, the engine instance will:
 
 - Update its local state
 - Send messages
-- Provides a new state
 - Set timers
 - Spawn new engines (if necessary)
 
@@ -175,6 +182,8 @@ type GuardedAction (EngineLocalState : Type) (MessageType : Type) := mkGuardedAc
 
 ## A type for Anoma Engines
 
+
+
 ```juvix
 type EngineType (EngineLocalState : Type) (MessageType : Type) := mkEngineType {
    localEnvironment : EngineLocalEnv EngineLocalState MessageType;
@@ -191,9 +200,11 @@ instance. For example, in a voting engine, `EngineLocalState` could be a record
 with fields like `votes` and `voters`, or simply the unit type if no local state
 is needed.
 
-In `EngineType`, `List` is used for guarded actions to maintain their order. The
-sequence is crucial because if multiple guards are satisfied, actions are
-executed in the listed order.
+!!! warning
+
+    In `EngineType`, `List` is used for guarded actions to maintain their order. The
+    sequence is crucial because if multiple guards are satisfied, actions are
+    executed in the listed order.
 
 
 ## Engine instances
@@ -207,7 +218,6 @@ To create (or spawn) an engine instance in Anoma, you will need the following in
 
 - The [[Identity#external-identity|identity]] of the engine instance.
 - The initial _local state_ for the engine instance.
-- The time at which the engine instance is spawned.
 
 In addition to knowing which engine you want to spawn, it's then crucial to
 understand the type of the local state for the engine instance.  
@@ -225,6 +235,5 @@ axiom
   engineInstanceSpawn
     : (engineInstanceIdentity : ExternalID)
     -> (initialState : primGetEngineLocalStateType engineInstanceIdentity)
-    -> (spawnTime : Time)
     -> Unit;
 ```

@@ -51,6 +51,12 @@ As a synonym for `String`, we have:
 Name : Type := Prelude.String;
 ```
 
+or 
+
+```juvix
+Label : Type := Prelude.String;
+```
+
 - **Unit**: Represents a type with a single value. Often used when a function
   does not return any meaningful value.
 
@@ -160,27 +166,27 @@ MailboxID : Type := Name;
 
 ### Time and Triggers
 
-- **Time**: An abstract type representing time. It is used for scheduling and
+- **Time**: A natural number representing time. It is used for scheduling and
   timing events.
 
 ```juvix
-axiom Time : Type;
+Time : Type := Natural;
 ```
 
 Triggers represent events that can occur in the system, such as timers.
 
-- **Handler**: An abstract type representing a handler function or procedure. It
+- **Handle**: An abstract type representing a handle function or procedure. It
   is used to define what actions should be taken when a trigger occurs.
 
 ```juvix
-axiom Handler : Type;
+axiom Handle : Type;
 ```
 
-- **Timer**: A pair consisting of a `Time` and a `Handler`. It represents a
+- **Timer**: A pair consisting of a `Time` and a `Handle`. It represents a
   scheduled event that will invoke the handler at the specified time.
 
 ```juvix
-Timer : Type := Pair Time Handler;
+Timer : Type := Pair Time Handle;
 ```
 
 - **Trigger**: An abstract type representing various events in the system, such
@@ -199,9 +205,13 @@ type Trigger (MessageType : Type)  :=
   | MessageArrived
     { message : Message MessageType;
       boxID : MailboxID ;
-      extID : ExternalID } 
+      extID : Maybe ExternalID } 
   | Elapsed {  timers : List Timer };
 ```
+
+!!! todo
+
+    Add a better description on the fields of this type.
 
 ### Node State
 

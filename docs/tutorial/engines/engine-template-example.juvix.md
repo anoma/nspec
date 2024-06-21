@@ -79,7 +79,7 @@ the [[Engine Type#local-environment|`EngineLocalEnv`]] type for the complete
 data structure.
 
 ```juvix
-type AuctionEngineLocalEnv := EngineLocalEnv AuctionLocalState AuctionMessageType;
+AuctionEngineLocalEnv : Type := EngineLocalEnv AuctionLocalState AuctionMessageType;
 ```
 
 ### Guarded Actions
@@ -165,7 +165,7 @@ AuctionEngineType : EngineType AuctionLocalState AuctionMessageType  := mkEngine
     localTime := !undefined; -- 0?
     timers := [];
     mailboxCluster := !undefined; -- Map.singleton "BidMailbox" [];
-    acquaintances := [] -- No acquaintances
+    acquaintances := !undefined -- No acquaintances
   };
   guardedActions := auctionGuardedActions
 };
