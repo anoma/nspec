@@ -90,8 +90,9 @@ type AuctionEngineLocalEnv := EngineLocalEnv AuctionLocalState AuctionMessageTyp
 
 Next, we will define state transitions to handle each of the following tasks:
 
-- submission of bids, and 
-- determination of the winner and second price.
+- submission of bids, 
+- determination of the winner and second price, and
+- finalization of the auction.
 
 !!! todo
 
@@ -103,11 +104,72 @@ Next, we will define state transitions to handle each of the following tasks:
 
     The engine keeps the message in the inbox. That's it.
 
+    ```juvix
+    storeBid : GuardedAction AuctionLocalState AuctionMessageType := mkGuardedAction@{
+      guard := \ {_ :=  !undefined} ;
+        -- if Map.member "BidMailbox" env.mailboxCluster ??
+        -- then Just () 
+        -- else Nothing, -- Allow bid submission if "BidMailbox" exists
+      action := \{ _ _ := !undefined} -- storeBid
+    };
+    ```
 
-??? note "Announce the winner and close the auction"
 
-	--8<-- "guarded-action-example.md:8"
+??? note "Determine the winner and second price."
 
+    ```juvix
+    determineWinnerAndSecondPrice : GuardedAction AuctionLocalState AuctionMessageType := mkGuardedAction@{
+      guard := \ {_ :=  !undefined} ;
+        -- if Map.size env.localState.bids > 1 
+        -- then Just () 
+        -- else Nothing, -- Ensure at least two bids are submitted
+      action :=  \{ _ _ := !undefined} 
+    };
+    ```
+
+??? note "Finalise the auction"
+
+    ```juvix
+    finaliseAuction : GuardedAction AuctionLocalState AuctionMessageType := mkGuardedAction@{
+      guard := \ {_ :=  !undefined} ;
+        -- if Map.size env.localState.bids > 1 
+        -- then Just () 
+        -- else Nothing, -- Ensure at least two bids are submitted
+      action :=  \{ _ _ := !undefined} 
+    };
+    ```
+
+
+```juvix
+auctionGuardedActions : List (GuardedAction AuctionLocalState AuctionMessageType) :=
+  [
+    storeBid ;
+    determineWinnerAndSecondPrice;
+    finaliseAuction
+  ];
+```
+
+### Define the Auction Engine
+
+We define the auction engine with its local environment and guarded actions.
+
+```juvix
+AuctionEngineType : EngineType AuctionLocalState AuctionMessageType  := mkEngineType@{
+  localEnvironment := mkEngineLocalEnv@{
+    engineInstanceIdentity := !undefined;
+    localState := mkAuctionLocalState@{
+      bids := !undefined; -- Map.empty,
+      winner := !undefined; -- Nothing
+      secondPrice := !undefined -- Nothing
+    };
+    localTime := !undefined; -- 0?
+    timers := [];
+    mailboxCluster := !undefined; -- Map.singleton "BidMailbox" [];
+    acquaintances := [] -- No acquaintances
+  };
+  guardedActions := auctionGuardedActions
+};
+```
 
 ## Diagrams
 
