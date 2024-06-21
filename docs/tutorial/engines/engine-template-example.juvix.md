@@ -2,125 +2,193 @@
 icon: octicons/project-template-24
 search:
   exclude: false
+tags:
+    - engine-type
+    - example
+    - Juvix
 ---
+
+!!! warning
+
+    This document is a work in progress. Please do not review it yet.
+    The filename should be probably changed to `auction.juvix.md`.
+
+??? info "Juvix imports"
+
+    ```juvix 
+    module tutorial.engines.engine-template-example;
+
+    import architecture-2.engines.basic-types open;
+    import tutorial.engines.base open;
+    ```
 
 # Auctioneer 
 
-```juvix hide
-module tutorial.engines.engine-template-example;
-import architecture-2.engines.basic-types open;
-```
+## Purpose
 
-## Purpose 
+The `AuctionEngine` implements Vickrey's second-price
+model[@heindel2024secondprice]. It manages the auction process by receiving
+bids, identifying the highest bid, and notifying the winning bidder of the
+second-highest bid.
 
-The Auctioneer is taking bids and announces the winner after the deadline has
-elapsed. The auctioneer is responsible for a single auction.
+<!-- Expect in the Juvix code two versions:
+First Version: Ignores deadlines.
+Second Version: Incorporates deadlines, halting bid acceptance after the deadline using a timer.
+The first diagram corresponds to the first version, while the rest are for the
+second version.
+-->
 
-## Auctioneer-specific types
+### AuctionEngine Local Environment
 
-```juvix
-LocalTypes : List Type := [
-  LocalState ;
-  Bid ;
-  Winner ;
-  Payment
-];
-```
+#### Local State Type
 
-### Local State
+The local state of the `AuctionEngine` includes:
 
-Keep track of whether the auction is started
-and whether the deadline has passed.
+- **bids**: A mapping from bidder [[Identity|identities]] to their bid amounts.
+- **winner**: The [[Identity|identity]] of the winning bidder.
+- **secondPrice**: The amount the winner has to pay.
 
 ```juvix
-type LocalState : Type := mkLocalState {
-  started : Bool;
-  deadline : Bool
+type AuctionLocalState := mkAuctionLocalState {
+  bids : Map ExternalID Natural;
+  winner : Maybe ExternalID;
+  secondPrice : Maybe Natural
 };
 ```
 
-### Message Types
+### Message types
 
-#### Bid
+The `AuctionEngine` processes the following message types:
 
-A bid is a pair of an external ID and an integer amount.
+- **Bid**: A message containing a bid from a bidder.
 
-```juvix
-type Bid : Type := mkBid {
-  bidder : ExternalID;
-  amount : Nat
-};
-```
+- **SecondPrice**: A message containing the second-highest bid amount.
 
-#### Second Price
-
-The second price is implicitly notifying the winner.
+- **PleasePay**: A message instructing the winning bidder to pay the
+  second-highest bid amount.
 
 ```juvix
-type Winner : Type := secondPrice {
-  price : Nat
-};
+type AuctionMessageType := Bid | SecondPrice | PleasePay;
 ```
 
-#### Payment
+#### Local Environment Type
+
+The local environment for the `AuctionEngine` includes the engine's identity,
+local state, time, timers, mailboxes, and acquaintances. See
+the [[Engine Type#local-environment|`EngineLocalEnv`]] type for the complete
+data structure.
 
 ```juvix
-type Payment : Type := pleasePay {
-  price : Nat
-};
+type AuctionEngineLocalEnv := EngineLocalEnv AuctionLocalState AuctionMessageType;
 ```
 
-## [Paradigmatic message sequence diagram] (optional)
+### Guarded Actions
 
+!!! note 
 
-```mermaid
-sequenceDiagram
-    participant Bidder1
-    participant Bidder2
-    participant Auctioneer
-    participant Clock
-    participant LateBidder
-	Bidder1-)Auctioneer: mkBid{Alice, 10}
-    Bidder2-)Auctioneer: mkBid{Anton, 11}
-	Clock-)Auctioneer: deadline
-	LateBidder-)Auctioneer: mkBid{Bob, 100}
-    par Finalize Auction
-		Auctioneer-)Bidder1: secondPrice{10}
-		Auctioneer-)Bidder2: secondPrice{10}
-    end
-	Auctioneer-)Bidder2: pleasePay{10}
-	opt we may be kind, but don't have to
-        Auctioneer-)LateBidder: late{}
-	end
-```
+    Before declaring all the guarded actions in the AuctioneerEngine, we need to define the state transition functions. Juvix processes declarations in a top-down order, requiring all symbols used in expressions to be previously declared.
 
-## _All_ "Conversation Partners" (Engine _types_)
+Next, we will define state transitions to handle each of the following tasks:
 
-### Conversation Diagram (optional)
+- submission of bids, and 
+- determination of the winner and second price.
 
-```mermaid
-erDiagram
-  Bidder }o--|| Auctioneer: mkBid
-  Auctioneer ||--o{ Bidder: secondPrice
-  Auctioneer ||--|| Clock: deadline
-```
+!!! todo
 
-### Bidder
-
-The bidder will send bids and wait for announcement of the winner.
+    J: working on this section and the one below. So adding Juvix terms soon, not typechecking atm. ;)
 
 ## Guarded Actions
 
-### Store Bid on ReceiveBid
+??? note "Store every bid sent in time."
 
-<details>
-  <summary>Store every bid sent in time.</summary>
-  <p> The engine keeps the message in the inbox. That's it. </p>
-</details> 
+    The engine keeps the message in the inbox. That's it.
 
-### Finalize Auction on Deadline Elapsed
 
 ??? note "Announce the winner and close the auction"
 
 	--8<-- "guarded-action-example.md:8"
 
+
+## Diagrams
+
+
+The figure below represents a simple interaction between an `AuctionEngine` instance and two bidders during an auction. No clock. Note that we refer to the instance by its type for simplicity.
+
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant AuctionEngine
+    participant Bidder1
+    participant Bidder2
+
+    Bidder1 ->> AuctionEngine: Send Bid (Bidder1: 100)
+    Note over AuctionEngine: Store Bid (Bidder1: 100)
+
+    Bidder2 ->> AuctionEngine: Send Bid (Bidder2: 150)
+    Note over AuctionEngine: Store Bid (Bidder2: 150)
+
+    AuctionEngine ->> AuctionEngine: Determine Winner and Second Price
+    Note over AuctionEngine: Highest Bid: 150 (Bidder2)
+    Note over AuctionEngine: Second Highest Bid: 100
+
+    AuctionEngine ->> Bidder2: Send SecondPrice (100)
+    AuctionEngine ->> Bidder2: Send PleasePay (100)
+```
+
+<figcaption markdown="span">
+Two bidders participate in an auction, with the `AuctionEngine` determining the winner and second price.
+</figcaption>
+</figure>
+
+In the above diagram, only two bidders are shown without a deadline. However, with local clocks, the following scenario includes three bidders, but a deadline restricts the third bidder's participation in the auction.
+
+<figure markdown="span">
+```mermaid
+sequenceDiagram
+    participant Bidder1
+    participant Bidder2
+    participant AuctionEngine
+    participant Clock
+    participant LateBidder
+
+    Bidder1 ->> AuctionEngine: mkBid{Alice, 10}
+    Note over AuctionEngine: Store Bid (Alice: 10)
+
+    Bidder2 ->> AuctionEngine: mkBid{Anton, 11}
+    Note over AuctionEngine: Store Bid (Anton: 11)
+
+    Clock ->> AuctionEngine: deadline
+    Note over AuctionEngine: Auction closed
+
+    LateBidder ->> AuctionEngine: mkBid{Bob, 100}
+    Note over AuctionEngine: Bid rejected (Auction closed)
+
+    par Finalize Auction
+        AuctionEngine ->> Bidder1: secondPrice{10}
+        AuctionEngine ->> Bidder2: secondPrice{10}
+    end
+
+    AuctionEngine ->> Bidder2: pleasePay{10}
+```
+<figcaption markdown="span">
+Three bidders participate in an auction with a deadline, where the third bidder's bid is rejected.
+</figcaption>
+</figure>
+
+## Conversation-partner Diagram
+
+<figure markdown="span">
+
+```mermaid
+erDiagram
+  Bidder }o--|| AuctionEngine: mkBid
+  AuctionEngine ||--o{ Bidder: secondPrice
+  AuctionEngine ||--|| Clock: deadline
+```
+
+<figcaption markdown="span">
+The conversation-partner diagram shows the interactions between the `AuctionEngine`, bidders, and the clock.
+</figcaption>
+
+</figure>

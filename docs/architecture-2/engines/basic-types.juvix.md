@@ -16,19 +16,19 @@ module architecture-2.engines.basic-types;
 
 import Stdlib.Prelude as Prelude;
 import Stdlib.Data.Product as Product;
-import Data.Map as Containers;
+import Data.Map as Containers open;
 ```
 
 ## Common types defined in external libraries
 
-The following are fundamental types provided by the Juvix standard library,
+The following are fundamental types provided by the Juvix standard library and others,
 which form the building blocks for more complex types in the architecture.
 
 - **Nat**: Represents natural numbers (non-negative integers). Used for counting
   and indexing.
 
 ```juvix
-Nat : Type := Prelude.Nat;
+Natural : Type := Prelude.Nat;
 ```
 
 - **Bool**: Represents boolean values (`true` or `false`). Used for logical
@@ -78,14 +78,22 @@ List (A : Type) : Type := Prelude.List A;
 Maybe (A : Type) : Type := Prelude.Maybe A;
 ```
 
-- **Map (K V)**: Represents a collection of key-value pairs, sometimes called dictionaryt, where keys are of
-  type `K` and values are of type `V`. 
+- **Map (K V)**: Represents a collection of key-value pairs, sometimes called
+  dictionary, where keys are of type `K` and values are of type `V`. 
 
 ```juvix
 Map (K V : Type) : Type := Containers.Map K V;
 ```
 
-## Proper types for the Anoma Specification
+## Proper terms and types for the Anoma Specification
+
+- **Undefined** is a placeholder for an undefined value. It is used to indicate
+  that a value is not yet defined or not applicable.
+
+```juvix
+axiom !undefined : {A : Type} -> A;
+```
+
 
 ### Network Identity types
 
@@ -99,26 +107,28 @@ and internal.
     the network, such as engines. So, the following types are subject to change.
     The main reference in the specs is precisely the section on [[Identity]].
 
-```juvix
-ExternalID : Type := Nat;
-```
 
 - **ExternalID**: A unique identifier for entities outside the system,
   represented as a natural number.
 
 ```juvix
-InternalID : Type := Nat;
+ExternalID : Type := Natural;
 ```
+
 
 - **InternalID**: A unique identifier for entities within the system, also
   represented as a natural number.
 
 ```juvix
-Identity : Type := Pair ExternalID InternalID;
+InternalID : Type := Natural;
 ```
 
 - **Identity**: A pair combining an `ExternalID` and an `InternalID`,
   representing the complete identity of an entity within the network.
+
+```juvix
+Identity : Type := Pair ExternalID InternalID;
+```
 
 ### Enveloped messages
 
@@ -174,12 +184,10 @@ Timer : Type := Pair Time Handler;
 ```
 
 - **Trigger**: An abstract type representing various events in the system, such
-as message arrivals, timer expirations, or other significant occurrences.
+as message arrivals, timer expirations, or other significant occurrences. The
+following definition is most inspired by the datatype of the same name [trigger in Formanoma](https://github.com/anoma/formanoma/blob/84456645fad5f75c7b382831012d5d7f0d1f1dac/Types/Engine.thy#L8-L17
 
-```juvix
-axiom Trigger : Type;
-```
-
+).
 !!! todo
 
     The `Trigger` type should be defined in more detail, as briefly explained in
@@ -187,9 +195,12 @@ axiom Trigger : Type;
 
 
 ```juvix
--- type Trigger (Msg BoxID ExtID Name Handle : Type) : Type := 
---   | Msg (msg : EnvelopedMessage Msg BoxID ExtID Name)
---   | Elapsed (timers : List Handle);
+type Trigger (MessageType : Type)  := 
+  | MessageArrived
+    { message : Message MessageType;
+      boxID : MailboxID ;
+      extID : ExternalID } 
+  | Elapsed {  timers : List Timer };
 ```
 
 ### Node State
