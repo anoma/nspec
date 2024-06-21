@@ -48,8 +48,8 @@ axiom primGetEngineLocalStateType : ExternalID -> Type;
 ```juvix
 axiom 
   engineInstanceSpawn
-    : (engineIdentity : ExternalID)
-    -> (initialState : primGetEngineLocalStateType engineIdentity)
+    : (engineInstanceIdentity : ExternalID)
+    -> (initialState : primGetEngineLocalStateType engineInstanceIdentity)
     -> (spawnTime : Time)
     -> Unit;
 ```
@@ -70,33 +70,32 @@ The local environment comprises static information in the following categories:
 - Identity of the engine
 - Local state of the engine instance
 - Local time
-- A list of mailboxes storing received messages
+- A mapping of MIDs (mailbox IDs) to mailboxes
 - A list of timers set by the engine instance
 - A list of engines spawned by the engine instance (acquaintances or conversion
   partners)
 
-<!-- As part of the local state, we have specific-types. Not sure if it's useful to have that info seperately. -->
-
-
 ```juvix
-
-
-type EngineLocalEnv (LocalState : Type) := mkEngineLocalEnv {
-  engineIdentity : Identity;
-  localState : LocalState;
-  localTime : Time;
-  timers : List Timer;
-  mailboxCluster : Map MailboxID Mailbox;
-  acquaintances : List Name;  -- names of engines
+type EngineLocalEnv (LocalState : Type) (MessageType : Type) 
+  := mkEngineLocalEnv {
+      engineInstanceIdentity : Identity;
+      localState : LocalState;
+      localTime : Time;
+      timers : List Timer;
+      mailboxCluster : Map MailboxID (Mailbox MessageType);
+      acquaintances : List Name;  -- names of engines
 };
 ```
+
+!!! info
+
 
 ## State Transition Functions
 
 ```juvix
-StateTransition (EngineLocalState : Type) : Type := 
-  StateTransitionArguments EngineLocalState 
-    -> StateTransitionResult EngineLocalState;
+StateTransition (EngineLocalState : Type) (MessageType : Type) : Type :=
+  StateTransitionArguments EngineLocalState MessageType
+    -> StateTransitionResult EngineLocalState MessageType;
 ```
 
 Define the arguments and results for state transition functions:
@@ -104,9 +103,9 @@ Define the arguments and results for state transition functions:
 ### State Transition Arguments
 
 ```juvix
-type StateTransitionArguments (EngineLocalState : Type) := mkStateTransitionArguments {
+type StateTransitionArguments (EngineLocalState : Type) (MessageType : Type) := mkStateTransitionArguments {
   state : State;
-  localEnvironment : EngineLocalEnv EngineLocalState;
+  localEnvironment : EngineLocalEnv EngineLocalState MessageType;
   trigger : Trigger;
   time : Time; -- The time at which the state transition is triggered
 };
@@ -117,11 +116,11 @@ type StateTransitionArguments (EngineLocalState : Type) := mkStateTransitionArgu
 ### State Transition Result
 
 ```juvix
-type StateTransitionResult (EngineLocalState : Type)
+type StateTransitionResult (EngineLocalState : Type) (MessageType : Type)
   := mkStateTransitionResult {
   state : State;
-  localEnvironment : EngineLocalEnv EngineLocalState;
-  producedMessages : Mailbox; -- The set of messages to be sent
+  localEnvironment : EngineLocalEnv EngineLocalState MessageType;
+  producedMessages : Mailbox MessageType; -- The set of messages to be sent
   timers : List Timer;
   spawnedEngines : List (Pair ExternalID EngineLocalState); 
 };
@@ -154,9 +153,9 @@ A guarded action consist of a _guard_ and an _action_. The guard is a
     
 
 ```juvix
-type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
-  guard : {T : Type} -> EngineLocalEnv EngineLocalState -> Maybe T;
-  action : {T : Type} -> T -> StateTransition EngineLocalState
+type GuardedAction (EngineLocalState : Type) (MessageType : Type) := mkGuardedAction {
+  guard : {T : Type} -> EngineLocalEnv EngineLocalState MessageType -> Maybe T;
+  action : {T : Type} -> T -> StateTransition EngineLocalState MessageType
 };
 ```
 
@@ -178,9 +177,9 @@ type GuardedAction (EngineLocalState : Type) := mkGuardedAction {
 
 
 ```juvix
-type EngineType (EngineLocalState : Type) := mkEngineType {
-   localEnvironment : EngineLocalEnv EngineLocalState;
-   guardedActions : List (GuardedAction EngineLocalState)
+type EngineType (EngineLocalState : Type) (MessageType : Type) := mkEngineType {
+   localEnvironment : EngineLocalEnv EngineLocalState MessageType;
+   guardedActions : List (GuardedAction EngineLocalState MessageType)
 };
 ```
 

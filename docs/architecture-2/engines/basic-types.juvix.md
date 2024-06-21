@@ -5,6 +5,12 @@ search:
   boost: 2
 ---
 
+!!! todo
+
+    This module should be probably move to architecture-2.basic-types folder (?)
+    Also, we might need to split it in two: Prelude and BaseTypes modules.
+
+
 ```juvix
 module architecture-2.engines.basic-types;
 
@@ -13,10 +19,10 @@ import Stdlib.Data.Product as Product;
 import Data.Map as Containers;
 ```
 
-## Common types defined in the standard library
+## Common types defined in external libraries
 
-These are fundamental types provided by the standard library, which form the
-building blocks for more complex types in the architecture.
+The following are fundamental types provided by the Juvix standard library,
+which form the building blocks for more complex types in the architecture.
 
 - **Nat**: Represents natural numbers (non-negative integers). Used for counting
   and indexing.
@@ -71,14 +77,15 @@ List (A : Type) : Type := Prelude.List A;
 ```juvix
 Maybe (A : Type) : Type := Prelude.Maybe A;
 ```
+
+- **Map (K V)**: Represents a collection of key-value pairs, sometimes called dictionaryt, where keys are of
+  type `K` and values are of type `V`. 
+
 ```juvix
 Map (K V : Type) : Type := Containers.Map K V;
 ```
-- **Map (K V)**: Represents a collection of key-value pairs, where keys are of
-  type `K` and values are of type `V`. Used for associative arrays or
-  dictionaries.
 
-## Common types defined in the architecture
+## Proper types for the Anoma Specification
 
 ### Network Identity types
 
@@ -90,22 +97,26 @@ and internal.
     There is an ongoing discussion about cryptographic identities and how they
     should be represented in the system, and used for representing entities in
     the network, such as engines. So, the following types are subject to change.
+    The main reference in the specs is precisely the section on [[Identity]].
 
 ```juvix
 ExternalID : Type := Nat;
 ```
+
 - **ExternalID**: A unique identifier for entities outside the system,
   represented as a natural number.
 
 ```juvix
 InternalID : Type := Nat;
 ```
+
 - **InternalID**: A unique identifier for entities within the system, also
   represented as a natural number.
 
 ```juvix
 Identity : Type := Pair ExternalID InternalID;
 ```
+
 - **Identity**: A pair combining an `ExternalID` and an `InternalID`,
   representing the complete identity of an entity within the network.
 
@@ -118,18 +129,16 @@ message content and managing mailboxes.
   message with its type and content[@special-delivery-mailbox-types-2023].
 
 ```juvix
-MessageType : Type := Type;
-Documment : Type := String;
+MessageContent : Type := String;
 
-
-Message : Type := Pair MessageType Documment;
+Message (MessageType : Type) : Type := Pair MessageType MessageContent;
 ```
 
 - **Mailbox**: A list of messages. It represents a collection of messages
   waiting to be processed.
 
 ```juvix
-Mailbox : Type := List Message;
+Mailbox (MessageType : Type) : Type := List (Message MessageType);
 ```
 
 Mailboxes are indexed by their unique identifier, for
@@ -177,20 +186,11 @@ axiom Trigger : Type;
     https://anoma.github.io/nspec/pr-84/tutorial/engines/index.html#inputs-of-a-transition-function 
 
 
-    ```isabelle
-    datatype (
-        'msg, (* message contents/payload *)
-        'box_id:: countable, (* mailbox ids *)
-        'ext_id:: countable, (* external ids *)
-        'name::countable, (* name of an engine *)
-        'handle:: countable (* timer handles ≃ names for timers*)
-        ) trigger =
-      Msg
-        (msg: "('msg, 'box_id, 'ext_id, 'name) enveloped_message")
-        | 
-      Elapsed
-        (timers: "'handle fset") (* must be non-empty*)
-    ```
+```juvix
+-- type Trigger (Msg BoxID ExtID Name Handle : Type) : Type := 
+--   | Msg (msg : EnvelopedMessage Msg BoxID ExtID Name)
+--   | Elapsed (timers : List Handle);
+```
 
 ### Node State
 
