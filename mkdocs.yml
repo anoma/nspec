@@ -362,23 +362,25 @@ nav:
 
   - Application Architecture:
     - ./application-architecture/index.md
-    - Definitions: ./application-architecture/definitions.md
-    - Patterns:
-      - ./application-architecture/patterns/index.md
-      - Counter:
-        - ./application-architecture/patterns/counter.md
-      - Dynamic code loading:
-        - ./application-architecture/patterns/dynamic-code-loading.md
+    - Definitions:
+      - ./application-architecture/definitions/index.md
+    - Techniques:
+      - ./application-architecture/techniques/index.md
+      - Dynamic code loading: ./application-architecture/techniques/dynamic-code-loading.md
+      - Schelling tests: ./application-architecture/techniques/schelling-tests.md
     - Primitives:
         - ./application-architecture/primitives/index.md
         - Tokens: ./application-architecture/primitives/tokens.md
         - Attestation: ./application-architecture/primitives/attestation.md
         - Authorization: ./application-architecture/primitives/authorization.md
+        - Counter: ./application-architecture/primitives/counter.md
+        - Schelling tests: ./application-architecture/primitives/schelling-tests.md
     - System applications:
-      - ./application-architecture/system-applications.md
+      - ./application-architecture/system-applications/index.md
       - Proof-of-stake: ./application-architecture/system-applications/proof-of-stake.md
-    - Scale-free kudos: ./application-architecture/kudos.md
-    - Schelling tests: ./application-architecture/schelling-tests.md
+    - Archetypal applications:
+      - ./application-architecture/archetypal-applications/index.md
+      - Kudos: ./application-architecture/archetypal-applications/kudos.md
 
   - Concrete Implementation:
     - Data encoding: ./concrete-implementation/data-encoding.md

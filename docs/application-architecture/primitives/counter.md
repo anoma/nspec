@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Counter application
+# Counter
 
 This example describes the mechanics of counters associated with a specific controller, implemented in a resource model.
 

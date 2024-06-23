@@ -1,4 +1,11 @@
-### Dynamic code loading
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
+# Dynamic code loading
 
 In general, code can be stored in the standard content-addressed storage. In order to retrieve code whose identity is known ahead of time (e.g. a standard library), this should be sufficient. In order to retrieve code dynamically (likely with rules on how it can be changed), a resource index lookup is necessary. A particular denomination can be associated with a series of resources, each representing successive versions of code and containing a reference to the code hash, with rules as desired governing how the code associated with this name can be changed.
 
