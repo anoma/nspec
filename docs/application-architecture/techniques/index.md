@@ -10,3 +10,4 @@ search:
 This section includes techniques which can be used by any application.
 
 - [Dynamic code loading](./dynamic-code-loading.md)
+- [Schelling tests](./schelling-tests.md)

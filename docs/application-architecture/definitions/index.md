@@ -1,3 +1,12 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
+# Definitions
+
 Applications are characterised by a set of resource logics and a set of transaction functions.
 
 $Application = (ApplicationLogic, ApplicationInterface)$, where
