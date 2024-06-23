@@ -29,7 +29,8 @@ nav:
       - Identity: ./basic-types/data-structures/identity.md
       - Resource: ./basic-types/data-structures/resource.md
       - Transaction: ./basic-types/data-structures/transaction.md
-    - Serialisation: ./basic-types/serialisation.md
+    - Serialisation:
+      - ./basic-types/serialisation/index.md
 
   - Protocol Architecture:
     - ./architecture/index.md
@@ -374,7 +375,6 @@ nav:
         - Attestation: ./application-architecture/primitives/attestation.md
         - Authorization: ./application-architecture/primitives/authorization.md
         - Counter: ./application-architecture/primitives/counter.md
-        - Schelling tests: ./application-architecture/primitives/schelling-tests.md
     - System applications:
       - ./application-architecture/system-applications/index.md
       - Proof-of-stake: ./application-architecture/system-applications/proof-of-stake.md
