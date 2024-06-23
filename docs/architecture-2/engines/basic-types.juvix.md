@@ -57,6 +57,12 @@ or
 Label : Type := Prelude.String;
 ```
 
+and more specific for [[Engines in Anoma]]:
+
+```juvix
+EngineLabel : Type := Prelude.String
+```
+
 - **Unit**: Represents a type with a single value. Often used when a function
   does not return any meaningful value.
 
@@ -225,3 +231,4 @@ engine's state transition functions.
 ```juvix
 axiom State : Type; 
 ```
+

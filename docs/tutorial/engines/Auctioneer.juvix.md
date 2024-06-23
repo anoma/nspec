@@ -16,17 +16,18 @@ tags:
 ??? info "Juvix imports"
 
     ```juvix 
-    module tutorial.engines.engine-template-example;
+    module tutorial.engines.Auctioneer;
 
     import architecture-2.engines.basic-types open;
-    import tutorial.engines.base open;
+    import architecture-2.engines.base as Engine;
+    open Engine using {mkGuardedAction ; mkEngine};
     ```
 
 # Auctioneer 
 
 ## Purpose
 
-The `AuctionEngine` implements Vickrey's second-price
+The `AuctioneerEngine` implements Vickrey's second-price
 model[@heindel2024secondprice]. It manages the auction process by receiving
 bids, identifying the highest bid, and notifying the winning bidder of the
 second-highest bid.
@@ -38,18 +39,18 @@ The first diagram corresponds to the first version, while the rest are for the
 second version.
 -->
 
-### AuctionEngine Local Environment
+### AuctioneerEngine Local Environment
 
 #### Local State Type
 
-The local state of the `AuctionEngine` includes:
+The local state of the `AuctioneerEngine` includes:
 
 - **bids**: A mapping from bidder [[Identity|identities]] to their bid amounts.
 - **winner**: The [[Identity|identity]] of the winning bidder.
 - **secondPrice**: The amount the winner has to pay.
 
 ```juvix
-type AuctionLocalState := mkAuctionLocalState {
+type LocalStateType : Type := mkLocalStateType {
   bids : Map ExternalID Natural;
   winner : Maybe ExternalID;
   secondPrice : Maybe Natural
@@ -58,7 +59,7 @@ type AuctionLocalState := mkAuctionLocalState {
 
 ### Message types
 
-The `AuctionEngine` processes the following message types:
+The `AuctioneerEngine` processes the following message types:
 
 - **Bid**: A message containing a bid from a bidder.
 
@@ -68,21 +69,27 @@ The `AuctionEngine` processes the following message types:
   second-highest bid amount.
 
 ```juvix
-type AuctionMessageType := Bid | SecondPrice | PleasePay;
+type MessageType := Bid | SecondPrice | PleasePay;
 ```
 
 #### Local Environment Type
 
-The local environment for the `AuctionEngine` includes the engine's identity,
+The local environment for the `AuctioneerEngine` includes the engine's identity,
 local state, time, timers, mailboxes, and acquaintances. See
 the [[Engine Type#local-environment|`EngineLocalEnv`]] type for the complete
 data structure.
 
 ```juvix
-AuctionEngineLocalEnv : Type := EngineLocalEnv AuctionLocalState AuctionMessageType;
+LocalEnvironment : Type := Engine.LocalEnvironment  LocalStateType MessageType;
 ```
 
 ### Guarded Actions
+
+To refer us to the Auctioneer engine's actions, we define the following type:
+
+```juvix
+GuardedAction : Type := Engine.GuardedAction LocalStateType MessageType;
+```
 
 !!! note 
 
@@ -98,14 +105,13 @@ Next, we will define state transitions to handle each of the following tasks:
 
     J: working on this section and the one below. So adding Juvix terms soon, not typechecking atm. ;)
 
-## Guarded Actions
 
 ??? note "Store every bid sent in time."
 
     The engine keeps the message in the inbox. That's it.
 
     ```juvix
-    storeBid : GuardedAction AuctionLocalState AuctionMessageType := mkGuardedAction@{
+    storeBid : GuardedAction := mkGuardedAction@{
       guard := \ {_ :=  !undefined} ;
         -- if Map.member "BidMailbox" env.mailboxCluster ??
         -- then Just () 
@@ -118,7 +124,7 @@ Next, we will define state transitions to handle each of the following tasks:
 ??? note "Determine the winner and second price."
 
     ```juvix
-    determineWinnerAndSecondPrice : GuardedAction AuctionLocalState AuctionMessageType := mkGuardedAction@{
+    determineWinnerAndSecondPrice : GuardedAction := mkGuardedAction@{
       guard := \ {_ :=  !undefined} ;
         -- if Map.size env.localState.bids > 1 
         -- then Just () 
@@ -130,7 +136,7 @@ Next, we will define state transitions to handle each of the following tasks:
 ??? note "Finalise the auction"
 
     ```juvix
-    finaliseAuction : GuardedAction AuctionLocalState AuctionMessageType := mkGuardedAction@{
+    finaliseAuction : GuardedAction := mkGuardedAction@{
       guard := \ {_ :=  !undefined} ;
         -- if Map.size env.localState.bids > 1 
         -- then Just () 
@@ -139,99 +145,93 @@ Next, we will define state transitions to handle each of the following tasks:
     };
     ```
 
+## Auctioneer Engine Setup
+
+To set up the `Auctioneer` engine in Juvix, we initialize it with a local environment and specific actions:
 
 ```juvix
-auctionGuardedActions : List (GuardedAction AuctionLocalState AuctionMessageType) :=
-  [
-    storeBid ;
-    determineWinnerAndSecondPrice;
-    finaliseAuction
-  ];
-```
-
-### Define the Auction Engine
-
-We define the auction engine with its local environment and guarded actions.
-
-```juvix
-AuctionEngineType : EngineType AuctionLocalState AuctionMessageType  := mkEngineType@{
-  localEnvironment := mkEngineLocalEnv@{
-    engineInstanceIdentity := !undefined;
-    localState := mkAuctionLocalState@{
-      bids := !undefined; -- Map.empty,
-      winner := !undefined; -- Nothing
-      secondPrice := !undefined -- Nothing
+spawnEngine (l : LocalEnvironment) : Engine.Engine LocalStateType MessageType :=
+  mkEngine @{
+    localEnvironment := l;
+    guardedActions := [
+      storeBid;
+      determineWinnerAndSecondPrice;
+      finaliseAuction
+      ]
     };
-    localTime := !undefined; -- 0?
-    timers := [];
-    mailboxCluster := !undefined; -- Map.singleton "BidMailbox" [];
-    acquaintances := !undefined -- No acquaintances
-  };
-  guardedActions := auctionGuardedActions
-};
 ```
+
+In this setup:
+- **localEnvironment**: Initializes the engine's environment.
+- **guardedActions**: Lists the actions like `storeBid`, `determineWinnerAndSecondPrice`, and `finaliseAuction`.
+
 
 ## Diagrams
 
 
-The figure below represents a simple interaction between an `AuctionEngine` instance and two bidders during an auction. No clock. Note that we refer to the instance by its type for simplicity.
+The figure below represents a simple interaction between an `AuctioneerEngine`
+instance and two bidders during an auction. No clock. Note that we refer to the
+instance by its type for simplicity.
 
 <figure markdown="span">
 
 ```mermaid
 sequenceDiagram
-    participant AuctionEngine
+    participant AuctioneerEngine
     participant Bidder1
     participant Bidder2
 
-    Bidder1 ->> AuctionEngine: Send Bid (Bidder1: 100)
-    Note over AuctionEngine: Store Bid (Bidder1: 100)
+    Bidder1 ->> AuctioneerEngine: Send Bid (Bidder1: 100)
+    Note over AuctioneerEngine: Store Bid (Bidder1: 100)
 
-    Bidder2 ->> AuctionEngine: Send Bid (Bidder2: 150)
-    Note over AuctionEngine: Store Bid (Bidder2: 150)
+    Bidder2 ->> AuctioneerEngine: Send Bid (Bidder2: 150)
+    Note over AuctioneerEngine: Store Bid (Bidder2: 150)
 
-    AuctionEngine ->> AuctionEngine: Determine Winner and Second Price
-    Note over AuctionEngine: Highest Bid: 150 (Bidder2)
-    Note over AuctionEngine: Second Highest Bid: 100
+    AuctioneerEngine ->> AuctioneerEngine: Determine Winner and Second Price
+    Note over AuctioneerEngine: Highest Bid: 150 (Bidder2)
+    Note over AuctioneerEngine: Second Highest Bid: 100
 
-    AuctionEngine ->> Bidder2: Send SecondPrice (100)
-    AuctionEngine ->> Bidder2: Send PleasePay (100)
+    AuctioneerEngine ->> Bidder2: Send SecondPrice (100)
+    AuctioneerEngine ->> Bidder2: Send PleasePay (100)
 ```
 
 <figcaption markdown="span">
-Two bidders participate in an auction, with the `AuctionEngine` determining the winner and second price.
+Two bidders participate in an auction, with the `AuctioneerEngine` determining 
+the winner and second price.
 </figcaption>
 </figure>
 
-In the above diagram, only two bidders are shown without a deadline. However, with local clocks, the following scenario includes three bidders, but a deadline restricts the third bidder's participation in the auction.
+In the above diagram, only two bidders are shown without a deadline. However,
+with local clocks, the following scenario includes three bidders, but a deadline
+restricts the third bidder's participation in the auction.
 
 <figure markdown="span">
 ```mermaid
 sequenceDiagram
     participant Bidder1
     participant Bidder2
-    participant AuctionEngine
+    participant AuctioneerEngine
     participant Clock
     participant LateBidder
 
-    Bidder1 ->> AuctionEngine: mkBid{Alice, 10}
-    Note over AuctionEngine: Store Bid (Alice: 10)
+    Bidder1 ->> AuctioneerEngine: mkBid{Alice, 10}
+    Note over AuctioneerEngine: Store Bid (Alice: 10)
 
-    Bidder2 ->> AuctionEngine: mkBid{Anton, 11}
-    Note over AuctionEngine: Store Bid (Anton: 11)
+    Bidder2 ->> AuctioneerEngine: mkBid{Anton, 11}
+    Note over AuctioneerEngine: Store Bid (Anton: 11)
 
-    Clock ->> AuctionEngine: deadline
-    Note over AuctionEngine: Auction closed
+    Clock ->> AuctioneerEngine: deadline
+    Note over AuctioneerEngine: Auction closed
 
-    LateBidder ->> AuctionEngine: mkBid{Bob, 100}
-    Note over AuctionEngine: Bid rejected (Auction closed)
+    LateBidder ->> AuctioneerEngine: mkBid{Bob, 100}
+    Note over AuctioneerEngine: Bid rejected (Auction closed)
 
     par Finalize Auction
-        AuctionEngine ->> Bidder1: secondPrice{10}
-        AuctionEngine ->> Bidder2: secondPrice{10}
+        AuctioneerEngine ->> Bidder1: secondPrice{10}
+        AuctioneerEngine ->> Bidder2: secondPrice{10}
     end
 
-    AuctionEngine ->> Bidder2: pleasePay{10}
+    AuctioneerEngine ->> Bidder2: pleasePay{10}
 ```
 <figcaption markdown="span">
 Three bidders participate in an auction with a deadline, where the third bidder's bid is rejected.
@@ -244,13 +244,14 @@ Three bidders participate in an auction with a deadline, where the third bidder'
 
 ```mermaid
 erDiagram
-  Bidder }o--|| AuctionEngine: mkBid
-  AuctionEngine ||--o{ Bidder: secondPrice
-  AuctionEngine ||--|| Clock: deadline
+  Bidder }o--|| AuctioneerEngine: mkBid
+  AuctioneerEngine ||--o{ Bidder: secondPrice
+  AuctioneerEngine ||--|| Clock: deadline
 ```
 
 <figcaption markdown="span">
-The conversation-partner diagram shows the interactions between the `AuctionEngine`, bidders, and the clock.
+The conversation-partner diagram shows the interactions between the `AuctioneerEngine`, bidders,
+and the clock.
 </figcaption>
 
 </figure>

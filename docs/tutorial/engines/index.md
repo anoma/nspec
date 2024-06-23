@@ -103,7 +103,9 @@ at any given moment (in local time):
 - the current time[^7]<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L210-->
 
-These types are formalized as a [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
+These types are formalized as a [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).
+
+<!--
 link will need updating 
 -->
 The engine's identity is unchangeable,
@@ -113,7 +115,7 @@ after transitions functions are properly introduced.
 
 ## On transition functions of engine instances
 
-The anoma specification uses pure functions to describe
+The Anoma Specification uses pure functions to describe
 the atomic computation that each engine instance performs 
 when a new message or notification from the local clock is received;
 moreover,
@@ -188,7 +190,7 @@ the transition function may decide to set new timers
 and "remove" old timers.
 As each timer has an engine-local handle,
 this amounts to updating the map of local timers, 
-cancelling superseeded timers and
+cancelling superseded timers and
 adding new timers.
 Handles should only be used once during the life-time of 
 an engine instance.
@@ -205,14 +207,14 @@ and the newly spawned instance are children.
 The following data need to be given for a newly spawned engine.
 
 - the _initial state_ that the child engine instance
-  (the one it will be in when  it receives the first trigger)
+  (the one it will be in when it receives the first trigger)
 - a _name_,
   unique throughout the life-time of the parent engine instance. 
 
 The engine instance will become "alive" 
 after the current execution of the transition function.
 
-The engine allows to address messages to
+The engine allows addressing messages to
 the engine to be spawned (before it is alive),
 which brings us to the next point.
 
@@ -249,7 +251,7 @@ are a second kind of interaction,
 and it is made possible by providing users with a finite number of choice at a time.
 Finally, 
 there may be a mix of inputs and randomness.
-For example and engine may generate a random user name and 
+For example and engine may generate a random username and 
 the user is asked to accept or choose it manually.
 
 In summary,
