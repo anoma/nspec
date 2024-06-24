@@ -80,7 +80,7 @@ the [[Engine Type#local-environment|`EngineLocalEnv`]] type for the complete
 data structure.
 
 ```juvix
-LocalEnvironment : Type := Engine.LocalEnvironment  LocalStateType MessageType;
+LocalEnvironment : Type := Engine.LocalEnvironment LocalStateType MessageType;
 ```
 
 ### Guarded Actions
@@ -93,7 +93,9 @@ GuardedAction : Type := Engine.GuardedAction LocalStateType MessageType;
 
 !!! note 
 
-    Before declaring all the guarded actions in the AuctioneerEngine, we need to define the state transition functions. Juvix processes declarations in a top-down order, requiring all symbols used in expressions to be previously declared.
+    Before declaring all the guarded actions in the AuctioneerEngine, we need to
+    define the state transition functions. Juvix processes declarations in a
+    top-down order, requiring all symbols used in expressions to be previously declared.
 
 Next, we will define state transitions to handle each of the following tasks:
 
@@ -145,31 +147,31 @@ Next, we will define state transitions to handle each of the following tasks:
     };
     ```
 
-## Auctioneer Engine Setup
-
-To set up the `Auctioneer` engine in Juvix, we initialize it with a local environment and specific actions:
+List of guarded actions:
 
 ```juvix
-spawnEngine (l : LocalEnvironment) : Engine.Engine LocalStateType MessageType :=
-  mkEngine @{
-    localEnvironment := l;
-    guardedActions := [
-      storeBid;
-      determineWinnerAndSecondPrice;
-      finaliseAuction
-      ]
-    };
+actions : List GuardedAction := 
+  [storeBid; determineWinnerAndSecondPrice; finaliseAuction];
 ```
 
-In this setup:
-- **localEnvironment**: Initializes the engine's environment.
-- **guardedActions**: Lists the actions like `storeBid`, `determineWinnerAndSecondPrice`, and `finaliseAuction`.
 
+## Auctioneer Engine Setup
+
+To instantiate an Auctioneer Engine, provide a local environment as input to the
+`init` function defined in this Auctioneer Juvix module.
+
+```juvix
+init (l : LocalEnvironment) : Engine.Engine LocalStateType MessageType :=
+  mkEngine @{
+    localEnvironment := l;
+    guardedActions := actions
+    };
+```
 
 ## Diagrams
 
 
-The figure below represents a simple interaction between an `AuctioneerEngine`
+The figure below represents a simple interaction between an `Auctioneer` engine
 instance and two bidders during an auction. No clock. Note that we refer to the
 instance by its type for simplicity.
 
