@@ -18,8 +18,32 @@ nav:
   - Basic Types:
     - ./basic-types/index.md
     - Identity: ./basic-types/identity.md
-    - Resource: ./basic-types/resource.md
-    - Resource Machine: ./basic-types/resource-machine.md
+    - Resource Machine: 
+      - Introduction: ./basic-types/resource-machine/introduction.md
+      - Resource: 
+        - Definition: ./basic-types/resource-machine/resource/definition.md
+        - Computable components:
+          - Introduction: ./basic-types/resource-machine/resource/computable-components/introduction.md
+          - Commitment: ./basic-types/resource-machine/resource/computable-components/commitment.md
+          - Nullifier: ./basic-types/resource-machine/resource/computable-components/nullifier.md
+          - Kind: ./basic-types/resource-machine/resource/computable-components/kind.md
+          - Delta: ./basic-types/resource-machine/resource/computable-components/delta.md
+        - Non-linear resources: ./basic-types/resource-machine/resource/non-linear-resources.md
+      - Proving system: ./basic-types/resource-machine/proving-system.md
+      - Roles and requirements: ./basic-types/resource-machine/roles-and-requirements.md
+      - Transaction: ./basic-types/resource-machine/transaction.md
+      - Resource machine:
+        - Definition: ./basic-types/resource-machine/rm-def/definition.md
+        - Functions: ./basic-types/resource-machine/rm-def/functions.md
+        - Stored data format: ./basic-types/resource-machine/rm-def/storage.md
+      - Program formats: 
+        - Transaction function: ./basic-types/resource-machine/program-formats/transaction-function.md
+        - Resource logic: ./basic-types/resource-machine/program-formats/resource-logic.md
+        - Preference function: ./basic-types/resource-machine/program-formats/preference-function.md
+        - Nockma: ./basic-types/resource-machine/program-formats/nockma.md
+      - Applications: ./basic-types/resource-machine/applications.md
+      - Examples: ./basic-types/resource-machine/examples.md
+
 
   - Protocol Architecture:
     - ./architecture/index.md
