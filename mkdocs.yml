@@ -391,6 +391,11 @@ nav:
       - Nockma: ./concrete-implementation/function-encoding/nockma.md
       - Cairo: ./concrete-implementation/function-encoding/cairo.md
       - RISC0: ./concrete-implementation/function-encoding/risc0.md
+    - Hash encoding:
+      - ./concrete-implementation/hash-encoding/index.md
+      - SHA3: ./concrete-implementation/hash-encoding/sha3.md
+    - Proof encoding:
+      - ./concrete-implementation/proof-encoding/index.md
     - Resource machine backends: ./concrete-implementation/resource-machine-backends.md
 
   - Indexes:
