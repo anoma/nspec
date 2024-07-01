@@ -383,11 +383,15 @@ nav:
       - Kudos: ./application-architecture/archetypal-applications/kudos.md
 
   - Concrete Implementation:
-    - Data encoding: ./concrete-implementation/data-encoding.md
-    - Resource machine backends:  ./concrete-implementation/resource-machine-backends.md
-    - Nockma: ./concrete-implementation/nockma.md
-    - Cairo: ./concrete-implementation/cairo.md
-    - RISC0: ./concrete-implementation/risc0.md
+    - Data encoding:
+      - ./concrete-implementation/data-encoding/index.md
+      - SSZ: ./concrete-implementation/data-encoding/ssz.md
+    - Function encoding:
+      - ./concrete-implementation/function-encoding/index.md
+      - Nockma: ./concrete-implementation/function-encoding/nockma.md
+      - Cairo: ./concrete-implementation/function-encoding/cairo.md
+      - RISC0: ./concrete-implementation/function-encoding/risc0.md
+    - Resource machine backends: ./concrete-implementation/resource-machine-backends.md
 
   - Indexes:
     - ./indexes/index.md

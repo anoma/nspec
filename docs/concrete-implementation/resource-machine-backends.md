@@ -13,9 +13,11 @@ search:
 
     Explain abstractly what a transaction function does.
 
-Currently, the following transaction function instruction sets must be supported:
+Transaction functions are encoded with the [standard function encoding](./function-encoding.md).
 
-- [Nockma](./nockma.md)
+The following transaction function virtual machines must be supported:
+
+- [Nockma](./function-encoding/nockma.md)
 
 ## Resource logics
 
@@ -23,8 +25,10 @@ Currently, the following transaction function instruction sets must be supported
 
     Explain abstractly what a resource logic backend does.
   
-Currently, the following resource logic instruction sets must be supported:
+Resource logics are encoded with the [standard function encoding](./function-encoding.md).
 
-- [Nockma](./nockma.md)
-- [Cairo](./cairo.md)
-- [RISC0](./risc0.md)
+The following resource logic virtual machines must be supported:
+
+- [Nockma](./function-encoding/nockma.md)
+- [Cairo](./function-encoding/cairo.md)
+- [RISC0](./function-encoding/risc0.md)
