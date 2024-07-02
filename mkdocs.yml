@@ -397,8 +397,6 @@ nav:
     - Proof encoding:
       - ./concrete-implementation/proof-encoding/index.md
     - Resource machine backends: ./concrete-implementation/resource-machine-backends.md
-    - Transport address encoding:
-      - ./concrete-implementation/transport-address-encoding/index.md
 
   - Indexes:
     - ./indexes/index.md
