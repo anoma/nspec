@@ -44,7 +44,7 @@ A proof $\pi$ for which $Verify(pr) = 1$ is considered valid.
 
 ### Proving system properties
 
-A proving system used to produce the ARM proofs should have the following properties (as defined in \cite{thaler}):
+A proving system used to produce the ARM proofs should have the following properties (as defined [here](https://people.cs.georgetown.edu/jthaler/ProofsArgsAndZK.pdf)):
 
 - *Completeness*. This property states that any true statement should have a convincing proof of its validity.
 - *Soundness*. This property states that no false statement should have a convincing proof.

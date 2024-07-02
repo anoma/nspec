@@ -41,7 +41,7 @@ Application extension is a way to generate a new application starting from an ex
 
 ## Distributed application state synchronisation
 
-In [the controllers report](), a controller is defined as a component that
+In [the controllers report](https://doi.org/10.5281/zenodo.10498997), a controller is defined as a component that
 orders transactions. The resource machine is designed to work in both
 single-controller and multi-controller environments, such as Anoma. In the
 context of multi-controller environments, each resource contains information

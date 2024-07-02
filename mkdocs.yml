@@ -42,7 +42,6 @@ nav:
         - Preference function: ./basic-types/resource-machine/program-formats/preference-function.md
         - Nockma: ./basic-types/resource-machine/program-formats/nockma.md
       - Applications: ./basic-types/resource-machine/applications.md
-      - Examples: ./basic-types/resource-machine/examples.md
 
 
   - Protocol Architecture:
