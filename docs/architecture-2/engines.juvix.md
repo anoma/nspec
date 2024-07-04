@@ -29,15 +29,13 @@ tags:
     import tutorial.engines.Auctioneer as Auctioneer;
     ```
 
-# Engines
+# Engine Families
 
-Anoma's implementation consists of various _engines_ family. 
-Each family serves on specific purpose such as ordering and consensus tasks.
-At the core, an _engine_ is a computational process with local state and behaviour defined via guarded actions. More details can be found in the [[Engine in Anoma|Engine in Anoma's tutorial]].
+Anoma's implementation consists of various _engines_ families.
+Each family serves a specific purpose, such as consensus tasks.
+At its core, an _engine_ is a computational process with local state and behaviour defined via guarded actions. More details can be found in the [[Engine in Anoma|Engine in Anoma's tutorial]].
 
-All admissible engine families can be discovered by looking at the
-data constructors in the type `AnomeEngineEnv` defined below.
-Each constructor of the coproduct type is in correspondance to a different engine family.
+Now, all admissible engine families can be discovered by examining the data constructors in the type `AnomeEngineEnv` defined below. Each constructor of this coproduct type corresponds to a different engine family.
 
 ```juvix
 type AnomaEngineEnv :=
