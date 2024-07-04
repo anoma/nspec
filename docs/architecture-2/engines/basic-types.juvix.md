@@ -15,8 +15,8 @@ search:
 module architecture-2.engines.basic-types;
 
 import Stdlib.Prelude as Prelude;
-import Stdlib.Data.Product as Product;
 import Data.Map as Containers open;
+import Data.Set as Containers open;
 ```
 
 ## Common types defined in external libraries
@@ -74,7 +74,7 @@ Unit : Type := Prelude.Unit;
   for grouping related values together.
   
 ```juvix
-Pair (A B : Type) : Type := A Product.× B;
+Pair (A B : Type) : Type := Prelude.Pair A B;
 ```
 - **List (A)**: A sequence of elements of type `A`. Used for collections and
   ordered data.
@@ -95,6 +95,13 @@ Maybe (A : Type) : Type := Prelude.Maybe A;
 
 ```juvix
 Map (K V : Type) : Type := Containers.Map K V;
+```
+
+- **Set (A)**: Represents a collection of unique elements of type `A`. Used for
+  sets of values.
+
+```juvix
+Set (A : Type) : Type := Containers.Set A;
 ```
 
 ## Proper terms and types for the Anoma Specification
