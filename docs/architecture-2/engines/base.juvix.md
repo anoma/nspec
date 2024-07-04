@@ -24,18 +24,29 @@ tags:
 
 # Engine Types
 
+!!! info 
+
+    Each engine page in the specs describes one particular "kind" of engine. The
+    formal core of each page is the transition function, which describes the
+    behaviour of all engine instances of this "kind". In principle, we could use the
+    URL of each engine page as a _label_ for engine instances of this "kind", but
+    any string that uniquely refers either to the engine page (or the transition
+    function) is suitable.
+
 This page focuses on the fundamental types and concepts necessary to define an
-engine in the Anoma Specification, specifically the types and terms in Juvix. It
-does not explore the rationale or design choices behind engines in Anoma, as
-these are covered in the [[Engines in Anoma]] page.
+engine type in the Anoma Specification, specifically the types and terms in
+Juvix. See the page on [[Engines in Anoma]] for more background of how Anoma
+instances are composed of communicating engine instances, in particular how
+transition functions are described as a set of _guarded actions._
 
 ## Data components of an engine
 
-Each engine type must declare specific components relevant to its purpose. 
+Each engine kind must declare specific components relevant to its purpose. 
 For Anoma specs, these components include:
 
-- A local environment which depends on a local state and message type specific
-  to the engine
+- A local environment parameterised by the types of the local state and
+  messages. In fact, the local environment includes the engine's
+  identity, local state, mailbox cluster, local time, timers, and acquaintances.
 
 - Guarded actions, which briefly are the actions that the engine can take under
   certain conditions
@@ -50,11 +61,12 @@ The local environment includes static information in these categories:
 
 - Engine identity
 - Engine instance's local state
-- Local time
-- Mapping of mailbox IDs to mailboxes
+<!-- - Local time -->
+- Map of mailbox IDs to mailboxes
 - List of timers set by the engine instance
-- List of engines spawned by the instance (acquaintances or conversion partners)
-  by their names
+<!-- - List of engines spawned by the instance (acquaintances or conversion partners)
+  by their names -->
+- List of acquainted engine instances, each which may be known by their external identity.
 
 This data is encapsulated in the `LocalEnvironment` type.
 
@@ -71,15 +83,15 @@ type LocalEnvironment (LocalStateType : Type) (MessageType : Type)
 ```
 
 
-## State Transition Functions
+## State Transition Function as List of Guarded Actions
 
-With a local environment in place, the remaining part of an engine is its
-*guarded actions*. These actions rely on a state transition function, the core
-of an engine's operation. So we define their type first.
+With the types of a local environment in place, the remaining part of an engine
+is its *guarded actions*. These actions describe a state transition function, the
+core of an engine's operation. So we define their type first.
 
 A state transition function takes a set of arguments, including the engine's
-local environment, and the trigger for the state transition. These arguments are
-encapsulated in the `StateTransitionArguments` record type.
+local environment, and the time-stamped trigger for the state transition. These
+arguments are encapsulated in the `StateTransitionArguments` record type.
 
 ```juvix
 StateTransition (LocalStateType : Type) (MessageType : Type) : Type :=
@@ -87,7 +99,7 @@ StateTransition (LocalStateType : Type) (MessageType : Type) : Type :=
     -> StateTransitionResult LocalStateType MessageType;
 ```
 
-Where the arguments and results for state transition functions has the following
+The arguments and results for state transition functions has the following
 structure.
 
 ### State Transition Arguments
