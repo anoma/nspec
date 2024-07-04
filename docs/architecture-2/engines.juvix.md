@@ -31,25 +31,25 @@ tags:
 
 # Engines
 
-Anoma's implementation consists of various _engines_. An _engine_ is a computational process within a trusted domain, characterised as a function parameterised over state, input message, and output message types. More details can be found in the [[Engine in Anoma|Engine in Anoma's tutorial]].
+Anoma's implementation consists of various _engines_ family. 
+Each family serves on specific purpose such as ordering and consensus tasks.
+At the core, an _engine_ is a computational process with local state and behaviour defined via guarded actions. More details can be found in the [[Engine in Anoma|Engine in Anoma's tutorial]].
 
-
-All admissible  types are listed in a union/coproduct type called `AnomaEngine.
-Each constructor of the coproduct type corresponds to a different engine type.
-We only keep the local environment for each Engine as it's only the data needed
-to spawn a new engine instance.
+All admissible engine families can be discovered by looking at the
+data constructors in the type `AnomeEngineEnv` defined below.
+Each constructor of the coproduct type is in correspondance to a different engine family.
 
 ```juvix
-type AnomaEngine :=
-  | EngineAuctioneer Auctioneer.LocalEnvironment
+type AnomaEngineEnv :=
+  | FamilyAuctioneer Auctioneer.LocalEnvironment
   -- | EngineConsensus Consensus.LocalEnvironment
   ;
 ```
 
 ```juvix
-getLocalStateType (e : AnomaEngine) : Type :=
+getLocalStateType (e : AnomaEngineEnv) : Type :=
   case e of {
-  | (EngineAuctioneer _) := Auctioneer.LocalStateType
+  | (FamilyAuctioneer _) := Auctioneer.LocalStateType
   }
   ; 
 ```

@@ -202,7 +202,7 @@ EnvelopedMessage (MessageType : Type) : Type :=
   waiting to be processed.
 
 ```juvix
-Mailbox (MessageType : Type) : Type := List (Message MessageType);
+Mailbox (MessageType : Type) : Type := List (EnvelopedMessage MessageType);
 ```
 
 Mailboxes are indexed by their unique identifier, for
@@ -242,18 +242,15 @@ as message arrivals, timer expirations, or other significant occurrences. The
 following definition is most inspired by the datatype of the same name [trigger in Formanoma](https://github.com/anoma/formanoma/blob/84456645fad5f75c7b382831012d5d7f0d1f1dac/Types/Engine.thy#L8-L17
 
 ).
-!!! todo
-
-    The `Trigger` type should be defined in more detail, as briefly explained in
-    https://anoma.github.io/nspec/pr-84/tutorial/engines/index.html#inputs-of-a-transition-function 
 
 
 ```juvix
 type Trigger (MessageType : Type)  := 
   | MessageArrived
-    { message : Message MessageType;
-      boxID : MailboxID ;
-      extID : Maybe ExternalID } 
+    { message : EnvelopedMessage MessageType;
+      boxID : MailboxID 
+      -- extID : Maybe 
+       } 
   | Elapsed {  timers : List Timer };
 ```
 
