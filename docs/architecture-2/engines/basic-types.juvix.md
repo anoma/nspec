@@ -24,8 +24,8 @@ import Data.Set as Containers open;
 The following are fundamental types provided by the Juvix standard library and others,
 which form the building blocks for more complex types in the architecture.
 
-- **Nat**: Represents natural numbers (non-negative integers). Used for counting
-  and indexing.
+- **Natural**: Represents natural numbers (non-negative integers). Used for
+  counting and indexing.
 
 ```juvix
 Natural : Type := Prelude.Nat;
@@ -70,34 +70,43 @@ EngineLabel : Type := Prelude.String
 Unit : Type := Prelude.Unit;
 ```
 
-- **Pair (A B)**: A tuple containing two elements of types `A` and `B`. Useful
+- **Pair A B**: A tuple containing two elements of types `A` and `B`. Useful
   for grouping related values together.
   
 ```juvix
 Pair (A B : Type) : Type := Prelude.Pair A B;
 ```
-- **List (A)**: A sequence of elements of type `A`. Used for collections and
+
+- **Either A B**: Represents a value of type `A` or `B`.
+
+```juvix
+type Either (A  B : Type) : Type := 
+  | Left A
+  | Right B;
+```
+
+- **List A**: A sequence of elements of type `A`. Used for collections and
   ordered data.
 
 ```juvix
 List (A : Type) : Type := Prelude.List A;
 ```
 
-- **Maybe (A)**: Represents an optional value of type `A`. It can be either
+- **Maybe A**: Represents an optional value of type `A`. It can be either
   `Just A` (containing a value) or `Nothing` (no value).
 
 ```juvix
 Maybe (A : Type) : Type := Prelude.Maybe A;
 ```
 
-- **Map (K V)**: Represents a collection of key-value pairs, sometimes called
+- **Map K V**: Represents a collection of key-value pairs, sometimes called
   dictionary, where keys are of type `K` and values are of type `V`. 
 
 ```juvix
 Map (K V : Type) : Type := Containers.Map K V;
 ```
 
-- **Set (A)**: Represents a collection of unique elements of type `A`. Used for
+- **Set A**: Represents a collection of unique elements of type `A`. Used for
   sets of values.
 
 ```juvix
@@ -134,7 +143,6 @@ and internal.
 ExternalID : Type := Natural;
 ```
 
-
 - **InternalID**: A unique identifier for entities within the system, also
   represented as a natural number.
 
@@ -149,18 +157,45 @@ InternalID : Type := Natural;
 Identity : Type := Pair ExternalID InternalID;
 ```
 
+### Network addresses
+
+- **Address**: It is used for forwarding messages to the correct destination.
+  An address could be a simple string without any particular meaning in the system or an external identity.
+
+```juvix
+Address : Type := Either Name ExternalID;
+```
+
 ### Enveloped messages
 
 These types are used for message passing within the system, encapsulating the
 message content and managing mailboxes.
 
 - **Message**: A pair consisting of a type and a string This represents a
-  message with its type and content[@special-delivery-mailbox-types-2023].
+  message with its type and content.
 
 ```juvix
 MessageContent : Type := String;
 
 Message (MessageType : Type) : Type := Pair MessageType MessageContent;
+```
+
+- **Message Packet**: A pair consisting of a target address and a message. It
+  represents a message that is ready to be sent to a specific destination.
+
+```juvix
+Target : Type := Address;
+MessagePacket (MessageType : Type) : Type := Pair Target (Message MessageType);
+```
+
+- **Enveloped Message**: A pair consisting of a message packet and a sender
+  address.
+
+```juvix
+Sender : Type := Address;
+
+EnvelopedMessage (MessageType : Type) : Type := 
+  Pair Sender (MessagePacket MessageType);
 ```
 
 - **Mailbox**: A list of messages. It represents a collection of messages
