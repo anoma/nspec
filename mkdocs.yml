@@ -17,25 +17,30 @@ nav:
     - World model: ./scope/world-model.md
     - Protocol desiderata: ./scope/protocol-desiderata.md
 
-  - Basic Types:
-    - ./basic-types/index.md
-    - Cryptographic primitives:
-      - ./basic-types/cryptographic-primitives/index.md
-      - Hash function: ./basic-types/cryptographic-primitives/hash-function.md
-      - Accumulator: ./basic-types/cryptographic-primitives/accumulator.md
-      - Proving System: ./basic-types/cryptographic-primitives/proving-system.md
-    - Data structures:
-      - ./basic-types/data-structures/index.md
-      - Identity: ./basic-types/data-structures/identity.md
-      - Resource: ./basic-types/data-structures/resource.md
-      - Transaction: ./basic-types/data-structures/transaction.md
-    - Serialisation:
-      - ./basic-types/serialisation/index.md
+  - Basic Abstractions:
+    - ./basic-abstractions/index.md
+    - Virtual machine: ./basic-abstractions/virtual-machine.md
+    - Hash function: ./basic-abstractions/hash-function.md
+    - Accumulator: ./basic-abstractions/accumulator.md
+    - Proof system: ./basic-abstractions/proof-system.md
+    - Encoding scheme: ./basic-abstractions/encoding-scheme.md
 
   - Protocol Architecture:
     - ./architecture/index.md
+
     - System Architecture:
       - ./architecture-1/index.md
+      - Identity Architecture:
+        - ./architecture-1/identity/index.md
+      - Network Architecture:
+        - ./architecture-1/network/index.md
+      - Service Architecture:
+        - ./architecture-1/service/index.md
+      - State Architecture:
+        - ./architecture-1/state/index.md
+        - Resource: ./architecture-1/state/resource.md
+        - Transaction: ./architecture-1/state/transaction.md
+        
     - Node Architecture:
       - ./architecture-2/index.md
       - Modules:

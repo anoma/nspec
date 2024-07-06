@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Identity
+# Identity Architecture
 
 The base abstraction of the protocol is a knowledge-based identity
  interface, where the identity of an agent is defined entirely on the

@@ -42,6 +42,13 @@ mechanism.
     Although this document does not use the language or process and cannot claim a similar depth of expertise, we have taken some inspiration from Conal Elliot's [denotational design](https://www.typetheoryforall.com/2022/08/04/21-Conal-Eliott-2.html).
 
 
+- [Virtual machine](./virtual-machine.md)
+- [Hash function](./hash-function.md)
+- [Accumulator](./accumulator.md)
+- [Proof system](./proof-system.md)
+- [Encoding scheme](./encoding-scheme.md)
+
+
 ```mermaid
 flowchart LR
   BasicTypes ["Basic Types"]

@@ -12,10 +12,11 @@ correct implementation of Anoma and how it is architectured. This already
 involves some design choices and assumptions, e.g., about which entities
 participate, what actions they can perform, and hardware requirements.
 
-- Host model describes the basic characteristics and functions which
-  machines must have in order to run Anoma.
-- Primitives describes the basic cryptographic primitives and associated
-  assumptions.
-- [[Abstractions]] describes the basic abstractions defined by the protocol.
-- [[Properties]] describes the properties that the protocol
-  should satisfy.
+- [Identity Architecture](./identity/index.md)
+- [Network Architecture](./network/index.md)
+- [Service Architecture](./service/index.md)
+- [State Architecture](./state/index.md)
+
+## Intent machine
+
+The Anoma network can be understood as implementing a distributed intent machine. See [10.5281/zenodo.10498992](https://zenodo.org/doi/10.5281/zenodo.10498992) for more details.
