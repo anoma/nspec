@@ -19,11 +19,12 @@ nav:
 
   - Basic Abstractions:
     - ./basic-abstractions/index.md
+    - Data type: ./basic-abstractions/data-type.md
     - Virtual machine: ./basic-abstractions/virtual-machine.md
+    - Encoding scheme: ./basic-abstractions/encoding-scheme.md
     - Hash function: ./basic-abstractions/hash-function.md
     - Accumulator: ./basic-abstractions/accumulator.md
     - Proof system: ./basic-abstractions/proof-system.md
-    - Encoding scheme: ./basic-abstractions/encoding-scheme.md
 
   - Protocol Architecture:
     - ./architecture/index.md
