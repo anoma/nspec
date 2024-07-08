@@ -5,18 +5,27 @@ search:
   boost: 2
 ---
 
-# Serialisation
+# Encoding scheme
 
-The protocol requires a [*canonical* serialisation](../glossary.md#canonical-serialization) of [Turing-equivalent](../glossary.md#turing-equivalent) functions and data.
+An _encoding scheme_ is a function which maps between structured data and a series of bytes, uniquely defined by the pair of serialisation and deserialisation functions.
 
-A *serialisation* can be any function which maps data to a series of bytes. The inverse function which maps a series of bytes to data is referred to as a *deserialisation*.
+## Serialisation
 
-Being *canonical* for a serialisation $s$ means that there exists a function $d$
-such that, for any function or data $x$, all the agents using the protocol agree
-that the following equation holds.
+The `serialise` function serialises a data value into a bytestring.
 
-$$s(\mathsf{eval}(d(x))) = x.$$
+```
+type Serialise = Value -> Bytes
+```
 
-In what follows, we assume any serialisation is canonical, unless otherwise specified. Internal representations of compute may vary as long as this external equivalence holds. Certain additional correspondences of internal representations may be required for particular verifiable computation schemes (see below).
+## Deserialisation
 
-For the remainder of this specification, this canonical representation is taken as implicit, and may be assumed where appropriate (e.g. `serialise` is called before sending a function over the network).
+The `deserialise` function attempts to deserialise a bytestring into a data value of the specified type.
+
+```juvix
+type Deserialise = Datatype -> Bytestring -> Maybe Value
+```
+
+These functions must be inverses, i.e.:
+
+- `deserialise . serialise = id`
+- `serialise . deserialise = id`

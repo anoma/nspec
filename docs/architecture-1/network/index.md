@@ -6,3 +6,5 @@ search:
 ---
 
 # Network Architecture
+
+For now, see [this paper](https://arxiv.org/pdf/2306.16153).

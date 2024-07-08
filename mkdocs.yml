@@ -22,6 +22,7 @@ nav:
     - Data type: ./basic-abstractions/data-type.md
     - Virtual machine: ./basic-abstractions/virtual-machine.md
     - Encoding scheme: ./basic-abstractions/encoding-scheme.md
+    - Multiencoding: ./basic-abstractions/multiencoding.md
     - Hash function: ./basic-abstractions/hash-function.md
     - Accumulator: ./basic-abstractions/accumulator.md
     - Proof system: ./basic-abstractions/proof-system.md
@@ -31,6 +32,8 @@ nav:
 
     - System Architecture:
       - ./architecture-1/index.md
+      - Basic Concepts:
+        - ./architecture-1/concepts/index.md
       - Identity Architecture:
         - ./architecture-1/identity/index.md
       - Network Architecture:
