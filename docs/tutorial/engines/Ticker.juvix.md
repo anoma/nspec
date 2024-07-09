@@ -15,9 +15,21 @@ tags:
     ```juvix 
     module tutorial.engines.Ticker;
 
+    import Stdlib.Data.Pair open;
+    import Data.Set as Set open;
+    import Data.Map as Map open;
+
     import architecture-2.engines.basic-types open;
-    import architecture-2.engines.base as Engine;
-    open Engine using {mkGuardedAction; mkEngineFamily};
+    import architecture-2.engines.base as EngineFamily;
+    open EngineFamily using {
+        EngineFamily;
+        EngineInstance;
+        mkEngineFamily;
+        mkEngineInstance;
+        mkLocalEnvironment;
+        mkGuardedAction
+    };
+    open EngineFamily.LocalEnvironment;
     ```
 
 # Ticker Family Engine
@@ -62,7 +74,8 @@ of the local environment. Nonetheless, to ensure clarity, let us define it
 explicitly using the `LocalEnvironment` type.
 
 ```juvix
-LocalEnvironment : Type := Engine.LocalEnvironment LocalStateType MessageType;
+TickerLocalEnvironment : Type := 
+    EngineFamily.LocalEnvironment LocalStateType MessageType;
 ```
 
 ### Guarded Actions
@@ -70,7 +83,7 @@ LocalEnvironment : Type := Engine.LocalEnvironment LocalStateType MessageType;
 To define the actions of the `Ticker`, we use the following type:
 
 ```juvix
-GuardedAction : Type := Engine.GuardedAction LocalStateType MessageType;
+GuardedAction : Type := EngineFamily.GuardedAction LocalStateType MessageType;
 ```
 
 Next, we define the specific tasks:
@@ -82,12 +95,15 @@ Next, we define the specific tasks:
 
 This action increments the counter by 1 upon receiving an `Increment` message.
 
-```
+```juvix
 incrementCounter : GuardedAction := mkGuardedAction@{
-  guard := \ {_ := !undefined };
+  guard := \ { 
+    (mkLocalEnvironment@{
+        localState := s
+    }) := !undefined };
   -- pattern match on the message type, if it's increment, then return unit
   -- TODO: we need to define convenient functions for inspecting messages.
-  action := \{ _ oldState := !undefined };
+  action := \{ _ := !undefined };
     -- let newCounter = oldState.counter + 1 in
   -- {!env.localState with counter=newCounter}
 };
@@ -98,29 +114,44 @@ incrementCounter : GuardedAction := mkGuardedAction@{
 This action sends the current counter value upon receiving a `Count` message.
 
 ```juvix 
-respondWithCounter : GuardedAction := mkGuardedAction@{
+respondWithCounter : GuardedAction := !undefined;
+{-mkGuardedAction@{
   guard := \ {_ := !undefined; };
   --  if env.message == Count then Just () else Nothing} ;
   action := \{ _ oldState := !undefined };
    -- sendMessage (env.sender, CountMessage oldState.counter);
     -- {!env.localState with counter=oldState.counter}
 };
-```
-
-List of guarded actions:
-
-```
-actions : List GuardedAction := 
-  [incrementCounter; respondWithCounter];
+-}
 ```
 
 Finally, the engine family is defined as follows:
 
 ```juvix
-Ticker : Engine.EngineFamily LocalStateType MessageType := mkEngineFamily@{
-  localStateType := LocalStateType;
-  actions := actions;
+
+TickerFamily : EngineFamily LocalStateType MessageType := mkEngineFamily@{
+  actions := [incrementCounter; respondWithCounter];
 };
+```
+
+As an example of an engine instance in this family, we could
+define the ticker starting in zero.
+
+```juvix
+tickerInstance : EngineFamily.EngineInstance LocalStateType MessageType 
+:= mkEngineInstance@{
+    name := "TickerOne";
+    family := TickerFamily;
+    initState := mkLocalEnvironment@{
+        localState := mkLocalStateType@{
+            counter := 0;
+        };
+        engineName := "TickerOne";
+        timers := [];
+        acquaintances := Set.empty;
+        mailboxCluster := Map.empty;
+    };
+  } ;
 ```
 
 

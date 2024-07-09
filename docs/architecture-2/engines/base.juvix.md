@@ -51,7 +51,8 @@ following categories:
 - A global name or identifier for the engine instance.
 - Local state.
 - Mailbox cluster, which is a map of mailbox IDs to mailboxes.
-- A set of names of acquainted engine instances.
+- A set of names of acquainted engine instances. It is implicit that the engine
+  instance is acquainted with itself, so no need to include its own name.
 - A list of timers that have been set.
 
 This data is encapsulated in the `LocalEnvironment` type. The `LocalEnvironment` 
@@ -59,7 +60,8 @@ type is parameterised by two types: `LocalStateType` and
 `MessageType` representing the local state and message types, respectively.
 
 ```juvix
-type LocalEnvironment (LocalStateType : Type) (MessageType : Type):= mkLocalEnvironment {
+type LocalEnvironment (LocalStateType : Type) (MessageType : Type):= 
+  mkLocalEnvironment {
       engineName : Name ;
       localState : LocalStateType;
       mailboxCluster : Map MailboxID (Mailbox MessageType);
@@ -125,19 +127,8 @@ To create these new engine instances, we need to specify the following data:
 - The name of the new engine instance.
 - The initial state of the engine instance.
 
-This information is encapsulated within the `SpawnedEngine` type.
-
-<!-- Improve the following definition once https://github.com/anoma/juvix/issue
-is solved -->
-
-```juvix
-type SpawnedEngine : Type := mkSpawnedEngine { 
-  need : {S M : Type} -> 
-    (engFamily : EngineFamily S M) -> 
-    (insName : Name) ->
-    S;
-};
-```
+This information is encapsulated within the `EngineInstance` type defined
+further below.
 
 We can now define the `StateTransitionResult` type as follows:
 
@@ -146,7 +137,7 @@ type StateTransitionResult (S M : Type)
   := mkStateTransitionResult {
       newEnv : LocalEnvironment S M;
       producedMessages : {T : Type} -> Mailbox T;
-      spawnedEngines : List SpawnedEngine;
+      spawnedEngines : List ({eS eM : Type} -> EngineInstance eS eM);
       timers : List Timer;
 };
 ```
@@ -190,24 +181,34 @@ type GuardedAction (S : Type) (M : Type) := mkGuardedAction {
     the local environment if the condition is met. So, if the guard is satisfied,
     this data (of type `T`) will be passed to the action function; otherwise, that
     is, if the guard is not satisfied, no data is returned.
-    
-## Engine Family Type
 
-The `EngineFamily` type is the core type for defining an engine family in Anoma.
-It encapsulates the local environment and the list of guarded actions that define
-the behavior of the engine instances in the family. Our type is parameterised
-by the local state type `LocalStateType` and the message type `MessageType`.
-This means, while several engine instances share the same behavior, each instance
-has its own local state and mailbox cluster.
+## Engine Families and Instances
+
+The `EngineFamily` type encapsulates the concept of engines within Anoma. As defined,
+it clears up that engines are essentially a collection of guarded state-transition
+functions. Our type for these families is parameterised by a type for their local states,
+and a type for their messages.
 
 ```juvix
 type EngineFamily (LocalStateType : Type) (MessageType : Type) := mkEngineFamily {
-  env : LocalEnvironment LocalStateType MessageType;
-  Behaviour : List (GuardedAction LocalStateType MessageType);
+  actions : List (GuardedAction LocalStateType MessageType);
 };
 ```
 
-!!! example "Example of an Engine Family in Words"
+Additionally, we define the `EngineInstance` type, which represents an instance
+of an engine within a family. Each engine instance is associated with a specific
+name and a family of engines, plus a declaration its own local state; more
+specifically, each instance possesses its own execution context.
+
+```juvix
+type EngineInstance (S M : Type):= mkEngineInstance {
+  name : Name;
+  family : EngineFamily S M;
+  initState : LocalEnvironment S M;
+};
+```
+
+!!! example
 
     For example, to define an engine family for voting:
 
