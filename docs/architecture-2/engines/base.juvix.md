@@ -151,7 +151,7 @@ type StateTransitionResult (S M : Type)
 };
 ```
 
-## Guarded Actions
+#### Guarded Actions
 
 A guarded action consists of a _guard_ and an _action_. The guard is a function
 that evaluates conditions on the engine's local environment to decide if the
@@ -191,7 +191,7 @@ type GuardedAction (S : Type) (M : Type) := mkGuardedAction {
     this data (of type `T`) will be passed to the action function; otherwise, that
     is, if the guard is not satisfied, no data is returned.
     
-## Anoma Engine Family Definition
+## Engine Family Type
 
 The `EngineFamily` type is the core type for defining an engine family in Anoma.
 It encapsulates the local environment and the list of guarded actions that define
