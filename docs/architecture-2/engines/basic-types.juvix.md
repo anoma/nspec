@@ -171,42 +171,50 @@ Address : Type := Either Name ExternalID;
 These types are used for message passing within the system, encapsulating the
 message content and managing mailboxes.
 
-- **Message**: A pair consisting of a type and a string This represents a
+- **Message**: A record type consisting of a type and a string. This represents a
   message with its type and content.
 
 ```juvix
-MessageContent : Type := String;
+MessagePayload : Type := String;
 
-Message (MessageType : Type) : Type := Pair MessageType MessageContent;
+type Message (MessageType : Type) : Type := mkMessage {
+  messageType : MessageType;
+  payload : MessagePayload;
+};
 ```
 
-- **Message Packet**: A pair consisting of a target address and a message. It
-  represents a message that is ready to be sent to a specific destination.
+- **Message Packet**: A record consisting of a target address and a message.
 
 ```juvix
-Target : Type := Address;
-MessagePacket (MessageType : Type) : Type := Pair Target (Message MessageType);
+type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
+  target : Address;
+  message : Message MessageType;
+};
 ```
 
-- **Enveloped Message**: A pair consisting of a message packet and a sender
+- **Enveloped Message**: A record consisting of a message packet and a sender
   address.
 
 ```juvix
-Sender : Type := Address;
-
-EnvelopedMessage (MessageType : Type) : Type := 
-  Pair Sender (MessagePacket MessageType);
+type EnvelopedMessage (MessageType : Type) : Type := 
+  mkEnvelopedMessage {
+    packet : MessagePacket MessageType;
+    sender : Address;
+  };
 ```
 
 - **Mailbox**: A list of messages. It represents a collection of messages
   waiting to be processed.
 
 ```juvix
-Mailbox (MessageType : Type) : Type := List (EnvelopedMessage MessageType);
+type Mailbox (MessageType : Type) : Type := mkMailBox {
+  mailboxState : {State : Type} -> State;
+  messages : List (EnvelopedMessage MessageType);
+};
 ```
 
-Mailboxes are indexed by their unique identifier, for
-now represented as a `Name`. This concerns the mailbox of a single engine.
+Mailboxes are indexed by their unique identifier, for now represented as
+a `Name`. This concerns the mailbox of a single engine.
 
 ```juvix
 MailboxID : Type := Name;
@@ -237,36 +245,17 @@ axiom Handle : Type;
 Timer : Type := Pair Time Handle;
 ```
 
-- **Trigger**: An abstract type representing various events in the system, such
-as message arrivals, timer expirations, or other significant occurrences. The
-following definition is most inspired by the datatype of the same name [trigger in Formanoma](https://github.com/anoma/formanoma/blob/84456645fad5f75c7b382831012d5d7f0d1f1dac/Types/Engine.thy#L8-L17
-
-).
+- **Trigger**: An abstract type representing the nature of an events in the system, such
+as message arrivals, timer expirations. The following definition is most inspired by the
+datatype of the same name [trigger in Formanoma](https://github.com/anoma/formanoma/blob/84456645fad5f75c7b382831012d5d7f0d1f1dac/Types/Engine.thy#L8-L17).
 
 
 ```juvix
 type Trigger := 
   | MessageArrived
-    { message : {MessageType : Type} -> EnvelopedMessage MessageType;
-      boxID : MailboxID 
-       } 
+    { 
+      boxID : MailboxID;
+      message : {MessageType : Type} -> EnvelopedMessage MessageType;
+    } 
   | Elapsed {  timers : List Timer };
 ```
-
-!!! todo
-
-    Add a better description on the fields of this type.
-
-### Node State
-
-This type is used to represent the node's state and defines the domain for an
-engine's state transition functions.
-
-- **State**: An abstract type representing the state of an engine instance. It
-  provides the context needed for state transition functions to update the
-  engine's state based on events and triggers.
-
-```juvix
-axiom State : Type; 
-```
-

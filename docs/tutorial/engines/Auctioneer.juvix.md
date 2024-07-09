@@ -20,7 +20,7 @@ tags:
 
     import architecture-2.engines.basic-types open;
     import architecture-2.engines.base as Engine;
-    open Engine using {mkGuardedAction ; mkEngine};
+    open Engine using {mkGuardedAction ; mkEngineFamily};
     ```
 
 # Auctioneer 
@@ -152,20 +152,6 @@ List of guarded actions:
 ```juvix
 actions : List GuardedAction := 
   [storeBid; determineWinnerAndSecondPrice; finaliseAuction];
-```
-
-
-## Auctioneer Engine Setup
-
-To instantiate an Auctioneer Engine, provide a local environment as input to the
-`init` function defined in this Auctioneer Juvix module.
-
-```juvix
-init (l : LocalEnvironment) : Engine.Engine LocalStateType MessageType :=
-  mkEngine @{
-    localEnvironment := l;
-    guardedActions := actions
-    };
 ```
 
 ## Diagrams
