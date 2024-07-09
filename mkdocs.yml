@@ -399,6 +399,7 @@ nav:
         - Example of diff rendering: ./tutorial/file-v1.md
     - Engines in Anoma:
       - ./tutorial/engines/index.md
+      - The Ticker engine family: ./tutorial/engines/Ticker.juvix.md
       - The Auctioneer engine example:  ./tutorial/engines/Auctioneer.juvix.md
       # - Guarded action example: ./tutorial/engines/guarded-action-example.md
 
