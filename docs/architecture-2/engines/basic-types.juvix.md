@@ -51,7 +51,7 @@ As a synonym for `String`, we have:
 Name : Type := Prelude.String;
 ```
 
-or 
+or
 
 ```juvix
 Label : Type := Prelude.String;
@@ -72,7 +72,7 @@ Unit : Type := Prelude.Unit;
 
 - **Pair A B**: A tuple containing two elements of types `A` and `B`. Useful
   for grouping related values together.
-  
+
 ```juvix
 Pair (A B : Type) : Type := Prelude.Pair A B;
 ```
@@ -80,7 +80,7 @@ Pair (A B : Type) : Type := Prelude.Pair A B;
 - **Either A B**: Represents a value of type `A` or `B`.
 
 ```juvix
-type Either (A  B : Type) : Type := 
+type Either (A  B : Type) : Type :=
   | Left A
   | Right B;
 ```
@@ -100,7 +100,7 @@ Maybe (A : Type) : Type := Prelude.Maybe A;
 ```
 
 - **Map K V**: Represents a collection of key-value pairs, sometimes called
-  dictionary, where keys are of type `K` and values are of type `V`. 
+  dictionary, where keys are of type `K` and values are of type `V`.
 
 ```juvix
 Map (K V : Type) : Type := Containers.Map K V;
@@ -126,7 +126,7 @@ axiom !undefined : {A : Type} -> A;
 ### Network Identity types
 
 These types are used to represent identities within the network, both external
-and internal. 
+and internal.
 
 !!! warning
 
@@ -196,7 +196,7 @@ type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
   address.
 
 ```juvix
-type EnvelopedMessage (MessageType : Type) : Type := 
+type EnvelopedMessage (MessageType : Type) : Type :=
   mkEnvelopedMessage {
     packet : MessagePacket MessageType;
     sender : Address;
@@ -251,11 +251,11 @@ datatype of the same name [trigger in Formanoma](https://github.com/anoma/forman
 
 
 ```juvix
-type Trigger := 
+type Trigger :=
   | MessageArrived
-    { 
+    {
       boxID : MailboxID;
       message : {MessageType : Type} -> EnvelopedMessage MessageType;
-    } 
+    }
   | Elapsed {  timers : List Timer };
 ```

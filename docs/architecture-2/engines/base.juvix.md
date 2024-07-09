@@ -106,10 +106,10 @@ These arguments are encapsulated in the `StateTransitionArguments` record type b
 ```juvix
 type StateTransitionArguments (S M T : Type)
   := mkStateTransitionArguments {
-      inputGuard : T; -- The guard's output
+      inputGuard : T; 
       env : LocalEnvironment S M;
-      trigger : Trigger; -- TODO: update
-      time : Time; -- The time at which the state transition is triggered
+      trigger : Trigger;
+      time : Time;
 };
 ```
 

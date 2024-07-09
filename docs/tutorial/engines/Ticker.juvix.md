@@ -18,6 +18,9 @@ tags:
     import Stdlib.Data.Pair open;
     import Data.Set as Set open;
     import Data.Map as Map open;
+    import Stdlib.Data.List open;
+    import Stdlib.Data.Bool as Bool open;
+    import Stdlib.Data.Maybe as Maybe open;
 
     import architecture-2.engines.basic-types open;
     import architecture-2.engines.base as EngineFamily;
@@ -96,11 +99,29 @@ Next, we define the specific tasks:
 This action increments the counter by 1 upon receiving an `Increment` message.
 
 ```juvix
+incrementCounter : GuardedAction := !undefined;
+```
+
+```
 incrementCounter : GuardedAction := mkGuardedAction@{
-  guard := \ { 
+  guard := \ { {Bool}
     (mkLocalEnvironment@{
         localState := s
-    }) := !undefined };
+    }) := 
+        case Map.lookup 1 (mailboxCluster s) of {
+           | nothing := nothing
+           | (just mbox) := case Mailbox.messages mbox of {
+               | [] := nothing
+               | (msg :: xs) := case 
+                    (Message.messageType 
+                            (MessagePacket.message 
+                                (EnvelopedMessage.packet msg))) of {
+                   | Increment := just true
+                   | _ := nothing
+               }
+           }
+        }
+     };
   -- pattern match on the message type, if it's increment, then return unit
   -- TODO: we need to define convenient functions for inspecting messages.
   action := \{ _ := !undefined };
