@@ -245,11 +245,10 @@ following definition is most inspired by the datatype of the same name [trigger 
 
 
 ```juvix
-type Trigger (MessageType : Type)  := 
+type Trigger := 
   | MessageArrived
-    { message : EnvelopedMessage MessageType;
+    { message : {MessageType : Type} -> EnvelopedMessage MessageType;
       boxID : MailboxID 
-      -- extID : Maybe 
        } 
   | Elapsed {  timers : List Timer };
 ```

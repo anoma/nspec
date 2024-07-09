@@ -12,10 +12,10 @@ search:
 module everything;
 
 import architecture-2.engines.basic-types;
+import architecture-2.engines.index;
 import architecture-2.engines.base;
 import architecture-2.engines.compute;
 import architecture-2.engines.p2p;
-import architecture-2.engines;
 
 import tutorial.engines.Auctioneer;
 ```

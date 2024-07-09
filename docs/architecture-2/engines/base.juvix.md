@@ -1,17 +1,11 @@
 ---
-icon: octicons/gear-16
 search:
 exclude: false
 tags:
 - engine
-- mailbox
 - engine-type
 - Juvix
 ---
-
-!!! warning
-
-    This document is a work in progress. Please do not review it yet.
 
 
 ??? info "Juvix imports"
@@ -22,124 +16,140 @@ tags:
     ```
 
 
-# Engine Types
+# Engine Family Types
 
-!!! info 
+## Core Types and Concepts
 
-    Each engine page in the specs describes one particular "kind" of engine. The
-    formal core of each page is the transition function, which describes the
-    behaviour of all engine instances of this "kind". In principle, we could use the
-    URL of each engine page as a _label_ for engine instances of this "kind", but
-    any string that uniquely refers either to the engine page (or the transition
-    function) is suitable.
+This page highlights the essential types and concepts needed to define an engine
+family in the Anoma Specification, specifically focusing on writing these
+families in Juvix. Please refer to the [[Engines in Anoma]] page for a better
+overview and motivation of the concept of engines for Anoma.
 
-This page focuses on the fundamental types and concepts necessary to define an
-engine type in the Anoma Specification, specifically the types and terms in
-Juvix. See the page on [[Engines in Anoma]] for more background of how Anoma
-instances are composed of communicating engine instances, in particular how
-transition functions are described as a set of _guarded actions._
+Each engine family must declare specific components essential to its purpose.
+For Anoma specifications, these components include:
 
-## Data components of an engine
+- **Local Environment**: This serves as the execution context for engines.
+  In addition to the local state, the local
+  environment encompasses elements such as the mailbox cluster owned by an
+  engine instance and a set of acquaintances—other engine instances known to the
+  current one that can interact with it.
 
-Each engine kind must declare specific components relevant to its purpose. 
-For Anoma specs, these components include:
+- **Guarded Action**: Engines are not merely storage units; they also process
+  information and communicate with other engine instances through messages.
+  Their behavior is defined by their guarded actions, which are rules or
+  state-transition functions accompanied by specific conditions allowing their
+  execution when messages are received.
 
-- A local environment parameterised by the types of the local state and
-  messages. In fact, the local environment includes the engine's
-  identity, local state, mailbox cluster, local time, timers, and acquaintances.
-
-- Guarded actions, which briefly are the actions that the engine can take under
-  certain conditions
+So, let's introduce the type for each of these components.
 
 
 ### Local Environment
 
-To define an engine, we need to know the local state and message type it will
-handle, represented as type parameters `LocalStateType` and `MessageType`.
+The local environment encompasses static information for engine instances in the
+following categories:
 
-The local environment includes static information in these categories:
+- A global name or identifier for the engine instance.
+- Local state.
+- Mailbox cluster, which is a map of mailbox IDs to mailboxes.
+- A set of names of acquainted engine instances.
+- A list of timers that have been set.
 
-- Engine identity
-- Engine instance's local state
-<!-- - Local time -->
-- Map of mailbox IDs to mailboxes
-- List of timers set by the engine instance
-<!-- - List of engines spawned by the instance (acquaintances or conversion partners)
-  by their names -->
-- List of acquainted engine instances, each which may be known by their external identity.
-
-This data is encapsulated in the `LocalEnvironment` type.
+This data is encapsulated in the `LocalEnvironment` type. The `LocalEnvironment` 
+type is parameterised by two types: `LocalStateType` and 
+`MessageType` representing the local state and message types, respectively.
 
 ```juvix
-type LocalEnvironment (LocalStateType : Type) (MessageType : Type) 
-  := mkLocalEnvironment {
-      engineInstanceIdentity : Identity;
+type LocalEnvironment (LocalStateType : Type) (MessageType : Type):= mkLocalEnvironment {
+      engineName : Name ;
       localState : LocalStateType;
       mailboxCluster : Map MailboxID (Mailbox MessageType);
-      localTime : Time;
+      acquaintances : Set Name;
       timers : List Timer;
-      acquaintances : Map Name (Maybe ExternalID);
 };
 ```
 
+For short, we will use the type parameters `S` and `M` to represent 
+the type of the local state and message types, respectively.
 
-## State Transition Function as List of Guarded Actions
+### Engine Behaviours
 
-With the types of a local environment in place, the remaining part of an engine
-is its *guarded actions*. These actions describe a state transition function, the
-core of an engine's operation. So we define their type first.
+In alignment with Actor theories, Anoma's engines function as event-driven state
+machines. This implies that our engines respond exclusively to messages stored
+in or received by the `mailboxCluster` through their _guarded actions_. As part
+of this response, they produce a new state and may have other effects. Each
+engine processes only one message at a time, ensuring synchronized operation
+during this process.
 
-A state transition function takes a set of arguments, including the engine's
-local environment, and the time-stamped trigger for the state transition. These
-arguments are encapsulated in the `StateTransitionArguments` record type.
+So with the execution context type defined for an engine family, our next step is
+to determine the type for these _guarded actions_. These actions are defined by a
+state transition function—the core of an engine's operation—under specific
+conditions, known as _guards_. 
+
+First, we need to define the type for state transitions, which uses
+`StateTransitionArguments` and `StateTransitionResult` types.
 
 ```juvix
-StateTransition (LocalStateType : Type) (MessageType : Type) : Type :=
-  StateTransitionArguments LocalStateType MessageType
-    -> StateTransitionResult LocalStateType MessageType;
+StateTransition (S M T : Type) : Type := StateTransitionArguments S M T -> StateTransitionResult S M;
 ```
 
-The arguments and results for state transition functions has the following
-structure.
+A state transition function takes the following arguments:
 
-### State Transition Arguments
+- The output of the guard function (`Maybe T`), ensuring the guard is satisfied.
+- The engine instance's local environment.
+- The actual trigger message.
+- The time at which the state transition is triggered.
+
+These arguments are encapsulated in the `StateTransitionArguments` record type below.
 
 ```juvix
-type StateTransitionArguments (LocalStateType : Type) (MessageType : Type) 
+type StateTransitionArguments (S M T : Type)
   := mkStateTransitionArguments {
-      localEnvironment : LocalEnvironment LocalStateType MessageType;
-      trigger : Trigger MessageType;
+      inputGuard : T; -- The guard's output
+      env : LocalEnvironment S M;
+      trigger : Trigger; -- TODO: update
       time : Time; -- The time at which the state transition is triggered
 };
 ```
 
-<!-- This is more involved for sure, for now, we can keep it simple. -->
+The `StateTransitionResult` type defines the results produced by a state
+transition function. When executing such a function, the engine instance will:
 
-### State Transition Result
+- Update its local state.
+- Queue messages for transmission.
+- Set timers.
+- Define new engine instances to be created.
 
+To create these new engine instances, we need to specify the following data:
 
-!!! todo
+- The engine family type.
+- The name of the new engine instance.
+- The initial state of the engine instance.
 
-    Update this type after updatng the mailbox type, which should include
-    the identities of the sender.
+This information is encapsulated within the `SpawnedEngine` type.
+
+<!-- Improve the following definition once https://github.com/anoma/juvix/issue
+is solved -->
 
 ```juvix
-
-type StateTransitionResult (LocalStateType : Type) (MessageType : Type)
-  := mkStateTransitionResult {
-    localEnvironment : LocalEnvironment LocalStateType MessageType;
-    producedMessages : Mailbox MessageType;
-    timers : List Timer;
-    spawnedEngines : List (Pair (Pair EngineLabel Name) LocalStateType); --todo: update this type
+type SpawnedEngine : Type := mkSpawnedEngine { 
+  need : {S M : Type} -> 
+    (engFamily : EngineFamily S M) -> 
+    (insName : Name) ->
+    S;
 };
 ```
 
-So when executing a state transition function, the engine instance will:
+We can now define the `StateTransitionResult` type as follows:
 
-- Update its local state
-- Set messages to be sent
-- Set timers
-- Spawn new engines (if necessary)
+```juvix
+type StateTransitionResult (S M : Type)
+  := mkStateTransitionResult {
+      newEnv : LocalEnvironment S M;
+      producedMessages : {T : Type} -> Mailbox T;
+      spawnedEngines : List SpawnedEngine;
+      timers : List Timer;
+};
+```
 
 ## Guarded Actions
 
@@ -149,13 +159,13 @@ action should be executed. The action is a function that updates the local
 environment and may include additional effects, as said before, such as setting
 timers, messages, and spawning new engines.
 
+
 ```juvix
-type GuardedAction (LocalStateType : Type) (MessageType : Type) := mkGuardedAction {
-  guard : {T : Type} -> LocalEnvironment LocalStateType MessageType -> Maybe T;
-  action : {T : Type} -> T -> StateTransition LocalStateType MessageType
+type GuardedAction (S : Type) (M : Type) := mkGuardedAction {
+  guard : {T : Type} -> LocalEnvironment S M -> Maybe T;
+  action : {T : Type} -> StateTransition S M T;
 };
 ```
-
 
 ??? info "Notation: Curly braces in guard and action's type signature"
 
@@ -176,36 +186,46 @@ type GuardedAction (LocalStateType : Type) (MessageType : Type) := mkGuardedActi
     boolean-guard : State -> LocalEnvironment LocalStateType -> Bool;
     ```
 
-    However, as a design choice, guards will return additional data of type T from
+    However, as a design choice, guards will return additional data of type `T` from
     the local environment if the condition is met. So, if the guard is satisfied,
     this data (of type `T`) will be passed to the action function; otherwise, that
     is, if the guard is not satisfied, no data is returned.
     
-## Anoma Engine Type Definition
+## Anoma Engine Family Definition
+
+The `EngineFamily` type is the core type for defining an engine family in Anoma.
+It encapsulates the local environment and the list of guarded actions that define
+the behavior of the engine instances in the family. Our type is parameterised
+by the local state type `LocalStateType` and the message type `MessageType`.
+This means, while several engine instances share the same behavior, each instance
+has its own local state and mailbox cluster.
 
 ```juvix
-type Engine (LocalStateType : Type) (MessageType : Type) := 
-  mkEngine {
-    localEnvironment : LocalEnvironment LocalStateType MessageType;
-    guardedActions : List (GuardedAction LocalStateType MessageType)
+type EngineFamily (LocalStateType : Type) (MessageType : Type) := mkEngineFamily {
+  env : LocalEnvironment LocalStateType MessageType;
+  Behaviour : List (GuardedAction LocalStateType MessageType);
 };
 ```
 
-In conclusion, the `Engine` type specifies the structure of an Anoma engine.
-Each engine instance includes a local environment and a list of [guarded
-actions](#guarded-actions) (refer to Section [[Engines in
-Anoma#on-engine-types|On Engine Types]] for more details). The `Engine` type
-requires two parameters: `LocalStateType`, which defines instance-specific
-data, and `MessageType`, which represents the types of messages handled by the
-engine.
+!!! example "Example of an Engine Family in Words"
 
-For example, in a voting engine, `LocalStateType` could be a record with
-fields such as `votes`, `voters`, and `results`. Alternatively, it could be set
-to the unit type if no local state is needed. The message type for the voting
-engine might be a coproduct type of `Vote` and `Result`.
+    For example, to define an engine family for voting:
 
-!!! warning
+    - `LocalStateType` could be a record with fields like `votes`, `voters`, and `results`.
+    - The message type might be a coproduct of `Vote` and `Result`.
+    - The guarded actions may include actions like:
+        - `storeVote` to store a vote in the local state,
+        - `computeResult` to compute the result of the election, and
+        - `announceResult` to send the result to some other engine instances.
 
-    In the `Engine` type above, `List` is used because if multiple guards are 
-    satisfied, their corresponding actions are executed according to their index
-    in the list, defining the priority of each (guarded) action.
+   In this example, engine instances may vary (e.g., different elections or
+   voters), but the voting systems will operate identically given the same
+   initial state. This ensures consistent behavior across all engine instances
+   within the same family.
+
+!!! info
+
+    In the `EngineFamily` type above, `List` is used because if multiple guards are 
+    satisfied, we assume that their corresponding actions are executed according to
+    their index in the list, defining the priority of each (guarded) action. This behaviour
+    may, in principle, change in the future.

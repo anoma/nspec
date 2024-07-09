@@ -29,7 +29,9 @@ nav:
       - ./architecture-2/index.md
       - Modules:
         - ./architecture-2/modules/index.md
-      - Engines: ./architecture-2/engines.juvix.md
+      - Engine Families: 
+        - ./architecture-2/engines/index.juvix.md
+        - Type Declaration: ./architecture-2/engines/base.juvix.md
       - Hardware Abstraction Machine:
         - ./architecture-2/hardware-abstraction/index.md
         - Local Storage Engines:
@@ -397,7 +399,6 @@ nav:
         - Example of diff rendering: ./tutorial/file-v1.md
     - Engines in Anoma:
       - ./tutorial/engines/index.md
-      - Engine types: ./architecture-2/engines/base.juvix.md
       - The Auctioneer engine example:  ./tutorial/engines/Auctioneer.juvix.md
       # - Guarded action example: ./tutorial/engines/guarded-action-example.md
 
