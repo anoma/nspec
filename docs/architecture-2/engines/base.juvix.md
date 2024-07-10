@@ -164,7 +164,7 @@ https://github.com/anoma/juvix/issues/2247. -->
 type GuardedAction (S M T : Type) := mkGuardedAction {
    act : 
     Pair
-      (Trigger -> LocalEnvironment S M -> Maybe T)
+      ({A : Type} -> Trigger A -> LocalEnvironment S M -> Maybe T)
       (StateTransition S M T)
 };
 ```

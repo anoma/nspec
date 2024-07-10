@@ -110,7 +110,7 @@ incrementCounter : GuardedAction := mkGuardedAction@{
     (
     (\{
       | (Elapsed@{ timers := ts }) state := nothing
-      | (MessageArrived@{ message := m}) state :=
+      | (MessageArrived@{ envelope := m}) state :=
           case getMessageType m of {
             | Increment := just true
             | _ := nothing
@@ -148,7 +148,7 @@ respondWithCounter : GuardedAction := mkGuardedAction@{
     (
     (\{
       | (Elapsed@{ timers := ts }) state := nothing
-      | (MessageArrived@{ message := m }) state :=
+      | (MessageArrived@{ envelope := m }) state :=
           case getMessageType m of {
             | Count := just true
             | _ := nothing

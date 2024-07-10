@@ -15,7 +15,7 @@ search:
 module architecture-2.engines.basic-types;
 
 import Stdlib.Prelude as Prelude;
-import Data.Map as Containers open;
+
 import Data.Set as Containers open;
 ```
 
@@ -81,21 +81,37 @@ type Either (A  B : Type) : Type :=
   ordered data.
 
 ```juvix
-List (A : Type) : Type := Prelude.List A;
+import Stdlib.Data.List as List;
+open List using {
+  List;
+  nil;
+  ::
+} public;
 ```
 
 - **Maybe A**: Represents an optional value of type `A`. It can be either
   `Just A` (containing a value) or `Nothing` (no value).
 
 ```juvix
-Maybe (A : Type) : Type := Prelude.Maybe A;
+import Stdlib.Data.Maybe as Maybe;
+open Maybe using {
+  Maybe;
+  just;
+  nothing
+} public;
 ```
 
 - **Map K V**: Represents a collection of key-value pairs, sometimes called
   dictionary, where keys are of type `K` and values are of type `V`.
 
 ```juvix
-Map (K V : Type) : Type := Containers.Map K V;
+import Data.Map as Map;
+open Map using {
+  Map;
+  empty;
+  insert;
+  lookup
+} public;
 ```
 
 - **Set A**: Represents a collection of unique elements of type `A`. Used for
@@ -266,11 +282,23 @@ Timer : Type := Pair Time Handle;
 as message arrivals, timer expirations.
 
 ```juvix
-type Trigger :=
+type Trigger (MessageType : Type) :=
   | MessageArrived
     {
       MID : Maybe MailboxID;
-      message : {MessageType : Type} -> EnvelopedMessage MessageType;
+      envelope : EnvelopedMessage MessageType;
     }
   | Elapsed { timers : List Timer };
+```
+
+One can define a function to extract the message from a trigger:
+ 
+```juvix
+getMessageFromTrigger : {M : Type} -> Trigger M -> Maybe MessagePayload
+| (MessageArrived@{ 
+    envelope := (mkEnvelopedMessage@{ 
+      packet := (mkMessagePacket@{ 
+        message := (mkMessage@{ payload := p }) })})}) 
+        := just p
+| _ := nothing;
 ```
