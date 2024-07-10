@@ -18,8 +18,11 @@ tags:
     import Stdlib.Data.Pair open;
     import Data.Set as Set open;
     import Data.Map as Map open;
-    import Stdlib.Data.List open;
-    import Stdlib.Data.Bool as Bool open;
+
+    import Stdlib.Data.Bool as Bool;
+    import Stdlib.Data.Nat as Nat;
+    
+    open Bool using {true;false};
     import Stdlib.Data.Maybe as Maybe open;
 
     import architecture-2.engines.basic-types open;
@@ -27,9 +30,12 @@ tags:
     open EngineFamily using {
         EngineFamily;
         EngineInstance;
+        LocalEnvironment;
         mkEngineFamily;
         mkEngineInstance;
         mkLocalEnvironment;
+        mkStateTransitionInput;
+        mkStateTransitionResult;
         mkGuardedAction
     };
     open EngineFamily.LocalEnvironment;
@@ -86,7 +92,7 @@ TickerLocalEnvironment : Type :=
 To define the actions of the `Ticker`, we use the following type:
 
 ```juvix
-GuardedAction : Type := EngineFamily.GuardedAction LocalStateType MessageType;
+GuardedAction : Type := EngineFamily.GuardedAction LocalStateType MessageType Bool;
 ```
 
 Next, we define the specific tasks:
@@ -99,34 +105,36 @@ Next, we define the specific tasks:
 This action increments the counter by 1 upon receiving an `Increment` message.
 
 ```juvix
-incrementCounter : GuardedAction := !undefined;
-```
-
-```
 incrementCounter : GuardedAction := mkGuardedAction@{
-  guard := \ { {Bool}
-    (mkLocalEnvironment@{
-        localState := s
-    }) := 
-        case Map.lookup 1 (mailboxCluster s) of {
-           | nothing := nothing
-           | (just mbox) := case Mailbox.messages mbox of {
-               | [] := nothing
-               | (msg :: xs) := case 
-                    (Message.messageType 
-                            (MessagePacket.message 
-                                (EnvelopedMessage.packet msg))) of {
-                   | Increment := just true
-                   | _ := nothing
-               }
-           }
+  act := 
+    (
+    (\{
+      | (Elapsed@{ timers := ts }) state := nothing
+      | (MessageArrived@{ message := m}) state :=
+          case getMessageType m of {
+            | Increment := just true
+            | _ := nothing
+          } 
+      }) ,
+     \{ (mkStateTransitionInput@{
+          env := previousEnv }) := 
+            mkStateTransitionResult@{
+              newEnv := previousEnv@LocalEnvironment{
+                localState := mkLocalStateType@{
+                  counter := 1
+                  -- counter := (counter (localState previousEnv)) Nat.+ 1
+                  -- Anything different than a value here is producing a loop in Juvix.
+                }
+              };
+            producedMessages := mkMailBox@{
+              mailboxState := nothing;
+              messages := []
+            };
+          spawnedEngines := [];
+          timers := [];
         }
-     };
-  -- pattern match on the message type, if it's increment, then return unit
-  -- TODO: we need to define convenient functions for inspecting messages.
-  action := \{ _ := !undefined };
-    -- let newCounter = oldState.counter + 1 in
-  -- {!env.localState with counter=newCounter}
+      }
+    )
 };
 ```
 
@@ -135,20 +143,52 @@ incrementCounter : GuardedAction := mkGuardedAction@{
 This action sends the current counter value upon receiving a `Count` message.
 
 ```juvix 
-respondWithCounter : GuardedAction := !undefined;
-{-mkGuardedAction@{
-  guard := \ {_ := !undefined; };
-  --  if env.message == Count then Just () else Nothing} ;
-  action := \{ _ oldState := !undefined };
-   -- sendMessage (env.sender, CountMessage oldState.counter);
-    -- {!env.localState with counter=oldState.counter}
+respondWithCounter : GuardedAction := mkGuardedAction@{
+  act := 
+    (
+    (\{
+      | (Elapsed@{ timers := ts }) state := nothing
+      | (MessageArrived@{ message := m }) state :=
+          case getMessageType m of {
+            | Count := just true
+            | _ := nothing
+          } 
+      }) ,
+     \{ (mkStateTransitionInput@{ 
+            action := sender;
+            env := previousEnv }) := 
+            let lState := (localState previousEnv) in
+            let counterValue := LocalStateType.counter lState in
+            mkStateTransitionResult@{
+              newEnv := previousEnv; -- nothing changes
+              producedMessages := mkMailBox@{
+                mailboxState := nothing;
+                messages := [
+                  mkEnvelopedMessage@{
+                      packet := mkMessagePacket@{
+                        -- Fix this, it must be the sender gathered from the
+                        -- trigger message.
+                        target := sender;
+                        message := mkMessage@{
+                          messageType := Unit;
+                          payload := "Counter value is .. " -- Nat.toText counterValue
+                        }
+                      };
+                      sender := engineRef previousEnv
+                    }
+              ]
+              };
+              spawnedEngines := [];
+              timers := [];
+            }
+      }
+    )
 };
--}
 ```
 
 Finally, the engine family is defined as follows:
 
-```juvix
+```
 
 TickerFamily : EngineFamily LocalStateType MessageType := mkEngineFamily@{
   actions := [incrementCounter; respondWithCounter];
@@ -158,7 +198,7 @@ TickerFamily : EngineFamily LocalStateType MessageType := mkEngineFamily@{
 As an example of an engine instance in this family, we could
 define the ticker starting in zero.
 
-```juvix
+```
 tickerInstance : EngineFamily.EngineInstance LocalStateType MessageType 
 := mkEngineInstance@{
     name := "TickerOne";

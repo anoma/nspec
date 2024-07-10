@@ -45,14 +45,6 @@ Bool : Type := Prelude.Bool;
 String : Type := Prelude.String;
 ```
 
-As a synonym for `String`, we have:
-
-```juvix
-Name : Type := Prelude.String;
-```
-
-or
-
 ```juvix
 Label : Type := Prelude.String;
 ```
@@ -163,7 +155,8 @@ Identity : Type := Pair ExternalID InternalID;
   An address could be a simple string without any particular meaning in the system or an external identity.
 
 ```juvix
-Address : Type := Either Name ExternalID;
+Name : Type := Either Label ExternalID;
+Address : Type := Name;
 ```
 
 ### Enveloped messages
@@ -203,12 +196,36 @@ type EnvelopedMessage (MessageType : Type) : Type :=
   };
 ```
 
+For convenience, let's define some handy functions for enveloped messages:
+
+```juvix
+getMessageType : {M : Type} -> EnvelopedMessage M -> M
+| (mkEnvelopedMessage@{ packet := 
+  (mkMessagePacket@{ message := (mkMessage@{ messageType := mt }) }) }) := mt;
+```
+
+```juvix
+getMessagePayload : {M : Type} -> EnvelopedMessage M -> MessagePayload
+| (mkEnvelopedMessage@{ packet := 
+  (mkMessagePacket@{ message := (mkMessage@{ payload := p }) }) }) := p;
+```
+
+```juvix
+getMessageSender : {M : Type} -> EnvelopedMessage M -> Address
+| (mkEnvelopedMessage@{ sender := s }) := s;
+```
+
+```juvix
+getMessageTarget : {M : Type} -> EnvelopedMessage M -> Address
+| (mkEnvelopedMessage@{ packet := (mkMessagePacket@{ target := t }) }) := t;
+```
+
 - **Mailbox**: A list of messages. It represents a collection of messages
   waiting to be processed.
 
 ```juvix
 type Mailbox (MessageType : Type) : Type := mkMailBox {
-  mailboxState : {State : Type} -> State;
+  mailboxState : {State : Type} -> Maybe State;
   messages : List (EnvelopedMessage MessageType);
 };
 ```
@@ -246,16 +263,14 @@ Timer : Type := Pair Time Handle;
 ```
 
 - **Trigger**: An abstract type representing the nature of an events in the system, such
-as message arrivals, timer expirations. The following definition is most inspired by the
-datatype of the same name [trigger in Formanoma](https://github.com/anoma/formanoma/blob/84456645fad5f75c7b382831012d5d7f0d1f1dac/Types/Engine.thy#L8-L17).
-
+as message arrivals, timer expirations.
 
 ```juvix
 type Trigger :=
   | MessageArrived
     {
-      boxID : MailboxID;
+      MID : Maybe MailboxID;
       message : {MessageType : Type} -> EnvelopedMessage MessageType;
     }
-  | Elapsed {  timers : List Timer };
+  | Elapsed { timers : List Timer };
 ```
