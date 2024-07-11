@@ -188,7 +188,7 @@ MessagePayload : Type := String;
 
 type Message (MessageType : Type) : Type := mkMessage {
   messageType : MessageType;
-  payload : MessagePayload;
+  payload : String;
 };
 ```
 
@@ -207,10 +207,11 @@ type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
 ```juvix
 type EnvelopedMessage (MessageType : Type) : Type :=
   mkEnvelopedMessage {
-    packet : MessagePacket MessageType;
     sender : Address;
+    packet : MessagePacket MessageType;
   };
 ```
+
 
 For convenience, let's define some handy functions for enveloped messages:
 
@@ -294,11 +295,11 @@ type Trigger (MessageType : Type) :=
 One can define a function to extract the message from a trigger:
  
 ```juvix
-getMessageFromTrigger : {M : Type} -> Trigger M -> Maybe MessagePayload
-| (MessageArrived@{ 
-    envelope := (mkEnvelopedMessage@{ 
-      packet := (mkMessagePacket@{ 
-        message := (mkMessage@{ payload := p }) })})}) 
-        := just p
-| _ := nothing;
+getMessagePayloadFromTrigger : {M : Type} -> Trigger M -> Maybe MessagePayload
+  | (MessageArrived@{ 
+      envelope := (mkEnvelopedMessage@{ 
+        packet := (mkMessagePacket@{ 
+          message := (mkMessage@{ payload := p }) })})}) 
+          := just p
+  | _ := nothing;
 ```

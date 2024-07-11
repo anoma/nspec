@@ -29,10 +29,10 @@ tags:
     import architecture-2.engines.base as EngineFamily;
     open EngineFamily using {
         EngineFamily;
-        EngineInstance;
+        Engine;
         LocalEnvironment;
         mkEngineFamily;
-        mkEngineInstance;
+        mkEngine;
         mkLocalEnvironment;
         mkStateTransitionInput;
         mkStateTransitionResult;
@@ -64,7 +64,9 @@ type LocalStateType : Type := mkLocalStateType {
 };
 ```
 
-### Message Types
+### Message 
+
+### Incoming Message Type
 
 The `Ticker` processes the following message types:
 
@@ -73,7 +75,13 @@ The `Ticker` processes the following message types:
   value.
 
 ```juvix
-type MessageType := Increment | Count;
+type IMessageType := Increment | Count;
+```
+
+### Outgoing Message Type
+
+```juvix
+type OMessageType := Result Natural;
 ```
 
 #### Local Environment Type
@@ -83,22 +91,38 @@ of the local environment. Nonetheless, to ensure clarity, let us define it
 explicitly using the `LocalEnvironment` type.
 
 ```juvix
-TickerLocalEnvironment : Type := 
-    EngineFamily.LocalEnvironment LocalStateType MessageType;
+LocalEnvironment : Type := EngineFamily.LocalEnvironment LocalStateType IMessageType;
 ```
 
 ### Guarded Actions
-
-To define the actions of the `Ticker`, we use the following type:
-
-```juvix
-GuardedAction : Type := EngineFamily.GuardedAction LocalStateType MessageType Bool;
-```
 
 Next, we define the specific tasks:
 
 - Incrementing the counter.
 - Responding with the counter value.
+
+Regarding the guard function's return type, we must return two different types
+of values. The first value is a boolean (or possibly Unit) that indicates if the
+guard condition is met. The second value is the name of the message sender,
+which is used to set the target for the resulting message with the counted
+value.
+
+```juvix
+type GuardReturnType := 
+  | IncrementGuard Bool
+  | RespondGuard Name;
+```
+
+Therefore, the `GuardedAction` type is defined as follows:
+
+```juvix
+GuardedAction : Type := 
+  EngineFamily.GuardedAction 
+    LocalStateType 
+    IMessageType 
+    GuardReturnType 
+    OMessageType;
+```
 
 #### Guarded Action: Increment Counter
 
@@ -106,35 +130,31 @@ This action increments the counter by 1 upon receiving an `Increment` message.
 
 ```juvix
 incrementCounter : GuardedAction := mkGuardedAction@{
-  act := 
-    (
-    (\{
-      | (Elapsed@{ timers := ts }) state := nothing
+  guard := \{ 
       | (MessageArrived@{ envelope := m}) state :=
           case getMessageType m of {
-            | Increment := just true
+            | Increment := just (IncrementGuard true)
             | _ := nothing
-          } 
-      }) ,
-     \{ (mkStateTransitionInput@{
+          }
+      | (Elapsed@{ timers := ts }) state := nothing
+      };
+  action := \{ 
+      | (mkStateTransitionInput@{
           env := previousEnv }) := 
+            let lState := (localState previousEnv);
+                counterValue := LocalStateType.counter lState
+            in
             mkStateTransitionResult@{
               newEnv := previousEnv@LocalEnvironment{
                 localState := mkLocalStateType@{
-                  counter := 1
-                  -- counter := (counter (localState previousEnv)) Nat.+ 1
-                  -- Anything different than a value here is producing a loop in Juvix.
+                  counter := counterValue Nat.+ 1
                 }
               };
-            producedMessages := mkMailBox@{
-              mailboxState := nothing;
-              messages := []
-            };
+          producedMessages := [];
           spawnedEngines := [];
           timers := [];
         }
       }
-    )
 };
 ```
 
@@ -142,72 +162,71 @@ incrementCounter : GuardedAction := mkGuardedAction@{
 
 This action sends the current counter value upon receiving a `Count` message.
 
-```juvix 
+```juvix
 respondWithCounter : GuardedAction := mkGuardedAction@{
-  act := 
-    (
-    (\{
+  guard := 
+    \{
       | (Elapsed@{ timers := ts }) state := nothing
       | (MessageArrived@{ envelope := m }) state :=
           case getMessageType m of {
-            | Count := just true
+            | Count := just (RespondGuard (getMessageSender m))
             | _ := nothing
           } 
-      }) ,
-     \{ (mkStateTransitionInput@{ 
-            action := sender;
+      };
+  action := \{ (mkStateTransitionInput@{ 
+            action := senderRef ;
             env := previousEnv }) := 
-            let lState := (localState previousEnv) in
-            let counterValue := LocalStateType.counter lState in
+            let lState := (localState previousEnv);
+                counterValue := LocalStateType.counter lState;
+                sender := case senderRef of {
+                | (RespondGuard s) := Left s
+                | _ := Right 0 -- no address
+                };
+                in
             mkStateTransitionResult@{
               newEnv := previousEnv; -- nothing changes
-              producedMessages := mkMailBox@{
-                mailboxState := nothing;
-                messages := [
-                  mkEnvelopedMessage@{
-                      packet := mkMessagePacket@{
-                        -- Fix this, it must be the sender gathered from the
-                        -- trigger message.
-                        target := sender;
-                        message := mkMessage@{
-                          messageType := Unit;
-                          payload := "Counter value is .. " -- Nat.toText counterValue
-                        }
-                      };
-                      sender := engineRef previousEnv
-                    }
-              ]
-              };
+              producedMessages := [
+                    mkEnvelopedMessage@{
+                        packet := mkMessagePacket@{
+                          target := sender;
+                          message := mkMessage@{
+                            messageType := Result counterValue;
+                            payload := Nat.natToString counterValue
+                          }
+                        };    
+                        sender := engineRef previousEnv
+                      }
+              ];
               spawnedEngines := [];
               timers := [];
             }
       }
-    )
 };
 ```
 
 Finally, the engine family is defined as follows:
 
-```
-
-TickerFamily : EngineFamily LocalStateType MessageType := mkEngineFamily@{
-  actions := [incrementCounter; respondWithCounter];
+```juvix
+Family 
+  : EngineFamily LocalStateType IMessageType GuardReturnType OMessageType
+  := mkEngineFamily@{
+    actions := [incrementCounter; respondWithCounter];
 };
 ```
 
 As an example of an engine instance in this family, we could
 define the ticker starting in zero.
 
-```
-tickerInstance : EngineFamily.EngineInstance LocalStateType MessageType 
-:= mkEngineInstance@{
-    name := "TickerOne";
-    family := TickerFamily;
-    initState := mkLocalEnvironment@{
+```juvix
+tickerInstance : Engine LocalStateType IMessageType GuardReturnType OMessageType
+  := mkEngine@{
+    name := Left "TickerOne";
+    family := Family;
+    initEnv := mkLocalEnvironment@{
         localState := mkLocalStateType@{
             counter := 0;
         };
-        engineName := "TickerOne";
+        engineRef := Left  "TickerOne";
         timers := [];
         acquaintances := Set.empty;
         mailboxCluster := Map.empty;

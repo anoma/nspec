@@ -16,7 +16,5 @@ import architecture-2.engines.index;
 import architecture-2.engines.base;
 import architecture-2.engines.compute;
 import architecture-2.engines.p2p;
-
-import tutorial.engines.Auctioneer;
 ```
 

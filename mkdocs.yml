@@ -31,7 +31,7 @@ nav:
         - ./architecture-2/modules/index.md
       - Engine Families: 
         - ./architecture-2/engines/index.juvix.md
-        - Type Declaration: ./architecture-2/engines/base.juvix.md
+        - Engine Family Type: ./architecture-2/engines/base.juvix.md
       - Hardware Abstraction Machine:
         - ./architecture-2/hardware-abstraction/index.md
         - Local Storage Engines:
@@ -400,7 +400,6 @@ nav:
     - Engines in Anoma:
       - ./tutorial/engines/index.md
       - The Ticker engine family: ./tutorial/engines/Ticker.juvix.md
-      - The Auctioneer engine example:  ./tutorial/engines/Auctioneer.juvix.md
 
 extra:
   social:

@@ -19,7 +19,7 @@ tags:
     import architecture-2.engines.base as Base;
     open Base using {EngineFamily};
 
-    import tutorial.engines.Auctioneer as Auctioneer;
+    import tutorial.engines.Ticker as Ticker;
     ```
 
 # Anoma Engine Families
@@ -49,10 +49,8 @@ constructor of `AnomeEngineEnv` represents the local environment for a distinct
 engine family.
 
 ```juvix
-type AnomaEngineEnv :=
-  -- | EngineFamilyTicker Ticker.LocalEnvironment
-  | EngineFamilyAuctioneer Auctioneer.LocalEnvironment
-  -- | EngineConsensus Consensus.LocalEnvironment
+type AnomaEngineEnv := 
+  | EngineFamilyEnv Ticker.LocalEnvironment
   ;
 ```
 
@@ -62,12 +60,3 @@ type AnomaEngineEnv :=
   We are continually expanding the Juvix part of the specification with new engine families.
 
 
-It is now possible to define some utility function that can also help us reference.
-
-```juvix
-getLocalStateType (e : AnomaEngineEnv) : Type :=
-  case e of {
-    | (EngineFamilyAuctioneer _) := Auctioneer.LocalStateType
-  }
-  ; 
-```
