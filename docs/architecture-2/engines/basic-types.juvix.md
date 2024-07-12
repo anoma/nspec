@@ -5,18 +5,10 @@ search:
   boost: 2
 ---
 
-!!! todo
-
-    This module should be probably move to architecture-2.basic-types folder (?)
-    Also, we might need to split it in two: Prelude and BaseTypes modules.
-
-
 ```juvix
 module architecture-2.engines.basic-types;
 
-import Stdlib.Prelude as Prelude;
-
-import Data.Set as Containers open;
+import Stdlib.Trait open public;
 ```
 
 ## Common types defined in external libraries
@@ -24,49 +16,92 @@ import Data.Set as Containers open;
 The following are fundamental types provided by the Juvix standard library and others,
 which form the building blocks for more complex types in the architecture.
 
-- **Natural**: Represents natural numbers (non-negative integers). Used for
-  counting and indexing.
+- **Nat**: Represents natural numbers (non-negative integers). Used for
+  counting and indexing. 
 
 ```juvix
-Natural : Type := Prelude.Nat;
+import Stdlib.Data.Nat as Nat
+  open using
+  { Nat; 
+    zero; 
+    suc
+  } public;
+```
+
+For example, 
+
+```juvix
+ten : Nat := 10;
 ```
 
 - **Bool**: Represents boolean values (`true` or `false`). Used for logical
-  operations and conditions.
+  operations and conditions. 
 
 ```juvix
-Bool : Type := Prelude.Bool;
+import Stdlib.Data.Bool as Bool
+  open using
+  { Bool; 
+    true; 
+    false 
+  } public;
+```  
+  
+For example,
+
+```juvix
+verdad : Bool := true;
 ```
 
-- **String**: Represents sequences of characters. Used sending actual messages
-  and data.
-
+- **String**: Represents sequences of characters. Used for text and
+  communication.
+  
 ```juvix
-String : Type := Prelude.String;
+import Stdlib.Data.String 
+  as String
+  open using 
+  { String 
+  } public;
 ```
 
-```juvix
-Label : Type := Prelude.String;
-```
-
-and more specific for [[Engines in Anoma]]:
+For example,
 
 ```juvix
-EngineLabel : Type := Prelude.String
+hello : String := "Hello, World!";
 ```
 
 - **Unit**: Represents a type with a single value. Often used when a function
   does not return any meaningful value.
 
 ```juvix
-Unit : Type := Prelude.Unit;
+import Stdlib.Data.Unit 
+  as Unit
+  open using {
+    Unit;
+    unit
+  } public;
+```
+
+For example,
+
+```juvix
+unitValue : Unit := unit;
 ```
 
 - **Pair A B**: A tuple containing two elements of types `A` and `B`. Useful
   for grouping related values together.
 
 ```juvix
-Pair (A B : Type) : Type := Prelude.Pair A B;
+import Stdlib.Data.Pair as Pair 
+  open using {
+    Pair;
+    ,
+  } public;
+```
+
+For example,
+
+```juvix
+pair : Pair Nat Bool := (10 Pair., true);
 ```
 
 - **Either A B**: Represents a value of type `A` or `B`.
@@ -77,48 +112,78 @@ type Either (A  B : Type) : Type :=
   | Right B;
 ```
 
+For example,
+
+```juvix
+error : Either String Nat := Left "Error!";
+answer : Either String Nat := Right 42;
+```
+
+
 - **List A**: A sequence of elements of type `A`. Used for collections and
   ordered data.
 
 ```juvix
-import Stdlib.Data.List as List;
-open List using {
+import Stdlib.Data.List as List
+  open using {
   List;
   nil;
   ::
 } public;
 ```
 
+For example,
+
+```juvix
+numbers : List Nat := 1 :: 2 :: 3 :: nil;
+-- alternative syntax:
+niceNumbers : List Nat := [1 ; 2 ; 3];
+```
+
 - **Maybe A**: Represents an optional value of type `A`. It can be either
   `Just A` (containing a value) or `Nothing` (no value).
 
 ```juvix
-import Stdlib.Data.Maybe as Maybe;
-open Maybe using {
-  Maybe;
-  just;
-  nothing
-} public;
+import Stdlib.Data.Maybe as Maybe
+  open using {
+    Maybe;
+    just;
+    nothing
+  } public;
 ```
 
 - **Map K V**: Represents a collection of key-value pairs, sometimes called
   dictionary, where keys are of type `K` and values are of type `V`.
 
 ```juvix
-import Data.Map as Map;
-open Map using {
-  Map;
-  empty;
-  insert;
-  lookup
-} public;
+import Data.Map as Map
+  open using {
+    Map
+  } public;
 ```
+
+For example,
+
+```juvix
+codeToken : Map Nat String := 
+  Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "ANM")];
+```
+
 
 - **Set A**: Represents a collection of unique elements of type `A`. Used for
   sets of values.
 
 ```juvix
-Set (A : Type) : Type := Containers.Set A;
+import Data.Set as Set
+  open using {
+    Set
+  } public;
+```
+
+For example,
+
+```juvix
+uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
 ```
 
 ## Proper terms and types for the Anoma Specification
@@ -129,7 +194,6 @@ Set (A : Type) : Type := Containers.Set A;
 ```juvix
 axiom !undefined : {A : Type} -> A;
 ```
-
 
 ### Network Identity types
 
@@ -148,14 +212,14 @@ and internal.
   represented as a natural number.
 
 ```juvix
-ExternalID : Type := Natural;
+ExternalID : Type := Nat;
 ```
 
 - **InternalID**: A unique identifier for entities within the system, also
   represented as a natural number.
 
 ```juvix
-InternalID : Type := Natural;
+InternalID : Type := Nat;
 ```
 
 - **Identity**: A pair combining an `ExternalID` and an `InternalID`,
@@ -171,7 +235,7 @@ Identity : Type := Pair ExternalID InternalID;
   An address could be a simple string without any particular meaning in the system or an external identity.
 
 ```juvix
-Name : Type := Either Label ExternalID;
+Name : Type := Either String ExternalID;
 Address : Type := Name;
 ```
 
@@ -217,24 +281,26 @@ For convenience, let's define some handy functions for enveloped messages:
 
 ```juvix
 getMessageType : {M : Type} -> EnvelopedMessage M -> M
-| (mkEnvelopedMessage@{ packet := 
-  (mkMessagePacket@{ message := (mkMessage@{ messageType := mt }) }) }) := mt;
+  | (mkEnvelopedMessage@{ packet := 
+      (mkMessagePacket@{ message := 
+        (mkMessage@{ messageType := mt })})}) := mt;
 ```
 
 ```juvix
 getMessagePayload : {M : Type} -> EnvelopedMessage M -> MessagePayload
-| (mkEnvelopedMessage@{ packet := 
-  (mkMessagePacket@{ message := (mkMessage@{ payload := p }) }) }) := p;
+  | (mkEnvelopedMessage@{ packet := 
+      (mkMessagePacket@{ message :=
+        (mkMessage@{ payload := p })})}) := p;
 ```
 
 ```juvix
 getMessageSender : {M : Type} -> EnvelopedMessage M -> Address
-| (mkEnvelopedMessage@{ sender := s }) := s;
+  | (mkEnvelopedMessage@{ sender := s }) := s;
 ```
 
 ```juvix
 getMessageTarget : {M : Type} -> EnvelopedMessage M -> Address
-| (mkEnvelopedMessage@{ packet := (mkMessagePacket@{ target := t }) }) := t;
+  | (mkEnvelopedMessage@{ packet := (mkMessagePacket@{ target := t }) }) := t;
 ```
 
 - **Mailbox**: A list of messages. It represents a collection of messages
@@ -248,11 +314,12 @@ type Mailbox (MessageType : Type) : Type := mkMailBox {
 ```
 
 Mailboxes are indexed by their unique identifier, for now represented as
-a `Name`. This concerns the mailbox of a single engine.
+a number. This concerns the mailbox cluster of a single engine
 
 ```juvix
-MailboxID : Type := Name;
+MailboxID : Type := Nat;
 ```
+
 
 ### Time and Triggers
 
@@ -260,7 +327,7 @@ MailboxID : Type := Name;
   timing events.
 
 ```juvix
-Time : Type := Natural;
+Time : Type := Nat;
 ```
 
 Triggers represent events that can occur in the system, such as timers.
@@ -303,3 +370,16 @@ getMessagePayloadFromTrigger : {M : Type} -> Trigger M -> Maybe MessagePayload
           := just p
   | _ := nothing;
 ```
+
+Update the mailbox cluser with the messaged received by the trigger:
+
+```juvix
+updateMailboxCluster : {M : Type} -> Trigger M -> Map MailboxID (Mailbox M) -> Map MailboxID (Mailbox M)
+  | (MessageArrived@{ MID := just mid ; envelope := m }) mcluster := 
+      case Map.lookup mid mcluster of {
+        | just mailbox := Map.insert mid (mcluster@mkMailBox{ messages := m :: mb.messages}) mcluster
+        | _ := mcluster
+      }
+  | _ mc := mc;
+```
+

@@ -40,7 +40,7 @@ For Anoma specifications, these components include:
   state-transition functions accompanied by specific conditions allowing their
   execution when messages are received.
 
-So, let's introduce the type for each of these components.
+So, let's introduce the type for each of these components. 
 
 
 ### Local Environment
@@ -50,22 +50,20 @@ following categories:
 
 - A global reference, name, for the engine instance.
 - Local state.
-- Mailbox cluster, which is a map of mailbox IDs to mailboxes. <!-- TODO, rethink this type, or describe it differently. -->
+- Mailbox cluster, which is a map of mailbox IDs to mailboxes.
 - A set of names of acquainted engine instances. It is implicit that the engine
   instance is acquainted with itself, so no need to include its own name.
-- A list of timers that have been set.
-
-This data is encapsulated in the `LocalEnvironment` type. The `LocalEnvironment` 
-type is parameterised by two types: `LocalStateType` and 
-`IncomingMessageType` representing the local state and the type of message
-the engine read, respectively.
+- A list of timers that have been set. This data is contained within the
+`LocalEnvironment` type family, which is parameterized by two types: `S`,
+representing the local state, and `I`, representing the type of message read by
+the engine.
 
 ```juvix
-type LocalEnvironment (LocalStateType : Type) (IncomingMessageType : Type) := 
+type LocalEnvironment (S I : Type) := 
   mkLocalEnvironment {
       engineRef : Name ;
-      localState : LocalStateType;
-      mailboxCluster : Map MailboxID (Mailbox IncomingMessageType); 
+      localState : S;
+      mailboxCluster : Map MailboxID (Mailbox I); 
       acquaintances : Set Name;
       timers : List Timer;
 };
@@ -90,8 +88,10 @@ the following components:
   the engine's operation. Guards return data of type `R` if the condition is met.
   That data feeds as input for the actual state transition function.
 
-- A state transition function of type `StateTransition S I R O`, where the new
-  type variable `O` represents the outgoing type of messages. 
+- A state transition function of type `StateTransition S I R O C`, where the new
+type variable `O` denotes the type of outgoing messages, and `C` signifies the
+type of new engine instances to be created. Essentially, these types are a combination
+(coproduct) of the possible types of messages and engine instances that the engine can produce.
 
 #### State Transition Functions
 
@@ -100,7 +100,8 @@ parametrised by the types for local state, incoming messages, the data returned
 by the guard function, and outgoing messages.
 
 ```juvix
-StateTransition (S I R O : Type) : Type := StateTransitionInput S I R -> StateTransitionResult S I R O;
+StateTransition (S I R O C : Type) : Type :=
+  StateTransitionInput S I R -> StateTransitionResult S I R O C;
 ```
 
 In the type declaration above, we have that a state transition function takes the following inputs:
@@ -120,7 +121,7 @@ type StateTransitionInput (S I R : Type)
 };
 ```
 
-The `StateTransitionResult S I R O` type defines the results produced by a state
+The `StateTransitionResult S I R O C` type defines the results produced by a state
 transition function. When executing such a function, the engine instance can:
 
 - Update its local state.
@@ -136,18 +137,12 @@ transition function. When executing such a function, the engine instance can:
         - The name of the new engine instance.
         - The initial state of the engine instance.
 
-        This information is encapsulated within the `EngineInstance` type defined
-        further below.
-
 ```juvix
-
-type StateTransitionResult (S I R O : Type) := mkStateTransitionResult {
+type StateTransitionResult (S I R O C : Type) := mkStateTransitionResult {
     newEnv : LocalEnvironment S I;
     producedMessages : List (EnvelopedMessage O);
-    spawnedEngines : List ({eS eI eR eO : Type} -> Engine eS eI eR eO);
-    -- TODO: Here, would be really nice if we have sigma types, or some form of it that allows
-    -- us to define, for example, the type for enveloped messages for all possible types.
     timers : List Timer;
+    spawnedEngines : List C;
 };
 ```
 
@@ -164,9 +159,9 @@ such as setting messages to be sent or creating new engine instances.
 
 
 ```juvix
-type GuardedAction (S I R O : Type) := mkGuardedAction {
+type GuardedAction (S I R O C : Type) := mkGuardedAction {
    guard : Trigger I -> LocalEnvironment S I -> Maybe R;
-   action : StateTransition S I R O
+   action : StateTransition S I R O C
 };
 ```
 
@@ -193,8 +188,8 @@ a type for their incoming messages, a type for returned data by the guard functi
 a type for outgoing messages.
 
 ```juvix
-type EngineFamily (S I R O : Type) := mkEngineFamily {
-  actions : List (GuardedAction S I R O);
+type EngineFamily (S I R O C : Type) := mkEngineFamily {
+  actions : List (GuardedAction S I R O C);
 };
 ```
 
@@ -212,9 +207,9 @@ is associated with a specific name and a family of engines, plus a declaration o
 execution context.
 
 ```juvix
-type Engine (S I R O : Type):= mkEngine {
+type Engine (S I R O C : Type):= mkEngine {
   name : Name;
-  family : EngineFamily S I R O;
+  family : EngineFamily S I R O C;
   initEnv : LocalEnvironment S I;
 };
 ```

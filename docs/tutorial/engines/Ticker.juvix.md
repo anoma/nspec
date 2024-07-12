@@ -19,6 +19,8 @@ tags:
     import Data.Set as Set open;
     import Data.Map as Map open;
 
+  
+
     import Stdlib.Data.Bool as Bool;
     import Stdlib.Data.Nat as Nat;
     
@@ -60,7 +62,7 @@ The local state of the `Ticker` includes:
 
 ```juvix
 type LocalStateType : Type := mkLocalStateType {
-  counter : Natural
+  counter : Nat
 };
 ```
 
@@ -81,7 +83,7 @@ type IMessageType := Increment | Count;
 ### Outgoing Message Type
 
 ```juvix
-type OMessageType := Result Natural;
+type OMessageType := Result Nat;
 ```
 
 #### Local Environment Type
@@ -121,7 +123,8 @@ GuardedAction : Type :=
     LocalStateType 
     IMessageType 
     GuardReturnType 
-    OMessageType;
+    OMessageType
+    Unit;
 ```
 
 #### Guarded Action: Increment Counter
@@ -147,7 +150,7 @@ incrementCounter : GuardedAction := mkGuardedAction@{
             mkStateTransitionResult@{
               newEnv := previousEnv@LocalEnvironment{
                 localState := mkLocalStateType@{
-                  counter := counterValue Nat.+ 1
+                  counter := counterValue + 1
                 }
               };
           producedMessages := [];
@@ -208,7 +211,7 @@ Finally, the engine family is defined as follows:
 
 ```juvix
 Family 
-  : EngineFamily LocalStateType IMessageType GuardReturnType OMessageType
+  : EngineFamily LocalStateType IMessageType GuardReturnType OMessageType Unit
   := mkEngineFamily@{
     actions := [incrementCounter; respondWithCounter];
 };
@@ -218,7 +221,7 @@ As an example of an engine instance in this family, we could
 define the ticker starting in zero.
 
 ```juvix
-tickerInstance : Engine LocalStateType IMessageType GuardReturnType OMessageType
+tickerInstance : Engine LocalStateType IMessageType GuardReturnType OMessageType Unit
   := mkEngine@{
     name := Left "TickerOne";
     family := Family;
