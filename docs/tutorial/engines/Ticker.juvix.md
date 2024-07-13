@@ -5,7 +5,7 @@ search:
 tags:
   - engine-family
   - example
-  - ticker-engine-familyˇ
+  - ticker
   - Juvix
 ---
 
@@ -47,10 +47,10 @@ tags:
 
 ## Purpose
 
-A `Ticker` engine instance manages a counter in its local state. It increments
-this counter each time it receives a count message and responds with the
-computed result upon receiving a `Count` message. The initial state sets the
-counter.
+A ticker engine, part of the `Ticker` engine family, maintains a counter in its
+local state. This engine increases the counter whenever it gets a `Increment` message
+and provides the updated result upon receiving a `Count` message. The initial
+state initialises the counter.
 
 ### Ticker Local Environment
 
@@ -81,6 +81,9 @@ type IMessageType := Increment | Count;
 ```
 
 ### Outgoing Message Type
+
+To respond to the `Count` message, the engine sends a message containing the
+current counter value.
 
 ```juvix
 type OMessageType := Result Nat;
@@ -210,7 +213,7 @@ respondWithCounter : GuardedAction := mkGuardedAction@{
 Finally, the engine family is defined as follows:
 
 ```juvix
-Family 
+Ticker 
   : EngineFamily LocalStateType IMessageType GuardReturnType OMessageType Unit
   := mkEngineFamily@{
     actions := [incrementCounter; respondWithCounter];
@@ -224,7 +227,7 @@ define the ticker starting in zero.
 tickerInstance : Engine LocalStateType IMessageType GuardReturnType OMessageType Unit
   := mkEngine@{
     name := Left "TickerOne";
-    family := Family;
+    family := Ticker;
     initEnv := mkLocalEnvironment@{
         localState := mkLocalStateType@{
             counter := 0;
