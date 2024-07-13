@@ -373,7 +373,7 @@ getMessagePayloadFromTrigger : {M : Type} -> Trigger M -> Maybe MessagePayload
 
 Update the mailbox cluser with the messaged received by the trigger:
 
-```juvix
+```
 updateMailboxCluster : {M : Type} -> Trigger M -> Map MailboxID (Mailbox M) -> Map MailboxID (Mailbox M)
   | (MessageArrived@{ MID := just mid ; envelope := m }) mcluster := 
       case Map.lookup mid mcluster of {
