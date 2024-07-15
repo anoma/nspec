@@ -30,12 +30,12 @@ within an execution context known as the _local environment_ of the engine
 instance. For a more detailed explanation, please refer to the section on
 [[Engines in Anoma|Engine in Anoma's tutorial]].
 
-In this approach, we have structured Anoma around various _engine families_. Each of
-these families are then designed to perform a specific task within the system, such as handling
-a particular consensus operation, and consist of multiple **engine instances**.
-While all engine instance initally share the same behavior and therefore purpose,
+The Anoma Specification is articulated around various _engine families_. Each of
+these families are designed to perform specific tasks within the system, such as handling
+a particular consensus operation, and each family consists of multiple **engine instances**.
+While all engine instance initally share the same behavior,
 each engine instance is different in their (local) state and their name, data 
-part of the engine's execution environment.
+part of the engine's execution environment, and therefore, their purpose.
 
 ## Local Environments
 
