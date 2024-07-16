@@ -50,7 +50,7 @@ engine family.
 
 ```juvix
 type AnomaEngineEnv := 
-  | EngineFamilyEnv Ticker.LocalEnvironment
+  | EngineFamilyEnv Ticker.EngineEnvironment
   ;
 ```
 

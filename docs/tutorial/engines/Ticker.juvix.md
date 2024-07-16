@@ -12,35 +12,23 @@ tags:
 
 ??? info "Juvix imports"
 
-    ```juvix 
+    ```juvix
     module tutorial.engines.Ticker;
-
-    import Stdlib.Data.Pair open;
-    import Data.Set as Set open;
-    import Data.Map as Map open;
-
-  
-
-    import Stdlib.Data.Bool as Bool;
-    import Stdlib.Data.Nat as Nat;
-    
-    open Bool using {true;false};
-    import Stdlib.Data.Maybe as Maybe open;
 
     import architecture-2.engines.basic-types open;
     import architecture-2.engines.base as EngineFamily;
     open EngineFamily using {
-        EngineFamily;
         Engine;
-        LocalEnvironment;
-        mkEngineFamily;
+        EngineEnvironment;
+        EngineFamily;
+        mkActionInput;
+        mkActionResult;
         mkEngine;
-        mkLocalEnvironment;
-        mkStateTransitionInput;
-        mkStateTransitionResult;
+        mkEngineEnvironment;
+        mkEngineFamily;
         mkGuardedAction
     };
-    open EngineFamily.LocalEnvironment;
+    open EngineFamily.EngineEnvironment;
     ```
 
 # Ticker Family Engine
@@ -66,7 +54,7 @@ type LocalStateType : Type := mkLocalStateType {
 };
 ```
 
-### Message 
+### Message
 
 ### Incoming Message Type
 
@@ -93,10 +81,10 @@ type OMessageType := Result Nat;
 
 Given the types for the local state and messages, we inherently possess the type
 of the local environment. Nonetheless, to ensure clarity, let us define it
-explicitly using the `LocalEnvironment` type.
+explicitly using the `EngineEnvironment` type.
 
 ```juvix
-LocalEnvironment : Type := EngineFamily.LocalEnvironment LocalStateType IMessageType;
+EngineEnvironment : Type := EngineFamily.EngineEnvironment LocalStateType IMessageType;
 ```
 
 ### Guarded Actions
@@ -113,7 +101,7 @@ which is used to set the target for the resulting message with the counted
 value.
 
 ```juvix
-type GuardReturnType := 
+type GuardReturnType :=
   | IncrementGuard Bool
   | RespondGuard Name;
 ```
@@ -121,11 +109,11 @@ type GuardReturnType :=
 Therefore, the `GuardedAction` type is defined as follows:
 
 ```juvix
-GuardedAction : Type := 
-  EngineFamily.GuardedAction 
-    LocalStateType 
-    IMessageType 
-    GuardReturnType 
+GuardedAction : Type :=
+  EngineFamily.GuardedAction
+    LocalStateType
+    IMessageType
+    GuardReturnType
     OMessageType
     Unit;
 ```
@@ -136,23 +124,21 @@ This action increments the counter by 1 upon receiving an `Increment` message.
 
 ```juvix
 incrementCounter : GuardedAction := mkGuardedAction@{
-  guard := \{ 
-      | (MessageArrived@{ envelope := m}) state :=
+  guard := \{
+      | (MessageArrived@{ envelope := m}) _ :=
           case getMessageType m of {
             | Increment := just (IncrementGuard true)
             | _ := nothing
           }
-      | (Elapsed@{ timers := ts }) state := nothing
+      | (Elapsed@{ timers := ts }) _ := nothing
       };
-  action := \{ 
-      | (mkStateTransitionInput@{
-          env := previousEnv }) := 
-            let lState := (localState previousEnv);
-                counterValue := LocalStateType.counter lState
+  action := \{
+      | (mkActionInput@{ env := previousEnv }) :=
+            let counterValue := LocalStateType.counter (state previousEnv)
             in
-            mkStateTransitionResult@{
-              newEnv := previousEnv@LocalEnvironment{
-                localState := mkLocalStateType@{
+            mkActionResult@{
+              newEnv := previousEnv@EngineEnvironment{
+                state := mkLocalStateType@{
                   counter := counterValue + 1
                 }
               };
@@ -170,26 +156,26 @@ This action sends the current counter value upon receiving a `Count` message.
 
 ```juvix
 respondWithCounter : GuardedAction := mkGuardedAction@{
-  guard := 
+  guard :=
     \{
       | (Elapsed@{ timers := ts }) state := nothing
       | (MessageArrived@{ envelope := m }) state :=
           case getMessageType m of {
             | Count := just (RespondGuard (getMessageSender m))
             | _ := nothing
-          } 
+          }
       };
-  action := \{ (mkStateTransitionInput@{ 
+  action := \{ (mkActionInput@{
             action := senderRef ;
-            env := previousEnv }) := 
-            let lState := (localState previousEnv);
+            env := previousEnv }) :=
+            let lState := (state previousEnv);
                 counterValue := LocalStateType.counter lState;
                 sender := case senderRef of {
                 | (RespondGuard s) := Left s
                 | _ := Right 0 -- no address
                 };
                 in
-            mkStateTransitionResult@{
+            mkActionResult@{
               newEnv := previousEnv; -- nothing changes
               producedMessages := [
                     mkEnvelopedMessage@{
@@ -197,9 +183,9 @@ respondWithCounter : GuardedAction := mkGuardedAction@{
                           target := sender;
                           message := mkMessage@{
                             messageType := Result counterValue;
-                            payload := Nat.natToString counterValue
+                            payload := natToString counterValue
                           }
-                        };    
+                        };
                         sender := engineRef previousEnv
                       }
               ];
@@ -213,7 +199,7 @@ respondWithCounter : GuardedAction := mkGuardedAction@{
 Finally, the engine family is defined as follows:
 
 ```juvix
-Ticker 
+Ticker
   : EngineFamily LocalStateType IMessageType GuardReturnType OMessageType Unit
   := mkEngineFamily@{
     actions := [incrementCounter; respondWithCounter];
@@ -228,8 +214,8 @@ tickerInstance : Engine LocalStateType IMessageType GuardReturnType OMessageType
   := mkEngine@{
     name := Left "TickerOne";
     family := Ticker;
-    initEnv := mkLocalEnvironment@{
-        localState := mkLocalStateType@{
+    initEnv := mkEngineEnvironment@{
+        state := mkLocalStateType@{
             counter := 0;
         };
         engineRef := Left  "TickerOne";
@@ -257,7 +243,7 @@ sequenceDiagram
 
     Client ->> Ticker: Send Increment
     Note over Ticker: Counter = 1
-    
+
     Client ->> Ticker: Send Increment
     Note over Ticker: Counter = 2
 

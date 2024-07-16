@@ -17,35 +17,37 @@ The following are fundamental types provided by the Juvix standard library and o
 which form the building blocks for more complex types in the architecture.
 
 - **Nat**: Represents natural numbers (non-negative integers). Used for
-  counting and indexing. 
+  counting and indexing.
 
 ```juvix
 import Stdlib.Data.Nat as Nat
   open using
-  { Nat; 
-    zero; 
-    suc
+  { Nat;
+    zero;
+    suc;
+    natToString
   } public;
 ```
 
-For example, 
+For example,
 
 ```juvix
 ten : Nat := 10;
 ```
 
+
 - **Bool**: Represents boolean values (`true` or `false`). Used for logical
-  operations and conditions. 
+  operations and conditions.
 
 ```juvix
 import Stdlib.Data.Bool as Bool
   open using
-  { Bool; 
-    true; 
-    false 
+  { Bool;
+    true;
+    false
   } public;
-```  
-  
+```
+
 For example,
 
 ```juvix
@@ -54,12 +56,12 @@ verdad : Bool := true;
 
 - **String**: Represents sequences of characters. Used for text and
   communication.
-  
+
 ```juvix
-import Stdlib.Data.String 
+import Stdlib.Data.String
   as String
-  open using 
-  { String 
+  open using
+  { String
   } public;
 ```
 
@@ -73,7 +75,7 @@ hello : String := "Hello, World!";
   does not return any meaningful value.
 
 ```juvix
-import Stdlib.Data.Unit 
+import Stdlib.Data.Unit
   as Unit
   open using {
     Unit;
@@ -91,7 +93,7 @@ unitValue : Unit := unit;
   for grouping related values together.
 
 ```juvix
-import Stdlib.Data.Pair as Pair 
+import Stdlib.Data.Pair as Pair
   open using {
     Pair;
     ,
@@ -144,8 +146,8 @@ niceNumbers : List Nat := [1 ; 2 ; 3];
   `Just A` (containing a value) or `Nothing` (no value).
 
 ```juvix
-import Stdlib.Data.Maybe as Maybe
-  open using {
+import Stdlib.Data.Maybe as Maybe public;
+open Maybe using {
     Maybe;
     just;
     nothing
@@ -156,8 +158,8 @@ import Stdlib.Data.Maybe as Maybe
   dictionary, where keys are of type `K` and values are of type `V`.
 
 ```juvix
-import Data.Map as Map
-  open using {
+import Data.Map as Map public;
+open Map using {
     Map
   } public;
 ```
@@ -165,7 +167,7 @@ import Data.Map as Map
 For example,
 
 ```juvix
-codeToken : Map Nat String := 
+codeToken : Map Nat String :=
   Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "ANM")];
 ```
 
@@ -174,8 +176,8 @@ codeToken : Map Nat String :=
   sets of values.
 
 ```juvix
-import Data.Set as Set
-  open using {
+import Data.Set as Set public;
+open Set using {
     Set
   } public;
 ```
@@ -281,14 +283,14 @@ For convenience, let's define some handy functions for enveloped messages:
 
 ```juvix
 getMessageType : {M : Type} -> EnvelopedMessage M -> M
-  | (mkEnvelopedMessage@{ packet := 
-      (mkMessagePacket@{ message := 
+  | (mkEnvelopedMessage@{ packet :=
+      (mkMessagePacket@{ message :=
         (mkMessage@{ messageType := mt })})}) := mt;
 ```
 
 ```juvix
 getMessagePayload : {M : Type} -> EnvelopedMessage M -> MessagePayload
-  | (mkEnvelopedMessage@{ packet := 
+  | (mkEnvelopedMessage@{ packet :=
       (mkMessagePacket@{ message :=
         (mkMessage@{ payload := p })})}) := p;
 ```
@@ -360,13 +362,13 @@ type Trigger (MessageType : Type) :=
 ```
 
 One can define a function to extract the message from a trigger:
- 
+
 ```juvix
 getMessagePayloadFromTrigger : {M : Type} -> Trigger M -> Maybe MessagePayload
-  | (MessageArrived@{ 
-      envelope := (mkEnvelopedMessage@{ 
-        packet := (mkMessagePacket@{ 
-          message := (mkMessage@{ payload := p }) })})}) 
+  | (MessageArrived@{
+      envelope := (mkEnvelopedMessage@{
+        packet := (mkMessagePacket@{
+          message := (mkMessage@{ payload := p }) })})})
           := just p
   | _ := nothing;
 ```
@@ -375,7 +377,7 @@ Update the mailbox cluser with the messaged received by the trigger:
 
 ```
 updateMailboxCluster : {M : Type} -> Trigger M -> Map MailboxID (Mailbox M) -> Map MailboxID (Mailbox M)
-  | (MessageArrived@{ MID := just mid ; envelope := m }) mcluster := 
+  | (MessageArrived@{ MID := just mid ; envelope := m }) mcluster :=
       case Map.lookup mid mcluster of {
         | just mailbox := Map.insert mid (mcluster@mkMailBox{ messages := m :: mb.messages}) mcluster
         | _ := mcluster

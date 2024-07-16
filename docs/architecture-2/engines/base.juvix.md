@@ -20,126 +20,131 @@ tags:
 
 ## Core Types and Concepts
 
-This page highlights the essential types and concepts needed to define an engine
-family in the Anoma Specification, specifically focusing on writing these
-families in Juvix. Please refer to the [[Engines in Anoma]] page for a better
-overview and motivation of the concept of engines for Anoma.
+This page highlights the essential types and concepts of an engine family in the
+Anoma Specification, specifically focusing on writing these families in Juvix.
+Please refer to the [[Engines in Anoma]] page for a better overview and
+motivation of the concept of engines for Anoma.
 
-Each engine family must declare specific components essential to its purpose.
-For Anoma specifications, these components include:
+Each engine family must declare specific components that each of its member
+engine instances will have. For Anoma specifications, the components are:
 
-- **Local Environment**: This serves as the execution context for engines.
-  In addition to the local state, the local
-  environment encompasses elements such as the mailbox cluster owned by an
-  engine instance and a set of acquaintances—other engine instances known to the
-  current one that can interact with it.
+Engine Environment
 
-- **Guarded Action**: Engines are not merely storage units; they also process
-  information and communicate with other engine instances through messages.
-  Their behavior is defined by their guarded actions, which are rules or
-  state-transition functions accompanied by specific conditions allowing their
-  execution when messages are received.
+:   This serves as the execution context for engines. In addition to the local
+    state, the local environment encompasses elements such as the mailbox
+    cluster owned by an engine instance and a set of acquaintances—other engine
+    instances known to the current one that can interact with it.
 
-So, let's introduce the type for each of these components. 
+Guarded Actions
+
+:   The engine's behavior is specified by a finite set of functions that mutate
+    the local state of the engine's instance. These functions, also called state
+    transition functions, are accompanied by specific conditions on the messages
+    received and the engine environment.
 
 
-### Local Environment
+So, let's introduce the type for each of these components.
 
-The local environment encompasses static information for engine instances in the
+
+### Engine Family Environment
+
+The engine family environment encompasses static information for engine instances in the
 following categories:
 
-- A global reference, name, for the engine instance.
-- Local state.
+- A global reference, `name`, for the engine instance.
+- Local state that is engine-specific.
 - Mailbox cluster, which is a map of mailbox IDs to mailboxes.
 - A set of names of acquainted engine instances. It is implicit that the engine
-  instance is acquainted with itself, so no need to include its own name.
-- A list of timers that have been set. This data is contained within the
-`LocalEnvironment` type family, which is parameterized by two types: `S`,
-representing the local state, and `I`, representing the type of message read by
-the engine.
+  instance is acquainted with itself, so there is no need to include its own
+  name.
+- A list of timers that have been set. This data is encapsulated within the
+  `EngineEnvironment` type family, which is parameterised by two types: `S`,
+  representing the local state, and `I`, representing the type of incoming
+  messages to the engine instance.
+
 
 ```juvix
-type LocalEnvironment (S I : Type) := 
-  mkLocalEnvironment {
-      engineRef : Name ;
-      localState : S;
-      mailboxCluster : Map MailboxID (Mailbox I); 
+type EngineEnvironment (S I : Type) :=
+  mkEngineEnvironment {
+      engineRef : Name ; -- read-only
+      state : S;
+      mailboxCluster : Map MailboxID (Mailbox I);
       acquaintances : Set Name;
       timers : List Timer;
 };
 ```
 
-For short, we will use the type parameters `S` and `I` to represent 
+For short, we will use the type parameters `S` and `I` to represent
 the type of the local state and incoming message types, respectively.
 
 ### Engine Behaviours
 
-In line with the actor model, each engine processes only one message at a time.
-The behavior of an engine is specified by a set of _guarded actions_, which define
-the transitions an engine can make from one state to another based on specific
-conditions.
+Each engine processes only one message at a time. The behaviour of an engine is
+specified by a finite set of _guarded actions_, which define the transitions an engine
+can make from one state to another based on specific conditions.
 
-Guarded actions are represented by the type `GuardedAction`, which encapsulates
+Guarded actions are terms of type `GuardedAction`, which encapsulates
 the following components:
- 
-- A guard function of type `Trigger -> LocalEnvironment S I -> Maybe R`, where
-  the trigger of type `Trigger` is a term that captures the message receveid. This
+
+- A _guard function_ of type `Trigger -> EngineEnvironment S I -> Maybe R`, where
+  the _trigger_ of type `Trigger` is a term that captures the message received. This
   trigger can include the received message or timers that have elapsed during
   the engine's operation. Guards return data of type `R` if the condition is met.
-  That data feeds as input for the actual state transition function.
+  That data serves as input for the corresponding action.
 
-- A state transition function of type `StateTransition S I R O C`, where the new
-type variable `O` denotes the type of outgoing messages, and `C` signifies the
-type of new engine instances to be created. Essentially, these types are a combination
-(coproduct) of the possible types of messages and engine instances that the engine can produce.
+- An _action_ of type `Action S I R O C`, where the new type parameters `O`
+  denote the type of outgoing messages, and `C` signifies the type of new engine
+  instances to be created.
 
-#### State Transition Functions
 
-Below, we define the type for state transition functions. These functions are
-parametrised by the types for local state, incoming messages, the data returned
-by the guard function, and outgoing messages.
+#### Action Functions
+
+Below, we define the type for actions. These functions are parametrised by the
+types for local state, incoming messages, the data returned by the guard
+function, and outgoing messages.
 
 ```juvix
-StateTransition (S I R O C : Type) : Type :=
-  StateTransitionInput S I R -> StateTransitionResult S I R O C;
+Action (S I R O C : Type) : Type := ActionInput S I R -> ActionResult S I R O C;
 ```
 
-In the type declaration above, we have that a state transition function takes the following inputs:
+So, we have the input and output of an action into two separate types:
+`ActionInput S I R` and `ActionResult S I R O C`, for convenience. The
+`ActionInput S I R` type is a record that encapsulates the following data:
 
-- The input of type `R` generated by running the corresponding guard function, if any.
-- The local environment of the engine instance.
-- The time at which the state transition is executed.
-
-These arguments are encapsulated in the `StateTransitionInput S I R` record type below.
+- A term of type `R`, which represents the data returned by the guard function,
+  if any.
+- The environment of the corresponding engine instance.
+- The time at which the corresponding trigger started.
 
 ```juvix
-type StateTransitionInput (S I R : Type)
-  := mkStateTransitionInput {
-      action : R; 
-      env : LocalEnvironment S I;
+type ActionInput (S I R : Type)
+  := mkActionInput {
+      action : R;
+      env : EngineEnvironment S I;
       time : Time;
 };
 ```
 
-The `StateTransitionResult S I R O C` type defines the results produced by a state
-transition function. When executing such a function, the engine instance can:
+Finally, the `ActionResult S I R O C` type defines the results produced by the
+action. When executing such a function, the engine instance can:
 
-- Update its local state.
+- Update its environment but not its name.
 - Set messages to be sent to other engine instances.
-- Set timers.
+- Set, discards, or supersede timers.
 - Define new engine instances to be created.
 
     ??? info "On creating new engine instances"
-          
-        To create these new engine instances, we need to specify the following data:
+
+        To create new engine instances, we need to specify the following data:
 
         - The engine family type.
-        - The name of the new engine instance.
+        - The name of the new engine instance. We assume the system will ensure
+          that the name is unique.
         - The initial state of the engine instance.
 
 ```juvix
-type StateTransitionResult (S I R O C : Type) := mkStateTransitionResult {
-    newEnv : LocalEnvironment S I;
+type ActionResult (S I R O C : Type) := mkActionResult {
+    newEnv : EngineEnvironment S I;
     producedMessages : List (EnvelopedMessage O);
     timers : List Timer;
     spawnedEngines : List C;
@@ -149,35 +154,38 @@ type StateTransitionResult (S I R O C : Type) := mkStateTransitionResult {
 
 #### Guarded Actions
 
-To recap, a guarded action consists of a _guard_ and an _transition_. The guard
-is a function that evaluates conditions on the engine's local environment to
-decide if the action should be executed. This guard function has as input the
-trigger that caused the action to be evaluated, and the local environment of the
-engine instance to determine if the condition is met. The state transition is a
-function that updates the local environment and may include additional effects,
-such as setting messages to be sent or creating new engine instances.
+To recap, a guarded action consists of a _guard_ and an _action_. The guard is a
+function that evaluates conditions on the engine's local environment to decide
+if the action should be executed. This guard function has as input the trigger
+that caused the guard to be evaluated, and the local environment of the engine
+instance to determine if the condition to run the action is met. The action is a
+function that can update the local environment to some extent and may include
+instructions for setting messages to be sent or creating new engine instances.
 
 
 ```juvix
 type GuardedAction (S I R O C : Type) := mkGuardedAction {
-   guard : Trigger I -> LocalEnvironment S I -> Maybe R;
-   action : StateTransition S I R O C
+   guard : Trigger I -> EngineEnvironment S I -> Maybe R;
+   action : Action S I R O C
 };
 ```
 
 ??? info "On the type signature of the guard function"
 
-    In principle, a guard is a predicate that evaluates the current state and local
-    environment of the engine instance, that is, a function returning a boolean. 
-    
-    ```
-    boolean-guard : Trigger I -> LocalEnvironment S I -> Bool;
+
+    In principle, borrowing terminology from Hoare logic, a guard is a
+    _precondition_ to run an action. The corresponding predicate is activated by a
+    trigger and evaluated within the context of the engine's environment. It then
+    returns a boolean when the predicate is satisfied, specifically of type
+
+    ```haskell
+    Trigger I -> EngineEnvironment S I -> Bool;
     ```
 
     However, as a design choice, guards will return additional data of type `R` from
     the local environment if the condition is met. So, if the guard is satisfied,
     this data (of type `R`) is assumed to be passed to the action function; otherwise, that
-    is, if the guard is not satisfied, no data is returned. 
+    is, if the guard is not satisfied, no data is returned.
 
 ## Engine Families and Instances
 
@@ -197,20 +205,20 @@ type EngineFamily (S I R O C : Type) := mkEngineFamily {
 
     In the `EngineFamily` type, we used `List` not just for
     convenience but also because we have not yet established a way to compare or
-    sort guarded actions, guards, and state transition functions. Additionally,
+    sort guarded actions, guards, and Action. Additionally,
     using `List` specifies the order in which the guarded actions will execute when
     multiple guards are met. This behavior might change in the future.
 
 Additionally, we define the `Engine` type, which represents an engine within a family.
 A term of this `Engine` type is referred to as an engine instance. Each engine instance
 is associated with a specific name and a family of engines, plus a declaration of its own
-execution context.
+execution context, that is, the specific state, mailbox cluster, acquaintances, and timers.
 
 ```juvix
 type Engine (S I R O C : Type):= mkEngine {
   name : Name;
   family : EngineFamily S I R O C;
-  initEnv : LocalEnvironment S I;
+  initEnv : EngineEnvironment S I;
 };
 ```
 
