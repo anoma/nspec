@@ -18,7 +18,9 @@ tags:
 The Anoma specification is inspired by the actor model[^3]
 where systems consist of _actors_ that communicate via message passing.
 An Anoma node instance is modelled as a finite[^4] collection of
-_engine instances_ that communicate by sending messages to each other.
+_engine instances_ that communicate by sending messages to each other,
+very much like actors do, 
+but subject to some "fine print" that we shall cover in due course.
 The behaviour of each engine instance—i.e., 
 how it reacts to receiving a message in 
 the context of previously sent messages—is
@@ -28,23 +30,25 @@ reminiscent of the next-state function of
 (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition)), 
 defined formally as an [Isabelle/HOL-locale](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215),
 and is explained in more concrete terms in
-the guarded action template below. <!-- needs updating -->
-The state transition function is invoked
-whenever an event (in the sense of the actor model theory) is
-triggered at the engine instance,
-typically, by the arrival of a new message[^1];
-the result of applying the state transition function to
-the local state and the event trigger describes 
-not only the state update of the engine instance, 
+the guarded action template below. <!-- 
+some of these links need "continous" updating [do not erase this comment] 
+--> Each invokation of a state transition function
+corresponds to an event (in the sense of the actor model theory);
+events are _triggered_ at the engine instance
+by the arrival of a new message[^1] or an elapsing timer;
+the result of applying the state transition function 
+describes 
+not only the state update of the engine instance,
 but also which further actions need to be taken: 
-sending of messages, setting timers, and spawning new engine instances.
+sending of messages, setting timers, and creating new engine instances.[^10]
 
-Crucially,
-the Anoma specification describes
-a _fixed_ finite number of state transition functions
-such that
-the behaviour of every (correct and non-faulty) engine instance in an Anoma instance
-is determined by exactly one of these state transition functions.<!-- add footnote to engine system locale ["axiom" state_partition](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L192) -->
+The Anoma specification describes
+a ꜰɪxᴇᴅ finite number of _engine families_
+such that every (correct and non-faulty) engine instance in an Anoma instance
+belong sto a unique family that describes its behavior by a set of guarded actions;
+these engine families are static,
+while dynamic parameters at engine creation determine the exact behavior.
+<!-- add footnote to engine system locale ["axiom" state_partition](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L192) -->
 <!-- this be moved elsewhere
 !!! definition 
 ¶
@@ -52,9 +56,10 @@ is determined by exactly one of these state transition functions.<!-- add footno
 -->
 We start by describing in more detail the "internal" structure of
 each engine instance, and the accompanying design choices.
-With that in place,
-we then describe state transition function in more detail
-before we finally come to how we actually will specify state transition functions in the anoma specification via guarded actions.
+Then we describe state transition functions in more detail
+before we finally come to how
+we actually will specify state transition functions in the anoma specification
+via sets of guarded actions.
 <!-- Then, we describe how the corresponding engine type can be described. -->
 
 ## On the local data of engine instances
@@ -473,3 +478,7 @@ the type of messages that are contained in mailboxes.
 
 [^9]: See the
 	[`local_interaction`data type](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L53).
+
+[^10]: Here, we follow the terminolgy of event-driven state machines of using
+	a single function where in Mealy machines, we have a pair of functions,
+	one for the state update and one for the outputs generated.
