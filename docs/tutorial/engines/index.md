@@ -167,6 +167,21 @@ or guard functions in colored Petri nets.
 
 ### A finite set of guards for each engine family
 
+Each guard of an engine familiy
+is a function that determines whether
+the action that it guards is applicable,
+based on the time stamped trigger, 
+and all local data, i.e., the engine environment.[^12]
+In most situations,
+but a part of the local data are needed 
+to determine whther the guard is _enabled._
+If the guard (or its guarded action) is enabled by the trigger,
+it returns the matched data, 
+which typically are extraced from the received message;
+typically, the result specifies
+an _action label_ <!-- ᚦ not sure what to call it-->and
+additional result of any non-trivial computations 
+that one would want to avoid to duplicate.
 
 
 ### Inputs of the transition function of engine families
@@ -530,3 +545,6 @@ the type of messages that are contained in mailboxes.
 [^11]: Clocks are a little more complicated to get into the picture;
 	they are "external" to the environment
 	and still epxerimental.
+
+[^12]: We always have a default guard
+	that "activates" if no other guards are defined.
