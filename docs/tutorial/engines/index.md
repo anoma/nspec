@@ -145,6 +145,7 @@ The formal details are given by
 the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
 ᚦ: ALERT: out of date!!
 -->
+
 The main points to keep in mind: 
 there's an "optional parameter" for which action is to be taken,
 and the action given the current environment 
@@ -152,14 +153,32 @@ and the time stamped trigger do already determine
 the action to be taken and also the reactions to the trigger.
 Let us explain this one stpe at a time.
 
+Now, one important deviation from a "bare bones" actor model 
+are a set of guards for each engine family.
+It is up to the set of guards to determine, 
+which action could be taken given 
+the local data in form of an engine environment 
+and the time stamped[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L19)<!--
+ᚦ: needs updating [do not remove this comment): out of date ALERT!
+-->.
+Thus, let us look at guards,
+which are very similar to guards in Dijkstra's ɢᴄʟ
+or guard functions in colored Petri nets.
+
+### A finite set of guards for each engine family
+
+
+
 ### Inputs of the transition function of engine families
 
-Transition functions take two pieces of data as input:
-the local state in the form of an engine environment and 
-the (time stamped) [_trigger,_](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L19)<!--
-ᚦ: needs updating [do not remove this comment): out of date ALERT!
--->
-which is either a message that was received (and has to be processed) or
+Transition functions take three pieces of data as input:
+the local state in the form of an engine environment,
+the time stamped ,
+and the (re-)action to be taken as a consequence.
+
+
+
+which is either a message that was received and has to be processed) or
 a notification from the local clock about
 the elapsing of a non-empty set of timers.<!--
 	make a design choice of whether
