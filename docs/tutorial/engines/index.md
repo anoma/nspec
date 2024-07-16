@@ -61,7 +61,7 @@ before we finally come to how
 we actually will specify state transition functions in the anoma specification
 via sets of guarded actions.
 
-## On the local data of engine instances
+## On the local data of engine instances: the engine environment
 
 Each engine instance has the following local data that it can 
 access directly and exclusively
@@ -88,41 +88,54 @@ at any given moment while processing event triggers:
 	cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
   -->
 
-    - a finite set of names
+    - a finite set of names <!-- ᚦ: TODO: figure out how to combine with aliasing -->
 
 - memory for previously set timers, given by<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L212-->
 
-    - a finite set of timer handles
-    - a map from these timer handles to the requested notification time
+    - a finite list of timers
 
+<!-- 
+ᚦ: whp, we do not need this any more (no more necessity of crypto ids) 
+--><!--
 - memory for names of spawned engines that 
-  do not have a cryptographic ID yet<!--
+  do not have a cryptographic ID yet--><!--
     cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213 needs 'ext_id option though as codomain type of the fmap-->
 
 - engine-specific local state<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
-- the current time[^7]<!--
+<!-- ᚦ: ooof, this was still here ... and bye bye--><!--
+- the current time[^7]--><!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L210-->
 
-These types are formalized as a [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).
-
-<!--
-link will need updating 
+The record of all these local data is called the _engine environment._[^11] 
+The types are formalized in the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205),
+ with a translation from the Juvix code.<!--
+ link **will** need updating [ᚦ do not erase this comment] OUT OF DATE ALERT!
 -->
-The engine's identity is unchangeable,
-but a new *"continuation engine"* could be spawned with a new identifier,
-as will become clearer
-after transitions functions are properly introduced.
+The engine instance's name is unchangeable,
+once the engine is created;
+every correct implementation must ensure that
+the parent engine chooses a globally unique name before an engine can be created,
+e.g., 
+by using the pair of its own globally unique name,
+paired with a name that is unique among its children—<!--
+-->either spawned previously or in the future.
+Should the need arise for changing the name of an engine
+(as it has been sent to undesired destinations),
+a new *"continuation engine"* can be spawned with a new name;
+we shall describe this in more detail after introducing 
+transition functions.
 
 ## On transition functions of engine instances
 
 The Anoma Specification uses pure functions to describe
-the atomic computation that each engine instance performs 
-when a new message or notification from the local clock is received;
+the atomic computation that each engine instance performs when
+a new message is ready to be processed or
+a notification from the local clock is received;
 moreover,
-the transition function also encodes the actions that should be taken.
+the transition function also encodes the changes to its local environment.
 The formal version is
 (any interpretation of) the [`transition_function`](https://github.com/anoma/formanoma/blob/75331d688f2ae399fbebb008549b2dfda78b4e5b/Types/Engine.thy#L217) of
 the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).
@@ -480,3 +493,7 @@ the type of messages that are contained in mailboxes.
 [^10]: Here, we follow the terminolgy of event-driven state machines of using
 	a single function where in Mealy machines, we have a pair of functions,
 	one for the state update and one for the outputs generated.
+
+[^11]: Clocks are a little more complicated to get into the picture;
+	they are "external" to the environment
+	and still epxerimental.
