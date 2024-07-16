@@ -60,37 +60,35 @@ Then we describe state transition functions in more detail
 before we finally come to how
 we actually will specify state transition functions in the anoma specification
 via sets of guarded actions.
-<!-- Then, we describe how the corresponding engine type can be described. -->
 
 ## On the local data of engine instances
 
-Each engine instance has the following local data that is
-directly and exclusively accessible 
-at any given moment (in local time):
+Each engine instance has the following local data that it can 
+access directly and exclusively
+at any given moment while processing event triggers:
 
-- its _identity_, given by a pair of<!--
+- its _name_, which must be globally unique and 
+  _may_ be given by an ordered pair of<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L208-L209-->
 
-    - an [[Identity#external-identity|external identity]] and
-    - an [[Identity#internal-identity|internal identity]]
+    - a child name, chosen by the parent engine instance at creation
+    - the parent's globally unique name
 
-- its mailboxes that store received messages, represented by a pair of<!--
+- a mailbox cluster, represented by a partial map with a finite domain of definition <!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L211-->
 
-    - a finite set of _mailbox identifiers_ (**MID** for short),
-      typically non-empty
+    - from _mailbox identifiers_ (**MID** for short)
+
       
-    - a function that maps mailbox identifiers to pairs of
-		- a list of messages that were sent to the MID but not processed yet
+    - to the type of _mailboxes_, which in turn is 
+		- a list of messages (that were sent to the MID but not processed yet)
 		- an optional mailbox-specific state (for quick processing of incoming messages)
 
-  - a finite set of _named acquaintances_[^2] represented by<!--
+  - a finite set of _acquaintances_[^2] represented by<!--
 	cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
   -->
 
     - a finite set of names
-    - a map from these names to the
-	  [[Identity#external-identity|external identities]] of the acquaintances
 
 - memory for previously set timers, given by<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L212-->
