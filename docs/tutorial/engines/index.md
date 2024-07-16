@@ -128,24 +128,38 @@ a new *"continuation engine"* can be spawned with a new name;
 we shall describe this in more detail after introducing 
 transition functions.
 
-## On transition functions of engine instances
+## On (labeled) transition functions of engine families
 
 The Anoma Specification uses pure functions to describe
 the atomic computation that each engine instance performs when
 a new message is ready to be processed or
-a notification from the local clock is received;
-moreover,
+a notification from the local clock is received.
+Moreover,
 the transition function also encodes the changes to its local environment.
-The formal version is
+Finally,
+the transition function is parametrised over _actions,_
+following the seminal work of
+[Henessy and Milner](https://en.wikipedia.org/wiki/Hennessy%E2%80%93Milner_logic).
+The formal details are given by
 (any interpretation of) the [`transition_function`](https://github.com/anoma/formanoma/blob/75331d688f2ae399fbebb008549b2dfda78b4e5b/Types/Engine.thy#L217) of
-the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).
+the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
+ᚦ: ALERT: out of date!!
+-->
+The main points to keep in mind: 
+there's an "optional parameter" for which action is to be taken,
+and the action given the current environment 
+and the time stamped trigger do already determine
+the action to be taken and also the reactions to the trigger.
+Let us explain this one stpe at a time.
 
-### Inputs of a transition function
+### Inputs of the transition function of engine families
 
-Transition functions take two chunks of data as input:
-the local state and the (time stamped) 
-[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L19)
-which is either a message that was received (and is to be processed) or
+Transition functions take two pieces of data as input:
+the local state in the form of an engine environment and 
+the (time stamped) [_trigger,_](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L19)<!--
+ᚦ: needs updating [do not remove this comment): out of date ALERT!
+-->
+which is either a message that was received (and has to be processed) or
 a notification from the local clock about
 the elapsing of a non-empty set of timers.<!--
 	make a design choice of whether
