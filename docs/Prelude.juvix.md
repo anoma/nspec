@@ -195,3 +195,16 @@ uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
 ```juvix
 axiom !undefined : {A : Type} -> A;
 ```
+- **Box A a** is a type-valued function that encapsulates a type along with a
+  term of that type. It is used to group together the type information and its
+  corresponding value within a single entity.
+
+```juvix
+Box (A : Type) (a : A) : Type := Pair Type A;
+```
+
+For example, 
+  
+```juvix
+forty-two : Type := Box Nat 42;
+```

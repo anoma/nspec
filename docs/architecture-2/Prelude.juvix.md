@@ -16,7 +16,7 @@ import Prelude open public;
 # Architecture Node - Juvix Prelude
 
 This document describes the basic types and functions used in the node architecture prelude.
-For more advanced types, please refer to the Juvix modules located in `architecture-2/types`.
+For a more general prelude, please refer to [Juvix Base Prelude](./../Prelude.juvix.md).
 
 
 ### Network Identity types
@@ -53,7 +53,7 @@ InternalID : Type := Nat;
 Identity : Type := Pair ExternalID InternalID;
 ```
 
-### Network addresses
+### Addresses
 
 - **Address**: It is used for forwarding messages to the correct destination. An
   address could be a simple string without any particular meaning in the system
@@ -64,7 +64,7 @@ Name : Type := Either String ExternalID;
 Address : Type := Name;
 ```
 
-### Enveloped messages
+### Messages
 
 These types are used for message passing within the system, encapsulating the
 message content and managing mailboxes.
@@ -145,7 +145,7 @@ a number. This concerns the mailbox cluster of a single engine
 MailboxID : Type := Nat;
 ```
 
-### Time and Triggers
+### Timers
 
 - **Time**: A natural number representing time. It is used for scheduling and
   timing events.
@@ -169,6 +169,8 @@ axiom Handle : Type;
 ```juvix
 Timer : Type := Pair Time Handle;
 ```
+
+### Triggers
 
 - **Trigger**: An abstract type representing the nature of an events in the system, such
 as message arrivals, timer expirations.

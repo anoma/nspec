@@ -196,25 +196,38 @@ respondWithCounter : GuardedAction := mkGuardedAction@{
       }
 };
 ```
-
-Finally, the engine family is defined as follows:
+Finally, the engine family is defined by first establishing a
+type synonym for the corresponding engine family type to
+simplify the presentation.
 
 ```juvix
-Ticker
-  : EngineFamily LocalStateType IMessageType Unit GuardReturnType OMessageType Unit
-  := mkEngineFamily@{
-    actions := [incrementCounter; respondWithCounter];
+EngineFamilyType : Type := EngineFamily LocalStateType IMessageType Unit GuardReturnType OMessageType Unit
+```
+
+So a `Ticker` engine family is defined as follows:
+
+```juvix
+TickerFamily : EngineFamilyType
+  := mkEngineFamily@{ actions := [incrementCounter; respondWithCounter];
 };
 ```
 
 As an example of an engine instance in this family, we could
-define the ticker starting in zero.
+define the ticker starting in zero. We, again, define for shorten presentation, the
+corresponding engine instance type.
 
 ```juvix
-tickerInstance : Engine LocalStateType IMessageType Unit GuardReturnType OMessageType Unit
+EngineInstanceType : Type := Engine LocalStateType IMessageType Unit GuardReturnType OMessageType Unit
+```
+
+Then, we define a `Ticker` engine instance as follows that set 
+the counter to zero:
+
+```juvix
+zeroTicker : EngineInstanceType
   := mkEngine@{
     name := Left "TickerOne";
-    family := Ticker;
+    family := TickerFamily;
     initEnv := mkEngineEnvironment@{
         state := mkLocalStateType@{
             counter := 0;

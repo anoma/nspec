@@ -1,9 +1,10 @@
 ---
+icon: octicons/project-template-24
 search:
-exclude: false
+  exclude: false
 tags:
-- engine
-- engine-type
+- Engine-Family
+- Engine-Instances
 - Juvix
 ---
 
