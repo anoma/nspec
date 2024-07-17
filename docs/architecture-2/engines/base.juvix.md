@@ -119,7 +119,7 @@ So, we have the input and output of an action into two separate types:
 ```juvix
 type ActionInput (S I R : Type)
   := mkActionInput {
-      action : R;
+      guardOutput : R;
       env : EngineEnvironment S I;
       time : Time;
 };

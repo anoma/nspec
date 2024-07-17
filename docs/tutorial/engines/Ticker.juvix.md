@@ -81,10 +81,10 @@ type OMessageType := Result Nat;
 
 Given the types for the local state and messages, we inherently possess the type
 of the engine environment. Nonetheless, to ensure clarity, let us define it
-explicitly using the `EngineEnvironment` type.
+explicitly using the `Environment` type.
 
 ```juvix
-EngineEnvironment : Type := EngineFamily.EngineEnvironment LocalStateType IMessageType;
+Environment : Type := EngineFamily.EngineEnvironment LocalStateType IMessageType;
 ```
 
 ### Guarded Actions
@@ -166,7 +166,7 @@ respondWithCounter : GuardedAction := mkGuardedAction@{
           }
       };
   action := \{ (mkActionInput@{
-            action := senderRef ;
+            guardOutput := senderRef ;
             env := previousEnv }) :=
             let lState := (state previousEnv);
                 counterValue := LocalStateType.counter lState;
