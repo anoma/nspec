@@ -13,78 +13,85 @@ tags:
 
 # On Engines in the Anoma Specification
 
-## Introduction: on actors and engine instances
+## Introduction: on actors, engine instances, and their families
 
 The Anoma specification is inspired by the actor model[^3]
-where systems consist of _actors_ that communicate via message passing.
-An Anoma node instance is modelled as a finite[^4] collection of
+where systems consist of a set of _actors_ that communicate via message passing.
+Similarly,
+each Anoma node is modelled as a finite[^4] collection of
 _engine instances_ that communicate by sending messages to each other,
-very much like actors do, 
-but subject to some "fine print" that we shall cover in due course.
+very much like actors do;
+however, we prefer to use fresh terminology, 
+as there is some "fine print" concerning differences to the "pure" actor model
+that we shall cover in due course.
+
 The behaviour of each engine instance—i.e., 
-how it reacts to receiving a message in 
-the context of previously sent messages—is
-determined by a _state transition function,_
+how it reacts to receiving messages from other engine instances 
+and notification from the local clock—is
+determined by its current state and its _state transition function,_
 reminiscent of the next-state function of
 [finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition) 
 (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition)), 
-defined formally as an [Isabelle/HOL-locale](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215),
-and is explained in more concrete terms in
-the guarded action template below. <!-- 
-some of these links need "continous" updating [do not erase this comment] 
---> Each invokation of a state transition function
-corresponds to an event (in the sense of the actor model theory);
-events are _triggered_ at the engine instance
-by the arrival of a new message[^1] or an elapsing timer;
-the result of applying the state transition function 
-describes 
-not only the state update of the engine instance,
-but also which further actions need to be taken: 
-sending of messages, setting timers, and creating new engine instances.[^10]
+defined formally as an [Isabelle/HOL-locale](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215).<!-- 
+	ᚦ: the last link need "continous" updating [do not erase this comment]
+-->
+In the Anoma specification,
+each state transition amounts to performing an _action,_
+and each action comes with a _guard function_ that 
+determines—among other things—whether the action is enabled,
+given its current state and the received message or notification.
+Performing an action 
+corresponds to an event in the sense of the actor model theory.
+We say that actions are _triggered_ 
+by the arrival of a new message or an elapsing timer[^1];
+performing an action has several effects:
+
+- a state update of the engine instance
+- adding messages to the send queue
+- setting new timers (and cancelling of old ones)
+- creating new engine instances.[^10]
 
 The Anoma specification describes
 a ꜰɪxᴇᴅ finite number of _engine families_
-such that every (correct and non-faulty) engine instance in an Anoma instance
-belong sto a unique family that describes its behavior by a set of guarded actions;
-these engine families are static,
-while dynamic parameters at engine creation determine the exact behavior.
+such that every (correct and non-faulty) engine instance 
+belongs to a unique family that describes its behaviour;
+while the set of engine families is static,
+dynamic "parameters" at engine creation determine the exact behaviour.
 <!-- add footnote to engine system locale ["axiom" state_partition](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L192) -->
 <!-- this be moved elsewhere
 !!! definition 
 ¶
 	We call the set of all engine instances that share the same state transition function the _engine type_ of the state transition function.
 -->
-We start by describing in more detail the "internal" structure of
-each engine instance, and the accompanying design choices.
-Then we describe state transition functions in more detail
-before we finally come to how
-we actually will specify state transition functions in the anoma specification
-via sets of guarded actions.
+
+We proceed with a more detailed description of the "internal" structure of
+each engine instance.
+Then we describe how state transition functions are represented by sets of guarded actions.
 
 ## On the local data of engine instances: the engine environment
 
-Each engine instance has the following local data that it can 
-access directly and exclusively
-at any given moment while processing event triggers:
+Each engine instance has the following local data that it can
+access directly and exclusively while processing 
+received messages or clock notifications:
 
-- its _name_, which must be globally unique and 
+- its _name_, which is a globally unique unchangeable value that
   _may_ be given by an ordered pair of<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L208-L209-->
 
-    - a child name, chosen by the parent engine instance at creation
+    - a _child name_ (chosen by the parent engine before creation) and
     - the parent's globally unique name
 
-- a mailbox cluster, represented by a partial map with a finite domain of definition <!--
+- its _mailbox cluster,_ represented by a partial map with a finite domain of definition <!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L211-->
 
     - from _mailbox identifiers_ (**MID** for short)
 
       
-    - to the type of _mailboxes_, which in turn is 
+    - to _mailboxes_, which in turn consist of
 		- a list of messages (that were sent to the MID but not processed yet)
-		- an optional mailbox-specific state (for quick processing of incoming messages)
+		- an optional mailbox-specific state (for quick processing of new messages)
 
-  - a finite set of _acquaintances_[^2] represented by<!--
+  - its _acquaintances,_[^2]  represented by<!--
 	cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
   -->
 
@@ -95,57 +102,53 @@ at any given moment while processing event triggers:
 
     - a finite list of timers
 
-<!-- 
-ᚦ: whp, we do not need this any more (no more necessity of crypto ids) 
---><!--
-- memory for names of spawned engines that 
-  do not have a cryptographic ID yet--><!--
-    cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213 needs 'ext_id option though as codomain type of the fmap-->
-
 - engine-specific local state<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
-<!-- ᚦ: ooof, this was still here ... and bye bye--><!--
-- the current time[^7]--><!--
-  cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L210-->
-
-The record of all these local data is called the _engine environment._[^11] 
-The types are formalized in the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205),
- with a translation from the Juvix code.<!--
- link **will** need updating [ᚦ do not erase this comment] OUT OF DATE ALERT!
+The record of all these local data is called the _engine environment_[^11]
+not only because the word `state` is hopelessly overworked,
+but also because we want to reserve it for the states of 
+the "global" labelled transition system (see below).
+The types are formalized in the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
+	link **will** need updating [ᚦ do not erase this comment] OUT OF DATE ALERT!
+--><!--
+	ᚦ: TODO: describe realtion of Juvix code to implementation ... 
 -->
 The engine instance's name is unchangeable,
 once the engine is created;
 every correct implementation must ensure that
 the parent engine chooses a globally unique name before an engine can be created,
 e.g., 
-by using the pair of its own globally unique name,
-paired with a name that is unique among its children—<!--
+by pairing its own globally unique name
+ with a name that is unique among its children—<!--
 -->either spawned previously or in the future.
-Should the need arise for changing the name of an engine
-(as it has been sent to undesired destinations),
-a new *"continuation engine"* can be spawned with a new name;
-we shall describe this in more detail after introducing 
-transition functions.
+Should the need arise for changing the name of an engine,
+e.g., because it has been sent to undesired destinations,
+a new *"continuation engine"* can be spawned with a new name.
 
-## On (labeled) transition functions of engine families
+## On labelled state transitions via guarded actions
 
 The Anoma Specification uses pure functions to describe
 the atomic computation that each engine instance performs when
 a new message is ready to be processed or
 a notification from the local clock is received.
-Moreover,
-the transition function also encodes the changes to its local environment.
-Finally,
-the transition function is parametrised over _actions,_
-following the seminal work of
-[Henessy and Milner](https://en.wikipedia.org/wiki/Hennessy%E2%80%93Milner_logic).
+Here,
+we base our development on the seminal work of
+[Henessy and Milner](https://en.wikipedia.org/wiki/Hennessy%E2%80%93Milner_logic)
+and
+Lamport's [temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html).
+The final sources of inspiration are
+Dijkstra's [_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language)
+and guard functions of [colored Petri nets](https://en.wikipedia.org/wiki/Coloured_Petri_net).
+
+<!--
 The formal details are given by
 (any interpretation of) the [`transition_function`](https://github.com/anoma/formanoma/blob/75331d688f2ae399fbebb008549b2dfda78b4e5b/Types/Engine.thy#L217) of
-the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
+the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).--><!--
 ᚦ: ALERT: out of date!!
 -->
 
+<!--
 The main points to keep in mind: 
 there's an "optional parameter" for which action is to be taken,
 and the action given the current environment 
@@ -158,56 +161,41 @@ are a set of guards for each engine family.
 It is up to the set of guards to determine, 
 which action could be taken given 
 the local data in form of an engine environment 
-and the time stamped[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L19)<!--
+and the time stamped[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L19)--><!--
 ᚦ: needs updating [do not remove this comment): out of date ALERT!
--->.
-Thus, let us look at guards,
-which are very similar to guards in Dijkstra's ɢᴄʟ
-or guard functions in colored Petri nets.
+-->
 
-### A finite set of guards for each engine family
+### A finite set of guarded actions for each engine family
 
-Each guard of an engine familiy
-is a function that determines whether
-the action that it guards is applicable,
-based on the time stamped trigger, 
+Each engine family comes with a set of guarded actions
+where the _guard_ is a function that—among other things—determines whether
+the action that it guards is _enabled._
+To determine whether the action is enabled, 
+the guard function has access to the time stamped trigger
 and all local data, i.e., the engine environment.[^12]
 In most situations,
-but a part of the local data are needed 
-to determine whther the guard is _enabled._
-If the guard (or its guarded action) is enabled by the trigger,
-it returns the matched data, 
-which typically are extraced from the received message;
-typically, the result specifies
-an _action label_ <!-- ᚦ not sure what to call it-->and
-additional result of any non-trivial computations 
-that one would want to avoid to duplicate.
+only very few components of the engine environment are needed 
+to determine whether the guarded action is enabled.
+For a received message, the message alone may be enough, 
+maybe already the message tag is sufficient.
+The guard function returns _matched argument_ and an _action label_ if
+the guarded action is enabled,
+e.g., the relevant information of a received message.
 
+### Inputs for the action of a guarded action
 
-### Inputs of the transition function of engine families
+The actions of guarded actions take three pieces of data as input:
+the local state in the form of the engine environment,
+the time stamped trigger (message or notification),
+and moreover the matched argument that the guard has already computed.
+By _time stamped_ we mean that 
+each trigger comes with the local time when guard evaluation was triggered,
+which one may want think of as the local time "now".
 
-Transition functions take three pieces of data as input:
-the local state in the form of an engine environment,
-the time stamped ,
-and the (re-)action to be taken as a consequence.
+Digression on time
 
-
-
-which is either a message that was received and has to be processed) or
-a notification from the local clock about
-the elapsing of a non-empty set of timers.<!--
-	make a design choice of whether
-	the message is "automatically" added to the mailbox
--->
-Each trigger comes with the local time when 
-the event is triggered,
-which we may think of as "now".
-
-_Digression on time_  <!-- 
-line break 
--->The only information about local wall-clock time in 
-the input of the transition function 
-is
+: The only information about local wall-clock time in 
+the input of the transition function is
 
 - "now"—the [time](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L222) stamp of the trigger—and 
 - the set of previously set timers, 
@@ -216,8 +204,8 @@ is
 
 !!! note
 
-	The treatment of local wall-clock time is still in alpha stage, 
-	but we may need it to mitigate possible limitations of
+	The treatment of local wall-clock time is still experimental;
+    however, we may need it to mitigate possible limitations of
 	the partial synchrony abstraction
 	(see, e.g.,
 	[The Economic Limits of Permissionless Consensus](https://arxiv.org/pdf/2405.09173)).
@@ -225,118 +213,135 @@ is
 	monotonicity of clock implementations in
 	common operating systems.
 
-
-### Outputs of a transition function
+### Outputs of an action
 
 We describe the outputs in two steps:
 first,
-we cover _absolutely pure_ transition functions,
-which do not require any source of (true) randomness
-or direct inputs from the phyiscal device the engine instance is running on;
+we cover _non-interactive_ actions,
+which do neither require any source of (true) randomness
+nor direct inputs to the phyiscal device the engine instance is running on;
 then, we follow up on 
 how engine-local sources of input or randomness can
-affect the choice of actions to be taken.
+"affect" the results of actions to be taken.
 
-#### Outputs of absolutely pure transition functions
+#### Outputs of non-interactive actions
 
-The output of an absolutely pure transition function
+The output of an non-interactive transition function
 has five components:
-the update to the local data, 
-messages to be sent,
-update of the timers set (new ones to set, old ones to cancel),
-new engine instances to be spawned,
-the (estimated) duration of the event.
+
+- the update to the engine environment (leaving the name untouched), 
+- messages to be sent,
+- update of the timers set (new ones to set, old ones to cancel),
+- new engine instances to be spawned.
+
+!!! note
+
+	In rare situations, it may necessary to specify a _maximum_ duration 
+	for how fast the action has to be.
+	The formal modeling framework is prepared to handle such cases.
+	However, this feature is not yet incorporated in the model implementation.
 
 ##### Timers to be set
 
 Given the inputs,
-the transition function may decide to set new timers
+the action may decide to set new timers
 and "remove" old timers.
-As each timer has an engine-local handle,
-this amounts to updating the map of local timers, 
+As each timer has an engine-local _handle,_
+this amounts to updating a map of local timers,
 cancelling superseded timers and
 adding new timers.
-Handles should only be used once during the life-time of 
+A timer handle may be used for at most one timer during the life-time of 
 an engine instance.
-The type of this component of the output is
-a [map from handles to points in local time](https://github.com/anoma/formanoma/blob/4ad37bc274ad25e64d15fe5f00dbd7784e339ce0/Types/Engine.thy#L230).
+The formal model has a [map from handles to points in local time](https://github.com/anoma/formanoma/blob/4ad37bc274ad25e64d15fe5f00dbd7784e339ce0/Types/Engine.thy#L230)<!--
+    ᚦ: needs updating "continously" [do not remove this comment]
+-->.
 
 ##### Engine instances to be spawned
 
-If new engine instances should be spawned,
-the engine instance that is requesting to spawn the new instances is
-the _parent engine instance_ (or just _parent engine,_ 
-for short)
-and the newly spawned instance are children.
-The following data need to be given for a newly spawned engine.
+If new engine instances are created as part of an action,
+the engine instance that is requesting to spawn the new instance is
+called the _parent engine instance_ 
+(or just _parent engine,_ for short);
+the created instances are called _children._
+The following data has to be provided to create a new engine instance.
 
-- the _initial state_ that the child engine instance
-  (the one it will be in when it receives the first trigger)
-- a _name_,
-  unique throughout the life-time of the parent engine instance. 
+- the engine family of the child engine
+- the _initial environment_ of the child engine instance
+  (the one that he engine will have when it processes its first trigger)
+- a _child name,_
+  which only needs to be unique among the engines that
+  the parent engine creates during its lifetime
+  (because the parent's name is an implicit parameter)
 
+<!--ᚦ: this is still to be figured out ... TODO
 The engine instance will become "alive" 
 after the current execution of the transition function.
+-->
 
-The engine allows addressing messages to
-the engine to be spawned (before it is alive),
-which brings us to the next point.
+The parent engine can already send messages to engines before these are "actually go live".
 
 ##### Messages to be sent
 
-This is a finite set of _enveloped_ messages,
-each of which carries information about the intended recipient
-and the mailbox of the latter.
-The recipient can be picked either by an external identifier or a name.
-All formalities of messages are in the [`Message.thy`-theory](https://github.com/anoma/formanoma/blob/heindel/engine-locale/Types/Message.thy)<!--
-	link will need updating
+An action may queue a finite set of _enveloped messages_ to be sent.
+Each of these messages carries information about the intended recipient
+and the mailbox identifier of the latter.
+All formalities of messages are in
+the [`Message.thy`-theory](https://github.com/anoma/formanoma/blob/heindel/engine-locale/Types/Message.thy)<!--
+	link will need updating [do not remove this comment]
 -->.
 
-
-##### Updates to local data
+##### Updates to the engine environment
 
 Last but not least, 
-all local data can be updated—except for the engine identities.
+all local data can be updated—except for the engine name.
 
-### Outputs of interactive transition functions
+### Outputs of interactive actions
 
-As implementations may want to have access to "true" randomness,[^8]
-we need a way for engine instances to have access to randomness.
-For this,
-transition functions may make use the mathematical counterpart 
-of $n$-sided dice.
+Engine instances may require access to "true" randomness[^8]
+to be able to properly process triggers and thus
+we equip engine instances with the possibility to use
+the mathematical counterpart of $n$-sided dice.
 Moreover,
-engine instances need to interact with the user 
+engine instances may need to interact with the user 
 _synchronously,_
-typical for final confirmations of important actions 
+e.g., for final confirmations of important actions 
 or interaction with hardware security modules.
-Such interactions with _external_ streams of input 
-are a second kind of interaction,
-and it is made possible by providing users with a finite number of choice at a time.
-Finally, 
-there may be a mix of inputs and randomness.
-For example and engine may generate a random username and 
+Thus, reading form local _external_ streams of input 
+are a second kind of interaction
+users may choose from a finite number of choices at a time.
+Finally,
+there may be a "mix" of inputs and randomness.
+For example and engine may generate a random username and
 the user is asked to accept or choose it manually.
 
-In summary,
-instead of directly producing the `Outputs of absolutely pure transition functions`,
-we have a finitely branching tree 
-whose laves are `Outputs of absolutely pure transition functions`
-and whose inner nodes are either requesting the user to pick one of a finite number of choices
-or the rolling of some $n$-sided dice.[^9]
+In short,
+we generalise the single output of non-interactive actions
+to a finitely branching tree: 
 
-## Transition functions via guards and actions =: guarded actions
+- leaves are outputs in the form described for non-interactive actions 
+- inner nodes are either 
+    - user choices from a finite number of candidates or
+    - random experiments of rolling of an $n$-sided dice.[^9]
 
-The Anoma specification defines transition functions
-via a set of guarded actions.
-The word `guarded` is taken from Dijkstra's 
-[_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
-`action` is taken from Lamport's 
-[temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
-and indeed, guarded actions are a mix of the two;
-the notion of action (together with local data) allows us to
-express properties in the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*),
-while guards emphasise that actions have clear pre-conditions,
+## From guarded actions to labelled state transitions
+
+Given a finite set of engine environments and set of "messages in transit",
+we can derive a single
+[labelled transition system (ʟᴛꜱ)](https://en.wikipedia.org/wiki/Transition_system).
+Roughly,
+the state space of the labelled transition system is the pair 
+of all engine environments in existence and the messages in transit.
+The transitions are "induced" by the guarded actions.
+
+!!! todo
+
+	explain
+<!-- ᚦ TODO: -->
+
+
+Having an ʟᴛꜱ then will enable us to
+express properties in the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*).
+Guards emphasise that actions have clearly defined pre-conditions,
 and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
 e.g., for deriving invariants.
 
@@ -349,8 +354,13 @@ the transitions of a [Petri net](https://en.wikipedia.org/wiki/Petri_net#Executi
 can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/898126),
 where events are _occurrences of transitions_ of the original net.
 -->
-The basic idea of guarded actions is to describe 
-the state transition function in a modular way
+
+<!--
+The basic idea of guarded actions is to avoid
+the need to describe for each engine to write a single monolithic 
+state transition function.
+However,
+we want derive  in a modular way
 such that each (non-trivial) state transition corresponds to 
 the execution of (at least) one guarded action.[^6]
 The guard of a guarded action specifies the precondition of the action,
@@ -359,75 +369,15 @@ However,
 guarded actions may be concurrent or in conflict with each other,
 and this situation need to be handled with care.
 The details of guarded actions are explained in the [[Guarded Engine Template]].
-
-## On engine types
-
-An engine type is in bijective correspondence to a function that
-describes how every instance that is based on this function behaves;
-we may just speak of an engine type as if it was a function.
-This function takes as input all local data of engine instances. 
-Each item of local data falls into one of the following three categories:
-
-- information that is not changed (as part result of mere state transition):
-    - the cryptographic identity
-- specific information about the event that has occurred
-    - for a message, the time of arrival and the actual message
-    - for a timer that has elapsed, the _handle_ of the timer
-- all other local data (as described above in the section
-  `On the local data of engine instances`)
-
-<!-- 
-
-As this function is strongly typed in the formal model / in juvix, 
-the engine type thus determines a list of types, which seems long.
-Thus, let us "annotate" the above list.
-
-
-
-!!! todo
-
-	clean up the following annotated quote (ignore for the review for the moment) 🙏
-
-> - an {engine independent type for the} identity, namely a pair of
->     - an external identity {type} and
->     - an internal identity {type}
-> - {types for} mailboxes that store received messages in a list in more detail
->   - a finite set of mailboxes, typically non-empty {from a finite set of types
->     for mailbox contents---not to be confused with mailbox types}
->   - a map from (engine-relative) mailbox identifiers to the above mailboxes
->     {so a function type `mailbox identifier type` => `mailbox type list`}
->   - optionally, each mailbox may have a mailbox-state {i.e., the function type
->     is actually `mailbox identifier type` => `(mailbox state type) * (mailbox
->     type list)`}
-> - a finite set of _acquaintances_ (borrowing actor terminology), in more
->   detail
-  >   - a finite set of names {hence a type `ac_name`}
-  >   - a map from names to the identities of an engine instance {we have all
-  >     those types already}
-> - a local clock {we assume one, and we do not have to do anything here}
-> - memory for previously set timers (that are still relevant) {a type of `timer
->   handles`}
-> - memory for spawned processes that do not have a cryptographic identity yet
->   {here we should probably just re-use the name type for acquaintances}
-> - engine-specific local state {the one type `state` that is "really" specific
->   to each engine}
-
 -->
 
-Besides updates to the changeable data, the transition function produces
+## The conceptual structure of Engine Family specifications
 
-- requests for spawning new engines
-- the messages to be sent
-- the timers to be set on the clock
-
-
-## The conceptual structure of each Engine Type page in the specs
-
-As a short synopsis, the structure of each engine type page 
-starts with a big picture, some examples, and then the details.
+The structure of each engine family page 
+first describes the general context, gives some example message exchanges, and then the details.
 A table of contents has the following structure.
 
-- engine type name (e.g., _Auctioneer_)
+- engine family name (e.g., _Auctioneer_)
   - purpose {very big picture}
   - list of engine-specific types
     - local state
@@ -498,19 +448,17 @@ A table of contents has the following structure.
 
 <!-- footnotes -->
 
-[^1]: We also will allow for elapsing of timers,
-which is a technical detail concerning the handling of 
-local time in engine instances.
-The role of the template is the organisation of 
-the specification of engine types and their engine instances.
+[^1]: The elapsing of timers is the only way to 
+	interact with a local clock of engine instances.
 
 [^2]: Here, we borrow actor terminology.
 
 [^3]: At the time of writing V2 specs, further relevant sources are *Selectors:
 Actors with Multiple Guarded Mailboxes*[@selectors-actors-2014] and *Special
 Delivery: Programming with Mailbox Types*[@special-delivery-mailbox-types-2023].
-We shall refer to the latter as _mailbox usage_ types to avoid a name clash with
-the type of messages that are contained in mailboxes.
+We shall refer to the latter as "mailbox _usage_ types" 
+whenever we want to avoid ambiguities or confusion with
+the generic mailbox state type.
 
 [^4]: The specification does not fix any bound on 
 	the number of engines in existence.
@@ -538,13 +486,18 @@ the type of messages that are contained in mailboxes.
 [^9]: See the
 	[`local_interaction`data type](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L53).
 
-[^10]: Here, we follow the terminolgy of event-driven state machines of using
-	a single function where in Mealy machines, we have a pair of functions,
+[^10]: Here, we follow Erlang's practice of 
+	[event-driven state machines](https://www.erlang.org/doc/system/statem.html):
+    all behaviour is expressed in a single function.
+	This is in contrast to [Mealy machines](https://en.wikipedia.org/wiki/Mealy_machine), 
+	we have a pair of functions,
 	one for the state update and one for the outputs generated.
+	Either choice is valid and it is a design choice.
 
 [^11]: Clocks are a little more complicated to get into the picture;
-	they are "external" to the environment
-	and still epxerimental.
+	they are "external" to the engine environment and still experimental.
 
 [^12]: We always have a default guard
 	that "activates" if no other guards are defined.
+	
+[^13]: The meaning of enabled is exactly as in TLA⁺ or Petri nets.
