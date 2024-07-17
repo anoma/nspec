@@ -4,56 +4,114 @@ search:
   exclude: false
 ---
 
-# EngineX {V2 Template}
+# Engine Family [_X_] {V2 Template}
 
-## Purpose (of EngineX)
+## Purpose {of members of engine family _X_}
 
-`<one paragraph on the purpose>`
+!!! note
 
-Describe what the role of this engine is in context,
-be it
+	The purpose describes in broad terms what the role of this engine family is in context,
+	be it
 
-- in relation to other engine instances within an Anoma node and/or
-- in the whole Anoma instance at large.
+	- in relation to other engine instances within an Anoma node and/or
 
-## EngineX-specific types
+	- in the whole Anoma instance at large.
+	
+	Form
+	
+	: The purpose is a couple of short paragraphs of prose, possibly just one.
+	
+!!! todo
 
-This section describes all types that are specific to an engine. Types should be
-defined in the most local place in which they are used. For example, if a type
-is only used in one engine, it should be defined in this section for that
-engine. If a type is used in multiple engines, it should be defined in the
-highest-level composed engine which contains all the engines in which it is
-used. If a type is used everywhere, it should be defined in [[Basic Types]].
+	polish example 👇 
 
-### Engine-Specific Local State Type
+??? example
 
-This section explains the type of engine-specific local state. Note that this local state is only part of all the local data.
+	A generic engine family _X_ will want to have a purpose,
+	such as responding to requests from a client
+	and hence _X_ = `Server`.
+	
 
-### Message types
+## Specific types {of engine familiy _X_}
 
-Links to all the types that this engine type may process,
-optionally as a description with the tag of a message
-where tag is used as in [Special Delivery's paper](https://dl.acm.org/doi/abs/10.1145/3607832).
+!!! note
 
-### Mailbox state type (optional)
+	This section describes all types—or type parameters, to be precise—that
+	are specific to an engine family.
+	However, 
+	if several engine families share the same types,
+	the best place is either
 
-We may specify for each mailbox a type. 
+	- the lowest common ancenstor that the engine families share in 
+		the engine family hierarchy, or
+
+	- a more suitable place, if that is not an option, 
+		e.g., if it is one of the [[Basic Types]].
+		
+	Form
+	
+	: You may want to provide an overview of how things relate to each other.
+
+### Engine-specific state type
+
+!!! note
+
+	The engine-specific state type is usually 
+	tailor made for each engine family.
+	
+	Form
+	
+	: Either a definition of the type in Juvix, or a link to such a definition. 
+	Moreover, here we want descriptions of the data structures 
+	in English language.
 
 
-## [Paradigmatic message sequence diagram(s)] (optional)
+### Message type(s)
 
-We can use one or more message sequence diagrams to show how
-instances of the engine type exchange messages with other engine instances, whether they are the same type or different types.
-The general idea is that 
-each message sequence diagram in the engine type page describes
-a pattern for test cases.
+!!! note
+
+	Next, we describe all the message types that members of family _X_ 
+	are able to process, in principle.
+	For each such "receivable" message type, 
+	we want
+	
+	- a _message tag_ 
+    - a list of _argument types_ 
+	- a (default value for a) _formal parameter name_ for each element of the list of _argument types_
+
+	The term `message tag` is borrowed from  the [Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832)). 
+	The list of argument types has to be uniquely determined by the message tag.
+	
+!!! todo
+
+	spell out the form, although natural
+
+### Mailbox state type(s) {optional}
+
+!!! note
+	
+	Mailboxes of engines may have mailbox state.
+	If so, here is the place to describe them.
+	In fact, this is actually a list of different mailbox states
+	in that each mailbox may have a mailbox specific state.
+
+## [Title of Paradigmatic message sequence diagram] {optional}
+
+!!! note
+
+	We can use one or more message sequence diagrams to show how
+	members of the engine family exchange messages with other engine instances, 
+	typically from different engine families.
+	The general idea is that
+	each message sequence diagram in the engine type page describes
+	a pattern for test cases.
 
 ??? example "Client-Server Example"
 
     In the below _Client-Server_ example,
     the message sequence chart expresses the possibility of a message exchange,
     where the server responds to the request of the client;
-    every implementation has to have a counterpart.
+    every implementation has to have a matching execution/run.
     A good practical example for how
     an actor system (or a formal model of it) gives rise to sequence diagrams
     is [stateright](https://www.stateright.rs/)'s [state explorer](https://www.stateright.rs/seeking-consensus.html#stateright-explorer).
@@ -70,13 +128,13 @@ a pattern for test cases.
     using the `-)`-syntax by default,
     expressing that message sending is "asynchronous"[^1].
     The message sequence chart should be included for
-    machines and high-level engine groups;
-    it is optional for small component engines.
-    A simplest possible example would be
-    a request response interaction
-    and a more complex example is given in the [[Engine Template Example]].
-
-    ```mermaid
+	engines at the top of the engine familiy hierarchy;
+    it is optional for engine families at the bottom of the hiearchy.
+    A simple illustrative example is
+    the request-response pattern.
+	A more complex example is given in the [[Engine Template Example]].
+    
+	```mermaid
     sequenceDiagram
         participant Client
         participant Server
@@ -88,7 +146,7 @@ a pattern for test cases.
 ??? example "Several Engines Example"
 
     The following is a good example of a larger diagram,
-    which concerns several engines
+    which concerns a larger number of engine families
     taken from the
     [v1 specs](https://specs.anoma.net/v1/architecture-2/ordering-v1.html#a-life-cycle-with-some-details).
 
@@ -120,9 +178,8 @@ a pattern for test cases.
     ```
 
 
-    For an engine page,
-    it may be sufficient to
-    "cut out" a portion of such a larger diagram, or
+	One may take a pre-existing diagram and
+    "cut out" a portion or 
     mark it as in the following variation of the previous diagram.
 
 
@@ -156,84 +213,52 @@ a pattern for test cases.
         deactivate ExecutorProcess
     ```
 
-## _All_ Conversation Partners (Engine _types_)
+## Conversation Diagram {optional}
 
-To summarise all possible message exchanges between 
-engine instances of certain types,
-we can draw a graph whose nodes are labelled with engine types
-and whose edges are labelled with message types (possibly with tags).
-For each labelled edge,
-there must be some some admissible message sequence diagram
-such that a message is sent from an engine of the source engine type
-to the target engine type.
-We borrow the term conversation diagram from
-[business process modeling](http://dx.doi.org/10.1016/B978-0-12-799959-3.00021-5).
-The conversation diagram of an engine page only contains edges 
-that have EngineX as source or target.
+!!! note
 
-
-### Conversation Diagram (optional)
-
-Who is talking to whom and `EngineX` in particular, and if so, about what?
-For a high-level overview, 
-something like a [conversation diagram](https://sparxsystems.com/enterprise_architect_user_guide/16.1/modeling_languages/bpmn_2_0_conversation.html) can be helpful.
-We could simply (ab-)use mermaid entity relationship diagrams here. This diagram should be included for machines and high-level engine groups. It is optional for small component engines.
-
-Taking again the example of workers in Narwhal,
-the worker is in communication with other workers,
-the user and the primary. 
-A partial diagram would be the following.
-
-```mermaid
-erDiagram
-    PrimaryX }|--|| WorkerX1 : WorkerHash
-    WorkerX1 ||--|{ MirrorY1 : NewTransaction
-    User ||--|{ WorkerX1 :  TransactionRequest
-```
+	As a birds eye view of all possible message exchanges between 
+	engine instances of several families,
+	we can draw a graph whose nodes are labelled with engine families
+	and whose edges are labelled with message types (possibly with message tags).
+	For each labelled edge,
+	there must be some some admissible message sequence diagram
+	such that a message is sent from an engine of the source engine family
+	to the target engine family.
+	We borrow the term conversation diagram from
+	[business process modeling](http://dx.doi.org/10.1016/B978-0-12-799959-3.00021-5).
+	The conversation diagram of an engine page only contains edges 
+	that have engine family _X_ as source or target.
 
 
-The information from the conversation diagram could be taken from
-the list of conversation partners,
-each with a list of incoming and outgoing messages,
-relative to the current engine `EngineX`.
 
+??? example "Conversation Diagram"
 
-### [Conversation Partners of type EngineTypeX1] (optional)
+	Taking again the example of workers in Narwhal,
+	the worker is in communication with other workers,
+	the user and the primary. 
+	A partial diagram would be the following.
 
-#### incoming messages 
+	```mermaid
+	erDiagram
+		PrimaryX }|--|| WorkerX1 : WorkerHash
+		WorkerX1 ||--|{ MirrorY1 : NewTransaction
+		User ||--|{ WorkerX1 :  TransactionRequest
+	```
 
-- `<` link to type `>`
-- ...
-- `<` link to type `>`
+!!! note
 
-#### outgoing messages to EngineTypeX1
-
-- `<` link to type `>`
-- ...
-- `<` link to type `>`
-
-.
-.
-.
-
-### Conversation Partners of type EngineTypeXm
-
-#### incoming messages 
-
-- `<` link to type `>`
-- ...
-- `<` link to type `>`
-
-#### outgoing messages to EngineTypeX1
-
-- `<` link to type `>`
-- ...
-- `<` link to type `>`
-
-
+	The information from the conversation diagram could be taken from
+	the list of conversation partners,
+	each with a list of incoming and outgoing messages,
+	relative to the current engine family _X._
+	This is not yet implemented though.
+	
 ## Guarded Actions
 
-See the [Guarded Action Template](https://specs.anoma.net/v2/guarded-actions.html) page for more information on guarded actions.
+See the
+[Guarded Action Template](https://specs.anoma.net/v2/guarded-actions.html) page 
+for more information on guarded actions.
 
 By default, guarded actions should be inlined in the same page. If an engine has
 too many guarded actions (and thereby putting them all in one page would be
