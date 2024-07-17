@@ -256,34 +256,38 @@ search:
 	
 ## Guarded Actions
 
-See the
-[Guarded Action Template](https://specs.anoma.net/v2/guarded-actions.html) page 
-for more information on guarded actions.
+!!! note
 
-By default, guarded actions should be inlined in the same page. If an engine has
-too many guarded actions (and thereby putting them all in one page would be
-unworkable), they can be split out into separate files and linked.
+	By default, guarded actions should be inlined in the same page. If an engine has
+	too many guarded actions (and thereby putting them all in one page would be
+	unworkable), they can be split out into separate files and linked.
 
-### Guarded action $1$ 
+!!! todo
+
+	put link(s) to the guarded action template
+
+
+### [Guarded action $1$]
 
 <details>
-  <summary>single phrase on guarded action $1$</summary>
-  <p>Guarded action one description</p>
+  <summary>[single phrase on guarded action $1$]</summary>
+  <p>[Guarded action one description]</p>
 </details> 
 
 .  
 .  
 .  
 
-### Guarded action $n$ 
+### [Guarded action $n$]
 
 <details>
-  <summary>single phrase on guarded action $n$</summary>
-  <p>Guarded action n description</p>
+  <summary>[single phrase on guarded action $n$]</summary>
+  <p>[Guarded action $n$ description]</p>
 </details> 
+
 
 [^1]: By default,
 	we are working actually with the partial synchrony abstraction,
 	which in first approximation is closer to the asynchronous case
-	as even if we are after the global synchronisation time,
+	as even after global synchronisation time,
 	we cannot know how long we would have to wait for responses to messages sent.
