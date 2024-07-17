@@ -377,6 +377,7 @@ The structure of each engine family page
 first describes the general context, gives some example message exchanges, and then the details.
 A table of contents has the following structure.
 
+<!--
 - engine family name (e.g., _Auctioneer_)
   - purpose {very big picture}
   - list of engine-specific types
@@ -422,6 +423,8 @@ A table of contents has the following structure.
 		    - timer to be set {prose}
 		    - engines to be spawned {prose}
 
+-->
+
 ## Template files
 
 
@@ -429,10 +432,17 @@ A table of contents has the following structure.
 
     !!! info 
 
-        The following template can be found in the `overrides/templates/engine-template.md` file.
-    
+        The below template can be found in the `overrides/templates/engine-template.md` file.
+		
+    !!! info 
+	
+		Text in curly braces `{` `}` is used for short explanations of titles 
+		and/or further context. Text in square brackets `[` `]` is a description
+		of what can be used as a section title.
+		
 
     --8<-- "./../overrides/templates/engine-template.md:6"
+
 
 ??? "Guarded action template"
 
