@@ -3,199 +3,21 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+tags:
+- Juvix-types
+- Types
 ---
 
 ```juvix
-module architecture-2.engines.basic-types;
-
-import Stdlib.Trait open public;
+module architecture-2.Prelude;
+import Prelude open public;
 ```
 
-## Common types defined in external libraries
+# Architecture Node - Juvix Prelude
 
-The following are fundamental types provided by the Juvix standard library and others,
-which form the building blocks for more complex types in the architecture.
+This document describes the basic types and functions used in the node architecture prelude.
+For more advanced types, please refer to the Juvix modules located in `architecture-2/types`.
 
-- **Nat**: Represents natural numbers (non-negative integers). Used for
-  counting and indexing.
-
-```juvix
-import Stdlib.Data.Nat as Nat
-  open using
-  { Nat;
-    zero;
-    suc;
-    natToString
-  } public;
-```
-
-For example,
-
-```juvix
-ten : Nat := 10;
-```
-
-
-- **Bool**: Represents boolean values (`true` or `false`). Used for logical
-  operations and conditions.
-
-```juvix
-import Stdlib.Data.Bool as Bool
-  open using
-  { Bool;
-    true;
-    false
-  } public;
-```
-
-For example,
-
-```juvix
-verdad : Bool := true;
-```
-
-- **String**: Represents sequences of characters. Used for text and
-  communication.
-
-```juvix
-import Stdlib.Data.String
-  as String
-  open using
-  { String
-  } public;
-```
-
-For example,
-
-```juvix
-hello : String := "Hello, World!";
-```
-
-- **Unit**: Represents a type with a single value. Often used when a function
-  does not return any meaningful value.
-
-```juvix
-import Stdlib.Data.Unit
-  as Unit
-  open using {
-    Unit;
-    unit
-  } public;
-```
-
-For example,
-
-```juvix
-unitValue : Unit := unit;
-```
-
-- **Pair A B**: A tuple containing two elements of types `A` and `B`. Useful
-  for grouping related values together.
-
-```juvix
-import Stdlib.Data.Pair as Pair
-  open using {
-    Pair;
-    ,
-  } public;
-```
-
-For example,
-
-```juvix
-pair : Pair Nat Bool := (10 Pair., true);
-```
-
-- **Either A B**: Represents a value of type `A` or `B`.
-
-```juvix
-type Either (A  B : Type) : Type :=
-  | Left A
-  | Right B;
-```
-
-For example,
-
-```juvix
-error : Either String Nat := Left "Error!";
-answer : Either String Nat := Right 42;
-```
-
-
-- **List A**: A sequence of elements of type `A`. Used for collections and
-  ordered data.
-
-```juvix
-import Stdlib.Data.List as List
-  open using {
-  List;
-  nil;
-  ::
-} public;
-```
-
-For example,
-
-```juvix
-numbers : List Nat := 1 :: 2 :: 3 :: nil;
--- alternative syntax:
-niceNumbers : List Nat := [1 ; 2 ; 3];
-```
-
-- **Maybe A**: Represents an optional value of type `A`. It can be either
-  `Just A` (containing a value) or `Nothing` (no value).
-
-```juvix
-import Stdlib.Data.Maybe as Maybe public;
-open Maybe using {
-    Maybe;
-    just;
-    nothing
-  } public;
-```
-
-- **Map K V**: Represents a collection of key-value pairs, sometimes called
-  dictionary, where keys are of type `K` and values are of type `V`.
-
-```juvix
-import Data.Map as Map public;
-open Map using {
-    Map
-  } public;
-```
-
-For example,
-
-```juvix
-codeToken : Map Nat String :=
-  Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "ANM")];
-```
-
-
-- **Set A**: Represents a collection of unique elements of type `A`. Used for
-  sets of values.
-
-```juvix
-import Data.Set as Set public;
-open Set using {
-    Set
-  } public;
-```
-
-For example,
-
-```juvix
-uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
-```
-
-## Proper terms and types for the Anoma Specification
-
-- **Undefined** is a placeholder for an undefined value. It is used to indicate
-  that a value is not yet defined or not applicable.
-
-```juvix
-axiom !undefined : {A : Type} -> A;
-```
 
 ### Network Identity types
 
@@ -211,14 +33,14 @@ and internal.
 
 
 - **ExternalID**: A unique identifier for entities outside the system,
-  represented as a natural number.
+  represented as a natural number. In practice, it could be a public key.
 
 ```juvix
 ExternalID : Type := Nat;
 ```
 
 - **InternalID**: A unique identifier for entities within the system, also
-  represented as a natural number.
+  represented as a natural number. In practice, it could be a private key.
 
 ```juvix
 InternalID : Type := Nat;
@@ -233,8 +55,9 @@ Identity : Type := Pair ExternalID InternalID;
 
 ### Network addresses
 
-- **Address**: It is used for forwarding messages to the correct destination.
-  An address could be a simple string without any particular meaning in the system or an external identity.
+- **Address**: It is used for forwarding messages to the correct destination. An
+  address could be a simple string without any particular meaning in the system
+  or an external identity.
 
 ```juvix
 Name : Type := Either String ExternalID;
@@ -322,7 +145,6 @@ a number. This concerns the mailbox cluster of a single engine
 MailboxID : Type := Nat;
 ```
 
-
 ### Time and Triggers
 
 - **Time**: A natural number representing time. It is used for scheduling and
@@ -372,16 +194,3 @@ getMessagePayloadFromTrigger : {M : Type} -> Trigger M -> Maybe MessagePayload
           := just p
   | _ := nothing;
 ```
-
-Update the mailbox cluser with the messaged received by the trigger:
-
-```
-updateMailboxCluster : {M : Type} -> Trigger M -> Map MailboxID (Mailbox M) -> Map MailboxID (Mailbox M)
-  | (MessageArrived@{ MID := just mid ; envelope := m }) mcluster :=
-      case Map.lookup mid mcluster of {
-        | just mailbox := Map.insert mid (mcluster@mkMailBox{ messages := m :: mb.messages}) mcluster
-        | _ := mcluster
-      }
-  | _ mc := mc;
-```
-

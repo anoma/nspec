@@ -11,10 +11,9 @@ tags:
 ??? info "Juvix imports"
 
     ```juvix
-    module architecture-2.engines.base;
-    import architecture-2.engines.basic-types open;
+    module architecture-2.types.EngineFamily;
+    import architecture-2.Prelude open;
     ```
-
 
 # Engine Family Types
 

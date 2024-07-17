@@ -15,8 +15,8 @@ tags:
     ```juvix
     module tutorial.engines.Ticker;
 
-    import architecture-2.engines.basic-types open;
-    import architecture-2.engines.base as EngineFamily;
+    import architecture-2.Prelude open;
+    import architecture-2.types.EngineFamily as EngineFamily;
     open EngineFamily using {
         Engine;
         EngineEnvironment;
