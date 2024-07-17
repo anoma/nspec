@@ -31,7 +31,7 @@ engine instances will have. For Anoma specifications, the components are:
 Engine Environment
 
 :   This serves as the execution context for engines. In addition to the local
-    state, the local environment encompasses elements such as the mailbox
+    state, the engine environment encompasses elements such as the mailbox
     cluster owned by an engine instance and a set of acquaintances—other engine
     instances known to the current one that can interact with it.
 
@@ -155,12 +155,13 @@ type ActionResult (S I R O C : Type) := mkActionResult {
 #### Guarded Actions
 
 To recap, a guarded action consists of a _guard_ and an _action_. The guard is a
-function that evaluates conditions on the engine's local environment to decide
-if the action should be executed. This guard function has as input the trigger
-that caused the guard to be evaluated, and the local environment of the engine
-instance to determine if the condition to run the action is met. The action is a
-function that can update the local environment to some extent and may include
-instructions for setting messages to be sent or creating new engine instances.
+function that evaluates conditions on the engine environment to decide if the
+action should be executed. This guard function has as input the trigger that
+caused the guard to be evaluated, and the environment of the engine instance to
+determine if the condition to run the action is met. The action is a function
+that can update the engine environment to some extent and may declare terms that
+will be internally processed as instructions for setting messages to be sent or
+for creating new engine instances.
 
 
 ```juvix
@@ -182,10 +183,11 @@ type GuardedAction (S I R O C : Type) := mkGuardedAction {
     Trigger I -> EngineEnvironment S I -> Bool;
     ```
 
-    However, as a design choice, guards will return additional data of type `R` from
-    the local environment if the condition is met. So, if the guard is satisfied,
-    this data (of type `R`) is assumed to be passed to the action function; otherwise, that
-    is, if the guard is not satisfied, no data is returned.
+    However, as a design choice, guards will return additional data of type R that
+    may or may not use the engine environment if the condition is met. Thus, if
+    the guard is satisfied, this data (of type R) is assumed to be passed to the
+    action function. Then, if the guard is not satisfied, no data is
+    returned.
 
 ## Engine Families and Instances
 

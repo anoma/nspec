@@ -26,7 +26,7 @@ tags:
 
 In Anoma, an **engine** represents a computational process characterised by its
 state and behaviors. These engines are defined through _guarded actions_
-within an execution context known as the _local environment_ of the engine
+within an execution context known as the _engine environment_ of the engine
 instance. For a more detailed explanation, please refer to the section on
 [[Engines in Anoma|Engine in Anoma's tutorial]].
 
@@ -40,12 +40,12 @@ part of the engine's execution environment, and therefore, their purpose.
 ## Local Environments
 
 Below, we use [Juvix](https://docs.juvix.org) to define `AnomeEngineEnv`, the type for
-local environments used by each engine family in Anoma. 
+engine environments used by each engine family in Anoma. 
 
-By examining these local environments, we can identify the engine families
-currently considered in Anoma. These local environments essentially provide the
+By examining these engine environments, we can identify the engine families
+currently considered in Anoma. These engine environmentts provide the
 execution context for their respective engines. So, remember, each type
-constructor of `AnomeEngineEnv` represents the local environment for a distinct
+constructor of `AnomeEngineEnv` represents the environment for a distinct
 engine family.
 
 ```juvix

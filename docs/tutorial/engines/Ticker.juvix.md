@@ -80,7 +80,7 @@ type OMessageType := Result Nat;
 #### Local Environment Type
 
 Given the types for the local state and messages, we inherently possess the type
-of the local environment. Nonetheless, to ensure clarity, let us define it
+of the engine environment. Nonetheless, to ensure clarity, let us define it
 explicitly using the `EngineEnvironment` type.
 
 ```juvix
