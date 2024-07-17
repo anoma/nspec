@@ -132,8 +132,8 @@ getMessageTarget : {M : Type} -> EnvelopedMessage M -> Address
   waiting to be processed.
 
 ```juvix
-type Mailbox (MessageType : Type) : Type := mkMailBox {
-  mailboxState : {State : Type} -> Maybe State;
+type Mailbox (MailboxStateType MessageType : Type) : Type := mkMailBox {
+  mailboxState : Maybe MailboxStateType;
   messages : List (EnvelopedMessage MessageType);
 };
 ```

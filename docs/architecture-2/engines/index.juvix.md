@@ -17,7 +17,6 @@ tags:
     import architecture-2.types.EngineFamily as Base open using {EngineFamily};
 
     import tutorial.engines.Ticker as Ticker;
-    import tutorial.engines.Ticker as Ticker;
     ```
 
 # Anoma Engine Families
