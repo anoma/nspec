@@ -190,7 +190,7 @@ the time stamped trigger (message or notification),
 and moreover the matched argument that the guard has already computed.
 By _time stamped_ we mean that 
 each trigger comes with the local time when guard evaluation was triggered,
-which one may want think of as the local time "now".
+which one may want to think of as the local time "now".
 
 Digression on time
 
@@ -219,14 +219,14 @@ We describe the outputs in two steps:
 first,
 we cover _non-interactive_ actions,
 which do neither require any source of (true) randomness
-nor direct inputs to the phyiscal device the engine instance is running on;
+nor direct inputs to the physical device the engine instance is running on;
 then, we follow up on 
 how engine-local sources of input or randomness can
 "affect" the results of actions to be taken.
 
 #### Outputs of non-interactive actions
 
-The output of an non-interactive transition function
+The output of a non-interactive transition function
 has five components:
 
 - the update to the engine environment (leaving the name untouched), 
@@ -267,7 +267,7 @@ The following data has to be provided to create a new engine instance.
 
 - the engine family of the child engine
 - the _initial environment_ of the child engine instance
-  (the one that he engine will have when it processes its first trigger)
+  (the one that the engine will have when it processes its first trigger)
 - a _child name,_
   which only needs to be unique among the engines that
   the parent engine creates during its lifetime
@@ -298,7 +298,7 @@ all local data can be updated—except for the engine name.
 ### Outputs of interactive actions
 
 Engine instances may require access to "true" randomness[^8]
-to be able to properly process triggers and thus
+to be able to properly process triggers, and thus
 we equip engine instances with the possibility to use
 the mathematical counterpart of $n$-sided dice.
 Moreover,
