@@ -15,10 +15,10 @@ tags:
 
 ## Introduction: on actors, engine instances, and their families
 
-The Anoma specification is inspired by the actor model[^3]
+The Anoma specification is inspired by the actor model[^1]
 where systems consist of a set of _actors_ that communicate via message passing.
 Similarly,
-each Anoma node is modelled as a finite[^4] collection of
+each Anoma node is modelled as a finite[^2] collection of
 _engine instances_ that communicate by sending messages to each other,
 very much like actors do;
 however, we prefer to use fresh terminology, 
@@ -43,13 +43,13 @@ given its current state and the received message or notification.
 Performing an action 
 corresponds to an event in the sense of the actor model theory.
 We say that actions are _triggered_ 
-by the arrival of a new message or an elapsing timer[^1];
+by the arrival of a new message or an elapsing timer[^3];
 performing an action has several effects:
 
 - a state update of the engine instance
 - adding messages to the send queue
 - setting new timers (and cancelling of old ones)
-- creating new engine instances.[^10]
+- creating new engine instances[^4].
 
 The Anoma specification describes
 a ꜰɪxᴇᴅ finite number of _engine families_
@@ -91,7 +91,7 @@ received messages or clock notifications:
 		- a list of messages (that were sent to the MID but not processed yet)
 		- an optional mailbox-specific state (for quick processing of new messages)
 
-  - its _acquaintances,_[^2]  represented by<!--
+  - its _acquaintances,_[^5]  represented by<!--
 	cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
   -->
 
@@ -105,7 +105,7 @@ received messages or clock notifications:
 - engine-specific local state<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
-The record of all these local data is called the _engine environment_[^11]
+The record of all these local data is called the _engine environment_[^6]
 not only because the word `state` is hopelessly overworked,
 but also because we want to reserve it for the states of 
 the "global" labelled transition system (see below).
@@ -172,7 +172,7 @@ where the _guard_ is a function that—among other things—determines whether
 the action that it guards is _enabled._
 To determine whether the action is enabled, 
 the guard function has access to the time stamped trigger
-and all local data, i.e., the engine environment.[^12]
+and all local data, i.e., the engine environment.[^7]
 In most situations,
 only very few components of the engine environment are needed 
 to determine whether the guarded action is enabled.
@@ -298,7 +298,7 @@ all local data can be updated—except for the engine name.
 ### Outputs of interactive actions
 
 Engine instances may require access to "true" randomness[^8]
-to be able to properly process triggers, and thus
+to be able to properly process triggers and thus
 we equip engine instances with the possibility to use
 the mathematical counterpart of $n$-sided dice.
 Moreover,
@@ -362,7 +362,7 @@ state transition function.
 However,
 we want derive  in a modular way
 such that each (non-trivial) state transition corresponds to 
-the execution of (at least) one guarded action.[^6]
+the execution of (at least) one guarded action.[^Y]
 The guard of a guarded action specifies the precondition of the action,
 which describes what state changes should happen when the guard is triggered.
 However,
@@ -458,30 +458,51 @@ A table of contents has the following structure.
 
 <!-- footnotes -->
 
-[^1]: The elapsing of timers is the only way to 
-	interact with a local clock of engine instances.
-
-[^2]: Here, we borrow actor terminology.
-
-[^3]: At the time of writing V2 specs, further relevant sources are *Selectors:
+[^1]: At the time of writing V2 specs, further relevant sources are *Selectors:
 Actors with Multiple Guarded Mailboxes*[@selectors-actors-2014] and *Special
 Delivery: Programming with Mailbox Types*[@special-delivery-mailbox-types-2023].
 We shall refer to the latter as "mailbox _usage_ types" 
 whenever we want to avoid ambiguities or confusion with
 the generic mailbox state type.
 
-[^4]: The specification does not fix any bound on 
+[^2]: The specification does not fix any bound on 
 	the number of engines in existence.
 
-[^5]: Note that in TLA⁺, pre-conditions of actions are
+[^3]: The elapsing of timers is the only way to 
+	interact with a local clock of engine instances.
+
+[^4]: Here, we follow Erlang's practice of 
+	[event-driven state machines](https://www.erlang.org/doc/system/statem.html):
+    all behaviour is expressed in a single function.
+	This is in contrast to [Mealy machines](https://en.wikipedia.org/wiki/Mealy_machine), 
+	we have a pair of functions,
+	one for the state update and one for the outputs generated.
+	Either choice is valid and it is a design choice.
+
+[^5]: Here, we borrow actor terminology.
+
+
+[^6]: Clocks are a little more complicated to get into the picture;
+	they are "external" to the engine environment and still experimental.
+
+[^7]: We always have a default guard
+	that "activates" if no other guards are defined.
+
+[^8]: A well-known example for relevance of sources of "true" randomness are
+	[cloudflare's lava lamps](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/).
+
+[^9]: See the
+	[`local_interaction`data type](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L53).
+	
+[^X]: Note that in TLA⁺, pre-conditions of actions are
 	present in the guise of the `ENABLED` predicate. 
 
-[^6]: Arriving messages that do not trigger any "non-trivial" guarded action
+[^Y]: Arriving messages that do not trigger any "non-trivial" guarded action
 	are added to the mailbox they are addressed,
 	time is incremented by a default delay, and nothing else changes.
 
 
-[^7]: Local time is still in alpha stage, 
+[^G]: Local time is still in alpha stage, 
 	but it could be used to implement busy waiting;
 	however,
 	the preferred way to interact with the local clock is
@@ -490,24 +511,4 @@ the generic mailbox state type.
 	this should be replaced by minimal and maximal duration for an event
 	for the specification of real time engines.
 
-[^8]: A well-known example for relevance of sources of "true" randomness are
-	[cloudflare's lava lamps](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/).
-
-[^9]: See the
-	[`local_interaction`data type](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L53).
-
-[^10]: Here, we follow Erlang's practice of 
-	[event-driven state machines](https://www.erlang.org/doc/system/statem.html):
-    all behaviour is expressed in a single function.
-	This is in contrast to [Mealy machines](https://en.wikipedia.org/wiki/Mealy_machine), 
-	we have a pair of functions,
-	one for the state update and one for the outputs generated.
-	Either choice is valid and it is a design choice.
-
-[^11]: Clocks are a little more complicated to get into the picture;
-	they are "external" to the engine environment and still experimental.
-
-[^12]: We always have a default guard
-	that "activates" if no other guards are defined.
-	
-[^13]: The meaning of enabled is exactly as in TLA⁺ or Petri nets.
+[^K]: The meaning of enabled is exactly as in TLA⁺ or Petri nets.
