@@ -165,6 +165,41 @@ and the time stamped[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041
 ᚦ: needs updating [do not remove this comment): out of date ALERT!
 -->
 
+??? todo
+
+	{check what and how to incorporate this material}  
+	
+	Recall that each guarded action is a pair of a guard function and an action function.
+	Conceptually, the guard function has two purposes:
+	first it determines whether the action that it is guarding is enabled;
+	moreover, 
+	if the action is enabled it provides matched arguments and an action label. 
+
+	The action function takes the time stamped trigger, local data and matched argument as input
+	and computes 
+
+	- the updates to the engine environment
+	- the set of messages to be sent
+	- timers to be set, cancelled, and reset
+	- new engines to be created.
+
+	In theory,
+	all guards of an engine are evaluated in parallel,
+	each of which potentially triggers an the execution of the action,
+	e.g., upon  arrival of new  message;
+	in practice, for specific cases, one may want to choose 
+	a more efficient, but equivalent strategy.
+
+	In many simple cases,
+	it is never the case that several guards become true;
+	however, 
+	if several actions are enabled,
+	priorities of guards may be used to resolve undesireable non-determinism.
+	It is necessary to mark the non-determinism if it is desired.
+	Each guard comes with an associated action that is executed
+	if its action is enabled (and has the highest priority).
+
+
 ### A finite set of guarded actions for each engine family
 
 Each engine family comes with a set of guarded actions
@@ -181,6 +216,50 @@ maybe already the message tag is sufficient.
 The guard function returns _matched argument_ and an _action label_ if
 the guarded action is enabled,
 e.g., the relevant information of a received message.
+
+!!! todo
+	
+	add details according to the discussion in the PR,
+	see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
+
+??? todo
+
+	{check what of the following should be incorporated on this page}
+	The action of a guarded action is a function $f_{act}$.
+	It takes as input
+	all local data of an engine _and also_
+	the _arguments_ that are returned by the guard.
+	In more detail, the list of inputs is
+
+	- matched arguments
+	- external + internal ID of the engine itself (unchangeable)
+	- the "event trigger"
+		- message received or
+		- timer "handle(s)" of elapsing timer(s)
+		- engine-specific local state
+		- local time (when guard evaluation started)
+		- mailbox contents and their optional state (for every mailbox)
+	- remembered timers with their scheduled time
+	- acquaintances (known other engine instances)
+	- a (finite) map from names to external IDs
+
+	The output of the action describes after the event has finished
+
+	- updates to the above local data (except for identities and arguments)
+	- a finite set of messages to be sent
+	- a finite set of engines to be spawned, setting
+		- engine type
+		- initial state
+		- a name for the process (that is unique relative to the engine)
+
+
+!!! todo
+
+	establish some proper reciprocal linking scheme here 
+	
+	<!--
+	make PR for https://github.com/anoma/formanoma/tree/heindel/engine-locale
+	-->	
 
 ### Inputs for the action of a guarded action
 
@@ -428,26 +507,26 @@ A table of contents has the following structure.
 ## Template files
 
 
-??? "Engine template"
+<!--??? "Engine template"-->
 
-    !!! info 
+!!! info 
 
         The below template can be found in the `overrides/templates/engine-template.md` file.
 		
-    !!! info 
+!!! info 
 	
 		Text in curly braces `{` `}` is used for short explanations of titles 
 		and/or further context. Text in square brackets `[` `]` is a description
-		of what can be used as a section title.
+		of what should be put or what it represents.
 		
 
     --8<-- "./../overrides/templates/engine-template.md:6"
 
 
-??? "Guarded action template"
+<!--??? "Guarded action template"-->
 
 
-    !!! info 
+!!! info 
 
         The following template can be found in the `overrides/templates/guarded-action-template.md` file.
 
