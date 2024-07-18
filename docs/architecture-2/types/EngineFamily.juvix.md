@@ -32,7 +32,7 @@ Engine Environment
 
 :   This serves as the execution context for engines. In addition to the local
     state, the engine environment encompasses elements such as the mailbox
-    cluster owned by an engine instance and a finite set[^1] of acquaintances—other engine
+    cluster owned by an engine instance and a finite set of acquaintances—other engine
     instances known to the current one that can interact with it.
 
 Guarded Actions
@@ -239,6 +239,3 @@ type Engine (S I M R O C : Type):= mkEngine {
 
     With each different election or kind of voters, we obtain a new engine instance,
     while the underlining voting system, the voting engine family, remains the same.
-
-
-[^1] : Presented as a list for simplicity.
