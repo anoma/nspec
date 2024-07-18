@@ -4,43 +4,57 @@ search:
   exclude: false
 ---
 
-# Engine Family [_X_] {V2 Template}
+??? info "Juvix"
 
-## Purpose {of members of engine family _X_}
+	```juvix
+    module overrides.templates.engine-template;
+    ```
+
+
+# Engine Family [family name] {V2 Template}
+
+## Purpose {of members of engine family [family name]}
 
 !!! note
 
-	The purpose describes in broad terms what the role of this engine family is in context,
+	The purpose should describe in broad terms what the role of this engine family is in context,
 	be it
 
 	- in relation to other engine instances within an Anoma node and/or
 
 	- in the whole Anoma instance at large.
 	
+
 	Form
 	
-	: The purpose is a couple of short paragraphs of prose, possibly just one.
+	: The purpose description is in the form of some short paragraphs of prose, possibly just one.
+
+	Conceptual Structure
 	
-!!! todo
+	: One relatively self-contained piece of prose,
+	providing links to techincal terms and unavoidable jargon.
 
-	polish example 👇 
-
+	
 ??? example
 
-	A generic engine family _X_ will want to have a purpose,
-	such as responding to requests from a client
-	and hence _X_ = `Server`.
-	
+    Members of the _time stamping server_-family are accepting 
+	time stamping requests for fixed size hashes 
+	that clients provide as part of their time stamping requests.
+	Request are answered with a response, 
+	consisting of the pair of the hash and the reception time stamp,
+	signed by the time stamping server instance.
 
-## Specific types {of engine familiy _X_}
+
+## Specific types {of engine familiy [family name]}
 
 !!! note
 
-	This section describes all types—or type parameters, to be precise—that
-	are specific to an engine family.
-	However, 
-	if several engine families share the same types,
-	the best place is either
+	The (sub-)subsections of this section describe 
+	all types—or type parameters, to be precise—that are
+	specific to engine family [family name].
+	However,
+	if several engine families share a type,
+	the best place to place the definition is either
 
 	- the lowest common ancenstor that the engine families share in 
 		the engine family hierarchy, or
@@ -48,9 +62,15 @@ search:
 	- a more suitable place, if that is not an option, 
 		e.g., if it is one of the [[Basic Types]].
 		
+### Overview {optional}
+	
+!!! note
+
+	You may want to provide an overview of how things relate to each other.
+
 	Form
 	
-	: You may want to provide an overview of how things relate to each other.
+	: free form
 
 ### Engine-specific state type
 
@@ -61,30 +81,71 @@ search:
 	
 	Form
 	
-	: Either a definition of the type in Juvix, or a link to such a definition. 
+	: Either a new definition of the type in Juvix, or an included code snipped with a link where it is defined. 
 	Moreover, here we want descriptions of the data structures 
-	in English language.
+	in English language, or a link to a wikipedia-page or similar.
+	
+!!! example
 
+	```juvix
+	TimeStampingServerState := Unit;
+    ```
+
+	The time stamping server does not require any state
+	as the clock is "external" to engine instances.
 
 ### Message type(s)
 
 !!! note
 
-	Next, we describe all the message types that members of family _X_ 
+	Next, we describe all the message types that members of family [family name] 
 	are able to process, in principle.
 	For each such "receivable" message type, 
 	we want
 	
-	- a _message tag_ 
-    - a list of _argument types_ 
-	- a (default value for a) _formal parameter name_ for each element of the list of _argument types_
+	- a _message tag_
+    - a list of _argument types_
+	- a (default value for a) _formal parameter name_ for each element of the list of argument types
 
-	The term `message tag` is borrowed from  the [Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832)). 
-	The list of argument types has to be uniquely determined by the message tag.
+	The term `message tag` is borrowed from 
+	[the Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832)). 
+	The list of argument types has to be uniquely determined by the message tag (at least within this engine family).
 	
-!!! todo
+	Form
 
-	spell out the form, although natural
+	: We have exactly one level four heading `#### [Message Tag]` for each receivable message type. 
+	The content has two parts.
+	
+	Part one is given in the _form_ of a [definition list](https://pandoc.org/MANUAL.html#definition-lists) in the sense of markdown
+	(see also [here](https://stackoverflow.com/q/28057101)) 
+	where the "terms" are the formal parameter name defaults, 
+	and the definitions are a short English language description of the role (and type) of the parameter, plus the type definition (with a link to where it is defined—if applicable).
+	
+	Part two provides (optional) additional information, 
+	e.g., design choices, explanation of the naming process, etc.
+
+
+!!! example
+
+    #### TimeStampingRequest
+	
+	clientHash 
+	
+	: The client hash to be time stamped.
+	
+	    ```juvix
+     	clientHash : BitString;
+    	```
+
+	returnAddress
+	
+	: The address that the time stamped hash should be sent to.
+	
+	    ```juvix
+     	returnAdress : BitString;
+    	```
+
+	We are only using bit strings for simplicity.
 
 ### Mailbox state type(s) {optional}
 
@@ -94,6 +155,21 @@ search:
 	If so, here is the place to describe them.
 	In fact, this is actually a list of different mailbox states
 	in that each mailbox may have a mailbox specific state.
+	
+	Form
+	
+	: A list of type definitions and explanatory prose;
+	the explanatory prose is preceding the type definition.
+	
+	
+!!! example
+
+	- Each mailbox has a ring buffer to estimate 
+	the frequency of time stamping requests.
+	
+!!! todo
+
+	add juvix code for a ring buffer for this example ☝️ 
 
 ## [Title of Paradigmatic message sequence diagram] {optional}
 
@@ -105,6 +181,35 @@ search:
 	The general idea is that
 	each message sequence diagram in the engine type page describes
 	a pattern for test cases.
+	We can use
+    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) 
+    to draw [message sequence diagrams](https://www.uml-diagrams.org/sequence-diagrams.html),
+    using the `-)`-syntax by default,
+    expressing that message sending is "asynchronous".
+	For more on how
+    actor systems (or models of them) give rise to sequence diagrams,
+    consider exploring systems using
+	[stateright](https://www.stateright.rs/)'s [state explorer](https://www.stateright.rs/seeking-consensus.html#stateright-explorer).
+
+
+!!! example "Time Stamping Service"
+
+	A member of the time stamping server family 
+	may respond slightly delayed.
+
+    
+	```mermaid
+    sequenceDiagram
+        participant A as GenericClientA
+        participant Server as TimeStampingServer
+        participant B as GenericClientB
+		participant C as GenericClientC
+        A-)Server: TimeStampingRequest for 123 to B
+        B-)Server: TimeStampingRequest for 234 to C
+		Server-)B: TimeStampingResponse (8:00 AM, 123)
+		Server-)C: TimeStampingResponse (8:01 AM, 234)
+      Note right of Server: A blockchain is a time stamping service after all.
+	```
 
 ??? example "Client-Server Example"
 
@@ -228,22 +333,22 @@ search:
 	We borrow the term conversation diagram from
 	[business process modeling](http://dx.doi.org/10.1016/B978-0-12-799959-3.00021-5).
 	The conversation diagram of an engine page only contains edges 
-	that have engine family _X_ as source or target.
+	that have engine family [family name] as source or target.
 
 
 
-??? example "Conversation Diagram"
+??? example "Worker Communication in Narwhal"
 
-	Taking again the example of workers in Narwhal,
+	In the Narwhal mempool protocol,
 	the worker is in communication with other workers,
-	the user and the primary. 
+	the user and its primary. 
 	A partial diagram would be the following.
 
 	```mermaid
 	erDiagram
-		PrimaryX }|--|| WorkerX1 : WorkerHash
-		WorkerX1 ||--|{ MirrorY1 : NewTransaction
-		User ||--|{ WorkerX1 :  TransactionRequest
+		PrimaryX ||--|| WorkerX1 : WorkerHash
+		WorkerX1 ||--|| MirrorY1 : NewTransaction
+		User ||--|| WorkerX1 :  TransactionRequest
 	```
 
 !!! note
@@ -251,7 +356,7 @@ search:
 	The information from the conversation diagram could be taken from
 	the list of conversation partners,
 	each with a list of incoming and outgoing messages,
-	relative to the current engine family _X._
+	relative to the current engine family [family name].
 	This is not yet implemented though.
 	
 ## Guarded Actions
@@ -264,7 +369,8 @@ search:
 
 !!! todo
 
-	put link(s) to the guarded action template
+	ᚦ Put a link to the guarded action description/template,
+	or how should we do this?
 
 
 ### [Guarded action $1$]
