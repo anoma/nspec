@@ -507,13 +507,13 @@ A table of contents has the following structure.
 ## Template files
 
 
-<!--??? "Engine template"-->
+??? "Engine template"
 
-!!! info 
+	!!! info 
 
         The below template can be found in the `overrides/templates/engine-template.md` file.
 		
-!!! info 
+	!!! info 
 	
 		Text in curly braces `{` `}` is used for short explanations of titles 
 		and/or further context. Text in square brackets `[` `]` is a description
@@ -523,10 +523,10 @@ A table of contents has the following structure.
     --8<-- "./../overrides/templates/engine-template.md:6"
 
 
-<!--??? "Guarded action template"-->
+??? "Guarded action template"
 
 
-!!! info 
+	!!! info 
 
         The following template can be found in the `overrides/templates/guarded-action-template.md` file.
 
