@@ -21,38 +21,6 @@
 	bounds that have been fixed at creation.
 	
 
-??? todo
-
-	{move the contents of this note following to a proper place / remove it}  
-	Recall that each guarded action is a pair of a guard function and an action function.
-	Conceptually, the guard function has two purposes:
-	first it determines whether the action that it is guarding is enabled;
-	moreover, 
-	if the action is enabled it provides matched arguments and an action label. 
-
-	The action function takes the time stamped trigger, local data and matched argument as input
-	and computes 
-
-	- the updates to the engine environment
-	- the set of messages to be sent
-	- timers to be set, cancelled, and reset
-	- new engines to be created.
-
-	In theory,
-	all guards of an engine are evaluated in parallel,
-	each of which potentially triggers an the execution of the action,
-	e.g., upon  arrival of new  message;
-	in practice, for specific cases, one may want to choose 
-	a more efficient, but equivalent strategy.
-
-	In many simple cases,
-	it is never the case that several guards become true;
-	however, 
-	if several actions are enabled,
-	priorities of guards may be used to resolve undesireable non-determinism.
-	It is necessary to mark the non-determinism if it is desired.
-	Each guard comes with an associated action that is executed
-	if its action is enabled (and has the highest priority).
 
 !!! note
 
@@ -149,54 +117,13 @@ Guards can provide information (similar to pattern-matching) which can then be u
 	Besides answering the request,
 	we have to update the ringbuffer of the mailbox state.
 
-??? todo
 
-	{update and move the following to the proper place}
-	The action of a guarded action is a function $f_{act}$.
-	It takes as input
-	all local data of an engine _and also_
-	the _arguments_ that are returned by the guard.
-	In more detail, the list of inputs is
-
-	- matched arguments
-	- external + internal ID of the engine itself (unchangeable)
-	- the "event trigger"
-		- message received or
-		- timer "handle(s)" of elapsing timer(s)
-		- engine-specific local state
-		- local time (when guard evaluation started)
-		- mailbox contents and their optional state (for every mailbox)
-	- remembered timers with their scheduled time
-	- acquaintances (known other engine instances)
-	- a (finite) map from names to external IDs
-
-	The output of the action describes after the event has finished
-
-	- updates to the above local data (except for identities and arguments)
-	- a finite set of messages to be sent
-	- a finite set of engines to be spawned, setting
-		- engine type
-		- initial state
-		- a name for the process (that is unique relative to the engine)
-
-
-!!! todo
-
-	establish some proper reciprocal linking scheme here 
-	
-	<!--
-	make PR for https://github.com/anoma/formanoma/tree/heindel/engine-locale
-	-->	
-
-
+<!-- ᚦdon't think we need this any more
 !!! todo
 
 	simple juvix code example of client server
+-->	
 
-!!! todo
-	
-	add details according to the discussion in the PR,
-	see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
 	
 
 ### Effects
