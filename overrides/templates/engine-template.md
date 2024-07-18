@@ -43,7 +43,7 @@ search:
 	Request are answered with a response, 
 	consisting of the pair of the hash and the reception time stamp,
 	signed by the time stamping server instance.
-
+	The service has a rate limit that is set at creation.
 
 ## Specific types {of engine familiy [family name]}
 
@@ -86,13 +86,25 @@ search:
 	in English language, or a link to a wikipedia-page or similar.
 	
 !!! example
+ 
+ 
+	We use the state of the time stamping server 
+	to store the rate limit
+	(that we assume to be static for the sake of simplicity).
+	
 
 	```juvix
-	TimeStampingServerState := Unit;
+	TimeStampingServerState := Nat;
     ```
 
-	The time stamping server does not require any state
-	as the clock is "external" to engine instances.
+	!!! warning
+	
+	The clock is "external" to engine instances.
+	If you want to use time, 
+	you can only keep track of "time stamps"
+	of triggers.
+	Use clocks only if necessary.
+	
 
 ### Message type(s)
 
