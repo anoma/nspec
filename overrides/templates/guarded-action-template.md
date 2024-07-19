@@ -1,12 +1,12 @@
-# [Name of non-interactive action] on [Name of guard] {V2 Template ⊂ V3 Template}
+# [Name of non-interactive action(s)] on [Name of guard] `{`V2 Template ⊂ V3 Template`}`
 
 ## Purpose
 
 !!! note
 
 	We need to give a high level description of
-	when the action is activated
-	and what the action is doing as a response.
+	when some actions are activated
+	and the effects of the actions to be performed.
 	
 	Form
 	
@@ -18,9 +18,8 @@
 	The time stamping server has a build in rate limit.
 	Time stamping requests are only served 
 	if the mean time between received requests is within 
-	bounds that have been fixed at creation.
-	
-
+	bounds that have been fixed at creation,
+	which is not present in V2.
 
 !!! note
 
@@ -33,17 +32,20 @@
 
 !!! note
 
-	We need a description of conditions for the action to be enabled.
-	The matched arguments, the action label, and any other precomputations.
+	We need a description of under which conditions actions are enabled;
+	for each case, 
+	we need to describe the matched arguments,
+	the action label, 
+	and any other precomputations.
 
 	Conceptual structure
 	
-	: We essentially need a decision tree / flow chart / ... for 
+	: We essentially need a decision tree, flow chart, or similar for 
 	
-	- how to determine whether the action is enabled, and
+	- how to determine whether an action is enabled (and which one), and
 	
 	- describe the list of matched arguments and pre-computations 
-	and how they are computed along the way
+	and how they are computed along the way.
 
 
 	Form
@@ -52,7 +54,11 @@
 	
 	1. an (optional?) flow chart that matches the conceptual structure
 
-	2. An English language description, describing the logic of the flow chart (even in absense of a flowchart) and describes each matched argument, using a [definition list](https://pandoc.org/MANUAL.html#definition-lists)
+	2. an English language description of the logic
+	that the flow chart illustrates (even in absense of a flowchart) and
+	also descriptions of the  matched argument,
+	using a [definition list](https://pandoc.org/MANUAL.html#definition-lists)
+	as in the example below.
 	
 	3. Juvix code of the actual guard function
 
@@ -72,7 +78,16 @@ Guards can provide information (similar to pattern-matching) which can then be u
 	If the rate limit is not surpassed, we answer the request.
 	The matched arguments are the hash to be time stamped
 	and the address to which we have to respond. 
-
+	
+	hash
+	
+	:  matched argument
+	
+	
+	returnAdress
+	
+	:  matched argument
+		
 
 	```juvix
 	if limitOK() then Some (hash,replyTo) else None ;
@@ -88,22 +103,23 @@ Guards can provide information (similar to pattern-matching) which can then be u
 	then we may actually have a set of actions
 	under the same guard.
 	
-!!! example
-
+	
+ <!--!!! example
+¶
 	There is always the `no op` opeartion as default,
 	which just drops the message.
-
+-->
 
 ## [Action name $i$] [action label $i$] `{each action i needs a label for the LTS anyway}`
 
 !!! note 
 	
 	The description of the actions starts 
-	with an English language highlevel description,
+	with an English language high-level description,
 	followed by more detailed descriptions
 	of state update, messages to be sent, timers to be set/cancelled/reset,
 	and engine instances to be spawned.
-	The code is at the very end.
+	The code in collapsed form is put after the overview.
 
 ### Overview
 
@@ -117,13 +133,17 @@ Guards can provide information (similar to pattern-matching) which can then be u
 	Besides answering the request,
 	we have to update the ringbuffer of the mailbox state.
 
+    ??? "show me the code"
+	
+	```juvix
+	;
+	```
 
 <!-- ᚦdon't think we need this any more
 !!! todo
 
 	simple juvix code example of client server
 -->	
-
 	
 
 ### Effects
@@ -175,15 +195,3 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 	The time stamping server does not need to set any timers.
 	
-### Code	
-
-!!! note
-
-	Last but not least,
-	the actual code of the model implementation.
-	
-??? example
-
-	```juvix
-	;
-	```
