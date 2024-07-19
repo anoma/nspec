@@ -11,9 +11,9 @@ search:
     ```
 
 
-# Engine Family [family name] {V2 Template}
+# [family name] Engine Family `{`V2 Template`}`
 
-## Purpose {of members of engine family [family name]}
+## Purpose `{`of members of engine family [family name]`}`
 
 !!! note
 
@@ -35,7 +35,9 @@ search:
 	providing links to techincal terms and unavoidable jargon.
 
 	
-??? example
+!!! example
+
+	# Time Stamping Server Engine Family 
 
     Members of the _time stamping server_-family are accepting 
 	time stamping requests for fixed size hashes 
@@ -45,7 +47,7 @@ search:
 	signed by the time stamping server instance.
 	The service has a rate limit that is set at creation.
 
-## Specific types {of engine familiy [family name]}
+## Specific types `{`of engine familiy [family name]`}`
 
 !!! note
 
@@ -62,7 +64,7 @@ search:
 	- a more suitable place, if that is not an option, 
 		e.g., if it is one of the [[Basic Types]].
 		
-### Overview {optional}
+### Overview `{`optional`}`
 	
 !!! note
 
@@ -97,13 +99,15 @@ search:
 	TimeStampingServerState := Nat;
     ```
 
-	!!! warning
+!!! warning
 	
-	The clock is "external" to engine instances.
-	If you want to use time, 
+	The local clocks of engine instances are "external" to engine instances.
+	If you need information about wall-clock time,
 	you can only keep track of "time stamps"
 	of triggers.
 	Use clocks only if necessary.
+	Hoever, each Anoma node may at some point in time have
+	a node-wide wall-clock time service.
 	
 
 ### Message type(s)
@@ -120,7 +124,7 @@ search:
 	- a (default value for a) _formal parameter name_ for each element of the list of argument types
 
 	The term `message tag` is borrowed from 
-	[the Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832)). 
+	[the Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832). 
 	The list of argument types has to be uniquely determined by the message tag (at least within this engine family).
 	
 	Form
@@ -128,12 +132,12 @@ search:
 	: We have exactly one level four heading `#### [Message Tag]` for each receivable message type. 
 	The content has two parts.
 	
-	Part one is given in the _form_ of a [definition list](https://pandoc.org/MANUAL.html#definition-lists) in the sense of markdown
+    1. Part one is given in the _form_ of a [definition list](https://pandoc.org/MANUAL.html#definition-lists) in the sense of markdown
 	(see also [here](https://stackoverflow.com/q/28057101)) 
 	where the "terms" are the formal parameter name defaults, 
 	and the definitions are a short English language description of the role (and type) of the parameter, plus the type definition (with a link to where it is defined—if applicable).
 	
-	Part two provides (optional) additional information, 
+    2. Part two provides (optional) additional information, 
 	e.g., design choices, explanation of the naming process, etc.
 
 
@@ -159,7 +163,7 @@ search:
 
 	We are only using bit strings for simplicity.
 
-### Mailbox state type(s) {optional}
+### Mailbox state type(s) `{`optional`}`
 
 !!! note
 	
@@ -179,11 +183,11 @@ search:
 	- Each mailbox has a ring buffer to estimate 
 	the frequency of time stamping requests.
 	
-!!! todo
+??? todo
 
 	add juvix code for a ring buffer for this example ☝️ 
 
-## [Title of Paradigmatic message sequence diagram] {optional}
+## [Title of Paradigmatic message sequence diagram] `{`optional`}`
 
 !!! note
 
@@ -330,7 +334,7 @@ search:
         deactivate ExecutorProcess
     ```
 
-## Conversation Diagram {optional}
+## Conversation Diagram `{`optional`}`
 
 !!! note
 
@@ -379,7 +383,7 @@ search:
 	too many guarded actions (and thereby putting them all in one page would be
 	unworkable), they can be split out into separate files and linked.
 
-!!! todo
+??? todo
 
 	ᚦ Put a link to the guarded action description/template,
 	or how should we do this?
