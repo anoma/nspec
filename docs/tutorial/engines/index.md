@@ -43,17 +43,19 @@ given its current state and the received message or notification.
 Performing an action 
 corresponds to an event in the sense of the actor model theory.
 We say that actions are _triggered_ 
-by the arrival of a new message or an elapsing timer[^3];
-performing an action has several effects:
+by the arrival of a new message or 
+the notification about ealapsed timers[^3];
+performing an action has possibly several effects
+in each of the following categories:
 
-- a state update of the engine instance
+- state updates of the engine instance
 - adding messages to the send queue
-- setting new timers (and cancelling of old ones)
+- setting new timers and cancelling or resetting old ones
 - creating new engine instances[^4].
 
 The Anoma specification describes
 a ꜰɪxᴇᴅ finite number of _engine families_
-such that every (correct and non-faulty) engine instance 
+such that every engine instance in the model implementation
 belongs to a unique family that describes its behaviour;
 while the set of engine families is static,
 dynamic "parameters" at engine creation determine the exact behaviour.
@@ -64,15 +66,16 @@ dynamic "parameters" at engine creation determine the exact behaviour.
 	We call the set of all engine instances that share the same state transition function the _engine type_ of the state transition function.
 -->
 
-We proceed with a more detailed description of the "internal" structure of
-each engine instance.
-Then we describe how state transition functions are represented by sets of guarded actions.
+We proceed with a more detailed description of 
+the "internal" structure of each engine instance.
+Then we describe 
+how (labelled) state transitions are specified by sets of guarded actions.
 
 ## On the local data of engine instances: the engine environment
 
 Each engine instance has the following local data that it can
-access directly and exclusively while processing 
-received messages or clock notifications:
+access directly and exclusively 
+when it processes a received message or a clock notification:
 
 - its _name_, which is a globally unique unchangeable value that
   _may_ be given by an ordered pair of<!--
@@ -81,13 +84,15 @@ received messages or clock notifications:
     - a _child name_ (chosen by the parent engine before creation) and
     - the parent's globally unique name
 
-- its _mailbox cluster,_ represented by a partial map with a finite domain of definition <!--
+- its _mailbox cluster,_ 
+  represented by a partial map with a finite domain of definition <!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L211-->
 
     - from _mailbox identifiers_ (**MID** for short)
 
       
     - to _mailboxes_, which in turn consist of
+
 		- a list of messages (that were sent to the MID but not processed yet)
 		- an optional mailbox-specific state (for quick processing of new messages)
 
@@ -102,14 +107,16 @@ received messages or clock notifications:
 
     - a finite list of timers
 
-- engine-specific local state<!--
+- engine-specific local state (that not naturally tied to a specific mailbox) <!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
-The record of all these local data is called the _engine environment_[^6]
+The record of all these local data is called the _engine environment,_[^6]
 not only because the word `state` is hopelessly overworked,
-but also because we want to reserve it for the states of 
-the "global" labelled transition system (see below).
-The types are formalized in the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
+but specifically because we want to reserve it for 
+the  states of the "global" labelled transition system
+(see below).
+The types are formalized in
+the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
 	link **will** need updating [ᚦ do not erase this comment] OUT OF DATE ALERT!
 --><!--
 	ᚦ: TODO: describe realtion of Juvix code to implementation ... 
@@ -117,12 +124,13 @@ The types are formalized in the [`single_engine`-locale](https://github.com/anom
 The engine instance's name is unchangeable,
 once the engine is created;
 every correct implementation must ensure that
-the parent engine chooses a globally unique name before an engine can be created,
-e.g., 
-by pairing its own globally unique name
- with a name that is unique among its children—<!--
+the parent engine chooses a globally unique name
+before the child engine can be created;
+as mentioned above, 
+the default is a pair of the parent's globally unique name
+and a _child name_ that is unique among its siblings—<!--
 -->either spawned previously or in the future.
-Should the need arise for changing the name of an engine,
+Should it become necessary to change the name of an engine,
 e.g., because it has been sent to undesired destinations,
 a new *"continuation engine"* can be spawned with a new name.
 
@@ -132,12 +140,30 @@ The Anoma Specification uses pure functions to describe
 the atomic computation that each engine instance performs when
 a new message is ready to be processed or
 a notification from the local clock is received.
-Here,
-we base our development on the seminal work of
+Each specific state transitions corresponds to 
+a set of _actions_ performed,
+typically a single one,
+we in principle can perform actions "in parallel",
+provided that we have a well-defined concurrency relation among actions.
+The effects of the action that computes a state transition
+is  computed by a correspondig action function.
+Action functions compute
+
+- updates to the engine environment
+- a set of messages to be sent
+- a set of timers to be set, cancelled, and reset
+- new engines to be created.
+
+Whether or not an action is enabled for a trigger 
+is determined by action guards,
+by guard functions.
+
+Before we delve into the details,
+note that this approach is based on the seminal work of
 [Henessy and Milner](https://en.wikipedia.org/wiki/Hennessy%E2%80%93Milner_logic)
 and
 Lamport's [temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html).
-The final sources of inspiration are
+Additional sources of inspiration are
 Dijkstra's [_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language)
 and guard functions of [colored Petri nets](https://en.wikipedia.org/wiki/Coloured_Petri_net).
 
@@ -165,123 +191,97 @@ and the time stamped[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041
 ᚦ: needs updating [do not remove this comment): out of date ALERT!
 -->
 
-??? todo
-
-	{check what and how to incorporate this material}  
-	
-	Recall that each guarded action is a pair of a guard function and an action function.
-	Conceptually, the guard function has two purposes:
-	first it determines whether the action that it is guarding is enabled;
-	moreover, 
-	if the action is enabled it provides matched arguments and an action label. 
-
-	The action function takes the time stamped trigger, local data and matched argument as input
-	and computes 
-
-	- the updates to the engine environment
-	- the set of messages to be sent
-	- timers to be set, cancelled, and reset
-	- new engines to be created.
-
-	In theory,
-	all guards of an engine are evaluated in parallel,
-	each of which potentially triggers an the execution of the action,
-	e.g., upon  arrival of new  message;
-	in practice, for specific cases, one may want to choose 
-	a more efficient, but equivalent strategy.
-
-	In many simple cases,
-	it is never the case that several guards become true;
-	however, 
-	if several actions are enabled,
-	priorities of guards may be used to resolve undesireable non-determinism.
-	It is necessary to mark the non-determinism if it is desired.
-	Each guard comes with an associated action that is executed
-	if its action is enabled (and has the highest priority).
-
-
 ### A finite set of guarded actions for each engine family
 
 Each engine family comes with a set of guarded actions
 where the _guard_ is a function that—among other things—determines whether
 the action that it guards is _enabled._
-To determine whether the action is enabled, 
+To determine whether the action is enabled,
 the guard function has access to the time stamped trigger
-and all local data, i.e., the engine environment.[^7]
+and the engine environment.[^7]
 In most situations,
 only very few components of the engine environment are needed 
-to determine whether the guarded action is enabled.
+to determine whether the action is enabled.
 For a received message, the message alone may be enough, 
 maybe already the message tag is sufficient.
-The guard function returns _matched argument_ and an _action label_ if
-the guarded action is enabled,
-e.g., the relevant information of a received message.
+The guard function returns _matched arguments,_
+e.g., the relevant information of a received message, 
+and an _action label_ 
+that identifies the respective action that is enabled.
 
-!!! todo
-	
-	add details according to the discussion in the PR,
-	see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
+<!--ᚦ: {a different description we had elsehwere}
+	Recall that each guarded action is a pair of a guard function and an action function.
+	Conceptually, the guard function has two purposes:
+	first it determines whether the action that it is guarding is enabled;
+	moreover, 
+	if the action is enabled it provides matched arguments and an action label. 
+-->
 
-??? todo
+All guards of an engine could be evaluated in parallel,
+for every new trigger,
+e.g., upon  arrival of new  message;
+in practice,  one may want to choose a more efficient, but equivalent strategy.
 
-	{check what of the following should be incorporated on this page}
-	The action of a guarded action is a function $f_{act}$.
-	It takes as input
-	all local data of an engine _and also_
-	the _arguments_ that are returned by the guard.
-	In more detail, the list of inputs is
+In simple cases,
+at most one action is enabled for the same trigger;
+however, 
+if several actions are enabled,
+priorities of guarded actions may be used to resolve undesirable non-determinism.f
+If non-determinism is part of the design,
+it should be marked clearly.
 
-	- matched arguments
-	- external + internal ID of the engine itself (unchangeable)
-	- the "event trigger"
-		- message received or
-		- timer "handle(s)" of elapsing timer(s)
-		- engine-specific local state
-		- local time (when guard evaluation started)
-		- mailbox contents and their optional state (for every mailbox)
-	- remembered timers with their scheduled time
-	- acquaintances (known other engine instances)
-	- a (finite) map from names to external IDs
+!!! warning
 
-	The output of the action describes after the event has finished
-
-	- updates to the above local data (except for identities and arguments)
-	- a finite set of messages to be sent
-	- a finite set of engines to be spawned, setting
-		- engine type
-		- initial state
-		- a name for the process (that is unique relative to the engine)
-
-
-!!! todo
-
-	establish some proper reciprocal linking scheme here 
-	
-	<!--
-	make PR for https://github.com/anoma/formanoma/tree/heindel/engine-locale
-	-->	
+	It is OK to keep non-determinism and mark it
+	so that we are aware of potential issue.
+	Inapropriate resolution of non-terminism can lead to
+	deadlocks.
 
 ### Inputs for the action of a guarded action
 
 The actions of guarded actions take three pieces of data as input:
 the local state in the form of the engine environment,
 the time stamped trigger (message or notification),
-and moreover the matched argument that the guard has already computed.
-By _time stamped_ we mean that 
+and finally the outputs of the guard function,
+i.e., the matched arguments, the action label,
+and any additional precomputations that the guard has already computed.<!--
+ᚦ: well, need to discuss with Jonathan 
+-->
+By _time stamped_ we mean that
 each trigger comes with the local time when guard evaluation was triggered,
 which one may want to think of as the local time "now".
+
+<!-- {ᚦ: old material on the topic}
+The action of a guarded action is a function $f_{act}$.
+It takes as input
+all local data of an engine _and also_
+the _arguments_ that are returned by the guard.
+In more detail, the list of inputs is
+
+- matched arguments
+- external + internal ID of the engine itself (unchangeable)
+- the "event trigger"
+	- message received or
+	- timer "handle(s)" of elapsing timer(s)
+	- engine-specific local state
+	- local time (when guard evaluation started)
+	- mailbox contents and their optional state (for every mailbox)
+- remembered timers with their scheduled time
+- acquaintances (known other engine instances)
+- a (finite) map from names to external IDs
+-->
 
 Digression on time
 
 : The only information about local wall-clock time in 
-the input of the transition function is
+the input of the guard function is
 
 - "now"—the [time](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L222) stamp of the trigger—and 
-- the set of previously set timers, 
+- the set of previously set timers,
   each of which has a
   [_handle._](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L24)
 
-!!! note
+!!! warning
 
 	The treatment of local wall-clock time is still experimental;
     however, we may need it to mitigate possible limitations of
@@ -292,20 +292,40 @@ the input of the transition function is
 	monotonicity of clock implementations in
 	common operating systems.
 
+
+??? todo
+	
+	add details according to the discussion in the PR,
+	see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
+
+
 ### Outputs of an action
 
 We describe the outputs in two steps:
 first,
 we cover _non-interactive_ actions,
 which do neither require any source of (true) randomness
-nor direct inputs to the physical device the engine instance is running on;
+nor direct inputs to the physical device that
+the engine instance happens to be running on;
 then, we follow up on 
 how engine-local sources of input or randomness can
-"affect" the results of actions to be taken.
+"affect" which action is to be taken.
+
+<!--ᚦ old material on the topic
+	The output of the action describes after the event has finished
+¶
+	- updates to the above local data (except for identities and arguments)
+	- a finite set of messages to be sent
+	- a finite set of engines to be spawned, setting
+		- engine type
+		- initial state
+		- a name for the process (that is unique relative to the engine)
+-->
+
 
 #### Outputs of non-interactive actions
 
-The output of a non-interactive transition function
+The output of a non-interactive action function
 has five components:
 
 - the update to the engine environment (leaving the name untouched), 
@@ -318,7 +338,8 @@ has five components:
 	In rare situations, it may necessary to specify a _maximum_ duration 
 	for how fast the action has to be.
 	The formal modeling framework is prepared to handle such cases.
-	However, this feature is not yet incorporated in the model implementation.
+	However, 
+	it may be long before this feature will be incorporated in our software realeases.
 
 ##### Timers to be set
 
@@ -357,7 +378,7 @@ The engine instance will become "alive"
 after the current execution of the transition function.
 -->
 
-The parent engine can already send messages to engines before these are "actually go live".
+The parent engine can already send messages to engines before these "actually go live".
 
 ##### Messages to be sent
 
@@ -386,21 +407,28 @@ _synchronously,_
 e.g., for final confirmations of important actions 
 or interaction with hardware security modules.
 Thus, reading form local _external_ streams of input 
-are a second kind of interaction
+are a second kind of interaction;
 users may choose from a finite number of choices at a time.
 Finally,
-there may be a "mix" of inputs and randomness.
+there may be a "mix" of local user inputs and randomness.
 For example and engine may generate a random username and
 the user is asked to accept or choose it manually.
 
 In short,
-we generalise the single output of non-interactive actions
+we can generalise the single output of non-interactive actions
 to a finitely branching tree: 
 
 - leaves are outputs in the form described for non-interactive actions 
 - inner nodes are either 
     - user choices from a finite number of candidates or
     - random experiments of rolling of an $n$-sided dice.[^9]
+	
+!!! note
+
+	Ineteractive actions are not yet covered by the templates.
+	If you need to have access to user input or randomness,
+	please mark it with ⚄ for randomness 
+	and 𓀠 for user interaction.
 
 ## From guarded actions to labelled state transitions
 
@@ -412,17 +440,31 @@ the state space of the labelled transition system is the pair
 of all engine environments in existence and the messages in transit.
 The transitions are "induced" by the guarded actions.
 
-!!! todo
 
-	explain
-<!-- ᚦ TODO: -->
-
-
-Having an ʟᴛꜱ then will enable us to
-express properties in the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*).
+Before we quickly describe how this works, 
+not that via the ʟᴛꜱ,
+we can use standard methods to express system properties,
+e.g., the temporal logic [ᴄᴛʟ*](https://en.wikipedia.org/wiki/CTL*).
 Guards emphasise that actions have clearly defined pre-conditions,
 and we may also use [weakest-precondition calculus](https://en.wikipedia.org/wiki/Predicate_transformer_semantics),
 e.g., for deriving invariants.
+
+Now for how we derive the labelled state transitions,
+putting aside time and interactivity for a moment,
+each state is a pair of
+
+- a finite set of engine instances
+- a finite set of messages in transit
+
+A state transition between states $s,s'$ via an action label $a$ is possible
+if there is 
+one engine environment in the original state 
+and one message that is addressed to this engine in the set of messages in transit
+such that the action with label $a$ is enabled for the engine 
+and and by adding the new messages to be sent (after dropping the received message)
+to the set of pending messages and by adding 
+the newly created engines to the set of engine instances,
+we arrive at the state $s'$.
 
 <!--
 The basic idea of guarded actions is to split up
@@ -450,11 +492,17 @@ and this situation need to be handled with care.
 The details of guarded actions are explained in the [[Guarded Engine Template]].
 -->
 
-## The conceptual structure of Engine Family specifications
+## The conceptual structure of engine family specifications
 
 The structure of each engine family page 
-first describes the general context, gives some example message exchanges, and then the details.
-A table of contents has the following structure.
+first describes the general context, 
+gives some example message exchanges, 
+and then covers the details
+about engine-specific types 
+and its set of guarded actions.
+In more detail,
+we use the following templates 
+to describe engine families.
 
 <!--
 - engine family name (e.g., _Auctioneer_)
