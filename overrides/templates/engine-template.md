@@ -192,7 +192,7 @@ search:
 !!! note
 
 	We can use one or more message sequence diagrams to show how
-	members of the engine family exchange messages with other engine instances, 
+	members of the engine family exchange messages with other engine instances,
 	typically from different engine families.
 	The general idea is that
 	each message sequence diagram in the engine type page describes
