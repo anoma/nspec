@@ -96,7 +96,7 @@ when it processes a received message or a clock notification:
 		- a list of messages (that were sent to the MID but not processed yet)
 		- an optional mailbox-specific state (for quick processing of new messages)
 
-  - its _acquaintances,_[^5]  represented by<!--
+  - its _acquaintances_[^5], represented by<!--
 	cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
   -->
 
@@ -110,12 +110,12 @@ when it processes a received message or a clock notification:
 - engine-specific local state (that not naturally tied to a specific mailbox) <!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
-The record of all these local data is called the _engine environment,_[^6]
+The record of all these local data is called the _engine environment_[^6],
 not only because the word `state` is hopelessly overworked,
 but specifically because we want to reserve it for 
 the  states of the "global" labelled transition system
 (see below).
-The types are formalized in
+The types are formalised in
 the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
 	link **will** need updating [ᚦ do not erase this comment] OUT OF DATE ALERT!
 --><!--
@@ -140,13 +140,13 @@ The Anoma Specification uses pure functions to describe
 the atomic computation that each engine instance performs when
 a new message is ready to be processed or
 a notification from the local clock is received.
-Each specific state transitions corresponds to 
+Each specific state transition corresponds to 
 a set of _actions_ performed,
-typically a single one,
-we in principle can perform actions "in parallel",
+typically a single one. However,
+we can, in principle, perform multiple actions "in parallel",
 provided that we have a well-defined concurrency relation among actions.
 The effects of the action that computes a state transition
-is  computed by a correspondig action function.
+is computed by a corresponding action function.
 Action functions compute
 
 - updates to the engine environment
@@ -198,7 +198,7 @@ where the _guard_ is a function that—among other things—determines whether
 the action that it guards is _enabled._
 To determine whether the action is enabled,
 the guard function has access to the time stamped trigger
-and the engine environment.[^7]
+and the engine environment[^7].
 In most situations,
 only very few components of the engine environment are needed 
 to determine whether the action is enabled.
@@ -226,7 +226,7 @@ In simple cases,
 at most one action is enabled for the same trigger;
 however, 
 if several actions are enabled,
-priorities of guarded actions may be used to resolve undesirable non-determinism.f
+priorities of guarded actions may be used to resolve undesirable non-determinism.
 If non-determinism is part of the design,
 it should be marked clearly.
 
@@ -247,29 +247,9 @@ i.e., the matched arguments, the action label,
 and any additional precomputations that the guard has already computed.<!--
 ᚦ: well, need to discuss with Jonathan 
 -->
-By _time stamped_ we mean that
+By _time stamped_, we mean that
 each trigger comes with the local time when guard evaluation was triggered,
 which one may want to think of as the local time "now".
-
-<!-- {ᚦ: old material on the topic}
-The action of a guarded action is a function $f_{act}$.
-It takes as input
-all local data of an engine _and also_
-the _arguments_ that are returned by the guard.
-In more detail, the list of inputs is
-
-- matched arguments
-- external + internal ID of the engine itself (unchangeable)
-- the "event trigger"
-	- message received or
-	- timer "handle(s)" of elapsing timer(s)
-	- engine-specific local state
-	- local time (when guard evaluation started)
-	- mailbox contents and their optional state (for every mailbox)
-- remembered timers with their scheduled time
-- acquaintances (known other engine instances)
-- a (finite) map from names to external IDs
--->
 
 Digression on time
 
@@ -421,7 +401,7 @@ to a finitely branching tree:
 - leaves are outputs in the form described for non-interactive actions 
 - inner nodes are either 
     - user choices from a finite number of candidates or
-    - random experiments of rolling of an $n$-sided dice.[^9]
+    - random experiments of rolling of an $n$-sided dice[^9].
 	
 !!! note
 
