@@ -105,13 +105,10 @@ Below, we define the type for actions. These functions are parametrised by the
 types for local state, incoming messages, the type for mailboxes' state,
 the data returned by the guard function, and outgoing messages.
 
-```juvix
-Action (S I M R O C : Type) : Type := ActionInput S I M R -> ActionResult S I M R O C;
-```
+For convenience, we have the input and output of an action into two separate types:
+`ActionInput S I R` and `ActionResult S I M R O C`. 
 
-So, for convenience, we have the input and output of an action into two separate types:
-`ActionInput S I R` and `ActionResult S I M R O C`. The `ActionInput S I R` type is a
-record that encapsulates the following data:
+The `ActionInput S I R` type is a record that encapsulates the following data:
 
 - A term of type `R`, which represents the data returned by the guard function,
   if any.
@@ -127,8 +124,8 @@ type ActionInput (S I M R : Type)
 };
 ```
 
-Finally, the `ActionResult S I M R O C` type defines the results produced by the
-action. When executing such a function, the engine instance can:
+The `ActionResult S I M R O C` type defines the results produced by the
+action, which can be
 
 - Update its environment but not its name.
 - Set messages to be sent to other engine instances.
@@ -153,7 +150,6 @@ type ActionResult (S I M R O C : Type) := mkActionResult {
 };
 ```
 
-
 #### Guarded Actions
 
 To recap, a guarded action consists of a _guard_ and an _action_. The guard is a
@@ -169,7 +165,7 @@ for creating new engine instances.
 ```juvix
 type GuardedAction (S I M R O C : Type) := mkGuardedAction {
    guard : Trigger I -> EngineEnvironment S I M -> Maybe R;
-   action : Action S I M R O C
+   action : ActionInput S I M R -> ActionResult S I M R O C
 };
 ```
 

@@ -19,6 +19,12 @@ tags:
     import tutorial.engines.Ticker as Ticker open using {TickerFamily; zeroTicker};
     ```
 
+    !!! note 
+
+        This module is not intended to be translated to Isabelle, as it contains
+        unsopported definitions. It is used to provide a high-level overview of the
+        engine families used.
+
 # Anoma Engine Families
 
 In Anoma, an **engine** represents a computational process characterised by its
@@ -38,11 +44,35 @@ names.
 Below, we use [Juvix](https://docs.juvix.org) to define a type
 where each type constructor represent a corresponding engine family.
 
+??? quote "Boxing types in Juvix" 
+
+    To list all possible engine families, we use the `Box` type constructor to
+    define a sum type. So **Box A a** is a type-valued function that encapsulates
+    a type along with a term of that type. It is used to group together the type
+    information and its corresponding value within a single entity.
+
+
+    ```juvix
+    Box (A : Type) (a : A) : Type := Pair Type A;
+    ```
+
+    For example, 
+      
+    ```
+    fourty-two : Type := Box Nat 42;
+    ```
+
+    !!! todo
+        
+        The `Box` definition should go in the prelude once the Juvix translation to Isabelle
+        supports this kind of type definition.
+
 ```juvix
 type AnomaEngineFamily :=
   | TickerEngineFamily (Box _ TickerFamily)
   ;
 ```
+
 
 !!! warning
 
