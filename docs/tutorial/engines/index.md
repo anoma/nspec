@@ -33,7 +33,7 @@ reminiscent of the next-state function of
 [finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition) 
 (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition)), 
 defined formally as an [Isabelle/HOL-locale](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215).<!-- 
-	ᚦ: the last link need "continous" updating [do not erase this comment]
+	ᚦ: the last link need "continuous" updating [do not erase this comment]
 -->
 In the Anoma specification,
 each state transition amounts to performing an _action,_
@@ -44,7 +44,7 @@ Performing an action
 corresponds to an event in the sense of the actor model theory.
 We say that actions are _triggered_ 
 by the arrival of a new message or 
-the notification about ealapsed timers[^3];
+the notification about elapsed timers[^3];
 performing an action has possibly several effects
 in each of the following categories:
 
@@ -119,7 +119,7 @@ The types are formalised in
 the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
 	link **will** need updating [ᚦ do not erase this comment] OUT OF DATE ALERT!
 --><!--
-	ᚦ: TODO: describe realtion of Juvix code to implementation ... 
+	ᚦ: TODO: describe relation of Juvix code to implementation ... 
 -->
 The engine instance's name is unchangeable,
 once the engine is created;
@@ -165,7 +165,7 @@ and
 Lamport's [temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html).
 Additional sources of inspiration are
 Dijkstra's [_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language)
-and guard functions of [colored Petri nets](https://en.wikipedia.org/wiki/Coloured_Petri_net).
+and guard functions of [coloured Petri nets](https://en.wikipedia.org/wiki/Coloured_Petri_net).
 
 <!--
 The formal details are given by
@@ -180,7 +180,7 @@ there's an "optional parameter" for which action is to be taken,
 and the action given the current environment 
 and the time stamped trigger do already determine
 the action to be taken and also the reactions to the trigger.
-Let us explain this one stpe at a time.
+Let us explain this one step at a time.
 
 Now, one important deviation from a "bare bones" actor model 
 are a set of guards for each engine family.
@@ -209,7 +209,7 @@ e.g., the relevant information of a received message,
 and an _action label_ 
 that identifies the respective action that is enabled.
 
-<!--ᚦ: {a different description we had elsehwere}
+<!--ᚦ: {a different description we had elsewhere}
 	Recall that each guarded action is a pair of a guard function and an action function.
 	Conceptually, the guard function has two purposes:
 	first it determines whether the action that it is guarding is enabled;
@@ -234,7 +234,7 @@ it should be marked clearly.
 
 	It is OK to keep non-determinism and mark it
 	so that we are aware of potential issue.
-	Inapropriate resolution of non-terminism can lead to
+	Inappropriate resolution of non-determinism can lead to
 	deadlocks.
 
 ### Inputs for the action of a guarded action
@@ -319,7 +319,7 @@ has five components:
 	for how fast the action has to be.
 	The formal modeling framework is prepared to handle such cases.
 	However, 
-	it may be long before this feature will be incorporated in our software realeases.
+	it may be long before this feature will be incorporated in our software releases.
 
 ##### Timers to be set
 
@@ -333,7 +333,7 @@ adding new timers.
 A timer handle may be used for at most one timer during the life-time of 
 an engine instance.
 The formal model has a [map from handles to points in local time](https://github.com/anoma/formanoma/blob/4ad37bc274ad25e64d15fe5f00dbd7784e339ce0/Types/Engine.thy#L230)<!--
-    ᚦ: needs updating "continously" [do not remove this comment]
+    ᚦ: needs updating "continuously" [do not remove this comment]
 -->.
 
 ##### Engine instances to be spawned
@@ -405,7 +405,7 @@ to a finitely branching tree:
 	
 !!! note
 
-	Ineteractive actions are not yet covered by the templates.
+	Interactive actions are not yet covered by the templates.
 	If you need to have access to user input or randomness,
 	please mark it with ⚄ for randomness 
 	and 𓀠 for user interaction.
