@@ -1,39 +1,45 @@
-# [Name of non-interactive action(s)] on [Name of guard] `{`V2 Template ⊂ V3 Template`}`
+# [Name of non-interactive action(s)] on [Name of guard]
 
 ## Purpose
 
 !!! note
 
-	We need to give a high level description of
-	when some actions are activated
-	and the effects of the actions to be performed.
+	We want a high level description of
+	which conditions enable actions
+	and the effects of each potential action to be performed.
 	
 	Form
 	
 	: Some short paragraphs as a summary, ideally just one. 
-	More details will follow.
+	More details will follow in 
+	the respective secion(s) on the guard and the action(s).
 
 !!! example
 
 	The time stamping server has a build in rate limit.
-	Time stamping requests are only served 
+	Time stamping requests are only served
 	if the mean time between received requests is within 
-	bounds that have been fixed at creation,
-	which is not present in V2.
+	bounds that have been fixed at creation.
+	<!--ᚦ: no idea where this came from:
+	"which is not present in V2".-->
 
 !!! note
 
 	Typically, new events are "muted" for the time of 
 	guard evaluation and action execution.
-	The only way around this is the specification of a 
-	maximum duration of action processing.
-
+	The only envisaged way around this is 
+	the specification of a "hard" maximum duration of action processing,
+	after which the action processing is terminated with a timeout,
+	and a previously specified default value is returned 
+	(typically also indicating the occurrence of the timeout).
+	
 ## Guard
 
 !!! note
 
-	We need a description of under which conditions actions are enabled;
-	for each case, 
+	We want a short description of the conditions that enable actions;
+	we may have a case distinction.
+	For each case, also if it is just one,
 	we need to describe the matched arguments,
 	the action label, 
 	and any other precomputations.
@@ -53,6 +59,10 @@
 	: There are three parts: 
 	
 	1. an (optional?) flow chart that matches the conceptual structure
+	where decision are diamonds (`{ decision node text }`), 
+	we (ab-)use rectangular boxes to describe matching of arguments
+	(`[ processing node text ]`), and 
+	the terminals are "stadium" (`([ final action to take])`).
 
 	2. an English language description of the logic
 	that the flow chart illustrates (even in absense of a flowchart) and
@@ -61,6 +71,15 @@
 	as in the example below.
 	
 	3. Juvix code of the actual guard function
+
+!!! warning
+
+	Mermaid has some restriction on how to use markdown by default: 
+
+    - [markdown](https://mermaid.js.org/syntax/flowchart.html#markdown-formatting)
+	  has to be enclosed into ``"` ‌`` ``‌ `"`` braces;
+	
+	- the typewriter style, i.e., `text like this`, seems not easily usable.
 
 <!--ᚦ: [let's keep this one/three lines of Chris's here, just in case]
 Guards can provide information (similar to pattern-matching) which can then be used in the action. Each guard should come with a specified type `LocalData -> Maybe<T>` where `T` is the data that the guard will bind (pattern-match) out of the local data if (and only if) it matches.
@@ -72,7 +91,9 @@ Guards can provide information (similar to pattern-matching) which can then be u
 	flowchart TD
 		check{are we below the rate limit ?}
 		check -->|yes| A[match hash and »reply to address«]
-		check -->|no| B[drop request `no op`]
+	    A --> doA(["` time stamp _hash_ _reply to_ `"])
+		check -->|no| B(["` no op `"])
+		
 	```
 
 	If the rate limit is not surpassed, we answer the request.
@@ -99,9 +120,9 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 	The guard _may_ have a complicated tree-like structure.
 	If there are several natural distinct cases 
-	each of which are a (sub-)action,
-	then we may actually have a set of actions
-	under the same guard.
+	each of which is a (sub-)action,
+	then we may actually have a set of more than one action
+	that share the very same guard.
 	
 	
  <!--!!! example
