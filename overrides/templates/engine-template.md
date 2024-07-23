@@ -10,19 +10,18 @@ search:
     module overrides.templates.engine-template;
     ```
 
+# [family name] Engine Family
 
-# [family name] Engine Family `{`V2 Template`}`
-
-## Purpose `{`of members of engine family [family name]`}`
+## Purpose
 
 !!! note
 
-	The purpose should describe in broad terms what the role of this engine family is in context,
-	be it
+	The purpose should describe in broad terms what
+	the role of (any member of) this engine family is
 
 	- in relation to other engine instances within an Anoma node and/or
 
-	- in the whole Anoma instance at large.
+	- as part of the whole Anoma instance at large.
 	
 
 	Form
@@ -187,7 +186,7 @@ search:
 
 	add juvix code for a ring buffer for this example ☝️ 
 
-## [Title of Paradigmatic message sequence diagram] `{`optional`}`
+## [Title of Paradigmatic message sequence diagram(s)] `{`optional`}`
 
 !!! note
 
