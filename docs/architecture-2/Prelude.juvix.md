@@ -153,21 +153,14 @@ MailboxID : Type := Nat;
 ```juvix
 Time : Type := Nat;
 ```
-
-Triggers represent events that can occur in the system, such as timers.
-
-- **Handle**: An abstract type representing a handle function or procedure. It
-  is used to define what actions should be taken when a trigger occurs.
+- **Timer**: A record consisting of a time and a handle. It is used for scheduling
+  events to occur at a specific time.
 
 ```juvix
-axiom Handle : Type;
-```
-
-- **Timer**: A pair consisting of a `Time` and a `Handle`. It represents a
-  scheduled event that will invoke the handler at the specified time.
-
-```juvix
-Timer : Type := Pair Time Handle;
+type Timer (HandleType : Type): Type := mkTimer {
+  time : Time;
+  handle : HandleType;
+};
 ```
 
 ### Triggers
@@ -176,19 +169,19 @@ Timer : Type := Pair Time Handle;
 as message arrivals, timer expirations.
 
 ```juvix
-type Trigger (MessageType : Type) :=
+type Trigger (MessageType : Type) (HandleType : Type) :=
   | MessageArrived
     {
       MID : Maybe MailboxID;
       envelope : EnvelopedMessage MessageType;
     }
-  | Elapsed { timers : List Timer };
+  | Elapsed { timers : List (Timer HandleType) };
 ```
 
 One can define a function to extract the message from a trigger:
 
 ```juvix
-getMessagePayloadFromTrigger : {M : Type} -> Trigger M -> Maybe MessagePayload
+getMessagePayloadFromTrigger : {M H : Type} -> Trigger M H -> Maybe MessagePayload
   | (MessageArrived@{
       envelope := (mkEnvelopedMessage@{
         packet := (mkMessagePacket@{
