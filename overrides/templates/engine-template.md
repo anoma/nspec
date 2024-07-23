@@ -194,7 +194,7 @@ search:
 	members of the engine family exchange messages with other engine instances,
 	typically from different engine families.
 	The general idea is that
-	each message sequence diagram in the engine type page describes
+	each message sequence diagram in the engine family page describes
 	a pattern for test cases.
 	We can use
     [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) 
