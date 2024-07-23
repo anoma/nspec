@@ -38,9 +38,8 @@ Engine Environment
 Guarded Actions
 
 :   The engine's behavior is specified by a finite set of functions that mutate
-    the local state of the engine's instance. These functions, also called state
-    transition functions, are accompanied by specific conditions on the messages
-    received and the engine environment.
+    the local state of the engine's instance. These functions are accompanied
+    by specific conditions on the messages received and the engine environment.
 
 
 So, let's introduce the type for each of these components.
@@ -60,24 +59,22 @@ following categories:
 - A list of timers that have been set.
 
 This data is encapsulated within the `EngineEnvironment` type family, which is
-parameterised by three types: `S`, representing the local state, `I`,
-representing the type of incoming messages to the engine instance, and `M`,
-representing the type of mailboxes' states.
-
+parameterised by four types: `S`, representing the local state, `I`,
+representing the type of incoming messages to the engine instance, `M`,
+representing the type of mailboxes' states, and finally, `H`, representing the
+type of handles for timers. These same letters will be used in the rest of the
+document to represent these types.
 
 ```juvix
-type EngineEnvironment (S I M : Type) :=
+type EngineEnvironment (S I M H : Type) :=
   mkEngineEnvironment {
       engineRef : Name ; -- read-only
       state : S;
       mailboxCluster : Map MailboxID (Mailbox I M);
       acquaintances : Set Name;
-      timers : List Timer;
+      timers : List (Timer H);
 };
 ```
-
-For short, we will use the type parameters `S`, `I`, and `M` to represent
-the type of the local state, incoming message types, and mailboxes' state, respectively.
 
 ### Engine Behaviours
 
@@ -88,27 +85,27 @@ can make from one state to another based on specific conditions.
 Guarded actions are terms of type `GuardedAction`, which encapsulates
 the following components:
 
-- A _guard function_ of type `Trigger I -> EngineEnvironment S I M -> Maybe R`, where
-  the _trigger_ of type `Trigger I` is a term that captures the message received. This
+- A _guard function_ of type `Trigger I H -> EngineEnvironment S I M H -> Maybe R`, where
+  the _trigger_ of type `Trigger I H` is a term that captures the message received. This
   trigger can include the received message or timers that have elapsed during
   the engine's operation. Guards return data of type `R` if the condition is met.
   That data serves as input for the corresponding action.
 
-- An _action_ of type `Action S I M R O C`, where the new type parameters `O`
+- An _action_ of type `Action S I M H R O C`, where the new type parameters `O`
   denote the type of outgoing messages, and `C` signifies the type encoding the engine
   instances to be created.
 
 
 #### Action Functions
 
-Below, we define the type for actions. These functions are parametrised by the
-types for local state, incoming messages, the type for mailboxes' state,
-the data returned by the guard function, and outgoing messages.
+In this section, we define the type for actions. These functions are parametrised by the
+types for: local state, incoming messages, mailboxes' state, the data returned by the
+guard function, timer's handles, and outgoing messages.
 
 For convenience, we have the input and output of an action into two separate types:
-`ActionInput S I R` and `ActionResult S I M R O C`. 
+`ActionInput S I M H R` and `ActionResult S I M H R O C`. 
 
-The `ActionInput S I R` type is a record that encapsulates the following data:
+The `ActionInput S I M H R` type is a record that encapsulates the following data:
 
 - A term of type `R`, which represents the data returned by the guard function,
   if any.
@@ -116,15 +113,15 @@ The `ActionInput S I R` type is a record that encapsulates the following data:
 - The time at which the corresponding trigger started.
 
 ```juvix
-type ActionInput (S I M R : Type)
+type ActionInput (S I M H R : Type)
   := mkActionInput {
       guardOutput : R;
-      env : EngineEnvironment S I M;
+      env : EngineEnvironment S I M H;
       time : Time;
 };
 ```
 
-The `ActionResult S I M R O C` type defines the results produced by the
+The `ActionResult S I M H R O C` type defines the results produced by the
 action, which can be
 
 - Update its environment but not its name.
@@ -142,10 +139,10 @@ action, which can be
         - The initial state of the engine instance.
 
 ```juvix
-type ActionResult (S I M R O C : Type) := mkActionResult {
-    newEnv : EngineEnvironment S I M;
+type ActionResult (S I M H R O C : Type) := mkActionResult {
+    newEnv : EngineEnvironment S I M H;
     producedMessages : List (EnvelopedMessage O);
-    timers : List Timer;
+    timers : List (Timer H);
     spawnedEngines : List C;
 };
 ```
@@ -163,9 +160,9 @@ for creating new engine instances.
 
 
 ```juvix
-type GuardedAction (S I M R O C : Type) := mkGuardedAction {
-   guard : Trigger I -> EngineEnvironment S I M -> Maybe R;
-   action : ActionInput S I M R -> ActionResult S I M R O C
+type GuardedAction (S I M H R O C : Type) := mkGuardedAction {
+   guard : Trigger I H -> EngineEnvironment S I M H -> Maybe R;
+   action : ActionInput S I M H R -> ActionResult S I M H R O C
 };
 ```
 
@@ -178,7 +175,7 @@ type GuardedAction (S I M R O C : Type) := mkGuardedAction {
     returns a boolean when the predicate is satisfied, specifically of type
 
     ```haskell
-    Trigger I -> EngineEnvironment S I M -> Bool;
+    Trigger I H -> EngineEnvironment S I M H -> Bool;
     ```
 
     However, as a design choice, guards will return additional data of type R that
@@ -196,8 +193,8 @@ a type for their incoming messages, a type for its mailboxes' state, a type for 
 data by the guard functions, and a type for outgoing messages.
 
 ```juvix
-type EngineFamily (S I M R O C : Type) := mkEngineFamily {
-  actions : List (GuardedAction S I M R O C);
+type EngineFamily (S I M H R O C : Type) := mkEngineFamily {
+  actions : List (GuardedAction S I M H R O C);
 };
 ```
 
@@ -215,10 +212,10 @@ is associated with a specific name and a family of engines, plus a declaration o
 execution context, that is, the specific state, mailbox cluster, acquaintances, and timers.
 
 ```juvix
-type Engine (S I M R O C : Type):= mkEngine {
+type Engine (S I M H R O C : Type):= mkEngine {
   name : Name;
-  family : EngineFamily S I M R O C;
-  initEnv : EngineEnvironment S I M;
+  family : EngineFamily S I M H R O C;
+  initEnv : EngineEnvironment S I M H;
 };
 ```
 
@@ -235,3 +232,9 @@ type Engine (S I M R O C : Type):= mkEngine {
 
     With each different election or kind of voters, we obtain a new engine instance,
     while the underlining voting system, the voting engine family, remains the same.
+
+!!! note
+
+    Both the `EngineFamily` and `Engine` types are parameterised by several types. When
+    not used in the context of a new engine family declaration, these types can be
+    replaced by the unit type `Unit`.

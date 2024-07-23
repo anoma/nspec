@@ -54,7 +54,7 @@ type LocalStateType : Type := mkLocalStateType {
 };
 ```
 
-### Message
+### Message Types
 
 ### Incoming Message Type
 
@@ -84,7 +84,7 @@ of the engine environment. Nonetheless, to ensure clarity, let us define it
 explicitly using the `Environment` type.
 
 ```juvix
-Environment : Type := EngineFamily.EngineEnvironment LocalStateType IMessageType Unit;
+Environment : Type := EngineFamily.EngineEnvironment LocalStateType IMessageType Unit Unit;
 ```
 
 ### Guarded Actions
@@ -113,6 +113,7 @@ GuardedAction : Type :=
   EngineFamily.GuardedAction
     LocalStateType
     IMessageType
+    Unit
     Unit
     GuardReturnType
     OMessageType
@@ -201,7 +202,7 @@ type synonym for the corresponding engine family type to
 simplify the presentation.
 
 ```juvix
-EngineFamilyType : Type := EngineFamily LocalStateType IMessageType Unit GuardReturnType OMessageType Unit
+EngineFamilyType : Type := EngineFamily LocalStateType IMessageType Unit Unit GuardReturnType OMessageType Unit
 ```
 
 So a `Ticker` engine family is defined as follows:
@@ -217,7 +218,7 @@ define the ticker starting in zero. We, again, define for shorten presentation, 
 corresponding engine instance type.
 
 ```juvix
-EngineInstanceType : Type := Engine LocalStateType IMessageType Unit GuardReturnType OMessageType Unit
+EngineInstanceType : Type := Engine LocalStateType IMessageType Unit Unit GuardReturnType OMessageType Unit
 ```
 
 Then, we define a `Ticker` engine instance as follows that set 
