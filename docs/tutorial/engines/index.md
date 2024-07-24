@@ -61,6 +61,10 @@ sequenceDiagram
 !!! example "Running example: time stamping server"
 
 	The time stamping server ... 
+	
+	??? todo
+	
+	    continue here
 
 
 In the Anoma specification,
