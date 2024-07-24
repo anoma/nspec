@@ -13,25 +13,28 @@ tags:
 
 # On Engines in the Anoma Specification
 
-!!! note "Note to the reader"
+!!! abstract "Summary and note to the reader"
 
 	This page is intended as a quick start manual
-	that guides the reader by means of examples,
-	thus "betting on" the power of programming in analogy to examples.
+	that guides the reader by means of examples;
+	in a sense,
+	we are betting on the power of 
+	_programming by extrapolation from examples._
 	However,
-	terms do link to proper definitions below or elsewhere
-	such that all information about further details is 
-	available within a few clicks. <!-- somebody please counte ;-) -->
-	The mathematical backbone is [formanoma](www.github.com/anoma/formanoma),
+	everything is based on solid foundations:
+	technical terms are linked to proper definitions below or elsewhere
+	such that all information is 
+    accessible within a few clicks; <!-- somebody please count ;-) -->
+	whenever suitable,
+	we also refer to the _mathematical backbone_
+	at [formanoma](https://github.com/anoma/formanoma).<!--
 	which comes with a more succinct documentation 
 	and does not focus on Juvix code 
-	but rather on formal properties of any Anoma model implementation.
+	but rather on formal properties of any Anoma model implementation.-->
 	Thus,
  	the main purpose of this tutorial is 
-	a short cut to writing Juvix code
-	that compiles to (part of) a model implementation—<!--
-	-->very much in the sense of model based testing
-	and inspired by [stateright](https://www.stateright.rs/).
+	getting the reader to write Juvix code
+	that compiles to what we call a _model implementation._
 	However, we start with a short general introduction
 	of some central concepts, paradigms, and techniques.
 
@@ -42,24 +45,37 @@ the [message passing](https://en.wikipedia.org/wiki/Message_passing)
 paradigm to describe how several entities
 (that are possibly distributed over the planet)
 communicate with each other by sending messages.
-The most important diagram type are message sequence charts,
-e.g., the following one
-that described the Britisch greeting protocol.
+The most important diagram type are
+[message sequence charts](https://en.wikipedia.org/wiki/Message_sequence_chart),
+and the following example
+describes the Britisch greeting protocol.
 
-The Anoma specification is inspired by the
-[actor model](https://en.wikipedia.org/wiki/Actor_model)[^1]
-where systems consist of a set of _actors_ 
-that communicate via 
+```mermaid
+sequenceDiagram 
+	participant Greeter
+	participant Greetee
+	Greeter -) Greetee: How do you do?
+	Greetee -) Greeter: How do you do?
+```
 
-Similarly,
-each Anoma node is modelled as a finite[^2] collection of
-_engine instances_ that communicate by sending messages to each other,
-very much like actors do;
+!!! example "Running example: time stamping server"
+
+	The time stamping server ... 
+
+
+In the Anoma specification,
+the participants that exchange messages will be 
+[[Engine instance|engine instances.]]
+Engine instances are similar to actors of the 
+[actor model](https://en.wikipedia.org/wiki/Actor_model);[^1]
 however, we prefer to use fresh terminology,
-as there is some "fine print" concerning differences to the "pure" actor model
-that we shall cover in due course.
-The communication between engine instances can be
-iullustrated by message sequence charts.
+as there is some "fine print" concerning differences to the
+"pure" actor model that we shall cover in due course.
+As a consequence,
+the Anoma specification considers each Anoma node
+to be a finite[^2] collection of
+engine instances that communicate by sending messages to each other.
+
 
 
 The behaviour of each engine instance—i.e.,
