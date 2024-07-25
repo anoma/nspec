@@ -31,12 +31,15 @@ tags:
 	which comes with a more succinct documentation 
 	and does not focus on Juvix code 
 	but rather on formal properties of any Anoma model implementation.-->
-	Thus,
+
+	In short,
  	the main purpose of this tutorial is 
-	getting the reader to write Juvix code
+	to enable you to write Juvix code
 	that compiles to what we call a _model implementation._
-	However, we start with a short general introduction
-	of some central concepts, paradigms, and techniques.
+	This page is a good place to start reading, 
+	but feel free to have a quick look at
+	the [[Ticker Example|ticker example]] first, 
+	and then come back here for a little more context.
 
 ## Introduction: on message passing, actors, and engines
 
@@ -51,38 +54,102 @@ and the following example
 describes the Britisch greeting protocol.
 
 ```mermaid
+%%{initialize: {'mirrorActors': false} }%%
 sequenceDiagram 
-	participant Greeter
-	participant Greetee
+	participant Greeter as John
+	participant Greetee as Alice
 	Greeter -) Greetee: How do you do?
 	Greetee -) Greeter: How do you do?
 ```
 
+This example nicely illustrates
+message sequence diagrams
+(and see [zenuml](https://zenuml.github.io/) for how
+they can be used to illustrate  client-server interactions,
+possibly nested).
+We now start introducing our running example 
+alongside which we can exemplify most of 
+the features of Anoma engines instances,
+the principal type of participants of Anoma instances.
+We start simple and 
+shall incorporate additional functionality along the way.
+
 !!! example "Running example: time stamping server"
 
-	The time stamping server ... 
+	A time stamping server is listening
+	to time stamping requests by clients.
+	The main use case are attestations that 
+    the server has seen a certain hash
+	at a certain point in time (or earlier)—relative
+	to its local clock.
+	Thus, the primary task of the server is
+	pairing hashes with time stamps
+	and signing such pairs;
+	however, 
+	the server also offers to send thetime stamped hashes
+	to an "address" that is provided as part of the
+	time stamping request—except for that
+	we rather speak in more general terms of
+	_names_ of engine instances.
 	
-	??? todo
+	```mermaid
+	%%{initialize: {'mirrorActors': false, "htmlLabels": true} }%%
+	sequenceDiagram
+		participant A as Alice
+		participant S as Time Stamp Server
+		participant B as Bob
+		A -) S: timeStamp(0x1337, Bob)
+		S -) B: newAttestation(0x1337 @ 9:00AM)
+	```
+	<!--ᚦ: no zenuml support yet, but probably don't need 
+	```mermaid
+	zenuml
+    Alice->Bob: Hello Bob, how are you?
+    if(is_sick) {
+      Bob->Alice: Not so good :(
+    } else {
+      Bob->Alice: Feeling fresh like a daisy
+    }
+	```
+	--> Thus, the behavior of time stamping servers 
+	can be described as serving 
+	time stamping requests of the form
 	
-	    continue here
+	!!! quote ""
+	
+		`timeStamp`( _⟨bytes⟩_ , _⟨destination⟩_ )
+		
+	where 
+	
+	- `timeStamp` is the message _tag,_
+	- _⟨bytes⟩_ is a fixed sized hash, and
+	- _⟨destination⟩_ is the _name_
+	of an engine (operated by a user).
 
+	In this example, 
+	the functionality is pretty intuitive.
+	However, 
+	we shall see more complex behaviors in later iterations 
+	of the time stamping server.
 
-In the Anoma specification,
-the participants that exchange messages will be 
-[[Engine instance|engine instances.]]
-Engine instances are similar to actors of the 
-[actor model](https://en.wikipedia.org/wiki/Actor_model);[^1]
-however, we prefer to use fresh terminology,
-as there is some "fine print" concerning differences to the
-"pure" actor model that we shall cover in due course.
-As a consequence,
-the Anoma specification considers each Anoma node
+!!! tip "Engine instance ≈ actor"
+
+	The first thing to remember is that in the Anoma specification,
+	the participants that exchange messages will be called
+	[[Engine instance|engine instances.]]
+	Engine instances are similar to actors of the 
+	[actor model](https://en.wikipedia.org/wiki/Actor_model);[^1]
+	however, we prefer to use fresh terminology,
+	as there is some "fine print" concerning differences to the
+	"pure" actor model that we shall cover in due course.
+
+The Anoma specification considers each Anoma node
 to be a finite[^2] collection of
-engine instances that communicate by sending messages to each other.
-
-
-
-The behaviour of each engine instance—i.e.,
+engine instances that communicate by sending messages to each other;
+engines of different nodes communicate in
+the very same way across Anoma instances,
+i.e., via message passing.
+The _behaviour_  of each engine instance—i.e.,
 how it reacts to receiving messages from other engine instances
 and notifications from the local clock—is
 determined by its current state and its _state transition function,_
@@ -90,14 +157,24 @@ reminiscent of the next-state function of
 [finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition)
 (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition)),
 and very similar to
-[event-driven state machines](https://erlang.org/doc/design_principles/statem.html).
-Instead of going through the full details of
-the [formal definition](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215)<!--
+[event-driven state machines](https://erlang.org/doc/design_principles/statem.html).[^A]
+Now,
+instead of directly specifying or writing transition functions—<!-- 
+--->which involves a rather daunting number of technicalities
+(see the [mathematical backbone](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215),<!--
 	ᚦ: the last link need "continuous" updating [do not erase this comment]
---> of _systems_ of state transition functions,
-we instead follow a more practicable approach.
-We specify the behavior of each engine instance
-via a finite set of guarded actions.
+--> for a definition of what a _system_ of state transition functions actually is)—<!--
+-->we follow an alternative, more structured approach:
+we specify the behavior of each engine instance
+via a finite set of _guarded actions,_
+which describe the actions to be performed 
+whenever a newly arrived message or clock notification is to be processed.
+Let us look at an example for a (variation of) 
+the time stamping server.
+
+!!! example "Adding rate limits to the time stamping server"
+
+	??? todo "continue here"
 
 Thus,
 the first design choice of the Anoma specification "postulates" that
@@ -641,6 +718,17 @@ to describe engine families.
 	whenever we want to avoid ambiguities or
 	we are afraid of confusion with the generic [[Mailbox State|mailbox state]] type.
 
+[^A]: In fact,
+	here we already have one crucial difference to the "pure" actor model,
+	which does not make any assumptions about how actor realize their behavior.
+	We also want to note already here that
+	each engine instance is "tightly" coupled with a clock and local input streams
+	although they are not part of its own state, because they are beyond control.
+	However,
+	the transition function also specifies how to interact with 
+	the clock and the input streams;
+	the transition function "itself" however is a pure function.
+
 [^2]: The specification does not fix any bound on
 	the number of engines in existence.
 
@@ -688,3 +776,4 @@ to describe engine families.
 	for the specification of real time engines.
 
 [^K]: The meaning of enabled is exactly as in TLA⁺ or Petri nets.
+
