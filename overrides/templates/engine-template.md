@@ -6,7 +6,8 @@ search:
 
 ??? info "Juvix"
 
-	```juvix
+	<!--```juvix-->
+    ```
     module overrides.templates.engine-template;
     ```
 
@@ -94,7 +95,8 @@ search:
 	(that we assume to be static for the sake of simplicity).
 	
 
-	```juvix
+	<!--```juvix-->
+    ```
 	TimeStampingServerState := Nat;
     ```
 
@@ -148,7 +150,8 @@ search:
 	
 	: The client hash to be time stamped.
 	
-	    ```juvix
+	    <!--```juvix-->
+		```
      	clientHash : BitString;
     	```
 
@@ -156,7 +159,8 @@ search:
 	
 	: The address that the time stamped hash should be sent to.
 	
-	    ```juvix
+	    <!--```juvix-->
+		```
      	returnAdress : BitString;
     	```
 

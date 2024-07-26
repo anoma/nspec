@@ -110,7 +110,8 @@ Guards can provide information (similar to pattern-matching) which can then be u
 	:  matched argument
 		
 
-	```juvix
+	<!--```juvix-->
+    ```
 	if limitOK() then Some (hash,replyTo) else None ;
 	```
 
@@ -156,7 +157,8 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
     ??? "show me the code"
 	
-	```juvix
+	<!--```juvix-->
+    ```
 	;
 	```
 
