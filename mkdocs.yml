@@ -19,13 +19,17 @@ nav:
 
   - Basic Abstractions:
     - ./basic-abstractions/index.md
-    - Data type: ./basic-abstractions/data-type.md
-    - Virtual machine: ./basic-abstractions/virtual-machine.md
-    - Encoding scheme: ./basic-abstractions/encoding-scheme.md
-    - Multiencoding: ./basic-abstractions/multiencoding.md
-    - Hash function: ./basic-abstractions/hash-function.md
-    - Accumulator: ./basic-abstractions/accumulator.md
-    - Proof system: ./basic-abstractions/proof-system.md
+    - Encoding:
+      - ./basic-abstractions/encoding/index.md
+      - Data type: ./basic-abstractions/encoding/data-type.md
+      - Virtual machine: ./basic-abstractions/encoding/virtual-machine.md
+      - Encoding scheme: ./basic-abstractions/encoding/encoding-scheme.md
+      - Multiencoding: ./basic-abstractions/encoding/multiencoding.md
+    - Cryptographic primitives:
+      - ./basic-abstractions/cryptographic-primitives/index.md
+      - Hash function: ./basic-abstractions/cryptographic-primitives/hash-function.md
+      - Accumulator: ./basic-abstractions/cryptographic-primitives/accumulator.md
+      - Proof system: ./basic-abstractions/cryptographic-primitives/proof-system.md
 
   - Protocol Architecture:
     - ./architecture/index.md

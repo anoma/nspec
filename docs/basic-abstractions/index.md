@@ -7,11 +7,8 @@ search:
 
 # Basic Abstractions
 
-This section describes the basic abstractions used throughout the protocol specification.
+This section describes the basic abstractions used throughout the protocol specification. Basic abstractions are grouped into two areas of concern: encooding, covering how data and code are represented, evaluated, and converted between representations, and cryptographic primitives, covering the basic cryptographic primitives used throughout the protocol.
 
-- [Data type](./data-type.md)
-- [Virtual machine](./virtual-machine.md)
-- [Encoding scheme](./encoding-scheme.md)
-- [Hash function](./hash-function.md)
-- [Accumulator](./accumulator.md)
-- [Proof system](./proof-system.md)
+!!! info
+
+    Note for authors: this section should be complete - all abstractions used across the protocol and required for agreement between nodes should be defined here.
