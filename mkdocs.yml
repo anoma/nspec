@@ -28,6 +28,30 @@ nav:
       - Hash function: ./basic-abstractions/cryptographic-primitives/hash-function.md
       - Accumulator: ./basic-abstractions/cryptographic-primitives/accumulator.md
       - Proof system: ./basic-abstractions/cryptographic-primitives/proof-system.md
+    - Resource Machine: 
+      - Introduction: ./basic-abstractions/resource-machine/introduction.md
+      - Resource: 
+        - Definition: ./basic-abstractions/resource-machine/resource/definition.md
+        - Computable components:
+          - Introduction: ./basic-abstractions/resource-machine/resource/computable-components/introduction.md
+          - Commitment: ./basic-abstractions/resource-machine/resource/computable-components/commitment.md
+          - Nullifier: ./basic-abstractions/resource-machine/resource/computable-components/nullifier.md
+          - Kind: ./basic-abstractions/resource-machine/resource/computable-components/kind.md
+          - Delta: ./basic-abstractions/resource-machine/resource/computable-components/delta.md
+        - Non-linear resources: ./basic-abstractions/resource-machine/resource/non-linear-resources.md
+      - Proving system: ./basic-abstractions/resource-machine/proving-system.md
+      - Roles and requirements: ./basic-abstractions/resource-machine/roles-and-requirements.md
+      - Transaction: ./basic-abstractions/resource-machine/transaction.md
+      - Resource machine:
+        - Definition: ./basic-abstractions/resource-machine/rm-def/definition.md
+        - Functions: ./basic-abstractions/resource-machine/rm-def/functions.md
+        - Stored data format: ./basic-abstractions/resource-machine/rm-def/storage.md
+      - Program formats: 
+        - Transaction function: ./basic-abstractions/resource-machine/program-formats/transaction-function.md
+        - Resource logic: ./basic-abstractions/resource-machine/program-formats/resource-logic.md
+        - Preference function: ./basic-abstractions/resource-machine/program-formats/preference-function.md
+        - Nockma: ./basic-abstractions/resource-machine/program-formats/nockma.md
+      - Applications: ./basic-abstractions/resource-machine/applications.md
 
   - Protocol Architecture:
     - ./architecture/index.md
