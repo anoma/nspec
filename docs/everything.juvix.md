@@ -18,5 +18,9 @@ import architecture-2.types.EngineFamily;
 
 import architecture-2.engines.compute;
 import architecture-2.engines.p2p;
+
+-- Tutorials
+import tutorial.engines.index;
+import tutorial.engines.Ticker;
 ```
 

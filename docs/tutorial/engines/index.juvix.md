@@ -11,6 +11,10 @@ tags:
   - engine-acquaintances
 ---
 
+```juvix
+module tutorial.engines.index;
+```
+
 # On Engines in the Anoma Specification
 
 !!! abstract "Summary and note to the reader"
