@@ -143,7 +143,7 @@ If a Primary uses the same Header to make blocks for multiple Learners, each blo
 We can use this when we later establish a total ordering: any reference to the learner B block also effectively references the learner A block.
 
 Here is an example timeline of a Primary producing headers, availability certificates, and blocks.
-Blocks are color coded by learner and include a round number.
+Blocks are colour coded by learner and include a round number.
 Headers display *Learner Vectors*.
 ![Single Primary Timeline](primary_timeline.svg)
 

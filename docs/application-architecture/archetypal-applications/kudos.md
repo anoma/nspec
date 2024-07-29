@@ -25,7 +25,7 @@ Example use cases:
 
 ## Kudo Kind
 
-The kind of a kudo is determined by its *resource logic* and *label*. Different
+The kind of kudo is determined by its *resource logic* and *label*. Different
 logic components exist for fungible or non-fungible, as well as transferable or
 non-transferable, leading to six different kudo logics. The label contains the
 external identity of the instantiator (the initial creator of any single kudo)

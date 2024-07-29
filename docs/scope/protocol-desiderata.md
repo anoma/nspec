@@ -10,6 +10,7 @@ search:
 <!--
 What is the flow from world model to desiderata?
 
+
 - Different permissions (action-capacities) in the world
 - Model these (e.g. linear resources)
 - Promise some correspondence

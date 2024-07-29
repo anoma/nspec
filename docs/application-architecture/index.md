@@ -13,7 +13,7 @@ different controllers. Applications, of course, can restrict themselves to
 specific sets or paths of controllers with appropriate checks in the predicates,
 but by default Anoma's architecture is designed to provide a clean separation of
 application design and security choices, such that application developers can
-choose the data model and predicate logic but users can choose the security
+choose the data model and predicate logic, but users can choose the security
 assumptions.
 
 It is important to note that the abstraction of an "Application" is *virtual* -
@@ -26,7 +26,7 @@ know the relevant logics, which could be distributed to them through any
 communications channel (including the Anoma P2P network). Applications are also
 _composable_, in that state transitions for multiple applications can be
 combined (atomically, if desired). Interfaces may support any combination of
-applications, and no interface need have any special permissioning.
+applications, and no interface need to have any special permissioning.
 
 In contrast to many blockchain systems which have separate software packages for
 interfaces (wallets) and node software, Anoma is designed as a unified system,

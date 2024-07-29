@@ -24,13 +24,13 @@ A `CommitRequest` instructs a commitment engine instance to produce a commitment
 [[CommitResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Uses the `sign` method on the corresponding `Signer` to generate a commitment
     - Depending on the backend, this may involve I/O to an external device.
 - Returns the commitment in a [[CommitResponse]].
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

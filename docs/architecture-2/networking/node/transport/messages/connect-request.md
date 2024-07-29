@@ -33,7 +33,7 @@ Establish connection to a node.
 --8<-- "../types/connect-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
 Establish connection to the specified node, if not yet connected.
 

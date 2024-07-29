@@ -27,9 +27,9 @@ A message from/to one of the transport protocols.
 [[P2PMessage#p2pmessage]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 When receiving a *TransportMessage* from one of the transport protocols
 `addr` contains the source address,
 `tprefs` and `expiry` are not set,
@@ -43,7 +43,7 @@ the [[NodeIdentityRecord#nodeidentityrecord]] from the [[Network Identity Store#
 or the defaults in the local configuration of the *Transport* engine,
 `expiry` is set from the contained [[EngineMessage#enginemessage]],
 and `msg` contains the message to be sent.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

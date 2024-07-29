@@ -31,12 +31,12 @@ Subscription request.
 --8<-- "../types/topic-response-v1.md:type"
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 If not already subscribed, *PubSub* subscribes to the specified topic
 by sending a P2P subscription request(s) to connected peers in the domain.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

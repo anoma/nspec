@@ -26,14 +26,14 @@ A `ConnectIdentityResponse` provides the handles to decryption and commitment en
 [[ConnectIdentityResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Attempts to use the designated backend to connect the specified identity
 - Creates new commitment engine and decryption engine instances
 - Returns handles to those instances in a [[ConnectIdentityResponse]]
 - If a composed identity is requested, where the composed identity cannot be directly connected, attempt to connect the constituent components, compose them, and return the resulting engine instance handles.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

@@ -29,9 +29,9 @@ An outgoing message to be delivered to another node over the network.
 [[TransportMessage#transportmessage]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 The *Transport* engine looks up the transport addresses associated with the destination peer identity
 using a *[[LookupIdentityRequest#lookupidentityrequest]]* to the [[Network Identity Store#network-identity-store]] engine.
 Address choice is influenced by the [[TransportPrefs#transportprefs]] specified in the encapsulated [[EngineMessage#enginemessage]].
@@ -49,7 +49,7 @@ When a connection cannot be established immediately, the message is queued and s
 possibly via different transport addresses,
 until the `expiry` time specified in the encapsulated [[EngineMessage#enginemessage]] is reached,
 after which the message is dropped.
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

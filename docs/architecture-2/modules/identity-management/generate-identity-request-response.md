@@ -26,13 +26,13 @@ A `GenerateIdentityResponse` provides the handles to decryption and commitment e
 [[GenerateIdentityResponse]]
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 - Uses the designated backend to generate a new identity
 - Creates new commitment engine and decryption engine instances
 - Returns handles to those instances in a [[GenerateIdentityResponse]]
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message flow
 

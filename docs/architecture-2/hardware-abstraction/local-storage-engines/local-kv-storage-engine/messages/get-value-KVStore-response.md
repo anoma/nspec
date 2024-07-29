@@ -30,13 +30,13 @@ Return the value from the search operation which is triggered by a
 
 <!-- --8<-- [end:type] -->
 
-## Behavior
+## Behaviour
 
-<!-- --8<-- [start:behavior] -->
+<!-- --8<-- [start:behaviour] -->
 Returns the value from the search operation which is triggered by a
 [[GetValueKVStoreRequest#getvaluekvstorerequest]].
 
-<!-- --8<-- [end:behavior] -->
+<!-- --8<-- [end:behaviour] -->
 
 ## Message Flow
 

@@ -38,7 +38,7 @@ who are interested in chain $\alpha$ alone, chain $\beta$ alone, and both chains
 
 ## Functionality
 
-Acceptors need to be aware of the different definitions of learners in order to be able to know which behavior is defined as correct.
+Acceptors need to be aware of the different definitions of learners in order to be able to know which behaviour is defined as correct.
 This set of the agents for learners might be empty or have overlaps, which must be respected by the acceptors regardless.
 
 Values are agreed upon in rounds.
@@ -80,7 +80,7 @@ However, there is one restriction: once a safe acceptor has sent a $\twoa$-messa
 it never sends a $\twoa$-message with a different value for a learner $l_\beta$, unless one of the following is true:
 
 - It knows that a quorum of acceptors has seen a quorum of $\twoa$-messages with learner $l_\alpha$ and ballot number higher than $m$.
-- It has seen Byzantine behavior that proves $l_\alpha$ and $l_\beta$ do not have to agree.
+- It has seen Byzantine behaviour that proves $l_\alpha$ and $l_\beta$ do not have to agree.
 
 The acceptor who has received a $\oneb$ sends a $\twoa$ for every learner for which it can produce a wellformed $\twoa$.
 
