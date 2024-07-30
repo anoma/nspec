@@ -52,7 +52,7 @@ the [message passing](https://en.wikipedia.org/wiki/Message_passing)
 paradigm to describe how several entities
 (that are possibly distributed over the planet)
 communicate with each other by sending messages.
-The most important diagram type are
+The most ímportant diagram type are
 [message sequence charts](https://en.wikipedia.org/wiki/Message_sequence_chart),
 and the following example
 describes the Britisch greeting protocol.
@@ -330,7 +330,7 @@ and the time stamped trigger do already determine
 the action to be taken and also the reactions to the trigger.
 Let us explain this one step at a time.
 
-Now, one important deviation from a "bare bones" actor model
+Now, one ímportant deviation from a "bare bones" actor model
 are a set of guards for each engine family.
 It is up to the set of guards to determine,
 which action could be taken given
@@ -532,7 +532,7 @@ the mathematical counterpart of $n$-sided dice.
 Moreover,
 engine instances may need to interact with the user
 _synchronously,_
-e.g., for final confirmations of important actions
+e.g., for final confirmations of ímportant actions
 or interaction with hardware security modules.
 Thus, reading form local _external_ streams of input
 are a second kind of interaction;
