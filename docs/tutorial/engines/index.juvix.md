@@ -11,10 +11,6 @@ tags:
   - engine-acquaintances
 ---
 
-```juvix
-module tutorial.engines.index;
-```
-
 # On Engines in the Anoma Specification
 
 !!! abstract "Summary and note to the reader"
@@ -44,6 +40,14 @@ module tutorial.engines.index;
 	but feel free to have a quick look at
 	the [[Ticker Example|ticker example]] first, 
 	and then come back here for a little more context.
+
+!!! note
+
+    Every page that contains code has to define a module for it.
+
+```juvix
+module tutorial.engines.index;
+```
 
 ## Introduction: on message passing, actors, and engines
 
@@ -102,7 +106,7 @@ shall incorporate additional functionality along the way.
 		participant A as Alice
 		participant S as Time Stamp Server
 		participant B as Bob
-		A -) S: timeStamp(0x1337, Bob)
+		A -) S: TimeStamp(0x1337, Bob)
 		S -) B: newAttestation(0x1337 @ 9:00AM)
 	```
 	<!--ᚦ: no zenuml support yet, but probably don't need 
@@ -121,14 +125,19 @@ shall incorporate additional functionality along the way.
 	
 	!!! quote ""
 	
-		`timeStamp`( _⟨bytes⟩_ , _⟨destination⟩_ )
+		`TimeStamp`( _hash:_ bytes , _destination:_ name )
 		
-	where 
+	where `TimeStamp` is the message _tag,_ and the arguments of the message
+	are
+
+	hash 
+
+	: a fixed sized _hash_ given as a byte string
 	
-	- `timeStamp` is the message _tag,_
-	- _⟨bytes⟩_ is a fixed sized hash, and
-	- _⟨destination⟩_ is the _name_
-	of an engine (operated by a user).
+	destination
+
+	: the destination, given as a name of an engine instance
+	(operated by some agent).
 
 	In this example, 
 	the functionality is pretty intuitive.
@@ -136,7 +145,30 @@ shall incorporate additional functionality along the way.
 	we shall see more complex behaviors in later iterations 
 	of the time stamping server.
 
-!!! tip "Engine instance ≈ actor"
+	Finally,
+	we shall write code for the messages that an engine
+	is able to process.
+	We use a records for the list of message arguments,
+	using the message tag as constructor name
+	in an algebraic datatype
+	that encompasses all the messages
+	that the time stamp server is able to process (so far).
+
+```juvix
+import architecture-2.Prelude open;
+
+--- the record type for time stamp requests (using Nat for the type of hashes)
+
+type TimeStampArguments := mkTimeStampArguments {
+  hash : Nat;
+  destination : String
+};
+
+type TimeStampServerMessage :=
+  | TimeStamp TimeStampArguments
+```
+
+!!! tip "Engine instance ≈ actor (but with computable behaviour and other variations)"
 
 	The first thing to remember is that in the Anoma specification,
 	the participants that exchange messages will be called
@@ -153,60 +185,181 @@ engine instances that communicate by sending messages to each other;
 engines of different nodes communicate in
 the very same way across Anoma instances,
 i.e., via message passing.
-The _behaviour_  of each engine instance—i.e.,
-how it reacts to receiving messages from other engine instances
-and notifications from the local clock—is
-determined by its current state and its _state transition function,_
-reminiscent of the next-state function of
-[finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition)
-(or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition)),
-and very similar to
-[event-driven state machines](https://erlang.org/doc/design_principles/statem.html).[^A]
-Now,
-instead of directly specifying or writing transition functions—<!-- 
---->which involves a rather daunting number of technicalities
-(see the [mathematical backbone](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215),<!--
-	ᚦ: the last link need "continuous" updating [do not erase this comment]
---> for a definition of what a _system_ of state transition functions actually is)—<!--
--->we follow an alternative, more structured approach:
-we specify the behavior of each engine instance
-via a finite set of _guarded actions,_
-which describe the actions to be performed 
-whenever a newly arrived message or clock notification is to be processed.
-Let us look at an example for a (variation of) 
-the time stamping server.
+Message sequence charts are useful to describe
+_specific_ scenarios in which messages are exchanged
+(giving rise to a set of "events" for each received message
+and a causal order between them)
+where each participant happens to be an engine instance.
+However,
+we need a description of all possible ways in which
+an engine instance may react to received messages and/or clock notifications
+for a complete engine instance specification;
+the "pattern" according to which an engine instance responds to messages is
+what we call the _reactive behaviour_ of an engine,
+or just _behaviour,_ for short.
+
+We shall use finite sets of _guarded actions_
+to specify behaviours engine instances:
+guarded actions describe all actions that are to be performed 
+in reaction to a newly arrived message or clock notification,
+if the conditions of the _guard_ of the action are met.
+Thus,
+the guard of a guarded actions determines
+whether or not an action is _enabled_
+(among other things),
+when a message or clock notification is received.
+The decision of whether an action is enabled or not 
+typically depends on local information of the engine.
+Let us consider an example of guarded actions at work
+using a (variation of) the time stamping server.
 
 !!! example "Adding rate limits to the time stamping server"
 
-	??? todo "continue here"
+    We want to implement rate limits
+    as a primitive measure against spamming.
+    For this,
+    the time stamp server keeps track of
+    the times at which previous requests where arriving.
 
-Thus,
-the first design choice of the Anoma specification "postulates" that
-each state transition of an engine instance amounts to performing some
-finite set of _actions_—typically a signle action;
-moreover,
-each action comes with a _guard function_ that
-determines—among other things—whether the action is enabled,
-given its current state and the received message or notification.
-Performing an action
-corresponds to an event in the sense of the actor model theory.
-We say that actions are _triggered_
-by the arrival of a new message or
-the notification about elapsed timers[^3];
-performing an action has possibly several effects
-in each of the following four categories:
+    We can describe the guard using a simple flow chart.
 
-- state updates of the engine instance
-- adding messages to the send queue
-- setting new timers and cancelling or resetting old ones
-- creating new engine instances[^4].
+    ```mermaid
+    flowchart TD
+    check{within the rate limit ?}
+    check -->|yes| A[match hash and destination arguments]
+    A -->  doA([Perform TimeStamp:hash,destination ])
+    check --->|no| B([no op])
+    ```
 
-The Anoma specification describes
-a ꜰɪxᴇᴅ finite number of _engine families_
-such that every engine instance in the model implementation
-belongs to a unique family that describes its behaviour;
-while the set of engine families is static,
-dynamic "parameters" at engine creation determine the exact behaviour.
+    The logic is simple:
+    if the server is within rate limits,
+    the request will be answered,
+    otherwise the request is dropped.
+    Note that we use
+    - diamond shapes for decisions 
+    - rectangle for intermediate processing,
+    in particular matching of arguments from a message
+    - rounded boxes for what action to do and which "parameters" are passed
+
+    In mermaid,
+    we diamonds, rectangles, and rounded boxes are obtained using
+    `{ ... }`,  `[ ... ]`, `([ ... ])`, respectively.
+
+    ??? warning "Mermaid flowcharts are flaky!"
+
+        We are currently looking into alternatives to mermaid flow charts.
+        Besides the issues with the layout and limited options
+        for influencing it,
+        the markdown option for inscriptions is often just not working as expected.
+
+    Finally, we need to write functions for guards and actions.
+    For this,
+    we shall describe on a general level
+    what other forms of local information guarded actions have at their disposal.
+    
+<!--
+    Let us start with guards.
+
+    ??? todo "add link to guards"
+
+    Guards are functions that take as input (among other data)
+    
+    - a _trigger,_ which is either a received message or a clock notification
+    - a _time stamp,_ which gives
+      the time when the trigger started all guard functions to be be evaluated
+    - the _local state_ of engine-specific type.
+
+    The most general form of guard functions  pattern for guards will b
+
+    ??? quote  "other local data."
+        
+        In detail, the other pieces of local data of the engine instance are
+        
+        - its _name_ 
+        - its _local state_
+        - its _mailbox cluster,_ which is a map
+            - from _mailbox ɪᴅs_ to
+            - _mailboxes,_ which in turn are
+                - a list of messages paired with
+                - a mailbox-relative state
+        - its _acquaintances_
+        - its current timers
+
+	!!! todo "fix timers in Ticker example"
+
+	??? tip "need `details/fine print` admonition or link here"
+-->
+
+	
+
+??? note "On transition functions"
+
+    The _behaviour_  of each engine instance—i.e.,
+    how it reacts to receiving messages from other engine instances
+    and notifications from the local clock—is
+    determined by its current state and its _state transition function,_
+    reminiscent of the next-state function of
+    [finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition)
+    (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition)).[^A]
+    However,
+    transition functions will be a "derived concept" 
+    in the Anoma specification.
+    The reason is that we
+    we want to avoid the need to directly write transition functions—<!-- 
+    --->which does not only involve a rather daunting number of technicalities
+    (see the [mathematical backbone](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215),
+    but also may lead to large "monolithic" chunks of transition function code<!--
+    ᚦ: the last link need "continuous" updating [do not erase this comment]
+    --> for a definition of what a _system_ of state transition functions actually is).<!--
+    --> Hence, we follow the more structure approach of guarded actions.
+
+!!! tip "Guards ≈ precondition"
+
+    The second take away about
+    the Anoma specification is the "postulate" that
+    each state transition of an engine instance amounts to performing
+    some _action(s)_—typically a signle action;
+    moreover,
+    each action comes with a _guard function_ that
+    determines—among other things—whether the action is enabled.
+    In the case where there is at most one action enabled,
+    guards encode the pre-conditions of an action.
+    
+??? note "Action ≈ event (actor model, event structures)"
+    
+    Performing an action
+    corresponds to an event in the sense of the actor model theory.
+    We say that actions are _triggered_
+    by the arrival of a new message or
+    the notification about elapsed timers[^3];
+    performing an action has possibly several effects
+    in each of the following four categories:
+    
+    - state updates of the engine instance
+    - adding messages to the send queue
+    - setting new timers and cancelling or resetting old ones
+    - creating new engine instances[^4].
+    
+??? warning "Action ≠ event-driven state machine event"
+
+    While event-driven state machines are a big source of inspiration,
+    we avoid using the term event.
+    First and foremost,
+    events are supposed to be instantaneous,
+    which is a suitable abstraction for the actor model,
+    but does not allow to reason about the time period it takes
+    to process an arriving message or clock notification.
+
+The third point that we want to emphasize is that
+the Anoma specification describes
+a ꜰɪxᴇᴅ finite number of _engine families:_
+each engine family is given by
+a set of guarded actions and their accompanying type definitions.
+Thus every engine instance in any implementation
+is a member of exactly one engine family,
+which describes its behaviour.
+Note that the set of engine families is static,
+by dynamic "parameters" at engine creation determine the exact behaviour.
 <!-- add footnote to engine system locale ["axiom" state_partition](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L192) -->
 <!-- this be moved elsewhere
 !!! definition
@@ -214,10 +367,15 @@ dynamic "parameters" at engine creation determine the exact behaviour.
 	We call the set of all engine instances that share the same state transition function the _engine type_ of the state transition function.
 -->
 
-We proceed with a more detailed description of
-the "internal" structure of each engine instance.
-Then we describe
-how (labelled) state transitions are specified by sets of guarded actions.
+We now proceed with a thorough description of
+the "internal" structure of every engine instance
+and expand the running example of the time stamping server
+to illustrate all the features.
+Finally,
+we also describe how the framework of guarded actions
+allows to derive a [(labelled) state transition]() semantics
+to implementations,
+which we need to reason about properties of engine instances.
 
 ## On the local data of engine instances: the engine environment
 
@@ -722,6 +880,7 @@ to describe engine families.
 	whenever we want to avoid ambiguities or
 	we are afraid of confusion with the generic [[Mailbox State|mailbox state]] type.
 
+
 [^A]: In fact,
 	here we already have one crucial difference to the "pure" actor model,
 	which does not make any assumptions about how actor realize their behavior.
@@ -740,12 +899,13 @@ to describe engine families.
 	interact with a local clock of engine instances.
 
 [^4]: Here, we follow Erlang's practice of
-	[event-driven state machines](https://www.erlang.org/doc/system/statem.html):
-    all behaviour is expressed in a single function.
-	This is in contrast to [Mealy machines](https://en.wikipedia.org/wiki/Mealy_machine),
-	we have a pair of functions,
-	one for the state update and one for the outputs generated.
-	Either choice is valid and it is a design choice.
+      [event-driven state machines](https://www.erlang.org/doc/system/statem.html):
+      all behaviour is expressed in a single function.
+      This is in contrast to [Mealy machines](https://en.wikipedia.org/wiki/Mealy_machine),
+      we have a pair of functions,
+      one for the state update and one for the outputs generated.
+      Either choice is valid and it is a design choice.
+
 
 [^5]: Here, we borrow actor terminology.
 
@@ -756,7 +916,7 @@ to describe engine families.
 [^7]: We always have a default guard
 	that "activates" if no other guards are defined.
 
-[^8]: A well-known example for relevance of sources of "true" randomness are
+[^8]: A well-known example for the relevance of sources of "true" randomness are
 	[cloudflare's lava lamps](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/).
 
 [^9]: See the
