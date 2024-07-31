@@ -490,11 +490,12 @@ such that no two distinct elements have the same name.
     Add a definition of `engine set to the juvix Prelude,
     and add a link to it here, i.e., where we have `_engine set_`.
 
-Finally, the
+Finally, 
 the "full" global state of any Anoma instance is modeled as
-an engine set
-with local clocks for each engine engine environment
-and a set of messages in transit.
+an engine set,
+a set of messages in transit,
+and one local clock for each engine environment
+in the engine set.
 
 ??? todo "juvix code for global state"
 
@@ -516,8 +517,8 @@ and a set of messages in transit.
 
     For the time stamping server example,
     we consider two engine instances that are "clients",
-    beside the time stamping server.
-    The clients share the same state type (given below).
+    besides the time stamping server itself.
+    The clients share the same state type (see below).
 
     #### Time stamping server
     
