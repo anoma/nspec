@@ -15,144 +15,154 @@ tags:
 
 !!! abstract "Summary and note to the reader"
 
-	This page is intended as a quick start manual
-	that guides the reader by means of examples;
-	in a sense,
-	we are betting on the power of 
-	_programming by extrapolation from examples._
-	However,
-	everything is based on solid foundations:
-	technical terms are linked to proper definitions below or elsewhere
-	such that all information is 
-    accessible within a few clicks; <!-- somebody please count ;-) -->
-	whenever suitable,
-	we also refer to the _mathematical backbone_
-	at [formanoma](https://github.com/anoma/formanoma).<!--
-	which comes with a more succinct documentation 
-	and does not focus on Juvix code 
-	but rather on formal properties of any Anoma model implementation.-->
+  This page is intended as a quick start manual
+  that guides the reader by means of examples;
+  in a sense,
+  we are betting on the power of 
+  _programming by extrapolation from examples._
+  However,
+  everything is based on solid foundations:
+  technical terms are linked to proper definitions below or elsewhere
+  such that all information is 
+    accessible within a few clicks;
+  whenever suitable,
+  we also refer to the _mathematical backbone_
+  at [formanoma](https://github.com/anoma/formanoma).<!--
+  which comes with a more succinct documentation 
+  and does not focus on Juvix code 
+  but rather on formal properties of any Anoma model implementation.-->
 
-	In short,
- 	the main purpose of this tutorial is 
-	to enable you to write Juvix code
-	that compiles to what we call a _model implementation._
-	This page is a good place to start reading, 
-	but feel free to have a quick look at
-	the [[Ticker Example|ticker example]] first, 
-	and then come back here for a little more context.
+  In short,
+   the main purpose of this tutorial is 
+  to enable you to write Juvix code
+  that compiles to what we call a _model implementation._
+  This page is a good place to start reading, 
+  but feel free to have a quick look at
+  the [[Ticker Example|ticker example]] first, 
+  and then come back here for a little more context.
 
 !!! note
 
-    Every page that contains code has to define a module for it.
+    Every page that contains code has to define a Juvix module for it.
+    This page, for example, defines the module `tutorial.engines.index`,
+    as shown below.
 
-```juvix
-module tutorial.engines.index;
-```
+    ```juvix
+    module tutorial.engines.index;
+    ```
 
-## Introduction: on message passing, actors, and engines
+## Introduction <small>on message passing, actors, and engines</small>
 
 The Anoma specification will follow
 the [message passing](https://en.wikipedia.org/wiki/Message_passing)
 paradigm to describe how several entities
 (that are possibly distributed over the planet)
-communicate with each other by sending messages.
-The most ímportant diagram type are
-[message sequence charts](https://en.wikipedia.org/wiki/Message_sequence_chart),
-and the following example
-describes the Britisch greeting protocol.
+communicate with each other by sending messages,
+as in typical client-server architectures.
+To describe the behavior of these entities,
+the most ímportant type of diagram is the
+[message sequence chart](https://en.wikipedia.org/wiki/Message_sequence_chart).
+The following example
+describes the British greeting protocol.
+
+<figure markdown="span">
 
 ```mermaid
 %%{initialize: {'mirrorActors': false} }%%
 sequenceDiagram 
-	participant Greeter as John
-	participant Greetee as Alice
-	Greeter -) Greetee: How do you do?
-	Greetee -) Greeter: How do you do?
+  participant Greeter as John
+  participant Greetee as Alice
+  Greeter -) Greetee: How do you do?
+  Greetee -) Greeter: How do you do?
 ```
+
+<figcaption markdown="span">
+British greeting protocol's message sequence diagram.
+</figcaption>
+</figure>
+
 
 This example nicely illustrates
 message sequence diagrams
 (and see [zenuml](https://zenuml.github.io/) for how
-they can be used to illustrate  client-server interactions,
+they can be used to illustrate client-server interactions,
 possibly nested).
-We now start introducing our running example 
+We now start introducing our running example of a time stamping server,
 alongside which we can exemplify most of 
 the features of Anoma engines instances,
 the principal type of participants of Anoma instances.
 We start simple and 
-shall incorporate additional functionality along the way.
+gradually incorporate additional functionality along the way.
 
-!!! example "Running example: time stamping server"
+!!! example "Running example: Time stamping server"
 
-	A time stamping server is listening
-	to time stamping requests by clients.
-	The main use case are attestations that 
+    A time stamping server is listening
+    to time stamping requests by clients.
+    The main use case are attestations that
     the server has seen a certain hash
-	at a certain point in time (or earlier)—relative
-	to its local clock.
-	Thus, the primary task of the server is
-	pairing hashes with time stamps
-	and signing such pairs;
-	however, 
-	the server also offers to send thetime stamped hashes
-	to an "address" that is provided as part of the
-	time stamping request—except for that
-	we rather speak in more general terms of
-	_names_ of engine instances.
-	
-	```mermaid
-	%%{initialize: {'mirrorActors': false, "htmlLabels": true} }%%
-	sequenceDiagram
-		participant A as Alice
-		participant S as Time Stamp Server
-		participant B as Bob
-		A -) S: TimeStampRequest(0x1337, Bob)
-		S -) B: newAttestation(0x1337 @ 9:00AM)
-	```
-	<!--ᚦ: no zenuml support yet, but probably don't need 
-	```mermaid
-	zenuml
-    Alice->Bob: Hello Bob, how are you?
-    if(is_sick) {
-      Bob->Alice: Not so good :(
-    } else {
-      Bob->Alice: Feeling fresh like a daisy
-    }
-	```
-	--> Thus, the behavior of time stamping servers 
-	can be described as serving 
-	time stamping requests of the form
-	
-	!!! quote ""
-	
-		`TimeStampRequest`( _hash:_ bytes , _destination:_ name )
-		
-	where `TimeStampRequest` is the message _tag,_ and the arguments of the message
-	are
+    at a certain point in time (or earlier)—relative
+    to its local clock.
+    Thus, the primary task of the server is
+    to pair hashes with time stamps
+    and signing such pairs;
+    however, 
+    the server also offers to send the timestamped hashes
+    to an "address" specified in the time stamping request.
+    However, we prefer to refer to these addresses as the
+    names of engine instances in more general terms.
 
-	hash 
+    <figure markdown="span">
 
-	: a fixed sized _hash_ given as a byte string
-	
-	destination
+    ```mermaid
+    %%{initialize: {'mirrorActors': false, "htmlLabels": true} }%%
+    sequenceDiagram
+      participant A as Alice
+      participant S as Time Stamp Server
+      participant B as Bob
+      A -) S: TimeStampRequest(0x1337, Bob)
+      S -) B: newAttestation(0x1337 @ 9:00AM)
+    ```
 
-	: the destination, given as a name of an engine instance
-	(operated by some agent).
+    <figcaption markdown="span">
+    Time stamping server example: Alice requests a time stamp for hash `0x1337` from the time stamping server, which then sends a new attestation to Bob.
+    </figcaption>
 
-	In this example, 
-	the functionality is pretty intuitive.
-	However, 
-	we shall see more complex behaviors in later iterations 
-	of the time stamping server.
+    </figure>
 
-	Finally,
-	we shall write code for the messages that an engine
-	is able to process.
-	We use a records for the list of message arguments,
-	using the message tag as constructor name
-	in an algebraic datatype
-	that encompasses all the messages
-	that the time stamp server is able to process (so far).
+    Thus, the behavior of time stamping servers can be described as serving time
+    stamping requests of the form:
+    
+    !!! quote "Time stamping request's form"
+    
+        
+        `TimeStampRequest`( _hash:_ bytes , _destination:_ name )
+      
+        where `TimeStampRequest` is the message _tag,_ and the arguments of the message
+        are
+
+        hash 
+
+        : a fixed sized _hash_ given as a byte string
+        
+        destination
+
+        : the destination, given as a name of an engine instance
+        (operated by some agent).
+
+    <!-- In this example, 
+    the functionality is pretty intuitive.
+    However, 
+    we shall see more complex behaviors in later iterations 
+    of the time stamping server. -->
+
+    Finally,
+    we shall write code for the messages that an engine
+    is able to process.
+    We use a records for the list of message arguments,
+    using the message tag as constructor name
+    in an algebraic datatype
+    that encompasses all the messages
+    that the time stamp server is able to process (so far).
 
 ```juvix
 import architecture-2.Prelude open;
@@ -170,14 +180,14 @@ type TimeStampingServerMessage :=
 
 !!! tip "Engine instance ≈ actor (but with computable behaviour and other variations)"
 
-	The first thing to remember is that in the Anoma specification,
-	the participants that exchange messages will be called
-	[[Engine instance|engine instances.]]
-	Engine instances are similar to actors of the 
-	[actor model](https://en.wikipedia.org/wiki/Actor_model);[^1]
-	however, we prefer to use fresh terminology,
-	as there is some "fine print" concerning differences to the
-	"pure" actor model that we shall cover in due course.
+  The first thing to remember is that in the Anoma specification,
+  the participants that exchange messages will be called
+  [[Engine instance|engine instances.]]
+  Engine instances are similar to actors of the 
+  [actor model](https://en.wikipedia.org/wiki/Actor_model);[^1]
+  however, we prefer to use fresh terminology,
+  as there is some "fine print" concerning differences to the
+  "pure" actor model that we shall cover in due course.
 
 The Anoma specification considers each Anoma node
 to be a finite[^2] collection of
@@ -285,12 +295,12 @@ using a (variation of) the time stamping server.
         - its _acquaintances_
         - its current timers
 
-	!!! todo "fix timers in Ticker example"
+  !!! todo "fix timers in Ticker example"
 
-	??? tip "need `details/fine print` admonition or link here"
+  ??? tip "need `details/fine print` admonition or link here"
 -->
 
-	
+  
 
 ??? note "On transition functions"
 
@@ -364,7 +374,7 @@ by dynamic "parameters" at engine creation determine the exact behaviour.
 <!-- this be moved elsewhere
 !!! definition
 ¶
-	We call the set of all engine instances that share the same state transition function the _engine type_ of the state transition function.
+  We call the set of all engine instances that share the same state transition function the _engine type_ of the state transition function.
 -->
 
 We now proceed with a thorough description of
@@ -432,7 +442,7 @@ is a record with the following fields:
 
     can we rename
     
-    - the field `engineRef` to `name`
+    - the field `name` to `name`
     - the field `state` to `localState`
 
     ?
@@ -449,11 +459,11 @@ is a record with the following fields:
     - to _mailboxes_,<!--LNK Prelude.html#architecture-2.Prelude:35 Mailbox-->
       which in turn consist of
 
-		- a list of messages<!--LNK Prelude.html#architecture-2.Prelude:11 EnvelopedMessage-->
-		- an optional mailbox-specific state<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:53 MailboxStateType-->
+    - a list of messages<!--LNK Prelude.html#architecture-2.Prelude:11 EnvelopedMessage-->
+    - an optional mailbox-specific state<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:53 MailboxStateType-->
 
   - its _acquaintances_[^5], represented by<!--
-	cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
+  cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
   -->
 
     - a finite set of names <!-- ᚦ: TODO: figure out how to combine with aliasing -->
@@ -708,11 +718,11 @@ and an _action label_
 that identifies the respective action that is enabled.
 
 <!--ᚦ: {a different description we had elsewhere}
-	Recall that each guarded action is a pair of a guard function and an action function.
-	Conceptually, the guard function has two purposes:
-	first it determines whether the action that it is guarding is enabled;
-	moreover,
-	if the action is enabled it provides matched arguments and an action label.
+  Recall that each guarded action is a pair of a guard function and an action function.
+  Conceptually, the guard function has two purposes:
+  first it determines whether the action that it is guarding is enabled;
+  moreover,
+  if the action is enabled it provides matched arguments and an action label.
 -->
 
 All guards of an engine could be evaluated in parallel,
@@ -730,10 +740,10 @@ it should be marked clearly.
 
 !!! warning
 
-	It is OK to keep non-determinism and mark it
-	so that we are aware of potential issue.
-	Inappropriate resolution of non-determinism can lead to
-	deadlocks.
+  It is OK to keep non-determinism and mark it
+  so that we are aware of potential issue.
+  Inappropriate resolution of non-determinism can lead to
+  deadlocks.
 
 ### Inputs for the action of a guarded action
 
@@ -761,20 +771,20 @@ the input of the guard function is
 
 !!! warning
 
-	The treatment of local wall-clock time is still experimental;
+  The treatment of local wall-clock time is still experimental;
     however, we may need it to mitigate possible limitations of
-	the partial synchrony abstraction
-	(see, e.g.,
-	[The Economic Limits of Permissionless Consensus](https://arxiv.org/pdf/2405.09173)).
-	There are also subtleties concerning
-	monotonicity of clock implementations in
-	common operating systems.
+  the partial synchrony abstraction
+  (see, e.g.,
+  [The Economic Limits of Permissionless Consensus](https://arxiv.org/pdf/2405.09173)).
+  There are also subtleties concerning
+  monotonicity of clock implementations in
+  common operating systems.
 
 
 ??? todo
-	
-	add details according to the discussion in the PR,
-	see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
+  
+  add details according to the discussion in the PR,
+  see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
 
 
 ### Outputs of an action
@@ -790,14 +800,14 @@ how engine-local sources of input or randomness can
 "affect" which action is to be taken.
 
 <!--ᚦ old material on the topic
-	The output of the action describes after the event has finished
+  The output of the action describes after the event has finished
 ¶
-	- updates to the above local data (except for identities and arguments)
-	- a finite set of messages to be sent
-	- a finite set of engines to be spawned, setting
-		- engine type
-		- initial state
-		- a name for the process (that is unique relative to the engine)
+  - updates to the above local data (except for identities and arguments)
+  - a finite set of messages to be sent
+  - a finite set of engines to be spawned, setting
+    - engine type
+    - initial state
+    - a name for the process (that is unique relative to the engine)
 -->
 
 
@@ -813,11 +823,11 @@ has five components:
 
 !!! note
 
-	In rare situations, it may necessary to specify a _maximum_ duration
-	for how fast the action has to be.
-	The formal modeling framework is prepared to handle such cases.
-	However,
-	it may be long before this feature will be incorporated in our software releases.
+  In rare situations, it may necessary to specify a _maximum_ duration
+  for how fast the action has to be.
+  The formal modeling framework is prepared to handle such cases.
+  However,
+  it may be long before this feature will be incorporated in our software releases.
 
 ##### Timers to be set
 
@@ -865,7 +875,7 @@ Each of these messages carries information about the intended recipient
 and the mailbox identifier of the latter.
 All formalities of messages are in
 the [`Message.thy`-theory](https://github.com/anoma/formanoma/blob/heindel/engine-locale/Types/Message.thy)<!--
-	link will need updating [do not remove this comment]
+  link will need updating [do not remove this comment]
 -->.
 
 ##### Updates to the engine environment
@@ -900,13 +910,13 @@ to a finitely branching tree:
 - inner nodes are either
     - user choices from a finite number of candidates or
     - random experiments of rolling of an $n$-sided dice[^9].
-	
+  
 !!! note
 
-	Interactive actions are not yet covered by the templates.
-	If you need to have access to user input or randomness,
-	please mark it with ⚄ for randomness
-	and 𓀠 for user interaction.
+  Interactive actions are not yet covered by the templates.
+  If you need to have access to user input or randomness,
+  please mark it with ⚄ for randomness
+  and 𓀠 for user interaction.
 
 ## From guarded actions to labelled state transitions
 
@@ -987,46 +997,46 @@ to describe engine families.
   - purpose {very big picture}
   - list of engine-specific types
     - local state
-	- message types received and sent
+  - message types received and sent
     - mailbox state types (for optimisations)
   - message sequence diagram(s) {specific example(s)}
   - conversation diagram {big picture}
     - conversation partners
         - partner A
-    		- incoming
-	    	    - A1
-		        - ...
-		        - Anₐ
-      		- outgoing
+        - incoming
+            - A1
+            - ...
+            - Anₐ
+          - outgoing
                 - A1
- 		        - ...
-    		    - Amₐ
-	    - ...
-	    - partner X
-	        - incoming
-	            - X1
-     		    - ...
-	    	    - Xnₓ
-		    - outgoing
-		        - X1
-    		    - ...
-	    	    - Xmₓ
+             - ...
+            - Amₐ
+      - ...
+      - partner X
+          - incoming
+              - X1
+             - ...
+            - Xnₓ
+        - outgoing
+            - X1
+            - ...
+            - Xmₓ
   - guarded actions {now for the details}
     - guarded action α1 (e.g., receive bid)
-  	    - guard α1 {`local data * trigger → arguments option`}
-	    - action α1 {`local data * arguments → local data update * sends * timers * spawns`}
-	        - local data update {prose}
+        - guard α1 {`local data * trigger → arguments option`}
+      - action α1 {`local data * arguments → local data update * sends * timers * spawns`}
+          - local data update {prose}
             - messages to be sent {prose}
-		    - timer to be set {prose}
-		    - engines to be spawned {prose}
-	- ...	
+        - timer to be set {prose}
+        - engines to be spawned {prose}
+  - ...	
     - guarded action αk (e.g., finalise auction)
-  	    - guard αk {`local data * trigger → arguments option`}
-	    - action αk {`local data * arguments → local data update * sends * timers * spawns`}
-	        - local data update {prose}
+        - guard αk {`local data * trigger → arguments option`}
+      - action αk {`local data * arguments → local data update * sends * timers * spawns`}
+          - local data update {prose}
             - messages to be sent {prose}
-		    - timer to be set {prose}
-		    - engines to be spawned {prose}
+        - timer to be set {prose}
+        - engines to be spawned {prose}
 
 -->
 
@@ -1035,16 +1045,16 @@ to describe engine families.
 
 ??? "Engine template"
 
-	!!! info
+  !!! info
 
         The below template can be found in the `overrides/templates/engine-template.md` file.
-		
-	!!! info
-	
-		Text in curly braces `{` `}` is used for short explanations of titles
-		and/or further context. Text in square brackets `[` `]` is a description
-		of what should be put or what it represents.
-		
+    
+  !!! info
+  
+    Text in curly braces `{` `}` is used for short explanations of titles
+    and/or further context. Text in square brackets `[` `]` is a description
+    of what should be put or what it represents.
+    
 
     --8<-- "./../overrides/templates/engine-template.md:6"
 
@@ -1052,7 +1062,7 @@ to describe engine families.
 ??? "Guarded action template"
 
 
-	!!! info
+  !!! info
 
         The following template can be found in the `overrides/templates/guarded-action-template.md` file.
 
@@ -1064,31 +1074,31 @@ to describe engine families.
 <!-- footnotes -->
 
 [^1]: At the time of writing V2 specs, further relevant sources are 
-	*Selectors: Actors with Multiple Guarded Mailboxes*[@selectors-actors-2014] 
-	and
-	*Special Delivery: Programming with Mailbox Types*[@special-delivery-mailbox-types-2023].
-	We shall refer to mailbox types of the latter paper
-	as *mailbox **usage** types*
-	whenever we want to avoid ambiguities or
-	we are afraid of confusion with the generic [[Mailbox State|mailbox state]] type.
+  *Selectors: Actors with Multiple Guarded Mailboxes*[@selectors-actors-2014] 
+  and
+  *Special Delivery: Programming with Mailbox Types*[@special-delivery-mailbox-types-2023].
+  We shall refer to mailbox types of the latter paper
+  as *mailbox **usage** types*
+  whenever we want to avoid ambiguities or
+  we are afraid of confusion with the generic [[Mailbox State|mailbox state]] type.
 
 
 [^A]: In fact,
-	here we already have one crucial difference to the "pure" actor model,
-	which does not make any assumptions about how actor realize their behavior.
-	We also want to note already here that
-	each engine instance is "tightly" coupled with a clock and local input streams
-	although they are not part of its own state, because they are beyond control.
-	However,
-	the transition function also specifies how to interact with 
-	the clock and the input streams;
-	the transition function "itself" however is a pure function.
+  here we already have one crucial difference to the "pure" actor model,
+  which does not make any assumptions about how actor realize their behavior.
+  We also want to note already here that
+  each engine instance is "tightly" coupled with a clock and local input streams
+  although they are not part of its own state, because they are beyond control.
+  However,
+  the transition function also specifies how to interact with 
+  the clock and the input streams;
+  the transition function "itself" however is a pure function.
 
 [^2]: The specification does not fix any bound on
-	the number of engines in existence.
+  the number of engines in existence.
 
 [^3]: The elapsing of timers is the only way to
-	interact with a local clock of engine instances.
+  interact with a local clock of engine instances.
 
 [^4]: Here, we follow Erlang's practice of
       [event-driven state machines](https://www.erlang.org/doc/system/statem.html):
@@ -1102,33 +1112,33 @@ to describe engine families.
 
 
 [^6]: Clocks are a little more complicated to get into the picture;
-	they are "external" to the engine environment and still experimental.
+  they are "external" to the engine environment and still experimental.
 
 [^7]: We always have a default guard
-	that "activates" if no other guards are defined.
+  that "activates" if no other guards are defined.
 
 [^8]: A well-known example for the relevance of sources of "true" randomness are
-	[cloudflare's lava lamps](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/).
+  [cloudflare's lava lamps](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/).
 
 [^9]: See the
-	[`local_interaction`data type](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L53).
-	
+  [`local_interaction`data type](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L53).
+  
 [^X]: Note that in TLA⁺, pre-conditions of actions are
-	present in the guise of the `ENABLED` predicate.
+  present in the guise of the `ENABLED` predicate.
 
 [^Y]: Arriving messages that do not trigger any "non-trivial" guarded action
-	are added to the mailbox they are addressed,
-	time is incremented by a default delay, and nothing else changes.
+  are added to the mailbox they are addressed,
+  time is incremented by a default delay, and nothing else changes.
 
 
 [^G]: Local time is still in alpha stage,
-	but it could be used to implement busy waiting;
-	however,
-	the preferred way to interact with the local clock is
-	setting new timers for specific points in local time.
-	Probably,
-	this should be replaced by minimal and maximal duration for an event
-	for the specification of real time engines.
+  but it could be used to implement busy waiting;
+  however,
+  the preferred way to interact with the local clock is
+  setting new timers for specific points in local time.
+  Probably,
+  this should be replaced by minimal and maximal duration for an event
+  for the specification of real time engines.
 
 [^K]: The meaning of enabled is exactly as in TLA⁺ or Petri nets.
 
