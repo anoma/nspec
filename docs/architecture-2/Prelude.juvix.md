@@ -36,14 +36,14 @@ and internal.
   represented as a natural number. In practice, it could be a public key.
 
 ```juvix
-ExternalID : Type := Nat;
+syntax alias ExternalID := Nat;
 ```
 
 - **InternalID**: A unique identifier for entities within the system, also
   represented as a natural number. In practice, it could be a private key.
 
 ```juvix
-InternalID : Type := Nat;
+syntax alias InternalID := Nat;
 ```
 
 - **Identity**: A pair combining an `ExternalID` and an `InternalID`,
@@ -61,7 +61,7 @@ Identity : Type := Pair ExternalID InternalID;
 
 ```juvix
 Name : Type := Either String ExternalID;
-Address : Type := Name;
+syntax alias Address := Name;
 ```
 
 ### Messages
@@ -73,7 +73,7 @@ message content and managing mailboxes.
   message with its type and content.
 
 ```juvix
-MessagePayload : Type := String;
+syntax alias MessagePayload := String;
 
 type Message (MessageType : Type) : Type := mkMessage {
   messageType : MessageType;
@@ -100,7 +100,6 @@ type EnvelopedMessage (MessageType : Type) : Type :=
     packet : MessagePacket MessageType;
   };
 ```
-
 
 For convenience, let's define some handy functions for enveloped messages:
 
@@ -142,7 +141,7 @@ Mailboxes are indexed by their unique identifier, for now represented as
 a number. This concerns the mailbox cluster of a single engine
 
 ```juvix
-MailboxID : Type := Nat;
+syntax alias MailboxID := Nat;
 ```
 
 ### Timers
@@ -151,7 +150,7 @@ MailboxID : Type := Nat;
   timing events.
 
 ```juvix
-Time : Type := Nat;
+syntax alias Time := Nat;
 ```
 - **Timer**: A record consisting of a time and a handle. It is used for scheduling
   events to occur at a specific time.

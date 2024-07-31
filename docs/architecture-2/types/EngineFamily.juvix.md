@@ -28,14 +28,14 @@ motivation of the concept of engines for Anoma.
 Each engine family must declare specific components that each of its member
 engine instances will have. For Anoma specifications, the components are:
 
-Engine Environment
+*Engine Environment*
 
 :   This serves as the execution context for engines. In addition to the local
     state, the engine environment encompasses elements such as the mailbox
     cluster owned by an engine instance and a finite set of acquaintances—other engine
     instances known to the current one that can interact with it.
 
-Guarded Actions
+*Guarded Actions*
 
 :   The engine's behavior is specified by a finite set of functions that mutate
     the local state of the engine's instance. These functions are accompanied
@@ -149,19 +149,24 @@ type ActionResult (S I M H R O C : Type) := mkActionResult {
 
 #### Guarded Actions
 
-To recap, a guarded action consists of a _guard_ and an _action_. The guard is a
-function that evaluates conditions on the engine environment to decide if the
-action should be executed. This guard function has as input the trigger that
-caused the guard to be evaluated, and the environment of the engine instance to
-determine if the condition to run the action is met. The action is a function
-that can update the engine environment to some extent and may declare terms that
-will be internally processed as instructions for setting messages to be sent or
-for creating new engine instances.
+To recap, a guarded action consists of a guard and an action. The guard is a
+function that evaluates conditions in the engine environment to determine
+whether the corresponding action should be executed. 
 
+The guard function receives, not in any particular order:
+
+- the trigger that caused it to be evaluated, 
+- the environment of the engine instance, and
+-  an optional time reference for the starting point of the evaluation of all guards
+
+as inputs to decide if the condition for running the action is met.
+The action function can update the engine environment to some extent and may
+declare terms that will be internally processed as instructions for setting messages
+to be sent or for creating new engine instances. 
 
 ```juvix
 type GuardedAction (S I M H R O C : Type) := mkGuardedAction {
-   guard : Trigger I H -> EngineEnvironment S I M H -> Maybe R;
+   guard : Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe R;
    action : ActionInput S I M H R -> ActionResult S I M H R O C
 };
 ```

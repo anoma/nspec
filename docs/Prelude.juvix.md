@@ -95,17 +95,22 @@ unitValue : Unit := unit;
   for grouping related values together.
 
 ```juvix
-import Stdlib.Data.Pair as Pair
-  open using {
-    Pair;
-    ,
-  } public;
+import Stdlib.Data.Pair as Pair;
+open Pair using { Pair } public;
+open Pair using { , };
+```
+
+```juvix
+-- necessary for Isabelle-translation
+import Stdlib.Data.Fixity open;
+syntax operator mkPair none;
+syntax alias mkPair := ,;
 ```
 
 For example,
 
 ```juvix
-pair : Pair Nat Bool := (10 Pair., true);
+pair : Pair Nat Bool := mkPair 42 true;
 ```
 
 - **Either A B**: Represents a value of type `A` or `B`.
@@ -193,5 +198,5 @@ uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
   that a value is not yet defined or not applicable.
 
 ```juvix
-axiom undefined : {A : Type} -> A;
+axiom undef : {A : Type} -> A;
 ```

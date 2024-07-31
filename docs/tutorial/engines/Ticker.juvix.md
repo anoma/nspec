@@ -127,12 +127,12 @@ This action increments the counter by 1 upon receiving an `Increment` message.
 ```juvix
 incrementCounter : GuardedAction := mkGuardedAction@{
   guard := \{
-      | (MessageArrived@{ envelope := m}) _ :=
+      | _ (MessageArrived@{ envelope := m}) _ :=
           case getMessageType m of {
             | Increment := just (IncrementGuard true)
             | _ := nothing
           }
-      | (Elapsed@{ timers := ts }) _ := nothing
+      | _ (Elapsed@{ timers := ts }) _ := nothing
       };
   action := \{
       | (mkActionInput@{ env := previousEnv }) :=
@@ -160,8 +160,8 @@ This action sends the current counter value upon receiving a `Count` message.
 respondWithCounter : GuardedAction := mkGuardedAction@{
   guard :=
     \{
-      | (Elapsed@{ timers := ts }) state := nothing
-      | (MessageArrived@{ envelope := m }) state :=
+      | _ (Elapsed@{ timers := ts }) state := nothing
+      | _ (MessageArrived@{ envelope := m }) state :=
           case getMessageType m of {
             | Count := just (RespondGuard (getMessageSender m))
             | _ := nothing
