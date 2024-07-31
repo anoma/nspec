@@ -68,8 +68,8 @@ document to represent these types.
 ```juvix
 type EngineEnvironment (S I M H : Type) :=
   mkEngineEnvironment {
-      engineRef : Name ; -- read-only
-      state : S;
+      name : Name ; -- read-only
+      localState : S;
       mailboxCluster : Map MailboxID (Mailbox I M);
       acquaintances : Set Name;
       timers : List (Timer H);
