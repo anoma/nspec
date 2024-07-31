@@ -106,7 +106,7 @@ shall incorporate additional functionality along the way.
 		participant A as Alice
 		participant S as Time Stamp Server
 		participant B as Bob
-		A -) S: TimeStamp(0x1337, Bob)
+		A -) S: TimeStampRequest(0x1337, Bob)
 		S -) B: newAttestation(0x1337 @ 9:00AM)
 	```
 	<!--ᚦ: no zenuml support yet, but probably don't need 
@@ -125,9 +125,9 @@ shall incorporate additional functionality along the way.
 	
 	!!! quote ""
 	
-		`TimeStamp`( _hash:_ bytes , _destination:_ name )
+		`TimeStampRequest`( _hash:_ bytes , _destination:_ name )
 		
-	where `TimeStamp` is the message _tag,_ and the arguments of the message
+	where `TimeStampRequest` is the message _tag,_ and the arguments of the message
 	are
 
 	hash 
@@ -159,13 +159,13 @@ import architecture-2.Prelude open;
 
 --- the record type for time stamp requests (using Nat for the type of hashes)
 
-type TimeStampArguments := mkTimeStampArguments {
+type TimeStampRequestArguments := mkTimeStampRequestArguments {
   hash : Nat;
   destination : String
 };
 
-type TimeStampServerMessage :=
-  | TimeStamp TimeStampArguments
+type TimeStampingServerMessage :=
+  | TimeStampRequest TimeStampRequestArguments;
 ```
 
 !!! tip "Engine instance ≈ actor (but with computable behaviour and other variations)"
@@ -227,7 +227,7 @@ using a (variation of) the time stamping server.
     flowchart TD
     check{within the rate limit ?}
     check -->|yes| A[match hash and destination arguments]
-    A -->  doA([Perform TimeStamp:hash,destination ])
+    A -->  doA([Perform TimeStampRequest:hash,destination ])
     check --->|no| B([no op])
     ```
 
@@ -325,7 +325,7 @@ using a (variation of) the time stamping server.
     In the case where there is at most one action enabled,
     guards encode the pre-conditions of an action.
     
-??? note "Action ≈ event (actor model, event structures)"
+??? note "Action ≈ event (actor model, event structures) + duration"
     
     Performing an action
     corresponds to an event in the sense of the actor model theory.
@@ -340,13 +340,13 @@ using a (variation of) the time stamping server.
     - setting new timers and cancelling or resetting old ones
     - creating new engine instances[^4].
     
-??? warning "Action ≠ event-driven state machine event"
+??? warning "Action ≠ event of event-driven state machines ≈: trigger"
 
     While event-driven state machines are a big source of inspiration,
     we avoid using the term event.
-    First and foremost,
-    events are supposed to be instantaneous,
-    which is a suitable abstraction for the actor model,
+    On the one hand,
+    events of the actor model are considered to be instantaneous;
+    this is a powerful abstraction,
     but does not allow to reason about the time period it takes
     to process an arriving message or clock notification.
 
@@ -376,31 +376,81 @@ we also describe how the framework of guarded actions
 allows to derive a [(labelled) state transition]() semantics
 to implementations,
 which we need to reason about properties of engine instances.
+So, let us start now,
+introducing all necessary concepts rigorously.
 
-## On the local data of engine instances: the engine environment
+## Local data of engine instances, clocks, and _the_ global state
 
-Each engine instance has the following local data that it can
-access directly and exclusively
-when it processes a received message or a clock notification:
+In this subsection of the page
+we properly introduce _the_ global state type,
+which holds all local data of engine instances,
+clocks, and the messages in transit.
+Leaving aside clocks and messages in transit,
+one ímportant point is that a set of engine instances
+must have a consistent naming scheme
+so that all engine instances have a unique name.
+We shall come back to the dynamic aspects
+later.
+We first have to describe
+the type of "global" state of Anoma instances
+at any given moment in time
+and give a correponding juvix type.
 
-- its _name_, which is a globally unique unchangeable value that
-  _may_ be given by an ordered pair of<!--
-  cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L208-L209-->
+!!! note "Delayed definition of _engine instance_"
 
-    - a _child name_ (chosen by the parent engine before creation) and
-    - the parent's globally unique name
+    The proper definition of engine instance 
+    is deferred to a later point
+    because we want to make reference to sets of guarded actions,
+    which we have not properly defined, yet.
 
-- its _mailbox cluster,_
-  represented by a partial map with a finite domain of definition <!--
+<!--ᚦ: some old stuff
+we
+give the definitions that we shall use throughout.
+Each engine instance has two components:
+its local data (to which it has exclusive access)
+and its local clock;[^4']
+the clock is kept separate as
+local _time_ is progressing independently of the engine instance
+and thus, the current time is not accessible like data
+(and we shall say more how the local clocks are related to their engine instances).
+[^4']: Moreover it will have access to a source of randomness and
+       "synchronous" user input in future versions of the specifications
+       (see [formanoma](https://github.com/anoma/formanoma)).-->
+
+??? info "Juvix imports"
+
+    ```juvix
+    import architecture-2.types.EngineFamily open;
+    ```
+    
+### Engine environments, clocks, and engine systems
+
+An _engine environment_<!--LNK EngineFamily.html#architecture-2.types.EngineFamily:1 EngineEnvironment-->
+is a record with the following fields:
+
+!!! question
+
+    can we rename
+    
+    - the field `engineRef` to `name`
+    - the field `state` to `localState`
+
+    ?
+
+- the _name_,<!--LNK Prelude.html#addresses-->
+
+- a _mailbox cluster_,<!--LNK EngineFamily.html#engine-family-environment-->
+  which is a partial map<!--LNK Map.html#Data.Map:10--><!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L211-->
 
-    - from _mailbox identifiers_ (**MID** for short)
+    - from _mailbox identifiers_<!--LNK Prelude.html#architecture-2.Prelude:37  MailboxID-->
+      (**MID** for short)
 
-     
-    - to _mailboxes_, which in turn consist of
+    - to _mailboxes_,<!--LNK Prelude.html#architecture-2.Prelude:35 Mailbox-->
+      which in turn consist of
 
-		- a list of messages (that were sent to the MID but not processed yet)
-		- an optional mailbox-specific state (for quick processing of new messages)
+		- a list of messages<!--LNK Prelude.html#architecture-2.Prelude:11 EnvelopedMessage-->
+		- an optional mailbox-specific state<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:53 MailboxStateType-->
 
   - its _acquaintances_[^5], represented by<!--
 	cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
@@ -411,41 +461,174 @@ when it processes a received message or a clock notification:
 - memory for previously set timers, given by<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L212-->
 
-    - a finite list of timers
+    - a finite list of timers<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:39 Timer-->
 
-- engine-specific local state (that not naturally tied to a specific mailbox) <!--
+- engine-specific local state (a type parameter of the engine environment) <!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
-The record of all these local data is called the _engine environment_[^6],
-not only because the word `state` is hopelessly overworked,
-but specifically because we want to reserve it for
-the  states of the "global" labelled transition system
-(see below).
-The types are formalised in
-the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).<!--
-	link **will** need updating [ᚦ do not erase this comment] OUT OF DATE ALERT!
---><!--
-	ᚦ: TODO: describe relation of Juvix code to implementation ...
--->
-The engine instance's name is unchangeable,
+An _engine set_<!--LNK see the todo below--> is a finite set of engine environments
+such that no two distinct elements have the same name.
+
+??? todo "add the definition of `engine set` and link it"
+
+    Add a definition of `engine set to the juvix Prelude,
+    and add a link to it here, i.e., where we have `_engine set_`.
+
+Finally, the
+the "full" global state of any Anoma instance is modeled as
+an engine set
+with local clocks for each engine engine environment
+and a set of messages in transit.
+
+??? todo "juvix code for global state"
+
+    a record with
+    
+    set
+    
+    : the set of engine environments
+
+    clocks
+
+    : a map from engine names / environments to Time
+
+    messages in transit
+
+    : a set of messages (not a list)---should be a stream, theoretically
+
+!!! example "Time stamping server with the rate limit in its mailbox state (part ɪ/ɪɪ)"
+
+    For the time stamping server example,
+    we consider two engine instances that are "clients",
+    beside the time stamping server.
+    The clients share the same state type (given below).
+
+    #### Time stamping server
+    
+    We equip the time stamping server
+    with some data for measuring rate limits to its mailbox
+    (and later we will extend the example with
+    several mailboxes).
+
+    ```juvix
+    type TimeStampingServerState := mkTimeStampingServerState{
+         averageDelay : Nat
+    };
+    ```
+
+    Recall that we have have already defined
+    `TimeStampingServerMessage`.
+
+    ```juvix
+    syntax alias TimeStampingServerMessageHere := TimeStampingServerMessage;
+    ```
+
+    For the time stamping server,
+    we use mailbox state to keep track of the rate at which
+    one specific mailbox is used
+    (and the computation of rate limits is deferred to part ɪɪ).
+
+    ```juvix
+    TimeStampingMailboxType : Type := List Nat;
+    ```
+
+    Finally, the type for the engine environment of time stamping servers
+    is as follows.
+
+    ```juvix
+    TimeStampingServerEnvironment : Type := 
+         EngineEnvironment TimeStampingServerState Unit ClientMessage TimeStampingMailboxType;
+    ```
+
+
+    #### Clients
+    
+    Now,
+    the environments of clients
+     hold a list of hashes
+    to be time stamped and sent to a destination.
+
+    ```juvix
+    type ClientState := mkClientState{
+         hashes : List (Nat);
+         destination : Name
+    };
+    ```
+
+    Moreover,
+    clients define the message type that they expect
+    _from_ the time stamping server.
+
+    ```juvix
+    type TimeStampedHashArguments :=  mkTimeStampedHashArguments{
+         hash : Nat;
+         signature : Nat
+    };
+
+    type ClientMessage := TimeStampedHash TimeStampedHashArguments;
+    ```
+
+    Now, we finally come to the type of the environmenf for client engines.
+
+    ```juvix
+    ClientEngineEnvironment : Type := 
+          EngineEnvironment ClientState Unit ClientMessage Unit;
+    ```
+
+    We can now make an
+    engine system for Alice's and Bob's client engines,
+    which we just call "Alice" and "Bob".
+    
+    ??? todo
+
+        make an engine system with two clients,
+        each one holding at least one hash
+        (later we can add new hashes).
+
+
+
+Note that we have chosen to call the local data of engine instances—still undefined-_engine environment_[^6].
+The core reason is that we want to "reserve" the word `state`
+for the state of the "global" labelled transition system (LTS)
+that we will cover next.
+In broad terms,
+the LTS describes endows "engine systems"
+with step-wise dynamics
+and each step is labelled with an _action label_.
+
+<!--ᚦ: some old stuff ¶
+but The engine instance's name is unchangeable,
 once the engine is created;
 every correct implementation must ensure that
 the parent engine chooses a globally unique name
 before the child engine can be created;
 as mentioned above,
 the default is a pair of the parent's globally unique name
-and a _child name_ that is unique among its siblings—<!--
--->either spawned previously or in the future.
+and a _child name_ that is unique among its siblings—either
+spawned previously or in the future.
 Should it become necessary to change the name of an engine,
 e.g., because it has been sent to undesired destinations,
 a new *"continuation engine"* can be spawned with a new name.
+-->
 
 ## On labelled state transitions via guarded actions
 
-The Anoma Specification uses pure functions to describe
-the atomic computation that each engine instance performs when
-a new message is ready to be processed or
-a notification from the local clock is received.
+For the labelled state transition interpretation,
+we have already defined the type for global state:
+sets of engine environments, the associatged clocks,
+and a simple abstraction for the network that relays messages.
+The Anoma Specification will use pure functions to describe
+the atomic computation that need to be performed 
+to advance an engine system to the next state.
+The main idea is that a message or clock notification
+is processed,
+which results in updates to exactly one environment,
+the set of messages to be sent,
+and advancing the local time;
+moreover,
+the system may grow new engine environments and clocks.
+
+<!--ᚦ: old stuff¶
 Each specific state transition corresponds to
 a set of _actions_ performed,
 typically a single one. However,
@@ -463,6 +646,7 @@ Action functions compute
 Whether or not an action is enabled for a trigger
 is determined by action guards,
 by guard functions.
+-->
 
 Before we delve into the details,
 note that this approach is based on the seminal work of
@@ -497,7 +681,15 @@ and the time stamped[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041
 ᚦ: needs updating [do not remove this comment): out of date ALERT!
 -->
 
-### A finite set of guarded actions for each engine family
+### A finite set of guarded actions for each engine environment
+
+Each engine environment comes with a type.
+We pretend as if we are using this type to associated
+with each engine environment a set of guarded actions.
+
+??? todo
+
+    continue here
 
 Each engine family comes with a set of guarded actions
 where the _guard_ is a function that—among other things—determines whether
@@ -905,7 +1097,6 @@ to describe engine families.
       we have a pair of functions,
       one for the state update and one for the outputs generated.
       Either choice is valid and it is a design choice.
-
 
 [^5]: Here, we borrow actor terminology.
 
