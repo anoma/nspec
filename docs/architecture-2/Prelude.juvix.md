@@ -11,6 +11,7 @@ tags:
 ```juvix
 module architecture-2.Prelude;
 import Prelude open public;
+import Prelude open using {Hash} public; -- TODO: review this, in principle, it should be imported with the previous import
 ```
 
 # Architecture Node - Juvix Prelude
@@ -77,7 +78,7 @@ syntax alias MessagePayload := String;
 
 type Message (MessageType : Type) : Type := mkMessage {
   messageType : MessageType;
-  payload : String;
+  payload : MessagePayload;
 };
 ```
 

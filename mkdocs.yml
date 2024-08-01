@@ -400,7 +400,7 @@ nav:
         - Example of diff rendering: ./tutorial/file-v1.md
     - Engines in Anoma:
       - ./tutorial/engines/index.juvix.md
-      - The Ticker engine family:
+      - The Ticker Engine Family:
         - ./tutorial/engines/Ticker/index.juvix.md
         - Engine Environment: ./tutorial/engines/Ticker/Env.juvix.md
         - Engine Guarded Actions: ./tutorial/engines/Ticker/Actions.juvix.md

@@ -38,7 +38,7 @@ tags:
   that compiles to what we call a _model implementation._
   This page is a good place to start reading, 
   but feel free to have a quick look at
-  the [[Ticker Example|ticker example]] first, 
+  the [[The Ticker Engine Family|ticker example]] first, 
   and then come back here for a little more context.
 
 !!! note
@@ -49,6 +49,13 @@ tags:
 
     ```juvix
     module tutorial.engines.index;
+    ```
+
+    Additonally, for the upcoming definitions, we must also use the `import` Juvix syntax
+    to bring some common types and functions from the Node Architecture's prelude.
+
+    ```juvix
+    import architecture-2.Prelude open;
     ```
 
 ## Introduction <small>on message passing, actors, and engines</small>
@@ -124,7 +131,8 @@ gradually incorporate additional functionality along the way.
     ```
 
     <figcaption markdown="span">
-    Time stamping server example: Alice requests a time stamp for hash `0x1337` from the time stamping server, which then sends a new attestation to Bob.
+    Time stamping server example: Alice requests a time stamp for hash `0x1337` 
+    from the time stamping server, which then sends a new attestation to Bob.
     </figcaption>
 
     </figure>
@@ -164,14 +172,12 @@ gradually incorporate additional functionality along the way.
     that encompasses all the messages
     that the time stamp server is able to process (so far).
 
+
 ```juvix
-import architecture-2.Prelude open;
-
 --- the record type for time stamp requests (using Nat for the type of hashes)
-
 type TimeStampRequestArguments := mkTimeStampRequestArguments {
-  hash : Nat;
-  destination : String
+  hash : Hash;
+  destination : Name
 };
 
 type TimeStampingServerMessage :=
@@ -571,7 +577,7 @@ and a set of messages in transit.
 
     ```juvix
     type TimeStampedHashArguments :=  mkTimeStampedHashArguments{
-         hash : Nat;
+         hash : Hash;
          signature : Nat
     };
 
@@ -583,6 +589,7 @@ and a set of messages in transit.
     ```juvix
     ClientEngineEnvironment : Type := 
           EngineEnvironment ClientState Unit ClientMessage Unit;
+        -- TODO: better create type aliases for  the Unit usages, it's more informative
     ```
 
     We can now make an

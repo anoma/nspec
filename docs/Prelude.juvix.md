@@ -38,6 +38,13 @@ For example,
 ten : Nat := 10;
 ```
 
+Natural numbers are used (for now) to represent hash values, bytes sizes, and
+other non-negative integers.
+
+```juvix
+syntax alias Hash := Nat;
+```
+
 - **Bool**: Represents boolean values (`true` or `false`). Used for logical
   operations and conditions.
 
