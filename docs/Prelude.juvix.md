@@ -8,19 +8,19 @@ tags:
 - Juvix-Prelude
 ---
 
+
 ```juvix
 module Prelude;
-
 import Stdlib.Trait open public;
 ```
 
-## Anoma Specification - Juvix Base Prelude
+# Common Types - Juvix Base Prelude
 
-The following are fundamental types provided by the Juvix standard library and others,
-used to define more complex types in Anoma Specification.
+The following are fundamental types provided by the Juvix standard library and others, used to define more complex types in Anoma Specification.
 
-- **Nat**: Represents natural numbers (non-negative integers). Used for
-  counting and indexing.
+## Nat
+
+The type `Nat` represents natural numbers (non-negative integers). Used for counting and indexing.
 
 ```juvix
 import Stdlib.Data.Nat as Nat
@@ -38,15 +38,15 @@ For example,
 ten : Nat := 10;
 ```
 
-Natural numbers are used (for now) to represent hash values, bytes sizes, and
-other non-negative integers.
+Natural numbers are used (for now) to represent hash values, bytes sizes, and other non-negative integers.
 
 ```juvix
 syntax alias Hash := Nat;
 ```
 
-- **Bool**: Represents boolean values (`true` or `false`). Used for logical
-  operations and conditions.
+## Bool
+
+The type `Bool` represents boolean values (`true` or `false`). Used for logical operations and conditions.
 
 ```juvix
 import Stdlib.Data.Bool as Bool
@@ -63,8 +63,9 @@ For example,
 verdad : Bool := true;
 ```
 
-- **String**: Represents sequences of characters. Used for text and
-  communication.
+## String
+
+The type `String` represents sequences of characters. Used for text and communication.
 
 ```juvix
 import Stdlib.Data.String
@@ -80,8 +81,9 @@ For example,
 hello : String := "Hello, World!";
 ```
 
-- **Unit**: Represents a type with a single value. Often used when a function
-  does not return any meaningful value.
+## Unit
+
+The type `Unit` represents a type with a single value. Often used when a function does not return any meaningful value.
 
 ```juvix
 import Stdlib.Data.Unit
@@ -98,8 +100,10 @@ For example,
 unitValue : Unit := unit;
 ```
 
-- **Pair A B**: A tuple containing two elements of types `A` and `B`. Useful
-  for grouping related values together.
+## Pair A B
+
+The type `Pair A B` represents a tuple containing two elements of types `A` and `B`.
+Useful for grouping related values together.
 
 ```juvix
 import Stdlib.Data.Pair as Pair;
@@ -120,7 +124,9 @@ For example,
 pair : Pair Nat Bool := mkPair 42 true;
 ```
 
-- **Either A B**: Represents a value of type `A` or `B`.
+## Either A B
+
+The type `Either A B` represents a value of type `A` or `B`.
 
 ```juvix
 type Either (A  B : Type) : Type :=
@@ -135,9 +141,9 @@ error : Either String Nat := Left "Error!";
 answer : Either String Nat := Right 42;
 ```
 
+## List A
 
-- **List A**: A sequence of elements of type `A`. Used for collections and
-  ordered data.
+The type `List A` represents a _sequence_ of elements of type `A`. Used for collections and ordered data.
 
 ```juvix
 import Stdlib.Data.List as List
@@ -156,8 +162,9 @@ numbers : List Nat := 1 :: 2 :: 3 :: nil;
 niceNumbers : List Nat := [1 ; 2 ; 3];
 ```
 
-- **Maybe A**: Represents an optional value of type `A`. It can be either
-  `Just A` (containing a value) or `Nothing` (no value).
+## Maybe A
+
+The type `Maybe A` represents an optional value of type `A`. It can be either `Just A` (containing a value) or `Nothing` (no value).
 
 ```juvix
 import Stdlib.Data.Maybe as Maybe public;
@@ -168,8 +175,9 @@ open Maybe using {
   } public;
 ```
 
-- **Map K V**: Represents a collection of key-value pairs, sometimes called
-  dictionary, where keys are of type `K` and values are of type `V`.
+## Map K V
+
+The type `Map K V` represents a collection of key-value pairs, sometimes called dictionary, where keys are of type `K` and values are of type `V`.
 
 ```juvix
 import Data.Map as Map public;
@@ -181,12 +189,12 @@ open Map using {
 For example,
 
 ```juvix
-codeToken : Map Nat String :=
-  Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "ANM")];
+codeToken : Map Nat String := Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "ANM")];
 ```
 
-- **Set A**: Represents a collection of unique elements of type `A`. Used for
-  sets of values.
+## Set A
+
+The type `Set A` represents a collection of unique elements of type `A`. Used for sets of values.
 
 ```juvix
 import Data.Set as Set public;
@@ -201,9 +209,16 @@ For example,
 uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
 ```
 
-- **Undefined** is a placeholder for an undefined value. It is used to indicate
-  that a value is not yet defined or not applicable.
+## Undefined values
+
+The term `undef` is a placeholder for unspecified values.
 
 ```juvix
 axiom undef : {A : Type} -> A;
+```
+
+For example, 
+  
+```juvix
+undefinedNat : Nat := undef;
 ```
