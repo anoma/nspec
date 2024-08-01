@@ -228,50 +228,65 @@ typically depends on local information of the engine.
 Let us consider an example of guarded actions at work
 using a (variation of) the time stamping server.
 
-!!! example "Adding rate limits to the time stamping server"
+!!! example "Adding Rate Limits to the Timestamping Server"
 
-    We want to implement rate limits
-    as a primitive measure against spamming.
-    For this,
-    the time stamp server keeps track of
-    the times at which previous requests where arriving.
+    We want to implement rate limits as a primitive measure against spamming. For
+    this, the timestamp server keeps track of the times at which previous requests
+    arrived.
 
-    We can describe the guard using a simple flow chart.
+    We can describe the guard using a simple flowchart.
+        
+    === "Diagram"
 
-    ```mermaid
-    flowchart TD
-    check{within the rate limit ?}
-    check -->|yes| A[match hash and destination arguments]
-    A -->  doA([Perform TimeStampRequest:hash,destination ])
-    check --->|no| B([no op])
-    ```
+        <figure markdown="span">
 
-    The logic is simple:
-    if the server is within rate limits,
-    the request will be answered,
-    otherwise the request is dropped.
-    Note that we use
-    - diamond shapes for decisions 
-    - rectangle for intermediate processing,
-    in particular matching of arguments from a message
-    - rounded boxes for what action to do and which "parameters" are passed
+        ```mermaid
+        flowchart TD
+            check{Within the rate limit?}
+            check -->|yes| A[Match hash and destination arguments]
+            A --> doA(["Perform TimeStampRequest(hash, destination)"])
+            check -->|no| B[No operation]
+        ```
 
-    In mermaid,
-    we diamonds, rectangles, and rounded boxes are obtained using
-    `{ ... }`,  `[ ... ]`, `([ ... ])`, respectively.
+        </figure>
 
-    ??? warning "Mermaid flowcharts are flaky!"
+    === "Mermaid Code"
 
-        We are currently looking into alternatives to mermaid flow charts.
-        Besides the issues with the layout and limited options
-        for influencing it,
-        the markdown option for inscriptions is often just not working as expected.
+        Annotate the codeblock with `mermaid` to render the flowchart.
 
-    Finally, we need to write functions for guards and actions.
-    For this,
-    we shall describe on a general level
-    what other forms of local information guarded actions have at their disposal.
-    
+        ```plaintext
+        flowchart TD
+          check{Within the rate limit?}
+          check -->|yes| A[Match hash and destination arguments]
+          A --> doA(["Perform TimeStampRequest(hash, destination)"])
+          check -->|no| B[No operation]
+        ```
+
+
+    The logic is simple: if the server is within rate limits, the request will be
+    answered; otherwise, the request is dropped.
+
+    Note that we use:
+
+    - **Diamond shapes** for decisions. 
+    - **Rectangles** for intermediate processing, particularly matching of arguments
+      from a message
+    - **Rounded boxes** for the actions to perform and the "parameters" passed
+
+    In Mermaid syntax.
+
+    - Diamonds are obtained using `{ ... }`
+    - Rectangles using `[ ... ]`
+    - Rounded boxes using `([ ... ])`
+
+    ??? todo "Find a better way to render flowcharts"
+
+        We are currently looking into alternatives to Mermaid flowcharts. Besides the issues with the layout and limited options for influencing it, the markdown option for inscriptions often does not work as expected.
+
+    Finally, we need to write functions for guards and actions. To do this, we will
+    describe on a general level what other forms of local information guarded
+    actions have at their disposal.
+
 <!--
     Let us start with guards.
 
@@ -312,10 +327,10 @@ using a (variation of) the time stamping server.
     The _behaviour_  of each engine instance—i.e.,
     how it reacts to receiving messages from other engine instances
     and notifications from the local clock—is
-    determined by its current state and its _state transition function,_
+    determined by its current state and its active _state transition function_,
     reminiscent of the next-state function of
     [finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition)
-    (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition)).[^A]
+    (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition))[^A].
     However,
     transition functions will be a "derived concept" 
     in the Anoma specification.
@@ -340,11 +355,11 @@ using a (variation of) the time stamping server.
     In the case where there is at most one action enabled,
     guards encode the pre-conditions of an action.
     
-??? note "Action ≈ event (actor model, event structures) + duration"
+??? note "Action: Event (Actor Model, Event Structures) Plus Duration"
     
     Performing an action
-    corresponds to an event in the sense of the actor model theory.
-    We say that actions are _triggered_
+    corresponds to an event in the sense of the actor-like model theories.
+    We say that actions can be _triggered_
     by the arrival of a new message or
     the notification about elapsed timers[^3];
     performing an action has possibly several effects
@@ -563,7 +578,7 @@ this type could be derived automatically.
     greeterState : List GreeteeMessage := [greeting];
 
     greeterMailbox : (Mailbox GreeterMessage Unit) :=
-      mkMailBox@ {
+      mkMailbox@ {
         messages := [];
         mailboxState := nothing ;
     };
