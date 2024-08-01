@@ -32,7 +32,7 @@ nav:
       - Juvix Prelude: ./architecture-2/Prelude.juvix.md
       - Engine Families: 
         - ./architecture-2/engines/index.juvix.md
-        - Types: ./architecture-2/types/EngineFamily.juvix.md
+        - Engine Family Types: ./architecture-2/types/EngineFamily.juvix.md
       - Hardware Abstraction Machine:
         - ./architecture-2/hardware-abstraction/index.md
         - Local Storage Engines:
