@@ -18,13 +18,13 @@ tags:
   This page is intended as a quick start manual
   that guides the reader by means of examples;
   in a sense,
-  we are betting on the power of 
+  we are betting on the power of
   _programming by extrapolation from examples._
   However,
   everything is based on solid foundations:
   technical terms are linked to proper definitions below or elsewhere
-  such that all information is 
-    accessible within a few clicks;
+  such that all information is
+  accessible within a few clicks;
   whenever suitable,
   we also refer to the _mathematical backbone_
   at [formanoma](https://github.com/anoma/formanoma).<!--
@@ -33,12 +33,12 @@ tags:
   but rather on formal properties of any Anoma model implementation.-->
 
   In short,
-   the main purpose of this tutorial is 
+  the main purpose of this tutorial is
   to enable you to write Juvix code
   that compiles to what we call a _model implementation._
-  This page is a good place to start reading, 
+  This page is a good place to start reading,
   but feel free to have a quick look at
-  the [[The Ticker Engine Family|ticker example]] first, 
+  the [[The Ticker Engine Family|ticker example]] first,
   and then come back here for a little more context.
 
 !!! note
@@ -173,16 +173,15 @@ gradually incorporate additional functionality along the way.
     that the time stamp server is able to process (so far).
 
 
-```juvix
---- the record type for time stamp requests (using Nat for the type of hashes)
-type TimeStampRequestArguments := mkTimeStampRequestArguments {
-  hash : Hash;
-  destination : Name
-};
-
-type TimeStampingServerMessage :=
-  | TimeStampRequest TimeStampRequestArguments;
-```
+    ```juvix
+    --- the datatype of messages that a time stamping server can process
+    
+    type TimeStampingServerMessage :=
+      | TimeStampRequest {
+          hash : Hash;
+          destination : Name
+      };
+    ```
 
 !!! tip "Engine instance ≈ actor (but with computable behaviour and other variations)"
 
@@ -439,19 +438,10 @@ and thus, the current time is not accessible like data
     import architecture-2.types.EngineFamily open;
     ```
     
-### Engine environments, clocks, and engine systems
+### Engine Environments
 
-An _engine environment_<!--LNK EngineFamily.html#architecture-2.types.EngineFamily:1 EngineEnvironment-->
+An [[Engine Family Types#engine-family-environment|_engine environment_]]
 is a record with the following fields:
-
-!!! question
-
-    can we rename
-    
-    - the field `name` to `name`
-    - the field `state` to `localState`
-
-    ?
 
 - the _name_,<!--LNK Prelude.html#addresses-->
 
@@ -465,8 +455,8 @@ is a record with the following fields:
     - to _mailboxes_,<!--LNK Prelude.html#architecture-2.Prelude:35 Mailbox-->
       which in turn consist of
 
-    - a list of messages<!--LNK Prelude.html#architecture-2.Prelude:11 EnvelopedMessage-->
-    - an optional mailbox-specific state<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:53 MailboxStateType-->
+        - a list of messages<!--LNK Prelude.html#architecture-2.Prelude:11 EnvelopedMessage-->
+        - an optional mailbox-specific state<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:53 MailboxStateType-->
 
   - its _acquaintances_[^5], represented by<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L213
@@ -479,39 +469,148 @@ is a record with the following fields:
 
     - a finite list of timers<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:39 Timer-->
 
-- engine-specific local state (a type parameter of the engine environment) <!--
+- engine-specific local state (a type parameter of the engine environment).<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
-An _engine set_<!--LNK see the todo below--> is a finite set of engine environments
+The role of timers will become clear later,
+after we have introduced
+[[On Engines in the Anoma Specification#engine-systems|local clocks]]
+and sorted out some techincalities
+concerning
+[[On Engines in the Anoma Specification#engine-sets|sets of engine environments]].
+As the time stamping server requires time stamps,
+let illustrate environments in the context of the
+greeting protocol.
+
+!!! example "Greetee engine environment"
+
+    The greetee is essentially state-less
+    as it answers every arriving message.
+    However,
+    we need to define the message type
+    of messages that it expects to receive.
+
+    ```juvix
+    --- the type of messages that a Greetee engines
+
+    type GreeteeMessage :=
+      | Greeting {
+          yoursTruly : Name
+      };
+
+    --- the type of the engine environment of Greetee engines
+
+    GreeteeEnvironment : Type := 
+         EngineEnvironment Unit Unit GreeteeMessage Unit;
+    ```
+    
+### Engine sets
+
+An _engine set_<!--LNK see the todo below--> is
+a finite set of engine environments
 such that no two distinct elements have the same name.
+This conceptually simple definition takes some work in Juvix
+as sets need a type parameter.
+Thus,
+we need an single `EngineEnvironments`<!--or a better name--> type.
+In principle,
+this type could be derived automatically.
+
+!!! example "Greeters and gretees"
+
+    We now add the greeter to complement the greetee.
+    The greeter may want to remember,
+    which messages it has already sent
+    (but has not received answers yet).
+    Again,
+    we need a message type to receive responses.
+
+    ```juvix
+    --- the type of messages that a Greeter engines
+
+    type GreeterMessage :=
+      | GreetingResponse {
+          yoursTruly : Name
+      };
+
+    --- the lcoal state type of Greeter engines
+
+    GreeterLocalState : Type := List GreeteeMessage;
+
+    --- the type of the engine environment of Greetee engines
+
+    GreeterEnvironment : Type := 
+         EngineEnvironment GreeterLocalState Unit GreeteeMessage Unit;
+
+    --- finally, we have the (derived) EngineEnvironments
+
+    type EngineEnvironments :=
+      | Greeter GreeterEnvironment
+      | Greetee GreeteeEnvironment
+      ;
+    ```
+
+    Now we are in the position to form sets of engine environments
+    (and also to check whether unicity of names is warranted).
+
+    ```juvix
+    GreetEngineSet : Type := Set EngineEnvironments;
+
+    greeting :  GreeteeMessage := Greeting@ {
+      yoursTruly := Left "John"
+    };
+
+    greeterState : List GreeteeMessage := [greeting];
+
+    greeterMailbox : (Mailbox GreeterMessage Unit) :=
+      mkMailBox@ {
+        messages := [];
+        mailboxState := nothing ;
+    };
+
+    import Data.Map open;
+
+    import Stdlib.Data.Pair.Base open;
+
+    greeterMailboxCluster : (Map Unit (Mailbox GreeterMessage Unit)) :=
+        fromList [(unit, greeterMailbox)];
+
+    import Data.Set.AVL open;
+
+    ```
+    
+    ??? todo
+
+        continue here fixing the code
+
+    ```
+    greeterEnvironment : GreeterEnvironment :=  mkEngineEnvironment@ {
+      name := Left "John" ;
+      localState := greeterEnvironment;
+      mailboxCluster := greeterMailboxCluster;
+      acquaintances := Set.empty;
+      timers := []
+    };
+    ```
 
 ??? todo "add the definition of `engine set` and link it"
 
     Add a definition of `engine set to the juvix Prelude,
     and add a link to it here, i.e., where we have `_engine set_`.
 
-Finally, 
-the "full" global state of any Anoma instance is modeled as
-an engine set,
-a set of messages in transit,
-and one local clock for each engine environment
-in the engine set.
+### Engine systems
 
-??? todo "juvix code for global state"
+With engine sets at hand,
+we finally define an _engine system_ as a record with an engine set,
+a map from set of names of these engines to _time_—these are the local clocks—
+and finally a set of messages in transit.
 
-    a record with
-    
-    set
-    
-    : the set of engine environments
 
-    clocks
 
-    : a map from engine names / environments to Time
 
-    messages in transit
 
-    : a set of messages (not a list)---should be a stream, theoretically
+!!! example "Time stamping server"
+
 
 !!! example "Time stamping server with the rate limit in its mailbox state (part ɪ/ɪɪ)"
 
@@ -539,6 +638,15 @@ in the engine set.
     ```juvix
     syntax alias TimeStampingServerMessageHere := TimeStampingServerMessage;
     ```
+
+    ??? question "ᚦ _Jonathan, how hard is it to have “smarter” linking here?_"
+
+        It would be nice to have code snippets included
+        and also the same syntax highlighting.
+        Similarly, or if it is much easier,
+        it would be nice to have an easy way
+        to link to code blocks.
+
 
     For the time stamping server,
     we use mailbox state to keep track of the rate at which
@@ -603,12 +711,36 @@ in the engine set.
         each one holding at least one hash
         (later we can add new hashes).
 
-
-
 Note that we have chosen to call the local data of engine instances—still undefined-_engine environment_[^6].
 The core reason is that we want to "reserve" the word `state`
 for the state of the "global" labelled transition system (LTS)
 that we will cover next.
+
+
+
+Finally, 
+the "full" global state of any Anoma instance is modeled as
+an engine set,
+a set of messages in transit,
+and one local clock for each engine environment
+in the engine set.
+
+??? todo "juvix code for global state"
+
+    a record with
+    
+    set
+    
+    : the set of engine environments
+
+    clocks
+
+    : a map from engine names / environments to Time
+
+    messages in transit
+
+    : a set of messages (not a list)---should be a stream, theoretically
+
 In broad terms,
 the LTS describes endows "engine systems"
 with step-wise dynamics
