@@ -13,6 +13,15 @@ tags:
 
 # On Engines in the Anoma Specification
 
+This page defines [[Engines in Anoma#engine-systems|engine-systems]] and their
+[[Engines in Anoma#on-labelled-state-transitions-via-guarded-actions|dynamics]]
+and provides example code
+after a short introduction to engines in the Anoma specification;
+finally,
+it also provides
+[[Engines in Anoma#templates|templates]]
+for writing pages of the specification for [[Engine Families|engine families]].
+
 !!! abstract "Summary and note to the reader"
     
     This page is intended as a quick start manual
@@ -60,13 +69,26 @@ tags:
 
 ## Introduction <small>on message passing, actors, and engines</small>
 
-The Anoma specification will follow
-the [message passing](https://en.wikipedia.org/wiki/Message_passing)
-paradigm to describe how several entities
+??? question "guidelines for section titles?"
+
+    - no capitalization needed (except for page titles, and the first letter)
+
+    - what symbols can we use so that we can link using wikilinks
+      `[[page TOC entry#title-with-the-allowed-symbols-only|xyz]]`
+      [[Engines in Anoma#title-with-the-allowed-symbols-only|example]]
+
+    ### Title with the allowed symbols only
+
+    for the sake of example
+     
+In the Anoma specification,
+we use the
+[message passing paradigm](https://en.wikipedia.org/wiki/Message_passing)
+to describe how several entities
 (that are possibly distributed over the planet)
 communicate with each other by sending messages,
 as in typical client-server architectures.
-To describe the behavior of these entities,
+To illustrate possible behaviours of these entities,
 the most ímportant type of diagram is the
 [message sequence chart](https://en.wikipedia.org/wiki/Message_sequence_chart).
 The following example
@@ -137,7 +159,7 @@ gradually incorporate additional functionality along the way.
 
     </figure>
 
-    Thus, the behavior of time stamping servers can be described as serving time
+    Thus, the behaviour of time stamping servers can be described as serving time
     stamping requests.
     
     !!! quote "Details of a time stamping request"
@@ -161,7 +183,7 @@ gradually incorporate additional functionality along the way.
     <!-- In this example, 
     the functionality is pretty intuitive.
     However, 
-    we shall see more complex behaviors in later iterations 
+    we shall see more complex behaviours in later iterations 
     of the time stamping server. -->
 
     Finally,
@@ -306,7 +328,7 @@ using a (variation of) the time stamping server.
         
         In detail, the other pieces of local data of the engine instance are
         
-        - its _name_ 
+        - its [[Juvix Prelude]]
         - its _local state_
         - its _mailbox cluster,_ which is a map
             - from _mailbox ɪᴅs_ to
@@ -477,7 +499,11 @@ and thus, the current time is not accessible like data
 An [[Engine Family Types#engine-family-environment|_engine environment_]]
 is a record with the following fields:
 
-- the _name_,<!--LNK Prelude.html#addresses-->
+- the [[Juvix Prelude#addresses|_name_]],
+
+    ??? todo
+
+        add links below
 
 - a _mailbox cluster_,<!--LNK EngineFamily.html#engine-family-environment-->
   which is a partial map<!--LNK Map.html#Data.Map:10--><!--
@@ -503,15 +529,23 @@ is a record with the following fields:
 
     - a finite list of timers<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:39 Timer-->
 
-- engine-specific local state (a type parameter of the engine environment).<!--
+- local state (a type parameter of the engine environment).<!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
+While the above is simply a definition,
+let us quickly add short explanations of each of the fields.
+The name is a means to address messages (among other things).
+The mailbox contains (a subset of) the previously received messages.
+The acquaintances is a list of "known names".
 The role of timers will become clear later,
 after we have introduced
 [[On Engines in the Anoma Specification#engine-systems|local clocks]]
 and sorted out some techincalities
 concerning
 [[On Engines in the Anoma Specification#engine-sets|sets of engine environments]].
+Finally,
+the _local state_ is all other kind of data that we may want to stor locally.
+
 As the time stamping server requires time stamps,
 let illustrate environments in the context of the
 greeting protocol.
@@ -1214,7 +1248,7 @@ to describe engine families.
 
 -->
 
-## Template files
+## Templates
 
 
 ??? "Engine template"
@@ -1259,7 +1293,7 @@ to describe engine families.
 
 [^A]: In fact,
   here we already have one crucial difference to the "pure" actor model,
-  which does not make any assumptions about how actor realize their behavior.
+  which does not make any assumptions about how actor realize their behaviour.
   We also want to note already here that
   each engine instance is "tightly" coupled with a clock and local input streams
   although they are not part of its own state, because they are beyond control.
