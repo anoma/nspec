@@ -138,14 +138,15 @@ gradually incorporate additional functionality along the way.
     </figure>
 
     Thus, the behavior of time stamping servers can be described as serving time
-    stamping requests of the form:
+    stamping requests.
     
-    !!! quote "Time stamping request's form"
+    !!! quote "Details of a time stamping request"
     
-        
-        `TimeStampRequest`( _hash:_ bytes , _destination:_ name )
+        A time stamp request has the following form:
+
+        `TimeStampRequest`( _hash:_ bytes, _destination:_ name )
       
-        where `TimeStampRequest` is the message _tag,_ and the arguments of the message
+        where `TimeStampRequest` is the message _tag_ and the arguments of the message
         are
 
         hash 
@@ -164,11 +165,11 @@ gradually incorporate additional functionality along the way.
     of the time stamping server. -->
 
     Finally,
-    we shall write code for the messages that an engine
+    we want to write code for the messages that an engine
     is able to process.
-    We use a records for the list of message arguments,
+    We use a record fields for the list of message arguments,
     using the message tag as constructor name
-    in an algebraic datatype
+    in a datatype
     that encompasses all the messages
     that the time stamp server is able to process (so far).
 
@@ -183,7 +184,7 @@ gradually incorporate additional functionality along the way.
       };
     ```
 
-!!! tip "Engine instance ≈ actor (but with computable behaviour and other variations)"
+!!! tip "Engine instance: think [actor](https://en.wikipedia.org/wiki/Actor_model_theory) (but with computable behaviour and other differences)"
 
   The first thing to remember is that in the Anoma specification,
   the participants that exchange messages will be called
@@ -343,7 +344,7 @@ using a (variation of) the time stamping server.
     --> for a definition of what a _system_ of state transition functions actually is).<!--
     --> Hence, we follow the more structure approach of guarded actions.
 
-!!! tip "Guards ≈ precondition"
+!!! tip "Guard: very much like precondition"
 
     The second take away about
     the Anoma specification is the "postulate" that
@@ -355,11 +356,16 @@ using a (variation of) the time stamping server.
     In the case where there is at most one action enabled,
     guards encode the pre-conditions of an action.
     
-??? note "Action: Event (Actor Model, Event Structures) Plus Duration"
+??? note "Action: like event ([event structure](https://en.wikipedia.org/wiki/Event_structure), [actor model](https://en.wikipedia.org/wiki/Actor_model)), but with duration"
     
     Performing an action
-    corresponds to an event in the sense of the actor-like model theories.
-    We say that actions can be _triggered_
+    corresponds to an event in the sense of [actor model theories](https://en.wikipedia.org/wiki/Actor_model_theory) or [event structures](https://en.wikipedia.org/wiki/Event_structure);
+    however,
+    actions have a duration,
+    i.e., a starting point of when the action starts,
+    and a point in time when all computations  that the action involves
+    are finished.[^2a]
+    We shall describe later how actions are _triggered_
     by the arrival of a new message or
     the notification about elapsed timers[^3];
     performing an action has possibly several effects
@@ -370,15 +376,28 @@ using a (variation of) the time stamping server.
     - setting new timers and cancelling or resetting old ones
     - creating new engine instances[^4].
     
-??? warning "Action ≠ event of event-driven state machines ≈: trigger"
+??? warning "Events of [event-driven state machines](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html): rather like _triggers_ of actions"
 
-    While event-driven state machines are a big source of inspiration,
-    we avoid using the term event.
-    On the one hand,
+    While [event-driven state machines](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html) are a rich source of inspiration,
+    they are also one of the reasons why we avoid the term _event;_
+    it may be that the usage of the term event
+    for event-driven state machines is slighly different.
+    For example, we can read on the [cited page](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html) that
+
+    !!! quote 
+
+        if we are in state `S` and event `E` occurs, we are to perform actions `A`
+
+    whereas in the actor model, performing these "actions" `A` is part of
+    the event that is "activated" by another event.
+    The main reason for choosing different terminology is that
     events of the actor model are considered to be instantaneous;
-    this is a powerful abstraction,
-    but does not allow to reason about the time period it takes
-    to process an arriving message or clock notification.
+    while this is a powerful abstraction,
+    we want to have a notion of time and duration of events.
+    Hence,
+    we shall use the terminology of _trigger,_
+    which is either a received message or a
+    notification from the local clock (due to some previously set timer).
 
 The third point that we want to emphasize is that
 the Anoma specification describes
@@ -1251,6 +1270,11 @@ to describe engine families.
 
 [^2]: The specification does not fix any bound on
   the number of engines in existence.
+
+[^2a]: In later versions, there are also local interactions
+       with sources of randomness and
+       user controlled input streams
+       and those local interactions also have a duration.
 
 [^3]: The elapsing of timers is the only way to
   interact with a local clock of engine instances.
