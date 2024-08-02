@@ -13,13 +13,15 @@ tags:
 
 # On Engines in the Anoma Specification
 
-This page defines [[Engines in Anoma#engine-systems|engine-systems]] and their
+This page defines
+[[Engines in Anoma#engine-systems|engine-systems]]
+and their
 [[Engines in Anoma#on-labelled-state-transitions-via-guarded-actions|dynamics]]
 and provides example code
 after a short introduction to engines in the Anoma specification;
 it also provides
 [[Engines in Anoma#templates|templates]]
-for how to write pages 
+for how to write pages
 for [[Engine Families|engine families]] in the specification.
 
 !!! abstract "Summary and note to the reader"
@@ -673,10 +675,8 @@ this type could be derived automatically.
 
     import Data.Map open;
 
-    import Stdlib.Data.Pair.Base open;
-
     greeterMailboxCluster : (Map MailboxID (Mailbox GreeterMessage Unit)) :=
-        fromList [(0, greeterMailbox)];
+        fromList [mkPair 0 greeterMailbox];
 
     import Data.Set.AVL open;
 
@@ -697,9 +697,7 @@ this type could be derived automatically.
           not-mutual acquaintances : Set Name := Set.empty {_}
           not-mutual timers : List (Timer H) := nil {_}
           in mkEngineEnvironment {S} {I} {M} {H} name localState mailboxCluster acquaintances timers has type:
-            EngineEnvironment (List GreeteeMessage) GreeterMessage Unit Unit
-          but is expected to have type:
-            EngineEnvironment (List GreeteeMessage) GreeteeMessage Unit Unit
+            EngineEnvironment (List GreeteeMessage) GreeterMessag
         ```
 
     ```
@@ -712,24 +710,31 @@ this type could be derived automatically.
     };
     ```
 
-??? todo "add the definition of `engine set` and link it"
+    ??? todo "add the definition of `engine set` and link it"
+        
+        Add a definition of `engine set to the juvix Prelude,
+        and add a link to it here, i.e., where we have `_engine set_`.
 
-    Add a definition of `engine set to the juvix Prelude,
-    and add a link to it here, i.e., where we have `_engine set_`.
 
+    The constructor that is used to embed an engine environment
+    into the type parameter of the engine set
+    determines the [[Engine Families|_engine family_]].
+    This seeming overhead will turn out to pay off nicely
+    when we describe
+    [[Engines in Anoma#a-finite-set-of-guarded-actions-for-each-engine-environment|the dynamics of engine systems]],
+    which roughly are engine sets with local clocks and a network of messages in transit.
+    
 ### Engine systems
 
 With engine sets at hand,
 we finally define an _engine system_ as a record with an engine set,
-a map from set of names of these engines to _time_—these are the local clocks—<!--
+a map from set of names of these engines to _time_<!--
+-->—these are the local clocks—<!--
 -->and finally a set of messages in transit.
 
+??? todo "write or link to engine systems"
 
-
-
-
-!!! example "Time stamping server"
-
+    "write juvix code for engine systems or link to engine systems"
 
 !!! example "Time stamping server with the rate limit in its mailbox state (part ɪ/ɪɪ)"
 
@@ -881,20 +886,20 @@ a new *"continuation engine"* can be spawned with a new name.
 
 ## On labelled state transitions via guarded actions
 
-For the labelled state transition interpretation,
-we have already defined the type for global state:
-sets of engine environments, the associatged clocks,
-and a simple abstraction for the network that relays messages.
-The Anoma Specification will use pure functions to describe
-the atomic computation that need to be performed 
-to advance an engine system to the next state.
-The main idea is that a message or clock notification
-is processed,
-which results in updates to exactly one environment,
-the set of messages to be sent,
-and advancing the local time;
-moreover,
-the system may grow new engine environments and clocks.
+We want to generate a
+[labelled state transition sytems](https://en.wikipedia.org/wiki/Transition_system)
+to reason about engine systems.
+A state is an engine systems and it remains 
+to define the state transitions.
+We shall use pure functions to describe
+the computations that need to be performed
+to advance an engine system to the next state,
+generating a transition label along the way.
+The main idea is that
+whenever a message or clock notification is processed, 
+this results in updates to exactly one engine environment,
+besides the set of messages in transit
+and changes to the local time of the updated engine environment.
 
 <!--ᚦ: old stuff¶
 Each specific state transition corresponds to
@@ -951,15 +956,16 @@ and the time stamped[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041
 
 ### A finite set of guarded actions for each engine environment
 
-Each engine environment comes with a type.
-We pretend as if we are using this type to associated
-with each engine environment a set of guarded actions.
+Each engine environment in an engine system is "decorated"
+with a constructor,
+the [[Engine Families|engine family]] (name).
+What completes the definition of an engine family
+is the associated set of _guarded actions,_
+which, in turn consist of a _guard function_
+and some action—typically one, but possibly several ones.
+The definitions are as follows.
 
-??? todo
-
-    continue here
-
-Each engine family comes with a set of guarded actions
+<!--ᚦ: some old stuff
 where the _guard_ is a function that—among other things—determines whether
 the action that it guards is _enabled._
 To determine whether the action is enabled,
@@ -974,7 +980,7 @@ The guard function returns _matched arguments,_
 e.g., the relevant information of a received message,
 and an _action label_
 that identifies the respective action that is enabled.
-
+-->
 <!--ᚦ: {a different description we had elsewhere}
   Recall that each guarded action is a pair of a guard function and an action function.
   Conceptually, the guard function has two purposes:
@@ -982,6 +988,13 @@ that identifies the respective action that is enabled.
   moreover,
   if the action is enabled it provides matched arguments and an action label.
 -->
+
+#### Guard functions
+
+#### Action functions
+
+
+### Dynamics
 
 All guards of an engine could be evaluated in parallel,
 for every new trigger,
@@ -1377,8 +1390,10 @@ to describe engine families.
 [^6]: Clocks are a little more complicated to get into the picture;
   they are "external" to the engine environment and still experimental.
 
-[^7]: We always have a default guard
-  that "activates" if no other guards are defined.
+<!--
+[^7]: We always have a default guard that "activates"
+      if no other guards are defined.
+-->
 
 [^8]: A well-known example for the relevance of sources of "true" randomness are
   [cloudflare's lava lamps](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/).
