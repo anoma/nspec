@@ -17,10 +17,10 @@ This page defines [[Engines in Anoma#engine-systems|engine-systems]] and their
 [[Engines in Anoma#on-labelled-state-transitions-via-guarded-actions|dynamics]]
 and provides example code
 after a short introduction to engines in the Anoma specification;
-finally,
 it also provides
 [[Engines in Anoma#templates|templates]]
-for writing pages of the specification for [[Engine Families|engine families]].
+for how to write pages 
+for [[Engine Families|engine families]] in the specification.
 
 !!! abstract "Summary and note to the reader"
     
@@ -378,7 +378,7 @@ using a (variation of) the time stamping server.
     In the case where there is at most one action enabled,
     guards encode the pre-conditions of an action.
     
-??? note "Action: like event ([event structure](https://en.wikipedia.org/wiki/Event_structure), [actor model](https://en.wikipedia.org/wiki/Actor_model)), but with duration"
+??? note "Action: like event ([event structure](https://en.wikipedia.org/wiki/Event_structure), [actor model](https://en.wikipedia.org/wiki/Actor_model)), _but_ with duration"
     
     Performing an action
     corresponds to an event in the sense of [actor model theories](https://en.wikipedia.org/wiki/Actor_model_theory) or [event structures](https://en.wikipedia.org/wiki/Event_structure);
@@ -398,28 +398,42 @@ using a (variation of) the time stamping server.
     - setting new timers and cancelling or resetting old ones
     - creating new engine instances[^4].
     
-??? warning "Events of [event-driven state machines](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html): rather like _triggers_ of actions"
+??? warning "Events of [event-driven state machines](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html): rather like action _triggers_"
 
     While [event-driven state machines](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html) are a rich source of inspiration,
     they are also one of the reasons why we avoid the term _event;_
     it may be that the usage of the term event
     for event-driven state machines is slighly different.
-    For example, we can read on the [cited page](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html) that
+    For example,
+    we can read on 
+    [the cited page](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html) that
 
-    !!! quote 
+    !!! quote ""
 
         if we are in state `S` and event `E` occurs, we are to perform actions `A`
 
     whereas in the actor model, performing these "actions" `A` is part of
-    the event that is "activated" by another event.
+    another event `E'` that is "activated" by the event `E`.
     The main reason for choosing different terminology is that
     events of the actor model are considered to be instantaneous;
     while this is a powerful abstraction,
     we want to have a notion of time and duration of events.
     Hence,
-    we shall use the terminology of _trigger,_
-    which is either a received message or a
-    notification from the local clock (due to some previously set timer).
+    we shall use the following terminology:
+    a _trigger_ is either
+    a received message or a
+    notification from the local clock (due to some previously set timer);
+    we appeal to
+    [this entry for `trigger`](https://ahdictionary.com/word/search.html?q=trigger)
+    that explains trigger as
+
+    !!! quote ""
+
+        [s]omething that precipitates a particular event or situation.
+
+    Thus,
+    we call _trigger- what would be called event in
+    the context of event-driven state machines.
 
 The third point that we want to emphasize is that
 the Anoma specification describes
@@ -533,7 +547,8 @@ is a record with the following fields:
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L209 -->
 
 While the above is simply a definition,
-let us quickly add short explanations of each of the fields.
+let us add short explanations of each of the fields
+before we turn to a simple example.
 The name is a means to address messages (among other things).
 The mailbox contains (a subset of) the previously received messages.
 The acquaintances is a list of "known names".
@@ -552,25 +567,38 @@ greeting protocol.
 
 !!! example "Greetee engine environment"
 
-    The greetee is essentially state-less
-    as it answers every arriving message.
-    However,
-    we need to define the message type
-    of messages that it expects to receive.
+    We take the greetee to be state-less: 
+    a "correct" greetee replies to every arriving message
+    that conforms to the protocol.
+    Thus,
+    we define the type of "correct" messages,
+    i.e., those that it is willing to receive.
 
     ```juvix
-    --- the type of messages that a Greetee engines
+    --- the type of messages that a greetee accepts
 
     type GreeteeMessage :=
       | Greeting {
           yoursTruly : Name
       };
 
-    --- the type of the engine environment of Greetee engines
+    --- the type of the engine environment of a greetee
 
     GreeteeEnvironment : Type := 
          EngineEnvironment Unit Unit GreeteeMessage Unit;
     ```
+
+    We provide `Unit` for all type arguments that we do not need.
+    The order of type parameters to `EngineEnvironment` is
+
+    1. the type of local state (not needed for this example);
+    2. the type of mailbox ɪᴅs (if we wanted to have several mailboxes);
+    3. the type of accepted messages (this one we do use in the example);
+    4. the type of timer handles (not needed for this example).
+    
+    The
+    [[Engine Family Types#engine-family-environment|definition of engine environment]]
+    provides all the detail.
     
 ### Engine sets
 
@@ -580,49 +608,56 @@ such that no two distinct elements have the same name.
 This conceptually simple definition takes some work in Juvix
 as sets need a type parameter.
 Thus,
-we need an single `EngineEnvironments`<!--or a better name--> type.
+we need an single `GreetingEngineEnvironments`<!--or a better name--> type.
 In principle,
 this type could be derived automatically.
 
-!!! example "Greeters and gretees"
+!!! example "Engine set of greeter and gretee"
 
-    We now add the greeter to complement the greetee.
-    The greeter may want to remember,
-    which messages it has already sent
-    (but has not received answers yet).
-    Again,
-    we need a message type to receive responses.
+    We first add the greeter to complement the greetee.
+    The greeter may want to remember
+    the messages that it has already sent,
+    but are still awaiting responses.
+    As the greeter should be able to receive reponses,
+    we have to define a message type.
 
     ```juvix
-    --- the type of messages that a Greeter engines
+    --- the type of messages that a greeter can process
 
     type GreeterMessage :=
       | GreetingResponse {
           yoursTruly : Name
       };
 
-    --- the lcoal state type of Greeter engines
+    --- the lcoal state type of greeters: a list of ꜱᴇɴᴛ messages
 
     GreeterLocalState : Type := List GreeteeMessage;
 
-    --- the type of the engine environment of Greetee engines
+    --- the type of the engine environment of greeters
 
     GreeterEnvironment : Type := 
          EngineEnvironment GreeterLocalState Unit GreeteeMessage Unit;
 
-    --- finally, we have the (derived) EngineEnvironments
+    --- finally, we have the (derived) GreetingEngineEnvironments
 
-    type EngineEnvironments :=
+    type GreetingEngineEnvironments :=
       | Greeter GreeterEnvironment
       | Greetee GreeteeEnvironment
       ;
     ```
 
-    Now we are in the position to form sets of engine environments
-    (and also to check whether unicity of names is warranted).
+    Note that the `GreeterEnvironment` now also has a non-trivial state type.
+    Also,
+    the idea behind the naming for `GreetingEngineEnvironments`
+    is that we are implementing the _Greeting_-protocol
+    and that the type `GreetingEngineEnvironments`
+    embeds all possible engine environment needed for the _greeting_-protocol.
+
+    We have defined the type `GreetingEngineEnvironments`
+    and thus can finally form sets of engine environments.
 
     ```juvix
-    GreetEngineSet : Type := Set EngineEnvironments;
+    GreetEngineSet : Type := Set GreetingEngineEnvironments;
 
     greeting :  GreeteeMessage := Greeting@ {
       yoursTruly := Left "John"
