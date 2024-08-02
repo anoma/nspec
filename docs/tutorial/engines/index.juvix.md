@@ -14,32 +14,32 @@ tags:
 # On Engines in the Anoma Specification
 
 !!! abstract "Summary and note to the reader"
-
-  This page is intended as a quick start manual
-  that guides the reader by means of examples;
-  in a sense,
-  we are betting on the power of
-  _programming by extrapolation from examples._
-  However,
-  everything is based on solid foundations:
-  technical terms are linked to proper definitions below or elsewhere
-  such that all information is
-  accessible within a few clicks;
-  whenever suitable,
-  we also refer to the _mathematical backbone_
-  at [formanoma](https://github.com/anoma/formanoma).<!--
-  which comes with a more succinct documentation 
-  and does not focus on Juvix code 
-  but rather on formal properties of any Anoma model implementation.-->
-
-  In short,
-  the main purpose of this tutorial is
-  to enable you to write Juvix code
-  that compiles to what we call a _model implementation._
-  This page is a good place to start reading,
-  but feel free to have a quick look at
-  the [[The Ticker Engine Family|ticker example]] first,
-  and then come back here for a little more context.
+    
+    This page is intended as a quick start manual
+    that guides the reader by means of examples;
+    in a sense,
+    we are betting on the power of
+    _programming by extrapolation from examples._
+    However,
+    everything is based on solid foundations:
+    technical terms are linked to proper definitions below or elsewhere
+    such that all information is
+    accessible within a few clicks;
+    whenever suitable,
+    we also refer to the _mathematical backbone_
+    at [formanoma](https://github.com/anoma/formanoma).<!--
+    which comes with a more succinct documentation 
+    and does not focus on Juvix code 
+    but rather on formal properties of any Anoma model implementation.-->
+    
+    In short,
+    the main purpose of this tutorial is
+    to enable you to write Juvix code
+    that compiles to what we call a _model implementation._
+    This page is a good place to start reading,
+    but feel free to have a quick look at
+    the [[The Ticker Engine Family|ticker example]] first,
+    and then come back here for a little more context.
 
 !!! note
 
@@ -185,15 +185,15 @@ gradually incorporate additional functionality along the way.
     ```
 
 !!! tip "Engine instance: think [actor](https://en.wikipedia.org/wiki/Actor_model_theory) (but with computable behaviour and other differences)"
-
-  The first thing to remember is that in the Anoma specification,
-  the participants that exchange messages will be called
-  [[Engine instance|engine instances.]]
-  Engine instances are similar to actors of the 
-  [actor model](https://en.wikipedia.org/wiki/Actor_model);[^1]
-  however, we prefer to use fresh terminology,
-  as there is some "fine print" concerning differences to the
-  "pure" actor model that we shall cover in due course.
+    
+    The first thing to remember is that in the Anoma specification,
+    the participants that exchange messages will be called
+    [[Engine instance|engine instances.]]
+    Engine instances are similar to actors of the 
+    [actor model](https://en.wikipedia.org/wiki/Actor_model);[^1]
+    however, we prefer to use fresh terminology,
+    as there is some "fine print" concerning differences to the
+    "pure" actor model that we shall cover in due course.
 
 The Anoma specification considers each Anoma node
 to be a finite[^2] collection of
