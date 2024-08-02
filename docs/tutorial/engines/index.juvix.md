@@ -585,7 +585,7 @@ greeting protocol.
     --- the type of the engine environment of a greetee
 
     GreeteeEnvironment : Type := 
-         EngineEnvironment Unit Unit GreeteeMessage Unit;
+         EngineEnvironment Unit GreeteeMessage Unit Unit;
     ```
 
     We provide `Unit` for all type arguments that we do not need.
@@ -636,7 +636,7 @@ this type could be derived automatically.
     --- the type of the engine environment of greeters
 
     GreeterEnvironment : Type := 
-         EngineEnvironment GreeterLocalState Unit GreeteeMessage Unit;
+         EngineEnvironment GreeterLocalState GreeteeMessage Unit Unit;
 
     --- finally, we have the (derived) GreetingEngineEnvironments
 
@@ -657,7 +657,7 @@ this type could be derived automatically.
     and thus can finally form sets of engine environments.
 
     ```juvix
-    GreetEngineSet : Type := Set GreetingEngineEnvironments;
+    GreetingEngineSet : Type := Set GreetingEngineEnvironments;
 
     greeting :  GreeteeMessage := Greeting@ {
       yoursTruly := Left "John"
@@ -675,21 +675,37 @@ this type could be derived automatically.
 
     import Stdlib.Data.Pair.Base open;
 
-    greeterMailboxCluster : (Map Unit (Mailbox GreeterMessage Unit)) :=
-        fromList [(unit, greeterMailbox)];
+    greeterMailboxCluster : (Map MailboxID (Mailbox GreeterMessage Unit)) :=
+        fromList [(0, greeterMailbox)];
 
     import Data.Set.AVL open;
 
     ```
-    
-    ??? todo
 
-        continue here fixing the code
+    !!! bug
+
+        ```
+        /home/tobias/git/nspec/docs/architecture-2/types/EngineFamily.juvix.md:10-688:5-13: error:
+        The expression let 
+          not-mutual S : Type := _
+          not-mutual I : Type := _
+          not-mutual M : Type := _
+          not-mutual H : Type := _
+          not-mutual name : Name := Left {_} {_} "John"
+          not-mutual localState : S := greeterState
+          not-mutual mailboxCluster : Map MailboxID (Mailbox I M) := greeterMailboxCluster
+          not-mutual acquaintances : Set Name := Set.empty {_}
+          not-mutual timers : List (Timer H) := nil {_}
+          in mkEngineEnvironment {S} {I} {M} {H} name localState mailboxCluster acquaintances timers has type:
+            EngineEnvironment (List GreeteeMessage) GreeterMessage Unit Unit
+          but is expected to have type:
+            EngineEnvironment (List GreeteeMessage) GreeteeMessage Unit Unit
+        ```
 
     ```
     greeterEnvironment : GreeterEnvironment :=  mkEngineEnvironment@ {
       name := Left "John" ;
-      localState := greeterEnvironment;
+      localState := greeterState;
       mailboxCluster := greeterMailboxCluster;
       acquaintances := Set.empty;
       timers := []
@@ -705,8 +721,8 @@ this type could be derived automatically.
 
 With engine sets at hand,
 we finally define an _engine system_ as a record with an engine set,
-a map from set of names of these engines to _time_—these are the local clocks—
-and finally a set of messages in transit.
+a map from set of names of these engines to _time_—these are the local clocks—<!--
+-->and finally a set of messages in transit.
 
 
 
@@ -765,9 +781,8 @@ and finally a set of messages in transit.
 
     ```juvix
     TimeStampingServerEnvironment : Type := 
-         EngineEnvironment TimeStampingServerState Unit ClientMessage TimeStampingMailboxType;
+         EngineEnvironment TimeStampingServerState ClientMessage Unit TimeStampingMailboxType;
     ```
-
 
     #### Clients
     
