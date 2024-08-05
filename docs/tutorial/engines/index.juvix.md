@@ -108,10 +108,9 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-British greeting protocol's message sequence diagram.
+A message sequence diagram for the British greeting protocol
 </figcaption>
 </figure>
-
 
 This example nicely illustrates
 message sequence diagrams
@@ -517,7 +516,7 @@ is a record with the following fields:
 
 - the [[Juvix Prelude#addresses|_name_]],
 
-    ??? todo
+    ??? todo "        add links below"
 
         add links below
 
@@ -626,7 +625,7 @@ a specific example.
     The greeter may want to remember
     the messages that it has already sent,
     but are still awaiting responses.
-    Morover,
+    Moreover,
     the greeter should be able to receive reponses to its greetings
     and thus we also have to define the corresponding message type.
 
@@ -647,9 +646,9 @@ a specific example.
     GreeterEnvironment : Type := 
          EngineEnvironment GreeterLocalState GreeterMessage Unit Unit;
 
-    --- finally, we have the (derived) GreetingEngineEnvironments
+    --- finally, we have the (derived) GreetingEngineEnvironment
 
-    type GreetingEngineEnvironments :=
+    type GreetingEngineEnvironment :=
       | Greeter GreeterEnvironment
       | Greetee GreeteeEnvironment
       ;
@@ -657,16 +656,16 @@ a specific example.
 
     Note that the `GreeterEnvironment` has a non-trivial state type;
     also,
-    the pattern behind the naming for `GreetingEngineEnvironments`
+    the pattern behind the naming for `GreetingEngineEnvironment`
     is that we are implementing the _greeting_-protocol
-    and that the type `GreetingEngineEnvironments`
+    and that the type `GreetingEngineEnvironment`
     embeds all possible engine environments needed for the greeting-protocol.
 
-    Once we have defined the type `GreetingEngineEnvironments`,
+    Once we have defined the type `GreetingEngineEnvironment`,
     we can finally form sets of engine environments.
 
     ```juvix
-    GreetingEngineSet : Type := Set GreetingEngineEnvironments;
+    GreetingEngineSet : Type := Set GreetingEngineEnvironment;
 
     greeting :  GreeteeMessage := Greeting@ {
       yoursTruly := Left "John"
@@ -708,7 +707,7 @@ let us spell it out.
 
 #### The recipe for a type of all engine environments
 
-??? todo
+??? todo "   add link to engine family"
 
     add link to engine family
 
@@ -735,42 +734,56 @@ EngineEnvironmentThree : Type :=
 EngineEnvironmentFour : Type := 
   EngineEnvironment Unit Unit Unit Unit;
 
-type FourfoldEngineEnvironments :=
+type FourfoldEngineEnvironment :=
   | FamilyOne EngineEnvironmentOne
   | FamilyTwo EngineEnvironmentTwo
   | FamilyThree EngineEnvironmentThree
   | FamilyFour EngineEnvironmentFour
 ;
 
-FourfoldEngineSet : Type := Set FourfoldEngineEnvironments;
+FourfoldEngineSet : Type := Set FourfoldEngineEnvironment;
 ```
 
 Right now,
 this additional data type declaration may look as if it is superfluous;
 however,
 it will turn out to be useful when we describe
-[[Engines in Anoma#a-finite-set-of-guarded-actions-for-each-engine-environment|the dynamics of engine systems]].
+[[Engines in Anoma#a-finite-set-of-guarded-actions-for-each-engine-environment|the dynamics of engine systems]]
+(and ideally it would be automatically generated).
     
 ### Engine systems
 
-With engine sets at hand,
-we finally define an _engine system_ as a record with an engine set,
-a map from set of names of these engines to _time_
-(which models something like the "state" of local clocks),
-and finally a set of messages in transit.
+??? todo "add link for engine systems"
 
-??? todo "write or link to engine systems"
+    add link for engine systems
 
-    "write juvix code for engine systems or link to engine systems"
+We now have engine sets defined not only conceptually,
+but also with an instantiation in Juvix
+(up to the constraint of names being unique).
+Next up is the definition of _engine systems,_<!--LNK-->
+which consist of an engine set where
+we have a local wall-clock time for each environment
+and,
+moreover,
+we have one global set of messages in transit,
+which, in turn, is a high-level abstraction for
+a communication network.<!--
+cf. the "Lamport model" in Tobias-speak-->
+We first give an example
+and then describe the recipe for the general case.
 
-!!! example "Time stamping server with the rate limit in its mailbox state (part ɪ/ɪɪ)"
+#### The engine system for time stamping with a rate limit
+
+!!! example "Rate limit in the mailbox state (part ɪ/ɪɪ)"
 
     For the time stamping server example,
-    we consider two engine instances that are "clients",
+    we consider two clients ("Alice" and "Bob"),
     besides the time stamping server itself.
-    The clients share the same state type (see below).
+    We now fill in the detail for the time stamping server
+    and later follow up with clients,
+    and an example of an engine system.
 
-    #### Time stamping server
+    ##### Time stamping server
     
     We equip the time stamping server
     with some data for measuring rate limits to its mailbox
@@ -778,13 +791,12 @@ and finally a set of messages in transit.
     several mailboxes).
 
     ```juvix
-    type TimeStampingServerState := mkTimeStampingServerState{
-         averageDelay : Nat
-    };
+    syntax alias TimeStampingServerMailboxState := Nat;
     ```
 
-    Recall that we have have already defined
-    `TimeStampingServerMessage`.
+    Recall that we have have already defined a type for
+    message that the time stamping server is accepting,
+    namely `TimeStampingServerMessage`.
 
     ```juvix
     syntax alias TimeStampingServerMessageHere := TimeStampingServerMessage;
@@ -798,30 +810,30 @@ and finally a set of messages in transit.
         it would be nice to have an easy way
         to link to code blocks.
 
-
-    For the time stamping server,
+    Beside this type of messages,
     we use mailbox state to keep track of the rate at which
     one specific mailbox is used
-    (and the computation of rate limits is deferred to part ɪɪ).
+    (while the computation of rate limits is deferred to part ɪɪ).
 
     ```juvix
-    TimeStampingMailboxType : Type := List Nat;
+    TimeStampingMailboxState : Type := List Nat;
     ```
 
-    Finally, the type for the engine environment of time stamping servers
-    is as follows.
+    The complete type for the engine environment of time stamping servers
+    then is as follows.
 
     ```juvix
-    TimeStampingServerEnvironment : Type := 
-         EngineEnvironment TimeStampingServerState ClientMessage Unit TimeStampingMailboxType;
+    TimeStampingServerEngineEnvironment : Type := 
+         EngineEnvironment TimeStampingServerMailboxState ClientMessage TimeStampingMailboxState Unit;
     ```
 
-    #### Clients
+    <!--Timers will not matter until a third revision of the time stamping server.-->
+
+    ##### Clients
     
     Now,
-    the environments of clients
-     hold a list of hashes
-    to be time stamped and sent to a destination.
+    the environments of clients hold only one piece of data:
+    a list of hashes to be time stamped and sent to a destination.
 
     ```juvix
     type ClientState := mkClientState{
@@ -835,68 +847,139 @@ and finally a set of messages in transit.
     _from_ the time stamping server.
 
     ```juvix
-    type TimeStampedHashArguments :=  mkTimeStampedHashArguments{
+    type ClientMessage :=
+    | TimeStampedHash {
          hash : Hash;
          signature : Nat
     };
-
-    type ClientMessage := TimeStampedHash TimeStampedHashArguments;
     ```
 
-    Now, we finally come to the type of the environmenf for client engines.
+    Finally,
+    we define the type of the environment for client engines;
+    we shall use timers to stay within rate limits,
+    and simply use strings to refer to specific timers.
 
     ```juvix
     ClientEngineEnvironment : Type := 
-          EngineEnvironment ClientState Unit ClientMessage Unit;
-        -- TODO: better create type aliases for  the Unit usages, it's more informative
+          EngineEnvironment ClientState ClientMessage Unit String;
     ```
+
+    !!! todo
+
+        better create type aliases for the Unit usages, it's more informative
+        and is a work around before we have a proper solution
+        (as answer to the next question).
+
+        ᚦ: my suggestions
+
+        - DefaultHandle
+        - NoMailboxState
+        - NoLocalState
+
+        similarly:
+
+        - `defaultBox : MailboxID := 0;`  for the default mailbox id
+
+    ??? question "Can we have default type parameters?"
+
+        this is unusual, I guess, but I could imagine
+        that, in analogy to default parameters of functions,
+        we could have default type paramters.
 
     We can now make an
     engine system for Alice's and Bob's client engines,
     which we just call "Alice" and "Bob".
+    We split this into two parts:
+    the definitions up to engine set
+    and the additinal definitions.
+
+    1. For the engine set,
+    we proceed as before for the British greeting protocol.
+
+    ```juvix
+    type TimeStampingEngineEnvironment :=
+      | TimeStampingClient ClientEngineEnvironment
+      | TimeStampingServer TimeStampingServerEngineEnvironment
+    ;
+
+    TimeStampingEngineSet : Type := Set TimeStampingEngineEnvironment ;
+    ```
+
+    2. For the engine system, we need to also define
+    a single message type that encompasses all the messages.
     
-    ??? todo
+    ```juvix
+    type TimeStampingNetworkMessage :=
+    | Client ClientMessage
+    | Server TimeStampingServerMessage
+    ;
+
+    type TimeStampingEngineSystem := mkTimeStampingEngineSystem{
+         engineSet : TimeStampingEngineSet;
+         clocks : Map Name TimeStampingEngineEnvironment;
+         network : Set TimeStampingNetworkMessage
+    };
+    ```
+    
+    ??? todo "give example term of this type" 
 
         make an engine system with two clients,
         each one holding at least one hash
         (later we can add new hashes).
 
-Note that we have chosen to call the local data of engine instances—still undefined-_engine environment_[^6].
+<!--Note that we have chosen to call
+the local data of engine instances—still undefined-_engine environment_[^6].
 The core reason is that we want to "reserve" the word `state`
 for the state of the "global" labelled transition system (LTS)
-that we will cover next.
+that we will cover next.-->
 
+#### The recipe for general engine systems
 
+We finally come to define how we model the state of systems,
+in particular how we reason about any "deployed" Anoma instance in the Anoma specification.
+We give the defintion in analogy to
+the example of engine sets. 
 
-Finally, 
-the "full" global state of any Anoma instance is modeled as
-an engine set,
-a set of messages in transit,
-and one local clock for each engine environment
-in the engine set.
+??? todo "fill in message types"
 
-??? todo "juvix code for global state"
+    this is a brainless task for finishing off the day
 
-    a record with
+```juvix
+syntax alias FourfoldMessage := Unit;
+
+type FourfoldEngineSystem := mkFourfoldEngineSystem{
+     engineSet : FourfoldEngineSet;
+     clocks : Map Name FourfoldEngineEnvironment;
+     network : Set FourfoldMessage
+};
+```
+
+Thus, engine systems are a record with the following fields:
     
-    set
+engine set
     
-    : the set of engine environments
+: the set of engine environments
 
-    clocks
+clocks
 
-    : a map from engine names / environments to Time
+: a map from engine names to local wall-clock
 
-    messages in transit
+messages in transit
 
-    : a set of messages (not a list)---should be a stream, theoretically
+: a set of "global" messages in transit.
 
+We have now completed the description of how system state is represented
+(at any given moment in "totally distributed" time)
+and now we turn to the dynamics of the system,
+i.e.,
+how one specific engine system can evolve to a "next" one.
+
+<!--ᚦ: old stuff¶
 In broad terms,
 the LTS describes endows "engine systems"
 with step-wise dynamics
 and each step is labelled with an _action label_.
-
-<!--ᚦ: some old stuff ¶
+--><!--ᚦ: more old stuff ¶
 but The engine instance's name is unchangeable,
 once the engine is created;
 every correct implementation must ensure that
@@ -913,20 +996,38 @@ a new *"continuation engine"* can be spawned with a new name.
 
 ## On labelled state transitions via guarded actions
 
-We want to generate a
-[labelled state transition sytems](https://en.wikipedia.org/wiki/Transition_system)
-to reason about engine systems.
-A state is an engine systems and it remains 
-to define the state transitions.
-We shall use pure functions to describe
+The dynamics of an engine system will eventually be given by
+a [labelled state transition system](https://en.wikipedia.org/wiki/Transition_system):
+the set of states is given by engine systems and
+it remains to specify the possible state transitions.
+In the Anoma specification,
+we use pure functions to describe
 the computations that need to be performed
-to advance an engine system to the next state,
-generating a transition label along the way.
-The main idea is that
-whenever a message or clock notification is processed, 
-this results in updates to exactly one engine environment,
-besides the set of messages in transit
-and changes to the local time of the updated engine environment.
+to advance an engine system to the next state
+(very much like in [stateright](https://github.com/stateright/stateright));
+moreover,
+we generate a transition label along the way,
+which provides information about what made the transition happen, 
+which aspects of the transition are "observable" to whom, and so forth.
+
+!!! tip "The gist of state transitions"
+
+    The main idea to retain is that
+    a state transition may happen whenever
+    a message or clock notification is ready to be processed;
+    the result state of any transition amounts to
+
+    - a change to exactly one engine environment,
+    - progress of the local time of the updated engine environment,
+    - an update to the set of messages in transit,
+      typically the removal of processed message
+      and new messages to be sent
+    - new engine environments that are created
+      (see the spawning of engines<!--LNK-->).
+
+    ??? todo "add link above"
+        
+        `- new engine environments (see the spawning of engines<!--LNK-->)`
 
 <!--ᚦ: old stuff¶
 Each specific state transition corresponds to
@@ -948,13 +1049,14 @@ is determined by action guards,
 by guard functions.
 -->
 
-Before we delve into the details,
-note that this approach is based on the seminal work of
-[Henessy and Milner](https://en.wikipedia.org/wiki/Hennessy%E2%80%93Milner_logic)
-and
-Lamport's [temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html).
+Before we delve into the details of how transitions are to be specified,
+note that the use of labelled state transitions goes back to the seminal work of
+[Henessy and Milner](https://en.wikipedia.org/wiki/Hennessy%E2%80%93Milner_logic).
 Additional sources of inspiration are
-Dijkstra's [_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language)
+Lamport's
+[temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html), 
+Dijkstra's
+[_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
 and guard functions of [coloured Petri nets](https://en.wikipedia.org/wiki/Coloured_Petri_net).
 
 <!--
@@ -962,9 +1064,7 @@ The formal details are given by
 (any interpretation of) the [`transition_function`](https://github.com/anoma/formanoma/blob/75331d688f2ae399fbebb008549b2dfda78b4e5b/Types/Engine.thy#L217) of
 the [`single_engine`-locale](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L205).--><!--
 ᚦ: ALERT: out of date!!
--->
-
-<!--
+--><!--
 The main points to keep in mind:
 there's an "optional parameter" for which action is to be taken,
 and the action given the current environment
@@ -990,7 +1090,8 @@ What completes the definition of an engine family
 is the associated set of _guarded actions,_
 which, in turn consist of a _guard function_
 and some action—typically one, but possibly several ones.
-The definitions are as follows.
+We now complement the informal explanations of the above introduction
+with the actual definitions.
 
 <!--ᚦ: some old stuff
 where the _guard_ is a function that—among other things—determines whether
