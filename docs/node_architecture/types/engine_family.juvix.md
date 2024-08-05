@@ -85,7 +85,7 @@ can make from one state to another based on specific conditions.
 Guarded actions are terms of type `GuardedAction`, which encapsulates
 the following components:
 
-- A _guard function_ of type `Trigger I H -> EngineEnvironment S I M H -> Maybe R`, where
+- A _guard function_ of type `Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X)`, where
   the _trigger_ of type `Trigger I H` is a term that captures the message received. This
   trigger can include the received message or timers that have elapsed during
   the engine's operation. Guards return data of type `R` if the condition is met.
@@ -117,7 +117,7 @@ type ActionInput (S I M H R : Type)
   := mkActionInput {
       guardOutput : R;
       env : EngineEnvironment S I M H;
-      time : Time;
+      time : Time
 };
 ```
 
@@ -165,9 +165,9 @@ declare terms that will be internally processed as instructions for setting mess
 to be sent or for creating new engine instances.
 
 ```juvix
-type GuardedAction (S I M H R O C : Type) := mkGuardedAction {
-   guard : Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe R;
-   action : ActionInput S I M H R -> ActionResult S I M H R O C
+type GuardedAction (S I M H A L X O C : Type) := mkGuardedAction {
+   guard : Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
+   action : ActionInput S I M H A L X -> ActionResult S I M H A L X O C
 };
 ```
 
