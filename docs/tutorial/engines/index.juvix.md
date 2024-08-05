@@ -550,10 +550,10 @@ is a record with the following fields:
 
 While the above is simply a definition,
 let us add short explanations of each of the fields
-before we turn to a simple example.
+before we turn to an example.
 The name is a means to address messages (among other things).
-The mailbox contains (a subset of) the previously received messages.
-The acquaintances is a list of "known names".
+The mailbox contains (a subset of) previously received messages.
+The acquaintances is a list of "known" names.
 The role of timers will become clear later,
 after we have introduced
 [[On Engines in the Anoma Specification#engine-systems|local clocks]]
@@ -561,7 +561,8 @@ and sorted out some techincalities
 concerning
 [[On Engines in the Anoma Specification#engine-sets|sets of engine environments]].
 Finally,
-the _local state_ is all other kind of data that we may want to stor locally.
+the _local state_ is all other kind of data that
+we may want to store locally.
 
 As the time stamping server requires time stamps,
 let illustrate environments in the context of the
@@ -569,12 +570,12 @@ greeting protocol.
 
 !!! example "Greetee engine environment"
 
-    We take the greetee to be state-less: 
-    a "correct" greetee replies to every arriving message
-    that conforms to the protocol.
+    We take the greetee to be state-less:
+    a correct greetee replies to
+    every arriving message that conforms to the protocol.
     Thus,
-    we define the type of "correct" messages,
-    i.e., those that it is willing to receive.
+    we define the type of messages
+    that it is willing to receive.
 
     ```juvix
     --- the type of messages that a greetee accepts
@@ -590,12 +591,12 @@ greeting protocol.
          EngineEnvironment Unit GreeteeMessage Unit Unit;
     ```
 
-    We provide `Unit` for all type arguments that we do not need.
+    We provide `Unit` for all type arguments that we do not require.
     The order of type parameters to `EngineEnvironment` is
 
     1. the type of local state (not needed for this example);
-    2. the type of mailbox ɪᴅs (if we wanted to have several mailboxes);
-    3. the type of accepted messages (this one we do use in the example);
+    2. the type of accepted messages (this one we do use in the example);
+    3. the type of mailbox-specific state if we want to use it;
     4. the type of timer handles (not needed for this example).
     
     The
@@ -604,24 +605,30 @@ greeting protocol.
     
 ### Engine sets
 
-An _engine set_<!--LNK see the todo below--> is
+We want to define an _engine set_<!--LNK see the todo below--> as
 a finite set of engine environments
 such that no two distinct elements have the same name.
-This conceptually simple definition takes some work in Juvix
-as sets need a type parameter.
-Thus,
-we need an single `GreetingEngineEnvironments`<!--or a better name--> type.
-In principle,
-this type could be derived automatically.
+This conceptually simple definition takes some work
+if we want to express it in Juvix,
+because the datatype `Set` requires a _single_ type parameter.
+Hence,
+we shall define a data type that "contains" all types of engine environment.
+Before we describe what we exactly mean by this,
+let us look at the "solution" for
+a specific example.
 
-!!! example "Engine set of greeter and gretee"
+#### The engine set type for greeters and gretees
 
-    We first add the greeter to complement the greetee.
+!!! example " "
+
+    We first add the definitions for the greeter environment,
+    complementing the greetee environment.
     The greeter may want to remember
     the messages that it has already sent,
     but are still awaiting responses.
-    As the greeter should be able to receive reponses,
-    we have to define a message type.
+    Morover,
+    the greeter should be able to receive reponses to its greetings
+    and thus we also have to define the corresponding message type.
 
     ```juvix
     --- the type of messages that a greeter can process
@@ -638,7 +645,7 @@ this type could be derived automatically.
     --- the type of the engine environment of greeters
 
     GreeterEnvironment : Type := 
-         EngineEnvironment GreeterLocalState GreeteeMessage Unit Unit;
+         EngineEnvironment GreeterLocalState GreeterMessage Unit Unit;
 
     --- finally, we have the (derived) GreetingEngineEnvironments
 
@@ -648,15 +655,15 @@ this type could be derived automatically.
       ;
     ```
 
-    Note that the `GreeterEnvironment` now also has a non-trivial state type.
-    Also,
-    the idea behind the naming for `GreetingEngineEnvironments`
-    is that we are implementing the _Greeting_-protocol
+    Note that the `GreeterEnvironment` has a non-trivial state type;
+    also,
+    the pattern behind the naming for `GreetingEngineEnvironments`
+    is that we are implementing the _greeting_-protocol
     and that the type `GreetingEngineEnvironments`
-    embeds all possible engine environment needed for the _greeting_-protocol.
+    embeds all possible engine environments needed for the greeting-protocol.
 
-    We have defined the type `GreetingEngineEnvironments`
-    and thus can finally form sets of engine environments.
+    Once we have defined the type `GreetingEngineEnvironments`,
+    we can finally form sets of engine environments.
 
     ```juvix
     GreetingEngineSet : Type := Set GreetingEngineEnvironments;
@@ -678,29 +685,6 @@ this type could be derived automatically.
     greeterMailboxCluster : (Map MailboxID (Mailbox GreeterMessage Unit)) :=
         fromList [mkPair 0 greeterMailbox];
 
-    import Data.Set.AVL open;
-
-    ```
-
-    !!! bug
-
-        ```
-        /home/tobias/git/nspec/docs/architecture-2/types/EngineFamily.juvix.md:10-688:5-13: error:
-        The expression let 
-          not-mutual S : Type := _
-          not-mutual I : Type := _
-          not-mutual M : Type := _
-          not-mutual H : Type := _
-          not-mutual name : Name := Left {_} {_} "John"
-          not-mutual localState : S := greeterState
-          not-mutual mailboxCluster : Map MailboxID (Mailbox I M) := greeterMailboxCluster
-          not-mutual acquaintances : Set Name := Set.empty {_}
-          not-mutual timers : List (Timer H) := nil {_}
-          in mkEngineEnvironment {S} {I} {M} {H} name localState mailboxCluster acquaintances timers has type:
-            EngineEnvironment (List GreeteeMessage) GreeterMessag
-        ```
-
-    ```
     greeterEnvironment : GreeterEnvironment :=  mkEngineEnvironment@ {
       name := Left "John" ;
       localState := greeterState;
@@ -708,29 +692,72 @@ this type could be derived automatically.
       acquaintances := Set.empty;
       timers := []
     };
+
+
+    greeteeEnvironment : GreeteeEnvironment := mkEngineEnvironment@ {
+      name := Left "Alice" ;
+      localState := unit;
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    };
     ```
 
-    ??? todo "add the definition of `engine set` and link it"
-        
-        Add a definition of `engine set to the juvix Prelude,
-        and add a link to it here, i.e., where we have `_engine set_`.
+While the example might be enough to see the pattern,
+let us spell it out.
 
+#### The recipe for a type of all engine environments
 
-    The constructor that is used to embed an engine environment
-    into the type parameter of the engine set
-    determines the [[Engine Families|_engine family_]].
-    This seeming overhead will turn out to pay off nicely
-    when we describe
-    [[Engines in Anoma#a-finite-set-of-guarded-actions-for-each-engine-environment|the dynamics of engine systems]],
-    which roughly are engine sets with local clocks and a network of messages in transit.
+??? todo
+
+    add link to engine family
+
+Once all engine environment types for a protocol are defined,
+it only remains to define an algebraic data type
+with unary constructors,
+each of which takes one engine environmen type
+and it also determines the _name_ of what we shall call an engine family.<!--LNK-->
+In principle,
+the data type of all engine environments could be generated automatically.
+We give a somewhat generic example for
+protocols that take four different types of engine environments.
+
+```juvix
+EngineEnvironmentOne : Type := 
+  EngineEnvironment Unit Unit Unit Unit;
+
+EngineEnvironmentTwo : Type := 
+  EngineEnvironment Unit Unit Unit Unit;
+
+EngineEnvironmentThree : Type := 
+  EngineEnvironment Unit Unit Unit Unit;
+
+EngineEnvironmentFour : Type := 
+  EngineEnvironment Unit Unit Unit Unit;
+
+type FourfoldEngineEnvironments :=
+  | FamilyOne EngineEnvironmentOne
+  | FamilyTwo EngineEnvironmentTwo
+  | FamilyThree EngineEnvironmentThree
+  | FamilyFour EngineEnvironmentFour
+;
+
+FourfoldEngineSet : Type := Set FourfoldEngineEnvironments;
+```
+
+Right now,
+this additional data type declaration may look as if it is superfluous;
+however,
+it will turn out to be useful when we describe
+[[Engines in Anoma#a-finite-set-of-guarded-actions-for-each-engine-environment|the dynamics of engine systems]].
     
 ### Engine systems
 
 With engine sets at hand,
 we finally define an _engine system_ as a record with an engine set,
-a map from set of names of these engines to _time_<!--
--->—these are the local clocks—<!--
--->and finally a set of messages in transit.
+a map from set of names of these engines to _time_
+(which models something like the "state" of local clocks),
+and finally a set of messages in transit.
 
 ??? todo "write or link to engine systems"
 
