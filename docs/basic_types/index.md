@@ -44,7 +44,7 @@ mechanism.
 
 ```mermaid
 flowchart LR
-  BasicTypes("Basic Types") 
+  BasicTypes("Basic Types")
   SystemArchitecture("System Architecture")
   NodeArchitecture("Node Architecture")
   BasicTypes --> SystemArchitecture

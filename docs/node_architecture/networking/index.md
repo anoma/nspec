@@ -31,7 +31,7 @@ The Anoma v1 network is limited to the following.
 The Anoma v2 network is going to support domains, dynamic P2P overlays, and P2P routing protocols.
 This is described in more detail in *[P2P Overlay Domains with Sovereignty](https://arxiv.org/abs/2306.16153) (PODS)*.
 In PODS, the network architecture consists of a collection of *nodes* that are part of one or multiple heterogeneous *domains*.
-Each domain has its own overlay topology, and a distinct set of P2P *intra_domain protocols*, tailored to the characteristics and needs of the nodes in that domain.
+Each domain has its own overlay topology, and a distinct set of P2P *intra-domain protocols*, tailored to the characteristics and needs of the nodes in that domain.
 
 </div>
 
@@ -158,7 +158,7 @@ This allows domains to have internal-only and external-facing members.
 
 There are two ways to interact with a [[Domain#domain]]:
 either by sending external requests to any available domain member that may return a reply,
-or by joining the domain and participating in the intra_domain protocols.
+or by joining the domain and participating in the intra-domain protocols.
 For both type of requests, a node needs to know about one or more domain members to send the request to,
 which can be discovered either via the [[Clustering#clustering]] protocol,
 or via a lookup request that is routed in the inter_domain overlay using a greedy routing algorithm by the [[Domain Routing#domain_routing]] protocol.

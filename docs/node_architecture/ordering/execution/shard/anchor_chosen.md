@@ -36,6 +36,6 @@ Once we have enough ordering information to establish the unique write preceding
 
 - to [Executor](./../executor/index.md): [`KVSRead`](../executor/kvs_read.md)
   `for each` locked key for which we have established a unique write value,
-  send a `KVSRead` message to the appropriate Executor. 
+  send a `KVSRead` message to the appropriate Executor.
 
 <!-- --8<-- [end:all] -->

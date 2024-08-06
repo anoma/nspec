@@ -13,7 +13,7 @@ issues on the specification document. We expect you are familiar with the basics
 of Git and GitHub. Overall, the strategy for contributing to the Anoma
 specification is to branch off from the latest version's branch of the nspec
 repository, add new features or fix issues, open a pull request for review, and
-merge the changes into the latest version's branch. 
+merge the changes into the latest version's branch.
 
 ## Creating a New Version
 
@@ -30,7 +30,7 @@ For new versions:
 
 1. **Create a New Branch**: Branch off from the latest version's branch when
    starting a new version. This is usually done by one of the maintainers.
-   
+
 2. **Naming Conventions**: Use the following pattern to name the new version branch:
 
    ```
@@ -41,7 +41,7 @@ For new versions:
 
 1. Completed versions are merged into the `main` branch after thorough review.
    We expect each version's branch to pass all the CI checks before merging.
-   
+
 2. To merge a finalised version:
 
    - Open a pull request against the `main` branch.

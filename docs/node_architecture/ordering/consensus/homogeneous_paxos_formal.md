@@ -195,8 +195,8 @@ We shall say that the message $\green x$ is _unburied_ (in the context of a late
 
 For learner $\red \alpha$, it can be useful to find the set of $\twoa$-messages from the same sender as a message ${\green x}$ (and sent earlier)
 which are still [unburied](#definition-buried) and for learners connected to $\red \alpha$.
-We call these 2as "connected" for reasons which make more sense in full heterogeneous paxos. 
-If a message $\green x$ proves that $\red \alpha$ is not _accurate_, then it is in some sense not "bound" by earlier $\twoa$-messages: $\red \alpha$ can decide contradictory values. 
+We call these 2as "connected" for reasons which make more sense in full heterogeneous paxos.
+If a message $\green x$ proves that $\red \alpha$ is not _accurate_, then it is in some sense not "bound" by earlier $\twoa$-messages: $\red \alpha$ can decide contradictory values.
 
 $$
   \cona{\hetdiff{\red\alpha}}{\green x} \eqdef

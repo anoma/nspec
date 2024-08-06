@@ -32,4 +32,4 @@ They are (learner-specific) proofs that a specific `Header` is unique for a spec
 
 - to [Primary](../primary.md): [`HeaderAnnouncement`](./header_announcement.md)
   `if` the received integrity certificate completes a signed quorum for a new [`NarwhalBlockHeader`](../../types/allofthem/index.md#narwhalblockheader)
-  `then` announce the header to all (relevant) primaries (cf. the similar reaction to [NewWorkerHash](./new-worker_hash.md))
+  `then` announce the header to all (relevant) primaries (cf. the similar reaction to [NewWorkerHash](./new_worker_hash.md))

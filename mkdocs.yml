@@ -115,18 +115,18 @@ nav:
           - CommitResponse: ./node_architecture/identity/types/commit_response.md
           - VerifyRequest: ./node_architecture/identity/types/verify_request.md
           - VerifyResponse: ./node_architecture/identity/types/verify_response.md
-          - ReadsForRequest: ./node_architecture/identity/types/reads_for-request.md
-          - ReadsForResponse: ./node_architecture/identity/types/reads_for-response.md
-          - SubmitReadsForEvidenceRequest: ./node_architecture/identity/types/submit-reads_for-evidence-request.md
-          - SubmitReadsForEvidenceResponse: ./node_architecture/identity/types/submit-reads_for-evidence-response.md
-          - QueryReadsForEvidenceRequest: ./node_architecture/identity/types/query-reads_for-evidence-request.md
-          - QueryReadsForEvidenceResponse: ./node_architecture/identity/types/query-reads_for-evidence-response.md
-          - SignsForRequest: ./node_architecture/identity/types/signs_for-request.md
-          - SignsForResponse: ./node_architecture/identity/types/signs_for-response.md
-          - SubmitSignsForEvidenceRequest: ./node_architecture/identity/types/submit-signs_for-evidence-request.md
-          - SubmitSignsForEvidenceResponse: ./node_architecture/identity/types/submit-signs_for-evidence-response.md
-          - QuerySignsForEvidenceRequest: ./node_architecture/identity/types/query-signs_for-evidence-request.md
-          - QuerySignsForEvidenceResponse: ./node_architecture/identity/types/query-signs_for-evidence-response.md
+          - ReadsForRequest: ./node_architecture/identity/types/reads_for_request.md
+          - ReadsForResponse: ./node_architecture/identity/types/reads_for_response.md
+          - SubmitReadsForEvidenceRequest: ./node_architecture/identity/types/submit_reads_for_evidence_request.md
+          - SubmitReadsForEvidenceResponse: ./node_architecture/identity/types/submit_reads_for_evidence_response.md
+          - QueryReadsForEvidenceRequest: ./node_architecture/identity/types/query_reads_for_evidence_request.md
+          - QueryReadsForEvidenceResponse: ./node_architecture/identity/types/query_reads_for_evidence_response.md
+          - SignsForRequest: ./node_architecture/identity/types/signs_for_request.md
+          - SignsForResponse: ./node_architecture/identity/types/signs_for_response.md
+          - SubmitSignsForEvidenceRequest: ./node_architecture/identity/types/submit_signs_for_evidence_request.md
+          - SubmitSignsForEvidenceResponse: ./node_architecture/identity/types/submit_signs_for_evidence_response.md
+          - QuerySignsForEvidenceRequest: ./node_architecture/identity/types/query_signs_for_evidence_request.md
+          - QuerySignsForEvidenceResponse: ./node_architecture/identity/types/query_signs_for_evidence_response.md
           - ResolveNameRequest: ./node_architecture/identity/types/resolve_name_request.md
           - ResolveNameResponse: ./node_architecture/identity/types/resolve_name_response.md
           - SubmitNameEvidenceRequest: ./node_architecture/identity/types/submit_name_evidence_request.md
@@ -151,14 +151,14 @@ nav:
           - VerifyRequestResponse: ./node_architecture/modules/verification/verify_request_response.md
         - Reads For Engine:
           - ./node_architecture/modules/reads_for/index.md
-          - ReadsForRequestResponse: ./node_architecture/modules/reads_for/reads_for-request-response.md
-          - SubmitReadsForEvidenceRequestResponse: ./node_architecture/modules/reads_for/submit-reads_for-evidence-request-response.md
-          - QueryReadsForEvidenceRequestResponse: ./node_architecture/modules/reads_for/query-reads_for-evidence-request-response.md
+          - ReadsForRequestResponse: ./node_architecture/modules/reads_for/reads_for_request_response.md
+          - SubmitReadsForEvidenceRequestResponse: ./node_architecture/modules/reads_for/submit_reads_for_evidence_request_response.md
+          - QueryReadsForEvidenceRequestResponse: ./node_architecture/modules/reads_for/query_reads_for_evidence_request_response.md
         - Signs For Engine:
           - ./node_architecture/modules/signs_for/index.md
-          - SignsForRequestResponse: ./node_architecture/modules/signs_for/signs_for-request-response.md
-          - SubmitSignsForEvidenceRequestResponse: ./node_architecture/modules/signs_for/submit-signs_for-evidence-request-response.md
-          - QuerySignsForEvidenceRequestResponse: ./node_architecture/modules/signs_for/query-signs_for-evidence-request-response.md
+          - SignsForRequestResponse: ./node_architecture/modules/signs_for/signs_for_request_response.md
+          - SubmitSignsForEvidenceRequestResponse: ./node_architecture/modules/signs_for/submit_signs_for_evidence_request_response.md
+          - QuerySignsForEvidenceRequestResponse: ./node_architecture/modules/signs_for/query_signs_for_evidence_request_response.md
         - Name Engine:
           - ./node_architecture/modules/name/index.md
           - ResolveNameRequestResponse: ./node_architecture/modules/name/resolve_name_request_response.md
@@ -366,8 +366,8 @@ nav:
         - Authorization: ./application_architecture/primitives/authorization.md
     - System applications:
       - ./application_architecture/system_applications.md
-      - Proof-of-stake: ./application_architecture/system_applications/proof_of_stake.md
-    - Scale-free kudos: ./application_architecture/kudos.md
+      - Proof_of_stake: ./application_architecture/system_applications/proof_of_stake.md
+    - Scale_free kudos: ./application_architecture/kudos.md
     - Schelling tests: ./application_architecture/schelling_tests.md
 
   - Concrete Implementation:
@@ -378,14 +378,15 @@ nav:
     - ./indexes/index.md
     - Quick links: ./indexes/links.md
     - Juvix Modules: ./indexes/juvix_modules.md
-  - For Spec-writers:
+  - For Spec_writers:
     - ./tutorial/index.md
-    - Prepare working environment: 
+    - Prepare working environment:
       - ./tutorial/install/index.md
     - Git Workflow: ./tutorial/branch.md
+    - File Naming Conventions: ./tutorial/file_naming.md
     - Write using Markdown plus Anoma extensions:
       - ./tutorial/md/index.md
-      - Wiki-style links: ./tutorial/md/links.md
+      - Wiki_style links: ./tutorial/md/links.md
       - Images: ./tutorial/md/images.md
       - Todos: ./tutorial/md/todos.md
       - Snippets: ./tutorial/md/snippets.md

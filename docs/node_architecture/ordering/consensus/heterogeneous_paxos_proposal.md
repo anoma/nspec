@@ -32,7 +32,7 @@ The message is sent between the participating acceptor nodes.
 -->
 
 We define the _ballot_ of an `HPaxosProposal` message $B(m)$ to be the pair $\left\langle\textrm{timestamp}, \textrm{signature of }m\right\rangle$ (or some order-preserving Nat encoding thereof).
-This ensures that `HPaxosProposal` ballot numbers are unique, and when proposed by honest proposers, they increase with time (which is useful for liveness). 
+This ensures that `HPaxosProposal` ballot numbers are unique, and when proposed by honest proposers, they increase with time (which is useful for liveness).
 
 #### Triggers
 

@@ -44,7 +44,7 @@ This requires that proposals can be checked for validity.
 Non-byzantine correct acceptors are also called _honest_, _safe_, or _real_.
 
 __Learners__ are agents who are interested in values decided by consensus (they only need to receive messages).
-As this is a Homogeneous Paxos, all learners and acceptors are interested in only one chain, and make the same failure assumptions. 
+As this is a Homogeneous Paxos, all learners and acceptors are interested in only one chain, and make the same failure assumptions.
 Their quorums are determined by the chain's protocol (e.g., proof of stake).
 We denote the set of learners by $\Learner$.
 In the homogeneous case, the set of learners is a singleton, $\Learner = \cb{\red\alpha}$.
@@ -158,7 +158,7 @@ A proposer proposes a next value by sending a $\onea$-message to the acceptors.
 The message carries a _unique_ ballot value, containing the proposed value to agree on and the round timestamp (round number).
 We assume that the set of all possible ballot values is linearly ordered.
 
-Proposers can safely propose any value at any time. 
+Proposers can safely propose any value at any time.
 However, the learner $\red\alpha$ will reach a decision more quickly if a proposal has a higher ballot than previous proposals, and a value that agrees with recent $\twoa$-messages.
 
 #### 1b-message: acknowledging receiving the proposal
@@ -214,14 +214,14 @@ The formal definition of the function can be found [here](consensus/homogeneous_
 
 #### Broadcast
 
-We assume a `broadcast` primitive that ensures that all messages sent or received by a safe and live agent are eventually received by all agents. 
-One way to implement this is to have live agents echo messages received to all other live agents. 
-More efficient implementations may involve explicit requests for unreceived messages referenced in other messages `refs` fields. 
+We assume a `broadcast` primitive that ensures that all messages sent or received by a safe and live agent are eventually received by all agents.
+One way to implement this is to have live agents echo messages received to all other live agents.
+More efficient implementations may involve explicit requests for unreceived messages referenced in other messages `refs` fields.
 
 #### Acceptors
 
 In Paxos terms, `HPaxosProposal` messages below are called $\onea$ messages.
-`HPaxosCommitment` messages (below) with an empty `lrn` field are called $\oneb$ messages, and if `lrn` is not empty, they are called $\twoa$ messages. 
+`HPaxosCommitment` messages (below) with an empty `lrn` field are called $\oneb$ messages, and if `lrn` is not empty, they are called $\twoa$ messages.
 Here we detail how acceptors process $\onea$, $\oneb$, and $\twoa$ messages.
 
 We assume that every acceptor maintains an internal state with the following structures:
@@ -272,7 +272,7 @@ def process_message(m):
         process_2a(m)
 ```
 
-On receipt of an `HPaxosDecision` message, an acceptor can broadcast the `HPaxosDecision` and all the messages on which it is based, and then halt: everyone else can reach the same decision from the broadcast data. 
+On receipt of an `HPaxosDecision` message, an acceptor can broadcast the `HPaxosDecision` and all the messages on which it is based, and then halt: everyone else can reach the same decision from the broadcast data.
 
 #### Learners
 
@@ -296,7 +296,7 @@ def decide():
     if Decision(s):
       decision = V(s)
 ```
-On making a decision, learners send `HPaxosDecision` messages, described below. 
+On making a decision, learners send `HPaxosDecision` messages, described below.
 
 #### Proposers
 
@@ -320,7 +320,7 @@ def init(proposer_schedule) # determined for this height's consensus instance
   known_messages = {}
   schedule = proposer_schedule
   proposal_from_mempool = None
-  restart_timer() 
+  restart_timer()
 
 def restart_timer()
   if exists s in subsets(known_messages) such that Decision(s):

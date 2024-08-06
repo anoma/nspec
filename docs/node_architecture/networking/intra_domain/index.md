@@ -10,7 +10,7 @@ search:
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-This engine group implements intra_domain P2P protocols that run and offer services inside a domain.
+This engine group implements intra-domain P2P protocols that run and offer services inside a domain.
 
 Each domain has determines the set of protocols it runs
 and the authentication mechanism it uses.
