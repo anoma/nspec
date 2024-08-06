@@ -1172,7 +1172,8 @@ Precomputation results
 
 #### Action
 
-The action describes the changes to the environment,
+The action of a guard is a function
+that computes changes to the environment,
 new messages to be sent,
 spawning requests,
 and updates to the list of timers.
@@ -1184,7 +1185,7 @@ by the guard output.
 
 ##### Action output
 
-The action output is,
+The action output is
 an environment, a list of messages,
 a list of spawning data,
 and a list of timers.
@@ -1211,13 +1212,6 @@ Spawning data list
 : Finally, a list of spawning data is given,
   whose elements sepcify an engine environment
   and the corresponding engine family (name).
-
-#### Action selector
-
-The action selector is a function
-that maps each action label
-to the corresponding action;
-it may be based on simple map.
 
 ### Dynamics
 
