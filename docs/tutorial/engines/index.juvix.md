@@ -13,16 +13,17 @@ tags:
 
 # On Engines in the Anoma Specification
 
-This page defines
+This page covers
 [[Engines in Anoma#engine-systems|engine-systems]]
 and their
 [[Engines in Anoma#on-labelled-state-transitions-via-guarded-actions|dynamics]]
 and provides example code
-after a short introduction to engines in the Anoma specification;
-it also provides
-[[Engines in Anoma#templates|templates]]
-for how to write pages
-for [[Engine Families|engine families]] in the specification.
+after a short introduction to engine instances in Anoma.
+From a different perspective,
+it provides the background for
+[[Engines in Anoma#templates|engine templates]],
+which describe the desired form of
+[[Engine Families|engine family]] specifications.
 
 !!! abstract "Summary and note to the reader"
     
@@ -38,10 +39,7 @@ for [[Engine Families|engine families]] in the specification.
     accessible within a few clicks;
     whenever suitable,
     we also refer to the _mathematical backbone_
-    at [formanoma](https://github.com/anoma/formanoma).<!--
-    which comes with a more succinct documentation 
-    and does not focus on Juvix code 
-    but rather on formal properties of any Anoma model implementation.-->
+    at [formanoma](https://github.com/anoma/formanoma).[^0]
     
     In short,
     the main purpose of this tutorial is
@@ -49,12 +47,14 @@ for [[Engine Families|engine families]] in the specification.
     that compiles to what we call a _model implementation._
     This page is a good place to start reading,
     but feel free to have a quick look at
-    the [[The Ticker Engine Family|ticker example]] first,
-    and then come back here for a little more context.
+    the [[The Ticker Engine Family|ticker example]] first
+    or delve directly into the
+    [[On Engines in the Anoma Specification#local-data-of-engine-instances-clocks-and-the-global-state|details]]    
+    and come back here if you like to read more about the general context.
 
-!!! note
+??? note "Juvix modules and `import` statements" 
 
-    Every page that contains code has to define a Juvix module for it.
+    Every page in the Anoma specification that contains Juvix code has to define a module for it.
     This page, for example, defines the module `tutorial.engines.index`,
     as shown below.
 
@@ -62,16 +62,25 @@ for [[Engine Families|engine families]] in the specification.
     module tutorial.engines.index;
     ```
 
-    Additonally, for the upcoming definitions, we must also use the `import` Juvix syntax
-    to bring some common types and functions from the Node Architecture's prelude.
+    Additonally, for the upcoming definitions, we must also use the `import` keyword of Juvix
+    to bring some common types and functions from the Node Architecture's [[Juvix Prelude|prelude]].
 
     ```juvix
     import architecture-2.Prelude open;
     ```
 
-## Introduction <small>on message passing, actors, and engines</small>
+## Introduction
 
-??? question "guidelines for section titles?"
+!!! abstract "On message passing, protocols, and engine instances"
+
+    The introduction gives an informal description
+    of the variation of the
+    [actor model](https://en.wikipedia.org/wiki/Actor_model_theory)
+    that the Anoma specification is grounded in.
+    It also introduces the running examples
+    that we shall use throught the page.
+
+??? question "Guidelines for section titles?"
 
     - no capitalization needed (except for page titles, and the first letter)
 
@@ -79,9 +88,19 @@ for [[Engine Families|engine families]] in the specification.
       `[[page TOC entry#title-with-the-allowed-symbols-only|xyz]]`
       [[Engines in Anoma#title-with-the-allowed-symbols-only|example]]
 
+
     ### Title with the allowed symbols only
 
     for the sake of example
+
+    !!! todo "clean up this question" 
+
+        the two bullets are
+
+        - "section title guidelines"
+        - "wiki link guide" 
+
+### Message passing and message sequence charts    
      
 In the Anoma specification,
 we use the
@@ -114,13 +133,13 @@ A message sequence diagram for the British greeting protocol
 
 This example nicely illustrates
 message sequence diagrams
-(and see [zenuml](https://zenuml.github.io/) for how
-they can be used to illustrate client-server interactions,
-possibly nested).
-We now start introducing our running example of a time stamping server,
-alongside which we can exemplify most of 
-the features of Anoma engines instances,
-the principal type of participants of Anoma instances.
+(see [zenuml](https://zenuml.github.io/) for how
+they can be used to illustrate client-server interactions).
+
+### Protocols
+
+The greeting protocol is only the "Hello world" of protocols.
+Our running example will be a time stamping server.
 We start simple and 
 gradually incorporate additional functionality along the way.
 
@@ -135,9 +154,10 @@ gradually incorporate additional functionality along the way.
     Thus, the primary task of the server is
     to pair hashes with time stamps
     and signing such pairs;
-    however, 
-    the server also offers to send the timestamped hashes
-    to an "address" specified in the time stamping request.
+    moreover, 
+    the server sends the timestamped hashes
+    to an arbitrary "address"
+    that was specified as part of the time stamping request.
     However, we prefer to refer to these addresses as the
     names of engine instances in more general terms.
 
@@ -163,7 +183,7 @@ gradually incorporate additional functionality along the way.
     Thus, the behaviour of time stamping servers can be described as serving time
     stamping requests.
     
-    !!! quote "Details of a time stamping request"
+    !!! note "Details of a time stamping request"
     
         A time stamp request has the following form:
 
@@ -181,21 +201,20 @@ gradually incorporate additional functionality along the way.
         : the destination, given as a name of an engine instance
         (operated by some agent).
 
-    <!-- In this example, 
-    the functionality is pretty intuitive.
-    However, 
-    we shall see more complex behaviours in later iterations 
-    of the time stamping server. -->
+    The functionality is kept very simple;
+    we cover more complex behaviours in
+    [[On Engines in the Anoma Specification#the-engine-system-for-time-stamping-with-a-rate-limit|later iterations]]
+    of the time stamping server.
 
     Finally,
-    we want to write code for the messages that an engine
-    is able to process.
-    We use a record fields for the list of message arguments,
-    using the message tag as constructor name
-    in a datatype
-    that encompasses all the messages
-    that the time stamp server is able to process (so far).
-
+    let us look at some code for
+    messages that the time stamping server will process.
+    We use a Juvix record types,
+    which allow to combine
+    the message tag, the default argument names
+    and the argument types in a single data type declaration;
+    in this example,
+    `TimeStampRequest` is the only message tag.
 
     ```juvix
     --- the datatype of messages that a time stamping server can process
@@ -206,6 +225,8 @@ gradually incorporate additional functionality along the way.
           destination : Name
       };
     ```
+
+### Engine instances are running the Anoma protocol
 
 !!! tip "Engine instance: think [actor](https://en.wikipedia.org/wiki/Actor_model_theory) (but with computable behaviour and other differences)"
     
@@ -237,11 +258,15 @@ the "pattern" according to which an engine instance responds to messages is
 what we call the _reactive behaviour_ of an engine,
 or just _behaviour,_ for short.
 
-We shall use finite sets of _guarded actions_
-to specify behaviours engine instances:
-guarded actions describe all actions that are to be performed 
+We shall use finite sets of
+[[On Engines in the Anoma Specification#a-finite-set-of-guarded-actions-for-each-engine-environment|guarded actions]]
+to specify behaviours of engine instances:
+guarded actions describe all
+[[On Engines in the Anoma Specification#action|actions]]
+that are to be performed 
 in reaction to a newly arrived message or clock notification,
-if the conditions of the _guard_ of the action are met.
+if the conditions expressed by a
+[[On Engines in the Anoma Specification#guard|guard]] are met.
 Thus,
 the guard of a guarded actions determines
 whether or not an action is _enabled_
@@ -306,66 +331,6 @@ using a (variation of) the time stamping server.
     ??? todo "Find a better way to render flowcharts"
 
         We are currently looking into alternatives to Mermaid flowcharts. Besides the issues with the layout and limited options for influencing it, the markdown option for inscriptions often does not work as expected.
-
-    Finally, we need to write functions for guards and actions. To do this, we will
-    describe on a general level what other forms of local information guarded
-    actions have at their disposal.
-
-<!--
-    Let us start with guards.
-
-    ??? todo "add link to guards"
-
-    Guards are functions that take as input (among other data)
-    
-    - a _trigger,_ which is either a received message or a clock notification
-    - a _time stamp,_ which gives
-      the time when the trigger started all guard functions to be be evaluated
-    - the _local state_ of engine-specific type.
-
-    The most general form of guard functions  pattern for guards will b
-
-    ??? quote  "other local data."
-        
-        In detail, the other pieces of local data of the engine instance are
-        
-        - its [[Juvix Prelude]]
-        - its _local state_
-        - its _mailbox cluster,_ which is a map
-            - from _mailbox ɪᴅs_ to
-            - _mailboxes,_ which in turn are
-                - a list of messages paired with
-                - a mailbox-relative state
-        - its _acquaintances_
-        - its current timers
-
-  !!! todo "fix timers in Ticker example"
-
-  ??? tip "need `details/fine print` admonition or link here"
--->
-
-  
-
-??? note "On transition functions"
-
-    The _behaviour_  of each engine instance—i.e.,
-    how it reacts to receiving messages from other engine instances
-    and notifications from the local clock—is
-    determined by its current state and its active _state transition function_,
-    reminiscent of the next-state function of
-    [finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition)
-    (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition))[^A].
-    However,
-    transition functions will be a "derived concept" 
-    in the Anoma specification.
-    The reason is that we
-    we want to avoid the need to directly write transition functions—<!-- 
-    --->which does not only involve a rather daunting number of technicalities
-    (see the [mathematical backbone](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215),
-    but also may lead to large "monolithic" chunks of transition function code<!--
-    ᚦ: the last link need "continuous" updating [do not erase this comment]
-    --> for a definition of what a _system_ of state transition functions actually is).<!--
-    --> Hence, we follow the more structure approach of guarded actions.
 
 !!! tip "Guard: very much like precondition"
 
@@ -436,11 +401,36 @@ using a (variation of) the time stamping server.
     we call _trigger- what would be called event in
     the context of event-driven state machines.
 
-The third point that we want to emphasize is that
+??? note "On transition functions"
+
+    The _behaviour_  of each engine instance—i.e.,
+    how it reacts to receiving messages from other engine instances
+    and notifications from the local clock—is
+    determined by its current state and its _state transition function_,
+    reminiscent of the next-state function of
+    [finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition)
+    (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition))[^A].
+    However,
+    transition functions will be a "derived concept" 
+    in the Anoma specification
+    (see [[On Engines in the Anoma Specification#on-labelled-state-transitions-via-guarded-actions|below]]).
+    The reason is that we
+    we want to avoid the need to directly write transition functions—<!--
+    -->which does not only involve a rather daunting number of technicalities
+    (see the [mathematical backbone](https://github.com/anoma/formanoma/blob/1b9fa7558ce33bb4c2e4d31277255cdeabbc59b5/Types/Engine.thy#L215),<!--
+    ᚦ: the last link need "continuous" updating [do not erase this comment]¶
+    --> for a definition of what a _system_ of state transition functions actually is),
+    but also may lead to large "monolithic" chunks of transition function code.
+    Hence, we follow the more structured approach of
+    [[On Engines in the Anoma Specification#a-finite-set-of-guarded-actions-for-each-engine-environment|guarded actions]].
+
+The third and last point that we want to mention is that
 the Anoma specification describes
-a ꜰɪxᴇᴅ finite number of _engine families:_
+a ꜰɪxᴇᴅ finite number of [[Engine Families|engine families]]:
 each engine family is given by
-a set of guarded actions and their accompanying type definitions.
+a set of
+[[On Engines in the Anoma Specification#a-finite-set-of-guarded-actions-for-each-engine-environment|guarded actions]]
+and their accompanying type definitions.
 Thus every engine instance in any implementation
 is a member of exactly one engine family,
 which describes its behaviour.
@@ -463,7 +453,7 @@ allows to derive a [(labelled) state transition]() semantics
 to implementations,
 which we need to reason about properties of engine instances.
 So, let us start now,
-introducing all necessary concepts rigorously.
+introducing all necessary concepts in detail.
 
 ## Local data of engine instances, clocks, and _the_ global state
 
@@ -1602,6 +1592,12 @@ The templates are on a [[Engine Templates|separate page]].
 ---
 
 <!-- footnotes -->
+
+[^0]: The Isabelle code of [formanoma](https://github.com/anoma/formanoma)
+      also comes with documentation,
+      but does not focus on Juvix code,
+      but rather on formal properties of any Anoma model implementation,
+      which are to be defined on a higher level that the model implementation.
 
 [^1]: At the time of writing V2 specs, further relevant sources are 
   *Selectors: Actors with Multiple Guarded Mailboxes*[@selectors-actors-2014] 
