@@ -10,7 +10,7 @@ search:
 ## Purpose
 
 <!-- --8<-- [start:purpose] -->
-Indicates whether an operation performed by [[Local Key-Value Storage Engine#local_key_value_storage_engine]]
+Indicates whether an operation performed by [[Local Key-Value Storage Engine#local-key-value-storage-engine]]
 was executed successfully or not.
 
 <!-- --8<-- [end:purpose] -->

@@ -87,7 +87,7 @@ it processes it the following way:
 
      - The *Router* wraps the *EngineMessage* in a [[DomainRequest#domainrequest]]
        with the destination set to the domain's identity and the *source* set to the local node identity.
-     - The *Router* then sends the [[DomainRequest#domainrequest]] to the [[Domain Routing#domain_routing]] engine.
+     - The *Router* then sends the [[DomainRequest#domainrequest]] to the [[Domain Routing#domain-routing]] engine.
 
 </div>
 

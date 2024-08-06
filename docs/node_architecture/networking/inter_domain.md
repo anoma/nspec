@@ -20,7 +20,7 @@ as well as routing requests to domains.
 
 ### Peer Sampling
 
-The [[Peer Sampling#peer_sampling]] engine runs a P2P gossip-based trust-aware peer sampling protocol
+The [[Peer Sampling#peer-sampling]] engine runs a P2P gossip-based trust-aware peer sampling protocol
 that provides a continously changing partial view of the network.
 
 Nodes periodically exchange their partial views with each other, and update their local view after each exchange.

@@ -32,6 +32,6 @@ Defined by domain protocols.
 ## Triggers
 
 <!-- --8<-- [start:triggers] -->
-- [[Domain#domain]] $\to$ [[DomainRequest#domain-request]] $\to$ [[Domain Routing#domain_routing]]
-- [[Domain#domain]] $\to$ [[DomainResponse#domain-response]] $\to$ [[Domain Routing#domain_routing]]
+- [[Domain#domain]] $\to$ [[DomainRequest#domain-request]] $\to$ [[Domain Routing#domain-routing]]
+- [[Domain#domain]] $\to$ [[DomainResponse#domain-response]] $\to$ [[Domain Routing#domain-routing]]
 <!-- --8<-- [end:triggers] -->

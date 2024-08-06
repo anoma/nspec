@@ -16,8 +16,8 @@ A request sent to a domain that is delivered to any domain member.
 ## Reception
 
 <!-- --8<-- [start:reception] -->
-- [[Domain]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain_routing]]
-- [[Domain Routing#domain_routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain_routing]]
+- [[Domain]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]
+- [[Domain Routing#domain-routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]
 <!-- --8<-- [end:reception] -->
 
 ## Structure
@@ -33,6 +33,6 @@ A request sent to a domain that is delivered to any domain member.
 ## Triggers
 
 <!-- --8<-- [start:triggers] -->
-- [[Domain Routing#domain_routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain_routing]]
-- [[Domain Routing#domain_routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain]]
+- [[Domain Routing#domain-routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain Routing#domain-routing]]
+- [[Domain Routing#domain-routing]] $\to$ [[DomainRequest#domainrequest]] $\to$ [[Domain]]
 <!-- --8<-- [end:triggers] -->

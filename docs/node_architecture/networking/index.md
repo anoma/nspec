@@ -145,7 +145,7 @@ while the P2P [[Storage#storage]] protocol offers block storage and retrieval.
 
 ### Inter-domain protocols
 
-Two inter_domain gossip protocol run in parallel: a Trust-Aware [[Peer Sampling#peer_sampling]] (TAPS) and a Trust-Aware [[Clustering#clustering]] (TAC) protocol.
+Two inter_domain gossip protocol run in parallel: a Trust-Aware [[Peer Sampling#peer-sampling]] (TAPS) and a Trust-Aware [[Clustering#clustering]] (TAC) protocol.
 The two protocols together construct a small world network, where TAPS provides continuously changing long-range routing links,
 while TAC discovers nodes with similar domain membership.
 Using trust information in these protocols aids in making these protocols more resilient against eclipse and hub attacks.
@@ -161,7 +161,7 @@ either by sending external requests to any available domain member that may retu
 or by joining the domain and participating in the intra-domain protocols.
 For both type of requests, a node needs to know about one or more domain members to send the request to,
 which can be discovered either via the [[Clustering#clustering]] protocol,
-or via a lookup request that is routed in the inter_domain overlay using a greedy routing algorithm by the [[Domain Routing#domain_routing]] protocol.
+or via a lookup request that is routed in the inter_domain overlay using a greedy routing algorithm by the [[Domain Routing#domain-routing]] protocol.
 Both methods use domain membership similarity as a distance metric.
 
 </div>
