@@ -1213,7 +1213,27 @@ Spawning data list
   whose elements sepcify an engine environment
   and the corresponding engine family (name).
 
-### Dynamics
+
+### Engine instance
+
+Thus, we finally can define _engine instance_ as a pair
+of an engine environment in an engine system 
+and the associated guarded action.
+
+## Dynamics and the derivation of a labelled state transition system
+
+An engine system can evolve in one of two ways:
+either the wall-clock time of a single engine instances increases
+or some action is enabled for some engine instance;
+this is subject to the condition that
+timer notifications have priority
+and that time increments are bounded by the next timer that is to elapse.
+The details of how the system evolves is described
+
+!!! todo "write up in the ART report for good"
+
+    We need a proper timed LTS semantics
+    so that the specs are actually specs.
 
 <!--ᚦ: copy of a message to jonathan¶
 the definition of clock is indeed hard in that it only makes sense once we define how we can evolve the system by performing actions
@@ -1221,9 +1241,7 @@ viz. (for async systems)
 1. taking a message from the network, increment the recipients time by an arbitrary amount *t*, start guard evaluation, and finally do all the necessary updates: again increase the clock for the time it takes to compute, add messages to the network, create new engines (and sth. that I forgot), unless
 2. advancing the time by *t*, would trigger a timer elapsed message, which then is to be executed first in a similar fashion to another message
 ... and then we have not yet considered limits for action execution time ... so lots of fun to come 😄
--->
-
-
+--><!--ᚦ: more old stuff ¶
 Whenever a trigger arrives guards of an engine could be evaluated in parallel,
 for every new trigger,
 e.g., upon  arrival of new  message;
@@ -1244,6 +1262,7 @@ it should be marked clearly.
   Inappropriate resolution of non-determinism can lead to
   deadlocks.
 
+
 ### Inputs for the action of a guarded action
 
 The actions of guarded actions take three pieces of data as input:
@@ -1251,9 +1270,8 @@ the local state in the form of the engine environment,
 the time stamped trigger (message or notification),
 and finally the outputs of the guard function,
 i.e., the matched arguments, the action label,
-and any additional precomputations that the guard has already computed.<!--
-ᚦ: well, need to discuss with Jonathan
--->
+and any additional precomputations that the guard has already computed.
+
 By _time stamped_, we mean that
 each trigger comes with the local time when guard evaluation was triggered,
 which one may want to think of as the local time "now".
@@ -1297,8 +1315,7 @@ the engine instance happens to be running on;
 then, we follow up on
 how engine-local sources of input or randomness can
 "affect" which action is to be taken.
-
-<!--ᚦ old material on the topic
+--><!--ᚦ old material on the topic¶
   The output of the action describes after the event has finished
 ¶
   - updates to the above local data (except for identities and arguments)
@@ -1309,6 +1326,7 @@ how engine-local sources of input or randomness can
     - a name for the process (that is unique relative to the engine)
 -->
 
+??? todo "clean up this page"
 
 #### Outputs of non-interactive actions
 
@@ -1479,17 +1497,30 @@ and this situation need to be handled with care.
 The details of guarded actions are explained in the [[Guarded Engine Template]].
 -->
 
-## The conceptual structure of engine family specifications
 
-The structure of each engine family page
-first describes the general context,
-gives some example message exchanges,
-and then covers the details
-about engine-specific types
-and its set of guarded actions.
-In more detail,
-we use the following templates
-to describe engine families.
+!!! todo "clean up the above"
+
+## Templates for engine family specifications
+
+For each engine family, 
+we want the general context,
+one or several message sequence charts,
+and then a description of all the details:
+in particular
+engine-specific types 
+and, most ímportantly,
+the set of guarded actions.
+
+!!! note "Please follow the templates or raise issues!"
+
+    The templates will evolve over time.
+    However,
+    pleas try to use them as much as possible;
+    should certain situation require for deviations from the template,
+    please raise an issue if you think it is
+    a fundamental shortcoming of the (current version of the) templates.
+
+The templates are on a [[Engine Templates|separate page]].
 
 <!--
 - engine family name (e.g., _Auctioneer_)
