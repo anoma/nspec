@@ -17,9 +17,9 @@ The scope defines:
 
 The scope section is split into two sub-sections:
 
-- [World model](./world-model.md) describes the world context in which the
+- [World model](./world_model.md) describes the world context in which the
   protocol is designed to operate.
-- [Protocol desiderata](./protocol-desiderata.md) describes what it is
+- [Protocol desiderata](./protocol_desiderata.md) describes what it is
   that the protocol must do.
 
 In Section ["Protocol Architecture"](./../architecture/index.md), we
