@@ -1083,15 +1083,19 @@ and the time stamped[_trigger,_](https://github.com/anoma/formanoma/blob/f70a041
 
 ### A finite set of guarded actions for each engine environment
 
-Each engine environment in an engine system is "decorated"
-with a constructor,
-the [[Engine Families|engine family]] (name).
-What completes the definition of an engine family
-is the associated set of _guarded actions,_
-which, in turn consist of a _guard function_
-and some action—typically one, but possibly several ones.
-We now complement the informal explanations of the above introduction
-with the actual definitions.
+Recall that each engine environment in an engine system is
+"decorated" with a constructor;
+the constructor determines the [[Engine Families|engine family]] (name),
+as described informally in the introduction.
+Now, we come to the actual definition of _engine family_
+as a record of
+
+- a finite set of _guarded actions,_ whose elements consist of
+
+  - a _guard function_, and
+  - a non-empty set of _actions_. 
+
+Thus, it remains to define guard function and action.
 
 <!--ᚦ: some old stuff
 where the _guard_ is a function that—among other things—determines whether
@@ -1117,14 +1121,116 @@ that identifies the respective action that is enabled.
   if the action is enabled it provides matched arguments and an action label.
 -->
 
-#### Guard functions
+#### Guard
 
-#### Action functions
+A guard is a function that determines
+which of the actions is enabled,
+given the time stamped trigger and the engine environment.
 
+##### Guard input
+
+The guard inputs are, a time stamp, a trigger, and the engine environment.
+
+Trigger
+
+: The trigger is either a
+  
+  - clock notification about a non-empty set of elapsed timers or
+  - a received message.
+
+Time stamp
+
+: The time stamp give the local wall clock time when
+  the evaluation of all triggers has started.
+
+##### Guard output
+
+The output of the guard is either `nothing`,
+if none of the actions matches, or it
+gives a list of matched arguments, an action lable,
+and the result of other precomputation.
+
+Matched arguments
+
+: The matched arguments are a list of arguments
+  that have been _matched_ during guard evaluation.
+  Typically these are the arguments of a received message,
+  or a list of previously received messages.
+
+Action label
+
+: The action label
+  gives information about
+  which action is to be performed.
+
+Precomputation results
+
+: The computation that guards perform to determine
+  whether or which action is to be performed may be non-trivial;
+  these results are output
+  such that actions may reuse the computation results.
+
+#### Action
+
+The action describes the changes to the environment,
+new messages to be sent,
+spawning requests,
+and updates to the list of timers.
+
+##### Action input
+
+The action input extends the guard input
+by the guard output.
+
+##### Action output
+
+The action output is,
+an environment, a list of messages,
+a list of spawning data,
+and a list of timers.
+
+Environment
+
+: The returned environment is an arbitrary environment,
+  except for that the engine name must be unchanged.
+
+Message list
+
+: The list of messages are message that are to be sent to
+  the network and thus must be addressed,
+  e.g., using an engine name and a mailbox ID.
+
+Timer list
+
+: The list of timers updates the list of timers;
+  the only restriction is that new entries
+  to the list should have new handles.
+
+Spawning data list
+
+: Finally, a list of spawning data is given,
+  whose elements sepcify an engine environment
+  and the corresponding engine family (name).
+
+#### Action selector
+
+The action selector is a function
+that maps each action label
+to the corresponding action;
+it may be based on simple map.
 
 ### Dynamics
 
-All guards of an engine could be evaluated in parallel,
+<!--ᚦ: copy of a message to jonathan¶
+the definition of clock is indeed hard in that it only makes sense once we define how we can evolve the system by performing actions
+viz. (for async systems)
+1. taking a message from the network, increment the recipients time by an arbitrary amount *t*, start guard evaluation, and finally do all the necessary updates: again increase the clock for the time it takes to compute, add messages to the network, create new engines (and sth. that I forgot), unless
+2. advancing the time by *t*, would trigger a timer elapsed message, which then is to be executed first in a similar fashion to another message
+... and then we have not yet considered limits for action execution time ... so lots of fun to come 😄
+-->
+
+
+Whenever a trigger arrives guards of an engine could be evaluated in parallel,
 for every new trigger,
 e.g., upon  arrival of new  message;
 in practice,  one may want to choose a more efficient, but equivalent strategy.
