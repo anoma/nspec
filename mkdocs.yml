@@ -404,7 +404,11 @@ nav:
         - ./tutorial/engines/Ticker/index.juvix.md
         - Engine Environment: ./tutorial/engines/Ticker/Env.juvix.md
         - Engine Guarded Actions: ./tutorial/engines/Ticker/Actions.juvix.md
-
+      - Engine Templates:
+        - ./tutorial/engines/Templates/index.md
+        - Engine Overview: ./tutorial/engines/Templates/OverviewTemplate.md
+        - Engine Environment: ./tutorial/engines/Templates/EnvironmentTemplate.juvix.md
+        - Engine Dynamics: ./tutorial/engines/Templates/DynamicsTemplate.juvix.md
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
