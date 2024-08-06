@@ -1,0 +1,32 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
+# NodeConnectFailed
+
+<!-- --8<-- [start:purpose] -->
+Notification sent when failed to establish a connection to a node.
+<!-- --8<-- [end:purpose] -->
+
+## Type
+
+<!-- --8<-- [start:type] -->
+[[NodeTransportAddress#nodetransportaddress]]
+
+--8<-- "../types/node_transport_address.md:type"
+<!-- --8<-- [end:type] -->
+
+## Message flow
+
+<!-- --8<-- [start:messages] -->
+```mermaid
+sequenceDiagram
+
+%% --8<-- [start:sequence]
+Transport -) Any Local Engine: NodeConnectFailed
+%% --8<-- [end:sequence]
+```
+<!-- --8<-- [end:messages] -->

@@ -109,7 +109,6 @@ def rename_dirs_recursive(root_dir):
     def update_config_mkdocs(update_mkdocs = True):
         if update_mkdocs in ['all_no']:
             return
-        
         if update_mkdocs in [True, 'all_yes']:
             content = ""
             with open("mkdocs.yml", "r") as f:
@@ -188,8 +187,6 @@ def rename_dirs_recursive(root_dir):
                 new_suffix = "/".join(new_string_parts[i:])
                 new_content = new_content.replace(old_suffix, new_suffix)
         if new_content == content:
-            print(f"No changes: {fp}")
-            input("Press Enter to continue...")
             continue
 
         # Write back if there are any changes
