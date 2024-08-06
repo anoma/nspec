@@ -402,13 +402,17 @@ nav:
       - ./tutorial/engines/index.juvix.md
       - The Ticker Engine Family:
         - ./tutorial/engines/Ticker/index.juvix.md
-        - Engine Environment: ./tutorial/engines/Ticker/Env.juvix.md
-        - Engine Guarded Actions: ./tutorial/engines/Ticker/Actions.juvix.md
+        - Ticker Environment: ./tutorial/engines/Ticker/Env.juvix.md
+        - Ticker Guarded Actions: ./tutorial/engines/Ticker/Actions.juvix.md
       - Engine Templates:
         - ./tutorial/engines/Templates/index.md
         - Engine Overview: ./tutorial/engines/Templates/OverviewTemplate.md
         - Engine Environment: ./tutorial/engines/Templates/EnvironmentTemplate.juvix.md
         - Engine Dynamics: ./tutorial/engines/Templates/DynamicsTemplate.juvix.md
+        - Engine Overview Example: ./tutorial/engines/Templates/OverviewExample.md
+        - Engine Environment Example: ./tutorial/engines/Templates/EnvironmentExample.juvix.md
+        - Engine Dynamics Example: ./tutorial/engines/Templates/DynamicsExample.juvix.md
+
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
