@@ -103,7 +103,7 @@ types for: local state, incoming messages, mailboxes' state, the data returned b
 guard function, timer's handles, and outgoing messages.
 
 For convenience, we have the input and output of an action into two separate types:
-`ActionInput S I M H R` and `ActionResult S I M H R O C`. 
+`ActionInput S I M H R` and `ActionResult S I M H R O C`.
 
 The `ActionInput S I M H R` type is a record that encapsulates the following data:
 
@@ -151,18 +151,18 @@ type ActionResult (S I M H R O C : Type) := mkActionResult {
 
 To recap, a guarded action consists of a guard and an action. The guard is a
 function that evaluates conditions in the engine environment to determine
-whether the corresponding action should be executed. 
+whether the corresponding action should be executed.
 
 The guard function receives, not in any particular order:
 
-- the trigger that caused it to be evaluated, 
+- the trigger that caused it to be evaluated,
 - the environment of the engine instance, and
 -  an optional time reference for the starting point of the evaluation of all guards
 
 as inputs to decide if the condition for running the action is met.
 The action function can update the engine environment to some extent and may
 declare terms that will be internally processed as instructions for setting messages
-to be sent or for creating new engine instances. 
+to be sent or for creating new engine instances.
 
 ```juvix
 type GuardedAction (S I M H R O C : Type) := mkGuardedAction {

@@ -9,6 +9,8 @@ each of which comes with an example file, which can be opened side by side.
 2. [[Engine Environment]] ([[Ticker Engine Environment | Engine Environment Example]])
 3. [[Engine Dynamics]] ([[Ticker Engine Dynamics | Engine Dynamics Example]])
 
+## Template Syntax
+
 In the template files,
 we shall use text in square brackets to describe generic content.
 For example,

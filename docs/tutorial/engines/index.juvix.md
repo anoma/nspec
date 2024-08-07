@@ -478,7 +478,7 @@ and give a correponding juvix type.
 ??? info "Juvix imports"
 
     ```juvix
-    import node_architecture.types.EngineFamily open;
+    import node_architecture.types.engine_family open;
     ```
 
 ### Engine Environments

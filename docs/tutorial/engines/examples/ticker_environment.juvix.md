@@ -13,10 +13,10 @@ tags:
 ??? info "Juvix imports"
 
     ```juvix
-    module tutorial.engines.ticker.Env;
+    module tutorial.engines.examples.ticker_environment;
 
     import node_architecture.basics open;
-    import node_architecture.types.EngineFamily as EngineFamily;
+    import node_architecture.types.engine_family as EngineFamily;
     open EngineFamily using {
         Engine;
         EngineEnvironment;

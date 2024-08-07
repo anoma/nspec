@@ -1,4 +1,4 @@
-module tutorial.engines.examples.ticker;
+module tutorial.engines.ticker;
   import tutorial.engines.examples.ticker_environment open public;
   import tutorial.engines.examples.ticker_dynamics open public;
   import tutorial.engines.examples.ticker_overview open public;

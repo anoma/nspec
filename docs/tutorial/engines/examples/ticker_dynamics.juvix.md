@@ -13,10 +13,10 @@ tags:
 ??? info "Juvix imports"
 
     ```juvix
-    module tutorial.engines.ticker.Actions;
+    module tutorial.engines.examples.ticker_dynamics;
 
     import node_architecture.basics open;
-    import node_architecture.types.EngineFamily as EngineFamily;
+    import node_architecture.types.engine_family as EngineFamily;
     open EngineFamily using {
         Engine;
         EngineEnvironment;
@@ -29,7 +29,7 @@ tags:
         mkGuardedAction
     };
     open EngineFamily.EngineEnvironment;
-    import tutorial.engines.ticker.Env open public;
+    import tutorial.engines.examples.ticker_environment open public;
     ```
 
 # Ticker Guarded Actions

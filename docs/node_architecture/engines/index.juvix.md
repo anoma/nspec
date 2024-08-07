@@ -16,7 +16,7 @@ tags:
     import node_architecture.basics open;
     import node_architecture.types.engine_family as Base open using {EngineFamily};
 
-    import tutorial.engines.ticker as ticker open using {tickerFamily; zeroticker};
+    import tutorial.engines.ticker as Ticker open using {TickerFamily; zeroTicker};
     ```
 
     !!! note

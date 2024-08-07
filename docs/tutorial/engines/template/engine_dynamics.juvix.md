@@ -1,7 +1,7 @@
 # Guarded Actions
 
-??? note "Juvix module" 
+??? note "Juvix module"
 
     ```juvix
-    module tutorial.Templates.DynamicsTemplate;
+    module tutorial.engines.template.engine_dynamics;
     ```

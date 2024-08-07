@@ -9,7 +9,7 @@ tags:
 ---
 
 ```juvix
-module node_architecture.prelude;
+module node_architecture.basics;
 import prelude open public;
 import prelude open using {Hash} public; -- TODO: review this, in principle, it should be imported with the previous import
 ```

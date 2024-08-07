@@ -4,6 +4,11 @@ search:
   exclude: false
 ---
 
+```juvix
+module tutorial.engines.template.engine_overview;
+```
+
+
 # [Engine Family Name] Engine Family
 
 ## Purpose
@@ -16,14 +21,14 @@ search:
 	- in relation to other engine instances within an Anoma node and/or
 
 	- as part of the whole Anoma instance at large.
-	
+
 
 	Form
-	
+
 	: The purpose description is in the form of some short paragraphs of prose, possibly just one.
 
 	Conceptual Structure
-	
+
 	: One relatively self-contained piece of prose,
 	providing links to techincal terms and unavoidable jargon.
 
@@ -39,7 +44,7 @@ search:
 	each message sequence diagram in the engine family page describes
 	a pattern for test cases.
 	We can use
-    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) 
+    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
     to draw [message sequence diagrams](https://www.uml-diagrams.org/sequence-diagrams.html),
     using the `-)`-syntax by default,
     expressing that message sending is "asynchronous".
@@ -52,14 +57,14 @@ search:
 ### [Title of Message Sequence Diagram 1]
 
 
-!!! note 
+!!! note
 
 
     Form
-    
+
     : A mermaid or other message sequence diagram.
 
-### `[[`[Wikilink] `|` Engine Environment`]]` 
+### `[[`[Wikilink] `|` Engine Environment`]]`
 
 ### `[[`[Wikilink] `|` Engine Dynamics`]]`
 
