@@ -35,5 +35,5 @@ type TickerProtocolEnvironment :=
 ;
 
 type TickerProtocolMessage :=
- | TickerMsg TickerMessage;
-
+ | TickerMsg TickerMessage
+ | TickerClientMsg TickerClientMessage;
