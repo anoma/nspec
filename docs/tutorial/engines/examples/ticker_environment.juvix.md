@@ -74,9 +74,6 @@ type TickerLocalState : Type := mkTickerLocalState {
 };
 ```
 
-
-
-
 ## Timer Handle
 
 The [[Ticker Engine Family|ticker]] does not require a timer handle type.
