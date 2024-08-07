@@ -404,13 +404,13 @@ nav:
       - ./tutorial/engines/index.juvix.md
       - Engine Templates:
         - ./tutorial/engines/template/index.md
-        - Engine Overview: ./tutorial/engines/template/engine_overview.juvix.md
-        - Engine Environment: ./tutorial/engines/template/engine_environment.juvix.md
-        - Engine Dynamics: ./tutorial/engines/template/engine_dynamics.juvix.md
+        - Engine Overview Template: ./tutorial/engines/template/engine_overview.juvix.md
+        - Engine Environment Template: ./tutorial/engines/template/engine_environment.juvix.md
+        - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.juvix.md
       - Writing Conventions: ./tutorial/engines/conventions.md
       - Examples:
         - Ticker Engine Family:
-          - Ticker Engine Overview: ./tutorial/engines/examples/ticker_overview.juvix.md
+          - Ticker Engine Overview: ./tutorial/engines/examples/ticker_overview.md
           - Ticker Engine Environment: ./tutorial/engines/examples/ticker_environment.juvix.md
           - Ticker Engine Dynamics: ./tutorial/engines/examples/ticker_dynamics.juvix.md
 
