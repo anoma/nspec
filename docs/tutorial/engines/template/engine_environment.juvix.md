@@ -55,12 +55,24 @@ search:
     This will be relevant for the
     [[Engine Dynamics Template|dynamics of engines]].
 
+!!! warning "Time is **not** local information of engine instances."
+
+    The local clocks of engine instances are "external" to engine instances.
+    If you need information about wall-clock time,
+    you must rely on "time stamps" of triggers.
+    Use local time and timers only if necessary.
+    Moreover, each Anoma node may at some point in time have
+    a node-wide wall-clock time service,
+    which would be yet different
+    in that it will try to relate to local time
+    of users on their watches in the vicinity of the node.
+
 ## Overview `{`optional`}`
 
 !!! note
 
     We first give an overview of how things relate to each other,
-    either within the engine family or beyond engine family boundaries    
+    either within the engine family or beyond engine family boundaries
     and/or intra-node or inter-node.
     
     Form
@@ -78,7 +90,7 @@ search:
     If only we had
     [something like this](https://www.jetbrains.com/guide/java/tutorials/analyzing-dependencies/dependency-diagram/).
     However,
-    somebody will write a small script probably some time soon. 
+    somebody will write a small script probably some time soon.
 
 
 ### Messages
@@ -129,7 +141,7 @@ search:
     the role (and type) of the parameter,
     plus the type definition (with a link to where it is defined—if applicable).
 
-    !!! question "How to add example code?" 
+    !!! question "How to add example code?"
 
         Each such explantion should be followed by
         an example instance of the message in juvix.
@@ -162,7 +174,7 @@ search:
         ...
 -->
 
-### Mailbox state `{`optional`}`
+### Mailbox states `{`optional`}`
 
 !!! note
 
@@ -186,7 +198,7 @@ search:
 
     : Each constructor should have some kind associated purpose.
 
-<!--
+<!--ᚦ: keep this here for a moment ¶
 !!! example
 
     - Each mailbox has a ring buffer to estimate
@@ -196,3 +208,73 @@ search:
 
     add juvix code for a ring buffer for this example ☝️
 -->
+
+## Local state
+
+!!! note
+
+    The engine-specific local state type is often the most complex type,
+    tailor-made for a specific engine family.
+
+
+    Form
+
+    : First, the local state is described in broad terms;
+    then follows either a new definition of the type in Juvix, a snippet, or a link where it is defined.
+    Finally, we want to describe all data items
+    and als the data structures used
+    in English language;
+    technical terms should be linked,
+    either to documentation, here, elsewhere or on Wikipedia-page (or similar).
+
+    Goal
+
+    : Besides documentation for each data item, we also requre links to
+    descriptions of data structures beyond trees, hash maps
+    unless they are defined in the Juvix standard library;
+    links to descriptions may be sufficient in many cases.
+
+<!--ᚦ: 
+!!! example
+
+    We use the state of the time stamping server
+    to store the rate limit
+    (that we assume to be static for the sake of simplicity).
+
+
+    `juvix`
+    ```
+    TimeStampingServerState := Nat;
+    ```
+-->
+
+## Timer handles
+
+!!! note
+
+    Similar to mailbox specific types,
+    each timer may carry some information,
+    e.g., about the context in which it was set.
+    
+    Form
+
+    : A juvix data type plus documention.
+    This is similar to
+    [[Engine Environment Template#messages|messages]].
+
+    Goal
+
+    : Get an overview of different purposes of different timers.
+    
+## Environment summary
+
+!!! note
+
+    This is the place where the environment type is defined.
+    If applicable,
+    this is a good place to put additional comments
+    that only make sense after everything is defined.
+
+    Form
+
+    : free form, _except_ for the data type definition in Juvix at the end.
