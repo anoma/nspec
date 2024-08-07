@@ -14,9 +14,9 @@ we have three different files
 and accordingly, we have three[^1] different template files,
 each of which comes with an example file, which can be opened side by side.
 
-1. [[Engine Overview]] | [[Ticker Engine Overview | Example]]
-2. [[Engine Environment]] | [[Ticker Engine Environment | Example]]
-3. [[Engine Dynamics]] | [[Ticker Engine Dynamics | Example]]
+1. [[Engine Overview Template]] | [[Ticker Engine Overview | Example]]
+2. [[Engine Environment Template]] | [[Ticker Engine Environment | Example]]
+3. [[Engine Dynamics Template]] | [[Ticker Engine Dynamics | Example]]
 
 Refer to the [[Writing Conventions]] to
 understand the organization of these files within the engine folder structure.

@@ -8,7 +8,8 @@ search:
 
 ??? note "Juvix preamble"
 
-    `module`, `import`s, and `open`s
+    We have the `module` declaration (according to the path and file name)
+    followed by `import`s, `open`s, etc.
 
     ```juvix
     module tutorial.engines.template.engine_environment;
@@ -21,13 +22,25 @@ search:
     specific to engine family [engine family name].
     However,
     if several engine families share a type,
-    the best place to place the definition is either
+    the best place to place the definition of the Juvix type is either
 
     - the lowest common ancenstor that the engine families share in
       the engine family hierarchy, or
 
     - a more suitable place, if that is not an option,
       e.g., if it is one of the [[Basic Types]].
+
+!!! warning "Reminder about “derived” protocol-level types"
+
+    Note that after the defintion of all engine-specific types,
+    there are "derived types" for engine environments
+    and messages at the protocol-level.
+    This is relevant also for specs writing as
+    for the creation of new engine instances,
+    we use the protocol-level engine environment type,
+    and similarly, for sending new messages,
+    we rely on a protocol-level message type.
+    This will be relevant for the [[Engine Dynamics Template|dynamics of engines]].
 
 ## Overview `{`optional`}`
 
