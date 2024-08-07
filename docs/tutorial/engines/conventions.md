@@ -1,12 +1,15 @@
 ## Writing Conventions for Engine Families
 
+<!-- Tobias, add here any specific, short, rule you may consider people
+need to follow when writing engine families. I wrote a few examples below. -->
+
 ### Naming Conventions
 
 - **Engine Files and folders**: Named in lowercase using `snake_case` format.
 - **File extension**: Files with overview, environment, and dynamics content
   must end with the `.juvix.md` extension. These files must be written in Juvix
   Markdown and include Juvix code snippets starting with a top-level module
-  declaration. However, there is no need to include Juvix code if it's not 
+  declaration. However, there is no need to include Juvix code if it's not
   necessary, but the module declaration is required.
 
 - **Naming prefix**: The engine family's name is used as a prefix for these

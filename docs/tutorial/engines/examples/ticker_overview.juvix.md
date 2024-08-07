@@ -44,13 +44,13 @@ state initialises the counter.
 
 ??? quote "Local Environment"
 
-    Source: [[Ticker Environment]]
+    Source: [[Ticker Engine Environment]]
 
     ---8<--- "tutorial/engines/examples/ticker_environment.juvix.md"
 
 ??? quote "Guarded Actions"
 
-    Source: [[Ticker Dynamics]]
+    Source: [[Ticker Engine Dynamics]]
 
     ---8<--- "tutorial/engines/examples/ticker_dynamics.juvix.md"
 

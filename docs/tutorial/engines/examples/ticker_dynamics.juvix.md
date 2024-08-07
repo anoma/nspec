@@ -34,8 +34,6 @@ tags:
 
 # Ticker Guarded Actions
 
-Next, we define the specific tasks:
-
 - Incrementing the counter.
 - Responding with the counter value.
 
