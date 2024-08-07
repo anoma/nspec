@@ -1,0 +1,36 @@
+module tutorial.engines.examples.ticker_types;
+
+import tutorial.engines.examples.ticker_environment open;
+
+import prelude open;
+import node_architecture.types.engine_family as EngineFamily;
+open EngineFamily using {
+    Engine;
+    EngineEnvironment;
+    EngineFamily;
+    mkActionInput;
+    mkActionResult;
+    mkEngine;
+    mkEngineEnvironment;
+    mkEngineFamily;
+    mkGuardedAction
+};
+open EngineFamily.EngineEnvironment;
+
+--- in a perfect world, the following would be in an engine family page of its own
+
+TickerClientEnvironment : Type := 
+  EngineFamily.EngineEnvironment 
+    Unit
+    Unit
+    Unit
+    Unit;
+
+type TickerProtocolEnvironment :=
+ | TickerEnv TickerEnvironment
+ | ClientEnv TickerClientEnvironment
+;
+
+type TickerProtocolMessage :=
+ | TickerMsg TickerMessage;
+
