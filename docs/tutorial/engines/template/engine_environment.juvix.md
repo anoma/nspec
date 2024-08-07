@@ -135,10 +135,12 @@ search:
         an example instance of the message in juvix.
         How to best do this?
 
-    ##### Addiitional comments `{` optional `}`
+    ##### Additional comments `{` optional `}`
 
     Here, we can provide additional information,
     e.g., design choices, explanation of the naming process, etc.
+    This is in the form of a `??? note "[something to remember]"`
+    or a `!!! note "[something to remember]"`. 
 
 <!--
 !!! question "ᚦ: _Is this the right spoto for the Juvix code?_"

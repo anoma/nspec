@@ -1,21 +1,17 @@
 ---
-icon: octicons/project-template-24
+icon: octicons/container-24
 search:
   exclude: false
-tags:
-  - engine-family
-  - example
-  - ticker
-  - Juvix
 ---
 
+# Ticker Environment
 
-??? info "Juvix imports"
+??? note "Juvix preamble" 
 
     ```juvix
     module tutorial.engines.examples.ticker_environment;
 
-    import node_architecture.basics open;
+    import prelude open;
     import node_architecture.types.engine_family as EngineFamily;
     open EngineFamily using {
         Engine;
@@ -31,74 +27,32 @@ tags:
     open EngineFamily.EngineEnvironment;
     ```
 
-# Ticker Local Environment
+## Overview
 
-## Local State Type
+There are only two messag tags:
+`Increment`, which increases the counter state of the ticker,
+and `Count`, which the ticker responds to with the current counter state.
 
-The local state of the `Ticker` includes:
+### Messages
 
-- **counter**: An integer value representing the current counter state.
+!!! note "TickerMessage data type"
 
-```juvix
-type LocalStateType : Type := mkLocalStateType {
-  counter : Nat
-};
-```
+    ```juvix
+    type TickerMessage := Increment | Count;
+    ```
 
-### Message Types
+#### Increment 
 
-### Incoming Message Type
+An `Increment` message instructs the engine to increase the counter.
 
-The `Ticker` processes the following message types:
+??? todo "add natural number as argument?"
 
-- **Increment**: A message that instructs the engine to increase the counter.
-- **Count**: A message requesting the engine to send back the current counter
-  value.
+#### Count
 
-```juvix
-type IMessageType := Increment | Count;
-```
+A `Count` message requests the engine to send
+the current counter value back to the requester.
 
-### Outgoing Message Type
+??? note "That's it!"
 
-To respond to the `Count` message, the engine sends a message containing the
-current counter value.
+    The code is self-explnatory 😄 
 
-```juvix
-type OMessageType := Result Nat;
-```
-
-## Mailbox States Types
-
-Engine families often requires various types to represent the potential states
-of their mailboxes. However, in this specific case, the `Ticker` engine does not
-necessitate any mailbox states. As a result, we define the mailbox state type as
-`Unit` using the Juvix alias syntax.
-
-```juvix
-syntax alias MailboxStateType := Unit;
-```
-
-## Timer Handle Type
-
-The `Ticker` engine does not require a timer handle. Therefore, we define the
-timer handle type as `Unit`.
-
-```juvix
-syntax alias TimerHandleType := Unit;
-```
-
-#### Local Environment Type
-
-Given the types for the local state and messages, we inherently possess the type
-of the engine environment. Nonetheless, to ensure clarity, let us define it
-explicitly using the `Environment` type.
-
-```juvix
-EnvType : Type :=
-  EngineFamily.EngineEnvironment
-    LocalStateType
-    IMessageType
-    MailboxStateType
-    TimerHandleType;
-```
