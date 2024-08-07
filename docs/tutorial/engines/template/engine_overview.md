@@ -77,7 +77,7 @@ search:
     (for the moment).
 
 
-### `[[`[Wikilink] `|` Engine environment`]]`
+### `[[`[Wikilink] `|` Engine environment`]]` `{` see [[Engine Environment Template]] `}`
 
-### `[[`[Wikilink] `|` Engine dynamics`]]`
+### `[[`[Wikilink] `|` Engine dynamics`]]` `{` see [[Engine Dynamics Template]] `}`
 
