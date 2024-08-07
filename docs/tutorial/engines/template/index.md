@@ -1,3 +1,12 @@
+---
+icon: octicons/project-template-24
+search:
+  exclude: false
+tags:
+- engine-family
+- engine-template
+---
+
 # Engine Family Templates
 
 For each engine template,
@@ -5,12 +14,12 @@ we have three different files
 and accordingly, we have three[^1] different template files,
 each of which comes with an example file, which can be opened side by side.
 
-1. [[Engine Overview]] ([[Ticker Engine Overview | Engine Overview Example]])
-2. [[Engine Environment]] ([[Ticker Engine Environment | Engine Environment Example]])
-3. [[Engine Dynamics]] ([[Ticker Engine Dynamics | Engine Dynamics Example]])
+1. [[Engine Overview]] | [[Ticker Engine Overview | Example]]
+2. [[Engine Environment]] | [[Ticker Engine Environment | Example]]
+3. [[Engine Dynamics]] | [[Ticker Engine Dynamics | Example]]
 
-See the [[Writing Conventions|engine folder structure conventions]] to
-understand how these files are supposed to be organized.
+Refer to the [[Writing Conventions]] to
+understand the organization of these files within the engine folder structure.
 
 ## Template Syntax
 
@@ -38,5 +47,3 @@ look at a template an its example side by side.
     we need to have definitions for all engine-specific message types
     before we can form the type of any message to be sent
     (in the dynamics section).
-
-

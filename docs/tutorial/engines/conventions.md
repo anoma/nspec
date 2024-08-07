@@ -1,4 +1,11 @@
-## Writing Conventions for Engine Families
+---
+icon: octicons/project-template-24
+search:
+  exclude: false
+tags:
+- engines
+- conventions
+---
 
 <!-- Tobias, add here any specific, short, rule you may consider people
 need to follow when writing engine families. I wrote a few examples below. -->
@@ -15,9 +22,9 @@ need to follow when writing engine families. I wrote a few examples below. -->
 - **Naming prefix**: The engine family's name is used as a prefix for these
   files. For example, the Ticker engine family would have the following files:
 
-  - `ticker_overview.juvix.md`
-  - `ticker_environment.juvix.md`
-  - `ticker_dynamics.juvix.md`
+    - `ticker_overview.juvix.md`
+    - `ticker_environment.juvix.md`
+    - `ticker_dynamics.juvix.md`
 
 ### Directory Structure
 
@@ -34,7 +41,8 @@ node_architecture/
 └── myengine.juvix
 ```
 
-In this structure, `myengine.juvix` is a Juvix module that imports the three files mentioned above:
+In this structure, `myengine.juvix` is a Juvix module with the 
+following content that imports the three files mentioned above:
 
 ```juvix
 module node_architecture.engines.myengine;
@@ -43,12 +51,14 @@ import node_architecture.engines.myengine_environment open public;
 import node_architecture.engines.myengine_dynamics open public;
 ```
 
-To ensure everything is checked correctly, add this module to the
-`everything.juvix.md` file in the "Engines" section:
+!!! note
 
-```diff
-module everything;
+    To ensure new Juvix files are checked always, add this module to the
+    `everything.juvix.md` file in the "Engines" section:
 
-{- Engines -}
-+import node_architecture.engines.myengine;
-```
+    ```diff
+    module everything;
+
+    {- Engines -}
+    +import node_architecture.engines.myengine;
+    ```

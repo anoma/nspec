@@ -10,6 +10,11 @@ tags:
 ---
 
 
+!!! warning
+
+    This page is still under construction, needs to be updated with the latest
+    changes in the engine family type.
+
 ??? info "Juvix imports"
 
     ```juvix
@@ -44,9 +49,14 @@ which is used to set the target for the resulting message with the counted
 value.
 
 ```juvix
-type GuardReturnType :=
+type GuardReturnArgsType :=
   | IncrementGuard Bool
   | RespondGuard Name;
+```
+
+```juvix
+syntax alias GuardReturnLabelType := Unit;
+syntax alias GuardReturnOtherType := Unit;
 ```
 
 On the other hand, the Ticker engine does not require to create any
@@ -55,7 +65,6 @@ engine instance, therefore, the `SpawnEngineType` is set to `Unit`.
 ```juvix
 syntax alias SpawnEngineType := Unit;
 ```
-
 
 Therefore, the `GuardedAction` type is defined as follows:
 
@@ -66,7 +75,9 @@ GuardedActionType : Type :=
     IMessageType
     MailboxStateType
     TimerHandleType
-    GuardReturnType
+    GuardReturnArgsType
+    GuardReturnLabelType
+    GuardReturnOtherType
     OMessageType
     SpawnEngineType;
 ```
@@ -75,7 +86,7 @@ GuardedActionType : Type :=
 
 This action increments the counter by 1 upon receiving an `Increment` message.
 
-```juvix
+```
 incrementCounter : GuardedActionType := mkGuardedAction@{
   guard := \{
       | _ (MessageArrived@{ envelope := m}) _ :=
@@ -107,7 +118,7 @@ incrementCounter : GuardedActionType := mkGuardedAction@{
 
 This action sends the current counter value upon receiving a `Count` message.
 
-```juvix
+```
 respondWithCounter : GuardedActionType := mkGuardedAction@{
   guard :=
     \{

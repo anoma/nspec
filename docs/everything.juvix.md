@@ -12,10 +12,10 @@ search:
 module everything;
 
 import node_architecture.basics;
-import node_architecture.engines.index;
+-- import node_architecture.engines.index;
 import node_architecture.types.engine_family;
 
 {- Engines -}
-import tutorial.engines.ticker;
+-- import tutorial.engines.ticker; -- TODO: Add this back when the tutorial is updated
 ```
 
