@@ -110,7 +110,7 @@ search:
     
 !!! todo "ᚦ continue here"
 
-    👇 
+    👇
 
 ## [Guarded Action ⟨$i$⟩] `{` $1<i<k$, i.e. $k$ such sections `}`
 

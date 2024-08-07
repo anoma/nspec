@@ -19,10 +19,13 @@ open EngineFamily.EngineEnvironment;
 
 --- in a perfect world, the following would be in an engine family page of its own
 
+type TickerClientMessage :=
+  | Counter Nat;
+
 TickerClientEnvironment : Type := 
   EngineFamily.EngineEnvironment 
     Unit
-    Unit
+    TickerClientMessage
     Unit
     Unit;
 
