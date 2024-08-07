@@ -1,5 +1,5 @@
-module tutorial.engines.juvix_example.ticker;
-  import tutorial.engines.juvix_example.ticker_environment open public;
-  import tutorial.engines.juvix_example.ticker_dynamics open public;
-  import tutorial.engines.juvix_example.ticker_overview open public;
+module tutorial.engines.examples.ticker;
+  import tutorial.engines.examples.ticker_environment open public;
+  import tutorial.engines.examples.ticker_dynamics open public;
+  import tutorial.engines.examples.ticker_overview open public;
 

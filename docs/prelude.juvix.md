@@ -9,7 +9,7 @@ tags:
 
 
 ```juvix
-module juvix_commons;
+module prelude;
 
 import Stdlib.Trait open public;
 ```

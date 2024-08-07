@@ -29,7 +29,7 @@ nav:
       - ./node_architecture/index.md
       - Modules:
         - ./node_architecture/modules/index.md
-      - Juvix Prelude: ./node_architecture/prelude.juvix.md
+      - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
       - Engine Families:
         - ./node_architecture/engines/index.juvix.md
         - Engine Family Types: ./node_architecture/types/engine_family.juvix.md
@@ -398,21 +398,20 @@ nav:
       - Juvix code: ./tutorial/juvix.md
       - Diffs:
         - ./tutorial/differ/index.md
-        - Example of diff rendering: ./tutorial/file-v1.md
+        - Example of diff rendering: ./tutorial/file_v1.md
+        
     - Engines in Anoma:
       - ./tutorial/engines/index.juvix.md
-      - The Ticker Engine Family:
-        - ./tutorial/engines/ticker/index.juvix.md
-        - Ticker Environment: ./tutorial/engines/ticker/env.juvix.md
-        - Ticker Guarded Actions: ./tutorial/engines/ticker/actions.juvix.md
       - Engine Templates:
-        - ./tutorial/engines/templates/index.md
-        - Engine Overview: ./tutorial/engines/templates/overview_template.md
-        - Engine Environment: ./tutorial/engines/templates/environment_template.juvix.md
-        - Engine Dynamics: ./tutorial/engines/templates/dynamics_template.juvix.md
-        - Engine Overview Example: ./tutorial/engines/templates/overview_example.md
-        - Engine Environment Example: ./tutorial/engines/templates/environment_example.juvix.md
-        - Engine Dynamics Example: ./tutorial/engines/templates/dynamics_example.juvix.md
+        - ./tutorial/engines/template/index.md
+        - Engine Overview: ./tutorial/engines/template/engine_overview.juvix.md
+        - Engine Environment: ./tutorial/engines/template/engine_environment.juvix.md
+        - Engine Dynamics: ./tutorial/engines/template/engine_dynamics.juvix.md
+      - Examples:
+        - Ticker Engine Family:
+          - Ticker Engine Overview: ./tutorial/engines/example/ticker_overview.juvix.md
+          - Ticker Engine Environment: ./tutorial/engines/example/ticker_environment.juvix.md
+          - Ticker Engine Dynamics: ./tutorial/engines/example/ticker_dynamics.juvix.md
 
 extra:
   social:

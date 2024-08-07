@@ -1,5 +1,5 @@
 ---
-icon: material/git
+icon: material/file-document-outline
 tags:
     - file naming
     - conventions
