@@ -27,6 +27,7 @@ The initial state of the counter is set at spawning time.
 <figure markdown="span">
 
 ```mermaid
+%%{initialize: {'mirrorActors': false} }%%
 sequenceDiagram
     participant Ticker
     participant EngineTickerClient as TickerClient
@@ -53,16 +54,7 @@ to the `Count` request.
 </figcaption>
 </figure>
 
-### [[Engine Environment Example|Engine environment]]
+### [[Ticker Engine Environment|Engine environment]]
 
-!!! tip "on snippeting"
+### [[Ticker Engine Dynamics|Engine dynamics]]
 
-    Snippets do not work with syntax highlighting yet.
-    That is why we link to the other page (for the moment).
-
-### [[Engine Dynamics Example|Engine dynamics]]
-
-!!! tip "on snippeting"
-
-    Snippets do not work with syntax highlighting yet.
-    That is why we link to the other page (for the moment).
