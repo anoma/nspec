@@ -181,10 +181,10 @@ search:
       the explanatory prose is succeeding the type definition.
       The form is similar that for
       [[Engine Environment Template#messages|messages]].
+    
+    Goal
 
-   Goal
-
-   : Each constructor should have some kind associated purpose.
+    : Each constructor should have some kind associated purpose.
 
 <!--
 !!! example
