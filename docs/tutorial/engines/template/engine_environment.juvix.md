@@ -162,4 +162,37 @@ search:
         ...
 -->
 
+### Mailbox state `{`optional`}`
 
+!!! note
+
+    Mailboxes of engines may have non-trivial state
+    for each mailbox;
+    if an engine familiy relies on non-trivial mailbox state,
+    it has to be documented here.
+    We want one Juvix record type or algebraic data type
+    at the level of the engine family;
+    each constructor typically correspond to a family of mailboxes
+    that serve a similar purpose.
+
+    Form
+
+    : A record type and explanatory prose for each constructor;
+      the explanatory prose is succeeding the type definition.
+      The form is similar that for
+      [[Engine Environment Template#messages|messages]].
+
+   Goal
+
+   : Each constructor should have some kind associated purpose.
+
+<!--
+!!! example
+
+    - Each mailbox has a ring buffer to estimate
+      the frequency of time stamping requests.
+
+??? todo
+
+    add juvix code for a ring buffer for this example ☝️
+-->
