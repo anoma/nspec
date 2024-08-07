@@ -49,18 +49,18 @@ Anoma is a distributed operating system for intent-centric
 applications[@goes2024anoma]. The Anoma protocol architecture supports interoperability at the
 
 - state,
-- network, and 
-- application levels 
+- network, and
+- application levels
 
 without restricting the types of intents or computational methods used to solve
-them. 
+them.
 
 As a multi-party intent-centric architecture, Anoma is designed for applications
-concerned with 
+concerned with
 
 - coordination of socio-economic processes dealing with resources,
 - distributed capabilities (freedom of action, and control over resources), and
-- agreement between agents (users) under conditions of heterogeneous trust. 
+- agreement between agents (users) under conditions of heterogeneous trust.
 
 The same architecture supports both arbitrary fungible measures of value (e.g.
 currencies) and unique (non-fungible) objects, so users can choose the
@@ -85,20 +85,6 @@ This site aims to describe the architecture required to implement the
 Anoma protocol and serves as a guide for Anoma researchers and implementors.
 
 <!-- The following todo would desapear on the online version. -->
-
-!!! todo
-
-    J: I want here a clickable diagram that shows the architecture of the Anoma protocol. Which diagram
-    should I use? As far as I remember, the following is the most recent one. Is it correct?
-    https://research.anoma.net/t/graphing-anoma-agents-v3/341/3
-
-    <figure markdown="span">
-    ![Message Diagram](rought_execution_engine_message_passing.svg){ width="450" }
-    <figcaption markdown="span">
-    The diagram illustrates the primary components of the Anoma protocol, detailing the architecture of an Anoma node and the interactions between each component within this architecture.
-    </figcaption>
-    </figure>
-
 
 ## Table of Contents
 

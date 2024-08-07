@@ -12,7 +12,7 @@ todos: False
 
 Place your `.bib` files within the `docs/references` directory. For convenience,
 we have included all the ART published papers in the `docs/references/art.bib`
-file. 
+file.
 
 Any new `.bib`
 file added to this folder will automatically be processed.
@@ -26,3 +26,8 @@ files. The syntax is as follows:
 This statement requires a citation [@citation_key].
 ```
 
+!!! note
+
+    We have `docs/references/update_repo_bibtexs.py` script that can be used to
+    update the `docs/references/anoma_repos.bib` file to cite Anoma repositories
+    in the documentation.
