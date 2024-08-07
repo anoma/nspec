@@ -28,11 +28,11 @@ nav:
     - Node Architecture:
       - ./node_architecture/index.md
       - Modules:
-        - ./noarchitecture/modules/index.md
-      - Juvix Prelude: ./noarchitecture/Prelude.juvix.md
-      - Engine Families: 
-        - ./noarchitecture/engines/index.juvix.md
-        - Engine Family Types: ./noarchitecture/types/EngineFamily.juvix.md
+        - ./node_architecture/modules/index.md
+      - Juvix Prelude: ./node_architecture/prelude.juvix.md
+      - Engine Families:
+        - ./node_architecture/engines/index.juvix.md
+        - Engine Family Types: ./node_architecture/types/engine_family.juvix.md
       - Hardware Abstraction Machine:
         - ./node_architecture/hardware_abstraction/index.md
         - Local Storage Engines:
@@ -403,16 +403,16 @@ nav:
       - ./tutorial/engines/index.juvix.md
       - The Ticker Engine Family:
         - ./tutorial/engines/ticker/index.juvix.md
-        - Ticker Environment: ./tutorial/engines/ticker/Env.juvix.md
-        - Ticker Guarded Actions: ./tutorial/engines/ticker/Actions.juvix.md
+        - Ticker Environment: ./tutorial/engines/ticker/env.juvix.md
+        - Ticker Guarded Actions: ./tutorial/engines/ticker/actions.juvix.md
       - Engine Templates:
         - ./tutorial/engines/templates/index.md
-        - Engine Overview: ./tutorial/engines/templates/OverviewTemplate.md
-        - Engine Environment: ./tutorial/engines/templates/EnvironmentTemplate.juvix.md
-        - Engine Dynamics: ./tutorial/engines/templates/DynamicsTemplate.juvix.md
-        - Engine Overview Example: ./tutorial/engines/templates/OverviewExample.md
-        - Engine Environment Example: ./tutorial/engines/templates/EnvironmentExample.juvix.md
-        - Engine Dynamics Example: ./tutorial/engines/templates/DynamicsExample.juvix.md
+        - Engine Overview: ./tutorial/engines/templates/overview_template.md
+        - Engine Environment: ./tutorial/engines/templates/environment_template.juvix.md
+        - Engine Dynamics: ./tutorial/engines/templates/dynamics_template.juvix.md
+        - Engine Overview Example: ./tutorial/engines/templates/overview_example.md
+        - Engine Environment Example: ./tutorial/engines/templates/environment_example.juvix.md
+        - Engine Dynamics Example: ./tutorial/engines/templates/dynamics_example.juvix.md
 
 extra:
   social:

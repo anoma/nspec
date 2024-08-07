@@ -11,16 +11,14 @@ search:
 ```juvix
 module everything;
 
-import architecture-2.engines.index;
+import node_architecture.basics;
+import node_architecture.engines.index;
+import node_architecture.types.engine_family;
 
-import architecture-2.Prelude;
-import architecture-2.types.EngineFamily;
-
-import architecture-2.engines.compute;
-import architecture-2.engines.p2p;
+import node_architecture.engines.compute;
+import node_architecture.engines.p2p;
 
 -- Tutorials
-import tutorial.engines.index;
-import tutorial.engines.Ticker;
+import tutorial.engines.ticker;
 ```
 

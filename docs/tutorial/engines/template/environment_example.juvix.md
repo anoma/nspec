@@ -10,8 +10,8 @@ search:
 
     ```juvix
     module tutorial.engines.Templates.EnvironmentExample;
-    import architecture-2.Prelude open;
-    import architecture-2.types.EngineFamily as EngineFamily;
+    import node_architecture.basics open;
+    import node_architecture.types.EngineFamily as EngineFamily;
     open EngineFamily using {
         Engine;
         EngineEnvironment;

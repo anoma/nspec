@@ -11,15 +11,15 @@ tags:
 ??? info "Juvix imports"
 
     ```juvix
-    module architecture-2.engines.index;
+    module node_architecture.engines.index;
 
-    import architecture-2.Prelude open;
-    import architecture-2.types.EngineFamily as Base open using {EngineFamily};
+    import node_architecture.basics open;
+    import node_architecture.types.engine_family as Base open using {EngineFamily};
 
-    import tutorial.engines.Ticker as Ticker open using {TickerFamily; zeroTicker};
+    import tutorial.engines.ticker as ticker open using {tickerFamily; zeroticker};
     ```
 
-    !!! note 
+    !!! note
 
         This module is not intended to be translated to Isabelle, as it contains
         unsopported definitions. It is used to provide a high-level overview of the
@@ -42,7 +42,7 @@ names.
 ## Engine Families in Juvix
 
 Below, we use [Juvix](https://docs.juvix.org) to define a sum type to
-index the different engine families. 
+index the different engine families.
 
 !!! warning
 
@@ -62,28 +62,28 @@ Getters help retrieve types for specific engine families:
 
 ```juvix
 getEngineFamilyType (fam : AnomaEngineFamilyType) : Type :=
-  case fam of { 
+  case fam of {
   | Ticker := Ticker.EngineFamilyType
    };
 ```
 
 ```juvix
 getEngineInstanceType (fam : AnomaEngineFamilyType) : Type :=
-  case fam of { 
+  case fam of {
   | Ticker := Ticker.EngineInstanceType
    };
 ```
 
 ```juvix
 getEnvironmentType (fam : AnomaEngineFamilyType) : Type :=
-  case fam of { 
+  case fam of {
   | Ticker := Ticker.EnvType
    };
 ```
 
 ```juvix
 getGuardedActionType (fam : AnomaEngineFamilyType) : Type :=
-  case fam of { 
+  case fam of {
   | Ticker := Ticker.GuardedActionType
    };
 ```
@@ -95,7 +95,7 @@ of these engine families. Below, we define another union type to index engine
 instances. Again, we use the Ticker engine family as an example. To list all
 possible engine families, we use the Box type constructor to define a sum type.
 
-??? quote "Auxiliary box types in Juvix" 
+??? quote "Auxiliary box types in Juvix"
 
     To list all possible engine families, we use the `Box` type constructor to
     define a sum type. So **Box A a** is a type-valued function that encapsulates
@@ -106,8 +106,8 @@ possible engine families, we use the Box type constructor to define a sum type.
     Box (A : Type) (a : A) : Type := Pair Type A;
     ```
 
-    For example, 
-      
+    For example,
+
     ```
     fourty-two : Type := Box Nat 42;
     ```
@@ -120,7 +120,7 @@ type AnomaEngineInstanceType :=
   ;
 ```
 
-As an example of an engine instance, we have the canonical ticker. 
+As an example of an engine instance, we have the canonical ticker.
 
 ```
 tickerInstance : getEngineInstanceType Ticker := zeroTicker;

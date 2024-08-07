@@ -26,7 +26,7 @@ which describe the desired form of
 [[Engine Families|engine family]] specifications.
 
 !!! abstract "Summary and note to the reader"
-    
+
     This page is intended as a quick start manual
     that guides the reader by means of examples;
     in a sense,
@@ -40,7 +40,7 @@ which describe the desired form of
     whenever suitable,
     we also refer to the _mathematical backbone_
     at [formanoma](https://github.com/anoma/formanoma).[^0]
-    
+
     In short,
     the main purpose of this tutorial is
     to enable you to write Juvix code
@@ -49,10 +49,10 @@ which describe the desired form of
     but feel free to have a quick look at
     the [[The Ticker Engine Family|ticker example]] first
     or delve directly into the
-    [[On Engines in the Anoma Specification#local-data-of-engine-instances-clocks-and-the-global-state|details]]    
+    [[On Engines in the Anoma Specification#local-data-of-engine-instances-clocks-and-the-global-state|details]]
     and come back here if you like to read more about the general context.
 
-??? note "Juvix modules and `import` statements" 
+??? note "Juvix modules and `import` statements"
 
     Every page in the Anoma specification that contains Juvix code has to define a module for it.
     This page, for example, defines the module `tutorial.engines.index`,
@@ -66,7 +66,7 @@ which describe the desired form of
     to bring some common types and functions from the Node Architecture's [[Juvix Prelude|prelude]].
 
     ```juvix
-    import architecture-2.Prelude open;
+    import node_architecture.basics open;
     ```
 
 ## Introduction
@@ -93,15 +93,15 @@ which describe the desired form of
 
     for the sake of example
 
-    !!! todo "clean up this question" 
+    !!! todo "clean up this question"
 
         the two bullets are
 
         - "section title guidelines"
-        - "wiki link guide" 
+        - "wiki link guide"
 
-### Message passing and message sequence charts    
-     
+### Message passing and message sequence charts
+
 In the Anoma specification,
 we use the
 [message passing paradigm](https://en.wikipedia.org/wiki/Message_passing)
@@ -119,7 +119,7 @@ describes the British greeting protocol.
 
 ```mermaid
 %%{initialize: {'mirrorActors': false} }%%
-sequenceDiagram 
+sequenceDiagram
   participant Greeter as John
   participant Greetee as Alice
   Greeter -) Greetee: How do you do?
@@ -140,7 +140,7 @@ they can be used to illustrate client-server interactions).
 
 The greeting protocol is only the "Hello world" of protocols.
 Our running example will be a time stamping server.
-We start simple and 
+We start simple and
 gradually incorporate additional functionality along the way.
 
 !!! example "Running example: Time stamping server"
@@ -154,7 +154,7 @@ gradually incorporate additional functionality along the way.
     Thus, the primary task of the server is
     to pair hashes with time stamps
     and signing such pairs;
-    moreover, 
+    moreover,
     the server sends the timestamped hashes
     to an arbitrary "address"
     that was specified as part of the time stamping request.
@@ -174,7 +174,7 @@ gradually incorporate additional functionality along the way.
     ```
 
     <figcaption markdown="span">
-    Time stamping server example: Alice requests a time stamp for hash `0x1337` 
+    Time stamping server example: Alice requests a time stamp for hash `0x1337`
     from the time stamping server, which then sends a new attestation to Bob.
     </figcaption>
 
@@ -182,20 +182,20 @@ gradually incorporate additional functionality along the way.
 
     Thus, the behaviour of time stamping servers can be described as serving time
     stamping requests.
-    
+
     !!! note "Details of a time stamping request"
-    
+
         A time stamp request has the following form:
 
         `TimeStampRequest`( _hash:_ bytes, _destination:_ name )
-      
+
         where `TimeStampRequest` is the message _tag_ and the arguments of the message
         are
 
-        hash 
+        hash
 
         : a fixed sized _hash_ given as a byte string
-        
+
         destination
 
         : the destination, given as a name of an engine instance
@@ -218,7 +218,7 @@ gradually incorporate additional functionality along the way.
 
     ```juvix
     --- the datatype of messages that a time stamping server can process
-    
+
     type TimeStampingServerMessage :=
       | TimeStampRequest {
           hash : Hash;
@@ -229,11 +229,11 @@ gradually incorporate additional functionality along the way.
 ### Engine instances are running the Anoma protocol
 
 !!! tip "Engine instance: think [actor](https://en.wikipedia.org/wiki/Actor_model_theory) (but with computable behaviour and other differences)"
-    
+
     The first thing to remember is that in the Anoma specification,
     the participants that exchange messages will be called
     [[Engine instance|engine instances.]]
-    Engine instances are similar to actors of the 
+    Engine instances are similar to actors of the
     [actor model](https://en.wikipedia.org/wiki/Actor_model);[^1]
     however, we prefer to use fresh terminology,
     as there is some "fine print" concerning differences to the
@@ -263,7 +263,7 @@ We shall use finite sets of
 to specify behaviours of engine instances:
 guarded actions describe all
 [[On Engines in the Anoma Specification#action|actions]]
-that are to be performed 
+that are to be performed
 in reaction to a newly arrived message or clock notification,
 if the conditions expressed by a
 [[On Engines in the Anoma Specification#guard|guard]] are met.
@@ -272,7 +272,7 @@ the guard of a guarded actions determines
 whether or not an action is _enabled_
 (among other things),
 when a message or clock notification is received.
-The decision of whether an action is enabled or not 
+The decision of whether an action is enabled or not
 typically depends on local information of the engine.
 Let us consider an example of guarded actions at work
 using a (variation of) the time stamping server.
@@ -284,7 +284,7 @@ using a (variation of) the time stamping server.
     arrived.
 
     We can describe the guard using a simple flowchart.
-        
+
     === "Diagram"
 
         <figure markdown="span">
@@ -317,7 +317,7 @@ using a (variation of) the time stamping server.
 
     Note that we use:
 
-    - **Diamond shapes** for decisions. 
+    - **Diamond shapes** for decisions.
     - **Rectangles** for intermediate processing, particularly matching of arguments
       from a message
     - **Rounded boxes** for the actions to perform and the "parameters" passed
@@ -343,9 +343,9 @@ using a (variation of) the time stamping server.
     determines—among other things—whether the action is enabled.
     In the case where there is at most one action enabled,
     guards encode the pre-conditions of an action.
-    
+
 ??? note "Action: like event ([event structure](https://en.wikipedia.org/wiki/Event_structure), [actor model](https://en.wikipedia.org/wiki/Actor_model)), _but_ with duration"
-    
+
     Performing an action
     corresponds to an event in the sense of [actor model theories](https://en.wikipedia.org/wiki/Actor_model_theory) or [event structures](https://en.wikipedia.org/wiki/Event_structure);
     however,
@@ -358,12 +358,12 @@ using a (variation of) the time stamping server.
     the notification about elapsed timers[^3];
     performing an action has possibly several effects
     in each of the following four categories:
-    
+
     - state updates of the engine instance
     - adding messages to the send queue
     - setting new timers and cancelling or resetting old ones
     - creating new engine instances[^4].
-    
+
 ??? warning "Events of [event-driven state machines](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html): rather like action _triggers_"
 
     While [event-driven state machines](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html) are a rich source of inspiration,
@@ -371,7 +371,7 @@ using a (variation of) the time stamping server.
     it may be that the usage of the term event
     for event-driven state machines is slighly different.
     For example,
-    we can read on 
+    we can read on
     [the cited page](https://www2.erlang.org/documentation/doc-8.1/doc/design_principles/statem.html) that
 
     !!! quote ""
@@ -411,7 +411,7 @@ using a (variation of) the time stamping server.
     [finite state machines](https://en.wikipedia.org/wiki/Automata_theory#Formal_definition)
     (or rather [Moore machines](https://en.wikipedia.org/wiki/Moore_machine#Formal_definition))[^A].
     However,
-    transition functions will be a "derived concept" 
+    transition functions will be a "derived concept"
     in the Anoma specification
     (see [[On Engines in the Anoma Specification#on-labelled-state-transitions-via-guarded-actions|below]]).
     The reason is that we
@@ -455,7 +455,7 @@ introducing all necessary concepts in detail.
 
 ??? note "“Delayed” definition of [[On Engines in the Anoma Specification#engine-instance|engine instance]]"
 
-    The proper definition of engine instance 
+    The proper definition of engine instance
     is deferred to a later point
     because we want to make reference to sets of guarded actions,
     which we have not properly defined, yet.
@@ -478,9 +478,9 @@ and give a correponding juvix type.
 ??? info "Juvix imports"
 
     ```juvix
-    import architecture-2.types.EngineFamily open;
+    import node_architecture.types.EngineFamily open;
     ```
-    
+
 ### Engine Environments
 
 An [[Engine Family Types#engine-family-environment|_engine environment_]]
@@ -496,14 +496,14 @@ is a record with the following fields:
   which is a partial map<!--LNK Map.html#Data.Map:10--><!--
   cf. https://github.com/anoma/formanoma/blob/a00c270144b4cfcf2aea516d7412ffbe508cf3d1/Types/Engine.thy#L211-->
 
-    - from _mailbox identifiers_<!--LNK Prelude.html#architecture-2.Prelude:37  MailboxID-->
+    - from _mailbox identifiers_<!--LNK Prelude.html#node_architecture.basics:37  MailboxID-->
       (**MID** for short)
 
-    - to _mailboxes_,<!--LNK Prelude.html#architecture-2.Prelude:35 Mailbox-->
+    - to _mailboxes_,<!--LNK Prelude.html#node_architecture.basics:35 Mailbox-->
       which in turn consist of
 
-        - a list of messages<!--LNK Prelude.html#architecture-2.Prelude:11 EnvelopedMessage-->
-        - an optional mailbox-specific state<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:53 MailboxStateType-->
+        - a list of messages<!--LNK Prelude.html#node_architecture.basics:11 EnvelopedMessage-->
+        - an optional mailbox-specific state<!--LNK http://127.0.0.1:8000/nspec/latest/node_architecture/Prelude.html#node_architecture.basics:53 MailboxStateType-->
 
   - its _acquaintances_[^5], represented by
 
@@ -511,7 +511,7 @@ is a record with the following fields:
 
 - memory for previously set timers, given by
 
-    - a finite list of timers<!--LNK http://127.0.0.1:8000/nspec/latest/architecture-2/Prelude.html#architecture-2.Prelude:39 Timer-->
+    - a finite list of timers<!--LNK http://127.0.0.1:8000/nspec/latest/node_architecture/Prelude.html#node_architecture.basics:39 Timer-->
 
 - local state (a type parameter of the engine environment).
 
@@ -554,7 +554,7 @@ greeting protocol.
 
     --- the type of the engine environment of a greetee
 
-    GreeteeEnvironment : Type := 
+    GreeteeEnvironment : Type :=
          EngineEnvironment Unit GreeteeMessage Unit Unit;
     ```
 
@@ -565,11 +565,11 @@ greeting protocol.
     2. the type of accepted messages (this one we do use in the example);
     3. the type of mailbox-specific state if we want to use it;
     4. the type of timer handles (not needed for this example).
-    
+
     The
     [[Engine Family Types#engine-family-environment|definition of engine environment]]
     provides all the detail.
-    
+
 ### Engine sets
 
 We want to define an _engine set_<!--LNK see the todo below--> as
@@ -611,7 +611,7 @@ a specific example.
 
     --- the type of the engine environment of greeters
 
-    GreeterEnvironment : Type := 
+    GreeterEnvironment : Type :=
          EngineEnvironment GreeterLocalState GreeterMessage Unit Unit;
 
     --- finally, we have the (derived) GreetingEngineEnvironment
@@ -690,16 +690,16 @@ We give a somewhat generic example for
 protocols that take four different types of engine environments.
 
 ```juvix
-EngineEnvironmentOne : Type := 
+EngineEnvironmentOne : Type :=
   EngineEnvironment Unit Unit Unit Unit;
 
-EngineEnvironmentTwo : Type := 
+EngineEnvironmentTwo : Type :=
   EngineEnvironment Unit Unit Unit Unit;
 
-EngineEnvironmentThree : Type := 
+EngineEnvironmentThree : Type :=
   EngineEnvironment Unit Unit Unit Unit;
 
-EngineEnvironmentFour : Type := 
+EngineEnvironmentFour : Type :=
   EngineEnvironment Unit Unit Unit Unit;
 
 type FourfoldEngineEnvironment :=
@@ -718,7 +718,7 @@ however,
 it will turn out to be useful when we describe
 [[Engines in Anoma#a-finite-set-of-guarded-actions-for-each-engine-environment|the dynamics of engine systems]]
 (and ideally it would be automatically generated).
-    
+
 ### Engine systems
 
 ??? todo "add link for engine systems"
@@ -751,7 +751,7 @@ and then describe the recipe for the general case.
     and an example of an engine system.
 
     ##### Time stamping server
-    
+
     We equip the time stamping server
     with some data for measuring rate limits to its mailbox
     (and later we will extend the example with
@@ -790,14 +790,14 @@ and then describe the recipe for the general case.
     then is as follows.
 
     ```juvix
-    TimeStampingServerEngineEnvironment : Type := 
+    TimeStampingServerEngineEnvironment : Type :=
          EngineEnvironment TimeStampingServerMailboxState ClientMessage TimeStampingMailboxState Unit;
     ```
 
     <!--Timers will not matter until a third revision of the time stamping server.-->
 
     ##### Clients
-    
+
     Now,
     the environments of clients hold only one piece of data:
     a list of hashes to be time stamped and sent to a destination.
@@ -827,7 +827,7 @@ and then describe the recipe for the general case.
     and simply use strings to refer to specific timers.
 
     ```juvix
-    ClientEngineEnvironment : Type := 
+    ClientEngineEnvironment : Type :=
           EngineEnvironment ClientState ClientMessage Unit String;
     ```
 
@@ -874,7 +874,7 @@ and then describe the recipe for the general case.
 
     2. For the engine system, we need to also define
     a single message type that encompasses all the messages.
-    
+
     ```juvix
     type TimeStampingNetworkMessage :=
     | Client ClientMessage
@@ -887,8 +887,8 @@ and then describe the recipe for the general case.
          network : Set TimeStampingNetworkMessage
     };
     ```
-    
-    ??? todo "give example term of this type" 
+
+    ??? todo "give example term of this type"
 
         make an engine system with two clients,
         each one holding at least one hash
@@ -900,7 +900,7 @@ and then describe the recipe for the general case.
 We finally come to define how we model the state of systems,
 in particular how we reason about any "deployed" Anoma instance in the Anoma specification.
 We give the defintion in analogy to
-the example of engine sets. 
+the example of engine sets.
 
 ??? todo "fill in message types"
 
@@ -917,9 +917,9 @@ type FourfoldEngineSystem := mkFourfoldEngineSystem{
 ```
 
 Thus, engine systems are a record with the following fields:
-    
+
 engine set
-    
+
 : the set of engine environments
 
 clocks
@@ -955,7 +955,7 @@ to advance an engine system to the next state
 (very much like in [stateright](https://github.com/stateright/stateright));
 moreover,
 we generate a transition label along the way,
-which provides information about what made the transition happen, 
+which provides information about what made the transition happen,
 which aspects of the transition are "observable" to whom, and so forth.
 
 !!! tip "The gist of state transitions"
@@ -974,7 +974,7 @@ which aspects of the transition are "observable" to whom, and so forth.
       (see the spawning of engines<!--LNK-->).
 
     ??? todo "add link above"
-        
+
         `- new engine environments (see the spawning of engines<!--LNK-->)`
 
 Before we delve into the details of how transitions are to be specified,
@@ -982,7 +982,7 @@ note that the use of labelled state transitions goes back to the seminal work of
 [Henessy and Milner](https://en.wikipedia.org/wiki/Hennessy%E2%80%93Milner_logic).
 Additional sources of inspiration are
 Lamport's
-[temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html), 
+[temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
 Dijkstra's
 [_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
 and guard functions of [coloured Petri nets](https://en.wikipedia.org/wiki/Coloured_Petri_net).
@@ -1001,7 +1001,7 @@ as a record of
 - a finite set of _guarded actions,_ whose elements consist of
 
   - a _guard function_, and
-  - a non-empty set of _actions_. 
+  - a non-empty set of _actions_.
 
 Thus, it remains to define guard function and action.
 
@@ -1042,7 +1042,7 @@ The guard inputs are, a time stamp, a trigger, and the engine environment.
 Trigger
 
 : The trigger is either a
-  
+
   - clock notification about a non-empty set of elapsed timers or
   - a received message.
 
@@ -1141,7 +1141,7 @@ a new *"continuation engine"* can be spawned with a new name.
 ### Engine instance
 
 Thus, we finally can define _engine instance_ as a pair
-of an engine environment in an engine system 
+of an engine environment in an engine system
 and the associated guarded action.
 
 <!--ᚦ: some old stuff
@@ -1239,7 +1239,7 @@ the input of the guard function is
 
 
 ??? todo
-  
+
   add details according to the discussion in the PR,
   see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
 
@@ -1367,7 +1367,7 @@ to a finitely branching tree:
 - inner nodes are either
     - user choices from a finite number of candidates or
     - random experiments of rolling of an $n$-sided dice[^9].
-  
+
 !!! note
 
   Interactive actions are not yet covered by the templates.
@@ -1432,12 +1432,12 @@ The details of guarded actions are explained in the [[Guarded Engine Template]].
 
 ## Templates for engine family specifications
 
-For each engine family, 
+For each engine family,
 we want the general context,
 one or several message sequence charts,
 and then a description of all the details:
 in particular
-engine-specific types 
+engine-specific types
 and, most ímportantly,
 the set of guarded actions.
 
@@ -1489,7 +1489,7 @@ The templates are on a [[Engine Templates|separate page]].
             - messages to be sent {prose}
         - timer to be set {prose}
         - engines to be spawned {prose}
-  - ...	
+  - ...
     - guarded action αk (e.g., finalise auction)
         - guard αk {`local data * trigger → arguments option`}
       - action αk {`local data * arguments → local data update * sends * timers * spawns`}
@@ -1508,13 +1508,13 @@ The templates are on a [[Engine Templates|separate page]].
   !!! info
 
         The below template can be found in the `overrides/templates/engine-template.md` file.
-    
+
   !!! info
-  
+
     Text in curly braces `{` `}` is used for short explanations of titles
     and/or further context. Text in square brackets `[` `]` is a description
     of what should be put or what it represents.
-    
+
 
     --8<-- "./../overrides/templates/engine-template.md:6"
 
@@ -1539,8 +1539,8 @@ The templates are on a [[Engine Templates|separate page]].
       but rather on formal properties of any Anoma model implementation,
       which are to be defined on a higher level that the model implementation.
 
-[^1]: At the time of writing V2 specs, further relevant sources are 
-  *Selectors: Actors with Multiple Guarded Mailboxes*[@selectors-actors-2014] 
+[^1]: At the time of writing V2 specs, further relevant sources are
+  *Selectors: Actors with Multiple Guarded Mailboxes*[@selectors-actors-2014]
   and
   *Special Delivery: Programming with Mailbox Types*[@special-delivery-mailbox-types-2023].
   We shall refer to mailbox types of the latter paper
@@ -1556,7 +1556,7 @@ The templates are on a [[Engine Templates|separate page]].
   each engine instance is "tightly" coupled with a clock and local input streams
   although they are not part of its own state, because they are beyond control.
   However,
-  the transition function also specifies how to interact with 
+  the transition function also specifies how to interact with
   the clock and the input streams;
   the transition function "itself" however is a pure function.
 
@@ -1588,7 +1588,7 @@ The templates are on a [[Engine Templates|separate page]].
 
 [^9]: See the
   [`local_interaction`data type](https://github.com/anoma/formanoma/blob/f70a041a25cfebde07d853199351683b387f85e2/Types/Engine.thy#L53).
-  
+
 [^X]: Note that in TLA⁺, pre-conditions of actions are
   present in the guise of the `ENABLED` predicate.
 

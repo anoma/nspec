@@ -13,10 +13,10 @@ tags:
 ??? info "Juvix imports"
 
     ```juvix
-    module tutorial.engines.Ticker.Env;
+    module tutorial.engines.ticker.Env;
 
-    import architecture-2.Prelude open;
-    import architecture-2.types.EngineFamily as EngineFamily;
+    import node_architecture.basics open;
+    import node_architecture.types.EngineFamily as EngineFamily;
     open EngineFamily using {
         Engine;
         EngineEnvironment;
@@ -95,9 +95,9 @@ of the engine environment. Nonetheless, to ensure clarity, let us define it
 explicitly using the `Environment` type.
 
 ```juvix
-EnvType : Type := 
-  EngineFamily.EngineEnvironment 
-    LocalStateType 
+EnvType : Type :=
+  EngineFamily.EngineEnvironment
+    LocalStateType
     IMessageType
     MailboxStateType
     TimerHandleType;

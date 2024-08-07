@@ -2,7 +2,6 @@
 icon: material/file-document-outline
 search:
   exclude: false
-  boost: 
 tags:
 - Juvix-Types
 - Juvix-Prelude
@@ -10,7 +9,8 @@ tags:
 
 
 ```juvix
-module Prelude;
+module juvix_commons;
+
 import Stdlib.Trait open public;
 ```
 
@@ -217,8 +217,8 @@ The term `undef` is a placeholder for unspecified values.
 axiom undef : {A : Type} -> A;
 ```
 
-For example, 
-  
+For example,
+
 ```juvix
 undefinedNat : Nat := undef;
 ```

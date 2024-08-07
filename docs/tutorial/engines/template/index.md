@@ -1,6 +1,6 @@
 # Engine Family Templates
 
-For each engine template, 
+For each engine template,
 we have three different files
 and accordingly, we have three[^1] different template files,
 each of which comes with an example file, which can be opened side by side.

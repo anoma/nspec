@@ -7,32 +7,32 @@
 	We want a high level description of
 	which conditions enable actions
 	and the effects of each potential action to be performed.
-	
+
 	Form
-	
-	: Some short paragraphs as a summary, ideally just one. 
-	More details will follow in 
+
+	: Some short paragraphs as a summary, ideally just one.
+	More details will follow in
 	the respective secion(s) on the guard and the action(s).
 
 !!! example
 
 	The time stamping server has a build in rate limit.
 	Time stamping requests are only served
-	if the mean time between received requests is within 
+	if the mean time between received requests is within
 	bounds that have been fixed at creation.
 	<!--ᚦ: no idea where this came from:
 	"which is not present in V2".-->
 
 !!! note
 
-	Typically, new events are "muted" for the time of 
+	Typically, new events are "muted" for the time of
 	guard evaluation and action execution.
-	The only envisaged way around this is 
+	The only envisaged way around this is
 	the specification of a "hard" maximum duration of action processing,
 	after which the action processing is terminated with a timeout,
-	and a previously specified default value is returned 
+	and a previously specified default value is returned
 	(typically also indicating the occurrence of the timeout).
-	
+
 ## Guard
 
 !!! note
@@ -41,27 +41,27 @@
 	we may have a case distinction.
 	For each case, also if it is just one,
 	we need to describe the matched arguments,
-	the action label, 
+	the action label,
 	and any other precomputations.
 
 	Conceptual structure
-	
-	: We essentially need a decision tree, flow chart, or similar for 
-	
+
+	: We essentially need a decision tree, flow chart, or similar for
+
 	- how to determine whether an action is enabled (and which one), and
-	
-	- describe the list of matched arguments and pre-computations 
+
+	- describe the list of matched arguments and pre-computations
 	and how they are computed along the way.
 
 
 	Form
-	
-	: There are three parts: 
-	
+
+	: There are three parts:
+
 	1. an (optional?) flow chart that matches the conceptual structure
-	where decision are diamonds (`{ decision node text }`), 
+	where decision are diamonds (`{ decision node text }`),
 	we (ab-)use rectangular boxes to describe matching of arguments
-	(`[ processing node text ]`), and 
+	(`[ processing node text ]`), and
 	the terminals are "stadium" (`([ final action to take])`).
 
 	2. an English language description of the logic
@@ -69,16 +69,16 @@
 	also descriptions of the  matched argument,
 	using a [definition list](https://pandoc.org/MANUAL.html#definition-lists)
 	as in the example below.
-	
+
 	3. Juvix code of the actual guard function
 
 !!! warning
 
-	Mermaid has some restriction on how to use markdown by default: 
+	Mermaid has some restriction on how to use markdown by default:
 
     - [markdown](https://mermaid.js.org/syntax/flowchart.html#markdown-formatting)
 	  has to be enclosed into ``"` ‌`` ``‌ `"`` braces;
-	
+
 	- the typewriter style, i.e., `text like this`, seems not easily usable.
 
 <!--ᚦ: [let's keep this one/three lines of Chris's here, just in case]
@@ -93,22 +93,22 @@ Guards can provide information (similar to pattern-matching) which can then be u
 		check -->|yes| A[match hash and »reply to address«]
 	    A --> doA(["` time stamp _hash_ _reply to_ `"])
 		check -->|no| B(["` no op `"])
-		
+
 	```
 
 	If the rate limit is not surpassed, we answer the request.
 	The matched arguments are the hash to be time stamped
-	and the address to which we have to respond. 
-	
+	and the address to which we have to respond.
+
 	hash
-	
+
 	:  matched argument
-	
-	
+
+
 	returnAdress
-	
+
 	:  matched argument
-		
+
 
 	<!--```juvix-->
     ```
@@ -120,12 +120,12 @@ Guards can provide information (similar to pattern-matching) which can then be u
 !!! note
 
 	The guard _may_ have a complicated tree-like structure.
-	If there are several natural distinct cases 
+	If there are several natural distinct cases
 	each of which is a (sub-)action,
 	then we may actually have a set of more than one action
 	that share the very same guard.
-	
-	
+
+
  <!--!!! example
 ¶
 	There is always the `no op` opeartion as default,
@@ -134,9 +134,9 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 ## [Action name $i$] [action label $i$] `{each action i needs a label for the LTS anyway}`
 
-!!! note 
-	
-	The description of the actions starts 
+!!! note
+
+	The description of the actions starts
 	with an English language high-level description,
 	followed by more detailed descriptions
 	of state update, messages to be sent, timers to be set/cancelled/reset,
@@ -156,7 +156,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
 	we have to update the ringbuffer of the mailbox state.
 
     ??? "show me the code"
-	
+
 	<!--```juvix-->
     ```
 	;
@@ -166,8 +166,8 @@ Guards can provide information (similar to pattern-matching) which can then be u
 !!! todo
 
 	simple juvix code example of client server
--->	
-	
+-->
+
 
 ### Effects
 
@@ -180,7 +180,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
 !!! note
 
 	Describe the state update
-	
+
 !!! example
 
 	The rate limit is constant in the example.
@@ -191,13 +191,13 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 	Describe the messages to be sent
 	as a list (or a set if you prefer).
-	
+
 !!! example
 
-	We send only a single message. 
-	
+	We send only a single message.
+
 	- Send the time stamped hash to the requested »reply to« address.
-	
+
 #### engines to be created
 
 !!! note
@@ -208,13 +208,13 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 	No engines are created.
 
-#### timers to be set/cancelled/reset 
+#### timers to be set/cancelled/reset
 
 !!! note
 
 	Describe the engines timers to be set/cancelled/reset.
-	
+
 !!! example
 
 	The time stamping server does not need to set any timers.
-	
+

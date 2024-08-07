@@ -9,15 +9,15 @@ tags:
 ---
 
 ```juvix
-module architecture-2.Prelude;
-import Prelude open public;
-import Prelude open using {Hash} public; -- TODO: review this, in principle, it should be imported with the previous import
+module node_architecture.prelude;
+import prelude open public;
+import prelude open using {Hash} public; -- TODO: review this, in principle, it should be imported with the previous import
 ```
 
 # Architecture Node - Juvix Prelude
 
 This document describes the basic types and functions used in the node architecture prelude.
-For a more general prelude, please refer to [Juvix Base Prelude](./../Prelude.juvix.md).
+For a more general prelude, please refer to [Juvix Base Prelude](./../prelude.juvix.md).
 
 
 ### Network Identity types

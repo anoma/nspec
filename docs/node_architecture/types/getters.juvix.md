@@ -1,6 +1,6 @@
 
 
 ```juvix
-module architecture-2.types.getters;
-  import tutorial.engines.Ticker as Ticker;
+module node_architecture.types.getters;
+  import tutorial.engines.ticker as ticker;
 ```

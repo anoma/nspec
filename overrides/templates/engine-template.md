@@ -23,26 +23,26 @@ search:
 	- in relation to other engine instances within an Anoma node and/or
 
 	- as part of the whole Anoma instance at large.
-	
+
 
 	Form
-	
+
 	: The purpose description is in the form of some short paragraphs of prose, possibly just one.
 
 	Conceptual Structure
-	
+
 	: One relatively self-contained piece of prose,
 	providing links to techincal terms and unavoidable jargon.
 
-	
+
 !!! example
 
-	# Time Stamping Server Engine Family 
+	# Time Stamping Server Engine Family
 
-    Members of the _time stamping server_-family are accepting 
-	time stamping requests for fixed size hashes 
+    Members of the _time stamping server_-family are accepting
+	time stamping requests for fixed size hashes
 	that clients provide as part of their time stamping requests.
-	Request are answered with a response, 
+	Request are answered with a response,
 	consisting of the pair of the hash and the reception time stamp,
 	signed by the time stamping server instance.
 	The service has a rate limit that is set at creation.
@@ -51,49 +51,49 @@ search:
 
 !!! note
 
-	The (sub-)subsections of this section describe 
+	The (sub-)subsections of this section describe
 	all types—or type parameters, to be precise—that are
 	specific to engine family [family name].
 	However,
 	if several engine families share a type,
 	the best place to place the definition is either
 
-	- the lowest common ancenstor that the engine families share in 
+	- the lowest common ancenstor that the engine families share in
 		the engine family hierarchy, or
 
-	- a more suitable place, if that is not an option, 
+	- a more suitable place, if that is not an option,
 		e.g., if it is one of the [[Basic Types]].
-		
+
 ### Overview `{`optional`}`
-	
+
 !!! note
 
 	You may want to provide an overview of how things relate to each other.
 
 	Form
-	
+
 	: free form
 
 ### Engine-specific state type
 
 !!! note
 
-	The engine-specific state type is usually 
+	The engine-specific state type is usually
 	tailor made for each engine family.
-	
+
 	Form
-	
-	: Either a new definition of the type in Juvix, or an included code snipped with a link where it is defined. 
-	Moreover, here we want descriptions of the data structures 
+
+	: Either a new definition of the type in Juvix, or an included code snipped with a link where it is defined.
+	Moreover, here we want descriptions of the data structures
 	in English language, or a link to a wikipedia-page or similar.
-	
+
 !!! example
- 
- 
-	We use the state of the time stamping server 
+
+
+	We use the state of the time stamping server
 	to store the rate limit
 	(that we assume to be static for the sake of simplicity).
-	
+
 
 	<!--```juvix-->
     ```
@@ -101,7 +101,7 @@ search:
     ```
 
 !!! warning
-	
+
 	The local clocks of engine instances are "external" to engine instances.
 	If you need information about wall-clock time,
 	you can only keep track of "time stamps"
@@ -109,56 +109,56 @@ search:
 	Use clocks only if necessary.
 	Hoever, each Anoma node may at some point in time have
 	a node-wide wall-clock time service.
-	
+
 
 ### Message type(s)
 
 !!! note
 
-	Next, we describe all the message types that members of family [family name] 
+	Next, we describe all the message types that members of family [family name]
 	are able to process, in principle.
-	For each such "receivable" message type, 
+	For each such "receivable" message type,
 	we want
-	
+
 	- a _message tag_
     - a list of _argument types_
 	- a (default value for a) _formal parameter name_ for each element of the list of argument types
 
-	The term `message tag` is borrowed from 
-	[the Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832). 
+	The term `message tag` is borrowed from
+	[the Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832).
 	The list of argument types has to be uniquely determined by the message tag (at least within this engine family).
-	
+
 	Form
 
-	: We have exactly one level four heading `#### [Message Tag]` for each receivable message type. 
+	: We have exactly one level four heading `#### [Message Tag]` for each receivable message type.
 	The content has two parts.
-	
+
     1. Part one is given in the _form_ of a [definition list](https://pandoc.org/MANUAL.html#definition-lists) in the sense of markdown
-	(see also [here](https://stackoverflow.com/q/28057101)) 
-	where the "terms" are the formal parameter name defaults, 
+	(see also [here](https://stackoverflow.com/q/28057101))
+	where the "terms" are the formal parameter name defaults,
 	and the definitions are a short English language description of the role (and type) of the parameter, plus the type definition (with a link to where it is defined—if applicable).
-	
-    2. Part two provides (optional) additional information, 
+
+    2. Part two provides (optional) additional information,
 	e.g., design choices, explanation of the naming process, etc.
 
 
 !!! example
 
     #### TimeStampingRequest
-	
-	clientHash 
-	
+
+	clientHash
+
 	: The client hash to be time stamped.
-	
+
 	    <!--```juvix-->
 		```
      	clientHash : BitString;
     	```
 
 	returnAddress
-	
+
 	: The address that the time stamped hash should be sent to.
-	
+
 	    <!--```juvix-->
 		```
      	returnAdress : BitString;
@@ -169,26 +169,26 @@ search:
 ### Mailbox state type(s) `{`optional`}`
 
 !!! note
-	
+
 	Mailboxes of engines may have mailbox state.
 	If so, here is the place to describe them.
 	In fact, this is actually a list of different mailbox states
 	in that each mailbox may have a mailbox specific state.
-	
+
 	Form
-	
+
 	: A list of type definitions and explanatory prose;
 	the explanatory prose is preceding the type definition.
-	
-	
+
+
 !!! example
 
-	- Each mailbox has a ring buffer to estimate 
+	- Each mailbox has a ring buffer to estimate
 	the frequency of time stamping requests.
-	
+
 ??? todo
 
-	add juvix code for a ring buffer for this example ☝️ 
+	add juvix code for a ring buffer for this example ☝️
 
 ## [Title of Paradigmatic message sequence diagram(s)] `{`optional`}`
 
@@ -201,7 +201,7 @@ search:
 	each message sequence diagram in the engine family page describes
 	a pattern for test cases.
 	We can use
-    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) 
+    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
     to draw [message sequence diagrams](https://www.uml-diagrams.org/sequence-diagrams.html),
     using the `-)`-syntax by default,
     expressing that message sending is "asynchronous".
@@ -213,10 +213,10 @@ search:
 
 !!! example "Time Stamping Service"
 
-	A member of the time stamping server family 
+	A member of the time stamping server family
 	may respond slightly delayed.
 
-    
+
 	```mermaid
     sequenceDiagram
         participant A as GenericClientA
@@ -242,11 +242,11 @@ search:
 
 
     We can use
-    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) 
+    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
     to draw [message sequence diagrams](https://www.uml-diagrams.org/sequence-diagrams.html),<!--
-    see e.g., https://moves.rwth-aachen.de/teaching/ws-21-22/fuml/  
+    see e.g., https://moves.rwth-aachen.de/teaching/ws-21-22/fuml/
     - https://www.researchgate.net/profile/Joost-Pieter-Katoen/publication/221305522_Pomsets_for_MSC/links/5778102608aead7ba07461af/Pomsets-for-MSC.pdf
-    - our formal model should have a precise notion of these as well, 
+    - our formal model should have a precise notion of these as well,
       in particular if a given one can actually happen in our model
     -->
     using the `-)`-syntax by default,
@@ -257,7 +257,7 @@ search:
     A simple illustrative example is
     the request-response pattern.
 	A more complex example is given in the [[Engine Template Example]].
-    
+
 	```mermaid
     sequenceDiagram
         participant Client
@@ -303,7 +303,7 @@ search:
 
 
 	One may take a pre-existing diagram and
-    "cut out" a portion or 
+    "cut out" a portion or
     mark it as in the following variation of the previous diagram.
 
 
@@ -341,7 +341,7 @@ search:
 
 !!! note
 
-	As a birds eye view of all possible message exchanges between 
+	As a birds eye view of all possible message exchanges between
 	engine instances of several families,
 	we can draw a graph whose nodes are labelled with engine families
 	and whose edges are labelled with message types (possibly with message tags).
@@ -351,7 +351,7 @@ search:
 	to the target engine family.
 	We borrow the term conversation diagram from
 	[business process modeling](http://dx.doi.org/10.1016/B978-0-12-799959-3.00021-5).
-	The conversation diagram of an engine page only contains edges 
+	The conversation diagram of an engine page only contains edges
 	that have engine family [family name] as source or target.
 
 
@@ -360,7 +360,7 @@ search:
 
 	In the Narwhal mempool protocol,
 	the worker is in communication with other workers,
-	the user and its primary. 
+	the user and its primary.
 	A partial diagram would be the following.
 
 	```mermaid
@@ -377,7 +377,7 @@ search:
 	each with a list of incoming and outgoing messages,
 	relative to the current engine family [family name].
 	This is not yet implemented though.
-	
+
 ## Guarded Actions
 
 !!! note
@@ -397,18 +397,18 @@ search:
 <details>
   <summary>[single phrase on guarded action $1$]</summary>
   <p>[Guarded action one description]</p>
-</details> 
+</details>
 
-.  
-.  
-.  
+.
+.
+.
 
 ### [Guarded action $n$]
 
 <details>
   <summary>[single phrase on guarded action $n$]</summary>
   <p>[Guarded action $n$ description]</p>
-</details> 
+</details>
 
 
 [^1]: By default,

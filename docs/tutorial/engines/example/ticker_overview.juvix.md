@@ -13,9 +13,9 @@ tags:
 ??? info "Juvix imports"
 
     ```juvix
-    module tutorial.engines.Ticker.index;
-      import architecture-2.Prelude open;
-      import architecture-2.types.EngineFamily as EngineFamily;
+    module tutorial.engines.ticker.index;
+      import node_architecture.basics open;
+      import node_architecture.types.EngineFamily as EngineFamily;
       open EngineFamily using {
           Engine;
           EngineEnvironment;
@@ -27,8 +27,8 @@ tags:
           mkGuardedAction
       };
     open EngineFamily.EngineEnvironment;
-    import tutorial.engines.Ticker.Env open public;
-    import tutorial.engines.Ticker.Actions open public;
+    import tutorial.engines.ticker.Env open public;
+    import tutorial.engines.ticker.Actions open public;
     ```
 
 # Ticker Family Engine
@@ -44,11 +44,11 @@ state initialises the counter.
 
 ??? quote "Local Environment"
 
-    ---8<--- "tutorial/engines/Ticker/Env.juvix.md"
+    ---8<--- "tutorial/engines/Ticker/env.juvix.md"
 
 ??? quote "Guarded Actions"
 
-    ---8<--- "tutorial/engines/Ticker/Actions.juvix.md"
+    ---8<--- "tutorial/engines/Ticker/actions.juvix.md"
 
 
 ## Engine Family
@@ -58,10 +58,10 @@ type synonym for the corresponding engine family type to
 simplify the presentation.
 
 ```juvix
-EngineFamilyType : Type := 
-  EngineFamily 
-    LocalStateType 
-    IMessageType 
+EngineFamilyType : Type :=
+  EngineFamily
+    LocalStateType
+    IMessageType
     MailboxStateType
     TimerHandleType
     GuardReturnType
@@ -82,18 +82,18 @@ define the ticker starting in zero. We, again, define for shorten presentation, 
 corresponding engine instance type.
 
 ```juvix
-EngineInstanceType : Type := 
-  Engine 
+EngineInstanceType : Type :=
+  Engine
     LocalStateType
     IMessageType
     MailboxStateType
     TimerHandleType
-    GuardReturnType 
+    GuardReturnType
     OMessageType
     SpawnEngineType;
 ```
 
-Then, we define a `Ticker` engine instance as follows that set 
+Then, we define a `Ticker` engine instance as follows that set
 the counter to zero:
 
 ```juvix
