@@ -16,8 +16,12 @@ tags:
     import node_architecture.basics open;
     import node_architecture.types.engine_family as Base open using {EngineFamily};
 
-    import tutorial.engines.ticker as Ticker open using {TickerFamily; zeroTicker};
     ```
+
+    !!! todo  "fix code in this page"
+    
+        import tutorial.engines.ticker as Ticker open using {TickerFamily; zeroTicker};
+    
 
     !!! note
 
@@ -30,8 +34,8 @@ tags:
 In Anoma, an **engine** represents a computational process characterised by its
 state and behaviors. These engines are defined through _guarded actions_
 within an execution context known as the _engine environment_ of the engine
-instance. For a more detailed explanation, please refer to the section on
-[[Engines in Anoma|Engine in Anoma's tutorial]].
+instance. For a more detailed explanation, please refer to the tutorial on
+[[Engines in Anoma]].
 
 The Anoma Specification is structured around various _engine families_. Each of
 these families are designed to perform specific tasks within the system, such as handling
@@ -60,28 +64,28 @@ type AnomaEngineFamilyType :=
 
 Getters help retrieve types for specific engine families:
 
-```juvix
+```
 getEngineFamilyType (fam : AnomaEngineFamilyType) : Type :=
   case fam of {
   | Ticker := Ticker.EngineFamilyType
    };
 ```
 
-```juvix
+```
 getEngineInstanceType (fam : AnomaEngineFamilyType) : Type :=
   case fam of {
   | Ticker := Ticker.EngineInstanceType
    };
 ```
 
-```juvix
+```
 getEnvironmentType (fam : AnomaEngineFamilyType) : Type :=
   case fam of {
   | Ticker := Ticker.EnvType
    };
 ```
 
-```juvix
+```
 getGuardedActionType (fam : AnomaEngineFamilyType) : Type :=
   case fam of {
   | Ticker := Ticker.GuardedActionType
