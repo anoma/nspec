@@ -173,9 +173,12 @@ to be sent or for creating new engine instances.
 ```juvix
 type GuardedAction (S I M H A L X O C : Type) := mkGuardedAction {
    guard : Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> GuardOutput A L X;
-   action : ActionInput S I M H A L X -> ActionResult S I M H A L X O C
+   action : ActionInput S I M H A L X -> Maybe (ActionResult S I M H A L X O C)
 };
 ```
+
+If the action does not give a result,
+this means that the engine has terminated.
 
 ??? info "On the type signature of the guard function"
 
