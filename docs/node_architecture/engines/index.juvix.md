@@ -43,6 +43,13 @@ a particular consensus operation. Members of this family are individual engine
 instances that share the same behavior but have different local states and
 names.
 
+Thus, an engine family
+is pair of an engine environment type
+and a set of guarded actions;
+the additional context of this definition
+are protocol-level types for messages and envinronments.
+
+<!--
 ## Engine Families in Juvix
 
 Below, we use [Juvix](https://docs.juvix.org) to define a sum type to
@@ -130,3 +137,4 @@ As an example of an engine instance, we have the canonical ticker.
 tickerInstance : getEngineInstanceType Ticker := zeroTicker;
 ```
 
+-->
