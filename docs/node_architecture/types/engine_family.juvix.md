@@ -123,7 +123,8 @@ type ActionInput (S I M H A L X : Type)
   := mkActionInput {
       guardOutput : GuardOutput A L X;
       env : EngineEnvironment S I M H;
-      time : Time
+      trigger : Trigger I H;
+      time : Maybe Time
 };
 ```
 
