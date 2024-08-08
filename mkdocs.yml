@@ -401,13 +401,12 @@ nav:
         - Example of diff rendering: ./tutorial/file_v1.md
 
     - Engines in Anoma:
-      - ./tutorial/engines/index.juvix.md
+      - Writing Conventions: ./tutorial/engines/conventions.md
       - Engine Templates:
         - ./tutorial/engines/template/index.md
         - Engine Overview Template: ./tutorial/engines/template/engine_overview.md
         - Engine Environment Template: ./tutorial/engines/template/engine_environment.juvix.md
         - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.juvix.md
-      - Writing Conventions: ./tutorial/engines/conventions.md
       - Examples:
         - Ticker Engine Family:
           - Ticker Engine Overview: ./tutorial/engines/examples/ticker_overview.md
