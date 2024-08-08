@@ -135,15 +135,6 @@ action, which can be
 - Set, discards, or supersede timers.
 - Define new engine instances to be created.
 
-    ??? info "On creating new engine instances"
-
-        To create new engine instances, we need to specify the following data:
-
-        - An engine family type.
-        - A unique name for the new engine instance, assuming the system will ensure
-          its uniqueness.
-        - The initial state of the engine instance.
-
 ```juvix
 type ActionResult (S I M H A L X O C : Type) := mkActionResult {
     newEnv : EngineEnvironment S I M H;
@@ -152,6 +143,21 @@ type ActionResult (S I M H A L X O C : Type) := mkActionResult {
     spawnedEngines : List C;
 };
 ```
+
+??? info "On creating new engine instances"
+
+    To create new engine instances, we need to specify the following data:
+
+    - A unique name for the new engine instance, assuming the system will ensure its uniqueness.
+    - The initial state of the engine instance.
+    - The corresponding set of guarded actions.
+
+    The last point is however implicit.
+    
+    In the code,
+    we use a type parameter `C` for convenience;
+    this parameter has a canonical instantiation for each protocol,
+    namely the protocol-level environment type.
 
 #### Guarded Actions
 
