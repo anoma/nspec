@@ -67,22 +67,11 @@ syntax alias Address := Name;
 
 ### Messages
 
-These types are used for message passing within the system, encapsulating the
-message content and managing mailboxes.
+In principle, messages can have any type,
+and thus we have a simple type parameter,
+which we call `MessageType`.
 
-- **Message**: A record type consisting of a type and a string. This represents a
-  message with its type and content.
-
-```juvix
-syntax alias MessagePayload := String;
-
-type Message (MessageType : Type) : Type := mkMessage {
-  messageType : MessageType;
-  payload : MessagePayload;
-};
-```
-
-- **Message Packet**: A record consisting of a target address and a message.
+- **Message Packet**: A record consisting of a target address, and mailbox ID, and a message.
 
 ```juvix
 type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
@@ -90,7 +79,7 @@ type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
   target : Address;
   --- there may be a `mailbox` or otherwise the default mailbox is used
   mailbox : Maybe Nat;
-  message : Message MessageType;
+  message : MessageType;
 };
 ```
 
