@@ -154,11 +154,7 @@ as message arrivals, timer expirations.
 
 ```juvix
 type Trigger (MessageType : Type) (HandleType : Type) :=
-  | MessageArrived
-    {
-      MID : Maybe MailboxID;
-      envelope : EnvelopedMessage MessageType;
-    }
+  | MessageArrived { envelope : EnvelopedMessage MessageType; }
   | Elapsed { timers : List (Timer HandleType) };
 ```
 
