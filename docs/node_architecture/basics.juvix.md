@@ -14,7 +14,7 @@ import prelude open public;
 import prelude open using {Hash} public; -- TODO: review this, in principle, it should be imported with the previous import
 ```
 
-# Architecture Node - Juvix Prelude
+# Juvix Prelude of the Anoma Node Architecture
 
 This document describes the basic types and functions used in the node architecture prelude.
 For a more general prelude, please refer to [Juvix Base Prelude](./../prelude.juvix.md).
@@ -86,7 +86,10 @@ type Message (MessageType : Type) : Type := mkMessage {
 
 ```juvix
 type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
+  --- the `target` is an engine instance     
   target : Address;
+  --- there may be a `mailbox` or otherwise the default mailbox is used
+  mailbox : Maybe Nat;
   message : Message MessageType;
 };
 ```
