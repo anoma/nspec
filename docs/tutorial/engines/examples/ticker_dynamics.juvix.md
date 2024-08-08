@@ -9,7 +9,6 @@ tags:
   - Juvix
 ---
 
-
 !!! warning
 
     This page is still under construction, needs to be updated with the latest
@@ -35,6 +34,7 @@ tags:
     };
     open EngineFamily.EngineEnvironment;
     import tutorial.engines.examples.ticker_environment open public;
+    import tutorial.engines.examples.ticker_protocol_types open;
     ```
 
 # Ticker Guarded Actions
@@ -71,15 +71,15 @@ Therefore, the `GuardedAction` type is defined as follows:
 ```juvix
 GuardedActionType : Type :=
   EngineFamily.GuardedAction
-    LocalStateType
-    IMessageType
-    MailboxStateType
-    TimerHandleType
+    TickerLocalState
+    TickerMessage
+    TickerMailboxState
+    TickerTimerHandle
     GuardReturnArgsType
     GuardReturnLabelType
     GuardReturnOtherType
-    OMessageType
-    SpawnEngineType;
+    TickerProtocolMessage
+    TickerProtocolEnvironment;
 ```
 
 ## Guarded Action: Increment Counter

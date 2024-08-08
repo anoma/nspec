@@ -21,21 +21,34 @@ search:
 
 !!! warning "Juvix protocol-level types"
 
-    We need also import (and for the moment write)
+    We also need to write (and import)
     protocol-level type descriptions.
+    These are two type declarations.
 
-    !!! todo
+    Protocol-level message type
+
+    : The name of the message type is the name of the protocol in which the engines take part,
+    i.e., `Anoma` for the Anoma specification,
+    followed by `ProtocolMessage`.
+    This is an algebraic data type with one constructor per engine family
+    that takes as argument a message of the respective engine family.
     
-        add the file and "empty" definitions
+    Protocol-level environment type
+
+    : Similarly, we have a type as above, but with `ProtocolEnvironment` instead of `ProtocolMessage`, and constructors taking environments from the respective engine family.
+
+    See the file `engine_protocol_type.juvix`.
 
 ## Overview
 
 !!! note 
 
-    Give a broad overview of how the guarded actions
-    relate to each other and their purposes.
+    We want a broad overview of how the guarded actions
+    relate to each other and a descriptio of their purposes.
     The specification necessarily presents
-    a list of guarded actions and/or action labels.
+    a list of guarded actions
+    and for each guarded action one guard, one action,
+    one or several action labels for the action.
 
     Form
 
@@ -54,10 +67,17 @@ search:
     description of what the action performs
     in broad terms.
     If somehow possible,
-    the section structure of 
-    [[Engine Dynamics Template#action-labels|this section]]
-    should reflect the structure of the main type
-    of action labels.
+    the section structure of the
+    [[Engine Dynamics Template#action-labels|Action labels section]]
+    should reflect the structure of the type of action labels.
+
+!!! warning
+
+    The action label alone determines
+    the state update function.
+    In other words,
+    matched arguments and precomputation results
+    are for convenience and improved code quality.
 
 !!! Example "Generic Action Label Pattern"
 
@@ -72,15 +92,15 @@ search:
     ;     
 
     type allLabels :=
-      | alternativeOne (Either someActionLabel anotherActionLabel)
-      | alternativeTwo (Pair someActionLabel anotherActionLabel) 
-      | anotherAction String
+      | doAlternativeOne (Either someActionLabel anotherActionLabel)
+      | doAlternativeTwo (Pair someActionLabel anotherActionLabel) 
+      | doAnotherAction String
     ;
     ```
 
     The corresponding structure would be the one of the last type.
 
-    ### alternativeOne
+    ### doAlternativeOne
 
     does this by 
 
@@ -92,7 +112,7 @@ search:
 
     or that
 
-    ### alternativeTwo
+    ### doAlternativeTwo
 
     does that by 
 
@@ -104,13 +124,42 @@ search:
 
     and also that
     
-    ### anotherAction 
+    ### doAnotherAction
 
     the third kind of action
-    
-!!! todo "ᚦ continue here"
 
-    👇
+## Matchable arguments
+
+!!! note
+
+    Matchable arguments are inspired by pattern matching;
+    e.g., in
+    [`receive do`-statements](https://hexdocs.pm/elixir/main/processes.html#sending-and-receiving-messages)
+    in Elixir,
+    we may match a subset of the arguments.
+    The type of matchable arguments defines
+    which arguments possibly will be matched.
+    
+    Form
+
+    : An algebraic data type or record type followed by a definition list
+    that describes for each constructor the action labels that are relevant.
+
+
+## Precomputation results
+
+!!! note
+
+    Guard evaluation may involve non-trivial computations,
+    which should not have to be repeated in
+    the associated action.
+    Thus,
+    we have a third input for actions,
+    which are arbitrary precomputation results.
+
+    Form
+
+    : A type definition with an explanation of the purpose.
 
 ## [Guarded Action ⟨$i$⟩] `{` $1<i<k$, i.e. $k$ such sections `}`
 
@@ -118,7 +167,7 @@ search:
 
     For each guarded action of the engine family,
     we provide a guard description
-    and and action description.
+    and an action description.
 
 ### Purpose
 
@@ -132,7 +181,7 @@ search:
 
     : Some short paragraphs as a summary, ideally just one.
     More details will follow in
-    the respective secion(s) on the guard and the action(s).
+    the respective secions for the guard and the action labels.
 
 <!--ᚦ: have this here for the moment ¶
 !!! example
@@ -160,44 +209,53 @@ search:
 !!! note
     
     For each guard
-    we want a short description of the conditions that enable actions;
-    we may have a case distinction.
-    For each case, also if it is just one,
-    we need to describe the matched arguments,
+    we want a short description of the conditions that enable its action;
+    we may have a case distinction for action labels,
+    which may possibly be nested.
+    For each case,
+    also if it is just one,
+    we need to describe
     the action label,
+    the matched arguments,
     and any other precomputations.
     
     Conceptual structure
     
     : We essentially need a decision tree, flow chart, or similar for
     
-    - how to determine whether an action is enabled (and which one), and
+    - how to determine whether the action of the guard is enabled
     
-    - describe the list of matched arguments and pre-computations
-    and how they are computed along the way.
-
+    - describe the action lable, matched arguments,
+    and pre-computations results;
+    for the latter, we may describe how or when they are computed along the way.
 
     Form
     
     : There are three parts:
     
-    1. an (optional?) flow chart that matches the conceptual structure
-    where decision are diamonds (`{ decision node text }`),
+    1. a [flowchart](https://en.wikipedia.org/wiki/Flowchart)
+    that illustrates the guard logic.
+    Recall that decision nodes are diamond shaped (`{ decision node text }`);
     we (ab-)use rectangular boxes to describe matching of arguments
-    (`[ processing node text ]`), and
-    the terminals are "stadium" (`([ action label &  additional args])`).
+    or other computations
+    (`[ processing node text ]`)
+    and the final guard output
+    is summarized in terminal nodes
+    (`([matched arguments,  action label, precompuation result])`),
+    which Mermaid calls "stadiums".
 
-    2. an English language description of the logic
-    that the flow chart illustrates (even in absense of a flowchart) and
-    also descriptions of the  matched argument,
-    using a [definition list](https://pandoc.org/MANUAL.html#definition-lists)
-    as in the example below.
+    2. Juvix code of the actual guard function
 
-    3. Juvix code of the actual guard function
+    3. an English language description of the code in broad terms.
+
+    Goal
+
+    : The flowchart should illustrate at a glance
+    what action labels the guard may produce as part of its output.
 
 !!! warning
 
-	Mermaid has some restriction on how to use markdown by default:
+    Mermaid has some restriction on how to use markdown by default:
 
     - [markdown](https://mermaid.js.org/syntax/flowchart.html#markdown-formatting)
 	  has to be enclosed into ``"` ‌`` ``‌ `"`` braces;
@@ -207,9 +265,6 @@ search:
 <!--ᚦ: [let's keep this one/three lines of Chris's here, just in case]
 Guards can provide information (similar to pattern-matching) which can then be used in the action. Each guard should come with a specified type `LocalData -> Maybe<T>` where `T` is the data that the guard will bind (pattern-match) out of the local data if (and only if) it matches.
 -->
-
-
-
 <!--ᚦ: let's keep this here for the moment ¶
 !!! example
 
@@ -247,13 +302,14 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 !!! note
     
-    The guard _may_ have a complicated tree-like structure,
+    The guard _may_ have a complicated structure,
+    which ideally is reflected by the flowchart.
     at least one for each "leaf" of the action label data type.
     If there are several natural distinct cases
     each of which corresponds to a different "leaf" of the action label data type,
     then we may want to describe each of these cases.
 
-??? todo "where to put the code ?!"
+??? todo "where to put the code of the action ?!"
 
 
 
@@ -277,9 +333,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
     if there are several different cases
     such that each of them deserves a different action label.
 
-
-
-### Overview
+### Overview `{` action ⟨$i$⟩`}`
 
 !!! note
 
@@ -291,63 +345,59 @@ Guards can provide information (similar to pattern-matching) which can then be u
 	Besides answering the request,
 	we have to update the ringbuffer of the mailbox state.
 
-    ??? "show me the code"
+### Code `{` action ⟨$i$⟩ `}`
 
-	♢juvix
+??? note "show me the code"
 
+    ♢juvix
 
-<!-- ᚦdon't think we need this any more
-!!! todo
+### [Action label ⟨$i_j$⟩]
 
-	simple juvix code example of client server
--->
-
-
-### Effects
+#### Purpose `{`⟨$i_j$⟩`}`
 
 !!! note
 
-	We give quick descriptions of the effects.
+    We give quick descriptions of the action for this label.
 
-#### state update
+##### State update `{`⟨$i_j$⟩`}`
 
 !!! note
 
-	Describe the state update
+    Describe the state update
 
 !!! example
 
-	The rate limit is constant in the example.
+    The rate limit is constant in the example.
 
-#### messages to be sent
-
-!!! note
-
-	Describe the messages to be sent
-	as a list (or a set if you prefer).
-
-!!! example
-
-	We send only a single message.
-
-	- Send the time stamped hash to the requested »reply to« address.
-
-#### engines to be created
+##### Messages to be sent `{`⟨$i_j$⟩`}`
 
 !!! note
 
-	Describe the engines to be created.
+    Describe the messages to be sent
+    as a list (or a set if you prefer).
 
 !!! example
 
-	No engines are created.
+    We send only a single message.
 
-#### timers to be set/cancelled/reset
+    - Send the time stamped hash to the requested »reply to« address.
+
+##### Engines to be created `{`⟨$i_j$⟩`}`
 
 !!! note
 
-	Describe the engines timers to be set/cancelled/reset.
+    Describe the engines to be created.
 
 !!! example
 
-	The time stamping server does not need to set any timers.
+    No engines are created.
+
+##### Timers to be set/cancelled/reset `{`⟨$i_j$⟩`}`
+
+!!! note
+
+    Describe the engines timers to be set/cancelled/reset.
+
+!!! example
+
+    The time stamping server does not need to set any timers.

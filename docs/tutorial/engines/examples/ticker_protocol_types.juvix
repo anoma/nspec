@@ -1,4 +1,4 @@
-module tutorial.engines.examples.ticker_types;
+module tutorial.engines.examples.ticker_protocol_types;
 
 import tutorial.engines.examples.ticker_environment open;
 
