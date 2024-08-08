@@ -1,12 +1,5 @@
 
-name: anoma-spec-ci
 'on':
-  push:
-    branches:
-      - 'v**'
-  schedule:
-    - cron: 0 2 * * *
-
   pull_request:
     types:
       - opened
@@ -14,7 +7,6 @@ name: anoma-spec-ci
       - reopened
       - edited
       - ready_for_review
-      - closed
 
 env:
   CI: true
@@ -22,12 +14,6 @@ env:
   INSIDERS_TOKEN: ${{ secrets.INSIDERS_TOKEN }}
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
-  REPORT_BROKEN_WIKILINKS: true
-  JUVIX_ENABLED: true
-  DIFF_ENABLED: true
-  IMAGES_ENABLED: true
-  USE_DOT: true
-  VERSION_SELECTOR: ${{ github.event_name != 'pull_request' }}
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
@@ -39,8 +25,38 @@ permissions:
   repository-projects: write
 
 jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Run pre-commit checks
+        uses: pre-commit/action@v3.0.1
+        id: pre-commit
+        with:
+          extra_args: --all-files --show-diff-on-failure
+        continue-on-error: 
+        
+      - name: Check for pre-commit changes
+        id: git_diff
+        run: |
+          git diff --exit-code ||  echo "NEED=true" >> "$GITHUB_ENV"
+
+      - if: env.NEED == 'true'
+        run: |
+          git config --global user.name '$GIT_COMMITTER_NAME'
+          git config --global user.email '$GIT_COMMITTER_EMAIL'
+          git add .
+          git commit -m "Fix issues detected by pre-commit"
+          git push
+
   build-and-deploy:
     runs-on: ubuntu-latest
+    concurrency: ci-${{ github.ref }} 
     steps:
 
       - uses: actions/checkout@v4
@@ -48,17 +64,14 @@ jobs:
           submodules: true
           fetch-depth: 0
 
-      - name: Configure Git Credentials
-        run: |
-          git config --global user.name arts
-          git config --global user.email arts@heliax.dev
+      - run: |
+          git config --global user.name '$GIT_COMMITTER_NAME'
+          git config --global user.email '$GIT_COMMITTER_EMAIL'
 
-      - name: comment on PR (Pull Request)
-        if: >-
-          github.event_name == 'pull_request'
+      - name: comment on PR
         run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG" || true
         env:
-          MSG: "The build is in progress. Please wait for the preview link. It will be available in a few minutes."
+          MSG: "The build is in progress. Please wait for the preview link."
           GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
 
       - name: Download latest nightly Juvix binary
@@ -112,75 +125,55 @@ jobs:
           restore-keys: |
             hooks-
 
-      - name: Build MkDocs (Pull Request)
-        if: >-
-          github.event_name == 'pull_request'
+      - name: Build MkDocs
         run: |
           mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
 
-      - name: comment on PR (Pull Request)
-        if: failure() && github.event_name == 'pull_request'
+      - name: The build failed comment
+        if: failure()
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs." || true
 
-      - name: Install MkDocs Insiders
+      - name: Build MkDocs with material insiders version
+        id: material
         run: |
           pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
-
-      - name: Test Build MkDocs Insiders (Pull Request)
-        if: github.event_name == 'pull_request'
-        id: test-build-mkdocs-insiders
-        run: |
           mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
 
-      - name: The build failed with MkDocs Insiders comment (Pull Request)
-        if: github.even_name == 'pull_request' && steps.test-build-mkdocs-insiders.outcome == 'failure'
+      - if: steps.material.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs." || true
 
-      - name: Deploy Preview comment (Pull Request)
-        if: github.event_name == 'pull_request' &&
-            steps.test-build-mkdocs-insiders.outcome == 'success'
+      - if: steps.material.outcome == 'success'
         run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "Basic build successful and build with MkDocs Insiders successful. We are now deploying the preview." || true
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
+          --edit-last --body "Builds using material and material-insiders theme succeed. We are now deploying the preview." || true
 
-      - name: Deploy Preview (Pull Request)
-        if: github.event_name == 'pull_request' && success()
+      - name: Deploy MkDocs
+        if: success()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          repository-name: anoma/nspec-preview
           branch: gh-pages
           folder: pr-${{ github.event.pull_request.number }}
           target-folder: pr-${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
 
-      - name: Report PR preview link (Pull Request)
-        if: >-
-           github.event_name == 'pull_request' && success()
+      - name: Success URL preview build comment
+        if: success()
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG" || true
         env:
-          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/ in a few minutes.\n\nPlease note that this link will be deleted when the PR is closed or merged."
+          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
 
-      - name: Failed preview build comment (Pull Request)
+      - name: Failed preview build comment
         if: >-
           github.event_name == 'pull_request' && failure()
         run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Please check the logs." || true
-
-      # -------------------------------------------------------------
-
-      - name: Run MkDocs Insiders (Push)
-        if: github.event_name != 'pull_request'
-        run: make deploy
-        env:
-          GITBRANCH: ${{github.ref}}
-          MKDOCSCONFIG: mkdocs.insiders.yml
-          VERSION: ${{github.ref}}
-          SITE_DIR: ${{ github.ref }}
-          SITE_URL: https://anoma.github.io/nspec/${{ github.ref }}
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Check the logs." || true
