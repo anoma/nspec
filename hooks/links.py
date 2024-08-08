@@ -81,24 +81,21 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
     that were found.
     """
     for file in filter(lambda f: f.is_documentation_page(), files):
-        if file.abs_src_path is not None:
-            with open(
-                file.abs_src_path, encoding="utf-8-sig", errors="strict"
-            ) as handle:
-                source, meta_data = meta.get_data(handle.read())
-                alias_names: Optional[List[str]] = _get_alias_names(meta_data)
+        with open(file.abs_src_path, encoding="utf-8-sig", errors="strict") as handle:
+            source, meta_data = meta.get_data(handle.read())
+            alias_names: Optional[List[str]] = _get_alias_names(meta_data)
 
-                if alias_names is None or len(alias_names) < 1:
-                    _title: Optional[str] = get_page_title(source, meta_data)
+            if alias_names is None or len(alias_names) < 1:
+                _title: Optional[str] = get_page_title(source, meta_data)
 
-                    if _title:
-                        _title = _title.strip()
-                        _title = re.sub(r'^[\'"`]|["\'`]$', "", _title)
+                if _title:
+                    _title = _title.strip()
+                    _title = re.sub(r'^[\'"`]|["\'`]$', "", _title)
 
-                        if _title not in config["url_for"]:
-                            url = urljoin(config["site_url"], file.url)
-                            config["url_for"][_title] = [url]
-                            config["aliases_for"][url] = [_title]
+                    if _title not in config["url_for"]:
+                        url = urljoin(config["site_url"], file.url)
+                        config["url_for"][_title] = [url]
+                        config["aliases_for"][url] = [_title]
 
     if LINKS_JSON.exists():
         LINKS_JSON.unlink()
