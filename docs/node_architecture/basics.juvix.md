@@ -89,7 +89,7 @@ type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
 ```juvix
 type EnvelopedMessage (MessageType : Type) : Type :=
   mkEnvelopedMessage {
-    sender : Address;
+    sender : Maybe Address;
     packet : MessagePacket MessageType;
   };
 ```
