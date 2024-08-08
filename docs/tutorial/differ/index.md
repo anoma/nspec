@@ -1,5 +1,5 @@
 ---
-icon: material/layers
+icon: octicons/file-diff-16
 tags:
     - diff
 ---
@@ -13,8 +13,8 @@ version number.
 For example:
 
 ```bash
-file-v1.md
-file-v2.md
+file_v1.md
+file_v2.md
 ```
 
 See the example in the next page.
