@@ -123,7 +123,8 @@ type ActionInput (S I M H A L X : Type)
   := mkActionInput {
       guardOutput : GuardOutput A L X;
       env : EngineEnvironment S I M H;
-      time : Time
+      trigger : Trigger I H;
+      time : Maybe Time
 };
 ```
 
@@ -178,7 +179,7 @@ to be sent or for creating new engine instances.
 
 ```juvix
 type GuardedAction (S I M H A L X O C : Type) := mkGuardedAction {
-   guard : Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> GuardOutput A L X;
+   guard : Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
    action : ActionInput S I M H A L X -> Maybe (ActionResult S I M H A L X O C)
 };
 ```

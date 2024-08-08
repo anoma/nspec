@@ -14,7 +14,7 @@ import prelude open public;
 import prelude open using {Hash} public; -- TODO: review this, in principle, it should be imported with the previous import
 ```
 
-# Architecture Node - Juvix Prelude
+# Juvix Prelude of the Anoma Node Architecture
 
 This document describes the basic types and functions used in the node architecture prelude.
 For a more general prelude, please refer to [Juvix Base Prelude](./../prelude.juvix.md).
@@ -67,27 +67,19 @@ syntax alias Address := Name;
 
 ### Messages
 
-These types are used for message passing within the system, encapsulating the
-message content and managing mailboxes.
+In principle, messages can have any type,
+and thus we have a simple type parameter,
+which we call `MessageType`.
 
-- **Message**: A record type consisting of a type and a string. This represents a
-  message with its type and content.
-
-```juvix
-syntax alias MessagePayload := String;
-
-type Message (MessageType : Type) : Type := mkMessage {
-  messageType : MessageType;
-  payload : MessagePayload;
-};
-```
-
-- **Message Packet**: A record consisting of a target address and a message.
+- **Message Packet**: A record consisting of a target address, and mailbox ID, and a message.
 
 ```juvix
 type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
+  --- the `target` is an engine instance     
   target : Address;
-  message : Message MessageType;
+  --- there may be a `mailbox` or otherwise the default mailbox is used
+  mailbox : Maybe Nat;
+  message : MessageType;
 };
 ```
 
@@ -97,7 +89,7 @@ type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
 ```juvix
 type EnvelopedMessage (MessageType : Type) : Type :=
   mkEnvelopedMessage {
-    sender : Address;
+    sender : Maybe Address;
     packet : MessagePacket MessageType;
   };
 ```
@@ -107,19 +99,11 @@ For convenience, let's define some handy functions for enveloped messages:
 ```juvix
 getMessageType : {M : Type} -> EnvelopedMessage M -> M
   | (mkEnvelopedMessage@{ packet :=
-      (mkMessagePacket@{ message :=
-        (mkMessage@{ messageType := mt })})}) := mt;
+      (mkMessagePacket@{ message := mt })}) := mt;
 ```
 
 ```juvix
-getMessagePayload : {M : Type} -> EnvelopedMessage M -> MessagePayload
-  | (mkEnvelopedMessage@{ packet :=
-      (mkMessagePacket@{ message :=
-        (mkMessage@{ payload := p })})}) := p;
-```
-
-```juvix
-getMessageSender : {M : Type} -> EnvelopedMessage M -> Address
+getMessageSender : {M : Type} -> EnvelopedMessage M -> Maybe Address
   | (mkEnvelopedMessage@{ sender := s }) := s;
 ```
 
@@ -170,22 +154,18 @@ as message arrivals, timer expirations.
 
 ```juvix
 type Trigger (MessageType : Type) (HandleType : Type) :=
-  | MessageArrived
-    {
-      MID : Maybe MailboxID;
-      envelope : EnvelopedMessage MessageType;
-    }
+  | MessageArrived { envelope : EnvelopedMessage MessageType; }
   | Elapsed { timers : List (Timer HandleType) };
 ```
 
 One can define a function to extract the message from a trigger:
 
 ```juvix
-getMessagePayloadFromTrigger : {M H : Type} -> Trigger M H -> Maybe MessagePayload
+getMessagePayloadFromTrigger : {M H : Type} -> Trigger M H -> Maybe M
   | (MessageArrived@{
       envelope := (mkEnvelopedMessage@{
         packet := (mkMessagePacket@{
-          message := (mkMessage@{ payload := p }) })})})
-          := just p
+          message := m })})})
+          := just m
   | _ := nothing;
 ```

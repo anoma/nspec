@@ -12,19 +12,7 @@ search:
     module tutorial.engines.examples.ticker_environment;
 
     import prelude open;
-    import node_architecture.types.engine_family as EngineFamily;
-    open EngineFamily using {
-        Engine;
-        EngineEnvironment;
-        EngineFamily;
-        mkActionInput;
-        mkActionResult;
-        mkEngine;
-        mkEngineEnvironment;
-        mkEngineFamily;
-        mkGuardedAction
-    };
-    open EngineFamily.EngineEnvironment;
+    import node_architecture.types.engine_family open;
     ```
 
 ## Overview
@@ -89,7 +77,7 @@ The example is so simple that it suffices to define the type.
 
 ```juvix
 TickerEnvironment : Type := 
-  EngineFamily.EngineEnvironment 
+  EngineEnvironment 
     TickerLocalState
     TickerMessage
     TickerMailboxState
