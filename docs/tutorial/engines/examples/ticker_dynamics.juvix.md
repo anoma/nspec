@@ -124,11 +124,41 @@ ifIncrement : (Maybe Time)
       };
 ```
 
-
-
 #### doIncrement
 
 This is the only action label and it increments the counter.
+
+!!! todo "Continue here"
+
+    make the code work
+
+```
+performIncrement : ActionInput TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther
+                 -> Maybe (ActionResult TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther TickerProtocolMessage TickerProtocolEnvironment) 
+                 := \{ 
+                  | (mkActionInput@{ env := previousEnv }) := 
+                  let counterValue := previousEnv
+                  in
+                  just  counterValue
+};
+```
+
+```
+| (mkActionInput@{ env := previousEnv }) :=
+            
+            mkActionResult@{
+              newEnv := previousEnv@EngineEnvironment{
+                localState := mkLocalStateType@{
+                  counter := counterValue + 1
+                }| (mkActionInput@{ env := previousEnv }) :=
+            let counterValue := LocalStateType.counter (localState previousEnv)
+            in
+            mkActionResult@{
+              newEnv := previousEnv@EngineEnvironment{
+                localState := mkLocalStateType@{
+                  counter := counterValue + 1
+                }
+```
 
 ##### State update
 
