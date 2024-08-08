@@ -20,19 +20,7 @@ tags:
     module tutorial.engines.examples.ticker_dynamics;
 
     import node_architecture.basics open;
-    import node_architecture.types.engine_family as EngineFamily;
-    open EngineFamily using {
-        Engine;
-        EngineEnvironment;
-        EngineFamily;
-        mkActionInput;
-        mkActionResult;
-        mkEngine;
-        mkEngineEnvironment;
-        mkEngineFamily;
-        mkGuardedAction
-    };
-    open EngineFamily.EngineEnvironment;
+    import node_architecture.types.engine_family open;
     import tutorial.engines.examples.ticker_environment open public;
     import tutorial.engines.examples.ticker_protocol_types open;
     ```
@@ -81,7 +69,8 @@ type GuardReturnArgs :=
 There are no non-trivial pre-computations.
 
 ```juvix
-syntax alias GuardReturnOther := Unit;
+type GuardReturnOther :=
+  | nuthing ;
 ```
 
 <!--
@@ -94,9 +83,69 @@ value.
 
 ## Guarded actions
 
-### doIncrement
+### doIncrementIfIncrement
 
 #### Purpose
+
+The guard of doIncrementIfIncrement is enabled
+if the trigger is an `Increment`-message;
+the action increments the counter.
+
+#### Guard ifIncrement
+
+The `ifIncrement` guard checks whether
+an increment message arrives.
+
+```mermaid
+flowchart TD
+    C{Increment <br> message <br> received ?}
+    C -->|Yes| D[enabled]
+    C -->|No| E[not enabled]
+    D --> F([doIncrement])
+```
+
+```juvix
+ifIncrement : (Maybe Time)
+      -> (Trigger TickerMessage TickerTimerHandle)
+      -> (EngineEnvironment TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle)
+      -> Maybe (GuardOutput GuardReturnArgs GuardReturnLabel GuardReturnOther)
+:= \{
+      | _ (MessageArrived@{ envelope := m}) _ :=
+          case getMessageType m of {
+            | Increment := just (  mkGuardOutput@{
+                args := [];
+                label := doIncrement;
+                other := nuthing;
+              }
+            )
+            | _ := nothing
+          }
+      | _ (Elapsed@{ timers := ts }) _ := nothing
+      };
+```
+
+
+
+#### doIncrement
+
+This is the only action label and it increments the counter.
+
+##### State update
+
+The counter value is increased by one.
+
+##### Messages to be sent
+
+No messages need to be sent.
+
+##### Engines to be created
+
+No new engines need to be created.
+
+##### Timers to be set/cancelled/reset
+
+Timers are unchanged.
+
 
 
 On the other hand, the Ticker engine does not require to create any
@@ -110,7 +159,7 @@ Therefore, the `GuardedAction` type is defined as follows:
 
 ```juvix
 GuardedActionType : Type :=
-  EngineFamily.GuardedAction
+  GuardedAction
     TickerLocalState
     TickerMessage
     TickerMailboxState
