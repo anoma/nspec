@@ -6,7 +6,7 @@ search:
 
 # Ticker Environment
 
-??? note "Juvix preamble" 
+??? note "Juvix preamble"
 
     ```juvix
     module tutorial.engines.examples.ticker_environment;
@@ -28,7 +28,7 @@ and `Count`, which the ticker responds to with the current counter state.
 type TickerMessage := Increment | Count;
 ```
 
-#### Increment 
+#### Increment
 
 An `Increment` message instructs the engine to increase the counter.
 
@@ -41,7 +41,7 @@ the current counter value back to the requester.
 
 ??? note "That's it!"
 
-    The code is self-explnatory 😄 
+    The code is self-explnatory 😄
 
 ## Mailbox states
 
@@ -76,8 +76,8 @@ syntax alias TickerTimerHandle := Unit;
 The example is so simple that it suffices to define the type.
 
 ```juvix
-TickerEnvironment : Type := 
-  EngineEnvironment 
+TickerEnvironment : Type :=
+  EngineEnvironment
     TickerLocalState
     TickerMessage
     TickerMailboxState

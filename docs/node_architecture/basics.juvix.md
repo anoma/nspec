@@ -75,7 +75,7 @@ which we call `MessageType`.
 
 ```juvix
 type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
-  --- the `target` is an engine instance     
+  --- the `target` is an engine instance
   target : Address;
   --- there may be a `mailbox` or otherwise the default mailbox is used
   mailbox : Maybe Nat;

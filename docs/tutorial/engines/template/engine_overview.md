@@ -28,8 +28,8 @@ search:
 	providing links to techincal terms and unavoidable jargon.
 
     Goals
-    
-    : Be understandable to a rather wide audience and have all 
+
+    : Be understandable to a rather wide audience and have all
       the technical terms and jargon linked.
 
 
@@ -65,8 +65,8 @@ search:
     : A mermaid or other message sequence diagram.
 
     Goals
-    
-    : Provide at least one example run, 
+
+    : Provide at least one example run,
     which amounts to a test case for implementations.
 
 

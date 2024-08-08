@@ -103,7 +103,7 @@ types for: local state, incoming messages, mailboxes' state, the data returned b
 guard function, timer's handles, and outgoing messages.
 
 For convenience, we have the input and output of an action into two separate types:
-`ActionInput S I M H A L X ` and `ActionResult S I M H A L X O C`. 
+`ActionInput S I M H A L X ` and `ActionResult S I M H A L X O C`.
 
 The `ActionInput S I M H A L X ` type is a record that encapsulates the following data:
 
@@ -154,7 +154,7 @@ type ActionResult (S I M H A L X O C : Type) := mkActionResult {
     - The corresponding set of guarded actions.
 
     The last point is however implicit.
-    
+
     In the code,
     we use a type parameter `C` for convenience;
     this parameter has a canonical instantiation for each protocol,

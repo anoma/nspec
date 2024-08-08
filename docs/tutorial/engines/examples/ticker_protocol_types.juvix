@@ -22,8 +22,8 @@ open EngineFamily.EngineEnvironment;
 type TickerClientMessage :=
   | Counter Nat;
 
-TickerClientEnvironment : Type := 
-  EngineFamily.EngineEnvironment 
+TickerClientEnvironment : Type :=
+  EngineFamily.EngineEnvironment
     Unit
     TickerClientMessage
     Unit

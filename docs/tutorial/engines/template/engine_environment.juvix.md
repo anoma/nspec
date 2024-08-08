@@ -74,7 +74,7 @@ search:
     We first give an overview of how things relate to each other,
     either within the engine family or beyond engine family boundaries
     and/or intra-node or inter-node.
-    
+
     Form
 
     : This is free form (and shorter is better), _except_ for that
@@ -113,7 +113,7 @@ search:
     and the types are given as the types of the field names.
 
     Then, we document this type.
-    
+
     !!! question "Why message tag⁈"
 
         The term `message tag` is borrowed from
@@ -152,7 +152,7 @@ search:
     Here, we can provide additional information,
     e.g., design choices, explanation of the naming process, etc.
     This is in the form of a `??? note "[something to remember]"`
-    or a `!!! note "[something to remember]"`. 
+    or a `!!! note "[something to remember]"`.
 
 <!--
 !!! question "ᚦ: _Is this the right spoto for the Juvix code?_"
@@ -193,7 +193,7 @@ search:
       the explanatory prose is succeeding the type definition.
       The form is similar that for
       [[Engine Environment Template#messages|messages]].
-    
+
     Goal
 
     : Each constructor should have some kind associated purpose.
@@ -234,7 +234,7 @@ search:
     unless they are defined in the Juvix standard library;
     links to descriptions may be sufficient in many cases.
 
-<!--ᚦ: 
+<!--ᚦ:
 !!! example
 
     We use the state of the time stamping server
@@ -255,7 +255,7 @@ search:
     Similar to mailbox specific types,
     each timer may carry some information,
     e.g., about the context in which it was set.
-    
+
     Form
 
     : A juvix data type plus documention.
@@ -265,7 +265,7 @@ search:
     Goal
 
     : Get an overview of different purposes of different timers.
-    
+
 ## Environment summary
 
 !!! note

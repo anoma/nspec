@@ -9,7 +9,7 @@ tags:
   - Juvix
 ---
 
-??? warning "under sconstruction" 
+??? warning "under sconstruction"
 
     This page is still under construction, needs to be updated with the latest
     changes in the engine family type.
@@ -35,7 +35,7 @@ A ticker has a counter as local state and allows to perform two actions:
 - Sending the current counter value.
 
 The increment is in response to an `Increment`-message
-and the sending of the value is in response to a `Count`-message. 
+and the sending of the value is in response to a `Count`-message.
 
 ## Action labels
 
@@ -134,9 +134,9 @@ This is the only action label and it increments the counter.
 
 ```
 performIncrement : ActionInput TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther
-                 -> Maybe (ActionResult TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther TickerProtocolMessage TickerProtocolEnvironment) 
-                 := \{ 
-                  | (mkActionInput@{ env := previousEnv }) := 
+                 -> Maybe (ActionResult TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther TickerProtocolMessage TickerProtocolEnvironment)
+                 := \{
+                  | (mkActionInput@{ env := previousEnv }) :=
                   let counterValue := previousEnv
                   in
                   just  counterValue
@@ -145,7 +145,7 @@ performIncrement : ActionInput TickerLocalState TickerMessage TickerMailboxState
 
 ```
 | (mkActionInput@{ env := previousEnv }) :=
-            
+
             mkActionResult@{
               newEnv := previousEnv@EngineEnvironment{
                 localState := mkLocalStateType@{
