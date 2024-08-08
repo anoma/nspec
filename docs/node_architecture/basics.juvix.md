@@ -99,19 +99,11 @@ For convenience, let's define some handy functions for enveloped messages:
 ```juvix
 getMessageType : {M : Type} -> EnvelopedMessage M -> M
   | (mkEnvelopedMessage@{ packet :=
-      (mkMessagePacket@{ message :=
-        (mkMessage@{ messageType := mt })})}) := mt;
+      (mkMessagePacket@{ message := mt })}) := mt;
 ```
 
 ```juvix
-getMessagePayload : {M : Type} -> EnvelopedMessage M -> MessagePayload
-  | (mkEnvelopedMessage@{ packet :=
-      (mkMessagePacket@{ message :=
-        (mkMessage@{ payload := p })})}) := p;
-```
-
-```juvix
-getMessageSender : {M : Type} -> EnvelopedMessage M -> Address
+getMessageSender : {M : Type} -> EnvelopedMessage M -> Maybe Address
   | (mkEnvelopedMessage@{ sender := s }) := s;
 ```
 
@@ -173,11 +165,11 @@ type Trigger (MessageType : Type) (HandleType : Type) :=
 One can define a function to extract the message from a trigger:
 
 ```juvix
-getMessagePayloadFromTrigger : {M H : Type} -> Trigger M H -> Maybe MessagePayload
+getMessagePayloadFromTrigger : {M H : Type} -> Trigger M H -> Maybe M
   | (MessageArrived@{
       envelope := (mkEnvelopedMessage@{
         packet := (mkMessagePacket@{
-          message := (mkMessage@{ payload := p }) })})})
-          := just p
+          message := m })})})
+          := just m
   | _ := nothing;
 ```
