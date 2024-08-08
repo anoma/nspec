@@ -1,0 +1,28 @@
+--- this is the module for the protocol level types of the template
+module tutorial.engines.template.engine_protocol_type;
+import prelude open;
+
+syntax alias EngineOneMessage := Unit;
+syntax alias EngineTwoMessage := Unit;
+syntax alias EngineThreeMessage := Unit;
+syntax alias EngineFourMessage := Unit;
+
+syntax alias EngineOneEnvironment := Unit;
+syntax alias EngineTwoEnvironment := Unit;
+syntax alias EngineThreeEnvironment := Unit;
+syntax alias EngineFourEnvironment := Unit;
+
+--- the type for protocol level messages
+type ProtocolMessage :=
+  | EngineOneMsg EngineOneMessage
+  | EngineTwoMsg EngineTwoMessage
+  | EngineThreeMsg EngineThreeMessage
+  | EngineFourMsg EngineFourMessage;
+
+--- the type for protocol level engine environments
+type ProtocolEnvironment :=
+  | EngineOneEnv EngineOneEnvironment
+  | EngineTwoEnv EngineTwoEnvironment
+  | EngineThreeEnv EngineThreeEnvironment
+  | EngineFourEnv EngineFourEnvironment;
+
