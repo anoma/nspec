@@ -11,10 +11,6 @@ plugins:
         - unpkg.com/*
   - search:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-      # pipeline:
-      #   - stemmer
-      #   - stopWordFilter
-      #   - trimmer
   - social
   - tags
   - glightbox
@@ -32,12 +28,6 @@ plugins:
         - index.md
       enabled: !ENV [CI, false]
       strict: true
-  # not for now.
-  # - git-committers:
-  #     repository: anoma/nspec
-  #     token: !ENV [GH_TOKEN, ""]
-  #     branch: main
-  #     enabled: !ENV [CI, false]
   - mike:
       alias_type: copy
       version_selector: !ENV [VERSION_SELECTOR, true]
