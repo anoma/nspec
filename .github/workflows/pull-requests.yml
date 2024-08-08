@@ -39,7 +39,7 @@ jobs:
         id: pre-commit
         with:
           extra_args: --all-files --show-diff-on-failure
-        continue-on-error:
+        continue-on-error: true
 
       - name: Check for pre-commit changes
         id: git_diff
