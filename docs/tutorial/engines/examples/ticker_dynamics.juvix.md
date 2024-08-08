@@ -9,7 +9,7 @@ tags:
   - Juvix
 ---
 
-!!! warning
+??? warning "under sconstruction" 
 
     This page is still under construction, needs to be updated with the latest
     changes in the engine family type.
@@ -37,27 +37,67 @@ tags:
     import tutorial.engines.examples.ticker_protocol_types open;
     ```
 
-# Ticker Guarded Actions
+# Ticker Dynamics
+
+## Overview
+
+A ticker has a counter as local state and allows to perform two actions:
 
 - Incrementing the counter.
-- Responding with the counter value.
+- Sending the current counter value.
 
+The increment is in response to an `Increment`-message
+and the sending of the value is in response to a `Count`-message. 
+
+## Action labels
+
+```juvix
+type GuardReturnLabel :=
+  | doIncrement
+  | doRespond Nat
+;
+```
+
+### doIncrement
+
+This action increments the counter.
+
+### doRespond
+
+Return the current value of the counter.
+
+## Matchable arguments
+
+The only argument that is worth fetching is the address and
+mailbox ID of where the message is to be sent to.
+
+```juvix
+type GuardReturnArgs :=
+  | ReplyTo (Maybe Address) (Maybe MailboxID);
+```
+
+## Precomputation results
+
+There are no non-trivial pre-computations.
+
+```juvix
+syntax alias GuardReturnOther := Unit;
+```
+
+<!--
 Regarding the guard function's return type, we must return two different types
 of values. The first value is a boolean (or possibly Unit) that indicates if the
 guard condition is met. The second value is the name of the message sender,
 which is used to set the target for the resulting message with the counted
 value.
+-->
 
-```juvix
-type GuardReturnArgsType :=
-  | IncrementGuard Bool
-  | RespondGuard Name;
-```
+## Guarded actions
 
-```juvix
-syntax alias GuardReturnLabelType := Unit;
-syntax alias GuardReturnOtherType := Unit;
-```
+### doIncrement
+
+#### Purpose
+
 
 On the other hand, the Ticker engine does not require to create any
 engine instance, therefore, the `SpawnEngineType` is set to `Unit`.
@@ -75,9 +115,9 @@ GuardedActionType : Type :=
     TickerMessage
     TickerMailboxState
     TickerTimerHandle
-    GuardReturnArgsType
-    GuardReturnLabelType
-    GuardReturnOtherType
+    GuardReturnArgs
+    GuardReturnLabel
+    GuardReturnOther
     TickerProtocolMessage
     TickerProtocolEnvironment;
 ```
