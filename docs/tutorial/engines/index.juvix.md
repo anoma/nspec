@@ -1170,10 +1170,10 @@ timer notifications have priority
 and that time increments are bounded by the next timer that is to elapse.
 The details of how the system evolves is described
 
-!!! todo "write up in the ART report for good"
+??? tip "ART report about timed LTS semantics"
 
-    We need a proper timed LTS semantics
-    so that the specs are actually specs.
+    We have an ART report in progress.
+    
 
 <!--ᚦ: copy of a message to jonathan¶
 the definition of clock is indeed hard in that it only makes sense once we define how we can evolve the system by performing actions
@@ -1266,8 +1266,7 @@ how engine-local sources of input or randomness can
     - a name for the process (that is unique relative to the engine)
 -->
 
-??? todo "clean up this page"
-
+<!--ᚦ: leave this for some time¶
 #### Outputs of non-interactive actions
 
 The output of a non-interactive action function
@@ -1297,9 +1296,12 @@ cancelling superseded timers and
 adding new timers.
 A timer handle may be used for at most one timer during the life-time of
 an engine instance.
-The formal model has a [map from handles to points in local time](https://github.com/anoma/formanoma/blob/4ad37bc274ad25e64d15fe5f00dbd7784e339ce0/Types/Engine.thy#L230)<!--
+The formal model has a [map from handles to points in local time](https://github.com/anoma/formanoma/blob/4ad37bc274ad25e64d15fe5f00dbd7784e339ce0/Types/Engine.thy#L230)
+
+!!! note 
+
     ᚦ: needs updating "continuously" [do not remove this comment]
--->.
+
 
 ##### Engine instances to be spawned
 
@@ -1318,10 +1320,14 @@ The following data has to be provided to create a new engine instance.
   the parent engine creates during its lifetime
   (because the parent's name is an implicit parameter)
 
-<!--ᚦ: this is still to be figured out ... TODO
-The engine instance will become "alive"
-after the current execution of the transition function.
--->
+??? todo 
+
+    ᚦ: this is still to be figured out ... TODO
+    
+    !!! quote
+
+        The engine instance will become "alive"
+        after the current execution of the transition function.
 
 The parent engine can already send messages to engines before these "actually go live".
 
@@ -1331,9 +1337,12 @@ An action may queue a finite set of _enveloped messages_ to be sent.
 Each of these messages carries information about the intended recipient
 and the mailbox identifier of the latter.
 All formalities of messages are in
-the [`Message.thy`-theory](https://github.com/anoma/formanoma/blob/heindel/engine-locale/Types/Message.thy)<!--
-  link will need updating [do not remove this comment]
--->.
+the [`Message.thy`-theory](https://github.com/anoma/formanoma/blob/heindel/engine-locale/Types/Message.thy)
+
+!!! note
+    
+    link will need updating [do not remove this comment]
+
 
 ##### Updates to the engine environment
 
@@ -1410,8 +1419,7 @@ and and by adding the new messages to be sent (after dropping the received messa
 to the set of pending messages and by adding
 the newly created engines to the set of engine instances,
 we arrive at the state $s'$.
-
-<!--
+--><!--ᚦ: even older stuff¶
 The basic idea of guarded actions is to avoid
 the need to describe for each engine to write a single monolithic
 state transition function.
@@ -1427,10 +1435,7 @@ and this situation need to be handled with care.
 The details of guarded actions are explained in the [[Guarded Engine Template]].
 -->
 
-
-!!! todo "clean up the above"
-
-## Templates for engine family specifications
+## [[Engine Templates|Templates]] for engine family specifications
 
 For each engine family,
 we want the general context,
@@ -1499,7 +1504,7 @@ The templates are on a [[Engine Templates|separate page]].
         - engines to be spawned {prose}
 
 -->
-
+<!--ᚦ: this probably can go
 ## Templates
 
 
@@ -1516,7 +1521,7 @@ The templates are on a [[Engine Templates|separate page]].
     of what should be put or what it represents.
 
 
-    --8<-- "./../overrides/templates/engine-template.md:6"
+    -- 8< -- "./../overrides/templates/engine-template.md:6"
 
 
 ??? "Guarded action template"
@@ -1526,9 +1531,9 @@ The templates are on a [[Engine Templates|separate page]].
 
         The following template can be found in the `overrides/templates/guarded-action-template.md` file.
 
-    --8<-- "./../overrides/templates/guarded-action-template.md"
+    -- 8< -- "./../overrides/templates/guarded-action-template.md"
 
-
+-->
 ---
 
 <!-- footnotes -->

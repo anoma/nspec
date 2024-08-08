@@ -84,7 +84,7 @@ GuardedActionType : Type :=
 
 ## Guarded Action: Increment Counter
 
-This action increments the counter by 1 upon receiving an `Increment` message.
+This action increments the counter upon receiving an `Increment` message.
 
 ```
 incrementCounter : GuardedActionType := mkGuardedAction@{
