@@ -66,7 +66,9 @@ The engine family is defined by first establishing a
 type synonym for the corresponding engine family type to
 simplify the presentation.
 
-```juvix
+!!! todo "fix the code"
+
+```
 EngineFamilyType : Type :=
   EngineFamily
     LocalStateType
@@ -80,7 +82,7 @@ EngineFamilyType : Type :=
 
 So a `Ticker` engine family is defined as follows:
 
-```juvix
+```
 TickerFamily : EngineFamilyType
   := mkEngineFamily@{ actions := [incrementCounter; respondWithCounter];
 };
@@ -90,7 +92,7 @@ As an example of an engine instance in this family, we could
 define the ticker starting in zero. We, again, define for shorten presentation, the
 corresponding engine instance type.
 
-```juvix
+```
 EngineInstanceType : Type :=
   Engine
     LocalStateType
@@ -105,7 +107,7 @@ EngineInstanceType : Type :=
 Then, we define a `Ticker` engine instance as follows that set
 the counter to zero:
 
-```juvix
+```
 zeroTicker : EngineInstanceType
   := mkEngine@{
     name := Left "TickerOne";
