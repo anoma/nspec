@@ -19,9 +19,9 @@ tags:
     ```
 
     !!! todo  "fix code in this page"
-    
+
         import tutorial.engines.ticker as Ticker open using {TickerFamily; zeroTicker};
-    
+
 
     !!! note
 

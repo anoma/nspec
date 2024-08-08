@@ -14,7 +14,7 @@ search:
 
 # [Engine Family Name] Dynamics
 
-!!! note 
+!!! note
 
     To complete the definition of an engine family,
     we have to define a set of guarded actions.
@@ -32,7 +32,7 @@ search:
     followed by `ProtocolMessage`.
     This is an algebraic data type with one constructor per engine family
     that takes as argument a message of the respective engine family.
-    
+
     Protocol-level environment type
 
     : Similarly, we have a type as above, but with `ProtocolEnvironment` instead of `ProtocolMessage`, and constructors taking environments from the respective engine family.
@@ -41,7 +41,7 @@ search:
 
 ## Overview
 
-!!! note 
+!!! note
 
     We want a broad overview of how the guarded actions
     relate to each other and a descriptio of their purposes.
@@ -89,11 +89,11 @@ search:
       ;
     type anotherActionLabel :=
       | doThat String
-    ;     
+    ;
 
     type allLabels :=
       | doAlternativeOne (Either someActionLabel anotherActionLabel)
-      | doAlternativeTwo (Pair someActionLabel anotherActionLabel) 
+      | doAlternativeTwo (Pair someActionLabel anotherActionLabel)
       | doAnotherAction String
     ;
     ```
@@ -102,19 +102,19 @@ search:
 
     ### doAlternativeOne
 
-    does this by 
+    does this by
 
     #### Either.Left `{` optional `}`
 
     either this
-    
+
     #### Either.Right  `{` optional `}`
 
     or that
 
     ### doAlternativeTwo
 
-    does that by 
+    does that by
 
     #### first  `{` optional `}`
 
@@ -123,7 +123,7 @@ search:
     #### second  `{` optional `}`
 
     and also that
-    
+
     ### doAnotherAction
 
     the third kind of action
@@ -139,7 +139,7 @@ search:
     we may match a subset of the arguments.
     The type of matchable arguments defines
     which arguments possibly will be matched.
-    
+
     Form
 
     : An algebraic data type or record type followed by a definition list
@@ -207,7 +207,7 @@ search:
 ### [Guard ⟨guard $i$⟩]
 
 !!! note
-    
+
     For each guard
     we want a short description of the conditions that enable its action;
     we may have a case distinction for action labels,
@@ -218,21 +218,21 @@ search:
     the action label,
     the matched arguments,
     and any other precomputations.
-    
+
     Conceptual structure
-    
+
     : We essentially need a decision tree, flow chart, or similar for
-    
+
     - how to determine whether the action of the guard is enabled
-    
+
     - describe the action lable, matched arguments,
     and pre-computations results;
     for the latter, we may describe how or when they are computed along the way.
 
     Form
-    
+
     : There are three parts:
-    
+
     1. a [flowchart](https://en.wikipedia.org/wiki/Flowchart)
     that illustrates the guard logic.
     Recall that decision nodes are diamond shaped (`{ decision node text }`);
@@ -301,7 +301,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
 ## Action `{` possibly several labels !!! `}`
 
 !!! note
-    
+
     The guard _may_ have a complicated structure,
     which ideally is reflected by the flowchart.
     at least one for each "leaf" of the action label data type.
@@ -322,7 +322,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
 ### [Action Name ⟨$i$⟩] `{` one such sub-section per guarded action `}`
 
 !!! note
-    
+
     The description of the actions starts
     with an English language high-level description,
     followed by more detailed descriptions

@@ -41,7 +41,7 @@ node_architecture/
 └── myengine.juvix
 ```
 
-In this structure, `myengine.juvix` is a Juvix module with the 
+In this structure, `myengine.juvix` is a Juvix module with the
 following content that imports the three files mentioned above:
 
 ```juvix

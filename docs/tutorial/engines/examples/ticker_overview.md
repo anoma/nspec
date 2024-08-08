@@ -33,7 +33,7 @@ sequenceDiagram
     participant EngineTickerClient as TickerClient
 
     Note over Ticker: Counter = 0
-    
+
     EngineTickerClient -) Ticker: Increment()
     Note over Ticker: Counter = 1
 
@@ -47,8 +47,8 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-A client interacts with a ticker, 
-which first increments twice and 
+A client interacts with a ticker,
+which first increments twice and
 then responds with the counter value
 to the `Count` request.
 </figcaption>
