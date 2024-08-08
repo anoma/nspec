@@ -94,7 +94,7 @@ jobs:
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: './site'
+          folder: latest
           target_folder: latest
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
