@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+icon: material/apps
 search:
   exclude: false
   boost: 2

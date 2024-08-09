@@ -3,6 +3,8 @@ icon: octicons/project-template-24
 search:
   exclude: false
 ---
+
+
 ??? note "Juvix module"
 
     ```juvix

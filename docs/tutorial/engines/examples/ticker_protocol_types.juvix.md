@@ -1,3 +1,14 @@
+---
+icon: octicons/container-24
+search:
+  exclude: false
+tags:
+  - engine-family
+  - example
+  - ticker
+---
+
+```juvix
 module tutorial.engines.examples.ticker_protocol_types;
 
 import tutorial.engines.examples.ticker_environment open;
@@ -37,3 +48,4 @@ type TickerProtocolEnvironment :=
 type TickerProtocolMessage :=
  | TickerMsg TickerMessage
  | TickerClientMsg TickerClientMessage;
+```

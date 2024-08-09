@@ -1,3 +1,10 @@
+---
+icon: octicons/project-template-24
+search:
+  exclude: false
+---
+
+```juvix
 --- this is the module for the protocol level types of the template
 module tutorial.engines.template.engine_protocol_type;
 import prelude open;
@@ -25,4 +32,4 @@ type ProtocolEnvironment :=
   | EngineTwoEnv EngineTwoEnvironment
   | EngineThreeEnv EngineThreeEnvironment
   | EngineFourEnv EngineFourEnvironment;
-
+```

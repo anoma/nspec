@@ -23,12 +23,10 @@ nav:
 
   - Protocol Architecture:
     - ./architecture/index.md
-    - System Architecture:
-      - ./system_architecture/index.md
+    - System Architecture: ./system_architecture/index.md
     - Node Architecture:
       - ./node_architecture/index.md
-      - Modules:
-        - ./node_architecture/modules/index.md
+      - Modules: ./node_architecture/modules/index.md
       - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
       - Engine Families:
         - ./node_architecture/engines/index.juvix.md
@@ -355,8 +353,7 @@ nav:
 
   - Application Architecture:
     - ./application_architecture/index.md
-    - Definitions:
-      - ./application_architecture/definitions.md
+    - Definitions: ./application_architecture/definitions.md
     - Patterns:
       - ./application_architecture/patterns/index.md
       - Counter:
@@ -369,46 +366,48 @@ nav:
         - Attestation: ./application_architecture/primitives/attestation.md
         - Authorization: ./application_architecture/primitives/authorization.md
     - System applications:
-      - ./application_architecture/system_applications.md
-      - Proof_of_stake: ./application_architecture/system_applications/proof_of_stake.md
-    - Scale_free kudos: ./application_architecture/kudos.md
+      - ./application_architecture/system_applications/index.md
+      - Proof of stake: ./application_architecture/system_applications/proof_of_stake.md
+    - Scale free kudos: ./application_architecture/kudos.md
     - Schelling tests: ./application_architecture/schelling_tests.md
 
-  - Concrete Implementation:
-    - Data encoding: ./concrete_implementation/data_encoding.md
-    - Resource machine backends:  ./concrete_implementation/resource_machine_backends.md
-
-  - Indexes:
-    - ./indexes/index.md
-    - Quick links: ./indexes/links.md
-    - Juvix Modules: ./indexes/juvix_modules.md
+  - Implementation:
+    - ./implementation/index.md
+    - Data encoding: ./implementation/data_encoding.md
+    - Resource machine backends:  ./implementation/resource_machine_backends.md
+  - Quick links: ./indexes/links.md
+  - Juvix modules: ./indexes/juvix_modules.md
   - Tutorials for contributors:
     - ./tutorial/index.md
     - Prepare working environment: ./tutorial/install/index.md
     - Use Git and GitHub: ./tutorial/branch.md
-    - File Naming Conventions: ./tutorial/file_naming.md
-    - Write using Markdown plus Anoma extensions: ./tutorial/md/index.md
+    - File naming conventions: ./tutorial/file_naming.md
+    - Write Markdown: ./tutorial/md/index.md
     - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
-    - Include code snippets: ./tutorial/md/snippets.md
-    - Add Juvix code for specification: ./tutorial/juvix.md
     - Use Wiki style links: ./tutorial/md/links.md
     - Include images in Markdown: ./tutorial/md/images.md
+    - Include code snippets: ./tutorial/md/snippets.md
+    - Add Juvix code for specification: ./tutorial/juvix.md
     - Add pending tasks with Todos admonition: ./tutorial/md/todos.md
     - Add literature references: ./tutorial/md/citations.md
     - Add diffs for versioning: ./tutorial/differ/index.md
     - Run pre commit checks: ./tutorial/commit_checks.md
-    - Engines in Anoma:
-      - Writing Conventions: ./tutorial/engines/conventions.md
-      - Engine Templates:
-        - ./tutorial/engines/template/index.md
-        - Engine Overview Template: ./tutorial/engines/template/engine_overview.md
-        - Engine Environment Template: ./tutorial/engines/template/engine_environment.juvix.md
-        - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.juvix.md
-      - Examples:
-        - Ticker Engine Family:
-          - Ticker Engine Overview: ./tutorial/engines/examples/ticker_overview.md
-          - Ticker Engine Environment: ./tutorial/engines/examples/ticker_environment.juvix.md
-          - Ticker Engine Dynamics: ./tutorial/engines/examples/ticker_dynamics.juvix.md
+    - Write engines: ./tutorial/engines/index.juvix.md
+  - Engines in Anoma:
+    - ./tutorial/engines/index.juvix.md
+    - Conventions: ./tutorial/engines/conventions.md
+    - Engine Templates:
+      - ./tutorial/engines/template/index.md
+      - Engine Overview Template: ./tutorial/engines/template/engine_overview.md
+      - Engine Environment Template: ./tutorial/engines/template/engine_environment.juvix.md
+      - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.juvix.md
+      - Engine Protocol Types Template: ./tutorial/engines/template/engine_protocol_types.juvix.md
+    - Examples:
+      - Ticker Engine Family:
+        - Ticker Engine Overview: ./tutorial/engines/examples/ticker_overview.md
+        - Ticker Engine Environment: ./tutorial/engines/examples/ticker_environment.juvix.md
+        - Ticker Engine Dynamics: ./tutorial/engines/examples/ticker_dynamics.juvix.md
+        - Ticker Engine Protocol Types: ./tutorial/engines/examples/ticker_protocol_types.juvix.md
 
 extra:
   social:
@@ -474,6 +473,7 @@ theme:
     - navigation.expand
     - navigation.prune
     - navigation.tabs
+    # - navigation.sections
     # - navigation.instant
     # - navigation.instant.preview
     - navigation.indexes
@@ -536,8 +536,6 @@ markdown_extensions:
   - pymdownx.snippets:
       check_paths: true
       url_download: true
-      auto_append:
-        - docs/terms.md
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
