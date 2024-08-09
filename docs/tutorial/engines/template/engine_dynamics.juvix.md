@@ -4,7 +4,6 @@ search:
   exclude: false
 ---
 
-
 ??? note "Juvix module"
 
     ```juvix
@@ -24,13 +23,16 @@ search:
     [[Engine Family Types#guarded-actions|guarded actions]].
 
     For this, we in particular have
-    to define action labels,
-    which is a datatype that summarizes what members of the engine family can
-    "do" in response to messages or timer notifications.
-    Guarded actions describe the conditions for actions to be performed.
-    Action functions compute how actions will affect the engine system,
-    but are [pure functions](https://en.wikipedia.org/wiki/Pure_function).
-
+    to define a datatype of _action labels,_ 
+    which describe what actions a member of the engine family can
+    perform in response to messages or timer notifications—irrespective
+    of the specific circumastances that call for such actions.
+    The action labels are complemented by a set of guarded actions, 
+    which describe situations under which certain actions are actually performed.
+    Finally,
+    action functions compute the effects of actions
+    as [pure functions](https://en.wikipedia.org/wiki/Pure_function)
+    (see also [[On LTS semantics of guarded actions]]).
 
     !!! todo "definition of _engine system_"
 
