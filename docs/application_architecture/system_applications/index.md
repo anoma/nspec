@@ -7,4 +7,4 @@ search:
 
 # System applications
 
-- [Proof-of-stake](./system_applications/proof_of_stake.md)
+- [Proof-of-stake](./proof_of_stake.md)

@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+icon: simple/awsorganizations
 search:
   exclude: false
   boost: 2
