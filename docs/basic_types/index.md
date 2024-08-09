@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+icon: simple/databricks
 search:
   exclude: false
   boost: 2
@@ -7,7 +7,9 @@ search:
 
 # Basic Types
 
-_"There are two kinds of data structures: DAGs, and bad data structures." - unknown_
+!!! quote
+
+    "There are two kinds of data structures: DAGs, and bad data structures." _unknown_
 
 Anoma's protocol layers themselves form an information-theoretic DAG, in that
 higher layers can depend on information from lower layers, but not vice-versa

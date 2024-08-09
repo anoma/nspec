@@ -46,14 +46,9 @@ tags:
     For more information about the foundation, please visit https://anoma.foundation.
 
 Anoma is a distributed operating system for intent-centric
-applications[@goes2024anoma]. The Anoma protocol architecture supports interoperability at the
-
-- state,
-- network, and
-- application levels
-
-without restricting the types of intents or computational methods used to solve
-them.
+applications[@goes2024anoma]. The Anoma protocol architecture supports
+interoperability at  state, network, and application levels without restricting
+the types of intents or computational methods used to solve them.
 
 As a multi-party intent-centric architecture, Anoma is designed for applications
 concerned with
@@ -86,7 +81,7 @@ Anoma protocol and serves as a guide for Anoma researchers and implementors.
 
 <!-- The following todo would desapear on the online version. -->
 
-## Table of Contents
+### Table of Contents
 
 {@ dict_to_md(nav_to_dict(navigation)) @}
 
