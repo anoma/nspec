@@ -14,6 +14,9 @@ tags:
     module node_architecture.engines.index;
 
     import node_architecture.basics open;
+    import node_architecture.types.environments open;
+    import node_architecture.types.dynamics open;
+    import node_architecture.types.protocol_types open;
     import node_architecture.types.engine_family as Base open using {EngineFamily};
 
     ```

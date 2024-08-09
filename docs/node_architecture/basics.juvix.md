@@ -11,54 +11,61 @@ tags:
 ```juvix
 module node_architecture.basics;
 import prelude open public;
-import prelude open using {Hash} public; -- TODO: review this, in principle, it should be imported with the previous import
+import prelude open using {Hash} public;
 ```
 
 # Juvix Prelude of the Anoma Node Architecture
 
-This document describes the basic types and functions used in the node architecture prelude.
-For a more general prelude, please refer to [Juvix Base Prelude](./../prelude.juvix.md).
+This document describes the basic types and functions used in the node
+architecture prelude. For a more general prelude, please refer to
+[Juvix Base Prelude](./../prelude.juvix.md).
 
-
-### Network Identity types
+### Network identity types
 
 These types are used to represent identities within the network, both external
 and internal.
 
-!!! warning
+!!! info
 
     There is an ongoing discussion about cryptographic identities and how they
-    should be represented in the system, and used for representing entities in
-    the network, such as engines. So, the following types are subject to change.
-    The main reference in the specs is precisely the section on [[Identity]].
+    should be represented in the system, and used for representing entities in the
+    network, such as engines. So, the following types are subject to change. The
+    main reference in the specs is [[Identity]].
 
+#### ExternalID
 
-- **ExternalID**: A unique identifier for entities outside the system,
-  represented as a natural number. In practice, it could be a public key.
+A unique identifier for entities outside the system, represented as a natural
+number. In practice, it could be a public key.
 
 ```juvix
 syntax alias ExternalID := Nat;
 ```
 
-- **InternalID**: A unique identifier for entities within the system, also
-  represented as a natural number. In practice, it could be a private key.
+#### InternalID
+
+A unique identifier for entities within the system, also represented as a
+natural number. In practice, it could be a private key.
 
 ```juvix
 syntax alias InternalID := Nat;
 ```
 
-- **Identity**: A pair combining an `ExternalID` and an `InternalID`,
-  representing the complete identity of an entity within the network.
+#### Identity
+
+A pair combining an `ExternalID` and an `InternalID`, representing the complete
+identity of an entity within the network.
 
 ```juvix
 Identity : Type := Pair ExternalID InternalID;
 ```
 
-### Addresses
+### Types for messages and communication
 
-- **Address**: It is used for forwarding messages to the correct destination. An
-  address could be a simple string without any particular meaning in the system
-  or an external identity.
+#### Address
+
+It is used for forwarding messages to the correct destination. An address could
+be a simple string without any particular meaning in the system or an external
+identity.
 
 ```juvix
 Name : Type := Either String ExternalID;
@@ -67,11 +74,21 @@ syntax alias Address := Name;
 
 ### Messages
 
-In principle, messages can have any type,
-and thus we have a simple type parameter,
-which we call `MessageType`.
+Messages send between engines in the system are represented by the following
+types. When a message is sent, it is enveloped with additional information such
+as the sender and the target address. These messages go through the network and
+end up in a mailbox of the target engine. Mailboxes are indexed by their unique
+identifier, for now represented as a number.
 
-- **Message Packet**: A record consisting of a target address, and mailbox ID, and a message.
+```juvix
+syntax alias MailboxID := Nat;
+```
+
+
+#### MessagePacket
+
+A message packet consists of a target address, a mailbox identifier, and
+the message itself of a specific type given as a type parameter, `MessageType`.
 
 ```juvix
 type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
@@ -83,8 +100,10 @@ type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
 };
 ```
 
-- **Enveloped Message**: A record consisting of a message packet and a sender
-  address.
+#### EnvelopedMessage
+
+An enveloped message consists of a possibly a sender address in case the sender
+wants to be identified, and a message packet.
 
 ```juvix
 type EnvelopedMessage (MessageType : Type) : Type :=
@@ -100,20 +119,18 @@ For convenience, let's define some handy functions for enveloped messages:
 getMessageType : {M : Type} -> EnvelopedMessage M -> M
   | (mkEnvelopedMessage@{ packet :=
       (mkMessagePacket@{ message := mt })}) := mt;
-```
 
-```juvix
 getMessageSender : {M : Type} -> EnvelopedMessage M -> Maybe Address
   | (mkEnvelopedMessage@{ sender := s }) := s;
-```
 
-```juvix
 getMessageTarget : {M : Type} -> EnvelopedMessage M -> Address
   | (mkEnvelopedMessage@{ packet := (mkMessagePacket@{ target := t }) }) := t;
 ```
 
-- **Mailbox**: A list of messages. It represents a collection of messages
-  waiting to be processed.
+#### Mailbox M S
+
+A mailbox is a container for messages and a mailbox state. The mailbox state
+could be used to store additional information about the mailbox.
 
 ```juvix
 type Mailbox (MessageType MailboxStateType : Type) : Type := mkMailbox {
@@ -122,23 +139,21 @@ type Mailbox (MessageType MailboxStateType : Type) : Type := mkMailbox {
 };
 ```
 
-Mailboxes are indexed by their unique identifier, for now represented as
-a number. This concerns the mailbox cluster of a single engine
+### Trigger related types
 
-```juvix
-syntax alias MailboxID := Nat;
-```
+#### Time
 
-### Timers
-
-- **Time**: A natural number representing time. It is used for scheduling and
-  timing events.
+Times is represented as natural numbers. It is used for scheduling and timing events.
 
 ```juvix
 syntax alias Time := Nat;
 ```
-- **Timer**: A record consisting of a time and a handle. It is used for scheduling
-  events to occur at a specific time.
+
+#### Timer H
+
+A timer is a pair of a time and a handle. The handle is used to identify the
+timer and can be used to cancel the timer or notify the engine when the timer
+expires.
 
 ```juvix
 type Timer (HandleType : Type): Type := mkTimer {
@@ -147,10 +162,10 @@ type Timer (HandleType : Type): Type := mkTimer {
 };
 ```
 
-### Triggers
+### Trigger M H
 
-- **Trigger**: An abstract type representing the nature of an events in the system, such
-as message arrivals, timer expirations.
+An abstract type representing the nature of events in the system, such as
+message arrivals, timer expirations.
 
 ```juvix
 type Trigger (MessageType : Type) (HandleType : Type) :=
