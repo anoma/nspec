@@ -11,21 +11,21 @@ search:
 !!! note
 
 	The purpose should describe in broad terms what
-	the role of (any member of) this engine family is
+	the role of (any member of) engine family [engine family name] is
 
 	- in relation to other engine instances within an Anoma node and/or
 
 	- as part of the whole Anoma instance at large.
 
-
 	Form
 
-	: The purpose description is in the form of some short paragraphs of prose, possibly just one.
+	: The purpose description is in the form of
+    some short paragraphs of prose, possibly just one.
 
 	Conceptual Structure
 
 	: One relatively self-contained piece of prose,
-	providing links to techincal terms and unavoidable jargon.
+	providing links to technical terms and unavoidable jargon.
 
     Goals
 
@@ -33,51 +33,50 @@ search:
       the technical terms and jargon linked.
 
 
-## Message Sequence Diagram `{`optional`}`
+## Message Sequence Diagram
 
 !!! note
 
-	We can use one or more message sequence diagrams to show how
-	members of the engine family exchange messages with other engine instances,
-	typically from different engine families.
+    Use one or more message sequence diagrams to show case how
+	members of the engine family [engine family name] exchange messages 
+    with other engine instances,
+	typically from different engine families,
+    but possibly from the same family.
 	The general idea is that
 	each message sequence diagram in the engine family page describes
-	a pattern for test cases.
+	a pattern for test cases of any implementation.
+
 	We can use
     [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
     to draw [message sequence diagrams](https://www.uml-diagrams.org/sequence-diagrams.html),
-    using the `-)`-syntax by default,
-    expressing that message sending is "asynchronous".
-	For more on how
-    actor systems (or models of them) give rise to sequence diagrams,
-    consider exploring systems using
-	[stateright](https://www.stateright.rs/)'s [state explorer](https://www.stateright.rs/seeking-consensus.html#stateright-explorer).
+    using the `-)`-syntax by default—expressing that
+    message sending is "asynchronous".
+	For more on how sequence diagrams naturally arise in actor-like systems,
+    consider exploring systems in the
+	[stateright explorer](https://www.stateright.rs/seeking-consensus.html#stateright-explorer).
 
-
-### [Title of Message Sequence Diagram 1]
-
+### [Title of Message Sequence Diagram ⟨$i$⟩] `{` several diagrams, $i \in \{1,\dotsc, k\}$ `}`
 
 !!! note
 
-
     Form
 
-    : A mermaid or other message sequence diagram.
+    : A sequence diagram, by default in mermaid, but better options are welcome.
 
     Goals
 
     : Provide at least one example run,
-    which amounts to a test case for implementations.
+      which amounts to a test case for implementations.
+      This goal is similar to that of
+      [ᴜᴍʟ use case diagrams](https://www.uml-diagrams.org/use-case-diagrams.html).
 
+!!! tip "on snippeting `--<8--` "
 
-!!! tip "on snippeting"
+    Snippets do not work with syntax highlighting, yet.
+    That is why—for the time being—we
+    only provide links to the next two template pages
+    (which ideally would just be included here).
 
-    Snippets do not work with syntax highlighting yet.
-    That is why we link to the other two pages
-    (for the moment).
+### `[[`[Wiki-link] `|` Engine environment`]]` `{` see [[Engine Environment Template]] `}`
 
-
-### `[[`[Wikilink] `|` Engine environment`]]` `{` see [[Engine Environment Template]] `}`
-
-### `[[`[Wikilink] `|` Engine dynamics`]]` `{` see [[Engine Dynamics Template]] `}`
-
+### `[[`[Wiki-link] `|` Engine dynamics`]]` `{` see [[Engine Dynamics Template]] `}`
