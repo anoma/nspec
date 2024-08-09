@@ -24,13 +24,13 @@ search:
     [[Engine Family Types#guarded-actions|guarded actions]].
 
     For this, we in particular have
-    to define action labels, 
+    to define action labels,
     which is a datatype that summarizes what members of the engine family can
     "do" in response to messages or timer notifications.
     Guarded actions describe the conditions for actions to be performed.
     Action functions compute how actions will affect the engine system,
     but are [pure functions](https://en.wikipedia.org/wiki/Pure_function).
-    
+
 
     !!! todo "definition of _engine system_"
 
@@ -78,8 +78,8 @@ search:
     The specification pages impose
     a linear order on guarded actions and action labels.
 
-    !!! todo "settle the order business!!!" 
-    
+    !!! todo "settle the order business!!!"
+
         alphabetic vs. conceptual order ?
 
 
@@ -100,7 +100,7 @@ search:
     at the _top level._
     The constructors of this type are called _action tags,_
     in analogy to _message tag._
-    
+
     ??? warning "Every action label determines the action effect: _∀ label ∃! effect_"
 
         The action label alone has to determine the ensuing state update,
@@ -108,8 +108,8 @@ search:
         the set of engines to be spawned,
         and the changes to the timer list.
         Note that the action tag may take parameters.
-        
-        👉 _The action tag parameters should be "minimal"!_ 
+
+        👉 _The action tag parameters should be "minimal"!_
 
         Thus,
         for each parameter that you may consider to add to an action label,
