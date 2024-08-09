@@ -23,11 +23,11 @@ search:
     [[Engine Family Types#guarded-actions|guarded actions]].
 
     For this, we in particular have
-    to define a datatype of _action labels,_ 
+    to define a datatype of _action labels,_
     which describe what actions a member of the engine family can
     perform in response to messages or timer notifications—irrespective
     of the specific circumastances that call for such actions.
-    The action labels are complemented by a set of guarded actions, 
+    The action labels are complemented by a set of guarded actions,
     which describe situations under which certain actions are actually performed.
     Finally,
     action functions compute the effects of actions
