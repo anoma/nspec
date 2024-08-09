@@ -38,7 +38,7 @@ search:
 !!! note
 
     Use one or more message sequence diagrams to show case how
-	members of the engine family [engine family name] exchange messages 
+	members of the engine family [engine family name] exchange messages
     with other engine instances,
 	typically from different engine families,
     but possibly from the same family.
