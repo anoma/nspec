@@ -70,7 +70,7 @@ search:
       This goal is similar to that of
       [ᴜᴍʟ use case diagrams](https://www.uml-diagrams.org/use-case-diagrams.html).
 
-!!! tip "on snippeting `--<8--` "
+!!! tip "on snippeting `--8<--` "
 
     Snippets do not work with syntax highlighting, yet.
     That is why—for the time being—we
