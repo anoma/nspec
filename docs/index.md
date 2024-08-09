@@ -8,11 +8,6 @@ social:
   cards: false
 search:
     exclude: true
-tags:
-    - Protocol
-    - Architecture
-    - Applications
-    - Intent
 ---
 
 {@@ if preview @@}
@@ -26,13 +21,9 @@ tags:
 
 {@@ endif @@}
 
-<!-- Source of inspiration:
-- https://ethresear.ch/t/rfc-draft-anoma-as-the-universal-intent-machine-for-ethereum/19109
- -->
-
 # Anoma Specification
 
-!!! info inline end "Anoma Entities"
+!!! info inline end "Anoma entities"
 
     The term "Anoma" as used on this site refers specifically to the Anoma Protocol. However, it may
     also be used elsewhere to refer to related entities such as the Anoma Network or the Anoma
@@ -62,20 +53,6 @@ currencies) and unique (non-fungible) objects, so users can choose the
 representations and level of precision most appropriate to model aspects of the
 world which they care about.
 
-<!-- The following is commented for now. The paragraph seems to say many things.
-Shorter the better IMO. -->
-<!--
-Anoma provides a substrate for _information flow control_, giving users
-fine-grained control over and the ability to reason about where, when, and to
-whom information may be disclosed, subject to whatever trust assumptions they
-are willing to make. In order to provide this substrate, Anoma uses many
-cryptographic constructions, including public key encryption, one-way hash
-functions, succinct non-interactive zero-knowledge proofs, distributed key
-generation, threshold encryption, and homomorphic encryption. Anoma's
-construction abstracts the underlying primitives by their information-theoretic
-properties, so that new primitives may be swapped in overtime.
--->
-
 This site aims to describe the architecture required to implement the
 Anoma protocol and serves as a guide for Anoma researchers and implementors.
 
@@ -84,5 +61,3 @@ Anoma protocol and serves as a guide for Anoma researchers and implementors.
 ### Table of Contents
 
 {@ dict_to_md(nav_to_dict(navigation)) @}
-
-
