@@ -19,7 +19,6 @@ mkdocs-macros-plugin = "^1.0.5"
 mkdocs-material = {extras = ["imaging"], version = "^9.5.25"}
 mkdocs-section-index = "^0.3.9"
 pymdown-extensions = "^10.8.1"
-mkdocs-ezglossary-plugin = "^1.6.10"
 mkdocs-autorefs = "^1.0.1"
 mkdocs-glightbox = "^0.4.0"
 mkdocs-juvix-plugin = "^0.2.7"

@@ -1,86 +1,88 @@
 ---
 icon: material/git
 tags:
-    - GitHub
-    - Git
+  - GitHub
+  - Git
 ---
 
+# Git branching strategy
 
-# Git Branching Strategy
+The general workflow is to branch off from the latest version's branch, perform
+your changes, open a pull request, and merge your updates. An open pull request
+can finalise a version, or patch it with updates.
 
-This guide outlines how to work with Git branches to add new features or fix
-issues on the specification document. We expect you are familiar with the basics
-of Git and GitHub. Overall, the strategy for contributing to the Anoma
-specification is to branch off from the latest version's branch of the nspec
-repository, add new features or fix issues, open a pull request for review, and
-merge the changes into the latest version's branch.
+## Branching strategy
 
-## Creating a New Version
+For new versions, branch off from the latest version. This is usually done by
+maintainers. Call the branch as `vX`, where `X` is the new version number,
+the successor of the latest version. To find the latest version, check the
+`VERSION` file in the repository root. For example, if the latest version is
+`v1`, the new version branch will be `v2`, and the git graph will look like:
 
-### Finding the Current Version
+```mermaid
+%%{init: { 'theme': 'neutral' } }%%
+gitGraph:
+    commit
+    branch v1
+    checkout v1
+    commit
+    branch your-name/issue-identifier
+    checkout your-name/issue-identifier
+    commit
+    checkout v1
+    merge your-name/issue-identifier
+    commit
+    commit tag: "v1"
+    branch v2
+    checkout v2
+    commit
+    commit id:"still in development"
+```
 
-To determine the current version of the Anoma spec:
+!!! info
 
-- Check the `VERSION` file located in the repository's root.
-- Contact an administrator for guidance on the appropriate branch for your work.
+    The branch `vX` is the base branch for all new features and patches for the
+    version `X`. That means that, even when there are new versions, the branch `vX`
+    can still be used for patches and minor updates to the version `X`.
 
-### Version Branching Strategy
 
-For new versions:
-
-1. **Create a New Branch**: Branch off from the latest version's branch when
-   starting a new version. This is usually done by one of the maintainers.
-
-2. **Naming Conventions**: Use the following pattern to name the new version branch:
-
-   ```
-   vX
-   ```
-
-### Merging Finalised Versions
-
-1. Completed versions are merged into the `main` branch after thorough review.
-   We expect each version's branch to pass all the CI checks before merging.
+## Merging finalised versions
 
 2. To merge a finalised version:
-
-   - Open a pull request against the `main` branch.
-   - Tag the pull request with the `vX` label.
-   - Get approval from the maintainers.
-   - Pass all the CI checks.
+   - Open a pull request against the version in development.
+   - Pass all CI checks.
+   - Tag it with the `vX` label.
    - Merge the pull request.
 
-## Adding New Features to the Current Version
+### Adding new features to the current version
 
-The following steps outline how to add new features or fix issues to the current
-version of the Anoma spec. However, if for some reason you need to work on a
-different, possibly older version, the steps are similar.
+For patches or minor updates, again, branch off from the latest version. Name
+your branch prefixing your name and an issue identifier, like
+`your-name/issue-identifier`. Short descriptive labels are recommended, like
+`fix-typo`, or `new-solver-engine`. So, the steps are:
 
-1. **Fetch the Latest Changes**: One alternative is to fetch all changes from
-   the remote repository as follows:
-
-   ```bash
-   git fetch --all
-   ```
-
-2. **Create a New Branch**:
-
-   - Branch off from the current version's branch:
-
+1. **Fetch the latest changes**:
+    ```bash
+    git fetch --all
+    ```
+2. **Create a new branch**:
     ```bash
     git checkout vX # Replace vX with the current version
     git checkout -b your-name/issue-identifier
     ```
+3. Open a pull request against the version in development. If you are using
+   `gh`, after pushing your changes, you can create a pull request with:
 
-### Rebasing Your Work
+    ```bash
+    gh pr create
+    ```
 
-Rebasing is crucial for incorporating the most recent changes from the base
-branch. Follow these steps to rebase, although sometimes you can rebase
-directly on GitHub, pushing the "Update branch (rebase)" button at the end of
-the pull request.
+### Rebasing your work
 
-
-#### Start the Rebase
+Every once in a while, you should rebase your branch onto the base branch,
+if the current version has been updated. This will incorporate the latest
+changes from the base branch into your branch. The steps to rebase are usually
+the following.
 
 - Switch to your working branch:
 
@@ -88,42 +90,43 @@ the pull request.
     git checkout your-name/issue-identifier
     ```
 
-- Initiate the rebase onto the target branch (e.g., `vX`):
+- Initiate the rebase onto the target branch:
 
     ```bash
     git pull origin vX --rebase
     ```
 
-#### Resolve Conflicts
+    Or merge the changes from the base branch:
 
-- Git will halt the rebase for you to resolve any conflicts.
-- After resolving each conflict, proceed with:
+    ```bash
+    git merge vX
+    ```
+
+#### Resolve conflicts
+
+- Git will pause for conflict resolution.
+- After resolving each conflict:
     ```bash
     git rebase --continue
     ```
-- If you need to stop the rebase process, use:
+- To stop the rebase process:
     ```bash
     git rebase --abort
     ```
-- If you need to some help, reach out to the maintainers.
 
-#### Push Your Changes
+#### Push your changes
 
-- Once the rebase is finished, push the changes to the remote repository.
+- Once rebase is complete, push changes:
+    ```bash
+    git push origin your-name/issue-identifier
+    ```
+- A force push may be required:
+    ```bash
+    git push origin your-name/issue-identifier --force-with-lease
+    ```
 
-```bash
-git push origin your-name/issue-identifier
-```
+### Important notes
 
-- A force push may be required if the rebase altered the branch history:
-
-```bash
-git push origin your-name/issue-identifier --force-with-lease
-```
-
-## Important Notes
-
-- Verify you are on the correct branch before making modifications.
-- Regularly update your branch with pulls and rebases to reduce conflicts and
-  stay sync.
-- Ask for help if you encounter any issues you cannot fix as soon as possible.
+- Ensure you are on the correct branch before making changes.
+- Regularly update your branch to minimise conflicts.
+- Ask for help if you encounter any issues to the maintainers.

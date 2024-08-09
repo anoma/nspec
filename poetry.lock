@@ -783,21 +783,6 @@ setuptools = ">=68.0.0"
 validators = ">=0.19.0"
 
 [[package]]
-name = "mkdocs-ezglossary-plugin"
-version = "1.6.10"
-description = "manage multiple glossaries in mkdocs"
-optional = false
-python-versions = "*"
-files = [
-    {file = "mkdocs_ezglossary_plugin-1.6.10-py2.py3-none-any.whl", hash = "sha256:b40dfce4264b2f56e1b159f675ea96247bfddf0196f861789e1d5837f4f03bf6"},
-    {file = "mkdocs_ezglossary_plugin-1.6.10.tar.gz", hash = "sha256:1cfdd3679ae6188f5e9519e74b90aaa638ea533e687fa46b6c84dc2c0ad15b73"},
-]
-
-[package.dependencies]
-jinja2 = "*"
-mkdocs = ">=1.1.0"
-
-[[package]]
 name = "mkdocs-get-deps"
 version = "0.2.0"
 description = "MkDocs extension that lists all dependencies according to a mkdocs.yml file"
@@ -1775,4 +1760,4 @@ test = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-it
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "372035a878dd361ca41e411fac50b2f56739fa6beae17c59d65b29e5af728308"
+content-hash = "69ae3eebe4e96f16714c92ccb022a267532e063eb1e44af687df4086af316ac9"

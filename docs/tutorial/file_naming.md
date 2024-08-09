@@ -1,23 +1,23 @@
 ---
-icon: material/file-document-outline
+icon: octicons/typography-16
 tags:
     - file naming
     - conventions
 ---
 
 
-# Snake Case Convention for Naming Files and Folders
+# snake_case convention for naming files and folders
 
 The Anoma Specification uses the snake case convention for naming files and
 folders.
 
-## Guidelines:
+## Guidelines
 
 - Use lowercase letters.
 - Separate words with underscores `_`, instead of dashes `-` or camel case.
 - No special characters or spaces.
 
-## Pros:
+## Pros
 
 - Readability: Improves readability by clearly separating words in names, making
   code more understandable.
@@ -25,7 +25,7 @@ folders.
 - Compatibility: Widely supported across different programming languages and
   platforms, no issues with case sensitivity.
 
-## Cons:
+## Cons
 
 - Length: Can make names longer.
 - Visual Clutter: The underscores can create visual clutter, especially in
