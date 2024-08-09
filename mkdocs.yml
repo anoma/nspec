@@ -378,23 +378,21 @@ nav:
     - ./indexes/index.md
     - Quick links: ./indexes/links.md
     - Juvix Modules: ./indexes/juvix_modules.md
-  - For Spec_writers:
+  - Tutorials for contributors:
     - ./tutorial/index.md
-    - Prepare working environment:
-      - ./tutorial/install/index.md
-    - Git Workflow: ./tutorial/branch.md
+    - Prepare working environment: ./tutorial/install/index.md
+    - Use Git and GitHub: ./tutorial/branch.md
     - File Naming Conventions: ./tutorial/file_naming.md
-    - Write using Markdown plus Anoma extensions:
-      - ./tutorial/md/index.md
-      - Wiki_style links: ./tutorial/md/links.md
-      - Images: ./tutorial/md/images.md
-      - Todos: ./tutorial/md/todos.md
-      - Snippets: ./tutorial/md/snippets.md
-      - Citations: ./tutorial/md/citations.md
-      - Juvix code: ./tutorial/juvix.md
-      - Diffs:
-        - ./tutorial/differ/index.md
-        - Example of diff rendering: ./tutorial/file_v1.md
+    - Write using Markdown plus Anoma extensions: ./tutorial/md/index.md
+    - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
+    - Include code snippets: ./tutorial/md/snippets.md
+    - Add Juvix code for specification: ./tutorial/juvix.md
+    - Use Wiki style links: ./tutorial/md/links.md
+    - Include images in Markdown: ./tutorial/md/images.md
+    - Add pending tasks with Todos admonition: ./tutorial/md/todos.md
+    - Add literature references: ./tutorial/md/citations.md
+    - Add diffs for versioning: ./tutorial/differ/index.md
+    - Run pre commit checks: ./tutorial/commit_checks.md
 
 extra:
   social:

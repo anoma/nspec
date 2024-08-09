@@ -17,4 +17,8 @@ file_v1.md
 file_v2.md
 ```
 
-See the example in the next page.
+The rendered diff is displayed in tabs, with the left tab showing the previous,
+and the right tab showing the current version. If no previous version is found,
+the left tab is empty. If no current version is found, the right tab is empty.
+
+See [here](./file_v1.md) for an example on how it renders.

@@ -26,8 +26,29 @@ files. The syntax is as follows:
 This statement requires a citation [@citation_key].
 ```
 
-!!! note
+!!! info
 
     We have `docs/references/update_repo_bibtexs.py` script that can be used to
     update the `docs/references/anoma_repos.bib` file to cite Anoma repositories
     in the documentation.
+
+## References available
+
+
+??? quote "Anoma Research Topics (ART) papers"
+
+    ```bibtex
+    --8<-- "docs/references/art.bib"
+    ```
+
+??? quote "Anoma Public GitHub repositories"
+
+    ```bibtex
+    --8<-- "docs/references/anoma_repos.bib"
+    ```
+
+??? quote "Other literature"
+
+    ```bibtex
+    --8<-- "docs/references/ref.bib"
+    ```
