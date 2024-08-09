@@ -18,12 +18,27 @@ search:
 
 !!! note
 
-    To complete the definition of an engine family,
-    we have to define a set of guarded actions.
+    To complete the definition of
+    [[Engine Family Types|engine family ⟦engine family name⟧]],
+    we have to define its set of
+    [[Engine Family Types#guarded-actions|guarded actions]].
+
+    For this, we in particular have
+    to define action labels, 
+    which is a datatype that summarizes what members of the engine family can
+    "do" in response to messages or timer notifications.
+    Guarded actions describe the conditions for actions to be performed.
+    Action functions compute how actions will affect the engine system,
+    but are [pure functions](https://en.wikipedia.org/wiki/Pure_function).
+    
+
+    !!! todo "definition of _engine system_"
+
+        Where do we have the definition of engine system now?
 
 !!! warning "Juvix protocol-level types"
 
-    We also need to write (and import)
+    We also have to write (and import)
     protocol-level type descriptions.
     These are two type declarations.
 
@@ -35,26 +50,42 @@ search:
     This is an algebraic data type with one constructor per engine family
     that takes as argument a message of the respective engine family.
 
+    : 👉 _This type is **the** type used for sending messages._
+
     Protocol-level environment type
 
-    : Similarly, we have a type as above, but with `ProtocolEnvironment` instead of `ProtocolMessage`, and constructors taking environments from the respective engine family.
+    : Similarly, for engine environments, we have a type as above,
+    but with `ProtocolEnvironment` instead of `ProtocolMessage`,
+    and constructors taking environments from the respective engine families.
+
+    : 👉 _This type is **the** type used for creating new engine instances._
 
     See the file `engine_protocol_type.juvix`.
+    Note that for the purpose of these two types,
+    the [[Engine Family Hierarchy]] is "flattened",
+    i.e., the algebraic data type does not encode the hiearchy of engine families.
+
 
 ## Overview
 
 !!! note
 
     We want a broad overview of how the guarded actions
-    relate to each other and a descriptio of their purposes.
-    The specification necessarily presents
-    a list of guarded actions
-    and for each guarded action one guard, one action,
-    one or several action labels for the action.
+    relate to each other and a description of their purposes.
+    For each guarded action
+    we have one guard, one action,
+    and one or several action labels.
+    The specification pages impose
+    a linear order on guarded actions and action labels.
+
+    !!! todo "settle the order business!!!" 
+    
+        alphabetic vs. conceptual order ?
+
 
     Form
 
-    : free form
+    : free form, but preferably short (as many descriptions will follow)
 
 ## Action labels
 
@@ -63,23 +94,46 @@ search:
     We have to define a type of action labels.
     This type may be arbitrarily complex,
     in principle.
-    It should only be a nesting of record types
-    or algebraic data types.
-    Each action label should have a small
-    description of what the action performs
+    However,
+    for the purposes of the Anoma specification,
+    it has to be a record type or algebraic data type
+    at the _top level._
+    The constructors of this type are called _action tags,_
+    in analogy to _message tag._
+    
+    ??? warning "Every action label determines the action effect: _∀ label ∃! effect_"
+
+        The action label alone has to determine the ensuing state update,
+        the list of message for the send queue,
+        the set of engines to be spawned,
+        and the changes to the timer list.
+        Note that the action tag may take parameters.
+        
+        👉 _The action tag parameters should be "minimal"!_ 
+
+        Thus,
+        for each parameter that you may consider to add to an action label,
+        consider to move it to the type of
+        [[Engine Dynamics Template#matchable-arguments|matchable arguments]]
+        or arbitrary
+        [[Engine Dynamics Template#precomputation-results|precomputation results]].
+
+    Conceptual structure
+
+    : Each action tag should have a small
+    description of what the effects of the associated action are,
     in broad terms.
-    If somehow possible,
-    the section structure of the
-    [[Engine Dynamics Template#action-labels|Action labels section]]
-    should reflect the structure of the type of action labels.
 
-!!! warning
+    Form
 
-    The action label alone determines
-    the state update function.
-    In other words,
-    matched arguments and precomputation results
-    are for convenience and improved code quality.
+    : Often, this may not be the case and we just have
+    one sub-section for each action tag.
+
+    Goal
+
+    : An understanding of the purpose of the actions that action labels describe,
+    without the need to consult later sections.
+
 
 !!! Example "Generic Action Label Pattern"
 
@@ -94,41 +148,42 @@ search:
     ;
 
     type allLabels :=
-      | doAlternativeOne (Either someActionLabel anotherActionLabel)
-      | doAlternativeTwo (Pair someActionLabel anotherActionLabel)
+      | doAlternative (Either someActionLabel anotherActionLabel)
+      | doBoth (Pair someActionLabel anotherActionLabel)
       | doAnotherAction String
     ;
     ```
 
     The corresponding structure would be the one of the last type.
 
-    ### doAlternativeOne
+    ### doAlternative
 
-    does this by
+    We do one of the two.
 
     #### Either.Left `{` optional `}`
 
-    either this
+    The first alternative does _this._
 
     #### Either.Right  `{` optional `}`
 
-    or that
+    The other alternative does _that._
 
-    ### doAlternativeTwo
+    ### doBoth
 
-    does that by
+    Here we do both.
 
     #### first  `{` optional `}`
 
-    doing that
+    Well, we have described _this_ above.
 
     #### second  `{` optional `}`
 
-    and also that
+    Well, we have described _that_ above.
 
     ### doAnotherAction
 
-    the third kind of action
+    Finally, we have a third kind of action
+    that also has to be documented.
 
 ## Matchable arguments
 
@@ -138,30 +193,34 @@ search:
     e.g., in
     [`receive do`-statements](https://hexdocs.pm/elixir/main/processes.html#sending-and-receiving-messages)
     in Elixir,
-    we may match a subset of the arguments.
+    we may match a subset of the arguments of a message tag.
     The type of matchable arguments defines
     which arguments possibly will be matched.
+    Note that some ímportant arguments may already be covered by
+    the arguments of the action label.
 
     Form
 
     : An algebraic data type or record type followed by a definition list
-    that describes for each constructor the action labels that are relevant.
-
+    that describes for each action tag (or, equivalently, each constructor),
+    the corresponding action effects,
+    in broad terms.
 
 ## Precomputation results
 
 !!! note
 
-    Guard evaluation may involve non-trivial computations,
-    which should not have to be repeated in
-    the associated action.
+    Guard evaluation may involve non-trivial computation
+    that should not have to be repeated in
+    the computation of the actions effects.
     Thus,
-    we have a third input for actions,
-    which are arbitrary precomputation results.
+    we have a third input for action functions,
+    which is meant to relay any precomputation results
+    beyond matching and label computation.
 
     Form
 
-    : A type definition with an explanation of the purpose.
+    : A type definition with an explanation of its purpose.
 
 ## [Guarded Action ⟨$i$⟩] `{` $1<i<k$, i.e. $k$ such sections `}`
 
@@ -403,3 +462,11 @@ Guards can provide information (similar to pattern-matching) which can then be u
 !!! example
 
     The time stamping server does not need to set any timers.
+
+## Concurrency, conflict, mutual exclusion. `{` v2' `}`
+
+!!! note "Coming soon™"
+
+    Finally, we need to define the relations of
+    concurrency, conflict, mutual exclusion
+    between action labels.
