@@ -162,7 +162,7 @@ jobs:
         if: success()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          repository-name: anoma/nspec-preview
+          repository-name: anoma/nspec
           branch: gh-pages
           folder: pr-${{ github.event.pull_request.number }}
           target-folder: pr-${{ github.event.pull_request.number }}
