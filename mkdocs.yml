@@ -470,10 +470,10 @@ theme:
     # - navigation.tracking
     - navigation.footer
     - navigation.path
-    - navigation.expand
+    # - navigation.expand
     - navigation.prune
     - navigation.tabs
-    # - navigation.sections
+    - navigation.sections
     # - navigation.instant
     # - navigation.instant.preview
     - navigation.indexes
