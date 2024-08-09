@@ -25,25 +25,25 @@ search:
     [[Engine Environment Template|this page]].
 
     Shared type definitions
-    
+
     : A type is _shared_ if
       at least one other engine family is directly ímporting
       the type declaration in its engine environment module.
-    
-    : A shared type declaration should be be linked _and_ included via 
+
+    : A shared type declaration should be be linked _and_ included via
     [[Include code snippets| snippeting `--8<--`]] in a `!!! quote` environment
     (see also [PyMdown Extensions Documentation](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/))—_including the explanation_.[^1]
 
     : The location of the type declaration of a shared type
     is either
-    
+
     : - the lowest common ancestor that the engine families share in
       the [[Engine Family Hierarchy]], or
       - a more suitable place,
       e.g., if it is one of the [[Basic Types]].
 
     Now, we come back to the actual description of types.
-    
+
     Conceptual structure
 
     : We describe each of the following type parameters in order
@@ -196,7 +196,7 @@ search:
         How to best do this?
 
     Additional comments `{` optional `}`
-    
+
     : You may provide additional information,
     e.g., design choices, explanation of the naming process, etc.
     This is in the form of a `??? note "[something to remember]"`
