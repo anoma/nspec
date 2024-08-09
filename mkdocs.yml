@@ -397,7 +397,6 @@ nav:
     - Add literature references: ./tutorial/md/citations.md
     - Add diffs for versioning: ./tutorial/differ/index.md
     - Run pre commit checks: ./tutorial/commit_checks.md
-
     - Engines in Anoma:
       - Writing Conventions: ./tutorial/engines/conventions.md
       - Engine Templates:
