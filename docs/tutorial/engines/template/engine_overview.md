@@ -13,7 +13,7 @@ search:
 	This section of the page should describe in broad terms what
 	the role of (any member of) engine family [engine family name] is
 
-	- in relation to other [[Engine Instance Type|engine instances]] 
+	- in relation to other [[Engine Instance Type|engine instances]]
     within an Anoma node and/or
 
 	- as part of the whole Anoma instance at large.
@@ -36,7 +36,7 @@ search:
 
 !!! quote ""
 
-    Members of the family [engine family name] 
+    Members of the family [engine family name]
     do X, Y and Z,
     in collaboration with P, Q, and R, respectively.
     See [documentation of X] for background on X, Y and Z.
@@ -71,7 +71,7 @@ search:
     message sending is "asynchronous".[^00]
 
     Goal
-    
+
     : Illustrate how a specific instance of a collaborative task, data flow, or similar is progressing, message by message.
 
 !!! quote ""
@@ -87,7 +87,7 @@ search:
         X -) E: messageFromX(argOne, argTwo, argThree )
         E -) Y: messageToY(arg, arg')
     ```
-    
+
     <figcaption markdown="span">
 
     An [engine family name] interacting with an X and a Y,
