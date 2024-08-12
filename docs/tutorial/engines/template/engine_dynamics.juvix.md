@@ -25,7 +25,7 @@ search:
     we first define a datatype of _action labels,_
     each of which defines an action that
     a member of the engine family can perform
-    (in response to messages or timer notifications)—without 
+    (in response to messages or timer notifications)—without
     mentioning the specific circumastances that call
     for performing the action that the action label describes.
     The action labels are complemented by a set of guarded actions,
