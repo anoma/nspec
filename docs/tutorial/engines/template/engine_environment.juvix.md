@@ -4,45 +4,66 @@ search:
   exclude: false
 ---
 
+??? note "Juvix preamble: ʜᴇʀᴇ 👇 are the `module` declaration, `import`s, `open`s, etc."
+
+    We have the `module` declaration (according to the path and file name)
+    followed by `import`s, `open`s, etc.
+
+    ```juvix
+    module tutorial.engines.template.engine_environment;
+    import prelude open;
+    ```
+
+    The naming scheme for the module, after the path,
+    is `[engine_family_name]_engine_environment`.
+
+!!! todo "fix the location of the module declaration"
+
+    The modules of the actual specification
+    should certainly ɴᴏᴛ reside in the tutorial folder!
+
+
+
 # [Engine Family Name] Environment
 
-!!! note
+!!! note "On `[Engine Family Name] Environment`"
 
-    The [[Engine Environment Template| ⟦Engine Family Name⟧ Environment]] page lists
+    The [[Engine Environment Template| ⟦Engine Family Name⟧ Environment]] page describes
     _all_ types—or rather type parameters,
-    to be precise—that are either
-    specific to the [[Engine Family Types|engine family]] or shared with others (and used).
+    to be precise—regardless of whether they are
+    specific to the [[Engine Family Types|engine family]] or
+    shared with others (and used).
 
-    Family-specific type definitions
+    ??? note "Family-specific vs. shared"
 
-    : A type declaration is _family-specific_ if
-    no other module ímports that type directly,
-    with the possible exception of the module for protocol-level messages and environments,
-    i.e., `[protocol_name]_protocol_types`
-    is the only module that may ímport a family-specific type.
+        Family-specific type definitions
 
-    : A family-specific type definition has to be described in
-    [[Engine Environment Template|this page]].
+        : A type declaration is _family-specific_ if
+        no other module ímports that type directly,
+        with the possible exception of the module for protocol-level messages and environments,
+        i.e., `[protocol_name]_protocol_types`
+        is the only module that may ímport a family-specific type.
 
-    Shared type definitions
+        : A family-specific type definition has to be described in
+        [[Engine Environment Template|this page]].
 
-    : A type is _shared_ if
-      at least one other engine family is directly ímporting
-      the type declaration in its engine environment module.
+        Shared type definitions
 
-    : A shared type declaration should be be linked _and_ included via
-    [[Include code snippets| snippeting `--8<--`]] in a `!!! quote` environment
-    (see also [PyMdown Extensions Documentation](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/))—_including the explanation_.[^1]
+        : A type is _shared_ if
+          at least one other engine family is directly ímporting
+          the type declaration in its engine environment module.
 
-    : The location of the type declaration of a shared type
-    is either
+        : A shared type declaration should be be linked _and_ included via
+        [[Include code snippets| snippeting `--8<--`]] in a `!!! quote` environment
+        (see also [PyMdown Extensions Documentation](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/))—_including the explanation_.[^1]
 
-    : - the lowest common ancestor that the engine families share in
-      the [[Engine Family Hierarchy]], or
-      - a more suitable place,
-      e.g., if it is one of the [[Basic Types]].
+        : The location of the type declaration of a shared type
+        is either
 
-    Now, we come back to the actual description of types.
+        : - the lowest common ancestor that the engine families share in
+          the [[Engine Family Hierarchy]], or
+          - a more suitable place,
+          e.g., if it is one of the [[Basic Types]].
 
     Conceptual structure
 
@@ -52,11 +73,13 @@ search:
     [[Engine Environment Template#mailbox-states|mailbox states]],
     [[Engine Environment Template#local-state|local state]], and
     [[Engine Environment Template#timer-handles|timer handles]].
-    Interdependencies between those type should be explained.
+    Interdependencies between these type definitions should be explained.
     In particular,
     for each data item in the local state,
-    it should be explained why it rather belongs to the engines generic local state
-    and should not be moved to a mailbox state.
+    it should be explained why it rather belongs to
+    the generic local state of the engine,
+    e.g., by giving a list of hurdles, inconveniences, and issues that
+    are in the way of moving it to a mailbox state.
 
     Goals
 
@@ -68,8 +91,14 @@ search:
 
     Form
 
-    : Tips (`!!! tip "[some tip]"`) or warnings (`!!! warning "[some warning]"`) may be used to highlight ímportant details.
+    : The present template describes the form.
+    _The juvix preamble is preceding the page title._
+    Moreover,
+    tips (`!!! tip "[some tip]"`) or
+    warnings (`!!! warning "[some warning]"`)
+    may be used to highlight ímportant details.
 
+<!--ᚦ: this is to be moved to the tutorial¶
 !!! tip "Time is ɴᴏᴛ part of engine environments"
 
     The local clocks of engine instances are "external" to engine instances.
@@ -81,24 +110,8 @@ search:
     which would be yet different
     in that it will try to relate to local time
     of users on their watches in the vicinity of the node.
-
-!!! note "Juvix preamble"
-
-    We have the `module` declaration (according to the path and file name)
-    followed by `import`s, `open`s, etc.
-
-    ```juvix
-    module tutorial.engines.template.engine_environment;
-    ```
-
-    The naming scheme for the module, after the path,
-    is `[engine_family_name]_engine_environment`.
-
-    !!! todo "fix the location"
-
-        The modules of the actual specification
-        should certainly ɴᴏᴛ reside in the tutorial folder!
-
+-->
+<!--ᚦ: this probably should be moved as well:
 !!! warning "Reminder about “derived” protocol-level types"
 
     Note that after the definition of all engine-specific types,
@@ -111,11 +124,11 @@ search:
     we rely on thy protocol-level message type.
     This will be relevant for the
     [[Engine Dynamics Template|dynamics of engines]].
-
+-->
 
 ## Overview `{`optional`}`
 
-!!! note
+!!! note "On `Overview`"
 
     For complicated engines,
     we want an overview of how types relate to each other,
@@ -128,80 +141,137 @@ search:
     at the end, we eventually want some rendering of the code dependencies
     (in particular if they can be automatically generated).
 
+    !!! question "Can we haz code dependency diagram?"
+
+        If only we had
+        [something like this](https://www.jetbrains.com/guide/java/tutorials/analyzing-dependencies/dependency-diagram/).
+        However,
+        somebody will write a small script probably some time soon.
+
     Goal
 
     : An overview of how data types depend on each other.
 
-!!! question "Can we haz code dependency diagram?"
 
-    If only we had
-    [something like this](https://www.jetbrains.com/guide/java/tutorials/analyzing-dependencies/dependency-diagram/).
-    However,
-    somebody will write a small script probably some time soon.
+
+
+!!! quote ""
+
+    Members of engine family [engine fmaily name]
+    can do many different things.
+    In particular,
+    they enable communication of X engines with Y engines.
 
 ## Messages
 
-!!! note
+!!! note "On `Messages`"
 
-    First, we define _the_ message type (as a juvix record)
-    whose terms members of family [family name]
-    are able to process, in principle.
-    For each such _receivable message_,
-    we have
+    First, we define _the_ Juvix record type
+    for _all_ messages that members of family [family name]
+    are able to process;[^2]
+    then, we document this type,
+    one constructor at a time.
+    We call these constructors the _message tags_
+    of the engine familiy [engine family name].[^2--0]
 
-    - a _message tag_
-    - a list of _argument types_
-    - a (default value for a) _formal parameter name_ for
-      each element of the list of argument types
+    ??? note "On the relation to `receivable message` and `message tag`"
 
-    where the message tag is given by a constructor,
-    the default parameter names are the field names of the "embedded" record,
-    and the types are given as the types of the field names.
+        Terms of this type represent a _receivable message_,
+        consisting of
 
-    Then, we document this type.
+        - a _message tag_
+        - a list of _argument types_
+        - a (default value for a) _formal parameter name_ for
+          each element of the list of argument types.
 
-    !!! question "Why message tag⁈"
+        The message tag is given by the constructor,
+        the default parameter names correspond to the field names of the "embedded" record,
+        and the associated types are the types of the respective fields.
 
-        The term `message tag` is borrowed from
-        [the Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832).
-        The list of argument types has to be uniquely determined by
-        the message tag (at least within this engine family).
+
+            
 
     Form
 
-    : First, we have `!!! note "Message type"` with the juvix type definitions,
+    : First, we have a
+    `!!! note "[EngineFamilyName] message type"` admonition with
+    the juvix type definition,
     where the type name follows the pattern `[EngineFamilyName]Message`.
 
-    : Afterwards, we want exactly one level four heading `#### [Message tag]` for
-    each receivable message tag
-    (or, equivalently, for each constructor of the record type).
-    The content of the level four heading has again two parts:
-    message documentation and additional remarks.
+    !!! question "where to put the actual auxiliary definitions"
 
-    Message documentation
+        Where do we put the type definitions for nontrivial message arguments?
 
-    : Part one is given in the _form_ of
-    a [definition list](https://pandoc.org/MANUAL.html#definition-lists)
-    in the sense of markdown
+    : Afterwards,
+    we want exactly one level three heading
+    of the form `### [Message constructor]`
+    for each constructor of the message type
+    (or, equivalently, for each message tag).
+    The content of the sub-subsections under
+    those level three headings for each message tag
+    have again three parts:
+    a code snippet,
+    a message tag documentation,
+    and additional remarks.
+
+    Form: code snippet
+
+    : For each message constructor,
+    we should put two "invisible" comments into the juvix record type,
+    namely a pair of lines like
+
+    ```
+    -- --8<-- [start:messageK]
+    ```
+
+    : and
+
+    ```
+    -- --8<-- [end:messageK]
+    ```
+    
+    : that embrace the constructor of the $k$-th message;
+      then we can include the very same code by writing
+      `--<8-- "./[engine_family]_engine_environment:messageK"`
+      to obtain the required code fragment.[^2-0]
+
+    Form : message tag documentation
+
+    : The message tag documention start with a description of
+    what reactions the receiving engine may perform as a reaction
+    in broad terms.
+    After this description,
+    we use the syntax of what pandoc calls a
+    [definition list](https://pandoc.org/MANUAL.html#definition-lists)
     (see also [here](https://stackoverflow.com/q/28057101))
-    where the "terms" are the formal parameter name defaults,
-    and the definitions are a short English language description of
-    the role (and type) of the parameter,
-    plus the type definition (with a link to where it is defined—if applicable).
+    where the "terms" are the record fields
+    and the "definitions" are short English language descriptions of
+    the role of the respective parameter—plus optional
+    explanations of its type
+    (with a link to where it is defined—if applicable).
 
-    !!! question "How to add example code?"
+    !!! question "How to add actual example code?"
 
         Each such explanation should be followed by
         an example instance of the message in juvix.
-        How to best do this?
+        How to best do this? If nothing better,
+        we can have code snippeting into
+        an auxiliary module/page that has all such
+        "explanatory" code.
 
-    Additional comments `{` optional `}`
+    Form: additional comments `{` optional `}`
 
     : You may provide additional information,
     e.g., design choices, explanation of the naming process, etc.
     This is in the form of a `??? note "[something to remember]"`
     or a `!!! note "[something to remember]"`,
     and similarly for `tip` and `warning`.
+
+    Goal
+
+    : Each receivable message is documented
+    like a public method of some mutable object would be documented     
+    in object oriented languages.
 
 <!--
 !!! question "ᚦ: _Is this the right spot for the Juvix code?_"
@@ -222,6 +292,62 @@ search:
         but then we would need the type definitions for the parameters
         ...
 -->
+
+!!! quote ""
+    
+
+    !!! note "Template engine message type"
+
+        ```juvix
+        syntax alias MethodOneArgOne := Unit;
+    
+        syntax alias MethodOneArgTwo := Unit;
+    
+        syntax alias MethodOneArgThree := Unit;
+    
+        syntax alias MethodTwoArgOne := Unit;
+    
+        syntax alias MethodFourArgOne := Unit;
+    
+        syntax alias MethodFourArgTwo := Unit;
+    
+        type TemplateMessage :=
+          | -- --8<-- [start:messageOne]
+            messageOne {
+              argOne : MethodOneArgOne;
+              argTwo : MethodOneArgTwo;
+              argThree : MethodOneArgThree
+            }
+            -- --8<-- [end:messageOne]
+          | messageTwo {
+              argOne : MethodTwoArgOne
+          } 
+          | messageThree {} 
+          | messageFour {
+              argOne : MethodFourArgOne;
+              argTwo : MethodFourArgTwo
+            } 
+          ;
+        ```
+
+    ### messageOne
+
+    !!! quote ""
+
+        --8<-- "./engine_environment.juvix.md:messageOne"
+
+    If an [engine family name] receives a messageOne-message,
+    it will store argTwo,
+    if argOne and argThree satisfy some properties
+    that are to be explained here.
+
+    !!! todo "does this make sense to fill in ?"
+
+    ### messageTwo
+
+    ### messageThree
+
+    ### messageFour
 
 ## Mailbox states
 
@@ -328,5 +454,20 @@ search:
 
     : free form, _except_ for the data type definition in Juvix at the end.
 
+<!-- footnotes -->
+
 [^1]: The main reason for the linking is that we do not have syntax highlighting, yet
     (and that it does not hurt to have a section title for each type definition).
+
+[^2]: Thus, any messages that cannot be interpreted as
+    terms of this type are simply dropped.
+
+[^2--0]: The term `message tag` is borrowed from
+  [the Special Delivery paper](https://dl.acm.org/doi/abs/10.1145/3607832).
+  The list of argument types has to be uniquely determined by
+  the message tag (at least within this engine family).
+
+
+[^2-0]: The syntax highlighting is lost for the moment.
+
+
