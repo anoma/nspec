@@ -11,15 +11,16 @@ tags:
 
 For each engine template,
 we have three different files
-and accordingly, we have three[^1] different template files,
-each of which comes with an example file, which can be opened side by side.
+and accordingly, we have three[^1] different template files;
+each template file comes with an example file, 
+which can be opened side by side.
 
 1. [[Engine Overview Template]] | [[Ticker Engine Overview | Example]]
 2. [[Engine Environment Template]] | [[Ticker Engine Environment | Example]]
 3. [[Engine Dynamics Template]] | [[Ticker Engine Dynamics | Example]]
 
-Refer to the [[Writing Conventions]] to
-understand the organization of these files within the engine folder structure.
+Refer to the [[Conventions|conventions]] to
+understand the organisation of these files within the engine folder structure.
 
 ## Template Syntax
 
@@ -39,6 +40,8 @@ we use `note` admonitions to describe
 what should go into a certain section;
 this will become clear if you
 look at a template an its example side by side.
+Finally,
+we add footnotes to point out related topics.
 
 [^1]: The reason we split up the files is
     the need for several different Juvix files
