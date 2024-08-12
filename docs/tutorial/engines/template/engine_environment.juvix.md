@@ -24,7 +24,6 @@ search:
     should certainly ɴᴏᴛ reside in the tutorial folder!
 
 
-
 # [Engine Family Name] Environment
 
 !!! note "On `[Engine Family Name] Environment`"
@@ -276,13 +275,13 @@ search:
         !!! note "Template engine message type"
 
             ```juvix
-            syntax alias MethodOneArgOne := Unit;
+            syntax alias MethodOneArgOne := Nat;
 
-            syntax alias MethodOneArgTwo := Unit;
+            syntax alias MethodOneArgTwo := Nat;
 
-            syntax alias MethodOneArgThree := Unit;
+            syntax alias MethodOneArgThree := Nat;
 
-            syntax alias MethodTwoArgOne := Unit;
+            syntax alias MethodTwoArgOne := Nat;
 
             syntax alias MethodFourArgOne := Unit;
 
@@ -291,7 +290,7 @@ search:
             type TemplateMessage :=
               | -- --8<-- [start:messageOne]
                 messageOne {
-                  argOne : MethodOneArgOne;
+                  argOneOne : MethodOneArgOne;
                   argTwo : MethodOneArgTwo;
                   argThree : MethodOneArgThree
                 }
@@ -330,6 +329,15 @@ search:
         : This is the last argument and here we actually
           can describe more detail about the property about `argOne` and `argThree` mentioned above
 
+        ```juvix
+        module message_one_example;
+           example_message_one : TemplateMessage := messageOne@{
+            argOneOne := 1;
+            argTwo := 2;
+            argThree := 3
+           };
+        end;
+        ```
 
         ### messageTwo
 

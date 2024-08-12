@@ -4,7 +4,7 @@ search:
   exclude: false
 ---
 
-??? note "Juvix module"
+??? note "Juvix preamble: ʜᴇʀᴇ 👇 are the `module` declaration, `import`s, `open`s, etc."
 
     ```juvix
     module tutorial.engines.template.engine_dynamics;
@@ -17,16 +17,17 @@ search:
 
 !!! note
 
-    To complete the definition of
-    [[Engine Family Types|engine family ⟦engine family name⟧]],
-    we have to define its set of
-    [[Engine Family Types#guarded-actions|guarded actions]].
-
-    For this, we in particular have
-    to define a datatype of _action labels,_
-    which describe what actions a member of the engine family can
-    perform in response to messages or timer notifications—irrespective
-    of the specific circumastances that call for such actions.
+    We have to define a set of
+    [[Engine Family Types#guarded-actions|guarded actions]]
+    to complete the definition of
+    [[Engine Family Types|engine family ⟦engine family name⟧]].
+    For this,
+    we first define a datatype of _action labels,_
+    each of which defines an action that
+    a member of the engine family can perform
+    (in response to messages or timer notifications)—without 
+    mentioning the specific circumastances that call
+    for performing the action that the action label describes.
     The action labels are complemented by a set of guarded actions,
     which describe situations under which certain actions are actually performed.
     Finally,
