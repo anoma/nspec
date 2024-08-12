@@ -12,7 +12,7 @@ tags:
 For each engine template,
 we have three different files
 and accordingly, we have three[^1] different template files;
-each template file comes with an example file, 
+each template file comes with an example file,
 which can be opened side by side.
 
 1. [[Engine Overview Template]] | [[Ticker Engine Overview | Example]]
