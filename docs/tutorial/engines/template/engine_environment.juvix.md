@@ -368,7 +368,7 @@ search:
         syntax alias MailboxOneOne := Nat;
         syntax alias MailboxTwoOne := String;
         syntax alias MailboxTwoTwo := Bool;
-    
+
         type TemplateMailboxState :=
         | -- --8<-- [start:stateOne]
           stateOne { fieldOne : MailboxOneOne }
@@ -376,17 +376,17 @@ search:
         | stateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
         ;
         ```
-    
+
         ### state One
-    
+
         !!! quote ""
-    
+
             --8<-- "./engine_environment.juvix.md:stateOne"
-    
+
         stateOne
-    
+
         : A Nat is a Nat is a Nat.
-    
+
 
 ## Local state
 
