@@ -155,7 +155,7 @@ search:
 
     !!! quote "Pseudo-example"
         
-        Members of engine family [engine fmaily name]
+        Members of engine family [engine family name]
         can do many different things.
         In particular,
         they enable communication of X engines with Y engines.
@@ -170,7 +170,7 @@ search:
     then, we document this type,
     one constructor at a time.
     We call these constructors the _message tags_
-    of the engine familiy [engine family name].[^2--0]
+    of the engine family [engine family name].[^2--0]
 
     ??? note "On the relation to `receivable message` and `message tag`"
 
@@ -235,7 +235,7 @@ search:
 
     Form : message tag documentation
 
-    : The message tag documention start with a description of
+    : The message tag documentation start with a description of
     what reactions the receiving engine may perform as a reaction
     in broad terms.
     After this description,
@@ -416,12 +416,12 @@ search:
     unless they are defined in the Juvix standard library;
     links to descriptions may be sufficient in many cases.
 
-    !!! quote "Pseudo-example (that's a litlle less pseudo and more example)"
+    !!! quote "Pseudo-example (that's a little less pseudo and more example)"
 
         We use [Fibonacci heaps](https://en.wikipedia.org/wiki/Fibonacci_heap)
         to keep track of tasks to be performed.
         Note that we use [Borsh](https://borsh.io/)
-        for deserialization of Fibonacci heaps.
+        for deserialisation of Fibonacci heaps.
 
         ```juvix
         type FakeFibonacciHeap := mkFakeFibonacciHeap {
