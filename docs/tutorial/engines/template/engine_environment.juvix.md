@@ -11,7 +11,8 @@ search:
 
     ```juvix
     module tutorial.engines.template.engine_environment;
-    import prelude open;
+    import prelude open;   
+    import node_architecture.types.engine_family open;
     ```
 
     The naming scheme for the module, after the path,
@@ -152,15 +153,12 @@ search:
 
     : An overview of how data types depend on each other.
 
-
-
-
-!!! quote ""
-
-    Members of engine family [engine fmaily name]
-    can do many different things.
-    In particular,
-    they enable communication of X engines with Y engines.
+    !!! quote "Pseudo-example"
+        
+        Members of engine family [engine fmaily name]
+        can do many different things.
+        In particular,
+        they enable communication of X engines with Y engines.
 
 ## Messages
 
@@ -232,7 +230,7 @@ search:
 
     : that embrace the constructor of the $k$-th message;
       then we can include the very same code by writing
-      `--<8-- "./[engine_family]_engine_environment:messageK"`
+      `--8<-- "./[engine_family]_engine_environment:messageK"`
       to obtain the required code fragment.[^2-0]
 
     Form : message tag documentation
@@ -273,129 +271,137 @@ search:
     like a public method of some mutable object would be documented
     in object oriented languages.
 
-<!--
-!!! question "ᚦ: _Is this the right spot for the Juvix code?_"
+    !!! quote "Pseudo-example"
 
-    The given option is in response to our dear engineers.
-    Other options would be
+        !!! note "Template engine message type"
+    
+            ```juvix
+            syntax alias MethodOneArgOne := Unit;
+        
+            syntax alias MethodOneArgTwo := Unit;
+        
+            syntax alias MethodOneArgThree := Unit;
+        
+            syntax alias MethodTwoArgOne := Unit;
+        
+            syntax alias MethodFourArgOne := Unit;
+        
+            syntax alias MethodFourArgTwo := Unit;
+        
+            type TemplateMessage :=
+              | -- --8<-- [start:messageOne]
+                messageOne {
+                  argOne : MethodOneArgOne;
+                  argTwo : MethodOneArgTwo;
+                  argThree : MethodOneArgThree
+                }
+                -- --8<-- [end:messageOne]
+              | messageTwo {
+                  argOne : MethodTwoArgOne
+              } 
+              | messageThree {} 
+              | messageFour {
+                  argOne : MethodFourArgOne;
+                  argTwo : MethodFourArgTwo
+                } 
+              ;
+            ```
+    
+        ### messageOne
 
-    - collapsed at the top
-    - uncollapsed at the bottom
+        !!! quote ""
+    
+            --8<-- "./engine_environment.juvix.md:messageOne"
 
-    One downside of the very succinct record type is
-    that the definition becomes "monolithic".
+        If an [engine family name] receives a messageOne-message,
+        it will store argTwo,
+        if argOne and argThree satisfy some properties.
+    
+        argOne
+    
+        : “This is `argOne`” is almost self-referential.
+    
+        argTwo
+    
+        : This is the second argument.
+    
+        argThree
+    
+        : This is the last argument and here we actually
+          can describe more detail about the property about `argOne` and `argThree` mentioned above
+          
+    
+        ### messageTwo
+    
+        ### messageThree
+    
+        ### messageFour
 
-    ??? note "In an ideal world ..."
-
-        If only the record type would be generated out of the markdown
-        (also checking, that the markdown adheres to the template ...),
-        but then we would need the type definitions for the parameters
-        ...
--->
-
-!!! quote ""
-
-
-    !!! note "Template engine message type"
-
-        ```juvix
-        syntax alias MethodOneArgOne := Unit;
-
-        syntax alias MethodOneArgTwo := Unit;
-
-        syntax alias MethodOneArgThree := Unit;
-
-        syntax alias MethodTwoArgOne := Unit;
-
-        syntax alias MethodFourArgOne := Unit;
-
-        syntax alias MethodFourArgTwo := Unit;
-
-        type TemplateMessage :=
-          | -- --8<-- [start:messageOne]
-            messageOne {
-              argOne : MethodOneArgOne;
-              argTwo : MethodOneArgTwo;
-              argThree : MethodOneArgThree
-            }
-            -- --8<-- [end:messageOne]
-          | messageTwo {
-              argOne : MethodTwoArgOne
-          }
-          | messageThree {}
-          | messageFour {
-              argOne : MethodFourArgOne;
-              argTwo : MethodFourArgTwo
-            }
-          ;
-        ```
-
-    ### messageOne
-
-    !!! quote ""
-
-        --8<-- "./engine_environment.juvix.md:messageOne"
-
-    If an [engine family name] receives a messageOne-message,
-    it will store argTwo,
-    if argOne and argThree satisfy some properties
-    that are to be explained here.
-
-    !!! todo "does this make sense to fill in ?"
-
-    ### messageTwo
-
-    ### messageThree
-
-    ### messageFour
+    !!! todo "does this ☝️ make sense to fill in?"
 
 ## Mailbox states
 
-!!! note
+!!! note "On `Mailbox states`"
 
-    Mailboxes of engines may have non-trivial state
-    for each mailbox;
-    if an engine family relies on non-trivial mailbox state,
+    If an engine family relies on non-trivial mailbox state,
     it has to be documented here.
     We want one Juvix record type or algebraic data type
     at the level of the engine family;
-    each constructor typically correspond to a family of mailboxes
+    each constructor typically corresponds to a family of mailboxes
     that serve a similar purpose.
 
     Form
 
     : A record type and explanatory prose for each constructor;
       the explanatory prose is succeeding the type definition.
-      The form is similar that for
+      The form is similar to that for
       [[Engine Environment Template#messages|messages]].
 
     Goal
 
-    : Each constructor should have a clearly stated purpose.
+    : Each constructor should have a clearly stated purpose
+    and the role of the arguments is explained.
 
-<!--ᚦ: keep this here for a moment ¶
-!!! example
+    !!! quote "Pseudo-example"
 
-    - Each mailbox has a ring buffer to estimate
-      the frequency of time stamping requests.
-
-??? todo
-
-    add juvix code for a ring buffer for this example ☝️
--->
+        ```juvix
+        syntax alias MailboxOneOne := Nat;
+        syntax alias MailboxTwoOne := String;
+        syntax alias MailboxTwoTwo := Bool;
+    
+        type TemplateMailboxState :=
+        | -- --8<-- [start:stateOne]
+          stateOne { fieldOne : MailboxOneOne }
+          -- --8<-- [end:stateOne]
+        | stateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
+        ;
+        ```
+    
+        ### state One
+    
+        !!! quote ""
+    
+            --8<-- "./engine_environment.juvix.md:stateOne"
+    
+        stateOne
+    
+        : A Nat is a Nat is a Nat.
+    
 
 ## Local state
 
-!!! note
+!!! note "On `Local state`"
 
-    The engine-specific local state type is often the most complex type,
-    tailor-made for a specific engine family.
-
+    Here we define the so-called _local state_ of
+    the engine environment,
+    which is typically tailor-made for each engine family.
 
     Form
 
     : First, the local state is described in broad terms;
-    then follows either a new definition of the type in Juvix, a snippet, or a link where it is defined.
+    the informal description is  followed
+    by either a new definition of the type in Juvix,
+    or a snippet with a link where it is defined.
     Finally, we want to describe all data items
     and also the data structures used
     in English language;
@@ -405,10 +411,32 @@ search:
     Goal
 
     : Besides documentation for each data item, we also require links to
-    descriptions of data structures beyond trees, hash maps
+    descriptions of data structures
+    (beyond the most basic one like trees, hash maps, etc.),
     unless they are defined in the Juvix standard library;
     links to descriptions may be sufficient in many cases.
 
+    !!! quote "Pseudo-example (that's a litlle less pseudo and more example)"
+
+        We use [Fibonacci heaps](https://en.wikipedia.org/wiki/Fibonacci_heap)
+        to keep track of tasks to be performed.
+        Note that we use [Borsh](https://borsh.io/)
+        for deserialization of Fibonacci heaps.
+
+        ```juvix
+        type FakeFibonacciHeap := mkFakeFibonacciHeap {
+            stringRepresentation : String
+        };
+
+        type TemplateLocalState := mkTemplateLocalState {
+             taskQueue : FakeFibonacciHeap
+        };
+        ```
+
+        stringRepresentation
+
+        : This is a representation of the Fibonacci heap,
+        using Borsh.
 <!--ᚦ:
 !!! example
 
@@ -425,10 +453,10 @@ search:
 
 ## Timer handles
 
-!!! note
+!!! note "On `Timer handles`"
 
-    Similar to mailbox specific types,
-    each timer may carry some information,
+    If a timer carries some information,
+    it will carry it as part of its _handle,_
     e.g., about the context in which it was set.
 
     Form
@@ -439,7 +467,48 @@ search:
 
     Goal
 
-    : Get an overview of different purposes of different timers.
+    : Get an overview of a family of timers,
+    and what data is relevant for each family.[^3]
+
+    !!! quote "Pseudo-example"
+
+        ```juvix
+        type TemplateTimerHandle :=
+        | -- --8<-- [start:handleOne]
+          timerHandleOne { argOne : Nat }
+          -- --8<-- [end:handleOne]
+        | timerHandleTwo { argOne : String; argTwo : Bool }
+        | timerHandleThree { 
+        };
+        ```
+
+        ### timerHandleOne
+
+        !!! quote ""
+
+            --8<-- "./engine_environment.juvix.md:handleOne"
+
+        The first kind of timer handle.
+
+        argOne
+
+        : This is argument №1.
+
+        ### timerHandleTwo
+
+        The other kind of timer handle.
+
+        argOne
+
+        : This is argument №1, but of the other kind of timer handle.
+
+        argTwo
+
+        : The second argument is true or false.
+
+        ### timerHandleTwo
+
+        A timer handle w/o arguments.
 
 ## Environment summary
 
@@ -453,6 +522,24 @@ search:
     Form
 
     : free form, _except_ for the data type definition in Juvix at the end.
+
+    !!! quote "Pseudo-example" 
+
+        We have finished all the type definitions,
+        there is nothing to explain in the template
+        as the code is self-explanatory.
+
+        !!! Note "Template environment type"
+
+            ```juvix
+            TemplateEnvironment : Type :=
+              EngineEnvironment
+              TemplateLocalState
+              TemplateMessage
+              TemplateMailboxState
+              TemplateTimerHandle;
+            ```
+
 
 <!-- footnotes -->
 
@@ -471,3 +558,5 @@ search:
 [^2-0]: The syntax highlighting is lost for the moment.
 
 
+[^3]: The purpose of timers should be explained already
+      in the engine overview in broad terms.
