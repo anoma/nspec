@@ -90,9 +90,9 @@ search:
     
     <figcaption markdown="span">
 
-    An [eninge family name] interacting with an X and a Y,
+    An [engine family name] interacting with an X and a Y,
     such that Y is informed about something that has happened at X
-    (but without havin X's identity revealed).
+    (but without having X's identity revealed).
     </figcaption>
     </figure>
 
@@ -112,7 +112,7 @@ search:
 	each message sequence diagram in the engine family page describes
 	a pattern for test cases of any implementation.
 
-[^01]: The subection headings allow
+[^01]: The subsection headings allow
     to reference each of the diagrams if there are several ones.
 
 [^00]:
