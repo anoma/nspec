@@ -189,7 +189,7 @@ search:
         and the associated types are the types of the respective fields.
 
 
-            
+
 
     Form
 
@@ -229,7 +229,7 @@ search:
     ```
     -- --8<-- [end:messageK]
     ```
-    
+
     : that embrace the constructor of the $k$-th message;
       then we can include the very same code by writing
       `--<8-- "./[engine_family]_engine_environment:messageK"`
@@ -270,7 +270,7 @@ search:
     Goal
 
     : Each receivable message is documented
-    like a public method of some mutable object would be documented     
+    like a public method of some mutable object would be documented
     in object oriented languages.
 
 <!--
@@ -294,23 +294,23 @@ search:
 -->
 
 !!! quote ""
-    
+
 
     !!! note "Template engine message type"
 
         ```juvix
         syntax alias MethodOneArgOne := Unit;
-    
+
         syntax alias MethodOneArgTwo := Unit;
-    
+
         syntax alias MethodOneArgThree := Unit;
-    
+
         syntax alias MethodTwoArgOne := Unit;
-    
+
         syntax alias MethodFourArgOne := Unit;
-    
+
         syntax alias MethodFourArgTwo := Unit;
-    
+
         type TemplateMessage :=
           | -- --8<-- [start:messageOne]
             messageOne {
@@ -321,12 +321,12 @@ search:
             -- --8<-- [end:messageOne]
           | messageTwo {
               argOne : MethodTwoArgOne
-          } 
-          | messageThree {} 
+          }
+          | messageThree {}
           | messageFour {
               argOne : MethodFourArgOne;
               argTwo : MethodFourArgTwo
-            } 
+            }
           ;
         ```
 
