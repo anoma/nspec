@@ -11,7 +11,7 @@ search:
 
     ```juvix
     module tutorial.engines.template.engine_environment;
-    import prelude open;   
+    import prelude open;
     import node_architecture.types.engine_family open;
     ```
 
@@ -154,7 +154,7 @@ search:
     : An overview of how data types depend on each other.
 
     !!! quote "Pseudo-example"
-        
+
         Members of engine family [engine family name]
         can do many different things.
         In particular,
@@ -274,20 +274,20 @@ search:
     !!! quote "Pseudo-example"
 
         !!! note "Template engine message type"
-    
+
             ```juvix
             syntax alias MethodOneArgOne := Unit;
-        
+
             syntax alias MethodOneArgTwo := Unit;
-        
+
             syntax alias MethodOneArgThree := Unit;
-        
+
             syntax alias MethodTwoArgOne := Unit;
-        
+
             syntax alias MethodFourArgOne := Unit;
-        
+
             syntax alias MethodFourArgTwo := Unit;
-        
+
             type TemplateMessage :=
               | -- --8<-- [start:messageOne]
                 messageOne {
@@ -298,43 +298,43 @@ search:
                 -- --8<-- [end:messageOne]
               | messageTwo {
                   argOne : MethodTwoArgOne
-              } 
-              | messageThree {} 
+              }
+              | messageThree {}
               | messageFour {
                   argOne : MethodFourArgOne;
                   argTwo : MethodFourArgTwo
-                } 
+                }
               ;
             ```
-    
+
         ### messageOne
 
         !!! quote ""
-    
+
             --8<-- "./engine_environment.juvix.md:messageOne"
 
         If an [engine family name] receives a messageOne-message,
         it will store argTwo,
         if argOne and argThree satisfy some properties.
-    
+
         argOne
-    
+
         : “This is `argOne`” is almost self-referential.
-    
+
         argTwo
-    
+
         : This is the second argument.
-    
+
         argThree
-    
+
         : This is the last argument and here we actually
           can describe more detail about the property about `argOne` and `argThree` mentioned above
-          
-    
+
+
         ### messageTwo
-    
+
         ### messageThree
-    
+
         ### messageFour
 
     !!! todo "does this ☝️ make sense to fill in?"
@@ -478,7 +478,7 @@ search:
           timerHandleOne { argOne : Nat }
           -- --8<-- [end:handleOne]
         | timerHandleTwo { argOne : String; argTwo : Bool }
-        | timerHandleThree { 
+        | timerHandleThree {
         };
         ```
 
@@ -523,7 +523,7 @@ search:
 
     : free form, _except_ for the data type definition in Juvix at the end.
 
-    !!! quote "Pseudo-example" 
+    !!! quote "Pseudo-example"
 
         We have finished all the type definitions,
         there is nothing to explain in the template
