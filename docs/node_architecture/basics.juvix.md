@@ -74,7 +74,7 @@ syntax alias Address := Name;
 
 ### Messages
 
-Messages send between engines in the system are represented by the following
+Messages sent between engines in the system are represented by the following
 types. When a message is sent, it is enveloped with additional information such
 as the sender and the target address. These messages go through the network and
 end up in a mailbox of the target engine. Mailboxes are indexed by their unique
@@ -102,7 +102,7 @@ type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
 
 #### EnvelopedMessage
 
-An enveloped message consists of a possibly a sender address in case the sender
+An enveloped message consists of a possible sender address in case the sender
 wants to be identified, and a message packet.
 
 ```juvix
@@ -143,7 +143,7 @@ type Mailbox (MessageType MailboxStateType : Type) : Type := mkMailbox {
 
 #### Time
 
-Times is represented as natural numbers. It is used for scheduling and timing events.
+Times are represented as natural numbers. It is used for scheduling and timing events.
 
 ```juvix
 syntax alias Time := Nat;
