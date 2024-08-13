@@ -101,6 +101,30 @@ where  the _trigger_ of type `Trigger I H` is a term that captures the message r
 trigger can include the received message or timers that have elapsed during
  the engine's operation. Guards return data of type `GuardOutput A L X` if the condition is met.
 
+Recall that the behaviour is described by a set of  guards
+and an action function.
+The guard is a function that evaluates conditions in the engine environment to determine whether an action should be performed.
+
+The guard function receives, not in any particular order:
+
+- the trigger that caused it to be evaluated,
+- the environment of the engine instance, and
+- an optional time reference for the starting point of the evaluation of all guards.
+
+Given these inputs,
+the guard function determines if the condition for running the action(s) it is guardeding are met.
+The action function can compute the effects of actions—not only
+changes to the engine environment,
+but also which messages will be sent,
+what engines will be created,
+and how the list of timers is updated.
+
+```juvix
+Guard (I H S M A L X : Type) : Type :=
+  Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
+```
+
+
 <!--ᚦleft here for the moment¶
 #### Actions
 
@@ -191,30 +215,8 @@ type ActionEffect (S I M H A L X O C : Type) := mkActionEffect {
     this parameter has a canonical instantiation for each protocol,
     namely the protocol-level environment type.
 
-#### Guards
 
-Recall that the behaviour is described by a set of  guards
-and an action function.
-The guard is a function that evaluates conditions in the engine environment to determine whether an action should be performed.
 
-The guard function receives, not in any particular order:
-
-- the trigger that caused it to be evaluated,
-- the environment of the engine instance, and
-- an optional time reference for the starting point of the evaluation of all guards.
-
-Given these inputs,
-the guard function determines if the condition for running the action(s) it is guardeding are met.
-The action function can compute the effects of actions—not only
-changes to the engine environment,
-but also which messages will be sent,
-what engines will be created,
-and how the list of timers is updated.
-
-```juvix
-Guard (I H S M A L X : Type) : Type :=
-  Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
-```
 
 <!--action : -->
 
