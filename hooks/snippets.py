@@ -190,7 +190,7 @@ which is currently not supported in Juvix v0.6.4 or previous versions.
 Consider wrapping the Juvix code block with a section snippet instead.
 
 Error found in the file '{backup_path}' for the section '{section}'.
-"""
+""")
         return self.dedent(new_lines) if self.dedent_subsections else new_lines
 
     def dedent(self, lines):
