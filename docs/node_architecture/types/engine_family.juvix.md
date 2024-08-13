@@ -35,18 +35,23 @@ engine instances will have. For Anoma specifications, the components are:
     cluster owned by an engine instance and a finite set of acquaintances—other engine
     instances known to the current one that can interact with it.
 
-*Action Function*
+Action Function
 
 :   The function that describes all ways in which
     engines can act, by chaning their environment,
     sending messages, spawning new engine instances,
     and update their list of active timers.
 
-*Guards*
+Guards
 
 :   The engine's behavior is specified by complementing the action function with
     a finite set of guard functions that describe the conditions under which
     the local state of the engine's instance should change by invoking the action function.
+
+Conflict resolution
+
+:   Finally, we want maximal concurrency between actions.
+    Thuse, we define a conflict_resolution function.
 
 So, let's introduce the type for each of these components.
 
@@ -217,9 +222,6 @@ type ActionEffect (S I M H A L X O C : Type) := mkActionEffect {
 
 
 
-
-<!--action : -->
-
 If the guard does not give a result,
 this means that none of its guarded actions are triggered.
 
@@ -240,6 +242,19 @@ this means that none of its guarded actions are triggered.
     action function. Then, if the guard is not satisfied, no data is
     returned.
 
+#### Conflict resolution
+
+Finally, `resolveConflict` is a function that
+takes a finite set of action labels as input;
+it outputs _maybe_ a list of action label sets
+that are pairwise disjoint and whose union is the input set
+or nothing if the set of actions is actually concurrent.
+
+```
+resolveConflicts : Set A -> Maybe (List (Set A));
+```
+
+
 ## Engine families and instances
 
 The `EngineFamily` type encapsulates the concept of engines within Anoma. As defined,
@@ -251,7 +266,8 @@ data by the guard functions, and a type for outgoing messages.
 ```juvix
 type EngineFamily (S I M H A L X O C : Type) := mkEngineFamily {
   guards : Set (Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X));
-  action : ActionInput S I M H A L X -> Maybe (ActionEffect S I M H A L X O C)
+  action : ActionInput S I M H A L X -> Maybe (ActionEffect S I M H A L X O C);
+  resolveConflicts : Set A -> Maybe (List (Set A));
 };
 ```
 
@@ -267,6 +283,8 @@ type EngineFamily (S I M H A L X O C : Type) := mkEngineFamily {
     In the latter case,
     we can assign priorties to guards
     to resolve unwanted non-determinism.
+
+
 
 !!! todo "rework/adapt the rest of this page"
 
