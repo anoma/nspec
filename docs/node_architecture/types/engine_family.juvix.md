@@ -35,23 +35,29 @@ engine instances will have. For Anoma specifications, the components are:
     cluster owned by an engine instance and a finite set of acquaintances—other engine
     instances known to the current one that can interact with it.
 
-*Guarded Actions*
+*Action Function*
 
-:   The engine's behavior is specified by a finite set of functions that mutate
-    the local state of the engine's instance. These functions are accompanied
-    by specific conditions on the messages received and the engine environment.
+:   The function that describes all ways in which
+    engines can act, by chaning their environment,
+    sending messages, spawning new engine instances,
+    and update their list of active timers.
 
+*Guards*
+
+:   The engine's behavior is specified by complementing the action function with
+    a finite set of guard functions that describe the conditions under which
+    the local state of the engine's instance should change by invoking the action function.
 
 So, let's introduce the type for each of these components.
 
 
-### Engine Family Environment
+### Engine family environment
 
 The engine family environment encompasses static information for engine instances in the
 following categories:
 
 - A global reference, `name`, for the engine instance.
-- Local state that is engine-specific.
+- Local state whose type is specific to the engine family.
 - Mailbox cluster, which is a map of mailbox IDs to mailboxes.
 - A set of names of acquainted engine instances. It is implicit that the engine
   instance is acquainted with itself, so there is no need to include its own
@@ -79,38 +85,52 @@ type EngineEnvironment (S I M H : Type) :=
 ### Engine Behaviours
 
 Each engine processes only one message at a time. The behaviour of an engine is
-specified by a finite set of _guarded actions_, which define the transitions an engine
-can make from one state to another based on specific conditions.
+specified by a finite set of _guards_ and an _action function,_ which determing
+how engine react to recevied messages or timer notifications.
 
-Guarded actions are terms of type `GuardedAction`, which encapsulates
-the following components:
 
-- A _guard function_ of type `Trigger I H -> EngineEnvironment S I M H -> GuardOutput A L X`, where
-  the _trigger_ of type `Trigger I H` is a term that captures the message received. This
-  trigger can include the received message or timers that have elapsed during
-  the engine's operation. Guards return data of type `GuardOutput A L X` if the condition is met.
-  That data serves as input for the corresponding action.
+#### Guards
+
+Guards are terms of type `Guard`, which is a function type
+
+```
+Trigger I H -> EngineEnvironment S I M H -> GuardOutput A L X
+```
+
+where  the _trigger_ of type `Trigger I H` is a term that captures the message received or the clock notification. This
+trigger can include the received message or timers that have elapsed during
+ the engine's operation. Guards return data of type `GuardOutput A L X` if the condition is met.
+
+<!--ᚦleft here for the moment¶
+#### Actions
+
+The output of a guard is input for the action function.
 
 - An _action_ of type `Action S I M H A L X O C`, where the new type parameters `O`
   denote the type of outgoing messages, and `C` signifies the type encoding the engine
   instances to be created.
+-->
 
+#### Action Function
 
-#### Action Functions
+The input is parametrised by the types for:
+local state, incoming messages, mailboxes' state, the output of
+guard functions, timer's handles,
+matched arguments, action labels, and precomutation result.
+The types of the input and output of an action are
 
-In this section, we define the type for actions. These functions are parametrised by the
-types for: local state, incoming messages, mailboxes' state, the data returned by the
-guard function, timer's handles, and outgoing messages.
-
-For convenience, we have the input and output of an action into two separate types:
-`ActionInput S I M H A L X ` and `ActionResult S I M H A L X O C`.
+- `ActionInput S I M H A L X` and
+- `ActionEffect S I M H A L X O C`.
 
 The `ActionInput S I M H A L X ` type is a record that encapsulates the following data:
 
-- A term of type `GuardOutput A L X`, which represents the data returned by the guard function,
-  if any.
+- A term of type `GuardOutput A L X`, which represents
+  - the matched arguments, e.g., from a received message,
+  - the action label that determines the action to be performed
+  - other (expensive) precomputation results that
+    the guard function has already caclulatet.
 - The environment of the corresponding engine instance.
-- The time at which the corresponding trigger started.
+- The local time of the engine instance when guard evaluation was triggered.
 
 ```juvix
 type GuardOutput (A L X : Type) := mkGuardOutput{
@@ -128,16 +148,16 @@ type ActionInput (S I M H A L X : Type)
 };
 ```
 
-The `ActionResult S I M H A L X O C` type defines the results produced by the
+The `ActionEffect S I M H A L X O C` type defines the results produced by the
 action, which can be
 
-- Update its environment but not its name.
-- Set messages to be sent to other engine instances.
+- Update its environment (while leaving the name unchanged).
+- Produce a set of messages to be sent to other engine instances.
 - Set, discards, or supersede timers.
 - Define new engine instances to be created.
 
 ```juvix
-type ActionResult (S I M H A L X O C : Type) := mkActionResult {
+type ActionEffect (S I M H A L X O C : Type) := mkActionEffect {
     newEnv : EngineEnvironment S I M H;
     producedMessages : List (EnvelopedMessage O);
     timers : List (Timer H);
@@ -149,46 +169,59 @@ type ActionResult (S I M H A L X O C : Type) := mkActionResult {
 
     To create new engine instances, we need to specify the following data:
 
-    - A unique name for the new engine instance, assuming the system will ensure its uniqueness.
+    - A unique name for the new engine instance.
+
+      !!! todo "We have to talk about this"
+
+          !!! quote
+
+              , assuming the system will ensure its uniqueness.
+
     - The initial state of the engine instance.
-    - The corresponding set of guarded actions.
+    - The corresponding set of guards and the action function.
 
     The last point is however implicit.
+
+    !!! todo "this forward pointer needs a link"
+
+        ... and so does the next sentence
 
     In the code,
     we use a type parameter `C` for convenience;
     this parameter has a canonical instantiation for each protocol,
     namely the protocol-level environment type.
 
-#### Guarded Actions
+#### Guards
 
-To recap, a guarded action consists of a guard and an action. The guard is a
-function that evaluates conditions in the engine environment to determine
-whether the corresponding action should be executed.
+Recall that the behaviour is described by a set of  guards
+and an action function.
+The guard is a function that evaluates conditions in the engine environment to determine whether an action should be performed.
 
 The guard function receives, not in any particular order:
 
 - the trigger that caused it to be evaluated,
 - the environment of the engine instance, and
--  an optional time reference for the starting point of the evaluation of all guards
+- an optional time reference for the starting point of the evaluation of all guards.
 
-as inputs to decide if the condition for running the action is met.
-The action function can update the engine environment to some extent and may
-declare terms that will be internally processed as instructions for setting messages
-to be sent or for creating new engine instances.
+Given these inputs,
+the guard function determines if the condition for running the action(s) it is guardeding are met.
+The action function can compute the effects of actions—not only
+changes to the engine environment,
+but also which messages will be sent,
+what engines will be created,
+and how the list of timers is updated. 
 
 ```juvix
-type GuardedAction (S I M H A L X O C : Type) := mkGuardedAction {
-   guard : Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
-   action : ActionInput S I M H A L X -> Maybe (ActionResult S I M H A L X O C)
-};
+Guard (I H S M A L X : Type) : Type := 
+  Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
 ```
 
-If the action does not give a result,
-this means that the engine has terminated.
+<!--action : -->
+
+If the guard does not give a result,
+this means that none of its guarded actions are triggered.
 
 ??? info "On the type signature of the guard function"
-
 
     In principle, borrowing terminology from Hoare logic, a guard is a
     _precondition_ to run an action. The corresponding predicate is activated by a
@@ -205,7 +238,7 @@ this means that the engine has terminated.
     action function. Then, if the guard is not satisfied, no data is
     returned.
 
-## Engine Families and Instances
+## Engine families and instances
 
 The `EngineFamily` type encapsulates the concept of engines within Anoma. As defined,
 it clears up that engines are essentially a collection of guarded state-transition
@@ -215,17 +248,27 @@ data by the guard functions, and a type for outgoing messages.
 
 ```juvix
 type EngineFamily (S I M H A L X O C : Type) := mkEngineFamily {
-  actions : List (GuardedAction S I M H A L X O C);
+  guards : Set (Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X));
+  action : ActionInput S I M H A L X -> Maybe (ActionEffect S I M H A L X O C)
 };
 ```
 
-??? info "On the use of `List` in `EngineFamily`"
+??? info "On the use of `Set` for guards in `EngineFamily`"
 
-    In the `EngineFamily` type, we used `List` not just for
-    convenience but also because we have not yet established a way to compare or
-    sort guarded actions, guards, and Action. Additionally,
-    using `List` specifies the order in which the guarded actions will execute when
-    multiple guards are met. This behavior might change in the future.
+    In the `EngineFamily` type, we used `Set`
+    as it allows for the possibility that
+    several guards are processed in parallel.
+    However,
+    the specification of an engine family must describe
+    when guards are to be considered concurrent
+    and when they are competing.
+    In the latter case,
+    we can assign priorties to guards
+    to resolve unwanted non-determinism.
+
+!!! todo "rework/adapt the rest of this page"
+
+!!! todo "Do we really need the `Engine` type?"
 
 Additionally, we define the `Engine` type, which represents an engine within a family.
 A term of this `Engine` type is referred to as an engine instance. Each engine instance
