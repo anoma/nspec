@@ -28,17 +28,19 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import codecs
+import functools
+import logging
+import os
+import re
+import textwrap
+import urllib
+from pathlib import Path
+
 from markdown import Extension
 from markdown.preprocessors import Preprocessor
-import functools
-import urllib
-import re
-import codecs
-import os
 from pymdownx import util
-import textwrap
-import logging
-from pathlib import Path
+
 log: logging.Logger = logging.getLogger("mkdocs")
 
 MI = 1024 * 1024  # mebibyte (MiB)
@@ -51,6 +53,7 @@ CACHE_DIR: Path = ROOT_DIR / ".hooks"
 JUVIX_OUTPUT = CACHE_DIR / ".MD"
 DOCS_DIR = ROOT_DIR / "docs"
 
+
 class SnippetMissingError(Exception):
     """Snippet missing exception."""
 
@@ -59,7 +62,7 @@ class SnippetPreprocessor(Preprocessor):
     """Handle snippets in Markdown content."""
 
     RE_ALL_SNIPPETS = re.compile(
-        r'''(?x)
+        r"""(?x)
         ^(?P<space>[ \t]*)
         (?P<escape>;*)
         (?P<all>
@@ -67,50 +70,54 @@ class SnippetPreprocessor(Preprocessor):
             (?P<snippet>(?:"(?:\\"|[^"\n\r])+?"|'(?:\\'|[^'\n\r])+?'))(?![ \t]) |
             (?P<block_marker>-{1,}8<-{1,})(?![ \t])
         )\r?$
-        '''
+        """
     )
 
     RE_SNIPPET = re.compile(
-        r'''(?x)
+        r"""(?x)
         ^(?P<space>[ \t]*)
         (?P<snippet>.*?)\r?$
-        '''
+        """
     )
 
     RE_SNIPPET_SECTION = re.compile(
-        r'''(?xi)
+        r"""(?xi)
         ^(?P<pre>.*?)
         (?P<escape>;*)
         (?P<inline_marker>-{1,}8<-{1,}[ \t]+)
         (?P<section>\[[ \t]*(?P<type>start|end)[ \t]*:[ \t]*(?P<name>[a-z][-_0-9a-z]*)[ \t]*\])
         (?P<post>.*?)$
-        '''
+        """
     )
 
-    RE_SNIPPET_FILE = re.compile(r'(?i)(.*?)(?:(:[0-9]*)?(:[0-9]*)?|(:[a-z][-_0-9a-z]*)?)$')
+    RE_SNIPPET_FILE = re.compile(
+        r"(?i)(.*?)(?:(:[0-9]*)?(:[0-9]*)?|(:[a-z][-_0-9a-z]*)?)$"
+    )
 
     def __init__(self, config, md):
         """Initialize."""
 
-        base = config.get('base_path')
+        base = config.get("base_path")
         if isinstance(base, (str, os.PathLike)):
             base = [base]
         self.base_path = [os.path.abspath(b) for b in base]
-        self.restrict_base_path = config['restrict_base_path']
-        self.encoding = config.get('encoding')
-        self.check_paths = config.get('check_paths')
-        self.auto_append = config.get('auto_append')
-        self.url_download = config['url_download']
-        self.url_max_size = config['url_max_size']
-        self.url_timeout = config['url_timeout']
-        self.url_request_headers = config['url_request_headers']
-        self.dedent_subsections = config['dedent_subsections']
+        self.restrict_base_path = config["restrict_base_path"]
+        self.encoding = config.get("encoding")
+        self.check_paths = config.get("check_paths")
+        self.auto_append = config.get("auto_append")
+        self.url_download = config["url_download"]
+        self.url_max_size = config["url_max_size"]
+        self.url_timeout = config["url_timeout"]
+        self.url_request_headers = config["url_request_headers"]
+        self.dedent_subsections = config["dedent_subsections"]
         self.tab_length = md.tab_length
         super().__init__()
 
         self.download.cache_clear()
 
-    def extract_section(self, section, lines):
+    def extract_section(
+        self, section, lines, is_juvix=False, backup_lines=None, backup_path=None
+    ):
         """Extract the specified section from the lines."""
 
         new_lines = []
@@ -122,27 +129,30 @@ class SnippetPreprocessor(Preprocessor):
             m = self.RE_SNIPPET_SECTION.match(l)
 
             # Handle escaped line
-            if m and start and m.group('escape'):
+            if m and start and m.group("escape"):
                 l = (
-                    m.group('pre') + m.group('escape').replace(';', '', 1) + m.group('inline_marker') +
-                    m.group('section') + m.group('post')
+                    m.group("pre")
+                    + m.group("escape").replace(";", "", 1)
+                    + m.group("inline_marker")
+                    + m.group("section")
+                    + m.group("post")
                 )
 
             # Found a section we are looking for.
-            elif m is not None and m.group('name') == section:
+            elif m is not None and m.group("name") == section:
 
                 # We found the start
-                if not start and m.group('type') == 'start':
+                if not start and m.group("type") == "start":
                     start = True
                     found = True
                     continue
 
                 # Ignore duplicate start
-                elif start and m.group('type') == 'start':
+                elif start and m.group("type") == "start":
                     continue
 
                 # We found the end
-                elif start and m.group('type') == 'end':
+                elif start and m.group("type") == "end":
                     start = False
                     break
 
@@ -159,14 +169,37 @@ class SnippetPreprocessor(Preprocessor):
                 new_lines.append(l)
 
         if not found and self.check_paths:
-            raise SnippetMissingError("Snippet section '{}' could not be located".format(section))
+            if not is_juvix:
+                raise SnippetMissingError(
+                    "Snippet section '{}' could not be located".format(section)
+                )
+            elif backup_lines is not None:
+                raise SnippetMissingError(
+                    f"""
+The snippet section '{section}' could not be located.
+This is likely because the section is inside a Juvix code block,
+which is currently not supported in Juvix v0.6.4 or previous versions.
+Consider wrapping the Juvix code block with a section snippet instead.
+
+Error found in the file '{backup_path}' for the section '{section}'.
+"""
+                )
+
+            else:
+                return self.extract_section(
+                    section,
+                    backup_lines,
+                    is_juvix=False,
+                    backup_lines=None,
+                    backup_path=None,
+                )
 
         return self.dedent(new_lines) if self.dedent_subsections else new_lines
 
     def dedent(self, lines):
         """De-indent lines."""
 
-        return textwrap.dedent('\n'.join(lines)).split('\n')
+        return textwrap.dedent("\n".join(lines)).split("\n")
 
     def get_snippet_path(self, path):
         """Get snippet path."""
@@ -218,14 +251,20 @@ class SnippetPreprocessor(Preprocessor):
             content_length = int(length)
 
             if self.url_max_size != 0 and content_length >= self.url_max_size:
-                raise ValueError("refusing to read payloads larger than or equal to {}".format(self.url_max_size))
+                raise ValueError(
+                    "refusing to read payloads larger than or equal to {}".format(
+                        self.url_max_size
+                    )
+                )
 
             # Nothing to return
             if content_length == 0:
-                return ['']
+                return [""]
 
             # Process lines
-            return [l.decode(self.encoding).rstrip('\r\n') for l in response.readlines()]
+            return [
+                l.decode(self.encoding).rstrip("\r\n") for l in response.readlines()
+            ]
 
     def parse_snippets(self, lines, file_name=None, is_url=False):
         """Parse snippets snippet."""
@@ -237,22 +276,22 @@ class SnippetPreprocessor(Preprocessor):
         new_lines = []
         inline = False
         block = False
-        for line in lines:
+        for idx, line in enumerate(lines):
             # Check for snippets on line
             inline = False
             m = self.RE_ALL_SNIPPETS.match(line)
             if m:
-                if m.group('escape'):
+                if m.group("escape"):
                     # The snippet has been escaped, replace first `;` and continue.
-                    new_lines.append(line.replace(';', '', 1))
+                    new_lines.append(line.replace(";", "", 1))
                     continue
 
-                if block and m.group('inline_marker'):
+                if block and m.group("inline_marker"):
                     # Don't use inline notation directly under a block.
                     # It's okay if inline is used again in sub file though.
                     continue
 
-                elif m.group('inline_marker'):
+                elif m.group("inline_marker"):
                     # Inline
                     inline = True
 
@@ -260,7 +299,6 @@ class SnippetPreprocessor(Preprocessor):
                     # Block
                     block = not block
                     continue
-
             elif not block:
                 # Not in snippet, and we didn't find an inline,
                 # so just a normal line
@@ -274,18 +312,22 @@ class SnippetPreprocessor(Preprocessor):
 
             if m:
                 # Get spaces and snippet path.  Remove quotes if inline.
-                space = m.group('space').expandtabs(self.tab_length)
-                path = m.group('snippet')[1:-1].strip() if inline else m.group('snippet').strip()
+                space = m.group("space").expandtabs(self.tab_length)
+                path = (
+                    m.group("snippet")[1:-1].strip()
+                    if inline
+                    else m.group("snippet").strip()
+                )
 
                 if not inline:
                     # Block path handling
                     if not path:
                         # Empty path line, insert a blank line
-                        new_lines.append('')
+                        new_lines.append("")
                         continue
 
                 # Ignore commented out lines
-                if path.startswith(';'):
+                if path.startswith(";"):
                     continue
 
                 # Get line numbers (if specified)
@@ -297,7 +339,9 @@ class SnippetPreprocessor(Preprocessor):
                 # Looks like we have an empty file and only lines specified
                 if not path:
                     if self.check_paths:
-                        raise SnippetMissingError("Snippet at path '{}' could not be found".format(path))
+                        raise SnippetMissingError(
+                            "Snippet at path '{}' could not be found".format(path)
+                        )
                     else:
                         continue
                 ending = m.group(3)
@@ -311,7 +355,7 @@ class SnippetPreprocessor(Preprocessor):
                     section = section_name[1:]
 
                 # Ignore path links if we are in external, downloaded content
-                is_link = path.lower().startswith(('https://', 'http://'))
+                is_link = path.lower().startswith(("https://", "http://"))
                 if is_url and not is_link:
                     continue
 
@@ -319,28 +363,52 @@ class SnippetPreprocessor(Preprocessor):
                 # Make sure we don't process `path` as a local file reference.
                 url = self.url_download and is_link
                 snippet = self.get_snippet_path(path) if not url else path
+
+                is_juvix = False
+
                 if snippet:
 
-                    if snippet.endswith('.juvix.md'):
-                        if start is not None or end is not None or section is not None:
-                            log.info("Snippets of Juvix Markdown files do not support line numbers or sections")
-                        else:
-                            snippet = JUVIX_OUTPUT / Path(snippet.replace(".juvix.md", ".md")).relative_to(DOCS_DIR)
-                            snippet = snippet.as_posix()
+                    original = snippet
+                    if snippet.endswith(".juvix.md"):
+                        snippet = JUVIX_OUTPUT / Path(
+                            snippet.replace(".juvix.md", ".md")
+                        ).relative_to(DOCS_DIR)
+                        snippet = snippet.as_posix()
+                        is_juvix = True
 
                     # This is in the stack and we don't want an infinite loop!
                     if snippet in self.seen:
                         continue
 
-                    if not url:
-                        # Read file content
-                        with codecs.open(snippet, 'r', encoding=self.encoding) as f:
-                            s_lines = [l.rstrip('\r\n') for l in f]
+                    original_lines = []
+
+                    if is_juvix:
+                        with codecs.open(original, "r", encoding=self.encoding) as f:
+                            original_lines = [l.rstrip("\r\n") for l in f]
                             if start is not None or end is not None:
                                 s = slice(start, end)
-                                s_lines = self.dedent(s_lines[s]) if self.dedent_subsections else s_lines[s]
+                                original_lines = (
+                                    self.dedent(original_lines[s])
+                                    if self.dedent_subsections
+                                    else original_lines[s]
+                                )
+
+                    if not url:
+                        # Read file content
+                        with codecs.open(snippet, "r", encoding=self.encoding) as f:
+
+                            s_lines = [l.rstrip("\r\n") for l in f]
+                            if start is not None or end is not None:
+                                s = slice(start, end)
+                                s_lines = (
+                                    self.dedent(s_lines[s])
+                                    if self.dedent_subsections
+                                    else s_lines[s]
+                                )
                             elif section:
-                                s_lines = self.extract_section(section, s_lines)
+                                s_lines = self.extract_section(
+                                    section, s_lines, is_juvix, original_lines, original
+                                )
                             else:
                                 in_metadata = False
                                 start = 0
@@ -350,14 +418,18 @@ class SnippetPreprocessor(Preprocessor):
                                             start = i
                                             break
                                         in_metadata = not in_metadata
-                                s_lines = s_lines[start + 1:]
+                                s_lines = s_lines[start + 1 :]
                     else:
                         # Read URL content
                         try:
                             s_lines = self.download(snippet)
                             if start is not None or end is not None:
                                 s = slice(start, end)
-                                s_lines = self.dedent(s_lines[s]) if self.dedent_subsections else s_lines[s]
+                                s_lines = (
+                                    self.dedent(s_lines[s])
+                                    if self.dedent_subsections
+                                    else s_lines[s]
+                                )
                             elif section:
                                 s_lines = self.extract_section(section, s_lines)
                         except SnippetMissingError:
@@ -368,16 +440,15 @@ class SnippetPreprocessor(Preprocessor):
                     # Process lines looking for more snippets
                     new_lines.extend(
                         [
-                            space + l2 for l2 in self.parse_snippets(
-                                s_lines,
-                                snippet,
-                                is_url=url
-                            )
+                            space + l2
+                            for l2 in self.parse_snippets(s_lines, snippet, is_url=url)
                         ]
                     )
 
                 elif self.check_paths:
-                    raise SnippetMissingError("Snippet at path '{}' could not be found".format(path))
+                    raise SnippetMissingError(
+                        "Snippet at path '{}' could not be found".format(path)
+                    )
 
         # Pop the current file name out of the cache
         if file_name:
@@ -390,7 +461,9 @@ class SnippetPreprocessor(Preprocessor):
 
         self.seen = set()
         if self.auto_append:
-            lines.extend("\n\n-8<-\n{}\n-8<-\n".format('\n\n'.join(self.auto_append)).split('\n'))
+            lines.extend(
+                "\n\n-8<-\n{}\n-8<-\n".format("\n\n".join(self.auto_append)).split("\n")
+            )
 
         return self.parse_snippets(lines)
 
@@ -402,22 +475,40 @@ class SnippetExtension(Extension):
         """Initialize."""
 
         self.config = {
-            'base_path': [["."], "Base path for snippet paths - Default: [\".\"]"],
-            'restrict_base_path': [
+            "base_path": [["."], 'Base path for snippet paths - Default: ["."]'],
+            "restrict_base_path": [
                 True,
-                "Restrict snippet paths such that they are under the base paths - Default: True"
+                "Restrict snippet paths such that they are under the base paths - Default: True",
             ],
-            'encoding': ["utf-8", "Encoding of snippets - Default: \"utf-8\""],
-            'check_paths': [False, "Make the build fail if a snippet can't be found - Default: \"False\""],
+            "encoding": ["utf-8", 'Encoding of snippets - Default: "utf-8"'],
+            "check_paths": [
+                False,
+                'Make the build fail if a snippet can\'t be found - Default: "False"',
+            ],
             "auto_append": [
                 [],
-                "A list of snippets (relative to the 'base_path') to auto append to the Markdown content - Default: []"
+                "A list of snippets (relative to the 'base_path') to auto append to the Markdown content - Default: []",
             ],
-            'url_download': [False, "Download external URLs as snippets - Default: \"False\""],
-            'url_max_size': [DEFAULT_URL_SIZE, "External URL max size (0 means no limit)- Default: 32 MiB"],
-            'url_timeout': [DEFAULT_URL_TIMEOUT, 'Defualt URL timeout (0 means no timeout) - Default: 10 sec'],
-            'url_request_headers': [DEFAULT_URL_REQUEST_HEADERS, "Extra request Headers - Default: {}"],
-            'dedent_subsections': [False, "Dedent subsection extractions e.g. 'sections' and/or 'lines'."]
+            "url_download": [
+                False,
+                'Download external URLs as snippets - Default: "False"',
+            ],
+            "url_max_size": [
+                DEFAULT_URL_SIZE,
+                "External URL max size (0 means no limit)- Default: 32 MiB",
+            ],
+            "url_timeout": [
+                DEFAULT_URL_TIMEOUT,
+                "Defualt URL timeout (0 means no timeout) - Default: 10 sec",
+            ],
+            "url_request_headers": [
+                DEFAULT_URL_REQUEST_HEADERS,
+                "Extra request Headers - Default: {}",
+            ],
+            "dedent_subsections": [
+                False,
+                "Dedent subsection extractions e.g. 'sections' and/or 'lines'.",
+            ],
         }
 
         super().__init__(*args, **kwargs)
@@ -434,7 +525,7 @@ class SnippetExtension(Extension):
     def reset(self):
         """Reset."""
 
-        self.md.preprocessors['snippet'].download.cache_clear()
+        self.md.preprocessors["snippet"].download.cache_clear()
 
 
 def makeExtension(*args, **kwargs):
