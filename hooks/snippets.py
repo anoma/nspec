@@ -181,16 +181,17 @@ class SnippetPreprocessor(Preprocessor):
                     backup_lines=None,
                     backup_path=backup_path,
                 )
-            
+
             raise SnippetMissingError(
-                    f"""
+                f"""
 The snippet section '{section}' could not be located.
 This is likely because the section is inside a Juvix code block,
 which is currently not supported in Juvix v0.6.4 or previous versions.
 Consider wrapping the Juvix code block with a section snippet instead.
 
 Error found in the file '{backup_path}' for the section '{section}'.
-""")
+"""
+            )
         return self.dedent(new_lines) if self.dedent_subsections else new_lines
 
     def dedent(self, lines):
