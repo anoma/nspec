@@ -95,7 +95,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: latest
-          target_folder: latest
+          target-folder: latest
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research
