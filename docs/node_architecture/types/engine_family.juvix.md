@@ -209,10 +209,10 @@ The action function can compute the effects of actions—not only
 changes to the engine environment,
 but also which messages will be sent,
 what engines will be created,
-and how the list of timers is updated. 
+and how the list of timers is updated.
 
 ```juvix
-Guard (I H S M A L X : Type) : Type := 
+Guard (I H S M A L X : Type) : Type :=
   Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
 ```
 
