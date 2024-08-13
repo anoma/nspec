@@ -246,14 +246,17 @@ this means that none of its guarded actions are triggered.
 
 Finally, `resolveConflict` is a function that
 takes a finite set of action labels as input;
-it outputs _maybe_ a list of action label sets
+it outputs a list of action label sets
 that are pairwise disjoint and whose union is the input set
-or nothing if the set of actions is actually concurrent.
+or is empty,
+if conflict resolution fails.
+And for each element of the output it should be
+that if applied to this element,
+it returns the one element list of the set itself.
 
 ```
-resolveConflicts : Set A -> Maybe (List (Set A));
+resolveConflicts : Set A -> List (Set A);
 ```
-
 
 ## Engine families and instances
 
@@ -267,7 +270,7 @@ data by the guard functions, and a type for outgoing messages.
 type EngineFamily (S I M H A L X O C : Type) := mkEngineFamily {
   guards : Set (Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X));
   action : ActionInput S I M H A L X -> Maybe (ActionEffect S I M H A L X O C);
-  resolveConflicts : Set A -> Maybe (List (Set A));
+  resolveConflicts : Set A -> List (Set A);
 };
 ```
 
@@ -283,8 +286,6 @@ type EngineFamily (S I M H A L X O C : Type) := mkEngineFamily {
     In the latter case,
     we can assign priorties to guards
     to resolve unwanted non-determinism.
-
-
 
 !!! todo "rework/adapt the rest of this page"
 
