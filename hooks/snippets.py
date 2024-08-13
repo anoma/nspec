@@ -174,7 +174,15 @@ class SnippetPreprocessor(Preprocessor):
                     "Snippet section '{}' could not be located".format(section)
                 )
             elif backup_lines is not None:
-                raise SnippetMissingError(
+                return self.extract_section(
+                    section,
+                    backup_lines,
+                    is_juvix=False,
+                    backup_lines=None,
+                    backup_path=backup_path,
+                )
+            
+            raise SnippetMissingError(
                     f"""
 The snippet section '{section}' could not be located.
 This is likely because the section is inside a Juvix code block,
@@ -183,17 +191,6 @@ Consider wrapping the Juvix code block with a section snippet instead.
 
 Error found in the file '{backup_path}' for the section '{section}'.
 """
-                )
-
-            else:
-                return self.extract_section(
-                    section,
-                    backup_lines,
-                    is_juvix=False,
-                    backup_lines=None,
-                    backup_path=None,
-                )
-
         return self.dedent(new_lines) if self.dedent_subsections else new_lines
 
     def dedent(self, lines):
