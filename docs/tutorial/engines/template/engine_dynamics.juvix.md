@@ -103,7 +103,7 @@ search:
 
     :   Matched arguments are typically obtained by pattern matching of messages,
         be it from a trigger or previously received messages in one of the mailboxes.
-        
+
     Action labels
 
     :   Action labels describe actions that members of the engine family
@@ -143,7 +143,7 @@ search:
 
 ## Action labels
 
-!!! note "On `Action labels`" 
+!!! note "On `Action labels`"
 
     We first define a Juvix type of action labels.
     This type has to be a record type or algebraic data type
@@ -182,12 +182,12 @@ search:
     :   We first give the Juvix definition of
         the message label datatype
         named `[EngineFamilyName]ActionLabel`.
-        Then we have 
+        Then we have
         one level three heading `### [Action Tag ⟨i⟩]`
         for each action tag of the Juvix datatype.
         Each of those sub-subections, in turn,
         has
- 
+
         `#### [Action Tag ⟨i⟩]` level four heading
 
         :   We first have the code snippet of the constructor,
@@ -207,20 +207,20 @@ search:
             Finally,
             we give an example of an action lable term.
 
-            `##### [Action Tag ⟨i⟩] state update` 
+            `##### [Action Tag ⟨i⟩] state update`
 
             :   Describe the state update.
 
 
-            `##### [Action Tag ⟨i⟩] messages to be sent` 
+            `##### [Action Tag ⟨i⟩] messages to be sent`
 
             :   Describe messages to be sent.
 
-            `##### [Action Tag ⟨i⟩] engines to be spawned` 
+            `##### [Action Tag ⟨i⟩] engines to be spawned`
 
-            :   Describe engines to be spawned. 
+            :   Describe engines to be spawned.
 
-            `##### [Action Tag ⟨i⟩] timer updates` 
+            `##### [Action Tag ⟨i⟩] timer updates`
 
             :   Describe timer updates.
 
@@ -230,11 +230,11 @@ search:
     without the need to consult later sections.
 
     !!! quote "Pseudo-example"
-    
+
         !!! todo "adapt the peudo-example to match the template"
-        
+
         Consider the following code.
-    
+
         ```juvix
         type someActionLabel :=
           | doThis String
@@ -242,46 +242,46 @@ search:
         type anotherActionLabel :=
           | doThat String
         ;
-    
+
         type allLabels :=
           | doAlternative (Either someActionLabel anotherActionLabel)
           | doBoth (Pair someActionLabel anotherActionLabel)
           | doAnotherAction String
         ;
         ```
-    
+
         The corresponding structure would be the one of the last type.
-    
+
         ### doAlternative
-    
+
         We do one of the two.
-    
+
         #### Either.Left `{` optional `}`
-    
+
         The first alternative does _this._
-    
+
         #### Either.Right  `{` optional `}`
-    
+
         The other alternative does _that._
-    
+
         ### doBoth
-    
+
         Here we do both.
-    
+
         #### first  `{` optional `}`
-    
+
         Well, we have described _this_ above.
-    
+
         #### second  `{` optional `}`
-    
+
         Well, we have described _that_ above.
-    
+
         ### doAnotherAction
-    
+
         Finally, we have a third kind of action
         that also has to be documented.
 
-## Matchable arguments 
+## Matchable arguments
 
 !!! note "On `Matchable arguments`"
 
@@ -348,7 +348,7 @@ search:
 
 ### [Guard ⟨guard $i$⟩] `{` $0 < i < l$ `}`
 
-!!! note "On `[Guard ⟨guard $i$⟩]`" 
+!!! note "On `[Guard ⟨guard $i$⟩]`"
 
     For each guard
     we want a short description
@@ -388,7 +388,7 @@ search:
 
     : The flowchart should illustrate at a glance
     how actions are enabled by this guard.
-    
+
 
 !!! warning
 
@@ -453,11 +453,11 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
     : Free form, except for that we need the code for
     the conflict resolution function (at the end).
-    
+
 
 ## Action function (and auxiliary functions)
 
-!!! note "On `Action function and auxiliary functions`" 
+!!! note "On `Action function and auxiliary functions`"
 
     This is essentially well-documented code
     of the actual action function.
@@ -561,7 +561,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
     concurrency, conflict, mutual exclusion
     between action labels.
 
---> 
+-->
 <!-- footnotes -->
 
 [^1]: The specification pages impose
@@ -575,7 +575,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
       and similarly actions.<!-- todo: well, where do we have those?-->
 
 [^2']: Eventually,
-    we may want to describe each action 
+    we may want to describe each action
     as a [series-parallel graph](https://en.wikipedia.org/wiki/Series%E2%80%93parallel_graph)
     of _action primitives;_
     the main rationale is fostering code re-use,
