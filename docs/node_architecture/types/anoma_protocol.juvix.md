@@ -8,16 +8,13 @@ search:
 ??? note "Juvix imports"
 
     ```juvix
-    module node_architecture.engines.anoma_protocol;
+    module node_architecture.engines.types.anoma_protocol;
       import tutorial.engines.examples.ticker_protocol_types open;
     ```
 
 # Anoma Engine Protocol Types
 
 ```juvix
-type AnomaEngineProtocolEnvironment :=
-  | TickerProtocolEnv TickerProtocolEnvironment;
-
-type AnomaEngineProtocolMessage :=
-  | TickerProtocolMsg TickerProtocolMessage;
+type AnomaEngineProtocol :=
+  | TickerProtocol TickerProtocolEnvironment TickerProtocolMessage
 ```

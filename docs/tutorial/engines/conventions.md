@@ -74,5 +74,3 @@ import node_architecture.engines.myengine open;
     {- Engines -}
     +import node_architecture.engines.myengine;
     ```
-
---8<-- "./docs/tutorial/engines/template/code_dynamics.juvix.md"
