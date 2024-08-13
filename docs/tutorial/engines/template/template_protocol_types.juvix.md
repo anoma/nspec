@@ -4,9 +4,40 @@ search:
   exclude: false
 ---
 
+
+!!! note "Juvix protocol-level types"
+
+    We also have to write (and later import)
+    protocol-level type descriptions.
+    These are two type declarations.
+
+    Protocol-level message type
+
+    : The name of the message type is the name of the protocol in which the engines take part,
+    i.e., `Anoma` for the Anoma specification,
+    followed by `ProtocolMessage`.
+    This is an algebraic data type with one constructor per engine family
+    that takes as argument a message of the respective engine family.
+
+    : 👉 _This type is **the** type used for sending messages._
+
+    Protocol-level environment type
+
+    : Similarly, for engine environments, we have a type as above,
+    but with `ProtocolEnvironment` instead of `ProtocolMessage`,
+    and constructors taking environments from the respective engine families.
+
+    : 👉 _This type is **the** type used for creating new engine instances._
+
+    See the file `engine_protocol_type.juvix`.
+    Note that for the purpose of these two types,
+    the [[Engine Family Hierarchy]] is "flattened",
+    i.e., the algebraic data type does not encode the hiearchy of engine families.
+
+The following is the module for the protocol level types of the template.
+
 ```juvix
---- this is the module for the protocol level types of the template
-module tutorial.engines.template.engine_protocol_type;
+module tutorial.engines.template.template_protocol_types;
 import prelude open;
 
 syntax alias EngineOneMessage := Unit;
