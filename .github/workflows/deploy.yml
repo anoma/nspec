@@ -90,12 +90,22 @@ jobs:
         env:
           SITE_DIR: latest
           SITE_URL: https://anoma.github.io/nspec/latest/
-
+      
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: latest
-          target_folder: latest
+          target-folder: latest
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: false
+          git-config-name: Anoma Research
+          git-config-email: arts@heliax.dev
+      
+      - if: success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: latest
+          target-folder: v2
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research

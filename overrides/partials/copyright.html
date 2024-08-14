@@ -13,11 +13,11 @@
   <ul>
     <span class="md-copyright__highlight">Extra resources for Anoma
       Specification collaborators</span>
-    <li><a href="indexes/links.html">Quick links</a></li>
-    <li><a href="indexes/juvix_modules.html">Juvix modules in the Anoma
-        Specification</a></li>
-    <li><a href="tutorial/index.html">Markdown tutorials for writing Anoma
-        Specification</a></li>
-    <li><a href="tutorial/engines/index.html">On engines in Anoma</a></li>
+      {% set site_url = config.site_url.rstrip('/') %}
+      <li><a href="{{ site_url }}/indexes/links.html">Quick links</a></li>
+      <li><a href="{{ site_url }}/indexes/juvix_modules.html">Juvix modules</a></li>
+      <li><a href="{{ site_url }}/tutorial/index.html">Markdown tutorials for writing Anoma
+          Specification</a></li>
+      <li><a href="{{ site_url }}/tutorial/engines/index.html">On engines in Anoma</a></li>
   </ul>
 </div>
