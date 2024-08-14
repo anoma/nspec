@@ -297,20 +297,12 @@ search:
 
         ### doBoth
 
-        Here we do both.
-
-        #### first  `{` optional `}`
-
-        Well, we have described _this_ above.
-
-        #### second  `{` optional `}`
-
-        Well, we have described _that_ above.
+        […]
 
         ### doAnotherAction
 
-        Finally, we have a third kind of action
-        that also has to be documented.
+        […]
+
 
 ## Matchable arguments
 
@@ -378,7 +370,7 @@ search:
 
         ### messageTwo
 
-        [...]
+        […]
 
         ### someThingFromAMailbox
 
@@ -553,7 +545,7 @@ search:
 
         ```mermaid
         flowchart TD
-            C{messageOne received??}
+            C{messageOne received?}
             C -->|Yes| D[enabled<br>n := argTwo<br>m := argThree ]
             C -->|No| E[not enabled]
             D --> F([doAnotherAction n m])
@@ -576,7 +568,7 @@ search:
             -> Trigger I H
                 -> EngineEnvironment S I M H
                     -> Maybe (GuardOutput A L X) :=
-                    [...] ;
+                    […] ;
         ```
 
 !!! warning
