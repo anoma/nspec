@@ -334,7 +334,7 @@ search:
       where we have the code snippet,
       a description,
       and an example.
-      
+
 
     Goal
 
@@ -348,7 +348,7 @@ search:
 
         type TemplateMatchableArgument :=
           | -- --8<-- [start:messageOne]
-            messageOne thisOneNatFromAllMessages            
+            messageOne thisOneNatFromAllMessages
             -- --8<-- [end:messageOne]
           | messageTwo thisOneNatFromAllMessages
           | -- --8<-- [start:someThingFromAMailbox]
@@ -356,7 +356,7 @@ search:
             -- --8<-- [end:someThingFromAMailbox]
         ;
         ```
-        
+
         We only match a natural number from messages
         and occassionally from a mailbox.
 
@@ -379,13 +379,13 @@ search:
         ### messageTwo
 
         [...]
-        
-        ### someThingFromAMailbox 
+
+        ### someThingFromAMailbox
 
         !!! quote ""
 
             --8<-- "./engine_dynamics.juvix.md:someThingFromAMailbox"
-            
+
         We also match a message from a message that
         we had stored in a mailbox.
         See the section on pre-computation results
@@ -441,7 +441,7 @@ search:
     Note that we have a list of `TemplatePrecomputationEntry`-terms
     as precomputation result
     and that we describe the latter in more detail.
-    
+
     ### deleteThisMessageFromMailbox
 
     !!! quote ""
@@ -458,7 +458,7 @@ search:
       deleteThisMessageFromMailbox undef 1;
     end;
     ```
-    
+
 
 <!--ᚦplease keep this¶
 !!! warning "Execution time may be unbounded (in V2)"
@@ -525,15 +525,15 @@ search:
             which Mermaid calls "stadiums".
 
         Juvix code
-        
+
         : The actual guard function code.
-        
+
         Code documention
-        
+
         : An English language description of the code in broad terms.
-        
+
     Goal
-    
+
     : The flowchart should illustrate at a glance
     how actions are enabled by this guard.
     Moreover,
@@ -556,7 +556,7 @@ search:
             D --> F([doIncrement])
         ```
 
-        ```juvix       
+        ```juvix
         ```
 
 
