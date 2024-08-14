@@ -202,14 +202,14 @@ search:
           one sub-subsection for each action tag of the Juvix datatype,
           with a level three heading  `### [Action Tag ⟨i⟩]`.
           In these sub-subections, we have the following.
-          
+
           Action tag code snippet
 
           : We first have the code snippet of the constructor,
           quoting the resepective portion of the Juvix datatype.
 
           Description
-          
+
           : We describe in broad terms of the associated action.[^3]
 
           Example term
@@ -271,7 +271,7 @@ search:
         end;
         ```
 
-        #### Either.Left 
+        #### Either.Left
 
         The first alternative does _this._
 
@@ -281,7 +281,7 @@ search:
 
         Messages to be sent
 
-        : No messages are added to the send queue. 
+        : No messages are added to the send queue.
 
         Engines to be spawned
 
