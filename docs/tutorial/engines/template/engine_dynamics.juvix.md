@@ -524,13 +524,14 @@ search:
             (`([matched arguments,  action label, precompuation result])`),
             which Mermaid calls "stadiums".
 
+        Flow chart explanation
+
+        : An English language description of the guard/code in broad terms.
+
         Juvix code
 
-        : The actual guard function code.
-
-        Code documention
-
-        : An English language description of the code in broad terms.
+        : The actual guard function code, including code comments
+        with additional documentation.
 
     Goal
 
@@ -548,17 +549,35 @@ search:
 
     !!! quote "Pseudo-example"
 
+        ### messageOneGuard
+
         ```mermaid
         flowchart TD
-            C{Increment <br> message <br> received ?}
-            C -->|Yes| D[enabled]
+            C{messageOne received??}
+            C -->|Yes| D[enabled<br>n := argTwo<br>m := argThree ]
             C -->|No| E[not enabled]
-            D --> F([doIncrement])
+            D --> F([doAnotherAction n m])
         ```
 
         ```juvix
+        --- messageOneGuard (see todo)
+        t : Type := undef;
         ```
 
+        For `messageOne`-messages,
+        we do the other action,
+        passing the String represenatation
+        of the
+
+        !!! todo "add code with conversion from Nat to String" 
+
+        ```
+        messageOneGuard :  Maybe Time
+            -> Trigger I H
+                -> EngineEnvironment S I M H
+                    -> Maybe (GuardOutput A L X) :=
+                    [...] ;
+        ```
 
 !!! warning
 
@@ -636,8 +655,8 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
     : One or several code fragments,
       with the action function at the end,
-      interlaced with explanatory prose.
-
+      interlaced with explanatory prose
+      and/or documentation in the code.
 
 <!--
 ### [Action Name ⟨$i$⟩] `{` one such sub-section per guarded action `}`
