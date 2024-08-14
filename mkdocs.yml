@@ -372,24 +372,22 @@ nav:
     - Data encoding: ./implementation/data_encoding.md
     - Resource machine backends:  ./implementation/resource_machine_backends.md
   - Quick links: ./indexes/links.md
-  - Juvix modules in the Anoma Specification: ./indexes/juvix_modules.md
+  - Juvix modules: ./indexes/juvix_modules.md
   - Tutorials for contributors:
     - ./tutorial/index.md
-    - Basic:
-      - Prepare working environment: ./tutorial/install/index.md
-      - Use Git and GitHub: ./tutorial/branch.md
-      - File naming conventions: ./tutorial/file_naming.md
-      - Write Markdown: ./tutorial/md/index.md
-      - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
-      - Use Wiki style links: ./tutorial/md/links.md
-      - Include images in Markdown: ./tutorial/md/images.md
-    - Intermediate:
-      - Include code snippets: ./tutorial/md/snippets.md
-      - Add Juvix code for specification: ./tutorial/juvix.md
-      - Add pending tasks with Todos admonition: ./tutorial/md/todos.md
-      - Add literature references: ./tutorial/md/citations.md
-      - Add diffs for versioning: ./tutorial/differ/index.md
-      - Run pre commit checks: ./tutorial/commit_checks.md
+    - Prepare working environment: ./tutorial/install/index.md
+    - Use Git and GitHub: ./tutorial/branch.md
+    - File naming conventions: ./tutorial/file_naming.md
+    - Write Markdown: ./tutorial/md/index.md
+    - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
+    - Use Wiki style links: ./tutorial/md/links.md
+    - Include images in Markdown: ./tutorial/md/images.md
+    - Include code snippets: ./tutorial/md/snippets.md
+    - Add Juvix code for specification: ./tutorial/juvix.md
+    - Add pending tasks with Todos admonition: ./tutorial/md/todos.md
+    - Add literature references: ./tutorial/md/citations.md
+    - Add diffs for versioning: ./tutorial/differ/index.md
+    - Run pre commit checks: ./tutorial/commit_checks.md
 
 extra:
   social:

@@ -2,6 +2,8 @@
 icon: material/link
 search:
   exclude: false
+hide:
+  - navigation
 ---
 
 # Quick Links

@@ -31,7 +31,7 @@
   <div class="md-grid">
     <ul class="md-tabs__list">
       {% for nav_item in nav %}
-        {% if nav_item.title not in ["Quick links", "Juvix modules in the Anoma Specification", "Tutorials for contributors" ]  %}
+        {% if nav_item.title not in ["Quick links", "Juvix modules", "Tutorials for contributors" ]  %}
             {{ item.render(nav_item) }}
         {% endif %}
       {% endfor %}

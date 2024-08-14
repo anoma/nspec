@@ -3,9 +3,9 @@ icon: octicons/markdown-16
 search:
   exclude: false
 tags:
-  - wikilinks
-  - images
-  - snippets
+    - wikilinks
+    - images
+    - snippets
 todos: False
 ---
 
