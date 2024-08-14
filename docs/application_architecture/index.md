@@ -43,11 +43,8 @@ kinds of coordination. This section is neither exhaustive nor intended to
 describe particular applications in exact detail, but rather to provide an
 overview and guidance for how to think about developing applications on Anoma.
 
-- [Primitives](./primitives/index.md#primitives)
-
-- [Kudos](./kudos.md#kudos)
-
-- [Proof-of-stake](./system_applications/proof_of_stake.md#proof-of-stake)
-
-- [Schelling tests](./schelling_tests.md#schelling-tests)
-
+- [Definitions](./definitions/index.md)
+- [Techniques](./techniques/index.md)
+- [Primitives](./primitives/index.md)
+- [System applications](./system_applications/index.md)
+- [Archetypal applications](./archetypal_applications/index.md)

@@ -9,19 +9,27 @@ search:
 
 ## Transaction functions
 
-- Nockma
-
 !!! todo
 
-    Port Nockma spec from RMv2 report.
-    Include builtins, stdlib, etc.
+    Explain abstractly what a transaction function does.
+
+Transaction functions are encoded with the [standard function encoding](./function_encoding/index.md).
+
+The following transaction function virtual machines must be supported:
+
+- [Nockma](./function_encoding/nockma.md)
 
 ## Resource logics
 
-- Nockma
-- Cairo
-- RISC0
-
 !!! todo
 
-    More detailed specs for these.
+    Explain abstractly what a resource logic backend does.
+
+Resource logics are encoded with the [standard function encoding](./function_encoding/index.md).
+
+The following resource logic virtual machines must be supported:
+
+- [Nockma](./function_encoding/nockma.md)
+- [Cairo](./function_encoding/cairo.md)
+- [RISC0](./function_encoding/risc0.md)
+

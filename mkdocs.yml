@@ -15,15 +15,36 @@ nav:
     - World model: ./scope/world_model.md
     - Protocol desiderata: ./scope/protocol_desiderata.md
 
-  - Basic Types:
-    - ./basic_types/index.md
-    - Identity: ./basic_types/identity.md
-    - Resource: ./basic_types/resource.md
-    - Resource Machine: ./basic_types/resource_machine.md
+  - Basic Abstractions:
+    - ./basic_abstractions/index.md
+    - Encoding:
+      - ./basic_abstractions/encoding/index.md
+      - Data type: ./basic_abstractions/encoding/data_type.md
+      - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
+      - Encoding scheme: ./basic_abstractions/encoding/encoding_scheme.md
+      - Multiencoding: ./basic_abstractions/encoding/multiencoding.md
+    - Cryptographic primitives:
+      - ./basic_abstractions/cryptographic_primitives/index.md
+      - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
+      - Accumulator: ./basic_abstractions/cryptographic_primitives/accumulator.md
+      - Proof system: ./basic_abstractions/cryptographic_primitives/proof_system.md
 
   - Protocol Architecture:
     - ./architecture/index.md
-    - System Architecture: ./system_architecture/index.md
+    - System Architecture:
+      - ./system_architecture/index.md
+      - Basic Concepts:
+        - ./system_architecture/concepts/index.md
+      - Identity Architecture:
+        - ./system_architecture/identity/index.md
+      - Network Architecture:
+        - ./system_architecture/network/index.md
+      - Service Architecture:
+        - ./system_architecture/service/index.md
+      - State Architecture:
+        - ./system_architecture/state/index.md
+        - Resource: ./system_architecture/state/resource.md
+        - Transaction: ./system_architecture/state/transaction.md
     - Node Architecture:
       - ./node_architecture/index.md
       - Modules: ./node_architecture/modules/index.md
@@ -349,23 +370,24 @@ nav:
 
   - Application Architecture:
     - ./application_architecture/index.md
-    - Definitions: ./application_architecture/definitions.md
-    - Patterns:
-      - ./application_architecture/patterns/index.md
-      - Counter:
-        - ./application_architecture/patterns/counter.md
-      - Dynamic code loading:
-        - ./application_architecture/patterns/dynamic_code_loading.md
+    - Definitions:
+      - ./application_architecture/definitions/index.md
+    - Techniques:
+      - ./application_architecture/techniques/index.md
+      - Dynamic code loading: ./application_architecture/techniques/dynamic_code_loading.md
+      - Schelling tests: ./application_architecture/techniques/schelling_tests.md
     - Primitives:
         - ./application_architecture/primitives/index.md
         - Tokens: ./application_architecture/primitives/tokens.md
         - Attestation: ./application_architecture/primitives/attestation.md
         - Authorization: ./application_architecture/primitives/authorization.md
+        - Counter: ./application_architecture/primitives/counter.md
     - System applications:
       - ./application_architecture/system_applications/index.md
       - Proof of stake: ./application_architecture/system_applications/proof_of_stake.md
-    - Scale free kudos: ./application_architecture/kudos.md
-    - Schelling tests: ./application_architecture/schelling_tests.md
+    - Archetypal applications:
+      - ./application_architecture/archetypal_applications/index.md
+      - Kudos: ./application_architecture/archetypal_applications/kudos.md
 
   - Implementation:
     - ./implementation/index.md
