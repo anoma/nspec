@@ -328,13 +328,69 @@ search:
 
     Form
 
-    : A Juvix algebraic datatype followed by documentation.
+    : A Juvix algebraic datatype followed by documentation,
+      with one level three heading `### [Matched argument ⟨$j$⟩]`
+      for each kind of matching mechanism
+      where we have the code snippet,
+      a description,
+      and an example.
+      
 
     Goal
 
     : Get an overview of which arguments we want to pass to the action function
       besides the action label.
 
+    !!! quote "Pseudo-example"
+
+        ```juvix
+        syntax alias thisOneNatFromAllMessages := Nat;
+
+        type TemplateMatchableArgument :=
+          | -- --8<-- [start:messageOne]
+            messageOne thisOneNatFromAllMessages            
+            -- --8<-- [end:messageOne]
+          | messageTwo thisOneNatFromAllMessages
+          | -- --8<-- [start:someThingFromAMailbox]
+            someThingFromAMailbox String
+            -- --8<-- [end:someThingFromAMailbox]
+        ;
+        ```
+        
+        We only match a natural number from messages
+        and occassionally from a mailbox.
+
+        ### messageOne
+
+        !!! quote ""
+
+            --8<-- "./engine_dynamics.juvix.md:messageOne"
+
+        We compute a natural number from the arguments of message one.
+
+        ```juvix
+        module message_one_example;
+
+        messageOneExample : TemplateMatchableArgument := messageOne 1;
+
+        end;
+        ```
+
+        ### messageTwo
+
+        [...]
+        
+        ### someThingFromAMailbox 
+
+        !!! quote ""
+
+            --8<-- "./engine_dynamics.juvix.md:someThingFromAMailbox"
+            
+        We also match a message from a message that
+        we had stored in a mailbox.
+        See the section on pre-computation results
+        for more on how we remember which messages
+        we will remove from which mailbox.
 
 ## Precomputation results
 
@@ -347,16 +403,64 @@ search:
     we have a third input for action functions,
     which is meant to relay any precomputation results
     beyond matching and label computation.
+    Often,
+    this parameter will contain information
+    for how to update the environment.
 
     Form
 
     : A type definition with an explanation of its purpose.
+      The pattern is the usual one:
+      first the Juvix code,
+       a sub-section structure that reflects the type structures,
+       and finally, for each data item,
+       a code snippet, an explanation, and an example.
 
     Goal
 
     : Get an overview of non-trivial computations performed by guards.
 
 
+    !!! quote "Pseudo-example"
+
+    ```juvix
+    syntax alias someMessageType := undef;
+
+    type TemplatePrecomputationEntry :=
+      | -- --8<-- [start:deleteThisMessageFromMailbox]
+        deleteThisMessageFromMailbox someMessageType Nat
+        -- --8<-- [end:deleteThisMessageFromMailbox]
+      | closeMailbox Nat
+    ;
+
+    TemplatePrecomputation : Type := List TemplatePrecomputationEntry;
+    ```
+
+    Often, the guard detects that we can close a mailbox
+    and that we have to add a message to a mailbox.
+    Note that we have a list of `TemplatePrecomputationEntry`-terms
+    as precomputation result
+    and that we describe the latter in more detail.
+    
+    ### deleteThisMessageFromMailbox
+
+    !!! quote ""
+
+        --8<-- "./engine_dynamics.juvix.md:deleteThisMessageFromMailbox"
+
+    We delete the given message from the mailbox with
+    the mailbox ID.
+
+    ```juvix
+    module delete_this_message_from_mailbox;
+
+    deleteThisMessageFromMailboxExample : TemplatePrecomputationEntry :=
+      deleteThisMessageFromMailbox undef 1;
+    end;
+    ```
+    
+
+<!--ᚦplease keep this¶
 !!! warning "Execution time may be unbounded (in V2)"
 
     New events are "muted" for the time of
@@ -368,6 +472,7 @@ search:
     (typically also indicating the occurrence of the timeout).
     However,
     this is not part of V2 specs.
+-->
 
 ## Guards
 
