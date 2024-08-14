@@ -531,7 +531,7 @@ search:
 
     Form
 
-    : free form, _except_ for the data type definition in Juvix at the end.
+    : free form, _except_ for the datatype definition and an example in Juvix at the end.
 
     !!! quote "Pseudo-example"
 
@@ -549,6 +549,13 @@ search:
           TemplateTimerHandle;
         ```
 
+        !!! todo "fix example 👇"
+
+        ```juvix
+        module template_environment_example;
+        templateEnvironmentExample : TemplateEnvironment := undef;
+        end;
+        ```
 
 <!-- footnotes -->
 
