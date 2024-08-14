@@ -484,46 +484,80 @@ search:
 
 ### [Guard ⟨guard $i$⟩] `{` $0 < i < l$ `}`
 
-!!! note "On `[Guard ⟨guard $i$⟩]`"
+!!! note "On `[Guard ⟨guard 𝒊⟩]`"
 
     For each guard
     we want a short description
     of which actions are enable under which conditions.
+    Then we define the actual code.
 
     Conceptual structure
 
-    : We essentially need a decision tree, flow chart, or similar for
+    :   We essentially need a decision tree, flow chart, or similar for
 
-    - how to determine whether this guard enables actions and then which ones
+        - how to determine whether this guard enables actions and then which ones
 
-    - describe the action label, matched arguments,
-    and pre-computations results for each of the cases;
-    for the latter,
-    we may describe how or when they are computed along the way.
+        - describe the action label, matched arguments,
+          and pre-computations results for each of the cases;
+          for the latter,
+          we may describe how or when they are computed along the way.
 
     Form
 
-    : There are three parts:
+    :   There are three parts:
 
-    1. a [flowchart](https://en.wikipedia.org/wiki/Flowchart)
-    that illustrates the guard logic.
-    Recall that decision nodes are diamond shaped (`{ decision node text }`);
-    we (ab-)use rectangular boxes to describe matching of arguments
-    or other computations
-    (`[ processing node text ]`)
-    and the final guard output
-    is summarized in terminal nodes
-    (`([matched arguments,  action label, precompuation result])`),
-    which Mermaid calls "stadiums".
+        [Flowchart](https://en.wikipedia.org/wiki/Flowchart)
 
-    2. Juvix code of the actual guard function
+        : The flowchart illustrates the guard logic.
+        The terminal nodes are the action labels.
+        Intermediate nodes describe matching of arguments
+        and precomputations that are performed.
 
-    3. an English language description of the code in broad terms.
+        ??? info "Recap flowchart and mermaid"
 
+            Recall that decision nodes are diamond shaped (`{ decision node text }`);
+            we (ab-)use rectangular boxes to describe matching of arguments
+            or other computations
+            (`[ processing node text ]`)
+            and the final guard output
+            is summarized in terminal nodes
+            (`([matched arguments,  action label, precompuation result])`),
+            which Mermaid calls "stadiums".
+
+        Juvix code
+        
+        : The actual guard function code.
+        
+        Code documention
+        
+        : An English language description of the code in broad terms.
+        
     Goal
-
+    
     : The flowchart should illustrate at a glance
     how actions are enabled by this guard.
+    Moreover,
+    the relevant matched arguments and precomputation results
+    are named.
+
+    !!! todo "What about auxiliary functions?"
+
+        The guards may use auxiliary functions.
+        These are probably best put in front of the code
+        but hidden by default.
+
+    !!! quote "Pseudo-example"
+
+        ```mermaid
+        flowchart TD
+            C{Increment <br> message <br> received ?}
+            C -->|Yes| D[enabled]
+            C -->|No| E[not enabled]
+            D --> F([doIncrement])
+        ```
+
+        ```juvix       
+        ```
 
 
 !!! warning
@@ -620,7 +654,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
     if there are several different cases
     such that each of them deserves a different action label.
 
-### Overview `{` action ⟨$i$⟩`}`
+### Overview `{` action ⟨𝒊⟩`}`
 
 !!! note
 
