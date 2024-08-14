@@ -569,7 +569,7 @@ search:
         passing the String represenatation
         of the
 
-        !!! todo "add code with conversion from Nat to String" 
+        !!! todo "add code with conversion from Nat to String"
 
         ```
         messageOneGuard :  Maybe Time
