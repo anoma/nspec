@@ -545,7 +545,7 @@ search:
 
         ```mermaid
         flowchart TD
-            C{messageOne received?}
+            C{messageOne<br>received?}
             C -->|Yes| D[enabled<br>n := argTwo<br>m := argThree ]
             C -->|No| E[not enabled]
             D --> F([doAnotherAction n m])
@@ -571,7 +571,7 @@ search:
                     […] ;
         ```
 
-!!! warning
+!!! warning "Mermaid restrictions"
 
     Mermaid has some restriction on how to use markdown by default:
 
@@ -579,6 +579,8 @@ search:
 	  has to be enclosed into ``"` ‌`` ``‌ `"`` braces;
 
 	- the typewriter style, i.e., `text like this`, seems not easily usable.
+
+    It may be useful to use the [live editor](https://mermaid.live/edit#pako:eNptkMFOwzAQRH9ltSeQ2h-woKgi9AYc6AXFPWztTWIpttHGpkJJ_h0HWglVzGlHejPSzogmWkaFcFbTx5PpSBLsKx3gjx5Hz8NALb8GBmHD7pPtw3wFwXq9md55mKCqOdCxZ3t3lE0AdQ8k7f4UF-svthNmOPzX8RIneKpDTHCuuaKqhYLdTW3jtlAdy9YkFwME8IdbXKFn8eRs-W1ckhoL41mjKqflhnKfNOowF5Ryim9fwaBKknmFEnPboWqoH4rLH5YSV45aIX9B2LoU5fl3vJ8N52-KL2Tj).
 
 <!--ᚦ: [let's keep this one/three lines of Chris's here, just in case]
 Guards can provide information (similar to pattern-matching) which can then be used in the action. Each guard should come with a specified type `LocalData -> Maybe<T>` where `T` is the data that the guard will bind (pattern-match) out of the local data if (and only if) it matches.
