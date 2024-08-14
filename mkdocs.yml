@@ -391,19 +391,19 @@ nav:
 
   - Implementation:
     - Data encoding:
-      - ./concrete_implementation/data_encoding/index.md
-      - SSZ: ./concrete_implementation/data_encoding/ssz.md
+      - ./implementation/data_encoding/index.md
+      - SSZ: ./implementation/data_encoding/ssz.md
     - Function encoding:
-      - ./concrete_implementation/function_encoding/index.md
-      - Nockma: ./concrete_implementation/function_encoding/nockma.md
-      - Cairo: ./concrete_implementation/function_encoding/cairo.md
-      - RISC0: ./concrete_implementation/function_encoding/risc0.md
+      - ./implementation/function_encoding/index.md
+      - Nockma: ./implementation/function_encoding/nockma.md
+      - Cairo: ./implementation/function_encoding/cairo.md
+      - RISC0: ./implementation/function_encoding/risc0.md
     - Hash encoding:
-      - ./concrete_implementation/hash_encoding/index.md
-      - SHA3: ./concrete_implementation/hash_encoding/sha3.md
+      - ./implementation/hash_encoding/index.md
+      - SHA3: ./implementation/hash_encoding/sha3.md
     - Proof encoding:
-      - ./concrete_implementation/proof_encoding/index.md
-    - Resource machine backends: ./concrete_implementation/resource-machine-backends.md
+      - ./implementation/proof_encoding/index.md
+    - Resource machine backends: ./implementation/resource-machine-backends.md
 
   - Indexes:
     - ./indexes/index.md
