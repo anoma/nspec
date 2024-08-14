@@ -13,7 +13,7 @@ search:
 
     Explain abstractly what a transaction function does.
 
-Transaction functions are encoded with the [standard function encoding](./function_encoding.md).
+Transaction functions are encoded with the [standard function encoding](./function_encoding/index.md).
 
 The following transaction function virtual machines must be supported:
 
@@ -25,7 +25,7 @@ The following transaction function virtual machines must be supported:
 
     Explain abstractly what a resource logic backend does.
 
-Resource logics are encoded with the [standard function encoding](./function_encoding.md).
+Resource logics are encoded with the [standard function encoding](./function_encoding/index.md).
 
 The following resource logic virtual machines must be supported:
 

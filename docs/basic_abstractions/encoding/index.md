@@ -7,7 +7,7 @@ search:
 
 # Encoding
 
-- [Data type](./data-type.md)
-- [Virtual machine](./virtual-machine.md)
-- [Encoding scheme](./encoding-scheme.md)
+- [Data type](./data_type.md)
+- [Virtual machine](./virtual_machine.md)
+- [Encoding scheme](./encoding_scheme.md)
 - [Multiencoding](./multiencoding.md)

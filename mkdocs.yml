@@ -383,8 +383,8 @@ nav:
         - Authorization: ./application_architecture/primitives/authorization.md
         - Counter: ./application_architecture/primitives/counter.md
     - System applications:
-      - ./application_architecture/system-applications/index.md
-      - Proof-of-stake: ./application_architecture/system-applications/proof-of-stake.md
+      - ./application_architecture/system_applications/index.md
+      - Proof of stake: ./application_architecture/system_applications/proof_of_stake.md
     - Archetypal applications:
       - ./application_architecture/archetypal_applications/index.md
       - Kudos: ./application_architecture/archetypal_applications/kudos.md
@@ -403,7 +403,7 @@ nav:
       - SHA3: ./implementation/hash_encoding/sha3.md
     - Proof encoding:
       - ./implementation/proof_encoding/index.md
-    - Resource machine backends: ./implementation/resource-machine-backends.md
+    - Resource machine backends: ./implementation/resource_machine_backends.md
 
   - Indexes:
     - ./indexes/index.md

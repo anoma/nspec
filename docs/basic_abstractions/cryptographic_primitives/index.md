@@ -7,6 +7,6 @@ search:
 
 # Cryptographic primitives
 
-- [Hash function](./hash-function.md)
+- [Hash function](./hash_function.md)
 - [Accumulator](./accumulator.md)
-- [Proof system](./proof-system.md)
+- [Proof system](./proof_system.md)
