@@ -58,6 +58,10 @@ Anoma protocol and serves as a guide for Anoma researchers and implementors.
 
 <!-- The following todo would desapear on the online version. -->
 
-### Table of Contents
+<details markdown="1">
+
+<summary>Table of Contents</summary>
 
 {@ dict_to_md(nav_to_dict(navigation)) @}
+
+</details>
