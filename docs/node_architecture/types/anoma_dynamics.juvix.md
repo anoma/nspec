@@ -8,7 +8,7 @@ search:
 ??? note "Juvix imports"
 
     ```juvix
-    module node_architecture.engines.types.anoma_dynamics;
+    module node_architecture.types.anoma_dynamics;
       import tutorial.engines.examples.ticker_dynamics open;
     ```
 

@@ -20,11 +20,9 @@ open EngineFamily using {
     EngineEnvironment;
     EngineFamily;
     mkActionInput;
-    mkActionResult;
     mkEngine;
     mkEngineEnvironment;
-    mkEngineFamily;
-    mkGuardedAction
+    mkEngineFamily
 };
 open EngineFamily.EngineEnvironment;
 

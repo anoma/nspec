@@ -187,7 +187,7 @@ syntax alias SpawnEngineType := Unit;
 
 Therefore, the `GuardedAction` type is defined as follows:
 
-```juvix
+```
 GuardedActionType : Type :=
   GuardedAction
     TickerLocalState

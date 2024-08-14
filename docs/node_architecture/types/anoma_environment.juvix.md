@@ -8,7 +8,7 @@ search:
 ??? note "Juvix imports"
 
     ```juvix
-    module node_architecture.engines.types.anoma_environment;
+    module node_architecture.types.anoma_environment;
       import tutorial.engines.examples.ticker_environment open;
     ```
 

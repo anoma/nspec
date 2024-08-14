@@ -15,8 +15,8 @@ tags:
 
     import node_architecture.basics open;
     import node_architecture.types.anoma_environment open;
-    import node_architecture.types.anoma_dynamic open;
-    import node_architecture.types.anoma_protocol_type open;
+    import node_architecture.types.anoma_dynamics open;
+    import node_architecture.types.anoma_protocol open;
     import node_architecture.types.engine_family as Base open using {EngineFamily};
     -- import tutorial.engines.ticker as Ticker open using {TickerFamily; zeroTicker};
     ```
@@ -26,7 +26,7 @@ tags:
 Below, we use [Juvix](https://docs.juvix.org) to define a sum type to
 index the different engine families.
 
-```juvix
+```
 type AnomaEngineFamilyType :=
   | Ticker
   ;

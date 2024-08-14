@@ -8,7 +8,7 @@ search:
 ??? note "Juvix imports"
 
     ```juvix
-    module node_architecture.engines.types.anoma_protocol;
+    module node_architecture.types.anoma_protocol;
       import tutorial.engines.examples.ticker_protocol_types open;
     ```
 
