@@ -652,6 +652,33 @@ Guards can provide information (similar to pattern-matching) which can then be u
       interlaced with explanatory prose
       and/or documentation in the code.
 
+## Engine family summary
+
+!!! note "On `Engine family summary`"
+
+    Finally,
+    we give an example of the engine family summary.
+
+    Form
+
+    :   Free form, _except_ for the family type definition and an example in Juvix.
+
+    !!! quote "Pseudo-example"
+
+        !!! todo "fix example 👇 (undef!)"
+
+        ```juvix
+        TemplateEngineFamily : Type := undef;
+        ```
+
+        !!! todo "fix example 👇 (undef!)"
+
+        ```juvix
+        module template_engine_family;
+        templateEngineFamilyExample : TemplateEngineFamily := undef;
+        end;
+        ```
+
 <!--
 ### [Action Name ⟨$i$⟩] `{` one such sub-section per guarded action `}`
 
