@@ -5,8 +5,5 @@ search:
   boost: 2
 ---
 
-# SHA3
 
-!!! todo
-
-    Define sha3.
+# Dynamic Code Loading
