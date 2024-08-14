@@ -54,7 +54,7 @@ search:
           the type declaration in its engine environment module.
 
         : A shared type declaration should be be linked _and_ included via
-        [[Include code snippets| snippeting `--8<--`]] in a `!!! quote` environment
+        [[Include code snippets| snippeting `--8<--`]] in a `!!! quote ""` admonition
         (see also [PyMdown Extensions Documentation](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/))—_including the explanation_.[^1]
 
         : The location of the type declaration of a shared type
