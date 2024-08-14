@@ -20,18 +20,16 @@ search:
 !!! note
 
     In this page,
-    we define a set of
-    [[Engine Family Types#guards|guards]]
-    and an
-    [[Engine Family Types#action-function|action function]]
-    to complete the definition of the
-    engine family [engine family name].
+    we complete the definition of the
+    engine family [engine family name] by defining
+    a set of [[Engine Family Types#guards|guards]],
+    an  [[Engine Family Types#action-function|action function]], and
+    a [[Engine Family Types#conflict-resolution|conflict resolution function]].
     Most notably,
-    this involves the definition of
-    action labels
-    and the associated actions that the engine can perform.
+    this involves the definition of action labels[^0]
+    and a descriptiong of the effects of the associated actions.
 
-    ??? note "Short summary of guards and the action function"
+    ??? note "Short summary of guards, the action function, and conflict resolution"
 
         In short,
         the action function computes the effects of actions to be taken,
@@ -57,7 +55,8 @@ search:
     the page contains the code of the action function,
     including code comments;
     however,
-    the most ímportant points should be described in markdown.[^2']
+    the most ímportant points about the code
+    should be described separately.[^2']
 
     Form
 
@@ -67,18 +66,18 @@ search:
 
     : The main goals are two:
 
-    : - an overview of the action lables and guards which should be accessible
-        to a widest possible audience that is understandable
-        after reading the engine environment page up to
-        the end of the message type section;
+    : - an overview of the action labels and guards
+        that should be accessible
+        to a widest possible audience
+        and rely only on those definitions of the engine environment
+        given in the message type section (or earlier);
 
-    : - a documentation of details
-        that are relevant for any implementation
-        (other than the model implementation).
+    : - a documentation of details that are relevant for every implementation
+        (not only the model implementation).
 
     !!! warning "This is really ɪᴍᴘᴏʀᴛᴀɴᴛ!"
 
-        The data of any action label should be
+        The data of an action label should be
         as independent as possible of the engine environment.
         Roughly,
         replacing one eninge implementation with a different one
@@ -141,30 +140,38 @@ search:
     but preferably short
     (as many descriptions will follow).
 
+    !!! quote "Pseudo-example"
+
+        We give actions the structure of serial-parallel graphs
+        such that computation can be parallelized.
+        This involves splitting up the state into several parts
+        and recombine results of what we shall call
+        _action primitives._
+
 ## Action labels
 
 !!! note "On `Action labels`"
 
     We first define a Juvix type of action labels.
-    This type has to be a record type or algebraic data type
+    This type is required to be a record type or an algebraic data type
     for the purposes of the Anoma specification.
     The constructors of this type are called _action tags,_
     in analogy to _message tag._
 
-    ??? note "Action labels determine unique action effects: _∀ label ∃! effect_"
+    ??? info "Action labels determine unique action effects: _∀ label ∃! effect_"
 
         The action label alone has to determine
         the ensuing action effect,
         i.e.,
         how the state is to be updated,
         which list of messages has to be added to the send queue,
-        what set of engines to be spawned,
+        what set of engines is to be spawned, and
         the changes to the timer list of the engine environment.
-        Note that the action tag may take parameters.
+        Note that the action label has arguments that carry non-trivial data.
 
         👉 _The action tag parameters should be "minimal"!_
 
-        Thus,
+        The rule of thumb is that
         for each parameter that you may consider to add to an action label,
         consider to move it to the type of
         [[Engine Dynamics Template#matchable-arguments|matchable arguments]]
@@ -173,56 +180,50 @@ search:
 
     Conceptual structure
 
-    : Each action tag should have a small
-    description of what the effects of the associated action are,
-    in broad terms.
+    :   Each action tag should have a small
+        description of what the effects of the associated action(s) are,
+        in broad terms, and a specific example term of the action label type.
+        Ideally,
+        the action tag alone determines a single action,
+        because the guards should take care of any case distinctions;
+        however, there may be exceptions to the rule.
 
     Form
 
-    :   We first give the Juvix definition of
-        the message label datatype
-        named `[EngineFamilyName]ActionLabel`.
-        Then we have
-        one level three heading `### [Action Tag ⟨i⟩]`
-        for each action tag of the Juvix datatype.
-        Each of those sub-subections, in turn,
-        has
+    :   The form is similar to that of
+        the message datatype of
+        [[Engine Environment Template#messages|engine environments]].
 
-        `#### [Action Tag ⟨i⟩]` level four heading
+    :   - We first give the Juvix code of
+          the action label datatype
+          named `[EngineFamilyName]ActionLabel`.
 
-        :   We first have the code snippet of the constructor,
-            quoting the resepective portion of the Juvix datatype.
-            Then,
-            we have a description in broad terms of the associated action.
-            The action may be structured,
-            for example there may
-            be alternatives or sequences of "sub-actions".
-            If the action has non-trivial structure,
-            the structure of this sub-subsection should reflect
-            the structure of the action.[^3]
-            _There should be not be any case distinctions,
-            as case distinctions should be covered by guards._
-            The description should end with a definition list
-            that explains each of the arguments of the action tag.
-            Finally,
-            we give an example of an action lable term.
+    :   - Then we have
+          one sub-subsection for each action tag of the Juvix datatype,
+          with a level three heading  `### [Action Tag ⟨i⟩]`.
+          In these sub-subections, we have the following.
+          
+          Action tag code snippet
 
-            `##### [Action Tag ⟨i⟩] state update`
+          : We first have the code snippet of the constructor,
+          quoting the resepective portion of the Juvix datatype.
 
-            :   Describe the state update.
+          Description
+          
+          : We describe in broad terms of the associated action.[^3]
 
+          Example term
 
-            `##### [Action Tag ⟨i⟩] messages to be sent`
+          : We give an example term ("wrapped" in a local module).
 
-            :   Describe messages to be sent.
+          Action effects
 
-            `##### [Action Tag ⟨i⟩] engines to be spawned`
-
-            :   Describe engines to be spawned.
-
-            `##### [Action Tag ⟨i⟩] timer updates`
-
-            :   Describe timer updates.
+          : We describe the action effects in more detail,
+          using a definition list for each of the following "terms":
+          state update,
+          messages to be sent,
+          engines to be spawned,
+          timer updates.
 
     Goal
 
@@ -231,20 +232,20 @@ search:
 
     !!! quote "Pseudo-example"
 
-        !!! todo "adapt the peudo-example to match the template"
-
-        Consider the following code.
-
         ```juvix
         type someActionLabel :=
-          | doThis String
+          | -- --8<-- [start:doThis]
+            doThis String
+            -- --8<-- [end:doThis]
           ;
         type anotherActionLabel :=
           | doThat String
         ;
 
         type allLabels :=
-          | doAlternative (Either someActionLabel anotherActionLabel)
+          | -- --8<-- [start:doAlternative]
+            doAlternative (Either someActionLabel anotherActionLabel)
+            -- --8<-- [end:doAlternative]
           | doBoth (Pair someActionLabel anotherActionLabel)
           | doAnotherAction String
         ;
@@ -254,13 +255,43 @@ search:
 
         ### doAlternative
 
-        We do one of the two.
+        !!! quote ""
 
-        #### Either.Left `{` optional `}`
+            --8<-- "./engine_dynamics.juvix.md:doAlternative"
+
+        We perform one of the two altertives,
+         depending on user input and randomness—`coming soon™`.
+
+        ```juvix
+        module do_alternative_example;
+
+        doAlternativeExample : allLabels :=
+          doAlternative (prelude.Left (doThis "do it!"));
+
+        end;
+        ```
+
+        #### Either.Left 
 
         The first alternative does _this._
 
-        #### Either.Right  `{` optional `}`
+        State update
+
+        : Nothing happens.
+
+        Messages to be sent
+
+        : No messages are added to the send queue. 
+
+        Engines to be spawned
+
+        : None.
+
+        Timer updates
+
+        : None.
+
+        #### Either.Right
 
         The other alternative does _that._
 
@@ -564,6 +595,15 @@ Guards can provide information (similar to pattern-matching) which can then be u
 -->
 <!-- footnotes -->
 
+[^0]: The action labels will be relevant to
+      give engine systems a
+      [labelled transition system](https://en.wikipedia.org/?title=Labelled_transition_system&redirect=yes)
+      semantics,
+      which in turn is necessary to be able to check against
+      [temporal logic](https://en.wikipedia.org/wiki/Temporal_logic)
+      properties.
+
+
 [^1]: The specification pages impose
       a linear order on guards / action labels;
       however,
@@ -586,6 +626,11 @@ Guards can provide information (similar to pattern-matching) which can then be u
     Thus,
     you _should_ define action primitives if they naturally arise.
 
-
-[^3]: One way to structure is to have a set of "sub-actions"
-      with a conflict resolution strategy.
+[^3]: The action may be structured,
+for example there may
+be alternatives or sequences of "sub-actions".
+If the action has non-trivial structure,
+the structure of this sub-subsection should reflect
+the structure of the remainder of the sub-section.
+One way to structure is to have a set of "sub-actions"
+with a conflict resolution strategy.
