@@ -24,7 +24,7 @@ The following transaction function virtual machines must be supported:
 !!! todo
 
     Explain abstractly what a resource logic backend does.
-  
+
 Resource logics are encoded with the [standard function encoding](./function_encoding.md).
 
 The following resource logic virtual machines must be supported:

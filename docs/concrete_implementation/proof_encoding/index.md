@@ -10,7 +10,7 @@ type Proof := mkProof {
 ```
 
 | Identifier | Hash function |
-| - | - | 
+| - | - |
 | 0x00 | - (reserved for the future) |
 | 0x01 | - (reserved for the future) |
 

@@ -17,7 +17,7 @@ type Function := mkFunction {
 ```
 
 | Identifier | Virtual machine |
-| - | - | 
+| - | - |
 | 0x00 | - (reserved for the future) |
 | 0x01 | - (reserved for the future) |
 | 0x02 | [Nockma](./nockma.md) |

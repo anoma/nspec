@@ -17,7 +17,7 @@ type Hash := mkHash {
 ```
 
 | Identifier | Hash function |
-| - | - | 
+| - | - |
 | 0x00 | - (reserved for the future) |
 | 0x01 | - (reserved for the future) |
 | 0x02 | [SHA3](./sha3.md)

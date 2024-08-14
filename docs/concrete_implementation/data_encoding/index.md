@@ -17,7 +17,7 @@ type Data = mkData {
 ```
 
 | Identifier | Encoding format |
-| - | - | 
+| - | - |
 | 0x00 | - (reserved for the future) |
 | 0x01 | - (reserved for the future) |
 | 0x02 | [SSZ](./ssz.md) |
