@@ -310,3 +310,7 @@ build/
 *.thy~
 */test.juvix
 .env/
+
+## temporary files
+*~
+theories/
