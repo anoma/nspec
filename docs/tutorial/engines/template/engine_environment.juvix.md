@@ -221,7 +221,7 @@ search:
             ```
 
             : and
-            
+
             ```
             -- --8<-- [end:messageK]
             ```
@@ -233,7 +233,7 @@ search:
 
         Message tag documentation and example
 
-        : The message tag documentation start with a description of 
+        : The message tag documentation start with a description of
         what reactions the receiving engine may perform as a reaction
         in broad terms.
         After this description,
@@ -246,7 +246,7 @@ search:
         explanations of its type
         (with a link to where it is defined—if applicable).
         The documentation of the message tag is
-        followed by an example term with the respective message tag. 
+        followed by an example term with the respective message tag.
 
     Goal
 
@@ -385,7 +385,7 @@ search:
 
         stateOneExample : TemplateMailboxState := stateOne@{
           fieldOne := 1
-        };        
+        };
         end;
         ```
 
