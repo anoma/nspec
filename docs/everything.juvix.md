@@ -11,6 +11,6 @@ search:
 ```juvix
 module everything;
 
-import architecture-2.engines.compute;
-import architecture-2.engines.p2p;
+import node_architecture.engines.compute;
+import node_architecture.engines.p2p;
 ```

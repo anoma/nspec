@@ -1,0 +1,182 @@
+
+'on':
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+      - ready_for_review
+
+env:
+  CI: true
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  INSIDERS_TOKEN: ${{ secrets.INSIDERS_TOKEN }}
+  GIT_COMMITTER_EMAIL: arts@heliax.dev
+  GIT_COMMITTER_NAME: Anoma Research
+  SHOW_TODOS_IN_MD: true
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  repository-projects: write
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Run pre-commit checks
+        uses: pre-commit/action@v3.0.1
+        id: pre-commit
+        with:
+          extra_args: --all-files --show-diff-on-failure
+        continue-on-error: true
+
+      - name: Check for pre-commit changes
+        id: git_diff
+        run: |
+          git diff --exit-code ||  echo "NEED=true" >> "$GITHUB_ENV"
+
+      - if: env.NEED == 'true'
+        run: |
+          git config --global user.name 'Anoma Research'
+          git config --global user.email 'arts@heliax.dev'
+          git add .
+          git commit -m "Fix issues detected by pre-commit"
+          git push
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    concurrency: ci-${{ github.ref }}
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - run: |
+          git config --global user.name 'Anoma Research'
+          git config --global user.email 'arts@heliax.dev'
+
+      - name: comment on PR
+        run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG" || true
+        env:
+          MSG: "The build is in progress. Please wait for the preview link."
+          GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
+
+      - name: Download latest nightly Juvix binary
+        uses: jaxxstorm/action-install-gh-release@v1.9.0
+        with:
+          repo: anoma/juvix-nightly-builds
+          cache: enable
+          rename-to: juvix
+          chmod: 0755
+
+      - uses: actions/cache@v3
+        with:
+          key: juvix-cache-${{ hashFiles('**/*.juvix.md') }}-${{ hashFiles('**/*.juvix') }}
+          path: .juvix-build
+          restore-keys: |
+            juvix-cache-
+
+      - id: juvix-version
+        name: See the dev version in the documentation
+        run: |
+          juvix --version
+
+      - name: typecheck Juvix code
+        run: |
+          juvix typecheck docs/everything.juvix.md || true
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/requirements.txt' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+
+      - name: Install Linux dependencies
+        run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Hooks cache
+        uses: actions/cache@v3
+        with:
+          key: hooks-${{ env.cache_id }}
+          path: .hooks
+          restore-keys: |
+            hooks-
+
+      - name: Build MkDocs
+        run: |
+          mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
+        env:
+          SITE_DIR: pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
+
+      - name: The build failed comment
+        if: failure()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
+
+      - name: Build MkDocs with material insiders version
+        id: material
+        run: |
+          pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
+          mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
+        env:
+          SITE_DIR: pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
+
+      - if: steps.material.outcome == 'failure'
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
+
+      - if: steps.material.outcome == 'success'
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
+          --edit-last --body "Builds using material and material-insiders theme
+          succeed. We are now deploying the preview"
+        continue-on-error: true
+
+      - name: Deploy MkDocs
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          repository-name: anoma/nspec
+          branch: gh-pages
+          folder: pr-${{ github.event.pull_request.number }}
+          target-folder: pr-${{ github.event.pull_request.number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: false
+
+      - name: Success URL preview build comment
+        if: success()
+        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG" || true
+        env:
+          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
+
+      - name: Failed preview build comment
+        if: >-
+          github.event_name == 'pull_request' && failure()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Check the logs." || true
