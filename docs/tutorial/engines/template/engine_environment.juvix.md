@@ -148,6 +148,8 @@ search:
         However,
         somebody will write a small script probably some time soon.
 
+        !!! todo "make this a non-urgent issue"
+
     Goal
 
     : An overview of how data types depend on each other.
@@ -185,84 +187,66 @@ search:
         the default parameter names correspond to the field names of the "embedded" record,
         and the associated types are the types of the respective fields.
 
-
-
-
-    Form
-
-    : First, we have a
-    `!!! note "[EngineFamilyName] message type"` admonition with
-    the juvix type definition,
-    where the type name follows the pattern `[EngineFamilyName]Message`.
-
     !!! question "where to put the actual auxiliary definitions"
 
         Where do we put the type definitions for nontrivial message arguments?
 
-    : Afterwards,
-    we want exactly one level three heading
-    of the form `### [Message constructor]`
-    for each constructor of the message type
-    (or, equivalently, for each message tag).
-    The content of the sub-subsections under
-    those level three headings for each message tag
-    have again three parts:
-    a code snippet,
-    a message tag documentation,
-    and additional remarks.
+    Form
 
-    Form: code snippet
+    :   First, we have a
+        the juvix type definition,
+        where the type name follows the pattern `[EngineFamilyName]Message`.
 
-    : For each message constructor,
-    we should put two "invisible" comments into the juvix record type,
-    namely a pair of lines like
 
-    ```
-    -- --8<-- [start:messageK]
-    ```
+    :   Afterwards,
+        we want exactly one level three heading
+        of the form `### [Message constructor]`
+        for each constructor of the message type
+        (or, equivalently, for each message tag).
+        The content of the sub-subsections under
+        those level three headings for each message tag
+        have again three parts:
+        a code snippet,
+        a message tag documentation,
+        and additional remarks.
 
-    : and
+        Code snippet
 
-    ```
-    -- --8<-- [end:messageK]
-    ```
+        :   For each message constructor,
+            we should put two "invisible" comments into the juvix record type,
+            namely a pair of lines like
 
-    : that embrace the constructor of the $k$-th message;
-      then we can include the very same code by writing
-      `--8<-- "./[engine_family]_engine_environment:messageK"`
-      to obtain the required code fragment.[^2-0]
+            ```
+            -- --8<-- [start:messageK]
+            ```
 
-    Form : message tag documentation
+            : and
+            
+            ```
+            -- --8<-- [end:messageK]
+            ```
 
-    : The message tag documentation start with a description of
-    what reactions the receiving engine may perform as a reaction
-    in broad terms.
-    After this description,
-    we use the syntax of what pandoc calls a
-    [definition list](https://pandoc.org/MANUAL.html#definition-lists)
-    (see also [here](https://stackoverflow.com/q/28057101))
-    where the "terms" are the record fields
-    and the "definitions" are short English language descriptions of
-    the role of the respective parameter—plus optional
-    explanations of its type
-    (with a link to where it is defined—if applicable).
+            that embrace the constructor of the $k$-th message;
+            then we can include the very same code by writing
+            `--8<-- "./[engine_family]_engine_environment:messageK"`
+            to obtain the required code fragment.[^2-0]
 
-    !!! question "How to add actual example code?"
+        Message tag documentation and example
 
-        Each such explanation should be followed by
-        an example instance of the message in juvix.
-        How to best do this? If nothing better,
-        we can have code snippeting into
-        an auxiliary module/page that has all such
-        "explanatory" code.
-
-    Form: additional comments `{` optional `}`
-
-    : You may provide additional information,
-    e.g., design choices, explanation of the naming process, etc.
-    This is in the form of a `??? note "[something to remember]"`
-    or a `!!! note "[something to remember]"`,
-    and similarly for `tip` and `warning`.
+        : The message tag documentation start with a description of 
+        what reactions the receiving engine may perform as a reaction
+        in broad terms.
+        After this description,
+        we use the syntax of what pandoc calls a
+        [definition list](https://pandoc.org/MANUAL.html#definition-lists)
+        (see also [here](https://stackoverflow.com/q/28057101))
+        where the "terms" are the record fields
+        and the "definitions" are short English language descriptions of
+        the role of the respective parameter—plus optional
+        explanations of its type
+        (with a link to where it is defined—if applicable).
+        The documentation of the message tag is
+        followed by an example term with the respective message tag. 
 
     Goal
 
@@ -272,39 +256,37 @@ search:
 
     !!! quote "Pseudo-example"
 
-        !!! note "Template engine message type"
+        ```juvix
+        syntax alias MethodOneArgOne := Nat;
 
-            ```juvix
-            syntax alias MethodOneArgOne := Nat;
+        syntax alias MethodOneArgTwo := Nat;
 
-            syntax alias MethodOneArgTwo := Nat;
+        syntax alias MethodOneArgThree := Nat;
 
-            syntax alias MethodOneArgThree := Nat;
+        syntax alias MethodTwoArgOne := Nat;
 
-            syntax alias MethodTwoArgOne := Nat;
+        syntax alias MethodFourArgOne := Unit;
 
-            syntax alias MethodFourArgOne := Unit;
+        syntax alias MethodFourArgTwo := Unit;
 
-            syntax alias MethodFourArgTwo := Unit;
-
-            type TemplateMessage :=
-              | -- --8<-- [start:messageOne]
-                messageOne {
-                  argOneOne : MethodOneArgOne;
-                  argTwo : MethodOneArgTwo;
-                  argThree : MethodOneArgThree
-                }
-                -- --8<-- [end:messageOne]
-              | messageTwo {
-                  argOne : MethodTwoArgOne
-              }
-              | messageThree {}
-              | messageFour {
-                  argOne : MethodFourArgOne;
-                  argTwo : MethodFourArgTwo
-                }
-              ;
-            ```
+        type TemplateMessage :=
+          | -- --8<-- [start:messageOne]
+            messageOne {
+              argOneOne : MethodOneArgOne;
+              argTwo : MethodOneArgTwo;
+              argThree : MethodOneArgThree
+            }
+            -- --8<-- [end:messageOne]
+          | messageTwo {
+              argOne : MethodTwoArgOne
+          }
+          | messageThree {}
+          | messageFour {
+              argOne : MethodFourArgOne;
+              argTwo : MethodFourArgTwo
+            }
+          ;
+        ```
 
         ### messageOne
 
@@ -315,6 +297,17 @@ search:
         If an [engine family name] receives a messageOne-message,
         it will store argTwo,
         if argOne and argThree satisfy some properties.
+
+        ```juvix
+        module message_one_example;
+           example_message_one : TemplateMessage := messageOne@{
+            argOneOne := 1;
+            argTwo := 2;
+            argThree := 3
+           };
+        end;
+        ```
+
 
         argOne
 
@@ -329,23 +322,17 @@ search:
         : This is the last argument and here we actually
           can describe more detail about the property about `argOne` and `argThree` mentioned above
 
-        ```juvix
-        module message_one_example;
-           example_message_one : TemplateMessage := messageOne@{
-            argOneOne := 1;
-            argTwo := 2;
-            argThree := 3
-           };
-        end;
-        ```
-
         ### messageTwo
+
+        [...]
 
         ### messageThree
 
+        [...]
+
         ### messageFour
 
-    !!! todo "does this ☝️ make sense to fill in?"
+        [...]
 
 ## Mailbox states
 
@@ -385,16 +372,30 @@ search:
         ;
         ```
 
-        ### state One
+        ### stateOne
 
         !!! quote ""
 
             --8<-- "./engine_environment.juvix.md:stateOne"
 
-        stateOne
+        This is one of the mailbox types without much detail.
+
+        ```juvix
+        module state_one_example;
+
+        stateOneExample : TemplateMailboxState := stateOne@{
+          fieldOne := 1
+        };        
+        end;
+        ```
+
+        fieldOne
 
         : A Nat is a Nat is a Nat.
 
+        ### stateTwo
+
+        [...]
 
 ## Local state
 
@@ -498,25 +499,26 @@ search:
 
         The first kind of timer handle.
 
+        ```juvix
+        module handle_one_example;
+
+        handleOneExample : TemplateTimerHandle := timerHandleOne@{
+          argOne := 7;
+        };
+        end;
+        ```
+
         argOne
 
         : This is argument №1.
 
         ### timerHandleTwo
 
-        The other kind of timer handle.
-
-        argOne
-
-        : This is argument №1, but of the other kind of timer handle.
-
-        argTwo
-
-        : The second argument is true or false.
+        [...]
 
         ### timerHandleTwo
 
-        A timer handle w/o arguments.
+        [...]
 
 ## Environment summary
 
@@ -537,16 +539,15 @@ search:
         there is nothing to explain in the template
         as the code is self-explanatory.
 
-        !!! Note "Template environment type"
 
-            ```juvix
-            TemplateEnvironment : Type :=
-              EngineEnvironment
-              TemplateLocalState
-              TemplateMessage
-              TemplateMailboxState
-              TemplateTimerHandle;
-            ```
+        ```juvix
+        TemplateEnvironment : Type :=
+          EngineEnvironment
+          TemplateLocalState
+          TemplateMessage
+          TemplateMailboxState
+          TemplateTimerHandle;
+        ```
 
 
 <!-- footnotes -->
