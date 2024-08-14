@@ -25,3 +25,11 @@ tags:
       - [[Ticker Engine Environment]]
       - [[Ticker Engine Dynamics]]
       - [[Ticker Engine Protocol Types]]
+
+??? todo "check out whether we need code or move to plain md"
+
+    For the moment, we define the empty module here
+    for seemingly no good reason.
+    ```juvix
+    module tutorial.engines.index;
+    ```
