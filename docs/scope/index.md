@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+icon: material/earth-box
 search:
   exclude: false
   boost: 2
@@ -13,5 +13,8 @@ The scope defines the basic conceptual model on the basis of which the protocol 
 
 The scope section is split into two sub-sections:
 
-- [World model](./world-model.md) describes the basic conceptual model on the basis of which the protocol operates.
-- [Protocol desiderata](./protocol-desiderata.md) describes the high-level functionality which the protocol aims to provide.
+- [World model](./world_model.md) describes the world context in which the
+  protocol is designed to operate.
+- [Protocol desiderata](./protocol_desiderata.md) describes what it is
+  that the protocol must do.
+

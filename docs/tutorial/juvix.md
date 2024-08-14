@@ -2,17 +2,19 @@
 icon: material/keyboard
 tags:
     - Juvix
+category:
+    - tutorial
 ---
 
-
-
-# Juvix Code
+# Include Juvix code
 
 Another feature of the Anoma documentation is the inclusion of Juvix code
-throughout its Markdown support. A Juvix Markdown file is a file with extension
-`.juvix.md`. These files are preprocesses by the Juvix compiler to generate the
-final Markdown file. Only the code blocks with the `juvix` language tag are
-processed by the Juvix compiler.
+throughout its Markdown support. Here we assume you have
+[Juvix](https://docs.juvix.org) already installed.
+
+A Juvix Markdown file is a file with extension `.juvix.md`. These files are
+preprocesses by the Juvix compiler to generate the final Markdown file. For this
+website, we are using `mkdocs-juvix-plugin`.
 
 Very important to note is that the first Juvix code block must declare a module
 with the name of the file, and each block should be a sequence of well-defined
@@ -50,7 +52,3 @@ module B;
 module C;
 -- ...
 ```</code></pre>
-
-
-
-!!! tip

@@ -16,12 +16,6 @@
                   buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools ];
                 }
               );
-            mkdocs-ezglossary-plugin = super.mkdocs-ezglossary-plugin.overridePythonAttrs
-              (
-                old: {
-                  buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools ];
-                }
-              );
             mkdocs-git-committers-plugin-2 = super.mkdocs-git-committers-plugin-2.overridePythonAttrs
               (
                 old: {

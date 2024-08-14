@@ -1,11 +1,27 @@
 ---
 icon: material/format-textbox
+search:
+  exclude: false
+tags:
+    - guidelines
+    - documentation
 ---
 
-# Basic guidelines for writing documentation
+# Tutorials and guidelines for writing Anoma Specification documentation
 
-!!! info "Documentation Guidelines"
+The following tutorials and guidelines are available. If you want to contribute
+to this website in anyhow, ask for access to the
+**[anoma/nspec](http://github.com/anoma/nspec)** repository, and submit a pull
+request with your changes.
 
-    This section provides a set of guidelines for writing documentation for the Anoma Specification. The guidelines are intended to help contributors to create a consistent, high-quality document that is easy to read and navigate.
+{@@ set nav_dict = nav_to_dict(navigation) @@}
 
-Contribute to this guide by submitting a pull request to the **[anoma/nspec](http://github.com/anoma/nspec)** repository.
+{@@ for dict in nav_dict @@}
+{@@ if dict and 'title' in dict and dict.title == "Tutorials for contributors" @@}
+
+{@@ for chapter in dict.children @@}
+- [[ {@ chapter.title @} ]]
+{@@ endfor @@}
+
+{@@ endif @@}
+{@@ endfor @@}

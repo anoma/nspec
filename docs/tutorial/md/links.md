@@ -9,7 +9,7 @@ tags:
 todos: False
 ---
 
-## Wiki links
+# Support for Wiki Links
 
 Wiki links offer a simple method for citing and referencing other pages in the
 documentation without lengthy URLs. **Wiki links are the preferred method for
@@ -32,7 +32,7 @@ possible.
 
     `hintpath/to` is the path (or prefix) to the file, and `anchor` is the optional anchor within the page. The `Custom caption` is the optional text to display in place of the page title.
 
-### Wiki link Syntax Examples
+## Syntax examples
 
 - Basic wiki link:
 
