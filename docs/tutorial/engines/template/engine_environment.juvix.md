@@ -18,12 +18,6 @@ search:
     The naming scheme for the module, after the path,
     is `[engine_family_name]_engine_environment`.
 
-!!! todo "fix the location of the module declaration"
-
-    The modules of the actual specification
-    should certainly ɴᴏᴛ reside in the tutorial folder!
-
-
 # [Engine Family Name] Environment
 
 !!! note "On `[Engine Family Name] Environment`"
@@ -53,9 +47,10 @@ search:
           at least one other engine family is directly ímporting
           the type declaration in its engine environment module.
 
-        : A shared type declaration should be be linked _and_ included via
+        : A shared type declaration should be included via
         [[Include code snippets| snippeting `--8<--`]] in a `!!! quote ""` admonition
-        (see also [PyMdown Extensions Documentation](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/))—_including the explanation_.[^1]
+        (see also [PyMdown Extensions Documentation](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/))—_including the explanation_
+        (and a link to the original may be useful).
 
         : The location of the type declaration of a shared type
         is either
@@ -141,15 +136,6 @@ search:
     at the end, we eventually want some rendering of the code dependencies
     (in particular if they can be automatically generated).
 
-    !!! question "Can we haz code dependency diagram?"
-
-        If only we had
-        [something like this](https://www.jetbrains.com/guide/java/tutorials/analyzing-dependencies/dependency-diagram/).
-        However,
-        somebody will write a small script probably some time soon.
-
-        !!! todo "make this a non-urgent issue"
-
     Goal
 
     : An overview of how data types depend on each other.
@@ -187,15 +173,11 @@ search:
         the default parameter names correspond to the field names of the "embedded" record,
         and the associated types are the types of the respective fields.
 
-    !!! question "where to put the actual auxiliary definitions"
-
-        Where do we put the type definitions for nontrivial message arguments?
-
     Form
 
-    :   First, we have a
-        the juvix type definition,
-        where the type name follows the pattern `[EngineFamilyName]Message`.
+    :   First, we have a hidden note `??? note "Auxiliary Juvix code"`
+        followed by a juvix code block that gives the Juvix type;
+         the type name follows the pattern `[EngineFamilyName]Message`.
 
 
     :   Afterwards,
@@ -207,7 +189,7 @@ search:
         those level three headings for each message tag
         have again three parts:
         a code snippet,
-        a message tag documentation,
+        a message tag documentation that concludes with an example,
         and additional remarks.
 
         Code snippet
@@ -256,19 +238,18 @@ search:
 
     !!! quote "Pseudo-example"
 
+        ??? note "Auxiliary Juvix code"
+
+            ```juvix
+            syntax alias MethodOneArgOne := Nat;
+            syntax alias MethodOneArgTwo := Nat;
+            syntax alias MethodOneArgThree := Nat;
+            syntax alias MethodTwoArgOne := Nat;
+            syntax alias MethodFourArgOne := Unit;
+            syntax alias MethodFourArgTwo := Unit;
+            ```
+
         ```juvix
-        syntax alias MethodOneArgOne := Nat;
-
-        syntax alias MethodOneArgTwo := Nat;
-
-        syntax alias MethodOneArgThree := Nat;
-
-        syntax alias MethodTwoArgOne := Nat;
-
-        syntax alias MethodFourArgOne := Unit;
-
-        syntax alias MethodFourArgTwo := Unit;
-
         type TemplateMessage :=
           | -- --8<-- [start:messageOne]
             messageOne {
@@ -311,7 +292,7 @@ search:
 
         argOne
 
-        : “This is `argOne`” is almost self-referential.
+        : The `argOne` is almost self-explanatory, but we need to talk about it.
 
         argTwo
 
@@ -350,7 +331,11 @@ search:
     : A record type and explanatory prose for each constructor;
       the explanatory prose is succeeding the type definition.
       The form is similar to that for
-      [[Engine Environment Template#messages|messages]].
+      [[Engine Environment Template#messages|messages]];
+      in particular,
+      the sections starts with a note `??? note "Auxiliary Juvix code"`
+      that contains any auxiliary definitions.
+      
 
     Goal
 
@@ -359,16 +344,22 @@ search:
 
     !!! quote "Pseudo-example"
 
-        ```juvix
-        syntax alias MailboxOneOne := Nat;
-        syntax alias MailboxTwoOne := String;
-        syntax alias MailboxTwoTwo := Bool;
+        ??? note "Auxiliary Juvix code"
 
+            ```juvix
+            syntax alias MailboxOneOne := Nat;
+            syntax alias MailboxTwoOne := String;
+            syntax alias MailboxTwoTwo := Bool;
+            ```
+
+        ```juvix
         type TemplateMailboxState :=
         | -- --8<-- [start:stateOne]
           stateOne { fieldOne : MailboxOneOne }
           -- --8<-- [end:stateOne]
-        | stateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
+        | -- --8<-- [start:stateTwo]
+          stateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
+          -- --8<-- [end:stateTwo]
         ;
         ```
 
@@ -378,7 +369,7 @@ search:
 
             --8<-- "./engine_environment.juvix.md:stateOne"
 
-        This is one of the mailbox types without much detail.
+        This is one family of mailbox states without much complexity.
 
         ```juvix
         module state_one_example;
@@ -407,10 +398,13 @@ search:
 
     Form
 
-    : First, the local state is described in broad terms;
-    the informal description is  followed
-    by either a new definition of the type in Juvix,
-    or a snippet with a link where it is defined.
+    : First, the local state is described in broad terms
+    (different than in the other sections).
+    The informal description is followed
+    by either a new definition of the type in Juvix
+    (or a snippet with a link where it is defined);
+    any auxiliary code is given in a
+    `??? note "Auxiliary Juvix code"` admonition.
     Finally, we want to describe all data items
     and also the data structures used
     in English language;
@@ -419,18 +413,25 @@ search:
 
     Goal
 
-    : Besides documentation for each data item, we also require links to
+    : Besides documentation for each data item,
+    the reader may follow links to
     descriptions of data structures
-    (beyond the most basic one like trees, hash maps, etc.),
-    unless they are defined in the Juvix standard library;
-    links to descriptions may be sufficient in many cases.
+    (beyond the most basic one like trees, hash maps, etc.
+    and those defined in the Juvix standard library).
 
-    !!! quote "Pseudo-example (that's a little less pseudo and more example)"
+    !!! quote "Pseudo-example"
 
         We use [Fibonacci heaps](https://en.wikipedia.org/wiki/Fibonacci_heap)
         to keep track of tasks to be performed.
         Note that we use [Borsh](https://borsh.io/)
         for deserialisation of Fibonacci heaps.
+
+        ??? note "Auxiliary Juvix code"
+
+            ```juvix
+            someComplicatedFunction : Type -> Type := undef;
+            SomeAuxiliaryDataType : Type := undef;
+            ```
 
         ```juvix
         type FakeFibonacciHeap := mkFakeFibonacciHeap {
@@ -445,33 +446,21 @@ search:
         stringRepresentation
 
         : This is a representation of the Fibonacci heap,
-        using Borsh.
-<!--ᚦ:
-!!! example
-
-    We use the state of the time stamping server
-    to store the rate limit
-    (that we assume to be static for the sake of simplicity).
-
-
-    `juvix`
-    ```
-    TimeStampingServerState := Nat;
-    ```
--->
+        using [Borsh](https://borsh.io/).
 
 ## Timer handles
 
 !!! note "On `Timer handles`"
 
-    If a timer carries some information,
-    it will carry it as part of its _handle,_
+    This section is about the type of timer handles.
+    Recall that a timer may carry some information
+     as part of its _handle,_
     e.g., about the context in which it was set.
 
     Form
 
     : A juvix data type plus documentation.
-    This is similar to
+    The form is mirroring that of
     [[Engine Environment Template#messages|messages]].
 
     Goal
@@ -481,10 +470,16 @@ search:
 
     !!! quote "Pseudo-example"
 
+        ??? note "Auxiliary Juvix code"
+
+            ```juvix
+            syntax alias ArgOne := Nat;
+            ```
+    
         ```juvix
         type TemplateTimerHandle :=
         | -- --8<-- [start:handleOne]
-          timerHandleOne { argOne : Nat }
+          timerHandleOne { argOne : ArgOne }
           -- --8<-- [end:handleOne]
         | timerHandleTwo { argOne : String; argTwo : Bool }
         | timerHandleThree {
@@ -531,7 +526,9 @@ search:
 
     Form
 
-    : free form, _except_ for the datatype definition and an example in Juvix at the end.
+    : This section is free form,
+      _except_ for the datatype definition and
+      an example in Juvix at the end.
 
     !!! quote "Pseudo-example"
 
@@ -559,9 +556,6 @@ search:
 
 <!-- footnotes -->
 
-[^1]: The main reason for the linking is that we do not have syntax highlighting, yet
-    (and that it does not hurt to have a section title for each type definition).
-
 [^2]: Thus, any messages that cannot be interpreted as
     terms of this type are simply dropped.
 
@@ -571,8 +565,9 @@ search:
   the message tag (at least within this engine family).
 
 
-[^2-0]: The syntax highlighting is lost for the moment.
-
+[^2-0]: There is no syntax highlighting, yet,
+        but we want snippeting to help reach consistency
+        and avoid copy and paste errors.
 
 [^3]: The purpose of timers should be explained already
       in the engine overview in broad terms.
