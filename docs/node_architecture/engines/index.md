@@ -65,9 +65,9 @@ families.
     --8<-- "node_architecture/types/anoma_environment.juvix.md"
 
 ??? info "AnomaDynamics"
-    
+
     --8<-- "node_architecture/types/anoma_dynamics.juvix.md"
 
 ??? info "AnomaProtocol"
-    
+
     --8<-- "node_architecture/types/anoma_protocol.juvix.md"

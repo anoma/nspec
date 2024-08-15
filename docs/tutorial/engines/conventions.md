@@ -14,7 +14,7 @@ tags:
 - **Engine files and folders**: Named in lowercase using `snake_case` format.
 - **File extension**: Files with overview, environment, and dynamics content
   must end with the `.juvix.md` extension. These files must be written in
-  [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]]. 
+  [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]].
 
 - **File naming prefix**: The engine family's name is used as a prefix for all
   files related to the engine family in use. For example, the `Ticker` engine
@@ -61,7 +61,7 @@ import node_architecture.engines.ticker open;
 ```
 
 As final requirement, you must add the engine family to the
-`docs/everything.juvix.md` file in the "Engines" section. That is, 
+`docs/everything.juvix.md` file in the "Engines" section. That is,
 if the engine family is the `ticker`, you would add the following line to the file, for example
 
 ```diff
