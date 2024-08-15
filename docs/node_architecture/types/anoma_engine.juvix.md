@@ -32,5 +32,5 @@ type AnomaEngineFamilyType :=
   ;
 ```
 
-Using the name of the engine family, we can fine all the Juvix modules related to the engine family.
+Using the name of the engine family, we can find all the Juvix modules related to the engine family.
 For example, the `X` engine family is defined in the `node_architecture.engines.X` module.
