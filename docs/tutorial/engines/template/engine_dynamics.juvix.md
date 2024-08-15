@@ -220,7 +220,8 @@ search:
           state update,
           messages to be sent,
           engines to be spawned,
-          timer updates.
+          timer updates,
+          acquaintance update.
 
     Goal
 
@@ -291,6 +292,10 @@ search:
         : We set a timer for 10 seconds to check up on the spawned engine
           (although that should not be necessary as
            it will send messages as the first thing after spawning).
+
+        Acquaintance updates
+
+        : None
 
         #### Either.Right
 

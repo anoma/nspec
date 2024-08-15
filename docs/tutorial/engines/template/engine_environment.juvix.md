@@ -550,7 +550,15 @@ search:
 
         ```juvix
         module template_environment_example;
-        templateEnvironmentExample : TemplateEnvironment := undef;
+        templateEnvironmentExample : TemplateEnvironment :=
+          mkEngineEnvironment@ {
+            name := undef; -- Name
+            localState := undef; -- S
+            mailboxCluster := undef; -- Map MailboxID (Mailbox I M);
+            acquaintances := undef; -- Set Name
+            timers := [] -- List (Timer H)
+          }
+        ;         
         end;
         ```
 
