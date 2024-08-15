@@ -12,11 +12,11 @@ search:
     the engine family [engine family name].
 
     Form
-        
+
     :   The form is given by this template.
-    
+
     Goal
-    
+
     :   The goal is a page that is accessible to engineering and research alike.
 
 ## Purpose
@@ -58,7 +58,7 @@ search:
 
 !!! note "On `Message sequence diagrams`"
 
-    This section contains one or several sub-sections, 
+    This section contains one or several sub-sections,
     each of which present
     one message sequence diagram that showcases how
 	members of the engine family [engine family name] exchange messages
@@ -71,7 +71,7 @@ search:
 	:     Each subsection of the
     `Message sequence diagrams` section
     has a level three heading
-    ```### [Title of message sequence diagram ⟨𝑖⟩]``` 
+    ```### [Title of message sequence diagram ⟨𝑖⟩]```
     that contains a message sequence diagram of
     engine family [engine family name][^01]
     with a title and caption.
@@ -90,7 +90,7 @@ search:
         ### Forwarding from X to Y
 
         <figure markdown="span">
-        
+
         ```mermaid
         %%{initialize: {'mirrorActors': false} }%%
         sequenceDiagram
@@ -100,9 +100,9 @@ search:
             X -) E: messageFromX(argOne, argTwo, argThree )
             E -) Y: messageToY(arg, arg')
         ```
-        
+
         <figcaption markdown="span">
-        
+
         An [engine family name] interacting with an X and a Y,
         such that Y is informed about something that has happened at X
         (but without having X's identity revealed).
