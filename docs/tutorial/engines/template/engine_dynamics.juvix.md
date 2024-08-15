@@ -391,7 +391,7 @@ search:
         ```juvix
         module some_thing_from_a_mailbox;
           someThingFromAMailboxExample : TemplateMatchableArgument :=
-            someThingFromAMailbox "Hello World!";               
+            someThingFromAMailbox "Hello World!";
         end;
         ```
 
@@ -635,7 +635,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
     In many cases,
     the conflict relation can be stated no the level
     of action tags.
-    The default is the lexicographical ordering. 
+    The default is the lexicographical ordering.
 
     !!! info "This is about actions!"
 
@@ -674,7 +674,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
     !!! quote "Pseudo-example"
 
         The action function amounts to one single
-        case statement. 
+        case statement.
 
         !!! todo "fix code"
 
