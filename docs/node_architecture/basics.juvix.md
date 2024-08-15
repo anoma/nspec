@@ -9,7 +9,7 @@ tags:
 ---
 
 ??? quote "Imports"
-        
+
     ```juvix
     module node_architecture.basics;
     import prelude open public;
@@ -58,7 +58,7 @@ identity of an entity within the network.
 Identity : Type := Pair ExternalID InternalID;
 ```
 
-### Name 
+### Name
 
 A name could be a simple string without any particular meaning in the system or
 an external identity.
@@ -69,9 +69,9 @@ Name : Type := Either String ExternalID;
 
 ### Address
 
-An address is a name used for forwarding messages to the correct destination. 
+An address is a name used for forwarding messages to the correct destination.
 
-```juvix  
+```juvix
 syntax alias Address := Name;
 ```
 

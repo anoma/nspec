@@ -8,7 +8,7 @@ tags:
 ---
 
 ??? quote "Imports"
-        
+
     ```juvix
     module prelude;
     import Stdlib.Trait open public;
@@ -18,7 +18,7 @@ tags:
 
 The following are frequent and basic abstractions used in the Anoma
 specification. Most of them are defined in the Juvix standard library and are
-used to define more complex types in the Anoma Specification. 
+used to define more complex types in the Anoma Specification.
 
 ## Nat
 
