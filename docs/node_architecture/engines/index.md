@@ -60,14 +60,19 @@ Juvix for the Anoma Specification. Please be aware that not all engine families
 are listed here, and the specification is continually expanding with new engine
 families.
 
+
+??? info "AnomaEngine"
+
+    --8<-- "./docs/node_architecture/types/anoma_engine.juvix.md"
+
 ??? info "AnomaEnvironment"
 
-    --8<-- "node_architecture/types/anoma_environment.juvix.md"
+    --8<-- "./docs/node_architecture/types/anoma_environment.juvix.md"
 
 ??? info "AnomaDynamics"
 
-    --8<-- "node_architecture/types/anoma_dynamics.juvix.md"
+    --8<-- "./docs/node_architecture/types/anoma_dynamics.juvix.md"
 
 ??? info "AnomaProtocol"
 
-    --8<-- "node_architecture/types/anoma_protocol.juvix.md"
+    --8<-- "./docs/node_architecture/types/anoma_protocol.juvix.md"
