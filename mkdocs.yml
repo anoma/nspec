@@ -50,12 +50,8 @@ nav:
       - Modules: ./node_architecture/modules/index.md
       - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
       - Engine Families Presentation:
-        - ./node_architecture/engines/index.juvix.md
+        - ./node_architecture/engines/index.md
         - Engine Family Types: ./node_architecture/types/engine_family.juvix.md
-        - Engine Family Environment: ./node_architecture/types/anoma_environment.juvix.md
-        - Engine Family Dynamics: ./node_architecture/types/anoma_dynamics.juvix.md
-        - Engine Family Protocol Types: ./node_architecture/types/anoma_protocol.juvix.md
-        - Anoma Engine Families: ./node_architecture/types/anoma_engine.juvix.md
 
       - Hardware Abstraction Machine:
         - ./node_architecture/hardware_abstraction/index.md

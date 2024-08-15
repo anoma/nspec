@@ -1,5 +1,0 @@
-module tutorial.engines.ticker;
-  import node_architecture.engines.ticker_environment open public;
-  import node_architecture.engines.ticker_dynamics open public;
-  import node_architecture.engines.ticker_protocol_types open public;
-

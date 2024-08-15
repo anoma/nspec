@@ -18,39 +18,9 @@ tags:
 
 # Engine Family Types
 
-## Core types and concepts
-
 This page highlights the essential types and concepts of an engine family in the
 Anoma Specification, specifically focusing on writing these families in
 [Juvix](https://docs.juvix.org).
-
-Each engine family must declare specific _components_ that each of its member
-engine instances will have. For Anoma specifications, the components are:
-
-*Engine Environment*
-
-:   This serves as the execution context for engines. In addition to the local
-    state, the engine environment encompasses elements such as the mailbox
-    cluster owned by an engine instance and a finite set of acquaintances—other
-    engine instances known to the current one that can interact with it.
-
-*Action Function*
-
-:   The function that describes all possible ways in which engines can act, by
-    changing their environment, sending messages, spawning new engine instances,
-    and update their list of active timers.
-
-*Guards*
-
-:   The finite set of guard functions that describe the conditions under which
-    the local state of the engine's instance should change by invoking the action
-    function.
-
-*Conflict Solver*
-
-:   The function that resolves conflicts between actions to maximize their
-    concurrency.
-
 
 ### Engine family environment
 
@@ -122,19 +92,8 @@ and how the list of timers is updated.
 
 ```juvix
 Guard (I H S M A L X : Type) : Type :=
-  Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
+  TimestampedTrigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
 ```
-
-
-<!--ᚦleft here for the moment¶
-#### Actions
-
-The output of a guard is input for the action function.
-
-- An _action_ of type `Action S I M H A L X O C`, where the new type parameters `O`
-  denote the type of outgoing messages, and `C` signifies the type encoding the engine
-  instances to be created.
--->
 
 #### Action Function
 
@@ -168,8 +127,7 @@ type ActionInput (S I M H A L X : Type)
   := mkActionInput {
       guardOutput : GuardOutput A L X;
       env : EngineEnvironment S I M H;
-      trigger : Trigger I H;
-      time : Maybe Time
+      trigger : TimestampedTrigger I H;
 };
 ```
 
@@ -251,7 +209,7 @@ that if applied to this element,
 it returns the one element list of the set itself.
 
 ```
-resolveConflicts : Set A -> List (Set A);
+conflictSolver : Set A -> List (Set A);
 ```
 
 ## Engine families and instances
@@ -266,7 +224,7 @@ data by the guard functions, and a type for outgoing messages.
 type EngineFamily (S I M H A L X O C : Type) := mkEngineFamily {
   guards : Set (Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X));
   action : ActionInput S I M H A L X -> Maybe (ActionEffect S I M H A L X O C);
-  resolveConflicts : Set A -> List (Set A);
+  conflictSolver : Set A -> List (Set A);
 };
 ```
 
@@ -284,8 +242,6 @@ type EngineFamily (S I M H A L X O C : Type) := mkEngineFamily {
     to resolve unwanted non-determinism.
 
 !!! todo "rework/adapt the rest of this page"
-
-!!! todo "Do we really need the `Engine` type?"
 
 Additionally, we define the `Engine` type, which represents an engine within a family.
 A term of this `Engine` type is referred to as an engine instance. Each engine instance
