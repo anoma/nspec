@@ -25,11 +25,9 @@ tags:
           Engine;
           EngineEnvironment;
           EngineFamily;
-          mkActionResult;
           mkEngine;
           mkEngineEnvironment;
-          mkEngineFamily;
-          mkGuardedAction
+          mkEngineFamily
       };
     open EngineFamily.EngineEnvironment;
     import node_architecture.engines.ticker_environment open public;

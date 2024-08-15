@@ -11,20 +11,34 @@ tags:
 
 ## Naming
 
+<div class="annotate" markdown>
+
 - **Engine files and folders**: Named in lowercase using `snake_case` format.
+
 - **File extension**: Files with overview, environment, and dynamics content
   must end with the `.juvix.md` extension. These files must be written in
-  [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]].
+  [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]]. (1)
 
 - **File naming prefix**: The engine family's name is used as a prefix for all
   files related to the engine family in use. For example, the `Ticker` engine
   family would have the following files, all prefixed with `ticker`:
 
-    - `ticker_overview.md`
+    - `ticker_overview.juvix.md`
     - `ticker_environment.juvix.md`
     - `ticker_dynamics.juvix.md`
     - `ticker_protocol_types.juvix.md`
     - `ticker.juvix`
+
+</div>
+
+
+1. Each file must have one code block at least, one declaring the Juvix module.
+  For example if the file is `ticker_overview.juvix.md`, it must have the
+  following code block:
+
+    ```
+    module node_architecture.engines.ticker_overview;
+    ```
 
 ## File structure within the `engines` directory
 
