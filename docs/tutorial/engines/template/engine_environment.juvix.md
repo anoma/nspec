@@ -558,7 +558,7 @@ search:
             acquaintances := undef; -- Set Name
             timers := [] -- List (Timer H)
           }
-        ;         
+        ;
         end;
         ```
 
