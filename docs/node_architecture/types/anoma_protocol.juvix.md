@@ -5,11 +5,11 @@ search:
   boost: 2
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.types.anoma_protocol;
-      import tutorial.engines.examples.ticker_protocol_types open;
+      import node_architecture.engines.ticker_protocol_types open;
     ```
 
 # Anoma Engine Protocol Types

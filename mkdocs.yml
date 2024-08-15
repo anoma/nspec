@@ -431,10 +431,10 @@ nav:
       - Engine Protocol Types Template: ./tutorial/engines/template/template_protocol_types.juvix.md
     - Examples:
       - Ticker Engine Family:
-        - Ticker Engine Overview: ./tutorial/engines/examples/ticker_overview.md
-        - Ticker Engine Environment: ./tutorial/engines/examples/ticker_environment.juvix.md
-        - Ticker Engine Dynamics: ./tutorial/engines/examples/ticker_dynamics.juvix.md
-        - Ticker Engine Protocol Types: ./tutorial/engines/examples/ticker_protocol_types.juvix.md
+        - Ticker Engine Overview: ./node_architecture/engines/ticker_overview.md
+        - Ticker Engine Environment: ./node_architecture/engines/ticker_environment.juvix.md
+        - Ticker Engine Dynamics: ./node_architecture/engines/ticker_dynamics.juvix.md
+        - Ticker Engine Protocol Types: ./node_architecture/engines/ticker_protocol_types.juvix.md
 
 extra:
   social:

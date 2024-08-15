@@ -25,9 +25,9 @@ JUVIX_FILES_TO_ISABELLE := \
    ./docs/prelude.juvix.md \
    ./docs/node_architecture/basics.juvix.md \
    ./docs/node_architecture/types/engine_family.juvix.md \
-   ./docs/tutorial/engines/examples/ticker_environment.juvix.md \
-   ./docs/tutorial/engines/examples/ticker_dynamics.juvix.md \
-   ./docs/tutorial/engines/examples/ticker_overview.juvix.md
+   ./docs/node_architecture/engines/ticker_environment.juvix.md \
+   ./docs/node_architecture/engines/ticker_dynamics.juvix.md \
+   ./docs/node_architecture/engines/ticker_overview.juvix.md
 
 JUVIX_TO_ISABELLE := $(JUVIX) --only-errors isabelle
 ISABELLE_OUTPUT_DIR := ./docs/theories

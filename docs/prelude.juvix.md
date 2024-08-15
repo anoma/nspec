@@ -7,8 +7,8 @@ tags:
 - Juvix-Prelude
 ---
 
-??? quote "Imports"
-
+??? info "Juvix imports"
+        
     ```juvix
     module prelude;
     import Stdlib.Trait open public;

@@ -18,7 +18,7 @@ tags:
 ??? info "Juvix imports"
 
     ```juvix
-    module tutorial.engines.examples.ticker_overview;
+    module node_architecture.engines.ticker_overview;
       import node_architecture.basics open;
       import node_architecture.types.engine_family as EngineFamily;
       open EngineFamily using {
@@ -32,8 +32,8 @@ tags:
           mkGuardedAction
       };
     open EngineFamily.EngineEnvironment;
-    import tutorial.engines.examples.ticker_environment open public;
-    import tutorial.engines.examples.ticker_dynamics open public;
+    import node_architecture.engines.ticker_environment open public;
+    import node_architecture.engines.ticker_dynamics open public;
     ```
 
 # Ticker Family Engine
@@ -51,13 +51,13 @@ state initialises the counter.
 
     Source: [[Ticker Engine Environment]]
 
-    ---8<--- "tutorial/engines/examples/ticker_environment.juvix.md"
+    ---8<--- "node_architecture/engines/ticker_environment.juvix.md"
 
 ??? quote "Guarded Actions"
 
     Source: [[Ticker Engine Dynamics]]
 
-    ---8<--- "tutorial/engines/examples/ticker_dynamics.juvix.md"
+    ---8<--- "node_architecture/engines/ticker_dynamics.juvix.md"
 
 
 ## Engine Family

@@ -9,9 +9,9 @@ tags:
 ---
 
 ```juvix
-module tutorial.engines.examples.ticker_protocol_types;
+module node_architecture.engines.ticker_protocol_types;
 
-import tutorial.engines.examples.ticker_environment open;
+import node_architecture.engines.ticker_environment open;
 
 import prelude open;
 import node_architecture.types.engine_family as EngineFamily;

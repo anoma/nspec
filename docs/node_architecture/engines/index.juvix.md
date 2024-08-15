@@ -52,6 +52,13 @@ and a set of guarded actions;
 the additional context of this definition
 are protocol-level types for messages and environments.
 
+In this section:
+
+- [[Engine Family Types]]
+- [[Engine Family Environment]]
+- [[Engine Family Dynamics]]
+- [[Engine Family Protocol Types]]
+
 <!--
 ## Engine Families in Juvix
 

@@ -9,7 +9,7 @@ search:
 ??? note "Juvix preamble"
 
     ```juvix
-    module tutorial.engines.examples.ticker_environment;
+    module node_architecture.engines.ticker_environment;
 
     import prelude open;
     import node_architecture.types.engine_family open;

@@ -5,11 +5,11 @@ search:
   boost: 2
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.types.anoma_dynamics;
-      import tutorial.engines.examples.ticker_dynamics open;
+    import node_architecture.engines.ticker_dynamics open;
     ```
 
 # Anoma Engine Dynamics

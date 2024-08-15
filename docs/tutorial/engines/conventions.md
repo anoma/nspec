@@ -15,9 +15,10 @@ need to follow when writing engine families. I wrote a few examples below. -->
 - **Engine Files and folders**: Named in lowercase using `snake_case` format.
 - **File extension**: Files with overview, environment, and dynamics content
   must end with the `.juvix.md` extension. These files must be written in
-  [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]] starting with a top-level module
-  declaration. However, there is no need to include Juvix code if it's not
-  necessary, but the module declaration is required.
+  [[Add Juvix code for specification|Juvix Markdown and include Juvix code
+  blocks]] starting with a top-level module declaration. However, there is no need to
+  include Juvix code if it's not necessary, but the module declaration is
+  required.
 
 - **File naming prefix**: The engine family's name is used as a prefix for all
   files related to the engine family in use. For example, the `Ticker` engine

@@ -18,42 +18,38 @@ tags:
 
 # Engine Family Types
 
-## Core Types and Concepts
+## Core types and concepts
 
 This page highlights the essential types and concepts of an engine family in the
-Anoma Specification, specifically focusing on writing these families in Juvix.
-Please refer to the [[Engines in Anoma]] page for a better overview and
-motivation of the concept of engines for Anoma.
+Anoma Specification, specifically focusing on writing these families in
+[Juvix](https://docs.juvix.org).
 
-Each engine family must declare specific components that each of its member
+Each engine family must declare specific _components_ that each of its member
 engine instances will have. For Anoma specifications, the components are:
 
 *Engine Environment*
 
 :   This serves as the execution context for engines. In addition to the local
     state, the engine environment encompasses elements such as the mailbox
-    cluster owned by an engine instance and a finite set of acquaintances—other engine
-    instances known to the current one that can interact with it.
+    cluster owned by an engine instance and a finite set of acquaintances—other
+    engine instances known to the current one that can interact with it.
 
-Action Function
+*Action Function*
 
-:   The function that describes all ways in which
-    engines can act, by chaning their environment,
-    sending messages, spawning new engine instances,
+:   The function that describes all possible ways in which engines can act, by
+    changing their environment, sending messages, spawning new engine instances,
     and update their list of active timers.
 
-Guards
+*Guards*
 
-:   The engine's behavior is specified by complementing the action function with
-    a finite set of guard functions that describe the conditions under which
-    the local state of the engine's instance should change by invoking the action function.
+:   The finite set of guard functions that describe the conditions under which
+    the local state of the engine's instance should change by invoking the action
+    function.
 
-Conflict resolution
+*Conflict Solver*
 
-:   Finally, we want maximal concurrency between actions.
-    Thuse, we define a conflict_resolution function.
-
-So, let's introduce the type for each of these components.
+:   The function that resolves conflicts between actions to maximize their
+    concurrency.
 
 
 ### Engine family environment

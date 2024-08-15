@@ -8,8 +8,8 @@ tags:
 - Types
 ---
 
-??? quote "Imports"
-
+??? info "Juvix imports"
+        
     ```juvix
     module node_architecture.basics;
     import prelude open public;
