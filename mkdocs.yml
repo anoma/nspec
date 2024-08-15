@@ -540,7 +540,7 @@ exclude_docs: |
   docs/images/*.dot.svg
 
 extra_css:
-  - ./assets/css/style.css
+  - assets/css/style.css
   - assets/css/juvix-highlighting.css
 
 extra_javascript:
