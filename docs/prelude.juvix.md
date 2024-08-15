@@ -7,16 +7,18 @@ tags:
 - Juvix-Prelude
 ---
 
-
-```juvix
-module prelude;
-
-import Stdlib.Trait open public;
-```
+??? quote "Imports"
+        
+    ```juvix
+    module prelude;
+    import Stdlib.Trait open public;
+    ```
 
 # Common Types - Juvix Base Prelude
 
-The following are fundamental types provided by the Juvix standard library and others, used to define more complex types in Anoma Specification.
+The following are frequent and basic abstractions used in the Anoma
+specification. Most of them are defined in the Juvix standard library and are
+used to define more complex types in the Anoma Specification. 
 
 ## Nat
 
