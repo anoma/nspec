@@ -10,6 +10,7 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   INSIDERS_TOKEN: ${{ secrets.INSIDERS_TOKEN }}
   SHOW_TODOS_IN_MD: false
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
@@ -88,25 +89,30 @@ jobs:
           pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
           mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
-          SITE_DIR: latest
-          SITE_URL: https://anoma.github.io/nspec/latest/
+          SITE_DIR: ${{ env.BRANCH_NAME }}
+          SITE_URL: https://anoma.github.io/nspec/${{ env.BRANCH_NAME }}
 
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: latest
+          folder: ${{ env.BRANCH_NAME }}
+          target-folder: ${{ env.BRANCH_NAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: false
+          git-config-name: Anoma Research
+          git-config-email: arts@heliax.dev
+
+      - name: get latest version from VERSION file
+        id: version
+        run: echo "::set-output name=version::$(cat VERSION)"
+
+      - if: ${{ env.BRANCH_NAME == steps.version.outputs.version }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ${{ env.BRANCH_NAME }}
           target-folder: latest
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research
-          git-config-email: arts@heliax.dev
+          git-config-email:
 
-      - if: success()
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: latest
-          target-folder: v2
-          token: ${{ secrets.GITHUB_TOKEN }}
-          clean: false
-          git-config-name: Anoma Research
-          git-config-email: arts@heliax.dev

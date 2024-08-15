@@ -12,10 +12,7 @@ correct implementation of Anoma and how it is structured. This already involves
 some design choices and assumptions, like identifying the participating
 entities, their actions, and the hardware needed.
 
-- Host model describes the basic characteristics and functions which
-  machines must have in order to run Anoma.
-- Primitives describe the basic cryptographic primitives and associated
-  assumptions.
-- [[Abstractions]] describes the basic abstractions defined by the protocol.
-- [[Properties]] describes the properties that the protocol
-  should satisfy.
+- [Identity Architecture](./identity/index.md)
+- [Network Architecture](./network/index.md)
+- [Service Architecture](./service/index.md)
+- [State Architecture](./state/index.md)

@@ -35,22 +35,22 @@ Agents can interact with the world in two ways: by taking _observations_ of it, 
 
 _Observations_ may be directed by a particular conceptualization of phenomena, in which case they are called _measurements_, and accompanied by a name of semantic significance to the agent taking the measurement, or undirected, in which case they are called _perceptions_ and unaccompanied. Observations may be initiated by the agent itself or initiated by the world.
 
-!!! note
+!!! example
 
       For example, an observation might be $12988388$.
 
 
-!!! note
+!!! example
 
       For example, a measurement might be $(temperature, 25.5)$.
 
 _Actions_, similarly, may be directed by a particular conceptualization of the agent-world boundary, in which case they are accompanied by a name of semantic significance to the agent taking the action, or undirected, in which case they are unaccompanied.
 
-!!! note
+!!! example
 
-      For example, a directed action might be $(set-thermostat, 22)$.
+      For example, a directed action might be $(setThermostat, 22)$.
 
-!!! note
+!!! example
 
       For example, an undirected action might be $23123412$.
 
@@ -64,51 +64,6 @@ In general, the world which the agents inhabit is assumed to have _causal struct
       - Agents taking actions in the _same way_ (the definition of this is left a bit vague, but suppose e.g. setting the same thermostat to the same level) will result in the same effects.
 
 In order for the agents to build up a model of the behaviour of the world over time which will be useful in predicting the results of future actions, the world's causal structure must also be invariant under spatial and temporal translation (as, say, the known laws of physics are).
-
-## Cybernetic agency
-
-We assume that the world is _of interest_ to agents. (...) In general, agents may be interested in choosing their actions in such a manner as to regulate the probability distribution of their future observations, the probability distributions of future observations of other agents, and in general the probability distribution of inferred latent state of the world.
-
-!!! todo
-
-      Cybernetic agency is ... blahblah
-
-!!! todo
-
-      Is cybernetics really the right word here? Can we pin this down more mathematically?
-
-!!! todo
-
-      Diagram of the cybernetic loop.
-
-## Coordination
-
-- Observation-sharing for improved inference
-- Memory sharing
-- Compututation sharing
-- Causal interdependence of actions
-- Protocol to send messages around, agree on what to do
-
-
-!!! todo
-
-      Bit on compositional cybernetic agency.
-
-!!! todo
-
-      Anoma is one such protocol. Figure out the comparison to natural language. Is there an "ideal" such protocol in certain ways? Can we come up with a mathematical definition here? Can this be related to Brandom on discursive commitments?
-
-
-What does composition mean?
-- Insofar as objective is shared, act as one agent.
-
-What is a protocol in this context?
-- Way to automatically respond to messages
-
-
-!!! todo
-
-      Cleanup / reorganize / remove the rest of this old content.
 
 <!--
 
