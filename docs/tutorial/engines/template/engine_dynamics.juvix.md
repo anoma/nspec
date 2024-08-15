@@ -27,7 +27,7 @@ search:
     a [[Engine Family Types#conflict-resolution|conflict resolution function]].
     Most notably,
     this involves the definition of action labels[^0]
-    and a descriptiong of the effects of the associated actions.
+    and a description of the effects of the associated actions.
 
     ??? note "Short summary of guards, the action function, and conflict resolution"
 
@@ -45,7 +45,7 @@ search:
     we also want a description of how
     conflicts of sets of action labels are resolved
     (unless we have a "smooth" engine with no such conflicts).[^1]
-    After action labels and their conflict resoultion
+    After action labels and their conflict resolution
     have been described,
     we come to the description of guards,
     which, in turn,
@@ -80,7 +80,7 @@ search:
         The data of an action label should be
         as independent as possible of the engine environment.
         Roughly,
-        replacing one eninge implementation with a different one
+        replacing one engine implementation with a different one
         that uses a "completely different" environment type
         should always be possible.[^2]
 
@@ -112,7 +112,7 @@ search:
     Precomputation results
 
     :   Guards may involve non-trivial computations,
-        wich should not be repeated;
+        which should not be repeated;
          instead the results are passed on as precomputation result.
 
 --><!--
@@ -121,14 +121,10 @@ search:
     each of which defines an action that
     a member of the engine family can perform
     (in response to messages or timer notifications)—without
-    mentioning the specific circumastances that call
+    mentioning the specific circumstances that call
     for performing the action that the action label describes.
     The action labels are complemented by a set of guarded actions,
     which describe situations under which certain actions are actually performed.-->
-
-!!! todo "definition of _engine system_"
-
-    Where do we have the definition of engine system now?
 
 ## Overview
 
@@ -143,7 +139,7 @@ search:
     !!! quote "Pseudo-example"
 
         We give actions the structure of serial-parallel graphs
-        such that computation can be parallelized.
+        such that computation can be parallelised.
         This involves splitting up the state into several parts
         and recombine results of what we shall call
         _action primitives._
@@ -196,17 +192,18 @@ search:
 
     :   - We first give the Juvix code of
           the action label datatype
-          named `[EngineFamilyName]ActionLabel`.
+          named `[EngineFamilyName]ActionLabel`
+          with auxiliary code in a `??? note "Auxiliary Juvix code"` admonition.
 
     :   - Then we have
           one sub-subsection for each action tag of the Juvix datatype,
-          with a level three heading  `### [Action Tag ⟨i⟩]`.
-          In these sub-subections, we have the following.
+          with a level three heading  `### [Action Tag ⟨𝑖⟩]`.
+          In these sub-subsections, we have the following.
 
           Action tag code snippet
 
           : We first have the code snippet of the constructor,
-          quoting the resepective portion of the Juvix datatype.
+          quoting the respective portion of the Juvix datatype.
 
           Description
 
@@ -214,7 +211,7 @@ search:
 
           Example term
 
-          : We give an example term ("wrapped" in a local module).
+          : We give an example term.
 
           Action effects
 
@@ -232,17 +229,21 @@ search:
 
     !!! quote "Pseudo-example"
 
-        ```juvix
-        type someActionLabel :=
-          | -- --8<-- [start:doThis]
-            doThis String
-            -- --8<-- [end:doThis]
-          ;
-        type anotherActionLabel :=
-          | doThat String
-        ;
+        ??? note "Auxiliary Juvix code"
 
-        type allLabels :=
+            ```juvix
+            type someActionLabel :=
+              | -- --8<-- [start:doThis]
+                doThis String
+                -- --8<-- [end:doThis]
+            ;
+            type anotherActionLabel :=
+              | doThat String
+            ;
+            ```
+
+        ```juvix
+        type TemplateActionLabel :=
           | -- --8<-- [start:doAlternative]
             doAlternative (Either someActionLabel anotherActionLabel)
             -- --8<-- [end:doAlternative]
@@ -250,8 +251,6 @@ search:
           | doAnotherAction String
         ;
         ```
-
-        The corresponding structure would be the one of the last type.
 
         ### doAlternative
 
@@ -265,7 +264,7 @@ search:
         ```juvix
         module do_alternative_example;
 
-        doAlternativeExample : allLabels :=
+        doAlternativeExample : TemplateActionLabel :=
           doAlternative (prelude.Left (doThis "do it!"));
 
         end;
@@ -277,7 +276,7 @@ search:
 
         State update
 
-        : Nothing happens.
+        : The state is unchanged as the timer will have all information necessary.
 
         Messages to be sent
 
@@ -285,15 +284,17 @@ search:
 
         Engines to be spawned
 
-        : None.
+        : We shall create a new engine.
 
         Timer updates
 
-        : None.
+        : We set a timer for 10 seconds to check up on the spawned engine
+          (although that should not be necessary as
+           it will send messages as the first thing after spawning).
 
         #### Either.Right
 
-        The other alternative does _that._
+        […]
 
         ### doBoth
 
@@ -302,7 +303,6 @@ search:
         ### doAnotherAction
 
         […]
-
 
 ## Matchable arguments
 
@@ -321,7 +321,7 @@ search:
     Form
 
     : A Juvix algebraic datatype followed by documentation,
-      with one level three heading `### [Matched argument ⟨$j$⟩]`
+      with one level three heading `### [Matched argument ⟨𝑗⟩]`
       for each kind of matching mechanism
       where we have the code snippet,
       a description,
@@ -335,9 +335,13 @@ search:
 
     !!! quote "Pseudo-example"
 
-        ```juvix
-        syntax alias thisOneNatFromAllMessages := Nat;
+        ??? note "Auxiliary Juvix code"
 
+            ```juvix
+            syntax alias thisOneNatFromAllMessages := Nat;
+            ```
+
+        ```juvix
         type TemplateMatchableArgument :=
           | -- --8<-- [start:messageOne]
             messageOne thisOneNatFromAllMessages
@@ -350,7 +354,7 @@ search:
         ```
 
         We only match a natural number from messages
-        and occassionally from a mailbox.
+        and occasionally from a mailbox.
 
         ### messageOne
 
@@ -384,6 +388,13 @@ search:
         for more on how we remember which messages
         we will remove from which mailbox.
 
+        ```juvix
+        module some_thing_from_a_mailbox;
+          someThingFromAMailboxExample : TemplateMatchableArgument :=
+            someThingFromAMailbox "Hello World!";               
+        end;
+        ```
+
 ## Precomputation results
 
 !!! note "On `Precomputation results`"
@@ -415,9 +426,13 @@ search:
 
     !!! quote "Pseudo-example"
 
-    ```juvix
-    syntax alias someMessageType := undef;
+        ??? note "Auxiliary Juvix code"
 
+            ```juvix
+            syntax alias someMessageType := undef;
+            ```
+
+    ```juvix
     type TemplatePrecomputationEntry :=
       | -- --8<-- [start:deleteThisMessageFromMailbox]
         deleteThisMessageFromMailbox someMessageType Nat
@@ -473,15 +488,15 @@ search:
 
     For each guard of the engine family,
     we provide a guard description.
-
-### [Guard ⟨guard $i$⟩] `{` $0 < i < l$ `}`
-
-!!! note "On `[Guard ⟨guard 𝒊⟩]`"
-
-    For each guard
-    we want a short description
-    of which actions are enable under which conditions.
-    Then we define the actual code.
+    For each guard,
+    we have one sub-section `### [Guard ⟨guard 𝑖⟩]`
+    for each of the guards,
+    which contains
+    a short description
+    of which actions are enabled under which conditions
+    by [guard 𝑖].
+    Then we give the actual code,
+    including code comments.
 
     Conceptual structure
 
@@ -512,8 +527,8 @@ search:
             or other computations
             (`[ processing node text ]`)
             and the final guard output
-            is summarized in terminal nodes
-            (`([matched arguments,  action label, precompuation result])`),
+            is summarised in terminal nodes
+            (`([matched arguments,  action label, precomputation result])`),
             which Mermaid calls "stadiums".
 
         Flow chart explanation
@@ -533,12 +548,6 @@ search:
     the relevant matched arguments and precomputation results
     are named.
 
-    !!! todo "What about auxiliary functions?"
-
-        The guards may use auxiliary functions.
-        These are probably best put in front of the code
-        but hidden by default.
-
     !!! quote "Pseudo-example"
 
         ### messageOneGuard
@@ -551,25 +560,25 @@ search:
             D --> F([doAnotherAction n m])
         ```
 
-        ```juvix
-        --- messageOneGuard (see todo)
-        t : Type := undef;
-        ```
-
         For `messageOne`-messages,
         we do the other action,
-        passing the String represenatation
-        of the
+        passing the String representation
+        of the second and third argument.
 
-        !!! todo "add code with conversion from Nat to String"
+        ```juvix
+        --- messageOneGuard (see todo)
+        guard : Type := undef;
+        ```
 
-        ```
-        messageOneGuard :  Maybe Time
-            -> Trigger I H
-                -> EngineEnvironment S I M H
-                    -> Maybe (GuardOutput A L X) :=
-                    […] ;
-        ```
+        !!! todo "fix/add code (with conversion from Nat to String)"
+
+            ```
+            messageOneGuard :  Maybe Time
+                -> Trigger I H
+                    -> EngineEnvironment S I M H
+                        -> Maybe (GuardOutput A L X) :=
+                        […] ;
+            ```
 
 !!! warning "Mermaid restrictions"
 
@@ -621,11 +630,12 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 !!! note "On `Action dependencies and conflict resolution`"
 
-    We need to describe how actions should be linearized
+    We need to describe how actions should be linearised
     if they are not all concurrent.
     In many cases,
     the conflict relation can be stated no the level
     of action tags.
+    The default is the lexicographical ordering. 
 
     !!! info "This is about actions!"
 
@@ -637,10 +647,19 @@ Guards can provide information (similar to pattern-matching) which can then be u
     : Free form, except for that we need the code for
     the conflict resolution function (at the end).
 
+    !!! quote "Pseudo-example"
 
-## Action function (and auxiliary functions)
+        We just use the lexicographical ordering.
 
-!!! note "On `Action function and auxiliary functions`"
+        !!! todo "fix code"
+
+        ```juvix
+        lexicographicalOrdering : Type -> Type := undef;
+        ```
+
+## Action function
+
+!!! note "On `Action function`"
 
     This is essentially well-documented code
     of the actual action function.
@@ -652,6 +671,17 @@ Guards can provide information (similar to pattern-matching) which can then be u
       interlaced with explanatory prose
       and/or documentation in the code.
 
+    !!! quote "Pseudo-example"
+
+        The action function amounts to one single
+        case statement. 
+
+        !!! todo "fix code"
+
+        ```juvix
+        actionFunction : Type -> Type := undef;
+        ```
+
 ## Engine family summary
 
 !!! note "On `Engine family summary`"
@@ -661,7 +691,8 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
     Form
 
-    :   Free form, _except_ for the family type definition and an example in Juvix.
+    :   This section is free form,
+        _except_ for the family type definition and an example in Juvix.
 
     !!! quote "Pseudo-example"
 
@@ -798,7 +829,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
     as a [series-parallel graph](https://en.wikipedia.org/wiki/Series%E2%80%93parallel_graph)
     of _action primitives;_
     the main rationale is fostering code re-use,
-    the potential for parallel execution deserves mention as well.
+    but the potential for parallel execution deserves mention as well.
     Finally,
     in some situations,
     we can avoid sending messages to "self".
