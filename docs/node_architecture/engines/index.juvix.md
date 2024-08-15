@@ -29,7 +29,7 @@ tags:
     !!! note
 
         This module is not intended to be translated to Isabelle, as it contains
-        unsopported definitions. It is used to provide a high-level overview of the
+        unsupported definitions. It is used to provide a high-level overview of the
         engine families defined in Juvix used in the specification.
 
 # Anoma Engine Families
@@ -47,10 +47,10 @@ instances that share the same behavior but have different local states and
 names.
 
 Thus, an engine family
-is pair of an engine environment type
+is a pair of an engine environment type
 and a set of guarded actions;
 the additional context of this definition
-are protocol-level types for messages and envinronments.
+are protocol-level types for messages and environments.
 
 <!--
 ## Engine Families in Juvix
