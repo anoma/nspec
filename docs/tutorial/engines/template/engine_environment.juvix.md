@@ -335,7 +335,7 @@ search:
       in particular,
       the sections starts with a note `??? note "Auxiliary Juvix code"`
       that contains any auxiliary definitions.
-      
+
 
     Goal
 
@@ -475,7 +475,7 @@ search:
             ```juvix
             syntax alias ArgOne := Nat;
             ```
-    
+
         ```juvix
         type TemplateTimerHandle :=
         | -- --8<-- [start:handleOne]
