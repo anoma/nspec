@@ -42,7 +42,7 @@ For example,
 an engine family that is to be described.
 Text in pairs of braces,
 i.e., `{` and `}`,
-are short explanations, comments, or remarks (used only titles).
+are short explanations, comments, or remarks (used only in titles).
 Occasionally,
 we use angled parentheses and italics
 for variables,
