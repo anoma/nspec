@@ -12,7 +12,7 @@ An action is a composite structure $A = (cms, nfs, \Pi, app\_data)$, where:
 - $cms \subseteq  \mathbb{F}_{cm}$ is a set of created resources' commitments. 
 - $nfs \subseteq \mathbb{F}_{nf}$ is a set of consumed resources' nullifiers.
 - $\Pi: \{ \pi: PS.Proof\}$ is a set of proofs.
-- $app\_data: \{(k, (d, deletion\_criterion)): k \in \mathbb{F}_{key}, d \subseteq \mathbb{F}_{d}\}$ contains application-specific data needed to create resource logic proofs. The deletion criterion field is described in \ref{data-blob}.
+- $app\_data: \{(k, (d, deletion\_criterion)): k \in \mathbb{F}_{key}, d \subseteq \mathbb{F}_{d}\}$ contains application-specific data needed to create resource logic proofs. The deletion criterion field is described [here](./rm-def/storage.md#data-blob-storage).
 
 Actions define the proof context: a proof created in the context of an action assumed to have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if resource's commitment or nullifier is present in the action's $cms$ or $nfs$ correspondingly. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's $nfs$ set. A resource is said to be *created in the action* for a valid action if its commitment is present in the action's $cms$ set.
 

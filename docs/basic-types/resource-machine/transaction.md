@@ -69,7 +69,7 @@ In principle, the information flow predicate can be arbitrary as long as it sati
 
 #### Composing transactions with metadata
 
-When transactions with $Metadata$ are composed, transactions are composed according to the transaction composition rules (\ref{tx-composition}), and $MetaData$ fields are composed as follows:
+When transactions with $Metadata$ are composed, transactions are composed according to the [transaction composition rules](./transaction.md#composition), and $MetaData$ fields are composed as follows:
 
 - $\Phi_{tx} = G(\Phi_1, \Phi_2)$, where $G: PREF \times PREF \rightarrow PREF$, and $G$ is a preference function composition function
 - $IFCPredicate_{tx} = IFCPredicate_1 \wedge IFCPredicate_2$
@@ -79,11 +79,11 @@ When transactions with $Metadata$ are composed, transactions are composed accord
 
 A transaction function is a function that outputs a transaction: $TransactionFunction: () \rightarrow Transaction$.
 
-Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described in \ref{tx-function-format}.
+Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here](./function-formats/transaction-function.md).
 
 ## Transaction balance change
 
-$\Delta_{tx}$ of a transaction is computed from the delta parameters of the resources (\ref{delta-resource}) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as \textit{transaction balance}. 
+$\Delta_{tx}$ of a transaction is computed from the [delta parameters of the resources](./resource/computable-components/delta.md) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as *transaction balance*. 
 
 From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$: 
 $\sum_j{h_\Delta(kind, r_{i_j}.q)} - \sum_j{h_\Delta(kind, r_{o_j}.q)} =$

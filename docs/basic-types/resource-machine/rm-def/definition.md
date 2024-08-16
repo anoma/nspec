@@ -17,9 +17,14 @@ We assume the shell is trivial in this version of the ARM: it only evaluates the
 
 To support the shell layer, the resource machine must have the functionality to produce, compose, and evaluate transaction functions. Assuming the shell is trivial in the current version of the specification, the following description of the resource machine functionality describes the functionality of the resource machine core.
 
-A transaction function is defined as `TransactionFunction`: `()` $\rightarrow$ `Transaction`.
+#### Resource machine functions
 
-See section 8.1 for a description of what data the transaction function can read during execution.
+A resource machine provides the following functions:
+
+- **Create**: given a set of components required to produce a transaction, the create function produces a transaction data structure according to the [transaction creation rules](../transaction.md#creation).
+- **Compose**: taking two transactions $tx_1$ and $tx_2$ as input, produces a new transaction $tx = tx_1 \circ tx_2$ according to the [transaction composition rules](../transaction.md#composition).
+- **Verify**: taking a transaction as input, verifies its validity according to the [transaction validity rules](../transaction.md#validity). If the transaction is valid, the resource machine outputs a state update. Otherwise, the output is empty.
+
 
 ## Post- and pre-ordering execution
 

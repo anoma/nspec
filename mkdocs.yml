@@ -35,7 +35,6 @@ nav:
       - Transaction: ./basic-types/resource-machine/transaction.md
       - Resource machine:
         - Definition: ./basic-types/resource-machine/rm-def/definition.md
-        - Functions: ./basic-types/resource-machine/rm-def/functions.md
         - Stored data format: ./basic-types/resource-machine/rm-def/storage.md
       - Function formats: 
         - Transaction function: ./basic-types/resource-machine/program-formats/transaction-function.md
