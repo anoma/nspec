@@ -16,18 +16,18 @@ Input:
 - a set of $CMtree$ roots $\{rt_{i_k}, k \leq n\}$
 - a set of resources $\{r_{i_1},...,r_{i_n}, r_{o_1},...,r_{o_m}\}$
 - a set of nullifier secret keys $\{nk_{i_1},...,nk_{i_n}\}$
-- extra data $extra$
+- extra data $app\_data$
 - preference function $\Phi$
 - custom inputs required for resource logic proofs
 
-Output: a transaction $tx = (rts cms, nfs, \Pi, \Delta_{tx}, extra, \Phi)$, where:
+Output: a transaction $tx = (rts cms, nfs, \Pi, \Delta_{tx}, app\_data, \Phi)$, where:
 
 - $rts= \{rt_{i_1},..,rt_{i_n}\}$
 - $nfs = \{nf_{i_k} = h_{nf}(nk_{i_l}, r_{i_l}), k = 1..n\}$
 - $cms = \{cm_{o_1} = h_{cm}(r_{o_l}), k = 1..m\}$
 - $\Pi = \{\pi_{\Delta_{tx}}, \pi_{compl_1}, ..., \pi_{compl_c}, \pi_{i_1}, ..., \pi_{i_n}, \pi_{o_1}, ...,\pi_{o_m}\}$, where $1 \leq c \leq m + n$
 - $\Delta_{tx} = \sum_k{\Delta_{i_k}} - \sum_l{\Delta_{o_l}}$
-- $extra$
+- $app\_data$
 - $\Phi$
 
 ## Compose

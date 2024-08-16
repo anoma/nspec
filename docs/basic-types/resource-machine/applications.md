@@ -6,17 +6,17 @@ search:
 ---
 
 # Applications
+The ARM applications are characterised by a set of resource logics and its read and write interfaces.
 
-The ARM applications are characterised by a set of resource logics and a set of transaction functions.
+$Application = (AppLogic, AppReadInterface, AppWriteInterface)$, where
 
-$Application = (ApplicationLogic, ApplicationInterface)$, where
+- $AppLogic \subseteq \mathbb{F}_l$ is a set of resource logics.
+- $AppWriteInterface = \{tf: TransactionFunction\}$ is a set of functions that represents what kinds of state transitions the application offers.
+- $AppReadInterface = \{pf: ProjectionFunction\}$ is a set of functions that interprete the current state. Projection functions are defined as $ProjectionFunction: AppState \rightarrow T$, where $AppState = AppResources \times AppData$, with $AppResources$ containing all resources bound to the application’s logic and $AppData$ referring to the non-linear data the application might assume.
 
-- $ApplicationLogic \subseteq \mathbb{F}_l$ is a set of resource logics.
-- $ApplicationInterface = \{t: TransactionFunction\}$ is a set of transaction functions.
+As any abstract state transition can be represented as a transaction consuming and creating resources of certain kinds (or a transaction function that evaluates to such a transaction), the transaction functions associated with the application represent the set of actions that the application can provide to its users. Each transaction function would require a subset of the application resource logics to approve the transaction in order to realise the desired action. The transaction function evaluated with the exact resources to be created and consumed forms a transaction.
 
-As any abstract action can be represented as a transaction consuming and creating resources of certain kinds (or a transaction function that evaluates to such a transaction), the transaction functions associated with the application represent the set of actions that the application can provide to its users. Each transaction function would require a subset of the application resource logics to approve the transaction in order to realise the desired action. The transaction function evaluated with the exact resources to be created and consumed forms a transaction.
-
-The resources that are bound with the application resource logics are said to belong to the application and constitute the application state. When the application does not have any resources that were created but not consumed yet, the application only exists virtually but not tangibly. 
+The resources that are bound with the application resource logics are said to belong to the application and, along with some non-linear data the application might assume, constitute the application state. When the application does not have any resources that were created but not consumed yet, the application only exists virtually but not tangibly. 
 
 The abstraction of an application is virtual - applications are not deployed or tracked in any sort of global registry, and the ARM is unaware of the existence of applications.
 
@@ -29,7 +29,8 @@ Applications are composable. The composition of two (or more) applications would
 $App_12 = App_1 \circ App_2$:
 
 - $AppLogic_{12} = AppLogic_1 \cup AppLogic_2$
-- $AppInterface_{12} = AppInterface_1 \cup AppInterface_2$
+- $AppWriteInterface_{12} = AppWriteInterface_1 \cup AppWriteInterface_2$
+- $AppReadInterface_{12} = AppReadInterface_1 \cup AppReadInterface_2$
 - $AppKinds_{12} = AppKinds_1 \cup AppKinds_2$
 
 In this type of composition the order in which the applications are composed doesn't matter.

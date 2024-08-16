@@ -31,12 +31,13 @@ nav:
         - Non-linear resources: ./basic-types/resource-machine/resource/non-linear-resources.md
       - Proving system: ./basic-types/resource-machine/proving-system.md
       - Roles and requirements: ./basic-types/resource-machine/roles-and-requirements.md
+      - Action: ./basic-types/resource-machine/action.md
       - Transaction: ./basic-types/resource-machine/transaction.md
       - Resource machine:
         - Definition: ./basic-types/resource-machine/rm-def/definition.md
         - Functions: ./basic-types/resource-machine/rm-def/functions.md
         - Stored data format: ./basic-types/resource-machine/rm-def/storage.md
-      - Program formats: 
+      - Function formats: 
         - Transaction function: ./basic-types/resource-machine/program-formats/transaction-function.md
         - Resource logic: ./basic-types/resource-machine/program-formats/resource-logic.md
         - Preference function: ./basic-types/resource-machine/program-formats/preference-function.md
