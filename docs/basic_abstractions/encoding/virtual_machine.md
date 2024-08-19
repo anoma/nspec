@@ -58,7 +58,7 @@ type Evaluate =
 
 # Provable virtual machines
 
-A _provable_ virtual machine is a virtual machine with a proof type $P_n$ and two additional functions parameterized over $P_n$, $prove_n$ and $verify_n$. 
+A _provable_ virtual machine is a virtual machine with a proof type $P_n$ and two additional functions parameterized over $P_n$, $prove_n$ and $verify_n$.
 
 ## Proving
 
