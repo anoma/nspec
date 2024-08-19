@@ -37,11 +37,11 @@ for background on X, Y and Z.
 ??? note [[X Engine Environment|Engine environment]] <!-- (11)! -->
 
     <!-- (12)! -->
-   --8< "./docs/node_architecture/engines/X_environment.juvix.md" 
+   --8< "./docs/node_architecture/engines/X_environment.juvix.md"
 
 ??? note [[Engine dynamics|Engine dynamics]] <!-- (13)! -->
 
-   --8< "./docs/node_architecture/engines/X_dynamics.juvix.md" 
+   --8< "./docs/node_architecture/engines/X_dynamics.juvix.md"
 ```
 
 <!------------------------------------------------------------------------------->
@@ -110,7 +110,7 @@ for background on X, Y and Z.
 
     : Illustrate how a specific instance of a collaborative task, data flow, or similar is progressing, message by message.
 
-    
+
 9. The subsection headings allow to reference each of the diagrams if there are
    several ones. Diagrams like the one below.
    <figure markdown="span">
@@ -139,8 +139,8 @@ for background on X, Y and Z.
 
 11. This is a collapsed admonition that links to the `Engine environment` page
     of the engine family. The `[[wikilink-to-X|text]]` syntax is used to link to
-    the `Engine environment` page of the engine family. 
-    
+    the `Engine environment` page of the engine family.
+
 12. This syntax is used to include the content from the file
     `X_environment.juvix.md`, which must contain the environment definition for
     this engine family.
