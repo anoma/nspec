@@ -17,12 +17,15 @@ nav:
 
   - Basic Abstractions:
     - ./basic_abstractions/index.md
+    - Preliminaries:
+      - ./basic_abstractions/preliminaries/index.md
+      - Multiformats: ./basic_abstractions/preliminaries/multiformats.md
     - Encoding:
       - ./basic_abstractions/encoding/index.md
       - Data type: ./basic_abstractions/encoding/data_type.md
-      - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
       - Encoding scheme: ./basic_abstractions/encoding/encoding_scheme.md
-      - Multiencoding: ./basic_abstractions/encoding/multiencoding.md
+      - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
+      - Multifunctions: ./basic_abstractions/encoding/multifunctions.md
     - Cryptographic primitives:
       - ./basic_abstractions/cryptographic_primitives/index.md
       - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
