@@ -4,28 +4,63 @@ search:
   exclude: false
 ---
 
-# [Engine Family Name] Engine Family
+# Engine "Overview" Template
 
-!!! note
+This page gives a high-level overview of the engine family `X`. The goal is a
+page that is accessible to engineering and research alike.
 
-    This page gives a high-level overview of
-    the engine family [engine family name].
+```html linenums="1" title="docs/node_architecture/engines/X_overview.md"
+--- <!-- (1)! -->
+icon: octicons/project-template-24  <!-- (2)! -->
+search:
+  exclude: false
+categories:
+- engine-family <!-- (3)! -->
+tags:
+- mytag1 <!-- (4)! -->
+---
 
-    Form
+# X Engine Family <!-- (5)! -->
 
-    :   The form is given by this template.
+## Purpose <!-- (6)! -->
 
-    Goal
+Members of the family X do Y and Z, in collaboration with
+P, Q, and R, respectively. See [[wikilink-to-X|documentation of X]] <!-- (7)! -->
+for background on X, Y and Z.
 
-    :   The goal is a page that is accessible to engineering and research alike.
+## Message sequence diagrams <!-- (8)! -->
 
-## Purpose
+### Forwarding from X to Y <!-- (9)! -->
 
-!!! note "On `Purpose`"
+## Engine Components <!-- (10)! -->
 
-	This section of the page describes in broad terms what
-	the role of (any member of) engine family [engine family name] is
+??? note [[X Engine Environment|Engine environment]] <!-- (11)! -->
 
+    <!-- (12)! -->
+   --8< "./docs/node_architecture/engines/X_environment.juvix.md" 
+
+??? note [[Engine dynamics|Engine dynamics]] <!-- (13)! -->
+
+   --8< "./docs/node_architecture/engines/X_dynamics.juvix.md" 
+```
+
+<!------------------------------------------------------------------------------->
+
+1. Every Markdown file in the Anoma Specs starts with a YAML front matter block.
+
+2. The icon is a project template icon. Find more icons in the
+   [Material
+   library](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/?h=icons).
+
+3. The `categories` key is used to categorize the page. In this case, the page is
+   categorized as an `engine-family` page.
+
+4. The `tags` key is used to categorize the page. In this case, the page is
+   tagged as an `mytag1` page.
+
+5. The heading of the page is the name of the engine family.
+
+6. This section of the page describes in broad terms what the role of (any member of) engine family X is
 	- in relation to other [[Engine Instance Type|engine instances]]
     within an Anoma node and/or
 
@@ -47,33 +82,23 @@ search:
       understandable to a rather wide audience,
       including references to technical terms and unavoidable jargon.
 
-    !!! quote "Pseudo-example"
+7. Use Wikilinks to link to other pages in the Anoma Specs. The link should be
+   in the form `[[wikilink-to-X#anchor|text]]`. The anchor is optional. The
+   wikilink is taken from the `nav` section of the `mkdocs.yml` file.
 
-        Members of the family [engine family name]
-        do X, Y and Z,
-        in collaboration with P, Q, and R, respectively.
-        See [documentation of X] for background on X, Y and Z.
-
-## Message sequence diagrams
-
-!!! note "On `Message sequence diagrams`"
-
-    This section contains one or several sub-sections,
-    each of which present
-    one message sequence diagram that showcases how
-	members of the engine family [engine family name] exchange messages
-    with other engine instances,
-	typically from different engine families,
-    but possibly from the same family.[^0]
+8. This section is **optional** and contains one or several subsections, each of which present one
+    message sequence diagram that showcases how members of the engine family X
+	exchange messages with other engine instances, typically from different
+    engine families, but possibly from the same family.[^0]
 
     Form
 
-	:     Each subsection of the
+	:   Each subsection of the
     `Message sequence diagrams` section
     has a level three heading
     ```### [Title of message sequence diagram ⟨𝑖⟩]```
     that contains a message sequence diagram of
-    engine family [engine family name][^01]
+    engine family X[^01]
     with a title and caption.
     We can use
     [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
@@ -85,59 +110,63 @@ search:
 
     : Illustrate how a specific instance of a collaborative task, data flow, or similar is progressing, message by message.
 
-    !!! quote "Pseudo-example"
+    
+9. The subsection headings allow to reference each of the diagrams if there are
+   several ones. Diagrams like the one below.
+   <figure markdown="span">
 
-        ### Forwarding from X to Y
+    ```mermaid
+    %%{initialize: {'mirrorActors': false} }%%
+    sequenceDiagram
+        participant Y as Y
+        participant E as X
+        participant X as X
+        X -) E: messageFromX(argOne, argTwo, argThree )
+        E -) Y: messageToY(arg, arg')
+    ```
 
-        <figure markdown="span">
+   <figcaption markdown="span">
 
-        ```mermaid
-        %%{initialize: {'mirrorActors': false} }%%
-        sequenceDiagram
-            participant Y as Y
-            participant E as [Engine family name]
-            participant X as X
-            X -) E: messageFromX(argOne, argTwo, argThree )
-            E -) Y: messageToY(arg, arg')
-        ```
+    An X interacting with an X and a Y,
+    such that Y is informed about something that has happened at X
+    (but without having X's identity revealed).
+   </figcaption>
+   </figure>
 
-        <figcaption markdown="span">
+10. This is the final part of the page with includes in the form of **collapsed
+    snippets** of the engine components. The engine components are the environment
+    and the dynamics of the engine family, and protocol types, if any.
 
-        An [engine family name] interacting with an X and a Y,
-        such that Y is informed about something that has happened at X
-        (but without having X's identity revealed).
-        </figcaption>
-        </figure>
+11. This is a collapsed admonition that links to the `Engine environment` page
+    of the engine family. The `[[wikilink-to-X|text]]` syntax is used to link to
+    the `Engine environment` page of the engine family. 
+    
+12. This syntax is used to include the content from the file
+    `X_environment.juvix.md`, which must contain the environment definition for
+    this engine family.
 
-!!! note "Links to the remaining two pages"
+13. Similarly to the previous point, this is a collapsed admonition that links
+    to the `Engine dynamics` page of the engine family.
 
-    The final part of the page are links to
-    the remaining two parts of the engine family specification.[^1]
+## Useful links
 
-## `[[`[Wiki-link] `|` Engine environment`]]` `{` see [[Engine Environment Template]] `}`
-
-## `[[`[Wiki-link] `|` Engine dynamics`]]` `{` see [[Engine Dynamics Template]] `}`
-
+- [Use Wiki style links](./../../md/links.md)
+- [Include code snippets](./../../md/snippets.md)
+- [Mermaid sequence
+  diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
 
 <!-- footnotes -->
 
-[^0]: The general idea is that
-	each message sequence diagram in the engine family page describes
-	a pattern for test cases of any implementation.
+[^0]: The general idea is that each message sequence diagram in the engine
+	family page describes a pattern for test cases of any implementation.
 
-[^01]: The subsection headings allow
-    to reference each of the diagrams if there are several ones.
+[^01]: The subsection headings allow to reference each of the diagrams if there
+    are several ones.
 
 [^00]:
     For more on how sequence diagrams naturally arise in actor-like systems,
     consider exploring systems in the
 	[stateright explorer](https://www.stateright.rs/seeking-consensus.html#stateright-explorer).
 
-[^000]: The goal is similar to that of
-      [ᴜᴍʟ use case diagrams](https://www.uml-diagrams.org/use-case-diagrams.html).
+[^000]: Similar goal to [UML use case diagrams](https://www.uml-diagrams.org/use-case-diagrams.html).
 
-
-[^1]: Snippets used not to work with syntax highlighting.
-    That is why—for the time being—we
-    provide links to the next two template pages
-    (and soon the files will be included here via snippeting `--8<--`).
