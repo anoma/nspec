@@ -9,7 +9,7 @@ search:
 
 ## Multiencoding
 
-The _multiencode_ function takes a `DataValue` and a set of preferences, and tries to encode it in a bytestring according to those preferences. Preferences determine which encoding scheme(s) is/are chosen, and whether or not we attempt to convert between virtual machine representations (requiring compilation, which may not be supported in all cases). Multiformat codes will be included to indicate which formats are in use (see [here](https://research.anoma.net/t/use-of-multiformats-in-the-anoma-protocol/665/7) for a longer description of how this works). 
+The _multiencode_ function takes a `DataValue` and a set of preferences, and tries to encode it in a bytestring according to those preferences. Preferences determine which encoding scheme(s) is/are chosen, and whether or not we attempt to convert between virtual machine representations (requiring compilation, which may not be supported in all cases). Multiformat codes will be included to indicate which formats are in use (see [here](https://research.anoma.net/t/use-of-multiformats-in-the-anoma-protocol/665/7) for a longer description of how this works).
 In general, canonical commitments to data and code are made over the output of _multiencode_. Multiencoding is also used before storing data or sending it over the network. Any party should be able to take any piece of stored or sent data and a type and attempt to deserialise it with _multidecode_.
 
 ```juvix
@@ -33,7 +33,7 @@ Note that, in general, equality of multiencoded representations implies equality
 
 ## Usage
 
-In general, canonical commitments to data and code are made over the output of _multiencode_. 
+In general, canonical commitments to data and code are made over the output of _multiencode_.
 Implication (1) guarantees that (subject to the usual cryptographic assumptions) equality of two succinct commitments (cryptographic hash function applied to the multiencoded value) implies equality of the data values so encoded and committed to.
 
 Multiencoding is also used before storing data or sending it over the network. Any party who knows the encoding scheme table should be able to take any piece of stored or sent data and deserialise it with _multidecode_.
