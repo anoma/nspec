@@ -6,10 +6,15 @@ search:
 
 # Engine "Overview" Template
 
-This page gives a high-level overview of the engine family `X`. The goal is a
-page that is accessible to engineering and research alike.
+This page gives a high-level overview of the engine family `X`. 
 
-```html linenums="1" title="docs/node_architecture/engines/X_overview.md"
+!!! info 
+
+    Press the :material-content-copy: button in the code snippet below to copy the
+    template and save its content in a new file 
+    `docs/node_architecture/engines/X_overview.md`.
+
+```html linenums="1" title="X_overview.md"
 --- <!-- (1)! -->
 icon: octicons/project-template-24  <!-- (2)! -->
 search:
@@ -30,16 +35,18 @@ for background on X, Y and Z.
 
 ## Message sequence diagrams <!-- (8)! -->
 
-### Forwarding from X to Y <!-- (9)! -->
+### [Title of message sequence diagram ⟨𝑖⟩] <!-- (9)! -->
 
-## Engine Components <!-- (10)! -->
+### Forwarding from X to Y <!-- (10)! -->
 
-??? note [[X Engine Environment|Engine environment]] <!-- (11)! -->
+## Engine Components <!-- (11)! -->
 
-    <!-- (12)! -->
-   --8< "./docs/node_architecture/engines/X_environment.juvix.md"
+??? note [[X Engine Environment|Engine environment]] <!-- (12)! -->
 
-??? note [[Engine dynamics|Engine dynamics]] <!-- (13)! -->
+    <!-- (13)! -->
+   --8< "./docs/node_architecture/engines/X_environment.juvix.md" 
+
+??? note [[X Engine Dynamics|Engine dynamics]] <!-- (14)! -->
 
    --8< "./docs/node_architecture/engines/X_dynamics.juvix.md"
 ```
@@ -86,32 +93,25 @@ for background on X, Y and Z.
    in the form `[[wikilink-to-X#anchor|text]]`. The anchor is optional. The
    wikilink is taken from the `nav` section of the `mkdocs.yml` file.
 
-8. This section is **optional** and contains one or several subsections, each of which present one
-    message sequence diagram that showcases how members of the engine family X
-	exchange messages with other engine instances, typically from different
-    engine families, but possibly from the same family.[^0]
+8. This section is **optional** and contains one or several subsections, each of
+    which present one message sequence diagram that showcases how members of the
+	engine family `X` exchange messages with other engine instances, typically
+    from different engine families, but possibly from the same family.[^0]
 
-    Form
+9.  This section contains a message sequence diagram of engine family X[^01]
+    with a title and caption. We can use [`mermaid` sequence
+    diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) to draw
+    [message sequence
+    diagrams](https://www.uml-diagrams.org/sequence-diagrams.html), using the
+    `-)`-syntax by default—expressing that message sending is
+    "asynchronous".[^00]
 
-	:   Each subsection of the
-    `Message sequence diagrams` section
-    has a level three heading
-    ```### [Title of message sequence diagram ⟨𝑖⟩]```
-    that contains a message sequence diagram of
-    engine family X[^01]
-    with a title and caption.
-    We can use
-    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
-    to draw [message sequence diagrams](https://www.uml-diagrams.org/sequence-diagrams.html),
-    using the `-)`-syntax by default—expressing that
-    message sending is "asynchronous".[^00]
+    The goal of this sections is illustrating how a specific instance of a
+    collaborative task, data flow, or similar is progressing, message by
+    message.
 
-    Goal
-
-    : Illustrate how a specific instance of a collaborative task, data flow, or similar is progressing, message by message.
-
-
-9. The subsection headings allow to reference each of the diagrams if there are
+    
+10. The subsection headings allow to reference each of the diagrams if there are
    several ones. Diagrams like the one below.
    <figure markdown="span">
 
@@ -133,20 +133,22 @@ for background on X, Y and Z.
    </figcaption>
    </figure>
 
-10. This is the final part of the page with includes in the form of **collapsed
+11. This is the final part of the page with includes in the form of **collapsed
     snippets** of the engine components. The engine components are the environment
     and the dynamics of the engine family, and protocol types, if any.
 
-11. This is a collapsed admonition that links to the `Engine environment` page
+12. This is a collapsed admonition that links to the `Engine environment` page
     of the engine family. The `[[wikilink-to-X|text]]` syntax is used to link to
-    the `Engine environment` page of the engine family.
-
-12. This syntax is used to include the content from the file
+    the `Engine environment` page of the engine family. 
+    
+13. This syntax is used to include the content from the file
     `X_environment.juvix.md`, which must contain the environment definition for
     this engine family.
 
-13. Similarly to the previous point, this is a collapsed admonition that links
-    to the `Engine dynamics` page of the engine family.
+14. Similarly to the previous point, this is a collapsed admonition that links
+    to the `Engine dynamics` page of the engine family. In this case, we expect
+    the navigation `nav` section of the `mkdocs.yml` file to contain a link to
+    `X Engine Dynamics`.
 
 ## Useful links
 
