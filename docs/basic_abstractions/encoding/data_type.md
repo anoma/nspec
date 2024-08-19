@@ -7,9 +7,7 @@ search:
 
 # Data type
 
-The protocol standardises basic types and general algebraic data types. Standardisation of data types allows for interoperability between different encoding schemes and virtual machines.
-
-All messages sent and received within and between nodes and all parts of state must have an associated data type. Data types used by the protocol itself are fixed a priori (by this specification). Implementation languges will typically represent these types as native types in their typesystem, such that the implementation language can provide typechecking. Data types used by applications are chosen by application authors, serialised, and passed around at runtime in order to handle data appropriately.
+The protocol standardises basic types and general algebraic data types. All messages sent and received within and between nodes and all parts of state must have an associated data type. Data types used by the protocol itself are fixed a priori (by this specification). Implementation languges will typically represent these types as native types in their typesystem, such that the implementation language can provide typechecking. Data types used by applications are chosen by application authors, serialised, and passed around at runtime in order to handle data appropriately.
 
 ## Types
 
