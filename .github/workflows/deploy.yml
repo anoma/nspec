@@ -39,10 +39,11 @@ jobs:
           MSG: "The build is in progress. Please wait for the preview link."
           GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
 
-      - name: Download latest nightly Juvix binary
-        uses: jaxxstorm/action-install-gh-release@v1.9.0
+      - name: Install the right Juvix for the Specs
+        uses: jaxxstorm/action-install-gh-release@v1.10.0
         with:
-          repo: anoma/juvix-nightly-builds
+          repo: anoma/juvix
+          tag: v0.6.5
           cache: enable
           rename-to: juvix
           chmod: 0755

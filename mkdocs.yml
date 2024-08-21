@@ -48,6 +48,7 @@ nav:
     - Node Architecture:
       - ./node_architecture/index.md
       - Modules: ./node_architecture/modules/index.md
+      - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
       - Hardware Abstraction Machine:
         - ./node_architecture/hardware_abstraction/index.md
         - Local Storage Engines:
@@ -519,7 +520,7 @@ exclude_docs: |
   docs/images/*.dot.svg
 
 extra_css:
-  - ./assets/css/style.css
+  - assets/css/style.css
   - assets/css/juvix-highlighting.css
 
 extra_javascript:
