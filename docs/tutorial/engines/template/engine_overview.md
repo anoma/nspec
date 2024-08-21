@@ -6,12 +6,12 @@ search:
 
 # Engine "Overview" Template
 
-This page gives a high-level overview of the engine family `X`. 
+This page gives a high-level overview of the engine family `X`.
 
-!!! info 
+!!! info
 
     Press the :material-content-copy: button in the code snippet below to copy the
-    template and save its content in a new file 
+    template and save its content in a new file
     `docs/node_architecture/engines/X_overview.md`.
 
 ```html linenums="1" title="X_overview.md"
@@ -44,7 +44,7 @@ for background on X, Y and Z.
 ??? note [[X Engine Environment|Engine environment]] <!-- (12)! -->
 
     <!-- (13)! -->
-   --8< "./docs/node_architecture/engines/X_environment.juvix.md" 
+   --8< "./docs/node_architecture/engines/X_environment.juvix.md"
 
 ??? note [[X Engine Dynamics|Engine dynamics]] <!-- (14)! -->
 
@@ -110,7 +110,7 @@ for background on X, Y and Z.
     collaborative task, data flow, or similar is progressing, message by
     message.
 
-    
+
 10. The subsection headings allow to reference each of the diagrams if there are
    several ones. Diagrams like the one below.
    <figure markdown="span">
@@ -139,8 +139,8 @@ for background on X, Y and Z.
 
 12. This is a collapsed admonition that links to the `Engine environment` page
     of the engine family. The `[[wikilink-to-X|text]]` syntax is used to link to
-    the `Engine environment` page of the engine family. 
-    
+    the `Engine environment` page of the engine family.
+
 13. This syntax is used to include the content from the file
     `X_environment.juvix.md`, which must contain the environment definition for
     this engine family.
