@@ -607,7 +607,7 @@ ThresholdComposeFunctor
   (Signer : SIGNER signer signable commitment)
   (Map_In : ORD_MAP ord_key map_con)
   (ThresholdComposeHash : HASH VerifierHash_ord_key (Compose_hashable verifier map_con)) :
-  ThresholdCompose 
+  ThresholdCompose
     ord_key map_con
     verifier signable commitment
     signer
@@ -631,9 +631,9 @@ ThresholdComposeFunctor
       )
     };
 
-    signerCompose := \{ l := 
+    signerCompose := \{ l :=
         foldl
-        \{ m (v, s) := 
+        \{ m (v, s) :=
           ORD_MAP.insert Map (m, ((
             HASH.hash (VERIFIER.VerifierHash UnderlyingVerifier) v
           ), s))
@@ -644,8 +644,8 @@ ThresholdComposeFunctor
     verifierCompose := \{
       threshold weights :=
         (mkCompose_hashable threshold
-          (foldl 
-            \ { m (w, v) := 
+          (foldl
+            \ { m (w, v) :=
               ORD_MAP.insert Map (m, ((
                 HASH.hash (VERIFIER.VerifierHash UnderlyingVerifier) v
               ), (w, v)))
@@ -732,7 +732,7 @@ ThresholdComposeSignsForFunctor
   { map_con : Type -> Type }
   { VerifierHash_ord_key : Type }
   ( S : SIGNS_FOR ord_key verifier signable commitment evidence )
-  ( Signer : SIGNER verifier signable commitment) 
+  ( Signer : SIGNER verifier signable commitment)
   ( Map : ORD_MAP ord_key map_con )
   ( ThresholdComposeHash : HASH VerifierHash_ord_key (Compose_hashable verifier map_con) ) :
   ThresholdComposeSignsFor ord_key verifier signable commitment evidence map_con VerifierHash_ord_key
@@ -741,11 +741,11 @@ ThresholdComposeSignsForFunctor
     UnderlyingSignsFor := S;
     Verifier := ThresholdComposeFunctor (SIGNS_FOR.Verifier UnderlyingSignsFor) Signer Map ThresholdComposeHash;
     signsFor := \{
-      e ((mkCompose_hashable t0 w0), (mkCompose_hashable t1 w1)) := 
+      e ((mkCompose_hashable t0 w0), (mkCompose_hashable t1 w1)) :=
         ORD_MAP.all Map
-          \{ (w, v) := 
+          \{ (w, v) :=
               (w * t1) <=
-              ((ORD_MAP.foldl Map 
+              ((ORD_MAP.foldl Map
                 \{ ((x, v1), s) :=
                     ite (SIGNS_FOR.signsFor UnderlyingSignsFor e (v, v1)) (x + s) s
                 }
@@ -792,7 +792,7 @@ type ThresholdComposeEncryptor
   :=
   mkThresholdComposeEncryptor {
     Map : ORD_MAP ord_key map_con;
-    UnderlyingEncryptor : ENCRYPTOR ord_key encryptor plaintext ciphertext; 
+    UnderlyingEncryptor : ENCRYPTOR ord_key encryptor plaintext ciphertext;
     EncryptorHash : HASH EncryptorHash_ord_key (Compose_hashable encryptor map_con);
     compose : Nat -> List (Pair Nat encryptor) -> Compose_hashable encryptor map_con;
     encrypt : (Compose_hashable encryptor map_con) -> plaintext -> ciphertext;
@@ -804,7 +804,7 @@ projectENCRYPTOR
   {EncryptorHash_ord_key : Type}
   (tc : ThresholdComposeEncryptor ord_key encryptor plaintext ciphertext map_con EncryptorHash_ord_key) :
   ENCRYPTOR EncryptorHash_ord_key (Compose_hashable encryptor map_con) plaintext ciphertext
-  := 
+  :=
   mkENCRYPTOR@{
     encrypt := ThresholdComposeEncryptor.encrypt tc;
     EncryptorHash := ThresholdComposeEncryptor.EncryptorHash tc;
@@ -820,14 +820,14 @@ ThresholdComposeEncryptorFunctor
   ThresholdComposeEncryptor ord_key encryptor plaintext ciphertext map_con EncryptorHash_ord_key
   := mkThresholdComposeEncryptor@{
     Map := Map_In;
-    UnderlyingEncryptor := Encryptor; 
+    UnderlyingEncryptor := Encryptor;
     EncryptorHash := ThresholdComposeHash;
     compose := \{
       t w :=
         mkCompose_hashable@{
           threshold := t;
-          weights := 
-            foldl 
+          weights :=
+            foldl
               \{m (w, e) :=
                 ORD_MAP.insert Map (m, ((HASH.hash (ENCRYPTOR.EncryptorHash UnderlyingEncryptor) e), (w, e)))
               }
@@ -874,11 +874,11 @@ ThresholdComposeReadsForFunctor
     UnderlyingReadsFor := R;
     Encryptor := ThresholdComposeEncryptorFunctor (READS_FOR.Encryptor UnderlyingReadsFor) Map ThresholdComposeHash;
     readsFor := \{
-      e ((mkCompose_hashable t0 w0), (mkCompose_hashable t1 w1)) := 
+      e ((mkCompose_hashable t0 w0), (mkCompose_hashable t1 w1)) :=
         ORD_MAP.all Map
-          \{ (w, v) := 
+          \{ (w, v) :=
               (w * t1) <=
-              ((ORD_MAP.foldl Map 
+              ((ORD_MAP.foldl Map
                 \{ ((x, v1), s) :=
                     ite (READS_FOR.readsFor UnderlyingReadsFor e (v, v1)) (x + s) s
                 }
@@ -985,7 +985,7 @@ Note that `identityName`s are also hashable: we require a structure
  `VerifierNameHash` that details how to hash them.
 
 ```juvix
-type VERIFIER_NAME 
+type VERIFIER_NAME
   (ord_key verifier signable commitment evidence identityName VerifierNameHash_ord_key) :=
   mkVERIFIER_NAME {
     Verifier : VERIFIER ord_key verifier signable commitment;
@@ -1004,7 +1004,7 @@ Note that `identityName`s are also hashable: we require a structure
  `EncryptorNameHash` that details how to hash them.
 
 ```juvix
-type ENCRYPTOR_NAME 
+type ENCRYPTOR_NAME
   (ord_key encryptor plaintext ciphertext evidence identityName EncryptorNameHash_ord_key) :=
   mkENCRYPTOR_NAME {
     Verifier : ENCRYPTOR ord_key encryptor plaintext ciphertext;
@@ -1078,13 +1078,13 @@ Here,
 SubVerifierFunctor
   (ord_key verifier signable commitment evidence name parent_ord_key : Type)
   (Child : VERIFIER ord_key verifier signable commitment)
-  (Parent : VERIFIER parent_ord_key verifier (Pair String (Pair name ord_key)) commitment) 
+  (Parent : VERIFIER parent_ord_key verifier (Pair String (Pair name ord_key)) commitment)
   (Hash : HASH parent_ord_key (Pair parent_ord_key name)):
   VERIFIER_NAME ord_key verifier signable commitment (Pair verifier commitment) (Pair parent_ord_key name) parent_ord_key :=
   mkVERIFIER_NAME@{
     Verifier := Child;
     checkVerifierName := \{
-      (ph, n) c (pv, pc) := 
+      (ph, n) c (pv, pc) :=
         (VERIFIER.verify Parent pv ("I identify this Verifier with this name: ", (n, (HASH.hash (VERIFIER.VerifierHash Child) c))) pc) &&
         ((ORD_KEY.compare (HASH.OrdKey (VERIFIER.VerifierHash Parent)) ph (HASH.hash (VERIFIER.VerifierHash Parent) pv)) == EQ)
     };
