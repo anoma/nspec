@@ -14,6 +14,6 @@ hide:
 ```juvix
 module everything;
 
-import node_architecture.engines.compute;
-import node_architecture.engines.p2p;
+import node_architecture.basics;
 ```
+
