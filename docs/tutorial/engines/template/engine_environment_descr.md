@@ -13,7 +13,7 @@ family `x`, content separated into several parts for easier handling. The
 environment's page for an engine family is a Juvix Markdown file that describes
 _all_ types—or rather type parameters, to be precise—regardless of whether they
 are specific to the [[Engine Family Types|engine family]] or shared with others
-(and used). 
+(and used).
 
 ??? note "Family-specific vs. shared types"
 
@@ -75,7 +75,7 @@ tags:
 
 ## Juvix preamble
 
-=== "Markdown" 
+=== "Markdown"
 
     The _Juvix preamble_ is a collapsed admonition that contains the [Juvix `module` declaration](https://docs.juvix.org/latest/reference/language/modules.html)
     and all necessary imports. It starts with the module declaration (based on the path and file name), followed by imports, opens, etc. The module's name, after the path, is for our example, `X_environment`.

@@ -1,7 +1,7 @@
 ---
 icon: octicons/project-template-24
 search:
-  exclude: 
+  exclude:
 tags:
 - template
 ---
