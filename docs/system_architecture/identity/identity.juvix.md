@@ -9,8 +9,7 @@ search:
 
     ```juvix
     module system_architecture.identity;
-    import prelude open hiding {Pair};
-    import Stdlib.Data.Pair as Pair open using {Pair; ,} public;
+    import prelude open;
     import Stdlib.Data.Nat as Nat open using {Nat; +; *; <=} public;
     import Stdlib.Trait.Eq as Eq open using {==} public;
     import Stdlib.Trait.Ord as Ord open using {Ordering; EQ} public;
@@ -642,21 +641,21 @@ ThresholdComposeFunctor
     verify := \ {
       | (mkCompose_hashable t ws) s c := (
           t <= (
-            ORD_MAP.foldl Map \{(x, y) := x + y} 0 (
+            ORD_MAP.foldl Map \{(mkPair x y) := x + y} 0 (
               ORD_MAP.intersectWith Map (
-                \{ | ((w, v), x) :=
+                \{ | (mkPair (mkPair w v) x) :=
                       ite (VERIFIER.verify UnderlyingVerifier v s x) w 0
                 }
-            ) (ws, c)))
+            ) (mkPair ws c)))
       )
     };
 
     signerCompose := \{ l :=
         foldl
-        \{ m (v, s) :=
-          ORD_MAP.insert Map (m, ((
+        \{ m (mkPair v s) :=
+          ORD_MAP.insert Map (mkPair m (mkPair (
             HASH.hash (VERIFIER.VerifierHash UnderlyingVerifier) v
-          ), s))
+          ) s))
         }
         (ORD_MAP.empty Map) l
     };
@@ -665,17 +664,17 @@ ThresholdComposeFunctor
       threshold weights :=
         (mkCompose_hashable threshold
           (foldl
-            \ { m (w, v) :=
-              ORD_MAP.insert Map (m, ((
+            \ { m (mkPair w v) :=
+              ORD_MAP.insert Map (mkPair m (mkPair (
                 HASH.hash (VERIFIER.VerifierHash UnderlyingVerifier) v
-              ), (w, v)))
+              ) (mkPair w v)))
             }
             (ORD_MAP.empty Map) weights
         ))
     };
 
-    verifierAnd := \{ x y := verifierCompose 2 [(1, x); (1, y)]};
-    verifierOr := \{ x y := verifierCompose 1 [(1, x); (1, y)] };
+    verifierAnd := \{ x y := verifierCompose 2 [(mkPair 1 x); (mkPair 1 y)]};
+    verifierOr := \{ x y := verifierCompose 1 [(mkPair 1 x); (mkPair 1 y)] };
   };
 ```
 
@@ -761,13 +760,13 @@ ThresholdComposeSignsForFunctor
     UnderlyingSignsFor := S;
     Verifier := ThresholdComposeFunctor (SIGNS_FOR.Verifier UnderlyingSignsFor) Signer Map ThresholdComposeHash;
     signsFor := \{
-      e ((mkCompose_hashable t0 w0), (mkCompose_hashable t1 w1)) :=
+      e (mkPair (mkCompose_hashable t0 w0) (mkCompose_hashable t1 w1)) :=
         ORD_MAP.all Map
-          \{ (w, v) :=
+          \{ (mkPair w v) :=
               (w * t1) <=
               ((ORD_MAP.foldl Map
-                \{ ((x, v1), s) :=
-                    ite (SIGNS_FOR.signsFor UnderlyingSignsFor e (v, v1)) (x + s) s
+                \{ (mkPair (mkPair x v1) s) :=
+                    ite (SIGNS_FOR.signsFor UnderlyingSignsFor e (mkPair v v1)) (x + s) s
                 }
                 0 w1
                 ) * t0)
@@ -854,8 +853,8 @@ ThresholdComposeEncryptorFunctor
           threshold := t;
           weights :=
             foldl
-              \{m (w, e) :=
-                ORD_MAP.insert Map (m, ((HASH.hash (ENCRYPTOR.EncryptorHash UnderlyingEncryptor) e), (w, e)))
+              \{m (mkPair w e) :=
+                ORD_MAP.insert Map (mkPair m (mkPair (HASH.hash (ENCRYPTOR.EncryptorHash UnderlyingEncryptor) e) (mkPair w e)))
               }
               (ORD_MAP.empty Map) w
         }
@@ -904,13 +903,13 @@ ThresholdComposeReadsForFunctor
     UnderlyingReadsFor := R;
     Encryptor := ThresholdComposeEncryptorFunctor (READS_FOR.Encryptor UnderlyingReadsFor) Map ThresholdComposeHash;
     readsFor := \{
-      e ((mkCompose_hashable t0 w0), (mkCompose_hashable t1 w1)) :=
+      e (mkPair (mkCompose_hashable t0 w0) (mkCompose_hashable t1 w1)) :=
         ORD_MAP.all Map
-          \{ (w, v) :=
+          \{ (mkPair w v) :=
               (w * t1) <=
               ((ORD_MAP.foldl Map
-                \{ ((x, v1), s) :=
-                    ite (READS_FOR.readsFor UnderlyingReadsFor e (v, v1)) (x + s) s
+                \{ (mkPair (mkPair x v1) s) :=
+                    ite (READS_FOR.readsFor UnderlyingReadsFor e (mkPair v v1)) (x + s) s
                 }
                 0 w1
               ) * t0)
@@ -1114,8 +1113,8 @@ SubVerifierFunctor
   mkVERIFIER_NAME@{
     Verifier := Child;
     checkVerifierName := \{
-      (ph, n) c (pv, pc) :=
-        (VERIFIER.verify Parent pv ("I identify this Verifier with this name: ", (n, (HASH.hash (VERIFIER.VerifierHash Child) c))) pc) &&
+      (mkPair ph n) c (mkPair pv pc) :=
+        (VERIFIER.verify Parent pv (mkPair "I identify this Verifier with this name: " (mkPair n (HASH.hash (VERIFIER.VerifierHash Child) c))) pc) &&
         ((Ordkey.compare (HASH.OrdKey (VERIFIER.VerifierHash Parent)) ph (HASH.hash (VERIFIER.VerifierHash Parent) pv)) == EQ)
     };
     VerifierNameHash := Hash;
