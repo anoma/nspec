@@ -935,9 +935,7 @@ case of Threshold Composition (see `verifierOr` above).
 
 In principle, we could define things differently: Threshold Composition could be defined using `&&`
 and `||` as primitives, by building a disjunction of every possible conjunction that satisfies the
-threshold.
-
-However, this takes much more space to express, so we use the
+threshold. In several important cases, however, this takes much more space to express, so we use the
 equally general and more numerically efficient threshold composition abstraction.
 
 ### Opaque Composition
