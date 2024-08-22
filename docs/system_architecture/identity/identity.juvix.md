@@ -5,45 +5,52 @@ search:
   boost: 2
 ---
 
+??? note "Juvix imports"
+
+    ```juvix
+    module system_architecture.identity;
+    import prelude open hiding {Pair};
+    import Stdlib.Data.Pair as Pair open using {Pair; ,} public;
+    import Stdlib.Data.Nat as Nat open using {Nat; +; *; <=} public;
+    import Stdlib.Trait.Eq as Eq open using {==} public;
+    import Stdlib.Trait.Ord as Ord open using {Ordering; EQ} public;
+    -- import Stdlib.Trait.Foldable.Polymorphic as Foldable.Polymorphic open using {foldl} public;
+    ```
+
 # Identity Architecture
 
 ```juvix
-module system_architecture.identity;
-
-import Stdlib.Data.Bool as Bool open using {Bool; true; false; ite; &&} public;
-import Stdlib.Data.Pair as Pair open using {Pair; ,} public;
-import Stdlib.Data.Maybe as Maybe open using {Maybe; just; nothing} public;
-import Stdlib.Data.Nat as Nat open using {Nat; +; *; <=} public;
-import Stdlib.Trait.Eq as Eq open using {==} public;
-import Stdlib.Trait.Ord as Ord open using {Ordering; LT; EQ; GT} public;
-import Stdlib.Data.String as String open using {String} public;
-import Stdlib.Data.List as List open using {List} public;
-import Stdlib.Trait.Foldable.Polymorphic as Foldable.Polymorphic open using {foldl} public;
-
-type ORD_KEY (ord_key : Type) :=
-  mkORD_KEY {
+type Ordkey (ord_key : Type) :=
+  mkOrdkey {
       compare : ord_key -> ord_key -> Ordering
   };
+```
 
+
+```juvix
 type HASH (ord_key hashable : Type) :=
   mkHASH {
-    OrdKey : ORD_KEY ord_key;
+    OrdKey : Ordkey ord_key;
     hash : hashable -> ord_key
   };
-
--- Note: instance of this with Data.Map should be made
-type ORD_MAP (map_ord_key : Type) (map_con {- originally "map" -}: Type -> Type) :=
-  mkORD_MAP {
-    ord_key : ORD_KEY map_ord_key;
-    empty : {a : Type} -> map_con a;
-    map  : {a b : Type} -> (a -> b) -> map_con a -> map_con b;
-    insert  : {a : Type} -> Pair (map_con a) (Pair map_ord_key a) -> map_con a;
-    foldl  : {a b : Type} -> (Pair a b -> b) -> b -> map_con a -> b;
-    intersectWith  : {a b c : Type} -> (Pair a b -> c) -> Pair (map_con a) (map_con b) -> map_con c;
-    all : {a : Type} -> (a -> Bool) -> map_con a -> Bool
-    -- Bunch of stuff, see https://www.smlnj.org/doc/smlnj-lib/Util/sig-ORD_MAP.html
-  };
 ```
+
+??? note "ORD MAP"
+
+    ```juvix
+    -- Note: instance of this with Data.Map should be made
+    type ORD_MAP (map_ord_key : Type) (map_con {- originally "map" -}: Type -> Type) :=
+      mkORD_MAP {
+        ord_key : Ordkey map_ord_key;
+        empty : {a : Type} -> map_con a;
+        map  : {a b : Type} -> (a -> b) -> map_con a -> map_con b;
+        insert  : {a : Type} -> Pair (map_con a) (Pair map_ord_key a) -> map_con a;
+        foldl  : {a b : Type} -> (Pair a b -> b) -> b -> map_con a -> b;
+        intersectWith  : {a b c : Type} -> (Pair a b -> c) -> Pair (map_con a) (map_con b) -> map_con c;
+        all : {a : Type} -> (a -> Bool) -> map_con a -> Bool
+        -- Bunch of stuff, see https://www.smlnj.org/doc/smlnj-lib/Util/sig-ORD_MAP.html
+      };
+    ```
 
 The base abstraction of the protocol is a knowledge-based identity
  interface, where the identity of an agent is defined entirely on the
@@ -155,10 +162,10 @@ An internal_identity includes:
 Properties are inherited from `SIGNER` and `DECRYPTOR`.
 
 ```juvix
-type INTERNAL_IDENTITY (signer signable commitment decryptor plaintext ciphertext : Type) :=
+type INTERNAL_IDENTITY (Signer Signable commitment Decryptor plaintext ciphertext : Type) :=
   mkINTERNAL_IDENTITY {
-    Signer : SIGNER signer signable commitment;
-    Decryptor : DECRYPTOR decryptor plaintext ciphertext
+    signer : SIGNER Signer Signable commitment;
+    decryptor : DECRYPTOR Decryptor plaintext ciphertext
   }
 ```
 
@@ -300,11 +307,24 @@ Properties are inherited from `VERIFIER`, `ENCRYPTOR`, `SIGNER`, and `DECRYPTOR`
 
 ```juvix
 type IDENTITY (
-  signer internal_signable internal_commitment decryptor internal_plaintext internal_ciphertext
-  verifier_ord_key verifier external_signable external_commitment encryptor_ord_key encryptor external_plaintext external_ciphertext : Type) :=
+  signer
+  internal_signable
+  internal_commitment
+  decryptor
+  internal_plaintext
+  internal_ciphertext
+  verifier_ord_key
+  verifier
+  external_signable
+  external_commitment
+  encryptor_ord_key
+  encryptor
+  external_plaintext
+  external_ciphertext
+  : Type) :=
   mkIDENTITY {
-    Internal_Identity : INTERNAL_IDENTITY signer internal_signable internal_commitment decryptor internal_plaintext internal_ciphertext;
-    External_Identity : EXTERNAL_IDENTITY verifier_ord_key verifier external_signable external_commitment encryptor_ord_key encryptor external_plaintext external_ciphertext
+    internalIdentity : INTERNAL_IDENTITY signer internal_signable internal_commitment decryptor internal_plaintext internal_ciphertext;
+    externalIdentity : EXTERNAL_IDENTITY verifier_ord_key verifier external_signable external_commitment encryptor_ord_key encryptor external_plaintext external_ciphertext
   };
 ```
 
@@ -784,7 +804,9 @@ No additional evidence is required.
 axiom encrypt_DUMMY :
   {encryptor plaintext ciphertext : Type} -> {map_con : Type -> Type} ->
   (Compose_hashable encryptor map_con) -> plaintext -> ciphertext;
+```
 
+```juvix
 type ThresholdComposeEncryptor
   (ord_key encryptor plaintext ciphertext : Type)
   (map_con : Type -> Type)
@@ -797,7 +819,9 @@ type ThresholdComposeEncryptor
     compose : Nat -> List (Pair Nat encryptor) -> Compose_hashable encryptor map_con;
     encrypt : (Compose_hashable encryptor map_con) -> plaintext -> ciphertext;
   };
+```
 
+```juvix
 projectENCRYPTOR
   {ord_key encryptor plaintext ciphertext : Type}
   {map_con : Type -> Type}
@@ -809,7 +833,9 @@ projectENCRYPTOR
     encrypt := ThresholdComposeEncryptor.encrypt tc;
     EncryptorHash := ThresholdComposeEncryptor.EncryptorHash tc;
   };
+```
 
+```juvix
 ThresholdComposeEncryptorFunctor
   {ord_key encryptor plaintext ciphertext : Type}
   {map_con : Type -> Type}
@@ -849,7 +875,9 @@ type ThresholdComposeReadsFor
     Encryptor : ThresholdComposeEncryptor ord_key encryptor plaintext ciphertext map_con EncryptorHash_ord_key;
     readsFor : evidence -> Pair (Compose_hashable encryptor map_con) (Compose_hashable encryptor map_con) -> Bool;
   };
+```
 
+```juvix
 projectREADS_FOR
   { ord_key verifier signable commitment evidence : Type }
   { map_con : Type -> Type }
@@ -860,7 +888,9 @@ projectREADS_FOR
     Encryptor := projectENCRYPTOR (ThresholdComposeReadsFor.Encryptor tc);
     readsFor := ThresholdComposeReadsFor.readsFor tc;
   };
+```
 
+```juvix
 ThresholdComposeReadsForFunctor
   { ord_key encryptor plaintext ciphertext evidence : Type }
   { map_con : Type -> Type }
@@ -1086,7 +1116,7 @@ SubVerifierFunctor
     checkVerifierName := \{
       (ph, n) c (pv, pc) :=
         (VERIFIER.verify Parent pv ("I identify this Verifier with this name: ", (n, (HASH.hash (VERIFIER.VerifierHash Child) c))) pc) &&
-        ((ORD_KEY.compare (HASH.OrdKey (VERIFIER.VerifierHash Parent)) ph (HASH.hash (VERIFIER.VerifierHash Parent) pv)) == EQ)
+        ((Ordkey.compare (HASH.OrdKey (VERIFIER.VerifierHash Parent)) ph (HASH.hash (VERIFIER.VerifierHash Parent) pv)) == EQ)
     };
     VerifierNameHash := Hash;
   }
