@@ -1,28 +1,31 @@
 ---
 icon: octicons/project-template-24
 search:
-  exclude: false
+  exclude: 
+tags:
+- template
 ---
 
 # Engine "Overview" Template
 
-This page gives a high-level overview of the engine family `X`.
+This page contains a template for writing the overview of the engine family `X`.
 
 !!! info
 
     Press the :material-content-copy: button in the code snippet below to copy the
     template and save its content in a new file
-    `docs/node_architecture/engines/X_overview.md`.
+    `docs/node_architecture/engines/x_overview.md`.
 
-```html linenums="1" title="X_overview.md"
+```html linenums="1" title="docs/node_architecture/engines/x_overview.md"
 --- <!-- (1)! -->
-icon: octicons/project-template-24  <!-- (2)! -->
+icon: octicons/gear-16  <!-- (2)! -->
 search:
   exclude: false
 categories:
 - engine-family <!-- (3)! -->
 tags:
 - mytag1 <!-- (4)! -->
+- engine-overview
 ---
 
 # X Engine Family <!-- (5)! -->
@@ -44,15 +47,16 @@ for background on X, Y and Z.
 ??? note [[X Engine Environment|Engine environment]] <!-- (12)! -->
 
     <!-- (13)! -->
-   --8< "./docs/node_architecture/engines/X_environment.juvix.md"
+   --8< "./docs/node_architecture/engines/x_environment.juvix.md"
 
 ??? note [[X Engine Dynamics|Engine dynamics]] <!-- (14)! -->
 
-   --8< "./docs/node_architecture/engines/X_dynamics.juvix.md"
+   --8< "./docs/node_architecture/engines/x_dynamics.juvix.md"
 ```
 
 <!------------------------------------------------------------------------------->
 
+<!-- --8<-- [start:annotations] -->
 1. Every Markdown file in the Anoma Specs starts with a YAML front matter block.
 
 2. The icon is a project template icon. Find more icons in the
@@ -134,21 +138,23 @@ for background on X, Y and Z.
    </figure>
 
 11. This is the final part of the page with includes in the form of **collapsed
-    snippets** of the engine components. The engine components are the environment
-    and the dynamics of the engine family, and protocol types, if any.
+    snippets** of the engine components. The engine components are the _environment_
+    and the _dynamics_ of the engine family, and _protocol types_, if any.
 
 12. This is a collapsed admonition that links to the `Engine environment` page
     of the engine family. The `[[wikilink-to-X|text]]` syntax is used to link to
     the `Engine environment` page of the engine family.
 
 13. This syntax is used to include the content from the file
-    `X_environment.juvix.md`, which must contain the environment definition for
+    `x_environment.juvix.md`, which must contain the environment definition for
     this engine family.
 
 14. Similarly to the previous point, this is a collapsed admonition that links
     to the `Engine dynamics` page of the engine family. In this case, we expect
     the navigation `nav` section of the `mkdocs.yml` file to contain a link to
     `X Engine Dynamics`.
+<!-- --8<-- [end:annotations] -->
+
 
 ## Useful links
 
