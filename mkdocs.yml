@@ -422,7 +422,7 @@ nav:
     - Engine Templates:
       - ./tutorial/engines/template/index.md
       - Engine Overview Template: ./tutorial/engines/template/engine_overview.md
-      - Engine Environment Template: ./tutorial/engines/template/engine_environment.juvix.md
+      - Engine Environment Template: ./tutorial/engines/template/engine_environment_descr.md
       - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.juvix.md
       - Engine Protocol Types Template: ./tutorial/engines/template/template_protocol_types.juvix.md
     - Examples:

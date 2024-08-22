@@ -1,125 +1,16 @@
----
-icon: octicons/project-template-24
-search:
-  exclude: false
----
+<!--The content of this file is for demostration purposes in the Engines in Anoma's tutorial. -->
 
-??? note "Juvix preamble: ʜᴇʀᴇ 👇 are the `module` declaration, `import`s, `open`s, etc."
 
-    We have the `module` declaration (according to the path and file name)
-    followed by `import`s, `open`s, etc.
+<!-- --8<-- [start:juvix-preamble] -->
+??? note "Juvix preamble"
 
     ```juvix
-    module tutorial.engines.template.engine_environment;
+    module node_architecture.engines.x_environment;
     import prelude open;
     import node_architecture.types.engine_family open;
     ```
+<!-- --8<-- [end:juvix-preamble] -->
 
-    The naming scheme for the module, after the path,
-    is `[engine_family_name]_engine_environment`.
-
-# [Engine Family Name] Environment
-
-!!! note "On `[Engine Family Name] Environment`"
-
-    The [[Engine Environment Template| ⟦Engine Family Name⟧ Environment]] page describes
-    _all_ types—or rather type parameters,
-    to be precise—regardless of whether they are
-    specific to the [[Engine Family Types|engine family]] or
-    shared with others (and used).
-
-    ??? note "Family-specific vs. shared"
-
-        Family-specific type definitions
-
-        : A type declaration is _family-specific_ if
-        no other module ímports that type directly,
-        with the possible exception of the module for protocol-level messages and environments,
-        i.e., `[protocol_name]_protocol_types`
-        is the only module that may ímport a family-specific type.
-
-        : A family-specific type definition has to be described in
-        [[Engine Environment Template|this page]].
-
-        Shared type definitions
-
-        : A type is _shared_ if
-          at least one other engine family is directly ímporting
-          the type declaration in its engine environment module.
-
-        : A shared type declaration should be included via
-        [[Include code snippets| snippeting `--8<--`]] in a `!!! quote ""` admonition
-        (see also [PyMdown Extensions Documentation](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/))—_including the explanation_
-        (and a link to the original may be useful).
-
-        : The location of the type declaration of a shared type
-        is either
-
-        : - the lowest common ancestor that the engine families share in
-          the [[Engine Family Hierarchy]], or
-          - a more suitable place,
-          e.g., if it is one of the [[Basic Types]].
-
-    Conceptual structure
-
-    : We describe each of the following type parameters in order
-    (or include a description via snippeting):
-    [[Engine Environment Template#messages|messages]],
-    [[Engine Environment Template#mailbox-states|mailbox states]],
-    [[Engine Environment Template#local-state|local state]], and
-    [[Engine Environment Template#timer-handles|timer handles]].
-    Interdependencies between these type definitions should be explained.
-    In particular,
-    for each data item in the local state,
-    it should be explained why it rather belongs to
-    the generic local state of the engine,
-    e.g., by giving a list of hurdles, inconveniences, and issues that
-    are in the way of moving it to a mailbox state.
-
-    Goals
-
-    : Engineering can quickly access all type information of the
-    engine family and moreover can read a description of the purpose of
-    the inhabitants of the  message type, mailbox state type, local state type,
-    and timer handle type,
-    in broad terms.
-
-    Form
-
-    : The present template describes the form.
-    _The juvix preamble is preceding the page title._
-    Moreover,
-    tips (`!!! tip "[some tip]"`) or
-    warnings (`!!! warning "[some warning]"`)
-    may be used to highlight ímportant details.
-
-<!--ᚦ: this is to be moved to the tutorial¶
-!!! tip "Time is ɴᴏᴛ part of engine environments"
-
-    The local clocks of engine instances are "external" to engine instances.
-    If you need information about wall-clock time,
-    you must rely on "time stamps" of triggers.
-    Use local time and timers only if necessary.
-    Moreover, each Anoma node may at some point in time have
-    a node-wide wall-clock time service,
-    which would be yet different
-    in that it will try to relate to local time
-    of users on their watches in the vicinity of the node.
--->
-<!--ᚦ: this probably should be moved as well:
-!!! warning "Reminder about “derived” protocol-level types"
-
-    Note that after the definition of all engine-specific types,
-    there are "derived types" for engine environments
-    and messages at the protocol-level.
-    This is relevant also for specs writing as
-    for the creation of new engine instances,
-    we use the protocol-level engine environment type,
-    and similarly, for sending new messages,
-    we rely on thy protocol-level message type.
-    This will be relevant for the
-    [[Engine Dynamics Template|dynamics of engines]].
--->
 
 ## Overview `{`optional`}`
 
@@ -271,9 +162,6 @@ search:
 
         ### messageOne
 
-        !!! quote ""
-
-            --8<-- "./engine_environment.juvix.md:messageOne"
 
         If an [engine family name] receives a messageOne-message,
         it will store argTwo,
@@ -364,10 +252,6 @@ search:
         ```
 
         ### stateOne
-
-        !!! quote ""
-
-            --8<-- "./engine_environment.juvix.md:stateOne"
 
         This is one family of mailbox states without much complexity.
 
@@ -487,10 +371,6 @@ search:
         ```
 
         ### timerHandleOne
-
-        !!! quote ""
-
-            --8<-- "./engine_environment.juvix.md:handleOne"
 
         The first kind of timer handle.
 
