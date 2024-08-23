@@ -19,18 +19,18 @@ search:
 # Identity Architecture
 
 ```juvix
-type Ordkey (ord_key : Type) :=
+type OrdKey (OrdKey : Type) :=
   mkOrdkey {
-      compare : ord_key -> ord_key -> Ordering
+      compare : OrdKey -> OrdKey -> Ordering
   };
 ```
 
 
 ```juvix
-type HASH (ord_key hashable : Type) :=
+type HASH (OrdKeyType Hashable : Type) :=
   mkHASH {
-    OrdKey : Ordkey ord_key;
-    hash : hashable -> ord_key
+    ordKey : OrdKey OrdKeyType;
+    hash : Hashable -> OrdKeyType
   };
 ```
 
@@ -38,16 +38,16 @@ type HASH (ord_key hashable : Type) :=
 
     ```juvix
     -- Note: instance of this with Data.Map should be made
-    type ORD_MAP (map_ord_key : Type) (map_con {- originally "map" -}: Type -> Type) :=
-      mkORD_MAP {
-        ord_key : Ordkey map_ord_key;
-        empty : {a : Type} -> map_con a;
-        map  : {a b : Type} -> (a -> b) -> map_con a -> map_con b;
-        insert  : {a : Type} -> Pair (map_con a) (Pair map_ord_key a) -> map_con a;
-        foldl  : {a b : Type} -> (Pair a b -> b) -> b -> map_con a -> b;
-        intersectWith  : {a b c : Type} -> (Pair a b -> c) -> Pair (map_con a) (map_con b) -> map_con c;
-        all : {a : Type} -> (a -> Bool) -> map_con a -> Bool
-        -- Bunch of stuff, see https://www.smlnj.org/doc/smlnj-lib/Util/sig-ORD_MAP.html
+    type OrdMap (OrdKeyType : Type) (MapCon : Type -> Type) :=
+      mkOrdMap {
+        ordKey : OrdKey OrdKeyType;
+        empty : {a : Type} -> MapCon a;
+        map  : {a b : Type} -> (a -> b) -> MapCon a -> MapCon b;
+        insert  : {a : Type} -> Pair (MapCon a) (Pair OrdKeyType a) -> MapCon a;
+        foldl  : {a b : Type} -> (Pair a b -> b) -> b -> MapCon a -> b;
+        intersectWith  : {a b c : Type} -> (Pair a b -> c) -> Pair (MapCon a) (MapCon b) -> MapCon c;
+        all : {a : Type} -> (a -> Bool) -> MapCon a -> Bool
+        -- Bunch of stuff, see https://www.smlnj.org/doc/smlnj-lib/Util/sig-OrdMap.html
       };
     ```
 
@@ -77,8 +77,8 @@ Decryptor.
 #### Signer Juvix Type
 
 A signature describing a type `signer` that can cryptographically
- `sign` (or credibly commit) to something (a `signable`), forming a
- `commitment`.
+ `sign` (or credibly commit) to something (a `Signable`), forming a
+ `Commitment`.
 Implementations should ultimately include, for example
  [BLS](https://en.wikipedia.org/wiki/BLS_digital_signature) keys,
   which should be able to sign anything that can be marshaled into a
@@ -86,8 +86,8 @@ Implementations should ultimately include, for example
 
 Properties:
 
-- In general, every `S:SIGNER` needs a corresponding `V:VERIFIER`, and
-  every `s:S.signer` needs a corresponding `v:V.verifier`, such that:
+- In general, every `S:Signer` needs a corresponding `V:Verifier`, and
+  every `s:S.signer` needs a corresponding `v:V.VerifierType`, such that:
 
   - For any message `m`: `verify v m x = (x = (sign s m))`
 
@@ -95,16 +95,16 @@ Properties:
     able to approximate `s` knowing only `v`.
 
 ```juvix
-type SIGNER (signer signable commitment : Type) :=
-  mkSIGNER {
-    sign : signer -> signable -> commitment
+type Signer (SignerType Signable Commitment : Type) :=
+  mkSigner {
+    sign : SignerType -> Signable -> Commitment
   };
 ```
 
 #### Decryptor Juvix Type
 
-A signature describing a type `decryptor` that can cryptographically
- `decrypt` something (a `ciphertext`), resulting in a `plaintext`
+A signature describing a type `DecryptorType` that can cryptographically
+ `decrypt` something (a `Ciphertext`), resulting in a `Plaintext`
  (or `N1`, if decryption fails).
 Implementations should ultimately include, for example,
  [AES-256](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
@@ -118,20 +118,20 @@ Properties:
 
 - `decrypt` should take polynomial time (in the size of its inputs)
 
-- Each `D:DECRYPTOR` should have a corresponding `E:ENCRYPTOR`, and
-  each `d: D.decryptor` has a corresponding `e: E.encryptor` such
+- Each `D:DECRYPTOR` should have a corresponding `E:Encryptor`, and
+  each `d: D.DecryptorType` has a corresponding `e: E.EncryptorType` such
   that:
 
-  - for all `c : D.ciphertext`, `p : D.plaintext`:
+  - for all `c : D.Ciphertext`, `p : D.Plaintext`:
     `D.decrypt d c = Some p` iff `c = E.encrypt e p`
 
   - if `d = e`, we call this "symmetric encryption," and otherwise
     it's "asymmetric encryption"
 
 ```juvix
-type DECRYPTOR (decryptor plaintext ciphertext : Type) :=
-  mkDECRYPTOR {
-    decrypt : decryptor -> ciphertext -> Maybe plaintext
+type Decryptor (DecryptorType Plaintext Ciphertext : Type) :=
+  mkDecryptor {
+    decrypt : DecryptorType -> Ciphertext -> Maybe Plaintext
   }
 ```
 
@@ -151,20 +151,20 @@ Implementations should ultimately include, for example,
 An internal_identity includes:
 
 - a type `signer` that can cryptographically
-  `sign` (or credibly commit) to something (a `signable`), forming a
-  `commitment`.
+  `sign` (or credibly commit) to something (a `Signable`), forming a
+  `Commitment`.
 
-- a type `decryptor` that can cryptographically `decrypt` something
-  (a `ciphertext`), resulting in a `plaintext`
+- a type `DecryptorType` that can cryptographically `decrypt` something
+  (a `Ciphertext`), resulting in a `Plaintext`
   (or `N1`, if decryption fails).
 
-Properties are inherited from `SIGNER` and `DECRYPTOR`.
+Properties are inherited from `Signer` and `DECRYPTOR`.
 
 ```juvix
-type INTERNAL_IDENTITY (Signer Signable commitment Decryptor plaintext ciphertext : Type) :=
-  mkINTERNAL_IDENTITY {
-    signer : SIGNER Signer Signable commitment;
-    decryptor : DECRYPTOR Decryptor plaintext ciphertext
+type InternalIdentity (SignerType Signable Commitment DecryptorType Plaintext Ciphertext : Type) :=
+  mkInternalIdentity {
+    signer : Signer SignerType Signable Commitment;
+    decryptor : Decryptor DecryptorType Plaintext Ciphertext
   }
 ```
 
@@ -173,19 +173,19 @@ type INTERNAL_IDENTITY (Signer Signable commitment Decryptor plaintext ciphertex
 An external identity includes only public information. An external identity can
 verify signatures produced by an internal identity, and encrypt messages the
 internal identity can then decrypt. Formally, an external identity has 2 parts:
-a Verifier and an Encryptor. Each is _hashable_: any
+a verifier and an Encryptor. Each is _hashable_: any
 [structure](https://www.cs.cornell.edu/riccardo/prog-smlnj/notes-011001.pdf#page=59)
-specifying Verifier and Encryptor types must also specify a hash function, so
+specifying verifier and Encryptor types must also specify a hash function, so
 that external identities can be specified by hash.
 
-#### Verifier Juvix Type
+#### verifier Juvix Type
 
-A signature describing a type `verifier` that can cryptographically
- `verify` that a `commitment` (or cryptographic signature) corresponds
- to a given message (a `signable`), and was signed by the `signer`
- corresponding to this `verifier`.
-A `verifier` can be hashed (producing a unique identifier), so a
- structure with signature `VERIFIER` must specify a `VerifierHash`
+A signature describing a type `VerifierType` that can cryptographically
+ `verify` that a `Commitment` (or cryptographic signature) corresponds
+ to a given message (a `Signable`), and was signed by the `signer`
+ corresponding to this `VerifierType`.
+A `VerifierType` can be hashed (producing a unique identifier), so a
+ structure with signature `Verifier` must specify a `VerifierHash`
  structure defining a suitable `hash` function.
 Implementations should ultimately include, for example
  [BLS](https://en.wikipedia.org/wiki/BLS_digital_signature)
@@ -193,8 +193,8 @@ Implementations should ultimately include, for example
 
 Properties:
 
-- In general, every `V:VERIFIER` needs a corresponding `S:SIGNER`, and
-  every `s:S.signer` needs a corresponding `v:V.verifier`, such that:
+- In general, every `V:Verifier` needs a corresponding `S:Signer`, and
+  every `s:S.signer` needs a corresponding `v:V.VerifierType`, such that:
 
   - For any message `m`: `verify v m x = (x = (sign s m))`
 
@@ -202,20 +202,20 @@ Properties:
     able to approximate `s` knowing only `v`.
 
 ```juvix
-type VERIFIER (ord_key verifier signable commitment : Type) :=
+type Verifier (OrdKey VerifierType Signable Commitment : Type) :=
   mkVERIFIER {
-    verify : verifier -> signable -> commitment -> Bool;
-    VerifierHash : HASH ord_key verifier
+    verify : VerifierType -> Signable -> Commitment -> Bool;
+    verifierHash : HASH OrdKey VerifierType
   }
 ```
 
 #### Encryptor SML Signature
 
-A signature describing a type `encryptor` that can cryptographically
- `encrypt` a `plaintext` (message) to create a `ciphertext` readable
- only by the corresponding `decryptor`.
-An `encryptor` can be hashed (producing a unique identifier), so a
- structure with signature `ENCRYPTOR` must specify an `EncryptorHash`
+A signature describing a type `EncryptorType` that can cryptographically
+ `encrypt` a `Plaintext` (message) to create a `Ciphertext` readable
+ only by the corresponding `DecryptorType`.
+An `EncryptorType` can be hashed (producing a unique identifier), so a
+ structure with signature `Encryptor` must specify an `encryptorHash`
  structure defining a suitable hash function.
 Implementations should ultimately include, for example,
  [AES-256](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
@@ -227,11 +227,11 @@ Properties:
 
 - `encrypt` should take polynomial time (in the size of its inputs)
 
-- Each `E:ENCRYPTOR` should have a corresponding `D:DECRYPTOR`, and
-  each `d: D.decryptor` has a corresponding `e: E.encryptor` such
+- Each `E:Encryptor` should have a corresponding `D:DECRYPTOR`, and
+  each `d: D.DecryptorType` has a corresponding `e: E.EncryptorType` such
   that:
 
-  - for all `c : D.ciphertext`, `p : D.plaintext`:
+  - for all `c : D.Ciphertext`, `p : D.Plaintext`:
     `D.decrypt d c = Some p` iff `c = E.encrypt e p`
 
   - if `d = e`, we call this "symmetric encryption," and otherwise
@@ -240,40 +240,40 @@ Properties:
     should not be able to approximate `d` knowing only `e`.
 
 ```juvix
-type ENCRYPTOR (ord_key encryptor plaintext ciphertext : Type) :=
-  mkENCRYPTOR {
-    encrypt : encryptor -> plaintext -> ciphertext;
-    EncryptorHash : HASH ord_key encryptor
+type Encryptor (OrdKey EncryptorType Plaintext Ciphertext : Type) :=
+  mkEncryptor {
+    encrypt : EncryptorType -> Plaintext -> Ciphertext;
+    encryptorHash : HASH OrdKey EncryptorType
   }
 ```
 
 #### External Identity Juvix Type
 
 An External Identity structure specifies the necessary types and
- functions for both a Verifier and an Encyrptor.
+ functions for both a verifier and an Encyrptor.
 Implementations should ultimately include, for example,
  [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) public keys.
 
 An external_identity includes:
 
-- a type `verifier` that can cryptographically `verify` that a
-  `commitment` (or cryptographic signature) corresponds to a given
-  message (a `signable`), and was signed by the `signer`
-  corresponding to this `verifier`.
+- a type `VerifierType` that can cryptographically `verify` that a
+  `Commitment` (or cryptographic signature) corresponds to a given
+  message (a `Signable`), and was signed by the `signer`
+  corresponding to this `VerifierType`.
 
-- a type `encryptor` that can cryptographically `encrypt` a
-  `plaintext` (message) to create a `ciphertext` readable only by the
-  corresponding `decryptor`.
+- a type `EncryptorType` that can cryptographically `encrypt` a
+  `Plaintext` (message) to create a `Ciphertext` readable only by the
+  corresponding `DecryptorType`.
 
-Properties are inherited from `VERIFIER` and `ENCRYPTOR`.
+Properties are inherited from `Verifier` and `Encryptor`.
 
 ```juvix
-type EXTERNAL_IDENTITY (
-    verifier_ord_key verifier signable commitment
-    encryptor_ord_key encryptor plaintext ciphertext : Type) :=
-  mkEXTERNAL_IDENTITY {
-    Verifier : VERIFIER verifier_ord_key verifier signable commitment;
-    Encryptor : ENCRYPTOR encryptor_ord_key encryptor plaintext ciphertext
+type ExternalIdentity (
+    VerifierOrdKeyType VerifierType Signable Commitment
+    EncryptorOrdKeyType EncryptorType Plaintext Ciphertext : Type) :=
+  mkExternalIdentity {
+    verifier : Verifier VerifierOrdKeyType VerifierType Signable Commitment;
+    encryptor : Encryptor EncryptorOrdKeyType EncryptorType Plaintext Ciphertext
   };
 ```
 
@@ -281,12 +281,12 @@ type EXTERNAL_IDENTITY (
 
 An Identity structure, formally, specifies all the types for
  corresponding internal and external identities.
-So, for a given Identity structure `I`, `I.verifier` should be the
- type of objects that can verify `commitment`s produced by a
+So, for a given Identity structure `I`, `I.VerifierType` should be the
+ type of objects that can verify `Commitment`s produced by a
  corresponding object of type `I.signer`.
-Likewise, `I.decryptor` should be the type of objects that can decrypt
- `ciphertext`s produced by a corresponding object of type
- `I.encryptor`.
+Likewise, `I.DecryptorType` should be the type of objects that can decrypt
+ `Ciphertext`s produced by a corresponding object of type
+ `I.EncryptorType`.
 Implementations should ultimately include, for example,
  [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem))
  public / private keys sytems.
@@ -294,36 +294,36 @@ Implementations should ultimately include, for example,
 An Identity includes:
 
 
-- a type `signer` that can cryptographically `sign` (or credibly commit) to something (a `signable`), forming a `commitment`.
+- a type `signer` that can cryptographically `sign` (or credibly commit) to something (a `Signable`), forming a `Commitment`.
 
-- a type `decryptor` that can cryptographically `decrypt` something (a `ciphertext`), resulting in a `plaintext` (or `N1`, if decryption fails).
+- a type `DecryptorType` that can cryptographically `decrypt` something (a `Ciphertext`), resulting in a `Plaintext` (or `N1`, if decryption fails).
 
-- a type `verifier` that can cryptographically `verify` that a `commitment` (or cryptographic signature) corresponds to a given message (a `signable`), and was signed by the `signer` corresponding to this `verifier`.
+- a type `VerifierType` that can cryptographically `verify` that a `Commitment` (or cryptographic signature) corresponds to a given message (a `Signable`), and was signed by the `signer` corresponding to this `VerifierType`.
 
-- a type `encryptor` that can cryptographically `encrypt` a `plaintext` (message) to create a `ciphertext` readable only by the corresponding `decryptor`.
+- a type `EncryptorType` that can cryptographically `encrypt` a `Plaintext` (message) to create a `Ciphertext` readable only by the corresponding `DecryptorType`.
 
-Properties are inherited from `VERIFIER`, `ENCRYPTOR`, `SIGNER`, and `DECRYPTOR`.
+Properties are inherited from `Verifier`, `Encryptor`, `Signer`, and `DECRYPTOR`.
 
 ```juvix
-type IDENTITY (
-  signer
-  internal_signable
-  internal_commitment
-  decryptor
-  internal_plaintext
-  internal_ciphertext
-  verifier_ord_key
-  verifier
-  external_signable
-  external_commitment
-  encryptor_ord_key
-  encryptor
-  external_plaintext
-  external_ciphertext
+type Identity (
+  SignerType
+  InternalSignable
+  InternalCommitment
+  DecryptorType
+  InternalPlaintext
+  InternalCiphertext
+  VerifierOrdKeyType
+  VerifierType
+  ExternalSignable
+  ExternalCommitment
+  EncryptorOrdKeyType
+  EncryptorType
+  ExternalPlaintext
+  ExternalCiphertext
   : Type) :=
-  mkIDENTITY {
-    internalIdentity : INTERNAL_IDENTITY signer internal_signable internal_commitment decryptor internal_plaintext internal_ciphertext;
-    externalIdentity : EXTERNAL_IDENTITY verifier_ord_key verifier external_signable external_commitment encryptor_ord_key encryptor external_plaintext external_ciphertext
+  mkIdentity {
+    internalIdentity : InternalIdentity SignerType InternalSignable InternalCommitment DecryptorType InternalPlaintext InternalCiphertext;
+    externalIdentity : ExternalIdentity VerifierOrdKeyType VerifierType ExternalSignable ExternalCommitment EncryptorOrdKeyType EncryptorType ExternalPlaintext ExternalCiphertext
   };
 ```
 
@@ -354,9 +354,9 @@ blockchain.
 #### SignsFor Juvix Type
 
 Formally, a `signsFor` relation requires a type of evidence, and a
- `VERIFIER` structure.
-This codifies a belief about what `verifier`'s `commitments` are
- "at least as good as" another `verifier`'s.
+ `Verifier` structure.
+This codifies a belief about what `VerifierType`'s `Commitments` are
+ "at least as good as" another `VerifierType`'s.
 Evidence can be signed statements, proofs, or even local state about beliefs.
 
 For example, suppose `Alice` wants to grant authority to `Bob` to
@@ -369,10 +369,10 @@ Note that `signsFor` is not symmetric: `signsFor e (x,y)` does not
  imply that any `z` exists such that `signsFor z (y,x)`.
 
 ```juvix
-type SIGNS_FOR (ord_key verifier signable commitment evidence : Type) :=
-  mkSIGNS_FOR {
-    Verifier : VERIFIER ord_key verifier signable commitment;
-    signsFor : evidence -> (Pair verifier verifier) -> Bool
+type SignsFor (OrdKey VerifierType Signable Commitment Evidence : Type) :=
+  mkSignsFor {
+    verifier : Verifier OrdKey VerifierType Signable Commitment;
+    signsFor : Evidence -> (Pair VerifierType VerifierType) -> Bool
   };
 ```
 
@@ -388,7 +388,7 @@ cheaper to sign a message as _B_, it's safe to just use _B_ instead, and vice
 
 Similar to `signsFor`, it is useful to sometimes note that 1 identity can read
  information encrypted to another identity. For example, suppose _Alice_ gives
-her private `decryptor` to _Bob_, and wants to let every1 know that _Bob_ can
+her private `DecryptorType` to _Bob_, and wants to let every1 know that _Bob_ can
  now read anything encrypted to _Alice_. Nodes who want to take this into
  account might accept some sort of `evidence`, perhaps a signed statement from
 _Alice_, so that they can recognize that _Bob_ `readsFor` _Alice_.
@@ -409,19 +409,19 @@ _A_ `readsFor` _B_.
 #### ReadsFor Juvix Type
 
 Formally, a `readsFor` relation requires a type of evidence, and an
- `ENCRYPTOR` structure.
+ `Encryptor` structure.
 This codifies a belief about what `DECRYPTOR`s can read other
- `ENCRYPTOR`s ciphertext.
+ `Encryptor`s Ciphertext.
 Evidence can be signed statements, proofs, or even local state about beliefs.
 
 Specifically, if a node expresses a `readsFor` relation, and
  `readsFor e (x,y)`, then the node believes that any node knowing the
- decryptor corresponding to `x` can decrypt `encrypt y p`.
-If there is some plaintext `p` such that some node knowing a decryptor
+ DecryptorType corresponding to `x` can decrypt `encrypt y p`.
+If there is some Plaintext `p` such that some node knowing a DecryptorType
  corresponding to `x` cannot read `encrypt y p`, then the node's
  beliefs, as encoded in the `readsFor` relation, are incorrect.
 
-For example, suppose `Alice` gives her private `decryptor` to `Bob`,
+For example, suppose `Alice` gives her private `DecryptorType` to `Bob`,
  and wants to let every1 know that `Bob` can now read anything
  encrypted to `Alice`.
 Nodes who want to take this into account might accept some sort of
@@ -432,10 +432,10 @@ Note that `readsFor` is not symmetric: `readsFor e (x,y)` does not
  imply that any `z` exists such that `readsFor z (y,x)`.
 
 ```juvix
-type READS_FOR (ord_key encryptor plaintext ciphertext evidence : Type) :=
-  mkREADS_FOR {
-    Encryptor : ENCRYPTOR ord_key encryptor plaintext ciphertext;
-    readsFor : evidence -> (Pair encryptor encryptor) -> Bool
+type ReadsFor (OrdKey EncryptorType Plaintext Ciphertext Evidence : Type) :=
+  mkReadsFor {
+    encryptor : Encryptor OrdKey EncryptorType Plaintext Ciphertext;
+    readsFor : Evidence -> (Pair EncryptorType EncryptorType) -> Bool
   }
 ```
 
@@ -483,168 +483,174 @@ There are several ways we could imagine constructing Threshold
    ciphertexts, and the resulting plaintexts must be combined using an
    erasure coding scheme.
 
-#### Threshold Composition Juvix Type (Signer and Verifier)
+#### Threshold Composition Juvix Type (Signer and verifier)
 
-A `ThresholdCompose` `verifier` consists of a
- threshold (`int`), and a set of `verifier`s, each paired with a
+A `ThresholdCompose` `VerifierType` consists of a
+ threshold (`int`), and a set of `VerifierType`s, each paired with a
  weight (`int`).
  (this set is encoded as a `Map.map` from hashes of `verifiers` to
-  `int * verifier` pairs).
-`commitments` are simply `Map`s from hashes of the underlying
- identities to `commitments` signed by that identitity.
-A `commitment` verifies iff the set of valid commitments included
+  `int * VerifierType` pairs).
+`Commitments` are simply `Map`s from hashes of the underlying
+ identities to `Commitments` signed by that identitity.
+A `Commitment` verifies iff the set of valid Commitments included
  correspond to a set of `verifiers` whose weights sum to at least
  the threshold.
-Note that this satisfies both signatures `VERIFIER` and `SIGNER`.
+Note that this satisfies both signatures `Verifier` and `Signer`.
 
-In general, `ThresholdCompose` `signer`s and `verifier`s may not be
+In general, `ThresholdCompose` `signer`s and `VerifierType`s may not be
  used much directly.
 Instead, nodes can make more efficient identities (using cryptographic
  siganture aggregation techniques), and express their relationship to
- `ThresholdCompose` `verifier`s as a `SIGNS_FOR` relationship.
+ `ThresholdCompose` `VerifierType`s as a `SignsFor` relationship.
 This will let nodes reason about identities using simple
- `ThresholdCompose` `verifier`s, while actually using more efficient
+ `ThresholdCompose` `VerifierType`s, while actually using more efficient
  implementations.
 
 Formally, to specify a `ThresholdCompose`, we need:
 
-- `Verifier`, the structure of the underlying `verifiers`.
+- `verifier`, the structure of the underlying `verifiers`.
 
 - `Signer`, the corresponding structure of the underlying `signers`.
 
-- `Map : ORD_MAP`, to be used to encode weights and `commitment`s.
+- `Map : OrdMap`, to be used to encode weights and `Commitment`s.
   (Note that this needs `Map.Key` to be the hash type of the
-   underlying `Verifier`)
+   underlying `verifier`)
 
 - `ThresholdComposeHash`, which specifies a `hash` function that can
-   hash our composed `verifier`s (type
-   `{threshold:int, weights : ((int * Verifier.verifier) Map.map)}`).
+   hash our composed `VerifierType`s (type
+   `{threshold:int, weights : ((int * verifier.VerifierType) Map.map)}`).
 
 A `ThresholdCompose` structure provides:
 
-- `structure Map : ORD_MAP` the underlying `ORD_MAP` used in
-   `verifier` and `commitment`
+- `structure Map : OrdMap` the underlying `OrdMap` used in
+   `VerifierType` and `Commitment`
 
-- `structure UnderlyingVerifier : VERIFIER` the structure describing
-   the types of the underlying `verifier`s which can be composed.
+- `structure underlyingVerifier : Verifier` the structure describing
+   the types of the underlying `VerifierType`s which can be composed.
 
-- `structure UnderlyingSigner : SIGNER` the structure describing
+- `structure underlyingSigner : Signer` the structure describing
    the types of the underlying `signer`s which can be composed.
 
 - `structure VerifierHash : HASH` describes the hash function for
    hashing these composed `verifiers`
 
 - `type signer` is the type of composed signers.
-   These are just `UnderlyingSigner.signer Map.map`, meaning each is
+   These are just `underlyingSigner.signer Map.map`, meaning each is
    stored under the hash of the corresponding
-   `UnderlyingVerifier.verifier`.
+   `underlyingVerifier.VerifierType`.
    `signer` does not need to encode weights or threshold.
 
-- `type verifier` the type of composed verifiers. These are
-   `{threshold:int, weights : ((int * UnderlyingVerifier.verifier) Map.map)}`
+- `type VerifierType` the type of composed verifiers. These are
+   `{threshold:int, weights : ((int * underlyingVerifier.VerifierType) Map.map)}`
 
-- `type signable` the type of message that can be signed. This is
+- `type Signable` the type of message that can be signed. This is
    exactly the same as what the underlying verifiers can sign
-   (`UnderlyingVerifier.signable`).
+   (`underlyingVerifier.Signable`).
 
-- `type commitment` describes composed signatures, these are a
+- `type Commitment` describes composed signatures, these are a
    `Map.map` from hashes of underlying verifiers
-   (`UnderlyingVerifier.VerifierHash.OrdKey.ord_key`) to signatures
-   (`UnderlyingVerifier.commitment`)
+   (`underlyingVerifier.VerifierHash.OrdKey.ord_key`) to signatures
+   (`underlyingVerifier.Commitment`)
 
-- `fun sign` creates a `commitment` using all
-   `UnderlyingSigner.signer`s in the composed `signer`.
+- `fun sign` creates a `Commitment` using all
+   `underlyingSigner.signer`s in the composed `signer`.
 
-- `fun verify` returns true iff the set of valid commitments included
-   correspond to a set of `UnderlyingVerifier.verifier`s whose weights
+- `fun verify` returns true iff the set of valid Commitments included
+   correspond to a set of `underlyingVerifier.VerifierType`s whose weights
    sum to at least the threshold.
 
 - `fun signerCompose` is constructs a composed `signer` from a list of
-   `UnderlyingVerifier.verifier * UnderlyingSigner.signer` pairs.
-   Note that each `signer` must be paired with its correct `verifier`,
+   `underlyingVerifier.VerifierType * underlyingSigner.signer` pairs.
+   Note that each `signer` must be paired with its correct `VerifierType`,
     or the composed `signer` will not produce verifiable
-    `commitment`s.
+    `Commitment`s.
 
 - `fun verifierCompose` is useful for constructing the composition of
    a list of verifiers.
-  Returns a composed `verifier`.
+  Returns a composed `VerifierType`.
   Its arguments are:
 
   - the threshold (`int`)
 
-  - a `list` of weight (`int`), `UnderlyingVerifier.verifier` pairs.
+  - a `list` of weight (`int`), `underlyingVerifier.VerifierType` pairs.
 
-- `fun verifierAnd` creates a composed `verifier` that is the "&&" of
+- `fun verifierAnd` creates a composed `VerifierType` that is the "&&" of
    2 input verifiers: a `signer` must encode the information of the
    signers for *both* `x` and `y` to sign statements `verifierAnd x y`
    will verify.
 
-- `fun verifierOr` creates a composed `verifier` that is the "||" of
+- `fun verifierOr` creates a composed `VerifierType` that is the "||" of
    2 input verifiers: a `signer` must encode the information of the
    signers for *either* `x` or `y` to sign statements `verifierOr x y`
    will verify.
 
 ```juvix
-type Compose_hashable (verifier : Type) (map_con : Type -> Type) :=
-  mkCompose_hashable {
+type ComposeHashable (VerifierType : Type) (MapCon : Type -> Type) :=
+  mkComposeHashable {
     threshold : Nat;
-    weights : map_con (Pair Nat verifier)
+    weights : MapCon (Pair Nat VerifierType)
   };
+```
 
+```juvix
 type ThresholdCompose
-  ( ord_key : Type ) ( map_con : Type -> Type )
-  ( verifier signable commitment signer VerifierHash_ord_key : Type)
+  ( OrdKey : Type ) ( MapCon : Type -> Type )
+  ( VerifierType Signable Commitment SignerType VerifierHashOrdKeyType : Type)
    :=
   mkThresholdCompose {
-    Map : ORD_MAP ord_key map_con;
-    UnderlyingVerifier : VERIFIER ord_key verifier signable commitment;
-    UnderlyingSigner : SIGNER signer signable commitment;
-    VerifierHash : HASH VerifierHash_ord_key (Compose_hashable verifier map_con);
+    map : OrdMap OrdKey MapCon;
+    underlyingVerifier : Verifier OrdKey VerifierType Signable Commitment;
+    underlyingSigner : Signer SignerType Signable Commitment;
+    verifierHash : HASH VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon);
 
-    sign : map_con signer -> signable -> map_con commitment;
-    verify : (Compose_hashable verifier map_con) -> signable -> map_con commitment -> Bool;
-    signerCompose : List (Pair verifier signer) -> map_con signer;
-    verifierCompose : Nat -> List (Pair Nat verifier) -> (Compose_hashable verifier map_con);
-    verifierAnd : verifier -> verifier -> (Compose_hashable verifier map_con);
-    verifierOr : verifier -> verifier -> (Compose_hashable verifier map_con);
+    sign : MapCon SignerType -> Signable -> MapCon Commitment;
+    verify : (ComposeHashable VerifierType MapCon) -> Signable -> MapCon Commitment -> Bool;
+    signerCompose : List (Pair VerifierType SignerType) -> MapCon SignerType;
+    verifierCompose : Nat -> List (Pair Nat VerifierType) -> (ComposeHashable VerifierType MapCon);
+    verifierAnd : VerifierType -> VerifierType -> (ComposeHashable VerifierType MapCon);
+    verifierOr : VerifierType -> VerifierType -> (ComposeHashable VerifierType MapCon);
   };
+```
 
-projectVERIFIER
-  { map_con : Type -> Type }
-  { ord_key verifier signable commitment signer VerifierHash_ord_key : Type }
-  ( tc : ThresholdCompose ord_key map_con verifier signable commitment signer VerifierHash_ord_key ) :
-  VERIFIER VerifierHash_ord_key (Compose_hashable verifier map_con) signable (map_con commitment) :=
+```juvix
+projectVerifier
+  { MapCon : Type -> Type }
+  { OrdKey VerifierType Signable Commitment SignerType VerifierHashOrdKeyType : Type }
+  ( tc : ThresholdCompose OrdKey MapCon VerifierType Signable Commitment SignerType VerifierHashOrdKeyType ) :
+  Verifier VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable (MapCon Commitment) :=
   mkVERIFIER@{
     verify := ThresholdCompose.verify tc;
-    VerifierHash := ThresholdCompose.VerifierHash tc;
+    verifierHash := ThresholdCompose.verifierHash tc;
   };
+```
 
+```juvix
 ThresholdComposeFunctor
-  { map_con : Type -> Type }
-  { ord_key verifier signable commitment signer VerifierHash_ord_key : Type }
-  (Verifier : VERIFIER ord_key verifier signable commitment)
-  (Signer : SIGNER signer signable commitment)
-  (Map_In : ORD_MAP ord_key map_con)
-  (ThresholdComposeHash : HASH VerifierHash_ord_key (Compose_hashable verifier map_con)) :
+  { MapCon : Type -> Type }
+  { OrdKey VerifierType Signable Commitment SignerType VerifierHashOrdKeyType : Type }
+  (verifier : Verifier OrdKey VerifierType Signable Commitment)
+  (signer : Signer SignerType Signable Commitment)
+  (mapIn : OrdMap OrdKey MapCon)
+  (thresholdComposeHash : HASH VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon)) :
   ThresholdCompose
-    ord_key map_con
-    verifier signable commitment
-    signer
-    VerifierHash_ord_key
+    OrdKey MapCon
+    VerifierType Signable Commitment
+    SignerType
+    VerifierHashOrdKeyType
    :=
   mkThresholdCompose@{
-    Map := Map_In;
-    UnderlyingVerifier := Verifier;
-    UnderlyingSigner := Signer;
-    VerifierHash := ThresholdComposeHash;
-    sign := \ {s m := ORD_MAP.map Map \ { i := SIGNER.sign UnderlyingSigner i m } s};
+    map := mapIn;
+    underlyingVerifier := verifier;
+    underlyingSigner := signer;
+    verifierHash := thresholdComposeHash;
+    sign := \ {s m := OrdMap.map map \ { i := Signer.sign underlyingSigner i m } s};
     verify := \ {
-      | (mkCompose_hashable t ws) s c := (
+      | (mkComposeHashable t ws) s c := (
           t <= (
-            ORD_MAP.foldl Map \{(mkPair x y) := x + y} 0 (
-              ORD_MAP.intersectWith Map (
+            OrdMap.foldl map \{(mkPair x y) := x + y} 0 (
+              OrdMap.intersectWith map (
                 \{ | (mkPair (mkPair w v) x) :=
-                      ite (VERIFIER.verify UnderlyingVerifier v s x) w 0
+                      ite (Verifier.verify underlyingVerifier v s x) w 0
                 }
             ) (mkPair ws c)))
       )
@@ -653,23 +659,23 @@ ThresholdComposeFunctor
     signerCompose := \{ l :=
         foldl
         \{ m (mkPair v s) :=
-          ORD_MAP.insert Map (mkPair m (mkPair (
-            HASH.hash (VERIFIER.VerifierHash UnderlyingVerifier) v
+          OrdMap.insert map (mkPair m (mkPair (
+            HASH.hash (Verifier.verifierHash underlyingVerifier) v
           ) s))
         }
-        (ORD_MAP.empty Map) l
+        (OrdMap.empty map) l
     };
 
     verifierCompose := \{
       threshold weights :=
-        (mkCompose_hashable threshold
+        (mkComposeHashable threshold
           (foldl
             \ { m (mkPair w v) :=
-              ORD_MAP.insert Map (mkPair m (mkPair (
-                HASH.hash (VERIFIER.VerifierHash UnderlyingVerifier) v
+              OrdMap.insert map (mkPair m (mkPair (
+                HASH.hash (Verifier.verifierHash underlyingVerifier) v
               ) (mkPair w v)))
             }
-            (ORD_MAP.empty Map) weights
+            (OrdMap.empty map) weights
         ))
     };
 
@@ -700,13 +706,13 @@ it `signsFor` in _B_. This implies that any collection of identities that can si
 sign as _B_.
 
  A `signsFor` relation for easy comparison of
-  `ThresholdCompose` `verifier`s
- _x_ `signsFor` _y_ if every underlying verifier in _x_ has no more
+  `ThresholdCompose` `VerifierType`s
+ _x_ `signsFor` _y_ if every underlying VerifierType in _x_ has no more
   weight (divided by threshold) as verifiers it `signsFor` in y.
 This implies that anything which can sign as _x_ can also sign
  as _y_.
 
-This requires an underlying `S:SIGNS_FOR` for comparing the weighted
+This requires an underlying `S:SignsFor` for comparing the weighted
  signers in _x_ and _y_, which in turn may require evidence.
 No additional evidence is required.
 
@@ -715,58 +721,62 @@ Other parameters necessary to define the `ThresholdCompose`
 
 - `Signer`, the corresponding structure of the underlying `signers`.
 
-- `Map : ORD_MAP`, to be used to encode weights and `commitment`s.
+- `map : OrdMap`, to be used to encode weights and `Commitment`s.
   (Note that this needs `Map.Key` to be the hash type of the
-   underlying `S.Verifier`)
+   underlying `S.verifier`)
 
 - `ThresholdComposeHash`, which specifies a `hash` function that can
-   hash our composed `verifier`s (type
-   `{threshold:int, weights : ((int * S.Verifier.verifier) Map.map)}`).
+   hash our composed `VerifierType`s (type
+   `{threshold:int, weights : ((int * S.verifier.VerifierType) Map.map)}`).
 
 ```juvix
 type ThresholdComposeSignsFor
-  ( ord_key verifier signable commitment evidence : Type )
-  ( map_con : Type -> Type )
-  ( VerifierHash_ord_key )
+  ( OrdKey VerifierType Signable Commitment Evidence : Type )
+  ( MapCon : Type -> Type )
+  ( VerifierHashOrdKeyType )
    :=
   mkThresholdComposeSignsFor {
-    UnderlyingSignsFor : SIGNS_FOR ord_key verifier signable commitment evidence;
-    Verifier : ThresholdCompose ord_key map_con verifier signable commitment verifier VerifierHash_ord_key;
-    signsFor : evidence -> Pair (Compose_hashable verifier map_con) (Compose_hashable verifier map_con) -> Bool;
+    underlyingSignsFor : SignsFor OrdKey VerifierType Signable Commitment Evidence;
+    verifier : ThresholdCompose OrdKey MapCon VerifierType Signable Commitment VerifierType VerifierHashOrdKeyType;
+    signsFor : Evidence -> Pair (ComposeHashable VerifierType MapCon) (ComposeHashable VerifierType MapCon) -> Bool;
   };
+```
 
-projectSIGNS_FOR
-  { ord_key verifier signable commitment evidence : Type }
-  { map_con : Type -> Type }
-  { VerifierHash_ord_key : Type }
-  ( tc : ThresholdComposeSignsFor ord_key verifier signable commitment evidence map_con VerifierHash_ord_key ) :
-  SIGNS_FOR VerifierHash_ord_key (Compose_hashable verifier map_con) signable (map_con commitment) evidence :=
-  mkSIGNS_FOR@{
-    Verifier := projectVERIFIER (ThresholdComposeSignsFor.Verifier tc);
+```juvix
+projectSignsFor
+  { OrdKey VerifierType Signable Commitment Evidence : Type }
+  { MapCon : Type -> Type }
+  { VerifierHashOrdKeyType : Type }
+  ( tc : ThresholdComposeSignsFor OrdKey VerifierType Signable Commitment Evidence MapCon VerifierHashOrdKeyType ) :
+  SignsFor VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable (MapCon Commitment) Evidence :=
+  mkSignsFor@{
+    verifier := projectVerifier (ThresholdComposeSignsFor.verifier tc);
     signsFor := ThresholdComposeSignsFor.signsFor tc;
   };
+```
 
+```juvix
 ThresholdComposeSignsForFunctor
-  { ord_key verifier signable commitment evidence : Type }
-  { map_con : Type -> Type }
-  { VerifierHash_ord_key : Type }
-  ( S : SIGNS_FOR ord_key verifier signable commitment evidence )
-  ( Signer : SIGNER verifier signable commitment)
-  ( Map : ORD_MAP ord_key map_con )
-  ( ThresholdComposeHash : HASH VerifierHash_ord_key (Compose_hashable verifier map_con) ) :
-  ThresholdComposeSignsFor ord_key verifier signable commitment evidence map_con VerifierHash_ord_key
+  { OrdKey VerifierType Signable Commitment Evidence : Type }
+  { MapCon : Type -> Type }
+  { VerifierHashOrdKeyType : Type }
+  ( S : SignsFor OrdKey VerifierType Signable Commitment Evidence )
+  ( signer : Signer VerifierType Signable Commitment)
+  ( map : OrdMap OrdKey MapCon )
+  ( thresholdComposeHash : HASH VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) ) :
+  ThresholdComposeSignsFor OrdKey VerifierType Signable Commitment Evidence MapCon VerifierHashOrdKeyType
   :=
   mkThresholdComposeSignsFor@{
-    UnderlyingSignsFor := S;
-    Verifier := ThresholdComposeFunctor (SIGNS_FOR.Verifier UnderlyingSignsFor) Signer Map ThresholdComposeHash;
+    underlyingSignsFor := S;
+    verifier := ThresholdComposeFunctor (SignsFor.verifier underlyingSignsFor) signer map thresholdComposeHash;
     signsFor := \{
-      e (mkPair (mkCompose_hashable t0 w0) (mkCompose_hashable t1 w1)) :=
-        ORD_MAP.all Map
+      e (mkPair (mkComposeHashable t0 w0) (mkComposeHashable t1 w1)) :=
+        OrdMap.all map
           \{ (mkPair w v) :=
               (w * t1) <=
-              ((ORD_MAP.foldl Map
+              ((OrdMap.foldl map
                 \{ (mkPair (mkPair x v1) s) :=
-                    ite (SIGNS_FOR.signsFor UnderlyingSignsFor e (mkPair v v1)) (x + s) s
+                    ite (SignsFor.signsFor underlyingSignsFor e (mkPair v v1)) (x + s) s
                 }
                 0 w1
                 ) * t0)
@@ -787,13 +797,13 @@ This implies that any collection of identities that can read messages
  encrypted with _A_ can also read messages encrypted as _B_.
 
  A `readsFor` relation for easy comparison of
-  `ThresholdComposeEncryptor.encryptor`s
- _x_ `readsFor` _y_ if every underlying encryptor in _x_ has no more
+  `ThresholdComposeEncryptor.EncryptorType`s
+ _x_ `readsFor` _y_ if every underlying EncryptorType in _x_ has no more
   weight (divided by threshold) as encryptors it `readsFor` in y.
 This implies that anything which can decrypt as _x_ can also decrypt
  as _y_.
 
-This requires an underlying `R:READS_FOR` for comparing the weighted
+This requires an underlying `R:ReadsFor` for comparing the weighted
  encryptors in  _x_ and _y_, which in turn may require evidence.
 No additional evidence is required.
 
@@ -801,62 +811,62 @@ No additional evidence is required.
 
 ```juvix
 axiom encrypt_DUMMY :
-  {encryptor plaintext ciphertext : Type} -> {map_con : Type -> Type} ->
-  (Compose_hashable encryptor map_con) -> plaintext -> ciphertext;
+  {EncryptorType Plaintext Ciphertext : Type} -> {MapCon : Type -> Type} ->
+  (ComposeHashable EncryptorType MapCon) -> Plaintext -> Ciphertext;
 ```
 
 ```juvix
 type ThresholdComposeEncryptor
-  (ord_key encryptor plaintext ciphertext : Type)
-  (map_con : Type -> Type)
-  (EncryptorHash_ord_key : Type)
+  (OrdKey EncryptorType Plaintext Ciphertext : Type)
+  (MapCon : Type -> Type)
+  (EncryptorHashOrdKeyType : Type)
   :=
   mkThresholdComposeEncryptor {
-    Map : ORD_MAP ord_key map_con;
-    UnderlyingEncryptor : ENCRYPTOR ord_key encryptor plaintext ciphertext;
-    EncryptorHash : HASH EncryptorHash_ord_key (Compose_hashable encryptor map_con);
-    compose : Nat -> List (Pair Nat encryptor) -> Compose_hashable encryptor map_con;
-    encrypt : (Compose_hashable encryptor map_con) -> plaintext -> ciphertext;
+    map : OrdMap OrdKey MapCon;
+    underlyingEncryptor : Encryptor OrdKey EncryptorType Plaintext Ciphertext;
+    encryptorHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon);
+    compose : Nat -> List (Pair Nat EncryptorType) -> ComposeHashable EncryptorType MapCon;
+    encrypt : (ComposeHashable EncryptorType MapCon) -> Plaintext -> Ciphertext;
   };
 ```
 
 ```juvix
-projectENCRYPTOR
-  {ord_key encryptor plaintext ciphertext : Type}
-  {map_con : Type -> Type}
-  {EncryptorHash_ord_key : Type}
-  (tc : ThresholdComposeEncryptor ord_key encryptor plaintext ciphertext map_con EncryptorHash_ord_key) :
-  ENCRYPTOR EncryptorHash_ord_key (Compose_hashable encryptor map_con) plaintext ciphertext
+projectEncryptor
+  {OrdKey EncryptorType Plaintext Ciphertext : Type}
+  {MapCon : Type -> Type}
+  {EncryptorHashOrdKeyType : Type}
+  (tc : ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType) :
+  Encryptor EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon) Plaintext Ciphertext
   :=
-  mkENCRYPTOR@{
+  mkEncryptor@{
     encrypt := ThresholdComposeEncryptor.encrypt tc;
-    EncryptorHash := ThresholdComposeEncryptor.EncryptorHash tc;
+    encryptorHash := ThresholdComposeEncryptor.encryptorHash tc;
   };
 ```
 
 ```juvix
 ThresholdComposeEncryptorFunctor
-  {ord_key encryptor plaintext ciphertext : Type}
-  {map_con : Type -> Type}
-  {EncryptorHash_ord_key : Type}
-  (Encryptor : ENCRYPTOR ord_key encryptor plaintext ciphertext)
-  (Map_In : ORD_MAP ord_key map_con)
-  (ThresholdComposeHash : HASH EncryptorHash_ord_key (Compose_hashable encryptor map_con)) :
-  ThresholdComposeEncryptor ord_key encryptor plaintext ciphertext map_con EncryptorHash_ord_key
+  {OrdKey EncryptorType Plaintext Ciphertext : Type}
+  {MapCon : Type -> Type}
+  {EncryptorHashOrdKeyType : Type}
+  (encryptor : Encryptor OrdKey EncryptorType Plaintext Ciphertext)
+  (mapIn : OrdMap OrdKey MapCon)
+  (thresholdComposeHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon)) :
+  ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType
   := mkThresholdComposeEncryptor@{
-    Map := Map_In;
-    UnderlyingEncryptor := Encryptor;
-    EncryptorHash := ThresholdComposeHash;
+    map := mapIn;
+    underlyingEncryptor := encryptor;
+    encryptorHash := thresholdComposeHash;
     compose := \{
       t w :=
-        mkCompose_hashable@{
+        mkComposeHashable@{
           threshold := t;
           weights :=
             foldl
               \{m (mkPair w e) :=
-                ORD_MAP.insert Map (mkPair m (mkPair (HASH.hash (ENCRYPTOR.EncryptorHash UnderlyingEncryptor) e) (mkPair w e)))
+                OrdMap.insert map (mkPair m (mkPair (HASH.hash (Encryptor.encryptorHash underlyingEncryptor) e) (mkPair w e)))
               }
-              (ORD_MAP.empty Map) w
+              (OrdMap.empty map) w
         }
     };
     encrypt := encrypt_DUMMY;
@@ -865,51 +875,51 @@ ThresholdComposeEncryptorFunctor
 
 ```juvix
 type ThresholdComposeReadsFor
-  ( ord_key encryptor plaintext ciphertext evidence : Type )
-  ( map_con : Type -> Type )
-  ( EncryptorHash_ord_key : Type )
+  ( OrdKey EncryptorType Plaintext Ciphertext Evidence : Type )
+  ( MapCon : Type -> Type )
+  ( EncryptorHashOrdKeyType : Type )
    :=
   mkThresholdComposeReadsFor {
-    UnderlyingReadsFor : READS_FOR ord_key encryptor plaintext ciphertext evidence;
-    Encryptor : ThresholdComposeEncryptor ord_key encryptor plaintext ciphertext map_con EncryptorHash_ord_key;
-    readsFor : evidence -> Pair (Compose_hashable encryptor map_con) (Compose_hashable encryptor map_con) -> Bool;
+    underlyingReadsFor : ReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence;
+    encryptor : ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType;
+    readsFor : Evidence -> Pair (ComposeHashable EncryptorType MapCon) (ComposeHashable EncryptorType MapCon) -> Bool;
   };
 ```
 
 ```juvix
-projectREADS_FOR
-  { ord_key verifier signable commitment evidence : Type }
-  { map_con : Type -> Type }
-  { EncryptorHash_ord_key : Type }
-  ( tc : ThresholdComposeReadsFor ord_key verifier signable commitment evidence map_con EncryptorHash_ord_key ) :
-  READS_FOR EncryptorHash_ord_key (Compose_hashable verifier map_con) signable commitment evidence :=
-  mkREADS_FOR@{
-    Encryptor := projectENCRYPTOR (ThresholdComposeReadsFor.Encryptor tc);
+projectReadsFor
+  { OrdKey VerifierType Signable Commitment Evidence : Type }
+  { MapCon : Type -> Type }
+  { EncryptorHashOrdKeyType : Type }
+  ( tc : ThresholdComposeReadsFor OrdKey VerifierType Signable Commitment Evidence MapCon EncryptorHashOrdKeyType ) :
+  ReadsFor EncryptorHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable Commitment Evidence :=
+  mkReadsFor@{
+    encryptor := projectEncryptor (ThresholdComposeReadsFor.encryptor tc);
     readsFor := ThresholdComposeReadsFor.readsFor tc;
   };
 ```
 
 ```juvix
 ThresholdComposeReadsForFunctor
-  { ord_key encryptor plaintext ciphertext evidence : Type }
-  { map_con : Type -> Type }
-  { EncryptorHash_ord_key : Type }
-  ( R : READS_FOR ord_key encryptor plaintext ciphertext evidence )
-  ( Map : ORD_MAP ord_key map_con )
-  ( ThresholdComposeHash : HASH EncryptorHash_ord_key (Compose_hashable encryptor map_con) ) :
-  ThresholdComposeReadsFor ord_key encryptor plaintext ciphertext evidence map_con EncryptorHash_ord_key
+  { OrdKey EncryptorType Plaintext Ciphertext Evidence : Type }
+  { MapCon : Type -> Type }
+  { EncryptorHashOrdKeyType : Type }
+  ( r : ReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence )
+  ( map : OrdMap OrdKey MapCon )
+  ( thresholdComposeHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon) ) :
+  ThresholdComposeReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence MapCon EncryptorHashOrdKeyType
   :=
   mkThresholdComposeReadsFor@{
-    UnderlyingReadsFor := R;
-    Encryptor := ThresholdComposeEncryptorFunctor (READS_FOR.Encryptor UnderlyingReadsFor) Map ThresholdComposeHash;
+    underlyingReadsFor := r;
+    encryptor := ThresholdComposeEncryptorFunctor (ReadsFor.encryptor underlyingReadsFor) map thresholdComposeHash;
     readsFor := \{
-      e (mkPair (mkCompose_hashable t0 w0) (mkCompose_hashable t1 w1)) :=
-        ORD_MAP.all Map
+      e (mkPair (mkComposeHashable t0 w0) (mkComposeHashable t1 w1)) :=
+        OrdMap.all map
           \{ (mkPair w v) :=
               (w * t1) <=
-              ((ORD_MAP.foldl Map
+              ((OrdMap.foldl map
                 \{ (mkPair (mkPair x v1) s) :=
-                    ite (READS_FOR.readsFor UnderlyingReadsFor e (mkPair v v1)) (x + s) s
+                    ite (ReadsFor.readsFor underlyingReadsFor e (mkPair v v1)) (x + s) s
                 }
                 0 w1
               ) * t0)
@@ -962,7 +972,7 @@ identity abstractions:
 
 ### "True / All"
 
-Any1 can sign and decrypt (`verify` returns true and `encrypt` returns the plaintext). No secret
+Any1 can sign and decrypt (`verify` returns true and `encrypt` returns the Plaintext). No secret
 knowledge is required, so all agents can take on this identity.
 
 The _true_ identity preserves structure under conjunction (_x_ `&&` _true_ `equivalent` _x_) and
@@ -985,9 +995,9 @@ values are available. For example, we might refer to _"a quorum of validators fr
 epoch `Y`"_. Before epoch `Y` has begun, chain `X` may not have yet decided who constitutes a
 quorum.
 
-It would be possible to build a `Verifier`, where the evidence that the signers are in fact a quorum
+It would be possible to build a `verifier`, where the evidence that the signers are in fact a quorum
 of validators from chain `X` at epoch `Y` is part of the signature. 1 might later build a simpler
-`Verifier`, which elides this evidence, and then prove that the 2 `signsSameAs` using the
+`verifier`, which elides this evidence, and then prove that the 2 `signsSameAs` using the
 evidence. However, barring some really exciting cryptography, we'd need to know the quorums from
 chain `X` at epoch `Y` before we could make an `Encryptor`.
 
@@ -997,46 +1007,46 @@ with a predicate, which can be satisfied by an external identity, and accompanyi
 Identity names can also be hashed, like external identities.
 
 Identity names can be described in 2 structures: 1 for checking that
- a `verifier` corresponds with an `identityName`, and 1 for checking
- that an `encryptor` corresponds with an `identityName`.
-The same name can refer to both a `verifier` and an `encryptor`.
+ a `VerifierType` corresponds with an `IdentityName`, and 1 for checking
+ that an `EncryptorType` corresponds with an `IdentityName`.
+The same name can refer to both a `VerifierType` and an `EncryptorType`.
 
-#### Verifier Name Juvix Type
+#### verifier Name Juvix Type
 
-An `identityName` can be mapped to an appropriate `Verifier.verifier`
+An `IdentityName` can be mapped to an appropriate `verifier.VerifierType`
  when suitable `evidence` is found.
 Here, `checkVerifierName` defines what evidence is acceptable for a
- `Verifier.verifier`.
+ `verifier.VerifierType`.
 
-Note that `identityName`s are also hashable: we require a structure
- `VerifierNameHash` that details how to hash them.
+Note that `IdentityName`s are also hashable: we require a structure
+ `verifierNameHash` that details how to hash them.
 
 ```juvix
-type VERIFIER_NAME
-  (ord_key verifier signable commitment evidence identityName VerifierNameHash_ord_key) :=
-  mkVERIFIER_NAME {
-    Verifier : VERIFIER ord_key verifier signable commitment;
-    checkVerifierName : identityName -> verifier -> evidence -> Bool;
-    VerifierNameHash : HASH VerifierNameHash_ord_key identityName
+type VerifierName
+  (OrdKey VerifierType Signable Commitment Evidence IdentityName VerifierNameHashOrdKeyType) :=
+  mkVerifierName {
+    verifier : Verifier OrdKey VerifierType Signable Commitment;
+    checkVerifierName : IdentityName -> VerifierType -> Evidence -> Bool;
+    verifierNameHash : HASH VerifierNameHashOrdKeyType IdentityName
   };
 ```
 
 #### Encryptor Name Juvix Type
 
-An `identityName` can be mapped to an appropriate `Encryptor.encryptor`
+An `IdentityName` can be mapped to an appropriate `Encryptor.EncryptorType`
  when suitable `evidence` is found.
 Here, `checkEncryptorName` defines what evidence is acceptable for a
- `Encryptor.encryptor`.
-Note that `identityName`s are also hashable: we require a structure
- `EncryptorNameHash` that details how to hash them.
+ `Encryptor.EncryptorType`.
+Note that `IdentityName`s are also hashable: we require a structure
+ `encryptorNameHash` that details how to hash them.
 
 ```juvix
-type ENCRYPTOR_NAME
-  (ord_key encryptor plaintext ciphertext evidence identityName EncryptorNameHash_ord_key) :=
-  mkENCRYPTOR_NAME {
-    Verifier : ENCRYPTOR ord_key encryptor plaintext ciphertext;
-    checkEncryptorName : identityName -> encryptor -> evidence -> Bool;
-    EncryptorNameHash : HASH EncryptorNameHash_ord_key identityName
+type EncryptorName
+  (OrdKey EncryptorType Plaintext Ciphertext Evidence IdentityName EncryptorNameHashOrdKeyType) :=
+  mkEncryptorName {
+    verifier : Encryptor OrdKey EncryptorType Plaintext Ciphertext;
+    checkEncryptorName : IdentityName -> EncryptorType -> Evidence -> Bool;
+    encryptorNameHash : HASH EncryptorNameHashOrdKeyType IdentityName
   };
 ```
 
@@ -1079,7 +1089,7 @@ Formally, we use `(hash(Alice), "foo")` as the SML representation of _Alice.foo_
 
 A specific kind of identity name, wher ethe evidence is a signed
  statement from a specified parent saying that it associates this
- verifier with a specific `name`.
+ VerifierType with a specific `name`.
 
 Here,
 
@@ -1088,34 +1098,34 @@ Here,
   `(hash(Alice),"bob")`, or _Alice.bob_, as the identity that
   Alice refers to as `"bob"`.
 
-- `Child` : `VERIFIER` type that can be identified with a name.
+- `Child` : `Verifier` type that can be identified with a name.
 
-- `Parent` : `VERIFIER` type that signs evidence statements.
+- `Parent` : `Verifier` type that signs evidence statements.
 
   Crucially, it must be able to sign tuples of the form
   (string, name, Child's hash type)
   In our example, where Alice refers to Bob as Alice.`"bob"`, `Child` describes
   Bob, `Parent` describes Alice, and `name` describes `"bob"`.
 
-- `Hash` Describes what will become the `VerifierNameHash`.
+- `Hash` Describes what will become the `verifierNameHash`.
   Crucially, it must be able to hash pairs of the form
   (Parent's hash type, name)
 
 ```juvix
 SubVerifierFunctor
-  (ord_key verifier signable commitment evidence name parent_ord_key : Type)
-  (Child : VERIFIER ord_key verifier signable commitment)
-  (Parent : VERIFIER parent_ord_key verifier (Pair String (Pair name ord_key)) commitment)
-  (Hash : HASH parent_ord_key (Pair parent_ord_key name)):
-  VERIFIER_NAME ord_key verifier signable commitment (Pair verifier commitment) (Pair parent_ord_key name) parent_ord_key :=
-  mkVERIFIER_NAME@{
-    Verifier := Child;
+  (OrdKey VerifierType Signable Commitment Name ParentOrdKeyType : Type)
+  (child : Verifier OrdKey VerifierType Signable Commitment)
+  (parent : Verifier ParentOrdKeyType VerifierType (Pair String (Pair Name OrdKey)) Commitment)
+  (hash : HASH ParentOrdKeyType (Pair ParentOrdKeyType Name)):
+  VerifierName OrdKey VerifierType Signable Commitment (Pair VerifierType Commitment) (Pair ParentOrdKeyType Name) ParentOrdKeyType :=
+  mkVerifierName@{
+    verifier := child;
     checkVerifierName := \{
       (mkPair ph n) c (mkPair pv pc) :=
-        (VERIFIER.verify Parent pv (mkPair "I identify this Verifier with this name: " (mkPair n (HASH.hash (VERIFIER.VerifierHash Child) c))) pc) &&
-        ((Ordkey.compare (HASH.OrdKey (VERIFIER.VerifierHash Parent)) ph (HASH.hash (VERIFIER.VerifierHash Parent) pv)) == EQ)
+        (Verifier.verify parent pv (mkPair "I identify this verifier with this name: " (mkPair n (HASH.hash (Verifier.verifierHash child) c))) pc) &&
+        ((OrdKey.compare (HASH.ordKey (Verifier.verifierHash parent)) ph (HASH.hash (Verifier.verifierHash parent) pv)) == EQ)
     };
-    VerifierNameHash := Hash;
+    verifierNameHash := hash;
   }
 ```
 
