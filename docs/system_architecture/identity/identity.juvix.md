@@ -203,7 +203,7 @@ Properties:
 
 ```juvix
 type Verifier (OrdKey VerifierType Signable Commitment : Type) :=
-  mkVERIFIER {
+  mkVerifier {
     verify : VerifierType -> Signable -> Commitment -> Bool;
     verifierHash : HASH OrdKey VerifierType
   }
@@ -618,7 +618,7 @@ projectVerifier
   { OrdKey VerifierType Signable Commitment SignerType VerifierHashOrdKeyType : Type }
   ( tc : ThresholdCompose OrdKey MapCon VerifierType Signable Commitment SignerType VerifierHashOrdKeyType ) :
   Verifier VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable (MapCon Commitment) :=
-  mkVERIFIER@{
+  mkVerifier@{
     verify := ThresholdCompose.verify tc;
     verifierHash := ThresholdCompose.verifierHash tc;
   };
