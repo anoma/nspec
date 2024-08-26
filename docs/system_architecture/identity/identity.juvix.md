@@ -18,23 +18,22 @@ search:
 
 # Identity Architecture
 
-```juvix
-type OrdKey (OrdKey : Type) :=
-  mkOrdkey {
-      compare : OrdKey -> OrdKey -> Ordering
-  };
-```
+??? note "Type definitions"
 
+    ```juvix
+    type OrdKey (OrdKey : Type) :=
+      mkOrdkey {
+          compare : OrdKey -> OrdKey -> Ordering
+      };
+    ```
 
-```juvix
-type HASH (OrdKeyType Hashable : Type) :=
-  mkHASH {
-    ordKey : OrdKey OrdKeyType;
-    hash : Hashable -> OrdKeyType
-  };
-```
-
-??? note "ORD MAP"
+    ```juvix
+    type HASH (OrdKeyType Hashable : Type) :=
+      mkHASH {
+        ordKey : OrdKey OrdKeyType;
+        hash : Hashable -> OrdKeyType
+      };
+    ```
 
     ```juvix
     -- Note: instance of this with Data.Map should be made
