@@ -43,9 +43,9 @@ nav:
         - ./system_architecture/service/index.md
       - State Architecture:
         - ./system_architecture/state/index.md
-        - Resource Machine: 
+        - Resource Machine:
           - Introduction: ./system_architecture/state/resource-machine/index.md
-          - Resource: 
+          - Resource:
             - Definition: ./system_architecture/state/resource-machine/resource/definition.md
             - Computable components:
               - Introduction: ./system_architecture/state/resource-machine/resource/computable-components/introduction.md
@@ -60,7 +60,7 @@ nav:
           - Resource machine:
             - Definition: ./system_architecture/state/resource-machine/rm-def/definition.md
             - Stored data format: ./system_architecture/state/resource-machine/rm-def/storage.md
-          - Function formats: 
+          - Function formats:
             - Transaction function: ./system_architecture/state/resource-machine/program-formats/transaction-function.md
             - Resource logic: ./system_architecture/state/resource-machine/program-formats/resource-logic.md
             - Preference function: ./system_architecture/state/resource-machine/program-formats/preference-function.md

@@ -9,7 +9,7 @@ search:
 
 An action is a composite structure $A = (cms, nfs, \Pi, app\_data)$, where:
 
-- $cms \subseteq  \mathbb{F}_{cm}$ is a set of created resources' commitments. 
+- $cms \subseteq  \mathbb{F}_{cm}$ is a set of created resources' commitments.
 - $nfs \subseteq \mathbb{F}_{nf}$ is a set of consumed resources' nullifiers.
 - $\Pi: \{ \pi: PS.Proof\}$ is a set of proofs.
 - $app\_data: \{(k, (d, deletion\_criterion)): k \in \mathbb{F}_{key}, d \subseteq \mathbb{F}_{d}\}$ contains application-specific data needed to create resource logic proofs. The deletion criterion field is described [here](./rm-def/storage.md#data-blob-storage).
@@ -30,7 +30,7 @@ Each compliance proof maps to some *compliance unit*. The set of resources in ea
 ###### Input existence check
 Each resource machine compliance proof must check the following:
 
-- each consumed resource was created (its commitment is included in $CMtree$) 
+- each consumed resource was created (its commitment is included in $CMtree$)
 - the resource commitments and nullifiers are derived according to the commitment and nullifier derivation rules (including the commitments of the consumed resources)
 - resource deltas are computed correctly
 - the resource logics of created and consumed resources are satisfied
@@ -44,7 +44,7 @@ Given a set of input resource plaintexts $\{r_{{in}_1}, \cdots, r_{{in}_n}\}$, a
 
 - $cms = \{h_{cm}(r_{{out}_i}, i = 1 \cdots m\}$
 - $nfs = \{h_{nf}(nk_i, r_{{in}_i}), i = 1 \cdots n\}$
-- $\Pi$: 
+- $\Pi$:
     $\{\pi_{RL}^{{in}_i}, i = 1 \cdots n \} \cup \{\pi_{RL}^{{out}_i}, i = 1 \cdots m \} \cup \{\pi_{compl}^j, 1 \leq j \leq m + n \}$
 - $app\_data$
 
@@ -54,7 +54,7 @@ Given two actions $a_1$ and $a_2$, their composition is computed as follows:
 
 - $cms = cms_1 \sqcup cms_2$
 - $nfs = nfs_1 \sqcup nfs_2$
-- $\Pi$: 
+- $\Pi$:
     - $\{\pi_{RL}^{{in}_i}, i = 1 \cdots n_a \} \cup \{\pi_{RL}^{{out}_i}, i = 1 \cdots m_a \} \cup \Pi_{compl_1} \cup \Pi_{compl_2}$
 - $app\_data = app\_data_1 \cup app\_data_2$
 

@@ -83,12 +83,12 @@ Transaction functions take no input but can perform I/O operations to read infor
 
 ## Transaction balance change
 
-$\Delta_{tx}$ of a transaction is computed from the [delta parameters of the resources](./resource/computable-components/delta.md) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as *transaction balance*. 
+$\Delta_{tx}$ of a transaction is computed from the [delta parameters of the resources](./resource/computable-components/delta.md) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as *transaction balance*.
 
-From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$: 
+From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$:
 $\sum_j{h_\Delta(kind, r_{i_j}.q)} - \sum_j{h_\Delta(kind, r_{o_j}.q)} =$
 
-$=\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = h_\Delta(kind, q_{kind})$. 
+$=\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = h_\Delta(kind, q_{kind})$.
 
 The kind-distinctness property of $h_\Delta$ allows computing $\Delta_{tx} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta}$ by adding resources of all kinds together without the need to explicitly distinguish between the resource kinds: $\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$
 

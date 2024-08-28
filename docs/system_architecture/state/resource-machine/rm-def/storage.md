@@ -7,14 +7,14 @@ search:
 
 # Stored data format
 
-The ARM state that needs to be stored includes resource plaintexts, the commitment accumulator and the nullifier set. 
+The ARM state that needs to be stored includes resource plaintexts, the commitment accumulator and the nullifier set.
 The table below defines the format of that data assumed by the ARM.
 
 |Name|Structure|Key Type|Value Type
 |-|-|-|-|
-Commitment accumulator (node) | Cryptographic accumulator | timestamp | $\mathbb{F}$ 
-Commitment accumulator (leaf) | - | (`timestamp`, $\mathbb{F}$) | $\mathbb{F}$ 
-Nullifier set | Set | $\mathbb{F}$ | $\mathbb{F}$ 
+Commitment accumulator (node) | Cryptographic accumulator | timestamp | $\mathbb{F}$
+Commitment accumulator (leaf) | - | (`timestamp`, $\mathbb{F}$) | $\mathbb{F}$
+Nullifier set | Set | $\mathbb{F}$ | $\mathbb{F}$
 Hierarchical index | Chained Hash sets | Tree path | $\mathbb{F}$
 Data blob storage | Key-value store with deletion criterion | $\mathbb{F}$ | (`variable length byte array`, `deletion criterion`)
 
