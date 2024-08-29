@@ -28,7 +28,7 @@ Each commitment tree node has a timestamp associated with it, such that a lower 
 Nullifiers are used as keys in the key-value store. In future versions, a more complex structure that supports efficient non-membership proofs might be used for storing the nullifier set.
 
 ## Hierarchical index
-The hierarchical index is organised as a tree where the leaves refer to the resources, and the intermediate nodes refer to resource \textit{subkinds} that form a hierarchy. The label of a resource $r$ stored in the hierarchical index tree is interpreted as an array of *sublabels*: $r.label = [label_1, label_2, label_3, ...]$, and the i-th subkind is computed as $r.subkind_i = H_{kind}(r.l, r.label_i)$.
+The hierarchical index is organised as a tree where the leaves refer to the resources, and the intermediate nodes refer to resource _subkinds_ that form a hierarchy. The label of a resource $r$ stored in the hierarchical index tree is interpreted as an array of *sublabels*: $r.label = [label_1, label_2, label_3, ...]$, and the i-th subkind is computed as $r.subkind_i = H_{kind}(r.l, r.label_i)$.
 
 > In the current version, only the subkinds derived from the same resource logic can be organized in the same hierarchical index path.
 
