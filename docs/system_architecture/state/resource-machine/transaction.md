@@ -35,7 +35,7 @@ Having two transactions $tx_1$ and $tx_2$, their composition $tx_1 \circ tx_2$ i
 
 ## Validity
 
-A transaction is considered \textit{valid} if the following statements hold:
+A transaction is considered _valid_ if the following statements hold:
 
 - all actions in the transaction are valid, as defined per [action validity rules](./action.md#validity)
 - $\Delta$ proof is valid.
