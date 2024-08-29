@@ -61,10 +61,10 @@ nav:
             - Definition: ./system_architecture/state/resource-machine/rm-def/definition.md
             - Stored data format: ./system_architecture/state/resource-machine/rm-def/storage.md
           - Function formats:
-            - Transaction function: ./system_architecture/state/resource-machine/program-formats/transaction-function.md
-            - Resource logic: ./system_architecture/state/resource-machine/program-formats/resource-logic.md
-            - Preference function: ./system_architecture/state/resource-machine/program-formats/preference-function.md
-            - Nockma: ./system_architecture/state/resource-machine/program-formats/nockma.md
+            - Transaction function: ./system_architecture/state/resource-machine/function-formats/transaction-function.md
+            - Resource logic: ./system_architecture/state/resource-machine/function-formats/resource-logic.md
+            - Preference function: ./system_architecture/state/resource-machine/function-formats/preference-function.md
+            - Nockma: ./system_architecture/state/resource-machine/function-formats/nockma.md
           - Applications: ./system_architecture/state/resource-machine/applications.md
     - Node Architecture:
       - ./node_architecture/index.md
