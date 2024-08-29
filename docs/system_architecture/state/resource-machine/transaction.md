@@ -12,7 +12,7 @@ It is a composite structure $TX = (rts, actions, \Delta, \pi_{\Delta})$, where:
 
 - $rts \subseteq \mathbb{F}_{rt}$ is a set of roots of $CMtree$.
 - $actions: \{a: Action\}$ - a set of actions.
-- $\Delta_{tx}: \mathbb{F}_{\Delta}$ is computed from $\Delta$ parameters of the actions in that transaction. It represents the total quantity change per resource kind induced by the transaction, which is also referred to as \textit{transaction balance}.
+- $\Delta_{tx}: \mathbb{F}_{\Delta}$ is computed from $\Delta$ parameters of the actions in that transaction. It represents the total quantity change per resource kind induced by the transaction, which is also referred to as _transaction balance_.
 - $\Pi_{\Delta}$ - transaction balance proof. It makes sure that $\Delta_{tx}$ is correctly derived from actions $\Delta$ and commits to the expected publicly known value, called a _balancing value_. There is just one delta proof per transaction.
 
 
