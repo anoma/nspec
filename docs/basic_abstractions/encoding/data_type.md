@@ -42,6 +42,10 @@ A _data type_ is defined as either:
 
     Here `[]` is used as shorthand notation for an ordered list of at least one element.
 
+!!! note
+
+    Here `[]` is used as shorthand notation for an ordered list of at least one element.
+
 ```juvix
 type DataType :=
   | BasicT BasicType
