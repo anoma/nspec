@@ -15,20 +15,20 @@ The protocol standardises basic types and general algebraic data types. All mess
 
 A _basic type_ is defined as either:
 
-- a boolean (bit) type
-- a ring type $Z_n$ of natural numbers $\mathrm{mod}~n$
-- a finite field type $\mathbb{F}_n$ of order $n$
-- a natural number type $\mathbb{N}$ (an arbitrary natural number)
-- a bytestring (binary data of unbounded length) type
+- a finite set type, of order $n$
+- a natural number type (arbitrary-size)
+- a function type from one data type to another data type
 
 ```juvix
 type BasicType :=
-  | BooleanT
-  | RingT Nat
-  | FiniteFieldT Nat
+  | FinSetT Nat
   | NatT
-  | BytestringT
+  | FunctionT DataType DataType
 ```
+
+!!! note
+
+    This set of basic types is minimal, designed only to distinguish between fixed-size values, variable-size values, and functions. Other semantic information (e.g. whether a finite set value is intended to represent a ring or a finite field) will be tracked at a separate layer.
 
 ### Data types
 
@@ -37,7 +37,6 @@ A _data type_ is defined as either:
 - a basic type
 - a product of other data types
 - a coproduct of other data types
-- a function type from one data type to another data type
 
 !!! note
 
@@ -48,7 +47,6 @@ type DataType :=
   | BasicT BasicType
   | ProductT [DataType]
   | CoproductT [DataType]
-  | FunctionT DataType DataType
 ```
 
 ## Values
@@ -57,20 +55,12 @@ type DataType :=
 
 A _basic value_ is defined as either:
 
-- a boolean value
-- a ring value $n$ (between $0$ and $n-1$)
-- a finite field value $\mathbb{F}_n$ (a natural number $n$ represents the $n$th element of the finite field)
-- a natural number value
-- a binary (binary data of unbounded length) type
+- a natural number value $n$
 - a function value (represented with a particular virtual machine, identified by a natural number)
 
 ```juvix
 type BasicValue :=
-  | BooleanV Boolean
-  | RingV Nat
-  | FiniteFieldV Nat
   | NatV Nat
-  | BinaryV Bytestring
   | FunctionV Nat Bytestring
 ```
 

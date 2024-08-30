@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Context
+# Encoding
 
 The protocol does not pick a single canonical encoding scheme (serialization format) or virtual machine, both because:
 
@@ -20,7 +20,7 @@ In order to facilitate interoperability between encoding schemes and virtual mac
 - the functions each encoding scheme must provide, and the expected properties of those functions
 - the functions each virtual machine must provide, and the expected properties of those functions
 
-# Subpages
+## Content
 
 - [Data type](./data_type.md)
 - [Virtual machine](./virtual_machine.md)
