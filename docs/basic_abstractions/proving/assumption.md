@@ -19,7 +19,7 @@ In an ideal world, we could characterize all of these assumptions exactly (e.g. 
 
 ```
 type Assumption :=
-  
+
 ```
 
 ## Smart multievaluation
