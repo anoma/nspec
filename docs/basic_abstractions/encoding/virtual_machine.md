@@ -94,9 +94,9 @@ type Verify =
 
 ## Properties
 
-These functions must be _correct_ and _complete_, in that:
+These functions must be _sound_ and _complete_, in that:
 
-- valid proofs can only be created for valid inputs (_correctness_), and a valid proof can be created for any valid input (_completeness_)
+- valid proofs can only be created for valid inputs (_soundness_), and a valid proof can be created for any valid input (_completeness_)
 -  i.e. `verify f public proof = true` if and only if `proof = prove f public' private'` where `public = public'` and `evaluate f [public', private'] g = (true, _)` for some sufficient gas limit `g` (we could probably split evaluation into gassy and gassless versions)
 
 Should `P_n` not reveal any information about `VM_n.t (T0)`, the provable virtual machine can be said to be _zero-knowledge_.
