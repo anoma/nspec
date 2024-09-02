@@ -30,6 +30,7 @@ nav:
       - ./basic_abstractions/proving/index.md
       - Assumption: ./basic_abstractions/proving/assumption.md
       - Proof: ./basic_abstractions/proving/proof.md
+      - Multifunctions: ./basic_abstractions/proving/multifunctions.md
     - Cryptographic primitives:
       - ./basic_abstractions/cryptographic_primitives/index.md
       - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
