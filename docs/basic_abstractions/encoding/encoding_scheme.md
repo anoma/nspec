@@ -5,10 +5,9 @@ search:
   boost: 2
 ---
 
-
 # Encoding scheme
 
-An _encoding scheme_ is a bijective mapping between structured data and a series of bytes, uniquely defined by the pair of serialization and deserialization functions.
+An _encoding scheme_ is a mapping between structured data and a series of bytes, uniquely defined by the pair of serialization and deserialization functions.
 
 ## Serialization
 
@@ -28,12 +27,9 @@ type Deserialize = DataType -> Bytestring -> Maybe DataValue
 
 ### Properties
 
-These functions must be inverses of each other, in that:
-
-- deserializing a serialized value will result in `Just <that value>`
-- serializing a deserialized value will result in the same bytestring
-
-Furthermore, the mapping - given a type - must be bijective: fixing a given type, no two distinct bytestrings can deserialise into the same value, and no two distinct values can serialise into the same bytestring. A bijective mapping without fixing a type can be achieved simply by also serialising the type.
+- The serialize function must be injective (distinct data values have distinct encodings).
+- The deserialize function must be surjective (any data value can be represented by a serialized value)
+- Fixing a type, the deserialize function must be injective (no two serialized values deserialize to the same data value). An injective mapping without fixing a type can be achieved simply by also serializing the type.
 
 ## Multiformat
 
