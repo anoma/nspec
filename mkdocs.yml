@@ -43,8 +43,29 @@ nav:
         - ./system_architecture/service/index.md
       - State Architecture:
         - ./system_architecture/state/index.md
-        - Resource: ./system_architecture/state/resource.md
-        - Transaction: ./system_architecture/state/transaction.md
+        - Resource Machine:
+          - Introduction: ./system_architecture/state/resource-machine/index.md
+          - Resource:
+            - Definition: ./system_architecture/state/resource-machine/resource/definition.md
+            - Computable components:
+              - Introduction: ./system_architecture/state/resource-machine/resource/computable-components/introduction.md
+              - Commitment: ./system_architecture/state/resource-machine/resource/computable-components/commitment.md
+              - Nullifier: ./system_architecture/state/resource-machine/resource/computable-components/nullifier.md
+              - Kind: ./system_architecture/state/resource-machine/resource/computable-components/kind.md
+              - Delta: ./system_architecture/state/resource-machine/resource/computable-components/delta.md
+          - Non-linear resources: ./system_architecture/state/resource-machine/resource/non-linear-resources.md
+          - Roles and requirements: ./system_architecture/state/resource-machine/roles-and-requirements.md
+          - Action: ./system_architecture/state/resource-machine/action.md
+          - Transaction: ./system_architecture/state/resource-machine/transaction.md
+          - Resource machine:
+            - Definition: ./system_architecture/state/resource-machine/rm-def/definition.md
+            - Stored data format: ./system_architecture/state/resource-machine/rm-def/storage.md
+          - Function formats:
+            - Transaction function: ./system_architecture/state/resource-machine/function-formats/transaction-function.md
+            - Resource logic: ./system_architecture/state/resource-machine/function-formats/resource-logic.md
+            - Preference function: ./system_architecture/state/resource-machine/function-formats/preference-function.md
+            - Nockma: ./system_architecture/state/resource-machine/function-formats/nockma.md
+          - Applications: ./system_architecture/state/resource-machine/applications.md
     - Node Architecture:
       - ./node_architecture/index.md
       - Modules: ./node_architecture/modules/index.md
