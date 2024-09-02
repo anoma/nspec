@@ -5,7 +5,15 @@ search:
   boost: 2
 ---
 
-# Proving system
+# Proof
+
+
+- We have some type of assumptions $Assumption$
+- $prove_n$ generates the proof of type $Proof_n$
+- $assumptions_n$ returns the assumptions required for a proof
+- $verify_n$ verifies a proof of type $Proof_n$
+
+
 
 We define a set of structures required to define a proving system $PS$ as follows:
 
