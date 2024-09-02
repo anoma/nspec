@@ -35,8 +35,7 @@ nav:
       - ./system_architecture/index.md
       - Basic Concepts:
         - ./system_architecture/concepts/index.md
-      - Identity Architecture:
-        - ./system_architecture/identity/index.md
+      - Identity Architecture: ./system_architecture/identity/identity.juvix.md
       - Network Architecture:
         - ./system_architecture/network/index.md
       - Service Architecture:
