@@ -6,8 +6,6 @@ site_description: |
 site_url: !ENV [SITE_URL, https://anoma.github.io/nspec/latest]
 site_dir: !ENV [SITE_DIR, site]
 use_directory_urls: false
-
-
 nav:
   - index.md
   - Scope:
@@ -448,7 +446,6 @@ extra:
       link: mailto:arts@heliax.dev
   generator: false
   version: 1.0
-
 theme:
   name: material
   logo: assets/logo.svg
@@ -463,7 +460,6 @@ theme:
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
-
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -472,7 +468,6 @@ theme:
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
@@ -481,7 +476,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
-
   font:
     text: Open Sans
     code: Fira Code
@@ -505,7 +499,6 @@ theme:
     - search.sharing
     - toc.follow
     # - header.autohide
-
 plugins:
   - search
   - glightbox
@@ -519,18 +512,15 @@ plugins:
       j2_block_end_string: "@@}"
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
-
 hooks:
-- hooks/links.py
-- hooks/images.py
-- hooks/todos.py
-- hooks/differ.py
-
+  - hooks/links.py
+  - hooks/images.py
+  - hooks/todos.py
+  - hooks/differ.py
 watch:
   - docs/assets
   - formal/SML
   - overrides
-
 exclude_docs: |
   /requirements.txt
   **/art-template/**/*.md
@@ -538,23 +528,18 @@ exclude_docs: |
   docs/indexes/*.txt
   docs/indexes/*.dot
   docs/images/*.dot.svg
-
 extra_css:
   - assets/css/style.css
   - assets/css/juvix-highlighting.css
-
 extra_javascript:
   - assets/js/extra.js
   - assets/js/highlight.js
   - assets/js/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-svg.js
-
 copyright: |
   &copy; 2024 <a href="https://anoma.net">Anoma Foundation</a>
-
 # See https://squidfunk.github.io/mkdocs-material/reference/math/?h=katex#comparing-mathjax-and-katex on why we use MathJax
-
 markdown_extensions:
   - pymdownx.snippets:
       check_paths: true
@@ -591,7 +576,6 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
       clickable_checkbox: true
-
 validation:
   nav:
     omitted_files: ignore
