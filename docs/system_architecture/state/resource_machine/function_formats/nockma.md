@@ -6,7 +6,7 @@ search:
 ---
 
 # Nockma
-Nockma (Nock-Anoma) is a modification of the [Nock4K specification](https://docs.urbit.org/language/nock/reference/definition) and a Nock standard library altered and extended for use with Anoma. Nockma is designed to support the [transaction function interpreter requirements](./transaction-function.md#transaction-function), namely, global storage read and deterministic bounded computation costs.
+Nockma (Nock-Anoma) is a modification of the [Nock4K specification](https://docs.urbit.org/language/nock/reference/definition) and a Nock standard library altered and extended for use with Anoma. Nockma is designed to support the [transaction function interpreter requirements](./transaction_function.md#transaction-function), namely, global storage read and deterministic bounded computation costs.
 
 Nockma is parameterized over a specific finite field $\mathbb{F}_h$ and function $h$. The function $h$ takes an arbitrary noun (a data unit in Nockma) as input and returns an element of $\mathbb{F}_h$. This function is used for verifying reads from content-addressed storage.
 
@@ -32,7 +32,7 @@ Used with the resource machine, Nockma should return a set of modifications to t
 
 - a set of resources to additionally create (resource plaintexts)
 - a set of resources to additionally consume (addresses)
-- a set of storage writes (in the format specified [here](./../rm-def/storage.md))
+- a set of storage writes (in the format specified [here](./../rm_def/storage.md))
 
 The Nockma standard library must include the following functions.
 

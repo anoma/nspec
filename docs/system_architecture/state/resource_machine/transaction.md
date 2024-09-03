@@ -79,11 +79,11 @@ When transactions with $Metadata$ are composed, transactions are composed accord
 
 A transaction function is a function that outputs a transaction: $TransactionFunction: () \rightarrow Transaction$.
 
-Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here](./function-formats/transaction-function.md).
+Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here](./function_formats/transaction_function.md).
 
 ## Transaction balance change
 
-$\Delta_{tx}$ of a transaction is computed from the [delta parameters of the resources](./resource/computable-components/delta.md) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as *transaction balance*.
+$\Delta_{tx}$ of a transaction is computed from the [delta parameters of the resources](./resource/computable_components/delta.md) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as *transaction balance*.
 
 From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$:
 $\sum_j{h_\Delta(kind, r_{i_j}.q)} - \sum_j{h_\Delta(kind, r_{o_j}.q)} =$
