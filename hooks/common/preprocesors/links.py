@@ -6,7 +6,6 @@ from urllib.parse import urljoin
 
 from common.models import FileLoc, WikiLink
 from fuzzywuzzy import fuzz  # type: ignore
-from markdown.extensions import Extension  # type: ignore
 from markdown.preprocessors import Preprocessor  # type: ignore
 from mkdocs.structure.pages import Page
 
@@ -31,7 +30,6 @@ REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", False))
 
 
 class WLPreprocessor(Preprocessor):
-
     def __init__(self, mkconfig, snippet_preprocessor):
         self.mkconfig = mkconfig
         self.snippet_preprocessor = snippet_preprocessor
@@ -129,7 +127,6 @@ class WLPreprocessor(Preprocessor):
         self, config, i, lines, matches, current_page_url, partial: str = ""
     ):
         for match in matches:
-
             loc = FileLoc(current_page_url, i + 1, match.start() + 2)
 
             link = WikiLink(
@@ -189,7 +186,7 @@ class WLPreprocessor(Preprocessor):
                 link_page in config["url_for"]
                 and len(config["url_for"][link_page]) == 1
             ):
-                if not "url_for" in config:
+                if "url_for" not in config:
                     config["url_for"] = {}
                 path = config["url_for"][link_page][0]
                 page = match.group("page").strip()

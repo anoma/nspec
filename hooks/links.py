@@ -184,26 +184,32 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
 @mkdocs.plugins.event_priority(-200)
 def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -> str:
     config["current_page"] = page  # needed for the preprocessor
-    config["current_page_url"] = page.url
     return markdown
 
 
 def on_page_content(html, page: Page, config: MkDocsConfig, files: Files) -> str:
-    if config.get("links_number", {}):
-        if "current_page" not in config or "nodes" not in config:
-            return html
-        current_page = config["current_page"]
-        url = current_page.canonical_url.replace(".html", ".md")
-        if url not in config["nodes"]:
-            return html
+    if "current_page" not in config or "nodes" not in config:
+        return html
+    current_page = config["current_page"]
+    url = current_page.canonical_url.replace(".html", ".md")
+    if url not in config["nodes"]:
+        return html
+
+    # at this point, the preprocessor has already run
+    # so we can safely access the linksNumber
+    links_number = config.get("links_number", {})
+    if url not in config["links_number"] or "index" not in config["nodes"][url]:
+        return html
+
+    if links_number:
+
         actualindex = config["nodes"][url]["index"]
         result_entry = ResultEntry(
             file=current_page.url,
             index=actualindex,
-            matches=config.get("links_number", {}),
+            matches=links_number,
             url=current_page.canonical_url,
         )
-
         files_relation.append(result_entry)
         mermaid_structure = generate_structure_mermaid([result_entry])
         file_path = result_entry.file.replace("\\", "_").replace("/", "_")
