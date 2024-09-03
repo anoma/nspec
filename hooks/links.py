@@ -6,7 +6,6 @@ import json
 import logging
 import os
 import re
-import time
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urljoin
@@ -14,16 +13,8 @@ from urllib.parse import urljoin
 import mkdocs.plugins
 from common.models.entry import ResultEntry
 from common.preprocesors.links import WLPreprocessor
-from common.utils import (
-    fix_site_url,
-    generate_structure_graphviz,
-    generate_structure_mermaid,
-    get_page_title,
-    save_dot_and_generate,
-)
-from fuzzywuzzy import fuzz  # type: ignore
+from common.utils import fix_site_url, generate_structure_mermaid, get_page_title
 from markdown.extensions import Extension  # type: ignore
-from markdown.preprocessors import Preprocessor  # type: ignore
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.files import Files
 from mkdocs.structure.pages import Page
@@ -47,21 +38,6 @@ NODES_JSON = CACHE_DIR / "nodes.json"
 SITE_MAPS_GRAPH = CACHE_DIR / "site_maps_graph"
 SITE_MAPS_GRAPH.mkdir(parents=True, exist_ok=True)
 
-""" Example of a wikilink with a path hint:
-[[path-hint:page#anchor|display text]]
-"""
-
-WIKILINK_PATTERN = re.compile(
-    r"""
-(?:\\)?\[\[
-(?:(?P<hint>[^:|\]]+):)?
-(?P<page>[^|\]#]+)
-(?:\#(?P<anchor>[^|\]]+))?
-(?:\|(?P<display>[^\]]+))?
-\]\]
-""",
-    re.VERBOSE,
-)
 
 files_relation: List[ResultEntry] = []
 
@@ -151,6 +127,7 @@ def on_pre_build(config: MkDocsConfig) -> None:
 
     if NODES_JSON.exists():
         NODES_JSON.unlink()
+
     with open(NODES_JSON, "w") as f:
         json.dump(
             {
@@ -232,46 +209,19 @@ def on_page_content(html, page: Page, config: MkDocsConfig, files: Files) -> str
         file_path = result_entry.file.replace("\\", "_").replace("/", "_")
         file_path = (SITE_MAPS_GRAPH / file_path).as_posix()
 
-        # # Read the file contents
-        # with open(file_path, "r") as file_svg:
-        #     content = file_svg.read()
-        #     wrapped_mermaid = (
-        #         '\n<details class="note" open="">\n'
-        #         "    <summary>Link Graph</summary>\n"
-        #         '    <figure markdown="span">\n'
-        #         "        <p></p>\n"
-        #         f'        <div class="mermaid">\n{content}\n</div>\n'
-        #         '        <figcaption markdown="span">Link Diagram</figcaption>\n'
-        #         "    </figure>\n"
-        #         "    <p></p>\n"
-        #         "</details>\n"
-        #     )
-        #     html += wrapped_mermaid
-    return html
-
-
-def on_post_build(config: MkDocsConfig):
-
-    if GRAPH_JSON.exists():
-        GRAPH_JSON.unlink()
-
-    serialized_files_relation = [entry.to_dict() for entry in files_relation]
-    with open(GRAPH_JSON, "w") as graph_json_file:
-        json.dump(
-            {"graph": serialized_files_relation},
-            graph_json_file,
-            indent=2,
+        wrapped_mermaid = (
+            '\n<details class="note" open="">\n'
+            "    <summary>Link Graph</summary>\n"
+            '    <figure markdown="span">\n'
+            "        <p></p>\n"
+            f'        <div class="mermaid">\n{mermaid_structure}\n</div>\n'
+            '        <figcaption markdown="span">Link Diagram</figcaption>\n'
+            "    </figure>\n"
+            "    <p></p>\n"
+            "</details>\n"
         )
-
-    dot_structure = generate_structure_graphviz(files_relation)
-    mermaid_structure = generate_structure_mermaid(files_relation)
-
-    graphviz_dot_path = (SITE_MAPS_GRAPH / "graph.dot").as_posix()
-    mermaid_dot_path = (SITE_MAPS_GRAPH / ".mmd").as_posix()
-    graphviz_svg_path = (SITE_MAPS_GRAPH / "graph_graphviz").as_posix()
-    mermaid_svg_path = (SITE_MAPS_GRAPH / "graph_mermaid").as_posix()
-
-    save_dot_and_generate(dot_structure, graphviz_dot_path, "svg", graphviz_svg_path)
+        html += wrapped_mermaid
+    return html
 
 
 def _extract_aliases_from_nav(item, parent_key=None):

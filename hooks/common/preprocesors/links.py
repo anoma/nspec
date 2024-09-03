@@ -149,13 +149,14 @@ class WLPreprocessor(Preprocessor):
                 hint = link.hint if link.hint else ""
                 token = hint + link_page
 
-                fun_normalise = (
-                    lambda s: s.replace("_", " ")
-                    .replace("-", " ")
-                    .replace(":", " ")
-                    .replace("/", " ")
-                    .replace(".md", "")
-                )
+                def fun_normalise(s):
+                    return (
+                        s.replace("_", " ")
+                        .replace("-", " ")
+                        .replace(":", " ")
+                        .replace("/", " ")
+                        .replace(".md", "")
+                    )
 
                 coefficients = {
                     p: fuzz.WRatio(fun_normalise(p), token) for p in possible_pages
@@ -205,10 +206,8 @@ class WLPreprocessor(Preprocessor):
                                 }
                             )
                     else:
-                        log.info(f"No link found for {page}")
                         config["wikilinks_issues"] += 1
                 else:
-                    log.info(f"Page '{page}' not found in 'url_for' config")
                     config["wikilinks_issues"] += 1
 
                 html_path = urljoin(
