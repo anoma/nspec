@@ -39,4 +39,4 @@ Currently, the commitment accumulator is assumed to be a Merkle tree $CMtree$ of
 > The hash function $h_{CMtree}$ used to compute the nodes of the $CMtree$ Merkle tree is not necessarily the same as the function used to compute commitments stored in the tree $h_{cm}$.
 
 
-For a Merkle tree, the witness is the path to the resource commitment, and the tree root represents the accumulated value. To support the systems with stronger privacy requirements, the witness for such a proof must be a [private input](./../../proving-system.md#public-and-private-inputs) when proving membership.
+For a Merkle tree, the witness is the path to the resource commitment, and the tree root represents the accumulated value. To support the systems with stronger privacy requirements, the witness for such a proof must be a private input when proving membership.
