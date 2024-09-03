@@ -13,3 +13,4 @@ What exactly is a _proof_? If a proof - operationally - is simply whatever is ne
 
 - [Assumption](./assumption.md)
 - [Proof](./proof.md)
+- [Multifunctions](./multifunctions.md)
