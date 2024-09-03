@@ -13,7 +13,6 @@ env:
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   SHOW_TODOS_IN_MD: true
-
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
   cancel-in-progress: true
@@ -58,15 +57,12 @@ jobs:
       - run: |
           git config --global user.name 'Anoma Research'
           git config --global user.email 'arts@heliax.dev'
-
       - name: comment on PR
         run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG"
         continue-on-error: true
         env:
           MSG: "The build is in progress. Please wait for the preview link."
           GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
-
-
       - name: Install the right Juvix for the Specs
         uses: jaxxstorm/action-install-gh-release@v1.10.0
         with:
@@ -85,30 +81,23 @@ jobs:
         name: See the dev version in the documentation
         run: |
           juvix --version
-
       - name: typecheck Juvix code
         run: |
           juvix typecheck docs/everything.juvix.md || true
-
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-
       - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/requirements.txt' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
-
       - uses: actions/cache@v3
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
           restore-keys: |
             mkdocs-material-
-
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
-
       - name: Install Python dependencies
         run: pip install -r requirements.txt
-
       - name: Hooks cache
         uses: actions/cache@v3
         with:
@@ -126,7 +115,6 @@ jobs:
         if: failure()
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
-
       - name: Build MkDocs with material insiders version
         id: material
         run: |
@@ -138,14 +126,12 @@ jobs:
       - if: steps.material.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
-
       - if: steps.material.outcome == 'success'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
           --edit-last --body "Builds using material and material-insiders theme
           succeed. We are now deploying the preview"
         continue-on-error: true
-
       - name: Deploy MkDocs
         if: success()
         uses: JamesIves/github-pages-deploy-action@v4

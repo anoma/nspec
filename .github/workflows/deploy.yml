@@ -12,7 +12,6 @@ env:
   REPORT_TODOS: false
   SHOW_TODOS_IN_MD: false
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
   cancel-in-progress: true
@@ -29,13 +28,11 @@ jobs:
       - run: |
           git config --global user.name 'Anoma Research'
           git config --global user.email 'arts@heliax.dev'
-
       - name: comment on PR
         run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG" || true
         env:
           MSG: "The build is in progress. Please wait for the preview link."
           GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
-
       - name: Install the right Juvix for the Specs
         uses: jaxxstorm/action-install-gh-release@v1.10.0
         with:
@@ -81,7 +78,6 @@ jobs:
         env:
           SITE_DIR: ${{ env.BRANCH_NAME }}
           SITE_URL: https://anoma.github.io/nspec/${{ env.BRANCH_NAME }}
-
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
@@ -91,11 +87,9 @@ jobs:
           clean: false
           git-config-name: Anoma Research
           git-config-email: arts@heliax.dev
-
       - name: get latest version from VERSION file
         id: version
         run: echo "::set-output name=version::$(cat VERSION)"
-
       - if: ${{ env.BRANCH_NAME == steps.version.outputs.version }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
@@ -105,4 +99,3 @@ jobs:
           clean: false
           git-config-name: Anoma Research
           git-config-email:
-
