@@ -49,7 +49,7 @@ if IMAGES_ENABLED:
 
     if not shutil.which(DOT_BIN):
         log.warning(
-            f"Graphviz not found. Please install it otherwise dot pictures won't render correctly."
+            "Graphviz not found. Please install it otherwise dot pictures won't render correctly."
         )
         USE_DOT = False
 
