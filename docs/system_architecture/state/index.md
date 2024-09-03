@@ -7,5 +7,4 @@ search:
 
 # State Architecture
 
-- [Resource](./resource.md)
-- [Transaction](./transaction.md)
+- [Resource machine](./resource_machine/index.md)
