@@ -62,6 +62,8 @@ nav:
           - ./node_architecture/index.md
           - Modules: ./node_architecture/modules/index.md
           - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
+          - Engine Families Intro:  ./node_architecture/engines/index.md
+          - Engine Family Types: ./node_architecture/types/engine_family.juvix.md
           - Hardware Abstraction Machine:
               - ./node_architecture/hardware_abstraction/index.md
               - Local Storage Engines:
@@ -422,6 +424,21 @@ nav:
       - Add literature references: ./tutorial/md/citations.md
       - Add diffs for versioning: ./tutorial/differ/index.md
       - Run pre commit checks: ./tutorial/commit_checks.md
+      - Engines in Anoma:
+        - ./tutorial/engines/index.juvix.md
+        - Conventions: ./tutorial/engines/conventions.md
+        - Engine Templates:
+            - ./tutorial/engines/template/index.md
+            - Engine Overview Template: ./tutorial/engines/template/engine_overview.md
+            - Engine Environment Template: ./tutorial/engines/template/engine_environment_descr.md
+            - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.juvix.md
+            - Engine Protocol Types Template: ./tutorial/engines/template/template_protocol_types.juvix.md
+        - Examples:
+            - Ticker Engine Family:
+                - Ticker Engine Overview: ./node_architecture/engines/ticker_overview.juvix.md
+                - Ticker Engine Environment: ./node_architecture/engines/ticker_environment.juvix.md
+                - Ticker Engine Dynamics: ./node_architecture/engines/ticker_dynamics.juvix.md
+                - Ticker Engine Protocol Types: ./node_architecture/engines/ticker_protocol_types.juvix.md
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
