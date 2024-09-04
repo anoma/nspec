@@ -21,7 +21,7 @@ from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.files import Files
 from mkdocs.structure.pages import Page
 from mkdocs.utils import meta
-from pymdownx.snippets import DEFAULT_URL_SIZE, DEFAULT_URL_TIMEOUT, SnippetPreprocessor
+from snippets import DEFAULT_URL_SIZE, DEFAULT_URL_TIMEOUT, SnippetPreprocessor
 
 log: logging.Logger = logging.getLogger("mkdocs")
 

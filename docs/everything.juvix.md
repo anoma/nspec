@@ -3,6 +3,9 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+hide:
+  - navigation
+  - toc
 ---
 
 
@@ -11,6 +14,6 @@ search:
 ```juvix
 module everything;
 
-import architecture-2.engines.compute;
-import architecture-2.engines.p2p;
+import node_architecture.basics;
 ```
+

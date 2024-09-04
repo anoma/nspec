@@ -3,9 +3,9 @@ icon: octicons/markdown-16
 search:
   exclude: false
 tags:
-  - wikilinks
-  - images
-  - snippets
+    - wikilinks
+    - images
+    - snippets
 todos: False
 ---
 
@@ -46,10 +46,10 @@ categories:
 !!! warning
 
     Any new markdown file added to the `docs` directory must, in principle, have
-    an entry in the `mkdocs.yml` file, specifically in the `nav` section. 
+    an entry in the `mkdocs.yml` file, specifically in the `nav` section.
 
     The filename may be relevant depending on where it is placed in the
-    navigation. For example, any file intended to be the landing page of a section, say Section X, must be named `index.md` and placed right below the `Section X` item. Children of `Section X` do not need to follow any specific naming convention. 
+    navigation. For example, any file intended to be the landing page of a section, say Section X, must be named `index.md` and placed right below the `Section X` item. Children of `Section X` do not need to follow any specific naming convention.
 
     ```
     ...
