@@ -13,25 +13,25 @@ nav:
       - World model: ./scope/world_model.md
       - Protocol desiderata: ./scope/protocol_desiderata.md
   - Basic Abstractions:
-    - ./basic_abstractions/index.md
-    - Preliminaries:
-      - ./basic_abstractions/preliminaries/index.md
-      - Multiformats: ./basic_abstractions/preliminaries/multiformats.md
-    - Encoding:
-      - ./basic_abstractions/encoding/index.md
-      - Data type: ./basic_abstractions/encoding/data_type.md
-      - Encoding scheme: ./basic_abstractions/encoding/encoding_scheme.md
-      - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
-      - Multifunctions: ./basic_abstractions/encoding/multifunctions.md
-    - Proving:
-      - ./basic_abstractions/proving/index.md
-      - Assumption: ./basic_abstractions/proving/assumption.md
-      - Proof: ./basic_abstractions/proving/proof.md
-      - Multifunctions: ./basic_abstractions/proving/multifunctions.md
-    - Cryptographic primitives:
-      - ./basic_abstractions/cryptographic_primitives/index.md
-      - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
-      - Accumulator: ./basic_abstractions/cryptographic_primitives/accumulator.md
+      - ./basic_abstractions/index.md
+      - Preliminaries:
+          - ./basic_abstractions/preliminaries/index.md
+          - Multiformats: ./basic_abstractions/preliminaries/multiformats.md
+      - Encoding:
+          - ./basic_abstractions/encoding/index.md
+          - Data type: ./basic_abstractions/encoding/data_type.md
+          - Encoding scheme: ./basic_abstractions/encoding/encoding_scheme.md
+          - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
+          - Multifunctions: ./basic_abstractions/encoding/multifunctions.md
+      - Proving:
+          - ./basic_abstractions/proving/index.md
+          - Assumption: ./basic_abstractions/proving/assumption.md
+          - Proof: ./basic_abstractions/proving/proof.md
+          - Multifunctions: ./basic_abstractions/proving/multifunctions.md
+      - Cryptographic primitives:
+          - ./basic_abstractions/cryptographic_primitives/index.md
+          - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
+          - Accumulator: ./basic_abstractions/cryptographic_primitives/accumulator.md
   - Protocol Architecture:
       - ./architecture/index.md
       - System Architecture:
