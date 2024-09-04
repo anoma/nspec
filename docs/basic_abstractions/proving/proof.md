@@ -5,20 +5,20 @@ search:
   boost: 2
 ---
 
----
+!!! todo
 
-What should this type be now?
-Is everything just a provable VM?
-VM gives the semantics to interpret the function, which seems necessary.
+    This whole page needs to be reworked. Questions:
+    - What should this type be now?
+    - Is everything just a provable VM?
+    - VM gives the semantics to interpret the function, which seems necessary.
+    - We have some type of assumptions $Assumption$
+    - $prove_n$ generates the proof of type $Proof_n$
+    - $assumptions_n$ returns the assumptions required for a proof
+    - $verify_n$ verifies a proof of type $Proof_n$
 
 ---
 
 # Proof
-
-- We have some type of assumptions $Assumption$
-- $prove_n$ generates the proof of type $Proof_n$
-- $assumptions_n$ returns the assumptions required for a proof
-- $verify_n$ verifies a proof of type $Proof_n$
 
 We define a set of structures required to define a proving system $PS$ as follows:
 
