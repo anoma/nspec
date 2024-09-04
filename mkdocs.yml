@@ -425,7 +425,7 @@ nav:
       - Add diffs for versioning: ./tutorial/differ/index.md
       - Run pre commit checks: ./tutorial/commit_checks.md
       - Engines in Anoma:
-        - ./tutorial/engines/index.juvix.md
+        - ./tutorial/engines/index.md
         - Conventions: ./tutorial/engines/conventions.md
         - Engine Templates:
             - ./tutorial/engines/template/index.md

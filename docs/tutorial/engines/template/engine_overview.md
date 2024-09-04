@@ -8,7 +8,9 @@ tags:
 
 # Engine "Overview" Template
 
-This page contains a template for writing the overview of the engine family `X`.
+This page contains a template for writing the overview of an engine
+family called `X`. We use the `X` placeholder to indicate that you should
+replace it with the name of the engine family you are writing about.
 
 !!! info
 

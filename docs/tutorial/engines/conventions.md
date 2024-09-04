@@ -64,11 +64,12 @@ the `node_architecture` directory. This file is intended to list/index all the
 related files of the engine family. For example, the `ticker.juvix` file look
 like this:
 
+```
 --8<-- "node_architecture/engines/ticker.juvix"
+```
 
-
-So next time, you want to use the `ticker` engine family, you can import it
-using the following code:
+So next time, if you want to use the `ticker` engine family, then you can import it
+using line at the top of the Juvix file:
 
 ```
 import node_architecture.engines.ticker open;
@@ -76,7 +77,7 @@ import node_architecture.engines.ticker open;
 
 As final requirement, you must add the engine family to the
 `docs/everything.juvix.md` file in the "Engines" section. That is,
-if the engine family is the `ticker`, you would add the following line to the file, for example
+if the engine family is the `ticker`, you would add the following line:
 
 ```diff
 module everything;
