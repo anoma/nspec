@@ -13,7 +13,7 @@ from urllib.parse import urljoin
 import mkdocs.plugins
 from common.models.entry import ResultEntry
 from common.preprocesors.links import WLPreprocessor
-from common.utils import fix_site_url, generate_structure_mermaid, get_page_title
+from common.utils import create_mermaid_diagram, fix_site_url, get_page_title
 from markdown.extensions import Extension  # type: ignore
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.files import Files
@@ -35,8 +35,8 @@ CACHE_DIR.mkdir(parents=True, exist_ok=True)
 LINKS_JSON = CACHE_DIR / "aliases.json"
 GRAPH_JSON = CACHE_DIR / "graph.json"
 NODES_JSON = CACHE_DIR / "nodes.json"
-SITE_MAPS_GRAPH = CACHE_DIR / "site_maps_graph"
-SITE_MAPS_GRAPH.mkdir(parents=True, exist_ok=True)
+PAGE_LINK_DIAGS = CACHE_DIR / "page_link_diags"
+PAGE_LINK_DIAGS.mkdir(parents=True, exist_ok=True)
 
 
 files_relation: List[ResultEntry] = []
@@ -105,7 +105,6 @@ def on_pre_build(config: MkDocsConfig) -> None:
     config["url_for"] = {}
     config["wikilinks_issues"] = 0
     config["nodes"] = {}
-    config["reations"] = []
     node_index = 0
 
     for _url, page in _extract_aliases_from_nav(config["nav"]):
@@ -181,9 +180,16 @@ def on_files(files: Files, config: MkDocsConfig) -> None:
         )
 
 
+TOKEN_LIST_WIKILINKS = "<!-- list_wikilinks -->"
+TOKEN_MERMAID_WIKILINKS = "<!-- mermaid_wikilinks -->"
+
+
 @mkdocs.plugins.event_priority(-200)
 def on_page_markdown(markdown, page: Page, config: MkDocsConfig, files: Files) -> str:
     config["current_page"] = page  # needed for the preprocessor
+    config["links_number"] = []
+    markdown += "\n" + TOKEN_LIST_WIKILINKS + "\n"
+    markdown += "\n" + TOKEN_MERMAID_WIKILINKS + "\n"
     return markdown
 
 
@@ -195,39 +201,68 @@ def on_page_content(html, page: Page, config: MkDocsConfig, files: Files) -> str
     if url not in config["nodes"]:
         return html
 
-    # at this point, the preprocessor has already run
-    # so we can safely access the linksNumber
-    links_number = config.get("links_number", {})
-    if url not in config["links_number"] or "index" not in config["nodes"][url]:
+    if url not in config["nodes"] or "index" not in config["nodes"][url]:
         return html
-
-    if links_number:
-
+    links_number = config.get("links_number", [])
+    if len(links_number) > 0:
         actualindex = config["nodes"][url]["index"]
         result_entry = ResultEntry(
             file=current_page.url,
             index=actualindex,
             matches=links_number,
             url=current_page.canonical_url,
+            name=current_page.title,
         )
         files_relation.append(result_entry)
-        mermaid_structure = generate_structure_mermaid([result_entry])
-        file_path = result_entry.file.replace("\\", "_").replace("/", "_")
-        file_path = (SITE_MAPS_GRAPH / file_path).as_posix()
 
-        wrapped_mermaid = (
-            '\n<details class="note" open="">\n'
-            "    <summary>Link Graph</summary>\n"
-            '    <figure markdown="span">\n'
-            "        <p></p>\n"
-            f'        <div class="mermaid">\n{mermaid_structure}\n</div>\n'
-            '        <figcaption markdown="span">Link Diagram</figcaption>\n'
-            "    </figure>\n"
-            "    <p></p>\n"
-            "</details>\n"
-        )
-        html += wrapped_mermaid
+        if page.meta.get("list_wikilinks", True):
+            # Creat a bullet list of links
+            wrapped_links = "<details class='quote'><summary>(Wiki) links on this page</summary><ul>"
+            for link in links_number:
+                wrapped_links += f"<li><a href='{link['url']}' alt='{link['path']}'>{link['name']}</a></li>"
+            wrapped_links += "</ul></details>"
+
+            html = html.replace(TOKEN_LIST_WIKILINKS, wrapped_links)
+        if page.meta.get("mermaid_wikilinks", False):
+            mermaid_structure = create_mermaid_diagram([result_entry])
+            file_path = (
+                result_entry.file.replace("\\", "_")
+                .replace("/", "_")
+                .replace(".html", ".mmd")
+            )
+            file_path = (PAGE_LINK_DIAGS / file_path).as_posix()
+            with open(file_path, "w") as f:
+                f.write(mermaid_structure)
+
+            wrapped_mermaid = f"""
+                <details class="quote">
+                <summary>Link graph</summary>
+                <div style="text-align: center;">
+                <pre class="mermaid" ><code>{mermaid_structure}</code></pre>
+                </div>
+                </details>
+            """
+            html = html.replace(TOKEN_MERMAID_WIKILINKS, wrapped_mermaid)
     return html
+
+
+def on_post_build(config: MkDocsConfig):
+
+    if GRAPH_JSON.exists():
+        GRAPH_JSON.unlink()
+
+    serialized_files_relation = [entry.to_dict() for entry in files_relation]
+    with open(GRAPH_JSON, "w") as graph_json_file:
+        json.dump(
+            {"graph": serialized_files_relation},
+            graph_json_file,
+            indent=2,
+        )
+
+    mermaid_structure = create_mermaid_diagram(files_relation)
+    file_path = (PAGE_LINK_DIAGS / "graph.mmd").as_posix()
+    with open(file_path, "w") as f:
+        f.write(mermaid_structure)
 
 
 def _extract_aliases_from_nav(item, parent_key=None):

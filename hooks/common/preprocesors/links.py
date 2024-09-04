@@ -34,7 +34,7 @@ class WLPreprocessor(Preprocessor):
         self.mkconfig = mkconfig
         self.snippet_preprocessor = snippet_preprocessor
         self.current_file = None
-        self.linksNumber = []
+        self.links_found = []
 
     def run(self, lines):
         lines = self.snippet_preprocessor.run(lines)
@@ -50,11 +50,9 @@ class WLPreprocessor(Preprocessor):
         wikilink_buffer_pos = []
 
         if "current_page" in config and isinstance(config["current_page"], Page):
-            url_relative = DOCS_DIR / Path(
-                config["current_page"].url.replace(".html", ".md")
-            )
+            page = config["current_page"]
+            url_relative = DOCS_DIR / Path(page.url.replace(".html", ".md"))
             current_page_url = url_relative.as_posix()
-
             log.debug(f"CURRENT PAGE: {current_page_url}")
 
         if not current_page_url:
@@ -101,7 +99,7 @@ class WLPreprocessor(Preprocessor):
                     continue
             else:
                 # Check if the line starts a new wikilink
-                count_open, count_close = self.count_wikilink_pairs(line)
+                count_open, count_close = count_bracket_pairs(line)
                 if "[[" in line and "]]" not in line:
                     inside_wikilink = True
                     wikilink_buffer_pos.append(i)
@@ -114,21 +112,13 @@ class WLPreprocessor(Preprocessor):
                     wikilink_buffer_pos.append(i)
 
             self.generate_wikilink(config, i, lines, matches, current_page_url)
-
         return lines
-
-    def count_wikilink_pairs(self, text: str):
-        # Count occurrences of [[ and ]]
-        count_open = text.count("[[")
-        count_close = text.count("]]")
-        return count_open, count_close
 
     def generate_wikilink(
         self, config, i, lines, matches, current_page_url, partial: str = ""
     ):
         for match in matches:
             loc = FileLoc(current_page_url, i + 1, match.start() + 2)
-
             link = WikiLink(
                 page=match.group("page"),
                 hint=match.group("hint"),
@@ -138,8 +128,10 @@ class WLPreprocessor(Preprocessor):
             )
 
             link_page = link.page.replace("-", " ")
-
-            if len(config["url_for"].get(link_page, [])) > 1:
+            if (
+                len(config["url_for"].get(link_page, [])) > 1
+                and link_page in config["url_for"]
+            ):
                 possible_pages = config["url_for"][link_page]
 
                 # heuristic to suggest the most likely page
@@ -195,11 +187,19 @@ class WLPreprocessor(Preprocessor):
                     if url_page in config["nodes"]:
                         actuallink = config["nodes"][url_page]
                         if actuallink:
-                            self.linksNumber.append(
+                            pageName = ""
+                            if (
+                                "names" in actuallink["page"]
+                                and len(actuallink["page"]["names"]) > 0
+                            ):
+                                pageName = actuallink["page"]["names"][0]
+
+                            self.links_found.append(
                                 {
                                     "index": actuallink["index"],
                                     "path": actuallink["page"]["path"],
                                     "url": path.replace(".md", ".html"),
+                                    "name": pageName,
                                 }
                             )
                     else:
@@ -214,10 +214,9 @@ class WLPreprocessor(Preprocessor):
 
                 md_link = f"[{link.display or link.page}]({html_path}{f'#{link.anchor}' if link.anchor else ''})"
 
-                if partial:
-                    lines[i] = lines[i].replace(partial, md_link)
-                else:
-                    lines[i] = lines[i].replace(match.group(0), md_link)
+                lines[i] = lines[i].replace(
+                    partial if partial else match.group(0), md_link
+                )
 
                 log.debug(
                     f"{loc}:\nResolved link for page:\n  {link_page} -> {html_path}"
@@ -232,7 +231,13 @@ class WLPreprocessor(Preprocessor):
                 lines[i] = lines[i].replace(match.group(0), link.text)
                 config["wikilinks_issues"] += 1
 
-        if self.linksNumber.__sizeof__() > 0:
-            config["links_number"] = self.linksNumber
-
+        if len(self.links_found) > 0:
+            config.update({"links_number": self.links_found})
         return lines
+
+
+def count_bracket_pairs(text: str):
+    # Count occurrences of [[ and ]]
+    count_open = text.count("[[")
+    count_close = text.count("]]")
+    return count_open, count_close

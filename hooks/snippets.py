@@ -123,7 +123,7 @@ class SnippetPreprocessor(Preprocessor):
         new_lines = []
         start = False
         found = False
-        for _l in lines: 
+        for _l in lines:
             ln = _l
             # Found a snippet section marker with our specified name
             m = self.RE_SNIPPET_SECTION.match(ln)
