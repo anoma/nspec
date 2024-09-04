@@ -1,7 +1,13 @@
 ---
-icon: octicons/project-template-24
+icon: octicons/gear-16  
 search:
   exclude: false
+categories:
+- engine-family 
+- juvix-module
+tags:
+- mytag1 
+- engine-environment
 ---
 
 <!-- --8<-- [start:juvix-preamble] -->
@@ -69,7 +75,7 @@ it will store argTwo, if argOne and argThree satisfy some properties.
 <!-- --8<-- [start:message_one_example] -->
 ```juvix
 module message_one_example;
-    example_message_one : TemplateMessage := messageOne@{
+  example_message_one : TemplateMessage := messageOne@{
     argOneOne := 1;
     argTwo := 2;
     argThree := 3

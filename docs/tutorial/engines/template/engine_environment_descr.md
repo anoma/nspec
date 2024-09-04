@@ -13,12 +13,12 @@ I want to replace the use of `X` as the engine family name with `Template` later
 
 # Engine "Environment" Template
 
-In this page, we present the template for writing the environment for an engine
-family `X`, content separated into several parts for easier handling. The
-environment's page for an engine family is a Juvix Markdown file that describes
-_all_ types—or rather type parameters, to be precise—regardless of whether they
-are specific to the [[Engine Family Types|engine family]] or shared with others
-(and used).
+In this page, we present the template for writing the environment for a generic
+engine family called `X`. The template is separated into several parts for easier
+handling. These engine-environment pages are, in principle, Juvix Markdown files
+that describe _all_ types—or rather type parameters, to be precise—regardless
+of whether they are specific to the [[Engine Family Types|engine family]] or
+shared with others (and used).
 
 ??? note "Family-specific vs. shared types"
 
@@ -60,9 +60,10 @@ are specific to the [[Engine Family Types|engine family]] or shared with others
     `docs/node_architecture/engines/x_environment.juvix.md`.
 
 
-## Front Matter
+## Part 1: front matter
 
 ```html linenums="1" title="docs/node_architecture/engines/x_environment.juvix.md"
+<!-- --8<-- [start:front-matter] -->
 --- <!-- (1)! -->
 icon: octicons/gear-16  <!-- (2)! -->
 search:
@@ -74,11 +75,12 @@ tags:
 - mytag1 <!-- (4)! -->
 - engine-environment
 ---
+<!-- --8<-- [end:front-matter] -->
 ```
 
 --8<-- "./docs/tutorial/engines/template/engine_overview.md:annotations"
 
-## Juvix preamble
+## Part 2: Juvix preamble
 
 The _Juvix preamble_ is a collapsed admonition that contains the [Juvix `module` declaration](https://docs.juvix.org/latest/reference/language/modules.html)
 and all necessary imports. It starts with the module declaration (based on the path and file name), followed by imports, opens, etc. The module's name, after the path, is for our example, `X_environment`.
@@ -94,13 +96,13 @@ and all necessary imports. It starts with the module declaration (based on the p
     --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:juvix-preamble"
 
 
-## Main content
+## Part 3: main content
 
 ```html linenums="1" linenums="21" title="docs/node_architecture/engines/x_environment.juvix.md"
 !!! warning "[Under construction]"  <!-- (1)! -->
 
-    This (Juvix) page is still under construction, needs to be updated with the latest
-    changes in the engine family type.
+    This (Juvix) page is still under construction, needs to be
+    updated with the latest changes in the engine family type.
 
 # X Environment <!-- (2)! -->
 
@@ -114,13 +116,13 @@ and all necessary imports. It starts with the module declaration (based on the p
 
     [...]  <!-- (6)! -->
 
-```juvix
-type XMessage := <!-- (7)! -->
-  | -- --8<-- [start:message1] <!-- (8)! -->
+```juvix <!-- (7)! -->
+type XMessage :=   <!-- (8)! -->  
+  | -- <!-- --8<-- [start:message1] -->
   [Message constructor 1] <!-- (9)! -->
-  -- --8<-- [end:message1]
+  -- <!---8<-- - [end:message1] -->
   | [Message constructor ...]
-```juvix
+```a 
 
 ### [Message constructor 1] <!-- (10)! -->
 
@@ -136,13 +138,21 @@ If an [engine family] engine receives a message of this type, it will [...]
 
 ## Mailbox states <!-- (14)! -->
 
-[...] <!-- (15)! -->
+??? note "Auxiliary Juvix code 
+
+    [...]
+
+[...]  <!-- (15)! -->
 
 ## Local state <!-- (16)! -->
 
 [...] <!-- (17)! -->
 
 ## Timer handles <!-- (18)! -->
+
+??? note "Auxiliary Juvix code"
+
+    [...] 
 
 [...] <!-- (19)! -->
 
@@ -159,7 +169,7 @@ If an [engine family] engine receives a message of this type, it will [...]
 
 2. This is the page title and must follow the schema `[Engine family name] Environment`.
 
-3. For complicated engines, we want an overview of how types relate to each
+3. This section is **optional**. For complicated engines, we want an overview of how types relate to each
   other, either within the engine family or beyond engine family boundaries
   and/or intra-node or inter-node.
 
@@ -225,22 +235,23 @@ If an [engine family] engine receives a message of this type, it will [...]
 
     --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:TemplateMessageType"
     
-8. For each message constructor, we put two "invisible" comments into the Juvix
-   record type, namely a pair of lines like
-   
+8. Now, we define the data constructors. Also, for each message constructor, we
+   put two "invisible" comments into the Juvix record type, namely a pair of
+   lines like
+
     ```
-    -- --8<-- [start:messageK]
+    -- <!-- --8<-- [start:messageK] -->
     ```
     and
 
     ```
-    -- --8<-- [end:messageK]
+    -- <!-- --8<-- [end:messageK] -->
     ```
 
-    that embrace the constructor of the $k$-th message;
-    then we can include the very same code by writing
-    `--8<-- "./[engine_family]_engine_environment:messageK"`
-    to obtain the required code fragment.[^2-0]
+    that embrace the constructor of the k-th message; then we can include the
+    very same code by writing `--8<--
+    "./[engine_family]_engine_environment:messageK"` to obtain the required code
+    fragment.[^2-0]
 
 9. As an example, we have one data constructor for the message type
    `TemplateMessage` called `messageOne`, which requires three arguments:
@@ -273,14 +284,67 @@ If an [engine family] engine receives a message of this type, it will [...]
     like a public method of some mutable object would be documented
     in object-oriented languages.
 
-14. TODO see the reference page at the top
-15. TODO see the reference page at the top
-16. TODO see the reference page at the top
+14. If an engine family relies on non-trivial mailbox state,
+    it has to be documented here.
+    We want one Juvix record type or algebraic data type
+    at the level of the engine family;
+    each constructor typically corresponds to a family of mailboxes
+    that serve a similar purpose.
+
+    Form
+
+    : A record type and explanatory prose for each constructor;
+      the explanatory prose is succeeding the type definition.
+      The form is similar to that for
+      [[Engine Environment Template#messages|messages]];
+      in particular,
+      the sections starts with a note `??? note "Auxiliary Juvix code"`
+      that contains any auxiliary definitions.
+
+
+    Goal
+
+    : Each constructor should have a clearly stated purpose
+    and the role of the arguments is explained.
+
+15. First, the local state is described in broad terms (different than from in
+    the other sections). The informal description is followed by either a new
+    definition of the type in Juvix (or a snippet with a link where it is
+    defined); any auxiliary code is given in a `??? note "Auxiliary Juvix code"`
+    admonition. Finally, we want to describe all data items and also the data
+    structures used in English language; technical terms should be linked,
+    either to documentation, here, elsewhere or on Wikipedia-page (or similar).
+
+16. Here we define the so-called _local state_ of the engine environment, which
+    is typically tailor-made for each engine family.
+
+    Goal
+
+    : Besides documentation for each data item,
+    the reader may follow links to
+    descriptions of data structures
+    (beyond the most basic one like trees, hash maps, etc.
+    and those defined in the Juvix standard library).
+
 17. TODO see the reference page at the top
-18. TODO see the reference page at the top
-19. TODO see the reference page at the top
-20. TODO see the reference page at the top
-21. TODO see the reference page at the top 
+18. This section is about the type of timer handles. Recall that a timer may
+    carry some information as part of its _handle,_ e.g., about the context in
+     which it was set.
+
+    Goal
+
+    : Get an overview of a family of timers,
+    and what data is relevant for each family.[^3]
+
+19. Here we put a juvix data type plus documentation.
+    The form is mirroring that of the messages' section.
+
+20. This is the place where the environment type is defined. If applicable, this
+    is a good place to put additional comments that only make sense after
+    everything is defined.
+
+21. This section is free form, _except_ for the datatype definition and an
+    example in Juvix at the end.
 
 
 <!-- footnotes -->
