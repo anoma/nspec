@@ -112,9 +112,11 @@ and all necessary imports. It starts with the module declaration (based on the p
 
 ## Messages  <!-- (5)! -->
 
+[...] <!-- (6)! -->
+
 ??? note "Auxiliary Juvix code 
 
-    [...]  <!-- (6)! -->
+    [...]  
 
 ```juvix <!-- (7)! -->
 type XMessage :=   <!-- (8)! -->  
@@ -208,35 +210,31 @@ If an [engine family] engine receives a message of this type, it will [...]
         the default parameter names correspond to the field names of the "embedded" record,
         and the associated types are the types of the respective fields.
 
-    Form
+6. First, we have a hidden note `??? note "Auxiliary Juvix code"` followed by a
+    Juvix code block that gives the Juvix type; the type name follows the pattern
+    `[EngineFamilyName]Message`.
 
-    :   First, we have a hidden note `??? note "Auxiliary Juvix code"`
-        followed by a Juvix code block that gives the Juvix type;
-         the type name follows the pattern `[EngineFamilyName]Message`.
-
-    :   Afterwards,
-        we want exactly one level three heading
-        of the form `### [Message constructor]`
-        for each constructor of the message type
-        (or, equivalently, for each message tag).
-        The content of the sub-subsections under
-        those level three headings for each message tag
-        have again three parts:
-        a code snippet,
-        a message tag documentation that concludes with an example,
-        and additional remarks.
-
-6. Juvix example:
+    Juvix example:
 
     --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:message_auxiliary"
 
+    :   Afterwards, we want exactly one level three heading of the form `###
+        [Message constructor]` for each constructor of the message type (or,
+        equivalently, for each message tag). The content of the sub-subsections
+        under those level three headings for each message tag have again three
+        parts: a code snippet, a message tag documentation that concludes with
+        an example, and additional remarks.
+
 7. At this precise point, we include the Juvix type definition for the message
-   type. For example, see the following type definition:
+   type. For example, the following type definition declares the type
+   `TemplateMessage` with four data constructors corresponding to four different
+   message tags:
 
     --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:TemplateMessageType"
     
-8. Now, we define the data constructors. Also, for each message constructor, we
-   put two "invisible" comments into the Juvix record type, namely a pair of
+8. In Juvix syntax, after `:=` we define the data constructors, each separated
+   by `|`. Also, for each message constructor, we put two "invisible" comments
+   into the Juvix record type to facilitate code-references, namely a pair of
    lines like
 
     ```
@@ -262,6 +260,10 @@ If an [engine family] engine receives a message of this type, it will [...]
     --8<-- "./docs/node_architecture/engines/x_environment.juvix.md!:messageOne"
     ```
 
+    first data constructor in the `TemplateMessage` type:
+
+      --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:TemplateMessageType"
+   
 10. TODO see the reference page at the top
 
 11. TODO see the reference page at the top
