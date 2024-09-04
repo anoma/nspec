@@ -8,6 +8,7 @@ social:
   cards: false
 search:
     exclude: true
+list_wikilinks: false
 ---
 
 {@@ if preview @@}
