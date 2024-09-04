@@ -22,7 +22,7 @@ The atomic unit of the ARM state is called a **resource**. Resources are immutab
 
 ## Resource model
 
-The ARM transaction model is neither the account nor UTXO model. Unlike the Bitcoin UTXO model, which sees UTXOs as currency units and is limited in expressivity, the resource model is generalised and provides flexibility — resource logics — programmable predicates associated with each resource — can be defined in a way to construct applications that operate in any desired transaction model, including the account and UTXO models. 
+The ARM transaction model is neither the account nor UTXO model. Unlike the Bitcoin UTXO model, which sees UTXOs as currency units and is limited in expressivity, the resource model is generalised and provides flexibility — resource logics — programmable predicates associated with each resource — can be defined in a way to construct applications that operate in any desired transaction model, including the account and UTXO models.
 
 For example, a token operating in the account model would be represented by a single resource containing a map $user: balance$ (unlike the UTXO model, where the token would be represented by a collection of resources of the token type, each of which would correspond to a portion of the token total supply and belong to some user owning this portion). Only one resource of that kind can exist at a time. When users want to perform a transfer, they consume the old balance table resource and produce a new balance table resource.
 

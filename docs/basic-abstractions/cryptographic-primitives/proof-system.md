@@ -12,7 +12,7 @@ We define a set of structures required to define a proving system $PS$ as follow
 - Proof $\pi: PS.Proof$
 - Instance $x: PS.Instance$ is the public input used to produce a proof.
 - Witness $w: PS.Witness$ is the private input used to produce a proof.
-- Proving key $pk: PS.ProvingKey$ contains the secret data required to produce a proof for a pair $(x, w)$. 
+- Proving key $pk: PS.ProvingKey$ contains the secret data required to produce a proof for a pair $(x, w)$.
 - Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the witness $x$, to verify a proof $\pi$.
 
 A **proof record** carries the components required to verify a proof. It is defined as a composite structure $PR = (\pi, x, vk): ProofRecord$, where:

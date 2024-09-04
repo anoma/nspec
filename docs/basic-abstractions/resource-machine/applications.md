@@ -16,7 +16,7 @@ $Application = (ApplicationLogic, ApplicationInterface)$, where
 
 As any abstract action can be represented as a transaction consuming and creating resources of certain kinds (or a transaction function that evaluates to such a transaction), the transaction functions associated with the application represent the set of actions that the application can provide to its users. Each transaction function would require a subset of the application resource logics to approve the transaction in order to realise the desired action. The transaction function evaluated with the exact resources to be created and consumed forms a transaction.
 
-The resources that are bound with the application resource logics are said to belong to the application and constitute the application state. When the application does not have any resources that were created but not consumed yet, the application only exists virtually but not tangibly. 
+The resources that are bound with the application resource logics are said to belong to the application and constitute the application state. When the application does not have any resources that were created but not consumed yet, the application only exists virtually but not tangibly.
 
 The abstraction of an application is virtual - applications are not deployed or tracked in any sort of global registry, and the ARM is unaware of the existence of applications.
 
@@ -55,4 +55,4 @@ Applications do not have to exist within the bounds of a single controller, and 
 
 #### Controller state synchronisation
 
-Each controller would have their own commitment tree associated with it. Treated as subtrees of a larger Merkle tree, the controller commitment trees comprise a global commitment tree, where the leaves are the roots of the controller trees. 
+Each controller would have their own commitment tree associated with it. Treated as subtrees of a larger Merkle tree, the controller commitment trees comprise a global commitment tree, where the leaves are the roots of the controller trees.

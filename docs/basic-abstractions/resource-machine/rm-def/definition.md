@@ -7,11 +7,11 @@ search:
 
 # Resource machine
 
-A **resource machine** is a deterministic stateless machine that creates, composes, and verifies transaction functions. 
+A **resource machine** is a deterministic stateless machine that creates, composes, and verifies transaction functions.
 
 It has read-only access to the external global state, which includes the content-addressed storage system (which in particular stores resources), global commitment accumulator, and the global nullifier set, and can produce writes to the external local state that will later be applied to the system state.
 
-The resource machine has two layers: the outer layer, the resource machine shell, that creates and processes **transaction functions**, and the inner layer, the resource machine core, that creates and processes **transactions**. 
+The resource machine has two layers: the outer layer, the resource machine shell, that creates and processes **transaction functions**, and the inner layer, the resource machine core, that creates and processes **transactions**.
 
 We assume the shell is trivial in this version of the ARM: it only evaluates the transaction function without any verification steps. The result is a transaction that is then passed to the core. The distribution of responsibilities between the shell and the core is expected to change.
 

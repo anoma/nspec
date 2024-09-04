@@ -11,7 +11,7 @@ Given a set of components required to produce a transaction, the create function
 
 Assuming that the produced transaction induces a state change consuming resources $r_{i_1},\cdots, r_{i_n}$ and creating resources $r_{o_1}, \cdots, r_{o_m}$, the inputs and outputs of the create function are defined as follows.
 
-Input: 
+Input:
 
 - a set of $CMtree$ roots $\{rt_{i_k}, k \leq n\}$
 - a set of resources $\{r_{i_1},...,r_{i_n}, r_{o_1},...,r_{o_m}\}$

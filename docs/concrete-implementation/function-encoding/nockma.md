@@ -19,7 +19,7 @@ Typically, the index functions allowed will be very restricted, e.g. current uns
 
 Scrying may be used to avoid unnecessary, redundant transmission of common Nockma subexpressions, such as the standard library.
 
-Nockma is a combinator interpreter defined as a set of reduction rules over nouns. A noun is an atom or a cell, where an atom is a natural number and a cell is an ordered pair of nouns. 
+Nockma is a combinator interpreter defined as a set of reduction rules over nouns. A noun is an atom or a cell, where an atom is a natural number and a cell is an ordered pair of nouns.
 
 The Nockma reduction rules as presented in \Cref{table:nockma} are applied from
 top to bottom, the first rule from the top matches. Variables match any noun. As

@@ -13,8 +13,8 @@ From the resource model perspective, stronger privacy guarantees require operati
 
 One way to achieve this would be to publish a **commitment** to the resource plaintext. For a resource $r$, the resource commitment is computed as $r.cm = h_{cm}(r)$. Resource commitment has binding and hiding properties, meaning that the commitment is tied to the created resource but does not reveal information about the resource beyond the fact of creation. From the moment the resource is created, and until the moment it is consumed, the resource is a part of the system's state.
 
-> 
-> The resource commitment is also used as the resource's address $r.addr$ in the content-addressed storage. 
+>
+> The resource commitment is also used as the resource's address $r.addr$ in the content-addressed storage.
 > Consumption of the resource does not necessarily affect the resource's status in the storage (e.g., it doesn't get deleted).
 
 ### Commitment accumulator
@@ -28,13 +28,13 @@ For a commitment that existed in the accumulator before a new one was added, bot
 
 The commitment accumulator $Acc$ must support the following functionality:
 
-- `ADD(acc, cm)` adds an element to the accumulator, returning the witness used to prove membership. 
+- `ADD(acc, cm)` adds an element to the accumulator, returning the witness used to prove membership.
 - `WITNESS(acc, cm)` for a given element, returns the witness used to prove membership if the element is present, otherwise returns nothing.
 - `VERIFY(cm, w, val)` verifies the membership proof for an element $cm$ with a membership witness $w$ for the accumulator value $val$.
 - `VALUE(acc)` returns the accumulator value.
 
 #### Instantiation
-Currently, the commitment accumulator is assumed to be a Merkle tree $CMtree$ of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are computed using a hash function $h_{CMtree}$. 
+Currently, the commitment accumulator is assumed to be a Merkle tree $CMtree$ of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are computed using a hash function $h_{CMtree}$.
 
 > The hash function $h_{CMtree}$ used to compute the nodes of the $CMtree$ Merkle tree is not necessarily the same as the function used to compute commitments stored in the tree $h_{cm}$.
 

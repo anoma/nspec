@@ -8,11 +8,11 @@ search:
 # Roles and requirements
 
 
-The table below contains a list of resource-related roles. In the Anoma protocol, the role of the resource creator will often be taken by a solver, which creates additional security requirements compared to the case when protocol users solve their own intents. Because of that, extra measures are required to ensure reliable distribution of the information about the created resource to the resource receiver. 
+The table below contains a list of resource-related roles. In the Anoma protocol, the role of the resource creator will often be taken by a solver, which creates additional security requirements compared to the case when protocol users solve their own intents. Because of that, extra measures are required to ensure reliable distribution of the information about the created resource to the resource receiver.
 
 |Role| Description|
 |-|-|
-Authorizer | approves the resource consumption on the application level. The resource logic encodes the mechanism that connects the authorizer's external identity (public key) to the decision-making process 
+Authorizer | approves the resource consumption on the application level. The resource logic encodes the mechanism that connects the authorizer's external identity (public key) to the decision-making process
 Annuler | knows the data required to nullify a resource
 Creator | creates the resource and shares the data with the receiver
 Owner | can both authorize and annul a resource

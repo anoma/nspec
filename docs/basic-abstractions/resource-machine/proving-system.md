@@ -10,7 +10,7 @@ search:
 A proving system allows proving statements about resources, which is required to create or consume a resource. Depending on the security requirements, a proving system might be instantiated, for example, by a signature scheme, a zk-SNARK, or a trivial transparent system where the properties are proven by openly verifying the properties of published data.
 
 ### Public and private inputs
-To support the intended spectrum of privacy requirements, varying from the strongest (where the relationship between the published parameters does not allow an observer to infer any kind of meaningful information about the state transition) to the weakest, where no privacy is required, we divide the proving system inputs into *public* (instance) and *private* (witness). The inputs that could potentially reveal the connection between components or other kinds of sensitive information are usually considered private, and the components that have to be and can be safely published regardless of the privacy guarantees of the system would be public inputs. 
+To support the intended spectrum of privacy requirements, varying from the strongest (where the relationship between the published parameters does not allow an observer to infer any kind of meaningful information about the state transition) to the weakest, where no privacy is required, we divide the proving system inputs into *public* (instance) and *private* (witness). The inputs that could potentially reveal the connection between components or other kinds of sensitive information are usually considered private, and the components that have to be and can be safely published regardless of the privacy guarantees of the system would be public inputs.
 
 > In the context of a transparent only system, this distinction is not meaningful because all inputs are public in such a system.
 
@@ -21,7 +21,7 @@ We define a set of structures required to define a proving system $PS$ as follow
 - Proof $\pi: PS.Proof$
 - Instance $x: PS.Instance$ is the public input used to produce a proof.
 - Witness $w: PS.Witness$ is the private input used to produce a proof.
-- Proving key $pk: PS.ProvingKey$ contains the secret data required to produce a proof for a pair $(x, w)$. 
+- Proving key $pk: PS.ProvingKey$ contains the secret data required to produce a proof for a pair $(x, w)$.
 - Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the witness $x$, to verify a proof $\pi$.
 
 #### Proof record

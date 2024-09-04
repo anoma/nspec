@@ -18,7 +18,7 @@ Typically, the index functions allowed will be very restricted, e.g. current uns
 
 Scrying may be used to avoid unnecessary, redundant transmission of common Nockma subexpressions, such as the standard library.
 
-Nockma is a combinator interpreter defined as a set of reduction rules over nouns. A noun is an atom or a cell, where an atom is a natural number and a cell is an ordered pair of nouns. 
+Nockma is a combinator interpreter defined as a set of reduction rules over nouns. A noun is an atom or a cell, where an atom is a natural number and a cell is an ordered pair of nouns.
 
 The Nockma reduction rules as presented in the table below are applied from
 top to bottom, the first rule from the top matches. Variables match any noun. As
@@ -69,7 +69,7 @@ Additionally, it should provide a parametrized conversion function $conv_{i,j,k,
 - $j$ is the input structure order
 - $k$ is a flag that defines the output type: $k = 0$ corresponds to a finite field, $k = 1$ corresponds to a ring of unsigned integers
 - $l$ is the output structure order
-    
+
 If the order of the input structure is bigger than the order of the output structure ($j > l$), the conversion function would return a flag (of type $\mathbb{F}_2$) indicating if overflow happened in addition to the converted value.
 
 The conversion function must use canonical ordering and respect the inversion laws.

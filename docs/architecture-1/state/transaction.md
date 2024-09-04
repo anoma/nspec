@@ -35,7 +35,7 @@ In principle, the information flow predicate can be arbitrary as long as it sati
 A transaction is a composite structure $TX = (rts, cms, nfs, \Pi, \Delta, extra, \Phi)$, where:
 
 - $rts \subseteq \mathbb{F}_{rt}$ is a set of roots of $CMtree$
-- $cms \subseteq  \mathbb{F}_{cm}$ is a set of created resources' commitments. 
+- $cms \subseteq  \mathbb{F}_{cm}$ is a set of created resources' commitments.
 - $nfs \subseteq \mathbb{F}_{nf}$ is a set of consumed resources' nullifiers.
 - $\Pi: \{ \pi: ProofRecord\}$ is a set of proof records.
 - $\Delta_{tx}: \mathbb{F}_{\Delta}$ is computed from $\Delta$ parameters of created and consumed resources. It represents the total delta change induced by the transaction.
@@ -69,7 +69,7 @@ Having two transactions $tx_1$ and $tx_2$, their composition $tx_1 \circ tx_2$ i
 
 ### Balance
 
-$\Delta_{tx}$ of a transaction is computed from the delta parameters of the resources (\ref{delta-resource}) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as \textit{transaction balance}. 
+$\Delta_{tx}$ of a transaction is computed from the delta parameters of the resources (\ref{delta-resource}) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as \textit{transaction balance}.
 
 From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$: $\sum_j{h_\Delta(kind, r_{i_j}.q)} - \sum_j{h_\Delta(kind, r_{o_j}.q)} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} =  h_\Delta(kind, q_{kind})$. The kind-distinctness property of $h_\Delta$ allows to compute $\Delta_{tx} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta}$ adding resources of all kinds together without the need to explicitly distinguish between the resource kinds: $\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$
 
