@@ -29,13 +29,10 @@ nav:
       - ./architecture/index.md
       - System Architecture:
           - ./system_architecture/index.md
-          - Basic Concepts:
-              - ./system_architecture/concepts/index.md
-          - Identity Architecture: ./system_architecture/identity/identity.juvix.md
-          - Network Architecture:
-              - ./system_architecture/network/index.md
-          - Service Architecture:
-              - ./system_architecture/service/index.md
+          - Basic Concepts: ./system_architecture/concepts/index.md
+          - Identity Architecture: ./system_architecture/identity/index.juvix.md
+          - Network Architecture: ./system_architecture/network/index.md
+          - Service Architecture: ./system_architecture/service/index.md
           - State Architecture:
               - ./system_architecture/state/index.md
               - Resource Machine:
