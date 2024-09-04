@@ -123,14 +123,14 @@ class SnippetPreprocessor(Preprocessor):
         new_lines = []
         start = False
         found = False
-        for l in lines:
-
+        for _l in lines:
+            ln = _l
             # Found a snippet section marker with our specified name
-            m = self.RE_SNIPPET_SECTION.match(l)
+            m = self.RE_SNIPPET_SECTION.match(ln)
 
             # Handle escaped line
             if m and start and m.group("escape"):
-                l = (
+                ln = (
                     m.group("pre")
                     + m.group("escape").replace(";", "", 1)
                     + m.group("inline_marker")
@@ -140,7 +140,6 @@ class SnippetPreprocessor(Preprocessor):
 
             # Found a section we are looking for.
             elif m is not None and m.group("name") == section:
-
                 # We found the start
                 if not start and m.group("type") == "start":
                     start = True
@@ -166,7 +165,7 @@ class SnippetPreprocessor(Preprocessor):
 
             # We are currently in a section, so append the line
             if start:
-                new_lines.append(l)
+                new_lines.append(ln)
 
         if not found and self.check_paths:
             if not is_juvix:
@@ -235,7 +234,6 @@ Error found in the file '{backup_path}' for the section '{section}'.
         http_request = urllib.request.Request(url, headers=self.url_request_headers)
         timeout = None if self.url_timeout == 0 else self.url_timeout
         with urllib.request.urlopen(http_request, timeout=timeout) as response:
-
             # Fail if status is not OK
             status = response.status if util.PY39 else response.code
             if status != 200:
@@ -261,7 +259,7 @@ Error found in the file '{backup_path}' for the section '{section}'.
 
             # Process lines
             return [
-                l.decode(self.encoding).rstrip("\r\n") for l in response.readlines()
+                ln.decode(self.encoding).rstrip("\r\n") for ln in response.readlines()
             ]
 
     def parse_snippets(self, lines, file_name=None, is_url=False):
@@ -365,7 +363,6 @@ Error found in the file '{backup_path}' for the section '{section}'.
                 is_juvix = False
 
                 if snippet:
-
                     original = snippet
                     if snippet.endswith(".juvix.md"):
                         snippet = JUVIX_OUTPUT / Path(
@@ -382,7 +379,7 @@ Error found in the file '{backup_path}' for the section '{section}'.
 
                     if is_juvix:
                         with codecs.open(original, "r", encoding=self.encoding) as f:
-                            original_lines = [l.rstrip("\r\n") for l in f]
+                            original_lines = [ln.rstrip("\r\n") for ln in f]
                             if start is not None or end is not None:
                                 s = slice(start, end)
                                 original_lines = (
@@ -394,8 +391,7 @@ Error found in the file '{backup_path}' for the section '{section}'.
                     if not url:
                         # Read file content
                         with codecs.open(snippet, "r", encoding=self.encoding) as f:
-
-                            s_lines = [l.rstrip("\r\n") for l in f]
+                            s_lines = [ln.rstrip("\r\n") for ln in f]
                             if start is not None or end is not None:
                                 s = slice(start, end)
                                 s_lines = (
@@ -410,8 +406,8 @@ Error found in the file '{backup_path}' for the section '{section}'.
                             else:
                                 in_metadata = False
                                 start = 0
-                                for i, l in enumerate(s_lines):
-                                    if l.startswith("---"):
+                                for i, ln in enumerate(s_lines):
+                                    if ln.startswith("---"):
                                         if in_metadata:
                                             start = i
                                             break

@@ -39,9 +39,7 @@ plugins:
       j2_block_end_string: "@@}"
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
-
 extra:
-
   social:
     - icon: fontawesome/brands/x-twitter
       link: https://x.com/anoma
@@ -55,11 +53,9 @@ extra:
       link: https://youtube.com/anoma
     - icon: material/email
       link: mailto:arts@heliax.dev
-
   generator: false
   version:
     provider: mike
-
   analytics:
     feedback:
       title: Was this page helpful?

@@ -27,7 +27,7 @@ pre-commit = "^3.7.1"
 python-levenshtein = "^0.25.1"
 fuzzywuzzy = "^0.18.0"
 common = {path = "hooks"}
-
+graphviz = "^0.20.3"
 
 [build-system]
 requires = ["poetry-core"]
