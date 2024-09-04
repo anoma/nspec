@@ -6,7 +6,7 @@ category:
     - tutorial
 ---
 
-# Include Juvix code
+# Render Juvix code
 
 Another feature of the Anoma documentation is the inclusion of Juvix code
 throughout its Markdown support. Here we assume you have
@@ -15,6 +15,8 @@ throughout its Markdown support. Here we assume you have
 A Juvix Markdown file is a file with extension `.juvix.md`. These files are
 preprocesses by the Juvix compiler to generate the final Markdown file. For this
 website, we are using `mkdocs-juvix-plugin`.
+
+## Juvix Markdown file structure
 
 Very important to note is that the first Juvix code block must declare a module
 with the name of the file, and each block should be a sequence of well-defined
@@ -28,9 +30,10 @@ module tutorial.basics;
 -- ...
 ```</code></pre>
 
-
 Refer to the [`everything.juvix.md`](../everything.juvix.md) file located in the
 `docs` folder to see an example.
+
+## Hide Juvix code blocks
 
 Juvix code blocks come with a few extra features, such as the ability to hide
 the code block from the final output. This is done by adding the `hide`
@@ -40,6 +43,8 @@ attribute to the code block. For example:
 module tutorial.basics;
 -- ...
 ```</code></pre>
+
+## Extract inner module statements
 
 Another feature is the ability to extract inner module statements from the code
 block. This is done by adding the `extract-module-statements` attribute to the
@@ -52,3 +57,16 @@ module B;
 module C;
 -- ...
 ```</code></pre>
+
+## Snippets of Juvix code
+
+You can also include snippets of Juvix code in your Markdown files. This is done
+by adding the `--8<--` comment followed by the path to the file, and optionally
+a snippet identifier. 
+
+!!! note
+
+    If the path of the file ends with `!`, the raw content of the file
+    will be included. Otherwise, for Juvix Markdown files, the content will be
+    preprocessed by the Juvix compiler and then the generated HTML will be
+    included.
