@@ -17,9 +17,17 @@ search:
 
 # X Environment
 
-<!-- --8<-- [start:aliases] -->
+[...]
+
+## Overview
+
+[...]
+
+## Messages
+
 ??? note "Auxiliary Juvix code"
 
+    <!-- --8<-- [start:message_auxiliary] -->
     ```juvix
     syntax alias MethodOneArgOne := Nat;
     syntax alias MethodOneArgTwo := Nat;
@@ -28,7 +36,7 @@ search:
     syntax alias MethodFourArgOne := Unit;
     syntax alias MethodFourArgTwo := Unit;
     ```
-<!-- --8<-- [end:aliases] -->
+    <!-- --8<-- [end:message_auxiliary] -->
 
 
 <!-- --8<-- [start:TemplateMessageType] -->

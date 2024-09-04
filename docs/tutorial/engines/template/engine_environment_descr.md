@@ -7,6 +7,8 @@ tags:
 ---
 
 <!-- Do not delete the following link since it contains the base document for this page: https://raw.githubusercontent.com/anoma/nspec/c61eb3d4e2733ad5712155beabe5e80a6aaff59d/docs/tutorial/engines/template/engine_environment.juvix.md?token=GHSAT0AAAAAACVOLA35IMRBAMF7POUITPSGZWX6GJQ
+
+I want to replace the use of `X` as the engine family name with `Template` later.
 -->
 
 # Engine "Environment" Template
@@ -108,27 +110,45 @@ and all necessary imports. It starts with the module declaration (based on the p
 
 ## Messages  <!-- (5)! -->
 
-??? note "Auxiliary Juvix code <!-- (6)! -->
+??? note "Auxiliary Juvix code 
 
-    [...] <!-- (7)! -->
+    [...]  <!-- (6)! -->
 
-[...] <!-- (8)! -->
+```juvix
+type XMessage := <!-- (7)! -->
+  | -- --8<-- [start:message1] <!-- (8)! -->
+  [Message constructor 1] <!-- (9)! -->
+  -- --8<-- [end:message1]
+  | [Message constructor ...]
+```juvix
 
-## Mailbox states <!-- (9)! -->
+### [Message constructor 1] <!-- (10)! -->
 
-[...] <!-- (10)! -->
+If an [engine family] engine receives a message of this type, it will [...]
 
-## Local state <!-- (11)! -->
+<!-- Code snippet --> <!-- (11)! -->
 
-[...] <!-- (12)! -->
+<!-- Message tag documentation and example --> <!-- (12)! -->
 
-## Timer handles <!-- (13)! -->
+### [Message constructor ...]
 
-[...] <!-- (14)! -->
+[...] <!-- (13)! -->
 
-## Environment summary <!-- (15)! -->
+## Mailbox states <!-- (14)! -->
 
-[...] <!-- (16)! -->
+[...] <!-- (15)! -->
+
+## Local state <!-- (16)! -->
+
+[...] <!-- (17)! -->
+
+## Timer handles <!-- (18)! -->
+
+[...] <!-- (19)! -->
+
+## Environment summary <!-- (20)! -->
+
+[...] <!-- (21)! -->
 
 ```
 
@@ -158,36 +178,109 @@ and all necessary imports. It starts with the module declaration (based on the p
         Members of engine family X can do many different things.
         In particular, they enable communication of X engines with Y engines.
 
-5.  First, we define _the_ Juvix record type for _all_ messages that members of
+5.  In this section, we define _the_ Juvix record type for _all_ messages that members of
   family `X` are able to process;[^2] then, we document this type, one
   constructor at a time. We call these constructors the _message tags_ of the
   engine family `X`.[^2--0]
 
-6. This hidden content contains a Juvix code block that gives the Juvix type;
-   the type name follows the pattern `XMessage`
 
-7. Test!
+    ??? note "On the relation to `receivable message` and `message tag`"
 
-    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:juvix-preamble"
+        Terms of this type represent a _receivable message_,
+        consisting of
 
-8. X
+        - a _message tag_
+        - a list of _argument types_
+        - a (default value for a) _formal parameter name_ for
+          each element of the list of argument types.
 
-9. X
+        The message tag is given by the constructor,
+        the default parameter names correspond to the field names of the "embedded" record,
+        and the associated types are the types of the respective fields.
 
-10. X
+    Form
 
-11. X
+    :   First, we have a hidden note `??? note "Auxiliary Juvix code"`
+        followed by a Juvix code block that gives the Juvix type;
+         the type name follows the pattern `[EngineFamilyName]Message`.
 
-12. X
+    :   Afterwards,
+        we want exactly one level three heading
+        of the form `### [Message constructor]`
+        for each constructor of the message type
+        (or, equivalently, for each message tag).
+        The content of the sub-subsections under
+        those level three headings for each message tag
+        have again three parts:
+        a code snippet,
+        a message tag documentation that concludes with an example,
+        and additional remarks.
 
-13. X
+6. Juvix example:
 
-14. X
+    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:message_auxiliary"
 
-15. X
+7. At this precise point, we include the Juvix type definition for the message
+   type. For example, see the following type definition:
 
-16. X
+    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:TemplateMessageType"
+    
+8. For each message constructor, we put two "invisible" comments into the Juvix
+   record type, namely a pair of lines like
+   
+    ```
+    -- --8<-- [start:messageK]
+    ```
+    and
 
+    ```
+    -- --8<-- [end:messageK]
+    ```
+
+    that embrace the constructor of the $k$-th message;
+    then we can include the very same code by writing
+    `--8<-- "./[engine_family]_engine_environment:messageK"`
+    to obtain the required code fragment.[^2-0]
+
+9. As an example, we have one data constructor for the message type
+   `TemplateMessage` called `messageOne`, which requires three arguments:
+   `argOneOne`, `argTwo`, and `argThree`, of different types as defined as
+   follows:
+   
+    ```
+    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md!:messageOne"
+    ```
+
+10. TODO see the reference page at the top
+
+11. TODO see the reference page at the top
+
+12. TODO see the reference page at the top
+
+13. The message tag documentation start with a description of what reactions the
+    receiving engine may perform as a reaction in broad terms. After this
+    description, we use the syntax of what pandoc calls a [definition
+    list](https://pandoc.org/MANUAL.html#definition-lists) (see also
+    [here](https://stackoverflow.com/q/28057101)) where the "terms" are the record
+    fields and the "definitions" are short English language descriptions of the role
+    of the respective parameter—plus optional explanations of its type (with a link
+    to where it is defined—if applicable). The documentation of the message tag is
+    followed by an example term with the respective message tag.
+
+    Goal
+
+    : Each receivable message is documented
+    like a public method of some mutable object would be documented
+    in object-oriented languages.
+
+14. TODO see the reference page at the top
+15. TODO see the reference page at the top
+16. TODO see the reference page at the top
+17. TODO see the reference page at the top
+18. TODO see the reference page at the top
+19. TODO see the reference page at the top
+20. TODO see the reference page at the top
+21. TODO see the reference page at the top 
 
 
 <!-- footnotes -->
