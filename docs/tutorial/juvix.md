@@ -70,3 +70,11 @@ a snippet identifier.
     will be included. Otherwise, for Juvix Markdown files, the content will be
     preprocessed by the Juvix compiler and then the generated HTML will be
     included.
+
+
+!!! info "Snippet identifier"
+
+    To use a snippet identifier, you must wrap the Juvix code block with the syntax
+    `<!-- --8<-- [start:snippet_identifier] -->` and `<!-- --8<-- [end:snippet_identifier] -->`.
+    This technique is useful for including specific sections of a file. Alternatively, you 
+    use the standard `--8<--` markers within the code and extract the snippet by appending a ! at the end of the path.

@@ -92,9 +92,9 @@ and all necessary imports. It starts with the module declaration (based on the p
     --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:juvix-preamble"
 
 
-## Environment Overview
+## Main content
 
-```html linenums="1" linenums="21" title="x_environment.juvix.md"
+```html linenums="1" linenums="21" title="docs/node_architecture/engines/x_environment.juvix.md"
 !!! warning "[Under construction]"  <!-- (1)! -->
 
     This (Juvix) page is still under construction, needs to be updated with the latest
@@ -166,7 +166,9 @@ and all necessary imports. It starts with the module declaration (based on the p
 6. This hidden content contains a Juvix code block that gives the Juvix type;
    the type name follows the pattern `XMessage`
 
-7. X
+7. Test!
+
+    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:juvix-preamble"
 
 8. X
 
