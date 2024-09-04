@@ -1,6 +1,6 @@
 from typing import Optional
 
-from common.models.fileloc import FileLoc
+from .loc import FileLoc
 
 
 class Link:

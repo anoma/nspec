@@ -55,7 +55,9 @@ import Stdlib.Data.Bool as Bool
   open using
   { Bool;
     true;
-    false
+    false;
+    ite;
+    &&
   } public;
 ```
 

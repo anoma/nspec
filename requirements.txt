@@ -19,4 +19,5 @@ mike
 pre-commit
 python-Levenshtein
 fuzzywuzzy
+graphviz
 ./hooks
