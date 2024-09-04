@@ -128,7 +128,8 @@ type XMessage :=   <!-- (8)! -->
 
 ### [Message constructor 1] <!-- (10)! -->
 
-If an [engine family] engine receives a message of this type, it will [...]
+If an [engine family] engine receives a message of 
+this type, it will [...]
 
 <!-- Code snippet --> <!-- (11)! -->
 
@@ -309,13 +310,11 @@ If an [engine family] engine receives a message of this type, it will [...]
     : Each constructor should have a clearly stated purpose
     and the role of the arguments is explained.
 
-15. First, the local state is described in broad terms (different than from in
-    the other sections). The informal description is followed by either a new
-    definition of the type in Juvix (or a snippet with a link where it is
-    defined); any auxiliary code is given in a `??? note "Auxiliary Juvix code"`
-    admonition. Finally, we want to describe all data items and also the data
-    structures used in English language; technical terms should be linked,
-    either to documentation, here, elsewhere or on Wikipedia-page (or similar).
+15. A record type and explanatory prose for each constructor; the explanatory
+      prose is succeeding the type definition. The form is similar to that for
+      [[Engine Environment Template#messages|messages]]; in particular, the
+      sections starts with a note `??? note "Auxiliary Juvix code"` that
+      contains any auxiliary definitions.
 
 16. Here we define the so-called _local state_ of the engine environment, which
     is typically tailor-made for each engine family.
@@ -328,7 +327,14 @@ If an [engine family] engine receives a message of this type, it will [...]
     (beyond the most basic one like trees, hash maps, etc.
     and those defined in the Juvix standard library).
 
-17. TODO see the reference page at the top
+17. First, the local state is described in broad terms (different than from in
+    the other sections). The informal description is followed by either a new
+    definition of the type in Juvix (or a snippet with a link where it is
+    defined); any auxiliary code is given in a `??? note "Auxiliary Juvix code"`
+    admonition. Finally, we want to describe all data items and also the data
+    structures used in English language; technical terms should be linked,
+    either to documentation, here, elsewhere or on Wikipedia-page (or similar).
+
 18. This section is about the type of timer handles. Recall that a timer may
     carry some information as part of its _handle,_ e.g., about the context in
      which it was set.
@@ -346,7 +352,10 @@ If an [engine family] engine receives a message of this type, it will [...]
     everything is defined.
 
 21. This section is free form, _except_ for the datatype definition and an
-    example in Juvix at the end.
+    example in Juvix at the end. The datatype definition is as in the following
+    example:
+    
+    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:TemplateEnvironment"
 
 
 <!-- footnotes -->
