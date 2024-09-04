@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from typing import List
 
-from common.models.fileloc import FileLoc as Todo
+from common.models.loc import FileLoc as Todo
 from markdown.extensions import Extension  # type: ignore
 from markdown.preprocessors import Preprocessor  # type: ignore
 from mkdocs.config.defaults import MkDocsConfig

@@ -1,2 +1,3 @@
-from common.models.fileloc import FileLoc
-from common.models.wikilink import WikiLink
+from .entry import ResultEntry
+from .loc import FileLoc
+from .wikilink import WikiLink

@@ -9,7 +9,7 @@ requires-python = ">=3.9"
 dependencies = ['mkdocs']
 
 [tool.mypy]
-python_version = "2.7"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 exclude = [
