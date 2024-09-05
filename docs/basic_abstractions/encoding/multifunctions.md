@@ -67,7 +67,7 @@ appropriate virtual machine as specified by the natural index $n$, decodes $f$
 using $decode_n$, then calls $evaluate_n$, tracking and summing the gas used in
 subsequent evaluations.
 
-!!! note 
+!!! note
 
     This implies a uniform gas scale, which we elide the details of for now, but would probably require e.g. benchmarking on the hardware in question.
 

@@ -11,7 +11,7 @@ What is an assumption? Operationally speaking, the protocol characterizes
 assumptions as beliefs about logical impliciations ($a \implies b$ for some $a$
 and some $b$); for example:
 
-- $a$ could be that a particular trusted party has signed over a statement, and $b$ could be that the statement is 
+- $a$ could be that a particular trusted party has signed over a statement, and $b$ could be that the statement is
 
 - $a$ could be nothing, and $b$ could be that [the algebraic group model
   holds](https://eprint.iacr.org/2017/620.pdf) (this assumption is often relied
