@@ -21,4 +21,4 @@ consider it valid.
 
 - [[Assumption]]
 - [[Proof]]
-- [[Multifunctions]]
+- [[proving/multifunctions:Multifunctions]]
