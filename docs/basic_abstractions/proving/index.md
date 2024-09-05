@@ -19,6 +19,6 @@ consider it valid.
 
 ## Content
 
-- [Assumption](./assumption.md)
-- [Proof](./proof.md)
-- [Multifunctions](./multifunctions.md)
+- [[Assumption]]
+- [[Proof]]
+- [[Multifunctions]]
