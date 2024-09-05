@@ -14,17 +14,24 @@ nav:
       - Protocol desiderata: ./scope/protocol_desiderata.md
   - Basic Abstractions:
       - ./basic_abstractions/index.md
+      - Preliminaries:
+          - ./basic_abstractions/preliminaries/index.md
+          - Multiformats: ./basic_abstractions/preliminaries/multiformats.md
       - Encoding:
           - ./basic_abstractions/encoding/index.md
           - Data type: ./basic_abstractions/encoding/data_type.md
-          - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
           - Encoding scheme: ./basic_abstractions/encoding/encoding_scheme.md
-          - Multiencoding: ./basic_abstractions/encoding/multiencoding.md
+          - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
+          - Multifunctions: ./basic_abstractions/encoding/multifunctions.md
+      - Proving:
+          - ./basic_abstractions/proving/index.md
+          - Assumption: ./basic_abstractions/proving/assumption.md
+          - Proof: ./basic_abstractions/proving/proof.md
+          - Multifunctions: ./basic_abstractions/proving/multifunctions.md
       - Cryptographic primitives:
           - ./basic_abstractions/cryptographic_primitives/index.md
           - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
           - Accumulator: ./basic_abstractions/cryptographic_primitives/accumulator.md
-          - Proof system: ./basic_abstractions/cryptographic_primitives/proof_system.md
   - Protocol Architecture:
       - ./architecture/index.md
       - System Architecture:

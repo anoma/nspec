@@ -5,93 +5,98 @@ search:
   boost: 2
 ---
 
+
 # Virtual machine
 
-A virtual machine is a specific way to represent functions.
-
-The protocol uses virtual machines in several places:
+A _virtual machine_ is a specific way to represent functions, uniquely defined by three functions _encode_, _decode_, and _evaluate_. The protocol uses virtual machines in several places:
 
 - wherever we need canonical commitments to and evaluatable representations of functions, such as external identities
 - in the resource machine, for resource logics
 - in the resource machine, for transaction functions
 - in application definitions, for projection functions
 
-In general, the protocol does not require the same virtual machine to be used in all of these places, or even a specific virtual machine to be used in a specific place. However, agents who wish to interoperate must agree on the definitions of the virtual machines which they are using, and different virtual machines may have different performance characteristics in different contexts.
+In general, the protocol does not require the same virtual machine to be used in all of these places, or even a specific virtual machine to be used in a specific place. However, agents who wish to interoperate must agree on the definitions of the virtual machines which they are using, and different virtual machines may have different performance characteristics in different contexts. In order to facilitate interoperability, the protocol standardizes a multiformat of virtual machines, where each virtual machine is associated with a unique natural number. We will refer to the virtual machine associated with $n$ as $VM_n$, and associated functions as $encode_n$, $decode_n$, and $evaluate_n$. Each virtual machine, in the implementation language, also comes with an opaque internal representation type $VM_n.t$.
 
-## Basic definition
+## Decoding
 
-A _virtual machine_ is an encoding of arbitrary classically-computable functions defined by a representation type `Repr` and two (type-parameterised) functions, `deserialise` and `serialise`:
-
-The representation type `Repr` includes the type of an encoded function and some opaque internal representation:
+The decoding function $decode_n$ attempts to decode a `DataValue` into an internal representation $VM_n.t$. Decoding which encounters a `FunctionV` associated with a different virtual machine will simply represent that as data (instead of code) in the internal representation type.
 
 ```juvix
-type Repr := mkRepr {
-  type :: Datatype;
-  internal :: t;
-}
+type Decode = DataValue -> Maybe VM_n.t
 ```
 
-The `deserialise` function attempts to deserialise a bytestring into an internal representation of a function of the specified type.
+## Encoding
+
+The encoding function $encode_n$ encodes an internal representation of a function and/or data into a `DataValue`. Functions in the internal representation will be serialized in some fashion and paired with the natural number associated with the virtual machine in a `FunctionV`.
 
 ```juvix
-type Deserialise = Datatype -> Bytestring -> Maybe Repr
+type Encode = VM_n.t -> DataValue
 ```
 
-The `serialise` function serialises an internal representation of a function into a bytestring.
+### Properties
 
-```
-type Serialise = Repr -> Bytes
-```
+The encoding and decoding functions must be inverses of each other, in that:
 
-These functions must be inverses of each other.
+- decoding an encoded value will result in `Just <that value>`
+- encoding a decoded value will result in the original internal representation
 
 ## Evaluation
 
-An _evaluatable_ virtual machine is a virtual machine with an additional function _evaluate_, which simply calls a function (in the internal representation) on the provided list of arguments.
-
-Evaluation must be deterministic.
-
-Evaluation must also meter _gas_, a measure of compute and memory resource expenditure. Different virtual machines will have different gas scales. Evaluation takes a _gas limit_. During VM internal execution, gas must be tracked, and execution must terminate if the gas limit is exceeded. Should execution complete successfully within the gas limit, the VM must return the gas actually used.
+The evaluation function $evaluate_n$ calls a function (in the internal representation) on the provided list of arguments (in the original representation). Evaluation must be deterministic. Evaluation must also meter _gas_, a measure of compute and memory resource expenditure. Different virtual machines will have different gas scales. Evaluation takes a _gas limit_. During VM internal execution, gas must be tracked, and evaluation must terminate if the gas limit is exceeded. Should execution complete successfully within the gas limit, the VM must return the gas actually used.
 
 ```juvix
 type Evaluate =
-  Repr ->
-  Repr ->
+  VM_n.t ->
+  [VM_n.t] ->
   Natural ->
-  (Maybe Repr, Natural)
+  (Maybe VM_n.t, Natural)
 ```
 
 !!! note
 
     In the future, gas will likely change from a scalar to a vector to allow for metering compute and memory resources differently.
 
+# Provable virtual machines
+
+A _provable_ virtual machine is a virtual machine with a proof type $P_n$ and two additional functions parameterized over $P_n$, $prove_n$ and $verify_n$.
+
 ## Proving
 
-A _provable_ virtual machine is a virtual machine with a proof type `P` and two additional functions parameterized over `P`:
+The proving function $prove_n$ generates a proof for a given program (logical relation), public input, and private input.
 
-The _prove_ function generates a proof for a given program, public input, and private input.
+!!! note
+
+    Parentheses here are used to indicate the expected type of the arguments. Calling `prove` with arguments of the wrong type will fail.
 
 ```juvix
 type Prove =
-  Repr (T0 -> T1 -> T2 -> boolean) ->
-  Repr T0 ->
-  Repr T1 ->
-  P
+  VM_n.t (T0 -> T1 -> boolean) ->
+  VM_n.t (T0) ->
+  VM_n.t (T1) ->
+  P_n
 ```
 
-The _verify_ function verifies a proof for a given program and public input.
+## Verification
+
+The verification function $verify_n$ verifies a proof for a given program and public input.
+
+!!! note
+
+    Parentheses here are used to indicate the expected type of the arguments. Calling `verify` with arguments of the wrong type will fail.
 
 ```juvix
 type Verify =
-  Repr (T0 -> T1 -> T2) ->
-  Repr T1 ->
-  P ->
+  VM_n.t (T0 -> T1 -> boolean) ->
+  VM_n.t (T1) ->
+  P_n ->
   boolean
 ```
 
-These functions must be _correct_ and _complete_, in that:
+## Properties
 
-- valid proofs can only be created for valid inputs (_correctness_)
-- a valid proof can be created for any valid input (_completeness_)
+These functions must be _sound_ and _complete_, in that:
 
-Should `P` not reveal any information about `Repr T0`, the provable virtual machine can be said to be _zero-knowledge_.
+- valid proofs can only be created for valid inputs (_soundness_), and a valid proof can be created for any valid input (_completeness_)
+-  i.e. `verify f public proof = true` if and only if `proof = prove f public' private'` where `public = public'` and `evaluate f [public', private'] g = (true, _)` for some sufficient gas limit `g` (we could probably split evaluation into gassy and gassless versions)
+
+Should `P_n` not reveal any information about `VM_n.t (T0)`, the provable virtual machine can be said to be _zero-knowledge_.
