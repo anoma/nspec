@@ -7,7 +7,7 @@ site_url: !ENV [SITE_URL, 'https://anoma.github.io/nspec/latest']
 site_dir: !ENV [SITE_DIR, site]
 use_directory_urls: false
 nav:
-  - index.md
+  - Home: index.md
   - Scope:
       - ./scope/index.md
       - World model: ./scope/world_model.md
