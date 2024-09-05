@@ -1,4 +1,4 @@
-site_name: Anoma Specification
+site_name: !ENV [SITE_NAME, 'Anoma Specification']
 site_author: Anoma Foundation
 site_description: |
   The Anoma Specification is a collection of documents that describe the
