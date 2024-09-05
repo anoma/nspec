@@ -42,8 +42,8 @@ sequenceDiagram
     participant Server as Server <br> [Time Stamping Server]
     participant Bob as Bob <br> [Time Stamping Client]
 
-    Alice-)Server: TimeStampRequest(0x 13 37, Bob)
-    Server-)Bob: TimeStampedHash(0x 13 37, 9:00 AM, 0x b7 3a 8c 6e c3 8c fa 69 08 b1 …)
+    Alice-)Server: requestTimeStamp(0x 13 37, Bob)
+    Server-)Bob: aTimeStampedHash(0x 13 37, 9:00 AM, 0x b7 3a 8c 6e c3 8c fa 69 08 b1 …)
 ```
 
 ## Engine Components 
