@@ -37,10 +37,8 @@ nav:
         - Timestamper:
           - Timestamper Engine Family Overview: ./node_architecture/engines/timestamper_overview.md
           - Timestamper Engine Family Environment: ./node_architecture/engines/timestamper_environment.juvix.md
-          - Timestamper Engine Family Dynamics:
-          ./node_architecture/engines/timestamper_dynamics.juvix.md
+          - Timestamper Engine Family Dynamics: ./node_architecture/engines/timestamper_dynamics.juvix.md
           - Timestamper Engine Family Protocol Types: ./node_architecture/types/timestamper_protocol.juvix.md
-          
       - Hardware Abstraction Machine:
         - ./node_architecture/hardware_abstraction/index.md
         - Local Storage Engines:
