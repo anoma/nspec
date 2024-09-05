@@ -257,7 +257,7 @@ search:
 
         !!! quote ""
 
-            --8<-- "./engine_dynamics.juvix.md:doAlternative"
+            --8<-- "./template_dynamics.juvix.md:doAlternative"
 
         We perform one of the two altertives,
          depending on user input and randomness—`coming soon™`.
@@ -365,7 +365,7 @@ search:
 
         !!! quote ""
 
-            --8<-- "./engine_dynamics.juvix.md:messageOne"
+            --8<-- "./template_dynamics.juvix.md:messageOne"
 
         We compute a natural number from the arguments of message one.
 
@@ -385,7 +385,7 @@ search:
 
         !!! quote ""
 
-            --8<-- "./engine_dynamics.juvix.md:someThingFromAMailbox"
+            --8<-- "./template_dynamics.juvix.md:someThingFromAMailbox"
 
         We also match a message from a message that
         we had stored in a mailbox.
@@ -458,7 +458,7 @@ search:
 
     !!! quote ""
 
-        --8<-- "./engine_dynamics.juvix.md:deleteThisMessageFromMailbox"
+        --8<-- "./template_dynamics.juvix.md:deleteThisMessageFromMailbox"
 
     We delete the given message from the mailbox with
     the mailbox ID.

@@ -8,17 +8,17 @@ tags:
 
 # Engine "Overview" Template
 
-This page contains a template for writing the overview of an engine
-family called `X`. We use the `X` placeholder to indicate that you should
+This page contains a template for writing the overview of an engine family
+called `Template`. We use `Template` as a placeholder to indicate that you should
 replace it with the name of the engine family you are writing about.
 
 !!! info
 
     Press the :material-content-copy: button in the code snippet below to copy the
     template and save its content in a new file
-    `docs/node_architecture/engines/x_overview.md`.
+    `docs/node_architecture/engines/template_overview.md`.
 
-```html linenums="1" title="docs/node_architecture/engines/x_overview.md"
+```html linenums="1" title="docs/node_architecture/engines/template_overview.md"
 --- <!-- (1)! -->
 icon: octicons/gear-16  <!-- (2)! -->
 search:
@@ -30,30 +30,30 @@ tags:
 - engine-overview
 ---
 
-# X Engine Family <!-- (5)! -->
+# `Template` Engine Family <!-- (5)! -->
 
 ## Purpose <!-- (6)! -->
 
-Members of the family X do Y and Z, in collaboration with
-P, Q, and R, respectively. See [[wikilink-to-X|documentation of X]] <!-- (7)! -->
-for background on X, Y and Z.
+Members of the family `Template` do `Y` and `Z`, in collaboration with
+`P`, `Q`, and `R`, respectively. See [[wikilink-to-X|documentation of X]] <!-- (7)! -->
+for background on `X`, `Y` and `Z`.
 
 ## Message sequence diagrams <!-- (8)! -->
 
 ### [Title of message sequence diagram ⟨𝑖⟩] <!-- (9)! -->
 
-### Forwarding from X to Y <!-- (10)! -->
+### Forwarding from `Template` to Y <!-- (10)! -->
 
 ## Engine Components <!-- (11)! -->
 
-??? note [[X Engine Environment|Engine environment]] <!-- (12)! -->
+??? note [[Template Engine Environment|Engine environment]] <!-- (12)! -->
 
     <!-- (13)! -->
-   --8< "./docs/node_architecture/engines/x_environment.juvix.md"
+   --8< "./docs/node_architecture/engines/template_environment.juvix.md"
 
-??? note [[X Engine Dynamics|Engine dynamics]] <!-- (14)! -->
+??? note [[Template Engine Dynamics|Engine dynamics]] <!-- (14)! -->
 
-   --8< "./docs/node_architecture/engines/x_dynamics.juvix.md"
+   --8< "./docs/node_architecture/engines/template_dynamics.juvix.md"
 ```
 
 <!------------------------------------------------------------------------------->
@@ -73,7 +73,7 @@ for background on X, Y and Z.
 
 5. The heading of the page is the name of the engine family.
 
-6. This section of the page describes in broad terms what the role of (any member of) engine family X is
+6. This section of the page describes in broad terms what the role of (any member of) engine family `Template` is
 	- in relation to other [[Engine Instance Type|engine instances]]
     within an Anoma node and/or
 
@@ -101,10 +101,11 @@ for background on X, Y and Z.
 
 8. This section is **optional** and contains one or several subsections, each of
     which present one message sequence diagram that showcases how members of the
-	engine family `X` exchange messages with other engine instances, typically
-    from different engine families, but possibly from the same family.[^0]
+	engine family `Template` exchange messages with other engine instances,
+    typically from different engine families, but possibly from the same
+    family.[^0]
 
-9.  This section contains a message sequence diagram of engine family X[^01]
+9.  This section contains a message sequence diagram of engine family `Template`[^01]
     with a title and caption. We can use [`mermaid` sequence
     diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) to draw
     [message sequence
@@ -154,7 +155,7 @@ for background on X, Y and Z.
 14. Similarly to the previous point, this is a collapsed admonition that links
     to the `Engine dynamics` page of the engine family. In this case, we expect
     the navigation `nav` section of the `mkdocs.yml` file to contain a link to
-    `X Engine Dynamics`.
+    `Template Engine Dynamics`.
 <!-- --8<-- [end:annotations] -->
 
 

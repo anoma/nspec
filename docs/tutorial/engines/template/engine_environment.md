@@ -8,13 +8,12 @@ tags:
 
 <!-- Do not delete the following link since it contains the base document for this page: https://raw.githubusercontent.com/anoma/nspec/c61eb3d4e2733ad5712155beabe5e80a6aaff59d/docs/tutorial/engines/template/engine_environment.juvix.md?token=GHSAT0AAAAAACVOLA35IMRBAMF7POUITPSGZWX6GJQ
 
-I want to replace the use of `X` as the engine family name with `Template` later.
 -->
 
 # Engine "Environment" Template
 
 In this page, we present the template for writing the environment for a generic
-engine family called `X`. The template is separated into several parts for easier
+engine family called `Template`. The template is separated into several parts for easier
 handling. These engine-environment pages are, in principle, Juvix Markdown files
 that describe _all_ types—or rather type parameters, to be precise—regardless
 of whether they are specific to the [[Engine Family Types|engine family]] or
@@ -57,12 +56,12 @@ shared with others (and used).
 
     Press the :material-content-copy: button in the code snippet below to copy each part of the
     template and save its content in a new file
-    `docs/node_architecture/engines/x_environment.juvix.md`.
+    `docs/node_architecture/engines/template_environment.juvix.md`.
 
 
 ## Part 1: front matter
 
-```html linenums="1" title="docs/node_architecture/engines/x_environment.juvix.md"
+```html linenums="1" title="docs/node_architecture/engines/template_environment.juvix.md"
 <!-- --8<-- [start:front-matter] -->
 --- <!-- (1)! -->
 icon: octicons/gear-16  <!-- (2)! -->
@@ -82,23 +81,26 @@ tags:
 
 ## Part 2: Juvix preamble
 
-The _Juvix preamble_ is a collapsed admonition that contains the [Juvix `module` declaration](https://docs.juvix.org/latest/reference/language/modules.html)
-and all necessary imports. It starts with the module declaration (based on the path and file name), followed by imports, opens, etc. The module's name, after the path, is for our example, `X_environment`.
+The _Juvix preamble_ is a collapsed admonition that contains the [Juvix `module`
+declaration](https://docs.juvix.org/latest/reference/language/modules.html) and
+all necessary imports. It starts with the module declaration (based on the path
+and file name), followed by imports, opens, etc. The module's name, after the
+path, is for our example, `X_environment`.
 
 === "Markdown"
 
-    ```markdown linenums="13" hl_lines="4" title="docs/node_architecture/engines/x_environment.juvix.md"
-    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md!:juvix-preamble"
+    ```markdown linenums="13" hl_lines="4" title="docs/node_architecture/engines/template_environment.juvix.md"
+    --8<-- "./docs/node_architecture/engines/template_environment.juvix.md!:juvix-preamble"
     ```
 
 === "Preview"
 
-    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:juvix-preamble"
+    --8<-- "./docs/node_architecture/engines/template_environment.juvix.md:juvix-preamble"
 
 
 ## Part 3: main content
 
-```html linenums="1" linenums="21" title="docs/node_architecture/engines/x_environment.juvix.md"
+```html linenums="1" linenums="21" title="docs/node_architecture/engines/template_environment.juvix.md"
 !!! warning "[Under construction]"  <!-- (1)! -->
 
     This (Juvix) page is still under construction, needs to be
@@ -114,21 +116,21 @@ and all necessary imports. It starts with the module declaration (based on the p
 
 [...] <!-- (6)! -->
 
-??? note "Auxiliary Juvix code 
+??? note "Auxiliary Juvix code
 
-    [...]  
+    [...]
 
 ```juvix <!-- (7)! -->
-type XMessage :=   <!-- (8)! -->  
+type XMessage :=   <!-- (8)! -->
   | -- <!-- --8<-- [start:message1] -->
   [Message constructor 1] <!-- (9)! -->
   -- <!---8<-- - [end:message1] -->
   | [Message constructor ...]
-```a 
+```a
 
 ### [Message constructor 1] <!-- (10)! -->
 
-If an [engine family] engine receives a message of 
+If an [engine family] engine receives a message of
 this type, it will [...]
 
 <!-- Code snippet --> <!-- (11)! -->
@@ -141,7 +143,7 @@ this type, it will [...]
 
 ## Mailbox states <!-- (14)! -->
 
-??? note "Auxiliary Juvix code 
+??? note "Auxiliary Juvix code
 
     [...]
 
@@ -155,7 +157,7 @@ this type, it will [...]
 
 ??? note "Auxiliary Juvix code"
 
-    [...] 
+    [...]
 
 [...] <!-- (19)! -->
 
@@ -217,7 +219,7 @@ this type, it will [...]
 
     Juvix example:
 
-    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:message_auxiliary"
+    --8<-- "./docs/node_architecture/engines/template_environment.juvix.md:message_auxiliary"
 
     :   Afterwards, we want exactly one level three heading of the form `###
         [Message constructor]` for each constructor of the message type (or,
@@ -231,8 +233,8 @@ this type, it will [...]
    `TemplateMessage` with four data constructors corresponding to four different
    message tags:
 
-    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:TemplateMessageType"
-    
+    --8<-- "./docs/node_architecture/engines/template_environment.juvix.md:TemplateMessageType"
+
 8. In Juvix syntax, after `:=` we define the data constructors, each separated
    by `|`. Also, for each message constructor, we put two "invisible" comments
    into the Juvix record type to facilitate code-references, namely a pair of
@@ -256,20 +258,20 @@ this type, it will [...]
    `TemplateMessage` called `messageOne`, which requires three arguments:
    `argOneOne`, `argTwo`, and `argThree`, of different types as defined as
    follows:
-   
+
     ```
-    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md!:messageOne"
+    --8<-- "./docs/node_architecture/engines/template_environment.juvix.md!:messageOne"
     ```
 
     first data constructor in the `TemplateMessage` type:
 
-      --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:TemplateMessageType"
-   
-10. TODO see the reference page at the top
+      --8<-- "./docs/node_architecture/engines/template_environment.juvix.md:TemplateMessageType"
 
-11. TODO see the reference page at the top
+10. TODO
 
-12. TODO see the reference page at the top
+11. TODO
+
+12. TODO
 
 13. The message tag documentation start with a description of what reactions the
     receiving engine may perform as a reaction in broad terms. After this
@@ -354,8 +356,8 @@ this type, it will [...]
 21. This section is free form, _except_ for the datatype definition and an
     example in Juvix at the end. The datatype definition is as in the following
     example:
-    
-    --8<-- "./docs/node_architecture/engines/x_environment.juvix.md:TemplateEnvironment"
+
+    --8<-- "./docs/node_architecture/engines/template_environment.juvix.md:TemplateEnvironment"
 
 
 <!-- footnotes -->

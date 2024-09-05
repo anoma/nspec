@@ -14,14 +14,14 @@ tags:
 ??? note "Juvix preamble"
 
     ```juvix
-    module tutorial.engines.template.x_environment;
+    module tutorial.engines.template.template_environment;
     import prelude open;
     import node_architecture.types.engine_family open;
     ```
 
 <!-- --8<-- [end:juvix-preamble] -->
 
-# X Environment
+# Template Environment
 
 [...]
 
