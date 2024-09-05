@@ -9,7 +9,11 @@ search:
 
 ## Proof-aware multievaluation
 
-We can define a version of multievaluate which is "proof-aware", in that, each evaluation step, `multievaluate` can also search through known assumptions and proofs, and use them if applicable to replace the term being evaluated (or parts of the term being evaluated) with other terms known to be equal given the known proofs and selected assumptions.
+We can define a version of multievaluate which is "proof-aware", in that, each
+evaluation step, `multievaluate` can also search through known assumptions and
+proofs, and use them if applicable to replace the term being evaluated (or parts
+of the term being evaluated) with other terms known to be equal given the known
+proofs and selected assumptions.
 
 !!! todo
 

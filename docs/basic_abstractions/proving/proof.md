@@ -7,7 +7,10 @@ search:
 
 !!! todo
 
-    This whole page needs to be reworked. Questions:
+    This whole page needs to be reworked. 
+    
+    Questions:
+    
     - What should this type be now?
     - Is everything just a provable VM?
     - VM gives the semantics to interpret the function, which seems necessary.

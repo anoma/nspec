@@ -7,7 +7,14 @@ search:
 
 # Multiformats
 
-A _multiformat_ (directly inspired by the [concept of the same name by Protocol Labs](https://multiformats.io/)) is an interface consisting of typed functions associated with a table of multiple implementations of that interface, each associated with a unique natural number (non-negative integer), such that the numerical code can be included to indicate which implementation should be used to interpret/process some data. Conceptually, multiformats can also be understood as an implementation of runtime-updateable typeclasses (in the Haskell sense), where new instances can be added associated with new codes.
+A _multiformat_ (directly inspired by the [concept of the same name by Protocol
+Labs](https://multiformats.io/)) is an interface consisting of typed functions
+associated with a table of multiple implementations of that interface, each
+associated with a unique natural number (non-negative integer), such that the
+numerical code can be included to indicate which implementation should be used
+to interpret/process some data. Conceptually, multiformats can also be
+understood as an implementation of runtime-updateable typeclasses (in the
+Haskell sense), where new instances can be added associated with new codes.
 
 An example table for an encoding scheme multiformat could look like:
 
