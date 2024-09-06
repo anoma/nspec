@@ -432,7 +432,7 @@ nav:
             - Engine Overview Template: ./tutorial/engines/template/engine_overview.md
             - Engine Environment Template: ./tutorial/engines/template/engine_environment.md
             - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.md
-            - Engine Protocol Types Template: ./tutorial/engines/template/template_protocol_types.juvix.md
+            - Engine Protocol Types Template: ./tutorial/engines/template/template_protocol_types.md
         - Examples:
             - Ticker Engine Family:
                 - Ticker Engine Overview: ./node_architecture/engines/ticker_overview.juvix.md
