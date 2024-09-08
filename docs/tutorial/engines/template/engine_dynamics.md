@@ -68,6 +68,148 @@ path, is for our example, `template_dynamics`.
 
 ## Overview <!-- (3)! -->
 
+## Action labels <!-- (4)! -->
+
+??? note "Auxiliary Juvix code"
+
+    ```juvix
+    type someActionLabel :=
+      | -- --8<-- [start:doThis]
+        doThis String
+        -- --8<-- [end:doThis]
+    ;
+    type anotherActionLabel :=
+      | doThat String
+    ;
+    ```a
+
+ ```juvix
+type TemplateActionLabel :=
+  | -- --8<-- [start:doAlternative]
+    doAlternative (Either someActionLabel anotherActionLabel)
+    -- --8<-- [end:doAlternative]
+  | doBoth (Pair someActionLabel anotherActionLabel)
+  | doAnotherAction String
+;
+```a
+
+### [constructor name 1]
+
+[...]
+
+
+## Matchable arguments
+
+??? note "Auxiliary Juvix code"
+
+    [...]
+
+```juvix
+type TemplateMatchableArgument :=
+  | -- --8<-- [start:messageOne]
+    messageOne thisOneNatFromAllMessages
+    -- --8<-- [end:messageOne]
+  | messageTwo thisOneNatFromAllMessages
+  | -- --8<-- [start:someThingFromAMailbox]
+    someThingFromAMailbox String
+    -- --8<-- [end:someThingFromAMailbox]
+;
+```
+
+[...]
+
+
+
+## Precomputation results
+
+!!! note "On `Precomputation results`"
+
+    Guard evaluation may involve non-trivial computation
+    that should not have to be repeated in
+    the computation of the actions effects.
+    Thus,
+    we have a third input for action functions,
+    which is meant to relay any precomputation results
+    beyond matching and label computation.
+    Often,
+    this parameter will contain information
+    for how to update the environment.
+
+    Form
+
+    : A type definition with an explanation of its purpose.
+      The pattern is the usual one:
+      first the Juvix code,
+       a sub-section structure that reflects the type structures,
+       and finally, for each data item,
+       a code snippet, an explanation, and an example.
+
+    Goal
+
+    : Get an overview of non-trivial computations performed by guards.
+
+
+    !!! quote "Pseudo-example"
+
+        ??? note "Auxiliary Juvix code"
+
+            ```juvix
+            syntax alias someMessageType := undef;
+            ```
+
+    ```juvix
+    type TemplatePrecomputationEntry :=
+      | -- --8<-- [start:deleteThisMessageFromMailbox]
+        deleteThisMessageFromMailbox someMessageType Nat
+        -- --8<-- [end:deleteThisMessageFromMailbox]
+      | closeMailbox Nat
+    ;
+
+    TemplatePrecomputation : Type := List TemplatePrecomputationEntry;
+    ```
+
+    Often, the guard detects that we can close a mailbox
+    and that we have to add a message to a mailbox.
+    Note that we have a list of `TemplatePrecomputationEntry`-terms
+    as precomputation result
+    and that we describe the latter in more detail.
+
+    ### deleteThisMessageFromMailbox
+
+    !!! quote ""
+
+        --8<-- "./template_dynamics.juvix.md:deleteThisMessageFromMailbox"
+
+    We delete the given message from the mailbox with
+    the mailbox ID.
+
+    ```juvix
+    module delete_this_message_from_mailbox;
+
+    deleteThisMessageFromMailboxExample : TemplatePrecomputationEntry :=
+      deleteThisMessageFromMailbox undef 1;
+    end;
+    ```
+
+
+<!--ᚦplease keep this¶
+!!! warning "Execution time may be unbounded (in V2)"
+
+    New events are "muted" for the time of
+    guard evaluation and action execution.
+    The only envisaged way around this is
+    the specification of a "hard" maximum duration of action processing,
+    after which the action processing is terminated with a timeout,
+    and a previously specified default value is returned
+    (typically also indicating the occurrence of the timeout).
+    However,
+    this is not part of V2 specs.
+-->
+
+## Guards
+
+[...]
+
 ```
 
 1. TODO
@@ -78,6 +220,10 @@ path, is for our example, `template_dynamics`.
   computation can be parallelised. This involves splitting up the state into
   several parts and recombine results of what we shall call _action primitives._
 
+4. The types in this section are required to be a record type or an algebraic
+    data type for the purposes of the Anoma specification. The constructors of
+    this type are called _action tags,_ in analogy to _message tag._
+
 
 # WIP 
 
@@ -86,11 +232,6 @@ path, is for our example, `template_dynamics`.
 
 !!! note "On `Action labels`"
 
-    We first define a Juvix type of action labels.
-    This type is required to be a record type or an algebraic data type
-    for the purposes of the Anoma specification.
-    The constructors of this type are called _action tags,_
-    in analogy to _message tag._
 
     ??? info "Action labels determine unique action effects: _∀ label ∃! effect_"
 
