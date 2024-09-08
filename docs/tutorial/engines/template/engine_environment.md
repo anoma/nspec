@@ -85,7 +85,7 @@ The _Juvix preamble_ is a collapsed admonition that contains the [Juvix `module`
 declaration](https://docs.juvix.org/latest/reference/language/modules.html) and
 all necessary imports. It starts with the module declaration (based on the path
 and file name), followed by imports, opens, etc. The module's name, after the
-path, is for our example, `X_environment`.
+path, is for our example, `template_environment`.
 
 === "Markdown"
 
@@ -106,7 +106,7 @@ path, is for our example, `X_environment`.
     This (Juvix) page is still under construction, needs to be
     updated with the latest changes in the engine family type.
 
-# X Environment <!-- (2)! -->
+# Template Environment <!-- (2)! -->
 
 ## Overview <!-- (3)! -->
 

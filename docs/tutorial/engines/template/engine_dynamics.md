@@ -2,147 +2,85 @@
 icon: octicons/project-template-24
 search:
   exclude: false
+tags:
+- template
 ---
 
-??? note "Juvix preamble: ʜᴇʀᴇ 👇 are the `module` declaration, `import`s, `open`s, etc."
+# Engine "Dynamics" Template
 
-    ```juvix
-    module tutorial.engines.template.engine_dynamics;
-
-    import tutorial.engines.template.template_protocol_types;
-
-    import Stdlib.Data.String open;
-    import prelude open;
-    ```
-
-# [Engine Family Name] Dynamics
-
-!!! note
-
-    In this page,
-    we complete the definition of the
-    engine family [engine family name] by defining
-    a set of [[Engine Family Types#guards|guards]],
-    an  [[Engine Family Types#action-function|action function]], and
-    a [[Engine Family Types#conflict-resolution|conflict resolution function]].
-    Most notably,
-    this involves the definition of action labels[^0]
-    and a description of the effects of the associated actions.
-
-    ??? note "Short summary of guards, the action function, and conflict resolution"
-
-        In short,
-        the action function computes the effects of actions to be taken,
-        while being a [pure function](https://en.wikipedia.org/wiki/Pure_function);
-        <!--(see also [[On LTS semantics of guarded actions]]);-->
-        the guards determine for each possible circumstance
-        which actions are to performed as a reaction.
-
-    Conceptual structure
-
-    :   First, we want a description of all action labels,
-    in particular the effects of the associated actions;
-    we also want a description of how
-    conflicts of sets of action labels are resolved
-    (unless we have a "smooth" engine with no such conflicts).[^1]
-    After action labels and their conflict resolution
-    have been described,
-    we come to the description of guards,
-    which, in turn,
-    requires that we define the type of
-    matched arguments and pre-computation results beforehand.
-    Finally,
-    the page contains the code of the action function,
-    including code comments;
-    however,
-    the most ímportant points about the code
-    should be described separately.[^2']
-
-    Form
-
-    : The form is prescribed by this template file.
-
-    Goal
-
-    : The main goals are two:
-
-    : - an overview of the action labels and guards
-        that should be accessible
-        to a widest possible audience
-        and rely only on those definitions of the engine environment
-        given in the message type section (or earlier);
-
-    : - a documentation of details that are relevant for every implementation
-        (not only the model implementation).
-
-    !!! warning "This is really ɪᴍᴘᴏʀᴛᴀɴᴛ!"
-
-        The data of an action label should be
-        as independent as possible of the engine environment.
-        Roughly,
-        replacing one engine implementation with a different one
-        that uses a "completely different" environment type
-        should always be possible.[^2]
-
-        🚨 **Never** use the local state type of environments
-        for arguments of the action label. 🚨
-
-        Whenever you consider doing this ☝️,
-        the relevant data _must_ be moved
-        to the precomputation result;
-        also note that the action function
-        has access to the _whole environment!_
-<!--ᚦ leave this here for the time being¶
-    This involves the definition of three types—or type parameters,
-    to be precise—besides those defined in the engine environment,
-    whose terms guards compute and
-    also feature in the input of the action function.
-
-    Matched arguments
-
-    :   Matched arguments are typically obtained by pattern matching of messages,
-        be it from a trigger or previously received messages in one of the mailboxes.
-
-    Action labels
-
-    :   Action labels describe actions that members of the engine family
-        [engine family name] can perform, in principle.
+In this page, we complete the definition of the engine family `Template` by
+defining a set of [[Engine Family Types#guards|guards]] [^1], an 
+[[Engine Family Types#action-function|action function]], and a 
+[[Engine Family Types#conflict-resolution|conflict resolution function]]. Most notably, this
+involves the definition of action labels[^0] and a description of the effects of
+the associated actions.
 
 
-    Precomputation results
+[^1]: In short, the action function computes the effects of actions to be taken,
+    while being a [pure function](https://en.wikipedia.org/wiki/Pure_function);
+    <!--(see also [[On LTS semantics of guarded actions]]);-->
+    the guards determine for each possible circumstance which actions are to
+    performed as a reaction.
 
-    :   Guards may involve non-trivial computations,
-        which should not be repeated;
-         instead the results are passed on as precomputation result.
 
---><!--
-    For this,
-    we first define a datatype of _action labels,_
-    each of which defines an action that
-    a member of the engine family can perform
-    (in response to messages or timer notifications)—without
-    mentioning the specific circumstances that call
-    for performing the action that the action label describes.
-    The action labels are complemented by a set of guarded actions,
-    which describe situations under which certain actions are actually performed.-->
+## Part 1: front matter
 
-## Overview
+```html linenums="1" title="docs/node_architecture/engines/template_dynamics.juvix.md"
+<!-- --8<-- [start:front-matter] -->
+--- <!-- (1)! -->
+icon: octicons/gear-16  <!-- (2)! -->
+search:
+  exclude: false
+categories:
+- engine-family <!-- (3)! -->
+- juvix-module
+tags:
+- mytag1 <!-- (4)! -->
+- engine-dynamics
+---
+<!-- --8<-- [end:front-matter] -->
+```
 
-!!! note "On `Overview`"
 
-    Form
+## Part 2: Juvix preamble
 
-    : The overview is free form,
-    but preferably short
-    (as many descriptions will follow).
+The _Juvix preamble_ is a collapsed admonition that contains the [Juvix `module`
+declaration](https://docs.juvix.org/latest/reference/language/modules.html) and
+all necessary imports. It starts with the module declaration (based on the path
+and file name), followed by imports, opens, etc. The module's name, after the
+path, is for our example, `template_dynamics`.
 
-    !!! quote "Pseudo-example"
 
-        We give actions the structure of serial-parallel graphs
-        such that computation can be parallelised.
-        This involves splitting up the state into several parts
-        and recombine results of what we shall call
-        _action primitives._
+```markdown linenums="13" hl_lines="4" title="docs/node_architecture/engines/template_dynamics.juvix.md"
+--8<-- "./docs/node_architecture/engines/template_dynamics.juvix.md!:juvix-preamble"
+```
+
+
+## Part 3: main content
+
+```html linenums="1" linenums="21" title="docs/node_architecture/engines/template_environment.juvix.md"
+!!! warning "[Under construction]"  <!-- (1)! -->
+
+    This (Juvix) page is still under construction, needs to be
+    updated with the latest changes in the engine family type.
+
+# Template Environment <!-- (2)! -->
+
+## Overview <!-- (3)! -->
+
+```
+
+1. TODO
+
+2. TODO
+
+3. Example: We give actions the structure of serial-parallel graphs such that
+  computation can be parallelised. This involves splitting up the state into
+  several parts and recombine results of what we shall call _action primitives._
+
+
+# WIP 
+
 
 ## Action labels
 
