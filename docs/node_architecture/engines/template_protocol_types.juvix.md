@@ -16,7 +16,7 @@ The following is the module for the protocol level types of the template.
 ??? info "Juvix imports"
 
     ```juvix
-    module tutorial.engines.template.template_protocol_types;
+    module node_architecture.engines.template_protocol_types;
     import prelude open;
     ```
 

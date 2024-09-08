@@ -14,7 +14,7 @@ tags:
 ??? note "Juvix preamble"
 
     ```juvix
-    module tutorial.engines.template.template_environment;
+    module node_architecture.engines.template_environment;
     import prelude open;
     import node_architecture.types.engine_family open;
     ```

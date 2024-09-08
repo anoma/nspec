@@ -14,10 +14,9 @@ tags:
 
     <!-- --8<-- [start:juvix-preamble] -->
     ```juvix
-    module tutorial.engines.template.template_dynamics;
+    module node_architecture.engines.template_dynamics;
 
-    import tutorial.engines.template.template_protocol_types;
-
+    import node_architecture.engines.template_protocol_types;
     import Stdlib.Data.String open;
     import prelude open;
     ```
