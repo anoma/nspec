@@ -7,7 +7,13 @@ search:
 
 # Basic Abstractions
 
-This section describes the basic abstractions used throughout the protocol specification. Basic abstractions are grouped into two areas of concern: encooding, covering how data and code are represented, evaluated, and converted between representations, and cryptographic primitives, covering the basic cryptographic primitives used throughout the protocol.
+This section describes the basic abstractions used throughout the protocol specification.
+
+Following [[Preliminaries|preliminaries]], basic abstractions are grouped into three areas of concern:
+
+- encooding, covering how data and code are represented, evaluated, and converted between representations
+- proving, covering how proofs are made and verified, what assumptions are required, and how these are tracked
+- cryptographic primitives, covering the basic cryptographic primitives used throughout the protocol
 
 !!! info
 

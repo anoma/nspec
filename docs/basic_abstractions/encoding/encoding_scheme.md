@@ -7,25 +7,36 @@ search:
 
 # Encoding scheme
 
-An _encoding scheme_ is a function which maps between structured data and a series of bytes, uniquely defined by the pair of serialisation and deserialisation functions.
+An _encoding scheme_ is a mapping between structured data and a series of bytes, uniquely defined by the pair of serialization and deserialization functions.
 
-## Serialisation
+## Serialization
 
-The `serialise` function serialises a data value into a bytestring.
+The _serialize_ function serializes a data value into a bytestring.
 
 ```
-type Serialise = Value -> Bytes
+type Serialize = DataValue -> Bytes
 ```
 
-## Deserialisation
+## Deserialization
 
-The `deserialise` function attempts to deserialise a bytestring into a data value of the specified type.
+The _deserialize_ function attempts to deserialize a bytestring into a data value of the specified type.
 
 ```juvix
-type Deserialise = Datatype -> Bytestring -> Maybe Value
+type Deserialize = DataType -> Bytestring -> Maybe DataValue
 ```
 
-These functions must be inverses, i.e.:
+### Properties
 
-- `deserialise . serialise = id`
-- `serialise . deserialise = id`
+- The serialize function must be injective (distinct data values have distinct encodings).
+
+- The deserialize function must be surjective (any data value can be represented by a serialized value)
+
+- Fixing a type, the deserialize function must be injective (no two serialized values deserialize to the same data value). An injective mapping without fixing a type can be achieved simply by also serializing the type.
+
+## Multiformat
+
+The protocol standardizes a table of encoding schemes, where each encoding scheme is associated with a unique natural number.
+
+Nodes running the protocol then associate each number with a pair of _serialialize_ and _deserialize_ functions. In order to interoperate correctly, nodes must agree on which number is associated with which encoding scheme, so this table is part of the definition of any particular protocol version, and new entries to the table, once added, cannot be changed. In general, adding new entries to the table should not break anything - a node encountering an encoding scheme it does not know simply fails.
+
+The concrete table is provided in the [[Implementation]] section of the specs.

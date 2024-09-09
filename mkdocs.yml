@@ -1,4 +1,4 @@
-site_name: Anoma Specification
+site_name: !ENV [SITE_NAME, 'Anoma Specification']
 site_author: Anoma Foundation
 site_description: |
   The Anoma Specification is a collection of documents that describe the
@@ -7,32 +7,42 @@ site_url: !ENV [SITE_URL, 'https://anoma.github.io/nspec/latest']
 site_dir: !ENV [SITE_DIR, site]
 use_directory_urls: false
 nav:
-  - index.md
+  - Home: index.md
   - Scope:
       - ./scope/index.md
       - World model: ./scope/world_model.md
       - Protocol desiderata: ./scope/protocol_desiderata.md
   - Basic Abstractions:
       - ./basic_abstractions/index.md
+      - Preliminaries:
+          - ./basic_abstractions/preliminaries/index.md
+          - Multiformats: ./basic_abstractions/preliminaries/multiformats.md
       - Encoding:
           - ./basic_abstractions/encoding/index.md
           - Data type: ./basic_abstractions/encoding/data_type.md
-          - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
           - Encoding scheme: ./basic_abstractions/encoding/encoding_scheme.md
-          - Multiencoding: ./basic_abstractions/encoding/multiencoding.md
+          - Virtual machine: ./basic_abstractions/encoding/virtual_machine.md
+          - Multifunctions: ./basic_abstractions/encoding/multifunctions.md
+      - Proving:
+          - ./basic_abstractions/proving/index.md
+          - Assumption: ./basic_abstractions/proving/assumption.md
+          - Proof: ./basic_abstractions/proving/proof.md
+          - Multifunctions: ./basic_abstractions/proving/multifunctions.md
       - Cryptographic primitives:
           - ./basic_abstractions/cryptographic_primitives/index.md
           - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
           - Accumulator: ./basic_abstractions/cryptographic_primitives/accumulator.md
-          - Proof system: ./basic_abstractions/cryptographic_primitives/proof_system.md
   - Protocol Architecture:
       - ./architecture/index.md
       - System Architecture:
           - ./system_architecture/index.md
-          - Basic Concepts: ./system_architecture/concepts/index.md
-          - Identity Architecture: ./system_architecture/identity/index.juvix.md
-          - Network Architecture: ./system_architecture/network/index.md
-          - Service Architecture: ./system_architecture/service/index.md
+          - Basic Concepts:
+              - ./system_architecture/concepts/index.md
+          - Identity Architecture: ./system_architecture/identity/identity.juvix.md
+          - Network Architecture:
+              - ./system_architecture/network/index.md
+          - Service Architecture:
+              - ./system_architecture/service/index.md
           - State Architecture:
               - ./system_architecture/state/index.md
               - Resource Machine:
