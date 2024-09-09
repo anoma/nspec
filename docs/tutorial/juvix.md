@@ -62,7 +62,7 @@ module C;
 
 You can also include snippets of Juvix code in your Markdown files. This is done
 by adding the `--8<--` comment followed by the path to the file, and optionally
-a snippet identifier. 
+a snippet identifier.
 
 !!! note
 
@@ -76,5 +76,5 @@ a snippet identifier.
 
     To use a snippet identifier, you must wrap the Juvix code block with the syntax
     `<!-- --8<-- [start:snippet_identifier] -->` and `<!-- --8<-- [end:snippet_identifier] -->`.
-    This technique is useful for including specific sections of a file. Alternatively, you 
+    This technique is useful for including specific sections of a file. Alternatively, you
     use the standard `--8<--` markers within the code and extract the snippet by appending a ! at the end of the path.

@@ -9,8 +9,8 @@ tags:
 # Engine "Dynamics" Template
 
 In this page, we complete the definition of the engine family `Template` by
-defining a set of [[Engine Family Types#guards|guards]] [^A], an 
-[[Engine Family Types#action-function|action function]], and a 
+defining a set of [[Engine Family Types#guards|guards]] [^A], an
+[[Engine Family Types#action-function|action function]], and a
 [[Engine Family Types#conflict-resolution|conflict resolution function]]. Most notably, this
 involves the definition of action labels[^B] and a description of the effects of
 the associated actions.
@@ -226,7 +226,7 @@ type TemplateMatchableArgument :=
     this type are called _action tags,_ in analogy to _message tag._
 
 
-# WIP 
+# WIP
 
 
 ## Action labels

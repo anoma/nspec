@@ -1,12 +1,12 @@
 ---
-icon: octicons/gear-16  
+icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family 
+- engine-family
 - juvix-module
 tags:
-- mytag1 
+- mytag1
 - engine-environment
 ---
 
@@ -140,7 +140,7 @@ type TemplateMailboxState :=
 This is one family of mailbox states without much complexity.
 
 <!-- --8<-- [start:state_one_example] -->
-```juvix 
+```juvix
 module state_one_example;
 stateOneExample : TemplateMailboxState := stateOne@{
   fieldOne := 1
@@ -274,7 +274,7 @@ TemplateEnvironment : Type :=
         acquaintances := undef; -- Set Name
         timers := [] -- List (Timer H)
       }
-    ;         
+    ;
     end;
     ```
 
