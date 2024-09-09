@@ -10,7 +10,7 @@ tags:
 
 -->
 
-# Engine "Environment" Template
+# Engine Environment Template
 
 In this page, we present the template for writing the environment for a generic
 engine family called `Template`. The template is separated into several parts for easier

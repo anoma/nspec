@@ -6,7 +6,7 @@ tags:
 - template
 ---
 
-# Engine "Overview" Template
+# Engine Overview Template
 
 This page contains a template for writing the overview of an engine family
 called `Template`. We use `Template` as a placeholder to indicate that you should

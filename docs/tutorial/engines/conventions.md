@@ -33,18 +33,17 @@ files must be written in
 
 </div>
 
-!!! note
+!!! warning
+    
+    Juvix (Markdown) files have always need to define the corresponding module at the
+    first Juvix code block. See the [[Add Juvix code for
+    specification#Juvix-Markdown-file-structure|Juvix Markdown and include Juvix
+    code blocks's tutorial]]. For example if the file is
+    `ticker_overview.juvix.md`, it must have the following code block:
 
-
-1. Juvix (Markdown) files have always to define the corresponding module at the
-  first code block. See the [[Add Juvix code for
-  specification#Juvix-Markdown-file-structure|Juvix Markdown and include Juvix
-  code blocks's tutorial]]. For example if the file is
-  `ticker_overview.juvix.md`, it must have the following code block:
-
-    ```juvix
-    module node_architecture.engines.ticker_overview;
-    ```
+      ```juvix
+      module node_architecture.engines.ticker_overview;
+      ```
 
 
 ## File structure within the `engines` directory
@@ -62,14 +61,11 @@ node_architecture/
     ├── ticker_environment.juvix.md
     ├── ticker_dynamics.juvix.md
     └── ticker_protocol_types.juvix.md
-...
-└── ticker.juvix
+    └── ticker.juvix
 ```
 
-As you can see, the `ticker.juvix` file is not in the `engines` directory but in
-the `node_architecture` directory. This file is intended to list/index all the
-related files of the engine family. For example, the `ticker.juvix` file look
-like this:
+The `ticker.juvix` file is intended to list/index all the related files of the
+engine family. For example, the `ticker.juvix` file look like this:
 
 ```
 --8<-- "node_architecture/engines/ticker.juvix"
@@ -90,5 +86,5 @@ if the engine family is the `ticker`, you would add the following line:
 module everything;
 
 {- Engines -}
-+import node_architecture.engines.myengine;
++import node_architecture.engines.ticker;
 ```

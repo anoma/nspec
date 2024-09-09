@@ -6,7 +6,7 @@ tags:
 - template
 ---
 
-# Engine "Dynamics" Template
+# Engine Dynamics Template
 
 In this page, we complete the definition of the engine family `Template` by
 defining a set of [[Engine Family Types#guards|guards]] [^A], an
@@ -49,11 +49,9 @@ tags:
 
 ## Part 2: Juvix preamble
 
-The _Juvix preamble_ is a collapsed admonition that contains the [Juvix `module`
-declaration](https://docs.juvix.org/latest/reference/language/modules.html) and
-all necessary imports. It starts with the module declaration (based on the path
-and file name), followed by imports, opens, etc. The module's name, after the
-path, is for our example, `template_dynamics`.
+Same as in the environment file, we need to define the module at the beginning
+of the file. This is the first code block in the file.
+
 
 ```markdown linenums="13" hl_lines="4" title="docs/node_architecture/engines/template_dynamics.juvix.md"
 --8<-- "./docs/node_architecture/engines/template_dynamics.juvix.md!:juvix-preamble"
