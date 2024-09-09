@@ -112,7 +112,6 @@ jobs:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
           SITE_NAME: Anoma Specification (PR ${github.event.pull_request.number})
-
       - name: The build failed comment
         if: failure()
         run: |
@@ -126,7 +125,6 @@ jobs:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
           SITE_NAME: Anoma Specification (PR ${github.event.pull_request.number})
-
       - if: steps.material.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
