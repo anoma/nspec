@@ -34,7 +34,7 @@ files must be written in
 </div>
 
 !!! warning
-    
+
     Juvix (Markdown) files have always need to define the corresponding module at the
     first Juvix code block. See the [[Add Juvix code for
     specification#Juvix-Markdown-file-structure|Juvix Markdown and include Juvix
