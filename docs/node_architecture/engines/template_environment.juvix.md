@@ -53,7 +53,7 @@ type TemplateMessage :=
       argOneOne : MethodOneArgOne;
       argTwo : MethodOneArgTwo;
       argThree : MethodOneArgThree
-    }
+  }
     -- --8<-- [end:messageOne]
   | messageTwo {
       argOne : MethodTwoArgOne

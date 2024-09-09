@@ -62,7 +62,6 @@ shared with others (and used).
 ## Part 1: front matter
 
 ```html linenums="1" title="docs/node_architecture/engines/template_environment.juvix.md"
-<!-- --8<-- [start:front-matter] -->
 --- <!-- (1)! -->
 icon: octicons/gear-16  <!-- (2)! -->
 search:
@@ -74,7 +73,6 @@ tags:
 - mytag1 <!-- (4)! -->
 - engine-environment
 ---
-<!-- --8<-- [end:front-matter] -->
 ```
 
 --8<-- "./docs/tutorial/engines/template/engine_overview.md:annotations"

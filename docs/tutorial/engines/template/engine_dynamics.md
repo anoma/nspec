@@ -9,16 +9,22 @@ tags:
 # Engine "Dynamics" Template
 
 In this page, we complete the definition of the engine family `Template` by
-defining a set of [[Engine Family Types#guards|guards]] [^1], an 
+defining a set of [[Engine Family Types#guards|guards]] [^A], an 
 [[Engine Family Types#action-function|action function]], and a 
 [[Engine Family Types#conflict-resolution|conflict resolution function]]. Most notably, this
-involves the definition of action labels[^0] and a description of the effects of
+involves the definition of action labels[^B] and a description of the effects of
 the associated actions.
 
 
-[^1]: In short, the action function computes the effects of actions to be taken,
+[^A]: The action labels will be relevant to give engine systems a [labelled
+      transition
+      system](https://en.wikipedia.org/?title=Labelled_transition_system&redirect=yes)
+      semantics, which in turn is necessary to be able to check against
+      [temporal logic](https://en.wikipedia.org/wiki/Temporal_logic) properties.
+
+
+[^B]: In short, the action function computes the effects of actions to be taken,
     while being a [pure function](https://en.wikipedia.org/wiki/Pure_function);
-    <!--(see also [[On LTS semantics of guarded actions]]);-->
     the guards determine for each possible circumstance which actions are to
     performed as a reaction.
 
@@ -26,7 +32,6 @@ the associated actions.
 ## Part 1: front matter
 
 ```html linenums="1" title="docs/node_architecture/engines/template_dynamics.juvix.md"
-<!-- --8<-- [start:front-matter] -->
 --- <!-- (1)! -->
 icon: octicons/gear-16  <!-- (2)! -->
 search:
@@ -38,9 +43,9 @@ tags:
 - mytag1 <!-- (4)! -->
 - engine-dynamics
 ---
-<!-- --8<-- [end:front-matter] -->
 ```
 
+--8<-- "./docs/tutorial/engines/template/engine_overview.md:annotations"
 
 ## Part 2: Juvix preamble
 
@@ -50,11 +55,9 @@ all necessary imports. It starts with the module declaration (based on the path
 and file name), followed by imports, opens, etc. The module's name, after the
 path, is for our example, `template_dynamics`.
 
-
 ```markdown linenums="13" hl_lines="4" title="docs/node_architecture/engines/template_dynamics.juvix.md"
 --8<-- "./docs/node_architecture/engines/template_dynamics.juvix.md!:juvix-preamble"
 ```
-
 
 ## Part 3: main content
 
@@ -117,8 +120,6 @@ type TemplateMatchableArgument :=
 ```
 
 [...]
-
-
 
 ## Precomputation results
 
@@ -888,14 +889,6 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 -->
 <!-- footnotes -->
-
-[^0]: The action labels will be relevant to
-      give engine systems a
-      [labelled transition system](https://en.wikipedia.org/?title=Labelled_transition_system&redirect=yes)
-      semantics,
-      which in turn is necessary to be able to check against
-      [temporal logic](https://en.wikipedia.org/wiki/Temporal_logic)
-      properties.
 
 
 [^1]: The specification pages impose
