@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Consensus
+# Old Consensus Page
 
 ## Introduction
 

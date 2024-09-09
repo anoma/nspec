@@ -379,7 +379,7 @@ nav:
                       - TransactionRequest: ./node_architecture/ordering/mempool/worker/transaction_request.md
                       - RequestLogs: ./node_architecture/ordering/mempool/worker/request_logs.md
               - Consensus Engine:
-                  - ./node_architecture/ordering/consensus_homogeneous.md
+                  - Old Consensus Page: ./node_architecture/ordering/consensus_homogeneous.md
                   - Formal Definitions: ./node_architecture/ordering/consensus/homogeneous_paxos_formal.md
               - Execution engines:
                   - ./node_architecture/ordering/execution/index.md
