@@ -20,6 +20,7 @@ permissions:
   contents: write
   pull-requests: write
   repository-projects: write
+  workflows: write
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
@@ -111,7 +112,7 @@ jobs:
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
-          SITE_NAME: Anoma Specification (PR ${github.event.pull_request.number})
+          SITE_NAME: "Anoma Specification (PR ${{github.event.pull_request.number}})"
       - name: The build failed comment
         if: failure()
         run: |
