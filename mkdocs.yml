@@ -441,7 +441,7 @@ nav:
               - ./tutorial/engines/template/index.md
               - Engine Overview Template: ./tutorial/engines/template/engine_overview.md
               - Engine Environment Template: ./tutorial/engines/template/engine_environment.md
-              - Engine Protocol Types Template: ./tutorial/engines/template/template_protocol_types.md
+              - Engine Protocol Types Template: ./tutorial/engines/template/engine_protocol_types.md
               - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.md
           - Examples:
               - Template without explanation:
