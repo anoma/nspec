@@ -121,9 +121,9 @@ path, is for our example, `template_environment`.
 ```juvix <!-- (7)! -->
 type XMessage :=   <!-- (8)! -->
   | -- <!-- --8<-- [start:message1] -->
-  [Message constructor 1] <!-- (9)! -->
+  MessageConstructor1 <!-- (9)! -->
   -- <!---8<-- - [end:message1] -->
-  | [Message constructor ...]
+  -- ...
 ```a
 
 ### [Message constructor 1] <!-- (10)! -->

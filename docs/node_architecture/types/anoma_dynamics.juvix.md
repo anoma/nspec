@@ -9,7 +9,7 @@ search:
 
     ```juvix
     module node_architecture.types.anoma_dynamics;
-    import node_architecture.engines.ticker_dynamics open;
+    -- import node_architecture.engines.ticker_dynamics open using {TickerDynamics};
     ```
 
 # Anoma Engine Dynamics

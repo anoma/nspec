@@ -17,7 +17,7 @@ tags:
 
 - **File extension**: In case of Juvix files, the extension is `.juvix.md`. Most
 likely, the file with the overview content will be `.md` file, and the rest,
-that is, environment, dynamics, and protocol types, will be `.juvix.md`. These
+that is, environment, protocol types, and dynamics, will be `.juvix.md`. These
 files must be written in
 [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]].
 
@@ -27,8 +27,8 @@ files must be written in
 
     - `ticker_overview.md`
     - `ticker_environment.juvix.md`
-    - `ticker_dynamics.juvix.md`
     - `ticker_protocol_types.juvix.md`
+    - `ticker_dynamics.juvix.md`
     - `ticker.juvix`
 
 </div>
@@ -59,8 +59,8 @@ node_architecture/
     ├── ...
     ├── ticker_overview.md
     ├── ticker_environment.juvix.md
-    ├── ticker_dynamics.juvix.md
     └── ticker_protocol_types.juvix.md
+    ├── ticker_dynamics.juvix.md
     └── ticker.juvix
 ```
 
@@ -78,6 +78,10 @@ using line at the top of the Juvix file:
 import node_architecture.engines.ticker open;
 ```
 
+## Adding the engine family to the Juvix indexes files
+
+### To the `everything.juvix.md` file
+
 As final requirement, you must add the engine family to the
 `docs/everything.juvix.md` file in the "Engines" section. That is,
 if the engine family is the `ticker`, you would add the following line:
@@ -87,4 +91,44 @@ module everything;
 
 {- Engines -}
 +import node_architecture.engines.ticker;
+```
+
+### To the `node_architecture/types/anoma_engine.juvix.md` file
+
+```diff
+module node_architecture.engines.types.anoma_engine;
+import node_architecture.basics open;
+...
++ import tutorial.engines.ticker as Ticker open using {Ticker};
+...
+type AnomaEngineFamilyType :=
+...
++  | Ticker
+```
+
+### To the `node_architecture/types/anoma_protocol.juvix` file
+
+```diff
+...
+    module node_architecture.types.anoma_protocol;
++      import node_architecture.engines.ticker_protocol_types open;
+
+type AnomaEngineProtocolMessage :=
++  | TickerProtocol TickerProtocolMessage
+
+type AnomaEngineProtocolEnvironment :=
++  | TickerEnvironment TickerProtocolEnvironment
+```
+
+
+### To the `node_architecture/types/anoma_dynamics.juvix` file
+
+```diff
+    module node_architecture.types.anoma_dynamics;
++     import node_architecture.engines.ticker_dynamics open using {TickerDynamics};
+
+
+type AnomaDynamics :=
+...
++  | TickerDynamics TickerDynamics
 ```

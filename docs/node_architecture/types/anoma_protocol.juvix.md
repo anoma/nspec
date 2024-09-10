@@ -15,6 +15,6 @@ search:
 # Anoma Engine Protocol Types
 
 ```juvix
-type AnomaEngineProtocol :=
+type AnomaEngineProtocolMessage :=
   | TickerProtocol TickerProtocolEnvironment TickerProtocolMessage
 ```
