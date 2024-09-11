@@ -104,7 +104,7 @@ matched arguments, action labels, and precomutation result.
 The types of the input and output of an action are
 
 - `ActionInput S I M H A L X` and
-- `ActionEffect S I M H A L X O C`.
+- `ActionEffect S I M H A L X C`. 
 
 The `ActionInput S I M H A L X ` type is a record that encapsulates the following data:
 
@@ -131,7 +131,7 @@ type ActionInput (S I M H A L X : Type)
 };
 ```
 
-The `ActionEffect S I M H A L X O C` type defines the results produced by the
+The `ActionEffect S I M H A L X C` type defines the results produced by the
 action, which can be
 
 - Update its environment (while leaving the name unchanged).
@@ -140,9 +140,9 @@ action, which can be
 - Define new engine instances to be created.
 
 ```juvix
-type ActionEffect (S I M H A L X O C : Type) := mkActionEffect {
+type ActionEffect (S I M H A L X C : Type) := mkActionEffect {
     newEnv : EngineEnvironment S I M H;
-    producedMessages : List (EnvelopedMessage O);
+    producedMessages : List (EnvelopedMessage I);
     timers : List (Timer H);
     spawnedEngines : List C;
 };
@@ -221,9 +221,9 @@ a type for their incoming messages, a type for its mailboxes' state, a type for 
 data by the guard functions, and a type for outgoing messages.
 
 ```juvix
-type EngineFamily (S I M H A L X O C : Type) := mkEngineFamily {
+type EngineFamily (S I M H A L X C : Type) := mkEngineFamily {
   guards : Set (Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X));
-  action : ActionInput S I M H A L X -> Maybe (ActionEffect S I M H A L X O C);
+  action : ActionInput S I M H A L X -> Maybe (ActionEffect S I M H A L X C);
   conflictSolver : Set A -> List (Set A);
 };
 ```
@@ -249,9 +249,9 @@ is associated with a specific name and a family of engines, plus a declaration o
 execution context, that is, the specific state, mailbox cluster, acquaintances, and timers.
 
 ```juvix
-type Engine (S I M H A L X O C : Type):= mkEngine {
+type Engine (S I M H A L X C : Type):= mkEngine {
   name : Name;
-  family : EngineFamily S I M H A L X O C;
+  family : EngineFamily S I M H A L X C;
   initEnv : EngineEnvironment S I M H;
 };
 ```
