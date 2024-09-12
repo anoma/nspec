@@ -95,9 +95,8 @@ A mailbox identifier is a natural number used to index mailboxes.
 
     The concept of mailbox identifier is taken from
     the paper
-    [Special Delivery: Programming with Mailbox Types](https://arxiv.org/abs/2306.12935)
-    (see also [[Mailbox Cluster]] and
-    [Selectors: Actors with Multiple Guarded Mailboxes](https://dl.acm.org/doi/abs/10.1145/2687357.2687360)).
+    [@fowler2023specialdeliveryprogrammingmailbox]
+    (see also [[Mailbox Cluster]] and [@SelectorsACM]).
 
 ```juvix
 syntax alias MailboxID := Nat;
@@ -158,7 +157,7 @@ priority of the messages in the mailbox.
     The mailbox state is related to
     the capabilities of mailboxes
     of the paper
-    [Special Delivery: Programming with Mailbox Types](https://arxiv.org/abs/2306.12935).
+    [@fowler2023specialdeliveryprogrammingmailbox].
     In particular,
     at any given point in time,
     a mailbox will have a capability for receiving messages
