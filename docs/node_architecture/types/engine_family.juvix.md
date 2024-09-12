@@ -14,6 +14,7 @@ tags:
     ```juvix
     module node_architecture.types.engine_family;
     import node_architecture.basics open;
+    import node_architecture.types.anoma_protocol open;
     ```
 
 # Engine Family Types
@@ -142,7 +143,7 @@ action, which can be
 ```juvix
 type ActionEffect (S I M H A L X C : Type) := mkActionEffect {
     newEnv : EngineEnvironment S I M H;
-    producedMessages : List (EnvelopedMessage I);
+    producedMessages : List (EnvelopedMessage AnomaEngineProtocolMessage);
     timers : List (Timer H);
     spawnedEngines : List C;
 };
