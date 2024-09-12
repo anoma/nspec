@@ -15,12 +15,13 @@ tags:
     ```juvix
     module node_architecture.types.anoma_message;
     import node_architecture.basics open;
-    import node_architecture.engines.ticker_overview as Ticker;
+    import node_architecture.engines.ticker_overview open using {TickerMsg}
     ```
 
 # Anoma Messages
 
 ```juvix
-type AnomaMessage :=
-  | TickerMsg Ticker.Msg
+type AnomaMsg :=
+  | AnomaTickerMsg TickerMsg
+  ;
 ```
