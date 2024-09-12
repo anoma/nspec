@@ -20,6 +20,10 @@ import node_architecture.types.anoma_environment;
 import node_architecture.types.anoma_dynamics;
 import node_architecture.types.anoma_message;
 
+import node_architecture.engines.template_overview;
+import node_architecture.engines.template_environment;
+import node_architecture.engines.template_dynamics;
+
 {- Engines -}
 -- import node_architecture.engines.ticker;
 ```

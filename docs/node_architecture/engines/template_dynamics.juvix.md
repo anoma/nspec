@@ -16,7 +16,6 @@ tags:
     ```juvix
     module node_architecture.engines.template_dynamics;
 
-    import node_architecture.engines.template_protocol_types;
     import Stdlib.Data.String open;
     import prelude open;
     ```
