@@ -22,7 +22,59 @@ template is divided into several parts.
 ## Part 1: Page metadata
 
 ```html linenums="1" title="docs/node_architecture/engines/template_overview.md"
---8<-- "./docs/node_architecture/engines/template_overview.juvix.md!"
+--- <!-- (1)! -->
+icon: octicons/gear-16  <!-- (2)! -->
+search:
+  exclude: false
+categories:
+- engine-family <!-- (3)! -->
+tags:
+- mytag1 <!-- (4)! -->
+- engine-overview
+---
+
+
+??? info "Juvix preamble" 
+
+    ```juvix
+    module node_architecture.engines.template_overview;
+    import prelude open;
+    ```
+
+# Engine Overview
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+# `Template` Engine Family  
+
+## Purpose  
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+## Message interface
+
+[.. Juvix code block ..]
+
+## Message sequence diagrams  
+
+### [Title of message sequence diagram ⟨𝑖⟩]  
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+## Engine Components  
+
+??? note [[Template Engine Environment|Engine environment]]  
+
+     
+   --8< "./docs/node_architecture/engines/template_environment.juvix.md"
+
+??? note [[Template Engine Dynamics|Engine dynamics]]  
+
+   --8< "./docs/node_architecture/engines/template_dynamics.juvix.md"
+
+## Useful links
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ```
 
 <!-- --8<-- [start:annotations] -->
