@@ -65,6 +65,10 @@ families.
 
     --8<-- "./docs/node_architecture/types/anoma_engine.juvix.md"
 
+??? info "AnomaMessage"
+
+    --8<-- "./docs/node_architecture/types/anoma_message.juvix.md"
+
 ??? info "AnomaEnvironment"
 
     --8<-- "./docs/node_architecture/types/anoma_environment.juvix.md"
@@ -73,6 +77,3 @@ families.
 
     --8<-- "./docs/node_architecture/types/anoma_dynamics.juvix.md"
 
-??? info "AnomaProtocol"
-
-    --8<-- "./docs/node_architecture/types/anoma_protocol.juvix.md"

@@ -104,10 +104,10 @@ type AnomaEngineFamilyType :=
 ```diff
 ...
     module node_architecture.types.anoma_message;
-+      import node_architecture.engines.ticker_overview open;
++      import node_architecture.engines.ticker_overview open using {TickerMsg};
 
 type AnomaMessage :=
-+  | TickerMsg Ticker.Msg
++  | TickerMsg TickerMsg
 ```
 
 ### To the `node_architecture/types/anoma_environment.juvix` file

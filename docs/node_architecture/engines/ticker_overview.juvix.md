@@ -35,7 +35,7 @@ state initialises the counter.
 ## Messages
 
 ```juvix
-type Msg := Increment | Count;
+type TickerMsg := Increment | Count;
 ```
 
 ### Increment
