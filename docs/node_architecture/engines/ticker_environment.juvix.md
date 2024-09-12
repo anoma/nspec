@@ -13,6 +13,7 @@ search:
 
     import prelude open;
     import node_architecture.types.engine_family open;
+    import node_architecture.engines.ticker_overview open;
     ```
 
 ## Overview
@@ -57,7 +58,7 @@ The example is so simple that it suffices to define the type.
 TickerEnvironment : Type :=
   EngineEnvironment
     TickerLocalState
-    TickerMessage
+    TickerMsg
     TickerMailboxState
     TickerTimerHandle;
 ```

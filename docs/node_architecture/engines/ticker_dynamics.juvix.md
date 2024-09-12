@@ -21,6 +21,7 @@ tags:
 
     import node_architecture.basics open;
     import node_architecture.types.engine_family open;
+    import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open public;
     ```
 
@@ -105,8 +106,8 @@ flowchart TD
 
 ```juvix
 ifIncrement : (Maybe Time)
-      -> (Trigger TickerMessage TickerTimerHandle)
-      -> (EngineEnvironment TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle)
+      -> (Trigger TickerMsg TickerTimerHandle)
+      -> (EngineEnvironment TickerLocalState TickerMsg TickerMailboxState TickerTimerHandle)
       -> Maybe (GuardOutput GuardReturnArgs GuardReturnLabel GuardReturnOther)
 := \{
       | _ (MessageArrived@{ envelope := m}) _ :=
@@ -132,8 +133,8 @@ This is the only action label and it increments the counter.
     make the code work
 
 ```
-performIncrement : ActionInput TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther
-                 -> Maybe (ActionResult TickerLocalState TickerMessage TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther TickerProtocolMessage TickerProtocolEnvironment)
+performIncrement : ActionInput TickerLocalState TickerMsg TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther
+                 -> Maybe (ActionResult TickerLocalState TickerMsg TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther TickerProtocolMessage TickerProtocolEnvironment)
                  := \{
                   | (mkActionInput@{ env := previousEnv }) :=
                   let counterValue := previousEnv
@@ -190,7 +191,7 @@ Therefore, the `GuardedAction` type is defined as follows:
 GuardedActionType : Type :=
   GuardedAction
     TickerLocalState
-    TickerMessage
+    TickerMsg
     TickerMailboxState
     TickerTimerHandle
     GuardReturnArgs

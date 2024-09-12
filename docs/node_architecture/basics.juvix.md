@@ -63,7 +63,7 @@ Identity : Type := Pair ExternalID InternalID;
 A name could be a simple string without any particular meaning in the system or
 an external identity.
 
-```juvix
+```juvix p
 Name : Type := Either String ExternalID;
 ```
 

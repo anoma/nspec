@@ -32,7 +32,7 @@ and provides the updated result upon receiving a `Count` message. The initial
 state initialises the counter.
 
 
-## Messages
+## Message interface
 
 ```juvix
 type TickerMsg := Increment | Count;
@@ -47,21 +47,19 @@ An `Increment` message instructs the engine to increase the counter.
 A `Count` message requests the engine to send
 the current counter value back to the requester.
 
+## Engine Components
 
-## Components
-
-??? quote "Local Environment"
+??? quote "Engine Environment"
 
     Source: [[Ticker Engine Environment]]
 
     ---8<--- "node_architecture/engines/ticker_environment.juvix.md"
 
-??? quote "Guarded Actions"
+??? quote "Engine Dynamics"
 
     Source: [[Ticker Engine Dynamics]]
 
     ---8<--- "node_architecture/engines/ticker_dynamics.juvix.md"
-
 
 ## Interaction Diagrams
 
