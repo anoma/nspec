@@ -21,28 +21,6 @@ There are only two messag tags:
 `Increment`, which increases the counter state of the ticker,
 and `Count`, which the ticker responds to with the current counter state.
 
-### Messages
-
-
-```juvix
-type TickerMessage := Increment | Count;
-```
-
-#### Increment
-
-An `Increment` message instructs the engine to increase the counter.
-
-??? todo "add natural number as argument?"
-
-#### Count
-
-A `Count` message requests the engine to send
-the current counter value back to the requester.
-
-??? note "That's it!"
-
-    The code is self-explnatory 😄
-
 ## Mailbox states
 
 The [[Ticker Engine Family|ticker]] does not rely on mailbox-relative state.

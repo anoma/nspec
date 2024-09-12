@@ -166,3 +166,18 @@ The conversation-partner diagram shows the interactions between the `Ticker` eng
 </figcaption>
 
 </figure>
+
+## Messages
+
+```juvix
+type TickerMessage := Increment | Count;
+```
+
+### Increment
+
+An `Increment` message instructs the engine to increase the counter.
+
+### Count
+
+A `Count` message requests the engine to send
+the current counter value back to the requester.
