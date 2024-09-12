@@ -25,7 +25,7 @@ tags:
       - `ticker_overview.juvix.md`
       - `ticker_environment.juvix.md`
       - `ticker_dynamics.juvix.md`
-      - `ticker.juvix`
+      - `ticker.juvix.md`
 
 </div>
 
