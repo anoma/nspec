@@ -41,27 +41,25 @@ tags:
     import prelude open;
     ```
 
-# Engine Overview
+# `Template` Engine Family  Overview <!-- (5)! -->
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. <!-- (6)! -->
 
-# `Template` Engine Family  
+## Purpose  <!-- (6)! -->
 
-## Purpose  
+Lorem ipsum dolor sit amet, consectetur adipiscing elit <!-- (7)! -->
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit
+## Message interface  <!-- (8)! -->
 
-## Message interface
-
-[.. Juvix code block ..]
+[.. Juvix code block ..]  <!-- (9)! -->
 
 ## Message sequence diagrams  
 
-### [Title of message sequence diagram ⟨𝑖⟩]  
+### [Title of message sequence diagram ⟨𝑖⟩]   
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit
 
-## Engine Components  
+## Engine Components    
 
 ??? note [[Template Engine Environment|Engine environment]]  
 
