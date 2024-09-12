@@ -28,7 +28,7 @@ please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorial
 
 ## Types for network identities
 
-<!-- This section needs to be reworked. -->
+<!-- This section needs to be reworked. --><!--ᚦ: in which ways?-->
 
 Types in this section are used to represent [[Identity|identities]] within the network.
 
@@ -91,6 +91,14 @@ The following types are used to represent these messages and mailboxes.
 
 A mailbox identifier is a natural number used to index mailboxes.
 
+??? info "Where do mailbox identifiers come from?"
+
+    The concept of mailbox identifier is taken from
+    the paper
+    [Special Delivery: Programming with Mailbox Types](https://arxiv.org/abs/2306.12935)
+    (see also [[Mailbox Cluster]] and
+    [Selectors: Actors with Multiple Guarded Mailboxes](https://dl.acm.org/doi/abs/10.1145/2687357.2687360)).
+
 ```juvix
 syntax alias MailboxID := Nat;
 ```
@@ -144,6 +152,20 @@ getMessageTarget : {M : Type} -> EnvelopedMessage M -> Address
 A mailbox is a container for messages and a mailbox state. The mailbox state
 could be used to store additional information about the mailbox, such as the
 priority of the messages in the mailbox.
+
+??? info "Where does mailbox state come from?"
+
+    The mailbox state is related to
+    the capabilities of mailboxes
+    of the paper
+    [Special Delivery: Programming with Mailbox Types](https://arxiv.org/abs/2306.12935).
+    In particular,
+    at any given point in time,
+    a mailbox will have a capability for receiving messages
+    (in later versions of the specs).
+    As mailbox state can be useful in general,
+    we already have it now.
+
 
 ```juvix
 type Mailbox (MessageType MailboxStateType : Type) : Type := mkMailbox {
