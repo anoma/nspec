@@ -7,29 +7,17 @@ tags:
   - Juvix
 ---
 
-
 ??? info "Juvix imports"
 
     ```juvix
     module node_architecture.engines.types.anoma_engine;
-
-    import node_architecture.basics open;
-    import node_architecture.types.anoma_environment open;
-    import node_architecture.types.anoma_dynamics open;
-    import node_architecture.types.engine_family as Base open using {EngineFamily};
-    -- import tutorial.engines.ticker as Ticker open using {TickerFamily; zeroTicker};
+    import node_architecture.engines.ticker open;
     ```
 
 ## Anoma Engine Families in Juvix
 
-Below, we use [Juvix](https://docs.juvix.org) to define a sum type to
-index the different engine families.
-
-```
-type AnomaEngineFamilyType :=
-  | Ticker
+```juvix
+type EngineFamily :=
+  | EngineFamilyTicker TickerEngineFamily
   ;
 ```
-
-Using the name of the engine family, we can find all the Juvix modules related to the engine family.
-For example, the `X` engine family is defined in the `node_architecture.engines.X` module.

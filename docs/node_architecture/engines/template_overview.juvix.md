@@ -12,12 +12,10 @@ tags:
 
 ??? info "Juvix preamble"
 
-    <!-- --8<-- [start:juvix-preamble] -->
     ```juvix
     module node_architecture.engines.template_overview;
     import prelude open;
     ```
-    <!-- --8<-- [end:juvix-preamble] -->
 
 # Engine Overview
 
@@ -31,9 +29,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapie
 
 ## Message interface
 
-```juvix
-type TemplateMsg := DefineYourConstructorHere;
-```
+    ```juvix
+    type TemplateMsg := DefineYourConstructorHere;
+    ```
 
 ## Message sequence diagrams  
 

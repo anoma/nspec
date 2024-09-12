@@ -3,12 +3,9 @@ icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- Engine-Family
-- Engine-Instances
+- Anoma-Message
 - Juvix
 ---
-
-
 
 ??? info "Juvix preamble"
 
@@ -21,7 +18,7 @@ tags:
 # Anoma Messages
 
 ```juvix
-type AnomaMsg :=
-  | AnomaTickerMsg TickerMsg
+type Msg :=
+  | MsgTicker TickerMsg
   ;
 ```

@@ -278,4 +278,3 @@ respondWithCounter : GuardedActionType := mkGuardedAction@{
       }
 };
 ```
-

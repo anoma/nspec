@@ -19,7 +19,7 @@ tags:
   must end with the extension `.juvix.md`. See [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]].
 
 - **File naming prefix**: The engine family's name is used as a prefix for all
-  files related to the engine family in use. For example, [[Ticker Engine Overview|the `Ticker` engine family]] 
+  files related to the engine family in use. For example, [[Ticker Engine Overview|the `Ticker` engine family]]
   would have the following files, all prefixed with `ticker`:
 
       - `ticker_overview.juvix.md`
@@ -58,8 +58,7 @@ node_architecture/
 ```
 
 The `ticker.juvix.md` file is intended to list/index all the related files of the
-engine family. For example, check out [[Ticker Engine Base
-File|`ticker.juvix.md`]] as an example.
+engine family. For example, check out [[Ticker Engine Base File|`ticker.juvix.md`]] as an example.
 
 So next time, if you want to use the `ticker` engine family, then you can import it
 using line at the top of the Juvix file:
@@ -88,10 +87,11 @@ module everything;
 ```diff title="node_architecture/types/anoma_engine.juvix.md"
 module node_architecture.engines.types.anoma_engine;
 import node_architecture.basics open;
-...
-type AnomaEngineFamilyType :=
-...
-+  | Ticker
++ import node_architecture.engines.ticker open;
+
+type EngineFamily :=
++  | EngineFamilyTicker TickerEngineFamily
+  ;
 ```
 
 ### Anoma Message Index
@@ -101,8 +101,8 @@ type AnomaEngineFamilyType :=
 module node_architecture.types.anoma_message;
 + import node_architecture.engines.ticker_overview open using {TickerMsg};
 
-type AnomaMessage :=
-+  | TickerMsg TickerMsg
+type Msg :=
+  | MsgTicker TickerMsg
 ```
 
 ### Anoma Environment Index
@@ -110,19 +110,9 @@ type AnomaMessage :=
 ```diff title="node_architecture/types/anoma_environment.juvix.md"
 ...
     module node_architecture.types.anoma_environment;
-+      import node_architecture.engines.ticker_environment open using {TickerEnvironment};
++      import node_architecture.engines.ticker_environment
++        open using {TickerEnvironment};
 ...
-type AnomaEnvironment :=
-+  | TickerEnv TickerEnvironment
-```
-
-### Anoma Dynamics Index
-
-```diff title="node_architecture/types/anoma_dynamics.juvix.md"
-    module node_architecture.types.anoma_dynamics;
-+     import node_architecture.engines.ticker_dynamics open using {TickerDynamics};
-...
-type AnomaDynamics :=
-...
-+  | TickerDynamics TickerDynamics
+type Env :=
++  | EnvTicker TickerEnvironment
 ```

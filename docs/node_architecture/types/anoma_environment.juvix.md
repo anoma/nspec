@@ -9,12 +9,12 @@ search:
 
     ```juvix
     module node_architecture.types.anoma_environment;
-      import node_architecture.engines.ticker_environment open;
+    import node_architecture.engines.ticker_environment open;
     ```
 
 # Anoma Engine Environments
 
 ```juvix
-type AnomaEnvironment :=
-  | TickerEnv TickerEnvironment
+type Env :=
+  | EnvTicker TickerEnvironment
 ```

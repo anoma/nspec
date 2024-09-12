@@ -45,7 +45,7 @@ tags:
     <!-- --8<-- [end:message_auxiliary] -->
 
 
-<!-- --8<-- [start:TemplateMessageType] -->
+<!-- --8<-- [start:TemplateMessage] -->
 ```juvix
 type TemplateMessage :=
   | -- --8<-- [start:messageOne]
@@ -65,7 +65,7 @@ type TemplateMessage :=
     }
   ;
 ```
-<!-- --8<-- [end:TemplateMessageType] -->
+<!-- --8<-- [end:TemplateMessage] -->
 
 ### messageOne
 

@@ -19,7 +19,7 @@ tags:
 
     ```juvix
     module node_architecture.engines.ticker_overview;
-      import node_architecture.basics open;
+    import node_architecture.basics open;
     ```
 
 # Ticker Family Engine
@@ -30,7 +30,6 @@ A ticker engine, part of the `Ticker` engine family, maintains a counter in its
 local state. This engine increases the counter whenever it gets a `Increment` message
 and provides the updated result upon receiving a `Count` message. The initial
 state initialises the counter.
-
 
 ## Message interface
 

@@ -14,7 +14,7 @@ module node_architecture.engines.ticker;
   import node_architecture.engines.ticker_environment open public;
   import node_architecture.engines.ticker_dynamics open public;
 
-    import node_architecture.types.engine_family as EngineFamily;
+  import node_architecture.types.engine_family as EngineFamily;
       open EngineFamily using {
           Engine;
           EngineEnvironment;
@@ -26,8 +26,12 @@ module node_architecture.engines.ticker;
     open EngineFamily.EngineEnvironment;
     import node_architecture.engines.ticker_environment open public;
     import node_architecture.engines.ticker_dynamics open public;
+```
 
-    EngineFamilyType : Type :=
+# Ticker Engine Family Type
+
+```juvix
+    TickerEngineFamily : Type :=
       EngineFamily
         TickerLocalState
         TickerMsg
