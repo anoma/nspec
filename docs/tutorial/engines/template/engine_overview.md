@@ -19,8 +19,6 @@ template is divided into several parts.
     template and save its content in a new file
     `docs/node_architecture/engines/template_overview.md`.
 
-## Part 1: Page metadata
-
 ```html linenums="1" title="docs/node_architecture/engines/template_overview.md"
 --- <!-- (1)! -->
 icon: octicons/gear-16  <!-- (2)! -->
@@ -52,6 +50,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit <!-- (7)! -->
 ## Message interface  <!-- (8)! -->
 
 [.. Juvix code block ..]  <!-- (9)! -->
+
+    ```juvix
+    type TemplateMsg := DefineYourConstructorHere;
+    ```
 
 ## Message sequence diagrams  
 
