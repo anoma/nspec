@@ -143,7 +143,7 @@ action, which can be
 ```juvix
 type ActionEffect (S I M H A L X C : Type) := mkActionEffect {
     newEnv : EngineEnvironment S I M H;
-    producedMessages : List (EnvelopedMessage AnomaMessage);
+    producedMessages : List (EnvelopedMessage AnomaMsg);
     timers : List (Timer H);
     spawnedEngines : List C;
 };
