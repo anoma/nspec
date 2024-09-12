@@ -445,6 +445,7 @@ nav:
               - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.md
           - Examples:
               - Template without explanation:
+                  - template_overview: ./node_architecture/engines/template_overview.juvix.md
                   - template_environment: ./node_architecture/engines/template_environment.juvix.md
                   - template_protocol_types: ./node_architecture/engines/template_protocol_types.juvix.md
                   - template_dynamics: ./node_architecture/engines/template_dynamics.juvix.md

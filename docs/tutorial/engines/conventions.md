@@ -15,30 +15,24 @@ tags:
 
 - **Engine files and folders**: Named in lowercase using `snake_case` format.
 
-- **File extension**: In case of Juvix files, the extension is `.juvix.md`. Most
-likely, the file with the overview content will be `.md` file, and the rest,
-that is, environment, protocol types, and dynamics, will be `.juvix.md`. These
-files must be written in
-[[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]].
+- **File extension**: Files must be written in Juvix Markdown, that is, the file
+  must end with the extension `.juvix.md`. See [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]].
 
 - **File naming prefix**: The engine family's name is used as a prefix for all
-  files related to the engine family in use. For example, the `Ticker` engine
-  family would have the following files, all prefixed with `ticker`:
+  files related to the engine family in use. For example, [[Ticker Engine Overview|the `Ticker` engine family]] 
+  would have the following files, all prefixed with `ticker`:
 
-    - `ticker_overview.md`
-    - `ticker_environment.juvix.md`
-    - `ticker_protocol_types.juvix.md`
-    - `ticker_dynamics.juvix.md`
-    - `ticker.juvix`
+      - `ticker_overview.juvix.md`
+      - `ticker_environment.juvix.md`
+      - `ticker_dynamics.juvix.md`
+      - `ticker.juvix`
 
 </div>
 
 !!! warning
 
-    Juvix (Markdown) files have always need to define the corresponding module at the
-    first Juvix code block. See the [[Add Juvix code for
-    specification#Juvix-Markdown-file-structure|Juvix Markdown and include Juvix
-    code blocks's tutorial]]. For example if the file is
+    Juvix Markdownm files have always need to define the corresponding module at the
+    first Juvix code block. See the [[Add Juvix code for specification#Juvix-Markdown-file-structure|Juvix Markdown and include Juvix code blocks's tutorial]]. For example if the file is
     `ticker_overview.juvix.md`, it must have the following code block:
 
       ```juvix
@@ -57,9 +51,8 @@ node_architecture/
 └── ...
 └── engines/
     ├── ...
-    ├── ticker_overview.md
+    ├── ticker_overview.juvix.md
     ├── ticker_environment.juvix.md
-    └── ticker_protocol_types.juvix.md
     ├── ticker_dynamics.juvix.md
     └── ticker.juvix
 ```

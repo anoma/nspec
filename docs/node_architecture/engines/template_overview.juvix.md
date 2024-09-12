@@ -6,82 +6,54 @@ tags:
 - template
 ---
 
+
+??? info "Juvix imports"
+
+    <!-- --8<-- [start:juvix-imports] -->
+    ```juvix
+    module node_architecture.engines.template_overview;
+    import prelude open;
+    ```
+    <!-- --8<-- [end:juvix-imports] -->
+
+
 # Engine Overview Template
 
-This page contains a template for writing the overview of an engine family
-called `Template`. We use `Template` as a placeholder to indicate that you should
-replace it with the name of the engine family you are writing about. The
-template is divided into several parts.
+[..]
 
-!!! info
+# `Template` Engine Family  <!-- (5)! -->
 
-    Press the :material-content-copy: button in the code snippet below to copy the
-    template and save its content in a new file
-    `docs/node_architecture/engines/template_overview.md`.
-
-## Part 1: Page metadata
-
-```html linenums="1" title="docs/node_architecture/engines/template_overview.md"
---- <!-- (1)! -->
-icon: octicons/gear-16  <!-- (2)! -->
-search:
-  exclude: false
-categories:
-- engine-family <!-- (3)! -->
-tags:
-- mytag1 <!-- (4)! -->
-- engine-overview
----
-```
-
-## Part 2: Juvix preamble
-
-The _Juvix preamble_ is a collapsed admonition that contains the [Juvix `module`
-declaration](https://docs.juvix.org/latest/reference/language/modules.html) and
-all necessary imports. It starts with the module declaration (based on the path
-and file name), followed by imports, opens, etc. The module's name, after the
-path, is for our example, `template_overview`.
-
-
-```markdown linenums="13" hl_lines="4" title="docs/node_architecture/engines/template_overview.juvix.md"
---8<-- "./docs/node_architecture/engines/template_overview.juvix.md!:juvix-imports"
-```
-
-
-## Part 3: Purpose
-
-
-```html linenums="1" title="docs/node_architecture/engines/template_overview.md"
-# `Template` Engine Family <!-- (5)! -->
-
-## Purpose <!-- (6)! -->
+## Purpose  <!-- (6)! -->
 
 Members of the family `Template` do `Y` and `Z`, in collaboration with
-`P`, `Q`, and `R`, respectively. See [[wikilink-to-X|documentation of X]] <!-- (7)! -->
+`P`, `Q`, and `R`, respectively. See [[wikilink-to-X|documentation of X]]  <!-- (7)! -->
 for background on `X`, `Y` and `Z`.
 
+## Message interface
 
-## Message sequence diagrams <!-- (8)! -->
+```
 
-### [Title of message sequence diagram ⟨𝑖⟩] <!-- (9)! -->
+## Message sequence diagrams  <!-- (8)! -->
 
-### Forwarding from `Template` to Y <!-- (10)! -->
+### [Title of message sequence diagram ⟨𝑖⟩]  <!-- (9)! -->
 
-## Engine Components <!-- (11)! -->
+### Forwarding from `Template` to Y  <!-- (10)! -->
 
-??? note [[Template Engine Environment|Engine environment]] <!-- (12)! -->
+## Engine Components  <!-- (11)! -->
 
-    <!-- (13)! -->
+??? note [[Template Engine Environment|Engine environment]]  <!-- (12)! -->
+
+     <!-- (13)! -->
    --8< "./docs/node_architecture/engines/template_environment.juvix.md"
 
-??? note [[Template Engine Dynamics|Engine dynamics]] <!-- (14)! -->
+??? note [[Template Engine Dynamics|Engine dynamics]]  <!-- (14)! -->
 
    --8< "./docs/node_architecture/engines/template_dynamics.juvix.md"
 ```
 
-<!------------------------------------------------------------------------------->
+ <!------------------------------------------------------------------------------->
 
-<!-- --8<-- [start:annotations] -->
+ <!-- --8<-- [start:annotations] -->
 1. Every Markdown file in the Anoma Specs starts with a YAML front matter block.
 
 2. The icon is a project template icon. Find more icons in the
@@ -179,7 +151,7 @@ for background on `X`, `Y` and `Z`.
     to the `Engine dynamics` page of the engine family. In this case, we expect
     the navigation `nav` section of the `mkdocs.yml` file to contain a link to
     `Template Engine Dynamics`.
-<!-- --8<-- [end:annotations] -->
+ <!-- --8<-- [end:annotations] -->
 
 
 ## Useful links
@@ -189,7 +161,7 @@ for background on `X`, `Y` and `Z`.
 - [Mermaid sequence
   diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
 
-<!-- footnotes -->
+ <!-- footnotes -->
 
 [^0]: The general idea is that each message sequence diagram in the engine
 	family page describes a pattern for test cases of any implementation.
