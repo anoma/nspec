@@ -53,7 +53,19 @@ type EngineEnvironment (S I M H : Type) :=
 };
 ```
 
-### Engine Behaviours
+!!! info "On the mailbox cluster"
+
+    The mailbox cluster is a map of mailbox IDs to mailboxes. The mailbox ID is
+    an index type, and the mailbox is a record containing the following data:
+
+    - The enveloped messages that the mailbox contains.
+    - The mailbox state, which is of type `Maybe M`, i.e., it could be
+    _nothing_.
+    
+    If you don't need multiple mailboxes, you can use any ID as the key.
+    For example, you can use `0` for a default mailbox.
+
+### Engine behaviours
 
 Each engine processes only one message at a time. The behaviour of an engine is
 specified by a finite set of _guards_ and an _action function,_ which determine
@@ -94,7 +106,7 @@ Guard (I H S M A L X : Type) : Type :=
   TimestampedTrigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
 ```
 
-#### Action Function
+#### Action function
 
 The input is parametrised by the types for: local state, incoming messages,
 mailboxes' state, the output of guard functions, timer's handles, matched
