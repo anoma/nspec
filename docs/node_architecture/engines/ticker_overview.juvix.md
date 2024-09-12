@@ -20,18 +20,6 @@ tags:
     ```juvix
     module node_architecture.engines.ticker_overview;
       import node_architecture.basics open;
-      import node_architecture.types.engine_family as EngineFamily;
-      open EngineFamily using {
-          Engine;
-          EngineEnvironment;
-          EngineFamily;
-          mkEngine;
-          mkEngineEnvironment;
-          mkEngineFamily
-      };
-    open EngineFamily.EngineEnvironment;
-    import node_architecture.engines.ticker_environment open public;
-    import node_architecture.engines.ticker_dynamics open public;
     ```
 
 # Ticker Family Engine
@@ -47,7 +35,7 @@ state initialises the counter.
 ## Messages
 
 ```juvix
-type TickerMessage := Increment | Count;
+type Msg := Increment | Count;
 ```
 
 ### Increment
@@ -73,71 +61,6 @@ the current counter value back to the requester.
     Source: [[Ticker Engine Dynamics]]
 
     ---8<--- "node_architecture/engines/ticker_dynamics.juvix.md"
-
-
-## Engine Family
-
-The engine family is defined by first establishing a
-type synonym for the corresponding engine family type to
-simplify the presentation.
-
-!!! todo "fix the code"
-
-```
-EngineFamilyType : Type :=
-  EngineFamily
-    LocalStateType
-    IMessageType
-    MailboxStateType
-    TimerHandleType
-    GuardReturnType
-    OMessageType
-    SpawnEngineType;
-```
-
-So a `Ticker` engine family is defined as follows:
-
-```
-TickerFamily : EngineFamilyType
-  := mkEngineFamily@{ actions := [incrementCounter; respondWithCounter];
-};
-```
-
-As an example of an engine instance in this family, we could
-define the ticker starting in zero. We, again, define for shorten presentation, the
-corresponding engine instance type.
-
-```
-EngineInstanceType : Type :=
-  Engine
-    LocalStateType
-    IMessageType
-    MailboxStateType
-    TimerHandleType
-    GuardReturnType
-    OMessageType
-    SpawnEngineType;
-```
-
-Then, we define a `Ticker` engine instance as follows that set
-the counter to zero:
-
-```
-zeroTicker : EngineInstanceType
-  := mkEngine@{
-    name := Left "TickerOne";
-    family := TickerFamily;
-    initEnv := mkEngineEnvironment@{
-        localState := mkLocalStateType@{
-            counter := 0;
-        };
-        name := Left  "TickerOne";
-        timers := [];
-        acquaintances := Set.empty;
-        mailboxCluster := Map.empty;
-    };
-  } ;
-```
 
 
 ## Interaction Diagrams

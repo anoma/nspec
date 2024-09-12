@@ -22,7 +22,6 @@ tags:
     import node_architecture.basics open;
     import node_architecture.types.engine_family open;
     import node_architecture.engines.ticker_environment open public;
-    import node_architecture.engines.ticker_protocol_types open;
     ```
 
 # Ticker Dynamics

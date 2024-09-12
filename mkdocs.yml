@@ -441,18 +441,15 @@ nav:
               - ./tutorial/engines/template/index.md
               - Engine Overview Template: ./tutorial/engines/template/engine_overview.md
               - Engine Environment Template: ./tutorial/engines/template/engine_environment.md
-              - Engine Protocol Types Template: ./tutorial/engines/template/engine_protocol_types.md
               - Engine Dynamics Template: ./tutorial/engines/template/engine_dynamics.md
           - Examples:
               - Template without explanation:
                   - template_overview: ./node_architecture/engines/template_overview.juvix.md
                   - template_environment: ./node_architecture/engines/template_environment.juvix.md
-                  - template_protocol_types: ./node_architecture/engines/template_protocol_types.juvix.md
                   - template_dynamics: ./node_architecture/engines/template_dynamics.juvix.md
               - Ticker Engine Family:
                   - Ticker Engine Overview: ./node_architecture/engines/ticker_overview.juvix.md
                   - Ticker Engine Environment: ./node_architecture/engines/ticker_environment.juvix.md
-                  - Ticker Engine Protocol Types: ./node_architecture/engines/ticker_protocol_types.juvix.md
                   - Ticker Engine Dynamics: ./node_architecture/engines/ticker_dynamics.juvix.md
 extra:
   social:

@@ -99,28 +99,34 @@ type AnomaEngineFamilyType :=
 +  | Ticker
 ```
 
-### To the `node_architecture/types/anoma_protocol.juvix` file
+### To the `node_architecture/types/anoma_message.juvix` file
 
 ```diff
 ...
-    module node_architecture.types.anoma_protocol;
-+      import node_architecture.engines.ticker_protocol_types open;
+    module node_architecture.types.anoma_message;
++      import node_architecture.engines.ticker_overview open;
 
-type AnomaEngineProtocolMessage :=
-+  | TickerProtocol TickerProtocolMessage
-
-type AnomaEngineProtocolEnvironment :=
-+  | TickerEnvironment TickerProtocolEnvironment
+type AnomaMessage :=
++  | TickerMsg Ticker.Msg
 ```
 
+### To the `node_architecture/types/anoma_environment.juvix` file
+
+```diff
+...
+    module node_architecture.types.anoma_environment;
++      import node_architecture.engines.ticker_environment open using {TickerEnvironment};
+...
+type AnomaEnvironment :=
++  | TickerEnv TickerEnvironment
+```
 
 ### To the `node_architecture/types/anoma_dynamics.juvix` file
 
 ```diff
     module node_architecture.types.anoma_dynamics;
 +     import node_architecture.engines.ticker_dynamics open using {TickerDynamics};
-
-
+...
 type AnomaDynamics :=
 ...
 +  | TickerDynamics TickerDynamics

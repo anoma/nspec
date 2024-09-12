@@ -16,7 +16,6 @@ tags:
     import node_architecture.basics open;
     import node_architecture.types.anoma_environment open;
     import node_architecture.types.anoma_dynamics open;
-    import node_architecture.types.anoma_protocol open;
     import node_architecture.types.engine_family as Base open using {EngineFamily};
     -- import tutorial.engines.ticker as Ticker open using {TickerFamily; zeroTicker};
     ```
