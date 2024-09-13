@@ -441,7 +441,7 @@ nav:
           - ./tutorial/engines/index.md
           - Engine writing conventions: ./tutorial/engines/writing_conventions.md
           - Examples:
-              - Template files:
+              - Engine template files:
                   - template_overview: ./node_architecture/engines/template_overview.juvix.md
                   - template_environment: ./node_architecture/engines/template_environment.juvix.md
                   - template_dynamics: ./node_architecture/engines/template_dynamics.juvix.md

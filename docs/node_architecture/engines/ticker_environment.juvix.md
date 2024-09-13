@@ -13,6 +13,7 @@ search:
 
     import prelude open;
     import node_architecture.engines.ticker_overview open;
+    import node_architecture.types.engine_environment open;
     ```
 
 ## Overview
@@ -51,7 +52,7 @@ syntax alias TickerTimerHandle := Unit;
 
 
 ```juvix
-type TickerEnvironment : Type :=
+TickerEnvironment : Type :=
   EngineEnvironment
     TickerLocalState
     TickerMsg

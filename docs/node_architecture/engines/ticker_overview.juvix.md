@@ -87,19 +87,3 @@ sequenceDiagram
 A client interacts with the `Ticker` engine, which increments and responds with the counter value.
 </figcaption>
 </figure>
-
-## Conversation-partner Diagram
-
-<figure markdown="span">
-
-```mermaid
-erDiagram
-EngineTickerClient }o--|| Ticker: Increment
-EngineTickerClient ||--o{ Ticker: Count
-```
-
-<figcaption markdown="span">
-The conversation-partner diagram shows the interactions between the `Ticker` engine and a client.
-</figcaption>
-
-</figure>

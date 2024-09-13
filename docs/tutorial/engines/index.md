@@ -1,5 +1,5 @@
 ---
-icon: octicons/project-template-24
+icon: octicons/gear-16
 search:
   exclude: false
 tags:

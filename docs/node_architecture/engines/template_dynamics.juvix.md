@@ -21,10 +21,9 @@ Source code: [[template_dynamics|`./docs/node_architecture/engines/template_dyna
     import Stdlib.Data.String open;
     import prelude open;
     import node_architecture.basics open;
-    import node_architecture.types.engine_family open;
     import node_architecture.engines.template_overview open;
     import node_architecture.engines.template_environment open;
-    import node_architecture.types.engine_environment open;
+    import node_architecture.types.engine_family open;
     ```
 
 # `Template` Dynamics
@@ -74,7 +73,7 @@ type TemplateActionLabel :=
     --8<-- "./template_dynamics.juvix.md:TemplateDoAlternative"
 
 This action label corresponds to performing the `doAlaternative` action
-and is relevant for guard X and Y.
+and is relevant for guard `X` and `Y`.
 
 <!-- --8<-- [start:do-alternative-example] -->
 ```juvix extract-module-statements
@@ -85,43 +84,87 @@ end;
 ```
 <!-- --8<-- [end:do-alternative-example] -->
 
-#### `Either.Left`
+??? quote "`TemplateDoAlternative` action effect"
 
-The first alternative does _this._
+    #### `Either.Left`
 
-State update
+    This alternative does the following.
 
-: The state is unchanged as the timer will have all information necessary.
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state is unchanged as the timer will have all information necessary. |
+    | Messages to be sent   | No messages are added to the send queue. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+    | Acquaintance updates  | None |
 
-Messages to be sent
+    #### `Either.Right`
 
-: No messages are added to the send queue.
+    This alternative does the following.
 
-Engines to be spawned
-
-: We shall create a new engine.
-
-Timer updates
-
-: We set a timer for 10 seconds to check up on the spawned engine (although that
-  should not be necessary as it will send messages as the first thing after
-    spawning).
-
-Acquaintance updates
-
-: None
-
-#### `Either.Right`
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state is unchanged as the timer will have all information necessary. |
+    | Messages to be sent   | No messages are added to the send queue. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+    | Spawned engines       | No engines are spawned by this action. |
 
 ### `TemplateDoBoth`
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+!!! quote ""
+
+    --8<-- "./template_dynamics.juvix.md:TemplateDoBoth"
+
+This action label corresponds to performing both the `doAlternative` and the
+`doAnotherAction` action.
+
+??? quote "`TemplateDoBoth` action effect"
+
+    This action consists of two components.
+
+    #### `Pair.fst`
+
+    This alternative does the following.
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state is unchanged as the timer will have all information necessary. |
+    | Messages to be sent   | No messages are added to the send queue. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
+    #### `Pair.snd`
+
+    This alternative does the following.
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state is unchanged as the timer will have all information necessary. |
+    | Messages to be sent   | No messages are added to the send queue. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ### `TemplateDoAnotherAction`
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+!!! quote ""
+
+    --8<-- "./template_dynamics.juvix.md:TemplateDoAnotherAction"
+
+This action label corresponds to performing the `doAnotherAction` action.
+
+??? quote "`TemplateDoAnotherAction` action effect"
+
+    This action does the following.
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state is unchanged as the timer will have all information necessary. |
+    | Messages to be sent   | No messages are added to the send queue. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+    | Spawned engines       | No engines are spawned by this action. |
+
 
 ## Matchable arguments
 
@@ -129,7 +172,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
     <!-- --8<-- [start:matchable-arguments-auxiliary-code] -->
     ```juvix
-    syntax alias thisOneNatFromAllMessages := Nat;
+    syntax alias Val := Nat;
     ```
     <!-- --8<-- [end:matchable-arguments-auxiliary-code] -->
 
@@ -138,11 +181,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ```juvix
 type TemplateMatchableArgument :=
   | -- --8<-- [start:TemplateMessageOne]
-    TemplateMessageOne thisOneNatFromAllMessages
+    TemplateMessageOne Val
     -- --8<-- [end:TemplateMessageOne]
-  | -- --8<-- [start:TemplateMessageTwo]
-    TemplateMessageTwo thisOneNatFromAllMessages
-    -- --8<-- [end:TemplateMessageTwo]
   | -- --8<-- [start:TemplateSomeThingFromAMailbox]
     TemplateSomeThingFromAMailbox String
     -- --8<-- [end:TemplateSomeThingFromAMailbox]
@@ -154,40 +194,57 @@ type TemplateMatchableArgument :=
 
 !!! quote ""
 
+    ```
     --8<-- "./template_dynamics.juvix.md:TemplateMessageOne"
-
-We compute a natural number from the arguments of message one.
-
-<!-- --8<-- [start:message-one-example] -->
-```juvix extract-module-statements
-module message_one_example;
-TemplateMessageOneExample : TemplateMatchableArgument := TemplateMessageOne 1;
-end;
-```
-<!-- --8<-- [end:message-one-example] -->
-
-### `TemplateMessageTwo`
+    ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+??? example "`TemplateMessageOne` example"
+
+    <!-- --8<-- [start:message-one-example] -->
+    ```juvix extract-module-statements
+    module message_one_example;
+      one : TemplateMatchableArgument := TemplateMessageOne 1;
+    end;
+    ```
+    <!-- --8<-- [end:message-one-example] -->
+
+??? quote "`TemplateMessageOne` matchable argument"
+
+    This matchable argument corresponds to the first message in the list of
+    all messages.
+
+    #### `Value1`
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### `TemplateSomeThingFromAMailbox`
 
 !!! quote ""
 
+    ```
     --8<-- "./template_dynamics.juvix.md:TemplateSomeThingFromAMailbox"
+    ```
 
-We also match a message from a message that we had stored in a mailbox.
-See the section on pre-computation results for more on how we remember
-which messages we will remove from which mailbox.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-<!-- --8<-- [start:some-thing-from-a-mailbox] -->
-```juvix
-module some_thing_from_a_mailbox;
-  someThingFromAMailboxExample : TemplateMatchableArgument :=
-    TemplateSomeThingFromAMailbox "Hello World!";
-end;
-```
-<!-- --8<-- [end:some-thing-from-a-mailbox] -->
+??? example "`TemplateSomeThingFromAMailbox` example"
+
+    <!-- --8<-- [start:some-thing-from-a-mailbox] -->
+    ```juvix
+    module some_thing_from_a_mailbox;
+      someThingFromAMailboxExample : TemplateMatchableArgument :=
+        TemplateSomeThingFromAMailbox "Hello World!";
+    end;
+    ```
+    <!-- --8<-- [end:some-thing-from-a-mailbox] -->
+
+??? quote "`TemplateSomeThingFromAMailbox` matchable argument"
+
+    #### `String`
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Precomputation results
 
@@ -195,7 +252,7 @@ end;
 
     <!-- --8<-- [start:pseudo-example-auxiliary-code] -->
     ```juvix
-    syntax alias someMessageType := Nat;
+    syntax alias SomeMessageType := Nat;
     ```
     <!-- --8<-- [end:pseudo-example-auxiliary-code] -->
 
@@ -203,12 +260,12 @@ end;
 ```juvix
 type TemplatePrecomputationEntry :=
   | -- --8<-- [start:TemplateDeleteThisMessageFromMailbox]
-    TemplateDeleteThisMessageFromMailbox someMessageType Nat
+    TemplateDeleteThisMessageFromMailbox SomeMessageType Nat
     -- --8<-- [end:TemplateDeleteThisMessageFromMailbox]
   | -- --8<-- [start:TemplateCloseMailbox]
     TemplateCloseMailbox Nat
     -- --8<-- [end:TemplateCloseMailbox]
-;
+  ;
 
 TemplatePrecomputation : Type := List TemplatePrecomputationEntry;
 ```
@@ -242,6 +299,8 @@ end;
 
 ### `TemplateMessageOneGuard`
 
+<figure markdown>
+
 ```mermaid
 flowchart TD
     C{TemplateMessageOne<br>received?}
@@ -250,22 +309,27 @@ flowchart TD
     D --> F([doAnotherAction n m])
 ```
 
+</figure>
+
 For `TemplateMessageOne`-messages, we do the other action, passing the String
 representation of the second and third argument.
 
 <!-- --8<-- [start:message-one-guard] -->
 ```juvix
 -- guard : Type := undef;
-messageOneGuard : Maybe Time
+messageOneGuard : 
+    Maybe Time
     -> Trigger TemplateMsg TemplateTimerHandle
-            -> EngineEnvironment TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle
-                -> Maybe (GuardOutput TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation) :=
-              mkGuardOutput@{
-                args := [TemplateSomeThingFromAMailbox "Hello World!"]; 
-                label := DoThis "parameter 2";
-                other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]; 
-};
-
+    -> TemplateEnvironment
+    -> Maybe (GuardOutput TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation) :=
+     \ { _ _ _ :=  just (
+      mkGuardOutput@{
+        args := [TemplateSomeThingFromAMailbox "Hello World!"]; 
+        label := TemplateDoAlternative (Left (DoThis "paramneter 2")); 
+        other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]
+        }
+     )
+     };
 ```
 <!-- --8<-- [end:message-one-guard] -->
 
@@ -281,30 +345,34 @@ The action function amounts to one single case statement.
     ```
 
 <!-- --8<-- [start:action-function] -->
-```
-action (arg : TheActionInput) : TheActionInput -> TheActionOutput  :=
-  case arg.label of {
-    | DoThis _ := nothing
-    | doAlaternative _ := nothing
+```juvix
+action : TheActionInput -> TheActionInput -> TheActionOutput
+  | mkActionInput@{
+    guardOutput := out
+   } _ := case GuardOutput.label out of {
+    | (TemplateDoAlternative (Left _)) := nothing
+    | (TemplateDoAlternative (Right _)) := nothing
+    | (TemplateDoAnotherAction _) := nothing
+    | (TemplateDoBoth (mkPair _ _)) := nothing
+    | _ := nothing
 }
 ;
-
 ```
 <!-- --8<-- [end:action-function] -->
 
 ## Engine family summary
 
 <!-- --8<-- [start:template-engine-family] -->
-```
+```juvix
 TemplateEngineFamily : Type :=
-                     EngineFamily
-                    TemplateLocalState
-                    TemplateMsg
-                    TemplateMailboxState
-                    TemplateTimerHandle
-                    TemplateMatchableArgument
-                    TemplateActionLabel
-                    TemplatePrecomputation
+  EngineFamily
+  TemplateLocalState
+  TemplateMsg
+  TemplateMailboxState
+  TemplateTimerHandle
+  TemplateMatchableArgument
+  TemplateActionLabel
+  TemplatePrecomputation
 ;
 ```
 <!-- --8<-- [end:template-engine-family] -->
