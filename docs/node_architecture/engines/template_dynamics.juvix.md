@@ -20,13 +20,17 @@ Source code: [[template_dynamics|`./docs/node_architecture/engines/template_dyna
 
     import Stdlib.Data.String open;
     import prelude open;
+    import node_architecture.basics open;
+    import node_architecture.types.engine_family open;
+    import node_architecture.engines.template_overview open;
+    import node_architecture.engines.template_environment open;
     ```
 
 # `Template` Dynamics
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+This engine does things in the ways described on this page.
 
 ## Action labels
 
@@ -68,7 +72,8 @@ type TemplateActionLabel :=
 
     --8<-- "./template_dynamics.juvix.md:TemplateDoAlternative"
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+This action label corresponds to performing the `doAlaternative` action
+and is relevant for guard X and Y.
 
 <!-- --8<-- [start:do-alternative-example] -->
 ```juvix extract-module-statements
@@ -249,19 +254,19 @@ representation of the second and third argument.
 
 <!-- --8<-- [start:message-one-guard] -->
 ```juvix
-guard : Type := undef;
+-- guard : Type := undef;
+messageOneGuard : Maybe Time
+    -> Trigger TemplateMsg TemplateTimerHandle
+            -> EngineEnvironment TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle
+                -> Maybe (GuardOutput TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation) :=
+              mkGuardOutput@{
+                args := [TemplateMessageOne 42];
+                label := DoThis "parameter 2";
+                other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0];
+};
+
 ```
 <!-- --8<-- [end:message-one-guard] -->
-
-!!! todo "fix/add code (with conversion from Nat to String)"
-
-    ```
-    TemplateMessageOneGuard :  Maybe Time
-        -> Trigger I H
-            -> EngineEnvironment S I M H
-                -> Maybe (GuardOutput A L X) :=
-                Lore ;
-    ```
 
 ## Action dependencies and conflict resolution
 
@@ -277,8 +282,7 @@ lexicographicalOrdering : Type -> Type := undef;
 
 ## Action function
 
-The action function amounts to one single
-case statement.
+The action function amounts to one single case statement.
 
 !!! todo "fix code"
 
