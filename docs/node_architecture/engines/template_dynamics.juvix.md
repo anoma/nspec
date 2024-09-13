@@ -68,8 +68,7 @@ type TemplateActionLabel :=
 
     --8<-- "./template_dynamics.juvix.md:TemplateDoAlternative"
 
-We perform one of the two altertives, depending on user input and
-randomness—`coming soon™`.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:do-alternative-example] -->
 ```juvix extract-module-statements
@@ -108,15 +107,15 @@ Acquaintance updates
 
 #### `Either.Right`
 
-Lore
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### `TemplateDoBoth`
 
-Lore
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### `TemplateDoAnotherAction`
 
-Lore
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Matchable arguments
 
