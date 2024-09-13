@@ -24,7 +24,7 @@ and `Count`, which the ticker responds to with the current counter state.
 
 ## Mailbox states
 
-The [[Ticker Engine Family|ticker]] does not rely on mailbox-relative state.
+The [[Ticker engine family|ticker]] does not rely on mailbox-relative state.
 
 ```juvix
 syntax alias TickerMailboxState := Unit;
@@ -32,7 +32,7 @@ syntax alias TickerMailboxState := Unit;
 
 ## Local state
 
-The local state of the [[Ticker Engine Family|ticker]] is a counter,
+The local state of the [[Ticker engine family|ticker]] is a counter,
 storing a non-negative interger value.
 
 ```juvix
@@ -43,7 +43,7 @@ type TickerLocalState : Type := mkTickerLocalState {
 
 ## Timer Handle
 
-The [[Ticker Engine Family|ticker]] does not require a timer handle type.
+The [[Ticker engine family|ticker]] does not require a timer handle type.
 Therefore, we define the timer handle type as `Unit`.
 
 ```juvix

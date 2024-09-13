@@ -28,7 +28,7 @@ module node_architecture.engines.ticker;
     import node_architecture.engines.ticker_dynamics open public;
 ```
 
-# Ticker Engine Family Type
+# Ticker engine family Type
 
 ```juvix
     TickerEngineFamily : Type :=
