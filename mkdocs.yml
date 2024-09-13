@@ -438,7 +438,7 @@ nav:
           - ./tutorial/engines/index.md
           - Conventions: ./tutorial/engines/conventions.md
           - Examples:
-              - Template without explanation:
+              - Template files:
                   - template_overview: ./node_architecture/engines/template_overview.juvix.md
                   - template_environment: ./node_architecture/engines/template_environment.juvix.md
                   - template_dynamics: ./node_architecture/engines/template_dynamics.juvix.md
