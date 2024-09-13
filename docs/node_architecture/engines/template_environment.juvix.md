@@ -124,8 +124,8 @@ type TemplateTimerHandle :=
 
 ### `TemplateTimerHandleOne`
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-The following code is an example of this case.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
+an example of this case.
 
 ```juvix extract-module-statements 1
 module handle_one_example;
@@ -136,15 +136,14 @@ module handle_one_example;
 end;
 ```
 
-
 `argOne`
 
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### `TemplateTimerHandleTwo`
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-The following code is an example of this case.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
+an example of this case.
 
 ```juvix extract-module-statements 1
 module handle_two_example;
@@ -155,12 +154,10 @@ module handle_two_example;
 end;
 ```
 
-
 ## Environment summary
 
-We have finished all the type definitions,
-there is nothing to explain in the template
-as the code is self-explanatory.
+We have finished all the type definitions, there is nothing to explain in the
+template as the code is self-explanatory.
 
 ```juvix
 TemplateEnvironment : Type :=

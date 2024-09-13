@@ -31,12 +31,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
     <!-- --8<-- [start:auxiliary-juvix-code] -->
     ```juvix
-    type someActionLabel :=
-      | doThis String
+    type SomeActionLabel :=
+      | DoThis String
     ;
 
-    type anotherActionLabel :=
-      | doThat String
+    type AnotherActionLabel :=
+      | DoThat String
     ;
     ```
     <!-- --8<-- [end:auxiliary-juvix-code] -->
@@ -45,11 +45,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ```juvix
 type TemplateActionLabel :=
   | -- --8<-- [start:TemplateDoAlternative]
-    TemplateDoAlternative (Either someActionLabel anotherActionLabel)
+    TemplateDoAlternative (Either SomeActionLabel AnotherActionLabel)
     -- --8<-- [end:TemplateDoAlternative]
+
   | -- --8<-- [start:TemplateDoBoth]
-    TemplateDoBoth (Pair someActionLabel anotherActionLabel)
+    TemplateDoBoth (Pair SomeActionLabel AnotherActionLabel)
     -- --8<-- [end:TemplateDoBoth]
+
   | -- --8<-- [start:TemplateDoAnotherAction]
     TemplateDoAnotherAction String
     -- --8<-- [end:TemplateDoAnotherAction]
@@ -57,17 +59,16 @@ type TemplateActionLabel :=
 ```
 <!-- --8<-- [end:template-action-label] -->
 
-### `TemplatedoAlternative`
+### `TemplateDoAlternative`
 
-We perform one of the two altertives, depending on user input and randomness—`coming soon™`.
+We perform one of the two altertives, depending on user input and
+randomness—`coming soon™`.
 
 <!-- --8<-- [start:do-alternative-example] -->
 ```juvix extract-module-statements 1
 module do_alternative_example;
-
 example : TemplateActionLabel :=
-  TemplateDoAlternative (prelude.Left (doThis "do it!"));
-
+  TemplateDoAlternative (prelude.Left (DoThis "do it!"));
 end;
 ```
 <!-- --8<-- [end:do-alternative-example] -->
@@ -90,9 +91,9 @@ Engines to be spawned
 
 Timer updates
 
-: We set a timer for 10 seconds to check up on the spawned engine
-  (although that should not be necessary as
-    it will send messages as the first thing after spawning).
+: We set a timer for 10 seconds to check up on the spawned engine (although that
+  should not be necessary as it will send messages as the first thing after
+    spawning).
 
 Acquaintance updates
 
@@ -100,15 +101,15 @@ Acquaintance updates
 
 #### `Either.Right`
 
-[…]
+Lore
 
 ### `TemplateDoBoth`
 
-[…]
+Lore
 
 ### `TemplateDoAnotherAction`
 
-[…]
+Lore
 
 ## Matchable arguments
 
@@ -124,15 +125,15 @@ Acquaintance updates
 <!-- --8<-- [start:template-matchable-argument] -->
 ```juvix
 type TemplateMatchableArgument :=
-  | -- --8<-- [start:messageOne]
+  | -- --8<-- [start:TemplateMessageOne]
     TemplateMessageOne thisOneNatFromAllMessages
-    -- --8<-- [end:messageOne]
-  | -- --8<-- [start:messageTwo]
+    -- --8<-- [end:TemplateMessageOne]
+  | -- --8<-- [start:TemplateMessageTwo]
     TemplateMessageTwo thisOneNatFromAllMessages
-    -- --8<-- [end:messageTwo]
-  | -- --8<-- [start:someThingFromAMailbox]
+    -- --8<-- [end:TemplateMessageTwo]
+  | -- --8<-- [start:TemplateSomeThingFromAMailbox]
     TemplateSomeThingFromAMailbox String
-    -- --8<-- [end:someThingFromAMailbox]
+    -- --8<-- [end:TemplateSomeThingFromAMailbox]
 ;
 ```
 <!-- --8<-- [end:template-matchable-argument] -->
@@ -148,14 +149,14 @@ We compute a natural number from the arguments of message one.
 <!-- --8<-- [start:message-one-example] -->
 ```juvix extract-module-statements 1
 module message_one_example;
-messageOneExample : TemplateMatchableArgument := TemplateMessageOne 1;
+TemplateMessageOneExample : TemplateMatchableArgument := TemplateMessageOne 1;
 end;
 ```
 <!-- --8<-- [end:message-one-example] -->
 
 ### `TemplateMessageTwo`
 
-[…]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### `TemplateSomeThingFromAMailbox`
 
@@ -231,13 +232,13 @@ end;
 
 ```mermaid
 flowchart TD
-    C{messageOne<br>received?}
+    C{TemplateMessageOne<br>received?}
     C -->|Yes| D[enabled<br>n := argTwo<br>m := argThree ]
     C -->|No| E[not enabled]
     D --> F([doAnotherAction n m])
 ```
 
-For `messageOne`-messages, we do the other action, passing the String
+For `TemplateMessageOne`-messages, we do the other action, passing the String
 representation of the second and third argument.
 
 <!-- --8<-- [start:message-one-guard] -->
@@ -249,11 +250,11 @@ guard : Type := undef;
 !!! todo "fix/add code (with conversion from Nat to String)"
 
     ```
-    messageOneGuard :  Maybe Time
+    TemplateMessageOneGuard :  Maybe Time
         -> Trigger I H
             -> EngineEnvironment S I M H
                 -> Maybe (GuardOutput A L X) :=
-                […] ;
+                Lore ;
     ```
 
 ## Action dependencies and conflict resolution

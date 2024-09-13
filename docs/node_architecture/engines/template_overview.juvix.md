@@ -59,6 +59,7 @@ type TemplateMsg :=
 
 ### `TemplateMsgOne` message
 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `TemplateMsgOne`-message:
 
 <!-- --8<-- [start:message_one_example] -->
@@ -90,7 +91,6 @@ argThree
 ### `TemplateMsgTwo` message
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
 The following is an example of a `TemplateMsgTwo`-message:
 
 <!-- --8<-- [start:message_two_example] -->
