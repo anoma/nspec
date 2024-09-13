@@ -69,7 +69,7 @@ We perform one of the two altertives, depending on user input and
 randomness—`coming soon™`.
 
 <!-- --8<-- [start:do-alternative-example] -->
-```juvix extract-module-statements 1
+```juvix extract-module-statements
 module do_alternative_example;
 example : TemplateActionLabel :=
   TemplateDoAlternative (prelude.Left (DoThis "do it!"));
@@ -151,7 +151,7 @@ type TemplateMatchableArgument :=
 We compute a natural number from the arguments of message one.
 
 <!-- --8<-- [start:message-one-example] -->
-```juvix extract-module-statements 1
+```juvix extract-module-statements
 module message_one_example;
 TemplateMessageOneExample : TemplateMatchableArgument := TemplateMessageOne 1;
 end;
@@ -221,7 +221,7 @@ We delete the given message from the mailbox with
 the mailbox ID.
 
 <!-- --8<-- [start:TemplateDeleteThisMessageFromMailbox] -->
-```juvix extract-module-statements 1
+```juvix extract-module-statements
 module template_delete_this_message_from_mailbox;
 
 templateDeleteThisMessageFromMailboxExample : TemplatePrecomputationEntry :=

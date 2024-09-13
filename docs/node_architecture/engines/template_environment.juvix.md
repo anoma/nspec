@@ -127,7 +127,7 @@ type TemplateTimerHandle :=
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
 an example of this case.
 
-```juvix extract-module-statements 1
+```juvix extract-module-statements
 module handle_one_example;
 
   handleOneExample : TemplateTimerHandle := TemplateTimerHandleOne@{
@@ -145,7 +145,7 @@ end;
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
 an example of this case.
 
-```juvix extract-module-statements 1
+```juvix extract-module-statements
 module handle_two_example;
 
   handleTwoExample : TemplateTimerHandle := TemplateTimerHandleTwo@{
@@ -171,7 +171,7 @@ TemplateEnvironment : Type :=
 
 ## Example of a `Template` environment
 
-```juvix extract-module-statements 1
+```juvix extract-module-statements
 module template_environment_example;
 
   templateEnvironmentExample : TemplateEnvironment :=

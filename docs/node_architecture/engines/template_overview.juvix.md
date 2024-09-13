@@ -9,7 +9,6 @@ tags:
 - engine-overview
 ---
 
-
 ??? info "Juvix preamble"
 
     ```juvix
@@ -62,13 +61,15 @@ type TemplateMsg :=
 
 !!! quote "TemplateMsgOne"
 
+    ```
     --8<-- "./template_overview.juvix.md:TemplateMsgOne"
+    ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `TemplateMsgOne`-message:
 
 <!-- --8<-- [start:message_one_example] -->
-```juvix extract-module-statements 1
+```juvix extract-module-statements
 module message_one_example;
   example_message_one : TemplateMsg := TemplateMsgOne@{
     argOne := 1;
@@ -91,19 +92,21 @@ end;
 
 : This is the last argument and here we actually
   can describe more detail about the property about `argOne`
-  and `argThree` mentioned above
+  and `argThree` mentioned above.
 
 ### `TemplateMsgTwo` message
 
 !!! quote "TemplateMsgTwo"
 
+    ```
     --8<-- "./template_overview.juvix.md:TemplateMsgTwo"
+    ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `TemplateMsgTwo`-message:
 
 <!-- --8<-- [start:message_two_example] -->
-```juvix extract-module-statements 1
+```juvix extract-module-statements
 module message_two_example;
   example_message_two : TemplateMsg := TemplateMsgTwo@{
     argOne := 1
@@ -144,14 +147,17 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Engine Components
 
-??? note [[Template Engine Environment|Engine environment]]
+??? note "[[template_environment|Template Engine Environment]]"
+    
+    Source code: [[template_environment|`template_environment.juvix.md`]]
 
+    --8<-- "./docs/node_architecture/engines/template_environment.juvix.md!"
 
-   --8< "./docs/node_architecture/engines/template_environment.juvix.md"
+??? note "[[template_dynamics|Template Engine Dynamics]]"
+    
+    Source code: [[template_dynamics|`template_dynamics.juvix.md`]]
 
-??? note [[Template Engine Dynamics|Engine dynamics]]
-
-   --8< "./docs/node_architecture/engines/template_dynamics.juvix.md"
+    --8<-- "./docs/node_architecture/engines/template_dynamics.juvix.md!"
 
 ## Useful links
 

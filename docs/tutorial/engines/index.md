@@ -12,9 +12,7 @@ list_wikilinks: false
 
 - [[Conventions | Conventions for writing engines]]
 
-- Examples
-
-    - Files:
-      - [`template_overview.juvix.md`] [[template_overview]]
-      - [`template_environment.juvix.md`] [[template_environment]]
-      - [`template_dynamics.juvix.md`] [[template_dynamics]]
+- Template files:
+  - [[template_overview|`template_overview.juvix.md`]]
+  - [[template_environment|`template_environment.juvix.md`]]
+  - [[template_dynamics|`template_dynamics.juvix.md`]]

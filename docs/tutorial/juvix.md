@@ -52,7 +52,7 @@ code block. This option can be accompanied by a number to indicate the number of
 statements to extract. For example, the following would only display the content
 inside the module `B`, that is, the module `C`.
 
-<pre><code>```juvix extract-module-statements 1
+<pre><code>```juvix extract-module-statements
 module B;
 module C;
 -- ...
