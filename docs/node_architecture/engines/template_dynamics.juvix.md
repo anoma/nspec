@@ -24,6 +24,7 @@ Source code: [[template_dynamics|`./docs/node_architecture/engines/template_dyna
     import node_architecture.types.engine_family open;
     import node_architecture.engines.template_overview open;
     import node_architecture.engines.template_environment open;
+    import node_architecture.types.anoma_environment open;
     ```
 
 # `Template` Dynamics
@@ -260,57 +261,46 @@ messageOneGuard : Maybe Time
             -> EngineEnvironment TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle
                 -> Maybe (GuardOutput TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation) :=
               mkGuardOutput@{
-                args := [TemplateMessageOne 42];
+                args := [TemplateSomeThingFromAMailbox "Hello World!"]; 
                 label := DoThis "parameter 2";
-                other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0];
+                other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]; 
 };
 
 ```
 <!-- --8<-- [end:message-one-guard] -->
 
-## Action dependencies and conflict resolution
-
-We just use the lexicographical ordering.
-
-!!! todo "fix code"
-
-<!-- --8<-- [start:lexicographical-ordering] -->
-```juvix
-lexicographicalOrdering : Type -> Type := undef;
-```
-<!-- --8<-- [end:lexicographical-ordering] -->
-
 ## Action function
 
 The action function amounts to one single case statement.
 
-!!! todo "fix code"
+??? info "Auxiliary Juvix code"
+
+    ```juvix
+    TheActionInput : Type := ActionInput TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation;
+    TheActionOutput : Type := Maybe (ActionEffect TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation Env);
+    ```
 
 <!-- --8<-- [start:action-function] -->
-```juvix
-actionFunction : Type -> Type := undef;
+```
+action (arg : TheActionInput) : TheActionInput -> TheActionOutput  :=
+  case arg.label of {
+    | DoThis _ := nothing
+    | doAlaternative _ := nothing
+}
+;
+
 ```
 <!-- --8<-- [end:action-function] -->
 
 ## Engine family summary
 
-!!! todo "fix example 👇 (undef!)"
-
 <!-- --8<-- [start:template-engine-family] -->
 ```juvix
-TemplateEngineFamily : Type := undef;
+TemplateEngineFamily : Type :=
+                     EngineFamily TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation Env
+;
 ```
 <!-- --8<-- [end:template-engine-family] -->
-
-!!! todo "fix example 👇 (undef!)"
-
-<!-- --8<-- [start:template-engine-family-example] -->
-```juvix
-module template_engine_family;
-templateEngineFamilyExample : TemplateEngineFamily := undef;
-end;
-```
-<!-- --8<-- [end:template-engine-family-example] -->
 
 <!--
 ### [Action Name ⟨$i$⟩] `{` one such sub-section per guarded action `}`
@@ -341,7 +331,7 @@ end;
 
 ### Code `{` action ⟨$i$⟩ `}`
 
-??? note "show me the code"
+??? todo "show me the code"
 
     ♢juvix
 
