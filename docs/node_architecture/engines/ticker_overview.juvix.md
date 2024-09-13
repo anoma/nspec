@@ -94,8 +94,8 @@ A client interacts with the `Ticker` engine, which increments and responds with 
 
 ```mermaid
 erDiagram
-  EngineTickerClient }o--|| Ticker: Increment
-  EngineTickerClient ||--o{ Ticker: Count
+EngineTickerClient }o--|| Ticker: Increment
+EngineTickerClient ||--o{ Ticker: Count
 ```
 
 <figcaption markdown="span">

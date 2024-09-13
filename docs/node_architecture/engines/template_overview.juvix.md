@@ -9,6 +9,8 @@ tags:
 - engine-overview
 ---
 
+Source code: [[template_overview|`template_overview.juvix.md`]]
+
 ??? info "Juvix preamble"
 
     ```juvix
