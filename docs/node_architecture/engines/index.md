@@ -73,7 +73,3 @@ families.
 
     --8<-- "./docs/node_architecture/types/anoma_environment.juvix.md"
 
-??? info "AnomaDynamics"
-
-    --8<-- "./docs/node_architecture/types/anoma_dynamics.juvix.md"
-

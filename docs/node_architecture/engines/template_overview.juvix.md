@@ -59,6 +59,11 @@ type TemplateMsg :=
 
 ### `TemplateMsgOne` message
 
+
+!!! quote "TemplateMsgOne"
+
+    --8<-- "./template_overview.juvix.md:TemplateMsgOne"
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `TemplateMsgOne`-message:
 
@@ -82,13 +87,17 @@ end;
 
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-argThree
+`argThree`
 
 : This is the last argument and here we actually
   can describe more detail about the property about `argOne`
   and `argThree` mentioned above
 
 ### `TemplateMsgTwo` message
+
+!!! quote "TemplateMsgTwo"
+
+    --8<-- "./template_overview.juvix.md:TemplateMsgTwo"
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `TemplateMsgTwo`-message:
@@ -132,25 +141,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
-
-
-## Conversation-partner Diagram
-
-<!-- --8<-- [start:conversation-partner-diagram] -->
-<figure markdown="span">
-
-```mermaid
-erDiagram
-  EngineTemplateClient }o--|| Template: Send TemplateMsgOne
-  EngineTemplateClient ||--o{ Template: Respond with TemplateMsgOne
-```
-
-<figcaption markdown="span">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</figcaption>
-</figure>
-<!-- --8<-- [end:conversation-partner-diagram] -->
-
 
 ## Engine Components  
 

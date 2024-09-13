@@ -17,7 +17,6 @@ module everything;
 import node_architecture.basics;
 import node_architecture.types.engine_family;
 import node_architecture.types.anoma_environment;
-import node_architecture.types.anoma_dynamics;
 import node_architecture.types.anoma_message;
 
 import node_architecture.engines.template_overview;

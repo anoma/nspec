@@ -61,6 +61,10 @@ type TemplateActionLabel :=
 
 ### `TemplateDoAlternative`
 
+!!! quote ""
+
+    --8<-- "./template_dynamics.juvix.md:TemplateDoAlternative"
+
 We perform one of the two altertives, depending on user input and
 randomness—`coming soon™`.
 
@@ -211,7 +215,7 @@ describe the latter in more detail.
 
 !!! quote ""
 
-    --8<-- "./template_dynamics.juvix.md:deleteThisMessageFromMailbox"
+    --8<-- "./template_dynamics.juvix.md:TemplateDeleteThisMessageFromMailbox"
 
 We delete the given message from the mailbox with
 the mailbox ID.
