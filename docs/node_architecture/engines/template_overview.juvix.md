@@ -43,7 +43,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapie
 type TemplateMsg :=
   | -- --8<-- [start:TemplateMsgOne]
     TemplateMsgOne {
-      argOneOne : MethodOneArgOne;
+      argOne : MethodOneArgOne;
       argTwo : MethodOneArgTwo;
       argThree : MethodOneArgThree
   }
@@ -55,12 +55,9 @@ type TemplateMsg :=
 ```
 <!-- --8<-- [end:TemplateMsg] -->
 
-### `TemplateMsgOne`
+### `TemplateMsgOne` message
 
-If an `Template`-engine receives a `TemplateMsgOne`-message,
-it will store three values, one for each argument. 
-
-`argOneOne`
+`argOne`
 
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -74,11 +71,11 @@ argThree
   can describe more detail about the property about `argOne`
   and `argThree` mentioned above
 
-### `TemplateMsgTwo`
+### `TemplateMsgTwo` message
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-#### Example of a `Template`-message
+#### Example of a `TemplateMsgOne` message
 
 The following is an example of a `TemplateMsgOne`-message:
 
@@ -86,14 +83,13 @@ The following is an example of a `TemplateMsgOne`-message:
 ```juvix extract-module-statements 1
 module message_one_example;
   example_message_one : TemplateMsg := TemplateMsgOne@{
-    argOneOne := 1;
+    argOne := 1;
     argTwo := 2;
     argThree := 3
     };
 end;
 ```
 <!-- --8<-- [end:message_one_example] -->
-
 
 ## Message sequence diagrams  
 
@@ -102,7 +98,7 @@ end;
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget
 sapien. Nulla facilisi.
 
-
+<!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
 
 ```mermaid
@@ -118,9 +114,12 @@ sequenceDiagram
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </figcaption>
 </figure>
+<!-- --8<-- [end:message-sequence-diagram] -->
+
 
 ## Conversation-partner Diagram
 
+<!-- --8<-- [start:conversation-partner-diagram] -->
 <figure markdown="span">
 
 ```mermaid
@@ -133,6 +132,7 @@ erDiagram
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </figcaption>
 </figure>
+<!-- --8<-- [end:conversation-partner-diagram] -->
 
 
 ## Engine Components  

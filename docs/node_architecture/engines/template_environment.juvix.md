@@ -19,8 +19,7 @@ tags:
     import node_architecture.engines.template_overview open;
     ```
 
-
-# Template Environment
+# `Template` Environment
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -43,33 +42,31 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 <!-- --8<-- [start:TemplateMailboxState] -->
 ```juvix
 type TemplateMailboxState :=
-| -- --8<-- [start:stateOne]
-  stateOne { fieldOne : MailboxOneOne }
-  -- --8<-- [end:stateOne]
-| -- --8<-- [start:stateTwo]
-  stateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
-  -- --8<-- [end:stateTwo]
+| TemplateMailboxStateOne { fieldOne : MailboxOneOne }
+| TemplateMailboxStateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
 ;
 ```
 <!-- --8<-- [end:TemplateMailboxState] -->
 
-### `stateOne`
+### `Template`
 
 This is one family of mailbox states without much complexity.
 
-<!-- --8<-- [start:state_one_example] -->
-```juvix extract-module-statements 1
-module state_one_example;
-  stateOneExample : TemplateMailboxState := stateOne@{
-    fieldOne := 1
-  };
-end;
-```
-<!-- --8<-- [end:state_one_example] -->
+??? example
+
+    <!-- --8<-- [start:state_one_example] -->
+    ```juvix extract-module-statements 1
+    module state_one_example;
+      TemplateMailboxStateOneExample : TemplateMailboxState := TemplateMailboxStateOne@{
+        fieldOne := 1
+      };
+    end;
+    ```
+    <!-- --8<-- [end:state_one_example] -->
 
 `fieldOne`
 
-: A Nat is a Nat is a Nat.
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### `stateTwo`
 
@@ -137,7 +134,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-## Example of a timer handle
+## Example of a time handle
 
 ```juvix extract-module-statements 1
 module handle_one_example;
