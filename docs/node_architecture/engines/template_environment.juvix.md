@@ -115,7 +115,7 @@ type TemplateTimerHandle :=
   | -- --8<-- [start:TemplateTimerHandleOne]
     TemplateTimerHandleOne { argOne : ArgOne }
     -- --8<-- [end:TemplateTimerHandleOne]
-  | -- --8<-- [start:TemplateTimerHandleTwo] 
+  | -- --8<-- [start:TemplateTimerHandleTwo]
     TemplateTimerHandleTwo { argOne : String; argTwo : Bool }
     -- --8<-- [end:TemplateTimerHandleTwo]
   ;

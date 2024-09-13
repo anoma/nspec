@@ -21,9 +21,9 @@ tags:
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Nulla facilisi.
 
-# `Template` Engine Family  
+# `Template` Engine Family
 
-## Purpose  
+## Purpose
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Nulla facilisi.
 
@@ -117,9 +117,9 @@ end;
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 
-## Message sequence diagrams  
+## Message sequence diagrams
 
-### [Title of message sequence diagram ⟨𝑖⟩]  
+### [Title of message sequence diagram ⟨𝑖⟩]
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget
 sapien. Nulla facilisi.
@@ -142,14 +142,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
-## Engine Components  
+## Engine Components
 
-??? note [[Template Engine Environment|Engine environment]]  
+??? note [[Template Engine Environment|Engine environment]]
 
-     
+
    --8< "./docs/node_architecture/engines/template_environment.juvix.md"
 
-??? note [[Template Engine Dynamics|Engine dynamics]]  
+??? note [[Template Engine Dynamics|Engine dynamics]]
 
    --8< "./docs/node_architecture/engines/template_dynamics.juvix.md"
 

@@ -61,7 +61,7 @@ type EngineEnvironment (S I M H : Type) :=
     - The enveloped messages that the mailbox contains.
     - The mailbox state, which is of type `Maybe M`, i.e., it could be
     _nothing_.
-    
+
     If you don't need multiple mailboxes, you can use any ID as the key.
     For example, you can use `0` for a default mailbox.
 
@@ -114,7 +114,7 @@ arguments, action labels, and precomputation result. The types of the input and
 output of an action are:
 
 - `ActionInput S I M H A L X` and
-- `ActionEffect S I M H A L X C`. 
+- `ActionEffect S I M H A L X C`.
 
 The `ActionInput S I M H A L X ` type is a record that encapsulates the following data:
 

@@ -21,7 +21,7 @@ consider it valid.
 
 - [[Assumption]]
 - [[Proof]]
-- Multifunctions 
+- Multifunctions
 
 !!! todo
 

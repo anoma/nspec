@@ -39,6 +39,6 @@ module node_architecture.engines.ticker;
         TickerTimerHandle
         Unit
         Unit
-        Unit 
+        Unit
         Unit;
 ```
