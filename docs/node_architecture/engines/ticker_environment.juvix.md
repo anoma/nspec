@@ -12,7 +12,6 @@ search:
     module node_architecture.engines.ticker_environment;
 
     import prelude open;
-    import node_architecture.types.engine_family open;
     import node_architecture.engines.ticker_overview open;
     ```
 
@@ -50,12 +49,9 @@ Therefore, we define the timer handle type as `Unit`.
 syntax alias TickerTimerHandle := Unit;
 ```
 
-## Environment summary
-
-The example is so simple that it suffices to define the type.
 
 ```juvix
-TickerEnvironment : Type :=
+type TickerEnvironment : Type :=
   EngineEnvironment
     TickerLocalState
     TickerMsg

@@ -7,7 +7,7 @@ tags:
 - conventions
 ---
 
-# Conventions for Writing Engine Families in Juvix
+# Engine Writing Conventions
 
 ## Naming
 
@@ -102,7 +102,7 @@ module node_architecture.types.anoma_message;
 + import node_architecture.engines.ticker_overview open using {TickerMsg};
 
 type Msg :=
-  | MsgTicker TickerMsg
++  | MsgTicker TickerMsg
 ```
 
 ### Anoma Environment Index

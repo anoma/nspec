@@ -72,8 +72,11 @@ nav:
           - ./node_architecture/index.md
           - Modules: ./node_architecture/modules/index.md
           - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
-          - Engine Families Intro: ./node_architecture/engines/index.md
-          - Engine Family Types: ./node_architecture/types/engine_family.juvix.md
+          - Engine Family Types: 
+            - ./node_architecture/engines/index.md
+            - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
+            - Engine Dynamics: ./node_architecture/types/engine_dynamics.juvix.md
+            - Engine Family: ./node_architecture/types/engine_family.juvix.md
           - Hardware Abstraction Machine:
               - ./node_architecture/hardware_abstraction/index.md
               - Local Storage Engines:
@@ -436,7 +439,7 @@ nav:
       - Run pre commit checks: ./tutorial/commit_checks.md
       - Engines in Anoma:
           - ./tutorial/engines/index.md
-          - Conventions: ./tutorial/engines/conventions.md
+          - Engine writing conventions: ./tutorial/engines/writing_conventions.md
           - Examples:
               - Template files:
                   - template_overview: ./node_architecture/engines/template_overview.juvix.md

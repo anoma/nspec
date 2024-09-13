@@ -24,7 +24,7 @@ Source code: [[template_dynamics|`./docs/node_architecture/engines/template_dyna
     import node_architecture.types.engine_family open;
     import node_architecture.engines.template_overview open;
     import node_architecture.engines.template_environment open;
-    import node_architecture.types.anoma_environment open;
+    import node_architecture.types.engine_environment open;
     ```
 
 # `Template` Dynamics
@@ -277,7 +277,7 @@ The action function amounts to one single case statement.
 
     ```juvix
     TheActionInput : Type := ActionInput TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation;
-    TheActionOutput : Type := Maybe (ActionEffect TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation Env);
+    TheActionOutput : Type := Maybe (ActionEffect TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation);
     ```
 
 <!-- --8<-- [start:action-function] -->
@@ -295,9 +295,16 @@ action (arg : TheActionInput) : TheActionInput -> TheActionOutput  :=
 ## Engine family summary
 
 <!-- --8<-- [start:template-engine-family] -->
-```juvix
+```
 TemplateEngineFamily : Type :=
-                     EngineFamily TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation Env
+                     EngineFamily
+                    TemplateLocalState
+                    TemplateMsg
+                    TemplateMailboxState
+                    TemplateTimerHandle
+                    TemplateMatchableArgument
+                    TemplateActionLabel
+                    TemplatePrecomputation
 ;
 ```
 <!-- --8<-- [end:template-engine-family] -->

@@ -21,18 +21,22 @@ name.
 Each engine family must declare specific _components_ that each of its member
 engine instances will have. For Anoma specifications, the components are:
 
-*Engine Environment*
+[[Engine Environment]]
 
 :   This serves as the execution context for engines. In addition to the local
     state, the engine environment encompasses elements such as the mailbox
     cluster owned by an engine instance and a finite set of acquaintances—other
     engine instances known to the current one that can interact with it.
 
-*Action Function*
+    - Main page: [[Engine Environment]]
+
+[[Engine Dynamics | *Action Function*]]
 
 :   The function that describes all possible ways in which engines can act, by
     changing their environment, sending messages, spawning new engine instances,
     and update their list of active timers.
+
+    - Main page: [[Engine Dynamics]]
 
 *Guards*
 
@@ -59,7 +63,6 @@ Below we showcase the _current_ engine families and their related components in
 Juvix for the Anoma Specification. Please be aware that not all engine families
 are listed here, and the specification is continually expanding with new engine
 families.
-
 
 ??? info "AnomaEngine"
 

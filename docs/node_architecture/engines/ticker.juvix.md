@@ -28,16 +28,16 @@ module node_architecture.engines.ticker;
     import node_architecture.engines.ticker_dynamics open public;
 ```
 
+
 # Ticker engine family Type
 
-```juvix
+```
     TickerEngineFamily : Type :=
       EngineFamily
         TickerLocalState
         TickerMsg
         TickerMailboxState
         TickerTimerHandle
-        Unit
         Unit
         Unit
         Unit;

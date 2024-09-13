@@ -10,9 +10,10 @@ list_wikilinks: false
 
 # Tutorials on Engine Families
 
-- [[Conventions | Conventions for writing engines]]
+- [[ Engine writing conventions| Conventions for writing engines]]
 
 - Template files:
-  - [[template_overview|`template_overview.juvix.md`]]
-  - [[template_environment|`template_environment.juvix.md`]]
-  - [[template_dynamics|`template_dynamics.juvix.md`]]
+
+    - [[template_overview|`template_overview.juvix.md`]]
+    - [[template_environment|`template_environment.juvix.md`]]
+    - [[template_dynamics|`template_dynamics.juvix.md`]]
