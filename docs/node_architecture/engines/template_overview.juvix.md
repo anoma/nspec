@@ -9,7 +9,7 @@ tags:
 - engine-overview
 ---
 
-Source code: [[template_overview|`template_overview.juvix.md`]]
+Source code: [[template_overview|`./docs/node_architecture/engines/template_overview.juvix.md`]]
 
 ??? info "Juvix preamble"
 
@@ -151,14 +151,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ??? note "[[template_environment|Template Engine Environment]]"
     
-    Source code: [[template_environment|`template_environment.juvix.md`]]
-
     --8<-- "./docs/node_architecture/engines/template_environment.juvix.md!"
 
 ??? note "[[template_dynamics|Template Engine Dynamics]]"
     
-    Source code: [[template_dynamics|`template_dynamics.juvix.md`]]
-
     --8<-- "./docs/node_architecture/engines/template_dynamics.juvix.md!"
 
 ## Useful links

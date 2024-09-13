@@ -10,6 +10,9 @@ tags:
 - engine-dynamics
 ---
 
+Source code: [[template_dynamics|`./docs/node_architecture/engines/template_dynamics.juvix.md`]]
+
+
 ??? note "Juvix preamble"
 
     ```juvix

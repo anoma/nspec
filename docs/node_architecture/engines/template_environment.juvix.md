@@ -10,6 +10,8 @@ tags:
 - engine-environment
 ---
 
+Source code: [[template_environment|`./docs/node_architecture/engines/template_environment.juvix.md`]]
+
 ??? note "Juvix preamble"
 
     ```juvix
