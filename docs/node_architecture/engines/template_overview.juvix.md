@@ -48,14 +48,30 @@ type TemplateMsg :=
       argThree : MethodOneArgThree
   }
     -- --8<-- [end:TemplateMsgOne]
-  | TemplateMsgTwo {
+  | -- --8<-- [start:TemplateMsgTwo]
+    TemplateMsgTwo {
       argOne : MethodTwoArgOne
   }
+    -- --8<-- [end:TemplateMsgTwo]
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->
 
 ### `TemplateMsgOne` message
+
+The following is an example of a `TemplateMsgOne`-message:
+
+<!-- --8<-- [start:message_one_example] -->
+```juvix extract-module-statements 1
+module message_one_example;
+  example_message_one : TemplateMsg := TemplateMsgOne@{
+    argOne := 1;
+    argTwo := 2;
+    argThree := 3
+    };
+end;
+```
+<!-- --8<-- [end:message_one_example] -->
 
 `argOne`
 
@@ -75,21 +91,22 @@ argThree
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-#### Example of a `TemplateMsgOne` message
+The following is an example of a `TemplateMsgTwo`-message:
 
-The following is an example of a `TemplateMsgOne`-message:
-
-<!-- --8<-- [start:message_one_example] -->
+<!-- --8<-- [start:message_two_example] -->
 ```juvix extract-module-statements 1
-module message_one_example;
-  example_message_one : TemplateMsg := TemplateMsgOne@{
-    argOne := 1;
-    argTwo := 2;
-    argThree := 3
+module message_two_example;
+  example_message_two : TemplateMsg := TemplateMsgTwo@{
+    argOne := 1
     };
 end;
 ```
-<!-- --8<-- [end:message_one_example] -->
+<!-- --8<-- [end:message_two_example] -->
+
+`argOne`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
 
 ## Message sequence diagrams  
 
