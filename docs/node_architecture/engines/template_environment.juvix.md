@@ -42,35 +42,35 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 <!-- --8<-- [start:TemplateMailboxState] -->
 ```juvix
 type TemplateMailboxState :=
-| TemplateMailboxStateOne { fieldOne : MailboxOneOne }
-| TemplateMailboxStateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
+| -- --8<-- [start:TemplateMailboxStateOne]
+  TemplateMailboxStateOne { fieldOne : MailboxOneOne }
+  -- --8<-- [end:TemplateMailboxStateOne]
+| -- --8<-- [start:TemplateMailboxStateTwo]
+  TemplateMailboxStateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
+  -- --8<-- [end:TemplateMailboxStateTwo]
 ;
 ```
 <!-- --8<-- [end:TemplateMailboxState] -->
 
-### `Template`
+### `TemplateMailboxStateOne`
 
 This is one family of mailbox states without much complexity.
-
-??? example
-
-    <!-- --8<-- [start:state_one_example] -->
-    ```juvix extract-module-statements 1
-    module state_one_example;
-      TemplateMailboxStateOneExample : TemplateMailboxState := TemplateMailboxStateOne@{
-        fieldOne := 1
-      };
-    end;
-    ```
-    <!-- --8<-- [end:state_one_example] -->
 
 `fieldOne`
 
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `stateTwo`
+### `TemplateMailboxStateTwo`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+`fieldOne`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+`fieldTwo`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Local state
 
@@ -86,6 +86,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     };
     ```
 
+    `stringRepresentation`
+
+    : This is a representation of the Fibonacci heap, using
+    [Borsh](https://borsh.io/).
+
+
 <!-- --8<-- [start:TemplateLocalState] -->
 ```juvix
 type TemplateLocalState := mkTemplateLocalState {
@@ -94,10 +100,6 @@ type TemplateLocalState := mkTemplateLocalState {
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
 
-`stringRepresentation`
-
-: This is a representation of the Fibonacci heap, using
-[Borsh](https://borsh.io/).
 
 ## Timer handles
 
@@ -110,40 +112,49 @@ type TemplateLocalState := mkTemplateLocalState {
 <!-- --8<-- [start:TemplateTimerHandle] -->
 ```juvix
 type TemplateTimerHandle :=
-  | -- --8<-- [start:handleOne]
-    timerHandleOne { argOne : ArgOne }
-    -- --8<-- [end:handleOne]
-  | timerHandleTwo { argOne : String; argTwo : Bool }
+  | -- --8<-- [start:TemplateTimerHandleOne]
+    TemplateTimerHandleOne { argOne : ArgOne }
+    -- --8<-- [end:TemplateTimerHandleOne]
+  | -- --8<-- [start:TemplateTimerHandleTwo] 
+    TemplateTimerHandleTwo { argOne : String; argTwo : Bool }
+    -- --8<-- [end:TemplateTimerHandleTwo]
   ;
 ```
 <!-- --8<-- [end:TemplateTimerHandle] -->
 
-### `timerHandleOne`
+### `TemplateTimerHandleOne`
 
-The first kind of timer handle.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The following code is an example of this case.
+
+```juvix extract-module-statements 1
+module handle_one_example;
+
+  handleOneExample : TemplateTimerHandle := TemplateTimerHandleOne@{
+    argOne := 7;
+  };
+end;
+```
+
 
 `argOne`
 
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `timerHandleTwo`
+### `TemplateTimerHandleTwo`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-### `timerHandleTwo`
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-## Example of a time handle
+The following code is an example of this case.
 
 ```juvix extract-module-statements 1
-module handle_one_example;
+module handle_two_example;
 
-handleOneExample : TemplateTimerHandle := timerHandleOne@{
-  argOne := 7;
-};
+  handleTwoExample : TemplateTimerHandle := TemplateTimerHandleTwo@{
+    argOne := "hello"; argTwo := true;
+  };
 end;
 ```
+
 
 ## Environment summary
 
@@ -161,7 +172,7 @@ TemplateEnvironment : Type :=
 ```
 
 
-## Example of an environment
+## Example of a `Template` environment
 
 ```juvix extract-module-statements 1
 module template_environment_example;
@@ -179,7 +190,6 @@ module template_environment_example;
       timers := []
     }
   ;
-
 end;
 ```
 
