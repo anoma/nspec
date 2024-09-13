@@ -304,11 +304,12 @@ end;
 ```mermaid
 flowchart TD
     C{TemplateMessageOne<br>received?}
-    C -->|Yes| D[enabled<br>n := argTwo<br>m := argThree ]
+    C -->|Yes| D[...]
     C -->|No| E[not enabled]
     D --> F([doAnotherAction n m])
 ```
 
+<figcaption> TemplateMessageOneGuard flowchart </figcaption>
 </figure>
 
 For `TemplateMessageOne`-messages, we do the other action, passing the String
