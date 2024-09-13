@@ -116,6 +116,7 @@ Acquaintance updates
 
 ## Matchable arguments
 
+
 ??? note "Auxiliary Juvix code"
 
     <!-- --8<-- [start:matchable-arguments-auxiliary-code] -->
@@ -123,6 +124,7 @@ Acquaintance updates
     syntax alias thisOneNatFromAllMessages := Nat;
     ```
     <!-- --8<-- [end:matchable-arguments-auxiliary-code] -->
+
 
 <!-- --8<-- [start:template-matchable-argument] -->
 ```juvix

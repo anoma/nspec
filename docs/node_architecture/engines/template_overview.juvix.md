@@ -1,11 +1,11 @@
---- <!-- (1)! -->
-icon: octicons/gear-16  <!-- (2)! -->
+---
+icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family <!-- (3)! -->
+- engine-family
 tags:
-- mytag1 <!-- (4)! -->
+- mytag1
 - engine-overview
 ---
 
@@ -31,44 +31,61 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapie
 
 ??? note "Auxiliary Juvix code"
 
-    <!-- --8<-- [start:message_auxiliary] -->
     ```juvix
     syntax alias MethodOneArgOne := Nat;
     syntax alias MethodOneArgTwo := Nat;
     syntax alias MethodOneArgThree := Nat;
     syntax alias MethodTwoArgOne := Nat;
-    syntax alias MethodFourArgOne := Unit;
-    syntax alias MethodFourArgTwo := Unit;
     ```
-    <!-- --8<-- [end:message_auxiliary] -->
 
-
-<!-- --8<-- [start:TemplateMessage] -->
+<!-- --8<-- [start:TemplateMsg] -->
 ```juvix
-type TemplateMessage :=
-  | -- --8<-- [start:messageOne]
-    messageOne {
+type TemplateMsg :=
+  | -- --8<-- [start:TemplateMsgOne]
+    TemplateMsgOne {
       argOneOne : MethodOneArgOne;
       argTwo : MethodOneArgTwo;
       argThree : MethodOneArgThree
   }
-    -- --8<-- [end:messageOne]
-  | messageTwo {
+    -- --8<-- [end:TemplateMsgOne]
+  | TemplateMsgTwo {
       argOne : MethodTwoArgOne
   }
   ;
 ```
-<!-- --8<-- [end:TemplateMessage] -->
+<!-- --8<-- [end:TemplateMsg] -->
 
-### messageOne
+### `TemplateMsgOne`
 
-If an [engine family name] receives a messageOne-message,
-it will store argTwo, if argOne and argThree satisfy some properties.
+If an `Template`-engine receives a `TemplateMsgOne`-message,
+it will store three values, one for each argument. 
+
+`argOneOne`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+`argTwo`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+argThree
+
+: This is the last argument and here we actually
+  can describe more detail about the property about `argOne`
+  and `argThree` mentioned above
+
+### `TemplateMsgTwo`
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#### Example of a `Template`-message
+
+The following is an example of a `TemplateMsgOne`-message:
 
 <!-- --8<-- [start:message_one_example] -->
-```juvix
+```juvix extract-module-statements 1
 module message_one_example;
-  example_message_one : TemplateMessage := messageOne@{
+  example_message_one : TemplateMsg := TemplateMsgOne@{
     argOneOne := 1;
     argTwo := 2;
     argThree := 3
@@ -77,30 +94,46 @@ end;
 ```
 <!-- --8<-- [end:message_one_example] -->
 
-argOne
-
-: The `argOne` is almost self-explanatory, but we need to talk about it.
-
-argTwo
-
-: This is the second argument.
-
-argThree
-
-: This is the last argument and here we actually
-  can describe more detail about the property about `argOne`
-  and `argThree` mentioned above
-
-### messageTwo
-
-[...]
-
 
 ## Message sequence diagrams  
 
 ### [Title of message sequence diagram ⟨𝑖⟩]  
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Nulla facilisi.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget
+sapien. Nulla facilisi.
+
+
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Template
+    participant EngineTemplateClient
+
+    EngineTemplateClient ->> Template: Send TemplateMsgOne
+    Template ->> EngineTemplateClient: Respond with TemplateMsgOne
+```
+
+<figcaption markdown="span">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</figcaption>
+</figure>
+
+## Conversation-partner Diagram
+
+<figure markdown="span">
+
+```mermaid
+erDiagram
+  EngineTemplateClient }o--|| Template: Send TemplateMsgOne
+  EngineTemplateClient ||--o{ Template: Respond with TemplateMsgOne
+```
+
+<figcaption markdown="span">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</figcaption>
+</figure>
+
 
 ## Engine Components  
 
