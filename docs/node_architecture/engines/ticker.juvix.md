@@ -31,7 +31,7 @@ module node_architecture.engines.ticker;
 
 # Ticker engine family Type
 
-```
+```juvix
     TickerEngineFamily : Type :=
       EngineFamily
         TickerLocalState
