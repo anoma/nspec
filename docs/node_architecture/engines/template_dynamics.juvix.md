@@ -367,13 +367,13 @@ action : TheActionInput -> TheActionInput -> TheActionOutput
 ```juvix
 TemplateEngineFamily : Type :=
   EngineFamily
-  TemplateLocalState
-  TemplateMsg
-  TemplateMailboxState
-  TemplateTimerHandle
-  TemplateMatchableArgument
-  TemplateActionLabel
-  TemplatePrecomputation
+    TemplateLocalState
+    TemplateMsg
+    TemplateMailboxState
+    TemplateTimerHandle
+    TemplateMatchableArgument
+    TemplateActionLabel
+    TemplatePrecomputation
 ;
 ```
 <!-- --8<-- [end:template-engine-family] -->

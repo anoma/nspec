@@ -94,7 +94,7 @@ A mailbox identifier is a natural number used to index mailboxes.
 ??? info "Where do mailbox identifiers come from?"
 
     The concept of mailbox identifier is taken from
-    the paper
+    the paper 
     [@fowler2023specialdeliveryprogrammingmailbox]
     (see also [[Mailbox Cluster]] and [@SelectorsACM]).
 
@@ -148,8 +148,8 @@ getMessageTarget : {M : Type} -> EnvelopedMessage M -> Address
 
 ### Mailbox M S
 
-A mailbox is a container for messages and a mailbox state. The mailbox state
-could be used to store additional information about the mailbox, such as the
+A mailbox is a container for messages and optionally a mailbox state. The mailbox
+state could be used to store additional information about the mailbox, such as the
 priority of the messages in the mailbox.
 
 ??? info "Where does mailbox state come from?"

@@ -23,14 +23,15 @@ tags:
 The `EngineFamily` type encapsulates the concept of engines within Anoma. As
 defined, it clears up that engines are essentially a collection of guarded
 state-transition functions. Our type for these families is parameterised by a
-type for their local states, a type for their incoming messages, a type for its
-mailboxes' state, a type for returned data by the guard functions, and a type
-for outgoing messages.
+type for their local states, a type for their engine-specific messages, a type
+for their mailboxes' state, a type for time handles, a type for action-label
+action,
+
 
 ```juvix
 type EngineFamily (S I M H A L X : Type) := mkEngineFamily {
-  guards : Set (Maybe Time -> Trigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X));
-  action : ActionInput S I M H A L X -> Maybe (ActionEffect S I M H A L X);
+  guards : Set (Guard I H S M A L X);
+  action : ActionFunction S I M H A L X;
   conflictSolver : Set A -> List (Set A);
 };
 ```

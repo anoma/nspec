@@ -30,11 +30,16 @@ instances in the following categories:
 - A list of timers that have been set.
 
 This data is encapsulated within the `EngineEnvironment` type family, which is
-parameterised by four types: `S`, representing the local state, `I`,
-representing the type of incoming messages to the engine instance, `M`,
-representing the type of mailboxes' states, and finally, `H`, representing the
-type of handles for timers. These same letters will be used in the rest of the
-document to represent these types.
+parameterised by four types: 
+
+- `S`, representing the local state,
+- `I`, representing the type of engine-specific messages (defined in their
+respective overview page),
+- `M`, representing the type of mailboxes' states, and
+- `H`, representing the type of handles for timers.
+
+These same letters will be used in the rest of the document to represent these
+types.
 
 ```juvix
 type EngineEnvironment (S I M H : Type) :=
@@ -47,7 +52,7 @@ type EngineEnvironment (S I M H : Type) :=
 };
 ```
 
-!!! info "On the mailbox cluster"
+??? info "On the mailbox cluster"
 
     The mailbox cluster is a map of mailbox IDs to mailboxes. The mailbox ID is
     an index type, and the mailbox is a record containing the following data:

@@ -18,11 +18,9 @@ Source code: [[template_overview|`./docs/node_architecture/engines/template_over
     import prelude open;
     ```
 
-# Engine Overview
+# `Template` Engine Family Overview
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Nulla facilisi.
-
-# `Template` Engine Family
 
 ## Purpose
 

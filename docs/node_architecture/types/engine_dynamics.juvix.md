@@ -28,11 +28,11 @@ how engine react to received messages or timer notifications.
 Guards are terms of type `Guard`, which is a function type
 
 ```
-Trigger I H -> EngineEnvironment S I M H -> GuardOutput A L X
+-- --8<-- "./docs/node_architecture/types/engine_dynamics.juvix.md!:guard-type"
 ```
 
-where the _trigger_ of type `Trigger I H` is a term that captures the message
-received or the clock notification. This trigger can include the received
+where the _trigger_ of type `TimestampedTrigger I H` is a term that captures the
+message received with a timestamp. This trigger can include the received
 message or timers that have elapsed during the engine's operation. Guards return
 data of type `GuardOutput A L X` if the condition is met.
 
@@ -42,7 +42,7 @@ environment to determine whether an action should be performed.
 
 The guard function receives, not in any particular order:
 
-- the trigger that caused it to be evaluated,
+- the timestamped trigger that caused it to be evaluated,
 - the environment of the engine instance, and
 - an optional time reference for the starting point of the evaluation of all guards.
 
@@ -52,10 +52,6 @@ effects of actions—not only changes to the engine environment, but also which
 messages will be sent, what engines will be created, and how the list of timers
 is updated.
 
-```juvix
-Guard (I H S M A L X : Type) : Type :=
-  TimestampedTrigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
-```
 
 ## Action function
 
@@ -65,7 +61,7 @@ arguments, action labels, and precomputation result. The types of the input and
 output of an action are:
 
 - `ActionInput S I M H A L X` and
-- `ActionEffect S I M H A L X C`.
+- `ActionEffect S I M H A L X`.
 
 The `ActionInput S I M H A L X ` type is a record that encapsulates the following data:
 
@@ -83,7 +79,21 @@ type GuardOutput (A L X : Type) := mkGuardOutput{
      label : L;
      other : X
 };
+```
 
+
+```juvix 
+{-# isabelle: ignore #-}
+Guard (I H S M A L X : Type) : Type :=
+  -- --8<-- [start: guard-type]
+  TimestampedTrigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
+  -- --8<-- [end: guard-type]
+```
+
+### Action input
+
+
+```juvix
 type ActionInput (S I M H A L X : Type)
   := mkActionInput {
       guardOutput : GuardOutput A L X;
@@ -92,13 +102,15 @@ type ActionInput (S I M H A L X : Type)
 };
 ```
 
-The `ActionEffect S I M H A L X C` type defines the results produced by the
+### Action effect
+
+The `ActionEffect S I M H A L X` type defines the results produced by the
 action, which can be
 
 - Update its environment (while leaving the name unchanged).
 - Produce a set of messages to be sent to other engine instances.
 - Set, discards, or supersede timers.
-- Define new engine instances to be created.
+- Define new engine instances to be created.4
 
 ```juvix
 type ActionEffect (S I M H A L X : Type) := mkActionEffect {
@@ -109,31 +121,20 @@ type ActionEffect (S I M H A L X : Type) := mkActionEffect {
 };
 ```
 
+
+```juvix
+ActionFunction (S I M H A L X : Type) : Type :=  ActionInput S I M H A L X -> ActionEffect S I M H A L X;
+```
+
 ??? info "On creating new engine instances"
 
     To create new engine instances, we need to specify the following data:
 
     - A unique name for the new engine instance.
-
-      !!! todo "We have to talk about this"
-
-          !!! quote
-
-              , assuming the system will ensure its uniqueness.
-
     - The initial state of the engine instance.
     - The corresponding set of guards and the action function.
 
     The last point is however implicit.
-
-    !!! todo "this forward pointer needs a link"
-
-        ... and so does the next sentence
-
-    In the code,
-    we use a type parameter `C` for convenience;
-    this parameter has a canonical instantiation for each protocol,
-    namely the protocol-level environment type.
 
 
 If the guard does not give a result, this means that none of its guarded actions

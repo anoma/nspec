@@ -78,26 +78,21 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ??? note "Auxiliary Juvix code"
 
-    We use [Fibonacci heaps](https://en.wikipedia.org/wiki/Fibonacci_heap) to
-    keep track of tasks to be performed. Note that we use
-    [Borsh](https://borsh.io/) for deserialisation of Fibonacci heaps.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
     ```juvix
-    type FakeFibonacciHeap := mkFakeFibonacciHeap {
-        stringRepresentation : String
-    };
+    type NiceState := mkNiceState { word : String };
     ```
 
     `stringRepresentation`
 
-    : This is a representation of the Fibonacci heap, using
-    [Borsh](https://borsh.io/).
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 
 <!-- --8<-- [start:TemplateLocalState] -->
 ```juvix
 type TemplateLocalState := mkTemplateLocalState {
-      taskQueue : FakeFibonacciHeap
+      taskQueue : NiceState
 };
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
@@ -180,7 +175,7 @@ module template_environment_example;
     mkEngineEnvironment@ {
       name := Left "template"; -- Name
       localState := mkTemplateLocalState@{
-        taskQueue := mkFakeFibonacciHeap@{
+        taskQueue := mkNiceState@{
           stringRepresentation := "taskQueue"
         }
       };
