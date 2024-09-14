@@ -58,7 +58,6 @@ type TemplateMsg :=
 
 ### `TemplateMsgOne` message
 
-
 !!! quote "TemplateMsgOne"
 
     ```

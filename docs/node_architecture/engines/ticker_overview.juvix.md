@@ -1,71 +1,81 @@
 ---
-icon: octicons/container-24
+icon: octicons/gear-16
 search:
   exclude: false
+categories:
+- engine-family
 tags:
-  - engine-family
-  - example
-  - ticker
-  - Juvix
+- ticker
+- engine-overview
 ---
 
-
-!!! warning
-
-    This page is still under construction, needs to be updated with the latest
-    changes in the engine family type.
-
-??? info "Juvix imports"
+??? info "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.ticker_overview;
     import node_architecture.basics open;
     ```
 
-# Ticker Family Engine
+# `Ticker` Engine Family Overview
+
+The Ticker engine family provides a simple counter functionality, allowing
+clients to increment a counter and retrieve its current value.
 
 ## Purpose
 
-A ticker engine, part of the `Ticker` engine family, maintains a counter in its
-local state. This engine increases the counter whenever it gets a `Increment` message
-and provides the updated result upon receiving a `Count` message. The initial
-state initialises the counter.
+A ticker engine maintains a counter in its local state. It increases the counter
+when it receives an `Increment` message and provides the updated result upon
+receiving a `Count` message. The initial state initializes the counter.
 
 ## Message interface
 
+<!-- --8<-- [start:TickerMsg] -->
 ```juvix
-type TickerMsg := Increment | Count;
+type TickerMsg :=
+    | -- --8<-- [start:Increment]
+    Increment
+    -- --8<-- [end:Increment]
+    | -- --8<-- [start:Count]
+    Count
+    -- --8<-- [end:Count]
 ```
+<!-- --8<-- [end:TickerMsg] -->
 
-### Increment
 
-An `Increment` message instructs the engine to increase the counter.
+There are only two message tags: `Increment`, which increases the counter state
+of the ticker, and `Count`, which the ticker responds to with the current
+counter state.
 
-### Count
+### `Increment` message
 
-A `Count` message requests the engine to send
-the current counter value back to the requester.
+!!! quote "Increment"
 
-## Engine Components
+    ```
+    --8<-- "./ticker_overview.juvix.md:Increment"
+    ```
 
-??? quote "Engine Environment"
+An `Increment` message instructs the engine to increase the counter. This
+message doesn't require any arguments.
 
-    Source: [[Ticker Engine Environment]]
+### `Count` message
 
-    ---8<--- "node_architecture/engines/ticker_environment.juvix.md"
+!!! quote "Count"
 
-??? quote "Engine Dynamics"
+    ```
+    --8<-- "./ticker_overview.juvix.md:Count"
+    ```
 
-    Source: [[Ticker Engine Dynamics]]
+A `Count` message requests the engine to send the current counter value back to
+the requester. This message doesn't require any arguments.
 
-    ---8<--- "node_architecture/engines/ticker_dynamics.juvix.md"
+## Message sequence diagrams
 
-## Interaction Diagrams
+### Ticker Interaction Diagram
 
-The figure below represents a simple interaction between two engine instances, a
-`Ticker` engine instance and another entity sending increment requests and count
-requests:
+This diagram represents a simple interaction between a `Ticker` engine instance
+and another entity sending increment requests and count requests.
 
+<!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
 
 ```mermaid
@@ -87,3 +97,17 @@ sequenceDiagram
 A client interacts with the `Ticker` engine, which increments and responds with the counter value.
 </figcaption>
 </figure>
+
+## Engine Components
+
+??? note "[[Ticker Engine Environment]]"
+
+    --8<-- "./docs/node_architecture/engines/ticker_environment.juvix.md!"
+
+??? note "[[Ticker Engine Dynamics]]"
+
+    --8<-- "./docs/node_architecture/engines/ticker_dynamics.juvix.md!"
+
+## Useful links
+
+- [Composable Semantic Models for Actor Theories](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=18475015c7c46d38292833ddda32dc88b5655160)
