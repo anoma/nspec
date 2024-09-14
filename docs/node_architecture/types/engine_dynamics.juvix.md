@@ -47,7 +47,7 @@ The guard function receives, not in any particular order:
 - an optional time reference for the starting point of the evaluation of all guards.
 
 Given these inputs, the guard function determines if the condition for running
-the action(s) it is guardeding are met. The action function can compute the
+the action(s) it is guarding are met. The action function can compute the
 effects of actions—not only changes to the engine environment, but also which
 messages will be sent, what engines will be created, and how the list of timers
 is updated.
@@ -55,7 +55,7 @@ is updated.
 
 ## Action function
 
-The input is parametrised by the types for: local state, incoming messages,
+The input is parameterised by the types for: local state, incoming messages,
 mailboxes' state, the output of guard functions, timer's handles, matched
 arguments, action labels, and precomputation result. The types of the input and
 output of an action are:
