@@ -15,9 +15,18 @@ For each engine family, we have three different files; accordingly, we mainly
 have three different template files. Each template file comes with an example
 using the Ticker family, which can be opened side by side.
 
-1. [[Engine Overview Template]] | [[Ticker Engine Overview | Example]]
-2. [[Engine Environment Template]] | [[Ticker Engine Environment | Example]]
-3. [[Engine Dynamics Template]] | [[Ticker Engine Dynamics | Example]]
+1. [[template_overview|`template_overview.juvix.md`]] | [[Ticker Engine Overview | Example]]
+2. [[template_environment|`template_environment.juvix.md`]] | [[Ticker Engine Environment | Example]]
+3. [[template_dynamics|`template_dynamics.juvix.md`]] | [[Ticker Engine Dynamics
+| Example]]
+
+Related to the template files, we have Juvix files defining the types
+in the following files:
+
+- [[Engine Environment| `./docs/node_architecture/types/engine_environment.juvix.md`]]
+- [[Engine Dynamics| `./docs/node_architecture/types/engine_dynamics.juvix.md`]]
+- [[Engine Family| `./docs/node_architecture/types/engine_family.juvix.md`]]
+
 
 The organisation of these files, in particular the folder structure, are
 explained in the [[Engine writing conventions|Folder structure's conventions page]].
