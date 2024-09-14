@@ -30,7 +30,7 @@ instances in the following categories:
 - A list of timers that have been set.
 
 This data is encapsulated within the `EngineEnvironment` type family, which is
-parameterised by four types: 
+parameterised by four types:
 
 - `S`, representing the local state,
 - `I`, representing the type of engine-specific messages (defined in their

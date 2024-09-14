@@ -306,11 +306,11 @@ end;
     TemplateGuard : Type :=
       Guard
         TemplateLocalState
-        TemplateMsg 
-        TemplateTimerHandle 
+        TemplateMsg
+        TemplateTimerHandle
         TemplateMailboxState
-        TemplateMatchableArgument 
-        TemplateActionLabel 
+        TemplateMatchableArgument
+        TemplateActionLabel
         TemplatePrecomputation
     ```
 
@@ -334,11 +334,11 @@ representation of the second and third argument.
 
 <!-- --8<-- [start:message-one-guard] -->
 ```juvix
-messageOneGuard : TemplateGuard 
+messageOneGuard : TemplateGuard
      | _ _ :=  just (
         mkGuardOutput@{
-          args := [TemplateSomeThingFromAMailbox "Hello World!"]; 
-          label := TemplateDoAlternative (Left (DoThis "paramneter 2")); 
+          args := [TemplateSomeThingFromAMailbox "Hello World!"];
+          label := TemplateDoAlternative (Left (DoThis "paramneter 2"));
           other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]
           });
 ```
@@ -372,7 +372,7 @@ action : TemplateActionFunction
       guardOutput := out;
       env := env
    } := case GuardOutput.label out of {
-    | (TemplateDoAlternative (Left _)) := 
+    | (TemplateDoAlternative (Left _)) :=
           mkActionEffect@{
             newEnv := env;
             producedMessages := [];

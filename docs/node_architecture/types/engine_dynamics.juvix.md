@@ -80,7 +80,7 @@ type GuardOutput (A L X : Type) := mkGuardOutput{
 ```
 
 <!-- --8<-- [start: whole-guard-type] -->
-```juvix 
+```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Guard (S I H M A L X : Type) : Type :=
   -- --8<-- [start: guard-type]

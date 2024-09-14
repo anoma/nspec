@@ -72,11 +72,11 @@ nav:
           - ./node_architecture/index.md
           - Modules: ./node_architecture/modules/index.md
           - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
-          - Engine Family Types: 
-            - ./node_architecture/engines/index.md
-            - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
-            - Engine Dynamics: ./node_architecture/types/engine_dynamics.juvix.md
-            - Engine Family: ./node_architecture/types/engine_family.juvix.md
+          - Engine Family Types:
+              - ./node_architecture/engines/index.md
+              - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
+              - Engine Dynamics: ./node_architecture/types/engine_dynamics.juvix.md
+              - Engine Family: ./node_architecture/types/engine_family.juvix.md
           - Hardware Abstraction Machine:
               - ./node_architecture/hardware_abstraction/index.md
               - Local Storage Engines:

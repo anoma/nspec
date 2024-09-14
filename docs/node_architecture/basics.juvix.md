@@ -94,7 +94,7 @@ A mailbox identifier is a natural number used to index mailboxes.
 ??? info "Where do mailbox identifiers come from?"
 
     The concept of mailbox identifier is taken from
-    the paper 
+    the paper
     [@fowler2023specialdeliveryprogrammingmailbox]
     (see also [[Mailbox Cluster]] and [@SelectorsACM]).
 
