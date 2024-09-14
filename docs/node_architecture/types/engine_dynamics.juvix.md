@@ -84,7 +84,7 @@ type GuardOutput (A L X : Type) := mkGuardOutput{
 
 ```juvix 
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Guard (I H S M A L X : Type) : Type :=
+Guard (S I H M A L X : Type) : Type :=
   -- --8<-- [start: guard-type]
   TimestampedTrigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
   -- --8<-- [end: guard-type]

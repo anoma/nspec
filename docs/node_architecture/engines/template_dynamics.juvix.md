@@ -23,9 +23,7 @@ Source code: [[template_dynamics|`./docs/node_architecture/engines/template_dyna
     import node_architecture.basics open;
     import node_architecture.engines.template_overview open;
     import node_architecture.engines.template_environment open;
-   
-    import node_architecture.types.engine_family open; -- JAN remove this later,
-    -- import node_architecture.types.engine_dynamics open;
+    import node_architecture.types.engine_dynamics open;
     ```
 
 # `Template` Dynamics
@@ -300,16 +298,28 @@ end;
 ## Guards
 
 ```juvix
+TemplateGuard : Type :=
+  Guard@{
+    S := TemplateLocalState;
+    I := TemplateMsg;
+    H := TemplateTimerHandle;
+    M := TemplateMailboxState;
+    A := TemplateMatchableArgument;
+    L := TemplateActionLabel;
+    X := TemplatePrecomputation
+  }
+  ;
+```
+
+```juvix
 messageOneGuard : 
-    TimestampedTrigger TemplateMsg TemplateTimerHandle -> 
-    TemplateEnvironment ->
-    Maybe (GuardOutput TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation )
+    TemplateGuard
      | _ _ :=  just (
-      mkGuardOutput@{
-        args := [TemplateSomeThingFromAMailbox "Hello World!"]; 
-        label := TemplateDoAlternative (Left (DoThis "paramneter 2")); 
-        other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]
-        }
+        mkGuardOutput@{
+          args := [TemplateSomeThingFromAMailbox "Hello World!"]; 
+          label := TemplateDoAlternative (Left (DoThis "paramneter 2")); 
+          other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]
+          }
      )
      ;
 ```
