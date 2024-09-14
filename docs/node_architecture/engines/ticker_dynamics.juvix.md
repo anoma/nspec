@@ -1,20 +1,18 @@
 ---
-icon: octicons/project-template-24
+icon: octicons/gear-16
 search:
   exclude: false
+categories:
+- engine-family
+- juvix-module
 tags:
-  - engine-family
-  - example
-  - ticker
-  - Juvix
+- ticker
+- engine-dynamics
 ---
 
-??? warning "under sconstruction"
+Source code: [[ticker_dynamics|`./docs/node_architecture/engines/ticker_dynamics.juvix.md`]]
 
-    This page is still under construction, needs to be updated with the latest
-    changes in the engine family type.
-
-??? info "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.ticker_dynamics;
@@ -23,258 +21,262 @@ tags:
     import node_architecture.types.engine_family open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open public;
+    import node_architecture.types.engine_dynamics open;
     ```
 
-# Ticker Dynamics
+# `Ticker` Dynamics
 
 ## Overview
 
-A ticker has a counter as local state and allows to perform two actions:
-
-- Incrementing the counter.
-- Sending the current counter value.
-
-The increment is in response to an `Increment`-message
-and the sending of the value is in response to a `Count`-message.
+The Ticker engine maintains a counter as local state and allows two actions:
+incrementing the counter and sending the current counter value.
 
 ## Action labels
 
+<!-- --8<-- [start:ticker-action-label] -->
 ```juvix
-type GuardReturnLabel :=
-  | doIncrement
-  | doRespond Nat
+type TickerActionLabel :=
+| -- --8<-- [start:DoIncrement]
+DoIncrement
+-- --8<-- [end:DoIncrement]
+| -- --8<-- [start:DoRespond]
+DoRespond Nat
+-- --8<-- [end:DoRespond]
 ;
 ```
+<!-- --8<-- [end:ticker-action-label] -->
 
-### doIncrement
+### `DoIncrement`
 
-This action increments the counter.
+!!! quote ""
 
-### doRespond
+    --8<-- "./ticker_dynamics.juvix.md:DoIncrement"
 
-Return the current value of the counter.
+This action label corresponds to incrementing the counter and is relevant for the `Increment` message.
+
+??? quote "`DoIncrement` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The counter value is increased by one. |
+    | Messages to be sent   | No messages are added to the send queue. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
+### `DoRespond`
+
+!!! quote ""
+
+    --8<-- "./ticker_dynamics.juvix.md:DoRespond"
+
+This action label corresponds to responding with the current counter value and is relevant for the `Count` message.
+
+??? quote "`DoRespond` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state remains unchanged. |
+    | Messages to be sent   | A message with the current counter value is sent to the requester. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ## Matchable arguments
 
-The only argument that is worth fetching is the address and
-mailbox ID of where the message is to be sent to.
+<!-- --8<-- [start:ticker-matchable-argument] -->
 
 ```juvix
-type GuardReturnArgs :=
-  | ReplyTo (Maybe Address) (Maybe MailboxID);
+type TickerMatchableArgument :=
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:ReplyTo]
+;
 ```
+<!-- --8<-- [end:ticker-matchable-argument] -->
+
+### `ReplyTo`
+
+!!! quote ""
+
+    ```
+    --8<-- "./ticker_dynamics.juvix.md:ReplyTo"
+    ```
+
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
-There are no non-trivial pre-computations.
+The Ticker engine does not require any non-trivial pre-computations.
 
+<!-- --8<-- [start:ticker-precomputation-entry] -->
 ```juvix
-type GuardReturnOther :=
-  | nuthing ;
+type TickerPrecomputationEntry := Unit;
+TickerPrecomputation : Type := List TickerPrecomputationEntry;
 ```
+<!-- --8<-- [end:ticker-precomputation-entry] -->
 
-<!--
-Regarding the guard function's return type, we must return two different types
-of values. The first value is a boolean (or possibly Unit) that indicates if the
-guard condition is met. The second value is the name of the message sender,
-which is used to set the target for the resulting message with the counted
-value.
--->
+## Guards
 
-## Guarded actions
+??? note "Auxiliary Juvix code"
 
-### doIncrementIfIncrement
+    Type alias for the guard.
 
-#### Purpose
+    ```juvix
+    TickerGuard : Type :=
+      Guard
+        TickerLocalState
+        TickerMsg
+        TickerTimerHandle
+        TickerMailboxState
+        TickerMatchableArgument
+        TickerActionLabel
+        TickerPrecomputation
+    ```
 
-The guard of doIncrementIfIncrement is enabled
-if the trigger is an `Increment`-message;
-the action increments the counter.
+### `IncrementGuard`
 
-#### Guard ifIncrement
-
-The `ifIncrement` guard checks whether
-an increment message arrives.
-
+<figure markdown>
 ```mermaid
 flowchart TD
-    C{Increment <br> message <br> received ?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([doIncrement])
+C{Increment<br>message<br>received?}
+C -->|Yes| D[enabled]
+C -->|No| E[not enabled]
+D --> F([DoIncrement])
 ```
 
-```juvix
-ifIncrement : (Maybe Time)
-      -> (Trigger TickerMsg TickerTimerHandle)
-      -> (EngineEnvironment TickerLocalState TickerMsg TickerMailboxState TickerTimerHandle)
-      -> Maybe (GuardOutput GuardReturnArgs GuardReturnLabel GuardReturnOther)
-:= \{
-      | _ (MessageArrived@{ envelope := m}) _ :=
-          case getMessageType m of {
-            | Increment := just (  mkGuardOutput@{
-                args := [];
-                label := doIncrement;
-                other := nuthing;
+<figcaption>IncrementGuard flowchart</figcaption>
+</figure>
+
+<!-- --8<-- [start:increment-guard] -->
+```
+incrementGuard : TickerGuard
+  | (MessageArrived@{ envelope := m}) :=
+    case getMessageType m of {
+      | Increment := just (
+        mkGuardOutput@{
+          args := [];
+          label := DoIncrement;
+          other := []
+        }
+      )
+  | := nothing
+  }
+  | (Elapsed@{ timers := ts }) := nothing
+;
+```
+<!-- --8<-- [end:increment-guard] -->
+
+### `CountGuard`
+
+<figure markdown>
+```mermaid
+flowchart TD
+C{Count<br>message<br>received?}
+C -->|Yes| D[enabled]
+C -->|No| E[not enabled]
+D --> F([DoRespond n])
+```
+
+<figcaption>CountGuard flowchart</figcaption>
+</figure>
+
+<!-- --8<-- [start:count-guard] -->
+```
+countGuard : TickerGuard
+  | (MessageArrived@{ envelope := m }) :=
+    case getMessageType m of {
+      | Count := just (
+          mkGuardOutput@{
+          args := [ReplyTo (getMessageSender m) nothing];
+          label := DoRespond 0; -- The actual value will be set in the action
+          other := []
+        }
+      )
+    | := nothing
+    }
+    | (Elapsed@{ timers := ts }) := nothing
+;
+```
+<!-- --8<-- [end:count-guard] -->
+
+## Action function
+
+??? info "Auxiliary Juvix code"
+
+    Type alias for the action function.
+
+    ```juvix
+    TickerActionFunction : Type :=
+      ActionFunction
+          TickerLocalState
+          TickerMsg
+          TickerMailboxState
+          TickerTimerHandle
+          TickerMatchableArgument
+          TickerActionLabel
+          TickerPrecomputation;
+    ```
+<!-- --8<-- [start:action-function] -->
+```
+action : TickerActionFunction
+    | mkActionInput@{
+        guardOutput := out;
+        env := env
+    } := case GuardOutput.label out of {
+          | DoIncrement :=
+              let counterValue := LocalStateType.counter (localState env)
+              in mkActionEffect@{
+                    newEnv := env@EngineEnvironment{
+                        localState := mkLocalStateType@{
+                          counter := counterValue + 1
+                        }
+                    };
+                    producedMessages := [];
+                    timers := [];
+                    spawnedEngines := [];
+                }
+          | DoRespond :=
+              let counterValue := LocalStateType.counter (localState env);
+              replyTo := case GuardOutput.args out of {
+                | [ReplyTo addr mbx] := Left addr
+                | := Right 0 -- No address
+      }
+      in mkActionEffect@{
+        newEnv := env;
+        producedMessages := [
+          mkEnvelopedMessage@{
+            packet := mkMessagePacket@{
+              target := replyTo;
+              message := mkMessage@{
+                messageType := Result counterValue;
+                payload := natToString counterValue
               }
-            )
-            | _ := nothing
-          }
-      | _ (Elapsed@{ timers := ts }) _ := nothing
-      };
-```
-
-#### doIncrement
-
-This is the only action label and it increments the counter.
-
-!!! todo "Continue here"
-
-    make the code work
-
-```
-performIncrement : ActionInput TickerLocalState TickerMsg TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther
-                 -> Maybe (ActionResult TickerLocalState TickerMsg TickerMailboxState TickerTimerHandle GuardReturnArgs GuardReturnLabel GuardReturnOther TickerProtocolMessage TickerProtocolEnvironment)
-                 := \{
-                  | (mkActionInput@{ env := previousEnv }) :=
-                  let counterValue := previousEnv
-                  in
-                  just  counterValue
+            };
+      sender := name env
+    }
+  ];
+  timers := [];
+  spawnedEngines := [];
+}
 };
 ```
+<!-- --8<-- [end:action-function] -->
 
+<!-- --8<-- [start:ticker-engine-family] -->
 ```
-| (mkActionInput@{ env := previousEnv }) :=
-
-            mkActionResult@{
-              newEnv := previousEnv@EngineEnvironment{
-                localState := mkLocalStateType@{
-                  counter := counterValue + 1
-                }| (mkActionInput@{ env := previousEnv }) :=
-            let counterValue := LocalStateType.counter (localState previousEnv)
-            in
-            mkActionResult@{
-              newEnv := previousEnv@EngineEnvironment{
-                localState := mkLocalStateType@{
-                  counter := counterValue + 1
-                }
-```
-
-##### State update
-
-The counter value is increased by one.
-
-##### Messages to be sent
-
-No messages need to be sent.
-
-##### Engines to be created
-
-No new engines need to be created.
-
-##### Timers to be set/cancelled/reset
-
-Timers are unchanged.
-
-
-
-On the other hand, the Ticker engine does not require to create any
-engine instance, therefore, the `SpawnEngineType` is set to `Unit`.
-
-```juvix
-syntax alias SpawnEngineType := Unit;
-```
-
-Therefore, the `GuardedAction` type is defined as follows:
-
-```
-GuardedActionType : Type :=
-  GuardedAction
+TickerEngineFamily : Type :=
+  EngineFamily
     TickerLocalState
     TickerMsg
     TickerMailboxState
     TickerTimerHandle
-    GuardReturnArgs
-    GuardReturnLabel
-    GuardReturnOther
-    TickerProtocolMessage
-    TickerProtocolEnvironment;
+    TickerMatchableArgument
+    TickerActionLabel
+    TickerPrecomputation
+;
 ```
+<!-- --8<-- [end:ticker-engine-family] -->
 
-## Guarded Action: Increment Counter
-
-This action increments the counter upon receiving an `Increment` message.
-
-```
-incrementCounter : GuardedActionType := mkGuardedAction@{
-  guard := \{
-      | _ (MessageArrived@{ envelope := m}) _ :=
-          case getMessageType m of {
-            | Increment := just (IncrementGuard true)
-            | _ := nothing
-          }
-      | _ (Elapsed@{ timers := ts }) _ := nothing
-      };
-  action := \{
-      | (mkActionInput@{ env := previousEnv }) :=
-            let counterValue := LocalStateType.counter (localState previousEnv)
-            in
-            mkActionResult@{
-              newEnv := previousEnv@EngineEnvironment{
-                localState := mkLocalStateType@{
-                  counter := counterValue + 1
-                }
-              };
-          producedMessages := [];
-          spawnedEngines := [];
-          timers := [];
-        }
-      }
-};
-```
-
-## Guarded Action: Respond with Counter
-
-This action sends the current counter value upon receiving a `Count` message.
-
-```
-respondWithCounter : GuardedActionType := mkGuardedAction@{
-  guard :=
-    \{
-      | _ (Elapsed@{ timers := ts }) state := nothing
-      | _ (MessageArrived@{ envelope := m }) state :=
-          case getMessageType m of {
-            | Count := just (RespondGuard (getMessageSender m))
-            | _ := nothing
-          }
-      };
-  action := \{ (mkActionInput@{
-            guardOutput := senderRef ;
-            env := previousEnv }) :=
-            let lState := (localState previousEnv);
-                counterValue := LocalStateType.counter lState;
-                sender := case senderRef of {
-                | (RespondGuard s) := Left s
-                | _ := Right 0 -- no address
-                };
-                in
-            mkActionResult@{
-              newEnv := previousEnv; -- nothing changes
-              producedMessages := [
-                    mkEnvelopedMessage@{
-                        packet := mkMessagePacket@{
-                          target := sender;
-                          message := mkMessage@{
-                            messageType := Result counterValue;
-                            payload := natToString counterValue
-                          }
-                        };
-                        sender := name previousEnv
-                      }
-              ];
-              spawnedEngines := [];
-              timers := [];
-            }
-      }
-};
-```

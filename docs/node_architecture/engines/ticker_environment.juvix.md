@@ -28,8 +28,6 @@ we do not need timers, or mailbox state.
 syntax alias TickerMailboxState := Unit;
 ```
 
-The [[Ticker engine family|ticker]] does not rely on mailbox-relative state.
-
 ## Local state
 
 ```juvix
@@ -37,10 +35,6 @@ type TickerLocalState : Type := mkTickerLocalState {
   counter : Nat
 };
 ```
-
-The local state of [[Ticker engine family|tickers]]
-consists of a single counter,
-storing a non-negative integer value.
 
 ## Timer Handle
 
@@ -50,7 +44,6 @@ syntax alias TickerTimerHandle := Unit;
 
 The [[Ticker engine family|ticker]] does not require a timer handle type.
 Therefore, we define the timer handle type as `Unit`.
-
 
 ## Environment summary
 
@@ -62,6 +55,7 @@ TickerEnvironment : Type :=
     TickerMailboxState
     TickerTimerHandle;
 ```
+
 
 ## Example of a `Ticker` environment
 
@@ -81,4 +75,3 @@ tickerEnvironmentExample : TickerEnvironment :=
   ;
 end;
 ```
-
