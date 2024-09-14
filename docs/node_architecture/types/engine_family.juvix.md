@@ -44,8 +44,6 @@ type EngineFamily (S I M H A L X : Type) := mkEngineFamily {
     they are competing. In the latter case, we can assign priorities to guards to
     resolve unwanted non-determinism.
 
-!!! todo "rework/adapt the rest of this page"
-
 ## Engine instance type
 
 Additionally, we define the `Engine` type, which represents an engine within a family.

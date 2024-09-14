@@ -298,9 +298,9 @@ end;
 
 ## Guards
 
-Type alias for the guard.
-
 ??? note "Auxiliary Juvix code"
+
+    Type alias for the guard.
 
     ```juvix
     TemplateGuard : Type :=
@@ -346,11 +346,11 @@ messageOneGuard : TemplateGuard
 
 ## Action function
 
-Type alias for the action function.
-
 The action function amounts to one single case statement.
 
 ??? info "Auxiliary Juvix code"
+
+    Type alias for the action function.
 
     ```juvix
     TemplateActionFunction : Type :=

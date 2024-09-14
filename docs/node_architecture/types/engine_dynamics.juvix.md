@@ -21,55 +21,53 @@ tags:
 
 Each engine processes only one message at a time. The behaviour of an engine is
 specified by a finite set of _guards_ and an _action function,_ which determine
-how engine react to received messages or timer notifications.
+how engine instances react to received messages or timer notifications.
 
 ## Guards
 
 Guards are terms of type `Guard`, which is a function type
 
-```
--- --8<-- "./docs/node_architecture/types/engine_dynamics.juvix.md!:guard-type"
-```
+--8<-- "./docs/node_architecture/types/engine_dynamics.juvix.md:whole-guard-type"
 
 where the _trigger_ of type `TimestampedTrigger I H` is a term that captures the
-message received with a timestamp. This trigger can include the received
-message or timers that have elapsed during the engine's operation. Guards return
-data of type `GuardOutput A L X` if the condition is met.
+message received with a timestamp or
+a clock notification about timers that have elapsed during the engine's operation.
+Guards return data of type `GuardOutput A L X`
+if the precondition of the action that they are guarding is met.
 
 Recall that the behaviour is described by a set of guards and an action
 function. The guard is a function that evaluates conditions in the engine
-environment to determine whether an action should be performed.
+environment to determine what action should be performed;
+for this, each guard creates an _action label,_
+that then is "interpreted" by the action function.
 
-The guard function receives, not in any particular order:
+The guard function receives:
 
-- the timestamped trigger that caused it to be evaluated,
+- the timestamped trigger that caused guard evaluation,
 - the environment of the engine instance, and
 - an optional time reference for the starting point of the evaluation of all guards.
 
-Given these inputs, the guard function determines if the condition for running
-the action(s) it is guarding are met. The action function can compute the
-effects of actions—not only changes to the engine environment, but also which
-messages will be sent, what engines will be created, and how the list of timers
-is updated.
-
+Given these inputs, the guard function computes a set of action labels.
+The action function then computes the effects of the action label;
+besides changes to the engine environment,
+an action effect comprises sending messages, creatting engines, and updating timers.
 
 ## Action function
 
-The input is parameterised by the types for: local state, incoming messages,
-mailboxes' state, the output of guard functions, timer's handles, matched
-arguments, action labels, and precomputation result. The types of the input and
-output of an action are:
+The input is parameterised by the types for: local state (`S`), incoming messages (`I`),
+mailbox state (`M`), timer handles (`H`), matched arguments (`A`), action labels (`L`), and precomputation results (`X`).
+The types of the input and output of an action are the following two:
 
 - `ActionInput S I M H A L X` and
 - `ActionEffect S I M H A L X`.
 
-The `ActionInput S I M H A L X ` type is a record that encapsulates the following data:
+The record type `ActionInput S I M H A L X` encapsulates the following data:
 
 - A term of type `GuardOutput A L X`, which represents
   - the matched arguments, e.g., from a received message,
   - the action label that determines the action to be performed
   - other (expensive) precomputation results that
-    the guard function has already calculated.
+    the guard function has to calculate and can be resued by the action function.
 - The environment of the corresponding engine instance.
 - The local time of the engine instance when guard evaluation was triggered.
 
@@ -81,7 +79,7 @@ type GuardOutput (A L X : Type) := mkGuardOutput{
 };
 ```
 
-
+<!-- --8<-- [start: whole-guard-type] -->
 ```juvix 
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Guard (S I H M A L X : Type) : Type :=
@@ -89,6 +87,7 @@ Guard (S I H M A L X : Type) : Type :=
   TimestampedTrigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
   -- --8<-- [end: guard-type]
 ```
+<!-- --8<-- [end: whole-guard-type] -->
 
 ### Action input
 
