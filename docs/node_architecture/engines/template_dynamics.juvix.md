@@ -23,7 +23,9 @@ Source code: [[template_dynamics|`./docs/node_architecture/engines/template_dyna
     import node_architecture.basics open;
     import node_architecture.engines.template_overview open;
     import node_architecture.engines.template_environment open;
-    import node_architecture.types.engine_family open;
+   
+    import node_architecture.types.engine_family open; -- JAN remove this later,
+    -- import node_architecture.types.engine_dynamics open;
     ```
 
 # `Template` Dynamics
@@ -297,177 +299,17 @@ end;
 
 ## Guards
 
-### `TemplateMessageOneGuard`
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-    C{TemplateMessageOne<br>received?}
-    C -->|Yes| D[...]
-    C -->|No| E[not enabled]
-    D --> F([doAnotherAction n m])
-```
-
-<figcaption> TemplateMessageOneGuard flowchart </figcaption>
-</figure>
-
-For `TemplateMessageOne`-messages, we do the other action, passing the String
-representation of the second and third argument.
-
-<!-- --8<-- [start:message-one-guard] -->
 ```juvix
--- guard : Type := undef;
 messageOneGuard : 
-    Maybe Time
-    -> Trigger TemplateMsg TemplateTimerHandle
-    -> TemplateEnvironment
-    -> Maybe (GuardOutput TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation) :=
-     \ { _ _ _ :=  just (
+    TimestampedTrigger TemplateMsg TemplateTimerHandle -> 
+    TemplateEnvironment ->
+    Maybe (GuardOutput TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation )
+     | _ _ :=  just (
       mkGuardOutput@{
         args := [TemplateSomeThingFromAMailbox "Hello World!"]; 
         label := TemplateDoAlternative (Left (DoThis "paramneter 2")); 
         other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]
         }
      )
-     };
+     ;
 ```
-<!-- --8<-- [end:message-one-guard] -->
-
-## Action function
-
-The action function amounts to one single case statement.
-
-??? info "Auxiliary Juvix code"
-
-    ```juvix
-    TheActionInput : Type := ActionInput TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation;
-    TheActionOutput : Type := Maybe (ActionEffect TemplateLocalState TemplateMsg TemplateMailboxState TemplateTimerHandle TemplateMatchableArgument TemplateActionLabel TemplatePrecomputation);
-    ```
-
-<!-- --8<-- [start:action-function] -->
-```juvix
-action : TheActionInput -> TheActionInput -> TheActionOutput
-  | mkActionInput@{
-    guardOutput := out
-   } _ := case GuardOutput.label out of {
-    | (TemplateDoAlternative (Left _)) := nothing
-    | (TemplateDoAlternative (Right _)) := nothing
-    | (TemplateDoAnotherAction _) := nothing
-    | (TemplateDoBoth (mkPair _ _)) := nothing
-    | _ := nothing
-}
-;
-```
-<!-- --8<-- [end:action-function] -->
-
-## Engine family summary
-
-<!-- --8<-- [start:template-engine-family] -->
-```juvix
-TemplateEngineFamily : Type :=
-  EngineFamily
-    TemplateLocalState
-    TemplateMsg
-    TemplateMailboxState
-    TemplateTimerHandle
-    TemplateMatchableArgument
-    TemplateActionLabel
-    TemplatePrecomputation
-;
-```
-<!-- --8<-- [end:template-engine-family] -->
-
-<!--
-### [Action Name ⟨$i$⟩] `{` one such sub-section per guarded action `}`
-
-!!! note
-
-    The description of the actions starts
-    with an English language high-level description,
-    followed by more detailed descriptions
-    of state update, messages to be sent, timers to be set/cancelled/reset,
-    and engine instances to be spawned.
-
-    This section may be split into several
-    if there are several different cases
-    such that each of them deserves a different action label.
-
-### Overview `{` action ⟨𝒊⟩`}`
-
-!!! note
-
-	Some paragraphs of English language prose
-	as the author sees fit.
-
-!!! example
-
-	Besides answering the request,
-	we have to update the ringbuffer of the mailbox state.
-
-### Code `{` action ⟨$i$⟩ `}`
-
-??? todo "show me the code"
-
-    ♢juvix
-
-### [Action label ⟨$i_j$⟩]
-
-#### Purpose `{`⟨$i_j$⟩`}`
-
-!!! note
-
-    We give quick descriptions of the action for this label.
-
-##### State update `{`⟨$i_j$⟩`}`
-
-!!! note
-
-    Describe the state update
-
-!!! example
-
-    The rate limit is constant in the example.
-
-##### Messages to be sent `{`⟨$i_j$⟩`}`
-
-!!! note
-
-    Describe the messages to be sent
-    as a list (or a set if you prefer).
-
-!!! example
-
-    We send only a single message.
-
-    - Send the time stamped hash to the requested »reply to« address.
-
-##### Engines to be created `{`⟨$i_j$⟩`}`
-
-!!! note
-
-    Describe the engines to be created.
-
-!!! example
-
-    No engines are created.
-
-##### Timers to be set/cancelled/reset `{`⟨$i_j$⟩`}`
-
-!!! note
-
-    Describe the engines timers to be set/cancelled/reset.
-
-!!! example
-
-    The time stamping server does not need to set any timers.
-
-## Concurrency, conflict, mutual exclusion. `{` v2' `}`
-
-!!! note "Coming soon™"
-
-    Finally, we need to define the relations of
-    concurrency, conflict, mutual exclusion
-    between action labels.
-
--->

@@ -83,7 +83,7 @@ type GuardOutput (A L X : Type) := mkGuardOutput{
 
 
 ```juvix 
-{-# isabelle: ignore #-}
+{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Guard (I H S M A L X : Type) : Type :=
   -- --8<-- [start: guard-type]
   TimestampedTrigger I H -> EngineEnvironment S I M H -> Maybe (GuardOutput A L X);
@@ -123,6 +123,7 @@ type ActionEffect (S I M H A L X : Type) := mkActionEffect {
 
 
 ```juvix
+{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 ActionFunction (S I M H A L X : Type) : Type :=  ActionInput S I M H A L X -> ActionEffect S I M H A L X;
 ```
 

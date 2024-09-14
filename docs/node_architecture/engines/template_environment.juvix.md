@@ -176,7 +176,7 @@ module template_environment_example;
       name := Left "template"; -- Name
       localState := mkTemplateLocalState@{
         taskQueue := mkNiceState@{
-          stringRepresentation := "taskQueue"
+          word := "taskQueue"
         }
       };
       mailboxCluster := Map.empty;
