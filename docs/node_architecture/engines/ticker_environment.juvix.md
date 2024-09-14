@@ -18,22 +18,19 @@ search:
 
 ## Overview
 
-There are only two messag tags:
-`Increment`, which increases the counter state of the ticker,
-and `Count`, which the ticker responds to with the current counter state.
+The sole data item of the ticker environment that deserves mention is
+the counter;
+we do not need timers, or mailbox state.
 
 ## Mailbox states
-
-The [[Ticker engine family|ticker]] does not rely on mailbox-relative state.
 
 ```juvix
 syntax alias TickerMailboxState := Unit;
 ```
 
-## Local state
+The [[Ticker engine family|ticker]] does not rely on mailbox-relative state.
 
-The local state of the [[Ticker engine family|ticker]] is a counter,
-storing a non-negative interger value.
+## Local state
 
 ```juvix
 type TickerLocalState : Type := mkTickerLocalState {
@@ -41,15 +38,21 @@ type TickerLocalState : Type := mkTickerLocalState {
 };
 ```
 
-## Timer Handle
+The local state of [[Ticker engine family|tickers]]
+consists of a single counter,
+storing a non-negative interger value.
 
-The [[Ticker engine family|ticker]] does not require a timer handle type.
-Therefore, we define the timer handle type as `Unit`.
+## Timer Handle
 
 ```juvix
 syntax alias TickerTimerHandle := Unit;
 ```
 
+The [[Ticker engine family|ticker]] does not require a timer handle type.
+Therefore, we define the timer handle type as `Unit`.
+
+
+## Environment summary
 
 ```juvix
 TickerEnvironment : Type :=
@@ -59,3 +62,23 @@ TickerEnvironment : Type :=
     TickerMailboxState
     TickerTimerHandle;
 ```
+
+## Example of a `Ticker` environment
+
+```juvix extract-module-statements
+module ticker_environment_example;
+
+tickerEnvironmentExample : TickerEnvironment :=
+    mkEngineEnvironment@ {
+      name := Left "ticker"; -- Name
+      localState := mkTickerLocalState@{
+        counter := 0
+      };
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    }
+  ;
+end;
+```
+
