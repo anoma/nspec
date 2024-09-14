@@ -40,7 +40,7 @@ type TickerLocalState : Type := mkTickerLocalState {
 
 The local state of [[Ticker engine family|tickers]]
 consists of a single counter,
-storing a non-negative interger value.
+storing a non-negative integer value.
 
 ## Timer Handle
 
