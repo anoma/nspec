@@ -7,25 +7,26 @@ tags:
 - conventions
 ---
 
-```juvix
-module node_architecture.engines.ticker;
-  import prelude open;
-  import node_architecture.engines.ticker_overview open public;
-  import node_architecture.engines.ticker_environment open public;
-  import node_architecture.engines.ticker_dynamics open public;
+??? note "Juvix preamble"
 
-  import node_architecture.types.engine_family as EngineFamily;
-      open EngineFamily using {
-          EngineFamily;
-          mkEngineFamily
-      };
-    open EngineFamily.EngineEnvironment;
-    import node_architecture.engines.ticker_environment open public;
-    import node_architecture.engines.ticker_dynamics open public;
-```
+    ```juvix
+    module node_architecture.engines.ticker;
+      import prelude open;
+      import node_architecture.engines.ticker_overview open public;
+      import node_architecture.engines.ticker_environment open public;
+      import node_architecture.engines.ticker_dynamics open public;
 
-# Ticker engine family Type
+      import node_architecture.types.engine_family as EngineFamily;
+          open EngineFamily using {
+              EngineFamily;
+              mkEngineFamily
+          };
+        open EngineFamily.EngineEnvironment;
+        import node_architecture.engines.ticker_environment open public;
+        import node_architecture.engines.ticker_dynamics open public;
+    ```
 
+# Ticker engine family type
 
 <!-- --8<-- [start:ticker-engine-family] -->
 ```juvix

@@ -18,6 +18,8 @@ tags:
 
 # `Ticker` Engine Family Overview
 
+--8<-- "./docs/node_architecture/engines/ticker.juvix.md:ticker-engine-family"
+
 The Ticker engine family provides a simple counter functionality, allowing
 clients to increment a counter and retrieve its current value.
 
@@ -102,11 +104,11 @@ A client interacts with the `Ticker` engine, which increments and responds with 
 
 ??? note "[[Ticker Engine Environment]]"
 
-    --8<-- "./docs/node_architecture/engines/ticker_environment.juvix.md!"
+    --8<-- "./docs/node_architecture/engines/ticker_environment.juvix.md"
 
 ??? note "[[Ticker Engine Dynamics]]"
 
-    --8<-- "./docs/node_architecture/engines/ticker_dynamics.juvix.md!"
+    --8<-- "./docs/node_architecture/engines/ticker_dynamics.juvix.md"
 
 ## Useful links
 

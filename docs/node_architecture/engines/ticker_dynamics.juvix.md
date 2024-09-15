@@ -103,7 +103,7 @@ type TickerActionLabel :=
 
 !!! quote ""
 
-    --8<-- "./ticker_dynamics.juvix.md:DoIncrement"
+    --8<-- "./docs/node_architecture/engines/ticker_dynamics.juvix.md:DoIncrement"
 
 This action label corresponds to incrementing the counter and is relevant for the `Increment` message.
 
@@ -156,7 +156,7 @@ type TickerMatchableArgument :=
 !!! quote ""
 
     ```
-    --8<-- "./ticker_dynamics.juvix.md:ReplyTo"
+    --8<-- "./docs/node_architecture/engines/ticker_dynamics.juvix.md:ReplyTo"
     ```
 
 This matchable argument contains the address and mailbox ID of where the response message should be sent.
