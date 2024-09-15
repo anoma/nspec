@@ -105,20 +105,3 @@ type Msg :=
 type Env :=
 +  | EnvTicker TickerEnvironment
 ```
-
-### Anoma Engine Index
-
-And finally, for discovery, you must also add the engine family to the
-`node_architecture/types/anoma_engine.juvix.md` file in the "Anoma Engine
-Families in Juvix" section. That is, if the engine family is the `ticker`, you
-would add the following line:
-
-```diff title="node_architecture/types/anoma_engine.juvix.md"
-module node_architecture.engines.types.anoma_engine;
-import node_architecture.basics open;
-+ import node_architecture.engines.ticker open;
-
-type EngineFamily :=
-+  | EngineFamilyTicker TickerEngineFamily
-  ;
-```
