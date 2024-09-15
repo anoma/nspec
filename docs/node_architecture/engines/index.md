@@ -64,10 +64,6 @@ Juvix for the Anoma Specification. Please be aware that not all engine families
 are listed here, and the specification is continually expanding with new engine
 families.
 
-??? info "AnomaEngine"
-
-    --8<-- "./docs/node_architecture/types/anoma_engine.juvix.md"
-
 ??? info "AnomaMessage"
 
     --8<-- "./docs/node_architecture/types/anoma_message.juvix.md"

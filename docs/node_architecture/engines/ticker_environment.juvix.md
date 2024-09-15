@@ -48,14 +48,8 @@ Therefore, we define the timer handle type as `Unit`.
 ## Environment summary
 
 ```juvix
-TickerEnvironment : Type :=
-  EngineEnvironment
-    TickerLocalState
-    TickerMsg
-    TickerMailboxState
-    TickerTimerHandle;
+TickerEnvironment : Type := EngineEnvironment TickerLocalState TickerMsg TickerMailboxState TickerTimerHandle;
 ```
-
 
 ## Example of a `Ticker` environment
 
@@ -63,8 +57,8 @@ TickerEnvironment : Type :=
 module ticker_environment_example;
 
 tickerEnvironmentExample : TickerEnvironment :=
-    mkEngineEnvironment@ {
-      name := Left "ticker"; -- Name
+    mkEngineEnvironment@{
+      name := Left "ticker";
       localState := mkTickerLocalState@{
         counter := 0
       };
