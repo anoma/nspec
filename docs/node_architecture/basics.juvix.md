@@ -148,22 +148,17 @@ getMessageTarget : {M : Type} -> EnvelopedMessage M -> Address
 
 ### Mailbox M S
 
-A mailbox is a container for messages and optionally a mailbox state. The mailbox
-state could be used to store additional information about the mailbox, such as the
-priority of the messages in the mailbox.
+A mailbox is a container for messages and optionally a mailbox state. The
+mailbox state could be used to store additional information about the mailbox,
+such as the priority of the messages in the mailbox.
 
 ??? info "Where does mailbox state come from?"
 
-    The mailbox state is related to
-    the capabilities of mailboxes
-    of the paper
-    [@fowler2023specialdeliveryprogrammingmailbox].
-    In particular,
-    at any given point in time,
-    a mailbox will have a capability for receiving messages
-    (in later versions of the specs).
-    As mailbox state can be useful in general,
-    we already have it now.
+    The mailbox state is related to the capabilities of mailboxes of the paper
+    [@fowler2023specialdeliveryprogrammingmailbox]. In particular, at any given
+    point in time, a mailbox will have a capability for receiving messages (in
+    later versions of the specs). As mailbox state can be useful in general, we
+    already have it now.
 
 
 ```juvix
@@ -200,13 +195,25 @@ type Trigger (MessageType : Type) (HandleType : Type) :=
 
     ```juvix
     getMessageFromTrigger : {M H : Type} -> Trigger M H -> Maybe M
-      | (MessageArrived@{
-          envelope := (mkEnvelopedMessage@{
-            packet := (mkMessagePacket@{
-              message := m })})})
-              := just m
+      | (MessageArrived@{ envelope := (mkEnvelopedMessage@{ packet := (mkMessagePacket@{ message := m })})}) := just m
       | _ := nothing;
     ```
+
+  - Get the message sender from a trigger:
+
+      ```juvix
+      getMessageSenderFromTrigger : {M H : Type} -> Trigger M H -> Maybe Name
+        | (MessageArrived@{ envelope := e; }) := EnvelopedMessage.sender e
+        | _ := nothing;
+      ```
+
+  - Get the target destination from a trigger:
+
+      ```juvix
+      getMessageTargetFromTrigger : {M H : Type} -> Trigger M H -> Maybe Name
+        | (MessageArrived@{ envelope := mkEnvelopedMessage@{ packet := mkMessagePacket@{ target := t }}}) := just t
+      | _ := nothing;
+      ```
 
 ### TimestampedTrigger M H
 
@@ -221,6 +228,21 @@ type TimestampedTrigger (MessageType : Type) (HandleType : Type) :=
 - Get the actual message from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageFromTimestampedTrigger : {M H : Type} -> TimestampedTrigger M H -> Maybe M
-      | (mkTimestampedTrigger@{ trigger := tr }) := getMessageFromTrigger tr;
+    getMessageFromTimestampedTrigger {M H} (tr : TimestampedTrigger M H) : Maybe M
+      := getMessageFromTrigger (TimestampedTrigger.trigger  tr);
+    ```
+
+- Get the sender from a `TimestampedTrigger`:
+
+    ```juvix
+    getMessageSenderFromTimestampedTrigger {M H} 
+      (tr : TimestampedTrigger M H) : Maybe Name 
+      := getMessageSenderFromTrigger (TimestampedTrigger.trigger tr);
+    ```
+
+- Get the target from 
+
+    ```juvix
+    getMessageTargetFromTimestampedTrigger {M H} (tr : TimestampedTrigger M H) : Maybe Name
+       := getMessageTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```
