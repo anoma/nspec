@@ -30,19 +30,23 @@ action,
 
 ```juvix
 type EngineFamily (S I M H A L X : Type) := mkEngineFamily {
-  guards : Set (Guard I H S M A L X);
+  guards : List (Guard S I M H A L X);
   action : ActionFunction S I M H A L X;
   conflictSolver : Set A -> List (Set A);
 };
 ```
 
-??? info "On the use of `Set` for guards in `EngineFamily`"
+!!! todo "On the use of `Set` for guards in `EngineFamily`"
 
     In the `EngineFamily` type, we used `Set` as it allows for the possibility that
     several guards are processed in parallel. However, the specification of an
     engine family must describe when guards are to be considered concurrent and when
     they are competing. In the latter case, we can assign priorities to guards to
     resolve unwanted non-determinism.
+
+    The guards must form a set. However, this also entails, there is ordering
+    notion for the elements of this set. For practical reasons and to maintain simplicity,
+    we opt to use `List` instead of `Set` in the type for guards.
 
 ## Engine instance type
 
