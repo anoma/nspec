@@ -16,11 +16,7 @@ module node_architecture.engines.ticker;
 
   import node_architecture.types.engine_family as EngineFamily;
       open EngineFamily using {
-          Engine;
-          EngineEnvironment;
           EngineFamily;
-          mkEngine;
-          mkEngineEnvironment;
           mkEngineFamily
       };
     open EngineFamily.EngineEnvironment;
@@ -28,17 +24,27 @@ module node_architecture.engines.ticker;
     import node_architecture.engines.ticker_dynamics open public;
 ```
 
-
 # Ticker engine family Type
 
+
+<!-- --8<-- [start:ticker-engine-family] -->
 ```juvix
-    TickerEngineFamily : Type :=
-      EngineFamily
-        TickerLocalState
-        TickerMsg
-        TickerMailboxState
-        TickerTimerHandle
-        Unit
-        Unit
-        Unit;
+TickerEngineFamily : 
+  EngineFamily
+    TickerLocalState
+    TickerMsg
+    TickerMailboxState
+    TickerTimerHandle
+    TickerMatchableArgument
+    TickerActionLabel
+    TickerPrecomputation
+  := mkEngineFamily@{
+    guards := [incrementGuard ; countGuard];
+    action := tickerAction;
+    conflictSolver := \{ _ := [] }
+  }
+  ;
 ```
+<!-- --8<-- [end:ticker-engine-family] -->
+
+
