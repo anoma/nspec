@@ -26,7 +26,10 @@ import node_architecture.engines.template_overview;
 import node_architecture.engines.template_environment;
 import node_architecture.engines.template_dynamics;
 
--- {- Engines -}
--- -- import node_architecture.engines.ticker;
+{- Engines -}
+import node_architecture.engines.ticker;
+import node_architecture.engines.ticker_overview;
+import node_architecture.engines.ticker_environment;
+import node_architecture.engines.ticker_dynamics;
 ```
 

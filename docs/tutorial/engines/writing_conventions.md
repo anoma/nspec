@@ -81,7 +81,10 @@ if the engine family is the `ticker`, you would add the following line:
 module everything;
 
 {- Engines -}
-+import node_architecture.engines.ticker;
++ import node_architecture.engines.ticker;
++ import node_architecture.engines.ticker_overview;
++ import node_architecture.engines.ticker_environment;
++ import node_architecture.engines.ticker_dynamics;
 ```
 
 

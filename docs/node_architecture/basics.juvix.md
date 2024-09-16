@@ -28,8 +28,6 @@ please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorial
 
 ## Types for network identities
 
-<!-- This section needs to be reworked. --><!--ᚦ: in which ways?-->
-
 Types in this section are used to represent [[Identity|identities]] within the network.
 
 ### ExternalID
@@ -63,7 +61,7 @@ Identity : Type := Pair ExternalID InternalID;
 A name could be a simple string without any particular meaning in the system or
 an external identity.
 
-```juvix p
+```juvix
 Name : Type := Either String ExternalID;
 ```
 
