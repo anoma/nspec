@@ -25,8 +25,7 @@ defined, it clears up that engines are essentially a collection of guarded
 state-transition functions. Our type for these families is parameterised by a
 type for their local states, a type for their engine-specific messages, a type
 for their mailboxes' state, a type for time handles, a type for action-label
-action,
-
+action, and a type for the precomputation.
 
 ```juvix
 type EngineFamily (S I M H A L X : Type) := mkEngineFamily {
@@ -44,8 +43,8 @@ type EngineFamily (S I M H A L X : Type) := mkEngineFamily {
     they are competing. In the latter case, we can assign priorities to guards to
     resolve unwanted non-determinism.
 
-    The guards must form a set. However, this also entails, there is ordering
-    notion for the elements of this set. For practical reasons and to maintain simplicity,
+    The guards must form a set. However, this also entails, there must be an ordering
+    notion for these elements. For practical reasons and to maintain simplicity,
     we opt to use `List` instead of `Set` in the type for guards.
 
 ## Engine instance type

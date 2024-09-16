@@ -12,18 +12,11 @@ tags:
     ```juvix
     module node_architecture.engines.ticker;
       import prelude open;
+      import node_architecture.types.engine_family as Anoma;
+
       import node_architecture.engines.ticker_overview open public;
       import node_architecture.engines.ticker_environment open public;
       import node_architecture.engines.ticker_dynamics open public;
-
-      import node_architecture.types.engine_family as EngineFamily;
-          open EngineFamily using {
-              EngineFamily;
-              mkEngineFamily
-          };
-        open EngineFamily.EngineEnvironment;
-        import node_architecture.engines.ticker_environment open public;
-        import node_architecture.engines.ticker_dynamics open public;
     ```
 
 # Ticker engine family type
@@ -31,7 +24,7 @@ tags:
 <!-- --8<-- [start:ticker-engine-family] -->
 ```juvix
 TickerEngineFamily : 
-  EngineFamily
+  Anoma.EngineFamily
     TickerLocalState
     TickerMsg
     TickerMailboxState
@@ -39,7 +32,7 @@ TickerEngineFamily :
     TickerMatchableArgument
     TickerActionLabel
     TickerPrecomputation
-  := mkEngineFamily@{
+  := Anoma.mkEngineFamily@{
     guards := [incrementGuard ; countGuard];
     action := tickerAction;
     conflictSolver := \{ _ := [] }

@@ -17,6 +17,7 @@ Source code: [[ticker_dynamics|`./docs/node_architecture/engines/ticker_dynamics
     ```juvix
     module node_architecture.engines.ticker_dynamics;
 
+    import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_family open;
     import node_architecture.engines.ticker_overview open;
@@ -25,57 +26,6 @@ Source code: [[ticker_dynamics|`./docs/node_architecture/engines/ticker_dynamics
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.anoma_message open;
     ```
-
-??? quote "Auxiliary Juvix code"
-
-    ```juvix
-    import Stdlib.Data.Fixity open;
-
-    trait
-    type Applicative (f : Type -> Type) :=
-      mkApplicative {
-        {{ApplicativeFunctor}} : Functor f;
-        pure : {A : Type} -> A -> f A;
-        ap : {A B : Type} -> f (A -> B) -> f A -> f B
-      };
-
-    trait
-    type Monad (f : Type -> Type) :=
-      mkMonad {
-        {{MonadApplicative}} : Applicative f;
-
-        builtin monad-bind
-        bind : {A B : Type} -> f A -> (A -> f B) -> f B
-      };
-
-    open Functor;
-    open Applicative;
-    open Monad;
-
-    syntax operator >>= seq;
-    >>= {A B} {f : Type -> Type} {{Monad f}} (x : f A) (g : A -> f B) : f B := bind x g;
-
-    monadMap {A B} {f : Type -> Type} {{Monad f}} (g : A -> B) (x : f A) : f B := map g x;
-
-
-    instance
-    maybeApplicative : Applicative Maybe :=
-      mkApplicative@{
-        pure := just;
-        ap {A B} : Maybe (A -> B) -> Maybe A -> Maybe B
-          | (just f) (just x) := just (f x)
-          | _ _ := nothing
-      };
-
-    instance
-    maybeMonad : Monad Maybe :=
-      mkMonad@{
-        bind {A B} : Maybe A -> (A -> Maybe B) -> Maybe B
-          | nothing _ := nothing
-          | (just a) f := f a
-      };
-    ```
-
 
 # `Ticker` Dynamics
 
@@ -178,6 +128,7 @@ syntax alias TickerPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:ticker-guard]
     TickerGuard : Type :=
       Guard
         TickerLocalState
@@ -187,9 +138,12 @@ syntax alias TickerPrecomputation := Unit;
         TickerMatchableArgument
         TickerActionLabel
         TickerPrecomputation;
+    -- --8<-- [end:ticker-guard]
 
+    -- --8<-- [start:ticker-guard-output]
     TickerGuardOutput : Type := 
       GuardOutput TickerMatchableArgument TickerActionLabel TickerPrecomputation;
+    -- --8<-- [end:ticker-guard-output]
     ```
 
 
@@ -264,15 +218,7 @@ countGuard
     Type alias for the action function.
 
     ```juvix
-    TickerActionFunction : Type :=
-      ActionFunction
-        TickerLocalState
-        TickerMsg
-        TickerMailboxState
-        TickerTimerHandle
-        TickerMatchableArgument
-        TickerActionLabel
-        TickerPrecomputation;
+    
     TickerActionInput : Type :=
       ActionInput 
         TickerLocalState
@@ -322,13 +268,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
                     newEnv := env;
                     producedMessages := [
                       mkEnvelopedMessage@{
-                        sender := undef;
-                        {- TODO
-                        getMessageTargetFromTimestampedTrigger
-                         {M := TickerMsg}
-                         {H := TickerTimerHandle}
-                        (ActionInput.timestampedTrigger input);
-                        -}
+                        sender := getMessageTargetFromTimestampedTrigger (ActionInput.timestampedTrigger input);
                         packet := mkMessagePacket@{
                           target := whoAsked;
                           mailbox := just 0;
