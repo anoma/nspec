@@ -234,7 +234,7 @@ undefinedNat : Nat := undef;
 import Stdlib.Trait.Functor.Polymorphic as Functor;
 ```
 
-## Applicative 
+## Applicative
 
 ```juvix
 import Stdlib.Data.Fixity open public;

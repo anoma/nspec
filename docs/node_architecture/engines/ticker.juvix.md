@@ -23,7 +23,7 @@ tags:
 
 <!-- --8<-- [start:ticker-engine-family] -->
 ```juvix
-TickerEngineFamily : 
+TickerEngineFamily :
   Anoma.EngineFamily
     TickerLocalState
     TickerMsg

@@ -22,7 +22,7 @@ tags:
 
 <!-- --8<-- [start:template-engine-family] -->
 ```juvix
-TemplateEngineFamily : 
+TemplateEngineFamily :
   Anoma.EngineFamily
     TemplateLocalState
     TemplateMsg

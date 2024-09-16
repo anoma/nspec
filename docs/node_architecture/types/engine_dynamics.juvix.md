@@ -120,7 +120,7 @@ type ActionEffect (S I M H A L X : Type) := mkActionEffect {
 
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-ActionFunction (S I M H A L X : Type) : Type :=  
+ActionFunction (S I M H A L X : Type) : Type :=
   (input : ActionInput S I M H A L X) ->
   ActionEffect S I M H A L X;
 ```

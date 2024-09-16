@@ -235,12 +235,12 @@ type TimestampedTrigger (MessageType : Type) (HandleType : Type) :=
 - Get the sender from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageSenderFromTimestampedTrigger {M H} 
-      (tr : TimestampedTrigger M H) : Maybe Name 
+    getMessageSenderFromTimestampedTrigger {M H}
+      (tr : TimestampedTrigger M H) : Maybe Name
       := getMessageSenderFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
-- Get the target from 
+- Get the target from
 
     ```juvix
     getMessageTargetFromTimestampedTrigger {M H} (tr : TimestampedTrigger M H) : Maybe Name

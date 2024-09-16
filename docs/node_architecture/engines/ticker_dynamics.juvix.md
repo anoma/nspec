@@ -141,7 +141,7 @@ syntax alias TickerPrecomputation := Unit;
     -- --8<-- [end:ticker-guard]
 
     -- --8<-- [start:ticker-guard-output]
-    TickerGuardOutput : Type := 
+    TickerGuardOutput : Type :=
       GuardOutput TickerMatchableArgument TickerActionLabel TickerPrecomputation;
     -- --8<-- [end:ticker-guard-output]
     ```
@@ -163,8 +163,8 @@ D --> F([DoIncrement])
 
 <!-- --8<-- [start:increment-guard] -->
 ```juvix
-incrementGuard 
-  (t : TimestampedTrigger TickerMsg TickerTimerHandle ) 
+incrementGuard
+  (t : TimestampedTrigger TickerMsg TickerTimerHandle )
   (env : TickerEnvironment) : Maybe TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just Increment := just (
@@ -195,7 +195,7 @@ D --> F([DoRespond])
 <!-- --8<-- [start:count-guard] -->
 ```juvix
 countGuard
-  (t : TimestampedTrigger TickerMsg TickerTimerHandle) 
+  (t : TimestampedTrigger TickerMsg TickerTimerHandle)
   (env : TickerEnvironment) : Maybe TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just Count := do {
@@ -218,9 +218,9 @@ countGuard
     Type alias for the action function.
 
     ```juvix
-    
+
     TickerActionInput : Type :=
-      ActionInput 
+      ActionInput
         TickerLocalState
         TickerMsg
         TickerMailboxState
@@ -245,7 +245,7 @@ countGuard
 tickerAction (input : TickerActionInput) : TickerActionEffect
   := let env := ActionInput.env input;
          out := (ActionInput.guardOutput input);
-  in 
+  in
   case GuardOutput.label out of {
           | DoIncrement :=
               let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
@@ -261,9 +261,9 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
               }
           | DoRespond :=
             let counterValue := TickerLocalState.counter  (EngineEnvironment.localState env)
-            in 
-            case GuardOutput.args out of {              
-              | (ReplyTo (just whoAsked) mailbox) :: _ := 
+            in
+            case GuardOutput.args out of {
+              | (ReplyTo (just whoAsked) mailbox) :: _ :=
                   mkActionEffect@{
                     newEnv := env;
                     producedMessages := [
