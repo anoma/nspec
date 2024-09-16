@@ -20,7 +20,6 @@ permissions:
   contents: write
   pull-requests: write
   repository-projects: write
-  workflows: write
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
@@ -63,7 +62,7 @@ jobs:
         continue-on-error: true
         env:
           MSG: "The build is in progress. Please wait for the preview link."
-          GH_FLAGS: pr -R anoma/nspec comment ${{ steps.pr.outputs.pull_request_number  }}
+          GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
       - name: Install the right Juvix for the Specs
         uses: jaxxstorm/action-install-gh-release@v1.10.0
         with:
@@ -106,11 +105,6 @@ jobs:
           path: .hooks
           restore-keys: |
             hooks-
-      - name: Get PR number
-        id: pr
-        run: echo "::set-output name=pr_number::$(echo "${{ github.event.head_commit.message }}" | awk -F"[\#)]" '{print $2}')"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build MkDocs
         run: |
           mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
@@ -121,7 +115,7 @@ jobs:
       - name: The build failed comment
         if: failure()
         run: |
-          gh pr -R anoma/nspec comment ${{ steps.pr.outputs.pull_request_number  }} --edit-last --body "The build failed. Please check the logs."
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
       - name: Build MkDocs with material insiders version
         id: material
         run: |
@@ -133,10 +127,10 @@ jobs:
           SITE_NAME: Anoma Specification (PR ${github.event.pull_request.number})
       - if: steps.material.outcome == 'failure'
         run: |
-          gh pr -R anoma/nspec comment ${{ steps.pr.outputs.pull_request_number  }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
       - if: steps.material.outcome == 'success'
         run: |
-          gh pr -R anoma/nspec comment ${{ steps.pr.outputs.pull_request_number  }}
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
           --edit-last --body "Builds using material and material-insiders theme
           succeed. We are now deploying the preview"
         continue-on-error: true
@@ -146,21 +140,21 @@ jobs:
         with:
           repository-name: anoma/nspec
           branch: gh-pages
-          folder: pr-${{ steps.pr.outputs.pull_request_number  }}
-          target-folder: pr-${{ steps.pr.outputs.pull_request_number  }}
+          folder: pr-${{ github.event.pull_request.number }}
+          target-folder: pr-${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
         continue-on-error: false
       - id: comment-success
         if: success()
         continue-on-error: true
-        run: gh pr -R anoma/nspec comment ${{ steps.pr.outputs.pull_request_number  }} --edit-last --body "$MSG"
+        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
-          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pr-${{ steps.pr.outputs.pull_request_number  }}/."
+          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
       - name: Failed preview build comment
         if: failure()
         run: |
-          gh pr -R anoma/nspec comment ${{ steps.pr.outputs.pull_request_number  }}
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
           --edit-last --body "The preview of this PR failed to build. Check the
           logs."
         continue-on-error: true
