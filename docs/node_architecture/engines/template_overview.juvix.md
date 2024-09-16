@@ -20,6 +20,8 @@ Source code: [[template_overview|`./docs/node_architecture/engines/template_over
 
 # `Template` Engine Family Overview
 
+--8<-- "./docs/node_architecture/engines/template.juvix.md:template-engine-family"
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Nulla facilisi.
 
 ## Purpose
@@ -67,9 +69,9 @@ type TemplateMsg :=
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `TemplateMsgOne`-message:
 
-<!-- --8<-- [start:message_one_example] -->
+<!-- --8<-- [start:example-message-one] -->
 ```juvix extract-module-statements
-module message_one_example;
+module example-message-one;
   example_message_one : TemplateMsg := TemplateMsgOne@{
     argOne := 1;
     argTwo := 2;
@@ -77,7 +79,7 @@ module message_one_example;
     };
 end;
 ```
-<!-- --8<-- [end:message_one_example] -->
+<!-- --8<-- [end:example-message-one] -->
 
 `argOne`
 

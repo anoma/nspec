@@ -58,7 +58,9 @@ node_architecture/
 ```
 
 The `ticker.juvix.md` file is intended to list/index all the related files of the
-engine family. For example, check out [[Ticker Engine Base File|`ticker.juvix.md`]] as an example.
+engine family, and it also contains the definition of the engine family itself.
+Check out [[Ticker Engine Base File|`ticker.juvix.md`]] as an example for the expected
+structure.
 
 So next time, if you want to use the `ticker` engine family, then you can import it
 using line at the top of the Juvix file:
