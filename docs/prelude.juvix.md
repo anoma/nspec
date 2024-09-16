@@ -226,3 +226,75 @@ For example,
 ```juvix
 undefinedNat : Nat := undef;
 ```
+
+-- TODO: perhaps remove the following sections once the stdlib is updated
+## Functor
+
+```juvix
+import Stdlib.Trait.Functor.Polymorphic as Functor;
+```
+
+## Applicative 
+
+```juvix
+import Stdlib.Data.Fixity open public;
+trait
+type Applicative (f : Type -> Type) :=
+  mkApplicative {
+    {{ApplicativeFunctor}} : Functor f;
+    pure : {A : Type} -> A -> f A;
+    ap : {A B : Type} -> f (A -> B) -> f A -> f B
+  };
+```
+
+For example, the `Maybe` type is an instance of `Applicative`.
+
+```juvix
+instance
+maybeApplicative : Applicative Maybe :=
+  mkApplicative@{
+    pure := just;
+    ap {A B} : Maybe (A -> B) -> Maybe A -> Maybe B
+      | (just f) (just x) := just (f x)
+      | _ _ := nothing
+  };
+```
+
+## Monad
+
+```juvix
+trait
+type Monad (f : Type -> Type) :=
+  mkMonad {
+    {{MonadApplicative}} : Applicative f;
+
+    builtin monad-bind
+    bind : {A B : Type} -> f A -> (A -> f B) -> f B
+  };
+```
+
+```juvix
+syntax operator >>= seq;
+>>= {A B} {f : Type -> Type} {{Monad f}} (x : f A) (g : A -> f B) : f B := Monad.bind x g;
+```
+
+```juvix
+monadMap {A B} {f : Type -> Type} {{Monad f}} (g : A -> B) (x : f A) : f B := map g x;
+```
+
+For example, the `Maybe` type is an instance of `Monad`.
+
+```juvix
+instance
+maybeMonad : Monad Maybe :=
+  mkMonad@{
+    bind {A B} : Maybe A -> (A -> Maybe B) -> Maybe B
+      | nothing _ := nothing
+      | (just a) f := f a
+  };
+```
+
+```juvix
+open Applicative public;
+open Monad public;
+```
