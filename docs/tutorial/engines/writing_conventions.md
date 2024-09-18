@@ -13,9 +13,9 @@ tags:
 
 <div class="annotate" markdown>
 
-- **Engine files and folders**: Named in lowercase using `snake_case` format.
+- **Engine files and folders**: Named in lowercase using `snake_case` format. See [[File naming conventions]].
 
-- **File extension**: Files must be written in Juvix Markdown, that is, the file
+- **File extension**: Files must be written in Juvix Markdown when applicable, that is, the file
   must end with the extension `.juvix.md`. See [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]].
 
 - **File naming prefix**: The engine family's name is used as a prefix for all
@@ -25,7 +25,7 @@ tags:
       - `ticker_overview.juvix.md`
       - `ticker_environment.juvix.md`
       - `ticker_dynamics.juvix.md`
-      - `ticker.juvix.md`
+      - `ticker.juvix.md` (Base file where all imports are declared)
 
 </div>
 
@@ -63,13 +63,16 @@ Check out [[Ticker Engine Base File|`ticker.juvix.md`]] as an example for the ex
 structure.
 
 So next time, if you want to use the `ticker` engine family, then you can import it
-using line at the top of the Juvix file:
+adding only one line at the top of the Juvix file where the imports are declared:
 
-```
-import node_architecture.engines.ticker open using {Ticker};
+```diff
+...
++ import node_architecture.engines.ticker open using {Ticker};
 ```
 
 ## Update indexes
+
+As part of defining an engine family, you must update a few files that act as indexes.
 
 ### Juvix *Everything* Index
 
@@ -77,7 +80,7 @@ As final requirement, you must add the engine family to the
 `docs/everything.juvix.md` file in the "Engines" section. That is,
 if the engine family is the `ticker`, you would add the following line:
 
-```diff
+```diff title="docs/everything.juvix.md"
 module everything;
 
 {- Engines -}

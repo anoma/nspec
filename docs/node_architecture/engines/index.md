@@ -15,7 +15,7 @@ The Anoma Specification revolves around the concept of an _engine_, an
 actor-like entity encapsulating the state and behaviour of a computational
 process. Engines operate within a specific execution context called the _engine
 environment_. In Anoma, engines are organised into families based on shared
-behaviour and environment, although each instance has its own local state and
+behaviour and environment, although each engine instance has its own local state and
 name.
 
 Each engine family must declare specific _components_ that each of its member
@@ -51,10 +51,9 @@ engine instances will have. For Anoma specifications, the components are:
 
 ## Juvix Engine Families
 
-For the Anoma Specification, engine families are written in Juvix. All necessary
-types and functions to define these engines can be found in the module
-[[Engine Family Types|node_architecture.types.engine_family]].(1)
-{.annotate }
+For the Anoma Specification, engine families are written in Juvix Markdown. All
+necessary types and functions to define these engines can be found in the module
+[[Engine Family Types|node_architecture.types.engine_family]].(1) {.annotate }
 
   1.  For a tutorial on how to structure the writing of engine families in
       Juvix, see [[ Engines in Anoma ]].
@@ -72,3 +71,7 @@ families.
 
     --8<-- "./docs/node_architecture/types/anoma_environment.juvix.md"
 
+## Useful Links
+
+- [[Engines in Anoma|Tutorials on Writing Engine Families]]
+- [[Ticker engine family|Example Engine Family]]
