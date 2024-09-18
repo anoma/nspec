@@ -284,3 +284,14 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
     };
 ```
 <!-- --8<-- [end:action-function] -->
+
+
+## Conflict solver
+
+```juvix
+tickerConflictSovler : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
+```
+
+## `Ticker` Engine Family Summary
+
+--8<-- "./docs/node_architecture/engines/ticker.juvix.md:ticker-engine-family"

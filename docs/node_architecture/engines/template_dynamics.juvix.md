@@ -383,3 +383,16 @@ templateAction : TemplateActionFunction
    };
 ```
 <!-- --8<-- [end:action-function] -->
+
+## Conflict solver
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+```juvix
+templateConflictSolver : Set TemplateMatchableArgument -> List (Set TemplateMatchableArgument)
+  | _ := [];
+```
+
+## `Template` Engine Summary
+
+--8<-- "./docs/node_architecture/engines/template.juvix.md:template-engine-family"

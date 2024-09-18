@@ -35,7 +35,7 @@ TickerEngineFamily :
   := Anoma.mkEngineFamily@{
     guards := [incrementGuard ; countGuard];
     action := tickerAction;
-    conflictSolver := \{ _ := [] }
+    conflictSolver := tickerConflictSolver;
   }
   ;
 ```
