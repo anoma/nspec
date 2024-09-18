@@ -289,7 +289,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 ## Conflict solver
 
 ```juvix
-tickerConflictSovler : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
+tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
 ## `Ticker` Engine Family Summary

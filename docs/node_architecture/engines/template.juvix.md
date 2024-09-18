@@ -33,8 +33,8 @@ TemplateEngineFamily :
     TemplatePrecomputation
   := Anoma.mkEngineFamily@{
     guards := [messageOneGuard];
-    action := undef; --templateAction;
-    conflictSolver := \{ _ := [] }
+    action := templateAction;
+    conflictSolver := templateConflictSolver;
   }
   ;
 ```
