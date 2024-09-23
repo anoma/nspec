@@ -73,12 +73,12 @@ The record type `ActionInput S I M H A L X` encapsulates the following data:
 - The local time of the engine instance when guard evaluation was triggered.
 
 ```juvix
-type GuardOutput (A L X : Type) := 
-  mkGuardOutput{ 
-    args : List A; 
-    label : L; 
-    other : X 
-  }; 
+type GuardOutput (A L X : Type) :=
+  mkGuardOutput{
+    args : List A;
+    label : L;
+    other : X
+  };
 ```
 
 <!-- --8<-- [start: whole-guard-type] -->
