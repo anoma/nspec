@@ -10,8 +10,6 @@ tags:
 - engine-environment
 ---
 
-Source code: [[template_environment|`./docs/node_architecture/engines/template_environment.juvix.md`]]
-
 ??? note "Juvix preamble"
 
     ```juvix
@@ -32,7 +30,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ## Mailbox states
 
 <!-- --8<-- [start:mailbox_auxiliary] -->
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     ```juvix
     syntax alias MailboxOneOne := Nat;
@@ -76,7 +74,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Local state
 
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -100,7 +98,7 @@ type TemplateLocalState := mkTemplateLocalState {
 
 ## Timer handles
 
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     ```juvix
     syntax alias ArgOne := Nat;

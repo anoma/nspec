@@ -8,7 +8,7 @@ tags:
 - Juvix
 ---
 
-??? info "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.types.engine_environment;

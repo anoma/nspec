@@ -7,7 +7,7 @@ tags:
 - Juvix-Prelude
 ---
 
-??? info "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module prelude;

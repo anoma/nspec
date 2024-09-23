@@ -10,9 +10,6 @@ tags:
 - engine-dynamics
 ---
 
-Source code: [[template_dynamics|`./docs/node_architecture/engines/template_dynamics.juvix.md`]]
-
-
 ??? note "Juvix preamble"
 
     ```juvix
@@ -35,7 +32,7 @@ This engine does things in the ways described on this page.
 
 ## Action labels
 
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     <!-- --8<-- [start:auxiliary-juvix-code] -->
     ```juvix
@@ -73,14 +70,14 @@ type TemplateActionLabel :=
 
     --8<-- "./template_dynamics.juvix.md:TemplateDoAlternative"
 
-This action label corresponds to performing the `doAlaternative` action
+This action label corresponds to performing the `doAlternative` action
 and is relevant for guard `X` and `Y`.
 
 <!-- --8<-- [start:do-alternative-example] -->
 ```juvix extract-module-statements
 module do_alternative_example;
-example : TemplateActionLabel :=
-  TemplateDoAlternative (prelude.Left (DoThis "do it!"));
+  example : TemplateActionLabel :=
+    TemplateDoAlternative (prelude.Left (DoThis "do it!"));
 end;
 ```
 <!-- --8<-- [end:do-alternative-example] -->
@@ -169,7 +166,7 @@ This action label corresponds to performing the `doAnotherAction` action.
 
 ## Matchable arguments
 
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     <!-- --8<-- [start:matchable-arguments-auxiliary-code] -->
     ```juvix
@@ -249,7 +246,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Precomputation results
 
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     <!-- --8<-- [start:pseudo-example-auxiliary-code] -->
     ```juvix
@@ -298,7 +295,7 @@ end;
 
 ## Guards
 
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     Type alias for the guard.
 
@@ -348,7 +345,7 @@ messageOneGuard : TemplateGuard
 
 The action function amounts to one single case statement.
 
-??? info "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     Type alias for the action function.
 

@@ -28,7 +28,7 @@ engine instances will have. For Anoma specifications, the components are:
     cluster owned by an engine instance and a finite set of acquaintances—other
     engine instances known to the current one that can interact with it.
 
-    - Main page: [[Engine Environment]]
+    - [[Engine Environment|Juvix engine environment definition]]
 
 [[Engine Dynamics | *Action Function*]]
 
@@ -36,42 +36,41 @@ engine instances will have. For Anoma specifications, the components are:
     changing their environment, sending messages, spawning new engine instances,
     and update their list of active timers.
 
-    - Main page: [[Engine Dynamics]]
+    - [[Engine Dynamics|Juvix engine dynamics definition]]
 
-*Guards*
+    *Guards*
 
-:   The finite set of guard functions that describe the conditions under which
-    the local state of the engine's instance should change by invoking the action
-    function.
+    :   The finite set of guard functions that describe the conditions under which
+        the local state of the engine's instance should change by invoking the action
+        function.
 
-*Conflict Solver*
+    *Conflict Solver*
 
-:   The function that resolves conflicts between actions to maximize their
-    concurrency.
+    :   The function that resolves conflicts between actions to maximize their
+        concurrency.
 
-## Juvix Engine Families
+## Juvix engine families definitions
 
 For the Anoma Specification, engine families are written in Juvix Markdown. All
 necessary types and functions to define these engines can be found in the module
-[[Engine Family Types|node_architecture.types.engine_family]].(1) {.annotate }
-
-  1.  For a tutorial on how to structure the writing of engine families in
-      Juvix, see [[ Engines in Anoma ]].
+[[Engine Family Types|engine_family]].
+See [[Engines in Anoma|Tutorials on Writing Engine Families]] for a tutorial on
+how to structure the writing of engine families in Juvix.
 
 Below we showcase the _current_ engine families and their related components in
 Juvix for the Anoma Specification. Please be aware that not all engine families
 are listed here, and the specification is continually expanding with new engine
 families.
 
-??? info "AnomaMessage"
+??? quote "AnomaMessage"
 
     --8<-- "./docs/node_architecture/types/anoma_message.juvix.md"
 
-??? info "AnomaEnvironment"
+??? quote "AnomaEnvironment"
 
     --8<-- "./docs/node_architecture/types/anoma_environment.juvix.md"
 
 ## Useful Links
 
 - [[Engines in Anoma|Tutorials on Writing Engine Families]]
-- [[Ticker engine family|Example Engine Family]]
+- [[Ticker Engine Overview|Example Engine Family]]

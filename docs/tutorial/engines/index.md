@@ -17,11 +17,11 @@ list_wikilinks: false
     - [[template_overview|`template_overview.juvix.md`]]
     - [[template_environment|`template_environment.juvix.md`]]
     - [[template_dynamics|`template_dynamics.juvix.md`]]
-    - [[template_file|`template_file.juvix.md`]]
+    - [[template base|`template.juvix.md`]]
 
 - Examples:
-
-  - [[Ticker Engine Overview ]]
-  - [[Ticker Engine Environment ]]
-  - [[Ticker Engine Dynamics ]]
-  - [[Ticker Base File ]]
+    - Ticker Engine Family:
+        - [[Ticker Engine Overview | Overview]]
+        - [[Ticker Engine Environment | Environment]]
+        - [[Ticker Engine Dynamics | Dynamics]]
+        - [[Ticker Base File | Base File]]

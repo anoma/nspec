@@ -9,9 +9,7 @@ tags:
 - engine-overview
 ---
 
-Source code: [[template_overview|`./docs/node_architecture/engines/template_overview.juvix.md`]]
-
-??? info "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.template_overview;
@@ -30,7 +28,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapie
 
 ## Message interface
 
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     ```juvix
     syntax alias MethodOneArgOne := Nat;

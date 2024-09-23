@@ -7,7 +7,7 @@ tags:
 - Juvix
 ---
 
-??? info "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.types.engine_dynamics;
@@ -54,9 +54,10 @@ an action effect comprises sending messages, creatting engines, and updating tim
 
 ## Action function
 
-The input is parameterised by the types for: local state (`S`), incoming messages (`I`),
-mailbox state (`M`), timer handles (`H`), matched arguments (`A`), action labels (`L`), and precomputation results (`X`).
-The types of the input and output of an action are the following two:
+The input is parameterised by the types for: local state (`S`), incoming
+messages (`I`), mailbox state (`M`), timer handles (`H`), matched arguments
+(`A`), action labels (`L`), and precomputation results (`X`). The types of the
+input and output of an action are the following two:
 
 - `ActionInput S I M H A L X` and
 - `ActionEffect S I M H A L X`.
@@ -72,11 +73,12 @@ The record type `ActionInput S I M H A L X` encapsulates the following data:
 - The local time of the engine instance when guard evaluation was triggered.
 
 ```juvix
-type GuardOutput (A L X : Type) := mkGuardOutput{
-     args : List A;
-     label : L;
-     other : X
-};
+type GuardOutput (A L X : Type) := 
+  mkGuardOutput{ 
+    args : List A; 
+    label : L; 
+    other : X 
+  }; 
 ```
 
 <!-- --8<-- [start: whole-guard-type] -->
@@ -152,13 +154,13 @@ are triggered.
 
     However, as a design choice, guards will return additional data of type `GuardOutput A L X` that
     may or may not use the engine environment if the condition is met. Thus, if
-    the guard is satisfied, this data (of type `GuardOutput A L X`) is assumed to be passed to the
-    action function. Then, if the guard is not satisfied, no data is
-    returned.
+    the guard is satisfied, this data (of type `GuardOutput A L X`) is assumed to
+    be passed to the action function. Then, if the guard is not satisfied, no data
+    is returned.
 
 #### Conflict resolution
 
-Finally, `resolveConflict` is a function that takes a finite set of action
+Finally, `conflictSolver` is a function that takes a finite set of action
 labels as input; it outputs a list of action label sets that are pairwise
 disjoint and whose union is the input set or is empty, if conflict resolution
 fails. And for each element of the output it should be that if applied to this

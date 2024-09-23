@@ -10,8 +10,6 @@ tags:
 - engine-dynamics
 ---
 
-Source code: [[ticker_dynamics|`./docs/node_architecture/engines/ticker_dynamics.juvix.md`]]
-
 ??? note "Juvix preamble"
 
     ```juvix
@@ -123,7 +121,7 @@ syntax alias TickerPrecomputation := Unit;
 
 ## Guards
 
-??? note "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     Type alias for the guard.
 
@@ -213,7 +211,7 @@ countGuard
 
 ## Action function
 
-??? info "Auxiliary Juvix code"
+??? quote "Auxiliary Juvix code"
 
     Type alias for the action function.
 

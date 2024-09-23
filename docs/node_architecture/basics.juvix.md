@@ -8,7 +8,7 @@ tags:
 - Types
 ---
 
-??? info "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.basics;

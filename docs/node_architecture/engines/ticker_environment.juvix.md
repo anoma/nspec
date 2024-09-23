@@ -42,7 +42,7 @@ type TickerLocalState : Type := mkTickerLocalState {
 syntax alias TickerTimerHandle := Unit;
 ```
 
-The [[Ticker engine family|ticker]] does not require a timer handle type.
+The [[Ticker Engine Overview|ticker]] does not require a timer handle type.
 Therefore, we define the timer handle type as `Unit`.
 
 ## Environment summary
