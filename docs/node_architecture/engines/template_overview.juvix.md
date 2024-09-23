@@ -146,13 +146,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Engine Components
 
-??? note "[[template_environment|Template Engine Environment]]"
-
-    --8<-- "./docs/node_architecture/engines/template_environment.juvix.md!"
-
-??? note "[[template_dynamics|Template Engine Dynamics]]"
-
-    --8<-- "./docs/node_architecture/engines/template_dynamics.juvix.md!"
+- [[template_environment|`Template` Engine Environment]]
+- [[template_dynamics|`Template` Engine Dynamics]]
 
 ## Useful links
 

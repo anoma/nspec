@@ -102,13 +102,8 @@ A client interacts with the `Ticker` engine, which increments and responds with 
 
 ## Engine Components
 
-??? note "[[Ticker Engine Environment]]"
-
-    --8<-- "./docs/node_architecture/engines/ticker_environment.juvix.md"
-
-??? note "[[Ticker Engine Dynamics]]"
-
-    --8<-- "./docs/node_architecture/engines/ticker_dynamics.juvix.md"
+- [[ticker_environment|`Ticker` Engine Environment]]
+- [[ticker_dynamics|`Ticker` Engine Dynamics]]
 
 ## Useful links
 
