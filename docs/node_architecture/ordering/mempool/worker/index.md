@@ -124,7 +124,7 @@ There is no precise state representation described by the V1 specs.
 from Worker may trigger:
 
 - `WorkerHashAvailable` → Primary
-  --8<-- "./primary/worker_hash_available.md:blurb"
+  8< "./primary/worker_hash_available.md:blurb"
 -->
 
 <!--
@@ -133,7 +133,7 @@ from Worker may trigger:
 from Worker may trigger:
 
 - `WorkerHashAvailable` → Primary
-  --8<-- "./primary/worker_hash_available.md:blurb"
+  8< "./primary/worker_hash_available.md:blurb"
 -->
 
 !!! todo
