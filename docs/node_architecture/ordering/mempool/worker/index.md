@@ -10,7 +10,7 @@ search:
 ## Purpose
 
 Workers are one of the [[Mempool Engines#mempool-engines|mempool engines]]
-and, in V1, they are _the_ only one and there is only a single worker.
+and, in V2, they are _the_ only one and there is only a single worker.
 
 <!--[^4]-->
 The worker receives transaction requests from users and
@@ -67,7 +67,7 @@ Each worker keeps track of
 
 - [[ExecutionSummary|execution summaries]] for each transaction
 
-There is no precise state representation described by the V1 specs.
+There is no precise state representation described by the V2 specs.
 
 !!! todo
 
@@ -161,8 +161,8 @@ from Worker may trigger:
 
 [^4]: In all future versions of Anoma,
     workers will be organized around primaries;
-    however, in V1, we can omit primaries as they do not serve any purpose.
-    In V1, there is only a single worker,
+    however, in V2, we can omit primaries as they do not serve any purpose.
+    In V2, there is only a single worker,
     which can be though of as featuring also as its primary.
 
 [^5]: In future versions,
@@ -171,7 +171,7 @@ from Worker may trigger:
     Inputs may allow for non-trivial validator inputs,
     according to a orthogonal protocol (an may fail deterministically).
 
-[^6]: In V1,
+[^6]: In V2,
     we report all the data about a single transaction back to the submitter
     as part of execution.
 -->
