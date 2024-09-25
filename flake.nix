@@ -46,6 +46,12 @@
                   buildInputs = (old.buildInputs or [ ]) ++ [ super.hatchling ];
                 }
               );
+            urllib3 = super.urllib3.overridePythonAttrs
+              (
+                old: {
+                  buildInputs = (old.buildInputs or [ ]) ++ (with super; [ hatchling hatch-vcs ]);
+                }
+              );
             levenshtein = pkgs.python312Packages.levenshtein;
           });
     in
