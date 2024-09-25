@@ -349,7 +349,7 @@ nav:
                       - Types:
                           - StoragePrefs: ./node_architecture/networking/intra_domain/storage/types/storage_prefs.md
           - Ordering Machine:
-              - ./node_architecture/ordering_v1/index.md
+              - ./node_architecture/ordering/index.md
               - Common types:
                   - ./node_architecture/ordering/types/allofthem/index.md
                   - KVSDatum: ./node_architecture/ordering/types/kvs_datum.md
