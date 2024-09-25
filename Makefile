@@ -23,9 +23,10 @@ GITBRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
 JUVIX?=juvix
 JUVIX_FILES_TO_ISABELLE := \
    ./docs/prelude.juvix.md \
-   ./docs/node_architecture/basics.juvix.md
+   ./docs/node_architecture/types/engine_dynamics.juvix.md \
 
-JUVIX_TO_ISABELLE := $(JUVIX) --only-errors isabelle
+
+JUVIX_TO_ISABELLE := $(JUVIX) --log-level error isabelle
 ISABELLE_OUTPUT_DIR := ./docs/theories
 
 build:

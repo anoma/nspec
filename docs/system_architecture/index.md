@@ -3,6 +3,7 @@ icon: material/pillar
 search:
   exclude: false
   boost: 2
+list_wikilinks: false
 ---
 
 # Introduction
@@ -12,7 +13,7 @@ correct implementation of Anoma and how it is structured. This already involves
 some design choices and assumptions, like identifying the participating
 entities, their actions, and the hardware needed.
 
-- [Identity Architecture](./identity/index.md)
-- [Network Architecture](./network/index.md)
-- [Service Architecture](./service/index.md)
-- [State Architecture](./state/index.md)
+- [[Identity Architecture]]
+- [[Network Architecture]]
+- [[Service Architecture]]
+- [[State Architecture]]

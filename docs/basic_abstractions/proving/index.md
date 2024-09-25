@@ -21,4 +21,8 @@ consider it valid.
 
 - [[Assumption]]
 - [[Proof]]
-- [[proving/multifunctions:Multifunctions]]
+- Multifunctions
+
+!!! todo
+
+    Fix links to multifunctions.

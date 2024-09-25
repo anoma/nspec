@@ -185,7 +185,7 @@ class SnippetPreprocessor(Preprocessor):
                 f"""
 The snippet section '{section}' could not be located.
 This is likely because the section is inside a Juvix code block,
-which is currently not supported in Juvix v0.6.5 or previous versions.
+which is currently not supported in Juvix v0.6.6 or previous versions.
 Consider wrapping the Juvix code block with a section snippet instead.
 
 Error found in the file '{backup_path}' for the section '{section}'.
@@ -332,11 +332,11 @@ Error found in the file '{backup_path}' for the section '{section}'.
                 section = None
                 m = self.RE_SNIPPET_FILE.match(path)
                 path = m.group(1).strip()
-                # Looks like we have an empty file and only lines specified
+
                 if not path:
                     if self.check_paths:
                         raise SnippetMissingError(
-                            "Snippet at path '{}' could not be found".format(path)
+                            "1. Snippet at path '{}' could not be found".format(path)
                         )
                     else:
                         continue
@@ -358,13 +358,19 @@ Error found in the file '{backup_path}' for the section '{section}'.
                 # If this is a link, and we are allowing URLs, set `url` to true.
                 # Make sure we don't process `path` as a local file reference.
                 url = self.url_download and is_link
+
+                just_raw = path and path.endswith("!")
+                if just_raw:
+                    path = path[:-1]
+
                 snippet = self.get_snippet_path(path) if not url else path
 
                 is_juvix = False
 
                 if snippet:
                     original = snippet
-                    if snippet.endswith(".juvix.md"):
+
+                    if not just_raw and snippet.endswith(".juvix.md"):
                         snippet = JUVIX_OUTPUT / Path(
                             snippet.replace(".juvix.md", ".md")
                         ).relative_to(DOCS_DIR)
@@ -441,7 +447,7 @@ Error found in the file '{backup_path}' for the section '{section}'.
 
                 elif self.check_paths:
                     raise SnippetMissingError(
-                        "Snippet at path '{}' could not be found".format(path)
+                        "2. Snippet at path '{}' could not be found".format(path)
                     )
 
         # Pop the current file name out of the cache
