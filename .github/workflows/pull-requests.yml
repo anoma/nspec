@@ -18,6 +18,7 @@ env:
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   SHOW_TODOS_IN_MD: true
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
   cancel-in-progress: true
@@ -144,7 +145,8 @@ jobs:
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
-          SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }}) - Build with material-insiders
+          SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }})
+          SITE_AUTHOR: Branch:${{ env.BRANCH_NAME}} - Python:${{ env.PYTHON_VERSION }} - Poetry:${{ env.POETRY_VERSION }} - Material:${{ env.INSIDERS_VERSION }}
       - if: steps.material.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
