@@ -91,4 +91,4 @@ provide the following.
     Even when the following renders, it is not really clear what the structure of the description is.
 
 
-![Message Diagram](rought_execution_engine_message_passing.svg)
+![Message Diagram](transaction_flow.svg)
