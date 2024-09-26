@@ -7,4 +7,4 @@ search:
 
 # Consensus Engine
 
-This one is not required in v1.
+There is no non-trivial consensus problem to solve in v2<!--v1-->.

@@ -356,7 +356,7 @@ nav:
                       - Types:
                           - StoragePrefs: ./node_architecture/networking/intra_domain/storage/types/storage_prefs.md
           - Ordering Machine:
-              - ./node_architecture/ordering_v1/index.md
+              - ./node_architecture/ordering/index.md
               - Common types:
                   - ./node_architecture/ordering/types/allofthem/index.md
                   - KVSDatum: ./node_architecture/ordering/types/kvs_datum.md
@@ -384,8 +384,7 @@ nav:
                       - TransactionRequest: ./node_architecture/ordering/mempool/worker/transaction_request.md
                       - RequestLogs: ./node_architecture/ordering/mempool/worker/request_logs.md
               - Consensus Engine:
-                  - ./node_architecture/ordering/consensus_homogeneous.md
-                  - Formal Definitions: ./node_architecture/ordering/consensus/homogeneous_paxos_formal.md
+                  - ./node_architecture/ordering/consensus_v1.md
               - Execution engines:
                   - ./node_architecture/ordering/execution/index.md
                   - Shard:
