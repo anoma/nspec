@@ -1,10 +1,9 @@
-site_name: !ENV [SITE_NAME, 'Anoma Specification']
-site_author: Anoma Foundation
-site_description: |
-  The Anoma Specification is a collection of documents that describe the
-  architecture, design, and implementation of the Anoma Network.
+site_name: !ENV [SITE_NAME, "Anoma Specification"]
+site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
+site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_url: !ENV [SITE_URL, 'https://anoma.github.io/nspec/latest']
 site_dir: !ENV [SITE_DIR, site]
+copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 use_directory_urls: false
 nav:
   - Home: index.md
@@ -559,8 +558,6 @@ extra_javascript:
   - assets/js/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-svg.js
-copyright: |
-  &copy; 2024 <a href="https://anoma.net">Anoma Foundation</a>
 # See https://squidfunk.github.io/mkdocs-material/reference/math/?h=katex#comparing-mathjax-and-katex on why we use MathJax
 markdown_extensions:
   - pymdownx.snippets:
