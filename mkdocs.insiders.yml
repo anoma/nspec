@@ -1,6 +1,7 @@
 INHERIT: mkdocs.yml
 plugins:
   - privacy:
+      cache: true
       enabled: true
       assets: true
       assets_fetch: true
@@ -25,7 +26,7 @@ plugins:
       enable_creation_date: true
       exclude:
         - index.md
-      enabled: !ENV [CI, false]
+      enabled: !ENV [CI, true]
       strict: true
   - mike:
       alias_type: copy
