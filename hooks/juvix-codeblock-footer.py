@@ -2,8 +2,9 @@ import logging
 import subprocess
 from pathlib import Path
 from typing import Optional
-from mkdocs.config.defaults import MkDocsConfig
+
 from common.utils import fix_site_url
+from mkdocs.config.defaults import MkDocsConfig
 
 log: logging.Logger = logging.getLogger("mkdocs")
 
