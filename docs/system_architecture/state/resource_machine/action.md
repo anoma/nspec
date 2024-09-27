@@ -61,9 +61,9 @@ An unproven action would be computed the same way, except the proofs wouldn't be
 
 ## Composition
 
-Since proven actions already contain all of the required proofs, there is no need to expand the evaluation context of such actions, therefore *proven actions are not composable*. 
+Since proven actions already contain all of the required proofs, there is no need to expand the evaluation context of such actions, therefore *proven actions are not composable*.
 
-Right now we assume that each action is created by exactly one party in one step, meaning that *unproven actions are not composable*. 
+Right now we assume that each action is created by exactly one party in one step, meaning that *unproven actions are not composable*.
 
 ## Validity
 
