@@ -39,7 +39,7 @@ def generate_css_file() -> Optional[Path]:
     css_content = f"""
 code.juvix::after {{
     font-family: var(--md-code-font-family);
-    content: "Powered by Juvix v{version}";
+    content: "Juvix v{version}";
     font-size: 10px;
     color: var(--md-juvix-codeblock-footer);
     float: right;
