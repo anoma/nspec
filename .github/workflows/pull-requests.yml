@@ -133,20 +133,20 @@ jobs:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
           SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }}))
-      - name: The build failed comment
-        if: failure()
-        run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
-      - name: Build MkDocs with material insiders version
-        id: material
-        run: |
-          pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
-          poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
-        env:
-          SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
-          SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }})
-          COPYRIGHT: Branch:${{ env.BRANCH_NAME}} - Python:${{ env.PYTHON_VERSION }} - Poetry:${{ env.POETRY_VERSION }} - Material:${{ env.INSIDERS_VERSION }}
+      # - name: The build failed comment
+      #   if: failure()
+      #   run: |
+      #     gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
+      # - name: Build MkDocs with material insiders version
+      #   id: material
+      #   run: |
+      #     pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
+      #     poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
+      #   env:
+      #     SITE_DIR: pr-${{ github.event.pull_request.number }}
+      #     SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
+      #     SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }})
+      #     COPYRIGHT: Branch:${{ env.BRANCH_NAME}} - Python:${{ env.PYTHON_VERSION }} - Poetry:${{ env.POETRY_VERSION }} - Material:${{ env.INSIDERS_VERSION }}
       - if: steps.material.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
