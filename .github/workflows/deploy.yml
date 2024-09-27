@@ -101,7 +101,7 @@ jobs:
           SITE_DIR: ${{ env.BRANCH_NAME }}
           SITE_URL: https://anoma.github.io/nspec/${{ env.BRANCH_NAME }}
       - if: success()
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.6.6
         with:
           folder: ${{ env.BRANCH_NAME }}
           target-folder: ${{ env.BRANCH_NAME }}
@@ -113,11 +113,11 @@ jobs:
         id: version
         run: echo "::set-output name=version::$(cat VERSION)"
       - if: ${{ env.BRANCH_NAME == steps.version.outputs.version }}
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.6.6
         with:
           folder: ${{ env.BRANCH_NAME }}
           target-folder: latest
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research
-          git-config-email:
+          git-config-email: arts@heliax.dev
