@@ -315,3 +315,4 @@ build/
 ## temporary files
 *~
 theories/
+docs/assets/css/juvix-codeblock-footer.css
