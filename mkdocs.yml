@@ -557,7 +557,8 @@ extra_javascript:
   - assets/js/extra.js
   - assets/js/highlight.js
   - assets/js/mathjax.js
-  - https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-svg.js
+  - assets/js/mathjax/es5/tex-svg-full.js
+
 # See https://squidfunk.github.io/mkdocs-material/reference/math/?h=katex#comparing-mathjax-and-katex on why we use MathJax
 markdown_extensions:
   - pymdownx.snippets:
