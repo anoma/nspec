@@ -14,7 +14,9 @@ An action is a composite structure $A = (cms, nfs, \Pi, app\_data)$, where:
 - $\Pi: \{ \pi: PS.Proof\}$ is a set of proofs.
 - $app\_data: \{(k, (d, deletion\_criterion)): k \in \mathbb{F}_{key}, d \subseteq \mathbb{F}_{d}\}$ contains application-specific data needed to create resource logic proofs. The deletion criterion field is described [here](./rm_def/storage.md#data-blob-storage).
 
-Actions define the proof context: a proof created in the context of an action assumed to have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if resource's commitment or nullifier is present in the action's $cms$ or $nfs$ correspondingly. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's $nfs$ set. A resource is said to be *created in the action* for a valid action if its commitment is present in the action's $cms$ set.
+Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action assumed to have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if resource's commitment or nullifier is present in the action's $cms$ or $nfs$ correspondingly. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's $nfs$ set. A resource is said to be *created in the action* for a valid action if its commitment is present in the action's $cms$ set.
+
+> Unlike transactions, actions don't have an explicit notion of balance associated with them and are not required to be balanced.
 
 ## Proofs
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
@@ -38,9 +40,16 @@ Each resource machine compliance proof must check the following:
 
 Compliance proofs must be composition-independent: composing two actions, the compliance proof sets can be simply united to provide a valid composed action compliance proof set.
 
+
+## Unproven and proven actions
+
+An action that contains all of the [required proofs](./action.md#proofs) is considered **proven**. Such an action is bound to the resources it contains and cannot be modified without reconstructing the proofs.
+
+In case an action doesn't contain all of the expected proofs, it is called **unproven**. Unproven actions are, strictly speaking, not valid actions (because they don't contain the required proofs), but might be handy when the proving context for the resource logics is still being constructed.
+
 ## Creation
 
-Given a set of input resource plaintexts $\{r_{{in}_1}, \cdots, r_{{in}_n}\}$, a set of output resource plaintexts $\{r_{{out}_1}, \cdots, r_{{out}_m}\}$, a set of nullifier keys corresponding to the input resources $\{nk_1,\cdots,nk_n\}$, $app\_data$, and a set of custom inputs required by resource logics, an action $A$ is computed as:
+Given a set of input resource plaintexts $\{r_{{in}_1}, \cdots, r_{{in}_n}\}$, a set of output resource plaintexts $\{r_{{out}_1}, \cdots, r_{{out}_m}\}$, a set of nullifier keys corresponding to the input resources $\{nk_1,\cdots,nk_n\}$, $app\_data$, and a set of custom inputs required by resource logics, a proven action $A$ is computed as:
 
 - $cms = \{h_{cm}(r_{{out}_i}, i = 1 \cdots m\}$
 - $nfs = \{h_{nf}(nk_i, r_{{in}_i}), i = 1 \cdots n\}$
@@ -48,22 +57,13 @@ Given a set of input resource plaintexts $\{r_{{in}_1}, \cdots, r_{{in}_n}\}$, a
     $\{\pi_{RL}^{{in}_i}, i = 1 \cdots n \} \cup \{\pi_{RL}^{{out}_i}, i = 1 \cdots m \} \cup \{\pi_{compl}^j, 1 \leq j \leq m + n \}$
 - $app\_data$
 
+An unproven action would be computed the same way, except the proofs wouldn't be computed yet.
+
 ## Composition
 
-Given two actions $a_1$ and $a_2$, their composition is computed as follows:
+Since proven actions already contain all of the required proofs, there is no need to expand the evaluation context of such actions, therefore *proven actions are not composable*. 
 
-- $cms = cms_1 \sqcup cms_2$
-- $nfs = nfs_1 \sqcup nfs_2$
-- $\Pi$:
-    - $\{\pi_{RL}^{{in}_i}, i = 1 \cdots n_a \} \cup \{\pi_{RL}^{{out}_i}, i = 1 \cdots m_a \} \cup \Pi_{compl_1} \cup \Pi_{compl_2}$
-- $app\_data = app\_data_1 \cup app\_data_2$
-
-
-The old resource logic proofs are no longer valid since the proofs context changed, new resource logic proofs must be created. The old compliance proofs are still valid.
-
-
- > Composing sets with disjoint union operator $\sqcup$, it has to be checked that those sets do not have any elements in common. Otherwise, the actions cannot be composed.
-
+Right now we assume that each action is created by exactly one party in one step, meaning that *unproven actions are not composable*. 
 
 ## Validity
 
@@ -72,15 +72,7 @@ Validity of an action cannot be determined for actions that are not associated w
 - action input resources have valid resource logic proofs associated with them
 - action output resources have valid resource logic proofs associated with them
 - all compliance proofs are valid
-- transaction's $rts$ field contains valid roots used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
-
+- transaction's $rts$ field contains correct $CMtree$ roots (that were actual $CMtree$ roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
 
 
 > It must also be checked that the created resource was created exactly once and the consumed resource was consumed exactly once. These checks are performed separately from the checks above, given read access to the $CMtree$ and $NFset$ (a proving system is not expected to have access to these components).
-
-
-## Unproven actions
-
-An action structure that contains all of the [required proofs](./action.md#proofs) is considered proven. Such an action is bound to the resources it contains and cannot be modified without reconstructing the proofs.
-
-In case an action cannot be proven yet or is expected to be modified, the action is called unproven. Unproven actions are not valid actions, but might be handy when the proving context for the resource logics is still being constructed. Composition for unproven actions works the same way as for proven actions except that the proofs don't need to be recomputed: there were no proofs in the first place. Once the the context is finalised, the proofs must be created for an action to become proven and valid.
