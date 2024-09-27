@@ -15,7 +15,6 @@ CSS_PATH = DOCS_DIR / ASSET_PATH
 
 
 def get_juvix_version() -> Optional[str]:
-    """Get Juvix compiler version."""
     try:
         result = subprocess.run(
             ["juvix", "--numeric-version"],
@@ -30,7 +29,6 @@ def get_juvix_version() -> Optional[str]:
 
 
 def generate_css_file() -> Optional[Path]:
-    """Generate the CSS file with the Juvix version in the content if it doesn't already exist or content has changed."""
     version = get_juvix_version()
     if version is None:
         log.error("Cannot generate CSS file without Juvix version.")
