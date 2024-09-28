@@ -26,7 +26,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.0
         with:
           submodules: true
           fetch-depth: 0
@@ -39,14 +39,14 @@ jobs:
           MSG: "The build is in progress. Please wait for the preview link."
           GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
       - name: Install the right Juvix for the Specs
-        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        uses: jaxxstorm/action-install-gh-release@v1.12.0
         with:
           repo: anoma/juvix
           tag: v0.6.6
           cache: enable
           rename-to: juvix
           chmod: 0755
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4.0.2
         with:
           key: juvix-cache-${{ hashFiles('**/*.juvix.md') }}-${{ hashFiles('**/*.juvix') }}
           path: .juvix-build
@@ -57,11 +57,11 @@ jobs:
           juvix --version
           juvix typecheck docs/everything.juvix.md || true
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5.2.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v2
+        uses: abatilo/actions-poetry@v3.0.0
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
       - name: Setup a local virtual environment (if no poetry.toml file)
@@ -70,19 +70,19 @@ jobs:
           poetry config virtualenvs.in-project true --local
       - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
       - name: Cache .venv
-        uses: actions/cache@v3
+        uses: actions/cache@v4.0.2
         with:
           path: ./.venv
           key: venv-${{ env.cache_id }}
       - name: Cache .cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4.0.2
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
           restore-keys: |
             mkdocs-material-
       - name: Cache .hooks
-        uses: actions/cache@v3
+        uses: actions/cache@v4.0.2
         with:
           key: hooks-${{ env.cache_id }}
           path: .hooks
@@ -101,7 +101,7 @@ jobs:
           SITE_DIR: ${{ env.BRANCH_NAME }}
           SITE_URL: https://anoma.github.io/nspec/${{ env.BRANCH_NAME }}
       - if: success()
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
           folder: ${{ env.BRANCH_NAME }}
           target-folder: ${{ env.BRANCH_NAME }}
@@ -113,11 +113,11 @@ jobs:
         id: version
         run: echo "::set-output name=version::$(cat VERSION)"
       - if: ${{ env.BRANCH_NAME == steps.version.outputs.version }}
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
           folder: ${{ env.BRANCH_NAME }}
           target-folder: latest
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research
-          git-config-email:
+          git-config-email: arts@heliax.dev

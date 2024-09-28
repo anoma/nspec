@@ -1,14 +1,9 @@
 INHERIT: mkdocs.yml
 plugins:
   - privacy:
-      cache: true
-      enabled: true
-      assets: true
-      assets_fetch: true
-      assets_exclude:
-        - cdn.jsdelivr.net/npm/mathjax*
-        - giscus.app/*
-        - unpkg.com/*
+      enabled: !ENV [PRIVACY, false]
+  - offline:
+      enabled: !ENV [OFFLINE, false]
   - search:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   - social
