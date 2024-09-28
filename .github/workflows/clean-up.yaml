@@ -3,7 +3,6 @@ on:
   pull_request:
     types:
       - closed
-
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
   cancel-in-progress: true
@@ -11,14 +10,12 @@ permissions:
   contents: write
   pull-requests: write
   repository-projects: write
-
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   BRANCH_NUMBER: ${{ github.event.pull_request.number }}
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   REPO: anoma/nspec
-
 jobs:
   cleanup:
     runs-on: ubuntu-latest
@@ -28,10 +25,8 @@ jobs:
           ref: gh-pages
           clean: true
           fetch-depth: 0
-
       - name: List directories
         run: ls -la
-
       - name: Delete PR branch
         run: |
           if [ -d "pr-${{ env.BRANCH_NUMBER }}" ]; then
@@ -45,12 +40,10 @@ jobs:
           else
             echo "Directory pr-${{ env.BRANCH_NUMBER }} does not exist. Skipping deletion."
           fi
-
       - name: Delete the PR preview if the PR is closed or merged (Pull Request)
         run: |-
           gh pr -R ${{ env.REPO }} comment ${{ env.BRANCH_NUMBER }} --edit-last --body "The preview of this PR has been deleted."
         continue-on-error: true
-
       - name: Cleanup cache
         run: |
           gh extension install actions/gh-actions-cache
@@ -72,4 +65,3 @@ jobs:
           echo "Done"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
