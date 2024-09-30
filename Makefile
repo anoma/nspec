@@ -23,7 +23,16 @@ GITBRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
 JUVIX?=juvix
 JUVIX_FILES_TO_ISABELLE := \
    ./docs/prelude.juvix.md \
+   ./docs/node_architecture/basics.juvix.md \
+   ./docs/node_architecture/types/anoma_message.juvix.md \
+   ./docs/node_architecture/types/anoma_environment.juvix.md \
+   ./docs/node_architecture/types/engine_family.juvix.md \
    ./docs/node_architecture/types/engine_dynamics.juvix.md \
+   ./docs/node_architecture/types/engine_environment.juvix.md \
+   ./docs/node_architecture/engines/ticker_environment.juvix.md \
+   ./docs/node_architecture/engines/ticker_dynamics.juvix.md \
+   ./docs/node_architecture/engines/ticker_overview.juvix.md\
+   ./docs/node_architecture/engines/ticker.juvix.md
 
 
 JUVIX_TO_ISABELLE := $(JUVIX) --log-level error isabelle
