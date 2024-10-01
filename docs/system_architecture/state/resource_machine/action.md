@@ -47,6 +47,10 @@ An action that contains all of the [required proofs](./action.md#proofs) is cons
 
 In case an action doesn't contain all of the expected proofs, it is called **unproven**. Unproven actions are, strictly speaking, not valid actions (because they don't contain the required proofs), but might be handy when the proving context for the resource logics is still being constructed.
 
+#### Unproven → proven action
+
+After adding the required proofs to an unproven action, the action becomes proven.
+
 ## Creation
 
 Given a set of input resource plaintexts $\{r_{{in}_1}, \cdots, r_{{in}_n}\}$, a set of output resource plaintexts $\{r_{{out}_1}, \cdots, r_{{out}_m}\}$, a set of nullifier keys corresponding to the input resources $\{nk_1,\cdots,nk_n\}$, $app\_data$, and a set of custom inputs required by resource logics, a proven action $A$ is computed as:
@@ -57,7 +61,7 @@ Given a set of input resource plaintexts $\{r_{{in}_1}, \cdots, r_{{in}_n}\}$, a
     $\{\pi_{RL}^{{in}_i}, i = 1 \cdots n \} \cup \{\pi_{RL}^{{out}_i}, i = 1 \cdots m \} \cup \{\pi_{compl}^j, 1 \leq j \leq m + n \}$
 - $app\_data$
 
-An unproven action would be computed the same way, except the proofs wouldn't be computed yet.
+An unproven action would be computed the same way, except the resource logic proofs wouldn't be computed yet.
 
 ## Composition
 
