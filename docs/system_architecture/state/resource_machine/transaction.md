@@ -39,12 +39,18 @@ Having two transactions $tx_1$ and $tx_2$, their composition $tx_1 \circ tx_2$ i
 
 A transaction is considered _valid_ if the following statements hold:
 
+Checks that do not require access to global structures:
 - all actions in the transaction are valid, as defined per [action validity rules](./action.md#validity)
-- $\Delta$ proof is valid.
+- actions partition the state change induced by the transaction:
+  - there is no resource created more than once across actions
+  - there is no resource consumed more than once across actions
+- $\pi_\Delta$ is valid
 
+Checks that require access to global $CMtree$ and $NFset$:
+- each created resource wasn't created in prior transactions
+- each consumed resource wasn't consumed in prior transactions
 
-Only transactions with $\Delta_{tx}$ committing to the expected by the system balancing value can be executed.
-
+A transaction is *executable* if it is valid and $\Delta_{tx}$ commits to the expected balancing value.
 
 ## Transaction with Metadata
 

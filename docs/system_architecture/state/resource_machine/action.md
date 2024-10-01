@@ -73,6 +73,3 @@ Validity of an action cannot be determined for actions that are not associated w
 - action output resources have valid resource logic proofs associated with them
 - all compliance proofs are valid
 - transaction's $rts$ field contains correct $CMtree$ roots (that were actual $CMtree$ roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
-
-
-> It must also be checked that the created resource was created exactly once and the consumed resource was consumed exactly once. These checks are performed separately from the checks above, given read access to the $CMtree$ and $NFset$ (a proving system is not expected to have access to these components).
