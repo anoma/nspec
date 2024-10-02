@@ -3,40 +3,40 @@
 Each guarded action is a pair of a guard and an action.
 The guard specifies a predicate that
 decides if the action is enabled,
-based on local data only; 
+based on local data only;
 _moreover,_ in order to allow for typical pattern matching techniques,
 we complement the predicate with an output of _matched arguments._
-The action takes local data and matched argument as input and 
-computes 
+The action takes local data and matched argument as input and
+computes
 - the updates to local data
 - messages to be sent
-- timers to be set, and 
+- timers to be set, and
 - engines to be spawned.
 
 In theory,
 all guards of an engine are evaluated in parallel,
 each of which potentially triggers an event,
 (e.g., upon  arrival of new  message);
-in practice, for specific cases, one may want to choose 
+in practice, for specific cases, one may want to choose
 a more efficient, but equivalent strategy.
 
 In many simple cases,
 it is never the case that several guards become true;
-however, 
+however,
 if several actions are enabled,
-priorities of guards may be used to resolve unwanted non-determinism. 
+priorities of guards may be used to resolve unwanted non-determinism.
 It is necessary to mark the non-determinism if it is desired.
 Each guard comes with an associated action that is executed
 if the guard is satisfied (and has the highest priority).
 
 !!! Note
 
-	New events are "muted" for the time of 
+	New events are "muted" for the time of
 	guard evaluation and action execution.
 
 ## Guard
 
-<!-- this seemed to be outdated 
+<!-- this seemed to be outdated
 The following conditions are permissible guards:
 - Received a message matching some pattern from another engine
 - Received a message (timer elapsed) matching some pattern from my clock
@@ -50,7 +50,7 @@ Guards can provide information (similar to pattern-matching) which can then be u
 
 ## Action [`<` _ActionName_ `>`]
 
-The action of a guarded action is a function $f_{act}$, 
+The action of a guarded action is a function $f_{act}$,
 named `<` _ActionName_ `>` .
 I take as input
 all local data of an engine _and also_
@@ -80,13 +80,13 @@ The output of the action describes after the event has finished
   - a name for the process (that is unique relative to the engine)
 
 <!-- This needs to be revisted -->
-Moreover, it will be possible to also use randomness 
-and "direct" user input. 
+Moreover, it will be possible to also use randomness
+and "direct" user input.
 Roughly,
 the output can depend on randomness and inputs,
-possibly interdependently, 
-e.g., if a user is given the chance to override 
-playing an engines's purely stochastic strategy 
+possibly interdependently,
+e.g., if a user is given the chance to override
+playing an engines's purely stochastic strategy
 (in the context of a stochastic game).
 
 The full type corresponds to the transition function for
@@ -96,11 +96,11 @@ of the formal model.
 
 !!! todo
 
-	establish some proper reciprocal linking scheme here 
-	
+	establish some proper reciprocal linking scheme here
+
 	<!--
 	make PR for https://github.com/anoma/formanoma/tree/heindel/engine-locale
-	-->	
+	-->
 
 
 A description of the action is necessary,
@@ -111,10 +111,10 @@ ideally complemented with juvix code.
 	simple juvix code example of client server
 
 !!! todo
-	
+
 	add details according to the discussion in the PR,
 	see e.g., here https://github.com/anoma/nspec/pull/84#discussion_r1639785764
-	
+
 
 ### state update
 

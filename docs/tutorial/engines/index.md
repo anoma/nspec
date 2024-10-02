@@ -43,20 +43,20 @@ The Anoma specification is inspired by the actor model[^3]
 where systems consist of actors that communicate via message passing.
 Every Anoma instance is considered as a finite[^4] collection of
 _engine instances_ that communicate by sending messages to each other.
-The behavior of each engine instance—i.e., 
-how it reacts to receiving a message in 
+The behavior of each engine instance—i.e.,
+how it reacts to receiving a message in
 the context of previously sent messages—is
 determined by a _state transition function_.
 The latter is invoked whenever an event is triggered at the engine instance,
 typically, the arrival of a new message[^1].
 The most important fact is that
-the Anoma specification describes 
-a _fixed_ finite number of state transition functions 
+the Anoma specification describes
+a _fixed_ finite number of state transition functions
 such that
 the behaviour of every (correct and non-faulty) engine instance in an Anoma instance
 is determined by exactly one of these state transition functions.<!-- add footnote to engine system locale ["axiom" state_partition](https://github.com/anoma/formanoma/blob/915039faa7cfe77c2998b309ef65b671e604fead/Types/Engine.thy#L192) -->
 
-!!! definition 
+!!! definition
 
 	We call the set of all engine instances that share the same state transition function the _engine type_ of the state transition function.
 
@@ -78,7 +78,7 @@ exclusively accessible at any given moment (in local time):
 
     - a finite set of _mailbox identifiers_ (**MID** for short),
     typically non-empty
-      
+
     - a function that maps mailbox identifiers to pairs of
 		- a list of messages that were sent to the MID but not processed yet
 		- an optional mailbox-specific state (for quick processing of incoming messages)
@@ -92,12 +92,12 @@ exclusively accessible at any given moment (in local time):
     - a finite set of timer handles
     - a map from these timer handles to the requested notification time
 
-- memory for names of spawned engines that 
+- memory for names of spawned engines that
   do not have a cryptographic ID yet
 
 - engine-specific local state
 
-- the current time 
+- the current time
 
 The engine's identity is unchangeable,
 but a new *"continuation engine"* could be spawned with a new identifier.
@@ -108,7 +108,7 @@ but a new *"continuation engine"* could be spawned with a new identifier.
 An engine type is in bijective correspondence to a function that
 describes how every instance that is based on this function behaves;
 we may just speak of an engine type as if it was a function.
-This function takes as input all local data of engine instances. 
+This function takes as input all local data of engine instances.
 Each item of local data falls into one of the following three categories:
 
 - information that is not changed (as part result of mere state transition):
@@ -119,9 +119,9 @@ Each item of local data falls into one of the following three categories:
 - all other local data (as described above in the section
   `On the local data of engine instances`)
 
-<!-- 
+<!--
 
-As this function is strongly typed in the formal model / in juvix, 
+As this function is strongly typed in the formal model / in juvix,
 the engine type thus determines a list of types, which seems long.
 Thus, let us "annotate" the above list.
 
@@ -167,9 +167,9 @@ Besides updates to the changeable data, the transition function produces
 
 The Anoma specification defines transition functions
 via a set of guarded actions.
-The word `guarded` is taken from Dijkstra's 
+The word `guarded` is taken from Dijkstra's
 [_guarded_ command language (ɢᴄʟ)](https://en.wikipedia.org/wiki/Guarded_Command_Language),
-`action` is taken from Lamport's 
+`action` is taken from Lamport's
 [temporal logic of _actions_ (ᴛʟᴀ⁺)](https://lamport.azurewebsites.net/tla/tla.html),
 and indeed, guarded actions are a mix of the two;
 the notion of action (together with local data) allows us to
@@ -180,7 +180,7 @@ e.g., for deriving invariants.
 
 The basic idea of guarded actions is to split up
 the set of possible inputs of the state transition function into
-a finite number of cases, 
+a finite number of cases,
 each of which corresponds to an _event kind_—very much like
 the transitions of a [Petri net](https://en.wikipedia.org/wiki/Petri_net#Execution_semantics)
 can be "unfolded" into an [event structure](https://dl.acm.org/doi/abs/10.5555/898126),
@@ -192,7 +192,7 @@ The details of guarded actions are explained in the [[Guarded Engine Template]].
 
 ## The conceptual structure of each Engine Type page in the specs
 
-As a short synopsis, the structure of each engine type page 
+As a short synopsis, the structure of each engine type page
 starts with a big picture, some examples, and then the details.
 A table of contents has the following structure.
 
@@ -206,21 +206,21 @@ A table of contents has the following structure.
   - conversation diagram {big picture}
     - conversation partners
         - partner A
-    		- incoming 
+    		- incoming
 	    	    - A1
 		        - ...
 		        - Anₐ
-      		- outgoing 
+      		- outgoing
                 - A1
  		        - ...
     		    - Amₐ
 	    - ...
 	    - partner X
-	        - incoming 
+	        - incoming
 	            - X1
      		    - ...
 	    	    - Xnₓ
-		    - outgoing 
+		    - outgoing
 		        - X1
     		    - ...
 	    	    - Xmₓ
@@ -232,7 +232,7 @@ A table of contents has the following structure.
             - messages to be sent {prose}
 		    - timer to be set {prose}
 		    - engines to be spawned {prose}
-	- ...	
+	- ...
     - guarded action Xk (e.g., finalize auction)
   	    - guard Xk {`local data * trigger → arguments option`}
 	    - action Xk {`local data * arguments → local data update * sends * timers * spawns`}
@@ -246,17 +246,17 @@ A table of contents has the following structure.
 
 ??? "Engine template"
 
-    !!! info 
+    !!! info
 
         The following template can be found in the `overrides/templates/engine-template.md` file.
-    
+
 
     --8<-- "./../overrides/templates/engine-template.md:6"
 
 ??? "Guarded action template"
 
 
-    !!! info 
+    !!! info
 
         The following template can be found in the `overrides/templates/guarded-action-template.md` file.
 
@@ -271,9 +271,9 @@ A table of contents has the following structure.
 <!-- footnotes -->
 
 [^1]: We also will allow for elapsing of timers,
-which is a technical detail concerning the handling of 
+which is a technical detail concerning the handling of
 local time in engine instances.
-The role of the template is the organization of 
+The role of the template is the organization of
 the specification of engine types and their engine instances.
 
 [^2]: Here, we borrow actor terminology.
@@ -284,8 +284,8 @@ Delivery: Programming with Mailbox Types*[@special-delivery-mailbox-types-2023].
 We shall refer to the latter as _mailbox usage_ types to avoid a name clash with
 the type of messages that are contained in mailboxes.
 
-[^4]: The specification does not fix any bound on 
+[^4]: The specification does not fix any bound on
 	the number of engines in existence.
 
 [^5]: Note that in TLA⁺, pre-conditions of actions are
-	present in the guise of the `ENABLED` predicate. 
+	present in the guise of the `ENABLED` predicate.

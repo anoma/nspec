@@ -37,14 +37,14 @@ where tag is used as in [Special Delivery's paper](https://dl.acm.org/doi/abs/10
 
 ### Mailbox state type (optional)
 
-We may specify for each mailbox a type. 
+We may specify for each mailbox a type.
 
 
 ## [Paradigmatic message sequence diagram(s)] (optional)
 
 We can use one or more message sequence diagrams to show how
 instances of the engine type exchange messages with other engine instances, whether they are the same type or different types.
-The general idea is that 
+The general idea is that
 each message sequence diagram in the engine type page describes
 a pattern for test cases.
 
@@ -60,11 +60,11 @@ a pattern for test cases.
 
 
     We can use
-    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) 
+    [`mermaid` sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html)
     to draw [message sequence diagrams](https://www.uml-diagrams.org/sequence-diagrams.html),<!--
-    see e.g., https://moves.rwth-aachen.de/teaching/ws-21-22/fuml/  
+    see e.g., https://moves.rwth-aachen.de/teaching/ws-21-22/fuml/
     - https://www.researchgate.net/profile/Joost-Pieter-Katoen/publication/221305522_Pomsets_for_MSC/links/5778102608aead7ba07461af/Pomsets-for-MSC.pdf
-    - our formal model should have a precise notion of these as well, 
+    - our formal model should have a precise notion of these as well,
       in particular if a given one can actually happen in our model
     -->
     using the `-)`-syntax by default,
@@ -161,13 +161,13 @@ a pattern for test cases.
 ### Conversation Diagram (optional)
 
 Who is talking to whom and `EngineX` in particular, and if so, about what?
-For a high-level overview, 
+For a high-level overview,
 something like a [conversation diagram](https://sparxsystems.com/enterprise_architect_user_guide/16.1/modeling_languages/bpmn_2_0_conversation.html) can be helpful.
 We could simply (ab-)use mermaid entity relationship diagrams here. This diagram should be included for machines and high-level engine groups. It is optional for small component engines.
 
 Taking again the example of workers in Narwhal,
 the worker is in communication with other workers,
-the user and the primary. 
+the user and the primary.
 A partial diagram would be the following.
 
 ```mermaid
@@ -189,7 +189,7 @@ relative to the current engine `EngineX`.
 
 ### [Conversation Partners of type EngineTypeX1] (optional)
 
-#### incoming messages 
+#### incoming messages
 
 - `<` link to type `>`
 - ...
@@ -207,7 +207,7 @@ relative to the current engine `EngineX`.
 
 ### Conversation Partners of type EngineTypeXm
 
-#### incoming messages 
+#### incoming messages
 
 - `<` link to type `>`
 - ...
@@ -228,23 +228,23 @@ By default, guarded actions should be inlined in the same page. If an engine has
 too many guarded actions (and thereby putting them all in one page would be
 unworkable), they can be split out into separate files and linked.
 
-### Guarded action $1$ 
+### Guarded action $1$
 
 <details>
   <summary>single phrase on guarded action $1$</summary>
   <p>Guarded action one description</p>
-</details> 
+</details>
 
-.  
-.  
-.  
+.
+.
+.
 
-### Guarded action $n$ 
+### Guarded action $n$
 
 <details>
   <summary>single phrase on guarded action $n$</summary>
   <p>Guarded action n description</p>
-</details> 
+</details>
 
 [^1]: By default,
 	we are working actually with the partial synchrony abstraction,
