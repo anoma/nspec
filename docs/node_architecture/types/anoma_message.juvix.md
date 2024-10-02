@@ -12,7 +12,8 @@ tags:
     ```juvix
     module node_architecture.types.anoma_message;
     import node_architecture.basics open;
-    import node_architecture.engines.ticker_overview open using {TickerMsg}
+    import node_architecture.engines.ticker_overview open using {TickerMsg};
+    import node_architecture.engines.identity_management_overview open using {IdentityManagementMsg};
     ```
 
 # Anoma Messages
@@ -26,5 +27,6 @@ family. For example, the engine family `Ticker` has a corresponding message type
 ```juvix
 type Msg :=
   | MsgTicker TickerMsg
+  | MsgIdentityManagement IdentityManagementMsg
   ;
 ```
