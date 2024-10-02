@@ -20,6 +20,15 @@ MIKEFLAGS?=${MIKEPUSHFLAGS} \
 
 GITBRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
 
+JUVIX?=juvix
+JUVIX_FILES_TO_ISABELLE := \
+   ./docs/prelude.juvix.md \
+   ./docs/node_architecture/types/engine_dynamics.juvix.md \
+
+
+JUVIX_TO_ISABELLE := $(JUVIX) --log-level error isabelle
+ISABELLE_OUTPUT_DIR := ./docs/theories
+
 build:
 	mkdocs build --config-file ${MKDOCSCONFIG} ${MKDOCSFLAGS}
 
@@ -84,3 +93,12 @@ clean:
 			.mypy_cache \
 			__pycache__
 	@find . -type d -name "site" -exec rm -rf {} \;
+
+.phony: theories
+theories:
+	@echo "Converting Juvix files to Isabelle..."
+	@for file in $(JUVIX_FILES_TO_ISABELLE); do \
+	    echo "Processing $$file..."; \
+		outdir=$$(dirname $$file); \
+		$(JUVIX_TO_ISABELLE) $$file --output-dir=$$outdir || true; \
+	done

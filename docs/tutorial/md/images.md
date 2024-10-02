@@ -5,12 +5,13 @@ search:
 todos: False
 ---
 
-## Including Images
+# Support for including images
 
-Images should be go in the `docs/images` folder.
+Images should be stored in the `docs/images` folder.
+Use the [[File Naming Conventions]] also for naming images.
 
 
-### Basic Image Syntax
+## Syntax
 
 To add an image, apply the following syntax:
 

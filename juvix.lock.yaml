@@ -4,28 +4,28 @@
 version: 2
 checksum: 5753150576526994699539bf3b57741120f23fc50464a0fdd904dc3c0672faa0
 dependencies:
-- git:
-    name: anoma_juvix-stdlib
-    ref: e2efe4e6fe8e8bf1766050a7fa7ad8ff4e8c69fc
-    url: https://github.com/anoma/juvix-stdlib
-  dependencies: []
-- git:
-    name: anoma_juvix-containers
-    ref: 3debbc7f5776924eb9652731b3c1982a2ee0ff24
-    url: https://github.com/anoma/juvix-containers
-  dependencies:
   - git:
-      name: stdlib
-      ref: 4facf14d9b2d06b81ce1be1882aa9050f768cb45
+      name: anoma_juvix-stdlib
+      ref: e2efe4e6fe8e8bf1766050a7fa7ad8ff4e8c69fc
       url: https://github.com/anoma/juvix-stdlib
     dependencies: []
   - git:
-      name: test
-      ref: a7ac74cac0db92e0b5e349f279d797c3788cdfdd
-      url: https://github.com/anoma/juvix-test
+      name: anoma_juvix-containers
+      ref: 3debbc7f5776924eb9652731b3c1982a2ee0ff24
+      url: https://github.com/anoma/juvix-containers
     dependencies:
-    - git:
-        name: stdlib
-        ref: 4facf14d9b2d06b81ce1be1882aa9050f768cb45
-        url: https://github.com/anoma/juvix-stdlib
-      dependencies: []
+      - git:
+          name: stdlib
+          ref: 4facf14d9b2d06b81ce1be1882aa9050f768cb45
+          url: https://github.com/anoma/juvix-stdlib
+        dependencies: []
+      - git:
+          name: test
+          ref: a7ac74cac0db92e0b5e349f279d797c3788cdfdd
+          url: https://github.com/anoma/juvix-test
+        dependencies:
+          - git:
+              name: stdlib
+              ref: 4facf14d9b2d06b81ce1be1882aa9050f768cb45
+              url: https://github.com/anoma/juvix-stdlib
+            dependencies: []

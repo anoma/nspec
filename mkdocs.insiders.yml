@@ -1,20 +1,11 @@
 INHERIT: mkdocs.yml
 plugins:
   - privacy:
-      enabled: true
-      log: false
-      assets: true
-      assets_fetch: true
-      assets_exclude:
-        - cdn.jsdelivr.net/npm/mathjax*
-        - giscus.app/*
-        - unpkg.com/*
+      enabled: !ENV [PRIVACY, false]
+  - offline:
+      enabled: !ENV [OFFLINE, false]
   - search:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-      # pipeline:
-      #   - stemmer
-      #   - stopWordFilter
-      #   - trimmer
   - social
   - tags
   - glightbox
@@ -30,17 +21,12 @@ plugins:
       enable_creation_date: true
       exclude:
         - index.md
-      enabled: !ENV [CI, false]
+      enabled: !ENV [CI, true]
       strict: true
-  # not for now.
-  # - git-committers:
-  #     repository: anoma/nspec
-  #     token: !ENV [GH_TOKEN, ""]
-  #     branch: main
-  #     enabled: !ENV [CI, false]
   - mike:
       alias_type: copy
-      version_selector: !ENV [VERSION_SELECTOR, true]
+      canonical_version: latest
+      version_selector: false
       css_dir: docs/assets/css
       javascript_dir: docs/assets/js
   - macros:
@@ -49,9 +35,7 @@ plugins:
       j2_block_end_string: "@@}"
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
-
 extra:
-
   social:
     - icon: fontawesome/brands/x-twitter
       link: https://x.com/anoma
@@ -65,11 +49,9 @@ extra:
       link: https://youtube.com/anoma
     - icon: material/email
       link: mailto:arts@heliax.dev
-
   generator: false
   version:
     provider: mike
-
   analytics:
     feedback:
       title: Was this page helpful?

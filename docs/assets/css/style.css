@@ -25,6 +25,7 @@ html {
   --md-juvix-judoc: #209fb5;
   --md-juvix-number: #7287fd;
   --md-juvix-hover: #cdcdcdbe;
+  --md-juvix-codeblock-footer: #c6c4c4be;
 }
 
 :root {
@@ -124,4 +125,5 @@ a.version-link {
   --md-juvix-judoc: #8bd5ca;
   --md-juvix-number: #b8c0e0;
   --md-juvix-hover: #4c566a;
+  --md-juvix-codeblock-footer: #535354;
 }

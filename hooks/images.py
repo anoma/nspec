@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 from urllib.parse import urljoin
 
-from common.models.fileloc import FileLoc
+from common.models.loc import FileLoc
 from common.utils import fix_site_url
 from markdown.extensions import Extension  # type: ignore
 from markdown.preprocessors import Preprocessor  # type: ignore
@@ -49,7 +49,7 @@ if IMAGES_ENABLED:
 
     if not shutil.which(DOT_BIN):
         log.warning(
-            f"Graphviz not found. Please install it otherwise dot pictures won't render correctly."
+            "Graphviz not found. Please install it otherwise dot pictures won't render correctly."
         )
         USE_DOT = False
 

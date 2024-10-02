@@ -9,7 +9,7 @@ todos: False
 
 Include excerpts from other files using the Snippet extension detailed here:
 [PyMdown Extensions -
-Snippets](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/).
+Snippets](https://facelessuser.GitHub.io/pymdown-extensions/extensions/snippets/).
 
 ### Excerpt Wrapping Syntax
 

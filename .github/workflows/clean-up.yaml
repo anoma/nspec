@@ -1,16 +1,50 @@
-name: cleanup tasks
+name: cleanup and delete PR previews
 on:
   pull_request:
     types:
       - closed
-
+concurrency:
+  group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
+  cancel-in-progress: true
+permissions:
+  contents: write
+  pull-requests: write
+  repository-projects: write
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BRANCH_NUMBER: ${{ github.event.pull_request.number }}
+  GIT_COMMITTER_EMAIL: arts@heliax.dev
+  GIT_COMMITTER_NAME: Anoma Research
+  REPO: anoma/nspec
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Cleanup
+      - uses: actions/checkout@v4.2.0
+        with:
+          ref: gh-pages
+          clean: true
+          fetch-depth: 0
+      - name: List directories
+        run: ls -la
+      - name: Delete PR branch
+        run: |
+          if [ -d "pr-${{ env.BRANCH_NUMBER }}" ]; then
+            echo "Directory pr-${{ env.BRANCH_NUMBER }} exists. Deleting..."
+            rm -rf "pr-${{ env.BRANCH_NUMBER }}"
+            git config --global user.name "${{ env.GIT_COMMITTER_NAME }}"
+            git config --global user.email "${{ env.GIT_COMMITTER_EMAIL }}"
+            git add .
+            git commit -m "Delete PR preview for PR #${{ env.BRANCH_NUMBER }}"
+            git push
+          else
+            echo "Directory pr-${{ env.BRANCH_NUMBER }} does not exist. Skipping deletion."
+          fi
+      - name: Delete the PR preview if the PR is closed or merged (Pull Request)
+        run: |-
+          gh pr -R ${{ env.REPO }} comment ${{ env.BRANCH_NUMBER }} --edit-last --body "The preview of this PR has been deleted."
+        continue-on-error: true
+      - name: Cleanup cache
         run: |
           gh extension install actions/gh-actions-cache
 
@@ -31,24 +65,3 @@ jobs:
           echo "Done"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-
-      - name: Delete PR branch
-        run: |
-          PR_ID=$(echo ${{ github.event.pull_request.head.ref }} | cut -d'/' -f 3)
-          git config --global user.name arts
-          git config --global user.email arts@heliax.dev
-          rm -rf pr-$PR_ID
-          git add .
-          git commit -m "Delete PR branch $PR_ID"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Delete the PR preview if the PR is closed or merged (Pull Request)
-        if: github.event_name == 'pull_request' && (github.event.pull_request.merged == true || github.event.action == 'closed') && success()
-        run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR has been deleted." || true

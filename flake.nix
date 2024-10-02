@@ -16,12 +16,6 @@
                   buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools ];
                 }
               );
-            mkdocs-ezglossary-plugin = super.mkdocs-ezglossary-plugin.overridePythonAttrs
-              (
-                old: {
-                  buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools ];
-                }
-              );
             mkdocs-git-committers-plugin-2 = super.mkdocs-git-committers-plugin-2.overridePythonAttrs
               (
                 old: {
@@ -52,7 +46,13 @@
                   buildInputs = (old.buildInputs or [ ]) ++ [ super.hatchling ];
                 }
               );
-            levenshtein = pkgs.python311Packages.levenshtein;
+            urllib3 = super.urllib3.overridePythonAttrs
+              (
+                old: {
+                  buildInputs = (old.buildInputs or [ ]) ++ (with super; [ hatchling hatch-vcs ]);
+                }
+              );
+            levenshtein = pkgs.python312Packages.levenshtein;
           });
     in
     rec {
@@ -87,20 +87,20 @@
 
         juvix =
           let
-            version = "2024-06-02-0.6.2-823b37c";
-            baseurl = "https://github.com/anoma/juvix-nightly-builds/releases/download/nightly-${version}";
+            version = "v0.6.6";
+            baseurl = "https://github.com/anoma/juvix/releases/download/${version}";
             srcs = {
               x86_64-linux = {
                 url = "${baseurl}/juvix-linux-x86_64.tar.gz";
-                sha256 = "084m27xq39lknqgxkp6rcg65hqr81al0bh4ld0l91rll4k23gwcm";
+                sha256 = "1j9zq3dwy1jx1mqjkp9bjiz7cm1wlw701vlld69h3y1adk0b6nyw";
               };
               x86_64-darwin = {
-                url = "${baseurl}/juvix-darwin-x86_64.tar.gz";
-                sha256 = "0k2rb0wqvbpa3v05nckgkjcbk45bwwra7ixyswsa3r1vjp5iq5vd";
+                url = "${baseurl}/juvix-macos-x86_64.tar.gz";
+                sha256 = "008b2s1b7xga8m8b06bkpycpdawk84n7nym1di6kflwgxj8rfc0x";
               };
               aarch64-darwin = {
-                url = "${baseurl}/juvix-darwin-aarch64.tar.gz";
-                sha256 = "0ry3pd21vy2qyac7g5wmyi2m692vc5dak8rkcpb3w55v6aw2xj06";
+                url = "${baseurl}/juvix-macos-aarch64.tar.gz";
+                sha256 = "1053aqdz4gbqhag4jp3hvi5j8fnzbxshkq67lf0r57v83yv4p2sv";
               };
             };
           in

@@ -1,22 +1,38 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
         exclude: ^[art.bib|mkdocs]*
-    -   id: check-added-large-files
-    -   id: debug-statements
-    -   id: detect-private-key
--   repo: https://github.com/pycqa/isort
+      - id: check-added-large-files
+      - id: debug-statements
+      - id: detect-private-key
+  - repo: https://github.com/pycqa/isort
     rev: 5.13.2
     hooks:
-    -   id: isort
+      - id: isort
         name: isort (python)
         args: ["--profile", "black", "--filter-files"]
-
--   repo: https://github.com/psf/black
-    rev: 24.3.0
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
     hooks:
-    -   id: black
-
+      - id: black
+  - repo: local
+    hooks:
+      - id: snake_case_filenames
+        name: snake_case_filenames
+        entry: filenames must be lower
+        language: fail
+        files: '[^a-z0-9._/]'
+        exclude: '.pre-commit.*|^overrides.*|^docs/(assets|images)/|^formal.*|.*Package.juvix.*|^\.github/.*|CITATION|LICENSE|Makefile|README\.md|VERSION'
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: forbid-binary
+        exclude_types: [png]
+        exclude: docs/assets/|docs/overrides/
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.13.0
+    hooks:
+      - id: yamlfmt

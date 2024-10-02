@@ -22,7 +22,7 @@ The above renders as:
 
     Content of the todo
 
-!!! note
+!!! info
 
     Be aware that todos are automatically removed from the online version. If you want to keep them, set `todos: True` in the front matter.
 

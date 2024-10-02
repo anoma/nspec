@@ -310,3 +310,9 @@ build/
 *.thy~
 */test.juvix
 .env/
+.vscode
+
+## temporary files
+*~
+theories/
+docs/assets/css/juvix-codeblock-footer.css
