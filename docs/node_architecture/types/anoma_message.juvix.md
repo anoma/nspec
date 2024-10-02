@@ -15,6 +15,7 @@ tags:
     import node_architecture.engines.ticker_overview open using {TickerMsg};
     import node_architecture.engines.identity_management_overview open using {IdentityManagementMsg};
     import node_architecture.engines.decryption_overview open using {DecryptionMsg};
+    import node_architecture.engines.encryption_overview open using {EncryptionMsg};
     ```
 
 # Anoma Messages
@@ -30,5 +31,6 @@ type Msg :=
   | MsgTicker TickerMsg
   | MsgIdentityManagement IdentityManagementMsg
   | MsgDecryption DecryptionMsg
+  | MsgEncryption EncryptionMsg
   ;
 ```

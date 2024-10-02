@@ -23,7 +23,6 @@ import node_architecture.types.anoma_environment;
 import node_architecture.types.anoma_message;
 
 import node_architecture.types.identity_types;
-import node_architecture.types.identity_messages;
 
 import node_architecture.engines.template;
 import node_architecture.engines.template_overview;
@@ -45,5 +44,10 @@ import node_architecture.engines.decryption;
 import node_architecture.engines.decryption_overview;
 import node_architecture.engines.decryption_environment;
 import node_architecture.engines.decryption_dynamics;
+
+import node_architecture.engines.encryption.encryption;
+import node_architecture.engines.encryption.encryption_overview;
+import node_architecture.engines.encryption.encryption_environment;
+import node_architecture.engines.encryption.encryption_dynamics;
 ```
 

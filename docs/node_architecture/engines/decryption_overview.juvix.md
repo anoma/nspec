@@ -68,7 +68,7 @@ type DecryptionMsg :=
   | MsgDecryptResponse DecryptResponse;
 ```
 
-###Engine Components
+## Engine Components
 
 - [[decryption_environment|Decryption Engine Environment]]
 - [[decryption_dynamics|Decryption Engine Dynamics]]
