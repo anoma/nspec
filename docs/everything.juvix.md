@@ -54,5 +54,10 @@ import node_architecture.engines.commitment.commitment;
 import node_architecture.engines.commitment.commitment_overview;
 import node_architecture.engines.commitment.commitment_environment;
 import node_architecture.engines.commitment.commitment_dynamics;
+
+import node_architecture.engines.verification.verification;
+import node_architecture.engines.verification.verification_overview;
+import node_architecture.engines.verification.verification_environment;
+import node_architecture.engines.verification.verification_dynamics;
 ```
 
