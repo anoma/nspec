@@ -19,17 +19,19 @@ These types define the foundational data structures used across the identity-rel
 
 ```juvix
 ByteString : Type := Nat;
+emptyByteString : ByteString := 0;
 Signable : Type := ByteString;
 Commitment : Type := ByteString;
 EngineReference : Type := Name;
+DecryptionKey : Type := ByteString;
 ```
 
 ExternalIdentity
 
-Params
+IDParams
 
 ```juvix
-type Params :=
+type IDParams :=
   | Ed25519
   | Secp256k1
   | BLS;
@@ -41,7 +43,7 @@ syntax alias ExternalIdentity := Nat;
 
 ```juvix
 type ExternalIdentity :=
-  | Param { param : Params }
+  | Param { param : IDParams }
   | ThresholdComposition { identities : List ExternalIdentity };
 
 axiom ExternalIdentityCmpDummy : ExternalIdentity -> ExternalIdentity -> Ordering;
@@ -54,7 +56,7 @@ ExternalIdentityOrd : Ord ExternalIdentity :=
 ```
 
 ```juvix
-type Backend :=
+type IDBackend :=
   | BackendLocalMemory
   | BackendLocalConnection { subtype : String }
   | BackendRemoteConnection { externalIdentity : ExternalIdentity };

@@ -40,5 +40,10 @@ import node_architecture.engines.identity_management;
 import node_architecture.engines.identity_management_overview;
 import node_architecture.engines.identity_management_environment;
 import node_architecture.engines.identity_management_dynamics;
+
+import node_architecture.engines.decryption;
+import node_architecture.engines.decryption_overview;
+import node_architecture.engines.decryption_environment;
+import node_architecture.engines.decryption_dynamics;
 ```
 

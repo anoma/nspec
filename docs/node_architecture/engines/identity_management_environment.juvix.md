@@ -40,7 +40,7 @@ The local state of the Identity Management Engine includes information about the
 
 ```juvix
 type IdentityInfo := mkIdentityInfo {
-  backend : Backend;
+  backend : IDBackend;
   capabilities : Capabilities;
   commitmentEngine : Maybe EngineReference;
   decryptionEngine : Maybe EngineReference;

@@ -46,8 +46,8 @@ The Identity Management Engine communicates using the following messages:
 
 ```juvix
 type GenerateIdentityRequest := mkGenerateIdentityRequest {
-  backend : Backend;
-  params : Params;
+  backend : IDBackend;
+  params : IDParams;
   capabilities : Capabilities;
 };
 ```
@@ -83,7 +83,7 @@ A `GenerateIdentityResponse` provides the handles to the decryption and commitme
 ```juvix
 type ConnectIdentityRequest := mkConnectIdentityRequest {
   externalIdentity : ExternalIdentity;
-  backend : Backend;
+  backend : IDBackend;
   capabilities : Capabilities;
 };
 ```
@@ -117,7 +117,7 @@ A `ConnectIdentityResponse` provides the handles to the decryption and commitmen
 ```juvix
 type DeleteIdentityRequest := mkDeleteIdentityRequest {
   externalIdentity : ExternalIdentity;
-  backend : Backend;
+  backend : IDBackend;
 };
 ```
 
@@ -163,8 +163,8 @@ sequenceDiagram
     participant IdentityManagementEngine
 
     Client ->> IdentityManagementEngine: GenerateIdentityRequest
-    IdentityManagementEngine ->> Backend: Generate Identity
-    Backend -->> IdentityManagementEngine: Identity Details
+    IdentityManagementEngine ->> IDBackend: Generate Identity
+    IDBackend -->> IdentityManagementEngine: Identity Details
     IdentityManagementEngine ->> Client: GenerateIdentityResponse
 ```
 <figcaption markdown="span"> Sequence diagram for identity generation. </figcaption> </figure>

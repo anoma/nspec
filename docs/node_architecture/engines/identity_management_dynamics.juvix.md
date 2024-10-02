@@ -156,7 +156,7 @@ IdentityManagementActionEffect : Type :=
 
 ```juvix
 -- Not yet implemented
-axiom generateNewExternalIdentity : Params -> ExternalIdentity;
+axiom generateNewExternalIdentity : IDParams -> ExternalIdentity;
 
 identityManagementAction
   (input : IdentityManagementActionInput)
@@ -175,31 +175,31 @@ identityManagementAction
           decryptionEngine := nothing; -- Placeholder for engine reference
         };
         updatedIdentities := Map.insert newIdentity identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalState := mkIdentityManagementLocalState@{
+        newLocalStateGen := mkIdentityManagementLocalState@{
           identities := updatedIdentities
         };
-        newEnv := env@EngineEnvironment{
-          localState := newLocalState
+        newEnvGen := env@EngineEnvironment{
+          localState := newLocalStateGen
         };
-        responseMsg := MsgGenerateIdentityResponse (mkGenerateIdentityResponse@{
+        responseMsgGen := MsgGenerateIdentityResponse (mkGenerateIdentityResponse@{
           commitmentEngine := IdentityInfo.commitmentEngine identityInfo;
           decryptionEngine := IdentityInfo.decryptionEngine identityInfo;
           externalIdentity := newIdentity;
           error := nothing
         });
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target := case sender of {
+        senderGen := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
+        targetGen := case senderGen of {
           | just s := s
           | nothing := Left "unknown"
         };
       in mkActionEffect@{
-        newEnv := newEnv;
+        newEnv := newEnvGen;
         producedMessages := [mkEnvelopedMessage@{
           sender := just (EngineEnvironment.name env);
           packet := mkMessagePacket@{
-            target := target;
+            target := targetGen;
             mailbox := nothing;
-            message := MsgIdentityManagement responseMsg
+            message := MsgIdentityManagement responseMsgGen
           }
         }];
         timers := [];
@@ -213,30 +213,30 @@ identityManagementAction
           decryptionEngine := nothing; -- Placeholder
         };
         updatedIdentities := Map.insert (ConnectIdentityRequest.externalIdentity request) identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalState := mkIdentityManagementLocalState@{
+        newLocalStateConn := mkIdentityManagementLocalState@{
           identities := updatedIdentities
         };
-        newEnv := env@EngineEnvironment{
-          localState := newLocalState
+        newEnvConn := env@EngineEnvironment{
+          localState := newLocalStateConn
         };
-        responseMsg := MsgConnectIdentityResponse (mkConnectIdentityResponse@{
+        responseMsgConn := MsgConnectIdentityResponse (mkConnectIdentityResponse@{
           commitmentEngine := IdentityInfo.commitmentEngine identityInfo;
           decryptionEngine := IdentityInfo.decryptionEngine identityInfo;
           error := nothing
         });
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target := case sender of {
+        senderConn := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
+        targetConn := case senderConn of {
           | just s := s
           | nothing := Left "unknown"
         };
       in mkActionEffect@{
-        newEnv := newEnv;
+        newEnv := newEnvConn;
         producedMessages := [mkEnvelopedMessage@{
           sender := just (EngineEnvironment.name env);
           packet := mkMessagePacket@{
-            target := target;
+            target := targetConn;
             mailbox := nothing;
-            message := MsgIdentityManagement responseMsg
+            message := MsgIdentityManagement responseMsgConn
           }
         }];
         timers := [];
@@ -244,28 +244,28 @@ identityManagementAction
       }
     | DoDeleteIdentity request := let
         updatedIdentities := Map.delete (DeleteIdentityRequest.externalIdentity request) (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalState := mkIdentityManagementLocalState@{
+        newLocalStateDel := mkIdentityManagementLocalState@{
           identities := updatedIdentities
         };
-        newEnv := env@EngineEnvironment{
-          localState := newLocalState
+        newEnvDel := env@EngineEnvironment{
+          localState := newLocalStateDel
         };
-        responseMsg := MsgDeleteIdentityResponse (mkDeleteIdentityResponse@{
+        responseMsgDel := MsgDeleteIdentityResponse (mkDeleteIdentityResponse@{
           error := nothing
         });
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target := case sender of {
+        senderDel := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
+        targetDel := case senderDel of {
           | just s := s
           | nothing := Left "unknown"
         };
       in mkActionEffect@{
-        newEnv := newEnv;
+        newEnv := newEnvDel;
         producedMessages := [mkEnvelopedMessage@{
           sender := just (EngineEnvironment.name env);
           packet := mkMessagePacket@{
-            target := target;
+            target := targetDel;
             mailbox := nothing;
-            message := MsgIdentityManagement responseMsg
+            message := MsgIdentityManagement responseMsgDel
           }
         }];
         timers := [];
@@ -280,7 +280,3 @@ identityManagementAction
 identityManagementConflictSolver : Set IdentityManagementMatchableArgument -> List (Set IdentityManagementMatchableArgument)
   | _ := [];
 ``` 
-
-## Identity Management Engine Family Summary
-
---8<-- "./docs/node_architecture/engines/ticker.juvix.md:ticker-engine-family"
