@@ -13,6 +13,24 @@ tags:
 
 # On Engines in the Anoma Specification
 
+## Short links
+
+- [[ Engine writing conventions| Conventions for writing engines]]
+
+- Template files:
+
+    - [[template_overview|`template_overview.juvix.md`]]
+    - [[template_environment|`template_environment.juvix.md`]]
+    - [[template_dynamics|`template_dynamics.juvix.md`]]
+    - [[template base|`template.juvix.md`]]
+
+- Examples:
+    - Ticker Engine Family:
+        - [[Ticker Engine Overview | Overview]]
+        - [[Ticker Engine Environment | Environment]]
+        - [[Ticker Engine Dynamics | Dynamics]]
+        - [[Ticker Base File | Base File]]
+
 ## Introduction
 
 The Anoma specification is inspired by the actor model[^3]
