@@ -12,7 +12,40 @@ search:
     import prelude open;
     import node_architecture.basics open;
     import Stdlib.Trait.Ord open using {Ordering; Ord; mkOrd};
+    import Data.Set.AVL open;
     ```
+
+Stuff that should be importable but don't exist, for some reason.
+
+```juvix
+-- Filters the elements of an AVLTree based on a predicate function.
+terminating
+AVLfilter {A} {{Ord A}} (pred : A -> Bool) (t : AVLTree A) : AVLTree A :=
+  let    
+    merge : AVLTree A -> AVLTree A -> AVLTree A
+      | t empty := t
+      | empty t := t
+      | t1 t2 :=
+        case lookupMin t2 of {
+          | nothing := t1  -- This case should not happen since t2 is non-empty
+          | just minVal :=
+            let newT2 := delete minVal t2;
+            in balance (mknode minVal t1 newT2)
+        };
+  in case t of {
+      | empty := empty
+      | (node x _ l r) :=
+        let
+          terminating
+          filteredLeft := AVLfilter pred l;
+          terminating
+          filteredRight := AVLfilter pred r;
+        in case pred x of {
+             | true := balance (mknode x filteredLeft filteredRight)
+             | false := merge filteredLeft filteredRight
+        }
+        };
+```
 
 
 These types define the foundational data structures used across the identity-related engines.
@@ -37,10 +70,6 @@ type IDParams :=
   | Ed25519
   | Secp256k1
   | BLS;
-```
-
-```
-syntax alias ExternalIdentity := Nat;
 ```
 
 ```juvix
@@ -98,7 +127,19 @@ type IdentityNameEvidence :=
 ReadsForEvidence
 
 ```juvix
-ReadsForEvidence : Type := String;
+type ReadsForEvidence := mkReadsForEvidence {
+  fromIdentity : ExternalIdentity;
+  toIdentity : ExternalIdentity;
+  proof : ByteString;
+};
+
+axiom ReadsForCmpDummy : ReadsForEvidence -> ReadsForEvidence -> Ordering;
+
+instance
+ReadsForOrd : Ord ReadsForEvidence := 
+  mkOrd@{
+    cmp := ReadsForCmpDummy;
+  };
 ```
 
 SignsForEvidence

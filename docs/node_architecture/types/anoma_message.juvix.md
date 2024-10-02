@@ -18,6 +18,7 @@ tags:
     import node_architecture.engines.encryption_overview open using {EncryptionMsg};
     import node_architecture.engines.commitment_overview open using {CommitmentMsg};
     import node_architecture.engines.verification_overview open using {VerificationMsg};
+    import node_architecture.engines.reads_for_overview open using {ReadsForMsg};
     ```
 
 # Anoma Messages
@@ -36,5 +37,6 @@ type Msg :=
   | MsgEncryption EncryptionMsg
   | MsgCommitment CommitmentMsg
   | MsgVerification VerificationMsg
+  | MsgReadsFor ReadsForMsg
   ;
 ```
