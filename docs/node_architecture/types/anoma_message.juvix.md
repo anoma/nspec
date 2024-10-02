@@ -16,6 +16,7 @@ tags:
     import node_architecture.engines.identity_management_overview open using {IdentityManagementMsg};
     import node_architecture.engines.decryption_overview open using {DecryptionMsg};
     import node_architecture.engines.encryption_overview open using {EncryptionMsg};
+    import node_architecture.engines.commitment_overview open using {CommitmentMsg};
     ```
 
 # Anoma Messages
@@ -32,5 +33,6 @@ type Msg :=
   | MsgIdentityManagement IdentityManagementMsg
   | MsgDecryption DecryptionMsg
   | MsgEncryption EncryptionMsg
+  | MsgCommitment CommitmentMsg
   ;
 ```

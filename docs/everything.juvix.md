@@ -49,5 +49,10 @@ import node_architecture.engines.encryption.encryption;
 import node_architecture.engines.encryption.encryption_overview;
 import node_architecture.engines.encryption.encryption_environment;
 import node_architecture.engines.encryption.encryption_dynamics;
+
+import node_architecture.engines.commitment.commitment;
+import node_architecture.engines.commitment.commitment_overview;
+import node_architecture.engines.commitment.commitment_environment;
+import node_architecture.engines.commitment.commitment_dynamics;
 ```
 

@@ -22,8 +22,10 @@ ByteString : Type := Nat;
 emptyByteString : ByteString := 0;
 Signable : Type := ByteString;
 Commitment : Type := ByteString;
+emptyCommitment : Commitment := 0;
 EngineReference : Type := Name;
 DecryptionKey : Type := ByteString;
+SigningKey : Type := ByteString;
 ```
 
 ExternalIdentity

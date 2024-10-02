@@ -125,9 +125,9 @@ encryptionAction
   case GuardOutput.label out of {
     | DoEncrypt request := let
         finalIdentity := case EncryptRequest.useReadsFor request of {
-                           | true := (resolveReadsFor (EncryptRequest.externalIdentity request))
-                           | false := (EncryptRequest.externalIdentity request)
-                           };
+          | true := resolveReadsFor (EncryptRequest.externalIdentity request)
+          | false := EncryptRequest.externalIdentity request
+        };
         encryptedData := encryptData finalIdentity (EncryptRequest.data request);
         responseMsgEnc := case encryptedData of {
           | Left errorMsg := MsgEncryptResponse (mkEncryptResponse@{
@@ -166,4 +166,3 @@ encryptionAction
 encryptionConflictSolver : Set EncryptionMatchableArgument -> List (Set EncryptionMatchableArgument)
   | _ := [];
 ```
-
