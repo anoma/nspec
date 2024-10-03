@@ -37,13 +37,24 @@ The dynamics of the Identity Management Engine define how it processes incoming 
 ```juvix
 type IdentityManagementActionLabel :=
   | -- --8<-- [start:DoGenerateIdentity]
-    DoGenerateIdentity IdentityManagementMsg
+    DoGenerateIdentity {
+      backend : IDBackend;
+      params : IDParams;
+      capabilities : Capabilities
+    }
     -- --8<-- [end:DoGenerateIdentity]
   | -- --8<-- [start:DoConnectIdentity]
-    DoConnectIdentity IdentityManagementMsg
+    DoConnectIdentity {
+      externalIdentity : ExternalIdentity;
+      backend : IDBackend;
+      capabilities : Capabilities
+    }
     -- --8<-- [end:DoConnectIdentity]
   | -- --8<-- [start:DoDeleteIdentity]
-    DoDeleteIdentity IdentityManagementMsg
+    DoDeleteIdentity {
+      externalIdentity : ExternalIdentity;
+      backend : IDBackend
+    }
     -- --8<-- [end:DoDeleteIdentity]
 ;
 ```
@@ -76,50 +87,25 @@ This action label corresponds to deleting an existing identity.
 ## Matchable arguments
 
 <!-- --8<-- [start:identity-management-matchable-argument] -->
+
 ```juvix
 type IdentityManagementMatchableArgument :=
-  | -- --8<-- [start:ArgGenerateIdentity]
-    ArgGenerateIdentity IdentityManagementMsg
-    -- --8<-- [end:ArgGenerateIdentity]
-  | -- --8<-- [start:ArgConnectIdentity]
-    ArgConnectIdentity IdentityManagementMsg
-    -- --8<-- [end:ArgConnectIdentity]
-  | -- --8<-- [start:ArgDeleteIdentity]
-    ArgDeleteIdentity IdentityManagementMsg
-    -- --8<-- [end:ArgDeleteIdentity]
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:ReplyTo]
 ;
 ```
 <!-- --8<-- [end:identity-management-matchable-argument] -->
 
-### `ArgGenerateIdentity`
+### `ReplyTo`
 
 !!! quote ""
 
     ```
-    --8<-- "./identity_management_dynamics.juvix.md:ArgGenerateIdentity"
+    --8<-- "./docs/node_architecture/engines/identity_management_dynamics.juvix.md:ReplyTo"
     ```
 
-This matchable argument contains the generate identity request data.
-
-### `ArgConnectIdentity`
-
-!!! quote ""
-
-    ```
-    --8<-- "./identity_management_dynamics.juvix.md:ArgConnectIdentity"
-    ```
-
-This matchable argument contains the connect identity request data.
-
-### `ArgDeleteIdentity`
-
-!!! quote ""
-
-    ```
-    --8<-- "./identity_management_dynamics.juvix.md:ArgDeleteIdentity"
-    ```
-
-This matchable argument contains the delete identity request data.
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
@@ -168,12 +154,14 @@ generateIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (GenerateIdentityRequest x y z) := just (
-        mkGuardOutput@{
-          args := [ArgGenerateIdentity (GenerateIdentityRequest x y z)];
-          label := DoGenerateIdentity (GenerateIdentityRequest x y z);
-          other := unit
-        })
+      | just (GenerateIdentityRequest x y z) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing];
+                  label := DoGenerateIdentity x y z;
+                  other := unit
+                });
+      }
       | _ := nothing
   };
 ```
@@ -198,12 +186,14 @@ connectIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (ConnectIdentityRequest x y z) := just (
-        mkGuardOutput@{
-          args := [ArgConnectIdentity (ConnectIdentityRequest x y z)];
-          label := DoConnectIdentity (ConnectIdentityRequest x y z);
-          other := unit
-        })
+      | just (ConnectIdentityRequest x y z) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing];
+                  label := DoConnectIdentity x y z;
+                  other := unit
+                });
+        }
       | _ := nothing
   };
 ```
@@ -228,12 +218,14 @@ deleteIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (DeleteIdentityRequest x y) := just (
-        mkGuardOutput@{
-          args := [ArgDeleteIdentity (DeleteIdentityRequest x y)];
-          label := DoDeleteIdentity (DeleteIdentityRequest x y);
-          other := unit
-        })
+      | just (DeleteIdentityRequest x y) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing];
+                  label := DoDeleteIdentity x y;
+                  other := unit
+                });
+        }
       | _ := nothing
   };
 ```
@@ -272,119 +264,113 @@ deleteIdentityGuard
 -- Not yet implemented
 axiom generateNewExternalIdentity : IDParams -> ExternalIdentity;
 
-axiom dummyActionEffect : IdentityManagementActionEffect;
-
 identityManagementAction (input : IdentityManagementActionInput) : IdentityManagementActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
-    | DoGenerateIdentity (GenerateIdentityRequest backend' params' capabilities') := let
-        newIdentity := generateNewExternalIdentity params';
-        identityInfo := mkIdentityInfo@{
-          backend := backend';
-          capabilities := capabilities';
-          commitmentEngine := nothing; -- Placeholder for engine reference
-          decryptionEngine := nothing; -- Placeholder for engine reference
-        };
-        updatedIdentities := Map.insert newIdentity identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalState := mkIdentityManagementLocalState@{
-          identities := updatedIdentities
-        };
-        newEnv' := env@EngineEnvironment{
-          localState := newLocalState
-        };
-        responseMsg := GenerateIdentityResponse@{
-          commitmentEngine := IdentityInfo.commitmentEngine identityInfo;
-          decryptionEngine := IdentityInfo.decryptionEngine identityInfo;
-          externalIdentity := newIdentity;
-          error := nothing
-        };
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target' := case sender of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := newEnv';
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := target';
-            mailbox := nothing;
-            message := Anoma.MsgIdentityManagement responseMsg
+    | DoGenerateIdentity backend' params' capabilities' := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) mailbox) :: _ := let
+            newIdentity := generateNewExternalIdentity params';
+            identityInfo := mkIdentityInfo@{
+              backend := backend';
+              capabilities := capabilities';
+              commitmentEngine := nothing; -- Placeholder for engine reference
+              decryptionEngine := nothing; -- Placeholder for engine reference
+            };
+            updatedIdentities := Map.insert newIdentity identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
+            newLocalState := mkIdentityManagementLocalState@{
+              identities := updatedIdentities
+            };
+            newEnv' := env@EngineEnvironment{
+              localState := newLocalState
+            };
+            responseMsg := GenerateIdentityResponse@{
+              commitmentEngine := IdentityInfo.commitmentEngine identityInfo;
+              decryptionEngine := IdentityInfo.decryptionEngine identityInfo;
+              externalIdentity := newIdentity;
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := newEnv';
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgIdentityManagement responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoConnectIdentity (ConnectIdentityRequest externalIdentity' backend' capabilities') := let
-        identityInfo := mkIdentityInfo@{
-          backend := backend';
-          capabilities := capabilities';
-          commitmentEngine := nothing; -- Placeholder
-          decryptionEngine := nothing; -- Placeholder
-        };
-        updatedIdentities := Map.insert externalIdentity' identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalState := mkIdentityManagementLocalState@{
-          identities := updatedIdentities
-        };
-        newEnv' := env@EngineEnvironment{
-          localState := newLocalState
-        };
-        responseMsg := ConnectIdentityResponse@{
-          commitmentEngine := IdentityInfo.commitmentEngine identityInfo;
-          decryptionEngine := IdentityInfo.decryptionEngine identityInfo;
-          error := nothing
-        };
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target' := case sender of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := newEnv';
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := target';
-            mailbox := nothing;
-            message := Anoma.MsgIdentityManagement responseMsg
+    | DoConnectIdentity externalIdentity' backend' capabilities' := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            identityInfo := mkIdentityInfo@{
+              backend := backend';
+              capabilities := capabilities';
+              commitmentEngine := nothing; -- Placeholder
+              decryptionEngine := nothing; -- Placeholder
+            };
+            updatedIdentities := Map.insert externalIdentity' identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
+            newLocalState := mkIdentityManagementLocalState@{
+              identities := updatedIdentities
+            };
+            newEnv' := env@EngineEnvironment{
+              localState := newLocalState
+            };
+            responseMsg := ConnectIdentityResponse@{
+              commitmentEngine := IdentityInfo.commitmentEngine identityInfo;
+              decryptionEngine := IdentityInfo.decryptionEngine identityInfo;
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := newEnv';
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgIdentityManagement responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoDeleteIdentity (DeleteIdentityRequest externalIdentity' backend') := let
-        updatedIdentities := Map.delete externalIdentity' (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalState := mkIdentityManagementLocalState@{
-          identities := updatedIdentities
-        };
-        newEnv' := env@EngineEnvironment{
-          localState := newLocalState
-        };
-        responseMsg := DeleteIdentityResponse@{
-          error := nothing
-        };
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target' := case sender of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := newEnv';
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := target';
-            mailbox := nothing;
-            message := Anoma.MsgIdentityManagement responseMsg
+    | DoDeleteIdentity externalIdentity' backend' := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) mailbox) :: _ := let
+            updatedIdentities := Map.delete externalIdentity' (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
+            newLocalState := mkIdentityManagementLocalState@{
+              identities := updatedIdentities
+            };
+            newEnv' := env@EngineEnvironment{
+              localState := newLocalState
+            };
+            responseMsg := DeleteIdentityResponse@{
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := newEnv';
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgIdentityManagement responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | _ := dummyActionEffect
   };
 ```
 <!-- --8<-- [end:action-function] -->

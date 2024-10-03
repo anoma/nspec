@@ -37,7 +37,11 @@ The dynamics of the Encryption Engine define how it processes incoming encryptio
 ```juvix
 type EncryptionActionLabel :=
   | -- --8<-- [start:DoEncrypt]
-    DoEncrypt EncryptionMsg
+    DoEncrypt {
+      data : ByteString;
+      externalIdentity : ExternalIdentity;
+      useReadsFor : Bool
+    }
     -- --8<-- [end:DoEncrypt]
 ;
 ```
@@ -65,24 +69,25 @@ This action label corresponds to encrypting the data in the given request.
 ## Matchable arguments
 
 <!-- --8<-- [start:encryption-matchable-argument] -->
+
 ```juvix
 type EncryptionMatchableArgument :=
-  | -- --8<-- [start:ArgEncrypt]
-    ArgEncrypt EncryptionMsg
-    -- --8<-- [end:ArgEncrypt]
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:ReplyTo]
 ;
 ```
 <!-- --8<-- [end:encryption-matchable-argument] -->
 
-### `ArgEncrypt`
+### `ReplyTo`
 
 !!! quote ""
 
     ```
-    --8<-- "./encryption_dynamics.juvix.md:ArgEncrypt"
+    --8<-- "./docs/node_architecture/engines/encryption_dynamics.juvix.md:ReplyTo"
     ```
 
-This matchable argument contains the encryption request data.
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
@@ -131,12 +136,14 @@ encryptGuard
   (t : TimestampedTrigger EncryptionMsg EncryptionTimerHandle)
   (env : EncryptionEnvironment) : Maybe (GuardOutput EncryptionMatchableArgument EncryptionActionLabel EncryptionPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (EncryptRequest data externalIdentity useReadsFor) := just (
-        mkGuardOutput@{
-          args := [ArgEncrypt (EncryptRequest data externalIdentity useReadsFor)];
-          label := DoEncrypt (EncryptRequest data externalIdentity useReadsFor);
-          other := unit
-        })
+      | just (EncryptRequest data externalIdentity useReadsFor) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+                  label := DoEncrypt data externalIdentity useReadsFor;
+                  other := unit
+                });
+        }
       | _ := nothing
   };
 ```
@@ -176,48 +183,44 @@ encryptGuard
 axiom encryptData : ExternalIdentity -> ByteString -> Either String ByteString;
 axiom resolveReadsFor : ExternalIdentity -> ExternalIdentity;
 
-axiom dummyActionEffect : EncryptionActionEffect;
-
 encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
-    | DoEncrypt (EncryptRequest data externalIdentity useReadsFor) := let
-        finalIdentity := case useReadsFor of {
-          | true := resolveReadsFor externalIdentity
-          | false := externalIdentity
-        };
-        encryptedData := encryptData finalIdentity data;
-        responseMsgEnc := case encryptedData of {
-          | Left errorMsg := EncryptResponse@{
-              ciphertext := emptyByteString; -- Placeholder
-              error := just errorMsg
-            }
-          | Right ciphertext' := EncryptResponse@{
-              ciphertext := ciphertext';
-              error := nothing
-            }
-        };
-        senderEnc := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetEnc := case senderEnc of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := env; -- No state change
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := targetEnc;
-            mailbox := nothing;
-            message := Anoma.MsgEncryption responseMsgEnc
+    | DoEncrypt data externalIdentity useReadsFor := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            finalIdentity := case useReadsFor of {
+              | true := resolveReadsFor externalIdentity
+              | false := externalIdentity
+            };
+            encryptedData := encryptData finalIdentity data;
+            responseMsg := case encryptedData of {
+              | Left errorMsg := EncryptResponse@{
+                  ciphertext := emptyByteString; -- Placeholder
+                  error := just errorMsg
+                }
+              | Right ciphertext' := EncryptResponse@{
+                  ciphertext := ciphertext';
+                  error := nothing
+                }
+            };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgEncryption responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoEncrypt (EncryptResponse _ _) := dummyActionEffect
   };
 ```
 <!-- --8<-- [end:action-function] -->

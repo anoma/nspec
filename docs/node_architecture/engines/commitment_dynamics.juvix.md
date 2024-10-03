@@ -37,7 +37,9 @@ The dynamics of the Commitment Engine define how it processes incoming commitmen
 ```juvix
 type CommitmentActionLabel :=
   | -- --8<-- [start:DoCommit]
-    DoCommit CommitmentMsg
+    DoCommit {
+      data : Signable
+    }
     -- --8<-- [end:DoCommit]
 ;
 ```
@@ -65,24 +67,25 @@ This action label corresponds to generating a commitment (signature) for the giv
 ## Matchable arguments
 
 <!-- --8<-- [start:commitment-matchable-argument] -->
+
 ```juvix
 type CommitmentMatchableArgument :=
-  | -- --8<-- [start:ArgCommit]
-    ArgCommit CommitmentMsg
-    -- --8<-- [end:ArgCommit]
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:ReplyTo]
 ;
 ```
 <!-- --8<-- [end:commitment-matchable-argument] -->
 
-### `ArgCommit`
+### `ReplyTo`
 
 !!! quote ""
 
     ```
-    --8<-- "./commitment_dynamics.juvix.md:ArgCommit"
+    --8<-- "./docs/node_architecture/engines/commitment_dynamics.juvix.md:ReplyTo"
     ```
 
-This matchable argument contains the commitment request data.
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
@@ -131,12 +134,14 @@ commitGuard
   (t : TimestampedTrigger CommitmentMsg CommitmentTimerHandle)
   (env : CommitmentEnvironment) : Maybe (GuardOutput CommitmentMatchableArgument CommitmentActionLabel CommitmentPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (CommitRequest data) := just (
-        mkGuardOutput@{
-          args := [ArgCommit (CommitRequest data)];
-          label := DoCommit (CommitRequest data);
-          other := unit
-        })
+      | just (CommitRequest data) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+                  label := DoCommit data;
+                  other := unit
+                });
+        }
       | _ := nothing
   };
 ```
@@ -175,45 +180,41 @@ commitGuard
 -- Not yet implemented
 axiom signData : SigningKey -> Signable -> Either String Commitment;
 
-axiom dummyActionEffect : CommitmentActionEffect;
-
 commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoCommit (CommitRequest data) := let
-        signedData := signData (CommitmentLocalState.signingKey localState) data;
-        responseMsgCom := case signedData of {
-          | Left errorMsg := CommitResponse@{
-              commitment := emptyCommitment;
-              error := just errorMsg
-            }
-          | Right commitment' := CommitResponse@{
-              commitment := commitment';
-              error := nothing
-            }
-        };
-        senderCom := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetCom := case senderCom of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := env; -- No state change
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := targetCom;
-            mailbox := nothing;
-            message := Anoma.MsgCommitment responseMsgCom
+    | DoCommit data := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            signedData := signData (CommitmentLocalState.signingKey localState) data;
+            responseMsg := case signedData of {
+              | Left errorMsg := CommitResponse@{
+                  commitment := emptyCommitment;
+                  error := just errorMsg
+                }
+              | Right commitment' := CommitResponse@{
+                  commitment := commitment';
+                  error := nothing
+                }
+            };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgCommitment responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoCommit (CommitResponse _ _) := dummyActionEffect
   };
 ```
 <!-- --8<-- [end:action-function] -->

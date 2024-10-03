@@ -41,13 +41,20 @@ The dynamics of the Signs For Engine define how it processes incoming messages a
 ```juvix
 type SignsForActionLabel :=
   | -- --8<-- [start:DoSignsForQuery]
-    DoSignsForQuery SignsForMsg
+    DoSignsForQuery {
+      externalIdentityA : ExternalIdentity;
+      externalIdentityB : ExternalIdentity
+    }
     -- --8<-- [end:DoSignsForQuery]
   | -- --8<-- [start:DoSubmitEvidence]
-    DoSubmitEvidence SignsForMsg
+    DoSubmitEvidence {
+      evidence : SignsForEvidence
+    }
     -- --8<-- [end:DoSubmitEvidence]
   | -- --8<-- [start:DoQueryEvidence]
-    DoQueryEvidence SignsForMsg
+    DoQueryEvidence {
+      externalIdentity : ExternalIdentity
+    }
     -- --8<-- [end:DoQueryEvidence]
 ;
 ```
@@ -113,50 +120,25 @@ This action label corresponds to querying signs_for evidence for a specific iden
 ## Matchable arguments
 
 <!-- --8<-- [start:signs-for-matchable-argument] -->
+
 ```juvix
 type SignsForMatchableArgument :=
-  | -- --8<-- [start:ArgSignsForQuery]
-    ArgSignsForQuery SignsForMsg
-    -- --8<-- [end:ArgSignsForQuery]
-  | -- --8<-- [start:ArgSubmitEvidence]
-    ArgSubmitEvidence SignsForMsg
-    -- --8<-- [end:ArgSubmitEvidence]
-  | -- --8<-- [start:ArgQueryEvidence]
-    ArgQueryEvidence SignsForMsg
-    -- --8<-- [end:ArgQueryEvidence]
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:ReplyTo]
 ;
 ```
 <!-- --8<-- [end:signs-for-matchable-argument] -->
 
-### `ArgSignsForQuery`
+### `ReplyTo`
 
 !!! quote ""
 
     ```
-    --8<-- "./signs_for_dynamics.juvix.md:ArgSignsForQuery"
+    --8<-- "./docs/node_architecture/engines/signs_for_dynamics.juvix.md:ReplyTo"
     ```
 
-This matchable argument contains the signs_for query request data.
-
-### `ArgSubmitEvidence`
-
-!!! quote ""
-
-    ```
-    --8<-- "./signs_for_dynamics.juvix.md:ArgSubmitEvidence"
-    ```
-
-This matchable argument contains the evidence submission request data.
-
-### `ArgQueryEvidence`
-
-!!! quote ""
-
-    ```
-    --8<-- "./signs_for_dynamics.juvix.md:ArgQueryEvidence"
-    ```
-
-This matchable argument contains the evidence query request data.
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
@@ -205,12 +187,13 @@ signsForQueryGuard
   (t : TimestampedTrigger SignsForMsg SignsForTimerHandle)
   (env : SignsForEnvironment) : Maybe (GuardOutput SignsForMatchableArgument SignsForActionLabel SignsForPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (SignsForRequest x y) := just (
-        mkGuardOutput@{
-          args := [ArgSignsForQuery (SignsForRequest x y)];
-          label := DoSignsForQuery (SignsForRequest x y);
+      | just (SignsForRequest x y) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+          label := DoSignsForQuery x y;
           other := unit
-        })
+        });}
       | _ := nothing
   };
 ```
@@ -235,12 +218,13 @@ submitEvidenceGuard
   (t : TimestampedTrigger SignsForMsg SignsForTimerHandle)
   (env : SignsForEnvironment) : Maybe (GuardOutput SignsForMatchableArgument SignsForActionLabel SignsForPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (SubmitSignsForEvidenceRequest x) := just (
-        mkGuardOutput@{
-          args := [ArgSubmitEvidence (SubmitSignsForEvidenceRequest x)];
-          label := DoSubmitEvidence (SubmitSignsForEvidenceRequest x);
+      | just (SubmitSignsForEvidenceRequest x) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+          label := DoSubmitEvidence x;
           other := unit
-        })
+        });}
       | _ := nothing
   };
 ```
@@ -265,12 +249,14 @@ queryEvidenceGuard
   (t : TimestampedTrigger SignsForMsg SignsForTimerHandle)
   (env : SignsForEnvironment) : Maybe (GuardOutput SignsForMatchableArgument SignsForActionLabel SignsForPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (QuerySignsForEvidenceRequest x) := just (
-        mkGuardOutput@{
-          args := [ArgQueryEvidence (QuerySignsForEvidenceRequest x) ];
-          label := DoQueryEvidence (QuerySignsForEvidenceRequest x) ;
-          other := unit
-        })
+      | just (QuerySignsForEvidenceRequest x) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+                  label := DoQueryEvidence x;
+                  other := unit
+                });
+        }
       | _ := nothing
   };
 ```
@@ -306,98 +292,92 @@ queryEvidenceGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
-axiom dummyActionEffect : SignsForActionEffect;
-
 signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoSignsForQuery (SignsForRequest externalIdentityA externalIdentityB) := let
-        hasEvidence := elem \{a b := a && b} true (map \{ evidence :=
-          isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
-          isEQ (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
-        } (toList (SignsForLocalState.evidenceStore localState)));
-        responseMsgSF := SignsForResponse@{
-          signsFor := hasEvidence;
-          error := nothing
-        };
-        senderSF := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetSF := case senderSF of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := env; -- No state change
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := targetSF;
-            mailbox := nothing;
-            message := Anoma.MsgSignsFor responseMsgSF
+    | DoSignsForQuery externalIdentityA externalIdentityB := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            hasEvidence := elem \{a b := a && b} true (map \{ evidence :=
+              isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
+              isEQ (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
+            } (toList (SignsForLocalState.evidenceStore localState)));
+            responseMsg := SignsForResponse@{
+              signsFor := hasEvidence;
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgSignsFor responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoSubmitEvidence (SubmitSignsForEvidenceRequest evidence) := let
-        newEvidenceStore := Set.insert evidence (SignsForLocalState.evidenceStore localState);
-        newLocalStateSF := mkSignsForLocalState@{
-          evidenceStore := newEvidenceStore
-        };
-        newEnvSF := env@EngineEnvironment{
-          localState := newLocalStateSF
-        };
-        responseMsgSubmit := SubmitSignsForEvidenceResponse@{
-          error := nothing
-        };
-        senderSubmit := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetSubmit := case senderSubmit of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := newEnvSF;
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := targetSubmit;
-            mailbox := nothing;
-            message := Anoma.MsgSignsFor responseMsgSubmit
+    | DoSubmitEvidence evidence := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            newEvidenceStore := Set.insert evidence (SignsForLocalState.evidenceStore localState);
+            newLocalState := mkSignsForLocalState@{
+              evidenceStore := newEvidenceStore
+            };
+            newEnv' := env@EngineEnvironment{
+              localState := newLocalState
+            };
+            responseMsg := SubmitSignsForEvidenceResponse@{
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := newEnv';
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgSignsFor responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoQueryEvidence (QuerySignsForEvidenceRequest externalIdentity) := let
-        relevantEvidence := AVLfilter \{evidence :=
-          isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity) ||
-          isEQ (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity)
-        } (SignsForLocalState.evidenceStore localState);
-        responseMsgQuery := QuerySignsForEvidenceResponse@{
-          evidence := relevantEvidence;
-          error := nothing
-        };
-        senderQuery := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetQuery := case senderQuery of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := env; -- No state change
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := targetQuery;
-            mailbox := nothing;
-            message := Anoma.MsgSignsFor responseMsgQuery
+    | DoQueryEvidence externalIdentity := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            relevantEvidence := AVLfilter \{evidence :=
+              isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity) ||
+              isEQ (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity)
+            } (SignsForLocalState.evidenceStore localState);
+            responseMsg := QuerySignsForEvidenceResponse@{
+              evidence := relevantEvidence;
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgSignsFor responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | _ := dummyActionEffect
   };
 ```
 <!-- --8<-- [end:action-function] -->

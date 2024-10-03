@@ -37,7 +37,9 @@ The dynamics of the Decryption Engine define how it processes incoming decryptio
 ```juvix
 type DecryptionActionLabel :=
   | -- --8<-- [start:DoDecrypt]
-    DoDecrypt DecryptionMsg
+    DoDecrypt {
+      data : ByteString
+    }
     -- --8<-- [end:DoDecrypt]
 ;
 ```
@@ -65,24 +67,25 @@ This action label corresponds to decrypting the data in the given request.
 ## Matchable arguments
 
 <!-- --8<-- [start:decryption-matchable-argument] -->
+
 ```juvix
 type DecryptionMatchableArgument :=
-  | -- --8<-- [start:ArgDecrypt]
-    ArgDecrypt DecryptionMsg
-    -- --8<-- [end:ArgDecrypt]
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:ReplyTo]
 ;
 ```
 <!-- --8<-- [end:decryption-matchable-argument] -->
 
-### `ArgDecrypt`
+### `ReplyTo`
 
 !!! quote ""
 
     ```
-    --8<-- "./decryption_dynamics.juvix.md:ArgDecrypt"
+    --8<-- "./docs/node_architecture/engines/decryption_dynamics.juvix.md:ReplyTo"
     ```
 
-This matchable argument contains the decryption request data.
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
@@ -131,12 +134,14 @@ decryptGuard
   (t : TimestampedTrigger DecryptionMsg DecryptionTimerHandle)
   (env : DecryptionEnvironment) : Maybe (GuardOutput DecryptionMatchableArgument DecryptionActionLabel DecryptionPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (DecryptRequest data) := just (
-        mkGuardOutput@{
-          args := [ArgDecrypt (DecryptRequest data)];
-          label := DoDecrypt (DecryptRequest data);
-          other := unit
-        })
+      | just (DecryptRequest data) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+                  label := DoDecrypt data;
+                  other := unit
+                });
+        }
       | _ := nothing
   };
 ```
@@ -175,45 +180,41 @@ decryptGuard
 -- Not yet implemented
 axiom decryptData : DecryptionKey -> ByteString -> Either String ByteString;
 
-axiom dummyActionEffect : DecryptionActionEffect;
-
 decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoDecrypt (DecryptRequest data) := let
-        decryptedData := decryptData (DecryptionLocalState.decryptionKey localState) data;
-        responseMsgDec := case decryptedData of {
-          | Left errorMsg := DecryptResponse@{
-              data := emptyByteString;
-              error := just errorMsg
-            }
-          | Right plaintext := DecryptResponse@{
-              data := plaintext;
-              error := nothing
-            }
-        };
-        senderDec := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetDec := case senderDec of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := env; -- No state change
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := targetDec;
-            mailbox := nothing;
-            message := Anoma.MsgDecryption responseMsgDec
+    | DoDecrypt data := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            decryptedData := decryptData (DecryptionLocalState.decryptionKey localState) data;
+            responseMsg := case decryptedData of {
+              | Left errorMsg := DecryptResponse@{
+                  data := emptyByteString;
+                  error := just errorMsg
+                }
+              | Right plaintext := DecryptResponse@{
+                  data := plaintext;
+                  error := nothing
+                }
+            };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgDecryption responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoDecrypt (DecryptResponse _ _) := dummyActionEffect
   };
 ```
 <!-- --8<-- [end:action-function] -->

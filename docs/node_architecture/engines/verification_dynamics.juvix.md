@@ -37,7 +37,12 @@ The dynamics of the Verification Engine define how it processes incoming verific
 ```juvix
 type VerificationActionLabel :=
   | -- --8<-- [start:DoVerify]
-    DoVerify VerificationMsg
+    DoVerify {
+      commitment : Commitment;
+      data : ByteString;
+      externalIdentity : ExternalIdentity;
+      useSignsFor : Bool
+    }
     -- --8<-- [end:DoVerify]
 ;
 ```
@@ -65,24 +70,25 @@ This action label corresponds to verifying a commitment.
 ## Matchable arguments
 
 <!-- --8<-- [start:verification-matchable-argument] -->
+
 ```juvix
 type VerificationMatchableArgument :=
-  | -- --8<-- [start:ArgVerify]
-    ArgVerify VerificationMsg
-    -- --8<-- [end:ArgVerify]
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:ReplyTo]
 ;
 ```
 <!-- --8<-- [end:verification-matchable-argument] -->
 
-### `ArgVerify`
+### `ReplyTo`
 
 !!! quote ""
 
     ```
-    --8<-- "./verification_dynamics.juvix.md:ArgVerify"
+    --8<-- "./docs/node_architecture/engines/verification_dynamics.juvix.md:ReplyTo"
     ```
 
-This matchable argument contains the verification request data.
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
@@ -131,12 +137,14 @@ verifyGuard
   (t : TimestampedTrigger VerificationMsg VerificationTimerHandle)
   (env : VerificationEnvironment) : Maybe (GuardOutput VerificationMatchableArgument VerificationActionLabel VerificationPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (VerifyRequest x y z w) := just (
-        mkGuardOutput@{
-          args := [ArgVerify (VerifyRequest x y z w)];
-          label := DoVerify (VerifyRequest x y z w);
-          other := unit
-        })
+      | just (VerifyRequest x y z w) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+                  label := DoVerify x y z w;
+                  other := unit
+                });
+        }
       | _ := nothing
   };
 ```
@@ -176,42 +184,38 @@ verifyGuard
 axiom verifyCommitment : ExternalIdentity -> Commitment -> ByteString -> Bool;
 axiom resolveSignsFor : ExternalIdentity -> ExternalIdentity;
 
-axiom dummyActionEffect : VerificationActionEffect;
-
 verificationAction (input : VerificationActionInput) : VerificationActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
-    | DoVerify (VerifyRequest commitment data externalIdentity useSignsFor) := let
-        finalIdentity := case useSignsFor of {
-          | true := resolveSignsFor externalIdentity
-          | false := externalIdentity
-        };
-        isValid := verifyCommitment finalIdentity commitment data;
-        responseMsgVer := VerifyResponse@{
-          result := isValid;
-          error := nothing
-        };
-        senderVer := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetVer := case senderVer of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := env; -- No state change
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := targetVer;
-            mailbox := nothing;
-            message := Anoma.MsgVerification responseMsgVer
+    | DoVerify commitment data externalIdentity useSignsFor := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            finalIdentity := case useSignsFor of {
+              | true := resolveSignsFor externalIdentity
+              | false := externalIdentity
+            };
+            isValid := verifyCommitment finalIdentity commitment data;
+            responseMsg := VerifyResponse@{
+              result := isValid;
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgVerification responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | _ := dummyActionEffect
   };
 ```
 <!-- --8<-- [end:action-function] -->

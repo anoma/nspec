@@ -41,13 +41,19 @@ The dynamics of the Naming Engine define how it processes incoming messages and 
 ```juvix
 type NamingActionLabel :=
   | -- --8<-- [start:DoResolveName]
-    DoResolveName NamingMsg
+    DoResolveName {
+      identityName : IdentityName
+    }
     -- --8<-- [end:DoResolveName]
   | -- --8<-- [start:DoSubmitNameEvidence]
-    DoSubmitNameEvidence NamingMsg
+    DoSubmitNameEvidence {
+      evidence : IdentityNameEvidence
+    }
     -- --8<-- [end:DoSubmitNameEvidence]
   | -- --8<-- [start:DoQueryNameEvidence]
-    DoQueryNameEvidence NamingMsg
+    DoQueryNameEvidence {
+      externalIdentity : ExternalIdentity
+    }
     -- --8<-- [end:DoQueryNameEvidence]
 ;
 ```
@@ -80,50 +86,25 @@ This action label corresponds to querying name evidence for a specific external 
 ## Matchable arguments
 
 <!-- --8<-- [start:naming-matchable-argument] -->
+
 ```juvix
 type NamingMatchableArgument :=
-  | -- --8<-- [start:ArgResolveName]
-    ArgResolveName NamingMsg
-    -- --8<-- [end:ArgResolveName]
-  | -- --8<-- [start:ArgSubmitNameEvidence]
-    ArgSubmitNameEvidence NamingMsg
-    -- --8<-- [end:ArgSubmitNameEvidence]
-  | -- --8<-- [start:ArgQueryNameEvidence]
-    ArgQueryNameEvidence NamingMsg
-    -- --8<-- [end:ArgQueryNameEvidence]
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:ReplyTo]
 ;
 ```
 <!-- --8<-- [end:naming-matchable-argument] -->
 
-### `ArgResolveName`
+### `ReplyTo`
 
 !!! quote ""
 
     ```
-    --8<-- "./naming_dynamics.juvix.md:ArgResolveName"
+    --8<-- "./docs/node_architecture/engines/naming_dynamics.juvix.md:ReplyTo"
     ```
 
-This matchable argument contains the resolve name request data.
-
-### `ArgSubmitNameEvidence`
-
-!!! quote ""
-
-    ```
-    --8<-- "./naming_dynamics.juvix.md:ArgSubmitNameEvidence"
-    ```
-
-This matchable argument contains the submit name evidence request data.
-
-### `ArgQueryNameEvidence`
-
-!!! quote ""
-
-    ```
-    --8<-- "./naming_dynamics.juvix.md:ArgQueryNameEvidence"
-    ```
-
-This matchable argument contains the query name evidence request data.
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
@@ -172,12 +153,13 @@ resolveNameGuard
   (t : TimestampedTrigger NamingMsg NamingTimerHandle)
   (env : NamingEnvironment) : Maybe (GuardOutput NamingMatchableArgument NamingActionLabel NamingPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (ResolveNameRequest x) := just (
-        mkGuardOutput@{
-          args := [ArgResolveName (ResolveNameRequest x)];
-          label := DoResolveName (ResolveNameRequest x);
+      | just (ResolveNameRequest x) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+          label := DoResolveName x;
           other := unit
-        })
+        });}
       | _ := nothing
   };
 ```
@@ -202,12 +184,13 @@ submitNameEvidenceGuard
   (t : TimestampedTrigger NamingMsg NamingTimerHandle)
   (env : NamingEnvironment) : Maybe (GuardOutput NamingMatchableArgument NamingActionLabel NamingPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (SubmitNameEvidenceRequest x) := just (
-        mkGuardOutput@{
-          args := [ArgSubmitNameEvidence (SubmitNameEvidenceRequest x)];
-          label := DoSubmitNameEvidence (SubmitNameEvidenceRequest x);
+      | just (SubmitNameEvidenceRequest x) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+          label := DoSubmitNameEvidence x;
           other := unit
-        })
+        });}
       | _ := nothing
   };
 ```
@@ -232,12 +215,14 @@ queryNameEvidenceGuard
   (t : TimestampedTrigger NamingMsg NamingTimerHandle)
   (env : NamingEnvironment) : Maybe (GuardOutput NamingMatchableArgument NamingActionLabel NamingPrecomputation)
   := case getMessageFromTimestampedTrigger t of {
-      | just (QueryNameEvidenceRequest x) := just (
-        mkGuardOutput@{
-          args := [ArgQueryNameEvidence (QueryNameEvidenceRequest x)];
-          label := DoQueryNameEvidence (QueryNameEvidenceRequest x);
-          other := unit
-        })
+      | just (QueryNameEvidenceRequest x) := do {
+        sender <- getMessageSenderFromTimestampedTrigger t;
+        pure (mkGuardOutput@{
+                  args := [ReplyTo (just sender) nothing] ;
+                  label := DoQueryNameEvidence x;
+                  other := unit
+                });
+        }
       | _ := nothing
   };
 ```
@@ -273,108 +258,102 @@ queryNameEvidenceGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
-axiom dummyActionEffect : NamingActionEffect;
-
 namingAction (input : NamingActionInput) : NamingActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoResolveName (ResolveNameRequest identityName) := let
-        matchingEvidence := AVLfilter \{evidence :=
-          isEQ (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
-         } (NamingLocalState.evidenceStore localState);
-        identities := fromList (map \{evidence :=
-          IdentityNameEvidence.externalIdentity evidence
-         } (toList matchingEvidence));
-        responseMsg := ResolveNameResponse@{
-          externalIdentities := identities;
-          error := nothing
-        };
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target' := case sender of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := env; -- No state change
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := target';
-            mailbox := nothing;
-            message := Anoma.MsgNaming responseMsg
+    | DoResolveName identityName := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            matchingEvidence := AVLfilter \{evidence :=
+              isEQ (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
+             } (NamingLocalState.evidenceStore localState);
+            identities := fromList (map \{evidence :=
+              IdentityNameEvidence.externalIdentity evidence
+             } (toList matchingEvidence));
+            responseMsg := ResolveNameResponse@{
+              externalIdentities := identities;
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgNaming responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoSubmitNameEvidence (SubmitNameEvidenceRequest evidence') := let
-        evidence := evidence';
-        alreadyExists := elem \{a b := a && b} true (map \{e :=
-          isEQ (Ord.cmp e evidence)
-         } (toList (NamingLocalState.evidenceStore localState)));
-        newLocalState := case alreadyExists of { 
-              | true := localState
-              | false :=
-          let newEvidenceStore := Set.insert evidence (NamingLocalState.evidenceStore localState);
-          in mkNamingLocalState@{
-            evidenceStore := newEvidenceStore
-          }};
-        newEnv' := env@EngineEnvironment{
-          localState := newLocalState
-        };
-        responseMsg := SubmitNameEvidenceResponse@{
-          error := case alreadyExists of { 
-            | true := just "Evidence already exists" 
-            | false := nothing
-        }};
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target' := case sender of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := newEnv';
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := target';
-            mailbox := nothing;
-            message := Anoma.MsgNaming responseMsg
+    | DoSubmitNameEvidence evidence' := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            evidence := evidence';
+            alreadyExists := elem \{a b := a && b} true (map \{e :=
+              isEQ (Ord.cmp e evidence)
+             } (toList (NamingLocalState.evidenceStore localState)));
+            newLocalState := case alreadyExists of { 
+                  | true := localState
+                  | false :=
+              let newEvidenceStore := Set.insert evidence (NamingLocalState.evidenceStore localState);
+              in mkNamingLocalState@{
+                evidenceStore := newEvidenceStore
+              }};
+            newEnv' := env@EngineEnvironment{
+              localState := newLocalState
+            };
+            responseMsg := SubmitNameEvidenceResponse@{
+              error := case alreadyExists of { 
+                | true := just "Evidence already exists" 
+                | false := nothing
+            }};
+          in mkActionEffect@{
+            newEnv := newEnv';
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgNaming responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoQueryNameEvidence (QueryNameEvidenceRequest externalIdentity) := let
-        relevantEvidence := AVLfilter \{evidence :=
-          isEQ (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity)
-         } (NamingLocalState.evidenceStore localState);
-        responseMsg := QueryNameEvidenceResponse@{
-          evidence := relevantEvidence;
-          error := nothing
-        };
-        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        target' := case sender of {
-          | just s := s
-          | nothing := Left "unknown"
-        };
-      in mkActionEffect@{
-        newEnv := env; -- No state change
-        producedMessages := [mkEnvelopedMessage@{
-          sender := just (EngineEnvironment.name env);
-          packet := mkMessagePacket@{
-            target := target';
-            mailbox := nothing;
-            message := Anoma.MsgNaming responseMsg
+    | DoQueryNameEvidence externalIdentity := 
+      case GuardOutput.args out of {
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            relevantEvidence := AVLfilter \{evidence :=
+              isEQ (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity)
+             } (NamingLocalState.evidenceStore localState);
+            responseMsg := QueryNameEvidenceResponse@{
+              evidence := relevantEvidence;
+              error := nothing
+            };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := Anoma.MsgNaming responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
           }
-        }];
-        timers := [];
-        spawnedEngines := []
+        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | _ := dummyActionEffect
   };
 ```
 <!-- --8<-- [end:action-function] -->
