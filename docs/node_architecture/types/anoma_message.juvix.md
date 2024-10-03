@@ -19,6 +19,7 @@ tags:
     import node_architecture.engines.commitment_overview open using {CommitmentMsg};
     import node_architecture.engines.verification_overview open using {VerificationMsg};
     import node_architecture.engines.reads_for_overview open using {ReadsForMsg};
+    import node_architecture.engines.signs_for_overview open using {SignsForMsg};
     ```
 
 # Anoma Messages
@@ -38,5 +39,6 @@ type Msg :=
   | MsgCommitment CommitmentMsg
   | MsgVerification VerificationMsg
   | MsgReadsFor ReadsForMsg
+  | MsgSignsFor SignsForMsg
   ;
 ```

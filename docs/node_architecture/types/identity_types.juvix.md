@@ -145,5 +145,17 @@ ReadsForOrd : Ord ReadsForEvidence :=
 SignsForEvidence
 
 ```juvix
-SignsForEvidence : Type := String;
+type SignsForEvidence := mkSignsForEvidence {
+  fromIdentity : ExternalIdentity;
+  toIdentity : ExternalIdentity;
+  proof : ByteString; -- Placeholder for actual proof data
+};
+
+axiom SignsForCmpDummy : SignsForEvidence -> SignsForEvidence -> Ordering;
+
+instance
+SignsForOrd : Ord SignsForEvidence := 
+  mkOrd@{
+    cmp := SignsForCmpDummy;
+  };
 ```
