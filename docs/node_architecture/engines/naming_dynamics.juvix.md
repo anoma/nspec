@@ -67,6 +67,17 @@ type NamingActionLabel :=
 
 This action label corresponds to resolving a name to associated external identities.
 
+??? quote "`DoResolveName` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | No change to the local state. |
+    | Messages to be sent   | A `ResolveNameResponse` message is sent to the requester, containing matching external identities. |
+    | Engines to be spawned | No engines are spawned by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
 ### `DoSubmitNameEvidence`
 
 !!! quote ""
@@ -75,6 +86,17 @@ This action label corresponds to resolving a name to associated external identit
 
 This action label corresponds to submitting new name evidence.
 
+??? quote "DoSubmitNameEvidence action effect"
+
+This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | If the evidence doesn't already exist, it's added to the `evidenceStore` in the local state. |
+    | Messages to be sent   | A `SubmitNameEvidenceResponse` message is sent to the requester, confirming the submission or indicating an error if the evidence already exists. |
+    | Engines to be spawned | No engines are spawned by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
 ### `DoQueryNameEvidence`
 
 !!! quote ""
@@ -82,6 +104,17 @@ This action label corresponds to submitting new name evidence.
     --8<-- "./naming_dynamics.juvix.md:DoQueryNameEvidence"
 
 This action label corresponds to querying name evidence for a specific external identity.
+
+??? quote "DoQueryNameEvidence action effect"
+
+This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | No change to the local state. |
+    | Messages to be sent   | A `QueryNameEvidenceResponse` message is sent to the requester, containing relevant evidence for the specified external identity. |
+    | Engines to be spawned | No engines are spawned by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ## Matchable arguments
 

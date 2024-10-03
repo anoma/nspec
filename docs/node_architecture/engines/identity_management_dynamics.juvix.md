@@ -68,6 +68,17 @@ type IdentityManagementActionLabel :=
 
 This action label corresponds to generating a new identity.
 
+??? quote "`DoGenerateIdentity` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | A new identity is created and added to the `identities` map in the local state. |
+    | Messages to be sent   | A `GenerateIdentityResponse` message is sent to the requester, containing the new identity information. |
+    | Engines to be spawned | No engines are spawned by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
 ### `DoConnectIdentity`
 
 !!! quote ""
@@ -76,6 +87,17 @@ This action label corresponds to generating a new identity.
 
 This action label corresponds to connecting to an existing identity.
 
+??? quote "`DoConnectIdentity` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The provided external identity is added to the `identities` map in the local state. |
+    | Messages to be sent   | A `ConnectIdentityResponse` message is sent to the requester, confirming the connection. |
+    | Engines to be spawned | No engines are spawned by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
 ### `DoDeleteIdentity`
 
 !!! quote ""
@@ -83,6 +105,17 @@ This action label corresponds to connecting to an existing identity.
     --8<-- "./identity_management_dynamics.juvix.md:DoDeleteIdentity"
 
 This action label corresponds to deleting an existing identity.
+
+??? quote "`DoDeleteIdentity` action effect"
+
+This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The specified identity is removed from the `identities` map in the local state. |
+    | Messages to be sent   | A `DeleteIdentityResponse` message is sent to the requester, confirming the deletion. |
+    | Engines to be spawned | No engines are spawned by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ## Matchable arguments
 
