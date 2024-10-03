@@ -45,29 +45,34 @@ import node_architecture.engines.decryption_overview;
 import node_architecture.engines.decryption_environment;
 import node_architecture.engines.decryption_dynamics;
 
-import node_architecture.engines.encryption.encryption;
-import node_architecture.engines.encryption.encryption_overview;
-import node_architecture.engines.encryption.encryption_environment;
-import node_architecture.engines.encryption.encryption_dynamics;
+import node_architecture.engines.encryption;
+import node_architecture.engines.encryption_overview;
+import node_architecture.engines.encryption_environment;
+import node_architecture.engines.encryption_dynamics;
 
-import node_architecture.engines.commitment.commitment;
-import node_architecture.engines.commitment.commitment_overview;
-import node_architecture.engines.commitment.commitment_environment;
-import node_architecture.engines.commitment.commitment_dynamics;
+import node_architecture.engines.commitment;
+import node_architecture.engines.commitment_overview;
+import node_architecture.engines.commitment_environment;
+import node_architecture.engines.commitment_dynamics;
 
-import node_architecture.engines.verification.verification;
-import node_architecture.engines.verification.verification_overview;
-import node_architecture.engines.verification.verification_environment;
-import node_architecture.engines.verification.verification_dynamics;
+import node_architecture.engines.verification;
+import node_architecture.engines.verification_overview;
+import node_architecture.engines.verification_environment;
+import node_architecture.engines.verification_dynamics;
 
-import node_architecture.engines.reads_for.reads_for;
-import node_architecture.engines.reads_for.reads_for_overview;
-import node_architecture.engines.reads_for.reads_for_environment;
-import node_architecture.engines.reads_for.reads_for_dynamics;
+import node_architecture.engines.reads_for;
+import node_architecture.engines.reads_for_overview;
+import node_architecture.engines.reads_for_environment;
+import node_architecture.engines.reads_for_dynamics;
 
-import node_architecture.engines.signs_for.signs_for;
-import node_architecture.engines.signs_for.signs_for_overview;
-import node_architecture.engines.signs_for.signs_for_environment;
-import node_architecture.engines.signs_for.signs_for_dynamics;
+import node_architecture.engines.signs_for;
+import node_architecture.engines.signs_for_overview;
+import node_architecture.engines.signs_for_environment;
+import node_architecture.engines.signs_for_dynamics;
+
+import node_architecture.engines.naming;
+import node_architecture.engines.naming_overview;
+import node_architecture.engines.naming_environment;
+import node_architecture.engines.naming_dynamics;
 ```
 

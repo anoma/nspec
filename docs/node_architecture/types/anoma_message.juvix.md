@@ -20,6 +20,7 @@ tags:
     import node_architecture.engines.verification_overview open using {VerificationMsg};
     import node_architecture.engines.reads_for_overview open using {ReadsForMsg};
     import node_architecture.engines.signs_for_overview open using {SignsForMsg};
+    import node_architecture.engines.naming_overview open using {NamingMsg};
     ```
 
 # Anoma Messages
@@ -40,5 +41,6 @@ type Msg :=
   | MsgVerification VerificationMsg
   | MsgReadsFor ReadsForMsg
   | MsgSignsFor SignsForMsg
+  | MsgNaming NamingMsg
   ;
 ```

@@ -109,19 +109,20 @@ IdentityName
 type IdentityName :=
   | LocalName { name : String }
   | DotName { parent : ExternalIdentity; child : String };
+
+axiom IdentityNameCmpDummy : IdentityName -> IdentityName -> Ordering;
+
+instance
+IdentityNameOrd : Ord IdentityName := 
+  mkOrd@{
+    cmp := IdentityNameCmpDummy;
+  };
 ```
 
 Signature
 
 ```juvix
 Signature : Type := String;
-```
-
-IdentityNameEvidence
-
-```juvix
-type IdentityNameEvidence :=
-  | DotEvidence { parentSignature : Signature; child : ExternalIdentity };
 ```
 
 ReadsForEvidence
@@ -157,5 +158,23 @@ instance
 SignsForOrd : Ord SignsForEvidence := 
   mkOrd@{
     cmp := SignsForCmpDummy;
+  };
+```
+
+IdentityNameEvidence
+
+```juvix
+type IdentityNameEvidence := mkIdentityNameEvidence {
+  identityName : IdentityName;
+  externalIdentity : ExternalIdentity;
+  proof : ByteString; -- Placeholder for actual proof data
+};
+
+axiom IdentityNameEvidenceCmpDummy : IdentityNameEvidence -> IdentityNameEvidence -> Ordering;
+
+instance
+IdentityNameEvidenceOrd : Ord IdentityNameEvidence := 
+  mkOrd@{
+    cmp := IdentityNameEvidenceCmpDummy;
   };
 ```
