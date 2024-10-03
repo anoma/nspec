@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: octicons/container-24
 search:
   exclude: false
 categories:
@@ -9,24 +9,25 @@ tags:
 - engine-environment
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.signs_for_environment;
+
     import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identity_types open;
     import node_architecture.engines.signs_for_overview open;
     ```
-    
-# Signs For Engine Environment
+
+# Signs For Environment
 
 ## Overview
 
-The Signs For Engine maintains the state necessary for managing `signs_for` relationships between identities, including storing evidence submitted by clients.
+The Signs For Engine environment maintains the state necessary for managing `signs_for` relationships between identities, including storing evidence submitted by clients.
 
-## Mailbox States
+## Mailbox states
 
 The Signs For Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
@@ -34,7 +35,7 @@ The Signs For Engine does not require complex mailbox states. We define the mail
 syntax alias SignsForMailboxState := Unit;
 ```
 
-## Local State
+## Local state
 
 The local state of the Signs For Engine includes the evidence for signs_for relationships.
 
@@ -44,22 +45,39 @@ type SignsForLocalState := mkSignsForLocalState {
 };
 ```
 
-## Timer Handles
-
-The Signs For Engine does not require timers. We define the timer handle type as `Unit`.
+## Timer Handle
 
 ```juvix
 syntax alias SignsForTimerHandle := Unit;
 ```
 
-## Environment Summary
+The Signs For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
-We define the environment type as:
+## Environment summary
 
 ```juvix
-SignsForEnvironment : Type := EngineEnvironment
-  SignsForLocalState
-  SignsForMsg
-  SignsForMailboxState
+SignsForEnvironment : Type := EngineEnvironment 
+  SignsForLocalState 
+  SignsForMsg 
+  SignsForMailboxState 
   SignsForTimerHandle;
+```
+
+## Example of a `Signs For` environment
+
+```juvix extract-module-statements
+module signs_for_environment_example;
+
+signsForEnvironmentExample : SignsForEnvironment :=
+    mkEngineEnvironment@{
+      name := Left "signs_for";
+      localState := mkSignsForLocalState@{
+        evidenceStore := Set.empty
+      };
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    }
+  ;
+end;
 ```

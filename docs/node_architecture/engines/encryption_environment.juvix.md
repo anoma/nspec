@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: octicons/container-24
 search:
   exclude: false
 categories:
@@ -9,10 +9,11 @@ tags:
 - engine-environment
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.encryption_environment;
+
     import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
@@ -20,13 +21,13 @@ tags:
     import node_architecture.engines.encryption_overview open;
     ```
 
-# Encryption Engine Environment
+# Encryption Environment
 
 ## Overview
 
-The Encryption Engine is stateless in terms of local state since it relies on external information (like the `reads_for` relationships) and does not maintain any internal state between requests.
+The Encryption Engine is stateless and does not maintain any internal state between requests. It relies on external information (like the `reads_for` relationships) for its operations.
 
-## Mailbox States
+## Mailbox states
 
 The Encryption Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
@@ -34,30 +35,45 @@ The Encryption Engine does not require complex mailbox states. We define the mai
 syntax alias EncryptionMailboxState := Unit;
 ```
 
-## Local State
+## Local state
 
-We can define the local state as `Unit` since the engine is stateless.
+The Encryption Engine is stateless, so we define the local state as `Unit`.
 
 ```juvix
 syntax alias EncryptionLocalState := Unit;
 ```
 
-## Timer Handles
-
-The Encryption Engine does not require timers. We define the timer handle type as Unit.
+## Timer Handle
 
 ```juvix
 syntax alias EncryptionTimerHandle := Unit;
 ```
 
-## Environment Summary
+The Encryption Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
-We define the environment type as:
+## Environment summary
 
 ```juvix
-EncryptionEnvironment : Type := EngineEnvironment
-  EncryptionLocalState
-  EncryptionMsg
-  EncryptionMailboxState
+EncryptionEnvironment : Type := EngineEnvironment 
+  EncryptionLocalState 
+  EncryptionMsg 
+  EncryptionMailboxState 
   EncryptionTimerHandle;
+```
+
+## Example of an `Encryption` environment
+
+```juvix extract-module-statements
+module encryption_environment_example;
+
+encryptionEnvironmentExample : EncryptionEnvironment :=
+    mkEngineEnvironment@{
+      name := Left "encryption";
+      localState := unit;
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    }
+  ;
+end;
 ```

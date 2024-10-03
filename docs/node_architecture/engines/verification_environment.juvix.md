@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: octicons/container-24
 search:
   exclude: false
 categories:
@@ -9,10 +9,11 @@ tags:
 - engine-environment
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.verification_environment;
+
     import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
@@ -20,13 +21,13 @@ tags:
     import node_architecture.engines.verification_overview open;
     ```
 
-# Verification Engine Environment
+# Verification Environment
 
 ## Overview
 
-The Verification Engine is stateless in terms of local state since it relies on external information (like the `signs_for` relationships) and does not maintain any internal state between requests.
+The Verification Engine is stateless and does not maintain any internal state between requests. It relies on external information (like the `signs_for` relationships) for its operations.
 
-## Mailbox States
+## Mailbox states
 
 The Verification Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
@@ -34,30 +35,45 @@ The Verification Engine does not require complex mailbox states. We define the m
 syntax alias VerificationMailboxState := Unit;
 ```
 
-## Local State
+## Local state
 
-We can define the local state as Unit since the engine is stateless.
+The Verification Engine is stateless, so we define the local state as `Unit`.
 
 ```juvix
 syntax alias VerificationLocalState := Unit;
 ```
 
-## Timer Handles
-
-The Verification Engine does not require timers. We define the timer handle type as Unit.
+## Timer Handle
 
 ```juvix
 syntax alias VerificationTimerHandle := Unit;
 ```
 
-## Environment Summary
+The Verification Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
-We define the environment type as:
+## Environment summary
 
 ```juvix
-VerificationEnvironment : Type := EngineEnvironment
-  VerificationLocalState
-  VerificationMsg
-  VerificationMailboxState
+VerificationEnvironment : Type := EngineEnvironment 
+  VerificationLocalState 
+  VerificationMsg 
+  VerificationMailboxState 
   VerificationTimerHandle;
+```
+
+## Example of a `Verification` environment
+
+```juvix extract-module-statements
+module verification_environment_example;
+
+verificationEnvironmentExample : VerificationEnvironment :=
+    mkEngineEnvironment@{
+      name := Left "verification";
+      localState := unit;
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    }
+  ;
+end;
 ```

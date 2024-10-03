@@ -4,279 +4,398 @@ search:
   exclude: false
 categories:
 - engine-family
+- juvix-module
 tags:
 - identity_management
 - engine-dynamics
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.identity_management_dynamics;
+
     import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
-    import node_architecture.engines.identity_management_overview open;
     import node_architecture.engines.identity_management_environment open;
-    import node_architecture.types.anoma_message open;
+    import node_architecture.engines.identity_management_overview open;
     import node_architecture.types.identity_types open;
+    import node_architecture.types.anoma_message as Anoma;
     ```
-    
-# Identity Management Engine Dynamics
+
+# `Identity Management` Dynamics
 
 ## Overview
 
 The dynamics of the Identity Management Engine define how it processes incoming messages (requests) and produces the corresponding responses and actions.
 
-## Action Labels
+## Action labels
 
+<!-- --8<-- [start:identity-management-action-label] -->
 ```juvix
 type IdentityManagementActionLabel :=
-  | DoGenerateIdentity GenerateIdentityRequest
-  | DoConnectIdentity ConnectIdentityRequest
-  | DoDeleteIdentity DeleteIdentityRequest;
+  | -- --8<-- [start:DoGenerateIdentity]
+    DoGenerateIdentity IdentityManagementMsg
+    -- --8<-- [end:DoGenerateIdentity]
+  | -- --8<-- [start:DoConnectIdentity]
+    DoConnectIdentity IdentityManagementMsg
+    -- --8<-- [end:DoConnectIdentity]
+  | -- --8<-- [start:DoDeleteIdentity]
+    DoDeleteIdentity IdentityManagementMsg
+    -- --8<-- [end:DoDeleteIdentity]
+;
 ```
+<!-- --8<-- [end:identity-management-action-label] -->
 
-## Matchable Arguments
+### `DoGenerateIdentity`
 
+!!! quote ""
+
+    --8<-- "./identity_management_dynamics.juvix.md:DoGenerateIdentity"
+
+This action label corresponds to generating a new identity.
+
+### `DoConnectIdentity`
+
+!!! quote ""
+
+    --8<-- "./identity_management_dynamics.juvix.md:DoConnectIdentity"
+
+This action label corresponds to connecting to an existing identity.
+
+### `DoDeleteIdentity`
+
+!!! quote ""
+
+    --8<-- "./identity_management_dynamics.juvix.md:DoDeleteIdentity"
+
+This action label corresponds to deleting an existing identity.
+
+## Matchable arguments
+
+<!-- --8<-- [start:identity-management-matchable-argument] -->
 ```juvix
 type IdentityManagementMatchableArgument :=
-  | ArgGenerateIdentity GenerateIdentityRequest
-  | ArgConnectIdentity ConnectIdentityRequest
-  | ArgDeleteIdentity DeleteIdentityRequest;
+  | -- --8<-- [start:ArgGenerateIdentity]
+    ArgGenerateIdentity IdentityManagementMsg
+    -- --8<-- [end:ArgGenerateIdentity]
+  | -- --8<-- [start:ArgConnectIdentity]
+    ArgConnectIdentity IdentityManagementMsg
+    -- --8<-- [end:ArgConnectIdentity]
+  | -- --8<-- [start:ArgDeleteIdentity]
+    ArgDeleteIdentity IdentityManagementMsg
+    -- --8<-- [end:ArgDeleteIdentity]
+;
 ```
+<!-- --8<-- [end:identity-management-matchable-argument] -->
 
-## Precomputation Results
+### `ArgGenerateIdentity`
 
+!!! quote ""
+
+    ```
+    --8<-- "./identity_management_dynamics.juvix.md:ArgGenerateIdentity"
+    ```
+
+This matchable argument contains the generate identity request data.
+
+### `ArgConnectIdentity`
+
+!!! quote ""
+
+    ```
+    --8<-- "./identity_management_dynamics.juvix.md:ArgConnectIdentity"
+    ```
+
+This matchable argument contains the connect identity request data.
+
+### `ArgDeleteIdentity`
+
+!!! quote ""
+
+    ```
+    --8<-- "./identity_management_dynamics.juvix.md:ArgDeleteIdentity"
+    ```
+
+This matchable argument contains the delete identity request data.
+
+## Precomputation results
+
+The Identity Management Engine does not require any non-trivial pre-computations.
+
+<!-- --8<-- [start:identity-management-precomputation-entry] -->
 ```juvix
 syntax alias IdentityManagementPrecomputation := Unit;
 ```
+<!-- --8<-- [end:identity-management-precomputation-entry] -->
 
 ## Guards
 
-We define guards that determine when certain actions are triggered based on incoming messages.
+??? quote "Auxiliary Juvix code"
 
-```juvix
-IdentityManagementGuard : Type :=
-  Guard
-    IdentityManagementLocalState
-    IdentityManagementMsg
-    IdentityManagementMailboxState
-    IdentityManagementTimerHandle
-    IdentityManagementMatchableArgument
-    IdentityManagementActionLabel
-    IdentityManagementPrecomputation;
-```
+    Type alias for the guard.
+
+    ```juvix
+    IdentityManagementGuard : Type :=
+      Guard
+        IdentityManagementLocalState
+        IdentityManagementMsg
+        IdentityManagementMailboxState
+        IdentityManagementTimerHandle
+        IdentityManagementMatchableArgument
+        IdentityManagementActionLabel
+        IdentityManagementPrecomputation;
+    ```
 
 ### `generateIdentityGuard`
 
+<figure markdown>
+```mermaid
+flowchart TD
+    C{GenerateIdentityRequest<br>received?}
+    C -->|Yes| D[enabled]
+    C -->|No| E[not enabled]
+    D --> F([DoGenerateIdentity])
+```
+<figcaption>generateIdentityGuard flowchart</figcaption>
+</figure>
+
+<!-- --8<-- [start:generate-identity-guard] -->
 ```juvix
 generateIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment)
-  : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
-  :=
-  case getMessageFromTimestampedTrigger t of {
-    | just (MsgGenerateIdentityRequest request) :=
-        just (mkGuardOutput@{
-          args := [ArgGenerateIdentity request];
-          label := DoGenerateIdentity request;
+  (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
+  := case getMessageFromTimestampedTrigger t of {
+      | just (GenerateIdentityRequest x y z) := just (
+        mkGuardOutput@{
+          args := [ArgGenerateIdentity (GenerateIdentityRequest x y z)];
+          label := DoGenerateIdentity (GenerateIdentityRequest x y z);
           other := unit
         })
-    | _ := nothing
+      | _ := nothing
   };
 ```
+<!-- --8<-- [end:generate-identity-guard] -->
 
 ### `connectIdentityGuard`
 
+<figure markdown>
+```mermaid
+flowchart TD
+    C{ConnectIdentityRequest<br>received?}
+    C -->|Yes| D[enabled]
+    C -->|No| E[not enabled]
+    D --> F([DoConnectIdentity])
+```
+<figcaption>connectIdentityGuard flowchart</figcaption>
+</figure>
+
+<!-- --8<-- [start:connect-identity-guard] -->
 ```juvix
 connectIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment)
-  : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
-  :=
-  case getMessageFromTimestampedTrigger t of {
-    | just (MsgConnectIdentityRequest request) :=
-        just (mkGuardOutput@{
-          args := [ArgConnectIdentity request];
-          label := DoConnectIdentity request;
+  (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
+  := case getMessageFromTimestampedTrigger t of {
+      | just (ConnectIdentityRequest x y z) := just (
+        mkGuardOutput@{
+          args := [ArgConnectIdentity (ConnectIdentityRequest x y z)];
+          label := DoConnectIdentity (ConnectIdentityRequest x y z);
           other := unit
         })
-    | _ := nothing
+      | _ := nothing
   };
 ```
+<!-- --8<-- [end:connect-identity-guard] -->
 
 ### `deleteIdentityGuard`
 
+<figure markdown>
+```mermaid
+flowchart TD
+    C{DeleteIdentityRequest<br>received?}
+    C -->|Yes| D[enabled]
+    C -->|No| E[not enabled]
+    D --> F([DoDeleteIdentity])
+```
+<figcaption>deleteIdentityGuard flowchart</figcaption>
+</figure>
+
+<!-- --8<-- [start:delete-identity-guard] -->
 ```juvix
 deleteIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment)
-  : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
-  :=
-  case getMessageFromTimestampedTrigger t of {
-    | just (MsgDeleteIdentityRequest request) :=
-        just (mkGuardOutput@{
-          args := [ArgDeleteIdentity request];
-          label := DoDeleteIdentity request;
+  (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
+  := case getMessageFromTimestampedTrigger t of {
+      | just (DeleteIdentityRequest x y) := just (
+        mkGuardOutput@{
+          args := [ArgDeleteIdentity (DeleteIdentityRequest x y)];
+          label := DoDeleteIdentity (DeleteIdentityRequest x y);
           other := unit
         })
-    | _ := nothing
+      | _ := nothing
   };
 ```
+<!-- --8<-- [end:delete-identity-guard] -->
 
-## Action Function
+## Action function
 
-We define the action function that processes the action labels and updates the environment accordingly.
+??? quote "Auxiliary Juvix code"
 
-```juvix
-IdentityManagementActionInput : Type :=
-  ActionInput
-    IdentityManagementLocalState
-    IdentityManagementMsg
-    IdentityManagementMailboxState
-    IdentityManagementTimerHandle
-    IdentityManagementMatchableArgument
-    IdentityManagementActionLabel
-    IdentityManagementPrecomputation;
+    Type alias for the action function.
 
-IdentityManagementActionEffect : Type :=
-  ActionEffect
-    IdentityManagementLocalState
-    IdentityManagementMsg
-    IdentityManagementMailboxState
-    IdentityManagementTimerHandle
-    IdentityManagementMatchableArgument
-    IdentityManagementActionLabel
-    IdentityManagementPrecomputation;
-```
+    ```juvix
+    IdentityManagementActionInput : Type :=
+      ActionInput
+        IdentityManagementLocalState
+        IdentityManagementMsg
+        IdentityManagementMailboxState
+        IdentityManagementTimerHandle
+        IdentityManagementMatchableArgument
+        IdentityManagementActionLabel
+        IdentityManagementPrecomputation;
 
-### `identityManagementAction`
+    IdentityManagementActionEffect : Type :=
+      ActionEffect
+        IdentityManagementLocalState
+        IdentityManagementMsg
+        IdentityManagementMailboxState
+        IdentityManagementTimerHandle
+        IdentityManagementMatchableArgument
+        IdentityManagementActionLabel
+        IdentityManagementPrecomputation;
+    ```
 
+<!-- --8<-- [start:action-function] -->
 ```juvix
 -- Not yet implemented
 axiom generateNewExternalIdentity : IDParams -> ExternalIdentity;
 
-identityManagementAction
-  (input : IdentityManagementActionInput)
-  : IdentityManagementActionEffect :=
+axiom dummyActionEffect : IdentityManagementActionEffect;
+
+identityManagementAction (input : IdentityManagementActionInput) : IdentityManagementActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
-    | DoGenerateIdentity request := let
-        -- Simulate identity generation (placeholder function)
-        newIdentity := generateNewExternalIdentity (GenerateIdentityRequest.params request);
+    | DoGenerateIdentity (GenerateIdentityRequest backend' params' capabilities') := let
+        newIdentity := generateNewExternalIdentity params';
         identityInfo := mkIdentityInfo@{
-          backend := GenerateIdentityRequest.backend request;
-          capabilities := GenerateIdentityRequest.capabilities request;
+          backend := backend';
+          capabilities := capabilities';
           commitmentEngine := nothing; -- Placeholder for engine reference
           decryptionEngine := nothing; -- Placeholder for engine reference
         };
         updatedIdentities := Map.insert newIdentity identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalStateGen := mkIdentityManagementLocalState@{
+        newLocalState := mkIdentityManagementLocalState@{
           identities := updatedIdentities
         };
-        newEnvGen := env@EngineEnvironment{
-          localState := newLocalStateGen
+        newEnv' := env@EngineEnvironment{
+          localState := newLocalState
         };
-        responseMsgGen := MsgGenerateIdentityResponse (mkGenerateIdentityResponse@{
+        responseMsg := GenerateIdentityResponse@{
           commitmentEngine := IdentityInfo.commitmentEngine identityInfo;
           decryptionEngine := IdentityInfo.decryptionEngine identityInfo;
           externalIdentity := newIdentity;
           error := nothing
-        });
-        senderGen := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetGen := case senderGen of {
+        };
+        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
+        target' := case sender of {
           | just s := s
           | nothing := Left "unknown"
         };
       in mkActionEffect@{
-        newEnv := newEnvGen;
+        newEnv := newEnv';
         producedMessages := [mkEnvelopedMessage@{
           sender := just (EngineEnvironment.name env);
           packet := mkMessagePacket@{
-            target := targetGen;
+            target := target';
             mailbox := nothing;
-            message := MsgIdentityManagement responseMsgGen
+            message := Anoma.MsgIdentityManagement responseMsg
           }
         }];
         timers := [];
         spawnedEngines := []
       }
-    | DoConnectIdentity request := let
+    | DoConnectIdentity (ConnectIdentityRequest externalIdentity' backend' capabilities') := let
         identityInfo := mkIdentityInfo@{
-          backend := ConnectIdentityRequest.backend request;
-          capabilities := ConnectIdentityRequest.capabilities request;
+          backend := backend';
+          capabilities := capabilities';
           commitmentEngine := nothing; -- Placeholder
           decryptionEngine := nothing; -- Placeholder
         };
-        updatedIdentities := Map.insert (ConnectIdentityRequest.externalIdentity request) identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalStateConn := mkIdentityManagementLocalState@{
+        updatedIdentities := Map.insert externalIdentity' identityInfo (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
+        newLocalState := mkIdentityManagementLocalState@{
           identities := updatedIdentities
         };
-        newEnvConn := env@EngineEnvironment{
-          localState := newLocalStateConn
+        newEnv' := env@EngineEnvironment{
+          localState := newLocalState
         };
-        responseMsgConn := MsgConnectIdentityResponse (mkConnectIdentityResponse@{
+        responseMsg := ConnectIdentityResponse@{
           commitmentEngine := IdentityInfo.commitmentEngine identityInfo;
           decryptionEngine := IdentityInfo.decryptionEngine identityInfo;
           error := nothing
-        });
-        senderConn := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetConn := case senderConn of {
+        };
+        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
+        target' := case sender of {
           | just s := s
           | nothing := Left "unknown"
         };
       in mkActionEffect@{
-        newEnv := newEnvConn;
+        newEnv := newEnv';
         producedMessages := [mkEnvelopedMessage@{
           sender := just (EngineEnvironment.name env);
           packet := mkMessagePacket@{
-            target := targetConn;
+            target := target';
             mailbox := nothing;
-            message := MsgIdentityManagement responseMsgConn
+            message := Anoma.MsgIdentityManagement responseMsg
           }
         }];
         timers := [];
         spawnedEngines := []
       }
-    | DoDeleteIdentity request := let
-        updatedIdentities := Map.delete (DeleteIdentityRequest.externalIdentity request) (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
-        newLocalStateDel := mkIdentityManagementLocalState@{
+    | DoDeleteIdentity (DeleteIdentityRequest externalIdentity' backend') := let
+        updatedIdentities := Map.delete externalIdentity' (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
+        newLocalState := mkIdentityManagementLocalState@{
           identities := updatedIdentities
         };
-        newEnvDel := env@EngineEnvironment{
-          localState := newLocalStateDel
+        newEnv' := env@EngineEnvironment{
+          localState := newLocalState
         };
-        responseMsgDel := MsgDeleteIdentityResponse (mkDeleteIdentityResponse@{
+        responseMsg := DeleteIdentityResponse@{
           error := nothing
-        });
-        senderDel := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-        targetDel := case senderDel of {
+        };
+        sender := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
+        target' := case sender of {
           | just s := s
           | nothing := Left "unknown"
         };
       in mkActionEffect@{
-        newEnv := newEnvDel;
+        newEnv := newEnv';
         producedMessages := [mkEnvelopedMessage@{
           sender := just (EngineEnvironment.name env);
           packet := mkMessagePacket@{
-            target := targetDel;
+            target := target';
             mailbox := nothing;
-            message := MsgIdentityManagement responseMsgDel
+            message := Anoma.MsgIdentityManagement responseMsg
           }
         }];
         timers := [];
         spawnedEngines := []
       }
+    | _ := dummyActionEffect
   };
 ```
+<!-- --8<-- [end:action-function] -->
 
-## Conflict Solver
+## Conflict solver
 
 ```juvix
 identityManagementConflictSolver : Set IdentityManagementMatchableArgument -> List (Set IdentityManagementMatchableArgument)
   | _ := [];
-``` 
+```
+
+## `Identity Management` Engine Summary
+
+--8<-- "./docs/node_architecture/engines/identity_management.juvix.md:identity-management-engine-family"

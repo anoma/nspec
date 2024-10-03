@@ -4,15 +4,17 @@ search:
   exclude: false
 categories:
 - engine-family
+- juvix-module
 tags:
 - encryption
 - engine-dynamics
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.encryption_dynamics;
+
     import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_dynamics open;
@@ -23,121 +25,179 @@ tags:
     import node_architecture.types.anoma_message as Anoma;
     ```
 
-# Encryption Engine Dynamics
+# `Encryption` Dynamics
 
 ## Overview
 
 The dynamics of the Encryption Engine define how it processes incoming encryption requests and produces the corresponding responses.
 
-## Action Labels
+## Action labels
 
+<!-- --8<-- [start:encryption-action-label] -->
 ```juvix
 type EncryptionActionLabel :=
-  | DoEncrypt EncryptRequest;
+  | -- --8<-- [start:DoEncrypt]
+    DoEncrypt EncryptionMsg
+    -- --8<-- [end:DoEncrypt]
+;
 ```
+<!-- --8<-- [end:encryption-action-label] -->
 
-## Matchable Arguments
+### `DoEncrypt`
 
+!!! quote ""
+
+    --8<-- "./encryption_dynamics.juvix.md:DoEncrypt"
+
+This action label corresponds to encrypting the data in the given request.
+
+??? quote "`DoEncrypt` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state remains unchanged (stateless operation). |
+    | Messages to be sent   | An `EncryptResponse` message is sent back to the requester. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
+## Matchable arguments
+
+<!-- --8<-- [start:encryption-matchable-argument] -->
 ```juvix
 type EncryptionMatchableArgument :=
-  | ArgEncrypt EncryptRequest;
+  | -- --8<-- [start:ArgEncrypt]
+    ArgEncrypt EncryptionMsg
+    -- --8<-- [end:ArgEncrypt]
+;
 ```
+<!-- --8<-- [end:encryption-matchable-argument] -->
 
-## Precomputation Results
+### `ArgEncrypt`
 
+!!! quote ""
+
+    ```
+    --8<-- "./encryption_dynamics.juvix.md:ArgEncrypt"
+    ```
+
+This matchable argument contains the encryption request data.
+
+## Precomputation results
+
+The Encryption Engine does not require any non-trivial pre-computations.
+
+<!-- --8<-- [start:encryption-precomputation-entry] -->
 ```juvix
 syntax alias EncryptionPrecomputation := Unit;
 ```
+<!-- --8<-- [end:encryption-precomputation-entry] -->
 
 ## Guards
 
-We define guards that determine when actions are triggered based on incoming messages.
+??? quote "Auxiliary Juvix code"
 
-```juvix
-EncryptionGuard : Type :=
-  Guard
-    EncryptionLocalState
-    EncryptionMsg
-    EncryptionMailboxState
-    EncryptionTimerHandle
-    EncryptionMatchableArgument
-    EncryptionActionLabel
-    EncryptionPrecomputation;
-```
+    Type alias for the guard.
+
+    ```juvix
+    EncryptionGuard : Type :=
+      Guard
+        EncryptionLocalState
+        EncryptionMsg
+        EncryptionMailboxState
+        EncryptionTimerHandle
+        EncryptionMatchableArgument
+        EncryptionActionLabel
+        EncryptionPrecomputation;
+    ```
 
 ### `encryptGuard`
 
+<figure markdown>
+```mermaid
+flowchart TD
+    C{EncryptRequest<br>received?}
+    C -->|Yes| D[enabled]
+    C -->|No| E[not enabled]
+    D --> F([DoEncrypt])
+```
+<figcaption>encryptGuard flowchart</figcaption>
+</figure>
+
+<!-- --8<-- [start:encrypt-guard] -->
 ```juvix
 encryptGuard
   (t : TimestampedTrigger EncryptionMsg EncryptionTimerHandle)
-  (env : EncryptionEnvironment)
-  : Maybe (GuardOutput EncryptionMatchableArgument EncryptionActionLabel EncryptionPrecomputation)
-  :=
-  case getMessageFromTimestampedTrigger t of {
-    | just (MsgEncryptRequest request) := just (mkGuardOutput@{
-        args := [ArgEncrypt request];
-        label := DoEncrypt request;
-        other := unit
-      })
-    | _ := nothing
+  (env : EncryptionEnvironment) : Maybe (GuardOutput EncryptionMatchableArgument EncryptionActionLabel EncryptionPrecomputation)
+  := case getMessageFromTimestampedTrigger t of {
+      | just (EncryptRequest data externalIdentity useReadsFor) := just (
+        mkGuardOutput@{
+          args := [ArgEncrypt (EncryptRequest data externalIdentity useReadsFor)];
+          label := DoEncrypt (EncryptRequest data externalIdentity useReadsFor);
+          other := unit
+        })
+      | _ := nothing
   };
 ```
+<!-- --8<-- [end:encrypt-guard] -->
 
-## Action Function
+## Action function
 
-We define the action function that processes the action labels and produces the encryption response.
+??? quote "Auxiliary Juvix code"
 
-```juvix
-EncryptionActionInput : Type :=
-  ActionInput
-    EncryptionLocalState
-    EncryptionMsg
-    EncryptionMailboxState
-    EncryptionTimerHandle
-    EncryptionMatchableArgument
-    EncryptionActionLabel
-    EncryptionPrecomputation;
+    Type alias for the action function.
 
-EncryptionActionEffect : Type :=
-  ActionEffect
-    EncryptionLocalState
-    EncryptionMsg
-    EncryptionMailboxState
-    EncryptionTimerHandle
-    EncryptionMatchableArgument
-    EncryptionActionLabel
-    EncryptionPrecomputation;
-```
+    ```juvix
+    EncryptionActionInput : Type :=
+      ActionInput
+        EncryptionLocalState
+        EncryptionMsg
+        EncryptionMailboxState
+        EncryptionTimerHandle
+        EncryptionMatchableArgument
+        EncryptionActionLabel
+        EncryptionPrecomputation;
 
-### `encryptionAction`
+    EncryptionActionEffect : Type :=
+      ActionEffect
+        EncryptionLocalState
+        EncryptionMsg
+        EncryptionMailboxState
+        EncryptionTimerHandle
+        EncryptionMatchableArgument
+        EncryptionActionLabel
+        EncryptionPrecomputation;
+    ```
 
+<!-- --8<-- [start:action-function] -->
 ```juvix
 -- Not yet implemented
 axiom encryptData : ExternalIdentity -> ByteString -> Either String ByteString;
 axiom resolveReadsFor : ExternalIdentity -> ExternalIdentity;
 
-encryptionAction
-  (input : EncryptionActionInput)
-  : EncryptionActionEffect :=
+axiom dummyActionEffect : EncryptionActionEffect;
+
+encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
-    | DoEncrypt request := let
-        finalIdentity := case EncryptRequest.useReadsFor request of {
-          | true := resolveReadsFor (EncryptRequest.externalIdentity request)
-          | false := EncryptRequest.externalIdentity request
+    | DoEncrypt (EncryptRequest data externalIdentity useReadsFor) := let
+        finalIdentity := case useReadsFor of {
+          | true := resolveReadsFor externalIdentity
+          | false := externalIdentity
         };
-        encryptedData := encryptData finalIdentity (EncryptRequest.data request);
+        encryptedData := encryptData finalIdentity data;
         responseMsgEnc := case encryptedData of {
-          | Left errorMsg := MsgEncryptResponse (mkEncryptResponse@{
+          | Left errorMsg := EncryptResponse@{
               ciphertext := emptyByteString; -- Placeholder
               error := just errorMsg
-            })
-          | Right ciphertext' := MsgEncryptResponse (mkEncryptResponse@{
+            }
+          | Right ciphertext' := EncryptResponse@{
               ciphertext := ciphertext';
               error := nothing
-            })
+            }
         };
         senderEnc := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
         targetEnc := case senderEnc of {
@@ -157,12 +217,18 @@ encryptionAction
         timers := [];
         spawnedEngines := []
       }
+    | DoEncrypt (EncryptResponse _ _) := dummyActionEffect
   };
 ```
+<!-- --8<-- [end:action-function] -->
 
-## Conflict Solver
+## Conflict solver
 
 ```juvix
 encryptionConflictSolver : Set EncryptionMatchableArgument -> List (Set EncryptionMatchableArgument)
   | _ := [];
 ```
+
+## `Encryption` Engine Summary
+
+--8<-- "./docs/node_architecture/engines/encryption.juvix.md:encryption-engine-family"

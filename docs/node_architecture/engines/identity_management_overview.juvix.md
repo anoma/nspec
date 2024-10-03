@@ -1,4 +1,3 @@
-
 ---
 icon: octicons/gear-16
 search:
@@ -18,39 +17,73 @@ tags:
     import node_architecture.basics open;
     import node_architecture.types.identity_types open;
     ```
-    
-# Identity Management Engine Family Overview
+
+# `Identity Management` Engine Family Overview
+
+--8<-- "./docs/node_architecture/engines/identity_management.juvix.md:identity-management-engine-family"
+
+The Identity Management Engine is responsible for generating, connecting, and deleting identities using various backends. It provides a unified interface over different identity backends, including internal identities stored in local memory, identities stored in hardware devices, identities accessed via browser extensions, and identities stored on remote machines accessible over the network.
 
 ## Purpose
 
-The Identity Management Engine is responsible for generating, connecting, and deleting identities using various backends. It provides a unified interface over different identity backends, including:
+The Identity Management Engine manages identities across various backends. When an identity is generated or connected, it returns handles to the corresponding commitment and decryption engine instances. These handles can be used to generate commitments or decrypt data associated with the identity.
 
-- Internal identities stored in local memory.
-- Identities stored in hardware devices (e.g., Ledger).
-- Identities accessed via browser extensions.
-- Identities stored on remote machines accessible over the network.
+## Message interface
 
-When an identity is generated or connected, the Identity Management Engine returns handles to the corresponding commitment and decryption engine instances. These handles can be used to generate commitments or decrypt data associated with the identity.
-
-## Message Interface
-
-The Identity Management Engine communicates using the following messages:
-
-- `GenerateIdentityRequest` and `GenerateIdentityResponse`
-- `ConnectIdentityRequest` and `ConnectIdentityResponse`
-- `DeleteIdentityRequest` and `DeleteIdentityResponse`
-
-### `GenerateIdentityRequest` and `GenerateIdentityResponse`
-
-#### `GenerateIdentityRequest`
-
+<!-- --8<-- [start:IdentityManagementMsg] -->
 ```juvix
-type GenerateIdentityRequest := mkGenerateIdentityRequest {
-  backend : IDBackend;
-  params : IDParams;
-  capabilities : Capabilities;
-};
+type IdentityManagementMsg :=
+  | -- --8<-- [start:GenerateIdentityRequest]
+    GenerateIdentityRequest {
+      backend : IDBackend;
+      params : IDParams;
+      capabilities : Capabilities
+    }
+    -- --8<-- [end:GenerateIdentityRequest]
+  | -- --8<-- [start:GenerateIdentityResponse]
+    GenerateIdentityResponse {
+      commitmentEngine : Maybe EngineReference;
+      decryptionEngine : Maybe EngineReference;
+      externalIdentity : ExternalIdentity;
+      error : Maybe String
+    }
+    -- --8<-- [end:GenerateIdentityResponse]
+  | -- --8<-- [start:ConnectIdentityRequest]
+    ConnectIdentityRequest {
+      externalIdentity : ExternalIdentity;
+      backend : IDBackend;
+      capabilities : Capabilities
+    }
+    -- --8<-- [end:ConnectIdentityRequest]
+  | -- --8<-- [start:ConnectIdentityResponse]
+    ConnectIdentityResponse {
+      commitmentEngine : Maybe EngineReference;
+      decryptionEngine : Maybe EngineReference;
+      error : Maybe String
+    }
+    -- --8<-- [end:ConnectIdentityResponse]
+  | -- --8<-- [start:DeleteIdentityRequest]
+    DeleteIdentityRequest {
+      externalIdentity : ExternalIdentity;
+      backend : IDBackend
+    }
+    -- --8<-- [end:DeleteIdentityRequest]
+  | -- --8<-- [start:DeleteIdentityResponse]
+    DeleteIdentityResponse {
+      error : Maybe String
+    }
+    -- --8<-- [end:DeleteIdentityResponse]
+  ;
 ```
+<!-- --8<-- [end:IdentityManagementMsg] -->
+
+### `GenerateIdentityRequest` message
+
+!!! quote "GenerateIdentityRequest"
+
+    ```
+    --8<-- "./identity_management_overview.juvix.md:GenerateIdentityRequest"
+    ```
 
 A `GenerateIdentityRequest` instructs the Identity Management Engine to generate a new identity using the specified backend, parameters, and capabilities.
 
@@ -58,16 +91,13 @@ A `GenerateIdentityRequest` instructs the Identity Management Engine to generate
 - `params`: Parameters to pass to the backend (e.g., cryptosystem, security level).
 - `capabilities`: Capabilities to request (e.g., commitment, decryption, or both).
 
-#### `GenerateIdentityResponse`
+### `GenerateIdentityResponse` message
 
-```juvix
-type GenerateIdentityResponse := mkGenerateIdentityResponse {
-  commitmentEngine : Maybe EngineReference;
-  decryptionEngine : Maybe EngineReference;
-  externalIdentity : ExternalIdentity;
-  error : Maybe String;
-};
-```
+!!! quote "GenerateIdentityResponse"
+
+    ```
+    --8<-- "./identity_management_overview.juvix.md:GenerateIdentityResponse"
+    ```
 
 A `GenerateIdentityResponse` provides the handles to the decryption and commitment engine instances for the newly generated identity, or an error if a failure occurred.
 
@@ -76,17 +106,13 @@ A `GenerateIdentityResponse` provides the handles to the decryption and commitme
 - `externalIdentity`: The external identity of the newly created identity.
 - `error`: An error message if identity generation failed.
 
-### `ConnectIdentityRequest` and `ConnectIdentityResponse`
+### `ConnectIdentityRequest` message
 
-#### `ConnectIdentityRequest`
+!!! quote "ConnectIdentityRequest"
 
-```juvix
-type ConnectIdentityRequest := mkConnectIdentityRequest {
-  externalIdentity : ExternalIdentity;
-  backend : IDBackend;
-  capabilities : Capabilities;
-};
-```
+    ```
+    --8<-- "./identity_management_overview.juvix.md:ConnectIdentityRequest"
+    ```
 
 A `ConnectIdentityRequest` instructs the Identity Management Engine to connect to an existing identity using the specified backend.
 
@@ -94,15 +120,13 @@ A `ConnectIdentityRequest` instructs the Identity Management Engine to connect t
 - `backend`: The backend to use for the connection.
 - `capabilities`: Capabilities to request (e.g., commitment, decryption, or both).
 
-#### `ConnectIdentityResponse`
+### `ConnectIdentityResponse` message
 
-```juvix
-type ConnectIdentityResponse := mkConnectIdentityResponse {
-  commitmentEngine : Maybe EngineReference;
-  decryptionEngine : Maybe EngineReference;
-  error : Maybe String;
-};
-```
+!!! quote "ConnectIdentityResponse"
+
+    ```
+    --8<-- "./identity_management_overview.juvix.md:ConnectIdentityResponse"
+    ```
 
 A `ConnectIdentityResponse` provides the handles to the decryption and commitment engine instances for the connected identity, or an error if a failure occurred.
 
@@ -110,68 +134,60 @@ A `ConnectIdentityResponse` provides the handles to the decryption and commitmen
 - `decryptionEngine`: Reference to the newly instantiated decryption engine.
 - `error`: An error message if identity connection failed.
 
-### `DeleteIdentityRequest` and `DeleteIdentityResponse`
+### `DeleteIdentityRequest` message
 
-#### `DeleteIdentityRequest`
+!!! quote "DeleteIdentityRequest"
 
-```juvix
-type DeleteIdentityRequest := mkDeleteIdentityRequest {
-  externalIdentity : ExternalIdentity;
-  backend : IDBackend;
-};
-```
+    ```
+    --8<-- "./identity_management_overview.juvix.md:DeleteIdentityRequest"
+    ```
 
 A `DeleteIdentityRequest` instructs the Identity Management Engine to delete an existing identity using the specified backend.
 
 - `externalIdentity`: The external identity to delete.
 - `backend`: The backend to use for deletion.
 
-#### `DeleteIdentityResponse`
+### `DeleteIdentityResponse` message
 
-```juvix
-type DeleteIdentityResponse := mkDeleteIdentityResponse {
-  error : Maybe String;
-};
-```
+!!! quote "DeleteIdentityResponse"
+
+    ```
+    --8<-- "./identity_management_overview.juvix.md:DeleteIdentityResponse"
+    ```
 
 A `DeleteIdentityResponse` provides the response from an attempt to delete an identity.
 
 - `error`: An error message if identity deletion failed.
 
-#### `IdentityManagementMsg`
-
-We define the messages that the Identity Management Engine handles.
-
-```juvix
-type IdentityManagementMsg :=
-  | MsgGenerateIdentityRequest GenerateIdentityRequest
-  | MsgGenerateIdentityResponse GenerateIdentityResponse
-  | MsgConnectIdentityRequest ConnectIdentityRequest
-  | MsgConnectIdentityResponse ConnectIdentityResponse
-  | MsgDeleteIdentityRequest DeleteIdentityRequest
-  | MsgDeleteIdentityResponse DeleteIdentityResponse;
-```
-
-## Message Sequence Diagrams
+## Message sequence diagrams
 
 ### Identity Generation Sequence
+
+<!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
 
 ```mermaid
 sequenceDiagram
     participant Client
     participant IdentityManagementEngine
+    participant IDBackend
 
     Client ->> IdentityManagementEngine: GenerateIdentityRequest
     IdentityManagementEngine ->> IDBackend: Generate Identity
     IDBackend -->> IdentityManagementEngine: Identity Details
-    IdentityManagementEngine ->> Client: GenerateIdentityResponse
+    IdentityManagementEngine ->> IdentityManagementEngine: Create Commitment and Decryption Engines
+    IdentityManagementEngine -->> Client: GenerateIdentityResponse
 ```
-<figcaption markdown="span"> Sequence diagram for identity generation. </figcaption> </figure>
+
+<figcaption markdown="span">
+Sequence diagram for identity generation.
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram] -->
 
 ## Engine Components
 
-- [[identity_management_environment|Identity Management Engine Environment]]
-- [[identity_management_dynamics|Identity Management Engine Dynamics]]
+- [[identity_management_environment|`Identity Management` Engine Environment]]
+- [[identity_management_dynamics|`Identity Management` Engine Dynamics]]
 
 ## Useful links

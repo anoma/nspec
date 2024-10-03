@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: octicons/container-24
 search:
   exclude: false
 categories:
@@ -9,23 +9,24 @@ tags:
 - engine-environment
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.naming_environment;
+
     import prelude open;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identity_types open;
     import node_architecture.engines.naming_overview open;
     ```
-    
-# Naming Engine Environment
+
+# Naming Environment
 
 ## Overview
 
 The Naming Engine maintains the state necessary for managing associations between `IdentityName`s and `ExternalIdentity`s, including storing evidence submitted by clients.
 
-## Mailbox States
+## Mailbox states
 
 The Naming Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
@@ -33,7 +34,7 @@ The Naming Engine does not require complex mailbox states. We define the mailbox
 syntax alias NamingMailboxState := Unit;
 ```
 
-## Local State
+## Local state
 
 The local state of the Naming Engine includes the evidence for name associations.
 
@@ -43,22 +44,39 @@ type NamingLocalState := mkNamingLocalState {
 };
 ```
 
-## Timer Handles
-
-The Naming Engine does not require timers. We define the timer handle type as Unit.
+## Timer Handle
 
 ```juvix
 syntax alias NamingTimerHandle := Unit;
 ```
 
-## Environment Summary
+The Naming Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
-We define the environment type as:
+## Environment summary
 
 ```juvix
-NamingEnvironment : Type := EngineEnvironment
-  NamingLocalState
-  NamingMsg
-  NamingMailboxState
+NamingEnvironment : Type := EngineEnvironment 
+  NamingLocalState 
+  NamingMsg 
+  NamingMailboxState 
   NamingTimerHandle;
+```
+
+## Example of a `Naming` environment
+
+```juvix extract-module-statements
+module naming_environment_example;
+
+namingEnvironmentExample : NamingEnvironment :=
+    mkEngineEnvironment@{
+      name := Left "naming";
+      localState := mkNamingLocalState@{
+        evidenceStore := Set.empty
+      };
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    }
+  ;
+end;
 ```

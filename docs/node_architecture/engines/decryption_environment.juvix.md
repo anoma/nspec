@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: octicons/container-24
 search:
   exclude: false
 categories:
@@ -9,10 +9,11 @@ tags:
 - engine-environment
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.decryption_environment;
+
     import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
@@ -20,13 +21,13 @@ tags:
     import node_architecture.engines.decryption_overview open;
     ```
 
-# Decryption Engine Environment
+# Decryption Environment
 
 ## Overview
 
-Each Decryption Engine instance is associated with a specific identity and handles decryption requests for that identity.
+Each Decryption Engine instance is associated with a specific identity and handles decryption requests for that identity. The environment maintains the necessary state for decryption operations.
 
-## Mailbox States
+## Mailbox states
 
 The Decryption Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
@@ -34,7 +35,7 @@ The Decryption Engine does not require complex mailbox states. We define the mai
 syntax alias DecryptionMailboxState := Unit;
 ```
 
-## Local State
+## Local state
 
 The local state of a Decryption Engine instance includes the identity's decryption capabilities and any necessary decryption keys or handles.
 
@@ -46,22 +47,45 @@ type DecryptionLocalState := mkDecryptionLocalState {
 };
 ```
 
-## Timer Handles
-
-The Decryption Engine does not require timers. We define the timer handle type as Unit.
+## Timer Handle
 
 ```juvix
 syntax alias DecryptionTimerHandle := Unit;
 ```
 
-## Environment Summary
+The Decryption Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
-We define the environment type as:
+## Environment summary
 
 ```juvix
-DecryptionEnvironment : Type := EngineEnvironment
-  DecryptionLocalState
-  DecryptionMsg
-  DecryptionMailboxState
+DecryptionEnvironment : Type := EngineEnvironment 
+  DecryptionLocalState 
+  DecryptionMsg 
+  DecryptionMailboxState 
   DecryptionTimerHandle;
+```
+
+## Example of a `Decryption` environment
+
+```juvix extract-module-statements
+module decryption_environment_example;
+
+axiom dummyExternalIdentity : ExternalIdentity;
+axiom dummyIDBackend : IDBackend;
+axiom dummyDecryptionKey : DecryptionKey;
+
+decryptionEnvironmentExample : DecryptionEnvironment :=
+    mkEngineEnvironment@{
+      name := Left "decryption";
+      localState := mkDecryptionLocalState@{
+        identity := dummyExternalIdentity;
+        backend := dummyIDBackend;
+        decryptionKey := dummyDecryptionKey
+      };
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    }
+  ;
+end;
 ```

@@ -4,15 +4,17 @@ search:
   exclude: false
 categories:
 - engine-family
+- juvix-module
 tags:
 - verification
 - engine-dynamics
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.verification_dynamics;
+
     import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_dynamics open;
@@ -23,119 +25,174 @@ tags:
     import node_architecture.types.anoma_message as Anoma;
     ```
 
-# Verification Engine Dynamics
+# `Verification` Dynamics
 
 ## Overview
 
 The dynamics of the Verification Engine define how it processes incoming verification requests and produces the corresponding responses.
 
-## Action Labels
+## Action labels
 
+<!-- --8<-- [start:verification-action-label] -->
 ```juvix
 type VerificationActionLabel :=
-  | DoVerify VerifyRequest;
+  | -- --8<-- [start:DoVerify]
+    DoVerify VerificationMsg
+    -- --8<-- [end:DoVerify]
+;
 ```
+<!-- --8<-- [end:verification-action-label] -->
 
-## Matchable Arguments
+### `DoVerify`
 
+!!! quote ""
+
+    --8<-- "./verification_dynamics.juvix.md:DoVerify"
+
+This action label corresponds to verifying a commitment.
+
+??? quote "`DoVerify` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state remains unchanged (stateless engine). |
+    | Messages to be sent   | A `VerifyResponse` message is sent back to the requester. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
+## Matchable arguments
+
+<!-- --8<-- [start:verification-matchable-argument] -->
 ```juvix
 type VerificationMatchableArgument :=
-  | ArgVerify VerifyRequest;
+  | -- --8<-- [start:ArgVerify]
+    ArgVerify VerificationMsg
+    -- --8<-- [end:ArgVerify]
+;
 ```
+<!-- --8<-- [end:verification-matchable-argument] -->
 
-## Precomputation Results
+### `ArgVerify`
 
+!!! quote ""
+
+    ```
+    --8<-- "./verification_dynamics.juvix.md:ArgVerify"
+    ```
+
+This matchable argument contains the verification request data.
+
+## Precomputation results
+
+The Verification Engine does not require any non-trivial pre-computations.
+
+<!-- --8<-- [start:verification-precomputation-entry] -->
 ```juvix
 syntax alias VerificationPrecomputation := Unit;
 ```
+<!-- --8<-- [end:verification-precomputation-entry] -->
 
 ## Guards
 
-We define guards that determine when actions are triggered based on incoming messages.
+??? quote "Auxiliary Juvix code"
 
-```juvix
-VerificationGuard : Type :=
-  Guard
-    VerificationLocalState
-    VerificationMsg
-    VerificationMailboxState
-    VerificationTimerHandle
-    VerificationMatchableArgument
-    VerificationActionLabel
-    VerificationPrecomputation;
-```
+    Type alias for the guard.
+
+    ```juvix
+    VerificationGuard : Type :=
+      Guard
+        VerificationLocalState
+        VerificationMsg
+        VerificationMailboxState
+        VerificationTimerHandle
+        VerificationMatchableArgument
+        VerificationActionLabel
+        VerificationPrecomputation;
+    ```
 
 ### `verifyGuard`
 
+<figure markdown>
+```mermaid
+flowchart TD
+    C{VerifyRequest<br>received?}
+    C -->|Yes| D[enabled]
+    C -->|No| E[not enabled]
+    D --> F([DoVerify])
+```
+<figcaption>verifyGuard flowchart</figcaption>
+</figure>
+
+<!-- --8<-- [start:verify-guard] -->
 ```juvix
 verifyGuard
   (t : TimestampedTrigger VerificationMsg VerificationTimerHandle)
-  (env : VerificationEnvironment)
-  : Maybe (GuardOutput VerificationMatchableArgument VerificationActionLabel VerificationPrecomputation)
-  :=
-  case getMessageFromTimestampedTrigger t of {
-    | just (MsgVerifyRequest request) := just (mkGuardOutput@{
-        args := [ArgVerify request];
-        label := DoVerify request;
-        other := unit
-      })
-    | _ := nothing
+  (env : VerificationEnvironment) : Maybe (GuardOutput VerificationMatchableArgument VerificationActionLabel VerificationPrecomputation)
+  := case getMessageFromTimestampedTrigger t of {
+      | just (VerifyRequest x y z w) := just (
+        mkGuardOutput@{
+          args := [ArgVerify (VerifyRequest x y z w)];
+          label := DoVerify (VerifyRequest x y z w);
+          other := unit
+        })
+      | _ := nothing
   };
 ```
+<!-- --8<-- [end:verify-guard] -->
 
-## Action Function
+## Action function
 
-We define the action function that processes the action labels and produces the verification response.
+??? quote "Auxiliary Juvix code"
 
-```juvix
-VerificationActionInput : Type :=
-  ActionInput
-    VerificationLocalState
-    VerificationMsg
-    VerificationMailboxState
-    VerificationTimerHandle
-    VerificationMatchableArgument
-    VerificationActionLabel
-    VerificationPrecomputation;
+    Type alias for the action function.
 
-VerificationActionEffect : Type :=
-  ActionEffect
-    VerificationLocalState
-    VerificationMsg
-    VerificationMailboxState
-    VerificationTimerHandle
-    VerificationMatchableArgument
-    VerificationActionLabel
-    VerificationPrecomputation;
-```
+    ```juvix
+    VerificationActionInput : Type :=
+      ActionInput
+        VerificationLocalState
+        VerificationMsg
+        VerificationMailboxState
+        VerificationTimerHandle
+        VerificationMatchableArgument
+        VerificationActionLabel
+        VerificationPrecomputation;
 
-### `verificationAction`
+    VerificationActionEffect : Type :=
+      ActionEffect
+        VerificationLocalState
+        VerificationMsg
+        VerificationMailboxState
+        VerificationTimerHandle
+        VerificationMatchableArgument
+        VerificationActionLabel
+        VerificationPrecomputation;
+    ```
 
+<!-- --8<-- [start:action-function] -->
 ```juvix
 -- Not yet implemented
 axiom verifyCommitment : ExternalIdentity -> Commitment -> ByteString -> Bool;
 axiom resolveSignsFor : ExternalIdentity -> ExternalIdentity;
 
-verificationAction
-  (input : VerificationActionInput)
-  : VerificationActionEffect :=
+axiom dummyActionEffect : VerificationActionEffect;
+
+verificationAction (input : VerificationActionInput) : VerificationActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
-    | DoVerify request := let
-        -- Placeholder for checking and possibly updating the external identity using SignsFor relationships
-        finalIdentity := case VerifyRequest.useSignsFor request of {
-          | true := resolveSignsFor (VerifyRequest.externalIdentity request)
-          | false := VerifyRequest.externalIdentity request
+    | DoVerify (VerifyRequest commitment data externalIdentity useSignsFor) := let
+        finalIdentity := case useSignsFor of {
+          | true := resolveSignsFor externalIdentity
+          | false := externalIdentity
         };
-        isValid := verifyCommitment finalIdentity
-                                   (VerifyRequest.commitment request)
-                                   (VerifyRequest.data request);
-        responseMsgVer := MsgVerifyResponse (mkVerifyResponse@{
+        isValid := verifyCommitment finalIdentity commitment data;
+        responseMsgVer := VerifyResponse@{
           result := isValid;
           error := nothing
-        });
+        };
         senderVer := getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input);
         targetVer := case senderVer of {
           | just s := s
@@ -154,12 +211,18 @@ verificationAction
         timers := [];
         spawnedEngines := []
       }
+    | _ := dummyActionEffect
   };
 ```
+<!-- --8<-- [end:action-function] -->
 
-## Conflict Solver
+## Conflict solver
 
 ```juvix
 verificationConflictSolver : Set VerificationMatchableArgument -> List (Set VerificationMatchableArgument)
   | _ := [];
 ```
+
+## `Verification` Engine Summary
+
+--8<-- "./docs/node_architecture/engines/verification.juvix.md:verification-engine-family"

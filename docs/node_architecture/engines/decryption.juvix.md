@@ -7,19 +7,20 @@ tags:
 - engines
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.decryption;
-    import prelude open;
-    import node_architecture.engines.decryption_overview open public;
-    import node_architecture.engines.decryption_environment open public;
-    import node_architecture.engines.decryption_dynamics open public;
-    import node_architecture.types.engine_family as Anoma;
+      import prelude open;
+      import node_architecture.engines.decryption_overview open public;
+      import node_architecture.engines.decryption_environment open public;
+      import node_architecture.engines.decryption_dynamics open public;
+      import node_architecture.types.engine_family as Anoma;
     ```
 
-# Decryption Engine Family Type
+# `Decryption` engine family type
 
+<!-- --8<-- [start:decryption-engine-family] -->
 ```juvix
 DecryptionEngineFamily :
   Anoma.EngineFamily
@@ -34,5 +35,7 @@ DecryptionEngineFamily :
     guards := [decryptGuard];
     action := decryptionAction;
     conflictSolver := decryptionConflictSolver;
-  };
+  }
+  ;
 ```
+<!-- --8<-- [end:decryption-engine-family] -->

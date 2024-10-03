@@ -7,19 +7,20 @@ tags:
 - engines
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.verification;
-    import prelude open;
-    import node_architecture.engines.verification_overview open public;
-    import node_architecture.engines.verification_environment open public;
-    import node_architecture.engines.verification_dynamics open public;
-    import node_architecture.types.engine_family as Anoma;
+      import prelude open;
+      import node_architecture.engines.verification_overview open public;
+      import node_architecture.engines.verification_environment open public;
+      import node_architecture.engines.verification_dynamics open public;
+      import node_architecture.types.engine_family as Anoma;
     ```
 
-# Verification Engine Family Type
+# `Verification` engine family type
 
+<!-- --8<-- [start:verification-engine-family] -->
 ```juvix
 VerificationEngineFamily :
   Anoma.EngineFamily
@@ -34,5 +35,7 @@ VerificationEngineFamily :
     guards := [verifyGuard];
     action := verificationAction;
     conflictSolver := verificationConflictSolver;
-  };
+  }
+  ;
 ```
+<!-- --8<-- [end:verification-engine-family] -->

@@ -7,19 +7,20 @@ tags:
 - engines
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.signs_for;
-    import prelude open;
-    import node_architecture.engines.signs_for_overview open public;
-    import node_architecture.engines.signs_for_environment open public;
-    import node_architecture.engines.signs_for_dynamics open public;
-    import node_architecture.types.engine_family as Anoma;
+      import prelude open;
+      import node_architecture.engines.signs_for_overview open public;
+      import node_architecture.engines.signs_for_environment open public;
+      import node_architecture.engines.signs_for_dynamics open public;
+      import node_architecture.types.engine_family as Anoma;
     ```
-    
-# Signs For Engine Family Type
 
+# `Signs For` engine family type
+
+<!-- --8<-- [start:signs-for-engine-family] -->
 ```juvix
 SignsForEngineFamily :
   Anoma.EngineFamily
@@ -34,5 +35,7 @@ SignsForEngineFamily :
     guards := [signsForQueryGuard; submitEvidenceGuard; queryEvidenceGuard];
     action := signsForAction;
     conflictSolver := signsForConflictSolver;
-  };
+  }
+  ;
 ```
+<!-- --8<-- [end:signs-for-engine-family] -->

@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: octicons/container-24
 search:
   exclude: false
 categories:
@@ -9,10 +9,11 @@ tags:
 - engine-environment
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.commitment_environment;
+
     import prelude open;
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
@@ -20,13 +21,13 @@ tags:
     import node_architecture.engines.commitment_overview open;
     ```
 
-# Commitment Engine Environment
+# Commitment Environment
 
 ## Overview
 
-Each Commitment Engine instance is associated with a specific identity and handles commitment (signature) requests for that identity.
+The Commitment Engine environment maintains the state necessary for generating commitments (signatures) for a specific identity. It includes the identity's signing capabilities and any necessary signing keys or handles.
 
-## Mailbox States
+## Mailbox states
 
 The Commitment Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
@@ -34,7 +35,7 @@ The Commitment Engine does not require complex mailbox states. We define the mai
 syntax alias CommitmentMailboxState := Unit;
 ```
 
-## Local State
+## Local state
 
 The local state of a Commitment Engine instance includes the identity's signing capabilities and any necessary signing keys or handles.
 
@@ -46,22 +47,45 @@ type CommitmentLocalState := mkCommitmentLocalState {
 };
 ```
 
-## Timer Handles
-
-The Commitment Engine does not require timers. We define the timer handle type as Unit.
+## Timer Handle
 
 ```juvix
 syntax alias CommitmentTimerHandle := Unit;
 ```
 
-## Environment Summary
+The Commitment Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
-We define the environment type as:
+## Environment summary
 
 ```juvix
-CommitmentEnvironment : Type := EngineEnvironment
-  CommitmentLocalState
-  CommitmentMsg
-  CommitmentMailboxState
+CommitmentEnvironment : Type := EngineEnvironment 
+  CommitmentLocalState 
+  CommitmentMsg 
+  CommitmentMailboxState 
   CommitmentTimerHandle;
+```
+
+## Example of a `Commitment` environment
+
+```juvix extract-module-statements
+module commitment_environment_example;
+
+axiom dummyExternalIdentity : ExternalIdentity;
+axiom dummyIDBackend : IDBackend;
+axiom dummySigningKey : SigningKey;
+
+commitmentEnvironmentExample : CommitmentEnvironment :=
+    mkEngineEnvironment@{
+      name := Left "commitment";
+      localState := mkCommitmentLocalState@{
+        identity := dummyExternalIdentity;
+        backend := dummyIDBackend;
+        signingKey := dummySigningKey
+      };
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    }
+  ;
+end;
 ```

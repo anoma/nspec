@@ -7,19 +7,20 @@ tags:
 - engines
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix preamble"
 
     ```juvix
     module node_architecture.engines.commitment;
-    import prelude open;
-    import node_architecture.engines.commitment_overview open public;
-    import node_architecture.engines.commitment_environment open public;
-    import node_architecture.engines.commitment_dynamics open public;
-    import node_architecture.types.engine_family as Anoma;
+      import prelude open;
+      import node_architecture.engines.commitment_overview open public;
+      import node_architecture.engines.commitment_environment open public;
+      import node_architecture.engines.commitment_dynamics open public;
+      import node_architecture.types.engine_family as Anoma;
     ```
 
-# Commitment Engine Family Type
+# `Commitment` engine family type
 
+<!-- --8<-- [start:commitment-engine-family] -->
 ```juvix
 CommitmentEngineFamily :
   Anoma.EngineFamily
@@ -34,5 +35,7 @@ CommitmentEngineFamily :
     guards := [commitGuard];
     action := commitmentAction;
     conflictSolver := commitmentConflictSolver;
-  };
+  }
+  ;
 ```
+<!-- --8<-- [end:commitment-engine-family] -->
