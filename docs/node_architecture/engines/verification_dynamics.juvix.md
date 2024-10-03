@@ -107,6 +107,7 @@ syntax alias VerificationPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:verification-guard]
     VerificationGuard : Type :=
       Guard
         VerificationLocalState
@@ -116,6 +117,12 @@ syntax alias VerificationPrecomputation := Unit;
         VerificationMatchableArgument
         VerificationActionLabel
         VerificationPrecomputation;
+    -- --8<-- [end:verification-guard]
+
+    -- --8<-- [start:verification-guard-output]
+    VerificationGuardOutput : Type :=
+      GuardOutput VerificationMatchableArgument VerificationActionLabel VerificationPrecomputation;
+    -- --8<-- [end:verification-guard-output]
     ```
 
 ### `verifyGuard`
@@ -135,7 +142,7 @@ flowchart TD
 ```juvix
 verifyGuard
   (t : TimestampedTrigger VerificationMsg VerificationTimerHandle)
-  (env : VerificationEnvironment) : Maybe (GuardOutput VerificationMatchableArgument VerificationActionLabel VerificationPrecomputation)
+  (env : VerificationEnvironment) : Maybe VerificationGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (VerifyRequest x y z w) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;

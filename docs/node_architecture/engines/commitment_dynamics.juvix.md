@@ -104,6 +104,7 @@ syntax alias CommitmentPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:commitment-guard]
     CommitmentGuard : Type :=
       Guard
         CommitmentLocalState
@@ -113,6 +114,12 @@ syntax alias CommitmentPrecomputation := Unit;
         CommitmentMatchableArgument
         CommitmentActionLabel
         CommitmentPrecomputation;
+    -- --8<-- [end:commitment-guard]
+
+    -- --8<-- [start:commitment-guard-output]
+    CommitmentGuardOutput : Type :=
+      GuardOutput CommitmentMatchableArgument CommitmentActionLabel CommitmentPrecomputation;
+    -- --8<-- [end:commitment-guard-output]
     ```
 
 ### `commitGuard`
@@ -132,7 +139,7 @@ flowchart TD
 ```juvix
 commitGuard
   (t : TimestampedTrigger CommitmentMsg CommitmentTimerHandle)
-  (env : CommitmentEnvironment) : Maybe (GuardOutput CommitmentMatchableArgument CommitmentActionLabel CommitmentPrecomputation)
+  (env : CommitmentEnvironment) : Maybe CommitmentGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (CommitRequest data) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;

@@ -104,6 +104,7 @@ syntax alias DecryptionPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:decryption-guard]
     DecryptionGuard : Type :=
       Guard
         DecryptionLocalState
@@ -113,6 +114,12 @@ syntax alias DecryptionPrecomputation := Unit;
         DecryptionMatchableArgument
         DecryptionActionLabel
         DecryptionPrecomputation;
+    -- --8<-- [end:decryption-guard]
+
+    -- --8<-- [start:decryption-guard-output]
+    DecryptionGuardOutput : Type :=
+      GuardOutput DecryptionMatchableArgument DecryptionActionLabel DecryptionPrecomputation;
+    -- --8<-- [end:decryption-guard-output]
     ```
 
 ### `decryptGuard`
@@ -132,7 +139,7 @@ flowchart TD
 ```juvix
 decryptGuard
   (t : TimestampedTrigger DecryptionMsg DecryptionTimerHandle)
-  (env : DecryptionEnvironment) : Maybe (GuardOutput DecryptionMatchableArgument DecryptionActionLabel DecryptionPrecomputation)
+  (env : DecryptionEnvironment) : Maybe DecryptionGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (DecryptRequest data) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;

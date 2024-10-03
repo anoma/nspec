@@ -157,6 +157,7 @@ syntax alias IdentityManagementPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:identity-management-guard]
     IdentityManagementGuard : Type :=
       Guard
         IdentityManagementLocalState
@@ -166,6 +167,12 @@ syntax alias IdentityManagementPrecomputation := Unit;
         IdentityManagementMatchableArgument
         IdentityManagementActionLabel
         IdentityManagementPrecomputation;
+    -- --8<-- [end:identity-management-guard]
+
+    -- --8<-- [start:identity-management-guard-output]
+    IdentityManagementGuardOutput : Type :=
+      GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation;
+    -- --8<-- [end:identity-management-guard-output]
     ```
 
 ### `generateIdentityGuard`
@@ -185,7 +192,7 @@ flowchart TD
 ```juvix
 generateIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
+  (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (GenerateIdentityRequest x y z) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
@@ -217,7 +224,7 @@ flowchart TD
 ```juvix
 connectIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
+  (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (ConnectIdentityRequest x y z) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
@@ -249,7 +256,7 @@ flowchart TD
 ```juvix
 deleteIdentityGuard
   (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment) : Maybe (GuardOutput IdentityManagementMatchableArgument IdentityManagementActionLabel IdentityManagementPrecomputation)
+  (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (DeleteIdentityRequest x y) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;

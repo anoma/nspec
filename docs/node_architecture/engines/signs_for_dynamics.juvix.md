@@ -157,6 +157,7 @@ syntax alias SignsForPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:signs-for-guard]
     SignsForGuard : Type :=
       Guard
         SignsForLocalState
@@ -166,6 +167,12 @@ syntax alias SignsForPrecomputation := Unit;
         SignsForMatchableArgument
         SignsForActionLabel
         SignsForPrecomputation;
+    -- --8<-- [end:signs-for-guard]
+
+    -- --8<-- [start:signs-for-guard-output]
+    SignsForGuardOutput : Type :=
+      GuardOutput SignsForMatchableArgument SignsForActionLabel SignsForPrecomputation;
+    -- --8<-- [end:signs-for-guard-output]
     ```
 
 ### `signsForQueryGuard`
@@ -185,7 +192,7 @@ flowchart TD
 ```juvix
 signsForQueryGuard
   (t : TimestampedTrigger SignsForMsg SignsForTimerHandle)
-  (env : SignsForEnvironment) : Maybe (GuardOutput SignsForMatchableArgument SignsForActionLabel SignsForPrecomputation)
+  (env : SignsForEnvironment) : Maybe SignsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (SignsForRequest x y) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
@@ -216,7 +223,7 @@ flowchart TD
 ```juvix
 submitEvidenceGuard
   (t : TimestampedTrigger SignsForMsg SignsForTimerHandle)
-  (env : SignsForEnvironment) : Maybe (GuardOutput SignsForMatchableArgument SignsForActionLabel SignsForPrecomputation)
+  (env : SignsForEnvironment) : Maybe SignsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (SubmitSignsForEvidenceRequest x) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
@@ -247,7 +254,7 @@ flowchart TD
 ```juvix
 queryEvidenceGuard
   (t : TimestampedTrigger SignsForMsg SignsForTimerHandle)
-  (env : SignsForEnvironment) : Maybe (GuardOutput SignsForMatchableArgument SignsForActionLabel SignsForPrecomputation)
+  (env : SignsForEnvironment) : Maybe SignsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (QuerySignsForEvidenceRequest x) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;

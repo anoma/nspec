@@ -106,6 +106,7 @@ syntax alias EncryptionPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:encryption-guard]
     EncryptionGuard : Type :=
       Guard
         EncryptionLocalState
@@ -115,6 +116,12 @@ syntax alias EncryptionPrecomputation := Unit;
         EncryptionMatchableArgument
         EncryptionActionLabel
         EncryptionPrecomputation;
+    -- --8<-- [end:encryption-guard]
+
+    -- --8<-- [start:encryption-guard-output]
+    EncryptionGuardOutput : Type :=
+      GuardOutput EncryptionMatchableArgument EncryptionActionLabel EncryptionPrecomputation;
+    -- --8<-- [end:encryption-guard-output]
     ```
 
 ### `encryptGuard`
@@ -134,7 +141,7 @@ flowchart TD
 ```juvix
 encryptGuard
   (t : TimestampedTrigger EncryptionMsg EncryptionTimerHandle)
-  (env : EncryptionEnvironment) : Maybe (GuardOutput EncryptionMatchableArgument EncryptionActionLabel EncryptionPrecomputation)
+  (env : EncryptionEnvironment) : Maybe EncryptionGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (EncryptRequest data externalIdentity useReadsFor) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;

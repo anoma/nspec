@@ -156,6 +156,7 @@ syntax alias NamingPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:ticker-guard]
     NamingGuard : Type :=
       Guard
         NamingLocalState
@@ -165,6 +166,12 @@ syntax alias NamingPrecomputation := Unit;
         NamingMatchableArgument
         NamingActionLabel
         NamingPrecomputation;
+    -- --8<-- [end:ticker-guard]
+
+    -- --8<-- [start:ticker-guard-output]
+    NamingGuardOutput : Type :=
+      GuardOutput NamingMatchableArgument NamingActionLabel NamingPrecomputation;
+    -- --8<-- [end:ticker-guard-output]
     ```
 
 ### `resolveNameGuard`
@@ -184,7 +191,7 @@ flowchart TD
 ```juvix
 resolveNameGuard
   (t : TimestampedTrigger NamingMsg NamingTimerHandle)
-  (env : NamingEnvironment) : Maybe (GuardOutput NamingMatchableArgument NamingActionLabel NamingPrecomputation)
+  (env : NamingEnvironment) : Maybe NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (ResolveNameRequest x) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
@@ -215,7 +222,7 @@ flowchart TD
 ```juvix
 submitNameEvidenceGuard
   (t : TimestampedTrigger NamingMsg NamingTimerHandle)
-  (env : NamingEnvironment) : Maybe (GuardOutput NamingMatchableArgument NamingActionLabel NamingPrecomputation)
+  (env : NamingEnvironment) : Maybe NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (SubmitNameEvidenceRequest x) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
@@ -246,7 +253,7 @@ flowchart TD
 ```juvix
 queryNameEvidenceGuard
   (t : TimestampedTrigger NamingMsg NamingTimerHandle)
-  (env : NamingEnvironment) : Maybe (GuardOutput NamingMatchableArgument NamingActionLabel NamingPrecomputation)
+  (env : NamingEnvironment) : Maybe NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | just (QueryNameEvidenceRequest x) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
