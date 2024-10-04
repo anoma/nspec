@@ -38,7 +38,7 @@ The dynamics of the Identity Management Engine define how it processes incoming 
 type IdentityManagementActionLabel :=
   | -- --8<-- [start:DoGenerateIdentity]
     DoGenerateIdentity {
-      backend : IDBackend;
+      backend : Backend;
       params : IDParams;
       capabilities : Capabilities
     }
@@ -46,14 +46,14 @@ type IdentityManagementActionLabel :=
   | -- --8<-- [start:DoConnectIdentity]
     DoConnectIdentity {
       externalIdentity : ExternalIdentity;
-      backend : IDBackend;
+      backend : Backend;
       capabilities : Capabilities
     }
     -- --8<-- [end:DoConnectIdentity]
   | -- --8<-- [start:DoDeleteIdentity]
     DoDeleteIdentity {
       externalIdentity : ExternalIdentity;
-      backend : IDBackend
+      backend : Backend
     }
     -- --8<-- [end:DoDeleteIdentity]
 ;
@@ -108,7 +108,7 @@ This action label corresponds to deleting an existing identity.
 
 ??? quote "`DoDeleteIdentity` action effect"
 
-This action does the following:
+    This action does the following:
 
     | Aspect | Description |
     |--------|-------------|

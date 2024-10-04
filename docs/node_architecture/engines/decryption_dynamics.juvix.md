@@ -196,13 +196,16 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
     | DoDecrypt data := 
       case GuardOutput.args out of {
         | (ReplyTo (just whoAsked) _) :: _ := let
-            decryptedData := decryptData (DecryptionLocalState.decryptionKey localState) data;
+            decryptedData := 
+              Decryptor.decrypt (DecryptionLocalState.decryptor localState) 
+                (DecryptionLocalState.backend localState)
+                data;
             responseMsg := case decryptedData of {
-              | Left errorMsg := DecryptResponse@{
+              | nothing := DecryptResponse@{
                   data := emptyByteString;
-                  error := just errorMsg
+                  error := just "Decryption Failed"
                 }
-              | Right plaintext := DecryptResponse@{
+              | just plaintext := DecryptResponse@{
                   data := plaintext;
                   error := nothing
                 }

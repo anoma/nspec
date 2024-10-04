@@ -35,7 +35,6 @@ CommitmentEngineFamily :
     guards := [commitGuard];
     action := commitmentAction;
     conflictSolver := commitmentConflictSolver;
-  }
-  ;
+  };
 ```
 <!-- --8<-- [end:commitment-engine-family] -->

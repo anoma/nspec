@@ -15,10 +15,18 @@ tags:
     module node_architecture.engines.decryption_environment;
 
     import prelude open;
+    -- Doesn't work?
+    -- import system_architecture.identity open using {Decryptor; mkDecryptor; decrypt};
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identity_types open;
     import node_architecture.engines.decryption_overview open;
+
+    -- Delete when system_architecture.identity can be imported
+    type Decryptor (DecryptorType Plaintext Ciphertext : Type) :=
+      mkDecryptor {
+        decrypt : DecryptorType -> Ciphertext -> Maybe Plaintext
+      }
     ```
 
 # Decryption Environment
@@ -41,9 +49,8 @@ The local state of a Decryption Engine instance includes the identity's decrypti
 
 ```juvix
 type DecryptionLocalState := mkDecryptionLocalState {
-  identity : ExternalIdentity;
-  backend : IDBackend;
-  decryptionKey : DecryptionKey;
+  decryptor : Decryptor Backend ByteString ByteString;
+  backend : Backend;
 };
 ```
 
@@ -70,17 +77,16 @@ DecryptionEnvironment : Type := EngineEnvironment
 ```juvix extract-module-statements
 module decryption_environment_example;
 
-axiom dummyExternalIdentity : ExternalIdentity;
-axiom dummyIDBackend : IDBackend;
-axiom dummyDecryptionKey : DecryptionKey;
+axiom dummyBackend : Backend;
 
 decryptionEnvironmentExample : DecryptionEnvironment :=
     mkEngineEnvironment@{
       name := Left "decryption";
       localState := mkDecryptionLocalState@{
-        identity := dummyExternalIdentity;
-        backend := dummyIDBackend;
-        decryptionKey := dummyDecryptionKey
+        decryptor := mkDecryptor@{
+          decrypt := \{_ x := just x};
+        };
+        backend := dummyBackend;
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

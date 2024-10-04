@@ -35,15 +35,15 @@ The Identity Management Engine manages identities across various backends. When 
 type IdentityManagementMsg :=
   | -- --8<-- [start:GenerateIdentityRequest]
     GenerateIdentityRequest {
-      backend : IDBackend;
+      backend : Backend;
       params : IDParams;
       capabilities : Capabilities
     }
     -- --8<-- [end:GenerateIdentityRequest]
   | -- --8<-- [start:GenerateIdentityResponse]
     GenerateIdentityResponse {
-      commitmentEngine : Maybe EngineReference;
-      decryptionEngine : Maybe EngineReference;
+      commitmentEngine : Maybe Address;
+      decryptionEngine : Maybe Address;
       externalIdentity : ExternalIdentity;
       error : Maybe String
     }
@@ -51,21 +51,21 @@ type IdentityManagementMsg :=
   | -- --8<-- [start:ConnectIdentityRequest]
     ConnectIdentityRequest {
       externalIdentity : ExternalIdentity;
-      backend : IDBackend;
+      backend : Backend;
       capabilities : Capabilities
     }
     -- --8<-- [end:ConnectIdentityRequest]
   | -- --8<-- [start:ConnectIdentityResponse]
     ConnectIdentityResponse {
-      commitmentEngine : Maybe EngineReference;
-      decryptionEngine : Maybe EngineReference;
+      commitmentEngine : Maybe Address;
+      decryptionEngine : Maybe Address;
       error : Maybe String
     }
     -- --8<-- [end:ConnectIdentityResponse]
   | -- --8<-- [start:DeleteIdentityRequest]
     DeleteIdentityRequest {
       externalIdentity : ExternalIdentity;
-      backend : IDBackend
+      backend : Backend
     }
     -- --8<-- [end:DeleteIdentityRequest]
   | -- --8<-- [start:DeleteIdentityResponse]
@@ -169,14 +169,29 @@ A `DeleteIdentityResponse` provides the response from an attempt to delete an id
 ```mermaid
 sequenceDiagram
     participant Client
-    participant IdentityManagementEngine
-    participant IDBackend
+    participant IDManagementEngine
+    participant Backend
+    participant CommitmentEngine
+    participant DecryptionEngine
 
-    Client ->> IdentityManagementEngine: GenerateIdentityRequest
-    IdentityManagementEngine ->> IDBackend: Generate Identity
-    IDBackend -->> IdentityManagementEngine: Identity Details
-    IdentityManagementEngine ->> IdentityManagementEngine: Create Commitment and Decryption Engines
-    IdentityManagementEngine -->> Client: GenerateIdentityResponse
+    Client->>IDManagementEngine: GenerateIdentityRequest
+    IDManagementEngine->>Backend: Generate Identity
+    Backend-->>IDManagementEngine: Identity Created
+    IDManagementEngine->>CommitmentEngine: Instantiate
+    IDManagementEngine->>DecryptionEngine: Instantiate
+    IDManagementEngine-->>Client: GenerateIdentityResponse
+
+    Client->>IDManagementEngine: ConnectIdentityRequest
+    IDManagementEngine->>Backend: Connect to Existing Identity
+    Backend-->>IDManagementEngine: Identity Connected
+    IDManagementEngine->>CommitmentEngine: Instantiate
+    IDManagementEngine->>DecryptionEngine: Instantiate
+    IDManagementEngine-->>Client: ConnectIdentityResponse
+
+    Client->>IDManagementEngine: DeleteIdentityRequest
+    IDManagementEngine->>Backend: Delete Identity
+    Backend-->>IDManagementEngine: Identity Deleted
+    IDManagementEngine-->>Client: DeleteIdentityResponse
 ```
 
 <figcaption markdown="span">

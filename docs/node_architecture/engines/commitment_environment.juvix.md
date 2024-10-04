@@ -42,7 +42,7 @@ The local state of a Commitment Engine instance includes the identity's signing 
 ```juvix
 type CommitmentLocalState := mkCommitmentLocalState {
   identity : ExternalIdentity;
-  backend : IDBackend;
+  backend : Backend;
   signingKey : SigningKey;
 };
 ```
@@ -71,7 +71,7 @@ CommitmentEnvironment : Type := EngineEnvironment
 module commitment_environment_example;
 
 axiom dummyExternalIdentity : ExternalIdentity;
-axiom dummyIDBackend : IDBackend;
+axiom dummyIDBackend : Backend;
 axiom dummySigningKey : SigningKey;
 
 commitmentEnvironmentExample : CommitmentEnvironment :=

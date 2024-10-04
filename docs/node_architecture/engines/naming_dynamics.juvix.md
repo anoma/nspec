@@ -88,7 +88,7 @@ This action label corresponds to submitting new name evidence.
 
 ??? quote "DoSubmitNameEvidence action effect"
 
-This action does the following:
+    This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
@@ -107,7 +107,7 @@ This action label corresponds to querying name evidence for a specific external 
 
 ??? quote "DoQueryNameEvidence action effect"
 
-This action does the following:
+    This action does the following:
 
     | Aspect | Description |
     |--------|-------------|

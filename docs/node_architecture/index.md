@@ -12,8 +12,6 @@ The specification is organized into the following sections:
 
 - [Hardware Abstraction Machine](./hardware_abstraction/index.md)
 
-- [Identity Machine](./identity/index.md)
-
 - [Networking Machine](./networking/index.md)
 
 - [[Ordering Machine]]

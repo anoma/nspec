@@ -86,7 +86,7 @@ sequenceDiagram
     participant DecryptionEngine
 
     Client ->> DecryptionEngine: DecryptRequest
-    DecryptionEngine ->> DecryptionEngine: Decrypt Data
+    DecryptionEngine ->> DecryptionEngine: Decrypt Data Using the `decrypt` method of internal `Decryptor`
     DecryptionEngine -->> Client: DecryptResponse
 ```
 
