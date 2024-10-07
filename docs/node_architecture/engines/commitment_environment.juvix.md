@@ -16,6 +16,7 @@ tags:
 
     import prelude open;
     import node_architecture.basics open;
+    import system_architecture.identity.identity open using {Signer; mkSigner};
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identity_types open;
     import node_architecture.engines.commitment_overview open;
@@ -37,13 +38,12 @@ syntax alias CommitmentMailboxState := Unit;
 
 ## Local state
 
-The local state of a Commitment Engine instance includes the identity's signing capabilities and any necessary signing keys or handles.
+The local state of a Commitment Engine instance includes the identity's signing capabilities.
 
 ```juvix
 type CommitmentLocalState := mkCommitmentLocalState {
-  identity : ExternalIdentity;
+  signer : Signer Backend Signable Commitment;
   backend : Backend;
-  signingKey : SigningKey;
 };
 ```
 
@@ -78,9 +78,10 @@ commitmentEnvironmentExample : CommitmentEnvironment :=
     mkEngineEnvironment@{
       name := Left "commitment";
       localState := mkCommitmentLocalState@{
-        identity := dummyExternalIdentity;
-        backend := dummyIDBackend;
-        signingKey := dummySigningKey
+        signer := mkSigner@{
+          sign := \{_ x := x};
+        };
+        backend := BackendLocalMemory;
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

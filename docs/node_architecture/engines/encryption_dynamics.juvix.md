@@ -17,6 +17,7 @@ tags:
 
     import prelude open;
     import node_architecture.basics open;
+    import system_architecture.identity.identity open hiding {ExternalIdentity};
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.engines.encryption_environment open;
@@ -187,12 +188,12 @@ encryptGuard
 <!-- --8<-- [start:action-function] -->
 ```juvix
 -- Not yet implemented
-axiom encryptData : ExternalIdentity -> ByteString -> Either String ByteString;
 axiom resolveReadsFor : ExternalIdentity -> ExternalIdentity;
 
 encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
+      localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
     | DoEncrypt data externalIdentity useReadsFor := 
@@ -202,17 +203,14 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
               | true := resolveReadsFor externalIdentity
               | false := externalIdentity
             };
-            encryptedData := encryptData finalIdentity data;
-            responseMsg := case encryptedData of {
-              | Left errorMsg := EncryptResponse@{
-                  ciphertext := emptyByteString; -- Placeholder
-                  error := just errorMsg
-                }
-              | Right ciphertext' := EncryptResponse@{
-                  ciphertext := ciphertext';
+            encryptedData := 
+              Encryptor.encrypt (EncryptionLocalState.encryptor localState)
+                (EncryptionLocalState.backend localState)
+                data;
+            responseMsg := EncryptResponse@{
+                  ciphertext := encryptedData;
                   error := nothing
-                }
-            };
+                };
           in mkActionEffect@{
             newEnv := env; -- No state change
             producedMessages := [mkEnvelopedMessage@{

@@ -15,6 +15,7 @@ tags:
     module node_architecture.engines.encryption_environment;
 
     import prelude open;
+    import system_architecture.identity.identity open;
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identity_types open;
@@ -37,10 +38,13 @@ syntax alias EncryptionMailboxState := Unit;
 
 ## Local state
 
-The Encryption Engine is stateless, so we define the local state as `Unit`.
+The local state of a Encryption Engine instance includes the identity's encryption capabilities.
 
 ```juvix
-syntax alias EncryptionLocalState := Unit;
+type EncryptionLocalState := mkEncryptionLocalState {
+  encryptor : Encryptor ByteString Backend ByteString ByteString;
+  backend : Backend;
+};
 ```
 
 ## Timer Handle
@@ -69,7 +73,18 @@ module encryption_environment_example;
 encryptionEnvironmentExample : EncryptionEnvironment :=
     mkEngineEnvironment@{
       name := Left "encryption";
-      localState := unit;
+      localState := mkEncryptionLocalState@{
+        encryptor := mkEncryptor@{
+          encrypt := \{_ x := x};
+          encryptorHash := mkHASH@{
+            ordKey := mkOrdkey@{
+                compare := Ord.cmp
+            };
+            hash := \{x := 0};
+          };
+        };
+        backend := BackendLocalMemory;
+      };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []

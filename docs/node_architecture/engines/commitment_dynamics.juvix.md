@@ -17,6 +17,7 @@ tags:
 
     import prelude open;
     import node_architecture.basics open;
+    import system_architecture.identity.identity open;
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identity_types open;
@@ -184,9 +185,6 @@ commitGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
--- Not yet implemented
-axiom signData : SigningKey -> Signable -> Either String Commitment;
-
 commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
@@ -196,17 +194,13 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
     | DoCommit data := 
       case GuardOutput.args out of {
         | (ReplyTo (just whoAsked) _) :: _ := let
-            signedData := signData (CommitmentLocalState.signingKey localState) data;
-            responseMsg := case signedData of {
-              | Left errorMsg := CommitResponse@{
-                  commitment := emptyCommitment;
-                  error := just errorMsg
-                }
-              | Right commitment' := CommitResponse@{
-                  commitment := commitment';
-                  error := nothing
-                }
-            };
+            signedData := 
+              Signer.sign (CommitmentLocalState.signer localState) 
+                (CommitmentLocalState.backend localState)
+                data;
+            responseMsg := CommitResponse@{
+                  commitment := signedData
+                };
           in mkActionEffect@{
             newEnv := env; -- No state change
             producedMessages := [mkEnvelopedMessage@{

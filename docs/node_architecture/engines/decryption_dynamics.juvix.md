@@ -17,6 +17,7 @@ tags:
 
     import prelude open;
     import node_architecture.basics open;
+    import system_architecture.identity.identity open;
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.engines.decryption_environment open;
@@ -184,9 +185,6 @@ decryptGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
--- Not yet implemented
-axiom decryptData : DecryptionKey -> ByteString -> Either String ByteString;
-
 decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;

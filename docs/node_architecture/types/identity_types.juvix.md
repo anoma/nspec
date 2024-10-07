@@ -58,6 +58,8 @@ Commitment : Type := ByteString;
 emptyCommitment : Commitment := 0;
 DecryptionKey : Type := ByteString;
 SigningKey : Type := ByteString;
+Plaintext : Type := ByteString;
+Ciphertext : Type := ByteString;
 ```
 
 ExternalIdentity

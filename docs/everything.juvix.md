@@ -23,6 +23,7 @@ import node_architecture.types.anoma_environment;
 import node_architecture.types.anoma_message;
 
 import node_architecture.types.identity_types;
+import system_architecture.identity.identity;
 
 import node_architecture.engines.template;
 import node_architecture.engines.template_overview;

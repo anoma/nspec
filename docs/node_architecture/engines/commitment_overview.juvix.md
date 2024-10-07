@@ -39,8 +39,7 @@ type CommitmentMsg :=
     -- --8<-- [end:CommitRequest]
   | -- --8<-- [start:CommitResponse]
     CommitResponse {
-      commitment : Commitment;
-      error : Maybe String
+      commitment : Commitment
     }
     -- --8<-- [end:CommitResponse]
   ;
