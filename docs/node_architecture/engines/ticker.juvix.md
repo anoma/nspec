@@ -26,7 +26,6 @@ tags:
 TickerEngineFamily :
   Anoma.EngineFamily
     TickerLocalState
-    TickerMsg
     TickerMailboxState
     TickerTimerHandle
     TickerMatchableArgument

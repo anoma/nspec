@@ -303,7 +303,6 @@ end;
     TemplateGuard : Type :=
       Guard
         TemplateLocalState
-        TemplateMsg
         TemplateMailboxState
         TemplateTimerHandle
         TemplateMatchableArgument
@@ -353,7 +352,6 @@ The action function amounts to one single case statement.
     TemplateActionFunction : Type :=
       ActionFunction
           TemplateLocalState
-          TemplateMsg
           TemplateMailboxState
           TemplateTimerHandle
           TemplateMatchableArgument

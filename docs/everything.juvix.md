@@ -14,6 +14,7 @@ hide:
 ```juvix
 module everything;
 
+import node_architecture.identity_types;
 import node_architecture.basics;
 import node_architecture.types.engine_environment;
 import node_architecture.types.engine_dynamics;
