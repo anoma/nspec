@@ -17,6 +17,7 @@ tags:
 
     import prelude open;
     import node_architecture.basics open;
+    import node_architecture.identity_types open;
     import node_architecture.types.engine_family open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open;
@@ -130,7 +131,6 @@ syntax alias TickerPrecomputation := Unit;
     TickerGuard : Type :=
       Guard
         TickerLocalState
-        TickerMsg
         TickerTimerHandle
         TickerMailboxState
         TickerMatchableArgument
@@ -162,10 +162,10 @@ D --> F([DoIncrement])
 <!-- --8<-- [start:increment-guard] -->
 ```juvix
 incrementGuard
-  (t : TimestampedTrigger TickerMsg TickerTimerHandle )
+  (t : TimestampedTrigger TickerTimerHandle )
   (env : TickerEnvironment) : Maybe TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just Increment := just (
+      | just (MsgTicker Increment) := just (
         mkGuardOutput@{
           args := [];
           label := DoIncrement;
@@ -193,10 +193,10 @@ D --> F([DoRespond])
 <!-- --8<-- [start:count-guard] -->
 ```juvix
 countGuard
-  (t : TimestampedTrigger TickerMsg TickerTimerHandle)
+  (t : TimestampedTrigger TickerTimerHandle)
   (env : TickerEnvironment) : Maybe TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just Count := do {
+      | just (MsgTicker Count) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -220,7 +220,6 @@ countGuard
     TickerActionInput : Type :=
       ActionInput
         TickerLocalState
-        TickerMsg
         TickerMailboxState
         TickerTimerHandle
         TickerMatchableArgument
@@ -230,7 +229,6 @@ countGuard
     TickerActionEffect : Type :=
       ActionEffect
         TickerLocalState
-        TickerMsg
         TickerMailboxState
         TickerTimerHandle
         TickerMatchableArgument

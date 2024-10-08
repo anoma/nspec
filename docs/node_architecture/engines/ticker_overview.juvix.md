@@ -13,7 +13,6 @@ tags:
 
     ```juvix
     module node_architecture.engines.ticker_overview;
-    import node_architecture.basics open;
     ```
 
 # `Ticker` Engine Family Overview
@@ -102,8 +101,8 @@ A client interacts with the `Ticker` engine, which increments and responds with 
 
 ## Engine Components
 
-- [[ticker_environment|`Ticker` Engine Environment]]
-- [[ticker_dynamics|`Ticker` Engine Dynamics]]
+- [[Ticker Engine Environment|`Ticker` Engine Environment]]
+- [[Ticker Engine Dynamics|`Ticker` Engine Dynamics]]
 
 ## Useful links
 

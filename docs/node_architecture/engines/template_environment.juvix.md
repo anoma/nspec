@@ -158,7 +158,6 @@ template as the code is self-explanatory.
 TemplateEnvironment : Type :=
   EngineEnvironment
   TemplateLocalState
-  TemplateMsg
   TemplateMailboxState
   TemplateTimerHandle;
 ```
