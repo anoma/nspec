@@ -55,10 +55,10 @@ A mailbox identifier is a natural number used to index mailboxes.
 syntax alias MailboxID := Nat;
 ```
 
-### MessagePacket M
+### MessagePacket
 
 A message packet consists of a target address, a mailbox identifier, and
-the message itself of a specific type given as a type parameter, `MessageType`.
+the message itself.
 
 ```juvix
 type MessagePacket : Type := mkMessagePacket {
@@ -68,7 +68,7 @@ type MessagePacket : Type := mkMessagePacket {
 };
 ```
 
-### EnvelopedMessage M
+### EnvelopedMessage
 
 An enveloped message consists of a possible sender address if the sender wishes
 to be identified, along with a message packet.
@@ -99,7 +99,7 @@ getMessageTarget : EnvelopedMessage -> Address
   | (mkEnvelopedMessage@{ packet := (mkMessagePacket@{ target := t }) }) := t;
 ```
 
-### Mailbox M S
+### Mailbox S
 
 A mailbox is a container for messages and optionally a mailbox state. The
 mailbox state could be used to store additional information about the mailbox,
