@@ -29,11 +29,10 @@ Guards are terms of type `Guard`, which is a function type
 
 --8<-- "./docs/node_architecture/types/engine_dynamics.juvix.md:whole-guard-type"
 
-where the _trigger_ of type `TimestampedTrigger I H` is a term that captures the
-message received with a timestamp or
-a clock notification about timers that have elapsed during the engine's operation.
-Guards return data of type `GuardOutput A L X`
-if the precondition of the action that they are guarding is met.
+where the _trigger_ of type `TimestampedTrigger H` is a term that captures the
+message received with a timestamp or a clock notification about timers that have
+elapsed during the engine's operation. Guards return data of type `GuardOutput A
+L X` if the precondition of the action that they are guarding is met.
 
 Recall that the behaviour is described by a set of guards and an action
 function. The guard is a function that evaluates conditions in the engine
@@ -49,26 +48,26 @@ The guard function receives:
 
 Given these inputs, the guard function computes a set of action labels.
 The action function then computes the effects of the action label;
-besides changes to the engine environment,
-an action effect comprises sending messages, creatting engines, and updating timers.
+besides changes to the engine environment, an action effect comprises sending
+messages, creating new engine instances, and updating timers.
 
 ## Action function
 
-The input is parameterised by the types for: local state (`S`), incoming
-messages (`I`), mailbox state (`M`), timer handles (`H`), matched arguments
-(`A`), action labels (`L`), and precomputation results (`X`). The types of the
-input and output of an action are the following two:
+The input is parameterised by the types for: local state (`S`), mailbox state (`M`),
+timer handles (`H`), matched arguments (`A`), action labels (`L`), and
+precomputation results (`X`). The types of the input and output of an action are
+the following two:
 
-- `ActionInput S I M H A L X` and
-- `ActionEffect S I M H A L X`.
+- `ActionInput S M H A L X` and
+- `ActionEffect S M H A L X`.
 
-The record type `ActionInput S I M H A L X` encapsulates the following data:
+The record type `ActionInput S M H A L X` encapsulates the following data:
 
 - A term of type `GuardOutput A L X`, which represents
   - the matched arguments, e.g., from a received message,
   - the action label that determines the action to be performed
-  - other (expensive) precomputation results that
-    the guard function has to calculate and can be resued by the action function.
+  - other (expensive) precomputation results that the guard function has to
+    calculate and can be resued by the action function.
 - The environment of the corresponding engine instance.
 - The local time of the engine instance when guard evaluation was triggered.
 
@@ -102,13 +101,13 @@ type ActionInput (S M H A L X : Type) := mkActionInput {
 
 ### Action effect
 
-The `ActionEffect S I M H A L X` type defines the results produced by the
-action, which can be
+The `ActionEffect S M H A L X` type defines the results produced by the action,
+which can be
 
 - Update its environment (while leaving the name unchanged).
 - Produce a set of messages to be sent to other engine instances.
-- Set, discards, or supersede timers.
-- Define new engine instances to be created.4
+- Set, discard, or supersede timers.
+- Define new engine instances to be created.
 
 ```juvix
 type ActionEffect (S M H A L X : Type) := mkActionEffect {
@@ -118,7 +117,6 @@ type ActionEffect (S M H A L X : Type) := mkActionEffect {
   spawnedEngines : List Anoma.Env;
 };
 ```
-
 
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
@@ -149,7 +147,7 @@ are triggered.
     returns a boolean when the predicate is satisfied, specifically of type
 
     ```haskell
-    Trigger I H -> EngineEnvironment S I M H -> Bool;
+    Trigger H -> EngineEnvironment S M H -> Bool;
     ```
 
     However, as a design choice, guards will return additional data of type `GuardOutput A L X` that
