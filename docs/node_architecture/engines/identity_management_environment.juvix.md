@@ -65,7 +65,6 @@ The Identity Management Engine does not require a timer handle type. Therefore, 
 ```juvix
 IdentityManagementEnvironment : Type := EngineEnvironment 
   IdentityManagementLocalState 
-  IdentityManagementMsg 
   IdentityManagementMailboxState 
   IdentityManagementTimerHandle;
 ```

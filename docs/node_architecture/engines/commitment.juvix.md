@@ -25,7 +25,6 @@ tags:
 CommitmentEngineFamily :
   Anoma.EngineFamily
     CommitmentLocalState
-    CommitmentMsg
     CommitmentMailboxState
     CommitmentTimerHandle
     CommitmentMatchableArgument

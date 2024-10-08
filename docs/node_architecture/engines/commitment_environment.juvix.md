@@ -60,7 +60,6 @@ The Commitment Engine does not require a timer handle type. Therefore, we define
 ```juvix
 CommitmentEnvironment : Type := EngineEnvironment 
   CommitmentLocalState 
-  CommitmentMsg 
   CommitmentMailboxState 
   CommitmentTimerHandle;
 ```

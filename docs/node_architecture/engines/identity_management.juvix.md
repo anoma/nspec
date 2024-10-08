@@ -26,8 +26,6 @@ tags:
 IdentityManagementEngineFamily :
   Anoma.EngineFamily
     IdentityManagementLocalState
-    Anoma.Msg
-    IdentityManagementMsg
     IdentityManagementMailboxState
     IdentityManagementTimerHandle
     IdentityManagementMatchableArgument

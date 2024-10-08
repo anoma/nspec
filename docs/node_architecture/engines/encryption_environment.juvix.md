@@ -60,7 +60,6 @@ The Encryption Engine does not require a timer handle type. Therefore, we define
 ```juvix
 EncryptionEnvironment : Type := EngineEnvironment 
   EncryptionLocalState 
-  EncryptionMsg 
   EncryptionMailboxState 
   EncryptionTimerHandle;
 ```

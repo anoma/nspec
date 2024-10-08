@@ -25,7 +25,6 @@ tags:
 NamingEngineFamily :
   Anoma.EngineFamily
     NamingLocalState
-    NamingMsg
     NamingMailboxState
     NamingTimerHandle
     NamingMatchableArgument

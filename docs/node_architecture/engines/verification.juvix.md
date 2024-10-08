@@ -25,7 +25,6 @@ tags:
 VerificationEngineFamily :
   Anoma.EngineFamily
     VerificationLocalState
-    VerificationMsg
     VerificationMailboxState
     VerificationTimerHandle
     VerificationMatchableArgument

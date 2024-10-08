@@ -23,7 +23,7 @@ tags:
     import node_architecture.identity_types open;
     import node_architecture.engines.commitment_overview open;
     import node_architecture.engines.commitment_environment open;
-    import node_architecture.types.anoma_message as Anoma;
+    import node_architecture.types.anoma_message open;
     ```
 
 # `Commitment` Dynamics
@@ -109,7 +109,6 @@ syntax alias CommitmentPrecomputation := Unit;
     CommitmentGuard : Type :=
       Guard
         CommitmentLocalState
-        CommitmentMsg
         CommitmentMailboxState
         CommitmentTimerHandle
         CommitmentMatchableArgument
@@ -139,10 +138,10 @@ flowchart TD
 <!-- --8<-- [start:commit-guard] -->
 ```juvix
 commitGuard
-  (t : TimestampedTrigger CommitmentMsg CommitmentTimerHandle)
+  (t : TimestampedTrigger CommitmentTimerHandle)
   (env : CommitmentEnvironment) : Maybe CommitmentGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (CommitRequest data) := do {
+      | just (MsgCommitment (CommitRequest data)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -165,7 +164,6 @@ commitGuard
     CommitmentActionInput : Type :=
       ActionInput
         CommitmentLocalState
-        CommitmentMsg
         CommitmentMailboxState
         CommitmentTimerHandle
         CommitmentMatchableArgument
@@ -175,7 +173,6 @@ commitGuard
     CommitmentActionEffect : Type :=
       ActionEffect
         CommitmentLocalState
-        CommitmentMsg
         CommitmentMailboxState
         CommitmentTimerHandle
         CommitmentMatchableArgument
@@ -208,7 +205,7 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgCommitment responseMsg
+                message := MsgCommitment responseMsg
               }
             }];
             timers := [];

@@ -26,7 +26,7 @@ tags:
     import node_architecture.identity_types open;
     import node_architecture.engines.reads_for_overview open;
     import node_architecture.engines.reads_for_environment open;
-    import node_architecture.types.anoma_message as Anoma;
+    import node_architecture.types.anoma_message open;
     ```
 
 # `Reads For` Dynamics
@@ -161,7 +161,6 @@ syntax alias ReadsForPrecomputation := Unit;
     ReadsForGuard : Type :=
       Guard
         ReadsForLocalState
-        ReadsForMsg
         ReadsForMailboxState
         ReadsForTimerHandle
         ReadsForMatchableArgument
@@ -191,10 +190,10 @@ flowchart TD
 <!-- --8<-- [start:reads-for-query-guard] -->
 ```juvix
 readsForQueryGuard
-  (t : TimestampedTrigger ReadsForMsg ReadsForTimerHandle)
+  (t : TimestampedTrigger ReadsForTimerHandle)
   (env : ReadsForEnvironment) : Maybe ReadsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (ReadsForRequest x y) := do {
+      | just (MsgReadsFor (ReadsForRequest x y)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -222,10 +221,10 @@ flowchart TD
 <!-- --8<-- [start:submit-evidence-guard] -->
 ```juvix
 submitEvidenceGuard
-  (t : TimestampedTrigger ReadsForMsg ReadsForTimerHandle)
+  (t : TimestampedTrigger ReadsForTimerHandle)
   (env : ReadsForEnvironment) : Maybe ReadsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (SubmitReadsForEvidenceRequest x) := do {
+      | just (MsgReadsFor (SubmitReadsForEvidenceRequest x)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -253,10 +252,10 @@ flowchart TD
 <!-- --8<-- [start:query-evidence-guard] -->
 ```juvix
 queryEvidenceGuard
-  (t : TimestampedTrigger ReadsForMsg ReadsForTimerHandle)
+  (t : TimestampedTrigger ReadsForTimerHandle)
   (env : ReadsForEnvironment) : Maybe ReadsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (QueryReadsForEvidenceRequest x) := do {
+      | just (MsgReadsFor (QueryReadsForEvidenceRequest x)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -279,7 +278,6 @@ queryEvidenceGuard
     ReadsForActionInput : Type :=
       ActionInput
         ReadsForLocalState
-        ReadsForMsg
         ReadsForMailboxState
         ReadsForTimerHandle
         ReadsForMatchableArgument
@@ -289,7 +287,6 @@ queryEvidenceGuard
     ReadsForActionEffect : Type :=
       ActionEffect
         ReadsForLocalState
-        ReadsForMsg
         ReadsForMailboxState
         ReadsForTimerHandle
         ReadsForMatchableArgument
@@ -323,7 +320,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgReadsFor responseMsg
+                message := MsgReadsFor responseMsg
               }
             }];
             timers := [];
@@ -351,7 +348,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgReadsFor responseMsg
+                message := MsgReadsFor responseMsg
               }
             }];
             timers := [];
@@ -377,7 +374,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgReadsFor responseMsg
+                message := MsgReadsFor responseMsg
               }
             }];
             timers := [];

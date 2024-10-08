@@ -25,7 +25,6 @@ tags:
 ReadsForEngineFamily :
   Anoma.EngineFamily
     ReadsForLocalState
-    ReadsForMsg
     ReadsForMailboxState
     ReadsForTimerHandle
     ReadsForMatchableArgument

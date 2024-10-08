@@ -23,7 +23,7 @@ tags:
     import node_architecture.engines.decryption_environment open;
     import node_architecture.engines.decryption_overview open;
     import node_architecture.identity_types open;
-    import node_architecture.types.anoma_message as Anoma;
+    import node_architecture.types.anoma_message open;
     ```
 
 # `Decryption` Dynamics
@@ -109,7 +109,6 @@ syntax alias DecryptionPrecomputation := Unit;
     DecryptionGuard : Type :=
       Guard
         DecryptionLocalState
-        DecryptionMsg
         DecryptionMailboxState
         DecryptionTimerHandle
         DecryptionMatchableArgument
@@ -139,10 +138,10 @@ flowchart TD
 <!-- --8<-- [start:decrypt-guard] -->
 ```juvix
 decryptGuard
-  (t : TimestampedTrigger DecryptionMsg DecryptionTimerHandle)
+  (t : TimestampedTrigger DecryptionTimerHandle)
   (env : DecryptionEnvironment) : Maybe DecryptionGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (DecryptRequest data) := do {
+      | just (MsgDecryption (DecryptRequest data)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -165,7 +164,6 @@ decryptGuard
     DecryptionActionInput : Type :=
       ActionInput
         DecryptionLocalState
-        DecryptionMsg
         DecryptionMailboxState
         DecryptionTimerHandle
         DecryptionMatchableArgument
@@ -175,7 +173,6 @@ decryptGuard
     DecryptionActionEffect : Type :=
       ActionEffect
         DecryptionLocalState
-        DecryptionMsg
         DecryptionMailboxState
         DecryptionTimerHandle
         DecryptionMatchableArgument
@@ -215,7 +212,7 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgDecryption responseMsg
+                message := MsgDecryption responseMsg
               }
             }];
             timers := [];

@@ -23,7 +23,7 @@ tags:
     import node_architecture.engines.encryption_environment open;
     import node_architecture.engines.encryption_overview open;
     import node_architecture.identity_types open;
-    import node_architecture.types.anoma_message as Anoma;
+    import node_architecture.types.anoma_message open;
     ```
 
 # `Encryption` Dynamics
@@ -111,7 +111,6 @@ syntax alias EncryptionPrecomputation := Unit;
     EncryptionGuard : Type :=
       Guard
         EncryptionLocalState
-        EncryptionMsg
         EncryptionMailboxState
         EncryptionTimerHandle
         EncryptionMatchableArgument
@@ -141,10 +140,10 @@ flowchart TD
 <!-- --8<-- [start:encrypt-guard] -->
 ```juvix
 encryptGuard
-  (t : TimestampedTrigger EncryptionMsg EncryptionTimerHandle)
+  (t : TimestampedTrigger EncryptionTimerHandle)
   (env : EncryptionEnvironment) : Maybe EncryptionGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (EncryptRequest data externalIdentity useReadsFor) := do {
+      | just (MsgEncryption (EncryptRequest data externalIdentity useReadsFor)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -167,7 +166,6 @@ encryptGuard
     EncryptionActionInput : Type :=
       ActionInput
         EncryptionLocalState
-        EncryptionMsg
         EncryptionMailboxState
         EncryptionTimerHandle
         EncryptionMatchableArgument
@@ -177,7 +175,6 @@ encryptGuard
     EncryptionActionEffect : Type :=
       ActionEffect
         EncryptionLocalState
-        EncryptionMsg
         EncryptionMailboxState
         EncryptionTimerHandle
         EncryptionMatchableArgument
@@ -218,7 +215,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgEncryption responseMsg
+                message := MsgEncryption responseMsg
               }
             }];
             timers := [];

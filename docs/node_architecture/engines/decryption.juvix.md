@@ -25,7 +25,6 @@ tags:
 DecryptionEngineFamily :
   Anoma.EngineFamily
     DecryptionLocalState
-    DecryptionMsg
     DecryptionMailboxState
     DecryptionTimerHandle
     DecryptionMatchableArgument

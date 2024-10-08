@@ -22,7 +22,7 @@ tags:
     import node_architecture.engines.verification_environment open;
     import node_architecture.engines.verification_overview open;
     import node_architecture.identity_types open;
-    import node_architecture.types.anoma_message as Anoma;
+    import node_architecture.types.anoma_message open;
     ```
 
 # `Verification` Dynamics
@@ -111,7 +111,6 @@ syntax alias VerificationPrecomputation := Unit;
     VerificationGuard : Type :=
       Guard
         VerificationLocalState
-        VerificationMsg
         VerificationMailboxState
         VerificationTimerHandle
         VerificationMatchableArgument
@@ -141,10 +140,10 @@ flowchart TD
 <!-- --8<-- [start:verify-guard] -->
 ```juvix
 verifyGuard
-  (t : TimestampedTrigger VerificationMsg VerificationTimerHandle)
+  (t : TimestampedTrigger VerificationTimerHandle)
   (env : VerificationEnvironment) : Maybe VerificationGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (VerifyRequest x y z w) := do {
+      | just (MsgVerification (VerifyRequest x y z w)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -167,7 +166,6 @@ verifyGuard
     VerificationActionInput : Type :=
       ActionInput
         VerificationLocalState
-        VerificationMsg
         VerificationMailboxState
         VerificationTimerHandle
         VerificationMatchableArgument
@@ -177,7 +175,6 @@ verifyGuard
     VerificationActionEffect : Type :=
       ActionEffect
         VerificationLocalState
-        VerificationMsg
         VerificationMailboxState
         VerificationTimerHandle
         VerificationMatchableArgument
@@ -215,7 +212,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgVerification responseMsg
+                message := MsgVerification responseMsg
               }
             }];
             timers := [];

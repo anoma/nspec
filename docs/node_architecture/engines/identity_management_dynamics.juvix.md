@@ -22,7 +22,7 @@ tags:
     import node_architecture.engines.identity_management_environment open;
     import node_architecture.engines.identity_management_overview open;
     import node_architecture.identity_types open;
-    import node_architecture.types.anoma_message as Anoma;
+    import node_architecture.types.anoma_message open;
     ```
 
 # `Identity Management` Dynamics
@@ -161,8 +161,6 @@ syntax alias IdentityManagementPrecomputation := Unit;
     IdentityManagementGuard : Type :=
       Guard
         IdentityManagementLocalState
-        Anoma.Msg
-        IdentityManagementMsg
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
         IdentityManagementMatchableArgument
@@ -192,10 +190,10 @@ flowchart TD
 <!-- --8<-- [start:generate-identity-guard] -->
 ```juvix
 generateIdentityGuard
-  (t : TimestampedTrigger Anoma.Msg IdentityManagementTimerHandle)
+  (t : TimestampedTrigger IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (Anoma.MsgIdentityManagement (GenerateIdentityRequest x y z)) := do {
+      | just (MsgIdentityManagement (GenerateIdentityRequest x y z)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [MessageFrom (just sender) nothing];
@@ -224,10 +222,10 @@ flowchart TD
 <!-- --8<-- [start:connect-identity-guard] -->
 ```juvix
 connectIdentityGuard
-  (t : TimestampedTrigger Anoma.Msg IdentityManagementTimerHandle)
+  (t : TimestampedTrigger IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (Anoma.MsgIdentityManagement (ConnectIdentityRequest x y z)) := do {
+      | just (MsgIdentityManagement (ConnectIdentityRequest x y z)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [MessageFrom (just sender) nothing];
@@ -256,10 +254,10 @@ flowchart TD
 <!-- --8<-- [start:delete-identity-guard] -->
 ```juvix
 deleteIdentityGuard
-  (t : TimestampedTrigger Anoma.Msg IdentityManagementTimerHandle)
+  (t : TimestampedTrigger IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (Anoma.MsgIdentityManagement (DeleteIdentityRequest x y)) := do {
+      | just (MsgIdentityManagement (DeleteIdentityRequest x y)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [MessageFrom (just sender) nothing];
@@ -282,7 +280,6 @@ deleteIdentityGuard
     IdentityManagementActionInput : Type :=
       ActionInput
         IdentityManagementLocalState
-        IdentityManagementMsg
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
         IdentityManagementMatchableArgument
@@ -292,7 +289,6 @@ deleteIdentityGuard
     IdentityManagementActionEffect : Type :=
       ActionEffect
         IdentityManagementLocalState
-        IdentityManagementMsg
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
         IdentityManagementMatchableArgument
@@ -340,7 +336,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgIdentityManagement responseMsg
+                message := MsgIdentityManagement responseMsg
               }
             }];
             timers := [];
@@ -376,7 +372,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgIdentityManagement responseMsg
+                message := MsgIdentityManagement responseMsg
               }
             }];
             timers := [];
@@ -404,7 +400,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgIdentityManagement responseMsg
+                message := MsgIdentityManagement responseMsg
               }
             }];
             timers := [];

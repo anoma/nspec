@@ -26,7 +26,7 @@ tags:
     import node_architecture.identity_types open;
     import node_architecture.engines.naming_overview open;
     import node_architecture.engines.naming_environment open;
-    import node_architecture.types.anoma_message as Anoma;
+    import node_architecture.types.anoma_message open;
     ```
 
 # `Naming` Dynamics
@@ -160,7 +160,6 @@ syntax alias NamingPrecomputation := Unit;
     NamingGuard : Type :=
       Guard
         NamingLocalState
-        NamingMsg
         NamingMailboxState
         NamingTimerHandle
         NamingMatchableArgument
@@ -190,10 +189,10 @@ flowchart TD
 <!-- --8<-- [start:resolve-name-guard] -->
 ```juvix
 resolveNameGuard
-  (t : TimestampedTrigger NamingMsg NamingTimerHandle)
+  (t : TimestampedTrigger NamingTimerHandle)
   (env : NamingEnvironment) : Maybe NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (ResolveNameRequest x) := do {
+      | just (MsgNaming (ResolveNameRequest x)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -221,10 +220,10 @@ flowchart TD
 <!-- --8<-- [start:submit-name-evidence-guard] -->
 ```juvix
 submitNameEvidenceGuard
-  (t : TimestampedTrigger NamingMsg NamingTimerHandle)
+  (t : TimestampedTrigger NamingTimerHandle)
   (env : NamingEnvironment) : Maybe NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (SubmitNameEvidenceRequest x) := do {
+      | just (MsgNaming (SubmitNameEvidenceRequest x)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -252,10 +251,10 @@ flowchart TD
 <!-- --8<-- [start:query-name-evidence-guard] -->
 ```juvix
 queryNameEvidenceGuard
-  (t : TimestampedTrigger NamingMsg NamingTimerHandle)
+  (t : TimestampedTrigger NamingTimerHandle)
   (env : NamingEnvironment) : Maybe NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (QueryNameEvidenceRequest x) := do {
+      | just (MsgNaming (QueryNameEvidenceRequest x)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   args := [ReplyTo (just sender) nothing] ;
@@ -278,7 +277,6 @@ queryNameEvidenceGuard
     NamingActionInput : Type :=
       ActionInput
         NamingLocalState
-        NamingMsg
         NamingMailboxState
         NamingTimerHandle
         NamingMatchableArgument
@@ -288,7 +286,6 @@ queryNameEvidenceGuard
     NamingActionEffect : Type :=
       ActionEffect
         NamingLocalState
-        NamingMsg
         NamingMailboxState
         NamingTimerHandle
         NamingMatchableArgument
@@ -324,7 +321,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgNaming responseMsg
+                message := MsgNaming responseMsg
               }
             }];
             timers := [];
@@ -361,7 +358,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgNaming responseMsg
+                message := MsgNaming responseMsg
               }
             }];
             timers := [];
@@ -386,7 +383,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
               packet := mkMessagePacket@{
                 target := whoAsked;
                 mailbox := just 0;
-                message := Anoma.MsgNaming responseMsg
+                message := MsgNaming responseMsg
               }
             }];
             timers := [];

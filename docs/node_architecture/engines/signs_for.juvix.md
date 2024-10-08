@@ -25,7 +25,6 @@ tags:
 SignsForEngineFamily :
   Anoma.EngineFamily
     SignsForLocalState
-    SignsForMsg
     SignsForMailboxState
     SignsForTimerHandle
     SignsForMatchableArgument

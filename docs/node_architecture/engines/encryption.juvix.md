@@ -25,7 +25,6 @@ tags:
 EncryptionEngineFamily :
   Anoma.EngineFamily
     EncryptionLocalState
-    EncryptionMsg
     EncryptionMailboxState
     EncryptionTimerHandle
     EncryptionMatchableArgument
