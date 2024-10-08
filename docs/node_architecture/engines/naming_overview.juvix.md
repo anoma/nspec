@@ -14,7 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.naming_overview;
     import prelude open;
-    import node_architecture.types.identity_types open;
+    import node_architecture.identity_types open;
     ```
 
 # `Naming` Engine Family Overview

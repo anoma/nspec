@@ -14,8 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.identity_management_overview;
     import prelude open;
-    import node_architecture.basics open;
-    import node_architecture.types.identity_types open;
+    import node_architecture.identity_types open;
     ```
 
 # `Identity Management` Engine Family Overview
@@ -32,7 +31,7 @@ The Identity Management Engine manages identities across various backends. When 
 
 <!-- --8<-- [start:IdentityManagementMsg] -->
 ```juvix
-type IdentityManagementMsg :=
+type IdentityManagementMsg  :=
   | -- --8<-- [start:GenerateIdentityRequest]
     GenerateIdentityRequest {
       backend : Backend;

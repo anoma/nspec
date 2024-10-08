@@ -14,7 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.commitment_overview;
     import prelude open;
-    import node_architecture.types.identity_types open;
+    import node_architecture.identity_types open;
     ```
 
 # `Commitment` Engine Family Overview

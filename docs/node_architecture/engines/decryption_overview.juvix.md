@@ -14,8 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.decryption_overview;
     import prelude open;
-    import node_architecture.basics open;
-    import node_architecture.types.identity_types open;
+    import node_architecture.identity_types open;
     ```
 
 # `Decryption` Engine Family Overview

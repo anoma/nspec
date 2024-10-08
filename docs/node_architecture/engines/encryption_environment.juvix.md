@@ -18,7 +18,7 @@ tags:
     import system_architecture.identity.identity open;
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
-    import node_architecture.types.identity_types open;
+    import node_architecture.identity_types open;
     import node_architecture.engines.encryption_overview open;
     ```
 

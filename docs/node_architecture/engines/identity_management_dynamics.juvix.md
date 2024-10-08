@@ -21,7 +21,7 @@ tags:
     import node_architecture.types.engine_environment open;
     import node_architecture.engines.identity_management_environment open;
     import node_architecture.engines.identity_management_overview open;
-    import node_architecture.types.identity_types open;
+    import node_architecture.identity_types open;
     import node_architecture.types.anoma_message as Anoma;
     ```
 
@@ -123,19 +123,19 @@ This action label corresponds to deleting an existing identity.
 
 ```juvix
 type IdentityManagementMatchableArgument :=
-  | -- --8<-- [start:ReplyTo]
-  ReplyTo (Maybe Address) (Maybe MailboxID)
-  -- --8<-- [end:ReplyTo]
+  | -- --8<-- [start:MessageFrom]
+  MessageFrom (Maybe Address) (Maybe MailboxID)
+  -- --8<-- [end:MessageFrom]
 ;
 ```
 <!-- --8<-- [end:identity-management-matchable-argument] -->
 
-### `ReplyTo`
+### `MessageFrom`
 
 !!! quote ""
 
     ```
-    --8<-- "./docs/node_architecture/engines/identity_management_dynamics.juvix.md:ReplyTo"
+    --8<-- "./docs/node_architecture/engines/identity_management_dynamics.juvix.md:MessageFrom"
     ```
 
 This matchable argument contains the address and mailbox ID of where the response message should be sent.
@@ -161,6 +161,7 @@ syntax alias IdentityManagementPrecomputation := Unit;
     IdentityManagementGuard : Type :=
       Guard
         IdentityManagementLocalState
+        Anoma.Msg
         IdentityManagementMsg
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -191,13 +192,13 @@ flowchart TD
 <!-- --8<-- [start:generate-identity-guard] -->
 ```juvix
 generateIdentityGuard
-  (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
+  (t : TimestampedTrigger Anoma.Msg IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (GenerateIdentityRequest x y z) := do {
+      | just (Anoma.MsgIdentityManagement (GenerateIdentityRequest x y z)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing];
+                  args := [MessageFrom (just sender) nothing];
                   label := DoGenerateIdentity x y z;
                   other := unit
                 });
@@ -223,13 +224,13 @@ flowchart TD
 <!-- --8<-- [start:connect-identity-guard] -->
 ```juvix
 connectIdentityGuard
-  (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
+  (t : TimestampedTrigger Anoma.Msg IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (ConnectIdentityRequest x y z) := do {
+      | just (Anoma.MsgIdentityManagement (ConnectIdentityRequest x y z)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing];
+                  args := [MessageFrom (just sender) nothing];
                   label := DoConnectIdentity x y z;
                   other := unit
                 });
@@ -255,13 +256,13 @@ flowchart TD
 <!-- --8<-- [start:delete-identity-guard] -->
 ```juvix
 deleteIdentityGuard
-  (t : TimestampedTrigger IdentityManagementMsg IdentityManagementTimerHandle)
+  (t : TimestampedTrigger Anoma.Msg IdentityManagementTimerHandle)
   (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (DeleteIdentityRequest x y) := do {
+      | just (Anoma.MsgIdentityManagement (DeleteIdentityRequest x y)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing];
+                  args := [MessageFrom (just sender) nothing];
                   label := DoDeleteIdentity x y;
                   other := unit
                 });
@@ -311,7 +312,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
   case GuardOutput.label out of {
     | DoGenerateIdentity backend' params' capabilities' := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) mailbox) :: _ := let
+        | (MessageFrom (just whoAsked) mailbox) :: _ := let
             newIdentity := generateNewExternalIdentity params';
             identityInfo := mkIdentityInfo@{
               backend := backend';
@@ -349,7 +350,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
       }
     | DoConnectIdentity externalIdentity' backend' capabilities' := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
+        | (MessageFrom (just whoAsked) _) :: _ := let
             identityInfo := mkIdentityInfo@{
               backend := backend';
               capabilities := capabilities';
@@ -385,7 +386,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
       }
     | DoDeleteIdentity externalIdentity' backend' := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) mailbox) :: _ := let
+        | (MessageFrom (just whoAsked) mailbox) :: _ := let
             updatedIdentities := Map.delete externalIdentity' (IdentityManagementLocalState.identities (EngineEnvironment.localState env));
             newLocalState := mkIdentityManagementLocalState@{
               identities := updatedIdentities
