@@ -25,7 +25,6 @@ tags:
 TemplateEngineFamily :
   Anoma.EngineFamily
     TemplateLocalState
-    TemplateMsg
     TemplateMailboxState
     TemplateTimerHandle
     TemplateMatchableArgument

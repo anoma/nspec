@@ -27,7 +27,6 @@ def write_bibtex_file(repos, fname_prefix=""):
 
 
 def main():
-
     org_names = ["anoma"]
     for org_name in org_names:
         repos = get_public_repos(org_name)

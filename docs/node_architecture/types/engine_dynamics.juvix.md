@@ -84,8 +84,8 @@ type GuardOutput (A L X : Type) :=
 <!-- --8<-- [start: whole-guard-type] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Guard (S I M H A L X : Type) : Type :=
-  (t : TimestampedTrigger I H) -> (env : EngineEnvironment S I M H)-> Maybe (GuardOutput A L X);
+Guard (S M H A L X : Type) : Type :=
+  (t : TimestampedTrigger H) -> (env : EngineEnvironment S M H)-> Maybe (GuardOutput A L X);
 ```
 <!-- --8<-- [end: whole-guard-type] -->
 
@@ -93,10 +93,10 @@ Guard (S I M H A L X : Type) : Type :=
 
 
 ```juvix
-type ActionInput (S I M H A L X : Type) := mkActionInput {
+type ActionInput (S M H A L X : Type) := mkActionInput {
   guardOutput : GuardOutput A L X;
-  env : EngineEnvironment S I M H;
-  timestampedTrigger : TimestampedTrigger I H; -- TODO: do we need this?
+  env : EngineEnvironment S M H;
+  timestampedTrigger : TimestampedTrigger H; -- TODO: do we need this?
 };
 ```
 
@@ -111,9 +111,9 @@ action, which can be
 - Define new engine instances to be created.4
 
 ```juvix
-type ActionEffect (S I M H A L X : Type) := mkActionEffect {
-  newEnv : EngineEnvironment S I M H;
-  producedMessages : List (EnvelopedMessage Anoma.Msg);
+type ActionEffect (S M H A L X : Type) := mkActionEffect {
+  newEnv : EngineEnvironment S M H;
+  producedMessages : List EnvelopedMessage;
   timers : List (Timer H);
   spawnedEngines : List Anoma.Env;
 };
@@ -122,9 +122,9 @@ type ActionEffect (S I M H A L X : Type) := mkActionEffect {
 
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-ActionFunction (S I M H A L X : Type) : Type :=
-  (input : ActionInput S I M H A L X) ->
-  ActionEffect S I M H A L X;
+ActionFunction (S M H A L X : Type) : Type :=
+  (input : ActionInput S M H A L X) ->
+  ActionEffect S M H A L X;
 ```
 
 ??? info "On creating new engine instances"

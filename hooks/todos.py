@@ -4,7 +4,6 @@ This plugin is used to find and report TODOs in the documentation.
 
 import logging
 import os
-import re
 from pathlib import Path
 from typing import List
 
@@ -25,7 +24,6 @@ REPORT_TODOS = bool(os.environ.get("REPORT_TODOS", False))
 
 
 class RTExtension(Extension):
-
     def __repr__(self):
         return "RTExtension"
 
@@ -33,7 +31,6 @@ class RTExtension(Extension):
         self.mkconfig = mkconfig
 
     def extendMarkdown(self, md):  # noqa: N802
-
         self.md = md
         md.registerExtension(self)
 
@@ -42,12 +39,10 @@ class RTExtension(Extension):
 
 
 class RTPreprocessor(Preprocessor):
-
     def __init__(self, mkconfig: MkDocsConfig):
         self.mkconfig = mkconfig
 
     def run(self, lines: List[str]) -> List[str]:
-
         config = self.mkconfig
         current_page_url = None
         preprocess_page = SHOW_TODOS_IN_MD
@@ -95,7 +90,6 @@ class RTPreprocessor(Preprocessor):
                     I += 1
 
                 if current_page_url:
-
                     todo = Todo(
                         path=current_page_url,
                         line=ROW + offset + 1,

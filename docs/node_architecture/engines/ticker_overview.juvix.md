@@ -13,7 +13,6 @@ tags:
 
     ```juvix
     module node_architecture.engines.ticker_overview;
-    import node_architecture.basics open;
     ```
 
 # `Ticker` Engine Family Overview

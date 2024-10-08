@@ -13,6 +13,7 @@ tags:
     ```juvix
     module node_architecture.types.engine_environment;
     import node_architecture.basics open;
+    import node_architecture.identity_types open;
     import node_architecture.types.anoma_message as Anoma;
     ```
 
@@ -42,11 +43,11 @@ These same letters will be used in the rest of the document to represent these
 types.
 
 ```juvix
-type EngineEnvironment (S I M H : Type) :=
+type EngineEnvironment (S M H : Type) :=
   mkEngineEnvironment {
       name : Name ; -- read-only
       localState : S;
-      mailboxCluster : Map MailboxID (Mailbox I M);
+      mailboxCluster : Map MailboxID (Mailbox M);
       acquaintances : Set Name;
       timers : List (Timer H);
 };

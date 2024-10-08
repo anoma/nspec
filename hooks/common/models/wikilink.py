@@ -7,7 +7,6 @@ log: logging.Logger = logging.getLogger("mkdocs")
 
 
 class WikiLink:
-
     def __init__(
         self,
         page: str,

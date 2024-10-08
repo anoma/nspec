@@ -43,7 +43,6 @@ files_relation: List[ResultEntry] = []
 
 
 class WLExtension(Extension):
-
     def __init__(self, mkconfig):
         self.mkconfig = mkconfig
 
@@ -69,7 +68,6 @@ class WLExtension(Extension):
         return "WLExtension"
 
     def extendMarkdown(self, md):  # noqa: N802
-
         self.md = md
         md.registerExtension(self)
 
@@ -247,7 +245,6 @@ def on_page_content(html, page: Page, config: MkDocsConfig, files: Files) -> str
 
 
 def on_post_build(config: MkDocsConfig):
-
     if GRAPH_JSON.exists():
         GRAPH_JSON.unlink()
 

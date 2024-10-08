@@ -14,6 +14,8 @@ tags:
     module node_architecture.basics;
     import prelude open public;
     import prelude open using {Hash} public;
+    import node_architecture.types.anoma_message as Anoma;
+    import node_architecture.identity_types open;
     ```
 
 # Juvix Prelude of the Anoma Node Architecture
@@ -25,53 +27,6 @@ architecture prelude. For a more general prelude, please refer to
 
 1. :woman_raising_hand: If you are unfamiliar with Juvix,
 please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorials/learn.html).
-
-## Types for network identities
-
-Types in this section are used to represent [[Identity|identities]] within the network.
-
-### ExternalID
-
-A unique identifier, such as a public key, represented as a natural number.
-
-```juvix
-syntax alias ExternalID := Nat;
-```
-
-### InternalID
-
-A unique identifier, such as a private key, used internally within the network,
-represented as a natural number.
-
-```juvix
-syntax alias InternalID := Nat;
-```
-
-### Identity
-
-A pair combining an `ExternalID` and an `InternalID`, representing the complete
-identity of an entity within the network.
-
-```juvix
-Identity : Type := Pair ExternalID InternalID;
-```
-
-### Name
-
-A name could be a simple string without any particular meaning in the system or
-an external identity.
-
-```juvix
-Name : Type := Either String ExternalID;
-```
-
-### Address
-
-An address is a name used for forwarding messages to the correct destination.
-
-```juvix
-syntax alias Address := Name;
-```
 
 ## Types for messages and communication
 
@@ -106,10 +61,10 @@ A message packet consists of a target address, a mailbox identifier, and
 the message itself of a specific type given as a type parameter, `MessageType`.
 
 ```juvix
-type MessagePacket (MessageType : Type) : Type := mkMessagePacket {
+type MessagePacket : Type := mkMessagePacket {
   target : Address;
   mailbox : Maybe Nat;
-  message : MessageType;
+  message : Anoma.Msg;
 };
 ```
 
@@ -119,28 +74,28 @@ An enveloped message consists of a possible sender address if the sender wishes
 to be identified, along with a message packet.
 
 ```juvix
-type EnvelopedMessage (MessageType : Type) : Type :=
+type EnvelopedMessage : Type :=
   mkEnvelopedMessage {
     sender : Maybe Address;
-    packet : MessagePacket MessageType;
+    packet : MessagePacket;
   };
 ```
 
 For convenience, here are some handy functions for enveloped messages:
 
 ```juvix
-getMessageType : {M : Type} -> EnvelopedMessage M -> M
+getMessageType : EnvelopedMessage -> Anoma.Msg
   | (mkEnvelopedMessage@{ packet :=
       (mkMessagePacket@{ message := mt })}) := mt;
 ```
 
 ```juvix
-getMessageSender : {M : Type} -> EnvelopedMessage M -> Maybe Address
+getMessageSender : EnvelopedMessage -> Maybe Address
   | (mkEnvelopedMessage@{ sender := s }) := s;
 ```
 
 ```juvix
-getMessageTarget : {M : Type} -> EnvelopedMessage M -> Address
+getMessageTarget : EnvelopedMessage -> Address
   | (mkEnvelopedMessage@{ packet := (mkMessagePacket@{ target := t }) }) := t;
 ```
 
@@ -160,8 +115,8 @@ such as the priority of the messages in the mailbox.
 
 
 ```juvix
-type Mailbox (MessageType MailboxStateType : Type) : Type := mkMailbox {
-  messages : List (EnvelopedMessage MessageType);
+type Mailbox (MailboxStateType : Type) : Type := mkMailbox {
+  messages : List EnvelopedMessage;
   mailboxState : Maybe MailboxStateType;
 };
 ```
@@ -181,18 +136,18 @@ type Timer (HandleType : Type): Type := mkTimer {
 };
 ```
 
-### Trigger M H
+### Trigger H
 
 ```juvix
-type Trigger (MessageType : Type) (HandleType : Type) :=
-  | MessageArrived { envelope : EnvelopedMessage MessageType; }
+type Trigger (HandleType : Type) :=
+  | MessageArrived { envelope : EnvelopedMessage; }
   | Elapsed { timers : List (Timer HandleType) };
 ```
 
 - Extract the actual message from a trigger in case it has one:
 
     ```juvix
-    getMessageFromTrigger : {M H : Type} -> Trigger M H -> Maybe M
+    getMessageFromTrigger : {H : Type} -> Trigger H -> Maybe Anoma.Msg
       | (MessageArrived@{ envelope := (mkEnvelopedMessage@{ packet := (mkMessagePacket@{ message := m })})}) := just m
       | _ := nothing;
     ```
@@ -200,7 +155,7 @@ type Trigger (MessageType : Type) (HandleType : Type) :=
   - Get the message sender from a trigger:
 
       ```juvix
-      getMessageSenderFromTrigger : {M H : Type} -> Trigger M H -> Maybe Name
+      getMessageSenderFromTrigger : {H : Type} -> Trigger H -> Maybe Name
         | (MessageArrived@{ envelope := e; }) := EnvelopedMessage.sender e
         | _ := nothing;
       ```
@@ -208,7 +163,7 @@ type Trigger (MessageType : Type) (HandleType : Type) :=
   - Get the target destination from a trigger:
 
       ```juvix
-      getMessageTargetFromTrigger : {M H : Type} -> Trigger M H -> Maybe Name
+      getMessageTargetFromTrigger : {H : Type} -> Trigger H -> Maybe Name
         | (MessageArrived@{ envelope := mkEnvelopedMessage@{ packet := mkMessagePacket@{ target := t }}}) := just t
       | _ := nothing;
       ```
@@ -216,31 +171,31 @@ type Trigger (MessageType : Type) (HandleType : Type) :=
 ### TimestampedTrigger M H
 
 ```juvix
-type TimestampedTrigger (MessageType : Type) (HandleType : Type) :=
+type TimestampedTrigger (HandleType : Type) :=
   mkTimestampedTrigger {
     time : Time;
-    trigger : Trigger MessageType HandleType;
+    trigger : Trigger HandleType;
   };
 ```
 
 - Get the actual message from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageFromTimestampedTrigger {M H} (tr : TimestampedTrigger M H) : Maybe M
+    getMessageFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Maybe Anoma.Msg
       := getMessageFromTrigger (TimestampedTrigger.trigger  tr);
     ```
 
 - Get the sender from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageSenderFromTimestampedTrigger {M H}
-      (tr : TimestampedTrigger M H) : Maybe Name
+    getMessageSenderFromTimestampedTrigger {H}
+      (tr : TimestampedTrigger H) : Maybe Name
       := getMessageSenderFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the target from
 
     ```juvix
-    getMessageTargetFromTimestampedTrigger {M H} (tr : TimestampedTrigger M H) : Maybe Name
+    getMessageTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Maybe Name
        := getMessageTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```
