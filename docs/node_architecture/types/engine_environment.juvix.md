@@ -34,8 +34,6 @@ This data is encapsulated within the `EngineEnvironment` type family, which is
 parameterised by four types:
 
 - `S`, representing the local state,
-- `I`, representing the type of engine-specific messages (defined in their
-respective overview page),
 - `M`, representing the type of mailboxes' states, and
 - `H`, representing the type of handles for timers.
 
