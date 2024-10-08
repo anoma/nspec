@@ -14,7 +14,6 @@ GRAPHVIZ_AVAILABLE = os.environ.get("GRAPHVIZ_AVAILABLE", True)
 
 
 def fix_site_url(config: MkDocsConfig) -> MkDocsConfig:
-
     if os.environ.get("SITE_URL"):
         config["site_url"] = os.environ["SITE_URL"]
         if not config["site_url"].endswith("/"):

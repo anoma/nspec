@@ -4,7 +4,6 @@ from .loc import FileLoc
 
 
 class Link:
-
     def __init__(
         self,
         display: Optional[str] = None,

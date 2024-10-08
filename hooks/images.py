@@ -54,7 +54,6 @@ if IMAGES_ENABLED:
         USE_DOT = False
 
     class ImgExtension(Extension):
-
         def __init__(self, mkconfig: MkDocsConfig):
             self.mkconfig = mkconfig
 
@@ -62,7 +61,6 @@ if IMAGES_ENABLED:
             return "ImgExtension"
 
         def extendMarkdown(self, md):  # noqa: N802
-
             self.md = md
             md.registerExtension(self)
 
@@ -80,12 +78,10 @@ if IMAGES_ENABLED:
         return config
 
     class ImgPreprocessor(Preprocessor):
-
         def __init__(self, mkconfig):
             self.mkconfig = mkconfig
 
         def run(self, lines):
-
             config = self.mkconfig
             current_page_url = None
 

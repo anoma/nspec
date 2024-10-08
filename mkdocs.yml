@@ -538,7 +538,7 @@ hooks:
   - hooks/images.py
   - hooks/todos.py
   - hooks/differ.py
-  - hooks/juvix-codeblock-footer.py
+  - hooks/juvix_codeblock_footer.py
 watch:
   - docs/assets
   - formal/SML
