@@ -41,8 +41,8 @@ type IdentityManagementMsg  :=
     -- --8<-- [end:GenerateIdentityRequest]
   | -- --8<-- [start:GenerateIdentityResponse]
     GenerateIdentityResponse {
-      commitmentEngine : Maybe Address;
-      decryptionEngine : Maybe Address;
+      commitmentEngine : Maybe Name;
+      decryptionEngine : Maybe Name;
       externalIdentity : ExternalIdentity;
       error : Maybe String
     }
@@ -56,8 +56,8 @@ type IdentityManagementMsg  :=
     -- --8<-- [end:ConnectIdentityRequest]
   | -- --8<-- [start:ConnectIdentityResponse]
     ConnectIdentityResponse {
-      commitmentEngine : Maybe Address;
-      decryptionEngine : Maybe Address;
+      commitmentEngine : Maybe Name;
+      decryptionEngine : Maybe Name;
       error : Maybe String
     }
     -- --8<-- [end:ConnectIdentityResponse]

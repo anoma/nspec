@@ -19,6 +19,7 @@ tags:
     import node_architecture.types.engine_environment open;
     import node_architecture.engines.identity_management_overview open;
     import node_architecture.identity_types open;
+    import system_architecture.identity.identity open hiding {ExternalIdentity};
     ```
 
 # Identity Management Environment
@@ -48,7 +49,9 @@ type IdentityInfo := mkIdentityInfo {
 };
 
 type IdentityManagementLocalState := mkIdentityManagementLocalState {
-  identities : Map ExternalIdentity IdentityInfo;
+  identities : Map Address IdentityInfo;
+  genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext; 
+  genSigner : Backend -> Signer Backend Signable Commitment 
 };
 ```
 
@@ -78,7 +81,13 @@ identityManagementEnvironmentExample : IdentityManagementEnvironment :=
     mkEngineEnvironment@{
       name := Left "identity_management";
       localState := mkIdentityManagementLocalState@{
-        identities := Map.empty
+        identities := Map.empty;
+        genDecryptor := \{_ := mkDecryptor@{
+          decrypt := \{_ x := just x};
+        }}; 
+        genSigner := \{_ := mkSigner@{
+          sign := \{_ x := x};
+        }};
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

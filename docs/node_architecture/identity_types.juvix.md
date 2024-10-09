@@ -120,9 +120,7 @@ type IDParams :=
 ```
 
 ```juvix
-type ExternalIdentity :=
-  | Param { param : IDParams }
-  | ThresholdComposition { identities : List ExternalIdentity };
+syntax alias ExternalIdentity := Address;
 
 axiom ExternalIdentityCmpDummy : ExternalIdentity -> ExternalIdentity -> Ordering;
 
