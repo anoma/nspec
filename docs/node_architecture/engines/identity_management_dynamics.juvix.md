@@ -81,9 +81,9 @@ This action label corresponds to generating a new identity.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | A new identity is created and added to the `identities` map in the local state. |
-    | Messages to be sent   | A `GenerateIdentityResponse` message is sent to the requester, containing the new identity information. |
-    | Engines to be spawned | No engines are spawned by this action. |
+    | State update          | A new identity is created and added to the `identities` map in the local state. The identity includes information about backend, capabilities, and potentially spawned engine references. |
+    | Messages to be sent   | A `GenerateIdentityResponse` message is sent to the requester, containing the new identity information including references to spawned engines (if any) or an error message if the identity already exists. |
+    | Engines to be spawned | Depending on the requested capabilities, Commitment and/or Decryption engines may be spawned. |
     | Timer updates         | No timers are set or cancelled. |
 
 ### `DoConnectIdentity`
@@ -100,9 +100,9 @@ This action label corresponds to connecting to an existing identity.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | The provided external identity is added to the `identities` map in the local state. |
-    | Messages to be sent   | A `ConnectIdentityResponse` message is sent to the requester, confirming the connection. |
-    | Engines to be spawned | No engines are spawned by this action. |
+    | State update          | If successful, a new entry is added to the `identities` map in the local state, linking the requesting address to the external identity's information, filtered by the requested capabilities. |
+    | Messages to be sent   | A `ConnectIdentityResponse` message is sent to the requester, confirming the connection and providing references to relevant engines, or an error message if the connection fails (e.g., identity already exists, external identity not found, or requested capabilities not available). |
+    | Engines to be spawned | No new engines are spawned. The action reuses existing engine references from the external identity. |
     | Timer updates         | No timers are set or cancelled. |
 
 ### `DoDeleteIdentity`
@@ -119,8 +119,8 @@ This action label corresponds to deleting an existing identity.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | The specified identity is removed from the `identities` map in the local state. |
-    | Messages to be sent   | A `DeleteIdentityResponse` message is sent to the requester, confirming the deletion. |
+    | State update          | The specified identity is removed from the `identities` map in the local state if it exists. |
+    | Messages to be sent   | A `DeleteIdentityResponse` message is sent to the requester, confirming the deletion or providing an error message if the identity doesn't exist. |
     | Engines to be spawned | No engines are spawned by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
