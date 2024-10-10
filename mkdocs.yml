@@ -421,10 +421,10 @@ nav:
       - Data encoding: ./implementation/data_encoding.md
       - Resource machine backends: ./implementation/resource_machine_backends.md
   - Quick links: ./indexes/links.md
-  - Juvix modules: 
-    - Juvix Base Prelude: ./prelude.juvix.md
-    - Juvix Module Index: ./indexes/juvix_modules.md
-    - Juvix Documentation: https://docs.juvix.org
+  - Juvix modules:
+      - Juvix Base Prelude: ./prelude.juvix.md
+      - Juvix Module Index: ./indexes/juvix_modules.md
+      - Juvix Documentation: https://docs.juvix.org
   - Tutorials for contributors:
       - ./tutorial/index.md
       - Prepare working environment: ./tutorial/install/index.md
