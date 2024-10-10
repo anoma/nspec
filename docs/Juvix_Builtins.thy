@@ -13,6 +13,9 @@ begin
 definition fromList :: "'a \<Rightarrow> 'a list \<Rightarrow> 'a AVLTree" where
   "fromList _ = FSet.fset_of_list"
 
+definition empty :: "'a AVLTree" where
+  "empty = fromList undefined []"
+
 end
 
 type_synonym ('a, 'b) Map = "('a, 'b) fmap"

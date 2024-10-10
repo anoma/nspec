@@ -14,7 +14,7 @@ fun counter :: "TickerLocalState \<Rightarrow> nat" where
 type_synonym TickerEnvironment = "(TickerLocalState, TickerMsg, Unit, Unit) EngineEnvironment"
 
 definition tickerEnvironmentExample :: TickerEnvironment where
-  "tickerEnvironmentExample =
+  "tickerEnvironmentExample = (
     let
       name' = Left ''ticker'';
       localState' = let
@@ -23,6 +23,6 @@ definition tickerEnvironmentExample :: TickerEnvironment where
       mailboxCluster' = Data_Map.empty;
       acquaintances' = Data_Set_AVL.empty;
       timers' = []
-    in (| EngineEnvironment.name = name', EngineEnvironment.localState = localState', EngineEnvironment.mailboxCluster = mailboxCluster', EngineEnvironment.acquaintances = acquaintances', EngineEnvironment.timers = timers' |)"
+    in (| EngineEnvironment.name = name', EngineEnvironment.localState = localState', EngineEnvironment.mailboxCluster = mailboxCluster', EngineEnvironment.acquaintances = acquaintances', EngineEnvironment.timers = timers' |))"
 
 end
