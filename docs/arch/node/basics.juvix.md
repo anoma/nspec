@@ -26,7 +26,7 @@ architecture prelude. For a more general prelude, please refer to
 { .annotate }
 
 1. :woman_raising_hand: If you are unfamiliar with Juvix,
-please refer to the [[Juvix documentation]].
+please refer to the [[Juvix Documentation]].
 
 ## Types for messages and communication
 

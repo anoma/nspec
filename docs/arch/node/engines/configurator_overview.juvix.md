@@ -5,6 +5,10 @@ search:
   boost: 2
 ---
 
+```juvix
+module arch.node.engines.configurator_overview;
+```
+
 # Configuration Engine
 
 ## General Philosophy
