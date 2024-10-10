@@ -23,9 +23,9 @@ using the Ticker family, which can be opened side by side.
 Related to the template files, we have Juvix files defining the types
 in the following files:
 
-- [[Engine Environment| `./docs/node_architecture/types/engine_environment.juvix.md`]]
-- [[Engine Dynamics| `./docs/node_architecture/types/engine_dynamics.juvix.md`]]
-- [[Engine Family| `./docs/node_architecture/types/engine_family.juvix.md`]]
+- [[Engine Environment| `./docs/arch/node/types/engine_environment.juvix.md`]]
+- [[Engine Dynamics| `./docs/arch/node/types/engine_dynamics.juvix.md`]]
+- [[Engine Family| `./docs/arch/node/types/engine_family.juvix.md`]]
 
 
 The organisation of these files, in particular the folder structure, are

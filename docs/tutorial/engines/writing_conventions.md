@@ -36,18 +36,18 @@ tags:
     `ticker_overview.juvix.md`, it must have the following code block:
 
       ```juvix
-      module node_architecture.engines.ticker_overview;
+      module arch/node.engines.ticker_overview;
       ```
 
 
 ## File structure within the `engines` directory
 
 The files as listed above must be stored in the `engines` directory of the
-`node_architecture` directory. For example, the `ticker` engine family would
+`arch/node` directory. For example, the `ticker` engine family would
 have the following directory structure:
 
 ```plaintext
-node_architecture/
+arch/node/
 └── ...
 └── engines/
     ├── ...
@@ -67,7 +67,7 @@ adding only one line at the top of the Juvix file where the imports are declared
 
 ```diff
 ...
-+ import node_architecture.engines.ticker open using {Ticker};
++ import arch/node.engines.ticker open using {Ticker};
 ```
 
 ## Update indexes
@@ -84,19 +84,19 @@ if the engine family is the `ticker`, you would add the following line:
 module everything;
 
 {- Engines -}
-+ import node_architecture.engines.ticker;
-+ import node_architecture.engines.ticker_overview;
-+ import node_architecture.engines.ticker_environment;
-+ import node_architecture.engines.ticker_dynamics;
++ import arch/node.engines.ticker;
++ import arch/node.engines.ticker_overview;
++ import arch/node.engines.ticker_environment;
++ import arch/node.engines.ticker_dynamics;
 ```
 
 
 ### Anoma Message Index
 
-```diff title="node_architecture/types/anoma_message.juvix.md"
+```diff title="arch/node/types/anoma_message.juvix.md"
 ...
-module node_architecture.types.anoma_message;
-+ import node_architecture.engines.ticker_overview open using {TickerMsg};
+module arch/node.types.anoma_message;
++ import arch/node.engines.ticker_overview open using {TickerMsg};
 
 type Msg :=
 +  | MsgTicker TickerMsg
@@ -104,10 +104,10 @@ type Msg :=
 
 ### Anoma Environment Index
 
-```diff title="node_architecture/types/anoma_environment.juvix.md"
+```diff title="arch/node/types/anoma_environment.juvix.md"
 ...
-    module node_architecture.types.anoma_environment;
-+      import node_architecture.engines.ticker_environment
+    module arch/node.types.anoma_environment;
++      import arch/node.engines.ticker_environment
 +        open using {TickerEnvironment};
 ...
 type Env :=
