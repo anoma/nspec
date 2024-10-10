@@ -93,7 +93,7 @@ This action label corresponds to submitting new reads_for evidence.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | The new evidence is added to the evidence store. |
+    | State update          | The new evidence is added to the evidence store, if valid. |
     | Messages to be sent   | A `SubmitReadsForEvidenceResponse` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
@@ -196,7 +196,7 @@ readsForQueryGuard
       | just (MsgReadsFor (ReadsForRequest x y)) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing] ;
+          args := [ReplyTo (just sender) nothing] ;
           label := DoReadsForQuery x y;
           other := unit
         });}
@@ -328,18 +328,31 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
           }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoSubmitEvidence evidence :=
+    | DoSubmitEvidence evidence := 
       case GuardOutput.args out of {
         | (ReplyTo (just whoAsked) _) :: _ := let
-            newEvidenceStore := Set.insert evidence (ReadsForLocalState.evidenceStore localState);
-            newLocalState := mkReadsForLocalState@{
-              evidenceStore := newEvidenceStore
-            };
+            pair' :=
+              case ReadsForLocalState.verifyEvidence localState evidence of
+                | true :=
+                  let
+                    newEvidenceStore := Set.insert evidence (ReadsForLocalState.evidenceStore localState);
+                    updatedLocalState := localState@ReadsForLocalState{
+                      evidenceStore := newEvidenceStore
+                    };
+                    response := SubmitReadsForEvidenceResponse@{
+                      error := nothing
+                    };
+                  in mkPair updatedLocalState response
+                | false :=
+                  let
+                    response := SubmitReadsForEvidenceResponse@{
+                      error := just "Invalid evidence provided."
+                    };
+                  in mkPair localState response;
+            newLocalState := fst pair';
+            responseMsg := snd pair';
             newEnv' := env@EngineEnvironment{
               localState := newLocalState
-            };
-            responseMsg := SubmitReadsForEvidenceResponse@{
-              error := nothing
             };
           in mkActionEffect@{
             newEnv := newEnv';
@@ -354,7 +367,12 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
             timers := [];
             spawnedEngines := []
           }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
+        | _ := mkActionEffect@{
+            newEnv := env;
+            producedMessages := [];
+            timers := [];
+            spawnedEngines := []
+          }
       }
     | DoQueryEvidence externalIdentity :=
       case GuardOutput.args out of {

@@ -338,7 +338,7 @@ makeCommitmentEnv (env : IdentityManagementEnvironment) (backend' : Backend) (ad
         signer := IdentityManagementLocalState.genSigner local backend';
         backend := backend';
       };
-      -- The Decryption engine has one empty mailbox.
+      -- The Commitment engine has one empty mailbox.
       mailboxCluster := fromList [(mkPair 0 (mkMailbox@{
         messages := [];
         mailboxState := nothing;
@@ -346,12 +346,6 @@ makeCommitmentEnv (env : IdentityManagementEnvironment) (backend' : Backend) (ad
       acquaintances := Set.empty;
       timers := []
     };
-
-fst {A B} : Pair A B -> A
-  | (mkPair a _) := a;
-
-snd {A B} : Pair A B -> B
-  | (mkPair _ b) := b;
 
 hasCommitCapability (capabilities : Capabilities) : Bool :=
   case capabilities of {
@@ -378,28 +372,28 @@ updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : 
             commitmentEngineName := EngineEnvironment.name commitmentEnv;
             decryptionEnv := makeDecryptEnv env backend' whoAsked;
             decryptionEngineName := EngineEnvironment.name decryptionEnv;
-            spawnedEngines1 :=[EnvCommitment commitmentEnv; EnvDecryption decryptionEnv];
+            spawnedEngines := [EnvCommitment commitmentEnv; EnvDecryption decryptionEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
               commitmentEngine := just commitmentEngineName;
               decryptionEngine := just decryptionEngineName
             };
-        in mkPair updatedIdentityInfo1 spawnedEngines1
+        in mkPair updatedIdentityInfo1 spawnedEngines
     | CapabilityCommit :=
         let commitmentEnv := makeCommitmentEnv env backend' whoAsked;
             commitmentEngineName := EngineEnvironment.name commitmentEnv;
-            spawnedEngines1 := [EnvCommitment commitmentEnv];
+            spawnedEngines := [EnvCommitment commitmentEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
               commitmentEngine := just commitmentEngineName
             };
-        in mkPair updatedIdentityInfo1 spawnedEngines1
+        in mkPair updatedIdentityInfo1 spawnedEngines
     | CapabilityDecrypt :=
         let decryptionEnv := makeDecryptEnv env backend' whoAsked;
             decryptionEngineName := EngineEnvironment.name decryptionEnv;
-            spawnedEngines1 := [EnvDecryption decryptionEnv];
+            spawnedEngines := [EnvDecryption decryptionEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
               decryptionEngine := just decryptionEngineName
             };
-        in mkPair updatedIdentityInfo1 spawnedEngines1
+        in mkPair updatedIdentityInfo1 spawnedEngines
   };
 
 copyEnginesForCapabilities (env : IdentityManagementEnvironment) (whoAsked : Address) (externalIdentityInfo : IdentityInfo) (requestedCapabilities : Capabilities) : IdentityInfo :=
@@ -520,7 +514,6 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
                   }
               | nothing :=
                   -- whoAsked does not exist, proceed
-                  -- Step 2: Check if externalIdentity' exists
                   case Map.lookup externalIdentity' identities of {
                     | nothing :=
                         -- externalIdentity' does not exist, return error

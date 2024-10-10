@@ -42,6 +42,7 @@ The local state of the Signs For Engine includes the evidence for signs_for rela
 ```juvix
 type SignsForLocalState := mkSignsForLocalState {
   evidenceStore : Set SignsForEvidence;
+  verifyEvidence : SignsForEvidence -> Bool;
 };
 ```
 
@@ -71,7 +72,8 @@ signsForEnvironmentExample : SignsForEnvironment :=
     mkEngineEnvironment@{
       name := Left "signs_for";
       localState := mkSignsForLocalState@{
-        evidenceStore := Set.empty
+        evidenceStore := Set.empty;
+        verifyEvidence := \{ _ := true }
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

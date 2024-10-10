@@ -41,6 +41,7 @@ The local state of the Reads For Engine includes the evidence for reads_for rela
 ```juvix
 type ReadsForLocalState := mkReadsForLocalState {
   evidenceStore : Set ReadsForEvidence;
+  verifyEvidence : ReadsForEvidence -> Bool;
 };
 ```
 
@@ -70,7 +71,8 @@ readsForEnvironmentExample : ReadsForEnvironment :=
     mkEngineEnvironment@{
       name := Left "reads_for";
       localState := mkReadsForLocalState@{
-        evidenceStore := Set.empty
+        evidenceStore := Set.empty;
+        verifyEvidence := \{ _ := true }
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

@@ -44,6 +44,12 @@ AVLfilter {A} {{Ord A}} (pred : A -> Bool) (t : AVLTree A) : AVLTree A :=
              | false := merge filteredLeft filteredRight
         }
         };
+
+fst {A B} : Pair A B -> A
+  | (mkPair a _) := a;
+
+snd {A B} : Pair A B -> B
+  | (mkPair _ b) := b;
 ```
 
 ## Types for network identities
