@@ -1,20 +1,14 @@
----
-icon: octicons/container-24
-search:
-  exclude: false
----
+## Types for network identities
+
+Types in this section are used to represent [[Identity|identities]] within the network.
 
 ??? note "Juvix imports"
 
     ```juvix
     module node_architecture.identities;
-
+    import node_architecture.crypto;
     import prelude open;
     ```
-
-## Types for network identities
-
-Types in this section are used to represent [[Identity|identities]] within the network.
 
 ### ExternalID
 
