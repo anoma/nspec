@@ -21,7 +21,7 @@ Types in this section are used to represent [[Identity|identities]] within the n
 A unique identifier, such as a public key, represented as a natural number.
 
 ```juvix
-syntax alias ExternalID := Nat;
+syntax alias ExternalID := PublicKey;
 ```
 
 ### InternalID
@@ -30,7 +30,7 @@ A unique identifier, such as a private key, used internally within the network,
 represented as a natural number.
 
 ```juvix
-syntax alias InternalID := Nat;
+syntax alias InternalID := PrivateKey;
 ```
 
 ### Identity
@@ -44,11 +44,11 @@ Identity : Type := Pair ExternalID InternalID;
 
 ### Commitment
 
-A cryptographic signature, or commitment,
-signed by an internal identity and verifiable by an external identity.
+A cryptographic signature, or commitment.
+Signed by an internal identity and verifiable by an external identity.
 
 ```juvix
-syntax alias Commitment := Nat;
+syntax alias Commitment := Signature;
 ```
 
 ### NodeID
@@ -87,7 +87,7 @@ syntax alias EngineName := String;
 ### EngineID
 
 Engine instance identity.
-An engine instance name and an optional node identity (for engines on remote nodes).
+A pair of an engine instance name and an optional node identity (when remote).
 
 ```juvix
 EngineID : Type := Pair (Maybe NodeID) EngineName;
