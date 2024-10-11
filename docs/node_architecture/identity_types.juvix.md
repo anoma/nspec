@@ -42,19 +42,53 @@ identity of an entity within the network.
 Identity : Type := Pair ExternalID InternalID;
 ```
 
-### Name
+### Commitment
 
-A name could be a simple string without any particular meaning in the system or
-an external identity.
+A cryptographic signature, or commitment,
+signed by an internal identity and verifiable by an external identity.
 
 ```juvix
-Name : Type := Either String ExternalID;
+syntax alias Commitment := Nat;
 ```
 
-### Address
+### NodeID
 
-An address is a name used for forwarding messages to the correct destination.
+Cryptographic node identity.
 
 ```juvix
-syntax alias Address := Name;
+syntax alias NodeID := ExternalID;
+```
+
+### TopicID
+
+Cryptographic topic identity.
+
+```juvix
+syntax alias TopicID := ExternalID;
+```
+
+### DomainID
+
+Cryptographic domain identity.
+
+```juvix
+syntax alias DomainID := ExternalID;
+```
+
+### EngineName
+
+Engine instance name.
+An opaque string that is unique to the local node.
+
+```juvix
+syntax alias EngineName := String;
+```
+
+### EngineID
+
+Engine instance identity.
+An engine instance name and an optional node identity (for engines on remote nodes).
+
+```juvix
+EngineID : Type := Pair (Maybe NodeID) EngineName;
 ```
