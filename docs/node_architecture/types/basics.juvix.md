@@ -11,11 +11,11 @@ tags:
 ??? quote "Juvix imports"
 
     ```juvix
-    module node_architecture.basics;
+    module node_architecture.types.basics;
     import prelude open public;
     import prelude open using {Hash} public;
     import node_architecture.types.anoma_message as Anoma;
-    import node_architecture.identities open;
+    import node_architecture.types.identities open;
     ```
 
 # Juvix Prelude of the Anoma Node Architecture

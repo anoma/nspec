@@ -5,11 +5,11 @@
 ??? quote "Juvix imports"
 
     ```juvix
-    module node_architecture.messages;
+    module node_architecture.types.messages;
     import prelude open public;
     import prelude open using {Hash} public;
-    import node_architecture.basics open;
-    import node_architecture.identities open;
+    import node_architecture.types.basics open;
+    import node_architecture.types.identities open;
     import node_architecture.types.anoma_message open;
     ```
 

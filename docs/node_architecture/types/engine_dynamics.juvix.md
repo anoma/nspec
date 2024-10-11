@@ -11,7 +11,7 @@ tags:
 
     ```juvix
     module node_architecture.types.engine_dynamics;
-    import node_architecture.basics open;
+    import node_architecture.types.basics open;
     import node_architecture.types.anoma_message as Anoma;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.anoma_environment as Anoma;

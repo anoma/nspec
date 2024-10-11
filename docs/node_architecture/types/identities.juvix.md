@@ -5,8 +5,8 @@ Types in this section are used to represent [[Identity|identities]] within the n
 ??? note "Juvix imports"
 
     ```juvix
-    module node_architecture.identities;
-    import node_architecture.crypto;
+    module node_architecture.types.identities;
+    import node_architecture.types.crypto;
     import prelude open;
     ```
 

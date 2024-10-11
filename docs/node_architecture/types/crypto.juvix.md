@@ -3,7 +3,7 @@
 ??? note "Juvix imports"
 
     ```juvix
-    module node_architecture.crypto;
+    module node_architecture.types.crypto;
     import prelude open;
     ```
 

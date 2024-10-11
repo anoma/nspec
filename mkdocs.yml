@@ -70,8 +70,11 @@ nav:
       - Node Architecture:
           - ./node_architecture/index.md
           - Modules: ./node_architecture/modules/index.md
-          - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
-          - Juvix Message Definitions: ./node_architecture/messages.juvix.md
+          - Basic Types:
+            - ./node_architecture/types/basics.juvix.md
+            - Cryptographic Primitives: ./node_architecture/types/crypto.juvix.md
+            - Identities: ./node_architecture/types/identities.juvix.md
+            - Messages & Mailboxes: ./node_architecture/types/messages.juvix.md
           - Engine Family Types:
               - ./node_architecture/engines/index.md
               - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
