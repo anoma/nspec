@@ -6,17 +6,14 @@ begin
 
 theorem TickerNeverDecrements: "counter (localState (env x)) \<le> counter (localState (newEnv (action TickerEngineFamily x)))"
 proof -
-  obtain guardOutput env timestampedTrigger where xdef:
-    "x = \<lparr>ActionInput.guardOutput = guardOutput, env = env, timestampedTrigger = timestampedTrigger\<rparr>"
-    by (cases x) auto
-  obtain args label other where gdef:
-    "guardOutput = \<lparr>GuardOutput.args = args, label = label, other = other\<rparr>"
-    by (cases guardOutput) auto
+  obtain guardOutput env timestampedTrigger args label other where xdef:
+    "x = \<lparr>ActionInput.guardOutput = \<lparr>GuardOutput.args = args, label = label, other = other\<rparr>, env = env, timestampedTrigger = timestampedTrigger\<rparr>"
+    by (metis ActionInput.cases GuardOutput.cases)
   show ?thesis
   proof (cases label)
     case DoIncrement
     then show ?thesis
-      by (simp add: TickerEngineFamily_def xdef gdef)
+      by (simp add: TickerEngineFamily_def xdef)
          (metis EngineEnvironment.simps(8) Suc_n_not_le_n counter.simps le_eq_less_or_eq
                 linorder_not_le localState.elims localState.simps)
   next
@@ -25,12 +22,12 @@ proof -
     then show ?thesis
     proof (cases args)
       case Nil
-      then show ?thesis by (simp add: TickerEngineFamily_def xdef gdef ldef)
+      then show ?thesis by (simp add: TickerEngineFamily_def xdef ldef)
     next
       case (Cons a list)
       then have rdef: "args = Cons a list" by auto
       obtain x1 x2 where adef: "a = ReplyTo x1 x2"  by (cases a) auto
-      then show ?thesis by (cases x1; simp add: TickerEngineFamily_def xdef gdef ldef rdef adef)
+      then show ?thesis by (cases x1; simp add: TickerEngineFamily_def xdef ldef rdef adef)
     qed
   qed
 qed
