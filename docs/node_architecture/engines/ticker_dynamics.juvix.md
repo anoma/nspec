@@ -18,6 +18,7 @@ tags:
     import prelude open;
     import node_architecture.types.basics open;
     import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
     import node_architecture.types.engine_family open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open;
@@ -94,7 +95,7 @@ is relevant for the `Count` message.
 ```juvix
 type TickerMatchableArgument :=
   | -- --8<-- [start:ReplyTo]
-  ReplyTo (Maybe Address) (Maybe MailboxID)
+  ReplyTo (Maybe EngineID) (Maybe MailboxID)
   -- --8<-- [end:ReplyTo]
 ;
 ```
@@ -263,13 +264,11 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
                   mkActionEffect@{
                     newEnv := env;
                     producedMessages := [
-                      mkEnvelopedMessage@{
+                      mkEngineMessage@{
                         sender := getMessageTargetFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-                        packet := mkMessagePacket@{
-                          target := whoAsked;
-                          mailbox := just 0;
-                          message := MsgTicker Count
-                        }
+                        target := whoAsked;
+                        mailbox := just 0;
+                        msg := MsgTicker Count                       
                       }
                     ];
                     timers := [];
