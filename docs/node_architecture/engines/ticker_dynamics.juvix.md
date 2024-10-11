@@ -268,7 +268,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
                         sender := getMessageTargetFromTimestampedTrigger (ActionInput.timestampedTrigger input);
                         target := whoAsked;
                         mailbox := just 0;
-                        msg := MsgTicker Count                       
+                        msg := MsgTicker Count
                       }
                     ];
                     timers := [];
