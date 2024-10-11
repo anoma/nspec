@@ -22,7 +22,7 @@ Given a set of $CMtree$ roots $rts$ and a set of actions $actions$, $tx = (rts, 
 - $rts = rts$
 - $actions = actions$
 - $\pi_{\Delta_{tx}}$
-- $\Delta_{tx} = \sum{r^{in}.\Delta} - \sum{r^{out}.\Delta}$, where $r^{in}$ and $r^{out}$ correspond to the resources created and consumed in the transaction's actions
+- $\Delta_{tx} = $\Delta_{tx} = \sum{a.\Delta}, a \in actions$
 
 ## Composition
 
@@ -88,16 +88,3 @@ When transactions with $Metadata$ are composed, transactions are composed accord
 A transaction function is a function that outputs a transaction: $TransactionFunction: () \rightarrow Transaction$.
 
 Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here](./function_formats/transaction_function.md).
-
-## Transaction balance change
-
-$\Delta_{tx}$ of a transaction is computed from the [delta parameters of the resources](./resource/computable_components/delta.md) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as *transaction balance*.
-
-From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$:
-$\sum_j{h_\Delta(kind, r_{i_j}.q)} - \sum_j{h_\Delta(kind, r_{o_j}.q)} =$
-
-$=\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = h_\Delta(kind, q_{kind})$.
-
-The kind-distinctness property of $h_\Delta$ allows computing $\Delta_{tx} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta}$ by adding resources of all kinds together without the need to explicitly distinguish between the resource kinds: $\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$
-
-> Only transactions with $\Delta_{tx}$ committing to $0$ (or any other balancing value specified by the system) can be executed and settled.

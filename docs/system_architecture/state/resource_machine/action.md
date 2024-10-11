@@ -16,8 +16,6 @@ An action is a composite structure $A = (cms, nfs, \Pi, app\_data)$, where:
 
 Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if resource's commitment or nullifier is present in the action's $cms$ or $nfs$ correspondingly. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's $nfs$ set. A resource is said to be *created in the action* for a valid action if its commitment is present in the action's $cms$ set.
 
-> Unlike transactions, actions don't have an explicit notion of balance associated with them and are not required to be balanced.
-
 ## Proofs
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
 
@@ -77,3 +75,13 @@ Validity of an action cannot be determined for actions that are not associated w
 - action output resources have valid resource logic proofs associated with them
 - all compliance proofs are valid
 - transaction's $rts$ field contains correct $CMtree$ roots (that were actual $CMtree$ roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
+
+## Action delta (computable component)
+
+Action $\Delta$ is a computable component used to compute transaction $\Delta$. It is computed from $\Delta$ of the resources that comprise the action and defined as $a.\Delta = \sum{r^{in}.\Delta} - \sum{r^{out}.\Delta}$
+
+From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$: $\sum_j{h_\Delta(kind, r_{i_j}.q)} - \sum_j{h_\Delta(kind, r_{o_j}.q)} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} =  h_\Delta(kind, q_{kind})$. The kind-distinctness property of $h_\Delta$ allows computing $\Delta_{tx} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta}$ adding resources of all kinds together without the need to account for distinct resource kinds explicitly: $\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$.
+
+> When action delta is provided as input and not computed directly, it has to be explicitly checked that the action delta is correctly computed from the resource deltas. 
+
+> Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
