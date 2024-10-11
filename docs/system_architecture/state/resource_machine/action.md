@@ -82,6 +82,6 @@ Action $\Delta$ is a computable component used to compute transaction $\Delta$. 
 
 From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$: $\sum_j{h_\Delta(kind, r_{i_j}.q)} - \sum_j{h_\Delta(kind, r_{o_j}.q)} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} =  h_\Delta(kind, q_{kind})$. The kind-distinctness property of $h_\Delta$ allows computing $\Delta_{tx} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta}$ adding resources of all kinds together without the need to account for distinct resource kinds explicitly: $\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$.
 
-> When action delta is provided as input and not computed directly, it has to be explicitly checked that the action delta is correctly computed from the resource deltas. 
+> When action delta is provided as input and not computed directly, it has to be explicitly checked that the action delta is correctly computed from the resource deltas.
 
 > Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
