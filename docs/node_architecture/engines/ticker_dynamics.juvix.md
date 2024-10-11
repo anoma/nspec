@@ -17,7 +17,7 @@ tags:
 
     import prelude open;
     import node_architecture.basics open;
-    import node_architecture.identity_types open;
+    import node_architecture.identities open;
     import node_architecture.types.engine_family open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open;

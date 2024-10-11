@@ -7,7 +7,7 @@ search:
 ??? note "Juvix imports"
 
     ```juvix
-    module node_architecture.identity_types;
+    module node_architecture.identities;
 
     import prelude open;
     ```

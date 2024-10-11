@@ -15,7 +15,7 @@ tags:
     import prelude open public;
     import prelude open using {Hash} public;
     import node_architecture.types.anoma_message as Anoma;
-    import node_architecture.identity_types open;
+    import node_architecture.identities open;
     ```
 
 # Juvix Prelude of the Anoma Node Architecture

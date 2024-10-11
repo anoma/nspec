@@ -13,7 +13,7 @@ tags:
     ```juvix
     module node_architecture.types.engine_family;
     import node_architecture.basics open;
-    import node_architecture.identity_types open;
+    import node_architecture.identities open;
     import node_architecture.types.anoma_message as Anoma;
     import node_architecture.types.engine_environment open public;
     import node_architecture.types.engine_dynamics open public;
