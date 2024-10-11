@@ -1,4 +1,14 @@
-## Cryptographic primitives
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+tags:
+- Juvix-types
+- Types
+- Cryptography
+- Crypto
+---
 
 ??? note "Juvix imports"
 
@@ -6,6 +16,8 @@
     module node_architecture.types.crypto;
     import prelude open;
     ```
+
+## Cryptographic primitives
 
 ### Public key
 

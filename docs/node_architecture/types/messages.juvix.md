@@ -1,6 +1,14 @@
-# Messages and mailboxes
-
-# Juvix imports
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+tags:
+- Juvix-types
+- Types
+- Message
+- Mailbox
+---
 
 ??? quote "Juvix imports"
 
@@ -12,6 +20,10 @@
     import node_architecture.types.identities open;
     import node_architecture.types.anoma_message open;
     ```
+
+# Messages and mailboxes
+
+# Juvix imports
 
 ## Types
 

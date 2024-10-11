@@ -55,7 +55,7 @@ execution context, that is, the specific state, mailbox cluster, acquaintances, 
 
 ```juvix
 type Engine (S M H A L X : Type) := mkEngine {
-  name : Name;
+  name : EngineName;
   family : EngineFamily S M H A L X;
   initEnv : EngineEnvironment S M H;
 };

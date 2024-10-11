@@ -1,14 +1,26 @@
-## Types for network identities
-
-Types in this section are used to represent [[Identity|identities]] within the network.
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+tags:
+- Juvix-types
+- Types
+- ID
+- Identity
+---
 
 ??? note "Juvix imports"
 
     ```juvix
     module node_architecture.types.identities;
-    import node_architecture.types.crypto;
+    import node_architecture.types.crypto open;
     import prelude open;
     ```
+
+## Types for network identities
+
+Types in this section are used to represent [[Identity|identities]] within the network.
 
 ### ExternalID
 
