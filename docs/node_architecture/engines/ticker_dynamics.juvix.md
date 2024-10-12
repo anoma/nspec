@@ -259,13 +259,11 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
     let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
     in case GuardOutput.args out of {
       | (ReplyTo (some whoAsked) mailbox) :: _ :=
-          let snder :=  fromOptional (getSenderFromTimestampedTrigger
-          (ActionInput.timestampedTrigger input)) unknownEngineID
-          in mkActionEffect@{
-            newEnv := env;
-            producedMessages := [
+        mkActionEffect@{
+          newEnv := env;
+          producedMessages := [
               mkEngineMessage@{
-                sender := snder;
+                sender := getSenderFromActionInput input;
                 target := whoAsked;
                 mailbox := some 0;
                 msg := MsgTicker Count

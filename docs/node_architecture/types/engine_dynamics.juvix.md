@@ -106,14 +106,14 @@ type ActionInput (S M H A L X : Type) := mkActionInput {
 - Get the message from an `ActionInput`:
 
     ```juvix
-    getMessage {S M H A L X} (input : ActionInput S M H A L X) : Optional Anoma.Msg
+    getMessageFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : Optional Anoma.Msg
       := getMessageFromTimestampedTrigger (ActionInput.timestampedTrigger input);
     ```
 
 - Get the sender from an `ActionInput`:
 
     ```juvix
-    getSender {S M H A L X} (input : ActionInput S M H A L X) : EngineID
+    getSenderFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : EngineID
       := fromOptional (getSenderFromTimestampedTrigger
       (ActionInput.timestampedTrigger input)) unknownEngineID;
     ```
@@ -121,7 +121,7 @@ type ActionInput (S M H A L X : Type) := mkActionInput {
 - Get the target from an `ActionInput`:
 
     ```juvix
-    getTarget {S M H A L X} (input : ActionInput S M H A L X) : EngineID
+    getTargetFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : EngineID
       := fromOptional (getTargetFromTimestampedTrigger
       (ActionInput.timestampedTrigger input)) unknownEngineID;
     ```
