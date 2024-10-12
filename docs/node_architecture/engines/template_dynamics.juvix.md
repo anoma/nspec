@@ -21,7 +21,6 @@ tags:
     import node_architecture.engines.template_overview open;
     import node_architecture.engines.template_environment open;
     import node_architecture.types.engine_dynamics open;
-    import node_architecture.types.engine_family open;
     ```
 
 # `Template` Dynamics
@@ -77,7 +76,7 @@ and is relevant for guard `X` and `Y`.
 ```juvix extract-module-statements
 module do_alternative_example;
   example : TemplateActionLabel :=
-    TemplateDoAlternative (Either.left (DoThis "do it!"));
+    TemplateDoAlternative (left (DoThis "do it!"));
 end;
 ```
 <!-- --8<-- [end:do-alternative-example] -->
@@ -230,7 +229,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ??? example "`TemplateSomeThingFromAMailbox` example"
 
     <!-- --8<-- [start:some-thing-from-a-mailbox] -->
-    ```juvix
+    ```juvix extract-module-statements
     module some_thing_from_a_mailbox;
       someThingFromAMailboxExample : TemplateMatchableArgument :=
         TemplateSomeThingFromAMailbox "Hello World!";
@@ -331,12 +330,12 @@ representation of the second and third argument.
 <!-- --8<-- [start:message-one-guard] -->
 ```juvix
 messageOneGuard : TemplateGuard
-     | _ _ :=  some (
-        mkGuardOutput@{
-          args := [TemplateSomeThingFromAMailbox "Hello World!"];
-          label := TemplateDoAlternative (left (DoThis "paramneter 2"));
-          other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]
-          });
+  | _ _ :=  some (
+    mkGuardOutput@{
+      args := [TemplateSomeThingFromAMailbox "Hello World!"];
+      label := TemplateDoAlternative (left (DoThis "paramneter 2"));
+      other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]
+      });
 ```
 <!-- --8<-- [end:message-one-guard] -->
 
@@ -365,8 +364,7 @@ The action function amounts to one single case statement.
 templateAction : TemplateActionFunction
   | mkActionInput@{
       guardOutput := out;
-      env := env
-   } := case GuardOutput.label out of {
+      env := env } := case GuardOutput.label out of {
     | (TemplateDoAlternative (left _)) :=
           mkActionEffect@{
             newEnv := env;
@@ -375,7 +373,7 @@ templateAction : TemplateActionFunction
             spawnedEngines := [];
         }
     | _ := undef
-   };
+};
 ```
 <!-- --8<-- [end:action-function] -->
 

@@ -12,8 +12,7 @@ tags:
 
     ```juvix
     module node_architecture.types.basics;
-    import prelude open public;
-    import prelude open using {Hash} public;
+    import prelude open;
     import node_architecture.types.anoma_message as Anoma;
     import node_architecture.types.identities open;
     ```
@@ -29,6 +28,14 @@ architecture prelude. For a more general prelude, please refer to
 please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorials/learn.html).
 
 ## Basic types
+
+### Hash
+
+Natural numbers are used (for now) to represent hash values, bytes sizes, and other non-negative integers.
+
+```juvix
+syntax alias Hash := Nat;
+```
 
 ### RelTime
 

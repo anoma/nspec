@@ -12,9 +12,8 @@ tags:
 
     ```juvix
     module node_architecture.types.engine_family;
-    import node_architecture.types.basics open;
+    import prelude open;
     import node_architecture.types.identities open;
-    import node_architecture.types.anoma_message as Anoma;
     import node_architecture.types.engine_environment open public;
     import node_architecture.types.engine_dynamics open public;
     ```

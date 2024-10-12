@@ -16,9 +16,14 @@ tags:
     module node_architecture.engines.ticker_dynamics;
 
     import prelude open;
-    import node_architecture.types open;
+    import node_architecture.types.basics open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
+    import node_architecture.types.engine_environment open;
+    import node_architecture.types.engine_dynamics open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open;
+    import node_architecture.types.anoma_message open using {MsgTicker};
     ```
 
 # `Ticker` Dynamics
@@ -159,7 +164,8 @@ D --> F([DoIncrement])
 incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
   (env : TickerEnvironment) : Optional TickerGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
+  :=
+  case getMessageFromTimestampedTrigger t of {
   | some (MsgTicker Increment) := some (
     mkGuardOutput@{
       args := [];
@@ -211,7 +217,6 @@ countGuard
     Type alias for the action function.
 
     ```juvix
-
     TickerActionInput : Type :=
       ActionInput
         TickerLocalState

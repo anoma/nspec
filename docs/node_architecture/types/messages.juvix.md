@@ -15,7 +15,6 @@ tags:
     ```juvix
     module node_architecture.types.messages;
     import prelude open public;
-    import prelude open using {Hash} public;
     import node_architecture.types.basics open;
     import node_architecture.types.identities open;
     import node_architecture.types.anoma_message open;
@@ -162,6 +161,6 @@ type TimestampedTrigger (HandleType : Type) :=
 
     ```juvix
     getTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
-       := getTargetFromTrigger (TimestampedTrigger.trigger tr);
+      := getTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```
 

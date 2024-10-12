@@ -40,12 +40,6 @@ For example,
 ten : Nat := 10;
 ```
 
-Natural numbers are used (for now) to represent hash values, bytes sizes, and other non-negative integers.
-
-```juvix
-syntax alias Hash := Nat;
-```
-
 ## Bool
 
 The type `Bool` represents boolean values (`true` or `false`). Used for logical operations and conditions.
@@ -151,6 +145,7 @@ is different. There is no such thing as an error or success value in the
 A` or `right B`.
 
 ```juvix
+-- alias for Result
 syntax alias Either := Result;
 syntax alias left := error;
 syntax alias right := ok;
@@ -190,7 +185,7 @@ The type `Optional A` represents an optional value of type `A`. It can be either
 `Some A` (containing a value) or `None` (no value).
 
 ```juvix
-import Stdlib.Data.Maybe as Maybe public;
+import Stdlib.Data.Maybe as Maybe;
 open Maybe using {
     Maybe;
     just;
