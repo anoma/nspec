@@ -13,6 +13,7 @@ tags:
     module node_architecture.types.engine_dynamics;
     import node_architecture.types.basics open;
     import node_architecture.types.messages open;
+    import node_architecture.types.identities open;
     import node_architecture.types.anoma_message as Anoma;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.anoma_environment as Anoma;
@@ -99,6 +100,29 @@ type ActionInput (S M H A L X : Type) := mkActionInput {
   timestampedTrigger : TimestampedTrigger H; -- TODO: do we need this?
 };
 ```
+
+- Get the message from a `TimestampedTrigger`:
+
+    ```juvix
+    getMessage {S M H A L X} (input : ActionInput S M H A L X) : Optional Anoma.Msg
+      := getMessageFromTimestampedTrigger (ActionInput.timestampedTrigger input);
+    ```
+
+- Get the sender from an `ActionInput`:
+
+    ```juvix
+    getSender {S M H A L X} (input : ActionInput S M H A L X) : EngineID
+      := fromOptional (getSenderFromTimestampedTrigger
+      (ActionInput.timestampedTrigger input)) unknownEngineID;
+    ```
+
+- Get the target from an `ActionInput`:
+
+    ```juvix
+    getTarget {S M H A L X} (input : ActionInput S M H A L X) : EngineID
+      := fromOptional (getTargetFromTimestampedTrigger
+      (ActionInput.timestampedTrigger input)) unknownEngineID;
+    ```
 
 ### Action effect
 

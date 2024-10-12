@@ -192,7 +192,7 @@ countGuard
   (env : TickerEnvironment) : Optional TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
   | some (MsgTicker Count) := do {
-    sender <- getMessageSenderFromTimestampedTrigger t;
+    sender <- getSenderFromTimestampedTrigger t;
     pure (mkGuardOutput@{
               args := [ReplyTo (some sender) none] ;
               label := DoRespond;
@@ -254,7 +254,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
     let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
     in case GuardOutput.args out of {
       | (ReplyTo (some whoAsked) mailbox) :: _ :=
-          let snder :=  fromOptional (getMessageSenderFromTimestampedTrigger
+          let snder :=  fromOptional (getSenderFromTimestampedTrigger
           (ActionInput.timestampedTrigger input)) unknownEngineID
           in mkActionEffect@{
             newEnv := env;

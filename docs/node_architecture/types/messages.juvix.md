@@ -121,7 +121,7 @@ type Trigger (HandleType : Type) :=
 - Get the message sender from a trigger:
 
     ```juvix
-    getMessageSenderFromTrigger : {H : Type} -> Trigger H -> Optional EngineID
+    getSenderFromTrigger : {H : Type} -> Trigger H -> Optional EngineID
       | MessageArrived@{msg} := some (EngineMessage.sender msg)
       | Elapsed@{} := none;
     ```
@@ -129,7 +129,7 @@ type Trigger (HandleType : Type) :=
 - Get the target destination from a trigger:
 
     ```juvix
-    getMessageTargetFromTrigger : {H : Type} -> Trigger H -> Optional EngineID
+    getTargetFromTrigger : {H : Type} -> Trigger H -> Optional EngineID
       | MessageArrived@{msg} := some (EngineMessage.target msg)
       | Elapsed@{} := none;
     ```
@@ -154,13 +154,14 @@ type TimestampedTrigger (HandleType : Type) :=
 - Get the sender from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
-      := getMessageSenderFromTrigger (TimestampedTrigger.trigger tr);
+    getSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
+      := getSenderFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the target from a `TImestampedTrigger`:
 
     ```juvix
-    getMessageTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
-       := getMessageTargetFromTrigger (TimestampedTrigger.trigger tr);
+    getTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
+       := getTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```
+

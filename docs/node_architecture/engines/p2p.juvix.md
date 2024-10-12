@@ -182,7 +182,7 @@ Logical routing should take into account compositionality of identities - e.g., 
 
 !!! todo
 
-     Figure out details around privacy-preservation in internal messages. Optional the higher-layer should provide a default routing preference function which applies also to internal messages and can implement something like implicit domains (e.g. to restrict data leakage to a set of known nodes).
+     Figure out details around privacy-preservation in internal messages. Maybe the higher-layer should provide a default routing preference function which applies also to internal messages and can implement something like implicit domains (e.g. to restrict data leakage to a set of known nodes).
 
 ---
 

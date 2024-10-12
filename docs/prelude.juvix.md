@@ -131,21 +131,36 @@ For example,
 pair : Pair Nat Bool := mkPair 42 true;
 ```
 
-## Either A B
+## Result A B
 
-The type `Either A B` represents a value of type `A` or `B`.
+The `Result` type represents either a success with a value of `ok` or an error
+with value `error`.
 
 ```juvix
-type Either (A  B : Type) : Type :=
-  | Left A
-  | Right B;
+import Stdlib.Data.Result.Base as Result;
+open Result using { Result; ok; error } public;
+```
+
+
+## Either A B
+
+The type `Either A B`, or sum type of `A` and `B`, represents a value of type
+`A` or `B`. It is equivalent to `Result A B`, however, the meaning of the values
+is different. There is no such thing as an error or success value in the
+`Either` type, instead the values are either `left A` or `right B`. either `left
+A` or `right B`. 
+
+```juvix
+syntax alias Either := Result;
+syntax alias left := error;
+syntax alias right := ok;
 ```
 
 For example,
 
 ```juvix
-error : Either String Nat := Left "Error!";
-answer : Either String Nat := Right 42;
+thisString : Either String Nat := left "Error!";
+thisNumber : Either String Nat := right 42;
 ```
 
 ## List A

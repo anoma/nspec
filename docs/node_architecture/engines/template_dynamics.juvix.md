@@ -77,14 +77,14 @@ and is relevant for guard `X` and `Y`.
 ```juvix extract-module-statements
 module do_alternative_example;
   example : TemplateActionLabel :=
-    TemplateDoAlternative (prelude.Left (DoThis "do it!"));
+    TemplateDoAlternative (Either.left (DoThis "do it!"));
 end;
 ```
 <!-- --8<-- [end:do-alternative-example] -->
 
 ??? quote "`TemplateDoAlternative` action effect"
 
-    #### `Either.Left`
+    #### `Either.left`
 
     This alternative does the following.
 
@@ -96,7 +96,7 @@ end;
     | Timer updates         | No timers are set or cancelled. |
     | Acquaintance updates  | None |
 
-    #### `Either.Right`
+    #### `Either.right`
 
     This alternative does the following.
 
@@ -334,7 +334,7 @@ messageOneGuard : TemplateGuard
      | _ _ :=  some (
         mkGuardOutput@{
           args := [TemplateSomeThingFromAMailbox "Hello World!"];
-          label := TemplateDoAlternative (Left (DoThis "paramneter 2"));
+          label := TemplateDoAlternative (left (DoThis "paramneter 2"));
           other := [TemplateCloseMailbox 1; TemplateDeleteThisMessageFromMailbox 1337 0]
           });
 ```
@@ -367,7 +367,7 @@ templateAction : TemplateActionFunction
       guardOutput := out;
       env := env
    } := case GuardOutput.label out of {
-    | (TemplateDoAlternative (Left _)) :=
+    | (TemplateDoAlternative (left _)) :=
           mkActionEffect@{
             newEnv := env;
             producedMessages := [];
