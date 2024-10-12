@@ -112,28 +112,32 @@ type Trigger (HandleType : Type) :=
 
 - Extract the actual message from a trigger in case it has one:
 
-```juvix
-  getMessageFromTrigger {H} (tr : Trigger H) : Maybe Msg
-    := case tr of {
-      | MessageArrived@{ msg } := just (EngineMessage.msg msg)
-      | Elapsed@{} := nothing
-    };
-```
+    ```juvix
+      getMessageFromTrigger {H} (tr : Trigger H) : Maybe Msg
+        := case tr of {
+        | MessageArrived@{ msg } := just (EngineMessage.msg msg)
+        | Elapsed@{} := nothing
+      };
+    ```
 
 - Get the message sender from a trigger:
 
     ```juvix
-    getMessageSenderFromTrigger : {H : Type} -> Trigger H -> Maybe EngineID
+    getMessageSenderFromTrigger {H} (tr : Trigger H) : Maybe EngineID
+      := case tr of {
       | MessageArrived@{ msg } := just (EngineMessage.sender msg)
-      | Elapsed@{} := nothing;
+      | Elapsed@{} := nothing
+    };
     ```
 
 - Get the target destination from a trigger:
 
     ```juvix
-    getMessageTargetFromTrigger : {H : Type} -> Trigger H -> Maybe EngineID
+    getMessageTargetFromTrigger {H} (tr : Trigger H) : Maybe EngineID
+      := case tr of {
       | MessageArrived@{ msg } := just (EngineMessage.target msg)
-      | Elapsed@{} := nothing;
+      | Elapsed@{} := nothing
+    };
     ```
 
 ### TimestampedTrigger H

@@ -159,15 +159,19 @@ D --> F([DoIncrement])
 incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
   (env : TickerEnvironment) : Maybe TickerGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | just (MsgTicker Increment) := just (
-        mkGuardOutput@{
-          args := [];
-          label := DoIncrement;
-          other := unit
-        })
-      | _ := nothing
+  := case t of {
+    | _ := undef
   };
+
+  -- case getMessageFromTimestampedTrigger t of {
+  --     | just (MsgTicker Increment) := just (
+  --       mkGuardOutput@{
+  --         args := [];
+  --         label := DoIncrement;
+  --         other := unit
+  --       })
+  --     | _ := nothing
+  -- };
 ```
 <!-- --8<-- [end:increment-guard] -->
 
@@ -190,7 +194,7 @@ D --> F([DoRespond])
 countGuard
   (t : TimestampedTrigger TickerTimerHandle)
   (env : TickerEnvironment) : Maybe TickerGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
+  := undef; {- case getMessageFromTimestampedTrigger t of {
       | just (MsgTicker Count) := do {
         sender <- getMessageSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
@@ -201,6 +205,7 @@ countGuard
       }
     | _ := nothing
   };
+  -}
 ```
 <!-- --8<-- [end:count-guard] -->
 
