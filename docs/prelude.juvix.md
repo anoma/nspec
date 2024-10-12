@@ -127,8 +127,8 @@ pair : Pair Nat Bool := mkPair 42 true;
 
 ## Result A B
 
-The `Result` type represents either a success with a value of `ok` or an error
-with value `error`.
+The `Result A B` type represents either a success with a value of `ok x` with `x` of type `A` or an error
+with value `error e` with `e` of type `B`.
 
 ```juvix
 import Stdlib.Data.Result.Base as Result;
@@ -145,7 +145,6 @@ is different. There is no such thing as an error or success value in the
 A` or `right B`.
 
 ```juvix
--- alias for Result
 syntax alias Either := Result;
 syntax alias left := error;
 syntax alias right := ok;
@@ -182,7 +181,8 @@ niceNumbers : List Nat := [1 ; 2 ; 3];
 ## Optional A
 
 The type `Optional A` represents an optional value of type `A`. It can be either
-`Some A` (containing a value) or `None` (no value).
+`Some A` (containing a value) or `None` (no value). This type is an alias for
+`Maybe A` from the standard library.
 
 ```juvix
 import Stdlib.Data.Maybe as Maybe;
@@ -227,7 +227,8 @@ syntax alias none := nothing;
 
 ## Map K V
 
-The type `Map K V` represents a collection of key-value pairs, sometimes called dictionary, where keys are of type `K` and values are of type `V`.
+The type `Map K V` represents a collection of key-value pairs, sometimes called
+a dictionary, where keys are of type `K` and values are of type `V`.
 
 ```juvix
 import Data.Map as Map public;
@@ -244,7 +245,8 @@ codeToken : Map Nat String := Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "AN
 
 ## Set A
 
-The type `Set A` represents a collection of unique elements of type `A`. Used for sets of values.
+The type `Set A` represents a collection of unique elements of type `A`. Used
+for sets of values.
 
 ```juvix
 import Data.Set as Set public;
