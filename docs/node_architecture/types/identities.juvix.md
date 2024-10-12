@@ -92,9 +92,29 @@ syntax alias EngineName := String;
 
 ### EngineID
 
-Engine instance identity.
-A pair of an engine instance name and an optional node identity (when remote).
+Engine instance identity. A pair of an optional node identity (when remote) and
+an engine instance name (which may not be present, stands for anonymous engine).
+
+!!! info
+
+    We assume that the engine instance name is unique within the node.
 
 ```juvix
-EngineID : Type := Pair (Maybe NodeID) EngineName;
+EngineID : Type := Pair (Option NodeID) (Option EngineName);
+```
+
+```juvix
+unknownEngineID : EngineID := mkPair none none;
+```
+
+```juvix
+isLocalEngineID (eid : EngineID) : Bool :=
+  case eid of {
+    | mkPair none _ := true
+    | _ := false
+};
+```
+
+```juvix
+isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 ```

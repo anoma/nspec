@@ -16,9 +16,14 @@ tags:
     module node_architecture.engines.ticker_dynamics;
 
     import prelude open;
-    import node_architecture.types open;
+    import node_architecture.types.basics open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
+    import node_architecture.types.engine_environment open;
+    import node_architecture.types.engine_dynamics open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open;
+    import node_architecture.types.anoma_message open using {MsgTicker};
     ```
 
 # `Ticker` Dynamics
@@ -89,7 +94,7 @@ is relevant for the `Count` message.
 ```juvix
 type TickerMatchableArgument :=
   | -- --8<-- [start:ReplyTo]
-  ReplyTo (Maybe EngineID) (Maybe MailboxID)
+  ReplyTo (Option EngineID) (Option MailboxID)
   -- --8<-- [end:ReplyTo]
 ;
 ```
@@ -158,15 +163,16 @@ D --> F([DoIncrement])
 ```juvix
 incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
-  (env : TickerEnvironment) : Maybe TickerGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-  | just (MsgTicker Increment) := just (
+  (env : TickerEnvironment) : Option TickerGuardOutput
+  :=
+  case getMessageFromTimestampedTrigger t of {
+  | some (MsgTicker Increment) := some (
     mkGuardOutput@{
       args := [];
       label := DoIncrement;
       other := unit
     })
-  | _ := nothing
+  | _ := none
   };
 ```
 <!-- --8<-- [end:increment-guard] -->
@@ -189,17 +195,17 @@ D --> F([DoRespond])
 ```juvix
 countGuard
   (t : TimestampedTrigger TickerTimerHandle)
-  (env : TickerEnvironment) : Maybe TickerGuardOutput
+  (env : TickerEnvironment) : Option TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-  | just (MsgTicker Count) := do {
-    sender <- getMessageSenderFromTimestampedTrigger t;
+  | some (MsgTicker Count) := do {
+    sender <- getSenderFromTimestampedTrigger t;
     pure (mkGuardOutput@{
-              args := [ReplyTo (just sender) nothing] ;
+              args := [ReplyTo (some sender) none] ;
               label := DoRespond;
               other := unit
             });
   }
-  | _ := nothing
+  | _ := none
   };
 ```
 <!-- --8<-- [end:count-guard] -->
@@ -211,7 +217,6 @@ countGuard
     Type alias for the action function.
 
     ```juvix
-
     TickerActionInput : Type :=
       ActionInput
         TickerLocalState
@@ -253,18 +258,14 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
   | DoRespond :=
     let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
     in case GuardOutput.args out of {
-      | (ReplyTo (just whoAsked) mailbox) :: _ :=
-          let snder := case getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input) of {
-            | just snder := snder
-            | nothing := mkPair nothing "unknown"
-          }
-          in mkActionEffect@{
-            newEnv := env;
-            producedMessages := [
+      | (ReplyTo (some whoAsked) mailbox) :: _ :=
+        mkActionEffect@{
+          newEnv := env;
+          producedMessages := [
               mkEngineMessage@{
-                sender := snder;
+                sender := getSenderFromActionInput input;
                 target := whoAsked;
-                mailbox := just 0;
+                mailbox := some 0;
                 msg := MsgTicker Count
               }
             ];
