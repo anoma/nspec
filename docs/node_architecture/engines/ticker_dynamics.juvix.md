@@ -159,19 +159,15 @@ D --> F([DoIncrement])
 incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
   (env : TickerEnvironment) : Maybe TickerGuardOutput
-  := case t of {
-    | _ := undef
+  := case getMessageFromTimestampedTrigger t of {
+  | just (MsgTicker Increment) := just (
+    mkGuardOutput@{
+      args := [];
+      label := DoIncrement;
+      other := unit
+    })
+  | _ := nothing
   };
-
-  -- case getMessageFromTimestampedTrigger t of {
-  --     | just (MsgTicker Increment) := just (
-  --       mkGuardOutput@{
-  --         args := [];
-  --         label := DoIncrement;
-  --         other := unit
-  --       })
-  --     | _ := nothing
-  -- };
 ```
 <!-- --8<-- [end:increment-guard] -->
 
@@ -194,18 +190,17 @@ D --> F([DoRespond])
 countGuard
   (t : TimestampedTrigger TickerTimerHandle)
   (env : TickerEnvironment) : Maybe TickerGuardOutput
-  := undef; {- case getMessageFromTimestampedTrigger t of {
-      | just (MsgTicker Count) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing] ;
-                  label := DoRespond;
-                  other := unit
-                });
-      }
-    | _ := nothing
+  := case getMessageFromTimestampedTrigger t of {
+  | just (MsgTicker Count) := do {
+    sender <- getMessageSenderFromTimestampedTrigger t;
+    pure (mkGuardOutput@{
+              args := [ReplyTo (just sender) nothing] ;
+              label := DoRespond;
+              other := unit
+            });
+  }
+  | _ := nothing
   };
-  -}
 ```
 <!-- --8<-- [end:count-guard] -->
 
@@ -243,38 +238,42 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
          out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
-          | DoIncrement :=
-              let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
-              in mkActionEffect@{
-                newEnv := env@EngineEnvironment{
-                  localState := mkTickerLocalState@{
-                    counter := counterValue + 1
-                  }
-                };
-              producedMessages := [];
-              timers := [];
-              spawnedEngines := [];
+  | DoIncrement :=
+    let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
+    in mkActionEffect@{
+      newEnv := env@EngineEnvironment{
+        localState := mkTickerLocalState@{
+          counter := counterValue + 1
+        }
+      };
+    producedMessages := [];
+    timers := [];
+    spawnedEngines := [];
+    }
+  | DoRespond :=
+    let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
+    in case GuardOutput.args out of {
+      | (ReplyTo (just whoAsked) mailbox) :: _ :=
+          mkActionEffect@{
+            newEnv := env;
+            producedMessages := [
+              mkEngineMessage@{
+                sender := mkPair nothing "ticker";
+                target := whoAsked;
+                mailbox := just 0;
+                msg := MsgTicker Count
               }
-          | DoRespond :=
-            let counterValue := TickerLocalState.counter  (EngineEnvironment.localState env)
-            in
-            case GuardOutput.args out of {
-              | (ReplyTo (just whoAsked) mailbox) :: _ :=
-                  mkActionEffect@{
-                    newEnv := env;
-                    producedMessages := [
-                      mkEngineMessage@{
-                        sender := mkPair nothing "ticker";
-                        target := whoAsked;
-                        mailbox := just 0;
-                        msg := MsgTicker Count
-                      }
-                    ];
-                    timers := [];
-                    spawnedEngines := []
-                  }
-              | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := [] }
-            }
+            ];
+            timers := [];
+            spawnedEngines := []
+          }
+      | _ := mkActionEffect@{
+          newEnv := env;
+          producedMessages := [];
+          timers := [];
+          spawnedEngines := []
+        }
+    }
     };
 ```
 <!-- --8<-- [end:action-function] -->

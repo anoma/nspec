@@ -12,7 +12,7 @@ ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 ASSET_PATH = Path("assets") / "css"
 
-JUVIX_FOOTER_CSS_FILE = DOCS_DIR / ASSET_PATH / "juvix-codeblock-footer.css"
+JUVIX_FOOTER_CSS_FILE = DOCS_DIR / ASSET_PATH / " "
 JUVIX_FOOTER_CSS_FILE.parent.mkdir(parents=True, exist_ok=True)
 
 CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
@@ -34,9 +34,9 @@ def get_juvix_version() -> Optional[str]:
         return None
 
 
-def generate_css_file(version: str | None = None) -> Optional[Path]:
+def generate_css_file(version: Optional[str] = None) -> Optional[Path]:
     JUVIX_FOOTER_CSS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    JUVIX_FOOTER_CSS_FILE.write_text(
+    JUVIX_FOOTER_CSS_FILE.write_text(   
         f"""
 code.juvix::after {{
     font-family: var(--md-code-font-family);
