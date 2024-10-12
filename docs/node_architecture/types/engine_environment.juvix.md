@@ -12,8 +12,9 @@ tags:
 
     ```juvix
     module node_architecture.types.engine_environment;
-    import node_architecture.basics open;
-    import node_architecture.identity_types open;
+    import node_architecture.types.basics open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
     import node_architecture.types.anoma_message as Anoma;
     ```
 
@@ -43,10 +44,10 @@ types.
 ```juvix
 type EngineEnvironment (S M H : Type) :=
   mkEngineEnvironment {
-      name : Name ; -- read-only
+      name : EngineName ; -- read-only
       localState : S;
       mailboxCluster : Map MailboxID (Mailbox M);
-      acquaintances : Set Name;
+      acquaintances : Set EngineName;
       timers : List (Timer H);
 };
 ```

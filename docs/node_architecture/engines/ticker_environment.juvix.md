@@ -12,7 +12,7 @@ search:
     module node_architecture.engines.ticker_environment;
 
     import prelude open;
-    import node_architecture.basics open;
+    import node_architecture.types.basics open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.types.engine_environment open;
     ```
@@ -59,7 +59,7 @@ module ticker_environment_example;
 
 tickerEnvironmentExample : TickerEnvironment :=
     mkEngineEnvironment@{
-      name := Left "ticker";
+      name := "ticker";
       localState := mkTickerLocalState@{
         counter := 0
       };

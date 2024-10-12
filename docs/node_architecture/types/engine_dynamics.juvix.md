@@ -11,7 +11,8 @@ tags:
 
     ```juvix
     module node_architecture.types.engine_dynamics;
-    import node_architecture.basics open;
+    import node_architecture.types.basics open;
+    import node_architecture.types.messages open;
     import node_architecture.types.anoma_message as Anoma;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.anoma_environment as Anoma;
@@ -112,7 +113,7 @@ which can be
 ```juvix
 type ActionEffect (S M H A L X : Type) := mkActionEffect {
   newEnv : EngineEnvironment S M H;
-  producedMessages : List EnvelopedMessage;
+  producedMessages : List EngineMessage;
   timers : List (Timer H);
   spawnedEngines : List Anoma.Env;
 };

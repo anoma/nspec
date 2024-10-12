@@ -12,8 +12,8 @@ tags:
 
     ```juvix
     module node_architecture.types.engine_family;
-    import node_architecture.basics open;
-    import node_architecture.identity_types open;
+    import node_architecture.types.basics open;
+    import node_architecture.types.identities open;
     import node_architecture.types.anoma_message as Anoma;
     import node_architecture.types.engine_environment open public;
     import node_architecture.types.engine_dynamics open public;
@@ -55,7 +55,7 @@ execution context, that is, the specific state, mailbox cluster, acquaintances, 
 
 ```juvix
 type Engine (S M H A L X : Type) := mkEngine {
-  name : Name;
+  name : EngineName;
   family : EngineFamily S M H A L X;
   initEnv : EngineEnvironment S M H;
 };

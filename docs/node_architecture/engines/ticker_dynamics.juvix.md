@@ -16,14 +16,9 @@ tags:
     module node_architecture.engines.ticker_dynamics;
 
     import prelude open;
-    import node_architecture.basics open;
-    import node_architecture.identity_types open;
-    import node_architecture.types.engine_family open;
+    import node_architecture.types open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open;
-    import node_architecture.types.engine_environment open;
-    import node_architecture.types.engine_dynamics open;
-    import node_architecture.types.anoma_message open;
     ```
 
 # `Ticker` Dynamics
@@ -94,7 +89,7 @@ is relevant for the `Count` message.
 ```juvix
 type TickerMatchableArgument :=
   | -- --8<-- [start:ReplyTo]
-  ReplyTo (Maybe Address) (Maybe MailboxID)
+  ReplyTo (Maybe EngineID) (Maybe MailboxID)
   -- --8<-- [end:ReplyTo]
 ;
 ```
@@ -165,13 +160,13 @@ incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
   (env : TickerEnvironment) : Maybe TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgTicker Increment) := just (
-        mkGuardOutput@{
-          args := [];
-          label := DoIncrement;
-          other := unit
-        })
-      | _ := nothing
+  | just (MsgTicker Increment) := just (
+    mkGuardOutput@{
+      args := [];
+      label := DoIncrement;
+      other := unit
+    })
+  | _ := nothing
   };
 ```
 <!-- --8<-- [end:increment-guard] -->
@@ -196,15 +191,15 @@ countGuard
   (t : TimestampedTrigger TickerTimerHandle)
   (env : TickerEnvironment) : Maybe TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgTicker Count) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing] ;
-                  label := DoRespond;
-                  other := unit
-                });
-      }
-    | _ := nothing
+  | just (MsgTicker Count) := do {
+    sender <- getMessageSenderFromTimestampedTrigger t;
+    pure (mkGuardOutput@{
+              args := [ReplyTo (just sender) nothing] ;
+              label := DoRespond;
+              other := unit
+            });
+  }
+  | _ := nothing
   };
 ```
 <!-- --8<-- [end:count-guard] -->
@@ -240,43 +235,49 @@ countGuard
 ```juvix
 tickerAction (input : TickerActionInput) : TickerActionEffect
   := let env := ActionInput.env input;
-         out := (ActionInput.guardOutput input);
+         out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
-          | DoIncrement :=
-              let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
-              in mkActionEffect@{
-                newEnv := env@EngineEnvironment{
-                  localState := mkTickerLocalState@{
-                    counter := counterValue + 1
-                  }
-                };
-              producedMessages := [];
-              timers := [];
-              spawnedEngines := [];
+  | DoIncrement :=
+    let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
+    in mkActionEffect@{
+      newEnv := env@EngineEnvironment{
+        localState := mkTickerLocalState@{
+          counter := counterValue + 1
+        }
+      };
+    producedMessages := [];
+    timers := [];
+    spawnedEngines := [];
+    }
+  | DoRespond :=
+    let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
+    in case GuardOutput.args out of {
+      | (ReplyTo (just whoAsked) mailbox) :: _ :=
+          let snder := case getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input) of {
+            | just snder := snder
+            | nothing := mkPair nothing "unknown"
+          }
+          in mkActionEffect@{
+            newEnv := env;
+            producedMessages := [
+              mkEngineMessage@{
+                sender := snder;
+                target := whoAsked;
+                mailbox := just 0;
+                msg := MsgTicker Count
               }
-          | DoRespond :=
-            let counterValue := TickerLocalState.counter  (EngineEnvironment.localState env)
-            in
-            case GuardOutput.args out of {
-              | (ReplyTo (just whoAsked) mailbox) :: _ :=
-                  mkActionEffect@{
-                    newEnv := env;
-                    producedMessages := [
-                      mkEnvelopedMessage@{
-                        sender := getMessageTargetFromTimestampedTrigger (ActionInput.timestampedTrigger input);
-                        packet := mkMessagePacket@{
-                          target := whoAsked;
-                          mailbox := just 0;
-                          message := MsgTicker Count
-                        }
-                      }
-                    ];
-                    timers := [];
-                    spawnedEngines := []
-                  }
-              | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := [] }
-            }
+            ];
+            timers := [];
+            spawnedEngines := []
+          }
+      | _ := mkActionEffect@{
+          newEnv := env;
+          producedMessages := [];
+          timers := [];
+          spawnedEngines := []
+        }
+    }
     };
 ```
 <!-- --8<-- [end:action-function] -->
