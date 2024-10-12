@@ -12,7 +12,7 @@ ROOT_DIR = Path(__file__).parent.parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 ASSET_PATH = Path("assets") / "css"
 
-JUVIX_FOOTER_CSS_FILE = DOCS_DIR / ASSET_PATH / " "
+JUVIX_FOOTER_CSS_FILE = DOCS_DIR / ASSET_PATH / "juvix_codeblock_footer.css"
 JUVIX_FOOTER_CSS_FILE.parent.mkdir(parents=True, exist_ok=True)
 
 CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
