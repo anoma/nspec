@@ -238,6 +238,7 @@ import Stdlib.Trait.Functor.Polymorphic as Functor;
 
 ```juvix
 import Stdlib.Data.Fixity open public;
+{-# isabelle-ignore: true #-}
 trait
 type Applicative (f : Type -> Type) :=
   mkApplicative {
@@ -250,6 +251,7 @@ type Applicative (f : Type -> Type) :=
 For example, the `Maybe` type is an instance of `Applicative`.
 
 ```juvix
+{-# isabelle-ignore: true #-}
 instance
 maybeApplicative : Applicative Maybe :=
   mkApplicative@{
@@ -263,6 +265,7 @@ maybeApplicative : Applicative Maybe :=
 ## Monad
 
 ```juvix
+{-# isabelle-ignore: true #-}
 trait
 type Monad (f : Type -> Type) :=
   mkMonad {
@@ -274,17 +277,20 @@ type Monad (f : Type -> Type) :=
 ```
 
 ```juvix
+{-# isabelle-ignore: true #-}
 syntax operator >>= seq;
 >>= {A B} {f : Type -> Type} {{Monad f}} (x : f A) (g : A -> f B) : f B := Monad.bind x g;
 ```
 
 ```juvix
+{-# isabelle-ignore: true #-}
 monadMap {A B} {f : Type -> Type} {{Monad f}} (g : A -> B) (x : f A) : f B := map g x;
 ```
 
 For example, the `Maybe` type is an instance of `Monad`.
 
 ```juvix
+{-# isabelle-ignore: true #-}
 instance
 maybeMonad : Monad Maybe :=
   mkMonad@{
