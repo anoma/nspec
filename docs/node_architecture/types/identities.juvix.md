@@ -96,5 +96,5 @@ Engine instance identity.
 A pair of an engine instance name and an optional node identity (when remote).
 
 ```juvix
-EngineID : Type := Pair (Maybe NodeID) EngineName;
+EngineID : Type := Pair (Optional NodeID) EngineName;
 ```

@@ -89,7 +89,7 @@ is relevant for the `Count` message.
 ```juvix
 type TickerMatchableArgument :=
   | -- --8<-- [start:ReplyTo]
-  ReplyTo (Maybe EngineID) (Maybe MailboxID)
+  ReplyTo (Optional EngineID) (Optional MailboxID)
   -- --8<-- [end:ReplyTo]
 ;
 ```
@@ -158,15 +158,15 @@ D --> F([DoIncrement])
 ```juvix
 incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
-  (env : TickerEnvironment) : Maybe TickerGuardOutput
+  (env : TickerEnvironment) : Optional TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-  | just (MsgTicker Increment) := just (
+  | some (MsgTicker Increment) := some (
     mkGuardOutput@{
       args := [];
       label := DoIncrement;
       other := unit
     })
-  | _ := nothing
+  | _ := none
   };
 ```
 <!-- --8<-- [end:increment-guard] -->
@@ -189,17 +189,17 @@ D --> F([DoRespond])
 ```juvix
 countGuard
   (t : TimestampedTrigger TickerTimerHandle)
-  (env : TickerEnvironment) : Maybe TickerGuardOutput
+  (env : TickerEnvironment) : Optional TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-  | just (MsgTicker Count) := do {
+  | some (MsgTicker Count) := do {
     sender <- getMessageSenderFromTimestampedTrigger t;
     pure (mkGuardOutput@{
-              args := [ReplyTo (just sender) nothing] ;
+              args := [ReplyTo (some sender) none] ;
               label := DoRespond;
               other := unit
             });
   }
-  | _ := nothing
+  | _ := none
   };
 ```
 <!-- --8<-- [end:count-guard] -->
@@ -253,10 +253,10 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
   | DoRespond :=
     let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
     in case GuardOutput.args out of {
-      | (ReplyTo (just whoAsked) mailbox) :: _ :=
+      | (ReplyTo (some whoAsked) mailbox) :: _ :=
           let snder := case getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input) of {
-            | just snder := snder
-            | nothing := mkPair nothing "unknown"
+            | some snder := snder
+            | none := mkPair none "unknown"
           }
           in mkActionEffect@{
             newEnv := env;
@@ -264,7 +264,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
               mkEngineMessage@{
                 sender := snder;
                 target := whoAsked;
-                mailbox := just 0;
+                mailbox := some 0;
                 msg := MsgTicker Count
               }
             ];

@@ -57,14 +57,14 @@ Input messages to the compute engine specify:
 
 ```juvix
 axiom Hash : Type;
-axiom Maybe : Type -> Type;
+axiom Optional : Type -> Type;
 axiom Integer : Type;
 axiom Rational : Type;
 axiom Pair : Type -> Type -> Type;
 
 type ComputeRequest := mkComputeRequest {
     predicate : Hash;
-    algorithm : Maybe Hash;
+    algorithm : Optional Hash;
     max_cost_time : Pair Integer Rational;
     max_cost_space : Pair Integer Rational
 };
@@ -85,8 +85,8 @@ Output messages from the compute engine specify:
 ```juvix
 type ComputeResult := mkComputeResult {
     predicate : Hash;
-    algorithm : Maybe Hash;
-    solution : Maybe Hash;
+    algorithm : Optional Hash;
+    solution : Optional Hash;
     actual_cost_time : Pair Integer Rational;
     actual_cost_space : Pair Integer Rational;
 }

@@ -59,7 +59,7 @@ identifier, and the message itself.
 type EngineMessage : Type := mkEngineMessage {
   sender : EngineID;
   target : EngineID;
-  mailbox : Maybe MailboxID;
+  mailbox : Optional MailboxID;
   msg : Msg;
 };
 ```
@@ -89,7 +89,7 @@ such as the priority of the messages in the mailbox.
 ```juvix
 type Mailbox (MailboxStateType : Type) : Type := mkMailbox {
   messages : List EngineMessage;
-  mailboxState : Maybe MailboxStateType;
+  mailboxState : Optional MailboxStateType;
 };
 ```
 
@@ -113,25 +113,25 @@ type Trigger (HandleType : Type) :=
 - Extract the actual message from a trigger in case it has one:
 
     ```juvix
-    getMessageFromTrigger : {H : Type} -> Trigger H -> Maybe Msg
-      | MessageArrived@{msg} := just (EngineMessage.msg msg)
-      | Elapsed@{} := nothing;
+    getMessageFromTrigger : {H : Type} -> Trigger H -> Optional Msg
+      | MessageArrived@{msg} := some (EngineMessage.msg msg)
+      | Elapsed@{} := none;
     ```
 
 - Get the message sender from a trigger:
 
     ```juvix
-    getMessageSenderFromTrigger : {H : Type} -> Trigger H -> Maybe EngineID
-      | MessageArrived@{msg} := just (EngineMessage.sender msg)
-      | Elapsed@{} := nothing;
+    getMessageSenderFromTrigger : {H : Type} -> Trigger H -> Optional EngineID
+      | MessageArrived@{msg} := some (EngineMessage.sender msg)
+      | Elapsed@{} := none;
     ```
 
 - Get the target destination from a trigger:
 
     ```juvix
-    getMessageTargetFromTrigger : {H : Type} -> Trigger H -> Maybe EngineID
-      | MessageArrived@{msg} := just (EngineMessage.target msg)
-      | Elapsed@{} := nothing;
+    getMessageTargetFromTrigger : {H : Type} -> Trigger H -> Optional EngineID
+      | MessageArrived@{msg} := some (EngineMessage.target msg)
+      | Elapsed@{} := none;
     ```
 
 ### TimestampedTrigger H
@@ -147,20 +147,20 @@ type TimestampedTrigger (HandleType : Type) :=
 - Get the actual message from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Maybe Msg
+    getMessageFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional Msg
       := getMessageFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the sender from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Maybe EngineID
+    getMessageSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
       := getMessageSenderFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the target from a `TImestampedTrigger`:
 
     ```juvix
-    getMessageTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Maybe EngineID
+    getMessageTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
        := getMessageTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```

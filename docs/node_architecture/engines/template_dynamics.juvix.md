@@ -331,7 +331,7 @@ representation of the second and third argument.
 <!-- --8<-- [start:message-one-guard] -->
 ```juvix
 messageOneGuard : TemplateGuard
-     | _ _ :=  just (
+     | _ _ :=  some (
         mkGuardOutput@{
           args := [TemplateSomeThingFromAMailbox "Hello World!"];
           label := TemplateDoAlternative (Left (DoThis "paramneter 2"));
