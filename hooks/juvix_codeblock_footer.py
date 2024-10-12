@@ -36,7 +36,7 @@ def get_juvix_version() -> Optional[str]:
 
 def generate_css_file(version: Optional[str] = None) -> Optional[Path]:
     JUVIX_FOOTER_CSS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    JUVIX_FOOTER_CSS_FILE.write_text(   
+    JUVIX_FOOTER_CSS_FILE.write_text(
         f"""
 code.juvix::after {{
     font-family: var(--md-code-font-family);
