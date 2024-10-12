@@ -129,7 +129,7 @@ Properties:
 ```juvix
 type Decryptor (DecryptorType Plaintext Ciphertext : Type) :=
   mkDecryptor {
-    decrypt : DecryptorType -> Ciphertext -> Optional Plaintext
+    decrypt : DecryptorType -> Ciphertext -> Option Plaintext
   }
 ```
 

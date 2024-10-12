@@ -94,7 +94,7 @@ is relevant for the `Count` message.
 ```juvix
 type TickerMatchableArgument :=
   | -- --8<-- [start:ReplyTo]
-  ReplyTo (Optional EngineID) (Optional MailboxID)
+  ReplyTo (Option EngineID) (Option MailboxID)
   -- --8<-- [end:ReplyTo]
 ;
 ```
@@ -163,7 +163,7 @@ D --> F([DoIncrement])
 ```juvix
 incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
-  (env : TickerEnvironment) : Optional TickerGuardOutput
+  (env : TickerEnvironment) : Option TickerGuardOutput
   :=
   case getMessageFromTimestampedTrigger t of {
   | some (MsgTicker Increment) := some (
@@ -195,7 +195,7 @@ D --> F([DoRespond])
 ```juvix
 countGuard
   (t : TimestampedTrigger TickerTimerHandle)
-  (env : TickerEnvironment) : Optional TickerGuardOutput
+  (env : TickerEnvironment) : Option TickerGuardOutput
   := case getMessageFromTimestampedTrigger t of {
   | some (MsgTicker Count) := do {
     sender <- getSenderFromTimestampedTrigger t;

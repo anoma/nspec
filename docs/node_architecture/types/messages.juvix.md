@@ -58,7 +58,7 @@ identifier, and the message itself.
 type EngineMessage : Type := mkEngineMessage {
   sender : EngineID;
   target : EngineID;
-  mailbox : Optional MailboxID;
+  mailbox : Option MailboxID;
   msg : Msg;
 };
 ```
@@ -88,7 +88,7 @@ such as the priority of the messages in the mailbox.
 ```juvix
 type Mailbox (MailboxStateType : Type) : Type := mkMailbox {
   messages : List EngineMessage;
-  mailboxState : Optional MailboxStateType;
+  mailboxState : Option MailboxStateType;
 };
 ```
 
@@ -112,7 +112,7 @@ type Trigger (HandleType : Type) :=
 - Extract the actual message from a trigger in case it has one:
 
     ```juvix
-    getMessageFromTrigger : {H : Type} -> Trigger H -> Optional Msg
+    getMessageFromTrigger : {H : Type} -> Trigger H -> Option Msg
       | MessageArrived@{msg} := some (EngineMessage.msg msg)
       | Elapsed@{} := none;
     ```
@@ -120,7 +120,7 @@ type Trigger (HandleType : Type) :=
 - Get the message sender from a trigger:
 
     ```juvix
-    getSenderFromTrigger : {H : Type} -> Trigger H -> Optional EngineID
+    getSenderFromTrigger : {H : Type} -> Trigger H -> Option EngineID
       | MessageArrived@{msg} := some (EngineMessage.sender msg)
       | Elapsed@{} := none;
     ```
@@ -128,7 +128,7 @@ type Trigger (HandleType : Type) :=
 - Get the target destination from a trigger:
 
     ```juvix
-    getTargetFromTrigger : {H : Type} -> Trigger H -> Optional EngineID
+    getTargetFromTrigger : {H : Type} -> Trigger H -> Option EngineID
       | MessageArrived@{msg} := some (EngineMessage.target msg)
       | Elapsed@{} := none;
     ```
@@ -146,21 +146,21 @@ type TimestampedTrigger (HandleType : Type) :=
 - Get the actual message from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional Msg
+    getMessageFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option Msg
       := getMessageFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the sender from a `TimestampedTrigger`:
 
     ```juvix
-    getSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
+    getSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
       := getSenderFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the target from a `TImestampedTrigger`:
 
     ```juvix
-    getTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Optional EngineID
+    getTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
       := getTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```
 

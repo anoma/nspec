@@ -100,7 +100,7 @@ an engine instance name (which may not be present, stands for anonymous engine).
     We assume that the engine instance name is unique within the node.
 
 ```juvix
-EngineID : Type := Pair (Optional NodeID) (Optional EngineName);
+EngineID : Type := Pair (Option NodeID) (Option EngineName);
 ```
 
 ```juvix

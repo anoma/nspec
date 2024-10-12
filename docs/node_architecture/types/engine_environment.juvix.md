@@ -58,7 +58,7 @@ type EngineEnvironment (S M H : Type) :=
     an index type, and the mailbox is a record containing the following data:
 
     - The enveloped messages that the mailbox contains.
-    - The mailbox state, which is of type `Optional M`, i.e., it could be
+    - The mailbox state, which is of type `Option M`, i.e., it could be
     _none_.
 
     If you don't need multiple mailboxes, you can use any ID as the key.

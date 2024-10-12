@@ -178,9 +178,9 @@ numbers : List Nat := 1 :: 2 :: 3 :: nil;
 niceNumbers : List Nat := [1 ; 2 ; 3];
 ```
 
-## Optional A
+## Option A
 
-The type `Optional A` represents an optional value of type `A`. It can be either
+The type `Option A` represents an optional value of type `A`. It can be either
 `Some A` (containing a value) or `None` (no value). This type is an alias for
 `Maybe A` from the standard library.
 
@@ -194,7 +194,7 @@ open Maybe using {
 ```
 
 ```juvix
-syntax alias Optional := Maybe;
+syntax alias Option := Maybe;
 syntax alias some := just;
 syntax alias none := nothing;
 ```
@@ -202,7 +202,7 @@ syntax alias none := nothing;
 - Check if an optional value is `none`:
 
     ```juvix
-    isNone {A} (x : Optional A) : Bool
+    isNone {A} (x : Option A) : Bool
       := case x of {
       | none := true
       | some _ := false
@@ -212,13 +212,13 @@ syntax alias none := nothing;
 - Check if an optional value is `some`:
 
     ```juvix
-    isSome {A} (x : Optional A) : Bool := not (isNone x);
+    isSome {A} (x : Option A) : Bool := not (isNone x);
     ```
 
-- Extract the value from an `Optional` term:
+- Extract the value from an `Option` term:
 
     ```juvix
-    fromOptional {A} (x : Optional A) (default : A) : A := case x of {
+    fromOption {A} (x : Option A) (default : A) : A := case x of {
       | none := default
       | some x := x
     };
@@ -295,14 +295,14 @@ type Applicative (f : Type -> Type) :=
   };
 ```
 
-For example, the `Optional` type is an instance of `Applicative`.
+For example, the `Option` type is an instance of `Applicative`.
 
 ```juvix
 instance
-maybeApplicative : Applicative Optional :=
+maybeApplicative : Applicative Option :=
   mkApplicative@{
     pure := some;
-    ap {A B} : Optional (A -> B) -> Optional A -> Optional B
+    ap {A B} : Option (A -> B) -> Option A -> Option B
       | (some f) (some x) := some (f x)
       | _ _ := none
   };
@@ -330,13 +330,13 @@ syntax operator >>= seq;
 monadMap {A B} {f : Type -> Type} {{Monad f}} (g : A -> B) (x : f A) : f B := map g x;
 ```
 
-For example, the `Optional` type is an instance of `Monad`.
+For example, the `Option` type is an instance of `Monad`.
 
 ```juvix
 instance
-maybeMonad : Monad Optional :=
+maybeMonad : Monad Option :=
   mkMonad@{
-    bind {A B} : Optional A -> (A -> Optional B) -> Optional B
+    bind {A B} : Option A -> (A -> Option B) -> Option B
       | none _ := none
       | (some a) f := f a
   };

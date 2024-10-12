@@ -88,7 +88,7 @@ type GuardOutput (A L X : Type) :=
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Guard (S M H A L X : Type) : Type :=
-  (t : TimestampedTrigger H) -> (env : EngineEnvironment S M H)-> Optional (GuardOutput A L X);
+  (t : TimestampedTrigger H) -> (env : EngineEnvironment S M H)-> Option (GuardOutput A L X);
 ```
 <!-- --8<-- [end: whole-guard-type] -->
 
@@ -106,7 +106,7 @@ type ActionInput (S M H A L X : Type) := mkActionInput {
 - Get the message from an `ActionInput`:
 
     ```juvix
-    getMessageFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : Optional Anoma.Msg
+    getMessageFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : Option Anoma.Msg
       := getMessageFromTimestampedTrigger (ActionInput.timestampedTrigger input);
     ```
 
@@ -114,7 +114,7 @@ type ActionInput (S M H A L X : Type) := mkActionInput {
 
     ```juvix
     getSenderFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : EngineID
-      := fromOptional (getSenderFromTimestampedTrigger
+      := fromOption (getSenderFromTimestampedTrigger
       (ActionInput.timestampedTrigger input)) unknownEngineID;
     ```
 
@@ -122,7 +122,7 @@ type ActionInput (S M H A L X : Type) := mkActionInput {
 
     ```juvix
     getTargetFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : EngineID
-      := fromOptional (getTargetFromTimestampedTrigger
+      := fromOption (getTargetFromTimestampedTrigger
       (ActionInput.timestampedTrigger input)) unknownEngineID;
     ```
 
