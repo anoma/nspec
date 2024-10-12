@@ -369,7 +369,7 @@ type SignsFor (OrdKey VerifierType Signable Commitment Evidence : Type) :=
 We can also define a kind of identity _equivalence_ : _A_ `signsSameAs` _B_
  precisely when _A_ `signsFor` _B_ and _B_ `signsFor` _A_. This means that (in
  general), if you want to sign a message as _A_, but for whatever reason it's
-cheaper to sign a message as _B_, it's safe to some use _B_ instead, and vice
+cheaper to sign a message as _B_, it's safe to just use _B_ instead, and vice
  versa.
 
 ## ReadsFor Relation

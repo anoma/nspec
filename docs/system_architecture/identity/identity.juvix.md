@@ -369,7 +369,7 @@ type SignsFor (OrdKey VerifierType Signable Commitment Evidence : Type) :=
 We can also define a kind of identity _equivalence_ : _A_ `signsSameAs` _B_
  precisely when _A_ `signsFor` _B_ and _B_ `signsFor` _A_. This means that (in
  general), if you want to sign a message as _A_, but for whatever reason it's
-cheaper to sign a message as _B_, it's safe to some use _B_ instead, and vice
+cheaper to sign a message as _B_, it's safe to just use _B_ instead, and vice
  versa.
 
 ## ReadsFor Relation
@@ -432,7 +432,7 @@ type ReadsFor (OrdKey EncryptorType Plaintext Ciphertext Evidence : Type) :=
 We can also define a kind of identity _equivalence_: _A_ `readsSameAs` _B_
 precisely when _A_ `readsFor` _B_ and _B_ `readsFor` _A_. This means that, in
 general, if you want to encrypt a message to _A_, but for whatever reason it's
-cheaper to encrypt a message for _B_, it's safe to some use _B_ instead, and
+cheaper to encrypt a message for _B_, it's safe to just use _B_ instead, and
 vice versa.
 
 In total, _A_ `equivalent` _B_ when _A_ `readsSameAs` _B_ and _A_ `signsSameAs`
@@ -530,7 +530,7 @@ A `ThresholdCompose` structure provides:
    hashing these composed `verifiers`
 
 - The `SignerType` type of the composed verifiers is the type of composed signers.
-   These are some `MapCon Commitment`, meaning each is
+   These are just `MapCon Commitment`, meaning each is
    stored under the hash of the corresponding
    `VerifierType`.
    This `SignerType` does not need to encode weights or threshold.
