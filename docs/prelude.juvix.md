@@ -148,7 +148,7 @@ The type `Either A B`, or sum type of `A` and `B`, represents a value of type
 `A` or `B`. It is equivalent to `Result A B`, however, the meaning of the values
 is different. There is no such thing as an error or success value in the
 `Either` type, instead the values are either `left A` or `right B`. either `left
-A` or `right B`. 
+A` or `right B`.
 
 ```juvix
 syntax alias Either := Result;

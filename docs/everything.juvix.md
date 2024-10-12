@@ -18,7 +18,7 @@ import node_architecture.types;
 import node_architecture.types.basics;
 import node_architecture.types.crypto;
 import node_architecture.types.identities;
-import node_architecture.types.messages; 
+import node_architecture.types.messages;
 import node_architecture.types.engine_environment;
 import node_architecture.types.engine_dynamics;
 import node_architecture.types.engine_family;
