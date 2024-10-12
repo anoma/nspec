@@ -254,10 +254,8 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
     let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
     in case GuardOutput.args out of {
       | (ReplyTo (some whoAsked) mailbox) :: _ :=
-          let snder := case getMessageSenderFromTimestampedTrigger (ActionInput.timestampedTrigger input) of {
-            | some snder := snder
-            | none := mkPair none "unknown"
-          }
+          let snder :=  fromOptional (getMessageSenderFromTimestampedTrigger
+          (ActionInput.timestampedTrigger input)) unknownEngineID
           in mkActionEffect@{
             newEnv := env;
             producedMessages := [

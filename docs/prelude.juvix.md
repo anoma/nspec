@@ -205,23 +205,15 @@ syntax alias none := nothing;
     isSome {A} (x : Optional A) : Bool := not (isNone x);
     ```
 
-- Extract the value from an `some`:
+- Extract the value from an `Optional` term:
 
     ```juvix
-    fromSome {A} (x : Optional A) (default : A) : A := case x of {
+    fromOptional {A} (x : Optional A) (default : A) : A := case x of {
       | none := default
       | some x := x
     };
     ```
 
-- Return a default value if the optional value is `none`:
-
-    ```juvix
-    fromNone {A} (x : Optional A) (default : A) : A := case x of {
-      | none := default
-      | some x := x
-    };
-    ```
 
 ## Map K V
 

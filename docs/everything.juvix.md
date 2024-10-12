@@ -25,6 +25,7 @@ import node_architecture.types.engine_family;
 import node_architecture.types.anoma_environment;
 import node_architecture.types.anoma_message;
 
+{- Template for writing new engines -}
 import node_architecture.engines.template;
 import node_architecture.engines.template_overview;
 import node_architecture.engines.template_environment;
