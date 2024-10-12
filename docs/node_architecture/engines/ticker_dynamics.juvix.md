@@ -16,15 +16,9 @@ tags:
     module node_architecture.engines.ticker_dynamics;
 
     import prelude open;
-    import node_architecture.types.basics open;
-    import node_architecture.types.identities open;
-    import node_architecture.types.messages open;
-    import node_architecture.types.engine_family open;
+    import node_architecture.types open;
     import node_architecture.engines.ticker_overview open;
     import node_architecture.engines.ticker_environment open;
-    import node_architecture.types.engine_environment open;
-    import node_architecture.types.engine_dynamics open;
-    import node_architecture.types.anoma_message open;
     ```
 
 # `Ticker` Dynamics
@@ -241,7 +235,7 @@ countGuard
 ```juvix
 tickerAction (input : TickerActionInput) : TickerActionEffect
   := let env := ActionInput.env input;
-         out := (ActionInput.guardOutput input);
+         out := ActionInput.guardOutput input;
   in
   case GuardOutput.label out of {
           | DoIncrement :=
@@ -265,7 +259,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
                     newEnv := env;
                     producedMessages := [
                       mkEngineMessage@{
-                        sender := getMessageTargetFromTimestampedTrigger (ActionInput.timestampedTrigger input);
+                        sender := mkPair nothing "ticker";
                         target := whoAsked;
                         mailbox := just 0;
                         msg := MsgTicker Count

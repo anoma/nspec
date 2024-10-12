@@ -23,8 +23,6 @@ tags:
 
 # Messages and mailboxes
 
-# Juvix imports
-
 ## Types
 
 A message is a piece of data dispatched from one engine, termed the _sender_, to
@@ -54,8 +52,8 @@ syntax alias MailboxID := Nat;
 
 ### EngineMessage
 
-A message between engines.
-Consists of a sender, a target, an optional mailbox identifier, and the message itself.
+A message between engines. Consists of a sender, a target, an optional mailbox
+identifier, and the message itself.
 
 ```juvix
 type EngineMessage : Type := mkEngineMessage {
@@ -68,8 +66,7 @@ type EngineMessage : Type := mkEngineMessage {
 
 ### MessageID
 
-Message identifier.
-Cryptographic hash of an `EngineMessage`.
+Message identifier. Cryptographic hash of an `EngineMessage`.
 
 ```juvix
 syntax alias MessageID := Hash;
@@ -115,27 +112,29 @@ type Trigger (HandleType : Type) :=
 
 - Extract the actual message from a trigger in case it has one:
 
+```juvix
+  getMessageFromTrigger {H} (tr : Trigger H) : Maybe Msg
+    := case tr of {
+      | MessageArrived@{ msg } := just (EngineMessage.msg msg)
+      | Elapsed@{} := nothing
+    };
+```
+
+- Get the message sender from a trigger:
+
     ```juvix
-    getMessageFromTrigger : {H : Type} -> Trigger H -> Maybe Msg
-      | (MessageArrived@{ msg := mkEngineMessage@{ msg := m } }) := just m
-      | _ := nothing;
+    getMessageSenderFromTrigger : {H : Type} -> Trigger H -> Maybe EngineID
+      | MessageArrived@{ msg } := just (EngineMessage.sender msg)
+      | Elapsed@{} := nothing;
     ```
 
-  - Get the message sender from a trigger:
+- Get the target destination from a trigger:
 
-      ```juvix
-      getMessageSenderFromTrigger : {H : Type} -> Trigger H -> Maybe EngineID
-        | (MessageArrived@{ msg := mkEngineMessage@{ sender := s } }) := just s
-        | _ := nothing;
-      ```
-
-  - Get the target destination from a trigger:
-
-      ```juvix
-      getMessageTargetFromTrigger : {H : Type} -> Trigger H -> Maybe EngineID
-        | (MessageArrived@{ msg := mkEngineMessage@{ target := t } }) := just t
-      | _ := nothing;
-      ```
+    ```juvix
+    getMessageTargetFromTrigger : {H : Type} -> Trigger H -> Maybe EngineID
+      | MessageArrived@{ msg } := just (EngineMessage.target msg)
+      | Elapsed@{} := nothing;
+    ```
 
 ### TimestampedTrigger H
 
