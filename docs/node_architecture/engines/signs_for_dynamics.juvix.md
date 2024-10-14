@@ -328,45 +328,79 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
           }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-     | DoSubmitEvidence evidence := 
+  | DoSubmitEvidence evidence := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
-            pair' :=
-              case SignsForLocalState.verifyEvidence localState evidence of
-                | true :=
-                  let
-                    newEvidenceStore := Set.insert evidence (SignsForLocalState.evidenceStore localState);
-                    updatedLocalState := localState@SignsForLocalState{
-                      evidenceStore := newEvidenceStore
-                    };
-                    response := SubmitSignsForEvidenceResponse@{
-                      error := nothing
-                    };
-                  in mkPair updatedLocalState response
-                | false :=
-                  let
-                    response := SubmitSignsForEvidenceResponse@{
-                      error := just "Invalid evidence provided."
-                    };
-                  in mkPair localState response;
-            newLocalState := fst pair';
-            responseMsg := snd pair';
-            newEnv' := env@EngineEnvironment{
-              localState := newLocalState
-            };
-          in mkActionEffect@{
-            newEnv := newEnv';
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgSignsFor responseMsg
-              }
-            }];
-            timers := [];
-            spawnedEngines := []
-          }
+        | (ReplyTo (just whoAsked) _) :: _ := 
+            let isValid := SignsForLocalState.verifyEvidence localState evidence;
+            in
+            case isValid of {
+              | true :=
+                  let alreadyExists := 
+                    elem \{a b := a && b} true (map \{e :=
+                        isEQ (Ord.cmp e evidence)
+                      } (toList (SignsForLocalState.evidenceStore localState)));
+                  in
+                  case alreadyExists of {
+                    | true :=
+                        let responseMsg := SubmitSignsForEvidenceResponse@{
+                              error := just "Evidence already exists."
+                            };
+                        in mkActionEffect@{
+                          newEnv := env;
+                          producedMessages := [mkEnvelopedMessage@{
+                            sender := just (EngineEnvironment.name env);
+                            packet := mkMessagePacket@{
+                              target := whoAsked;
+                              mailbox := just 0;
+                              message := MsgSignsFor responseMsg
+                            }
+                          }];
+                          timers := [];
+                          spawnedEngines := []
+                        }
+                    | false :=
+                        let newEvidenceStore := Set.insert evidence (SignsForLocalState.evidenceStore localState);
+                            updatedLocalState := localState@SignsForLocalState{
+                              evidenceStore := newEvidenceStore
+                            };
+                            newEnv' := env@EngineEnvironment{
+                              localState := updatedLocalState
+                            };
+                            responseMsg := SubmitSignsForEvidenceResponse@{
+                              error := nothing
+                            };
+                        in mkActionEffect@{
+                          newEnv := newEnv';
+                          producedMessages := [mkEnvelopedMessage@{
+                            sender := just (EngineEnvironment.name env);
+                            packet := mkMessagePacket@{
+                              target := whoAsked;
+                              mailbox := just 0;
+                              message := MsgSignsFor responseMsg
+                            }
+                          }];
+                          timers := [];
+                          spawnedEngines := []
+                        }
+                  }
+              | false :=
+                  let responseMsg := SubmitSignsForEvidenceResponse@{
+                        error := just "Invalid evidence provided."
+                      };
+                  in mkActionEffect@{
+                    newEnv := env;
+                    producedMessages := [mkEnvelopedMessage@{
+                      sender := just (EngineEnvironment.name env);
+                      packet := mkMessagePacket@{
+                        target := whoAsked;
+                        mailbox := just 0;
+                        message := MsgSignsFor responseMsg
+                      }
+                    }];
+                    timers := [];
+                    spawnedEngines := []
+                  }
+            }
         | _ := mkActionEffect@{
             newEnv := env;
             producedMessages := [];

@@ -331,40 +331,68 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
       }
     | DoSubmitNameEvidence evidence' := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
-            evidence := evidence';
-            alreadyExists := elem \{a b := a && b} true (map \{e :=
-              isEQ (Ord.cmp e evidence)
-             } (toList (NamingLocalState.evidenceStore localState)));
-            newLocalState := case alreadyExists of { 
-                  | true := localState
-                  | false :=
-              let newEvidenceStore := Set.insert evidence (NamingLocalState.evidenceStore localState);
-              in mkNamingLocalState@{
-                evidenceStore := newEvidenceStore
-              }};
-            newEnv' := env@EngineEnvironment{
-              localState := newLocalState
-            };
-            responseMsg := SubmitNameEvidenceResponse@{
-              error := case alreadyExists of { 
-                | true := just "Evidence already exists" 
-                | false := nothing
-            }};
-          in mkActionEffect@{
-            newEnv := newEnv';
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgNaming responseMsg
-              }
-            }];
-            timers := [];
+        | (ReplyTo (just whoAsked) _) :: _ := 
+            let evidence := evidence';
+                isValid := NamingLocalState.verifyEvidence localState evidence;
+            in
+            case isValid of {
+              | false := 
+                  let responseMsg := SubmitNameEvidenceResponse@{
+                        error := just "Invalid evidence"
+                      };
+                  in mkActionEffect@{
+                    newEnv := env;
+                    producedMessages := [mkEnvelopedMessage@{
+                      sender := just (EngineEnvironment.name env);
+                      packet := mkMessagePacket@{
+                        target := whoAsked;
+                        mailbox := just 0;
+                        message := MsgNaming responseMsg
+                      }
+                    }];
+                    timers := [];
+                    spawnedEngines := []
+                  }
+              | true :=
+                  let alreadyExists := elem \{a b := a && b} true (map \{e :=
+                        isEQ (Ord.cmp e evidence)
+                      } (toList (NamingLocalState.evidenceStore localState)));
+                      newLocalState := case alreadyExists of { 
+                        | true := localState
+                        | false :=
+                            let newEvidenceStore := Set.insert evidence (NamingLocalState.evidenceStore localState);
+                            in localState@NamingLocalState{
+                              evidenceStore := newEvidenceStore
+                            }
+                      };
+                      newEnv' := env@EngineEnvironment{
+                        localState := newLocalState
+                      };
+                      responseMsg := SubmitNameEvidenceResponse@{
+                        error := case alreadyExists of { 
+                          | true := just "Evidence already exists" 
+                          | false := nothing
+                      }};
+                  in mkActionEffect@{
+                    newEnv := newEnv';
+                    producedMessages := [mkEnvelopedMessage@{
+                      sender := just (EngineEnvironment.name env);
+                      packet := mkMessagePacket@{
+                        target := whoAsked;
+                        mailbox := just 0;
+                        message := MsgNaming responseMsg
+                      }
+                    }];
+                    timers := [];
+                    spawnedEngines := []
+                  }
+            }
+        | _ := mkActionEffect@{
+            newEnv := env; 
+            producedMessages := []; 
+            timers := []; 
             spawnedEngines := []
           }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
     | DoQueryNameEvidence externalIdentity := 
       case GuardOutput.args out of {
