@@ -275,25 +275,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
           | (ReplyTo (just whoAsked) _) :: _ :=
               case useSignsFor of {
                 | false := 
-                    let result' := 
-                      Verifier.verify
-                        (VerificationLocalState.verifier localState
-                          Set.empty
-                          externalIdentity')
-                        (VerificationLocalState.backend localState)
-                        data commitment;
-                        responseMsg := VerifyResponse@{
-                          result := result';
-                          error := nothing
-                        };
-                        envelope := mkEnvelopedMessage@{
-                          sender := just (EngineEnvironment.name env);
-                          packet := mkMessagePacket@{
-                            target := whoAsked;
-                            mailbox := just 0;
-                            message := MsgVerification responseMsg
-                          }
-                        };
+                    let envelope := verifyResponse externalIdentity' env Set.empty (mkPair whoAsked (mkPair data commitment))
                     in mkActionEffect@{
                       newEnv := env; -- No state change
                       producedMessages := [envelope];

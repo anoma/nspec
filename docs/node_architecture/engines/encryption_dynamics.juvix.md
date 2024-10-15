@@ -272,25 +272,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
           | (ReplyTo (just whoAsked) _) :: _ :=
               case useReadsFor of {
                 | false := 
-                    let encryptedData := 
-                      Encryptor.encrypt
-                        (EncryptionLocalState.encryptor localState
-                          Set.empty
-                          externalIdentity')
-                        (EncryptionLocalState.backend localState)
-                        data;
-                        responseMsg := EncryptResponse@{
-                          ciphertext := encryptedData;
-                          error := nothing
-                        };
-                        envelope := mkEnvelopedMessage@{
-                          sender := just (EngineEnvironment.name env);
-                          packet := mkMessagePacket@{
-                            target := whoAsked;
-                            mailbox := just 0;
-                            message := MsgEncryption responseMsg
-                          }
-                        };
+                    let envelope := encryptResponse externalIdentity' env Set.empty (mkPair whoAsked data)
                     in mkActionEffect@{
                       newEnv := env; -- No state change
                       producedMessages := [envelope];
