@@ -71,9 +71,28 @@ This action label corresponds to encrypting the data in the given request.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | The state remains unchanged (stateless operation). |
-    | Messages to be sent   | An `EncryptResponse` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
+    | State update          | If `useReadsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged. |
+    | Messages to be sent   | If `useReadsFor` is false, an `EncryptResponse` message is sent back to the requester. If `useReadsFor` is true and it's the first request for this identity, a `QueryReadsForEvidenceRequest` is sent to the ReadsFor Engine. |
+    | Engines to be spawned | No engines are created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
+### `DoHandleReadsForResponse`
+
+!!! quote ""
+
+    --8<-- "./encryption_dynamics.juvix.md:DoHandleReadsForResponse"
+
+This action label corresponds to receiving reads for evidence and using it to address relevant pending requests.
+
+??? quote "`DoHandleReadsForResponse` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state is updated to remove the processed pending requests for the given external identity. |
+    | Messages to be sent   | `EncryptResponse` messages are sent to all requesters who were waiting for this ReadsFor evidence. |
+    | Engines to be spawned | No engines are created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
 ## Matchable arguments

@@ -72,9 +72,28 @@ This action label corresponds to verifying a commitment.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | The state remains unchanged (stateless engine). |
-    | Messages to be sent   | A `VerifyResponse` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
+    | State update          | If `useSignsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged. |
+    | Messages to be sent   | If `useSignsFor` is false, a `VerifyResponse` message is sent back to the requester. If `useSignsFor` is true and it's the first request for this identity, a `QuerySignsForEvidenceRequest` is sent to the SignsFor Engine. |
+    | Engines to be spawned | No engines are created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
+
+### `DoHandleSignsForResponse`
+
+!!! quote ""
+
+    --8<-- "./verification_dynamics.juvix.md:DoHandleSignsForResponse"
+
+This action label corresponds to receiving signs for evidence and using it to address relevant pending requests.
+
+??? quote "`DoHandleSignsForResponse` action effect"
+
+    This action does the following:
+
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state is updated to remove the processed pending requests for the given external identity. |
+    | Messages to be sent   | `VerifyResponse` messages are sent to all requesters who were waiting for this SignsFor evidence. |
+    | Engines to be spawned | No engines are created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
 ## Matchable arguments
