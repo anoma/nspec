@@ -17,9 +17,12 @@ tags:
 
     import prelude open;
     import node_architecture.basics open;
+    import Stdlib.Trait.Ord as Ord;
+    import Stdlib.Data.List.Base open;
     import system_architecture.identity.identity open hiding {ExternalIdentity};
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
+    import node_architecture.engines.reads_for_overview open;
     import node_architecture.engines.encryption_environment open;
     import node_architecture.engines.encryption_overview open;
     import node_architecture.identity_types open;
@@ -39,11 +42,17 @@ The dynamics of the Encryption Engine define how it processes incoming encryptio
 type EncryptionActionLabel :=
   | -- --8<-- [start:DoEncrypt]
     DoEncrypt {
-      data : ByteString;
+      data : Plaintext;
       externalIdentity : ExternalIdentity;
       useReadsFor : Bool
     }
     -- --8<-- [end:DoEncrypt]
+  | -- --8<-- [start:DoHandleReadsForResponse]
+    DoHandleReadsForResponse {
+      externalIdentity : ExternalIdentity;
+      readsForEvidence : Set ReadsForEvidence
+    };
+    -- --8<-- [end:DoHandleReadsForResponse]
 ;
 ```
 <!-- --8<-- [end:encryption-action-label] -->
@@ -156,6 +165,32 @@ encryptGuard
 ```
 <!-- --8<-- [end:encrypt-guard] -->
 
+### `readsForResponseGuard`
+
+<!-- --8<-- [start:reads-for-response-guard] -->
+```juvix
+readsForResponseGuard
+  (t : TimestampedTrigger EncryptionTimerHandle)
+  (env : EncryptionEnvironment) : Maybe EncryptionGuardOutput
+  := case getMessageFromTimestampedTrigger t of {
+      | just (MsgReadsFor (QueryReadsForEvidenceResponse externalIdentity evidence error)) :=
+          case getMessageSenderFromTimestampedTrigger t of {
+            | just sender :=
+                case Ord.isEQ (Ord.cmp sender (EncryptionLocalState.readsForEngineAddress (EngineEnvironment.localState env))) of {
+                  | true := just (mkGuardOutput@{
+                      args := [];
+                      label := DoHandleReadsForResponse externalIdentity evidence;
+                      other := unit
+                    })
+                  | false := nothing
+                }
+            | nothing := nothing
+          }
+      | _ := nothing
+  };
+```
+<!-- --8<-- [end:reads-for-response-guard] -->
+
 ## Action function
 
 ??? quote "Auxiliary Juvix code"
@@ -184,8 +219,28 @@ encryptGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
--- Not yet implemented
-axiom resolveReadsFor : ExternalIdentity -> ExternalIdentity;
+encryptResponse (externalIdentity : ExternalIdentity) (env : EncryptionEnvironment) (evidence : Set ReadsForEvidence) (req : Pair Address Plaintext) : EnvelopedMessage :=
+  let localState := EngineEnvironment.localState env;
+      whoAsked := fst req;
+      data := snd req;
+      encryptedData :=
+        Encryptor.encrypt
+          (EncryptionLocalState.encryptor localState evidence externalIdentity)
+          (EncryptionLocalState.backend localState)
+          data;
+      responseMsg := EncryptResponse@{
+        ciphertext := encryptedData;
+        error := nothing
+      };
+      envelope := mkEnvelopedMessage@{
+        sender := just (EngineEnvironment.name env);
+        packet := mkMessagePacket@{
+          target := whoAsked;
+          mailbox := just 0;
+          message := MsgEncryption responseMsg
+        }
+      };
+      in envelope;
 
 encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
   let env := ActionInput.env input;
@@ -193,36 +248,102 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoEncrypt data externalIdentity useReadsFor := 
-      case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
-            finalIdentity := case useReadsFor of {
-              | true := resolveReadsFor externalIdentity
-              | false := externalIdentity
-            };
-            encryptedData := 
-              Encryptor.encrypt (EncryptionLocalState.encryptor localState)
-                (EncryptionLocalState.backend localState)
-                data;
-            responseMsg := EncryptResponse@{
-                  ciphertext := encryptedData;
-                  error := nothing
-                };
-          in mkActionEffect@{
-            newEnv := env; -- No state change
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgEncryption responseMsg
+    | DoEncrypt data externalIdentity' useReadsFor := 
+        case GuardOutput.args out of {
+          | (ReplyTo (just whoAsked) _) :: _ :=
+              case useReadsFor of {
+                | false := 
+                    let encryptedData := 
+                      Encryptor.encrypt
+                        (EncryptionLocalState.encryptor localState
+                          Set.empty
+                          externalIdentity')
+                        (EncryptionLocalState.backend localState)
+                        data;
+                        responseMsg := EncryptResponse@{
+                          ciphertext := encryptedData;
+                          error := nothing
+                        };
+                        envelope := mkEnvelopedMessage@{
+                          sender := just (EngineEnvironment.name env);
+                          packet := mkMessagePacket@{
+                            target := whoAsked;
+                            mailbox := just 0;
+                            message := MsgEncryption responseMsg
+                          }
+                        };
+                    in mkActionEffect@{
+                      newEnv := env; -- No state change
+                      producedMessages := [envelope];
+                      timers := [];
+                      spawnedEngines := []
+                    }
+                | true := 
+                    -- Need to request ReadsForEvidence from ReadsFor Engine
+                    let existingRequests := Map.lookup externalIdentity' (EncryptionLocalState.pendingRequests localState);
+                        newPendingList := case existingRequests of {
+                          | just reqs := reqs ++ [mkPair whoAsked data]
+                          | nothing := [mkPair whoAsked data]
+                        };
+                        newPendingRequests := Map.insert externalIdentity' newPendingList (EncryptionLocalState.pendingRequests localState);
+                        newLocalState := localState@EncryptionLocalState{
+                          pendingRequests := newPendingRequests
+                        };
+                        newEnv' := env@EngineEnvironment{
+                          localState := newLocalState
+                        };
+                        -- Only send request to ReadsFor Engine if this is the first pending request for this identity
+                        messagesToSend := case existingRequests of {
+                          | just _ := [] -- Request already sent, do nothing
+                          | nothing := let requestMsg := QueryReadsForEvidenceRequest@{
+                                          externalIdentity := externalIdentity'
+                                        };
+                                        envelope := mkEnvelopedMessage@{
+                                          sender := just (EngineEnvironment.name env);
+                                          packet := mkMessagePacket@{
+                                            target := EncryptionLocalState.readsForEngineAddress localState;
+                                            mailbox := just 0;
+                                            message := MsgReadsFor requestMsg
+                                          }
+                                        };
+                                        in [envelope]
+                        };
+                    in mkActionEffect@{
+                      newEnv := newEnv';
+                      producedMessages := messagesToSend;
+                      timers := [];
+                      spawnedEngines := []
+                    }
               }
-            }];
-            timers := [];
-            spawnedEngines := []
-          }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
+          | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
+    | DoHandleReadsForResponse externalIdentity evidence := 
+        -- Retrieve pending requests
+        case Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState) of {
+          | just reqs := 
+              let messages := map (encryptResponse externalIdentity env evidence) reqs;
+                  newPendingRequests := Map.delete externalIdentity (EncryptionLocalState.pendingRequests localState);
+                  newLocalState := localState@EncryptionLocalState{
+                    pendingRequests := newPendingRequests
+                  };
+                  newEnv' := env@EngineEnvironment{
+                    localState := newLocalState
+                  };
+              in mkActionEffect@{
+                newEnv := newEnv';
+                producedMessages := messages;
+                timers := [];
+                spawnedEngines := []
+              }
+          | nothing := 
+              -- No pending requests, do nothing
+              mkActionEffect@{
+                newEnv := env;
+                producedMessages := [];
+                timers := [];
+                spawnedEngines := []
+              }
+        }
   };
 ```
 <!-- --8<-- [end:action-function] -->

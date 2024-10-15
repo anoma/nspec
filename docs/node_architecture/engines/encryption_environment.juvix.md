@@ -15,7 +15,7 @@ tags:
     module node_architecture.engines.encryption_environment;
 
     import prelude open;
-    import system_architecture.identity.identity open;
+    import system_architecture.identity.identity open hiding {ExternalIdentity};
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.identity_types open;
@@ -38,12 +38,14 @@ syntax alias EncryptionMailboxState := Unit;
 
 ## Local state
 
-The local state of a Encryption Engine instance includes the identity's encryption capabilities.
+The local state of a Encryption Engine instance includes the identity's encryption capabilities, the address of an associated `ReadsFor` engine, and a specific backend. It also contains a map to a list of pending requests which require `ReadsFor` information which is requested from the associated `ReadsFor` engine.
 
 ```juvix
 type EncryptionLocalState := mkEncryptionLocalState {
-  encryptor : Encryptor ByteString Backend ByteString ByteString;
+  encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
   backend : Backend;
+  readsForEngineAddress : Address;
+  pendingRequests : Map ExternalIdentity (List (Pair Address Plaintext));
 };
 ```
 
@@ -73,7 +75,7 @@ encryptionEnvironmentExample : EncryptionEnvironment :=
     mkEngineEnvironment@{
       name := Left "encryption";
       localState := mkEncryptionLocalState@{
-        encryptor := mkEncryptor@{
+        encryptor := \{_ _ := mkEncryptor@{
           encrypt := \{_ x := x};
           encryptorHash := mkHASH@{
             ordKey := mkOrdkey@{
@@ -81,8 +83,10 @@ encryptionEnvironmentExample : EncryptionEnvironment :=
             };
             hash := \{x := 0};
           };
-        };
+        }};
         backend := BackendLocalMemory;
+        readsForEngineAddress := Left "Blah";
+        pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

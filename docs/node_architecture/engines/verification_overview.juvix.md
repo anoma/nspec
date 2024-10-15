@@ -34,8 +34,8 @@ The Verification Engine verifies commitments (signatures) made by external ident
 type VerificationMsg :=
   | -- --8<-- [start:VerifyRequest]
     VerifyRequest {
+      data : Signable;
       commitment : Commitment;
-      data : ByteString;
       externalIdentity : ExternalIdentity;
       useSignsFor : Bool
     }

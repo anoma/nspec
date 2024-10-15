@@ -17,10 +17,14 @@ tags:
 
     import prelude open;
     import node_architecture.basics open;
+    import Stdlib.Trait.Ord as Ord;
+    import Stdlib.Data.List.Base open;
+    import system_architecture.identity.identity open hiding {ExternalIdentity};
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.engines.verification_environment open;
     import node_architecture.engines.verification_overview open;
+    import node_architecture.engines.signs_for_overview open;
     import node_architecture.identity_types open;
     import node_architecture.types.anoma_message open;
     ```
@@ -38,12 +42,18 @@ The dynamics of the Verification Engine define how it processes incoming verific
 type VerificationActionLabel :=
   | -- --8<-- [start:DoVerify]
     DoVerify {
+      data : Signable;
       commitment : Commitment;
-      data : ByteString;
       externalIdentity : ExternalIdentity;
       useSignsFor : Bool
     }
     -- --8<-- [end:DoVerify]
+  | -- --8<-- [start:DoHandleSignsForResponse]
+    DoHandleSignsForResponse {
+      externalIdentity : ExternalIdentity;
+      signsForEvidence : Set SignsForEvidence
+    };
+    -- --8<-- [end:DoHandleSignsForResponse]
 ;
 ```
 <!-- --8<-- [end:verification-action-label] -->
@@ -156,6 +166,32 @@ verifyGuard
 ```
 <!-- --8<-- [end:verify-guard] -->
 
+### `signsForResponseGuard`
+
+<!-- --8<-- [start:signs-for-response-guard] -->
+```juvix
+signsForResponseGuard
+  (t : TimestampedTrigger VerificationTimerHandle)
+  (env : VerificationEnvironment) : Maybe VerificationGuardOutput
+  := case getMessageFromTimestampedTrigger t of {
+      | just (MsgSignsFor (QuerySignsForEvidenceResponse externalIdentity evidence error)) :=
+          case getMessageSenderFromTimestampedTrigger t of {
+            | just sender :=
+                case Ord.isEQ (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnvironment.localState env))) of {
+                  | true := just (mkGuardOutput@{
+                      args := [];
+                      label := DoHandleSignsForResponse externalIdentity evidence;
+                      other := unit
+                    })
+                  | false := nothing
+                }
+            | nothing := nothing
+          }
+      | _ := nothing
+  };
+```
+<!-- --8<-- [end:signs-for-response-guard] -->
+
 ## Action function
 
 ??? quote "Auxiliary Juvix code"
@@ -184,42 +220,133 @@ verifyGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
--- Not yet implemented
-axiom verifyCommitment : ExternalIdentity -> Commitment -> ByteString -> Bool;
-axiom resolveSignsFor : ExternalIdentity -> ExternalIdentity;
+verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironment) (evidence : Set SignsForEvidence) (req : Pair Address (Pair Signable Commitment)) : EnvelopedMessage :=
+  let localState := EngineEnvironment.localState env;
+      whoAsked := fst req;
+      input := snd req;
+      data := fst input;
+      commitment := snd input;
+      result' :=
+        Verifier.verify
+          (VerificationLocalState.verifier localState evidence externalIdentity)
+          (VerificationLocalState.backend localState)
+          data commitment;
+      responseMsg := VerifyResponse@{
+        result := result';
+        error := nothing
+      };
+      envelope := mkEnvelopedMessage@{
+        sender := just (EngineEnvironment.name env);
+        packet := mkMessagePacket@{
+          target := whoAsked;
+          mailbox := just 0;
+          message := MsgVerification responseMsg
+        }
+      };
+      in envelope;
 
 verificationAction (input : VerificationActionInput) : VerificationActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
+      localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoVerify commitment data externalIdentity useSignsFor := 
-      case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
-            finalIdentity := case useSignsFor of {
-              | true := resolveSignsFor externalIdentity
-              | false := externalIdentity
-            };
-            isValid := verifyCommitment finalIdentity commitment data;
-            responseMsg := VerifyResponse@{
-              result := isValid;
-              error := nothing
-            };
-          in mkActionEffect@{
-            newEnv := env; -- No state change
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgVerification responseMsg
+    | DoVerify data commitment externalIdentity' useSignsFor := 
+        case GuardOutput.args out of {
+          | (ReplyTo (just whoAsked) _) :: _ :=
+              case useSignsFor of {
+                | false := 
+                    let result' := 
+                      Verifier.verify
+                        (VerificationLocalState.verifier localState
+                          Set.empty
+                          externalIdentity')
+                        (VerificationLocalState.backend localState)
+                        data commitment;
+                        responseMsg := VerifyResponse@{
+                          result := result';
+                          error := nothing
+                        };
+                        envelope := mkEnvelopedMessage@{
+                          sender := just (EngineEnvironment.name env);
+                          packet := mkMessagePacket@{
+                            target := whoAsked;
+                            mailbox := just 0;
+                            message := MsgVerification responseMsg
+                          }
+                        };
+                    in mkActionEffect@{
+                      newEnv := env; -- No state change
+                      producedMessages := [envelope];
+                      timers := [];
+                      spawnedEngines := []
+                    }
+                | true := 
+                    -- Need to request SignsForEvidence from SignsFor Engine
+                    let existingRequests := Map.lookup externalIdentity' (VerificationLocalState.pendingRequests localState);
+                        newPendingList := case existingRequests of {
+                          | just reqs := reqs ++ [mkPair whoAsked (mkPair commitment data)]
+                          | nothing := [mkPair whoAsked (mkPair commitment data)]
+                        };
+                        newPendingRequests := Map.insert externalIdentity' newPendingList (VerificationLocalState.pendingRequests localState);
+                        newLocalState := localState@VerificationLocalState{
+                          pendingRequests := newPendingRequests
+                        };
+                        newEnv' := env@EngineEnvironment{
+                          localState := newLocalState
+                        };
+                        -- Only send request to SignsFor Engine if this is the first pending request for this identity
+                        messagesToSend := case existingRequests of {
+                          | just _ := [] -- Request already sent, do nothing
+                          | nothing := let requestMsg := QuerySignsForEvidenceRequest@{
+                                          externalIdentity := externalIdentity'
+                                        };
+                                        envelope := mkEnvelopedMessage@{
+                                          sender := just (EngineEnvironment.name env);
+                                          packet := mkMessagePacket@{
+                                            target := VerificationLocalState.signsForEngineAddress localState;
+                                            mailbox := just 0;
+                                            message := MsgSignsFor requestMsg
+                                          }
+                                        };
+                                        in [envelope]
+                        };
+                    in mkActionEffect@{
+                      newEnv := newEnv';
+                      producedMessages := messagesToSend;
+                      timers := [];
+                      spawnedEngines := []
+                    }
               }
-            }];
-            timers := [];
-            spawnedEngines := []
-          }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
+          | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
+    | DoHandleSignsForResponse externalIdentity evidence := 
+        -- Retrieve pending requests
+        case Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState) of {
+          | just reqs := 
+              let messages := map (verifyResponse externalIdentity env evidence) reqs;
+                  newPendingRequests := Map.delete externalIdentity (VerificationLocalState.pendingRequests localState);
+                  newLocalState := localState@VerificationLocalState{
+                    pendingRequests := newPendingRequests
+                  };
+                  newEnv' := env@EngineEnvironment{
+                    localState := newLocalState
+                  };
+              in mkActionEffect@{
+                newEnv := newEnv';
+                producedMessages := messages;
+                timers := [];
+                spawnedEngines := []
+              }
+          | nothing := 
+              -- No pending requests, do nothing
+              mkActionEffect@{
+                newEnv := env;
+                producedMessages := [];
+                timers := [];
+                spawnedEngines := []
+              }
+        }
   };
 ```
 <!-- --8<-- [end:action-function] -->

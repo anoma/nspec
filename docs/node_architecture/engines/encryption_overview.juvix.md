@@ -34,14 +34,14 @@ The Encryption Engine encrypts data to external identities, optionally using kno
 type EncryptionMsg :=
   | -- --8<-- [start:EncryptRequest]
     EncryptRequest {
-      data : ByteString;
+      data : Plaintext;
       externalIdentity : ExternalIdentity;
       useReadsFor : Bool
     }
     -- --8<-- [end:EncryptRequest]
   | -- --8<-- [start:EncryptResponse]
     EncryptResponse {
-      ciphertext : ByteString;
+      ciphertext : Ciphertext;
       error : Maybe String
     }
     -- --8<-- [end:EncryptResponse]

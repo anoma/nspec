@@ -93,7 +93,7 @@ This action label corresponds to submitting new signs_for evidence.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | The new evidence is added to the evidence store, if valid. |
+    | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state. |
     | Messages to be sent   | A `SubmitSignsForEvidenceResponse` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
@@ -328,7 +328,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
           }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-  | DoSubmitEvidence evidence := 
+    | DoSubmitEvidence evidence := 
       case GuardOutput.args out of {
         | (ReplyTo (just whoAsked) _) :: _ := 
             let isValid := SignsForLocalState.verifyEvidence localState evidence;
@@ -408,14 +408,15 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
             spawnedEngines := []
           }
       }
-    | DoQueryEvidence externalIdentity := 
+    | DoQueryEvidence externalIdentity' := 
       case GuardOutput.args out of {
         | (ReplyTo (just whoAsked) _) :: _ := let
             relevantEvidence := AVLfilter \{evidence :=
-              isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity) ||
-              isEQ (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity)
+              isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity') ||
+              isEQ (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity')
             } (SignsForLocalState.evidenceStore localState);
             responseMsg := QuerySignsForEvidenceResponse@{
+              externalIdentity := externalIdentity';
               evidence := relevantEvidence;
               error := nothing
             };

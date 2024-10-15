@@ -61,6 +61,7 @@ type SignsForMsg :=
     -- --8<-- [end:QuerySignsForEvidenceRequest]
   | -- --8<-- [start:QuerySignsForEvidenceResponse]
     QuerySignsForEvidenceResponse {
+      externalIdentity : ExternalIdentity;
       evidence : Set SignsForEvidence;
       error : Maybe String
     }

@@ -61,6 +61,7 @@ type ReadsForMsg :=
     -- --8<-- [end:QueryReadsForEvidenceRequest]
   | -- --8<-- [start:QueryReadsForEvidenceResponse]
     QueryReadsForEvidenceResponse {
+      externalIdentity : ExternalIdentity;
       evidence : Set ReadsForEvidence;
       error : Maybe String
     }

@@ -60,6 +60,7 @@ type NamingMsg :=
     -- --8<-- [end:QueryNameEvidenceRequest]
   | -- --8<-- [start:QueryNameEvidenceResponse]
     QueryNameEvidenceResponse {
+      externalIdentity : ExternalIdentity;
       evidence : Set IdentityNameEvidence;
       error : Maybe String
     }

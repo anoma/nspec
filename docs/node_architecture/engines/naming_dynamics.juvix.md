@@ -92,7 +92,7 @@ This action label corresponds to submitting new name evidence.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | If the evidence doesn't already exist, it's added to the `evidenceStore` in the local state. |
+    | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state. |
     | Messages to be sent   | A `SubmitNameEvidenceResponse` message is sent to the requester, confirming the submission or indicating an error if the evidence already exists. |
     | Engines to be spawned | No engines are spawned by this action. |
     | Timer updates         | No timers are set or cancelled. |
@@ -394,13 +394,14 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
             spawnedEngines := []
           }
       }
-    | DoQueryNameEvidence externalIdentity := 
+    | DoQueryNameEvidence externalIdentity' := 
       case GuardOutput.args out of {
         | (ReplyTo (just whoAsked) _) :: _ := let
             relevantEvidence := AVLfilter \{evidence :=
-              isEQ (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity)
+              isEQ (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity')
              } (NamingLocalState.evidenceStore localState);
             responseMsg := QueryNameEvidenceResponse@{
+              externalIdentity := externalIdentity';
               evidence := relevantEvidence;
               error := nothing
             };

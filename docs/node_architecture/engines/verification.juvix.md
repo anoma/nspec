@@ -31,7 +31,7 @@ VerificationEngineFamily :
     VerificationActionLabel
     VerificationPrecomputation
   := Anoma.mkEngineFamily@{
-    guards := [verifyGuard];
+    guards := [verifyGuard; signsForResponseGuard];
     action := verificationAction;
     conflictSolver := verificationConflictSolver;
   }

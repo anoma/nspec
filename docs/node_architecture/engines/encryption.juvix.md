@@ -31,7 +31,7 @@ EncryptionEngineFamily :
     EncryptionActionLabel
     EncryptionPrecomputation
   := Anoma.mkEngineFamily@{
-    guards := [encryptGuard];
+    guards := [encryptGuard; readsForResponseGuard];
     action := encryptionAction;
     conflictSolver := encryptionConflictSolver;
   }

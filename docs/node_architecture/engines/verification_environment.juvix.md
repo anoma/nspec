@@ -15,6 +15,7 @@ tags:
     module node_architecture.engines.verification_environment;
 
     import prelude open;
+    import system_architecture.identity.identity open hiding {ExternalIdentity};
     import node_architecture.basics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.identity_types open;
@@ -37,10 +38,15 @@ syntax alias VerificationMailboxState := Unit;
 
 ## Local state
 
-The Verification Engine is stateless, so we define the local state as `Unit`.
+The local state of a Verification Engine instance includes the identity's verification capabilities, the address of an associated `SignsFor` engine, and a specific backend. It also contains a map to a list of pending requests which require `SignsFor` information which is requested from the associated `SignsFor` engine.
 
 ```juvix
-syntax alias VerificationLocalState := Unit;
+type VerificationLocalState := mkVerificationLocalState {
+  verifier : Set SignsForEvidence -> ExternalIdentity -> Verifier ByteString Backend Signable Commitment;
+  backend : Backend;
+  signsForEngineAddress : Address;
+  pendingRequests : Map ExternalIdentity (List (Pair Address (Pair Signable Commitment)));
+};
 ```
 
 ## Timer Handle
@@ -68,7 +74,20 @@ module verification_environment_example;
 verificationEnvironmentExample : VerificationEnvironment :=
     mkEngineEnvironment@{
       name := Left "verification";
-      localState := unit;
+      localState := mkVerificationLocalState@{
+        verifier := \{_ _ := mkVerifier@{
+          verify := \{_ _ _ := true};
+          verifierHash := mkHASH@{
+            ordKey := mkOrdkey@{
+                compare := Ord.cmp
+            };
+            hash := \{x := 0};
+          };
+        }};
+        backend := BackendLocalMemory;
+        signsForEngineAddress := Left "Blah";
+        pendingRequests := Map.empty
+      };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []
