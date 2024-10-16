@@ -300,16 +300,16 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
                         messagesToSend := case existingRequests of {
                           | just _ := [] -- Request already sent, do nothing
                           | nothing := let requestMsg := QuerySignsForEvidenceRequest@{
-                                          externalIdentity := externalIdentity'
-                                        };
-                                        envelope := mkEnvelopedMessage@{
-                                          sender := just (EngineEnvironment.name env);
-                                          packet := mkMessagePacket@{
-                                            target := VerificationLocalState.signsForEngineAddress localState;
-                                            mailbox := just 0;
-                                            message := MsgSignsFor requestMsg
-                                          }
-                                        };
+                                              externalIdentity := externalIdentity'
+                                            };
+                                            envelope := mkEnvelopedMessage@{
+                                              sender := just (EngineEnvironment.name env);
+                                              packet := mkMessagePacket@{
+                                                target := VerificationLocalState.signsForEngineAddress localState;
+                                                mailbox := just 0;
+                                                message := MsgSignsFor requestMsg
+                                              }
+                                            };
                                         in [envelope]
                         };
                     in mkActionEffect@{

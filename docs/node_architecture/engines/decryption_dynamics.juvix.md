@@ -190,34 +190,39 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
   case GuardOutput.label out of {
     | DoDecrypt data := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
-            decryptedData := 
-              Decryptor.decrypt (DecryptionLocalState.decryptor localState) 
-                (DecryptionLocalState.backend localState)
-                data;
-            responseMsg := case decryptedData of {
-              | nothing := DecryptResponse@{
-                  data := emptyByteString;
-                  error := just "Decryption Failed"
+        | (ReplyTo (just whoAsked) _) :: _ := 
+            case Set.member? whoAsked (EngineEnvironment.acquaintances env) of {
+              | true := let
+                  decryptedData := 
+                    Decryptor.decrypt (DecryptionLocalState.decryptor localState) 
+                      (DecryptionLocalState.backend localState)
+                      data;
+                  responseMsg := case decryptedData of {
+                    | nothing := DecryptResponse@{
+                        data := emptyByteString;
+                        error := just "Decryption Failed"
+                      }
+                    | just plaintext := DecryptResponse@{
+                        data := plaintext;
+                        error := nothing
+                      }
+                  };
+                in mkActionEffect@{
+                  newEnv := env; -- No state change
+                  producedMessages := [mkEnvelopedMessage@{
+                    sender := just (EngineEnvironment.name env);
+                    packet := mkMessagePacket@{
+                      target := whoAsked;
+                      mailbox := just 0;
+                      message := MsgDecryption responseMsg
+                    }
+                  }];
+                  timers := [];
+                  spawnedEngines := []
                 }
-              | just plaintext := DecryptResponse@{
-                  data := plaintext;
-                  error := nothing
-                }
-            };
-          in mkActionEffect@{
-            newEnv := env; -- No state change
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgDecryption responseMsg
-              }
-            }];
-            timers := [];
-            spawnedEngines := []
-          }
+                -- If requester isn't an acquaintance, don't respond.
+              | false := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
+            }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
   };

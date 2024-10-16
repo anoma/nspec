@@ -326,7 +326,7 @@ makeDecryptEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr 
         messages := [];
         mailboxState := nothing;
       }))];
-      acquaintances := Set.empty;
+      acquaintances := Set.fromList [addr];
       timers := []
     };
 makeCommitmentEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr : Address): CommitmentEnvironment :=
@@ -343,7 +343,7 @@ makeCommitmentEnv (env : IdentityManagementEnvironment) (backend' : Backend) (ad
         messages := [];
         mailboxState := nothing;
       }))];
-      acquaintances := Set.empty;
+      acquaintances := Set.fromList [addr];
       timers := []
     };
 
