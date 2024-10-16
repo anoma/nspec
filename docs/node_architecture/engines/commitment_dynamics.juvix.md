@@ -190,32 +190,27 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
   case GuardOutput.label out of {
     | DoCommit data := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ :=
-            case Set.member? whoAsked (EngineEnvironment.acquaintances env) of {
-              | true := let
-                  signedData := 
-                    Signer.sign (CommitmentLocalState.signer localState) 
-                      (CommitmentLocalState.backend localState)
-                      data;
-                  responseMsg := CommitResponse@{
-                        commitment := signedData
-                      };
-                  in mkActionEffect@{
-                    newEnv := env; -- No state change
-                    producedMessages := [mkEnvelopedMessage@{
-                      sender := just (EngineEnvironment.name env);
-                      packet := mkMessagePacket@{
-                        target := whoAsked;
-                        mailbox := just 0;
-                        message := MsgCommitment responseMsg
-                      }
-                    }];
-                    timers := [];
-                    spawnedEngines := []
-                  }
-                -- If requester isn't an acquaintance, don't respond.
-              | false := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
-            }
+        | (ReplyTo (just whoAsked) _) :: _ := let
+            signedData := 
+              Signer.sign (CommitmentLocalState.signer localState) 
+                (CommitmentLocalState.backend localState)
+                data;
+            responseMsg := CommitResponse@{
+                  commitment := signedData
+                };
+          in mkActionEffect@{
+            newEnv := env; -- No state change
+            producedMessages := [mkEnvelopedMessage@{
+              sender := just (EngineEnvironment.name env);
+              packet := mkMessagePacket@{
+                target := whoAsked;
+                mailbox := just 0;
+                message := MsgCommitment responseMsg
+              }
+            }];
+            timers := [];
+            spawnedEngines := []
+          }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
   };
