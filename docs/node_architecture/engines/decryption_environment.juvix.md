@@ -58,9 +58,9 @@ The Decryption Engine does not require a timer handle type. Therefore, we define
 ## Environment summary
 
 ```juvix
-DecryptionEnvironment : Type := EngineEnvironment 
-  DecryptionLocalState 
-  DecryptionMailboxState 
+DecryptionEnvironment : Type := EngineEnvironment
+  DecryptionLocalState
+  DecryptionMailboxState
   DecryptionTimerHandle;
 ```
 

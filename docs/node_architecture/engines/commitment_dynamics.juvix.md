@@ -189,11 +189,11 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoCommit data := 
+    | DoCommit data :=
       case GuardOutput.args out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            signedData := 
-              Signer.sign (CommitmentLocalState.signer localState) 
+            signedData :=
+              Signer.sign (CommitmentLocalState.signer localState)
                 (CommitmentLocalState.backend localState)
                 data;
             responseMsg := CommitResponse@{

@@ -61,9 +61,9 @@ The Verification Engine does not require a timer handle type. Therefore, we defi
 ## Environment summary
 
 ```juvix
-VerificationEnvironment : Type := EngineEnvironment 
+VerificationEnvironment : Type := EngineEnvironment
   VerificationLocalState
-  VerificationMailboxState 
+  VerificationMailboxState
   VerificationTimerHandle;
 ```
 

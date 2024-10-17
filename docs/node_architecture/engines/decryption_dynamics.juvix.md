@@ -188,11 +188,11 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoDecrypt data := 
+    | DoDecrypt data :=
       case GuardOutput.args out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            decryptedData := 
-              Decryptor.decrypt (DecryptionLocalState.decryptor localState) 
+            decryptedData :=
+              Decryptor.decrypt (DecryptionLocalState.decryptor localState)
                 (DecryptionLocalState.backend localState)
                 data;
             responseMsg := case decryptedData of {

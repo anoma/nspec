@@ -21,7 +21,7 @@ Stuff that should be importable but don't exist, for some reason.
 -- Filters the elements of an AVLTree based on a predicate function.
 terminating
 AVLfilter {A} {{Ord A}} (pred : A -> Bool) (t : AVLTree A) : AVLTree A :=
-  let    
+  let
     merge : AVLTree A -> AVLTree A -> AVLTree A
       | t empty := t
       | empty t := t
@@ -53,11 +53,11 @@ snd {A B} : Pair A B -> B
   | (mkPair _ b) := b;
 ```
 
-```juvix 
+```juvix
 axiom stringCmp : String -> String -> Ordering;
 
 instance
-StringOrd : Ord String := 
+StringOrd : Ord String :=
   mkOrd@{
     cmp := stringCmp;
   };
@@ -104,7 +104,7 @@ type IdentityName :=
 axiom IdentityNameCmpDummy : IdentityName -> IdentityName -> Ordering;
 
 instance
-IdentityNameOrd : Ord IdentityName := 
+IdentityNameOrd : Ord IdentityName :=
   mkOrd@{
     cmp := IdentityNameCmpDummy;
   };
@@ -128,7 +128,7 @@ type ReadsForEvidence := mkReadsForEvidence {
 axiom ReadsForCmpDummy : ReadsForEvidence -> ReadsForEvidence -> Ordering;
 
 instance
-ReadsForOrd : Ord ReadsForEvidence := 
+ReadsForOrd : Ord ReadsForEvidence :=
   mkOrd@{
     cmp := ReadsForCmpDummy;
   };
@@ -146,7 +146,7 @@ type SignsForEvidence := mkSignsForEvidence {
 axiom SignsForCmpDummy : SignsForEvidence -> SignsForEvidence -> Ordering;
 
 instance
-SignsForOrd : Ord SignsForEvidence := 
+SignsForOrd : Ord SignsForEvidence :=
   mkOrd@{
     cmp := SignsForCmpDummy;
   };
@@ -164,7 +164,7 @@ type IdentityNameEvidence := mkIdentityNameEvidence {
 axiom IdentityNameEvidenceCmpDummy : IdentityNameEvidence -> IdentityNameEvidence -> Ordering;
 
 instance
-IdentityNameEvidenceOrd : Ord IdentityNameEvidence := 
+IdentityNameEvidenceOrd : Ord IdentityNameEvidence :=
   mkOrd@{
     cmp := IdentityNameEvidenceCmpDummy;
   };

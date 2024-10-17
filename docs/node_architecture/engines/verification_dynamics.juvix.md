@@ -270,11 +270,11 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoVerify data commitment externalIdentity' useSignsFor := 
+    | DoVerify data commitment externalIdentity' useSignsFor :=
         case GuardOutput.args out of {
           | (ReplyTo (some whoAsked) _) :: _ :=
               case useSignsFor of {
-                | false := 
+                | false :=
                     let envelope := verifyResponse externalIdentity' env Set.empty (mkPair whoAsked (mkPair data commitment))
                     in mkActionEffect@{
                       newEnv := env; -- No state change
@@ -282,7 +282,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
                       timers := [];
                       spawnedEngines := []
                     }
-                | true := 
+                | true :=
                     -- Need to request SignsForEvidence from SignsFor Engine
                     let existingRequests := Map.lookup externalIdentity' (VerificationLocalState.pendingRequests localState);
                         newPendingList := case existingRequests of {
@@ -319,10 +319,10 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
               }
           | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoHandleSignsForResponse externalIdentity evidence := 
+    | DoHandleSignsForResponse externalIdentity evidence :=
         -- Retrieve pending requests
         case Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState) of {
-          | some reqs := 
+          | some reqs :=
               let messages := map (verifyResponse externalIdentity env evidence) reqs;
                   newPendingRequests := Map.delete externalIdentity (VerificationLocalState.pendingRequests localState);
                   newLocalState := localState@VerificationLocalState{
@@ -337,7 +337,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
                 timers := [];
                 spawnedEngines := []
               }
-          | none := 
+          | none :=
               -- No pending requests, do none
               mkActionEffect@{
                 newEnv := env;

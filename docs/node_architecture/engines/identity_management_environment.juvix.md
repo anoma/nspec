@@ -52,8 +52,8 @@ type IdentityInfo := mkIdentityInfo {
 
 type IdentityManagementLocalState := mkIdentityManagementLocalState {
   identities : Map EngineID IdentityInfo;
-  genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext; 
-  genSigner : Backend -> Signer Backend Signable Commitment 
+  genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext;
+  genSigner : Backend -> Signer Backend Signable Commitment
 };
 ```
 
@@ -68,9 +68,9 @@ The Identity Management Engine does not require a timer handle type. Therefore, 
 ## Environment summary
 
 ```juvix
-IdentityManagementEnvironment : Type := EngineEnvironment 
-  IdentityManagementLocalState 
-  IdentityManagementMailboxState 
+IdentityManagementEnvironment : Type := EngineEnvironment
+  IdentityManagementLocalState
+  IdentityManagementMailboxState
   IdentityManagementTimerHandle;
 ```
 
@@ -86,7 +86,7 @@ identityManagementEnvironmentExample : IdentityManagementEnvironment :=
         identities := Map.empty;
         genDecryptor := \{_ := mkDecryptor@{
           decrypt := \{_ x := some x};
-        }}; 
+        }};
         genSigner := \{_ := mkSigner@{
           sign := \{_ x := Ed25519Signature};
         }};

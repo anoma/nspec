@@ -28,7 +28,7 @@ type PublicKey :=
   ;
 
 instance
-PublicKeyOrd : Ord PublicKey := 
+PublicKeyOrd : Ord PublicKey :=
   mkOrd@{
     cmp := \{_ _ := EQ};
   };
@@ -42,7 +42,7 @@ type PrivateKey :=
   ;
 
 instance
-PrivateKeyOrd : Ord PrivateKey := 
+PrivateKeyOrd : Ord PrivateKey :=
   mkOrd@{
     cmp := \{_ _ := EQ};
   };

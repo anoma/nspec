@@ -327,14 +327,14 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
           }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoSubmitEvidence evidence := 
+    | DoSubmitEvidence evidence :=
       case GuardOutput.args out of {
-        | (ReplyTo (some whoAsked) _) :: _ := 
+        | (ReplyTo (some whoAsked) _) :: _ :=
             let isValid := ReadsForLocalState.verifyEvidence localState evidence;
             in
             case isValid of {
               | true :=
-                  let alreadyExists := 
+                  let alreadyExists :=
                     elem \{a b := a && b} true (map \{e :=
                         isEQ (Ord.cmp e evidence)
                       } (toList (ReadsForLocalState.evidenceStore localState)));

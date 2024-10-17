@@ -265,11 +265,11 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoEncrypt data externalIdentity' useReadsFor := 
+    | DoEncrypt data externalIdentity' useReadsFor :=
         case GuardOutput.args out of {
           | (ReplyTo (some whoAsked) _) :: _ :=
               case useReadsFor of {
-                | false := 
+                | false :=
                     let envelope := encryptResponse externalIdentity' env Set.empty (mkPair whoAsked data)
                     in mkActionEffect@{
                       newEnv := env; -- No state change
@@ -277,7 +277,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
                       timers := [];
                       spawnedEngines := []
                     }
-                | true := 
+                | true :=
                     -- Need to request ReadsForEvidence from ReadsFor Engine
                     let existingRequests := Map.lookup externalIdentity' (EncryptionLocalState.pendingRequests localState);
                         newPendingList := case existingRequests of {
@@ -314,10 +314,10 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
               }
           | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoHandleReadsForResponse externalIdentity evidence := 
+    | DoHandleReadsForResponse externalIdentity evidence :=
         -- Retrieve pending requests
         case Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState) of {
-          | some reqs := 
+          | some reqs :=
               let messages := map (encryptResponse externalIdentity env evidence) reqs;
                   newPendingRequests := Map.delete externalIdentity (EncryptionLocalState.pendingRequests localState);
                   newLocalState := localState@EncryptionLocalState{
@@ -332,7 +332,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
                 timers := [];
                 spawnedEngines := []
               }
-          | none := 
+          | none :=
               -- No pending requests, do none
               mkActionEffect@{
                 newEnv := env;

@@ -302,7 +302,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.label out of {
-    | DoResolveName identityName := 
+    | DoResolveName identityName :=
       case GuardOutput.args out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             matchingEvidence := AVLfilter \{evidence :=
@@ -328,14 +328,14 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
           }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoSubmitNameEvidence evidence' := 
+    | DoSubmitNameEvidence evidence' :=
       case GuardOutput.args out of {
-        | (ReplyTo (some whoAsked) _) :: _ := 
+        | (ReplyTo (some whoAsked) _) :: _ :=
             let evidence := evidence';
                 isValid := NamingLocalState.verifyEvidence localState evidence;
             in
             case isValid of {
-              | false := 
+              | false :=
                   let responseMsg := SubmitNameEvidenceResponse@{
                         err := some "Invalid evidence"
                       };
@@ -354,7 +354,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                   let alreadyExists := elem \{a b := a && b} true (map \{e :=
                         isEQ (Ord.cmp e evidence)
                       } (toList (NamingLocalState.evidenceStore localState)));
-                      newLocalState := case alreadyExists of { 
+                      newLocalState := case alreadyExists of {
                         | true := localState
                         | false :=
                             let newEvidenceStore := Set.insert evidence (NamingLocalState.evidenceStore localState);
@@ -366,8 +366,8 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                         localState := newLocalState
                       };
                       responseMsg := SubmitNameEvidenceResponse@{
-                        err := case alreadyExists of { 
-                          | true := some "Evidence already exists" 
+                        err := case alreadyExists of {
+                          | true := some "Evidence already exists"
                           | false := none
                       }};
                   in mkActionEffect@{
@@ -383,13 +383,13 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                   }
             }
         | _ := mkActionEffect@{
-            newEnv := env; 
-            producedMessages := []; 
-            timers := []; 
+            newEnv := env;
+            producedMessages := [];
+            timers := [];
             spawnedEngines := []
           }
       }
-    | DoQueryNameEvidence externalIdentity' := 
+    | DoQueryNameEvidence externalIdentity' :=
       case GuardOutput.args out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             relevantEvidence := AVLfilter \{evidence :=

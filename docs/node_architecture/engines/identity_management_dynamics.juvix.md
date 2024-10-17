@@ -363,7 +363,7 @@ hasDecryptCapability (capabilities : Capabilities) : Bool :=
   };
 
 isSubsetCapabilities (requested : Capabilities) (available : Capabilities) : Bool :=
-  (not (hasCommitCapability requested) || hasCommitCapability available) 
+  (not (hasCommitCapability requested) || hasCommitCapability available)
   && (not (hasDecryptCapability requested) || hasDecryptCapability available);
 
 updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : Backend) (whoAsked : EngineID) (identityInfo : IdentityInfo) (capabilities' : Capabilities) : Pair IdentityInfo (List Env) :=
@@ -421,11 +421,11 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
       identities := IdentityManagementLocalState.identities local;
   in
   case GuardOutput.label out of {
-    | DoGenerateIdentity backend' params' capabilities' := 
+    | DoGenerateIdentity backend' params' capabilities' :=
       case GuardOutput.args out of {
-        | (MessageFrom (some whoAsked) _) :: _ := 
+        | (MessageFrom (some whoAsked) _) :: _ :=
             case Map.lookup whoAsked identities of {
-              | some _ := 
+              | some _ :=
                   -- Identity already exists, return error
                   let responseMsg := GenerateIdentityResponse@{
                     commitmentEngine := none;
@@ -444,7 +444,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
                     timers := [];
                     spawnedEngines := []
                   }
-              | none := 
+              | none :=
                   -- Proceed to create identity
                   let identityInfo := mkIdentityInfo@{
                         backend := backend';
@@ -586,7 +586,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
 
-    | DoDeleteIdentity externalIdentity backend' := 
+    | DoDeleteIdentity externalIdentity backend' :=
       case GuardOutput.args out of {
         | (MessageFrom (some whoAsked) _) :: _ :=
             -- Check if the identity exists

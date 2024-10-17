@@ -57,9 +57,9 @@ The Naming Engine does not require a timer handle type. Therefore, we define the
 ## Environment summary
 
 ```juvix
-NamingEnvironment : Type := EngineEnvironment 
-  NamingLocalState 
-  NamingMailboxState 
+NamingEnvironment : Type := EngineEnvironment
+  NamingLocalState
+  NamingMailboxState
   NamingTimerHandle;
 ```
 

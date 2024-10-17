@@ -57,9 +57,9 @@ The Reads For Engine does not require a timer handle type. Therefore, we define 
 ## Environment summary
 
 ```juvix
-ReadsForEnvironment : Type := EngineEnvironment 
-  ReadsForLocalState 
-  ReadsForMailboxState 
+ReadsForEnvironment : Type := EngineEnvironment
+  ReadsForLocalState
+  ReadsForMailboxState
   ReadsForTimerHandle;
 ```
 

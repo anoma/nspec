@@ -57,9 +57,9 @@ The Signs For Engine does not require a timer handle type. Therefore, we define 
 ## Environment summary
 
 ```juvix
-SignsForEnvironment : Type := EngineEnvironment 
-  SignsForLocalState 
-  SignsForMailboxState 
+SignsForEnvironment : Type := EngineEnvironment
+  SignsForLocalState
+  SignsForMailboxState
   SignsForTimerHandle;
 ```
 
