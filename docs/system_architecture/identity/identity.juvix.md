@@ -103,7 +103,7 @@ type Signer (SignerType Signable Commitment : Type) :=
 
 A signature describing a type `DecryptorType` that can cryptographically
  `decrypt` something (a `Ciphertext`), resulting in a `Plaintext`
- (or `nothing`, if decryption fails).
+ (or `none`, if decryption fails).
 Implementations should ultimately include, for example,
  [AES-256](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
  keys,  which should be able to decrypt bitstrings into anything that
@@ -129,7 +129,7 @@ Properties:
 ```juvix
 type Decryptor (DecryptorType Plaintext Ciphertext : Type) :=
   mkDecryptor {
-    decrypt : DecryptorType -> Ciphertext -> Maybe Plaintext
+    decrypt : DecryptorType -> Ciphertext -> Option Plaintext
   }
 ```
 
@@ -154,7 +154,7 @@ An internal_identity includes:
 
 - a type `DecryptorType` that can cryptographically `decrypt` something
   (a `Ciphertext`), resulting in a `Plaintext`
-  (or `nothing`, if decryption fails).
+  (or `none`, if decryption fails).
 
 Properties are inherited from `Signer` and `Decryptor`.
 
@@ -292,7 +292,7 @@ An Identity includes:
 
 - a type `SignerType` that can cryptographically `sign` (or credibly commit) to something (an `InternalSignable`), forming an `InternalCommitment`.
 
-- a type `DecryptorType` that can cryptographically `decrypt` something (an `InternalCiphertext`), resulting in an `InternalPlaintext` (or `nothing`, if decryption fails).
+- a type `DecryptorType` that can cryptographically `decrypt` something (an `InternalCiphertext`), resulting in an `InternalPlaintext` (or `none`, if decryption fails).
 
 - a type `VerifierType` that can cryptographically `verify` that an `ExternalCommitment` (or cryptographic signature) corresponds to a given message (an `ExternalSignable`), and was signed by the `SignerType` corresponding to this `VerifierType`.
 

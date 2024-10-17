@@ -101,8 +101,8 @@ A client interacts with the `Ticker` engine, which increments and responds with 
 
 ## Engine Components
 
-- [[ticker_environment|`Ticker` Engine Environment]]
-- [[ticker_dynamics|`Ticker` Engine Dynamics]]
+- [[Ticker Engine Environment|`Ticker` Engine Environment]]
+- [[Ticker Engine Dynamics|`Ticker` Engine Dynamics]]
 
 ## Useful links
 

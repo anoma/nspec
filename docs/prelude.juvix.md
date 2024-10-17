@@ -40,12 +40,6 @@ For example,
 ten : Nat := 10;
 ```
 
-Natural numbers are used (for now) to represent hash values, bytes sizes, and other non-negative integers.
-
-```juvix
-syntax alias Hash := Nat;
-```
-
 ## Bool
 
 The type `Bool` represents boolean values (`true` or `false`). Used for logical operations and conditions.
@@ -57,7 +51,10 @@ import Stdlib.Data.Bool as Bool
     true;
     false;
     ite;
-    &&
+    &&;
+    not;
+    or;
+    and
   } public;
 ```
 
@@ -128,21 +125,36 @@ For example,
 pair : Pair Nat Bool := mkPair 42 true;
 ```
 
-## Either A B
+## Result A B
 
-The type `Either A B` represents a value of type `A` or `B`.
+The `Result A B` type represents either a success with a value of `ok x` with `x` of type `A` or an error
+with value `error e` with `e` of type `B`.
 
 ```juvix
-type Either (A  B : Type) : Type :=
-  | Left A
-  | Right B;
+import Stdlib.Data.Result.Base as Result;
+open Result using { Result; ok; error } public;
+```
+
+
+## Either A B
+
+The type `Either A B`, or sum type of `A` and `B`, represents a value of type
+`A` or `B`. It is equivalent to `Result A B`, however, the meaning of the values
+is different. There is no such thing as an error or success value in the
+`Either` type, instead the values are either `left A` or `right B`. either `left
+A` or `right B`.
+
+```juvix
+syntax alias Either := Result;
+syntax alias left := error;
+syntax alias right := ok;
 ```
 
 For example,
 
 ```juvix
-error : Either String Nat := Left "Error!";
-answer : Either String Nat := Right 42;
+thisString : Either String Nat := left "Error!";
+thisNumber : Either String Nat := right 42;
 ```
 
 ## List A
@@ -166,22 +178,57 @@ numbers : List Nat := 1 :: 2 :: 3 :: nil;
 niceNumbers : List Nat := [1 ; 2 ; 3];
 ```
 
-## Maybe A
+## Option A
 
-The type `Maybe A` represents an optional value of type `A`. It can be either `Just A` (containing a value) or `Nothing` (no value).
+The type `Option A` represents an optional value of type `A`. It can be either
+`Some A` (containing a value) or `None` (no value). This type is an alias for
+`Maybe A` from the standard library.
 
 ```juvix
-import Stdlib.Data.Maybe as Maybe public;
+import Stdlib.Data.Maybe as Maybe;
 open Maybe using {
     Maybe;
     just;
     nothing
-  } public;
+  };
 ```
+
+```juvix
+syntax alias Option := Maybe;
+syntax alias some := just;
+syntax alias none := nothing;
+```
+
+- Check if an optional value is `none`:
+
+    ```juvix
+    isNone {A} (x : Option A) : Bool
+      := case x of {
+      | none := true
+      | some _ := false
+      }
+    ```
+
+- Check if an optional value is `some`:
+
+    ```juvix
+    isSome {A} (x : Option A) : Bool := not (isNone x);
+    ```
+
+- Extract the value from an `Option` term:
+
+    ```juvix
+    fromOption {A} (x : Option A) (default : A) : A := case x of {
+      | none := default
+      | some x := x
+    };
+    ```
+
 
 ## Map K V
 
-The type `Map K V` represents a collection of key-value pairs, sometimes called dictionary, where keys are of type `K` and values are of type `V`.
+The type `Map K V` represents a collection of key-value pairs, sometimes called
+a dictionary, where keys are of type `K` and values are of type `V`.
 
 ```juvix
 import Data.Map as Map public;
@@ -198,7 +245,8 @@ codeToken : Map Nat String := Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "AN
 
 ## Set A
 
-The type `Set A` represents a collection of unique elements of type `A`. Used for sets of values.
+The type `Set A` represents a collection of unique elements of type `A`. Used
+for sets of values.
 
 ```juvix
 import Data.Set as Set public;
@@ -247,16 +295,16 @@ type Applicative (f : Type -> Type) :=
   };
 ```
 
-For example, the `Maybe` type is an instance of `Applicative`.
+For example, the `Option` type is an instance of `Applicative`.
 
 ```juvix
 instance
-maybeApplicative : Applicative Maybe :=
+maybeApplicative : Applicative Option :=
   mkApplicative@{
-    pure := just;
-    ap {A B} : Maybe (A -> B) -> Maybe A -> Maybe B
-      | (just f) (just x) := just (f x)
-      | _ _ := nothing
+    pure := some;
+    ap {A B} : Option (A -> B) -> Option A -> Option B
+      | (some f) (some x) := some (f x)
+      | _ _ := none
   };
 ```
 
@@ -282,15 +330,15 @@ syntax operator >>= seq;
 monadMap {A B} {f : Type -> Type} {{Monad f}} (g : A -> B) (x : f A) : f B := map g x;
 ```
 
-For example, the `Maybe` type is an instance of `Monad`.
+For example, the `Option` type is an instance of `Monad`.
 
 ```juvix
 instance
-maybeMonad : Monad Maybe :=
+maybeMonad : Monad Option :=
   mkMonad@{
-    bind {A B} : Maybe A -> (A -> Maybe B) -> Maybe B
-      | nothing _ := nothing
-      | (just a) f := f a
+    bind {A B} : Option A -> (A -> Option B) -> Option B
+      | none _ := none
+      | (some a) f := f a
   };
 ```
 
