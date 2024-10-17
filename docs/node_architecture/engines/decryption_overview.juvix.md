@@ -34,12 +34,12 @@ The Decryption Engine maintains decryption capabilities for a specific identity 
 type DecryptionMsg :=
   | -- --8<-- [start:DecryptRequest]
     DecryptRequest {
-      data : ByteString
+      data : Ciphertext
     }
     -- --8<-- [end:DecryptRequest]
   | -- --8<-- [start:DecryptResponse]
     DecryptResponse {
-      data : ByteString;
+      data : Plaintext;
       err : Option String
     }
     -- --8<-- [end:DecryptResponse]
@@ -81,12 +81,16 @@ A `DecryptResponse` contains the data decrypted by a decryption engine instance 
 
 ```mermaid
 sequenceDiagram
-    participant Client
-    participant DecryptionEngine
+    participant C as Client
+    participant DE as Decryption Engine
 
-    Client ->> DecryptionEngine: DecryptRequest
-    DecryptionEngine ->> DecryptionEngine: Decrypt Data Using the `decrypt` method of internal `Decryptor`
-    DecryptionEngine -->> Client: DecryptResponse
+    C->>DE: DecryptRequest(encryptedData)
+    Note over DE: Attempt to decrypt data
+    alt Decryption Successful
+        DE-->>C: DecryptResponse(decryptedData, err=none)
+    else Decryption Failed
+        DE-->>C: DecryptResponse(emptyByteString, err="Decryption Failed")
+    end
 ```
 
 <figcaption markdown="span">

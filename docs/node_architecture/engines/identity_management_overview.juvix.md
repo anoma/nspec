@@ -161,44 +161,75 @@ A `DeleteIdentityResponse` provides the response from an attempt to delete an id
 
 ## Message sequence diagrams
 
-### Identity Generation Sequence
+### Generating an Identity
 
-<!-- --8<-- [start:message-sequence-diagram] -->
+<!-- --8<-- [start:message-sequence-diagram-generate] -->
 <figure markdown="span">
 
 ```mermaid
 sequenceDiagram
     participant Client
-    participant IDManagementEngine
-    participant Backend
+    participant IdentityManagementEngine
     participant CommitmentEngine
     participant DecryptionEngine
 
-    Client->>IDManagementEngine: GenerateIdentityRequest
-    IDManagementEngine->>Backend: Generate Identity
-    Backend-->>IDManagementEngine: Identity Created
-    IDManagementEngine->>CommitmentEngine: Instantiate
-    IDManagementEngine->>DecryptionEngine: Instantiate
-    IDManagementEngine-->>Client: GenerateIdentityResponse
-
-    Client->>IDManagementEngine: ConnectIdentityRequest
-    IDManagementEngine->>Backend: Connect to Existing Identity
-    Backend-->>IDManagementEngine: Identity Connected
-    IDManagementEngine->>CommitmentEngine: Instantiate
-    IDManagementEngine->>DecryptionEngine: Instantiate
-    IDManagementEngine-->>Client: ConnectIdentityResponse
-
-    Client->>IDManagementEngine: DeleteIdentityRequest
-    IDManagementEngine->>Backend: Delete Identity
-    Backend-->>IDManagementEngine: Identity Deleted
-    IDManagementEngine-->>Client: DeleteIdentityResponse
+    Client->>IdentityManagementEngine: GenerateIdentityRequest
+    Note over IdentityManagementEngine: Create new identity
+    IdentityManagementEngine->>CommitmentEngine: Spawn (if requested)
+    IdentityManagementEngine->>DecryptionEngine: Spawn (if requested)
+    IdentityManagementEngine->>Client: GenerateIdentityResponse
 ```
 
 <figcaption markdown="span">
-Sequence diagram for identity generation.
+Generating an identity
 </figcaption>
 </figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
+<!-- --8<-- [end:message-sequence-diagram-generate] -->
+
+### Connecting to an Existing Identity
+
+<!-- --8<-- [start:message-sequence-diagram-connect] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant IdentityManagementEngine
+
+    Client->>IdentityManagementEngine: ConnectIdentityRequest
+    Note over IdentityManagementEngine: Check external identity
+    Note over IdentityManagementEngine: Verify capabilities
+    Note over IdentityManagementEngine: Copy engine references
+    IdentityManagementEngine->>Client: ConnectIdentityResponse
+```
+
+<figcaption markdown="span">
+Connecting to an existing identity
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-connect] -->
+
+### Deleting an Identity
+
+<!-- --8<-- [start:message-sequence-diagram-delete] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant IdentityManagementEngine
+
+    Client->>IdentityManagementEngine: DeleteIdentityRequest
+    Note over IdentityManagementEngine: Check if identity exists
+    Note over IdentityManagementEngine: Delete identity if exists
+    IdentityManagementEngine->>Client: DeleteIdentityResponse
+```
+
+<figcaption markdown="span">
+Deleting an identity
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-delete] -->
 
 ## Engine Components
 

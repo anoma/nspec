@@ -78,9 +78,30 @@ An `EncryptResponse` contains the data encrypted by the Encryption Engine in res
 
 ## Message sequence diagrams
 
-### Encryption Sequence
+### Encryption Sequence (Without ReadsFor evidence)
 
-<!-- --8<-- [start:message-sequence-diagram] -->
+<!-- --8<-- [start:message-sequence-diagram-no-reads-for] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant EncryptionEngine
+
+    Client->>EncryptionEngine: EncryptRequest (useReadsFor: false)
+    Note over EncryptionEngine: Encrypt commitment
+    EncryptionEngine->>Client: EncryptResponse
+```
+
+<figcaption markdown="span">
+Sequence diagram for verification (no reads for).
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-no-reads-for] -->
+
+### Encryption Sequence (With ReadsFor evidence)
+
+<!-- --8<-- [start:message-sequence-diagram-reads-for] -->
 <figure markdown="span">
 
 ```mermaid
@@ -89,20 +110,19 @@ sequenceDiagram
     participant EncryptionEngine
     participant ReadsForEngine
 
-    Client ->> EncryptionEngine: EncryptRequest
-    alt useReadsFor is true
-        EncryptionEngine ->> ReadsForEngine: ReadsForRequest
-        ReadsForEngine -->> EncryptionEngine: ReadsForResponse
-    end
-    EncryptionEngine ->> EncryptionEngine: Encrypt Data
-    EncryptionEngine -->> Client: EncryptResponse
+    Client->>EncryptionEngine: EncryptRequest (useReadsFor: true)
+    EncryptionEngine->>ReadsForEngine: QueryReadsForEvidenceRequest
+    Note over ReadsForEngine: Retrieve evidence
+    ReadsForEngine->>EncryptionEngine: QueryReadsForEvidenceResponse
+    Note over EncryptionEngine: Encrypt commitment using ReadsFor evidence
+    EncryptionEngine->>Client: EncryptResponse
 ```
 
 <figcaption markdown="span">
-Sequence diagram for encryption, including optional ReadsFor interaction.
+Sequence diagram for verification (reads for).
 </figcaption>
 </figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
+<!-- --8<-- [end:message-sequence-diagram-reads-for] -->
 
 ## Engine Components
 

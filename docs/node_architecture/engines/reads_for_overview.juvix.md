@@ -148,28 +148,7 @@ A `QueryReadsForEvidenceResponse` provides the requested evidence.
 
 ## Message sequence diagrams
 
-### Reads For Query Sequence
-
-<!-- --8<-- [start:message-sequence-diagram-query] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant ReadsForEngine
-
-    Client ->> ReadsForEngine: ReadsForRequest
-    ReadsForEngine ->> ReadsForEngine: Check Evidence
-    ReadsForEngine -->> Client: ReadsForResponse
-```
-
-<figcaption markdown="span">
-Sequence diagram for `reads_for` query.
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-query] -->
-
-### Submit Reads For Evidence Sequence
+### Submitting Reads For Evidence
 
 <!-- --8<-- [start:message-sequence-diagram-submit] -->
 <figure markdown="span">
@@ -179,16 +158,58 @@ sequenceDiagram
     participant Client
     participant ReadsForEngine
 
-    Client ->> ReadsForEngine: SubmitReadsForEvidenceRequest
-    ReadsForEngine ->> ReadsForEngine: Store Evidence
-    ReadsForEngine -->> Client: SubmitReadsForEvidenceResponse
+    Client->>ReadsForEngine: SubmitReadsForEvidenceRequest
+    Note over ReadsForEngine: Verify and store evidence
+    ReadsForEngine->>Client: SubmitReadsForEvidenceResponse
 ```
 
 <figcaption markdown="span">
-Sequence diagram for submitting `reads_for` evidence.
+Submitting `reads_for` evidence
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
+
+### Querying Reads For Relationship
+
+<!-- --8<-- [start:message-sequence-diagram-query-relationship] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ReadsForEngine
+
+    Client->>ReadsForEngine: ReadsForRequest (A reads for B?)
+    Note over ReadsForEngine: Check stored evidence
+    ReadsForEngine->>Client: ReadsForResponse
+```
+
+<figcaption markdown="span">
+Querying a `reads_for` relationship
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-query-relationship] -->
+
+### Querying Reads For Evidence
+
+<!-- --8<-- [start:message-sequence-diagram-query-evidence] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ReadsForEngine
+
+    Client->>ReadsForEngine: QueryReadsForEvidenceRequest (for X)
+    Note over ReadsForEngine: Retrieve relevant evidence
+    ReadsForEngine->>Client: QueryReadsForEvidenceResponse
+```
+
+<figcaption markdown="span">
+Querying `reads_for` evidence for an identity
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
 
 ## Engine Components
 

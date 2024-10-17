@@ -101,7 +101,7 @@ This action label corresponds to connecting to an existing identity.
 
     | Aspect | Description |
     |--------|-------------|
-    | State update          | If successful, a new entry is added to the `identities` map in the local state, linking the requesting address to the external identity's information, filtered by the requested capabilities. |
+    | State update          | If successful, a new entry is added to the `identities` map in the local state, copying the the external identity's information to the requesting identity, filtered by the requested capabilities. |
     | Messages to be sent   | A `ConnectIdentityResponse` message is sent to the requester, confirming the connection and providing references to relevant engines, or an error message if the connection fails (e.g., identity already exists, external identity not found, or requested capabilities not available). |
     | Engines to be spawned | No new engines are spawned. The action reuses existing engine references from the external identity. |
     | Timer updates         | No timers are set or cancelled. |
@@ -586,11 +586,11 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
 
-    | DoDeleteIdentity externalIdentity' backend' := 
+    | DoDeleteIdentity externalIdentity backend' := 
       case GuardOutput.args out of {
         | (MessageFrom (some whoAsked) _) :: _ :=
             -- Check if the identity exists
-            case Map.lookup whoAsked identities of {
+            case Map.lookup externalIdentity identities of {
               | none :=
                   -- Identity does not exist, return error
                   let responseMsg := DeleteIdentityResponse@{
@@ -609,7 +609,7 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
                   }
               | some _ :=
                   -- Identity exists, proceed to delete
-                  let updatedIdentities := Map.delete whoAsked identities;
+                  let updatedIdentities := Map.delete externalIdentity identities;
                       newLocalState := local@IdentityManagementLocalState{
                         identities := updatedIdentities
                       };

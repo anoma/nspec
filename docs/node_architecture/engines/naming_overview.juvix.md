@@ -146,9 +146,9 @@ A `QueryNameEvidenceResponse` provides the requested evidence.
 
 ## Message sequence diagrams
 
-### EngineName Resolution Sequence
+### Resolving a Name
 
-<!-- --8<-- [start:message-sequence-diagram] -->
+<!-- --8<-- [start:message-sequence-diagram-name-resolution] -->
 <figure markdown="span">
 
 ```mermaid
@@ -156,16 +156,58 @@ sequenceDiagram
     participant Client
     participant NamingEngine
 
-    Client ->> NamingEngine: ResolveNameRequest
-    NamingEngine ->> NamingEngine: Resolve EngineName
-    NamingEngine -->> Client: ResolveNameResponse
+    Client->>NamingEngine: ResolveNameRequest (name)
+    Note over NamingEngine: Check stored evidence
+    NamingEngine->>Client: ResolveNameResponse
 ```
 
 <figcaption markdown="span">
-Sequence diagram for name resolution.
+Resolving a name
 </figcaption>
 </figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
+<!-- --8<-- [end:message-sequence-diagram-name-resolution] -->
+
+### Submitting Name Evidence
+
+<!-- --8<-- [start:message-sequence-diagram-submit] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant NamingEngine
+
+    Client->>NamingEngine: SubmitNameEvidenceRequest
+    Note over NamingEngine: Verify and store evidence
+    NamingEngine->>Client: SubmitNameEvidenceResponse
+```
+
+<figcaption markdown="span">
+Submitting name evidence
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-submit] -->
+
+### Querying Name Evidence
+
+<!-- --8<-- [start:message-sequence-diagram-query] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant NamingEngine
+
+    Client->>NamingEngine: QueryNameEvidenceRequest (for ExternalIdentity)
+    Note over NamingEngine: Retrieve relevant evidence
+    NamingEngine->>Client: QueryNameEvidenceResponse
+```
+
+<figcaption markdown="span">
+Querying name evidence for an identity.
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-query] -->
 
 ## Engine Components
 

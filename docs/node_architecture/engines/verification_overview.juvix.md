@@ -80,31 +80,51 @@ A `VerifyResponse` contains the result of verifying a commitment in response to 
 
 ## Message sequence diagrams
 
-### Verification Sequence
+### Verification Sequence (Without SignsFor evidence)
 
-<!-- --8<-- [start:message-sequence-diagram] -->
+<!-- --8<-- [start:message-sequence-diagram-no-signs-for] -->
 <figure markdown="span">
 
 ```mermaid
 sequenceDiagram
-    participant Client
-    participant VerificationEngine
-    participant SignsForEngine
+    participant C as Client
+    participant EE as Encryption Engine
 
-    Client ->> VerificationEngine: VerifyRequest
-    alt useSignsFor is true
-        VerificationEngine ->> SignsForEngine: SignsForRequest
-        SignsForEngine -->> VerificationEngine: SignsForResponse
-    end
-    VerificationEngine ->> VerificationEngine: Verify Commitment
-    VerificationEngine -->> Client: VerifyResponse
+    C->>EE: EncryptRequest(useReadsFor=false)
+    Note over EE: Encrypt data directly for external identity
+    EE-->>C: EncryptResponse
 ```
 
 <figcaption markdown="span">
-Sequence diagram for verification.
+Sequence diagram for encryption (no signs for).
 </figcaption>
 </figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
+<!-- --8<-- [end:message-sequence-diagram-no-signs-for] -->
+
+### Verification Sequence (With SignsFor evidence)
+
+<!-- --8<-- [start:message-sequence-diagram-signs-for] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant EE as Encryption Engine
+    participant RF as ReadsFor Engine
+
+    C->>EE: EncryptRequest(useReadsFor=true)
+    EE->>RF: QueryReadsForEvidenceRequest
+    Note over RF: Retrieve reads_for evidence
+    RF-->>EE: QueryReadsForEvidenceResponse
+    Note over EE: Encrypt data using ReadsFor evidence
+    EE-->>C: EncryptResponse
+```
+
+<figcaption markdown="span">
+Sequence diagram for encryption (signs for).
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-signs-for] -->
 
 ## Engine Components
 

@@ -148,28 +148,7 @@ A `QuerySignsForEvidenceResponse` provides the requested evidence.
 
 ## Message sequence diagrams
 
-### Signs For Query Sequence
-
-<!-- --8<-- [start:message-sequence-diagram-query] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant SignsForEngine
-
-    Client ->> SignsForEngine: SignsForRequest
-    SignsForEngine ->> SignsForEngine: Check Evidence
-    SignsForEngine -->> Client: SignsForResponse
-```
-
-<figcaption markdown="span">
-Sequence diagram for `signs_for` query.
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-query] -->
-
-### Submit Signs For Evidence Sequence
+### Submitting Signs For Evidence
 
 <!-- --8<-- [start:message-sequence-diagram-submit] -->
 <figure markdown="span">
@@ -179,16 +158,58 @@ sequenceDiagram
     participant Client
     participant SignsForEngine
 
-    Client ->> SignsForEngine: SubmitSignsForEvidenceRequest
-    SignsForEngine ->> SignsForEngine: Store Evidence
-    SignsForEngine -->> Client: SubmitSignsForEvidenceResponse
+    Client->>SignsForEngine: SubmitSignsForEvidenceRequest
+    Note over SignsForEngine: Process and store evidence
+    SignsForEngine->>Client: SubmitSignsForEvidenceResponse
 ```
 
 <figcaption markdown="span">
-Sequence diagram for submitting `signs_for` evidence.
+Submitting evidence of a signs_for relationship
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
+
+### Querying Signs For Relationship
+
+<!-- --8<-- [start:message-sequence-diagram-query-relation] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant SignsForEngine
+
+    Client->>SignsForEngine: SignsForRequest (X signs for Y?)
+    Note over SignsForEngine: Check stored evidence
+    SignsForEngine->>Client: SignsForResponse
+```
+
+<figcaption markdown="span">
+Querying whether a specific signs_for relationship exists
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-query-relation] -->
+
+### Retrieving Signs For Evidence
+
+<!-- --8<-- [start:message-sequence-diagram-query-evidence] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant SignsForEngine
+
+    Client->>SignsForEngine: QuerySignsForEvidenceRequest (for X)
+    Note over SignsForEngine: Retrieve relevant evidence
+    SignsForEngine->>Client: QuerySignsForEvidenceResponse
+```
+
+<figcaption markdown="span">
+Retrieving all signs_for evidence related to a particular identity
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
 
 ## Engine Components
 

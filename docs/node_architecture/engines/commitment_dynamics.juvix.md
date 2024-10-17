@@ -197,7 +197,8 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
                 (CommitmentLocalState.backend localState)
                 data;
             responseMsg := CommitResponse@{
-                  commitment := signedData
+                  commitment := signedData;
+                  err := none
                 };
           in mkActionEffect@{
             newEnv := env; -- No state change
