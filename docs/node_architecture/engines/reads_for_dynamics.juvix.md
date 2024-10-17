@@ -16,13 +16,14 @@ tags:
     module node_architecture.engines.reads_for_dynamics;
 
     import prelude open;
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
     import Data.Set.AVL open;
     import Stdlib.Data.List.Base open;
     import Stdlib.Trait.Ord open;
     import Stdlib.Data.Bool.Base open;
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     import node_architecture.engines.reads_for_overview open;
     import node_architecture.engines.reads_for_environment open;
@@ -124,7 +125,7 @@ This action label corresponds to querying reads_for evidence for a specific iden
 ```juvix
 type ReadsForMatchableArgument :=
   | -- --8<-- [start:ReplyTo]
-  ReplyTo (Maybe Address) (Maybe MailboxID)
+  ReplyTo (Option EngineID) (Option MailboxID)
   -- --8<-- [end:ReplyTo]
 ;
 ```
@@ -191,16 +192,16 @@ flowchart TD
 ```juvix
 readsForQueryGuard
   (t : TimestampedTrigger ReadsForTimerHandle)
-  (env : ReadsForEnvironment) : Maybe ReadsForGuardOutput
+  (env : ReadsForEnvironment) : Option ReadsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgReadsFor (ReadsForRequest x y)) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
+      | some (MsgReadsFor (ReadsForRequest x y)) := do {
+        sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          args := [ReplyTo (just sender) nothing] ;
+          args := [ReplyTo (some sender) none] ;
           label := DoReadsForQuery x y;
           other := unit
         });}
-      | _ := nothing
+      | _ := none
   };
 ```
 <!-- --8<-- [end:reads-for-query-guard] -->
@@ -222,16 +223,16 @@ flowchart TD
 ```juvix
 submitEvidenceGuard
   (t : TimestampedTrigger ReadsForTimerHandle)
-  (env : ReadsForEnvironment) : Maybe ReadsForGuardOutput
+  (env : ReadsForEnvironment) : Option ReadsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgReadsFor (SubmitReadsForEvidenceRequest x)) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
+      | some (MsgReadsFor (SubmitReadsForEvidenceRequest x)) := do {
+        sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing] ;
+                  args := [ReplyTo (some sender) none] ;
           label := DoSubmitEvidence x;
           other := unit
         });}
-      | _ := nothing
+      | _ := none
   };
 ```
 <!-- --8<-- [end:submit-evidence-guard] -->
@@ -253,17 +254,17 @@ flowchart TD
 ```juvix
 queryEvidenceGuard
   (t : TimestampedTrigger ReadsForTimerHandle)
-  (env : ReadsForEnvironment) : Maybe ReadsForGuardOutput
+  (env : ReadsForEnvironment) : Option ReadsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgReadsFor (QueryReadsForEvidenceRequest x)) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
+      | some (MsgReadsFor (QueryReadsForEvidenceRequest x)) := do {
+        sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing] ;
+                  args := [ReplyTo (some sender) none] ;
                   label := DoQueryEvidence x;
                   other := unit
                 });
         }
-      | _ := nothing
+      | _ := none
   };
 ```
 <!-- --8<-- [end:query-evidence-guard] -->
@@ -304,24 +305,22 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
   case GuardOutput.label out of {
     | DoReadsForQuery externalIdentityA externalIdentityB :=
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
+        | (ReplyTo (some whoAsked) _) :: _ := let
             hasEvidence := elem \{a b := a && b} true (map \{ evidence :=
               isEQ (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentityA) &&
               isEQ (Ord.cmp (ReadsForEvidence.toIdentity evidence) externalIdentityB)
             } (toList (ReadsForLocalState.evidenceStore localState)));
             responseMsg := ReadsForResponse@{
               readsFor := hasEvidence;
-              error := nothing
+              err := none
             };
           in mkActionEffect@{
             newEnv := env; -- No state change
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgReadsFor responseMsg
-              }
+            producedMessages := [mkEngineMessage@{
+              sender := mkPair none (some (EngineEnvironment.name env));
+              target := whoAsked;
+              mailbox := some 0;
+              msg := MsgReadsFor responseMsg
             }];
             timers := [];
             spawnedEngines := []
@@ -330,7 +329,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
       }
     | DoSubmitEvidence evidence := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := 
+        | (ReplyTo (some whoAsked) _) :: _ := 
             let isValid := ReadsForLocalState.verifyEvidence localState evidence;
             in
             case isValid of {
@@ -343,17 +342,15 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
                   case alreadyExists of {
                     | true :=
                         let responseMsg := SubmitReadsForEvidenceResponse@{
-                              error := just "Evidence already exists."
+                              err := some "Evidence already exists."
                             };
                         in mkActionEffect@{
                           newEnv := env;
-                          producedMessages := [mkEnvelopedMessage@{
-                            sender := just (EngineEnvironment.name env);
-                            packet := mkMessagePacket@{
-                              target := whoAsked;
-                              mailbox := just 0;
-                              message := MsgReadsFor responseMsg
-                            }
+                          producedMessages := [mkEngineMessage@{
+                            sender := mkPair none (some (EngineEnvironment.name env));
+                            target := whoAsked;
+                            mailbox := some 0;
+                            msg := MsgReadsFor responseMsg
                           }];
                           timers := [];
                           spawnedEngines := []
@@ -367,17 +364,15 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
                               localState := updatedLocalState
                             };
                             responseMsg := SubmitReadsForEvidenceResponse@{
-                              error := nothing
+                              err := none
                             };
                         in mkActionEffect@{
                           newEnv := newEnv';
-                          producedMessages := [mkEnvelopedMessage@{
-                            sender := just (EngineEnvironment.name env);
-                            packet := mkMessagePacket@{
-                              target := whoAsked;
-                              mailbox := just 0;
-                              message := MsgReadsFor responseMsg
-                            }
+                          producedMessages := [mkEngineMessage@{
+                            sender := mkPair none (some (EngineEnvironment.name env));
+                            target := whoAsked;
+                            mailbox := some 0;
+                            msg := MsgReadsFor responseMsg
                           }];
                           timers := [];
                           spawnedEngines := []
@@ -385,17 +380,15 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
                   }
               | false :=
                   let responseMsg := SubmitReadsForEvidenceResponse@{
-                        error := just "Invalid evidence provided."
+                        err := some "Invalid evidence provided."
                       };
                   in mkActionEffect@{
                     newEnv := env;
-                    producedMessages := [mkEnvelopedMessage@{
-                      sender := just (EngineEnvironment.name env);
-                      packet := mkMessagePacket@{
-                        target := whoAsked;
-                        mailbox := just 0;
-                        message := MsgReadsFor responseMsg
-                      }
+                    producedMessages := [mkEngineMessage@{
+                      sender := mkPair none (some (EngineEnvironment.name env));
+                      target := whoAsked;
+                      mailbox := some 0;
+                      msg := MsgReadsFor responseMsg
                     }];
                     timers := [];
                     spawnedEngines := []
@@ -410,7 +403,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
       }
     | DoQueryEvidence externalIdentity' :=
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
+        | (ReplyTo (some whoAsked) _) :: _ := let
             relevantEvidence := AVLfilter \{evidence :=
               isEQ (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentity') ||
               isEQ (Ord.cmp (ReadsForEvidence.toIdentity evidence) externalIdentity')
@@ -418,17 +411,15 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
             responseMsg := QueryReadsForEvidenceResponse@{
               externalIdentity := externalIdentity';
               evidence := relevantEvidence;
-              error := nothing
+              err := none
             };
           in mkActionEffect@{
             newEnv := env; -- No state change
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgReadsFor responseMsg
-              }
+            producedMessages := [mkEngineMessage@{
+              sender := mkPair none (some (EngineEnvironment.name env));
+              target := whoAsked;
+              mailbox := some 0;
+              msg := MsgReadsFor responseMsg
             }];
             timers := [];
             spawnedEngines := []

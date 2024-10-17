@@ -15,7 +15,9 @@ tags:
     module node_architecture.engines.identity_management_environment;
 
     import prelude open;
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
+    import node_architecture.types.crypto open;
+    import node_architecture.types.identities open;
     import node_architecture.types.engine_environment open;
     import node_architecture.engines.identity_management_overview open;
     import node_architecture.identity_types open;
@@ -44,12 +46,12 @@ The local state of the Identity Management Engine includes information about the
 type IdentityInfo := mkIdentityInfo {
   backend : Backend;
   capabilities : Capabilities;
-  commitmentEngine : Maybe Address;
-  decryptionEngine : Maybe Address;
+  commitmentEngine : Option EngineID;
+  decryptionEngine : Option EngineID;
 };
 
 type IdentityManagementLocalState := mkIdentityManagementLocalState {
-  identities : Map Address IdentityInfo;
+  identities : Map EngineID IdentityInfo;
   genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext; 
   genSigner : Backend -> Signer Backend Signable Commitment 
 };
@@ -79,14 +81,14 @@ module identity_management_environment_example;
 
 identityManagementEnvironmentExample : IdentityManagementEnvironment :=
     mkEngineEnvironment@{
-      name := Left "identity_management";
+      name := "identity_management";
       localState := mkIdentityManagementLocalState@{
         identities := Map.empty;
         genDecryptor := \{_ := mkDecryptor@{
-          decrypt := \{_ x := just x};
+          decrypt := \{_ x := some x};
         }}; 
         genSigner := \{_ := mkSigner@{
-          sign := \{_ x := x};
+          sign := \{_ x := Ed25519Signature};
         }};
       };
       mailboxCluster := Map.empty;

@@ -16,8 +16,9 @@ tags:
 
     import prelude open;
     import system_architecture.identity.identity open hiding {ExternalIdentity};
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
     import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     import node_architecture.engines.verification_overview open;
     ```
@@ -44,8 +45,8 @@ The local state of a Verification Engine instance includes the identity's verifi
 type VerificationLocalState := mkVerificationLocalState {
   verifier : Set SignsForEvidence -> ExternalIdentity -> Verifier ByteString Backend Signable Commitment;
   backend : Backend;
-  signsForEngineAddress : Address;
-  pendingRequests : Map ExternalIdentity (List (Pair Address (Pair Signable Commitment)));
+  signsForEngineAddress : EngineID;
+  pendingRequests : Map ExternalIdentity (List (Pair EngineID (Pair Signable Commitment)));
 };
 ```
 
@@ -73,7 +74,7 @@ module verification_environment_example;
 
 verificationEnvironmentExample : VerificationEnvironment :=
     mkEngineEnvironment@{
-      name := Left "verification";
+      name := "verification";
       localState := mkVerificationLocalState@{
         verifier := \{_ _ := mkVerifier@{
           verify := \{_ _ _ := true};
@@ -85,7 +86,7 @@ verificationEnvironmentExample : VerificationEnvironment :=
           };
         }};
         backend := BackendLocalMemory;
-        signsForEngineAddress := Left "Blah";
+        signsForEngineAddress := mkPair none (some "Blah");
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;

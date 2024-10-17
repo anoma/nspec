@@ -15,7 +15,7 @@ tags:
     module node_architecture.engines.signs_for_environment;
 
     import prelude open;
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
     import node_architecture.types.engine_environment open;
     import node_architecture.identity_types open;
     import node_architecture.engines.signs_for_overview open;
@@ -70,7 +70,7 @@ module signs_for_environment_example;
 
 signsForEnvironmentExample : SignsForEnvironment :=
     mkEngineEnvironment@{
-      name := Left "signs_for";
+      name := "signs_for";
       localState := mkSignsForLocalState@{
         evidenceStore := Set.empty;
         verifyEvidence := \{ _ := true }

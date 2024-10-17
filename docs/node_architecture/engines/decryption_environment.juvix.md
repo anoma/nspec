@@ -13,10 +13,10 @@ tags:
 
     ```juvix
     module node_architecture.engines.decryption_environment;
-
     import prelude open;
     import system_architecture.identity.identity open using {Decryptor; mkDecryptor};
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
+    import node_architecture.types.identities open;
     import node_architecture.types.engine_environment open;
     import node_architecture.identity_types open;
     import node_architecture.engines.decryption_overview open;
@@ -71,10 +71,10 @@ module decryption_environment_example;
 
 decryptionEnvironmentExample : DecryptionEnvironment :=
     mkEngineEnvironment@{
-      name := Left "decryption";
+      name := "decryption";
       localState := mkDecryptionLocalState@{
         decryptor := mkDecryptor@{
-          decrypt := \{_ x := just x};
+          decrypt := \{_ x := some x};
         };
         backend := BackendLocalMemory;
       };

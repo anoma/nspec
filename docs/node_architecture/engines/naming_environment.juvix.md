@@ -16,6 +16,7 @@ tags:
 
     import prelude open;
     import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     import node_architecture.engines.naming_overview open;
     ```
@@ -69,7 +70,7 @@ module naming_environment_example;
 
 namingEnvironmentExample : NamingEnvironment :=
     mkEngineEnvironment@{
-      name := Left "naming";
+      name := "naming";
       localState := mkNamingLocalState@{
         evidenceStore := Set.empty;
         verifyEvidence := \{ _ := true }

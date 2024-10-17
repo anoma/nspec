@@ -14,6 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.signs_for_overview;
     import prelude open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     ```
 
@@ -41,7 +42,7 @@ type SignsForMsg :=
   | -- --8<-- [start:SignsForResponse]
     SignsForResponse {
       signsFor : Bool;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:SignsForResponse]
   | -- --8<-- [start:SubmitSignsForEvidenceRequest]
@@ -51,7 +52,7 @@ type SignsForMsg :=
     -- --8<-- [end:SubmitSignsForEvidenceRequest]
   | -- --8<-- [start:SubmitSignsForEvidenceResponse]
     SubmitSignsForEvidenceResponse {
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:SubmitSignsForEvidenceResponse]
   | -- --8<-- [start:QuerySignsForEvidenceRequest]
@@ -63,7 +64,7 @@ type SignsForMsg :=
     QuerySignsForEvidenceResponse {
       externalIdentity : ExternalIdentity;
       evidence : Set SignsForEvidence;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:QuerySignsForEvidenceResponse]
   ;
@@ -94,7 +95,7 @@ A `SignsForRequest` queries whether `externalIdentityA` can sign on behalf of `e
 A `SignsForResponse` indicates whether the `signs_for` relationship exists.
 
 - `signsFor`: True if externalIdentityA can sign for externalIdentityB, False otherwise.
-- `error`: An error message if the query failed.
+- `err`: An error message if the query failed.
 
 ### `SubmitSignsForEvidenceRequest` message
 
@@ -118,7 +119,7 @@ A `SubmitSignsForEvidenceRequest` submits evidence of a `signs_for` relationship
 
 A `SubmitSignsForEvidenceResponse` acknowledges the submission of evidence.
 
-- `error`: An error message if the submission failed.
+- `err`: An error message if the submission failed.
 
 ### `QuerySignsForEvidenceRequest` message
 
@@ -143,7 +144,7 @@ A `QuerySignsForEvidenceRequest` queries all `signs_for` evidence related to an 
 A `QuerySignsForEvidenceResponse` provides the requested evidence.
 
 - `evidence`: A set of SignsForEvidence related to the identity.
-- `error`: An error message if the query failed.
+- `err`: An error message if the query failed.
 
 ## Message sequence diagrams
 

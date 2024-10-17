@@ -14,6 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.reads_for_overview;
     import prelude open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     ```
 
@@ -41,7 +42,7 @@ type ReadsForMsg :=
   | -- --8<-- [start:ReadsForResponse]
     ReadsForResponse {
       readsFor : Bool;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:ReadsForResponse]
   | -- --8<-- [start:SubmitReadsForEvidenceRequest]
@@ -51,7 +52,7 @@ type ReadsForMsg :=
     -- --8<-- [end:SubmitReadsForEvidenceRequest]
   | -- --8<-- [start:SubmitReadsForEvidenceResponse]
     SubmitReadsForEvidenceResponse {
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:SubmitReadsForEvidenceResponse]
   | -- --8<-- [start:QueryReadsForEvidenceRequest]
@@ -63,7 +64,7 @@ type ReadsForMsg :=
     QueryReadsForEvidenceResponse {
       externalIdentity : ExternalIdentity;
       evidence : Set ReadsForEvidence;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:QueryReadsForEvidenceResponse]
   ;
@@ -94,7 +95,7 @@ A `ReadsForRequest` queries whether `externalIdentityA` can read data encrypted 
 A `ReadsForResponse` indicates whether the `reads_for` relationship exists.
 
 - `readsFor`: True if externalIdentityA can read for externalIdentityB, False otherwise.
-- `error`: An error message if the query failed.
+- `err`: An error message if the query failed.
 
 ### `SubmitReadsForEvidenceRequest` message
 
@@ -118,7 +119,7 @@ A `SubmitReadsForEvidenceRequest` submits evidence of a `reads_for` relationship
 
 A `SubmitReadsForEvidenceResponse` acknowledges the submission of evidence.
 
-- `error`: An error message if the submission failed.
+- `err`: An error message if the submission failed.
 
 ### `QueryReadsForEvidenceRequest` message
 
@@ -143,7 +144,7 @@ A `QueryReadsForEvidenceRequest` queries all `reads_for` evidence related to an 
 A `QueryReadsForEvidenceResponse` provides the requested evidence.
 
 - `evidence`: A set of ReadsForEvidence related to the identity.
-- `error`: An error message if the query failed.
+- `err`: An error message if the query failed.
 
 ## Message sequence diagrams
 

@@ -11,11 +11,11 @@ tags:
 
     ```juvix
     module node_architecture.engines.decryption;
-      import prelude open;
-      import node_architecture.engines.decryption_overview open public;
-      import node_architecture.engines.decryption_environment open public;
-      import node_architecture.engines.decryption_dynamics open public;
-      import node_architecture.types.engine_family as Anoma;
+    import prelude open;
+    import node_architecture.engines.decryption_overview open public;
+    import node_architecture.engines.decryption_environment open public;
+    import node_architecture.engines.decryption_dynamics open public;
+    import node_architecture.types.engine_family as Anoma;
     ```
 
 # `Decryption` engine family type

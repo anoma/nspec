@@ -14,14 +14,14 @@ tags:
 
     ```juvix
     module node_architecture.engines.decryption_dynamics;
-
     import prelude open;
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
     import system_architecture.identity.identity open;
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
     import node_architecture.engines.decryption_environment open;
     import node_architecture.engines.decryption_overview open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     import node_architecture.types.anoma_message open;
     ```
@@ -72,7 +72,7 @@ This action label corresponds to decrypting the data in the given request.
 ```juvix
 type DecryptionMatchableArgument :=
   | -- --8<-- [start:ReplyTo]
-  ReplyTo (Maybe Address) (Maybe MailboxID)
+  ReplyTo (Option EngineID) (Option MailboxID)
   -- --8<-- [end:ReplyTo]
 ;
 ```
@@ -139,17 +139,17 @@ flowchart TD
 ```juvix
 decryptGuard
   (t : TimestampedTrigger DecryptionTimerHandle)
-  (env : DecryptionEnvironment) : Maybe DecryptionGuardOutput
+  (env : DecryptionEnvironment) : Option DecryptionGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgDecryption (DecryptRequest data)) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
+      | some (MsgDecryption (DecryptRequest data)) := do {
+        sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing] ;
+                  args := [ReplyTo (some sender) none] ;
                   label := DoDecrypt data;
                   other := unit
                 });
         }
-      | _ := nothing
+      | _ := none
   };
 ```
 <!-- --8<-- [end:decrypt-guard] -->
@@ -190,30 +190,28 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
   case GuardOutput.label out of {
     | DoDecrypt data := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
+        | (ReplyTo (some whoAsked) _) :: _ := let
             decryptedData := 
               Decryptor.decrypt (DecryptionLocalState.decryptor localState) 
                 (DecryptionLocalState.backend localState)
                 data;
             responseMsg := case decryptedData of {
-              | nothing := DecryptResponse@{
+              | none := DecryptResponse@{
                   data := emptyByteString;
-                  error := just "Decryption Failed"
+                  err := some "Decryption Failed"
                 }
-              | just plaintext := DecryptResponse@{
+              | some plaintext := DecryptResponse@{
                   data := plaintext;
-                  error := nothing
+                  err := none
                 }
             };
           in mkActionEffect@{
             newEnv := env; -- No state change
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgDecryption responseMsg
-              }
+            producedMessages := [mkEngineMessage@{
+              sender := mkPair none (some (EngineEnvironment.name env));
+              target := whoAsked;
+              mailbox := some 0;
+              msg := MsgDecryption responseMsg
             }];
             timers := [];
             spawnedEngines := []

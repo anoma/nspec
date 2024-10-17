@@ -14,7 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.encryption_overview;
     import prelude open;
-    import node_architecture.identity_types open;
+    import node_architecture.types.identities open;
     ```
 
 # `Encryption` Engine Family Overview
@@ -42,7 +42,7 @@ type EncryptionMsg :=
   | -- --8<-- [start:EncryptResponse]
     EncryptResponse {
       ciphertext : Ciphertext;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:EncryptResponse]
   ;
@@ -74,7 +74,7 @@ An `EncryptRequest` instructs the Encryption Engine to encrypt data to a particu
 An `EncryptResponse` contains the data encrypted by the Encryption Engine in response to an EncryptRequest.
 
 - `ciphertext`: The encrypted data.
-- `error`: An error message if encryption failed.
+- `err`: An error message if encryption failed.
 
 ## Message sequence diagrams
 

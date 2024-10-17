@@ -15,7 +15,9 @@ tags:
     module node_architecture.engines.commitment_environment;
 
     import prelude open;
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
+    import node_architecture.types.crypto open;
+    import node_architecture.types.identities open;
     import system_architecture.identity.identity open using {Signer; mkSigner};
     import node_architecture.types.engine_environment open;
     import node_architecture.identity_types open;
@@ -75,10 +77,10 @@ axiom dummySigningKey : SigningKey;
 
 commitmentEnvironmentExample : CommitmentEnvironment :=
     mkEngineEnvironment@{
-      name := Left "commitment";
+      name := "commitment";
       localState := mkCommitmentLocalState@{
         signer := mkSigner@{
-          sign := \{_ x := x};
+          sign := \{_ x := Ed25519Signature};
         };
         backend := BackendLocalMemory;
       };

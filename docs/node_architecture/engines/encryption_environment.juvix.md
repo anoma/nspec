@@ -16,7 +16,8 @@ tags:
 
     import prelude open;
     import system_architecture.identity.identity open hiding {ExternalIdentity};
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
+    import node_architecture.types.identities open;
     import node_architecture.types.engine_environment open;
     import node_architecture.identity_types open;
     import node_architecture.engines.encryption_overview open;
@@ -44,8 +45,8 @@ The local state of a Encryption Engine instance includes the identity's encrypti
 type EncryptionLocalState := mkEncryptionLocalState {
   encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
   backend : Backend;
-  readsForEngineAddress : Address;
-  pendingRequests : Map ExternalIdentity (List (Pair Address Plaintext));
+  readsForEngineAddress : EngineID;
+  pendingRequests : Map ExternalIdentity (List (Pair EngineID Plaintext));
 };
 ```
 
@@ -73,7 +74,7 @@ module encryption_environment_example;
 
 encryptionEnvironmentExample : EncryptionEnvironment :=
     mkEngineEnvironment@{
-      name := Left "encryption";
+      name := "encryption";
       localState := mkEncryptionLocalState@{
         encryptor := \{_ _ := mkEncryptor@{
           encrypt := \{_ x := x};
@@ -85,7 +86,7 @@ encryptionEnvironmentExample : EncryptionEnvironment :=
           };
         }};
         backend := BackendLocalMemory;
-        readsForEngineAddress := Left "Blah";
+        readsForEngineAddress := mkPair none (some "Blah");
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;

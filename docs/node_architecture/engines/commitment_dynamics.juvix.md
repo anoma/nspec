@@ -16,11 +16,12 @@ tags:
     module node_architecture.engines.commitment_dynamics;
 
     import prelude open;
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
+    import node_architecture.types.identities open;
+    import node_architecture.identity_types open;
     import system_architecture.identity.identity open;
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;
-    import node_architecture.identity_types open;
     import node_architecture.engines.commitment_overview open;
     import node_architecture.engines.commitment_environment open;
     import node_architecture.types.anoma_message open;
@@ -72,7 +73,7 @@ This action label corresponds to generating a commitment (signature) for the giv
 ```juvix
 type CommitmentMatchableArgument :=
   | -- --8<-- [start:ReplyTo]
-  ReplyTo (Maybe Address) (Maybe MailboxID)
+  ReplyTo (Option EngineID) (Option MailboxID)
   -- --8<-- [end:ReplyTo]
 ;
 ```
@@ -139,17 +140,17 @@ flowchart TD
 ```juvix
 commitGuard
   (t : TimestampedTrigger CommitmentTimerHandle)
-  (env : CommitmentEnvironment) : Maybe CommitmentGuardOutput
+  (env : CommitmentEnvironment) : Option CommitmentGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgCommitment (CommitRequest data)) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
+      | some (MsgCommitment (CommitRequest data)) := do {
+        sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (just sender) nothing] ;
+                  args := [ReplyTo (some sender) none] ;
                   label := DoCommit data;
                   other := unit
                 });
         }
-      | _ := nothing
+      | _ := none
   };
 ```
 <!-- --8<-- [end:commit-guard] -->
@@ -190,7 +191,7 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
   case GuardOutput.label out of {
     | DoCommit data := 
       case GuardOutput.args out of {
-        | (ReplyTo (just whoAsked) _) :: _ := let
+        | (ReplyTo (some whoAsked) _) :: _ := let
             signedData := 
               Signer.sign (CommitmentLocalState.signer localState) 
                 (CommitmentLocalState.backend localState)
@@ -200,13 +201,11 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
                 };
           in mkActionEffect@{
             newEnv := env; -- No state change
-            producedMessages := [mkEnvelopedMessage@{
-              sender := just (EngineEnvironment.name env);
-              packet := mkMessagePacket@{
-                target := whoAsked;
-                mailbox := just 0;
-                message := MsgCommitment responseMsg
-              }
+            producedMessages := [mkEngineMessage@{
+              sender := mkPair none (some (EngineEnvironment.name env));
+              target := whoAsked;
+              mailbox := some 0;
+              msg := MsgCommitment responseMsg
             }];
             timers := [];
             spawnedEngines := []

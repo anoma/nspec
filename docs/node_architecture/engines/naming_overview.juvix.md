@@ -14,6 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.naming_overview;
     import prelude open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     ```
 
@@ -40,7 +41,7 @@ type NamingMsg :=
   | -- --8<-- [start:ResolveNameResponse]
     ResolveNameResponse {
       externalIdentities : Set ExternalIdentity;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:ResolveNameResponse]
   | -- --8<-- [start:SubmitNameEvidenceRequest]
@@ -50,7 +51,7 @@ type NamingMsg :=
     -- --8<-- [end:SubmitNameEvidenceRequest]
   | -- --8<-- [start:SubmitNameEvidenceResponse]
     SubmitNameEvidenceResponse {
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:SubmitNameEvidenceResponse]
   | -- --8<-- [start:QueryNameEvidenceRequest]
@@ -62,7 +63,7 @@ type NamingMsg :=
     QueryNameEvidenceResponse {
       externalIdentity : ExternalIdentity;
       evidence : Set IdentityNameEvidence;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:QueryNameEvidenceResponse]
   ;
@@ -92,7 +93,7 @@ A `ResolveNameRequest` asks the Naming Engine which `ExternalIdentity`s are asso
 A `ResolveNameResponse` is returned in response to a `ResolveNameRequest`.
 
 - `externalIdentities`: A set of ExternalIdentitys associated with the IdentityName.
-- `error`: An error message if the resolution failed.
+- `err`: An error message if the resolution failed.
 
 ### `SubmitNameEvidenceRequest` message
 
@@ -116,7 +117,7 @@ A `SubmitNameEvidenceRequest` instructs the Naming Engine to store a new piece o
 
 A `SubmitNameEvidenceResponse` is sent in response to a `SubmitNameEvidenceRequest`.
 
-- `error`: An error message if the submission failed.
+- `err`: An error message if the submission failed.
 
 ### `QueryNameEvidenceRequest` message
 
@@ -141,11 +142,11 @@ A `QueryNameEvidenceRequest` instructs the Naming Engine to return any known Ide
 A `QueryNameEvidenceResponse` provides the requested evidence.
 
 - `evidence`: A set of IdentityNameEvidence related to the identity.
-- `error`: An error message if the query failed.
+- `err`: An error message if the query failed.
 
 ## Message sequence diagrams
 
-### Name Resolution Sequence
+### EngineName Resolution Sequence
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
@@ -156,7 +157,7 @@ sequenceDiagram
     participant NamingEngine
 
     Client ->> NamingEngine: ResolveNameRequest
-    NamingEngine ->> NamingEngine: Resolve Name
+    NamingEngine ->> NamingEngine: Resolve EngineName
     NamingEngine -->> Client: ResolveNameResponse
 ```
 

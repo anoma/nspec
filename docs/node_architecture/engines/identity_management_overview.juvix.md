@@ -14,6 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.identity_management_overview;
     import prelude open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     ```
 
@@ -41,35 +42,35 @@ type IdentityManagementMsg  :=
     -- --8<-- [end:GenerateIdentityRequest]
   | -- --8<-- [start:GenerateIdentityResponse]
     GenerateIdentityResponse {
-      commitmentEngine : Maybe Name;
-      decryptionEngine : Maybe Name;
-      externalIdentity : ExternalIdentity;
-      error : Maybe String
+      commitmentEngine : Option EngineID;
+      decryptionEngine : Option EngineID;
+      externalIdentity : EngineID;
+      err : Option String
     }
     -- --8<-- [end:GenerateIdentityResponse]
   | -- --8<-- [start:ConnectIdentityRequest]
     ConnectIdentityRequest {
-      externalIdentity : ExternalIdentity;
+      externalIdentity : EngineID;
       backend : Backend;
       capabilities : Capabilities
     }
     -- --8<-- [end:ConnectIdentityRequest]
   | -- --8<-- [start:ConnectIdentityResponse]
     ConnectIdentityResponse {
-      commitmentEngine : Maybe Name;
-      decryptionEngine : Maybe Name;
-      error : Maybe String
+      commitmentEngine : Option EngineID;
+      decryptionEngine : Option EngineID;
+      err : Option String
     }
     -- --8<-- [end:ConnectIdentityResponse]
   | -- --8<-- [start:DeleteIdentityRequest]
     DeleteIdentityRequest {
-      externalIdentity : ExternalIdentity;
+      externalIdentity : EngineID;
       backend : Backend
     }
     -- --8<-- [end:DeleteIdentityRequest]
   | -- --8<-- [start:DeleteIdentityResponse]
     DeleteIdentityResponse {
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:DeleteIdentityResponse]
   ;
@@ -103,7 +104,7 @@ A `GenerateIdentityResponse` provides the handles to the decryption and commitme
 - `commitmentEngine`: Reference to the newly instantiated commitment engine.
 - `decryptionEngine`: Reference to the newly instantiated decryption engine.
 - `externalIdentity`: The external identity of the newly created identity.
-- `error`: An error message if identity generation failed.
+- `err`: An error message if identity generation failed.
 
 ### `ConnectIdentityRequest` message
 
@@ -131,7 +132,7 @@ A `ConnectIdentityResponse` provides the handles to the decryption and commitmen
 
 - `commitmentEngine`: Reference to the newly instantiated commitment engine.
 - `decryptionEngine`: Reference to the newly instantiated decryption engine.
-- `error`: An error message if identity connection failed.
+- `err`: An error message if identity connection failed.
 
 ### `DeleteIdentityRequest` message
 
@@ -156,7 +157,7 @@ A `DeleteIdentityRequest` instructs the Identity Management Engine to delete an 
 
 A `DeleteIdentityResponse` provides the response from an attempt to delete an identity.
 
-- `error`: An error message if identity deletion failed.
+- `err`: An error message if identity deletion failed.
 
 ## Message sequence diagrams
 

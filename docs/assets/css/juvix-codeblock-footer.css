@@ -1,0 +1,8 @@
+
+code.juvix::after {
+    font-family: var(--md-code-font-family);
+    content: "Juvix v0.6.6";
+    font-size: 10px;
+    color: var(--md-juvix-codeblock-footer);
+    float: right;
+}

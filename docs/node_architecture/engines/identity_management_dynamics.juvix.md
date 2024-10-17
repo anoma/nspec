@@ -19,7 +19,8 @@ tags:
     import Stdlib.Data.String.Base open;
     import Stdlib.Data.Bool open;
     import Data.Map open;
-    import node_architecture.basics open;
+    import node_architecture.types.messages open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     import system_architecture.identity.identity open hiding {ExternalIdentity};
     import node_architecture.types.engine_dynamics open;
@@ -52,14 +53,14 @@ type IdentityManagementActionLabel :=
     -- --8<-- [end:DoGenerateIdentity]
   | -- --8<-- [start:DoConnectIdentity]
     DoConnectIdentity {
-      externalIdentity : ExternalIdentity;
+      externalIdentity : EngineID;
       backend : Backend;
       capabilities : Capabilities
     }
     -- --8<-- [end:DoConnectIdentity]
   | -- --8<-- [start:DoDeleteIdentity]
     DoDeleteIdentity {
-      externalIdentity : ExternalIdentity;
+      externalIdentity : EngineID;
       backend : Backend
     }
     -- --8<-- [end:DoDeleteIdentity]
@@ -131,7 +132,7 @@ This action label corresponds to deleting an existing identity.
 ```juvix
 type IdentityManagementMatchableArgument :=
   | -- --8<-- [start:MessageFrom]
-  MessageFrom (Maybe Address) (Maybe MailboxID)
+  MessageFrom (Option EngineID) (Option MailboxID)
   -- --8<-- [end:MessageFrom]
 ;
 ```
@@ -198,17 +199,17 @@ flowchart TD
 ```juvix
 generateIdentityGuard
   (t : TimestampedTrigger IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
+  (env : IdentityManagementEnvironment) : Option IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgIdentityManagement (GenerateIdentityRequest x y z)) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
+      | some (MsgIdentityManagement (GenerateIdentityRequest x y z)) := do {
+        sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [MessageFrom (just sender) nothing];
+                  args := [MessageFrom (some sender) none];
                   label := DoGenerateIdentity x y z;
                   other := unit
                 });
       }
-      | _ := nothing
+      | _ := none
   };
 ```
 <!-- --8<-- [end:generate-identity-guard] -->
@@ -230,17 +231,17 @@ flowchart TD
 ```juvix
 connectIdentityGuard
   (t : TimestampedTrigger IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
+  (env : IdentityManagementEnvironment) : Option IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgIdentityManagement (ConnectIdentityRequest x y z)) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
+      | some (MsgIdentityManagement (ConnectIdentityRequest x y z)) := do {
+        sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [MessageFrom (just sender) nothing];
+                  args := [MessageFrom (some sender) none];
                   label := DoConnectIdentity x y z;
                   other := unit
                 });
         }
-      | _ := nothing
+      | _ := none
   };
 ```
 <!-- --8<-- [end:connect-identity-guard] -->
@@ -262,17 +263,17 @@ flowchart TD
 ```juvix
 deleteIdentityGuard
   (t : TimestampedTrigger IdentityManagementTimerHandle)
-  (env : IdentityManagementEnvironment) : Maybe IdentityManagementGuardOutput
+  (env : IdentityManagementEnvironment) : Option IdentityManagementGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | just (MsgIdentityManagement (DeleteIdentityRequest x y)) := do {
-        sender <- getMessageSenderFromTimestampedTrigger t;
+      | some (MsgIdentityManagement (DeleteIdentityRequest x y)) := do {
+        sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [MessageFrom (just sender) nothing];
+                  args := [MessageFrom (some sender) none];
                   label := DoDeleteIdentity x y;
                   other := unit
                 });
         }
-      | _ := nothing
+      | _ := none
   };
 ```
 <!-- --8<-- [end:delete-identity-guard] -->
@@ -305,14 +306,14 @@ deleteIdentityGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
-nameStr (name : Name) : String :=
-  case name of {
-    | Left s := s
-    | Right n := natToString n
+nameStr (name : EngineID) : String :=
+  case snd name of {
+    | none := ""
+    | some s := s
   };
-nameGen (str : String) (name : Name) (addr : Address) : Name :=
-  Left (nameStr name ++str "_" ++str str ++str "_" ++str nameStr addr);
-makeDecryptEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr : Address): DecryptionEnvironment :=
+nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
+  (name ++str "_" ++str str ++str "_" ++str nameStr addr);
+makeDecryptEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr : EngineID): DecryptionEnvironment :=
   let
     local := EngineEnvironment.localState env;
   in mkEngineEnvironment@{
@@ -324,12 +325,12 @@ makeDecryptEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr 
       -- The Decryption engine has one empty mailbox.
       mailboxCluster := fromList [(mkPair 0 (mkMailbox@{
         messages := [];
-        mailboxState := nothing;
+        mailboxState := none;
       }))];
-      acquaintances := Set.fromList [addr];
+      acquaintances := Set.fromList [nameStr addr];
       timers := []
     };
-makeCommitmentEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr : Address): CommitmentEnvironment :=
+makeCommitmentEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr : EngineID): CommitmentEnvironment :=
     let
       local := EngineEnvironment.localState env;
     in mkEngineEnvironment@{
@@ -341,9 +342,9 @@ makeCommitmentEnv (env : IdentityManagementEnvironment) (backend' : Backend) (ad
       -- The Commitment engine has one empty mailbox.
       mailboxCluster := fromList [(mkPair 0 (mkMailbox@{
         messages := [];
-        mailboxState := nothing;
+        mailboxState := none;
       }))];
-      acquaintances := Set.fromList [addr];
+      acquaintances := Set.fromList [nameStr addr];
       timers := []
     };
 
@@ -365,7 +366,7 @@ isSubsetCapabilities (requested : Capabilities) (available : Capabilities) : Boo
   (not (hasCommitCapability requested) || hasCommitCapability available) 
   && (not (hasDecryptCapability requested) || hasDecryptCapability available);
 
-updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : Backend) (whoAsked : Address) (identityInfo : IdentityInfo) (capabilities' : Capabilities) : Pair IdentityInfo (List Env) :=
+updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : Backend) (whoAsked : EngineID) (identityInfo : IdentityInfo) (capabilities' : Capabilities) : Pair IdentityInfo (List Env) :=
   case capabilities' of {
     | CapabilityCommitAndDecrypt :=
         let commitmentEnv := makeCommitmentEnv env backend' whoAsked;
@@ -374,8 +375,8 @@ updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : 
             decryptionEngineName := EngineEnvironment.name decryptionEnv;
             spawnedEngines := [EnvCommitment commitmentEnv; EnvDecryption decryptionEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              commitmentEngine := just commitmentEngineName;
-              decryptionEngine := just decryptionEngineName
+              commitmentEngine := some (mkPair none (some commitmentEngineName));
+              decryptionEngine := some (mkPair none (some decryptionEngineName))
             };
         in mkPair updatedIdentityInfo1 spawnedEngines
     | CapabilityCommit :=
@@ -383,7 +384,7 @@ updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : 
             commitmentEngineName := EngineEnvironment.name commitmentEnv;
             spawnedEngines := [EnvCommitment commitmentEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              commitmentEngine := just commitmentEngineName
+              commitmentEngine := some (mkPair none (some commitmentEngineName))
             };
         in mkPair updatedIdentityInfo1 spawnedEngines
     | CapabilityDecrypt :=
@@ -391,24 +392,24 @@ updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : 
             decryptionEngineName := EngineEnvironment.name decryptionEnv;
             spawnedEngines := [EnvDecryption decryptionEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              decryptionEngine := just decryptionEngineName
+              decryptionEngine := some (mkPair none (some decryptionEngineName))
             };
         in mkPair updatedIdentityInfo1 spawnedEngines
   };
 
-copyEnginesForCapabilities (env : IdentityManagementEnvironment) (whoAsked : Address) (externalIdentityInfo : IdentityInfo) (requestedCapabilities : Capabilities) : IdentityInfo :=
+copyEnginesForCapabilities (env : IdentityManagementEnvironment) (whoAsked : EngineID) (externalIdentityInfo : IdentityInfo) (requestedCapabilities : Capabilities) : IdentityInfo :=
   let newIdentityInfo := mkIdentityInfo@{
         backend := IdentityInfo.backend externalIdentityInfo;
         capabilities := requestedCapabilities;
         commitmentEngine :=
           case hasCommitCapability requestedCapabilities of {
             | true := IdentityInfo.commitmentEngine externalIdentityInfo
-            | false := nothing
+            | false := none
           };
         decryptionEngine :=
           case hasDecryptCapability requestedCapabilities of {
             | true := IdentityInfo.decryptionEngine externalIdentityInfo
-            | false := nothing
+            | false := none
           }
       };
   in newIdentityInfo;
@@ -422,36 +423,34 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
   case GuardOutput.label out of {
     | DoGenerateIdentity backend' params' capabilities' := 
       case GuardOutput.args out of {
-        | (MessageFrom (just whoAsked) _) :: _ := 
+        | (MessageFrom (some whoAsked) _) :: _ := 
             case Map.lookup whoAsked identities of {
-              | just _ := 
+              | some _ := 
                   -- Identity already exists, return error
                   let responseMsg := GenerateIdentityResponse@{
-                    commitmentEngine := nothing;
-                    decryptionEngine := nothing;
+                    commitmentEngine := none;
+                    decryptionEngine := none;
                     externalIdentity := whoAsked;
-                    error := just "Identity already exists"
+                    err := some "Identity already exists"
                   };
                   in mkActionEffect@{
                     newEnv := env;
-                    producedMessages := [mkEnvelopedMessage@{
-                      sender := just (EngineEnvironment.name env);
-                      packet := mkMessagePacket@{
-                        target := whoAsked;
-                        mailbox := just 0;
-                        message := MsgIdentityManagement responseMsg
-                      }
+                    producedMessages := [mkEngineMessage@{
+                      sender := mkPair none (some (EngineEnvironment.name env));
+                      target := whoAsked;
+                      mailbox := some 0;
+                      msg := MsgIdentityManagement responseMsg
                     }];
                     timers := [];
                     spawnedEngines := []
                   }
-              | nothing := 
+              | none := 
                   -- Proceed to create identity
                   let identityInfo := mkIdentityInfo@{
                         backend := backend';
                         capabilities := capabilities';
-                        commitmentEngine := nothing;
-                        decryptionEngine := nothing
+                        commitmentEngine := none;
+                        decryptionEngine := none
                       };
                       -- Update identityInfo and spawnedEngines based on capabilities
                       pair' := updateIdentityAndSpawnEngines env backend' whoAsked identityInfo capabilities';
@@ -468,17 +467,15 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
                         commitmentEngine := IdentityInfo.commitmentEngine updatedIdentityInfo;
                         decryptionEngine := IdentityInfo.decryptionEngine updatedIdentityInfo;
                         externalIdentity := whoAsked;
-                        error := nothing
+                        err := none
                       };
                   in mkActionEffect@{
                     newEnv := newEnv';
-                    producedMessages := [mkEnvelopedMessage@{
-                      sender := just (EngineEnvironment.name env);
-                      packet := mkMessagePacket@{
-                        target := whoAsked;
-                        mailbox := just 0;
-                        message := MsgIdentityManagement responseMsg
-                      }
+                    producedMessages := [mkEngineMessage@{
+                      sender := mkPair none (some (EngineEnvironment.name env));
+                      target := whoAsked;
+                      mailbox := some 0;
+                      msg := MsgIdentityManagement responseMsg
                     }];
                     timers := [];
                     spawnedEngines := spawnedEnginesFinal
@@ -489,53 +486,49 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
 
     | DoConnectIdentity externalIdentity' backend' capabilities' :=
       case GuardOutput.args out of {
-        | (MessageFrom (just whoAsked) _) :: _ :=
+        | (MessageFrom (some whoAsked) _) :: _ :=
             -- Check if whoAsked already exists
             case Map.lookup whoAsked identities of {
-              | just _ :=
+              | some _ :=
                   -- whoAsked already exists, return error
                   let responseMsg := ConnectIdentityResponse@{
-                    commitmentEngine := nothing;
-                    decryptionEngine := nothing;
-                    error := just "Identity already exists"
+                    commitmentEngine := none;
+                    decryptionEngine := none;
+                    err := some "Identity already exists"
                   };
                   in mkActionEffect@{
                     newEnv := env;
-                    producedMessages := [mkEnvelopedMessage@{
-                      sender := just (EngineEnvironment.name env);
-                      packet := mkMessagePacket@{
-                        target := whoAsked;
-                        mailbox := just 0;
-                        message := MsgIdentityManagement responseMsg
-                      }
+                    producedMessages := [mkEngineMessage@{
+                      sender := mkPair none (some (EngineEnvironment.name env));
+                      target := whoAsked;
+                      mailbox := some 0;
+                      msg := MsgIdentityManagement responseMsg
                     }];
                     timers := [];
                     spawnedEngines := []
                   }
-              | nothing :=
+              | none :=
                   -- whoAsked does not exist, proceed
                   case Map.lookup externalIdentity' identities of {
-                    | nothing :=
+                    | none :=
                         -- externalIdentity' does not exist, return error
                         let responseMsg := ConnectIdentityResponse@{
-                          commitmentEngine := nothing;
-                          decryptionEngine := nothing;
-                          error := just "External identity not found"
+                          commitmentEngine := none;
+                          decryptionEngine := none;
+                          err := some "External identity not found"
                         };
                         in mkActionEffect@{
                           newEnv := env;
-                          producedMessages := [mkEnvelopedMessage@{
-                            sender := just (EngineEnvironment.name env);
-                            packet := mkMessagePacket@{
-                              target := whoAsked;
-                              mailbox := just 0;
-                              message := MsgIdentityManagement responseMsg
-                            }
+                          producedMessages := [mkEngineMessage@{
+                            sender := mkPair none (some (EngineEnvironment.name env));
+                            target := whoAsked;
+                            mailbox := some 0;
+                            msg := MsgIdentityManagement responseMsg
                           }];
                           timers := [];
                           spawnedEngines := []
                         }
-                    | just externalIdentityInfo :=
+                    | some externalIdentityInfo :=
                         -- Compare capabilities
                         let externalCapabilities := IdentityInfo.capabilities externalIdentityInfo;
                             requestedCapabilities := capabilities';
@@ -556,17 +549,15 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
                                   responseMsg := ConnectIdentityResponse@{
                                     commitmentEngine := IdentityInfo.commitmentEngine newIdentityInfo;
                                     decryptionEngine := IdentityInfo.decryptionEngine newIdentityInfo;
-                                    error := nothing
+                                    err := none
                                   };
                               in mkActionEffect@{
                                 newEnv := newEnv';
-                                producedMessages := [mkEnvelopedMessage@{
-                                  sender := just (EngineEnvironment.name env);
-                                  packet := mkMessagePacket@{
-                                    target := whoAsked;
-                                    mailbox := just 0;
-                                    message := MsgIdentityManagement responseMsg
-                                  }
+                                producedMessages := [mkEngineMessage@{
+                                  sender := mkPair none (some (EngineEnvironment.name env));
+                                  target := whoAsked;
+                                  mailbox := some 0;
+                                  msg := MsgIdentityManagement responseMsg;
                                 }];
                                 timers := [];
                                 spawnedEngines := []
@@ -574,19 +565,17 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
                           | false :=
                               -- Capabilities not a subset, return error
                               let responseMsg := ConnectIdentityResponse@{
-                                commitmentEngine := nothing;
-                                decryptionEngine := nothing;
-                                error := just "Requested capabilities not available"
+                                commitmentEngine := none;
+                                decryptionEngine := none;
+                                err := some "Requested capabilities not available"
                               };
                               in mkActionEffect@{
                                 newEnv := env;
-                                producedMessages := [mkEnvelopedMessage@{
-                                  sender := just (EngineEnvironment.name env);
-                                  packet := mkMessagePacket@{
-                                    target := whoAsked;
-                                    mailbox := just 0;
-                                    message := MsgIdentityManagement responseMsg
-                                  }
+                                producedMessages := [mkEngineMessage@{
+                                  sender := mkPair none (some (EngineEnvironment.name env));
+                                  target := whoAsked;
+                                  mailbox := some 0;
+                                  msg := MsgIdentityManagement responseMsg
                                 }];
                                 timers := [];
                                 spawnedEngines := []
@@ -599,28 +588,26 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
 
     | DoDeleteIdentity externalIdentity' backend' := 
       case GuardOutput.args out of {
-        | (MessageFrom (just whoAsked) _) :: _ :=
+        | (MessageFrom (some whoAsked) _) :: _ :=
             -- Check if the identity exists
             case Map.lookup whoAsked identities of {
-              | nothing :=
+              | none :=
                   -- Identity does not exist, return error
                   let responseMsg := DeleteIdentityResponse@{
-                    error := just "Identity does not exist"
+                    err := some "Identity does not exist"
                   };
                   in mkActionEffect@{
                     newEnv := env;
-                    producedMessages := [mkEnvelopedMessage@{
-                      sender := just (EngineEnvironment.name env);
-                      packet := mkMessagePacket@{
-                        target := whoAsked;
-                        mailbox := just 0;
-                        message := MsgIdentityManagement responseMsg
-                      }
+                    producedMessages := [mkEngineMessage@{
+                      sender := mkPair none (some (EngineEnvironment.name env));
+                      target := whoAsked;
+                      mailbox := some 0;
+                      msg := MsgIdentityManagement responseMsg
                     }];
                     timers := [];
                     spawnedEngines := []
                   }
-              | just _ :=
+              | some _ :=
                   -- Identity exists, proceed to delete
                   let updatedIdentities := Map.delete whoAsked identities;
                       newLocalState := local@IdentityManagementLocalState{
@@ -630,17 +617,15 @@ identityManagementAction (input : IdentityManagementActionInput) : IdentityManag
                         localState := newLocalState
                       };
                       responseMsg := DeleteIdentityResponse@{
-                        error := nothing
+                        err := none
                       };
                   in mkActionEffect@{
                     newEnv := newEnv';
-                    producedMessages := [mkEnvelopedMessage@{
-                      sender := just (EngineEnvironment.name env);
-                      packet := mkMessagePacket@{
-                        target := whoAsked;
-                        mailbox := just 0;
-                        message := MsgIdentityManagement responseMsg
-                      }
+                    producedMessages := [mkEngineMessage@{
+                      sender := mkPair none (some (EngineEnvironment.name env));
+                      target := whoAsked;
+                      mailbox := some 0;
+                      msg := MsgIdentityManagement responseMsg
                     }];
                     timers := [];
                     spawnedEngines := []

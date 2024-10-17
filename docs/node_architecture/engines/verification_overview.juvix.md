@@ -14,7 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.verification_overview;
     import prelude open;
-    import node_architecture.identity_types open;
+    import node_architecture.types.identities open;
     ```
 
 # `Verification` Engine Family Overview
@@ -43,7 +43,7 @@ type VerificationMsg :=
   | -- --8<-- [start:VerifyResponse]
     VerifyResponse {
       result : Bool;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:VerifyResponse]
   ;
@@ -76,7 +76,7 @@ A `VerifyRequest` instructs the Verification Engine to verify a commitment (sign
 A `VerifyResponse` contains the result of verifying a commitment in response to a VerifyRequest.
 
 - `result`: True if the verification succeeded, False otherwise.
-- `error`: An error message if verification failed.
+- `err`: An error message if verification failed.
 
 ## Message sequence diagrams
 

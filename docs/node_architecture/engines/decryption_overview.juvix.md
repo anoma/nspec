@@ -14,7 +14,7 @@ tags:
     ```juvix
     module node_architecture.engines.decryption_overview;
     import prelude open;
-    import node_architecture.identity_types open;
+    import node_architecture.types.identities open;
     ```
 
 # `Decryption` Engine Family Overview
@@ -40,7 +40,7 @@ type DecryptionMsg :=
   | -- --8<-- [start:DecryptResponse]
     DecryptResponse {
       data : ByteString;
-      error : Maybe String
+      err : Option String
     }
     -- --8<-- [end:DecryptResponse]
   ;
@@ -70,7 +70,7 @@ A `DecryptRequest` instructs a decryption engine instance to decrypt data as the
 A `DecryptResponse` contains the data decrypted by a decryption engine instance in response to a DecryptRequest.
 
 - `data`: The decrypted data.
-- `error`: An error message if decryption failed.
+- `err`: An error message if decryption failed.
 
 ## Message sequence diagrams
 

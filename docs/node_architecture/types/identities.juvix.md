@@ -118,3 +118,16 @@ isLocalEngineID (eid : EngineID) : Bool :=
 ```juvix
 isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 ```
+
+```juvix
+ByteString : Type := Nat;
+emptyByteString : ByteString := 0;
+Signable : Type := ByteString;
+axiom emptyCommitment : Commitment;
+DecryptionKey : Type := ByteString;
+SigningKey : Type := ByteString;
+Plaintext : Type := ByteString;
+Ciphertext : Type := ByteString;
+
+syntax alias ExternalIdentity := EngineName;
+```

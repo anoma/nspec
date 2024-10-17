@@ -16,6 +16,7 @@ tags:
 
     import prelude open;
     import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
     import node_architecture.identity_types open;
     import node_architecture.engines.reads_for_overview open;
     ```
@@ -69,7 +70,7 @@ module reads_for_environment_example;
 
 readsForEnvironmentExample : ReadsForEnvironment :=
     mkEngineEnvironment@{
-      name := Left "reads_for";
+      name := "reads_for";
       localState := mkReadsForLocalState@{
         evidenceStore := Set.empty;
         verifyEvidence := \{ _ := true }

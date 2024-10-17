@@ -11,12 +11,13 @@ tags:
 
     ```juvix
     module node_architecture.engines.identity_management;
-      import prelude open;
-      import node_architecture.engines.identity_management_overview open public;
-      import node_architecture.engines.identity_management_environment open public;
-      import node_architecture.engines.identity_management_dynamics open public;
-      import node_architecture.types.engine_family as Anoma;
-      import node_architecture.types.anoma_message as Anoma;
+
+    import prelude open;
+    import node_architecture.engines.identity_management_overview open public;
+    import node_architecture.engines.identity_management_environment open public;
+    import node_architecture.engines.identity_management_dynamics open public;
+    import node_architecture.types.engine_family as Anoma;
+    import node_architecture.types.anoma_message as Anoma;
     ```
 
 # `Identity Management` engine family type
