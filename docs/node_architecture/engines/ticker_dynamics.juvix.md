@@ -21,7 +21,7 @@ tags:
     import node_architecture.types.messages open;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.engine_dynamics open;
-    import node_architecture.engines.ticker_overview open;
+    import node_architecture.engines.ticker_messages open;
     import node_architecture.engines.ticker_environment open;
     import node_architecture.types.anoma_message open using {MsgTicker};
     ```
@@ -266,6 +266,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
                 sender := getSenderFromActionInput input;
                 target := whoAsked;
                 mailbox := some 0;
+                deps := [];
                 msg := MsgTicker Count
               }
             ];

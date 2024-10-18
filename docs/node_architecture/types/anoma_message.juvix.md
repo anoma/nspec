@@ -11,7 +11,7 @@ tags:
 
     ```juvix
     module node_architecture.types.anoma_message;
-    import node_architecture.engines.ticker_overview open using {TickerMsg}
+    import node_architecture.engines.ticker_messages open;
     ```
 
 # Anoma Messages

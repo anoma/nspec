@@ -6,27 +6,16 @@ categories:
 - engine-family
 tags:
 - ticker
-- engine-overview
+- engine-messages
 ---
 
 ??? quote "Juvix imports"
 
     ```juvix
-    module node_architecture.engines.ticker_overview;
+    module node_architecture.engines.ticker_messages;
     ```
 
-# `Ticker` Engine Family Overview
-
---8<-- "./docs/node_architecture/engines/ticker.juvix.md:ticker-engine-family"
-
-The Ticker engine family provides a simple counter functionality, allowing
-clients to increment a counter and retrieve its current value.
-
-## Purpose
-
-A ticker engine maintains a counter in its local state. It increases the counter
-when it receives an `Increment` message and provides the updated result upon
-receiving a `Count` message. The initial state initializes the counter.
+# `Ticker` Engine Family Messages
 
 ## Message interface
 
@@ -52,7 +41,7 @@ counter state.
 !!! quote "Increment"
 
     ```
-    --8<-- "./ticker_overview.juvix.md:Increment"
+    --8<-- "./ticker_messages.juvix.md:Increment"
     ```
 
 An `Increment` message instructs the engine to increase the counter. This
@@ -63,7 +52,7 @@ message doesn't require any arguments.
 !!! quote "Count"
 
     ```
-    --8<-- "./ticker_overview.juvix.md:Count"
+    --8<-- "./ticker_messages.juvix.md:Count"
     ```
 
 A `Count` message requests the engine to send the current counter value back to
@@ -98,12 +87,3 @@ sequenceDiagram
 A client interacts with the `Ticker` engine, which increments and responds with the counter value.
 </figcaption>
 </figure>
-
-## Engine Components
-
-- [[Ticker Engine Environment|`Ticker` Engine Environment]]
-- [[Ticker Engine Dynamics|`Ticker` Engine Dynamics]]
-
-## Useful links
-
-- [Composable Semantic Models for Actor Theories](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=18475015c7c46d38292833ddda32dc88b5655160)

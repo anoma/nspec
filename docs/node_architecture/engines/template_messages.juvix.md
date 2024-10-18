@@ -6,25 +6,17 @@ categories:
 - engine-family
 tags:
 - mytag1
-- engine-overview
+- engine-messages
 ---
 
 ??? quote "Juvix imports"
 
     ```juvix
-    module node_architecture.engines.template_overview;
+    module node_architecture.engines.template_messages;
     import prelude open;
     ```
 
-# `Template` Engine Family Overview
-
---8<-- "./docs/node_architecture/engines/template.juvix.md:template-engine-family"
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Nulla facilisi.
-
-## Purpose
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Nulla facilisi.
+# `Template` Engine Family Messages
 
 ## Message interface
 
@@ -61,7 +53,7 @@ type TemplateMsg :=
 !!! quote "TemplateMsgOne"
 
     ```
-    --8<-- "./template_overview.juvix.md:TemplateMsgOne"
+    --8<-- "./template_messages.juvix.md:TemplateMsgOne"
     ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -98,7 +90,7 @@ end;
 !!! quote "TemplateMsgTwo"
 
     ```
-    --8<-- "./template_overview.juvix.md:TemplateMsgTwo"
+    --8<-- "./template_messages.juvix.md:TemplateMsgTwo"
     ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -143,13 +135,3 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
-
-## Engine Components
-
-- [[template_environment|`Template` Engine Environment]]
-- [[template_dynamics|`Template` Engine Dynamics]]
-
-## Useful links
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget
-sapien. Nulla facilisi.

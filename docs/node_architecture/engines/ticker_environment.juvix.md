@@ -13,7 +13,7 @@ search:
 
     import prelude open;
     import node_architecture.types.basics open;
-    import node_architecture.engines.ticker_overview open;
+    import node_architecture.engines.ticker_messages open;
     import node_architecture.types.engine_environment open;
     ```
 
