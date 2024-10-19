@@ -16,13 +16,13 @@ tags:
     module arch.node.types.messages;
     import prelude open public;
     import arch.node.types.basics open;
+    import arch.node.types.crypto open;
     import arch.node.types.identities open;
+    import arch.node.types.network open;
     import arch.node.types.anoma_message open;
     ```
 
 # Messages and mailboxes
-
-## Types
 
 A message is a piece of data dispatched from one engine, termed the _sender_, to
 another engine, referred to as the _target_. When a message is sent, it is
@@ -34,7 +34,15 @@ the target engine has only one mailbox, the mailbox identifier is redundant.
 
 The following types are used to represent these messages and mailboxes.
 
-### MailboxID
+## MessageID
+
+Message identifier. Cryptographic hash of an `EngineMsg`.
+
+```juvix
+syntax alias MessageID := Digest;
+```
+
+## MailboxID
 
 A mailbox identifier is a natural number used to index mailboxes.
 
@@ -49,8 +57,9 @@ A mailbox identifier is a natural number used to index mailboxes.
 syntax alias MailboxID := Nat;
 ```
 
-### EngineMsg
+## EngineMsg
 
+--8<-- [start:EngineMsg]
 A message between engines. Consists of a sender, a target, an optional mailbox
 identifier, and the message itself.
 
@@ -59,19 +68,13 @@ type EngineMsg := mkEngineMsg@{
   sender : EngineID;
   target : EngineID;
   mailbox : Option MailboxID;
+  deps : List MessageID;
   msg : Msg;
 };
 ```
+--8<-- [end:EngineMsg]
 
-### MessageID
-
-Message identifier. Cryptographic hash of an `EngineMsg`.
-
-```juvix
-syntax alias MessageID := Hash;
-```
-
-### Mailbox S
+## Mailbox S
 
 A mailbox is a container for messages and optionally a mailbox state. The
 mailbox state could be used to store additional information about the mailbox,
@@ -92,7 +95,7 @@ type Mailbox M := mkMailbox@{
 };
 ```
 
-### Timer H
+## Timer H
 
 ```juvix
 type Timer H := mkTimer@{
@@ -101,7 +104,7 @@ type Timer H := mkTimer@{
 };
 ```
 
-### Trigger H
+## Trigger H
 
 ```juvix
 type Trigger H :=
@@ -139,7 +142,7 @@ type Trigger H :=
       };
     ```
 
-### TimestampedTrigger H
+## TimestampedTrigger H
 
 ```juvix
 type TimestampedTrigger H :=
@@ -169,4 +172,3 @@ type TimestampedTrigger H :=
     getTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
       := getTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```
-

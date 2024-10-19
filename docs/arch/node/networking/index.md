@@ -14,54 +14,49 @@ both locally (intra-node), and over the network (inter-node).
 The core functionality includes message routing and transport,
 upon which more complex peer-to-peer (P2P) protocols are built.
 
-<div class="v1" markdown>
-
 ## Scope
 
-The Anoma v1 network is limited to the following.
+Initially, the Anoma network is limited to the following.
 
 - The network consists of multiple nodes that can establish direct connections with each other over QUIC/TLS transport protocols.
 
-- Nodes know about each other's addresses by explicitly adding [[NodeAdvert#nodeadvert]]s to their configuration.
+- Nodes know about each other's addresses by explicitly adding [[NodeAdvert]]s to their configuration.
 
-- Engines can send unicast and multicast (pub/sub) messages to both local and remote engines.
+- Engine instances can send and receive unicast and multicast (pub/sub) messages, both locally and over the network.
 
-- Pub/sub is limited to a single publisher with directly connected subscribers.
+- Pub/sub is limited to a single publisher with directly connected local and remote subscribers (no multi-hop routing yet).
 
-The Anoma v2 network is going to support domains, dynamic P2P overlays, and P2P routing protocols.
-This is described in more detail in *[P2P Overlay Domains with Sovereignty](https://arxiv.org/abs/2306.16153) (PODS)*.
+Later, the Anoma network is going to support domains, dynamic P2P overlays, and P2P routing protocols.
+
+Domains are described in *[P2P Overlay Domains with Sovereignty](https://arxiv.org/abs/2306.16153) (PODS)*.
 In PODS, the network architecture consists of a collection of *nodes* that are part of one or multiple heterogeneous *domains*.
 Each domain has its own overlay topology, and a distinct set of P2P *intra-domain protocols*, tailored to the characteristics and needs of the nodes in that domain.
-
-</div>
 
 ## Overview
 
 ### Terminology
 
 <!-- --8<-- [start:node] -->
-A *node* is the set of running *engine instances* that collectively participate in the network as a single entity.
-Each node has a [[Router#router]] engine instance responsible for intra- and inter-node message routing,
-and a [[Transport#transport]] engine instance responsible for inter-node connectivity.
-
-A *peer* is a connected neighbor of a *node* in the network.
+A *node* is the set of running *engine instances* that collectively participate in the network under a single *node identity*.
+A *peer* is a connected neighbour of a *node* in the network.
 <!-- --8<-- [end:node] -->
 <!-- --8<-- [start:node-id] -->
-The *[[NodeIdentity#nodeidentity|node identity]]* in the networking context is the [[EngineIdentity#engineidentity|engine identity]] of the [[Router#router]] engine instance.
+The *[[NodeIdentity|node identity]]* is the cryptographic identifier of the node, and is used for addressing messages and signing *[[NodeAdvert|node advertisements]]*.
 <!-- --8<-- [end:node-id] -->
 
 ### Message passing
 
-Communication between [[Architecture 2#engine-models|engines]] follows the actor model
-with asynchronous message passing between engines.
+Communication between [[Engine Families|engine instances]]
+is inspired by the actor model
+via asynchronous message passing among them.
 
-Communicating engines can reside either on the same node
+Communicating engine instances can reside either on the same node
 or on different nodes connected over the network.
 
-A message received by an engine may trigger reactions
+A message received by an engine instance may trigger reactions
 in the form of one or more messages sent by the receiver.
-A typical reaction is a response to a request
-in the often used request-response pattern,
+Typical reactions to a message include
+a response to a request in the often used request-response pattern,
 or a forwarding decision in a network protocol.
 
 ### Message transmission, addressing, routing
@@ -69,24 +64,26 @@ or a forwarding decision in a network protocol.
 Message transmission in the network is either
 one-to-one (unicast), few-to-many (multicast), or one-to-any (anycast).
 
-A unicast message is sent between two engines by a single sender to a single recipient,
-and routed over the network either directly to the destination or over multiple hops,
+A unicast message is sent between two engines by a single sender to a single recipient.
+It is sent over the network either directly to the destination or over multiple hops,
 depending on the transport protocol used.
 
-Multicast messaging follows the topic-based publish-subscribe (pub/sub) pattern,
+Multicast messaging is underlying the topic-based publish-subscribe (pub/sub) pattern,
 where a message (a.k.a. event) is sent by an authorized publisher to all subscribers of the topic,
-and routed over the network along multi-hop paths from a publisher towards subscribers.
+and sent over the network from one of the publishers towards all subscribers,
+either via direct connections in a hub-and-spoke topology,
+or along multi-hop paths, often in a tree topology.
 
 Anycast messages are used when sending a request to any known member of a domain.
 
-An [[EngineMessage#enginemessage]] is addressed from a *source* [[EngineIdentity#engineidentity|engine identity]] to a *destination* [[ExternalIdentity#externalidentity|external identity]],
+An [[EngineMessage]] is addressed from a *source* [[EngineIdentity|engine identity]] to a *destination* [[ExternalIdentity|external identity]],
 and the content of the message is authenticated by a signature of the source engine.
 The destination identity is either
-a [[NodeIdentity#nodeidentity]] or [[EngineIdentity#engineidentity]] (for unicast messages),
-a pub/sub [[TopicIdentity#topicidentity]] (for multicast messages),
-or a [[DomainIdentity#domainidentity]] (for anycast messages).
+a [[NodeIdentity]] or [[EngineIdentity]] (for unicast messages),
+a pub/sub [[TopicIdentity]] (for multicast messages),
+or a [[DomainIdentity]] (for anycast messages).
 
-The [[Router#router]] engine of each node is responsible for message routing
+The [[Router]] engine of each node is responsible for message routing
 between local engines, local and remote engines,
 and in some cases relaying between two remote engines.
 It makes routing decisions based on the destination identity in the message.
@@ -131,21 +128,21 @@ and routing anycast messages to domains.
 
 <div class="v2" markdown>
 
-Inside each domain, a [[Domain#domain]] membership and an overlay [[Topology#topology]] maintenance protocol
+Inside each domain, a [[Domain]] membership and an overlay [[Topology]] maintenance protocol
 are responsible for responding to membership decisions,
 as well as keeping the overlay connected and keeping track of a partial view of online members.
 
 </div>
 
-The P2P [[PubSub#pubsub]] (publish-subscribe) protocol is responsible for event dissemination
+The P2P [[PubSub]] (publish-subscribe) protocol is responsible for event dissemination
 from authorized publishers to subscribers,
-while the P2P [[Storage#storage]] protocol offers block storage and retrieval.
+while the P2P [[Storage]] protocol offers block storage and retrieval.
 
 <div class="v2" markdown>
 
 ### Inter-domain protocols
 
-Two inter_domain gossip protocol run in parallel: a Trust-Aware [[Peer Sampling#peer-sampling]] (TAPS) and a Trust-Aware [[Clustering#clustering]] (TAC) protocol.
+Two inter_domain gossip protocol run in parallel: a Trust-Aware [[Peer Sampling]] (TAPS) and a Trust-Aware [[Clustering]] (TAC) protocol.
 The two protocols together construct a small world network, where TAPS provides continuously changing long-range routing links,
 while TAC discovers nodes with similar domain membership.
 Using trust information in these protocols aids in making these protocols more resilient against eclipse and hub attacks.
@@ -156,12 +153,12 @@ Participation in the inter_domain protocols is optional: nodes that do not wish 
 may opt out of participating in inter_domain protocols, in order to decrease load, increase security, and thwart potential attacks coming from outsiders (e.g. DDoS).
 This allows domains to have internal-only and external-facing members.
 
-There are two ways to interact with a [[Domain#domain]]:
+There are two ways to interact with a [[Domain]]:
 either by sending external requests to any available domain member that may return a reply,
 or by joining the domain and participating in the intra-domain protocols.
 For both type of requests, a node needs to know about one or more domain members to send the request to,
-which can be discovered either via the [[Clustering#clustering]] protocol,
-or via a lookup request that is routed in the inter_domain overlay using a greedy routing algorithm by the [[Domain Routing#domain-routing]] protocol.
+which can be discovered either via the [[Clustering]] protocol,
+or via a lookup request that is routed in the inter_domain overlay using a greedy routing algorithm by the [[Domain Routing]] protocol.
 Both methods use domain membership similarity as a distance metric.
 
 </div>
@@ -194,7 +191,7 @@ Engines are grouped based on their scope in the network architecture.
 
 ##### Router
 
-The [[Router#router]] engine is responsible for [[EngineMessage#enginemessage|message]] routing
+The [[Router]] engine is responsible for [[EngineMessage|message]] routing
 and handles both inter-node and intra-node messages.
 It authenticates received messages by verifying the signature of the *source* identity,
 and makes routing decisions based on the *destination* identity.
@@ -202,39 +199,49 @@ and makes routing decisions based on the *destination* identity.
 It also provides topic-based pub/sub functionality for local engines and performs local multicast message routing.
 
 It can also relay messages between two remote nodes,
-in which case the [[EngineMessage#enginemessage]] is encrypted and wrapped in a [[RelayMessage#relaymessage]].
+in which case the [[EngineMessage]] is encrypted and wrapped in a [[RelayMessage]].
 
-The message routing algorithm is described in the [[EngineMessage#enginemessage]] section.
-
-!!! note
-
-    An implementation may optimize intra-node messaging between local engine instances, such that they communicate directly instead of via the router.
+The message routing algorithm is described in the [[EngineMessage]] section.
 
 ##### Transport
 
-The [[Transport#transport]] engine is responsible for establishing and maintaining encrypted transport connections between peers.
+The [[Transport]] engine is responsible for establishing and maintaining encrypted transport connections between peers.
 It supports various network transport protocols that are chosen according to transport preferences
-set by locally on a per-message or per-node basis, and defaults to the remote node's preferences specified in a [[NodeAdvert#nodeadvert]] message.
+set by locally on a per-message or per-node basis, and defaults to the remote node's preferences specified in a [[NodeAdvert]] message.
 
 ##### Network Identity Store
 
-The [[Network Identity Store#network-identity-store]] engine maintains a [[IdentityStore#identitystore|data store]] with [[IdentityRecord#identityrecord|records]]
+The [[Network Identity Store]] engine maintains a [[IdentityStore|data store]] with [[IdentityRecord|records]]
 that contain information associated with identities of engines, nodes, pub/sub topics, and domains.
 
 The source of this information can be either local configuration
 or advertisements received from other nodes via P2P protocols.
 
-For each [[EngineIdentity#engineidentity]] it stores its local engine address, if applicable to the implementation.
+For each [[EngineIdentity]] it stores its local engine address, if applicable to the implementation.
 
-For each [[NodeIdentity#nodeidentity]], it stores transport addresses in order of preference, measurements, trust value, and reputation value.
+For each [[NodeIdentity]], it stores transport addresses in order of preference, measurements, trust value, and reputation value.
 
-For each [[TopicIdentity#topicidentity]], it stores the [[PubSub#pubsub]] [[TopicAdvert#topicadvert]].
+For each [[TopicIdentity]], it stores the [[PubSub]] [[TopicAdvert]].
 
 <div class="v2" markdown>
 
-For each [[DomainIdentity#domainidentity]], it stores the [[DomainAdvert#domainadvert]].
+For each [[DomainIdentity]], it stores the [[DomainAdvert]].
 
 </div>
+
+##### Implementation
+
+!!! note
+
+    Different implementations may organize the Router and Transport components in different ways
+    that fit their particular programming model and software architecture.
+    Thus engines may communicate via either a single Router as described above,
+    or multiple Router instances, one per destination node.
+
+    Furthermore, the Network Identity Store may respond to lookup requests for engine names
+    with the local address of the engine instance that can be used to send messages to a local engine directly.
+    In case of remote engines when multiple Router engine instances are used,
+    it may provide the local address of the Router engine instance that corresponds to the remote node.
 
 #### Intra-domain protocols
 
@@ -242,8 +249,9 @@ For each [[DomainIdentity#domainidentity]], it stores the [[DomainAdvert#domaina
 
 #### PubSub
 
-The [[PubSub#pubsub]] engine implements a P2P topic-based pub/sub protocol and performs inter-node multicast message routing within a domain.
+The [[PubSub]] engine implements a P2P topic-based pub/sub protocol and performs inter-node multicast message routing within a domain.
 
 #### Storage
 
-The [[Storage#storage]] engine implements a P2P block storage protocol.
+The [[Storage]] engine implements a P2P block storage protocol.
+ 

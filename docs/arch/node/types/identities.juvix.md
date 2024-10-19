@@ -119,6 +119,14 @@ Cryptographic topic identity.
 syntax alias TopicID := ExternalID;
 ```
 
+### PublisherID
+
+Cryptographic identity of a publisher in a pub/sub topic.
+
+```juvix
+syntax alias PublisherID := ExternalID;
+```
+
 ### DomainID
 
 Cryptographic domain identity.
