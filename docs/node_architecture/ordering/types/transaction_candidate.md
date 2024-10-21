@@ -16,3 +16,4 @@ as part of a [[TransactionRequest|transaction request]] is called a _transaction
 |--------------|---------------------------|-----------------------------------------|
 | `label`      | [[TransactionLabel]]      | keys that may/will be read/written      |
 | `executable` | [[TransactionExecutable]] | the payload for post-ordering execution |
+| `gasLimit`   | Nat                       | Gas limit, which execution will not be allowed to exceed |
