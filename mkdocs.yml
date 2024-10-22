@@ -146,77 +146,41 @@ nav:
           - Control Machine:
               - ./node_architecture/engines/configuration/index.md
           - Identity Machine:
-              - ./node_architecture/identity/index.md
-              - Types:
-                  - Backend: ./node_architecture/identity/types/backend.md
-                  - Capabilities: ./node_architecture/identity/types/capabilities.md
-                  - ExternalIdentity: ./node_architecture/identity/types/external_identity.md
-                  - IdentityName: ./node_architecture/identity/types/identity_name.md
-                  - IdentityNameEvidence: ./node_architecture/identity/types/identity_name_evidence.md
-                  - Params: ./node_architecture/identity/types/params.md
-                  - GenerateIdentityRequest: ./node_architecture/identity/types/generate_identity_request.md
-                  - GenerateIdentityResponse: ./node_architecture/identity/types/generate_identity_response.md
-                  - ConnectIdentityRequest: ./node_architecture/identity/types/connect_identity_request.md
-                  - ConnectIdentityResponse: ./node_architecture/identity/types/connect_identity_response.md
-                  - DeleteIdentityRequest: ./node_architecture/identity/types/delete_identity_request.md
-                  - DeleteIdentityResponse: ./node_architecture/identity/types/delete_identity_response.md
-                  - DecryptRequest: ./node_architecture/identity/types/decrypt_request.md
-                  - DecryptResponse: ./node_architecture/identity/types/decrypt_response.md
-                  - EncryptRequest: ./node_architecture/identity/types/encrypt_request.md
-                  - EncryptResponse: ./node_architecture/identity/types/encrypt_response.md
-                  - CommitRequest: ./node_architecture/identity/types/commit_request.md
-                  - CommitResponse: ./node_architecture/identity/types/commit_response.md
-                  - VerifyRequest: ./node_architecture/identity/types/verify_request.md
-                  - VerifyResponse: ./node_architecture/identity/types/verify_response.md
-                  - ReadsForRequest: ./node_architecture/identity/types/reads_for_request.md
-                  - ReadsForResponse: ./node_architecture/identity/types/reads_for_response.md
-                  - SubmitReadsForEvidenceRequest: ./node_architecture/identity/types/submit_reads_for_evidence_request.md
-                  - SubmitReadsForEvidenceResponse: ./node_architecture/identity/types/submit_reads_for_evidence_response.md
-                  - QueryReadsForEvidenceRequest: ./node_architecture/identity/types/query_reads_for_evidence_request.md
-                  - QueryReadsForEvidenceResponse: ./node_architecture/identity/types/query_reads_for_evidence_response.md
-                  - SignsForRequest: ./node_architecture/identity/types/signs_for_request.md
-                  - SignsForResponse: ./node_architecture/identity/types/signs_for_response.md
-                  - SubmitSignsForEvidenceRequest: ./node_architecture/identity/types/submit_signs_for_evidence_request.md
-                  - SubmitSignsForEvidenceResponse: ./node_architecture/identity/types/submit_signs_for_evidence_response.md
-                  - QuerySignsForEvidenceRequest: ./node_architecture/identity/types/query_signs_for_evidence_request.md
-                  - QuerySignsForEvidenceResponse: ./node_architecture/identity/types/query_signs_for_evidence_response.md
-                  - ResolveNameRequest: ./node_architecture/identity/types/resolve_name_request.md
-                  - ResolveNameResponse: ./node_architecture/identity/types/resolve_name_response.md
-                  - SubmitNameEvidenceRequest: ./node_architecture/identity/types/submit_name_evidence_request.md
-                  - SubmitNameForEvidenceResponse: ./node_architecture/identity/types/submit_name_evidence_response.md
-                  - QueryNameEvidenceRequest: ./node_architecture/identity/types/query_name_evidence_request.md
-                  - QueryNameEvidenceResponse: ./node_architecture/identity/types/query_name_evidence_response.md
-              - Identity Management Engine:
-                  - ./node_architecture/modules/identity_management/index.md
-                  - GenerateIdentityRequestResponse: ./node_architecture/modules/identity_management/generate_identity_request_response.md
-                  - ConnectIdentityRequestResponse: ./node_architecture/modules/identity_management/connect_identity_request_response.md
-              - Decryption Engine:
-                  - ./node_architecture/identity/decryption/index.md
-                  - DecryptRequestResponse: ./node_architecture/identity/decryption/decrypt_request_response.md
-              - Encryption Engine:
-                  - ./node_architecture/modules/encryption/index.md
-                  - EncryptRequestResponse: ./node_architecture/modules/encryption/encrypt_request_response.md
-              - Commitment Engine:
-                  - ./node_architecture/identity/commitment/index.md
-                  - CommitRequestResponse: ./node_architecture/identity/commitment/commit_request_response.md
-              - Verification Engine:
-                  - ./node_architecture/modules/verification/index.md
-                  - VerifyRequestResponse: ./node_architecture/modules/verification/verify_request_response.md
-              - Reads For Engine:
-                  - ./node_architecture/modules/reads_for/index.md
-                  - ReadsForRequestResponse: ./node_architecture/modules/reads_for/reads_for_request_response.md
-                  - SubmitReadsForEvidenceRequestResponse: ./node_architecture/modules/reads_for/submit_reads_for_evidence_request_response.md
-                  - QueryReadsForEvidenceRequestResponse: ./node_architecture/modules/reads_for/query_reads_for_evidence_request_response.md
-              - Signs For Engine:
-                  - ./node_architecture/modules/signs_for/index.md
-                  - SignsForRequestResponse: ./node_architecture/modules/signs_for/signs_for_request_response.md
-                  - SubmitSignsForEvidenceRequestResponse: ./node_architecture/modules/signs_for/submit_signs_for_evidence_request_response.md
-                  - QuerySignsForEvidenceRequestResponse: ./node_architecture/modules/signs_for/query_signs_for_evidence_request_response.md
-              - Name Engine:
-                  - ./node_architecture/modules/name/index.md
-                  - ResolveNameRequestResponse: ./node_architecture/modules/name/resolve_name_request_response.md
-                  - SubmitNameEvidenceRequestResponse: ./node_architecture/modules/name/submit_name_evidence_request_response.md
-                  - QueryNameEvidencRequestResponse: ./node_architecture/modules/name/query_name_evidence_request_response.md
+              - Identity Management Engine Family:
+                  - Identity Management Engine Overview: ./node_architecture/engines/identity_management_overview.juvix.md
+                  - Identity Management Engine Environment: ./node_architecture/engines/identity_management_environment.juvix.md
+                  - Identity Management Engine Dynamics: ./node_architecture/engines/identity_management_dynamics.juvix.md
+                  - Identity Management Base File: ./node_architecture/engines/identity_management.juvix.md  
+              - Encryption Engine Family:
+                  - Encryption Engine Overview: ./node_architecture/engines/encryption_overview.juvix.md
+                  - Encryption Engine Environment: ./node_architecture/engines/encryption_environment.juvix.md
+                  - Encryption Engine Dynamics: ./node_architecture/engines/encryption_dynamics.juvix.md
+                  - Encryption Base File: ./node_architecture/engines/encryption.juvix.md
+              - Commitment Engine Family:
+                  - Commitment Engine Overview: ./node_architecture/engines/commitment_overview.juvix.md
+                  - Commitment Engine Environment: ./node_architecture/engines/commitment_environment.juvix.md
+                  - Commitment Engine Dynamics: ./node_architecture/engines/commitment_dynamics.juvix.md
+                  - Commitment Base File: ./node_architecture/engines/commitment.juvix.md
+              - Verification Engine Family:
+                  - Verification Engine Overview: ./node_architecture/engines/verification_overview.juvix.md
+                  - Verification Engine Environment: ./node_architecture/engines/verification_environment.juvix.md
+                  - Verification Engine Dynamics: ./node_architecture/engines/verification_dynamics.juvix.md
+                  - Verification Base File: ./node_architecture/engines/verification.juvix.md
+              - Reads For Engine Family:
+                  - Reads For Engine Overview: ./node_architecture/engines/reads_for_overview.juvix.md
+                  - Reads For Engine Environment: ./node_architecture/engines/reads_for_environment.juvix.md
+                  - Reads For Engine Dynamics: ./node_architecture/engines/reads_for_dynamics.juvix.md
+                  - Reads For Base File: ./node_architecture/engines/reads_for.juvix.md
+              - Signs For Engine Family:
+                  - Signs For Engine Overview: ./node_architecture/engines/signs_for_overview.juvix.md
+                  - Signs For Engine Environment: ./node_architecture/engines/signs_for_environment.juvix.md
+                  - Signs For Engine Dynamics: ./node_architecture/engines/signs_for_dynamics.juvix.md
+                  - Signs For Base File: ./node_architecture/engines/signs_for.juvix.md
+              - Naming Engine Family:
+                  - Naming Engine Overview: ./node_architecture/engines/naming_overview.juvix.md
+                  - Naming Engine Environment: ./node_architecture/engines/naming_environment.juvix.md
+                  - Naming Engine Dynamics: ./node_architecture/engines/naming_dynamics.juvix.md
+                  - Naming Base File: ./node_architecture/engines/naming.juvix.md
           - Networking Machine:
               - ./node_architecture/networking/index.md
               - Intra node & inter node protocols:
