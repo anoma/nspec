@@ -5,7 +5,6 @@ name pattern is `namevX.ext`, where `name` is the name of the file, `X` is the
 version number, and `ext` is the file extension.
 """
 
-import logging
 import os
 import re
 import shutil
@@ -14,10 +13,11 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 from urllib.parse import urljoin
 
-from common.utils import fix_site_url
+from mkdocs.plugins import get_plugin_logger
 from mkdocs.structure.files import Files
+from mkdocs_juvix.common.utils import fix_site_url
 
-log: logging.Logger = logging.getLogger("mkdocs")
+log = get_plugin_logger("DifferHook")
 
 ROOT_DIR: Path = Path(__file__).parent.parent.absolute()
 DOCS_DIR: Path = ROOT_DIR.joinpath("docs")
@@ -30,7 +30,6 @@ VERSIONED_FILE_PATTERN = r"(.+)?v(\d+)((\.\w+)?\.md)"
 DIFF_ENABLED: bool = bool(os.environ.get("DIFF_ENABLED", True))
 
 if DIFF_ENABLED:
-
     log.info("Diff hooks enabled.")
 
     DIFF_BIN: str = os.environ.get("DIFF_BIN", "diff")
@@ -51,7 +50,6 @@ if DIFF_ENABLED:
         return fix_site_url(config)
 
     class DiffPreprocessor:
-
         def __init__(self, config):
             self.mkconfig = config
             self.site_url = config.get("site_url", "")
@@ -78,7 +76,6 @@ if DIFF_ENABLED:
             return ""
 
         def _markdown_diff(self, diff_file: Path, indent: int = 0) -> Optional[str]:
-
             if not diff_file.exists():
                 return None
 
@@ -97,7 +94,6 @@ if DIFF_ENABLED:
         def _markdown_link_filepath_version(
             self, filepath: Path, counter: int, just_url: bool = False
         ) -> Optional[str]:
-
             _version = self._compute_filepath_version(filepath, counter)
             if _version:
                 info = self._get_name_version_number(_version)
@@ -393,7 +389,6 @@ if DIFF_ENABLED:
             return None
 
         def add_diff_markdown(self, markdown: str, filepath: Path) -> str:
-
             _markdown = self._render_diff(markdown, filepath)
             markdown = self._path_versioned_links(_markdown, filepath) + _markdown
             return markdown

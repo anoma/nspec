@@ -11,7 +11,7 @@ env:
   POETRY_VERSION: 1.8.3
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
-  INSIDERS_VERSION: 9.5.37-insiders-4.53.13
+  INSIDERS_VERSION: 9.5.41-insiders-4.53.14
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   REPORT_TODOS: false

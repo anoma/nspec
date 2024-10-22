@@ -12,7 +12,9 @@ tags:
 
     ```juvix
     module node_architecture.types.engine_environment;
-    import node_architecture.basics open;
+    import node_architecture.types.basics open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
     import node_architecture.types.anoma_message as Anoma;
     ```
 
@@ -33,8 +35,6 @@ This data is encapsulated within the `EngineEnvironment` type family, which is
 parameterised by four types:
 
 - `S`, representing the local state,
-- `I`, representing the type of engine-specific messages (defined in their
-respective overview page),
 - `M`, representing the type of mailboxes' states, and
 - `H`, representing the type of handles for timers.
 
@@ -42,12 +42,12 @@ These same letters will be used in the rest of the document to represent these
 types.
 
 ```juvix
-type EngineEnvironment (S I M H : Type) :=
+type EngineEnvironment (S M H : Type) :=
   mkEngineEnvironment {
-      name : Name ; -- read-only
+      name : EngineName ; -- read-only
       localState : S;
-      mailboxCluster : Map MailboxID (Mailbox I M);
-      acquaintances : Set Name;
+      mailboxCluster : Map MailboxID (Mailbox M);
+      acquaintances : Set EngineName;
       timers : List (Timer H);
 };
 ```
@@ -58,8 +58,8 @@ type EngineEnvironment (S I M H : Type) :=
     an index type, and the mailbox is a record containing the following data:
 
     - The enveloped messages that the mailbox contains.
-    - The mailbox state, which is of type `Maybe M`, i.e., it could be
-    _nothing_.
+    - The mailbox state, which is of type `Option M`, i.e., it could be
+    _none_.
 
     If you don't need multiple mailboxes, you can use any ID as the key.
     For example, you can use `0` for a default mailbox.

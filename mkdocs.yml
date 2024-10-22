@@ -1,7 +1,6 @@
 site_name: !ENV [SITE_NAME, "Anoma Specification"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
-site_url: !ENV [SITE_URL, 'https://anoma.github.io/nspec/latest']
 site_dir: !ENV [SITE_DIR, site]
 copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 use_directory_urls: false
@@ -70,7 +69,11 @@ nav:
       - Node Architecture:
           - ./node_architecture/index.md
           - Modules: ./node_architecture/modules/index.md
-          - Juvix Basic Definitions: ./node_architecture/basics.juvix.md
+          - Basic Types:
+              - ./node_architecture/types/basics.juvix.md
+              - Cryptographic Primitives: ./node_architecture/types/crypto.juvix.md
+              - Identities: ./node_architecture/types/identities.juvix.md
+              - Messages & Mailboxes: ./node_architecture/types/messages.juvix.md
           - Engine Family Types:
               - ./node_architecture/engines/index.md
               - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
@@ -446,7 +449,7 @@ nav:
                   - template_environment: ./node_architecture/engines/template_environment.juvix.md
                   - template_dynamics: ./node_architecture/engines/template_dynamics.juvix.md
                   - template base: ./node_architecture/engines/template.juvix.md
-              - \y:
+              - Ticker Engine Family:
                   - Ticker Engine Overview: ./node_architecture/engines/ticker_overview.juvix.md
                   - Ticker Engine Environment: ./node_architecture/engines/ticker_environment.juvix.md
                   - Ticker Engine Dynamics: ./node_architecture/engines/ticker_dynamics.juvix.md
@@ -505,25 +508,37 @@ theme:
     - content.code.annotate
     - content.code.copy
     - content.tooltips
-    # - navigation.tracking
-    - navigation.footer
-    - navigation.path
-    # - navigation.expand
-    - navigation.prune
-    - navigation.tabs
-    - navigation.sections
-    # - navigation.instant
-    # - navigation.instant.preview
-    - navigation.indexes
     - search.highlight
     - search.suggest
     - search.sharing
+    - navigation.instant
+    # - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.instant.preview
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.prune
+    - navigation.indexes
+    - navigation.top
+    - navigation.path
     - toc.follow
-    # - header.autohide
+    - toc.integrate
 plugins:
   - search
   - glightbox
-  - juvix
+  - images # Provided with mkdocs-juvix-plugin
+  - juvix # Provided with mkdocs-juvix-plugin
+  - wikilinks # Provided with mkdocs-juvix-plugin
+  - todos # Provided with mkdocs-juvix-plugin
+  - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
+      ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
+      FileTypes:
+        - png
+        - svg
+      FileTypeOverrides:
+        mermaid: png
+      FailFast: !ENV CI
   - bibtex:
       bib_dir: "docs/references"
   - macros:
@@ -534,11 +549,7 @@ plugins:
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
 hooks:
-  - hooks/links.py
-  - hooks/images.py
-  - hooks/todos.py
   - hooks/differ.py
-  - hooks/juvix-codeblock-footer.py
 watch:
   - docs/assets
   - formal/SML
@@ -551,7 +562,7 @@ exclude_docs: |
   docs/indexes/*.dot
   docs/images/*.dot.svg
 extra_css:
-  - assets/css/style.css
+  - assets/css/juvix-material-style.css
   - assets/css/juvix-highlighting.css
 extra_javascript:
   - assets/js/extra.js
@@ -560,9 +571,6 @@ extra_javascript:
   - assets/js/tex-svg-full.js
 # See https://squidfunk.github.io/mkdocs-material/reference/math/?h=katex#comparing-mathjax-and-katex on why we use MathJax
 markdown_extensions:
-  - pymdownx.snippets:
-      check_paths: true
-      url_download: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid

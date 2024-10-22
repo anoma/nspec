@@ -158,7 +158,6 @@ template as the code is self-explanatory.
 TemplateEnvironment : Type :=
   EngineEnvironment
   TemplateLocalState
-  TemplateMsg
   TemplateMailboxState
   TemplateTimerHandle;
 ```
@@ -171,7 +170,7 @@ module template_environment_example;
 
   templateEnvironmentExample : TemplateEnvironment :=
     mkEngineEnvironment@ {
-      name := Left "template"; -- Name
+      name := "template";
       localState := mkTemplateLocalState@{
         taskQueue := mkNiceState@{
           word := "taskQueue"
@@ -184,4 +183,3 @@ module template_environment_example;
   ;
 end;
 ```
-

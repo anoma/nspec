@@ -11,7 +11,6 @@ tags:
 
     ```juvix
     module node_architecture.types.anoma_message;
-    import node_architecture.basics open;
     import node_architecture.engines.ticker_overview open using {TickerMsg}
     ```
 
