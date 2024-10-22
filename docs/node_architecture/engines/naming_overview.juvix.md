@@ -211,8 +211,8 @@ Querying name evidence for an identity.
 
 ## Engine Components
 
-- [[naming_environment|`Naming` Engine Environment]]
-- [[naming_dynamics|`Naming` Engine Dynamics]]
+- [[Naming Environment|`Naming` Engine Environment]]
+- [[Naming Dynamics|`Naming` Engine Dynamics]]
 
 ## Useful links
 

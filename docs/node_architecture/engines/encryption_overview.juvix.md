@@ -126,7 +126,7 @@ Sequence diagram for verification (reads for).
 
 ## Engine Components
 
-- [[encryption_environment|`Encryption` Engine Environment]]
-- [[encryption_dynamics|`Encryption` Engine Dynamics]]
+- [[Encryption Environment|`Encryption` Engine Environment]]
+- [[Encryption Dynamics|`Encryption` Engine Dynamics]]
 
 ## Useful links

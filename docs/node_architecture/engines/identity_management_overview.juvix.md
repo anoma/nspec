@@ -233,7 +233,7 @@ Deleting an identity
 
 ## Engine Components
 
-- [[identity_management_environment|`Identity Management` Engine Environment]]
-- [[identity_management_dynamics|`Identity Management` Engine Dynamics]]
+- [[Identity Management Environment|`Identity Management` Engine Environment]]
+- [[Identity Management Dynamics|`Identity Management` Engine Dynamics]]
 
 ## Useful links

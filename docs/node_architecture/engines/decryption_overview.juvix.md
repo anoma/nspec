@@ -101,7 +101,7 @@ Sequence diagram for decryption.
 
 ## Engine Components
 
-- [[decryption_environment|`Decryption` Engine Environment]]
-- [[decryption_dynamics|`Decryption` Engine Dynamics]]
+- [[Decryption Environment|`Decryption` Engine Environment]]
+- [[Decryption Dynamics|`Decryption` Engine Dynamics]]
 
 ## Useful links

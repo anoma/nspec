@@ -213,7 +213,7 @@ Querying `reads_for` evidence for an identity
 
 ## Engine Components
 
-- [[reads_for_environment|`Reads For` Engine Environment]]
-- [[reads_for_dynamics|`Reads For` Engine Dynamics]]
+- [[Reads For Environment|`Reads For` Engine Environment]]
+- [[Reads For Dynamics|`Reads For` Engine Dynamics]]
 
 ## Useful links

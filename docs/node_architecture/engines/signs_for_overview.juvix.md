@@ -213,7 +213,7 @@ Retrieving all signs_for evidence related to a particular identity
 
 ## Engine Components
 
-- [[signs_for_environment|`Signs For` Engine Environment]]
-- [[signs_for_dynamics|`Signs For` Engine Dynamics]]
+- [[Signs For Environment|`Signs For` Engine Environment]]
+- [[Signs For Dynamics|`Signs For` Engine Dynamics]]
 
 ## Useful links

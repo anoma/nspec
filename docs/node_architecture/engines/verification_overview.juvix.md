@@ -128,8 +128,8 @@ Sequence diagram for encryption (signs for).
 
 ## Engine Components
 
-- [[verification_environment|`Verification` Engine Environment]]
-- [[verification_dynamics|`Verification` Engine Dynamics]]
+- [[Verification Environment|`Verification` Engine Environment]]
+- [[Verification Dynamics|`Verification` Engine Dynamics]]
 
 ## Useful links
 

@@ -97,7 +97,7 @@ Sequence diagram for commitment generation.
 
 ## Engine Components
 
-- [[commitment_environment|`Commitment` Engine Environment]]
-- [[commitment_dynamics|`Commitment` Engine Dynamics]]
+- [[Commitment Environment|`Commitment` Engine Environment]]
+- [[Commitment Dynamics|`Commitment` Engine Dynamics]]
 
 ## Useful links
