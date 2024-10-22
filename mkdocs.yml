@@ -150,7 +150,7 @@ nav:
                   - Identity Management Engine Overview: ./node_architecture/engines/identity_management_overview.juvix.md
                   - Identity Management Engine Environment: ./node_architecture/engines/identity_management_environment.juvix.md
                   - Identity Management Engine Dynamics: ./node_architecture/engines/identity_management_dynamics.juvix.md
-                  - Identity Management Base File: ./node_architecture/engines/identity_management.juvix.md  
+                  - Identity Management Base File: ./node_architecture/engines/identity_management.juvix.md
               - Encryption Engine Family:
                   - Encryption Engine Overview: ./node_architecture/engines/encryption_overview.juvix.md
                   - Encryption Engine Environment: ./node_architecture/engines/encryption_environment.juvix.md
