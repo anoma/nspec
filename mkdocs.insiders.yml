@@ -13,13 +13,13 @@ plugins:
   - wikilinks
   - todos
   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
-    ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
-    FileTypes:
-      - png
-      - svg
-    FileTypeOverrides:
-      mermaid: png
-    FailFast: !ENV CI
+      ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
+      FileTypes:
+        - png
+        - svg
+      FileTypeOverrides:
+        mermaid: png
+      FailFast: !ENV CI
   - bibtex:
       bib_dir: "docs/references"
   - git-revision-date-localized:
