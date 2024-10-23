@@ -913,13 +913,13 @@ files = [
 
 [[package]]
 name = "mkdocs-juvix-plugin"
-version = "0.3.10"
+version = "0.3.11"
 description = "Support for Juvix Markdown files in MkDocs"
 optional = false
 python-versions = "<4,>=3.10"
 files = [
-    {file = "mkdocs_juvix_plugin-0.3.10-py3-none-any.whl", hash = "sha256:d2c60f2b923f771ba7c488b3ffe620325bcbf627625c7e854cf0eeaa8f363110"},
-    {file = "mkdocs_juvix_plugin-0.3.10.tar.gz", hash = "sha256:259f14f0ad4b8c0f025dded6cfef7c81e2a177da5bac76bcc5e1cdb04cea311e"},
+    {file = "mkdocs_juvix_plugin-0.3.11-py3-none-any.whl", hash = "sha256:83a46446efdab55aa71d36382bd7ba69ba6b73e768deb9593959b4d600e788fc"},
+    {file = "mkdocs_juvix_plugin-0.3.11.tar.gz", hash = "sha256:1030643df585e950dd9acb4d2fe7f1fb35f0c877305e808d00720c48f911f3b5"},
 ]
 
 [package.dependencies]
@@ -2111,4 +2111,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4"
-content-hash = "639f6f21fac51eb8b55bf00fa4fc1d4475a2497a688f6b8d02028887f61f5f32"
+content-hash = "d269e77b40965014c780b3e19ccbff5968be8e8a8082fd87197ef6f447441439"
