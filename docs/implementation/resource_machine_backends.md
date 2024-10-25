@@ -7,6 +7,14 @@ search:
 
 # Resource machine backends
 
+The following resource machine backends must be supported:
+
+- [Transparent](./transparent.md)
+- [Cairo](./cairo.md)
+- [RISC0](./risc0.md)
+
+<!--
+
 ## Transaction functions
 
 !!! todo
@@ -33,3 +41,4 @@ The following resource logic virtual machines must be supported:
 - [Cairo](./function_encoding/cairo.md)
 - [RISC0](./function_encoding/risc0.md)
 
+-->
