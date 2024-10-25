@@ -87,6 +87,24 @@ end
 
 #### Hoon Encoding
 
+The Hoon `public-inputs` record with fields:
+- `commitments`
+  - a list of atoms
+- `nullifiers`
+  - a list of atoms
+- `self-tag`
+  - an atom
+- `other-public`
+  - a noun
+
+The Hoon `private-inputs` record with fields:
+- `committed-resources`
+  - a list of resources
+- `nullified-resources`
+  - a list of atoms
+- `other-private`
+  - a noun
+
 ```hoon
 +$  public-inputs
   $:
@@ -110,6 +128,8 @@ Not instantiated.
 ### Resource Logic
 
 #### Hoon Encoding
+The Hoon `resource-logic` type:
+- a boolean-valued function
 ```hoon
 +$  resource-logic
   $~  =>(~ |=(* &))
@@ -123,6 +143,24 @@ Not instantiated.
 ### Resource
 
 #### Hoon Encoding
+The Hoon `public-inputs` record with fields:
+- `label`
+  - a UTF-8 Text
+- `logic`
+  - a `resource-logic`
+- `ephemeral`
+  - a boolean
+- `data`
+  - a cell `[a b]` where
+    - `a` is an unsigned integer
+    - `b` is an atom
+- `nullifier-key`
+  - a 256-bit atom
+- `nonce`
+  - a 256-bit atom
+- `rseed`
+  - a string "fake"
+
 ```hoon
 +$  resource
   $~  :*
@@ -148,6 +186,24 @@ Not instantiated.
 ```
 
 #### Elixir Encoding
+The Elixir `Resource.t()` record with fields:
+- `label`
+  - a binary
+- `logic`
+  - a Nock noun
+- `ephemeral`
+  - a boolean
+- `quantity`
+  - a non-negative integer
+- `data`
+  - a binary
+- `nullifier_key`
+  - 256-bit bitstring
+- `nonce`
+  - 256-bit bitstring
+- `rseed`
+  - bitstring
+
 ```elixir
 typedstruct enforce: true do
     field(:label, binary(), default: "")
@@ -155,7 +211,7 @@ typedstruct enforce: true do
     field(:ephemeral, bool(), default: false)
     field(:quantity, non_neg_integer(), default: 1)
     field(:data, binary(), default: <<>>)
-    field(:nullifier_key, ed25519_public(), default: <<0::256>>)
+    field(:nullifier_key, <<_::256>>, default: <<0::256>>)
     field(:nonce, <<_::256>>, default: <<0::256>>)
     field(:rseed, <<>>, default: <<>>)
 end
@@ -164,6 +220,9 @@ end
 ### Complicance Proof
 
 #### Hoon Encoding
+The Hoon `compliance proof` type:
+- a string "compliance"
+
 ```hoon
 +$  compliance-proof  %compliance
 ```
@@ -175,24 +234,51 @@ Not instantiated.
 ### Logic Proof
 
 #### Hoon Encoding
+The Hoon `logic-proof` type:
+- a cell `[a b]` where
+  - `a` is a `resource`
+  - `b` is a cell `[c d]` where
+    - `c` is `public-inputs`
+    - `d` is `private-inputs`
 ```hoon
 +$  logic-proof
   [resource=resource inputs=[public-inputs private-inputs]]
 ```
 
 #### Elixir Encoding
+The Elixir `LogicProof.t()` record with fields:
+- `resource`
+  - a `Resource.t()`
+- `commitments`
+  - a set of binaries
+  - seen as a public input
+- `nullifiers`
+  - a set of binaries
+  - seen as a public input
+- `self-tag`
+  - a tuple `{a, b}` where
+    - a is either `:committed` or `:nullified`
+    - b is a binary
+  - seen as a public input
+- `other_public`
+  - a Nock noun
+  - seen as a public input
+- `committed_plaintexts`
+  - a set of `Resource.t()` records
+  - seen as a private input
+- `nullified_plaintexts`
+  - a set of `Resource.t()` records
+  - seens as a private input
+- `other_private`
+  - a Nock noun
+  - seen as a private input
+
 ```elixir
 typedstruct enforce: true do
     field(:resource, Resource.t())
-    field(:commitments, MapSet.t(Resource.commitment()),
-      default: MapSet.new()
-    )
-    field(:nullifiers, MapSet.t(Resource.nullifier()), default: MapSet.new())
-    field(
-      :self_tag,
-      {:committed, Resource.commitment()}
-      | {:nullified, Resource.commitment()}
-    )
+    field(:commitments, MapSet.t(binary()), default: MapSet.new())
+    field(:nullifiers, MapSet.t(binary()), default: MapSet.new())
+    field(:self_tag, {:committed | :nullified, binary()})
     field(:other_public, Noun.t(), default: <<>>)
     field(:committed_plaintexts, MapSet.t(Resource.t()),
       default: MapSet.new()
@@ -207,6 +293,9 @@ end
 ### Proof
 
 #### Hoon Encoding
+The Hoon `proof` type:
+- either a `compliance-proof` or `logic-proof`
+
 ```hoon
 +$  proof  ?(compliance-proof logic-proof)
 ```
@@ -218,6 +307,15 @@ Not instantiated.
 ### Action
 
 #### Hoon Encoding
+The Hoon `action` record with fields:
+- `commitments`
+  - a list of atoms
+- `nullifiers`
+  - a list of atoms
+- `proofs`
+  - a list of `proof` values
+- `app-data`
+  - a cell
 ```hoon
 +$  action
   $~  :*
@@ -235,6 +333,16 @@ Not instantiated.
 ```
 
 #### Elixir Encoding
+The Elixir `Action.t()` record with fields:
+- `commitments`
+  - a set of binaries
+- `nullifiers`
+  - a set of binaries
+- `proofs`
+  - a set of `Logic.Proof.t()` records
+- `app_data`
+  - a binary
+
 ```elixir
 typedstruct enforce: true do
     field(:commitments, MapSet.t(binary()), default: MapSet.new())
@@ -247,13 +355,20 @@ end
 ### Delta
 
 #### Hoon Encoding
+The Hoon `delta` type:
+- an list of `[a b]` where
+  - `a` is a `[c d]` where
+    - `c` is a UTF-8 text
+    - `d` is a `resource-logic`
+  - `b` is a signed integer
 ```hoon
-+$  delta-element
-  [k=resource-kind v=@s]
-+$  delta  (list delta-element)
++$  delta  (list [[@t resource-logic] @s])
 ```
 
 #### Elixir Encoding
+The Elixir `Delta.t()` type:
+- a map from binaries to integers
+
 ```elixir
 @type Delta.t() :: %{binary() => integer()}
 ```
@@ -261,6 +376,15 @@ end
 ### Transaction
 
 #### Hoon Encoding
+The Hoon `transaction` record with fields:
+- `roots`
+  - a list of atoms
+- `actions`
+  - a list of `action` records
+- `delta`
+  - a `delta`
+- `delta-proof`
+  - a string "delta"
 ```hoon
 +$  transaction
   $~  :*
@@ -278,12 +402,20 @@ end
 ```
 
 #### Elixir Encoding
+The Elixir `Transaction.t()` record with fields:
+- `roots`
+  - a list of binaries
+- `actions`
+  - a list of `Action.t()` records
+- `delta`
+  - a list of `Delta.t()` values
+- `delta_proof`
+  - bitstring
 ```elixir
 typedstruct enforce: true do
     field(:roots, MapSet.t(binary()), default: MapSet.new())
     field(:actions, MapSet.t(Action.t()), default: MapSet.new())
     field(:delta, Delta.t(), default: %{})
-    # useless field for shielded only.
     field(:delta_proof, <<>>, default: <<>>)
 end
 ```
