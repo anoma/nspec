@@ -527,7 +527,7 @@ theme:
 plugins:
   - search
   - glightbox
-  - images # Provided with mkdocs-juvix-plugin
+#   - images # Provided with mkdocs-juvix-plugin
   - juvix # Provided with mkdocs-juvix-plugin
   - wikilinks # Provided with mkdocs-juvix-plugin
   - todos # Provided with mkdocs-juvix-plugin
