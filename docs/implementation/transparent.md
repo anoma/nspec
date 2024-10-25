@@ -353,4 +353,3 @@ with `verify_correspondence` defined as:
 end
 ```
 
-

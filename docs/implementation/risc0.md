@@ -9,12 +9,19 @@ search:
 
 ## Primitive choices
 
-TODO: Fill in all primitive choices made in the implementation.
+!!! todo "Primitive choices"
+
+    Fill in all primitive choices made in the implementation.
 
 ## Encoding choices
 
-TODO: Fill in all encoding choices made in the implementation.
+!!! todo "Encoding choices"
+
+    Fill in all encoding choices made in the implementation.
 
 ## Other decisions
 
-TODO: Fill in all other decisions made in the implementation.
+!!! todo "Other decisions"
+
+    Fill in all other decisions made in the implementation.
+
