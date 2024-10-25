@@ -48,18 +48,21 @@ A proof $\pi$ for which $Verify(pr) = 1$ is considered valid.
 For example, let's take three common instantiations:
 
 - The _trivial_ scheme is one where computation is simply replicated. The
-  trivial scheme is defined as `verify(a, b, predicate, _) = predicate a b`
-  (with proof type `()`). It has no extra security assumptions but is not
-  succinct.
+  trivial scheme is defined as `verify(predicate, x, _) = predicate x`. It has no extra security assumptions but is not succinct. In this case, all of the data is used for both proving and verifying and witness and proof has unit type `()`.
 
 - The _trusted delegation_ scheme is one where computation is delegated to a
   known, trusted party whose work is not checked. The trusted delegation scheme
-  is defined as `verify(a, b, predicate, proof) = checkSignature (a, b,
-  predicate) proof`, where the trusted party is assumed to produce such a
-  signature only if `predicate a b = 1`. This scheme is succinct but requires a
+  is defined as `verify(predicate, x, sig) = checkSignature (predicate, x) sig`, where the trusted party is assumed to produce such a
+  signature only if `predicate x = 1`. This scheme is succinct but requires a
   trusted party assumption (which could be generalised to a threshold quorum in
   the obvious way). Note that since the computation is still verifiable, a
-  signer of `(a, b, predicate)` where `predicate a b = 0` could be held
-  accountable by anyone else who later checked the predicate.
+  signer of `(predicate, x)` where `predicate x w = 0` could be held
+  accountable by anyone else who later checked the predicate. In this case witness also has unit type and the proof has the type `Signature`.
 
-- The _succinct proof-of-knowledge_ scheme is one where the result of computation is attested to with a cryptographic proof (of the sort commonly instantiated by modern-day SNARKs & STARKs). Succint proof-of-knowledge schemes provide succinctness as well as veriability subject to the scheme-specific cryptographic assumptions. They may also possibly be _zero-knowledge_, in which the verifier learns nothing other than `predicate a b = 1` (in this case, and in others, `a` and `b` will often be "hidden" with hash functions, such that the verifier knows only `hash a` and `hash b` but the substance of the relation obtains over the preimages).
+- The _succinct proof-of-knowledge_ scheme is one where the result of computation is attested to with a cryptographic proof (of the sort commonly instantiated by modern-day SNARKs & STARKs). Succint proof-of-knowledge schemes provide succinctness as well as veriability subject to the scheme-specific cryptographic assumptions. They may also possibly be _zero-knowledge_, in which the verifier learns nothing other than `predicate x w = 1` (in this case, and in others, `w` will be "hidden" with hash functions and `x` will remain public, such that the verifier knows only `hash w` and `x` but the substance of the relation obtains over the preimages).
+
+|Instantiation|Verifying key|Proving key|Instance (x)|Witness (w)|Proof|Properties|
+|-|-|-|-|-|-|-|
+|Trivial scheme|predicate|()|predicate arguments|()|()|Transparent, not succinct|
+|Trusted delegation|predicate||predicate arguments|()|Signature|Succinct, trusted, verifiable|
+|Succinct PoK||||||succinct, verifiable, possibly zero knowledge|
