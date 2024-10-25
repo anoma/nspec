@@ -14,7 +14,7 @@ Elixir typespec can be found [here](https://hexdocs.pm/elixir/typespecs.html)
 Nock specification can [here](https://docs.urbit.org/language/nock/reference/specification)
 
 Below, all instances of "a", "is , "is a" is to be interpreted as "of type" when
-describing encodede datatypes.
+describing encoded data types.
 
 ## Primitive choices
 
