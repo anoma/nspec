@@ -9,6 +9,13 @@ search:
 
 Transparent Resource Machine Implementation Details per v0.25.0
 
+Elixir typespec can be found [here](https://hexdocs.pm/elixir/typespecs.html)
+
+Nock specification can [here](https://docs.urbit.org/language/nock/reference/specification)
+
+Below, all instances of "a", "is , "is a" is to be interpreted as "of type" when
+describing encodede datatypes.
+
 ## Primitive choices
 
 ### Commitment Hash
