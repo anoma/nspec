@@ -425,9 +425,9 @@ nav:
       - Data encoding: ./implementation/data_encoding.md
       - Resource machine backends:
           - ./implementation/resource_machine_backends.md
-          - Transparent: ./implementation/transparent.md
-          - Cairo: ./implementation/cairo.md
-          - RISC0: ./implementation/risc0.md
+          - Transparent Backend: ./implementation/transparent.md
+          - Cairo Backend: ./implementation/cairo.md
+          - RISC0 Backend: ./implementation/risc0.md
   - Quick links: ./indexes/links.md
   - Juvix modules: ./indexes/juvix_modules.md
   - Tutorials for contributors:
