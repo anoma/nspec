@@ -7,4 +7,14 @@ search:
 
 # RISC0
 
-TODO: Fill in all primitive choices and other decisions made in the implementation.
+## Primitive choices
+
+TODO: Fill in all primitive choices made in the implementation.
+
+## Encoding choices
+
+TODO: Fill in all encoding choices made in the implementation.
+
+## Other decisions
+
+TODO: Fill in all other decisions made in the implementation.
