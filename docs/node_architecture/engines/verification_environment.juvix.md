@@ -9,7 +9,7 @@ tags:
 - engine-environment
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.verification_environment;

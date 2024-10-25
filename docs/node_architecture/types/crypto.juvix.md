@@ -10,7 +10,7 @@ tags:
 - Crypto
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.types.crypto;

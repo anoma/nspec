@@ -10,30 +10,31 @@ tags:
 - engine-dynamics
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.encryption_dynamics;
     import prelude open;
-    import node_architecture.types.messages open;
-    import Stdlib.Trait.Ord as Ord;
     import Stdlib.Data.List.Base open;
+    import Stdlib.Trait.Ord as Ord;
     import system_architecture.identity.identity open hiding {ExternalIdentity};
-    import node_architecture.types.engine_dynamics open;
-    import node_architecture.types.engine_environment open;
-    import node_architecture.engines.reads_for_overview open;
     import node_architecture.engines.encryption_environment open;
     import node_architecture.engines.encryption_overview open;
-    import node_architecture.types.identities open;
+    import node_architecture.engines.reads_for_overview open;
     import node_architecture.identity_types open;
     import node_architecture.types.anoma_message open;
+    import node_architecture.types.engine_dynamics open;
+    import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
     ```
 
 # `Encryption` Dynamics
 
 ## Overview
 
-The dynamics of the Encryption Engine define how it processes incoming encryption requests and produces the corresponding responses.
+The dynamics of the `Encryption` Engine define how it processes incoming
+encryption requests and produces the corresponding responses.
 
 ## Action labels
 
@@ -120,7 +121,7 @@ This matchable argument contains the address and mailbox ID of where the respons
 
 ## Precomputation results
 
-The Encryption Engine does not require any non-trivial pre-computations.
+The `Encryption` Engine does not require any non-trivial pre-computations.
 
 <!-- --8<-- [start:encryption-precomputation-entry] -->
 ```juvix
@@ -238,8 +239,13 @@ readsForResponseGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
-encryptResponse (externalIdentity : ExternalIdentity) (env : EncryptionEnvironment) (evidence : Set ReadsForEvidence) (req : Pair EngineID Plaintext) : EngineMessage :=
-  let localState := EngineEnvironment.localState env;
+encryptResponse
+  (externalIdentity : ExternalIdentity)
+  (env : EncryptionEnvironment)
+  (evidence : Set ReadsForEvidence)
+  (req : Pair EngineID Plaintext)
+  : EngineMessage
+  := let localState := EngineEnvironment.localState env;
       whoAsked := fst req;
       data := snd req;
       encryptedData :=

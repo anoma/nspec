@@ -21,11 +21,17 @@ tags:
 
 --8<-- "./docs/node_architecture/engines/encryption.juvix.md:encryption-engine-family"
 
-The Encryption engine is responsible for encrypting data to external identities, possibly using known `reads_for` relationships. It automatically utilizes "reads_for" relationship information from the Reads For Engine along with caller preference information to choose which identity to encrypt to.
+The `Encryption` engine is responsible for encrypting data to external identities,
+possibly using known `reads_for` relationships. It automatically utilizes
+"reads_for" relationship information from the Reads For Engine along with caller
+preference information to choose which identity to encrypt to.
 
 ## Purpose
 
-The Encryption Engine encrypts data to external identities, optionally using known `reads_for` relationships. It is a stateless function, and calls to it do not need to be ordered. The runtime should implement this intelligently for efficiency.
+The `Encryption` Engine encrypts data to external identities, optionally using
+known `reads_for` relationships. It is a stateless function, and calls to it do
+not need to be ordered. The runtime should implement this intelligently for
+efficiency.
 
 ## Message interface
 
@@ -51,7 +57,7 @@ type EncryptionMsg :=
 
 ### `EncryptRequest` message
 
-!!! quote "EncryptRequest"
+!!! quote "`EncryptRequest`"
 
     ```
     --8<-- "./encryption_overview.juvix.md:EncryptRequest"
@@ -61,24 +67,25 @@ An `EncryptRequest` instructs the Encryption Engine to encrypt data to a particu
 
 - `data`: The data to encrypt.
 - `externalIdentity`: The external identity to encrypt to.
-- `useReadsFor`: Whether or not to use known `reads_for` relationships.
+- `useReadsFor`: Whether to use known `reads_for` relationships or not.
 
 ### `EncryptResponse` message
 
-!!! quote "EncryptResponse"
+!!! quote "`EncryptResponse`"
 
     ```
     --8<-- "./encryption_overview.juvix.md:EncryptResponse"
     ```
 
-An `EncryptResponse` contains the data encrypted by the Encryption Engine in response to an EncryptRequest.
+An `EncryptResponse` contains the data encrypted by the `Encryption` Engine in
+response to an `EncryptRequest`.
 
 - `ciphertext`: The encrypted data.
 - `err`: An error message if encryption failed.
 
 ## Message sequence diagrams
 
-### Encryption Sequence (Without ReadsFor evidence)
+### Encryption Sequence (Without `ReadsFor` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-no-reads-for] -->
 <figure markdown="span">
@@ -99,7 +106,7 @@ Sequence diagram for verification (no reads for).
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-no-reads-for] -->
 
-### Encryption Sequence (With ReadsFor evidence)
+### Encryption Sequence (With `ReadsFor` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-reads-for] -->
 <figure markdown="span">

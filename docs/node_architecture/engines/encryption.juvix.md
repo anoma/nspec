@@ -7,15 +7,15 @@ tags:
 - engines
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.encryption;
       import prelude open;
-      import node_architecture.engines.encryption_overview open public;
-      import node_architecture.engines.encryption_environment open public;
-      import node_architecture.engines.encryption_dynamics open public;
       import node_architecture.types.engine_family as Anoma;
+      import node_architecture.engines.encryption_dynamics open public;
+      import node_architecture.engines.encryption_environment open public;
+      import node_architecture.engines.encryption_overview open public;
     ```
 
 # `Encryption` engine family type

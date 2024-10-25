@@ -10,34 +10,35 @@ tags:
 - engine-dynamics
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.identity_management_dynamics;
-
     import prelude open;
-    import Stdlib.Data.String.Base open;
     import Stdlib.Data.Bool open;
+    import Stdlib.Data.String.Base open;
     import Data.Map open;
-    import node_architecture.types.messages open;
-    import node_architecture.types.identities open;
-    import node_architecture.identity_types open;
-    import system_architecture.identity.identity open hiding {ExternalIdentity};
-    import node_architecture.types.engine_dynamics open;
-    import node_architecture.types.engine_environment open;
+    import node_architecture.engines.commitment_environment open;
+    import node_architecture.engines.decryption_environment open;
     import node_architecture.engines.identity_management_environment open;
     import node_architecture.engines.identity_management_overview open;
-    import node_architecture.engines.decryption_environment open;
-    import node_architecture.engines.commitment_environment open;
-    import node_architecture.types.anoma_message open;
+    import node_architecture.identity_types open;
     import node_architecture.types.anoma_environment open;
+    import node_architecture.types.anoma_message open;
+    import node_architecture.types.engine_dynamics open;
+    import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
+    import system_architecture.identity.identity open hiding {ExternalIdentity};
     ```
 
 # `Identity Management` Dynamics
 
 ## Overview
 
-The dynamics of the Identity Management Engine define how it processes incoming messages (requests) and produces the corresponding responses and actions.
+The dynamics of the `Identity Management` Engine define how it processes
+incoming messages (requests) and produces the corresponding responses and
+actions.
 
 ## Action labels
 
@@ -311,11 +312,21 @@ nameStr (name : EngineID) : String :=
     | none := ""
     | some s := s
   };
+```
+
+```juvix
 nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
   (name ++str "_" ++str str ++str "_" ++str nameStr addr);
-makeDecryptEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr : EngineID): DecryptionEnvironment :=
-  let
-    local := EngineEnvironment.localState env;
+```
+
+```juvix
+makeDecryptEnv
+  (env : IdentityManagementEnvironment)
+  (backend' : Backend)
+  (addr : EngineID)
+  : DecryptionEnvironment
+  := let
+      local := EngineEnvironment.localState env;
   in mkEngineEnvironment@{
       name := nameGen "decryptor" (EngineEnvironment.name env) addr;
       localState := mkDecryptionLocalState@{
@@ -330,8 +341,15 @@ makeDecryptEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr 
       acquaintances := Set.fromList [nameStr addr];
       timers := []
     };
-makeCommitmentEnv (env : IdentityManagementEnvironment) (backend' : Backend) (addr : EngineID): CommitmentEnvironment :=
-    let
+```
+
+```juvix
+makeCommitmentEnv
+  (env : IdentityManagementEnvironment)
+  (backend' : Backend)
+  (addr : EngineID)
+  : CommitmentEnvironment
+  := let
       local := EngineEnvironment.localState env;
     in mkEngineEnvironment@{
       name := nameGen "committer" (EngineEnvironment.name env) addr;

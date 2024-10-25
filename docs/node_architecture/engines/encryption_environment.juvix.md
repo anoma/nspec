@@ -9,29 +9,31 @@ tags:
 - engine-environment
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.encryption_environment;
 
     import prelude open;
-    import system_architecture.identity.identity open hiding {ExternalIdentity};
-    import node_architecture.types.messages open;
-    import node_architecture.types.identities open;
-    import node_architecture.types.engine_environment open;
-    import node_architecture.identity_types open;
     import node_architecture.engines.encryption_overview open;
+    import node_architecture.identity_types open;
+    import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
+    import system_architecture.identity.identity open hiding {ExternalIdentity};
     ```
 
-# Encryption Environment
+# `Encryption` Engine Environment
 
 ## Overview
 
-The Encryption Engine is stateless and does not maintain any internal state between requests. It relies on external information (like the `reads_for` relationships) for its operations.
+The `Encryption` Engine is stateless and does not maintain any internal state
+between requests. It relies on external information (like the `reads_for`
+relationships) for its operations.
 
 ## Mailbox states
 
-The Encryption Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
+The `Encryption` Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
 ```juvix
 syntax alias EncryptionMailboxState := Unit;
@@ -39,7 +41,11 @@ syntax alias EncryptionMailboxState := Unit;
 
 ## Local state
 
-The local state of a Encryption Engine instance includes the identity's encryption capabilities, the address of an associated `ReadsFor` engine, and a specific backend. It also contains a map to a list of pending requests which require `ReadsFor` information which is requested from the associated `ReadsFor` engine.
+The local state of an `Encryption` Engine instance includes the identity's
+encryption capabilities, the address of an associated `ReadsFor` engine, and a
+specific backend. It also contains a map to a list of pending requests which
+require `ReadsFor` information which is requested from the associated `ReadsFor`
+engine.
 
 ```juvix
 type EncryptionLocalState := mkEncryptionLocalState {
@@ -56,7 +62,8 @@ type EncryptionLocalState := mkEncryptionLocalState {
 syntax alias EncryptionTimerHandle := Unit;
 ```
 
-The Encryption Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+The Encryption Engine does not require a timer handle type. Therefore, we define
+the timer handle type as `Unit`.
 
 ## Environment summary
 

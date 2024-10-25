@@ -10,7 +10,7 @@ tags:
 - Identity
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.types.identities;

@@ -4,7 +4,7 @@ search:
   exclude: false
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.identity_types;

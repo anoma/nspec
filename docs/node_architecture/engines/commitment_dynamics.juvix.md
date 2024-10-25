@@ -10,28 +10,27 @@ tags:
 - engine-dynamics
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.commitment_dynamics;
-
     import prelude open;
-    import node_architecture.types.messages open;
-    import node_architecture.types.identities open;
-    import node_architecture.identity_types open;
     import system_architecture.identity.identity open;
-    import node_architecture.types.engine_dynamics open;
-    import node_architecture.types.engine_environment open;
     import node_architecture.engines.commitment_overview open;
     import node_architecture.engines.commitment_environment open;
+    import node_architecture.identity_types open;
     import node_architecture.types.anoma_message open;
+    import node_architecture.types.engine_dynamics open;
+    import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
     ```
 
 # `Commitment` Dynamics
 
 ## Overview
 
-The dynamics of the Commitment Engine define how it processes incoming commitment requests and produces the corresponding responses.
+The dynamics of the `Commitment` Engine define how it processes incoming commitment requests and produces the corresponding responses.
 
 ## Action labels
 

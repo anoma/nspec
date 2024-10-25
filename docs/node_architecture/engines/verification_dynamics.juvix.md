@@ -10,7 +10,7 @@ tags:
 - engine-dynamics
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.verification_dynamics;

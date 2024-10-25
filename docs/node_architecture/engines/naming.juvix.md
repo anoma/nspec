@@ -7,7 +7,7 @@ tags:
 - engines
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.naming;

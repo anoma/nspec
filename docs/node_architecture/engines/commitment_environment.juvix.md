@@ -9,26 +9,27 @@ tags:
 - engine-environment
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module node_architecture.engines.commitment_environment;
-
     import prelude open;
-    import node_architecture.types.messages open;
-    import node_architecture.types.crypto open;
-    import node_architecture.types.identities open;
     import system_architecture.identity.identity open using {Signer; mkSigner};
-    import node_architecture.types.engine_environment open;
-    import node_architecture.identity_types open;
     import node_architecture.engines.commitment_overview open;
+    import node_architecture.identity_types open;
+    import node_architecture.types.crypto open;
+    import node_architecture.types.engine_environment open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
     ```
 
 # Commitment Environment
 
 ## Overview
 
-The Commitment Engine environment maintains the state necessary for generating commitments (signatures) for a specific identity. It includes the identity's signing capabilities and any necessary signing keys or handles.
+The Commitment Engine environment maintains the state necessary for generating
+commitments (signatures) for a specific identity. It includes the identity's
+signing capabilities and any necessary signing keys or handles.
 
 ## Mailbox states
 
