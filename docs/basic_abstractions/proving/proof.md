@@ -26,22 +26,15 @@ search:
 We define a set of structures required to define a proving system $PS$ as follows:
 
 - Proof $\pi: PS.Proof$
-- Instance $x: PS.Instance$ is the public input used to produce a proof.
-- Witness $w: PS.Witness$ is the private input used to produce a proof.
-- Proving key $pk: PS.ProvingKey$ contains the secret data required to produce a proof for a pair $(x, w)$.
-- Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the witness $x$, to verify a proof $\pi$.
-
-A **proof record** carries the components required to verify a proof. It is defined as a composite structure $PR = (\pi, x, vk): ProofRecord$, where:
-
-- $ProofRecord = PS.VerifyingKey \times PS.Instance \times PS.Proof$
-- $vk: PS.VerifyingKey$
-- $x: PS.Instance$
-- $\pi: PS.Proof$ is the proof of the desired statement
+- Instance $x: PS.Instance$ is the input used to produce and verify a proof.
+- Witness $w: PS.Witness$ is the input used to produce (but not verify) a proof.
+- Proving key $pk: PS.ProvingKey$ contains the data required to produce a proof for a pair $(x, w)$.
+- Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the instance $x$, to verify a proof $\pi$.
 
 A proving system $PS$ consists of a pair of algorithms, $(Prove, Verify)$:
 
 - $Prove(pk, x, w): PS.ProvingKey \times PS.Instance \times PS.Witness \rightarrow PS.Proof$
-- $Verify(pr): PS.ProofRecord \rightarrow \mathbb{F}_b$
+- $Verify(vk, x, \pi): PS.VerifyingKey \times PS.Instance \times PS.Proof \rightarrow \mathbb{F}_b$
 
 A proving system must have the following properties:
 
