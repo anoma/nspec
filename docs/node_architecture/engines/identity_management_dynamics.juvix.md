@@ -365,27 +365,44 @@ makeCommitmentEnv
       acquaintances := Set.fromList [nameStr addr];
       timers := []
     };
+```
 
+```juvix
 hasCommitCapability (capabilities : Capabilities) : Bool :=
   case capabilities of {
     | CapabilityCommit := true
     | CapabilityCommitAndDecrypt := true
     | _ := false
   };
+```
 
+```juvix
 hasDecryptCapability (capabilities : Capabilities) : Bool :=
   case capabilities of {
     | CapabilityDecrypt := true
     | CapabilityCommitAndDecrypt := true
     | _ := false
   };
+```
 
-isSubsetCapabilities (requested : Capabilities) (available : Capabilities) : Bool :=
-  (not (hasCommitCapability requested) || hasCommitCapability available)
+```juvix
+isSubsetCapabilities
+  (requested : Capabilities)
+  (available : Capabilities)
+  : Bool
+  := (not (hasCommitCapability requested) || hasCommitCapability available)
   && (not (hasDecryptCapability requested) || hasDecryptCapability available);
+```
 
-updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : Backend) (whoAsked : EngineID) (identityInfo : IdentityInfo) (capabilities' : Capabilities) : Pair IdentityInfo (List Env) :=
-  case capabilities' of {
+```juvix
+updateIdentityAndSpawnEngines
+  (env : IdentityManagementEnvironment)
+  (backend' : Backend)
+  (whoAsked : EngineID)
+  (identityInfo : IdentityInfo)
+  (capabilities' : Capabilities)
+  : Pair IdentityInfo (List Env)
+  := case capabilities' of {
     | CapabilityCommitAndDecrypt :=
         let commitmentEnv := makeCommitmentEnv env backend' whoAsked;
             commitmentEngineName := EngineEnvironment.name commitmentEnv;
@@ -414,8 +431,16 @@ updateIdentityAndSpawnEngines (env : IdentityManagementEnvironment) (backend' : 
             };
         in mkPair updatedIdentityInfo1 spawnedEngines
   };
+```
 
-copyEnginesForCapabilities (env : IdentityManagementEnvironment) (whoAsked : EngineID) (externalIdentityInfo : IdentityInfo) (requestedCapabilities : Capabilities) : IdentityInfo :=
+```juvix
+copyEnginesForCapabilities
+  (env : IdentityManagementEnvironment)
+  (whoAsked : EngineID)
+  (externalIdentityInfo : IdentityInfo)
+  (requestedCapabilities : Capabilities)
+  : IdentityInfo
+  :=
   let newIdentityInfo := mkIdentityInfo@{
         backend := IdentityInfo.backend externalIdentityInfo;
         capabilities := requestedCapabilities;
@@ -431,9 +456,13 @@ copyEnginesForCapabilities (env : IdentityManagementEnvironment) (whoAsked : Eng
           }
       };
   in newIdentityInfo;
+```
 
-identityManagementAction (input : IdentityManagementActionInput) : IdentityManagementActionEffect :=
-  let env := ActionInput.env input;
+```juvix
+identityManagementAction
+  (input : IdentityManagementActionInput)
+  : IdentityManagementActionEffect
+  := let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
       local := EngineEnvironment.localState env;
       identities := IdentityManagementLocalState.identities local;
