@@ -21,7 +21,7 @@ tags:
     import node_architecture.engines.encryption_environment open;
     import node_architecture.engines.encryption_overview open;
     import node_architecture.engines.reads_for_overview open;
-    import node_architecture.identity_types open;
+
     import node_architecture.types.anoma_message open;
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;

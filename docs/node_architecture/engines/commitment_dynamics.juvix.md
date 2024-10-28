@@ -18,7 +18,7 @@ tags:
     import system_architecture.identity.identity open;
     import node_architecture.engines.commitment_overview open;
     import node_architecture.engines.commitment_environment open;
-    import node_architecture.identity_types open;
+
     import node_architecture.types.anoma_message open;
     import node_architecture.types.engine_dynamics open;
     import node_architecture.types.engine_environment open;

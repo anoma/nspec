@@ -28,8 +28,6 @@ import node_architecture.types.anoma_environment;
 import node_architecture.types.anoma_message;
 import node_architecture.types;
 
-import node_architecture.identity_types;
-
 import node_architecture.engines.template;
 
 {- Template for writing new engines -}

@@ -20,7 +20,7 @@ tags:
     import node_architecture.types.identities open;
     import node_architecture.types.engine_environment open;
     import node_architecture.engines.identity_management_overview open;
-    import node_architecture.identity_types open;
+
     import system_architecture.identity.identity open hiding {ExternalIdentity};
     ```
 
