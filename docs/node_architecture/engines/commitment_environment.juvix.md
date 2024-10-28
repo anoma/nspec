@@ -16,7 +16,6 @@ tags:
     import prelude open;
     import system_architecture.identity.identity open using {Signer; mkSigner};
     import node_architecture.engines.commitment_overview open;
-
     import node_architecture.types.crypto open;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identities open;

@@ -16,7 +16,6 @@ tags:
 
     import prelude open;
     import node_architecture.engines.encryption_overview open;
-
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identities open;
     import node_architecture.types.messages open;

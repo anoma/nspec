@@ -18,7 +18,6 @@ tags:
     import node_architecture.types.messages open;
     import node_architecture.types.engine_environment open;
     import node_architecture.types.identities open;
-
     import node_architecture.engines.signs_for_overview open;
     ```
 

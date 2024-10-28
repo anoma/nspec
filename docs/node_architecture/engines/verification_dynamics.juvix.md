@@ -27,7 +27,6 @@ tags:
     import node_architecture.engines.signs_for_overview open;
     import node_architecture.types.crypto open;
     import node_architecture.types.identities open;
-
     import node_architecture.types.anoma_message open;
     ```
 

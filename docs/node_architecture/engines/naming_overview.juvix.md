@@ -15,7 +15,6 @@ tags:
     module node_architecture.engines.naming_overview;
     import prelude open;
     import node_architecture.types.identities open;
-
     ```
 
 # `Naming` Engine Family Overview

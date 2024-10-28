@@ -21,7 +21,6 @@ tags:
     import node_architecture.engines.decryption_environment open;
     import node_architecture.engines.identity_management_environment open;
     import node_architecture.engines.identity_management_overview open;
-
     import node_architecture.types.anoma_environment open;
     import node_architecture.types.anoma_message open;
     import node_architecture.types.engine_dynamics open;

@@ -13,7 +13,6 @@ tags:
 
     ```juvix
     module node_architecture.engines.identity_management_environment;
-
     import prelude open;
     import node_architecture.types.messages open;
     import node_architecture.types.crypto open;
