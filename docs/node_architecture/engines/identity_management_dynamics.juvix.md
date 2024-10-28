@@ -16,7 +16,6 @@ tags:
     module node_architecture.engines.identity_management_dynamics;
     import prelude open;
     import Stdlib.Data.Bool open;
-    import Stdlib.Data.String.Base open;
     import Data.Map open;
     import node_architecture.engines.commitment_environment open;
     import node_architecture.engines.decryption_environment open;
@@ -306,19 +305,6 @@ deleteIdentityGuard
     ```
 
 <!-- --8<-- [start:action-function] -->
-```juvix
-nameStr (name : EngineID) : String :=
-  case snd name of {
-    | none := ""
-    | some s := s
-  };
-```
-
-```juvix
-nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
-  (name ++str "_" ++str str ++str "_" ++str nameStr addr);
-```
-
 ```juvix
 makeDecryptEnv
   (env : IdentityManagementEnvironment)

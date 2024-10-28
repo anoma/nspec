@@ -14,6 +14,7 @@ tags:
 
     ```juvix
     module node_architecture.types.identities;
+    import Stdlib.Data.String.Base open;
     import node_architecture.types.crypto open;
     import prelude open;
     ```
@@ -130,4 +131,20 @@ Plaintext : Type := ByteString;
 Ciphertext : Type := ByteString;
 
 syntax alias ExternalIdentity := EngineName;
+```
+
+```juvix
+nameStr (name : EngineID) : String :=
+  case name of {
+    | mkPair _ x :=
+      case x of {
+        | none := ""
+        | some s := s
+      }
+  };
+```
+
+```juvix
+nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
+  (name ++str "_" ++str str ++str "_" ++str nameStr addr);
 ```
