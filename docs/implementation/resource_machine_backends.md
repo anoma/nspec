@@ -9,9 +9,9 @@ search:
 
 The following resource machine backends must be supported:
 
-- [Transparent](./transparent.md)
-- [Cairo](./cairo.md)
-- [RISC0](./risc0.md)
+- [[Transparent Backend]]
+- [[Cairo Backend]]
+- [[RISC0 Backend]]
 
 
 <!--
