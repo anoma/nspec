@@ -19,7 +19,7 @@ The Risc0 Resource Machine (RM) inherits some security properties from the under
 #### Proof system
 
 - **Arithmetization**: Plonkish (UltraPlonk in particular). The arithmetization consists of customised gates, high-degree polynomial relations, many witness wires, and lookup arguments.
-- Polynomial evaluation and commitment (PCS): FRI (Fast Reed-Solomon Interactive Proof of Proximity).
+- **Polynomial evaluation and commitment (PCS)**: FRI (Fast Reed-Solomon Interactive Proof of Proximity).
 - **Prime field $\mathbb{F}$**: The computation is defined over the BabyBear field (modulus $15 \cdot 2^27 + 1$) and a degree-four extension is used during the algebraic holographic proving. Each BabyBear element stores one byte of the data. In other words, a 32-bit integer uses four BabyBear elements.
 - **Memory checking**: Each access to the main memory always incurs only a constant overhead. Pages are authenticated using Merkle Trees.
 - **STARK-to-SNARK**: Proof generation results in STARK proofs that can be further compressed—without revealing information and in a trustless way—into very succinct SNARK proofs through Groth16.
