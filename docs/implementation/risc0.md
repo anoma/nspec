@@ -18,7 +18,6 @@ The Risc0 Resource Machine (RM) inherits some security properties from the under
 
 #### Proof system
 
-
 - **Arithmetization**: Plonkish (UltraPlonk in particular). The arithmetization consists of customised gates, high-degree polynomial relations, many witness wires, and lookup arguments.
 - Polynomial evaluation and commitment (PCS): FRI (Fast Reed-Solomon Interactive Proof of Proximity). 
 - **Prime field $\mathbb{F}$**: The computation is defined over the BabyBear field (modulus $15 \cdot 2^27 + 1$) and a degree-four extension is used during the algebraic holographic proving. Each BabyBear element stores one byte of the data. In other words, a 32-bit integer uses four BabyBear elements. 
@@ -38,7 +37,7 @@ The best known attack vector against our STARK to SNARK Prover is to attack the 
 
 ### Risc0 RM
 
-#### Resource fields
+#### Resource primary fields
 
 Since the Risc0 proving system is based on hashes and not on elliptic curves, the cryptographic primitive used for compressing, hiding and binding data in Merkle tree structures such as the resource commitment tree, or others such as the nullifier set in the Risc0 RM is sha256. Furthermore, whenever we encounter a PRF in the ARM specs, we can substitute it for sha256 in the Risc0 RM.
 
@@ -52,54 +51,36 @@ If homomorphism is required, we operate on the secp256k1 curve. We use lowercase
 | q        | user defined |  unsigned integer ($256$ bits)| The quantity of fungible value. |
 | v        |  user defined       |    unsigned integer ($256$ bits)       | Resource value is a commitment to the resource's extra data that doesn't affect the resource's fungibility. |
 | eph      | user defined  | bool (1 bit)   | Ephemeral resource flag. It indicates whether the resource's commitment Merkle path should be checked when consuming the resource. |
-| nonce    | n $\overset{\$}{\leftarrow} \mathbb{F}$; sha256(n) | Digest ($256$ bits) | An old nullifier from the same Compliance description. |
+| nonce    | n $\overset{\$}{\leftarrow} \mathbb{F}$; sha256(n) | Digest ($256$ bits) | Guarantees the uniqueness of the later derived computable fields. |
 | npk      | sha256(nsk) | Digest ($256$ bits) | Commitment to the nullifier key \( nk \) that will be used to derive the resource's nullifier. |
 | rseed    | $\overset{\$}{\leftarrow} u256$ | unsigned integer ($256$ bits)  | A random commitment trapdoor. |
 
 #### Resource computable fields
 
+Computable fields are fields derived by applying some computation on the resource primary fields listed above.
+
 | Field | Computation | Type/size | Description |
 |----------|---------|-----------|-------------|
 | K | secp256k1::hash_to_point(l, label) | secp256k1 point | Resource kind |
-| cm | sha256(l, label, q, v, eph, npk, nonce, npk, rseed) | Digest ($256$ bits) | Resource commitment |
-| nf | sha256(nk, nonce, cm) | Digest ($256$ bits) | Resource nullifier |
+| cm | sha256(l, label, q, v, eph, npk, nonce, npk, rseed) | Digest ($256$ bits) | Resource commitment. It allows to prove the existence of the resource without revealing the resource plaintext. |
+| nf | sha256(nk, nonce, cm) | Digest ($256$ bits) | Resource nullifier. Revealing the resource's nullifier invalidates the resource. All nullifiers are stored in a global append-only nullifier set. |
 | D | $[q_1] \cdot K_1 - [q_2] \cdot K_2 + [rcd] \cdot R$ | secp256k1 point | Resource delta used to ensure balance across the resources ($r_1$, $r_2$) in a transaction. $rcd$ is some random value in $0 ... 2^{256}-1$ and $R$ is a secp256k1 point of unknown discrete log. |
-
 
 
 ### Cryptographic algorithms
 
 #### Verifiable encryption
 
-#### Variable resources
+We want the encryption to be verifiable to make sure the receiver of the resources can decrypt them.
 
-#### Commitment tree
-- Data Structure
-- Operations & Complexity
-- Hash function
-
-#### Nullifier set
-- Data structure
-- Operations & Complexity
-- Hash function
-
-#### Compliance circuit
-
-### STARK-to-SNARK translator
-
-- Q: Do we want a STARK-to-SNARK translator in the Anoma RM?
-- Q: What is the size of a STARK proof? (Complexity-wise)
-- Q: How does Risc0 achieve ZK?
-
-Purpose:
-
-The STARK to SNARK translator uses a Groth16 prover over the BN254 pairing-friendly curve. The security of this part of the protocol depends on elliptic curve cryptography, and is therefore vulnerable to attacks from quantum computers.
-
+Since the Risc0 proving system uses a small field, bit-wise operations' efficiency is acceptable. Thus we use the [AES encryption algorithm](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
 
 
 
 ## Encoding choices
+
+### Resource
 
 ```rust
 pub struct Resource {
@@ -122,8 +103,49 @@ pub struct Resource {
 }
 ```
 
-where `Npk` is just a wrapper over `Digest` used for type safety.
+where `Npk` is just a wrapper over `Digest` (which is in turn a wrapper over an unsigned integer of 256 bits) used for type safety.
 
-## Other decisions
+#### Compliance circuit
 
-ZK
+```rust
+pub struct Compliance<const COMMITMENT_TREE_DEPTH: usize> {
+    /// The input resource
+    pub input_resource: Resource,
+    /// The output resource
+    pub output_resource: Resource,
+    /// The path from the output commitment to the root in the resource commitment tree
+    pub merkle_path: [(Digest, bool); COMMITMENT_TREE_DEPTH],
+    /// Random scalar for delta commitment
+    pub rcv: ScalarWrapper,
+    /// Nullifier secret key
+    pub nsk: Nsk,
+}
+```
+
+where `ScalarWrapper` is just a wrapper over an unsigned integer of 256 bits, and `Nsk` is also a wrapper over `Digest`. `Nsk` and `Npk` are related as follows:
+
+```rust
+pub struct Nsk(Digest);
+pub struct Npk(Digest);
+
+impl Nsk {
+    pub fn new(nsk: Digest) -> Nsk {
+        Nsk(nsk)
+    }
+    /// Compute the corresponding nullifier public key
+    pub fn public_key(&self) -> Npk {
+        let bytes: [u8; DIGEST_BYTES] = *self.0.as_ref();
+        Npk(*Impl::hash_bytes(&bytes))
+    }
+}
+```
+
+#### Commitment tree
+- Data Structure
+- Operations & Complexity
+- Hash function
+
+#### Nullifier set
+- Data structure
+- Operations & Complexity
+- Hash function
