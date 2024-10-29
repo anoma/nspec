@@ -13,7 +13,6 @@ The following resource machine backends must be supported:
 - [[Cairo Backend]]
 - [[RISC0 Backend]]
 
-
 <!--
 
 ## Transaction functions
