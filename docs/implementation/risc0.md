@@ -41,7 +41,7 @@ The best known attack vector against our STARK to SNARK Prover is to attack the 
 
 Since the Risc0 proving system is based on hashes and not on elliptic curves, the cryptographic primitive used for compressing, hiding and binding data in Merkle tree structures such as the resource commitment tree, or others such as the nullifier set in the Risc0 RM is sha256. Furthermore, whenever we encounter a PRF in the ARM specs, we can substitute it for sha256 in the Risc0 RM.
 
-If homomorphism is required, we operate on the secp256k1 curve. We use lowercase for fields (Babybear) and uppercase for points in curve (secp256k1). $[x] \cdot G$ denotes scalar multiplication of a curve point $G$.
+If homomorphism is required, we operate on the secp256k1 curve. We use lowercase for fields (Babybear) and uppercase for points in curve (secp256k1). For instance, $[x] \cdot G$ denotes scalar multiplication of a curve point $G$.
 
 
 | Field | Computation | Type/size | Description |
@@ -105,7 +105,7 @@ pub struct Resource {
 
 where `Npk` is just a wrapper over `Digest` (which is in turn a wrapper over an unsigned integer of 256 bits) used for type safety.
 
-#### Compliance circuit
+### Compliance circuit
 
 ```rust
 pub struct Compliance<const COMMITMENT_TREE_DEPTH: usize> {
