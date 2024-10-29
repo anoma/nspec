@@ -52,17 +52,19 @@ For example, let's take three common instantiations:
 
 - The _trusted delegation_ scheme is one where computation is delegated to a
   known, trusted party whose work is not checked. The trusted delegation scheme
-  is defined as `verify(predicate, x, sig) = checkSignature (predicate, x) sig`, where the trusted party is assumed to produce such a
+  is defined as `verify((predicate, pk), x, sig) = checkSignature pk (predicate, x) sig`, where the trusted party is assumed to produce such a
   signature only if `predicate x = 1`. This scheme is succinct but requires a
   trusted party assumption (which could be generalised to a threshold quorum in
   the obvious way). Note that since the computation is still verifiable, a
-  signer of `(predicate, x)` where `predicate x w = 0` could be held
+  signer of `(predicate, x)` where `predicate x = 0` could be held
   accountable by anyone else who later checked the predicate. In this case witness also has unit type and the proof has the type `Signature`.
 
-- The _succinct proof-of-knowledge_ scheme is one where the result of computation is attested to with a cryptographic proof (of the sort commonly instantiated by modern-day SNARKs & STARKs). Succint proof-of-knowledge schemes provide succinctness as well as veriability subject to the scheme-specific cryptographic assumptions. They may also possibly be _zero-knowledge_, in which the verifier learns nothing other than `predicate x w = 1` (in this case, and in others, `w` will be "hidden" with hash functions and `x` will remain public, such that the verifier knows only `hash w` and `x` but the substance of the relation obtains over the preimages).
+- The _succinct proof-of-knowledge_ scheme is one where the result of computation is attested to with a cryptographic proof (of the sort commonly instantiated by modern-day SNARKs & STARKs). Succint proof-of-knowledge schemes provide succinctness as well as veriability subject to the scheme-specific cryptographic assumptions. They may also possibly be _zero-knowledge_, in which the verifier learns nothing other than `predicate x w = 1` (in this case, and in others, `w` will be "hidden" with hash functions and `x` will remain public (and include the hiding representations of `w`), such that the verifier knows only `hash w` and `x` but the substance of the relation obtains over the preimages).
 
-|Instantiation|Verifying key|Proving key|Instance (x)|Witness (w)|Proof|Properties|
+Assuming the proving system is used to verify that a predicate evaluated on its inputs returns `1`, the table below describes what each parameter will be for each of the three common proving system instantiations:
+
+||Proving key|Verifying key|Instance (x)|Witness (w)|Proof|Properties|
 |-|-|-|-|-|-|-|
-|Trivial scheme|predicate|()|predicate arguments|()|()|Transparent, not succinct|
-|Trusted delegation|predicate||predicate arguments|()|Signature|Succinct, trusted, verifiable|
-|Succinct PoK||||||succinct, verifiable, possibly zero knowledge|
+|Trivial scheme|predicate|predicate|predicate arguments|()|()|transparent, not succinct|
+|Trusted delegation|predicate + signing key|predicate + signature verifying key|predicate arguments|()|signature|succinct, trusted, verifiable|
+|Succinct PoK|defined by the scheme (incl. predicate representation)|defined by the scheme|public input|private input|defined by the scheme|succinct, verifiable, possibly zero knowledge|
