@@ -216,7 +216,7 @@ typedstruct enforce: true do
     # Input resource
     field(:input_resource, ShieldedResource.t())
     # Input resource merkle path
-    field(:merkel_proof, CommitmentTree.Proof.t())
+    field(:merkle_proof, CommitmentTree.Proof.t())
     # Nullifier key of the input resource
     field(:input_nf_key, binary(), default: <<0::256>>)
     # Ephemeral root
