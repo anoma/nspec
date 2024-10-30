@@ -12,7 +12,7 @@ Note: The structs and APIs in Juvix are used for writing circuits, including com
 ## Primitive choices
 
 ### Baisc finite field and curve
-The basic data type in Cairo is [felt252](https://docs.starknet.io/architecture-and-concepts/cryptography/p-value/), which is a large prime number, currently equal to P = 2^{251} + 17 * 2^{192}+1.
+The basic data type in Cairo is [felt252](https://docs.starknet.io/architecture-and-concepts/cryptography/p-value/), which is a large prime number, currently equal to $P = 2^{251} + 17 * 2^{192}+1$.
 
 We're using the native [STARK curve](https://docs.starknet.io/architecture-and-concepts/cryptography/stark-curve/) based on the felt252 in Cairo RM.
 
