@@ -11,7 +11,4 @@ A resource nullifier is a computed field, the publishing of which consumes the a
 
 > Every time a resource is consumed, it has to be checked that the resource existed before (the resource's commitment is in the $CMtree$) and has not been consumed yet (the resource's nullifier is not in the $NFset$).
 
-The nullifier set must support the following functionality:
 
-- `WRITE(nf)` adds an element to the nullifier set.
-- `EXISTS(nf)` checks if the element is present in the set, returning a boolean.
