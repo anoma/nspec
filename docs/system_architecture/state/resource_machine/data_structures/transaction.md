@@ -52,37 +52,6 @@ Checks that require access to global $CMtree$ and $NFset$:
 
 A transaction is *executable* if it is valid and $\Delta_{tx}$ commits to the expected balancing value.
 
-## Transaction with Metadata
-
-Transaction with metadata is a data structure that contains a transaction, the executable part, and metadata used by actors to make more informed decisions and enforce some policies: $TransactionWithMetadata = (Transaction, Metadata)$.
-
-Architecture-level $Metadata$ components:
-
-- $\Phi: PREF$ where $PREF = TX \rightarrow [0, 1]$ is a preference function that takes a transaction as input and outputs a normalised value in the interval $[0,1]$ that reflects the users' satisfaction with the given transaction. For example, a user who wants to receive at least $q=5$ of resource of kind A for a fixed amount of resource of kind B might set the preference function to implement a linear function that returns $0$ at $q=5$ and returns $1$ at $q = q_{max} = |\mathbb{F}_q| - 1$.
-- $IFCPredicate: TX \rightarrow ExternalIdentity \rightarrow \mathbb{F}_2$ is a predicate that specifies the transaction visibility.
-
-A concrete resource machine instantiation might require more $Metadata$ components.
-
-#### Information flow control
-
-The transaction visibility specified by the $IFCPredicate$ describes what parties are and are not allowed to process the transaction. In the current version it is assumed that every node is following the policy and enforcing the conditions specified by the predicate.
-
-In principle, the information flow predicate can be arbitrary as long as it satisfies the defined signature, but for now we define a set of allowed options to instantiate the IFC predicate as $BasePredicate: BaseData \rightarrow IFCPredicate$, where $BaseData$ can be:
-
-- $AllowAny$ - always returns 1
-- $AllowOnly (Set\ ExternalIdentity)$ - returns 1 for the specified set of identities
-- $RequireShielded (Set\ Hash)$ - returns 1 if the transaction does not contain the specified set of hashes in its fields
-- $And (Set\ Predicate)$ - returns 1 when all the specified predicates (instantiated by one of the base predicates) are satisfied
-- $Or (Set\ Predicate)$ - returns 1 when at least one of the specified predicates (instantiated by one of the base predicates) is satisfied
-
-#### Composing transactions with metadata
-
-When transactions with $Metadata$ are composed, transactions are composed according to the [transaction composition rules](./transaction.md#composition), and $MetaData$ fields are composed as follows:
-
-- $\Phi_{tx} = G(\Phi_1, \Phi_2)$, where $G: PREF \times PREF \rightarrow PREF$, and $G$ is a preference function composition function
-- $IFCPredicate_{tx} = IFCPredicate_1 \wedge IFCPredicate_2$
-
-
 ## Transaction function
 
 A transaction function is a function that outputs a transaction: $TransactionFunction: () \rightarrow Transaction$.
