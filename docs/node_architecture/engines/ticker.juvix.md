@@ -22,7 +22,7 @@ tags:
 
 # Ticker Engine
 
-The Ticker engine family provides a simple counter functionality, allowing
+The Ticker engine provides a simple counter functionality, allowing
 clients to increment a counter and retrieve its current value.
 
 ## Purpose

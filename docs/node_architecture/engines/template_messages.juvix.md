@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - mytag1
 - engine-messages
@@ -17,8 +17,6 @@ tags:
     ```
 
 # Template Messages
-
-<!-- --8<-- [start:template-messages] -->
 
 ## Message interface
 
@@ -133,4 +131,3 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
-<!-- --8<-- [end:template-messages] -->

@@ -37,9 +37,9 @@ type EngineBehaviour (S M H A L X : Type) := mkEngineBehaviour {
 };
 ```
 
-!!! info "On the use of `List` for guards in `EngineFamily`"
+!!! info "On the use of `List` for guards in `EngineBehaviour`"
 
-    The `EngineFamily` type uses `List` for guards to enable parallel
+    The `EngineBehaviour` type uses `List` for guards to enable parallel
     processing. This choice acknowledges that guards can be concurrent or
     competing, with the latter requiring priority assignment to resolve
     non-determinism. While guards should form a set, using `List` simplifies the
@@ -47,10 +47,11 @@ type EngineBehaviour (S M H A L X : Type) := mkEngineBehaviour {
 
 ## Engine instance type
 
-Additionally, we define the `Engine` type, which represents an engine within a family.
-A term of this `Engine` type is referred to as an engine instance. Each engine instance
-is associated with a specific name and a family of engines, plus a declaration of its own
-execution context, that is, the specific state, mailbox cluster, acquaintances, and timers.
+Additionally, we define the `Engine` type, which represents an engine.
+A term of this `Engine` type is referred to as an engine instance.
+Each engine instance is associated with a specific name and behaviour,
+plus a declaration of its own execution context, or environment,
+that is, the specific state, mailbox cluster, acquaintances, and timers.
 
 ```juvix
 type Engine (S M H A L X : Type) := mkEngine {
@@ -60,9 +61,9 @@ type Engine (S M H A L X : Type) := mkEngine {
 };
 ```
 
-!!! example "Voting Engine Family"
+!!! example "Voting Engine"
 
-    As an example, we could define an engine family for voting:
+    As an example, we could define an engine for voting:
 
     - `S` could be a record with fields like `votes`, `voters`, and `results`.
     - The engine-specific message type might be a coproduct of `Vote` and `Result`.
@@ -72,10 +73,10 @@ type Engine (S M H A L X : Type) := mkEngine {
         - `announceResult` to send the result to some other engine instances.
 
     With each different election or kind of voters, we obtain a new engine instance,
-    while the underlining voting system, the voting engine family, remains the same.
+    while the underlining voting system, the voting engine, remains the same.
 
 !!! note
 
-    Both the `EngineFamily` and `Engine` types are parameterised by several types. When
-    not used in the context of a new engine family declaration, these types can be
+    Both the `EngineBehaviour` and `Engine` types are parameterised by several types. When
+    not used in the context of a new engine declaration, these types can be
     replaced by the unit type `Unit`.

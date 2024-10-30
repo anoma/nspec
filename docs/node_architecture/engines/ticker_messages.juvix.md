@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - ticker
 - engine-messages
@@ -15,7 +15,7 @@ tags:
     module node_architecture.engines.ticker_messages;
     ```
 
-# `Ticker` Engine Family Messages
+# Ticker Messages
 
 ## Message interface
 
