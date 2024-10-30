@@ -77,11 +77,13 @@ nav:
               - Messages & Mailboxes: ./node_architecture/types/messages.juvix.md
           - Engine Family Types:
               - ./node_architecture/engines/index.md
-              - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
-              - Engine Dynamics: ./node_architecture/types/engine_dynamics.juvix.md
-              - Engine Family: ./node_architecture/types/engine_family.juvix.md
-              - Anoma Message: ./node_architecture/types/anoma_message.juvix.md
-              - Anoma Environment: ./node_architecture/types/anoma_environment.juvix.md
+              - Engine:
+                -  ./node_architecture/types/engine.juvix.md
+                - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
+                - Engine Behaviour: ./node_architecture/types/engine_behaviour.juvix.md
+              - Anoma:
+                - Anoma Message: ./node_architecture/types/anoma_message.juvix.md
+                - Anoma Environment: ./node_architecture/types/anoma_environment.juvix.md
           - Hardware Abstraction Machine:
               - ./node_architecture/hardware_abstraction/index.md
               - Local Storage Engines:
@@ -449,18 +451,16 @@ nav:
           - ./tutorial/engines/index.md
           - Engine writing conventions: ./tutorial/engines/writing_conventions.md
           - Examples:
-              - Engine template files:
-                  - Template Engine: ./node_architecture/engines/template_overview.juvix.md
-                  - Template Engine Messages: ./node_architecture/engines/template_messages.juvix.md
-                  - Template Engine Environment: ./node_architecture/engines/template_environment.juvix.md
-                  - Template Engine Dynamics: ./node_architecture/engines/template_dynamics.juvix.md
-                  - Template Engine Base: ./node_architecture/engines/template.juvix.md
-              - Ticker Engine Family:
-                  - Ticker Engine: ./node_architecture/engines/ticker_overview.juvix.md
-                  - Ticker Engine Messages: ./node_architecture/engines/ticker_messages.juvix.md
-                  - Ticker Engine Environment: ./node_architecture/engines/ticker_environment.juvix.md
-                  - Ticker Engine Dynamics: ./node_architecture/engines/ticker_dynamics.juvix.md
-                  - Ticker Engine Base: ./node_architecture/engines/ticker.juvix.md
+              - Template Engine:
+                  - ./node_architecture/engines/template.juvix.md
+                  - Template Messages: ./node_architecture/engines/template_messages.juvix.md
+                  - Template Environment: ./node_architecture/engines/template_environment.juvix.md
+                  - Template Behaviour: ./node_architecture/engines/template_behaviour.juvix.md
+              - Ticker Engine:
+                  - ./node_architecture/engines/ticker.juvix.md
+                  - Ticker Messages: ./node_architecture/engines/ticker_messages.juvix.md
+                  - Ticker Environment: ./node_architecture/engines/ticker_environment.juvix.md
+                  - Ticker Behaviour: ./node_architecture/engines/ticker_behaviour.juvix.md
 extra:
   social:
     - icon: fontawesome/brands/x-twitter

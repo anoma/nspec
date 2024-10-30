@@ -7,26 +7,26 @@ categories:
 - juvix-module
 tags:
 - ticker
-- engine-dynamics
+- engine-behaviour
 ---
 
 ??? note "Juvix preamble"
 
     ```juvix
-    module node_architecture.engines.ticker_dynamics;
+    module node_architecture.engines.ticker_behaviour;
+
+    import node_architecture.engines.ticker_messages open;
+    import node_architecture.engines.ticker_environment open;
 
     import prelude open;
     import node_architecture.types.basics open;
     import node_architecture.types.identities open;
     import node_architecture.types.messages open;
-    import node_architecture.types.engine_environment open;
-    import node_architecture.types.engine_dynamics open;
-    import node_architecture.engines.ticker_messages open;
-    import node_architecture.engines.ticker_environment open;
+    import node_architecture.types.engine open;
     import node_architecture.types.anoma_message open using {MsgTicker};
     ```
 
-# `Ticker` Dynamics
+# Ticker Behaviour
 
 ## Overview
 
@@ -52,7 +52,7 @@ type TickerActionLabel :=
 
 !!! quote ""
 
-    --8<-- "./docs/node_architecture/engines/ticker_dynamics.juvix.md:DoIncrement"
+    --8<-- "./docs/node_architecture/engines/ticker_behaviour.juvix.md:DoIncrement"
 
 This action label corresponds to incrementing the counter and is relevant for the `Increment` message.
 
@@ -71,7 +71,7 @@ This action label corresponds to incrementing the counter and is relevant for th
 
 !!! quote ""
 
-    --8<-- "./ticker_dynamics.juvix.md:DoRespond"
+    --8<-- "./ticker_behaviour.juvix.md:DoRespond"
 
 This action label corresponds to responding with the current counter value and
 is relevant for the `Count` message.
@@ -105,7 +105,7 @@ type TickerMatchableArgument :=
 !!! quote ""
 
     ```
-    --8<-- "./docs/node_architecture/engines/ticker_dynamics.juvix.md:ReplyTo"
+    --8<-- "./docs/node_architecture/engines/ticker_behaviour.juvix.md:ReplyTo"
     ```
 
 This matchable argument contains the address and mailbox ID of where the response message should be sent.
@@ -266,7 +266,6 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
                 sender := getSenderFromActionInput input;
                 target := whoAsked;
                 mailbox := some 0;
-                deps := [];
                 msg := MsgTicker Count
               }
             ];
@@ -291,6 +290,10 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
-## `Ticker` Engine Family Summary
+## Engine behaviour
 
---8<-- "./docs/node_architecture/engines/ticker.juvix.md:ticker-engine-family"
+### `TickerBehaviour`
+
+```
+--8<-- "./docs/node_architecture/engines/ticker.juvix.md:TickerBehaviour"
+```

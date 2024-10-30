@@ -3,24 +3,24 @@ icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- Engine-Family
-- Engine-Instances
+- Engine
+- Behaviour
 - Juvix
 ---
 
 ??? quote "Juvix imports"
 
     ```juvix
-    module node_architecture.types.engine_family;
+    module node_architecture.types.engine;
     import prelude open;
     import node_architecture.types.identities open;
     import node_architecture.types.engine_environment open public;
-    import node_architecture.types.engine_dynamics open public;
+    import node_architecture.types.engine_behaviour open public;
     ```
 
-# Engine family type
+# Engine type
 
-The `EngineFamily` type encapsulates the concept of engines within Anoma. As
+The `Engine` type encapsulates the concept of engines within Anoma. As
 defined, it clears up that engines are essentially a collection of guarded
 state-transition functions. Our type for these families is parameterised by a
 type for their local states, a type for their mailboxes' state, a type for time
@@ -30,7 +30,7 @@ as `M`, for the time handles as `H`, for the action-label as `A`, for the precom
 as `L`, and for the external inputs as `X`.
 
 ```juvix
-type EngineFamily (S M H A L X : Type) := mkEngineFamily {
+type EngineBehaviour (S M H A L X : Type) := mkEngineBehaviour {
   guards : List (Guard S M H A L X);
   action : ActionFunction S M H A L X;
   conflictSolver : Set A -> List (Set A);
@@ -55,7 +55,7 @@ execution context, that is, the specific state, mailbox cluster, acquaintances, 
 ```juvix
 type Engine (S M H A L X : Type) := mkEngine {
   name : EngineName;
-  family : EngineFamily S M H A L X;
+  behaviour : EngineBehaviour S M H A L X;
   initEnv : EngineEnvironment S M H;
 };
 ```

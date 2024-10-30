@@ -21,7 +21,5 @@ import node_architecture.types.messages open public;
 import node_architecture.types.anoma_message open public;
 import node_architecture.types.anoma_environment open public;
 
-import node_architecture.types.engine_dynamics open public;
-import node_architecture.types.engine_environment open public;
-import node_architecture.types.engine_family open public;
+import node_architecture.types.engine open public;
 ```

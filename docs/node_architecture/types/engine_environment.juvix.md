@@ -3,8 +3,8 @@ icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- Engine-Family
-- Engine-Instances
+- Engine
+- Environment
 - Juvix
 ---
 

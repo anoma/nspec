@@ -86,7 +86,7 @@ module everything;
 {- Engines -}
 + import node_architecture.engines.ticker_overview;
 + import node_architecture.engines.ticker_environment;
-+ import node_architecture.engines.ticker_dynamics;
++ import node_architecture.engines.ticker_behaviour;
 + import node_architecture.engines.ticker;
 ```
 
