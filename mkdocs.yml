@@ -452,12 +452,12 @@ nav:
           - Engine writing conventions: ./tutorial/engines/writing_conventions.md
           - Examples:
               - Template Engine:
-                  - ./node_architecture/engines/template.juvix.md
+                  - Template Engine: ./node_architecture/engines/template.juvix.md
                   - Template Messages: ./node_architecture/engines/template_messages.juvix.md
                   - Template Environment: ./node_architecture/engines/template_environment.juvix.md
                   - Template Behaviour: ./node_architecture/engines/template_behaviour.juvix.md
               - Ticker Engine:
-                  - ./node_architecture/engines/ticker.juvix.md
+                  - Ticker Engine: ./node_architecture/engines/ticker.juvix.md
                   - Ticker Messages: ./node_architecture/engines/ticker_messages.juvix.md
                   - Ticker Environment: ./node_architecture/engines/ticker_environment.juvix.md
                   - Ticker Behaviour: ./node_architecture/engines/ticker_behaviour.juvix.md
