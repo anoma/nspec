@@ -20,9 +20,54 @@ tags:
     import prelude open;
     ```
 
-## Types for network identities
+# Types for network identities
 
-Types in this section are used to represent [[Identity|identities]] within the network.
+Types in this section are used to represent identities within the network.
+
+## Basic Types
+
+### ByteString
+
+A basic type for representing binary data.
+
+```juvix
+ByteString : Type := Nat;
+
+emptyByteString : ByteString := 0;
+```
+
+### Signable
+
+A type representing data that can be cryptographically signed.
+
+```juvix
+Signable : Type := ByteString;
+```
+
+### Plaintext
+
+Raw unencrypted data.
+
+```juvix
+Plaintext : Type := ByteString;
+```
+
+### Ciphertext
+
+Encrypted data.
+
+```juvix
+Ciphertext : Type := ByteString;
+```
+
+### Cryptographic Keys
+
+```juvix
+DecryptionKey : Type := ByteString;
+SigningKey : Type := ByteString;
+```
+
+## Identity Types
 
 ### ExternalID
 
@@ -34,8 +79,7 @@ syntax alias ExternalID := PublicKey;
 
 ### InternalID
 
-A unique identifier, such as a private key, used internally within the network,
-represented as a natural number.
+A unique identifier, such as a private key, used internally within the network.
 
 ```juvix
 syntax alias InternalID := PrivateKey;
@@ -43,8 +87,7 @@ syntax alias InternalID := PrivateKey;
 
 ### Identity
 
-A pair combining an `ExternalID` and an `InternalID`, representing the complete
-identity of an entity within the network.
+A pair combining an `ExternalID` and an `InternalID`.
 
 ```juvix
 Identity : Type := Pair ExternalID InternalID;
@@ -52,12 +95,15 @@ Identity : Type := Pair ExternalID InternalID;
 
 ### Commitment
 
-A cryptographic signature, or commitment.
-Signed by an internal identity and verifiable by an external identity.
+A cryptographic signature or commitment.
 
 ```juvix
 syntax alias Commitment := Signature;
+
+axiom emptyCommitment : Commitment;
 ```
+
+## Network Identifiers
 
 ### NodeID
 
@@ -83,56 +129,43 @@ Cryptographic domain identity.
 syntax alias DomainID := ExternalID;
 ```
 
+## Engine Related Types
+
 ### EngineName
 
-Engine instance name.
-An opaque string that is unique to the local node.
+Engine instance name as an opaque string.
 
 ```juvix
 syntax alias EngineName := String;
 ```
 
+### ExternalIdentity
+
+An alias for engine name.
+
+```juvix
+syntax alias ExternalIdentity := EngineName;
+```
+
 ### EngineID
 
-Engine instance identity. A pair of an optional node identity (when remote) and
-an engine instance name (which may not be present, stands for anonymous engine).
-
-!!! info
-
-    We assume that the engine instance name is unique within the node.
+Engine instance identity combining node identity and engine name.
 
 ```juvix
 EngineID : Type := Pair (Option NodeID) (Option EngineName);
-```
 
-```juvix
 unknownEngineID : EngineID := mkPair none none;
-```
 
-```juvix
 isLocalEngineID (eid : EngineID) : Bool :=
   case eid of {
     | mkPair none _ := true
     | _ := false
 };
-```
 
-```juvix
 isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 ```
 
-```juvix
-ByteString : Type := Nat;
-emptyByteString : ByteString := 0;
-Signable : Type := ByteString;
-axiom emptyCommitment : Commitment;
-DecryptionKey : Type := ByteString;
-SigningKey : Type := ByteString;
-Plaintext : Type := ByteString;
-Ciphertext : Type := ByteString;
-
-syntax alias ExternalIdentity := EngineName;
-```
+### Engine Helper Functions
 
 ```juvix
 nameStr (name : EngineID) : String :=
@@ -140,13 +173,12 @@ nameStr (name : EngineID) : String :=
     | none := ""
     | some s := s
   };
-```
 
-```juvix
 nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
   (name ++str "_" ++str str ++str "_" ++str nameStr addr);
 ```
 
+## String Comparison
 ```juvix
 axiom stringCmp : String -> String -> Ordering;
 
@@ -157,14 +189,11 @@ StringOrd : Ord String :=
   };
 ```
 
-## Types for network identities
+## Identity Parameters and Capabilities
 
-Types in this section are used to represent [[Identity|identities]] within the network.
+### IDParams
 
-These types define the foundational data structures used across the identity-related engines.
-
-IDParams
-
+Supported identity parameter types.
 ```juvix
 type IDParams :=
   | Ed25519
@@ -172,6 +201,9 @@ type IDParams :=
   | BLS;
 ```
 
+### Backend
+
+Backend connection types.
 ```juvix
 type Backend :=
   | BackendLocalMemory
@@ -179,8 +211,9 @@ type Backend :=
   | BackendRemoteConnection { externalIdentity : ExternalIdentity };
 ```
 
-Capabilities
+### Capabilities
 
+Available identity capabilities.
 ```juvix
 type Capabilities :=
   | CapabilityCommit
@@ -188,23 +221,34 @@ type Capabilities :=
   | CapabilityCommitAndDecrypt;
 ```
 
-IdentityName
+## Identity Evidence Types
+
+### IdentityName
+
+Hierarchical identity naming structure.
 
 ```juvix
 type IdentityName :=
   | LocalName { name : String }
   | DotName { parent : ExternalIdentity; child : String };
-
-axiom IdentityNameCmpDummy : IdentityName -> IdentityName -> Ordering;
-
-instance
-IdentityNameOrd : Ord IdentityName :=
-  mkOrd@{
-    cmp := IdentityNameCmpDummy;
-  };
 ```
 
-ReadsForEvidence
+
+??? quote "Instances"
+
+    ```juvix
+    axiom IdentityNameCmpDummy : IdentityName -> IdentityName -> Ordering;
+
+    instance
+    IdentityNameOrd : Ord IdentityName :=
+      mkOrd@{
+        cmp := IdentityNameCmpDummy;
+      };
+    ```
+
+### ReadsForEvidence
+
+Evidence of read permissions between identities.
 
 ```juvix
 type ReadsForEvidence := mkReadsForEvidence {
@@ -212,48 +256,65 @@ type ReadsForEvidence := mkReadsForEvidence {
   toIdentity : ExternalIdentity;
   proof : ByteString;
 };
-
-axiom ReadsForCmpDummy : ReadsForEvidence -> ReadsForEvidence -> Ordering;
-
-instance
-ReadsForOrd : Ord ReadsForEvidence :=
-  mkOrd@{
-    cmp := ReadsForCmpDummy;
-  };
 ```
 
-SignsForEvidence
+??? quote "Instances"
+
+    ```juvix
+    axiom ReadsForCmpDummy : ReadsForEvidence -> ReadsForEvidence -> Ordering;
+
+    instance
+    ReadsForOrd : Ord ReadsForEvidence :=
+    mkOrd@{
+      cmp := ReadsForCmpDummy;
+    };
+    ```
+
+### SignsForEvidence
+
+Evidence of signing permissions between identities.
 
 ```juvix
 type SignsForEvidence := mkSignsForEvidence {
   fromIdentity : ExternalIdentity;
   toIdentity : ExternalIdentity;
-  proof : ByteString; -- Placeholder for actual proof data
+  proof : ByteString;
 };
-
-axiom SignsForCmpDummy : SignsForEvidence -> SignsForEvidence -> Ordering;
-
-instance
-SignsForOrd : Ord SignsForEvidence :=
-  mkOrd@{
-    cmp := SignsForCmpDummy;
-  };
 ```
 
-IdentityNameEvidence
+??? quote "Instances"
+
+    ```juvix
+    axiom SignsForCmpDummy : SignsForEvidence -> SignsForEvidence -> Ordering;
+
+    instance
+    SignsForOrd : Ord SignsForEvidence :=
+      mkOrd@{
+    cmp := SignsForCmpDummy;
+    };
+    ```
+
+### IdentityNameEvidence
+
+Evidence linking identity names to external identities.
 
 ```juvix
 type IdentityNameEvidence := mkIdentityNameEvidence {
   identityName : IdentityName;
   externalIdentity : ExternalIdentity;
-  proof : ByteString; -- Placeholder for actual proof data
+  proof : ByteString;
 };
-
-axiom IdentityNameEvidenceCmpDummy : IdentityNameEvidence -> IdentityNameEvidence -> Ordering;
-
-instance
-IdentityNameEvidenceOrd : Ord IdentityNameEvidence :=
-  mkOrd@{
-    cmp := IdentityNameEvidenceCmpDummy;
-  };
 ```
+
+??? quote "Instances"
+
+    ```juvix
+    axiom IdentityNameEvidenceCmpDummy : IdentityNameEvidence ->
+      IdentityNameEvidence -> Ordering;
+
+    instance
+    IdentityNameEvidenceOrd : Ord IdentityNameEvidence :=
+      mkOrd@{
+        cmp := IdentityNameEvidenceCmpDummy;
+      };
+    ```

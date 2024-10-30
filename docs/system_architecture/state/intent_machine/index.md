@@ -31,4 +31,4 @@ The way that balanced transactions are derived from sets of intents is called so
 An intent is represented in Anoma as a (potentially unbalanced) [transaction](../resource_machine/transaction.md). Some intents contain ephemeral resources, the [resource logic](../resource_machine/resource/definition.md) of which encodes the constraints for the intent. Other intents can express their unfulfilled constraints solely by means of unbalanced parts of the delta term.
 
 ## Solver Interface
-Solvers receive sets of unbalanced transactions from agents, run matching algorithms of their choice over them, and return balanced transactions, which are sent to the [execution engine](../../node_architecture/ordering/execution/index.md).
+Solvers receive sets of unbalanced transactions from agents, run matching algorithms of their choice over them, and return balanced transactions, which are sent to the [[Execution engines|execution engine]].
