@@ -65,6 +65,10 @@ Assuming the proving system is used to verify that a predicate evaluated on its 
 
 ||Proving key|Verifying key|Instance (x)|Witness (w)|Proof|Properties|
 |-|-|-|-|-|-|-|
-|Trivial scheme|predicate|predicate|predicate arguments|()|()|transparent, not succinct|
-|Trusted delegation|predicate + signing key|predicate + signature verifying key|predicate arguments|()|signature|succinct, trusted, verifiable|
+|Trivial scheme|predicate|predicate|predicate's arguments|()|()|transparent, not succinct|
+|Trusted delegation|predicate + signing key|predicate + signature verifying key|predicate's arguments|()|signature|succinct, trusted, verifiable|
 |Succinct PoK|defined by the scheme (incl. predicate representation)|defined by the scheme|public input|private input|defined by the scheme|succinct, verifiable, possibly zero knowledge|
+
+!!! note
+
+In practice, the predicate and its arguments can be represented as a hash or commitment to the actual value. In the trivial scheme, they would have to be opened in order to verify them. In the trusted delegation case, they *don't have to* be opened if the signature is produced over the hashed values.

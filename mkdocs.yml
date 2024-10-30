@@ -52,7 +52,7 @@ nav:
                   - Set: ./system_architecture/state/resource_machine/primitive_interfaces/set.md
                   - Proving system: 
                     - ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving-system.md 
-                    - Delta: ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving-system-delta.md 
+                    - Delta proving system: ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving-system-delta.md 
                   - Commitment accumulator: ./system_architecture/state/resource_machine/primitive_interfaces/commitment-accumulator.md
                   - Nullifier set: ./system_architecture/state/resource_machine/primitive_interfaces/nullifier-set.md
                 - Data structures:
