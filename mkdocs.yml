@@ -527,18 +527,18 @@ theme:
 plugins:
   - search
   - glightbox
-#   - images # Provided with mkdocs-juvix-plugin
+  - images # Provided with mkdocs-juvix-plugin
   - juvix # Provided with mkdocs-juvix-plugin
   - wikilinks # Provided with mkdocs-juvix-plugin
-  - todos # Provided with mkdocs-juvix-plugin
-  - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
-      ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
-      FileTypes:
-        - png
-        - svg
-      FileTypeOverrides:
-        mermaid: png
-      FailFast: !ENV CI
+#   - todos # Provided with mkdocs-juvix-plugin
+#   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
+#       ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
+#       FileTypes:
+#         - png
+#         - svg
+#       FileTypeOverrides:
+#         mermaid: png
+#       FailFast: !ENV CI
   - bibtex:
       bib_dir: "docs/references"
   - macros:
@@ -548,19 +548,19 @@ plugins:
       j2_block_end_string: "@@}"
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
-hooks:
-  - hooks/differ.py
-watch:
-  - docs/assets
-  - formal/SML
-  - overrides
+# hooks:
+#   - hooks/differ.py
+
 exclude_docs: |
+  **/.hooks/**
+  docs/.juvix-build/**
   /requirements.txt
   **/art-template/**/*.md
   */**/.juvix-build/
   docs/indexes/*.txt
   docs/indexes/*.dot
   docs/images/*.dot.svg
+
 extra_css:
   - assets/css/juvix-material-style.css
   - assets/css/juvix-highlighting.css
