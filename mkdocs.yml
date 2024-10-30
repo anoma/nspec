@@ -78,12 +78,12 @@ nav:
           - Engine Types:
               - ./node_architecture/engines/index.md
               - Engine:
-                -  ./node_architecture/types/engine.juvix.md
-                - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
-                - Engine Behaviour: ./node_architecture/types/engine_behaviour.juvix.md
+                  - ./node_architecture/types/engine.juvix.md
+                  - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
+                  - Engine Behaviour: ./node_architecture/types/engine_behaviour.juvix.md
               - Anoma:
-                - Anoma Message: ./node_architecture/types/anoma_message.juvix.md
-                - Anoma Environment: ./node_architecture/types/anoma_environment.juvix.md
+                  - Anoma Message: ./node_architecture/types/anoma_message.juvix.md
+                  - Anoma Environment: ./node_architecture/types/anoma_environment.juvix.md
           - Hardware Abstraction Machine:
               - ./node_architecture/hardware_abstraction/index.md
               - Local Storage Engines:

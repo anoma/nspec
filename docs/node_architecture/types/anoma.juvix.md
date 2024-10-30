@@ -11,7 +11,7 @@ tags:
 
     ```juvix
     module node_architecture.types.anoma;
-    
+
     import node_architecture.types.anoma_message open;
     import node_architecture.types.anoma_environment open;
     ```
