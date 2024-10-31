@@ -1,10 +1,10 @@
 ---
-icon: octicons/project-template-24
+icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Engine-Family
-- Engine-Instances
+- Engine
+- Environment
 - Juvix
 ---
 
@@ -18,20 +18,20 @@ tags:
     import node_architecture.types.anoma_message as Anoma;
     ```
 
-# Engine family environment type
+# Engine environment type
 
-The engine family environment encompasses static information for engine
+The engine environment encompasses static information for engine
 instances in the following categories:
 
 - A global reference, `name`, for the engine instance.
-- Local state whose type is specific to the engine family.
+- Local state whose type is specific to the engine.
 - Mailbox cluster, which is a map of mailbox IDs to mailboxes.
 - A set of names of acquainted engine instances. It is implicit that the engine
   instance is acquainted with itself, so there is no need to include its own
   name.
 - A list of timers that have been set.
 
-This data is encapsulated within the `EngineEnvironment` type family, which is
+This data is encapsulated within the `EngineEnvironment` type, which is
 parameterised by four types:
 
 - `S`, representing the local state,

@@ -3,27 +3,28 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - mytag1
-- engine-dynamics
+- engine-behaviour
 ---
 
 ??? note "Juvix preamble"
 
     ```juvix
-    module node_architecture.engines.template_dynamics;
+    module node_architecture.engines.template_behaviour;
+
+    import node_architecture.engines.template_messages open;
+    import node_architecture.engines.template_environment open;
 
     import Stdlib.Data.String open;
     import prelude open;
     import node_architecture.types.basics open;
-    import node_architecture.engines.template_overview open;
-    import node_architecture.engines.template_environment open;
-    import node_architecture.types.engine_dynamics open;
+    import node_architecture.types.engine open;
     ```
 
-# `Template` Dynamics
+# Template Behaviour
 
 ## Overview
 
@@ -67,7 +68,7 @@ type TemplateActionLabel :=
 
 !!! quote ""
 
-    --8<-- "./template_dynamics.juvix.md:TemplateDoAlternative"
+    --8<-- "./template_behaviour.juvix.md:TemplateDoAlternative"
 
 This action label corresponds to performing the `doAlternative` action
 and is relevant for guard `X` and `Y`.
@@ -111,7 +112,7 @@ end;
 
 !!! quote ""
 
-    --8<-- "./template_dynamics.juvix.md:TemplateDoBoth"
+    --8<-- "./template_behaviour.juvix.md:TemplateDoBoth"
 
 This action label corresponds to performing both the `doAlternative` and the
 `doAnotherAction` action.
@@ -146,7 +147,7 @@ This action label corresponds to performing both the `doAlternative` and the
 
 !!! quote ""
 
-    --8<-- "./template_dynamics.juvix.md:TemplateDoAnotherAction"
+    --8<-- "./template_behaviour.juvix.md:TemplateDoAnotherAction"
 
 This action label corresponds to performing the `doAnotherAction` action.
 
@@ -192,7 +193,7 @@ type TemplateMatchableArgument :=
 !!! quote ""
 
     ```
-    --8<-- "./template_dynamics.juvix.md:TemplateMessageOne"
+    --8<-- "./template_behaviour.juvix.md:TemplateMessageOne"
     ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -221,7 +222,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 !!! quote ""
 
     ```
-    --8<-- "./template_dynamics.juvix.md:TemplateSomeThingFromAMailbox"
+    --8<-- "./template_behaviour.juvix.md:TemplateSomeThingFromAMailbox"
     ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -277,7 +278,7 @@ describe the latter in more detail.
 
 !!! quote ""
 
-    --8<-- "./template_dynamics.juvix.md:TemplateDeleteThisMessageFromMailbox"
+    --8<-- "./template_behaviour.juvix.md:TemplateDeleteThisMessageFromMailbox"
 
 We delete the given message from the mailbox with
 the mailbox ID.
@@ -386,6 +387,10 @@ templateConflictSolver : Set TemplateMatchableArgument -> List (Set TemplateMatc
   | _ := [];
 ```
 
-## `Template` Engine Summary
+## Engine behaviour
 
---8<-- "./docs/node_architecture/engines/template.juvix.md:template-engine-family"
+### `TemplateBehaviour`
+
+```
+--8<-- "./docs/node_architecture/engines/template.juvix.md:TemplateBehaviour"
+```

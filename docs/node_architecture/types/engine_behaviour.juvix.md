@@ -1,16 +1,17 @@
 ---
-icon: octicons/project-template-24
+icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Engine-Dynamics
+- Engine
+- Behaviour
 - Juvix
 ---
 
 ??? quote "Juvix imports"
 
     ```juvix
-    module node_architecture.types.engine_dynamics;
+    module node_architecture.types.engine_behaviour;
     import node_architecture.types.basics open;
     import node_architecture.types.messages open;
     import node_architecture.types.identities open;
@@ -19,7 +20,7 @@ tags:
     import node_architecture.types.anoma_message as Anoma;
     ```
 
-# Engine dynamics
+# Engine behaviour
 
 Each engine processes only one message at a time. The behaviour of an engine is
 specified by a finite set of _guards_ and an _action function,_ which determine
@@ -29,7 +30,7 @@ how engine instances react to received messages or timer notifications.
 
 Guards are terms of type `Guard`, which is a function type
 
---8<-- "./docs/node_architecture/types/engine_dynamics.juvix.md:whole-guard-type"
+--8<-- "./docs/node_architecture/types/engine_behaviour.juvix.md:whole-guard-type"
 
 where the _trigger_ of type `TimestampedTrigger H` is a term that captures the
 message received with a timestamp or a clock notification about timers that have
