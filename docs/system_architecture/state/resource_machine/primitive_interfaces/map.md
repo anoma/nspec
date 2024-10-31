@@ -11,4 +11,4 @@ Map is a structure that contains pairs (key: value), where key is of type K and 
 - `Keys(Map) -> List K`
 
 # Used in
-- app_data
+- Transaction(`app_data`)

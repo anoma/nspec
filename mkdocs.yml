@@ -51,20 +51,16 @@ nav:
                   - ./system_architecture/state/resource_machine/primitive_interfaces/index.md 
                   - Set: ./system_architecture/state/resource_machine/primitive_interfaces/set.md
                   - Map: ./system_architecture/state/resource_machine/primitive_interfaces/map.md
+                  - Fixed size type:
+                    - ./system_architecture/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md 
+                    - Arithmetic: ./system_architecture/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.md
+                    - Hash: ./system_architecture/state/resource_machine/primitive_interfaces/fixed_size_type/hash.md
+                    - Delta hash: ./system_architecture/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.md
                   - Proving system: 
                     - ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving-system.md 
                     - Delta proving system: ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving-system-delta.md 
                   - Commitment accumulator: ./system_architecture/state/resource_machine/primitive_interfaces/commitment-accumulator.md
                   - Nullifier set: ./system_architecture/state/resource_machine/primitive_interfaces/nullifier-set.md
-                  - Hash: 
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/hash/hash.md
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/hash/logic.md
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/hash/label.md
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/hash/value.md
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/hash/quantity.md
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/hash/nonce.md 
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/hash/cnk.md
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/hash/rseed.md
                 - Data structures:
                   - ./system_architecture/state/resource_machine/data_structures/index.md
                   - Resource:
