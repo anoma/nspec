@@ -12,7 +12,8 @@ search:
     module node_architecture.engines.ticker_environment;
 
     import prelude open;
-    import node_architecture.engines.ticker_overview open;
+    import node_architecture.types.basics open;
+    import node_architecture.engines.ticker_messages open;
     import node_architecture.types.engine_environment open;
     ```
 
@@ -48,7 +49,7 @@ Therefore, we define the timer handle type as `Unit`.
 ## Environment summary
 
 ```juvix
-TickerEnvironment : Type := EngineEnvironment TickerLocalState TickerMsg TickerMailboxState TickerTimerHandle;
+TickerEnvironment : Type := EngineEnvironment TickerLocalState TickerMailboxState TickerTimerHandle;
 ```
 
 ## Example of a `Ticker` environment
@@ -58,7 +59,7 @@ module ticker_environment_example;
 
 tickerEnvironmentExample : TickerEnvironment :=
     mkEngineEnvironment@{
-      name := Left "ticker";
+      name := "ticker";
       localState := mkTickerLocalState@{
         counter := 0
       };

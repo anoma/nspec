@@ -3,11 +3,11 @@ icon: octicons/gear-16
 search:
 exclude: false
 tags:
-  - engine-family
+  - engine
   - Juvix
 ---
 
-# Engine Families
+# Engines
 
 ## Overview
 
@@ -18,7 +18,7 @@ environment_. In Anoma, engines are organised into families based on shared
 behaviour and environment, although each engine instance has its own local state and
 name.
 
-Each engine family must declare specific _components_ that each of its member
+Each engine must declare specific _components_ that each of its member
 engine instances will have. For Anoma specifications, the components are:
 
 [[Engine Environment]]
@@ -30,7 +30,7 @@ engine instances will have. For Anoma specifications, the components are:
 
     - [[Engine Environment|Juvix engine environment definition]]
 
-[[Engine Dynamics | *Action Function*]]
+[[Engine Behaviour|*Action Function*]]
 
 :   The function that describes all possible ways in which engines can act, by
     changing their environment, sending messages, spawning new engine instances,
@@ -49,13 +49,13 @@ engine instances will have. For Anoma specifications, the components are:
     :   The function that resolves conflicts between actions to maximize their
         concurrency.
 
-## Juvix engine families definitions
+## Juvix engine definitions
 
-For the Anoma Specification, engine families are written in Juvix Markdown. All
-necessary types and functions to define these engines can be found in the module
-[[Engine Family Types|engine_family]].
-See [[Engines in Anoma|Tutorials on Writing Engine Families]] for a tutorial on
-how to structure the writing of engine families in Juvix.
+For the Anoma Specification, engines are written in Juvix Markdown.
+All necessary types and functions to define these engines can be found
+in the module [[Engine Types|engine]].
+See [[Engines in Anoma|Tutorials on Writing Engine Families]]
+for a tutorial on how to structure the writing of engine families in Juvix.
 
 Below we showcase the _current_ engine families and their related components in
 Juvix for the Anoma Specification. Please be aware that not all engine families
@@ -73,4 +73,4 @@ families.
 ## Useful Links
 
 - [[Engines in Anoma|Tutorials on Writing Engine Families]]
-- [[Ticker Engine Overview|Example Engine Family]]
+- [[Ticker Engine|Example Engine]]

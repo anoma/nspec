@@ -13,31 +13,25 @@ tags:
 
 # On Engines in the Anoma Specification
 
-## Short links
-- engines
-- conventions
-list_wikilinks: false
----
+## Resources for writing Engines
 
-# Tutorials on Engine Families
+### Engine templates
 
-- [[ Engine writing conventions| Conventions for writing engines]]
+- [[Engine writing conventions|Conventions for writing engines]]
 
-- Template files:
+- Engine template:
+    - [[Template Engine]]
+    - [[Template Environment]]
+    - [[Template Behaviour]]
 
-    - [[template_overview|`template_overview.juvix.md`]]
-    - [[template_environment|`template_environment.juvix.md`]]
-    - [[template_dynamics|`template_dynamics.juvix.md`]]
-    - [[template base|`template.juvix.md`]]
+### Engine examples
+  
+    - Ticker Engine:
+        - [[Ticker Engine]]
+        - [[Ticker Environment]]
+        - [[Ticker Behaviour
 
-- Examples:
-    - Ticker Engine Family:
-        - [[Ticker Engine Overview | Overview]]
-        - [[Ticker Engine Environment | Environment]]
-        - [[Ticker Engine Dynamics | Dynamics]]
-        - [[Ticker Base File | Base File]]
-
-## Introduction
+## Background
 
 The Anoma specification is inspired by the actor model[^3]
 where systems consist of actors that communicate via message passing.
@@ -289,3 +283,4 @@ the type of messages that are contained in mailboxes.
 
 [^5]: Note that in TLA⁺, pre-conditions of actions are
 	present in the guise of the `ENABLED` predicate.
+

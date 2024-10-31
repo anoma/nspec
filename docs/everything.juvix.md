@@ -14,23 +14,11 @@ hide:
 ```juvix
 module everything;
 
-import node_architecture.basics;
-import node_architecture.types.engine_environment;
-import node_architecture.types.engine_dynamics;
-import node_architecture.types.engine_family;
+import node_architecture.types;
 
-import node_architecture.types.anoma_environment;
-import node_architecture.types.anoma_message;
-
+{- Template for writing new engines -}
 import node_architecture.engines.template;
-import node_architecture.engines.template_overview;
-import node_architecture.engines.template_environment;
-import node_architecture.engines.template_dynamics;
 
 {- Engines -}
 import node_architecture.engines.ticker;
-import node_architecture.engines.ticker_overview;
-import node_architecture.engines.ticker_environment;
-import node_architecture.engines.ticker_dynamics;
 ```
-

@@ -1,10 +1,10 @@
 ---
-icon: octicons/project-template-24
+icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Engine-Family
-- Engine-Instances
+- Engine
+- Environment
 - Juvix
 ---
 
@@ -12,29 +12,29 @@ tags:
 
     ```juvix
     module node_architecture.types.engine_environment;
-    import node_architecture.basics open;
+    import node_architecture.types.basics open;
+    import node_architecture.types.identities open;
+    import node_architecture.types.messages open;
     import node_architecture.types.anoma_message as Anoma;
     ```
 
-# Engine family environment type
+# Engine environment type
 
-The engine family environment encompasses static information for engine
+The engine environment encompasses static information for engine
 instances in the following categories:
 
 - A global reference, `name`, for the engine instance.
-- Local state whose type is specific to the engine family.
+- Local state whose type is specific to the engine.
 - Mailbox cluster, which is a map of mailbox IDs to mailboxes.
 - A set of names of acquainted engine instances. It is implicit that the engine
   instance is acquainted with itself, so there is no need to include its own
   name.
 - A list of timers that have been set.
 
-This data is encapsulated within the `EngineEnvironment` type family, which is
+This data is encapsulated within the `EngineEnvironment` type, which is
 parameterised by four types:
 
 - `S`, representing the local state,
-- `I`, representing the type of engine-specific messages (defined in their
-respective overview page),
 - `M`, representing the type of mailboxes' states, and
 - `H`, representing the type of handles for timers.
 
@@ -42,12 +42,12 @@ These same letters will be used in the rest of the document to represent these
 types.
 
 ```juvix
-type EngineEnvironment (S I M H : Type) :=
+type EngineEnvironment (S M H : Type) :=
   mkEngineEnvironment {
-      name : Name ; -- read-only
+      name : EngineName ; -- read-only
       localState : S;
-      mailboxCluster : Map MailboxID (Mailbox I M);
-      acquaintances : Set Name;
+      mailboxCluster : Map MailboxID (Mailbox M);
+      acquaintances : Set EngineName;
       timers : List (Timer H);
 };
 ```
@@ -58,8 +58,8 @@ type EngineEnvironment (S I M H : Type) :=
     an index type, and the mailbox is a record containing the following data:
 
     - The enveloped messages that the mailbox contains.
-    - The mailbox state, which is of type `Maybe M`, i.e., it could be
-    _nothing_.
+    - The mailbox state, which is of type `Option M`, i.e., it could be
+    _none_.
 
     If you don't need multiple mailboxes, you can use any ID as the key.
     For example, you can use `0` for a default mailbox.
