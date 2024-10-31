@@ -12,6 +12,7 @@ tags:
 
     ```juvix
     module arch.node.types.engine_behaviour;
+
     import arch.node.types.basics open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;

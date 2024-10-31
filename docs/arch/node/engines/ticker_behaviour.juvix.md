@@ -13,7 +13,7 @@ tags:
 ??? note "Juvix preamble"
 
     ```juvix
-    module arch.node.engines.ticker_dynamics;
+    module arch.node.engines.ticker_behaviour;
 
     import arch.node.engines.ticker_messages open;
     import arch.node.engines.ticker_environment open;

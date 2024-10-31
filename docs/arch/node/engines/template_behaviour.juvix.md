@@ -13,7 +13,7 @@ tags:
 ??? note "Juvix preamble"
 
     ```juvix
-    module arch.node.engines.template_dynamics;
+    module arch.node.engines.template_behaviour;
 
     import arch.node.engines.template_messages open;
     import arch.node.engines.template_environment open;

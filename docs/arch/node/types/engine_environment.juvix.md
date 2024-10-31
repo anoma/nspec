@@ -1,10 +1,10 @@
 ---
-icon: octicons/project-template-24
+icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Engine-Family
-- Engine-Instances
+- Engine
+- Environment
 - Juvix
 ---
 
@@ -12,25 +12,26 @@ tags:
 
     ```juvix
     module arch.node.types.engine_environment;
-    import arch.node.basics open;
-    import arch.node.identity_types open;
+    import arch.node.types.basics open;
+    import arch.node.types.identities open;
+    import arch.node.types.messages open;
     import arch.node.types.anoma_message as Anoma;
     ```
 
-# Engine family environment type
+# Engine environment type
 
-The engine family environment encompasses static information for engine
+The engine environment encompasses static information for engine
 instances in the following categories:
 
 - A global reference, `name`, for the engine instance.
-- Local state whose type is specific to the engine family.
+- Local state whose type is specific to the engine.
 - Mailbox cluster, which is a map of mailbox IDs to mailboxes.
 - A set of names of acquainted engine instances. It is implicit that the engine
   instance is acquainted with itself, so there is no need to include its own
   name.
 - A list of timers that have been set.
 
-This data is encapsulated within the `EngineEnvironment` type family, which is
+This data is encapsulated within the `EngineEnvironment` type, which is
 parameterised by four types:
 
 - `S`, representing the local state,
@@ -43,10 +44,10 @@ types.
 ```juvix
 type EngineEnvironment (S M H : Type) :=
   mkEngineEnvironment {
-      name : Name ; -- read-only
+      name : EngineName ; -- read-only
       localState : S;
       mailboxCluster : Map MailboxID (Mailbox M);
-      acquaintances : Set Name;
+      acquaintances : Set EngineName;
       timers : List (Timer H);
 };
 ```
@@ -57,8 +58,8 @@ type EngineEnvironment (S M H : Type) :=
     an index type, and the mailbox is a record containing the following data:
 
     - The enveloped messages that the mailbox contains.
-    - The mailbox state, which is of type `Maybe M`, i.e., it could be
-    _nothing_.
+    - The mailbox state, which is of type `Option M`, i.e., it could be
+    _none_.
 
     If you don't need multiple mailboxes, you can use any ID as the key.
     For example, you can use `0` for a default mailbox.

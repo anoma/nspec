@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - mytag1
@@ -19,7 +19,7 @@ tags:
     import arch.node.engines.template_overview open;
     ```
 
-# `Template` Environment
+# Template Environment
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -162,7 +162,6 @@ TemplateEnvironment : Type :=
   TemplateTimerHandle;
 ```
 
-
 ## Example of a `Template` environment
 
 ```juvix extract-module-statements
@@ -170,7 +169,7 @@ module template_environment_example;
 
   templateEnvironmentExample : TemplateEnvironment :=
     mkEngineEnvironment@ {
-      name := Left "template"; -- Name
+      name := "template";
       localState := mkTemplateLocalState@{
         taskQueue := mkNiceState@{
           word := "taskQueue"
@@ -183,4 +182,3 @@ module template_environment_example;
   ;
 end;
 ```
-

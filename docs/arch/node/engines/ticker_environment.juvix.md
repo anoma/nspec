@@ -59,7 +59,7 @@ module ticker_environment_example;
 
 tickerEnvironmentExample : TickerEnvironment :=
     mkEngineEnvironment@{
-      name := Left "ticker";
+      name := "ticker";
       localState := mkTickerLocalState@{
         counter := 0
       };

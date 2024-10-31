@@ -12,11 +12,8 @@ tags:
 ??? quote "Juvix imports"
 
     ```juvix
-    module arch.node.engines.ticker_overview;
+    module arch.node.engines.ticker_messages;
     ```
-
-# Ticker Messages
->>>>>>>> origin/v2:docs/arch/node/engines/ticker_messages.juvix.md
 
 ## Message interface
 

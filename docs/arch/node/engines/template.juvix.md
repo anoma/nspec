@@ -1,5 +1,5 @@
 ---
-icon: octicons/project-template-24
+icon: octicons/gear-16
 search:
   exclude: false
 tags:
@@ -18,25 +18,49 @@ tags:
       import arch.node.types.engine_family as Anoma;
     ```
 
-# `Template` engine family type
+# Template Engine
 
-<!-- --8<-- [start:template-engine-family] -->
+## Purpose
+
+Brief summary of the purpose of the engine.
+
+## Components
+
+- [[Template Messages]]
+- [[Template Environment]]
+- [[Template Behaviour]]
+
+## Useful links
+
+- Some
+- Useful
+- Links
+
+## Types
+
+### `TemplateBehaviour`
+
+<!-- --8<-- [start:TemplateBehaviour] -->
 ```juvix
-TemplateEngineFamily :
-  Anoma.EngineFamily
+TemplateBehaviour :
+  EngineBehaviour
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
     TemplateMatchableArgument
     TemplateActionLabel
     TemplatePrecomputation
-  := Anoma.mkEngineFamily@{
+  := mkEngineBehaviour@{
     guards := [messageOneGuard];
     action := templateAction;
     conflictSolver := templateConflictSolver;
   }
   ;
 ```
-<!-- --8<-- [end:ticker-engine-family] -->
+<!-- --8<-- [end:TemplateBehaviour] -->
 
+### `TemplateEngine`
 
+<!-- --8<-- [start:TemplateEngine] -->
+TODO
+<!-- --8<-- [end:TemplateEngine] -->

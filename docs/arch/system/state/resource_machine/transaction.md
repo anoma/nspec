@@ -22,7 +22,7 @@ Given a set of $CMtree$ roots $rts$ and a set of actions $actions$, $tx = (rts, 
 - $rts = rts$
 - $actions = actions$
 - $\pi_{\Delta_{tx}}$
-- $\Delta_{tx} = \sum{r^{in}.\Delta} - \sum{r^{out}.\Delta}$, where $r^{in}$ and $r^{out}$ correspond to the resources created and consumed in the transaction's actions
+- $\Delta_{tx} = $\Delta_{tx} = \sum{a.\Delta}, a \in actions$
 
 ## Composition
 
@@ -33,16 +33,24 @@ Having two transactions $tx_1$ and $tx_2$, their composition $tx_1 \circ tx_2$ i
 - $\Pi^{\Delta}_{tx} = AGG(\Pi^{\Delta}_1, \Pi^{\Delta}_2$), where $AGG$ is a delta proof aggregation function, s.t. for $bv_1$ being the balancing value of the first delta proof, $bv_2$ being the balancing value of the second delta proof, and $bv_{tx}$ being the balancing value of the composed delta proof, it satisfies $bv_{tx} = bv_1 + bv_2$. The aggregation function takes two delta proofs as input and outputs a delta proof. The aggregation function is defined by the proving system and might require creation of a new proof.
 - $\Delta_{tx} = \Delta_1 + \Delta_2$
 
+> When composing transactions, action sets are simply united without [composing the actions](./action.md#composition). For example, composing a transaction with two actions and another transaction with three actions will result in a transaction with five actions.
+
 ## Validity
 
 A transaction is considered _valid_ if the following statements hold:
 
+Checks that do not require access to global structures:
 - all actions in the transaction are valid, as defined per [action validity rules](./action.md#validity)
-- $\Delta$ proof is valid.
+- actions partition the state change induced by the transaction:
+  - there is no resource created more than once across actions
+  - there is no resource consumed more than once across actions
+- $\pi_\Delta$ is valid
 
+Checks that require access to global $CMtree$ and $NFset$:
+- each created resource wasn't created in prior transactions
+- each consumed resource wasn't consumed in prior transactions
 
-Only transactions with $\Delta_{tx}$ committing to the expected by the system balancing value can be executed.
-
+A transaction is *executable* if it is valid and $\Delta_{tx}$ commits to the expected balancing value.
 
 ## Transaction with Metadata
 
@@ -80,16 +88,3 @@ When transactions with $Metadata$ are composed, transactions are composed accord
 A transaction function is a function that outputs a transaction: $TransactionFunction: () \rightarrow Transaction$.
 
 Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here](./function_formats/transaction_function.md).
-
-## Transaction balance change
-
-$\Delta_{tx}$ of a transaction is computed from the [delta parameters of the resources](./resource/computable_components/delta.md) consumed and created in the transaction. It represents the total quantity change per resource kind induced by the transaction which is also referred to as *transaction balance*.
-
-From the homomorphic properties of $h_\Delta$, for the resources of the same kind $kind$:
-$\sum_j{h_\Delta(kind, r_{i_j}.q)} - \sum_j{h_\Delta(kind, r_{o_j}.q)} =$
-
-$=\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = h_\Delta(kind, q_{kind})$.
-
-The kind-distinctness property of $h_\Delta$ allows computing $\Delta_{tx} = \sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta}$ by adding resources of all kinds together without the need to explicitly distinguish between the resource kinds: $\sum_j{r_{i_j}.\Delta} - \sum_j{r_{o_j}.\Delta} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$
-
-> Only transactions with $\Delta_{tx}$ committing to $0$ (or any other balancing value specified by the system) can be executed and settled.

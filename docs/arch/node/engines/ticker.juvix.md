@@ -1,5 +1,5 @@
 ---
-icon: octicons/project-template-24
+icon: octicons/gear-16
 search:
   exclude: false
 tags:
@@ -11,33 +11,79 @@ tags:
 
     ```juvix
     module arch.node.engines.ticker;
-      import prelude open;
-      import arch.node.types.engine_family as Anoma;
 
-      import arch.node.engines.ticker_overview open public;
-      import arch.node.engines.ticker_environment open public;
-      import arch.node.engines.ticker_dynamics open public;
+    import arch.node.engines.ticker_messages open public;
+    import arch.node.engines.ticker_environment open public;
+    import arch.node.engines.ticker_behaviour open public;
+
+    import prelude open;
+    import arch.node.types.engine open;
     ```
 
-# Ticker engine family type
+# Ticker Engine
 
-<!-- --8<-- [start:ticker-engine-family] -->
+The Ticker engine provides a simple counter functionality, allowing
+clients to increment a counter and retrieve its current value.
+
+## Purpose
+
+A ticker engine maintains a counter in its local state. It increases the counter
+when it receives an `Increment` message and provides the updated result upon
+receiving a `Count` message. The initial state initializes the counter.
+
+## Components
+
+- [[Ticker Messages]]
+- [[Ticker Environment]]
+- [[Ticker Behaviour]]
+
+## Useful links
+
+- [Composable Semantic Models for Actor Theories](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=18475015c7c46d38292833ddda32dc88b5655160)
+
+## Type
+
+### `TickerBehaviour`
+
+<!-- --8<-- [start:TickerBehaviour] -->
 ```juvix
-TickerEngineFamily :
-  Anoma.EngineFamily
+TickerBehaviour :
+  EngineBehaviour
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle
     TickerMatchableArgument
     TickerActionLabel
     TickerPrecomputation
-  := Anoma.mkEngineFamily@{
+  := mkEngineBehaviour@{
     guards := [incrementGuard ; countGuard];
     action := tickerAction;
     conflictSolver := tickerConflictSolver;
   }
   ;
 ```
-<!-- --8<-- [end:ticker-engine-family] -->
+<!-- --8<-- [end:TickerBehaviour] -->
 
+### `TickerEngine`
 
+<!-- --8<-- [start:TickerEngine] -->
+```TODO juvix
+TickerEngine : Engine
+  TickerLocalState
+  TickerMailboxState
+  TickerTimerHandle
+  TickerMatchableArgument
+  TickerActionLabel
+  TickerPrecomputation := mkEngine@{
+    name := "ticker";
+    behaviour := TickerBehaviour;
+    initEnv := mkEngineEnvironment@{
+      name := "ticker";
+      localState := Unit;
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := [];
+  };
+};
+```
+<!-- --8<-- [end:TickerEngine] -->
