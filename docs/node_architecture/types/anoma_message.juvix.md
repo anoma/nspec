@@ -1,5 +1,5 @@
 ---
-icon: octicons/project-template-24
+icon: material/file-document-outline
 search:
   exclude: false
 tags:
