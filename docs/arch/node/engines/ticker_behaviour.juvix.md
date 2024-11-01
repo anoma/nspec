@@ -284,16 +284,29 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 <!-- --8<-- [end:action-function] -->
 
 
-## Conflict solver
+### Conflict solver
 
 ```juvix
 tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
-## Engine behaviour
+## `TickerBehaviour`
 
-### `TickerBehaviour`
-
+<!-- --8<-- [start:TickerBehaviour] -->
+```juvix
+TickerBehaviour :
+  EngineBehaviour
+    TickerLocalState
+    TickerMailboxState
+    TickerTimerHandle
+    TickerMatchableArgument
+    TickerActionLabel
+    TickerPrecomputation
+  := mkEngineBehaviour@{
+    guards := [incrementGuard ; countGuard];
+    action := tickerAction;
+    conflictSolver := tickerConflictSolver;
+  }
+  ;
 ```
---8<-- "./docs/arch/node/engines/ticker.juvix.md:TickerBehaviour"
-```
+<!-- --8<-- [end:TickerBehaviour] -->

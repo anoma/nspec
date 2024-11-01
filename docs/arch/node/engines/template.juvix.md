@@ -11,11 +11,13 @@ tags:
 
     ```juvix
     module arch.node.engines.template;
-      import prelude open;
-      import arch.node.engines.template_messages open public;
-      import arch.node.engines.template_environment open public;
-      import arch.node.engines.template_behaviour open public;
-      import arch.node.types.engine open;
+
+    import prelude open;
+    import arch.node.engines.template_messages open public;
+    import arch.node.engines.template_environment open public;
+    import arch.node.engines.template_behaviour open public;
+    import arch.node.types.engine open public;
+    open template_environment_example;
     ```
 
 # Template Engine
@@ -36,31 +38,33 @@ Brief summary of the purpose of the engine.
 - Useful
 - Links
 
-## Types
+## Type
 
-### `TemplateBehaviour`
-
-<!-- --8<-- [start:TemplateBehaviour] -->
+<!-- --8<-- [start:TemplateEngine] -->
 ```juvix
-TemplateBehaviour :
-  EngineBehaviour
+TemplateEngine : Type :=
+  Engine
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
     TemplateMatchableArgument
     TemplateActionLabel
-    TemplatePrecomputation
-  := mkEngineBehaviour@{
-    guards := [messageOneGuard];
-    action := templateAction;
-    conflictSolver := templateConflictSolver;
-  }
-  ;
+    TemplatePrecomputation;
 ```
-<!-- --8<-- [end:TemplateBehaviour] -->
+<!-- --8<-- [end:TemplateEngine] -->
 
-### `TemplateEngine`
+### Example of a template engine
 
 <!-- --8<-- [start:TemplateEngine] -->
-TODO
+```juvix
+exampleTemplateEngine : TemplateEngine := mkEngine@{
+  name := "template";
+  behaviour := TemplateBehaviour;
+  initEnv := templateEnvironmentExample;
+};
+```
 <!-- --8<-- [end:TemplateEngine] -->
+
+where `templateEnvironmentExample` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/template_environment.juvix.md:environment-example"

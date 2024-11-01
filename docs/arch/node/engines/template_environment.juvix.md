@@ -164,6 +164,7 @@ TemplateEnvironment : Type :=
 
 ## Example of a `Template` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module template_environment_example;
 
@@ -182,3 +183,4 @@ module template_environment_example;
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

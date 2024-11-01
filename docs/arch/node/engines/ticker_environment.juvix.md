@@ -46,18 +46,19 @@ syntax alias TickerTimerHandle := Unit;
 The [[Ticker Engine Overview|ticker]] does not require a timer handle type.
 Therefore, we define the timer handle type as `Unit`.
 
-## Environment summary
+## `TickerEnvironment`
 
 ```juvix
 TickerEnvironment : Type := EngineEnvironment TickerLocalState TickerMailboxState TickerTimerHandle;
 ```
 
-## Example of a `Ticker` environment
+## Example of a ticker environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module ticker_environment_example;
 
-tickerEnvironmentExample : TickerEnvironment :=
+zeroTickerEnvironment : TickerEnvironment :=
     mkEngineEnvironment@{
       name := "ticker";
       localState := mkTickerLocalState@{
@@ -66,7 +67,7 @@ tickerEnvironmentExample : TickerEnvironment :=
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []
-    }
-  ;
+    };
 end;
 ```
+<!-- --8<-- [end:environment-example] -->
