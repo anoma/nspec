@@ -20,8 +20,11 @@ classDiagram
         +sub(T, T) T
     }
 
+    Arithmetic <|-- Quantity
+
 ```
 
 ## Used in
 - quantity
+- DeltaHash
 

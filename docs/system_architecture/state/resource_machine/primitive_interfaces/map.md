@@ -1,6 +1,6 @@
 # Map
 
-Map is a structure that contains pairs (key: value), where key is of type K and value is of type V.
+Map is a structure that contains pairs (key: value), where key is of type `K` and value is of type `V`.
 
 ## Interface
 
@@ -10,5 +10,7 @@ Map is a structure that contains pairs (key: value), where key is of type K and 
 - `Get(Map, K) -> V`
 - `Keys(Map) -> List K`
 
+
 # Used in
-- Transaction(`app_data`)
+- Action(`applicationData`)
+- Action.proofs (?)

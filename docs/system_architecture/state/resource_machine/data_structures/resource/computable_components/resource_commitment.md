@@ -7,13 +7,13 @@ search:
 
 # Resource Commitment
 
-Information flow control property implies working with flexible privacy requirements, varying from transparent contexts, where almost everything is publicly known, to contexts with stronger privacy guarantees, where as little information as possible is revealed.
+Resource commitment is a unique identifier of a resource used to prove the resource's existence and address the resource. Using resource commitment allows to decouple resource semantics (contained in the resource plaintext) and the fact of the resource's existence. For a resource `r`, `r.commitment() = CommitmentHash(r)`.
 
-From the resource model perspective, stronger privacy guarantees require operating on resources that are not publicly known in a publicly verifiable way. Therefore, proving the resource's existence has to be done without revealing the resource's plaintext.
+To establish the resource's existence, its commitment is added to a global structure called a commitment tree. This structure is external to the resource machine but the resource machine can read from it.
 
-One way to achieve this would be to publish a **commitment** to the resource plaintext. For a resource $r$, the resource commitment is computed as $r.cm = h_{cm}(r)$. Resource commitment has binding and hiding properties, meaning that the commitment is tied to the created resource but does not reveal information about the resource beyond the fact of creation. From the moment the resource is created, and until the moment it is consumed, the resource is a part of the system's state.
-
->
-> The resource commitment is also used as the resource's address $r.addr$ in the content-addressed storage.
-> Consumption of the resource does not necessarily affect the resource's status in the storage (e.g., it doesn't get deleted).
+!!! note
+    The resource commitment is also used as the resource's address $r.addr$ in the content-addressed storage.
+ 
+!!! note
+    Consumption of the resource does not necessarily affect the resource's status in the storage (e.g., it doesn't get deleted).
 

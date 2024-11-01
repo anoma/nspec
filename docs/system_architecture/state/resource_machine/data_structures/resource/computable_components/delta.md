@@ -6,6 +6,6 @@ search:
 ---
 
 # Resource Delta
-Resource deltas are used to reason about the total quantities of different kinds of resources in transactions. For a resource $r$, its delta is computed as $r.\Delta = h_{\Delta}(r.kind, r.q)$.
+Resource delta is used to reason about the total quantities of different kinds of resources in transactions. For a resource `r`, its delta is computed as `r.delta() = DeltaHash(r.kind(), r.quantity)`.
 
 

@@ -16,6 +16,11 @@ classDiagram
          +equal(T, T) Bool
     }
 
+    FixedSize <|-- Nonce
+    FixedSize <|-- RSeed
+    FixedSize <|-- NullifierKeyCommitment
+    FixedSize <|-- NullifierKey
+
     FixedSize <|-- Arithmetic
     FixedSize <|-- Hash
 
@@ -43,4 +48,4 @@ classDiagram
 
 ## Used in (raw)
 
-- rseed, nonce, cnk
+- rseed, nonce, cnk, nullifierKey

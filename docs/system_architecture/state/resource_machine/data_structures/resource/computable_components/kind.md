@@ -6,4 +6,6 @@ search:
 ---
 
 # Resource Kind
-For a resource $r$, its kind is computed as $r.kind = h_{kind}(r.l, r.label)$.
+
+For a resource `r`, its kind is computed as: `r.kind() = KindHash(r.labelRef, r.logicRef)`.
+

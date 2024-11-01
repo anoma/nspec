@@ -7,20 +7,23 @@ search:
 
 # Action
 
-An action is a composite structure $A = (cms, nfs, \Pi, app\_data)$, where:
+An action is a composite structure of type `Action` that contains the following components:
 
-- $cms \subseteq  \mathbb{F}_{cm}$ is a set of created resources' commitments.
-- $nfs \subseteq \mathbb{F}_{nf}$ is a set of consumed resources' nullifiers.
-- $\Pi: \{ \pi: PS.Proof\}$ is a set of proofs.
-- $app\_data: \{(k, (d, deletion\_criterion)): k \in \mathbb{F}_{key}, d \subseteq \mathbb{F}_{d}\}$ contains application-specific data needed to verify resource logic proofs (parts of the instances). The deletion criterion field is described [here](./rm_def/storage.md#data-blob-storage).
+|Component|Type|Description|
+|-|-|-|
+|`createdResourceTagSet`|`Set Commitment`|contains commitments of resources created in this action|
+|`consumedResourceTagSet`|`Set Nullifier`|contains nullifiers of resources consumed in this action|
+|`proofs`|`Set PS.Proof`|contains resource logic and compliance proofs associated with this action|
+|`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and openings of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./rm_def/storage.md#data-blob-storage)|
+
 
 Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's $cms$ or $nfs$ correspondingly. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's $nfs$ set. A resource is said to be *created in the action* for a valid action if its commitment is in the action's $cms$ set.
 
 ## Proofs
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
 
-- Resource logic proof $\pi_{RL}$. For each resource consumed or created in the action, it is required to provide a proof that the logic of the resource evaluates to $1$ given the input parameters that describe the state transition induced by the action (the exact resource machine instantiation [defines the exact set of parameters](./function_formats/resource_logic.md)). The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if the resources have the same logic.
-- Resource machine [compliance proofs](./action.md#compliance-proofs-and-compliance-units) - a set of proofs that ensures that the provided action complies with the resource machine definitions.
+- Resource logic proofs are created by `ResourceLogicProvingSystem`. For each resource consumed or created in the action, it is required to provide a proof that the logic of the resource evaluates to $1$ given the input parameters that describe the state transition induced by the action (the exact resource machine instantiation [defines the exact set of parameters](./function_formats/resource_logic.md)). The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if the resources have the same logic.
+- Resource machine [compliance proofs](./action.md#compliance-proofs-and-compliance-units) are created by `ComplianceProvingSystem`. It is a set of proofs that ensures that the provided action complies with the resource machine definitions.
 
 
 #### Compliance proofs and compliance units
@@ -30,8 +33,13 @@ Each compliance proof maps to some *compliance unit*. The set of resources in ea
 ###### Input existence check
 Each resource machine compliance proof must check the following:
 
-- each consumed resource was created (its commitment is included in $CMtree$)
-- the resource commitments and nullifiers are derived according to the commitment and nullifier derivation rules (including the commitments of the consumed resources)
+- each *non-ephemeral* consumed resource was created: for each resource associated with a nullifier from the `consumedResourceTagSet`: `CMTree::Verify(r.commitment(), path, root) = True`
+- the resource commitments and nullifiers are derived according to the commitment and nullifier derivation rules (including the commitments of the consumed resources):
+  - for each consumed resource `r`: 
+    - `r.nullifier(nullifierKey) is in consumedResourceTagSet`
+    - `r.commitment() = cm` (`cm` provided as a part of witness)
+  - for each created resource `r`: 
+    - `r.commitment() is in createdResourceTagSet` 
 - resource deltas are computed correctly
 - the resource logics of created and consumed resources are satisfied
 
@@ -53,11 +61,13 @@ After adding the required proofs to an unproven action, the action becomes prove
 
 Given a set of input resource plaintexts $\{r_{{in}_1}, \cdots, r_{{in}_n}\}$, a set of output resource plaintexts $\{r_{{out}_1}, \cdots, r_{{out}_m}\}$, a set of nullifier keys corresponding to the input resources $\{nk_1,\cdots,nk_n\}$, $app\_data$, and a set of custom inputs required by resource logics, a proven action $A$ is computed as:
 
-- $cms = \{h_{cm}(r_{{out}_i}, i = 1 \cdots m\}$
-- $nfs = \{h_{nf}(nk_i, r_{{in}_i}), i = 1 \cdots n\}$
-- $\Pi$:
-    $\{\pi_{RL}^{{in}_i}, i = 1 \cdots n \} \cup \{\pi_{RL}^{{out}_i}, i = 1 \cdots m \} \cup \{\pi_{compl}^j, 1 \leq j \leq m + n \}$
-- $app\_data$
+- `Action.createdResourceTagSet = Set.new(List Resource)`
+- `Action.consumedResourceTagSet = Set.new(List (Resource, nullifierKey))`
+- `proofs = complianceProofs.union(resourceLogicProofs)`
+- `applicationData` (provided explicitly as input)
+
+!!! warning
+  TODO: should proofs be a map instead of a set? We can't have raw proofs there
 
 An unproven action would be computed the same way, except the resource logic proofs wouldn't be computed yet.
 

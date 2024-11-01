@@ -5,6 +5,13 @@ search:
   boost: 2
 ---
 
-# Introduction
+# Computable components
 
-Resource computable components are the components that are derivable from the resource components, other computed components, and possibly some secret data by applying a function from class $H$.
+Resource computable components are the components that are not a resource component but can be derived from the resource components, other computable components, and possibly some extra data.
+
+Resources have four computable components:
+
+- `r.commitment()`
+- `r.nullifier(nullifierKey)`
+- `r.kind()`
+- `r.delta()`
