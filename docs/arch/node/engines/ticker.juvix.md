@@ -12,12 +12,13 @@ tags:
     ```juvix
     module arch.node.engines.ticker;
 
+    import prelude open;
+    import arch.node.types.engine open;
+
     import arch.node.engines.ticker_messages open public;
     import arch.node.engines.ticker_environment open public;
     import arch.node.engines.ticker_behaviour open public;
-
-    import prelude open;
-    import arch.node.types.engine open;
+    open ticker_environment_example;
     ```
 
 # Ticker Engine
@@ -43,47 +44,28 @@ receiving a `Count` message. The initial state initializes the counter.
 
 ## Type
 
-### `TickerBehaviour`
-
-<!-- --8<-- [start:TickerBehaviour] -->
-```juvix
-TickerBehaviour :
-  EngineBehaviour
-    TickerLocalState
-    TickerMailboxState
-    TickerTimerHandle
-    TickerMatchableArgument
-    TickerActionLabel
-    TickerPrecomputation
-  := mkEngineBehaviour@{
-    guards := [incrementGuard ; countGuard];
-    action := tickerAction;
-    conflictSolver := tickerConflictSolver;
-  }
-  ;
-```
-<!-- --8<-- [end:TickerBehaviour] -->
-
-### `TickerEngine`
-
 <!-- --8<-- [start:TickerEngine] -->
-```TODO juvix
-TickerEngine : Engine
+```juvix
+TickerEngine : Type := Engine
   TickerLocalState
   TickerMailboxState
   TickerTimerHandle
   TickerMatchableArgument
   TickerActionLabel
-  TickerPrecomputation := mkEngine@{
-    name := "ticker";
-    behaviour := TickerBehaviour;
-    initEnv := mkEngineEnvironment@{
-      name := "ticker";
-      localState := Unit;
-      mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
-      timers := [];
-  };
-};
+  TickerPrecomputation;
 ```
 <!-- --8<-- [end:TickerEngine] -->
+
+### Example of a ticker engine
+
+```juvix extract-module-statements
+exampleTickerEngine : TickerEngine := mkEngine@{
+    name := "ticker";
+    behaviour := TickerBehaviour;
+    initEnv := zeroTickerEnvironment;
+  };
+```
+
+where `zeroTickerEnvironment` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:environment-example"

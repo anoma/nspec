@@ -15,6 +15,8 @@ tags:
     module arch.node.engines.ticker_messages;
     ```
 
+# Ticker Messages
+
 ## Message interface
 
 <!-- --8<-- [start:TickerMsg] -->

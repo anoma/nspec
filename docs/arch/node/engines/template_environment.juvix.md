@@ -15,8 +15,8 @@ tags:
     ```juvix
     module arch.node.engines.template_environment;
     import prelude open;
-    import arch.node.types.engine_family open;
-    import arch.node.engines.template_overview open;
+    import arch.node.types.engine open;
+    import arch.node.engines.template_messages open;
     ```
 
 # Template Environment
@@ -164,6 +164,7 @@ TemplateEnvironment : Type :=
 
 ## Example of a `Template` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module template_environment_example;
 
@@ -182,3 +183,4 @@ module template_environment_example;
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

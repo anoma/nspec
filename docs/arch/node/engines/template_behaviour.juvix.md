@@ -20,7 +20,7 @@ tags:
 
     import Stdlib.Data.String open;
     import prelude open;
-    import arch.node.basics open;
+    import arch.node.types.basics open;
     import arch.node.types.engine open;
     ```
 
@@ -387,8 +387,24 @@ templateConflictSolver : Set TemplateMatchableArgument -> List (Set TemplateMatc
   | _ := [];
 ```
 
-### `TemplateBehaviour`
 
+## `TemplateBehaviour`
+
+<!-- --8<-- [start:TemplateBehaviour] -->
+```juvix
+TemplateBehaviour :
+  EngineBehaviour
+    TemplateLocalState
+    TemplateMailboxState
+    TemplateTimerHandle
+    TemplateMatchableArgument
+    TemplateActionLabel
+    TemplatePrecomputation
+  := mkEngineBehaviour@{
+    guards := [messageOneGuard];
+    action := templateAction;
+    conflictSolver := templateConflictSolver;
+  }
+  ;
 ```
---8<-- "./docs/arch/node/engines/template.juvix.md:TemplateBehaviour"
-```
+<!-- --8<-- [end:TemplateBehaviour] -->

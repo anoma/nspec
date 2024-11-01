@@ -19,8 +19,8 @@ tags:
     import arch.node.engines.ticker_environment open;
 
     import prelude open;
-    import arch.node.basics open;
-    import arch.node.identity_types open;
+    import arch.node.types.basics open;
+    import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.anoma_message open using {MsgTicker};
@@ -284,14 +284,29 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 <!-- --8<-- [end:action-function] -->
 
 
-## Conflict solver
+### Conflict solver
 
 ```juvix
 tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
-### `TickerBehaviour`
+## `TickerBehaviour`
 
+<!-- --8<-- [start:TickerBehaviour] -->
+```juvix
+TickerBehaviour :
+  EngineBehaviour
+    TickerLocalState
+    TickerMailboxState
+    TickerTimerHandle
+    TickerMatchableArgument
+    TickerActionLabel
+    TickerPrecomputation
+  := mkEngineBehaviour@{
+    guards := [incrementGuard ; countGuard];
+    action := tickerAction;
+    conflictSolver := tickerConflictSolver;
+  }
+  ;
 ```
---8<-- "./docs/arch/node/engines/ticker.juvix.md:TickerBehaviour"
-```
+<!-- --8<-- [end:TickerBehaviour] -->
