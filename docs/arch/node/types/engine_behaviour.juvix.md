@@ -24,8 +24,9 @@ tags:
 # Engine behaviour
 
 Each engine processes only one message at a time. The behaviour of an engine is
-specified by a finite set of _guards_ and an _action function,_ which determine
-how engine instances react to received messages or timer notifications.
+specified by a finite set of _guards_ and an _action function,_ which both
+determine how engine instances react to received messages or timer
+notifications.
 
 ## Guards
 
@@ -197,3 +198,30 @@ element, it returns the one element list of the set itself.
 ```
 conflictSolver : Set A -> List (Set A);
 ```
+
+## The type for engine behaviours
+
+The `EngineBehaviour` type encapsulates the concept of behaviours within Anoma.
+Each engine is associated with a specific term of type `EngineBehaviour` that
+defines its core dynamics and operational characteristics. The behaviour
+determines how the engine processes inputs, manages state, and interacts with
+other components. As defined, it clears up that engines are essentially a
+collection of guarded state-transition functions. Using the terminology
+introduced earlier, an `EngineBehaviour` is a set of guards and an action
+function, plus a conflict solver.
+
+```juvix
+type EngineBehaviour (S M H A L X : Type) := mkEngineBehaviour {
+  guards : List (Guard S M H A L X);
+  action : ActionFunction S M H A L X;
+  conflictSolver : Set A -> List (Set A);
+};
+```
+
+!!! info "On the use of `List` for guards in `EngineBehaviour`"
+
+    The `EngineBehaviour` type uses `List` for guards to enable parallel
+    processing. This choice acknowledges that guards can be concurrent or
+    competing, with the latter requiring priority assignment to resolve
+    non-determinism. While guards should form a set, using `List` simplifies the
+    implementation and provides an inherent ordering.
