@@ -32,376 +32,374 @@ nav:
           - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
           - Accumulator: ./basic_abstractions/cryptographic_primitives/accumulator.md
   - Protocol Architecture:
-      - ./architecture/index.md
+      - ./arch/index.md
       - System Architecture:
-          - ./system_architecture/index.md
+          - ./arch/system/index.md
           - Basic Concepts:
-              - ./system_architecture/concepts/index.md
-          - Identity Architecture: ./system_architecture/identity/identity.juvix.md
+              - ./arch/system/concepts/index.md
+          - Identity Architecture: ./arch/system/identity/identity.juvix.md
           - Network Architecture:
-              - ./system_architecture/network/index.md
+              - ./arch/system/network/index.md
           - Service Architecture:
-              - ./system_architecture/service/index.md
+              - ./arch/system/service/index.md
           - State Architecture:
-              - ./system_architecture/state/index.md
+              - ./arch/system/state/index.md
               - Resource Machine:
-                  - Introduction: ./system_architecture/state/resource_machine/index.md
+                  - Introduction: ./arch/system/state/resource_machine/index.md
                   - Resource:
-                      - Definition: ./system_architecture/state/resource_machine/resource/definition.md
+                      - Definition: ./arch/system/state/resource_machine/resource/definition.md
                       - Computable components:
-                          - Introduction: ./system_architecture/state/resource_machine/resource/computable_components/introduction.md
-                          - Commitment: ./system_architecture/state/resource_machine/resource/computable_components/commitment.md
-                          - Nullifier: ./system_architecture/state/resource_machine/resource/computable_components/nullifier.md
-                          - Kind: ./system_architecture/state/resource_machine/resource/computable_components/kind.md
-                          - Delta: ./system_architecture/state/resource_machine/resource/computable_components/delta.md
-                  - Non-linear resources: ./system_architecture/state/resource_machine/resource/non_linear_resources.md
-                  - Roles and requirements: ./system_architecture/state/resource_machine/roles_and_requirements.md
-                  - Action: ./system_architecture/state/resource_machine/action.md
-                  - Transaction: ./system_architecture/state/resource_machine/transaction.md
+                          - Introduction: ./arch/system/state/resource_machine/resource/computable_components/introduction.md
+                          - Commitment: ./arch/system/state/resource_machine/resource/computable_components/commitment.md
+                          - Nullifier: ./arch/system/state/resource_machine/resource/computable_components/nullifier.md
+                          - Kind: ./arch/system/state/resource_machine/resource/computable_components/kind.md
+                          - Delta: ./arch/system/state/resource_machine/resource/computable_components/delta.md
+                  - Non-linear resources: ./arch/system/state/resource_machine/resource/non_linear_resources.md
+                  - Roles and requirements: ./arch/system/state/resource_machine/roles_and_requirements.md
+                  - Action: ./arch/system/state/resource_machine/action.md
+                  - Transaction: ./arch/system/state/resource_machine/transaction.md
                   - Resource machine:
-                      - Definition: ./system_architecture/state/resource_machine/rm_def/definition.md
-                      - Stored data format: ./system_architecture/state/resource_machine/rm_def/storage.md
+                      - Definition: ./arch/system/state/resource_machine/rm_def/definition.md
+                      - Stored data format: ./arch/system/state/resource_machine/rm_def/storage.md
                   - Function formats:
-                      - Transaction function: ./system_architecture/state/resource_machine/function_formats/transaction_function.md
-                      - Resource logic: ./system_architecture/state/resource_machine/function_formats/resource_logic.md
-                      - Preference function: ./system_architecture/state/resource_machine/function_formats/preference_function.md
-                      - Nockma: ./system_architecture/state/resource_machine/function_formats/nockma.md
-                  - Applications: ./system_architecture/state/resource_machine/applications.md
+                      - Transaction function: ./arch/system/state/resource_machine/function_formats/transaction_function.md
+                      - Resource logic: ./arch/system/state/resource_machine/function_formats/resource_logic.md
+                      - Preference function: ./arch/system/state/resource_machine/function_formats/preference_function.md
+                      - Nockma: ./arch/system/state/resource_machine/function_formats/nockma.md
+                  - Applications: ./arch/system/state/resource_machine/applications.md
       - Node Architecture:
-          - ./node_architecture/index.md
-          - Modules: ./node_architecture/modules/index.md
+          - ./arch/node/index.md
+          - Modules: ./arch/node/modules/index.md
           - Basic Types:
-              - ./node_architecture/types/basics.juvix.md
-              - Cryptographic Primitives: ./node_architecture/types/crypto.juvix.md
-              - Identities: ./node_architecture/types/identities.juvix.md
-              - Messages & Mailboxes: ./node_architecture/types/messages.juvix.md
+              - ./arch/node/types/basics.juvix.md
+              - Cryptographic Primitives: ./arch/node/types/crypto.juvix.md
+              - Identities: ./arch/node/types/identities.juvix.md
+              - Messages & Mailboxes: ./arch/node/types/messages.juvix.md
           - Engine Types:
-              - ./node_architecture/engines/index.md
+              - ./arch/node/engines/index.md
               - Engine:
-                  - ./node_architecture/types/engine.juvix.md
-                  - Engine Environment: ./node_architecture/types/engine_environment.juvix.md
-                  - Engine Behaviour: ./node_architecture/types/engine_behaviour.juvix.md
+                  - ./arch/node/types/engine.juvix.md
+                  - Engine Environment: ./arch/node/types/engine_environment.juvix.md
+                  - Engine Behaviour: ./arch/node/types/engine_behaviour.juvix.md
               - Anoma:
-                  - Anoma Message: ./node_architecture/types/anoma_message.juvix.md
-                  - Anoma Environment: ./node_architecture/types/anoma_environment.juvix.md
+                  - Anoma Message: ./arch/node/types/anoma_message.juvix.md
+                  - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
           - Hardware Abstraction Machine:
-              - ./node_architecture/hardware_abstraction/index.md
+              - ./arch/node/hardware/index.md
               - Local Storage Engines:
-                  - ./node_architecture/hardware_abstraction/local_storage_engines/index.md
+                  - ./arch/node/hardware/local_storage_engines/index.md
                   - Local Key Value Storage Engine:
-                      - ./node_architecture/hardware_abstraction/local_storage_engines/local_key_value_storage_engine/index.md
+                      - ./arch/node/hardware/local_storage_engines/local_key_value_storage_engine/index.md
                       - Messages:
-                          - GetValueKVStoreRequest: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/messages/get_value_kv_store_request.md
-                          - GetValueKVStoreResponse: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/messages/get_value_kv_store_response.md
-                          - SetValueKVStoreRequest: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/messages/set_value_kv_store_request.md
-                          - SetValueKVStoreResponse: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/messages/set_value_kv_store_response.md
-                          - DeleteValueKVStoreRequest: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/messages/delete_value_kv_store_request.md
-                          - DeleteValueKVStoreResponse: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/messages/delete_value_kv_store_response.md
-                          - ValueChangedKVStore: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/notifications/value_changed_kv_store.md
+                          - GetValueKVStoreRequest: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/get_value_kv_store_request.md
+                          - GetValueKVStoreResponse: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/get_value_kv_store_response.md
+                          - SetValueKVStoreRequest: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/set_value_kv_store_request.md
+                          - SetValueKVStoreResponse: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/set_value_kv_store_response.md
+                          - DeleteValueKVStoreRequest: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/delete_value_kv_store_request.md
+                          - DeleteValueKVStoreResponse: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/delete_value_kv_store_response.md
+                          - ValueChangedKVStore: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/notifications/value_changed_kv_store.md
                       - Types:
-                          - GetValueKVStoreRequestV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/get_value_kv_store_request_v1.md
-                          - GetValueKVStoreResponseV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/get_value_kv_store_response_v1.md
-                          - SetValueKVStoreRequestV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/set_value_kv_store_request_v1.md
-                          - SetValueKVStoreResponseV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/set_value_kv_store_response_v1.md
-                          - DeleteValueKVStoreRequestV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/delete_value_kv_store_request_v1.md
-                          - DeleteValueKVStoreResponseV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/delete_value_kv_store_response_v1.md
-                          - StorageKeyV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/storage_key_v1.md
-                          - StorageValueV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/storage_value_v1.md
-                          - SuccessOperationV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_kv_storage_engine/types/success_operation_kv_store_v1.md
+                          - GetValueKVStoreRequestV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/get_value_kv_store_request_v1.md
+                          - GetValueKVStoreResponseV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/get_value_kv_store_response_v1.md
+                          - SetValueKVStoreRequestV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/set_value_kv_store_request_v1.md
+                          - SetValueKVStoreResponseV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/set_value_kv_store_response_v1.md
+                          - DeleteValueKVStoreRequestV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/delete_value_kv_store_request_v1.md
+                          - DeleteValueKVStoreResponseV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/delete_value_kv_store_response_v1.md
+                          - StorageKeyV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/storage_key_v1.md
+                          - StorageValueV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/storage_value_v1.md
+                          - SuccessOperationV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/success_operation_kv_store_v1.md
                   - Local Time Series Storage Engine:
-                      - ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/index.md
+                      - ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/index.md
                       - Messages:
-                          - GetDataTimeSeriesDBRequest: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/messages/get_data_time_series_db_request.md
-                          - GetDataTimeSeriesDBResponse: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/messages/get_data_time_series_db_response.md
-                          - RecordDataTimeSeriesDBRequest: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/messages/record_data_time_series_db_request.md
-                          - RecordDataTimeSeriesDBResponse: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/messages/record_data_time_series_db_response.md
-                          - DeleteDataTimeSeriesDBRequest: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/messages/delete_data_time_series_db_request.md
-                          - DeleteDataTimeSeriesDBResponse: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/messages/delete_data_time_series_db_response.md
+                          - GetDataTimeSeriesDBRequest: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/get_data_time_series_db_request.md
+                          - GetDataTimeSeriesDBResponse: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/get_data_time_series_db_response.md
+                          - RecordDataTimeSeriesDBRequest: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/record_data_time_series_db_request.md
+                          - RecordDataTimeSeriesDBResponse: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/record_data_time_series_db_response.md
+                          - DeleteDataTimeSeriesDBRequest: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/delete_data_time_series_db_request.md
+                          - DeleteDataTimeSeriesDBResponse: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/delete_data_time_series_db_response.md
                       - Notifications:
-                          - DataChangedTimeSeriesDB: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/notifications/data_changed_time_series_db.md
+                          - DataChangedTimeSeriesDB: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/notifications/data_changed_time_series_db.md
                       - Types:
-                          - GetDataTimeSeriesDBRequestV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/types/get_data_time_series_db_request_v1.md
-                          - GetDataTimeSeriesDBResponseV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/types/get_data_time_series_db_response_v1.md
-                          - RecordDataTimeSeriesDBRequestV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/types/record_data_time_series_db_request_v1.md
-                          - RecordDataTimeSeriesDBResponseV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/types/record_data_time_series_db_response_v1.md
-                          - DeleteDataTimeSeriesDBRequestV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/types/delete_data_time_series_db_request_v1.md
-                          - DeleteDataTimeSeriesDBResponseV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/types/delete_data_time_series_db_response_v1.md
-                          - TimeSeriesDBDataV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/types/time_series_db_data_v1.md
-                          - TimeSeriesDBQueryV1: ./node_architecture/hardware_abstraction/local_storage_engines/local_timeseries_storage_engine/types/time_series_db_query_v1.md
-              - Local Wall Clock Engine:
-                  - ./node_architecture/hardware_abstraction/local_wall_clock_engine/index.md
-                  - Messages:
-                      - LocalWallClockGetTime: ./node_architecture/hardware_abstraction/local_wall_clock_engine/messages/local_wall_clock_get_time.md
-                      - LocalWallClockGetTimeResult: ./node_architecture/hardware_abstraction/local_wall_clock_engine/messages/local_wall_clock_get_time_result.md
+                          - GetDataTimeSeriesDBRequestV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/get_data_time_series_db_request_v1.md
+                          - GetDataTimeSeriesDBResponseV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/get_data_time_series_db_response_v1.md
+                          - RecordDataTimeSeriesDBRequestV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/record_data_time_series_db_request_v1.md
+                          - RecordDataTimeSeriesDBResponseV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/record_data_time_series_db_response_v1.md
+                          - DeleteDataTimeSeriesDBRequestV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/delete_data_time_series_db_request_v1.md
+                          - DeleteDataTimeSeriesDBResponseV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/delete_data_time_series_db_response_v1.md
+                          - TimeSeriesDBDataV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/time_series_db_data_v1.md
+                          - TimeSeriesDBQueryV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/time_series_db_query_v1.md
+                  - Local Wall Clock Engine:
+                      - ./arch/node/hardware/local_wall_clock_engine/index.md
+                      - Messages:
+                          - LocalWallClockGetTime: ./arch/node/hardware/local_wall_clock_engine/messages/local_wall_clock_get_time.md
+                          - LocalWallClockGetTimeResult: ./arch/node/hardware/local_wall_clock_engine/messages/local_wall_clock_get_time_result.md
+                      - Types:
+                          - LocalWallClockGetTimeV1: ./arch/node/hardware/local_wall_clock_engine/types/local_wall_clock_get_time_v1.md
+                          - LocalWallClockGetTimeResultV1: ./arch/node/hardware/local_wall_clock_engine/types/local_wall_clock_get_time_result_v1.md
+                          - EpochTimestampV1: ./arch/node/hardware/local_wall_clock_engine/types/epoch_timestamp_v1.md
+                  - Local Logging Engine:
+                      - ./arch/node/hardware/local_logging_engine/index.md
+                      - Messages:
+                          - LocalLoggingAppend: ./arch/node/hardware/local_logging_engine/messages/local_logging_append.md
+                      - Notifications: ./arch/node/hardware/local_logging_engine/notifications.md
+                      - Types:
+                          - LocalLoggingAppendV1: ./arch/node/hardware/local_logging_engine/types/local_logging_append_v1.md
+                          - AppendValueV1: ./arch/node/hardware/local_logging_engine/types/append_value_v1.md
+              - Identity Machine:
+                  - ./arch/node/identity/index.md
                   - Types:
-                      - LocalWallClockGetTimeV1: ./node_architecture/hardware_abstraction/local_wall_clock_engine/types/local_wall_clock_get_time_v1.md
-                      - LocalWallClockGetTimeResultV1: ./node_architecture/hardware_abstraction/local_wall_clock_engine/types/local_wall_clock_get_time_result_v1.md
-                      - EpochTimestampV1: ./node_architecture/hardware_abstraction/local_wall_clock_engine/types/epoch_timestamp_v1.md
-              - Local Logging Engine:
-                  - ./node_architecture/hardware_abstraction/local_logging_engine/index.md
-                  - Messages:
-                      - LocalLoggingAppend: ./node_architecture/hardware_abstraction/local_logging_engine/messages/local_logging_append.md
-                  - Notifications: ./node_architecture/hardware_abstraction/local_logging_engine/notifications.md
-                  - Types:
-                      - LocalLoggingAppendV1: ./node_architecture/hardware_abstraction/local_logging_engine/types/local_logging_append_v1.md
-                      - AppendValueV1: ./node_architecture/hardware_abstraction/local_logging_engine/types/append_value_v1.md
-          - Control Machine:
-              - ./node_architecture/engines/configuration/index.md
-          - Identity Machine:
-              - ./node_architecture/identity/index.md
-              - Types:
-                  - Backend: ./node_architecture/identity/types/backend.md
-                  - Capabilities: ./node_architecture/identity/types/capabilities.md
-                  - ExternalIdentity: ./node_architecture/identity/types/external_identity.md
-                  - IdentityName: ./node_architecture/identity/types/identity_name.md
-                  - IdentityNameEvidence: ./node_architecture/identity/types/identity_name_evidence.md
-                  - Params: ./node_architecture/identity/types/params.md
-                  - GenerateIdentityRequest: ./node_architecture/identity/types/generate_identity_request.md
-                  - GenerateIdentityResponse: ./node_architecture/identity/types/generate_identity_response.md
-                  - ConnectIdentityRequest: ./node_architecture/identity/types/connect_identity_request.md
-                  - ConnectIdentityResponse: ./node_architecture/identity/types/connect_identity_response.md
-                  - DeleteIdentityRequest: ./node_architecture/identity/types/delete_identity_request.md
-                  - DeleteIdentityResponse: ./node_architecture/identity/types/delete_identity_response.md
-                  - DecryptRequest: ./node_architecture/identity/types/decrypt_request.md
-                  - DecryptResponse: ./node_architecture/identity/types/decrypt_response.md
-                  - EncryptRequest: ./node_architecture/identity/types/encrypt_request.md
-                  - EncryptResponse: ./node_architecture/identity/types/encrypt_response.md
-                  - CommitRequest: ./node_architecture/identity/types/commit_request.md
-                  - CommitResponse: ./node_architecture/identity/types/commit_response.md
-                  - VerifyRequest: ./node_architecture/identity/types/verify_request.md
-                  - VerifyResponse: ./node_architecture/identity/types/verify_response.md
-                  - ReadsForRequest: ./node_architecture/identity/types/reads_for_request.md
-                  - ReadsForResponse: ./node_architecture/identity/types/reads_for_response.md
-                  - SubmitReadsForEvidenceRequest: ./node_architecture/identity/types/submit_reads_for_evidence_request.md
-                  - SubmitReadsForEvidenceResponse: ./node_architecture/identity/types/submit_reads_for_evidence_response.md
-                  - QueryReadsForEvidenceRequest: ./node_architecture/identity/types/query_reads_for_evidence_request.md
-                  - QueryReadsForEvidenceResponse: ./node_architecture/identity/types/query_reads_for_evidence_response.md
-                  - SignsForRequest: ./node_architecture/identity/types/signs_for_request.md
-                  - SignsForResponse: ./node_architecture/identity/types/signs_for_response.md
-                  - SubmitSignsForEvidenceRequest: ./node_architecture/identity/types/submit_signs_for_evidence_request.md
-                  - SubmitSignsForEvidenceResponse: ./node_architecture/identity/types/submit_signs_for_evidence_response.md
-                  - QuerySignsForEvidenceRequest: ./node_architecture/identity/types/query_signs_for_evidence_request.md
-                  - QuerySignsForEvidenceResponse: ./node_architecture/identity/types/query_signs_for_evidence_response.md
-                  - ResolveNameRequest: ./node_architecture/identity/types/resolve_name_request.md
-                  - ResolveNameResponse: ./node_architecture/identity/types/resolve_name_response.md
-                  - SubmitNameEvidenceRequest: ./node_architecture/identity/types/submit_name_evidence_request.md
-                  - SubmitNameForEvidenceResponse: ./node_architecture/identity/types/submit_name_evidence_response.md
-                  - QueryNameEvidenceRequest: ./node_architecture/identity/types/query_name_evidence_request.md
-                  - QueryNameEvidenceResponse: ./node_architecture/identity/types/query_name_evidence_response.md
-              - Identity Management Engine:
-                  - ./node_architecture/modules/identity_management/index.md
-                  - GenerateIdentityRequestResponse: ./node_architecture/modules/identity_management/generate_identity_request_response.md
-                  - ConnectIdentityRequestResponse: ./node_architecture/modules/identity_management/connect_identity_request_response.md
-              - Decryption Engine:
-                  - ./node_architecture/identity/decryption/index.md
-                  - DecryptRequestResponse: ./node_architecture/identity/decryption/decrypt_request_response.md
-              - Encryption Engine:
-                  - ./node_architecture/modules/encryption/index.md
-                  - EncryptRequestResponse: ./node_architecture/modules/encryption/encrypt_request_response.md
-              - Commitment Engine:
-                  - ./node_architecture/identity/commitment/index.md
-                  - CommitRequestResponse: ./node_architecture/identity/commitment/commit_request_response.md
-              - Verification Engine:
-                  - ./node_architecture/modules/verification/index.md
-                  - VerifyRequestResponse: ./node_architecture/modules/verification/verify_request_response.md
-              - Reads For Engine:
-                  - ./node_architecture/modules/reads_for/index.md
-                  - ReadsForRequestResponse: ./node_architecture/modules/reads_for/reads_for_request_response.md
-                  - SubmitReadsForEvidenceRequestResponse: ./node_architecture/modules/reads_for/submit_reads_for_evidence_request_response.md
-                  - QueryReadsForEvidenceRequestResponse: ./node_architecture/modules/reads_for/query_reads_for_evidence_request_response.md
-              - Signs For Engine:
-                  - ./node_architecture/modules/signs_for/index.md
-                  - SignsForRequestResponse: ./node_architecture/modules/signs_for/signs_for_request_response.md
-                  - SubmitSignsForEvidenceRequestResponse: ./node_architecture/modules/signs_for/submit_signs_for_evidence_request_response.md
-                  - QuerySignsForEvidenceRequestResponse: ./node_architecture/modules/signs_for/query_signs_for_evidence_request_response.md
-              - Name Engine:
-                  - ./node_architecture/modules/name/index.md
-                  - ResolveNameRequestResponse: ./node_architecture/modules/name/resolve_name_request_response.md
-                  - SubmitNameEvidenceRequestResponse: ./node_architecture/modules/name/submit_name_evidence_request_response.md
-                  - QueryNameEvidencRequestResponse: ./node_architecture/modules/name/query_name_evidence_request_response.md
-          - Networking Machine:
-              - ./node_architecture/networking/index.md
-              - Intra node & inter node protocols:
-                  - ./node_architecture/networking/node/index.md
-                  - Router:
-                      - ./node_architecture/networking/node/router/index.md
-                      - Messages:
-                          - EngineMessage: ./node_architecture/networking/node/router/messages/engine_message.md
-                          - RelayMessage: ./node_architecture/networking/node/router/messages/relay_message.md
-                          - P2PMessage: ./node_architecture/networking/node/router/messages/p2p_message.md
-                          - TopicCreateRequest: ./node_architecture/networking/node/router/messages/topic_create_request.md
-                          - TopicCreateResponse: ./node_architecture/networking/node/router/messages/topic_create_request.md
-                          - TopicDeleteRequest: ./node_architecture/networking/node/router/messages/topic_delete_request.md
-                          - TopicDeleteResponse: ./node_architecture/networking/node/router/messages/topic_delete_request.md
-                          - TopicSubRequest: ./node_architecture/networking/node/router/messages/topic_sub_request.md
-                          - TopicSubResponse: ./node_architecture/networking/node/router/messages/topic_sub_request.md
-                          - TopicUnsubRequest: ./node_architecture/networking/node/router/messages/topic_unsub_request.md
-                          - TopicUnsubResponse: ./node_architecture/networking/node/router/messages/topic_unsub_request.md
-                          - StartAdvertRequest: ./node_architecture/networking/node/router/messages/start_advert_request.md
-                          - StartAdvertResponse: ./node_architecture/networking/node/router/messages/start_advert_request.md
-                          - StopAdvertRequest: ./node_architecture/networking/node/router/messages/stop_advert_request.md
-                          - StopAdvertResponse: ./node_architecture/networking/node/router/messages/stop_advert_request.md
-                      - Types:
-                          - RoutingTable: ./node_architecture/networking/node/router/types/routing_table.md
-                          - RoutingTableEntry: ./node_architecture/networking/node/router/types/routing_table_entry.md
-                          - RoutingTableDest: ./node_architecture/networking/node/router/types/routing_table_dest.md
-                          - RoutingTableTopic: ./node_architecture/networking/node/router/types/routing_table_topic.md
-                          - RoutingTableDomain: ./node_architecture/networking/node/router/types/routing_table_domain.md
-                          - RoutingPrefs: ./node_architecture/networking/node/router/types/routing_prefs.md
-                          - RoutingScope: ./node_architecture/networking/node/router/types/routing_scope.md
-                          - DestinationIdentity: ./node_architecture/networking/node/router/types/destination_identity.md
-                          - EngineIdentity: ./node_architecture/networking/node/router/types/engine_identity.md
-                          - NodeIdentity: ./node_architecture/networking/node/router/types/node_identity.md
-                          - TopicIdentity: ./node_architecture/networking/node/router/types/topic_identity.md
-                          - DomainIdentity: ./node_architecture/networking/node/router/types/domain_identity.md
-                          - NodeAdvert: ./node_architecture/networking/node/router/types/node_advert_v1.md
-                          - NodeAdvertV1: ./node_architecture/networking/node/router/types/node_advert_v1.md
-                          - EngineAdvert: ./node_architecture/networking/node/router/types/engine_advert_v1.md
-                          - EngineAdvertV1: ./node_architecture/networking/node/router/types/engine_advert_v1.md
-                          - EngineMessageV1: ./node_architecture/networking/node/router/types/engine_message_v1.md
-                          - P2PMessageV1: ./node_architecture/networking/node/router/types/p2p_message_v1.md
-                          - RelayMessageV1: ./node_architecture/networking/node/router/types/relay_message_v1.md
-                          - TopicCreateRequestV1: ./node_architecture/networking/node/router/types/topic_create_request_v1.md
-                          - TopicCreateResponseV1: ./node_architecture/networking/node/router/types/topic_create_response_v1.md
-                          - TopicDeleteRequestV1: ./node_architecture/networking/node/router/types/topic_delete_request_v1.md
-                          - TopicDeleteResponseV1: ./node_architecture/networking/node/router/types/topic_delete_response_v1.md
-                          - TopicSubRequestV1: ./node_architecture/networking/node/router/types/topic_sub_request_v1.md
-                          - TopicSubResponseV1: ./node_architecture/networking/node/router/types/topic_sub_response_v1.md
-                          - TopicUnsubRequestV1: ./node_architecture/networking/node/router/types/topic_unsub_request_v1.md
-                          - TopicUnsubResponseV1: ./node_architecture/networking/node/router/types/topic_unsub_response_v1.md
-                          - SubRequestV1: ./node_architecture/networking/node/router/types/topic_sub_request_v1.md
-                  - Transport:
-                      - ./node_architecture/networking/node/transport/index.md
-                      - Messages:
-                          - P2PMessage to Transport: ./node_architecture/networking/node/transport/messages/p2p_message.md
-                          - TransportMessage: ./node_architecture/networking/node/transport/messages/transport_message.md
-                          - ConnectRequest: ./node_architecture/networking/node/transport/messages/connect_request.md
-                          - ConnectResponse: ./node_architecture/networking/node/transport/messages/connect_request.md
-                          - DisconnectRequest: ./node_architecture/networking/node/transport/messages/disconnect_request.md
-                          - DisconnectResponse: ./node_architecture/networking/node/transport/messages/disconnect_request.md
-                          - ConnectedNodesRequest: ./node_architecture/networking/node/transport/messages/connected_nodes_request.md
-                      - Notifications:
-                          - NodeConnected: ./node_architecture/networking/node/transport/notifications/node_connected.md
-                          - NodeConnectFailed: ./node_architecture/networking/node/transport/notifications/node_connect_failed.md
-                          - NodeDisconnected: ./node_architecture/networking/node/transport/notifications/node_disconnected.md
-                      - Types:
-                          - TransportAddress: ./node_architecture/networking/node/transport/types/transport_address.md
-                          - ConnectionPrefs: ./node_architecture/networking/node/transport/types/connection_prefs.md
-                          - TransportPrefs: ./node_architecture/networking/node/transport/types/transport_prefs.md
-                          - OrderingPrefs: ./node_architecture/networking/node/transport/types/ordering_prefs.md
-                          - ReliabilityPrefs: ./node_architecture/networking/node/transport/types/reliability_prefs.md
-                          - SecurityPrefs: ./node_architecture/networking/node/transport/types/security_prefs.md
-                          - NodeTransportAddress: ./node_architecture/networking/node/transport/types/node_transport_address.md
-                          - TransportMessageV1: ./node_architecture/networking/node/transport/types/transport_message_v1.md
-                          - ConnectRequestV1: ./node_architecture/networking/node/transport/types/connect_request_v1.md
-                          - ConnectResponseV1: ./node_architecture/networking/node/transport/types/connect_response_v1.md
-                          - DisconnectRequestV1: ./node_architecture/networking/node/transport/types/disconnect_request_v1.md
-                          - DisconnectResponseV1: ./node_architecture/networking/node/transport/types/disconnect_response_v1.md
-                          - ConnectedNodesResponseV1: ./node_architecture/networking/node/transport/types/connected_nodes_response_v1.md
-                  - Network Identity Store:
-                      - ./node_architecture/networking/node/id_store/index.md
-                      - Messages:
-                          - LookupIdentityRequest: ./node_architecture/networking/node/id_store/messages/lookup_identity_request.md
-                          - LookupIdentityResponse: ./node_architecture/networking/node/id_store/messages/lookup_identity_request.md
-                          - UpdateIdentityRequest: ./node_architecture/networking/node/id_store/messages/update_identity_request.md
-                          - UpdateIdentityResponse: ./node_architecture/networking/node/id_store/messages/update_identity_request.md
-                      - Notifications:
-                          - ./node_architecture/networking/node/id_store/notifications/index.md
-                          - IdentityUpdated: ./node_architecture/networking/node/id_store/notifications/identity_updated.md
-                      - Types:
-                          - IdentityStore: ./node_architecture/networking/node/id_store/types/identity_store.md
-                          - IdentityRecord: ./node_architecture/networking/node/id_store/types/identity_record.md
-                          - EngineIdentityRecord: ./node_architecture/networking/node/id_store/types/engine_identity_record.md
-                          - NodeIdentityRecord: ./node_architecture/networking/node/id_store/types/node_identity_record.md
-                          - DomainIdentityRecord: ./node_architecture/networking/node/id_store/types/domain_identity_record.md
-                          - TopicIdentityRecord: ./node_architecture/networking/node/id_store/types/topic_identity_record.md
-                          - TrustValue: ./node_architecture/networking/node/id_store/types/trust_value.md
-                          - ReputationValue: ./node_architecture/networking/node/id_store/types/reputation_value.md
-                          - LookupIdentityRequestV1: ./node_architecture/networking/node/id_store/types/lookup_identity_request_v1.md
-                          - LookupIdentityResponseV1: ./node_architecture/networking/node/id_store/types/lookup_identity_response_v1.md
-                          - UpdateIdentityRequestV1: ./node_architecture/networking/node/id_store/types/update_identity_request_v1.md
-                          - UpdateIdentityResponseV1: ./node_architecture/networking/node/id_store/types/update_identity_response_v1.md
-                          - IdentityUpdatedV1: ./node_architecture/networking/node/id_store/types/identity_updated_v1.md
-              - Intra domain protocols:
-                  - ./node_architecture/networking/intra_domain/index.md
-                  - PubSub:
-                      - ./node_architecture/networking/intra_domain/pubsub/index.md
-                      - Messages:
-                          - TopicAdvert: ./node_architecture/networking/intra_domain/pubsub/messages/topic_advert.md
-                          - Event: ./node_architecture/networking/intra_domain/pubsub/messages/event.md
-                          - EngineMessage to PubSub: ./node_architecture/networking/intra_domain/pubsub/messages/engine_message.md
-                          - SubscribeRequest: ./node_architecture/networking/intra_domain/pubsub/messages/subscribe_request.md
-                          - UnsubscribeRequest: ./node_architecture/networking/intra_domain/pubsub/messages/unsubscribe_request.md
-                          - Subscribe: ./node_architecture/networking/intra_domain/pubsub/messages/subscribe.md
-                          - SubscribeAck: ./node_architecture/networking/intra_domain/pubsub/messages/subscribe_ack.md
-                          - Unsubscribe: ./node_architecture/networking/intra_domain/pubsub/messages/unsubscribe.md
-                          - UnsubscribeAck: ./node_architecture/networking/intra_domain/pubsub/messages/unsubscribe_ack.md
-                      - Notifications:
-                          - ./node_architecture/networking/intra_domain/pubsub/notifications/index.md
-                          - TopicSubscribed: ./node_architecture/networking/intra_domain/pubsub/notifications/topic_subscribed.md
-                          - TopicUnsubscribed: ./node_architecture/networking/intra_domain/pubsub/notifications/topic_unsubscribed.md
-                          - TopicAdvertReceived: ./node_architecture/networking/intra_domain/pubsub/notifications/topic_advert_received.md
-                      - Types:
-                          - PubSubRoutingTable: ./node_architecture/networking/intra_domain/pubsub/types/pubsub_routing_table.md
-                          - PubSubRoutingTableEntry: ./node_architecture/networking/intra_domain/pubsub/types/pubsub_routing_table_entry.md
-                          - TopicAdvertV1: ./node_architecture/networking/intra_domain/pubsub/types/topic_advert_v1.md
-                          - EventV1: ./node_architecture/networking/intra_domain/pubsub/types/event_v1.md
-                          - TopicRequestV1: ./node_architecture/networking/intra_domain/pubsub/types/topic_request_v1.md
-                          - TopicResponseV1: ./node_architecture/networking/intra_domain/pubsub/types/topic_request_v1.md
-                  - Storage:
-                      - ./node_architecture/networking/intra_domain/storage/index.md
-                      - Messages:
-                          - BlockLookupRequest: ./node_architecture/networking/intra_domain/storage/messages/block_lookup_request.md
-                          - BlockResult: ./node_architecture/networking/intra_domain/storage/messages/block_result.md
-                          - BlockGetRequest: ./node_architecture/networking/intra_domain/storage/messages/block_get_request.md
-                          - BlockPutRequest: ./node_architecture/networking/intra_domain/storage/messages/block_put_request.md
-                          - BlockPutResponse: ./node_architecture/networking/intra_domain/storage/messages/block_put_response.md
-                          - BlockSearchTopic: ./node_architecture/networking/intra_domain/storage/messages/block_search_topic.md
-                          - BlockSearchRandom: ./node_architecture/networking/intra_domain/storage/messages/block_search_random.md
-                      - Types:
-                          - StoragePrefs: ./node_architecture/networking/intra_domain/storage/types/storage_prefs.md
-          - Ordering Machine:
-              - ./node_architecture/ordering/index.md
-              - Common types:
-                  - ./node_architecture/ordering/types/allofthem/index.md
-                  - KVSDatum: ./node_architecture/ordering/types/kvs_datum.md
-                  - KVSKey: ./node_architecture/ordering/types/kvs_key.md
-                  - ExecutionSummary: ./node_architecture/ordering/types/execution_summary.md
-                  - TxData: ./node_architecture/ordering/types/tx_data.md
-                  - TransactionCandidate: ./node_architecture/ordering/types/transaction_candidate.md
-                  - TransactionExecutable: ./node_architecture/ordering/types/transaction_executable.md
-                  - TxFingerprint: ./node_architecture/ordering/types/tx_fingerprint.md
-                  - TransactionAck: ./node_architecture/ordering/types/transaction_ack.md
-                  - TransactionLabel: ./node_architecture/ordering/types/transaction_label.md
-                  - ReadLabel: ./node_architecture/ordering/types/read_label.md
-                  - WriteLabel: ./node_architecture/ordering/types/write_label.md
-                  - WorkerHash: ./node_architecture/ordering/types/worker_hash.md
-              - Mempool engines:
-                  - ./node_architecture/ordering/mempool/index.md
-                  - Execution Supervisor:
-                      - ./node_architecture/ordering/mempool/execution_supervisor/index.md
-                      - SpawnExecutor: ./node_architecture/ordering/mempool/execution_supervisor/spawn_executor.md
-                  - Worker Engine:
-                      - ./node_architecture/ordering/mempool/worker/index.md
-                      - ExecutorFinished: ./node_architecture/ordering/mempool/worker/executor_finished.md
-                      - ExecutorPIDAssigned: ./node_architecture/ordering/mempool/worker/executor_pid_assigned.md
-                      - KVSLockAcquired: ./node_architecture/ordering/mempool/worker/kvs_lock_acquired.md
-                      - TransactionRequest: ./node_architecture/ordering/mempool/worker/transaction_request.md
-                      - RequestLogs: ./node_architecture/ordering/mempool/worker/request_logs.md
-              - Consensus Engine:
-                  - ./node_architecture/ordering/consensus_v1.md
-              - Execution engines:
-                  - ./node_architecture/ordering/execution/index.md
-                  - Shard:
-                      - ./node_architecture/ordering/execution/shard/index.md
-                      - KVSAcquireLock: ./node_architecture/ordering/execution/shard/kvs_acquire_lock.md
-                      - KVSReadRequest: ./node_architecture/ordering/execution/shard/kvs_read_request.md
-                      - KVSWrite: ./node_architecture/ordering/execution/shard/kvs_write.md
-                      - UpdateSeenAll: ./node_architecture/ordering/execution/shard/update_seen_all.md
-                  - Executor:
-                      - ./node_architecture/ordering/execution/executor/index.md
-                      - ExecuteTransaction: ./node_architecture/ordering/execution/executor/execute_transaction.md
-                      - KVSRead: ./node_architecture/ordering/execution/executor/kvs_read.md
+                      - Backend: ./arch/node/identity/types/backend.md
+                      - Capabilities: ./arch/node/identity/types/capabilities.md
+                      - ExternalIdentity: ./arch/node/identity/types/external_identity.md
+                      - IdentityName: ./arch/node/identity/types/identity_name.md
+                      - IdentityNameEvidence: ./arch/node/identity/types/identity_name_evidence.md
+                      - Params: ./arch/node/identity/types/params.md
+                      - GenerateIdentityRequest: ./arch/node/identity/types/generate_identity_request.md
+                      - GenerateIdentityResponse: ./arch/node/identity/types/generate_identity_response.md
+                      - ConnectIdentityRequest: ./arch/node/identity/types/connect_identity_request.md
+                      - ConnectIdentityResponse: ./arch/node/identity/types/connect_identity_response.md
+                      - DeleteIdentityRequest: ./arch/node/identity/types/delete_identity_request.md
+                      - DeleteIdentityResponse: ./arch/node/identity/types/delete_identity_response.md
+                      - DecryptRequest: ./arch/node/identity/types/decrypt_request.md
+                      - DecryptResponse: ./arch/node/identity/types/decrypt_response.md
+                      - EncryptRequest: ./arch/node/identity/types/encrypt_request.md
+                      - EncryptResponse: ./arch/node/identity/types/encrypt_response.md
+                      - CommitRequest: ./arch/node/identity/types/commit_request.md
+                      - CommitResponse: ./arch/node/identity/types/commit_response.md
+                      - VerifyRequest: ./arch/node/identity/types/verify_request.md
+                      - VerifyResponse: ./arch/node/identity/types/verify_response.md
+                      - ReadsForRequest: ./arch/node/identity/types/reads_for_request.md
+                      - ReadsForResponse: ./arch/node/identity/types/reads_for_response.md
+                      - SubmitReadsForEvidenceRequest: ./arch/node/identity/types/submit_reads_for_evidence_request.md
+                      - SubmitReadsForEvidenceResponse: ./arch/node/identity/types/submit_reads_for_evidence_response.md
+                      - QueryReadsForEvidenceRequest: ./arch/node/identity/types/query_reads_for_evidence_request.md
+                      - QueryReadsForEvidenceResponse: ./arch/node/identity/types/query_reads_for_evidence_response.md
+                      - SignsForRequest: ./arch/node/identity/types/signs_for_request.md
+                      - SignsForResponse: ./arch/node/identity/types/signs_for_response.md
+                      - SubmitSignsForEvidenceRequest: ./arch/node/identity/types/submit_signs_for_evidence_request.md
+                      - SubmitSignsForEvidenceResponse: ./arch/node/identity/types/submit_signs_for_evidence_response.md
+                      - QuerySignsForEvidenceRequest: ./arch/node/identity/types/query_signs_for_evidence_request.md
+                      - QuerySignsForEvidenceResponse: ./arch/node/identity/types/query_signs_for_evidence_response.md
+                      - ResolveNameRequest: ./arch/node/identity/types/resolve_name_request.md
+                      - ResolveNameResponse: ./arch/node/identity/types/resolve_name_response.md
+                      - SubmitNameEvidenceRequest: ./arch/node/identity/types/submit_name_evidence_request.md
+                      - SubmitNameForEvidenceResponse: ./arch/node/identity/types/submit_name_evidence_response.md
+                      - QueryNameEvidenceRequest: ./arch/node/identity/types/query_name_evidence_request.md
+                      - QueryNameEvidenceResponse: ./arch/node/identity/types/query_name_evidence_response.md
+                  - Identity Management Engine:
+                      - ./arch/node/modules/identity_management/index.md
+                      - GenerateIdentityRequestResponse: ./arch/node/modules/identity_management/generate_identity_request_response.md
+                      - ConnectIdentityRequestResponse: ./arch/node/modules/identity_management/connect_identity_request_response.md
+                  - Decryption Engine:
+                      - ./arch/node/identity/decryption/index.md
+                      - DecryptRequestResponse: ./arch/node/identity/decryption/decrypt_request_response.md
+                  - Encryption Engine:
+                      - ./arch/node/modules/encryption/index.md
+                      - EncryptRequestResponse: ./arch/node/modules/encryption/encrypt_request_response.md
+                  - Commitment Engine:
+                      - ./arch/node/identity/commitment/index.md
+                      - CommitRequestResponse: ./arch/node/identity/commitment/commit_request_response.md
+                  - Verification Engine:
+                      - ./arch/node/modules/verification/index.md
+                      - VerifyRequestResponse: ./arch/node/modules/verification/verify_request_response.md
+                  - Reads For Engine:
+                      - ./arch/node/modules/reads_for/index.md
+                      - ReadsForRequestResponse: ./arch/node/modules/reads_for/reads_for_request_response.md
+                      - SubmitReadsForEvidenceRequestResponse: ./arch/node/modules/reads_for/submit_reads_for_evidence_request_response.md
+                      - QueryReadsForEvidenceRequestResponse: ./arch/node/modules/reads_for/query_reads_for_evidence_request_response.md
+                  - Signs For Engine:
+                      - ./arch/node/modules/signs_for/index.md
+                      - SignsForRequestResponse: ./arch/node/modules/signs_for/signs_for_request_response.md
+                      - SubmitSignsForEvidenceRequestResponse: ./arch/node/modules/signs_for/submit_signs_for_evidence_request_response.md
+                      - QuerySignsForEvidenceRequestResponse: ./arch/node/modules/signs_for/query_signs_for_evidence_request_response.md
+                  - Name Engine:
+                      - ./arch/node/modules/name/index.md
+                      - ResolveNameRequestResponse: ./arch/node/modules/name/resolve_name_request_response.md
+                      - SubmitNameEvidenceRequestResponse: ./arch/node/modules/name/submit_name_evidence_request_response.md
+                      - QueryNameEvidencRequestResponse: ./arch/node/modules/name/query_name_evidence_request_response.md
+              - Networking Machine:
+                  - ./arch/node/networking/index.md
+                  - Intra node & inter node protocols:
+                      - ./arch/node/networking/node/index.md
+                      - Router:
+                          - ./arch/node/networking/node/router/index.md
+                          - Messages:
+                              - EngineMessage: ./arch/node/networking/node/router/messages/engine_message.md
+                              - RelayMessage: ./arch/node/networking/node/router/messages/relay_message.md
+                              - P2PMessage: ./arch/node/networking/node/router/messages/p2p_message.md
+                              - TopicCreateRequest: ./arch/node/networking/node/router/messages/topic_create_request.md
+                              - TopicCreateResponse: ./arch/node/networking/node/router/messages/topic_create_request.md
+                              - TopicDeleteRequest: ./arch/node/networking/node/router/messages/topic_delete_request.md
+                              - TopicDeleteResponse: ./arch/node/networking/node/router/messages/topic_delete_request.md
+                              - TopicSubRequest: ./arch/node/networking/node/router/messages/topic_sub_request.md
+                              - TopicSubResponse: ./arch/node/networking/node/router/messages/topic_sub_request.md
+                              - TopicUnsubRequest: ./arch/node/networking/node/router/messages/topic_unsub_request.md
+                              - TopicUnsubResponse: ./arch/node/networking/node/router/messages/topic_unsub_request.md
+                              - StartAdvertRequest: ./arch/node/networking/node/router/messages/start_advert_request.md
+                              - StartAdvertResponse: ./arch/node/networking/node/router/messages/start_advert_request.md
+                              - StopAdvertRequest: ./arch/node/networking/node/router/messages/stop_advert_request.md
+                              - StopAdvertResponse: ./arch/node/networking/node/router/messages/stop_advert_request.md
+                          - Types:
+                              - RoutingTable: ./arch/node/networking/node/router/types/routing_table.md
+                              - RoutingTableEntry: ./arch/node/networking/node/router/types/routing_table_entry.md
+                              - RoutingTableDest: ./arch/node/networking/node/router/types/routing_table_dest.md
+                              - RoutingTableTopic: ./arch/node/networking/node/router/types/routing_table_topic.md
+                              - RoutingTableDomain: ./arch/node/networking/node/router/types/routing_table_domain.md
+                              - RoutingPrefs: ./arch/node/networking/node/router/types/routing_prefs.md
+                              - RoutingScope: ./arch/node/networking/node/router/types/routing_scope.md
+                              - DestinationIdentity: ./arch/node/networking/node/router/types/destination_identity.md
+                              - EngineIdentity: ./arch/node/networking/node/router/types/engine_identity.md
+                              - NodeIdentity: ./arch/node/networking/node/router/types/node_identity.md
+                              - TopicIdentity: ./arch/node/networking/node/router/types/topic_identity.md
+                              - DomainIdentity: ./arch/node/networking/node/router/types/domain_identity.md
+                              - NodeAdvert: ./arch/node/networking/node/router/types/node_advert_v1.md
+                              - NodeAdvertV1: ./arch/node/networking/node/router/types/node_advert_v1.md
+                              - EngineAdvert: ./arch/node/networking/node/router/types/engine_advert_v1.md
+                              - EngineAdvertV1: ./arch/node/networking/node/router/types/engine_advert_v1.md
+                              - EngineMessageV1: ./arch/node/networking/node/router/types/engine_message_v1.md
+                              - P2PMessageV1: ./arch/node/networking/node/router/types/p2p_message_v1.md
+                              - RelayMessageV1: ./arch/node/networking/node/router/types/relay_message_v1.md
+                              - TopicCreateRequestV1: ./arch/node/networking/node/router/types/topic_create_request_v1.md
+                              - TopicCreateResponseV1: ./arch/node/networking/node/router/types/topic_create_response_v1.md
+                              - TopicDeleteRequestV1: ./arch/node/networking/node/router/types/topic_delete_request_v1.md
+                              - TopicDeleteResponseV1: ./arch/node/networking/node/router/types/topic_delete_response_v1.md
+                              - TopicSubRequestV1: ./arch/node/networking/node/router/types/topic_sub_request_v1.md
+                              - TopicSubResponseV1: ./arch/node/networking/node/router/types/topic_sub_response_v1.md
+                              - TopicUnsubRequestV1: ./arch/node/networking/node/router/types/topic_unsub_request_v1.md
+                              - TopicUnsubResponseV1: ./arch/node/networking/node/router/types/topic_unsub_response_v1.md
+                              - SubRequestV1: ./arch/node/networking/node/router/types/topic_sub_request_v1.md
+                      - Transport:
+                          - ./arch/node/networking/node/transport/index.md
+                          - Messages:
+                              - P2PMessage to Transport: ./arch/node/networking/node/transport/messages/p2p_message.md
+                              - TransportMessage: ./arch/node/networking/node/transport/messages/transport_message.md
+                              - ConnectRequest: ./arch/node/networking/node/transport/messages/connect_request.md
+                              - ConnectResponse: ./arch/node/networking/node/transport/messages/connect_request.md
+                              - DisconnectRequest: ./arch/node/networking/node/transport/messages/disconnect_request.md
+                              - DisconnectResponse: ./arch/node/networking/node/transport/messages/disconnect_request.md
+                              - ConnectedNodesRequest: ./arch/node/networking/node/transport/messages/connected_nodes_request.md
+                          - Notifications:
+                              - NodeConnected: ./arch/node/networking/node/transport/notifications/node_connected.md
+                              - NodeConnectFailed: ./arch/node/networking/node/transport/notifications/node_connect_failed.md
+                              - NodeDisconnected: ./arch/node/networking/node/transport/notifications/node_disconnected.md
+                          - Types:
+                              - TransportAddress: ./arch/node/networking/node/transport/types/transport_address.md
+                              - ConnectionPrefs: ./arch/node/networking/node/transport/types/connection_prefs.md
+                              - TransportPrefs: ./arch/node/networking/node/transport/types/transport_prefs.md
+                              - OrderingPrefs: ./arch/node/networking/node/transport/types/ordering_prefs.md
+                              - ReliabilityPrefs: ./arch/node/networking/node/transport/types/reliability_prefs.md
+                              - SecurityPrefs: ./arch/node/networking/node/transport/types/security_prefs.md
+                              - NodeTransportAddress: ./arch/node/networking/node/transport/types/node_transport_address.md
+                              - TransportMessageV1: ./arch/node/networking/node/transport/types/transport_message_v1.md
+                              - ConnectRequestV1: ./arch/node/networking/node/transport/types/connect_request_v1.md
+                              - ConnectResponseV1: ./arch/node/networking/node/transport/types/connect_response_v1.md
+                              - DisconnectRequestV1: ./arch/node/networking/node/transport/types/disconnect_request_v1.md
+                              - DisconnectResponseV1: ./arch/node/networking/node/transport/types/disconnect_response_v1.md
+                              - ConnectedNodesResponseV1: ./arch/node/networking/node/transport/types/connected_nodes_response_v1.md
+                      - Network Identity Store:
+                          - ./arch/node/networking/node/id_store/index.md
+                          - Messages:
+                              - LookupIdentityRequest: ./arch/node/networking/node/id_store/messages/lookup_identity_request.md
+                              - LookupIdentityResponse: ./arch/node/networking/node/id_store/messages/lookup_identity_request.md
+                              - UpdateIdentityRequest: ./arch/node/networking/node/id_store/messages/update_identity_request.md
+                              - UpdateIdentityResponse: ./arch/node/networking/node/id_store/messages/update_identity_request.md
+                          - Notifications:
+                              - ./arch/node/networking/node/id_store/notifications/index.md
+                              - IdentityUpdated: ./arch/node/networking/node/id_store/notifications/identity_updated.md
+                          - Types:
+                              - IdentityStore: ./arch/node/networking/node/id_store/types/identity_store.md
+                              - IdentityRecord: ./arch/node/networking/node/id_store/types/identity_record.md
+                              - EngineIdentityRecord: ./arch/node/networking/node/id_store/types/engine_identity_record.md
+                              - NodeIdentityRecord: ./arch/node/networking/node/id_store/types/node_identity_record.md
+                              - DomainIdentityRecord: ./arch/node/networking/node/id_store/types/domain_identity_record.md
+                              - TopicIdentityRecord: ./arch/node/networking/node/id_store/types/topic_identity_record.md
+                              - TrustValue: ./arch/node/networking/node/id_store/types/trust_value.md
+                              - ReputationValue: ./arch/node/networking/node/id_store/types/reputation_value.md
+                              - LookupIdentityRequestV1: ./arch/node/networking/node/id_store/types/lookup_identity_request_v1.md
+                              - LookupIdentityResponseV1: ./arch/node/networking/node/id_store/types/lookup_identity_response_v1.md
+                              - UpdateIdentityRequestV1: ./arch/node/networking/node/id_store/types/update_identity_request_v1.md
+                              - UpdateIdentityResponseV1: ./arch/node/networking/node/id_store/types/update_identity_response_v1.md
+                              - IdentityUpdatedV1: ./arch/node/networking/node/id_store/types/identity_updated_v1.md
+                  - Intra domain protocols:
+                      - ./arch/node/networking/intra_domain/index.md
+                      - PubSub:
+                          - ./arch/node/networking/intra_domain/pubsub/index.md
+                          - Messages:
+                              - TopicAdvert: ./arch/node/networking/intra_domain/pubsub/messages/topic_advert.md
+                              - Event: ./arch/node/networking/intra_domain/pubsub/messages/event.md
+                              - EngineMessage to PubSub: ./arch/node/networking/intra_domain/pubsub/messages/engine_message.md
+                              - SubscribeRequest: ./arch/node/networking/intra_domain/pubsub/messages/subscribe_request.md
+                              - UnsubscribeRequest: ./arch/node/networking/intra_domain/pubsub/messages/unsubscribe_request.md
+                              - Subscribe: ./arch/node/networking/intra_domain/pubsub/messages/subscribe.md
+                              - SubscribeAck: ./arch/node/networking/intra_domain/pubsub/messages/subscribe_ack.md
+                              - Unsubscribe: ./arch/node/networking/intra_domain/pubsub/messages/unsubscribe.md
+                              - UnsubscribeAck: ./arch/node/networking/intra_domain/pubsub/messages/unsubscribe_ack.md
+                          - Notifications:
+                              - ./arch/node/networking/intra_domain/pubsub/notifications/index.md
+                              - TopicSubscribed: ./arch/node/networking/intra_domain/pubsub/notifications/topic_subscribed.md
+                              - TopicUnsubscribed: ./arch/node/networking/intra_domain/pubsub/notifications/topic_unsubscribed.md
+                              - TopicAdvertReceived: ./arch/node/networking/intra_domain/pubsub/notifications/topic_advert_received.md
+                          - Types:
+                              - PubSubRoutingTable: ./arch/node/networking/intra_domain/pubsub/types/pubsub_routing_table.md
+                              - PubSubRoutingTableEntry: ./arch/node/networking/intra_domain/pubsub/types/pubsub_routing_table_entry.md
+                              - TopicAdvertV1: ./arch/node/networking/intra_domain/pubsub/types/topic_advert_v1.md
+                              - EventV1: ./arch/node/networking/intra_domain/pubsub/types/event_v1.md
+                              - TopicRequestV1: ./arch/node/networking/intra_domain/pubsub/types/topic_request_v1.md
+                              - TopicResponseV1: ./arch/node/networking/intra_domain/pubsub/types/topic_request_v1.md
+                      - Storage:
+                          - ./arch/node/networking/intra_domain/storage/index.md
+                          - Messages:
+                              - BlockLookupRequest: ./arch/node/networking/intra_domain/storage/messages/block_lookup_request.md
+                              - BlockResult: ./arch/node/networking/intra_domain/storage/messages/block_result.md
+                              - BlockGetRequest: ./arch/node/networking/intra_domain/storage/messages/block_get_request.md
+                              - BlockPutRequest: ./arch/node/networking/intra_domain/storage/messages/block_put_request.md
+                              - BlockPutResponse: ./arch/node/networking/intra_domain/storage/messages/block_put_response.md
+                              - BlockSearchTopic: ./arch/node/networking/intra_domain/storage/messages/block_search_topic.md
+                              - BlockSearchRandom: ./arch/node/networking/intra_domain/storage/messages/block_search_random.md
+                          - Types:
+                              - StoragePrefs: ./arch/node/networking/intra_domain/storage/types/storage_prefs.md
+              - Ordering Machine:
+                  - ./arch/node/ordering/index.md
+                  - Common types:
+                      - ./arch/node/ordering/types/allofthem/index.md
+                      - KVSDatum: ./arch/node/ordering/types/kvs_datum.md
+                      - KVSKey: ./arch/node/ordering/types/kvs_key.md
+                      - ExecutionSummary: ./arch/node/ordering/types/execution_summary.md
+                      - TxData: ./arch/node/ordering/types/tx_data.md
+                      - TransactionCandidate: ./arch/node/ordering/types/transaction_candidate.md
+                      - TransactionExecutable: ./arch/node/ordering/types/transaction_executable.md
+                      - TxFingerprint: ./arch/node/ordering/types/tx_fingerprint.md
+                      - TransactionAck: ./arch/node/ordering/types/transaction_ack.md
+                      - TransactionLabel: ./arch/node/ordering/types/transaction_label.md
+                      - ReadLabel: ./arch/node/ordering/types/read_label.md
+                      - WriteLabel: ./arch/node/ordering/types/write_label.md
+                      - WorkerHash: ./arch/node/ordering/types/worker_hash.md
+                  - Mempool engines:
+                      - ./arch/node/ordering/mempool/index.md
+                      - Execution Supervisor:
+                          - ./arch/node/ordering/mempool/execution_supervisor/index.md
+                          - SpawnExecutor: ./arch/node/ordering/mempool/execution_supervisor/spawn_executor.md
+                      - Worker Engine:
+                          - ./arch/node/ordering/mempool/worker/index.md
+                          - ExecutorFinished: ./arch/node/ordering/mempool/worker/executor_finished.md
+                          - ExecutorPIDAssigned: ./arch/node/ordering/mempool/worker/executor_pid_assigned.md
+                          - KVSLockAcquired: ./arch/node/ordering/mempool/worker/kvs_lock_acquired.md
+                          - TransactionRequest: ./arch/node/ordering/mempool/worker/transaction_request.md
+                          - RequestLogs: ./arch/node/ordering/mempool/worker/request_logs.md
+                  - Consensus Engine:
+                      - ./arch/node/ordering/consensus_v1.md
+                  - Execution engines:
+                      - ./arch/node/ordering/execution/index.md
+                      - Shard:
+                          - ./arch/node/ordering/execution/shard/index.md
+                          - KVSAcquireLock: ./arch/node/ordering/execution/shard/kvs_acquire_lock.md
+                          - KVSReadRequest: ./arch/node/ordering/execution/shard/kvs_read_request.md
+                          - KVSWrite: ./arch/node/ordering/execution/shard/kvs_write.md
+                          - UpdateSeenAll: ./arch/node/ordering/execution/shard/update_seen_all.md
+                      - Executor:
+                          - ./arch/node/ordering/execution/executor/index.md
+                          - ExecuteTransaction: ./arch/node/ordering/execution/executor/execute_transaction.md
+                          - KVSRead: ./arch/node/ordering/execution/executor/kvs_read.md
   - Application Architecture:
       - ./application_architecture/index.md
       - Definitions:
@@ -430,8 +428,16 @@ nav:
           - Transparent Backend: ./implementation/transparent.md
           - Cairo Backend: ./implementation/cairo.md
           - RISC0 Backend: ./implementation/risc0.md
+      - Resource machine backends:
+          - ./implementation/resource_machine_backends.md
+          - Transparent Backend: ./implementation/transparent.md
+          - Cairo Backend: ./implementation/cairo.md
+          - RISC0 Backend: ./implementation/risc0.md
   - Quick links: ./indexes/links.md
-  - Juvix modules: ./indexes/juvix_modules.md
+  - Juvix modules:
+      - Juvix Base Prelude: ./prelude.juvix.md
+      - Juvix Module Index: ./indexes/juvix_modules.md
+      - Juvix Documentation: https://docs.juvix.org
   - Tutorials for contributors:
       - ./tutorial/index.md
       - Prepare working environment: ./tutorial/install/index.md
@@ -452,15 +458,15 @@ nav:
           - Engine writing conventions: ./tutorial/engines/writing_conventions.md
           - Examples:
               - Template Engine:
-                  - Template Engine: ./node_architecture/engines/template.juvix.md
-                  - Template Messages: ./node_architecture/engines/template_messages.juvix.md
-                  - Template Environment: ./node_architecture/engines/template_environment.juvix.md
-                  - Template Behaviour: ./node_architecture/engines/template_behaviour.juvix.md
+                  - Template Engine: ./arch/node/engines/template.juvix.md
+                  - Template Messages: ./arch/node/engines/template_messages.juvix.md
+                  - Template Environment: ./arch/node/engines/template_environment.juvix.md
+                  - Template Behaviour: ./arch/node/engines/template_behaviour.juvix.md
               - Ticker Engine:
-                  - Ticker Engine: ./node_architecture/engines/ticker.juvix.md
-                  - Ticker Messages: ./node_architecture/engines/ticker_messages.juvix.md
-                  - Ticker Environment: ./node_architecture/engines/ticker_environment.juvix.md
-                  - Ticker Behaviour: ./node_architecture/engines/ticker_behaviour.juvix.md
+                  - Ticker Engine: ./arch/node/engines/ticker.juvix.md
+                  - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
+                  - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
+                  - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
@@ -515,20 +521,22 @@ theme:
     - content.code.annotate
     - content.code.copy
     - content.tooltips
-    # - navigation.tracking
-    - navigation.footer
-    - navigation.path
-    # - navigation.expand
-    - navigation.prune
-    - navigation.tabs
-    - navigation.sections
-    # - navigation.instant
-    # - navigation.instant.preview
-    - navigation.indexes
     - search.highlight
     - search.suggest
     - search.sharing
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.instant.preview
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.prune
+    - navigation.indexes
+    - navigation.top
+    # - navigation.path # breadcrumbs are sometimes too long
     - toc.follow
+    - toc.integrate
     # - header.autohide
 plugins:
   - search
@@ -563,6 +571,7 @@ exclude_docs: |
 extra_css:
   - assets/css/style.css
   - assets/css/juvix-highlighting.css
+  - assets/css/juvix_codeblock_footer.css
   - assets/css/juvix_codeblock_footer.css
 extra_javascript:
   - assets/js/extra.js

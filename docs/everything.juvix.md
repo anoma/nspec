@@ -14,11 +14,28 @@ hide:
 ```juvix
 module everything;
 
-import node_architecture.types;
+import arch.node.types.basics;
+import arch.node.types.crypto;
 
-{- Template for writing new engines -}
-import node_architecture.engines.template;
+import arch.node.types.engine;
+import arch.node.types.engine_behaviour;
+import arch.node.types.engine_environment;
+
+import arch.node.types.identities;
+import arch.node.types.messages;
+
+import arch.node.types.anoma;
+import arch.node.types.anoma_environment;
+import arch.node.types.anoma_message;
+
+import arch.node.engines.template;
+import arch.node.engines.template_messages;
+import arch.node.engines.template_environment;
+import arch.node.engines.template_behaviour;
 
 {- Engines -}
-import node_architecture.engines.ticker;
+import arch.node.engines.ticker;
+import arch.node.engines.ticker_messages;
+import arch.node.engines.ticker_environment;
+import arch.node.engines.ticker_behaviour;
 ```
