@@ -2,8 +2,11 @@
 
 Hash type is defined as a fixed size type that is binding, meaning that if the input value of type `Arg` changed, the output value would change as well.
 
-TODO: for shielded: cryptographic hash, hiding
-TODO: do we want a separate interface for the logic hash, given it is a verifier key?
+!!! warning
+    TODO:
+    
+    - for shielded: cryptographic hash, hiding
+    - do we want a separate interface for the logic hash, given it is a verifier key?
 
 ### LogicHash
 

@@ -1,6 +1,7 @@
 # Proving system
 
-TODO: add efficiency expectations (what to prioritise)
+!!! warning
+    TODO: add efficiency expectations (what to prioritise)
 
 The resource machine differentiates between three kinds of proofs, each of which can have a distinct [proving system](./../../../../../basic_abstractions/proving/proof.md) used to produce that sort of proofs:
 

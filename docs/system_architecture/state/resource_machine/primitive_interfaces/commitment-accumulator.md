@@ -17,19 +17,24 @@ The commitment accumulator `Accumulator` parametrised over the types `Witness`,`
 #### Merkle tree
 Currently, the commitment accumulator is assumed to be a Merkle tree $CMtree$ of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are computed using a hash function $h_{CMtree}$.
 
-> The hash function $h_{CMtree}$ used to compute the nodes of the $CMtree$ Merkle tree is not necessarily the same as the function used to compute commitments stored in the tree $h_{cm}$.
+!!! note
+    The hash function $h_{CMtree}$ used to compute the nodes of the $CMtree$ Merkle tree is not necessarily the same as the function used to compute commitments stored in the tree $h_{cm}$.
 
 ##### Interface
 
 For a Merkle tree:
+
 - `Commitment` type corresponds to resource commitments
 -  `Witness` element is a path to the stored`Commitment`
 - `AccumulatedValue` corresponds to the Merkle tree root
 
 and the functions:
+
 - `Add` adds the resource commitment to the tree, returning the path to the commitment
 - `Witness` finds the resource commitment in the tree and returns the path to it
 - `Verify` uses the resource commitment and the path to reconstruct the root. Returns `True` if the constructed value is equal to the provided value
 - `Value` returns the tree root
 
-TODO shielded notes: To support the systems with stronger privacy requirements, the witness for such a proof must be a private input when proving membership.
+
+!!! warning
+    TODO shielded notes: To support the systems with stronger privacy requirements, the witness for such a proof must be a private input when proving membership.
