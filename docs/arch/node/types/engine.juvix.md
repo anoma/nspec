@@ -20,12 +20,12 @@ tags:
 
 # Engine
 
-An **engine** is a computational unit with a specific name and behaviour, plus
-an initial environment, which comprises the specific state, the mailbox cluster,
-the acquaintances, and the timers. The type of engines is `Engine`, instantiated
-with the types for the local states, the mailboxes' state, the time handles, the
-action-label action, and the precomputation. We use the following notation to
-denote these type parameters:
+An **engine** is a computational unit with a specific name and [[Engine Behaviour|behaviour]], plus
+an initial [[Engine Environment|environment]], which comprises the specific state, the mailbox cluster,
+the acquaintances, and the timers. We refer to the type of engines as `Engine`,
+instantiated with the types for the local states, the mailboxes' state, the
+time handles, the action-label action, and the precomputation. We use the following
+notation to denote these type parameters:
 
 - `S` the type for the local states,
 - `M` the type for the mailboxes' state,
@@ -34,41 +34,12 @@ denote these type parameters:
 - `L` the type for the precomputation, and
 - `X` the type for the external inputs.
 
-To define the type for engine instances, we first need to define the type for
-engine behaviours.
-
-## The type for engine behaviours
-
-The `EngineBehaviour` type encapsulates the concept of behaviours within Anoma.
-As defined, it clears up that engines are essentially a collection of guarded
-state-transition functions.
-
-```juvix
-type EngineBehaviour (S M H A L X : Type) := mkEngineBehaviour {
-  guards : List (Guard S M H A L X);
-  action : ActionFunction S M H A L X;
-  conflictSolver : Set A -> List (Set A);
-};
-```
-
-!!! info "On the use of `List` for guards in `EngineBehaviour`"
-
-    The `EngineBehaviour` type uses `List` for guards to enable parallel
-    processing. This choice acknowledges that guards can be concurrent or
-    competing, with the latter requiring priority assignment to resolve
-    non-determinism. While guards should form a set, using `List` simplifies the
-    implementation and provides an inherent ordering.
-
-## The type for engines
-
-An *engine* is a term of type `Engine` instantiated with the types for the local
-states, the mailboxes' state, the time handles, the action-label action, and the
-precomputation. Each engine, not its type, is associated with:
+Each engine, not its type, is associated with:
 
 - a specific name (unique across the system),
-- a specific behaviour, and
-- a declaration of its own execution context, that is, the specific state, the
-  mailbox cluster, the acquaintances, and the timers.
+- a specific [[Engine Behaviour|behaviour]], and
+- a declaration of its own [[Engine Environment|execution context]], that is, the
+  specific state, the mailbox cluster, the acquaintances, and the timers.
 
 ```juvix
 type Engine (S M H A L X : Type) := mkEngine {
