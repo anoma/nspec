@@ -5,6 +5,7 @@ exclude: false
 tags:
   - engine
   - Juvix
+list_wikilinks: false
 ---
 
 # Engines
@@ -13,60 +14,65 @@ tags:
 
 The Anoma Specification revolves around the concept of an [[Engine|engine]], an
 actor-like entity encapsulating the [[Engine Environment|engine environment]] and
-[[Engine Behaviour|behaviour]] of a computational process. In Anoma, engines are
-organised into families based on shared [[Engine Behaviour|behaviour]].
-Although, each of these engines has its own [[Engine Environment|execution context]].
+[[Engine Behaviour|behaviour]] of a computational process. In Anoma, every
+engine is of a specific type. Engines of the same type share the same
+[[Engine Behaviour|behaviour]]. However, two engines of the same type may have different
+[[Engine Environment|execution context]].
 
-The components of an engine are:
 
-[[Engine Environment]]
+## Engine components
+
+[[Engine Environment|*Environment*]]
 
 :   The execution context of an engine. It consists of:
+
     - a local state for storing engine-specific data,
-    - a mailbox cluster for receiving and sending messages,
+    - a mailbox cluster for receiving and sending [[Anoma Message|messages]],
     - a set of acquaintances (other engines that can interact with this engine), and
     - a set of active timers.
 
     The complete definition of an engine environment can be found in the
     [[Engine Environment|Juvix engine environment definition]].
 
-[[Engine Behaviour|*Action Function*]]
+[[Engine Behaviour|*Behaviour*]]
 
-:   The function that describes all possible ways in which engines can act. This includes:
+:   The function that describes all possible ways in which engines can act. This
+includes:
+
     - modifying their environment,
     - sending messages to other engines,
     - spawning new engine instances, and
     - managing their active timers.
 
-    The complete definition of an engine dynamics can be found in the
-    [[Engine Behaviour|Juvix engine dynamics definition]].
+    The complete definition of an engine behaviour can be found in the
+    [[Engine Behaviour|Juvix engine behaviour definition]].
 
-    *Guards*
+    [[Engine Behaviour#Guard|*Guards*]]
 
     :   The finite set of guard functions that describe the conditions under which
         the local state of the engine's instance should change by invoking the action
         function.
 
-    *Conflict Solver*
+    [[Engine Behaviour#conflict-resolution|*Conflict Solver*]]
 
     :   The function that resolves conflicts between actions to maximize their
         concurrency.
 
-## Juvix engine definitions
 
-For the Anoma Specification, engines are written in Juvix Markdown. All
-necessary types and functions to define these engines can be found in the module
-[[Engine Types|engine]]. See [[Engines in Anoma|Tutorials on Writing Engine
-Families]] for a tutorial on how to structure the writing of engine families for
-the Anoma Specification.
+## Anoma engine definitions
 
-### Anoma engine messages
+All required types and functions to define these engines can be found in the
+module [[Engine Types|engine]]. To understand how we have structured the
+definitions of engine types, see [[Engines in Anoma|Tutorials on Writing
+Engine Families]].
 
-    --8<-- "./docs/arch/node/types/anoma_message.juvix.md"
+### [[Anoma Message|Anoma engine messages]]
 
-### Anoma engine environments
+--8<-- "./docs/arch/node/types/anoma_message.juvix.md:anoma-messages-type"
 
-    --8<-- "./docs/arch/node/types/anoma_environment.juvix.md"
+### [[Anoma Environment|Anoma engine environments]]
+
+--8<-- "./docs/arch/node/types/anoma_environment.juvix.md:anoma-environment-type"
 
 ## Useful Links
 

@@ -24,7 +24,9 @@ This means, an Anoma engine instance would have an environment of type `Env`.
 For example, an environment for an engine instance
 of the engine `TickerEngine` is of type `TickerEnvironment`.
 
+<!-- --8<-- [start:anoma-environment-type] -->
 ```juvix
 type Env :=
   | EnvTicker TickerEnvironment
 ```
+<!-- --8<-- [end:anoma-environment-type] -->

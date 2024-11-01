@@ -290,7 +290,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
-## `TickerBehaviour`
+## The Ticker Behaviour
 
 <!-- --8<-- [start:TickerBehaviour] -->
 ```juvix
