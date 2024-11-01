@@ -18,7 +18,7 @@ tags:
     import arch.node.types.engine_behaviour open public;
     ```
 
-# Engine
+# The type for engines
 
 An **engine** is a computational unit with a specific name and [[Engine Behaviour|behaviour]], plus
 an initial [[Engine Environment|environment]], which comprises the specific state, the mailbox cluster,
