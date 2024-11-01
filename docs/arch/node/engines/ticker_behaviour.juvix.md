@@ -290,17 +290,10 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
-<<<<<<< HEAD:docs/arch/node/engines/ticker_behaviour.juvix.md
-### `TickerBehaviour`
-
-```
---8<-- "./docs/arch/node/engines/ticker.juvix.md:TickerBehaviour"
-=======
 ## Engine behaviour
 
 ### `TickerBehaviour`
 
 ```
---8<-- "./docs/node_architecture/engines/ticker.juvix.md:TickerBehaviour"
->>>>>>> v2:docs/node_architecture/engines/ticker_behaviour.juvix.md
+--8<-- "./docs/arch/node/engines/ticker.juvix.md:TickerBehaviour"
 ```
