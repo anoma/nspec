@@ -12,8 +12,8 @@ search:
     module arch.node.engines.ticker_environment;
 
     import prelude open;
-    import arch.node.basics open;
-    import arch.node.engines.ticker_overview open;
+    import arch.node.types.basics open;
+    import arch.node.engines.ticker_messages open;
     import arch.node.types.engine_environment open;
     ```
 

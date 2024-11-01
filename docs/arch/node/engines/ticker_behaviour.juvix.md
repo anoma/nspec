@@ -19,8 +19,8 @@ tags:
     import arch.node.engines.ticker_environment open;
 
     import prelude open;
-    import arch.node.basics open;
-    import arch.node.identity_types open;
+    import arch.node.types.basics open;
+    import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.anoma_message open using {MsgTicker};

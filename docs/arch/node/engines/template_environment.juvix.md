@@ -15,8 +15,8 @@ tags:
     ```juvix
     module arch.node.engines.template_environment;
     import prelude open;
-    import arch.node.types.engine_family open;
-    import arch.node.engines.template_overview open;
+    import arch.node.types.engine open;
+    import arch.node.engines.template_messages open;
     ```
 
 # Template Environment

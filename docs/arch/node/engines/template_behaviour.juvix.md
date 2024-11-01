@@ -20,7 +20,7 @@ tags:
 
     import Stdlib.Data.String open;
     import prelude open;
-    import arch.node.basics open;
+    import arch.node.types.basics open;
     import arch.node.types.engine open;
     ```
 
