@@ -28,9 +28,9 @@ A resource machine provides the following functions:
 
 ## Post- and pre-ordering execution
 
-*Pre-ordering execution* implies partial evaluation of the transaction function. In practice pre-ordering execution happens before the transactions are ordered by the ordering component external to the ARM.
+*Pre-ordering execution* implies partial evaluation of the transaction function. In practice pre-ordering execution happens before the transactions are ordered by the ordering machine external to the ARM.
 
-*Post-ordering execution* implies full evaluation of the transaction function. As the name suggests, post-ordering execution happens after the ordering component external to the ARM completed the ordering of transaction functions.
+*Post-ordering execution* implies full evaluation of the transaction function. As the name suggests, post-ordering execution happens after the ordering machine external to the ARM completed the ordering of transaction functions.
 
 ## ARMs as intent machines
 

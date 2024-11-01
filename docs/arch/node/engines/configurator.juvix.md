@@ -6,7 +6,7 @@ search:
 ---
 
 ```juvix
-module arch.node.engines.configurator_overview;
+module arch.node.engines.configurator;
 ```
 
 # Configuration Engine

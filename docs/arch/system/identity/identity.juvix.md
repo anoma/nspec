@@ -8,7 +8,7 @@ search:
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.system.identity;
+    module arch.node.identity.identity;
     import prelude open;
     import Stdlib.Data.Nat as Nat open using {Nat; +; *; <=} public;
     import Stdlib.Trait.Eq as Eq open using {==} public;

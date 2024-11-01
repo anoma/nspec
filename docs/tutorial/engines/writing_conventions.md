@@ -36,13 +36,13 @@ tags:
     `ticker.juvix.md`, it must have the following code block:
 
       ```juvix
-      module arch/node.engines.ticker_overview;
+      module arch.node.engines.ticker;
       ```
 
 ## File structure within the `engines` directory
 
 The files as listed above must be stored in the `engines` directory of the
-`arch/node` directory. For example, the `ticker` engine family would
+`arch/node` directory. For example, the `ticker` engine would
 have the following directory structure:
 
 ```plaintext
@@ -56,44 +56,52 @@ arch/node/
     └── ticker_behaviour.juvix.md
 ```
 
-The `ticker.juvix.md` file contains a brief overview and type definition of the engine.
-Check out [[Ticker Engine]] as an example for the expected structure.
+The `ticker.juvix.md` file then would contain a brief overview and list of all
+its components. Check out [[Ticker Engine]] as an example for the expected
+structure.
 
-So next time, if you want to use the `ticker` engine, then you can import it
-adding only one line at the top of the Juvix file where the imports are declared:
+So next time, if you want to use the `ticker` engine, then you can import the
+`arch.node.engines.ticker` module, adding only one line at the top of the Juvix
+file where the imports are declared:
 
 ```diff
 ...
-+ import arch/node.engines.ticker open using {Ticker};
++ import arch.node.engines.ticker open;
 ```
+
 
 ## Update indexes
 
-As part of defining an engine, you must update a few files that act as indexes.
+As part of defining an engine type, you must update a few files that act as indexes.
 
 ### Juvix *Everything* Index
 
-As final requirement, you must add the engine to the
-`docs/everything.juvix.md` file in the "Engines" section. That is,
-if the engine is the `ticker`, you would add the following line:
+Add import statements of all the modules related to the new engine to the
+`docs/everything.juvix.md` file. The new lines must be added in the "Engines"
+section. That is, if the engine is the `ticker`, we expect the following lines:
 
 ```diff title="docs/everything.juvix.md"
 module everything;
 
 {- Engines -}
-+ import arch/node.engines.ticker;
-+ import arch/node.engines.ticker_overview;
-+ import arch/node.engines.ticker_environment;
-+ import arch/node.engines.ticker_dynamics;
++ import arch.node.engines.ticker;
++ import arch.node.engines.ticker_messages;
++ import arch.node.engines.ticker_environment;
++ import arch.node.engines.ticker_behaviour;
 ```
 
 
-### Anoma Message Index
+### Anoma Message
+
+All message types must be added to the `arch/node/types/anoma_message.juvix.md`
+file. Use the same pattern as the existing message types. For example, if the
+engine is the `ticker`, the new type constructor should be `MsgTicker` along
+with the corresponding type for the messages, that is, `TickerMsg`.
 
 ```diff title="arch/node/types/anoma_message.juvix.md"
 ...
-module arch/node.types.anoma_message;
-+ import arch/node.engines.ticker_overview open using {TickerMsg};
+module arch.ode.types.anoma_message;
++ import arch.node.engines.ticker_messages open using {TickerMsg};
 
 type Msg :=
 +  | MsgTicker TickerMsg
@@ -101,11 +109,16 @@ type Msg :=
 
 ### Anoma Environment Index
 
+All environment types must be added to the
+`arch/node/types/anoma_environment.juvix.md` file. Similarly to the message
+types, the new type constructor should be `EnvTicker` along with the
+corresponding type for the environment, that is, `TickerEnvironment`. Do not
+forget to import the environment type in the `Env` type.
+
 ```diff title="arch/node/types/anoma_environment.juvix.md"
+module arch.node.types.anoma_environment;
 ...
-    module arch/node.types.anoma_environment;
-+      import arch/node.engines.ticker_environment
-+        open using {TickerEnvironment};
++ import arch.node.engines.ticker_environment open using {TickerEnvironment};
 ...
 type Env :=
 +  | EnvTicker TickerEnvironment

@@ -40,7 +40,7 @@ collected over time interval. Examples include the [[AvailabilityCertificate#ava
 
 ## Overview
 
-The *Hardware Abstraction Machine* incorporates two specialized storage engines designed to cater to distinct data storage
+The *Hardware Machine* incorporates two specialized storage engines designed to cater to distinct data storage
 and retrieval requirements from other engines:
 
 - The [[Local Key-Value Storage Engine#local-key-value-storage-engine]] (KV) provides
