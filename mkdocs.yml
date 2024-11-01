@@ -428,6 +428,11 @@ nav:
           - Transparent Backend: ./implementation/transparent.md
           - Cairo Backend: ./implementation/cairo.md
           - RISC0 Backend: ./implementation/risc0.md
+      - Resource machine backends:
+          - ./implementation/resource_machine_backends.md
+          - Transparent Backend: ./implementation/transparent.md
+          - Cairo Backend: ./implementation/cairo.md
+          - RISC0 Backend: ./implementation/risc0.md
   - Quick links: ./indexes/links.md
   - Juvix modules:
       - Juvix Base Prelude: ./prelude.juvix.md
@@ -566,6 +571,7 @@ exclude_docs: |
 extra_css:
   - assets/css/style.css
   - assets/css/juvix-highlighting.css
+  - assets/css/juvix_codeblock_footer.css
   - assets/css/juvix_codeblock_footer.css
 extra_javascript:
   - assets/js/extra.js
