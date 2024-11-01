@@ -34,39 +34,39 @@ nav:
   - Protocol Architecture:
       - ./architecture/index.md
       - System Architecture:
-          - ./system_architecture/index.md
+          - ./arch/system/index.md
           - Basic Concepts:
-              - ./system_architecture/concepts/index.md
-          - Identity Architecture: ./system_architecture/identity/identity.juvix.md
+              - ./arch/system/concepts/index.md
+          - Identity Architecture: ./arch/system/identity/identity.juvix.md
           - Network Architecture:
-              - ./system_architecture/network/index.md
+              - ./arch/system/network/index.md
           - Service Architecture:
-              - ./system_architecture/service/index.md
+              - ./arch/system/service/index.md
           - State Architecture:
-              - ./system_architecture/state/index.md
+              - ./arch/system/state/index.md
               - Resource Machine:
-                  - Introduction: ./system_architecture/state/resource_machine/index.md
+                  - Introduction: ./arch/system/state/resource_machine/index.md
                   - Resource:
-                      - Definition: ./system_architecture/state/resource_machine/resource/definition.md
+                      - Definition: ./arch/system/state/resource_machine/resource/definition.md
                       - Computable components:
-                          - Introduction: ./system_architecture/state/resource_machine/resource/computable_components/introduction.md
-                          - Commitment: ./system_architecture/state/resource_machine/resource/computable_components/commitment.md
-                          - Nullifier: ./system_architecture/state/resource_machine/resource/computable_components/nullifier.md
-                          - Kind: ./system_architecture/state/resource_machine/resource/computable_components/kind.md
-                          - Delta: ./system_architecture/state/resource_machine/resource/computable_components/delta.md
-                  - Non-linear resources: ./system_architecture/state/resource_machine/resource/non_linear_resources.md
-                  - Roles and requirements: ./system_architecture/state/resource_machine/roles_and_requirements.md
-                  - Action: ./system_architecture/state/resource_machine/action.md
-                  - Transaction: ./system_architecture/state/resource_machine/transaction.md
+                          - Introduction: ./arch/system/state/resource_machine/resource/computable_components/introduction.md
+                          - Commitment: ./arch/system/state/resource_machine/resource/computable_components/commitment.md
+                          - Nullifier: ./arch/system/state/resource_machine/resource/computable_components/nullifier.md
+                          - Kind: ./arch/system/state/resource_machine/resource/computable_components/kind.md
+                          - Delta: ./arch/system/state/resource_machine/resource/computable_components/delta.md
+                  - Non-linear resources: ./arch/system/state/resource_machine/resource/non_linear_resources.md
+                  - Roles and requirements: ./arch/system/state/resource_machine/roles_and_requirements.md
+                  - Action: ./arch/system/state/resource_machine/action.md
+                  - Transaction: ./arch/system/state/resource_machine/transaction.md
                   - Resource machine:
-                      - Definition: ./system_architecture/state/resource_machine/rm_def/definition.md
-                      - Stored data format: ./system_architecture/state/resource_machine/rm_def/storage.md
+                      - Definition: ./arch/system/state/resource_machine/rm_def/definition.md
+                      - Stored data format: ./arch/system/state/resource_machine/rm_def/storage.md
                   - Function formats:
-                      - Transaction function: ./system_architecture/state/resource_machine/function_formats/transaction_function.md
-                      - Resource logic: ./system_architecture/state/resource_machine/function_formats/resource_logic.md
-                      - Preference function: ./system_architecture/state/resource_machine/function_formats/preference_function.md
-                      - Nockma: ./system_architecture/state/resource_machine/function_formats/nockma.md
-                  - Applications: ./system_architecture/state/resource_machine/applications.md
+                      - Transaction function: ./arch/system/state/resource_machine/function_formats/transaction_function.md
+                      - Resource logic: ./arch/system/state/resource_machine/function_formats/resource_logic.md
+                      - Preference function: ./arch/system/state/resource_machine/function_formats/preference_function.md
+                      - Nockma: ./arch/system/state/resource_machine/function_formats/nockma.md
+                  - Applications: ./arch/system/state/resource_machine/applications.md
       - Node Architecture:
           - ./arch/node/index.md
           - Modules: ./arch/node/modules/index.md
@@ -650,39 +650,39 @@ nav:
   - Protocol Architecture:
       - ./architecture/index.md
       - System Architecture:
-          - ./system_architecture/index.md
+          - ./arch/system/index.md
           - Basic Concepts:
-              - ./system_architecture/concepts/index.md
-          - Identity Architecture: ./system_architecture/identity/identity.juvix.md
+              - ./arch/system/concepts/index.md
+          - Identity Architecture: ./arch/system/identity/identity.juvix.md
           - Network Architecture:
-              - ./system_architecture/network/index.md
+              - ./arch/system/network/index.md
           - Service Architecture:
-              - ./system_architecture/service/index.md
+              - ./arch/system/service/index.md
           - State Architecture:
-              - ./system_architecture/state/index.md
+              - ./arch/system/state/index.md
               - Resource Machine:
-                  - Introduction: ./system_architecture/state/resource_machine/index.md
+                  - Introduction: ./arch/system/state/resource_machine/index.md
                   - Resource:
-                      - Definition: ./system_architecture/state/resource_machine/resource/definition.md
+                      - Definition: ./arch/system/state/resource_machine/resource/definition.md
                       - Computable components:
-                          - Introduction: ./system_architecture/state/resource_machine/resource/computable_components/introduction.md
-                          - Commitment: ./system_architecture/state/resource_machine/resource/computable_components/commitment.md
-                          - Nullifier: ./system_architecture/state/resource_machine/resource/computable_components/nullifier.md
-                          - Kind: ./system_architecture/state/resource_machine/resource/computable_components/kind.md
-                          - Delta: ./system_architecture/state/resource_machine/resource/computable_components/delta.md
-                  - Non-linear resources: ./system_architecture/state/resource_machine/resource/non_linear_resources.md
-                  - Roles and requirements: ./system_architecture/state/resource_machine/roles_and_requirements.md
-                  - Action: ./system_architecture/state/resource_machine/action.md
-                  - Transaction: ./system_architecture/state/resource_machine/transaction.md
+                          - Introduction: ./arch/system/state/resource_machine/resource/computable_components/introduction.md
+                          - Commitment: ./arch/system/state/resource_machine/resource/computable_components/commitment.md
+                          - Nullifier: ./arch/system/state/resource_machine/resource/computable_components/nullifier.md
+                          - Kind: ./arch/system/state/resource_machine/resource/computable_components/kind.md
+                          - Delta: ./arch/system/state/resource_machine/resource/computable_components/delta.md
+                  - Non-linear resources: ./arch/system/state/resource_machine/resource/non_linear_resources.md
+                  - Roles and requirements: ./arch/system/state/resource_machine/roles_and_requirements.md
+                  - Action: ./arch/system/state/resource_machine/action.md
+                  - Transaction: ./arch/system/state/resource_machine/transaction.md
                   - Resource machine:
-                      - Definition: ./system_architecture/state/resource_machine/rm_def/definition.md
-                      - Stored data format: ./system_architecture/state/resource_machine/rm_def/storage.md
+                      - Definition: ./arch/system/state/resource_machine/rm_def/definition.md
+                      - Stored data format: ./arch/system/state/resource_machine/rm_def/storage.md
                   - Function formats:
-                      - Transaction function: ./system_architecture/state/resource_machine/function_formats/transaction_function.md
-                      - Resource logic: ./system_architecture/state/resource_machine/function_formats/resource_logic.md
-                      - Preference function: ./system_architecture/state/resource_machine/function_formats/preference_function.md
-                      - Nockma: ./system_architecture/state/resource_machine/function_formats/nockma.md
-                  - Applications: ./system_architecture/state/resource_machine/applications.md
+                      - Transaction function: ./arch/system/state/resource_machine/function_formats/transaction_function.md
+                      - Resource logic: ./arch/system/state/resource_machine/function_formats/resource_logic.md
+                      - Preference function: ./arch/system/state/resource_machine/function_formats/preference_function.md
+                      - Nockma: ./arch/system/state/resource_machine/function_formats/nockma.md
+                  - Applications: ./arch/system/state/resource_machine/applications.md
       - Node Architecture:
           - ./arch/node/index.md
           - Modules: ./arch/node/modules/index.md
