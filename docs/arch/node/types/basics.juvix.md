@@ -19,7 +19,7 @@ tags:
 
 This document describes the basic types and functions used in the node
 architecture prelude. For a more general prelude, please refer to
-[Juvix Base Prelude](./../../prelude.juvix.md). (1)
+[[Juvix Base Prelude]]. (1)
 { .annotate }
 
 1. :woman_raising_hand: If you are unfamiliar with Juvix,

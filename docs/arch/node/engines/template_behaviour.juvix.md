@@ -388,23 +388,31 @@ templateConflictSolver : Set TemplateMatchableArgument -> List (Set TemplateMatc
 ```
 
 
-## `TemplateBehaviour`
+## TemplateBehaviour type
 
 <!-- --8<-- [start:TemplateBehaviour] -->
 ```juvix
-TemplateBehaviour :
+TemplateBehaviour : Type := 
   EngineBehaviour
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
     TemplateMatchableArgument
     TemplateActionLabel
-    TemplatePrecomputation
-  := mkEngineBehaviour@{
+    TemplatePrecomputation;
+```
+<!-- --8<-- [end:TemplateBehaviour] -->
+
+## TemplateBehaviour
+
+<!-- --8<-- [start:template-behaviour-instance] -->
+```juvix
+templateBehaviour : TemplateBehaviour :=
+  mkEngineBehaviour@{
     guards := [messageOneGuard];
     action := templateAction;
     conflictSolver := templateConflictSolver;
   }
   ;
 ```
-<!-- --8<-- [end:TemplateBehaviour] -->
+<!-- --8<-- [end:template-behaviour-instance] -->

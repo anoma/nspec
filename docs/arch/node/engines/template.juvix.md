@@ -59,7 +59,7 @@ TemplateEngine : Type :=
 ```juvix
 exampleTemplateEngine : TemplateEngine := mkEngine@{
   name := "template";
-  behaviour := TemplateBehaviour;
+  behaviour := templateBehaviour;
   initEnv := templateEnvironmentExample;
 };
 ```
