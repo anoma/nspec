@@ -290,23 +290,31 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
-## `TickerBehaviour`
+## TickerBehaviour type
 
 <!-- --8<-- [start:TickerBehaviour] -->
 ```juvix
-TickerBehaviour :
+TickerBehaviour : Type :=
   EngineBehaviour
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle
     TickerMatchableArgument
     TickerActionLabel
-    TickerPrecomputation
-  := mkEngineBehaviour@{
+    TickerPrecomputation;
+```
+<!-- --8<-- [end:TickerBehaviour] -->
+
+## TickerBehaviour instance
+
+<!-- --8<-- [start:TickerBehaviour-instance] -->
+```juvix
+tickerBehaviour : TickerBehaviour :=
+  mkEngineBehaviour@{
     guards := [incrementGuard ; countGuard];
     action := tickerAction;
     conflictSolver := tickerConflictSolver;
   }
   ;
 ```
-<!-- --8<-- [end:TickerBehaviour] -->
+<!-- --8<-- [end:TickerBehaviour-instance] -->

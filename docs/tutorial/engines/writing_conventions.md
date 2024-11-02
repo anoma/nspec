@@ -82,7 +82,7 @@ section. That is, if the engine is the `ticker`, we expect the following lines:
 
 ```diff title="docs/everything.juvix.md"
 module everything;
-
+...
 {- Engines -}
 + import arch.node.engines.ticker;
 + import arch.node.engines.ticker_messages;
