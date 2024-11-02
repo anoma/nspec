@@ -149,11 +149,9 @@ module handle_two_example;
 end;
 ```
 
-## Environment summary
+## TemplateEnvironment type
 
-We have finished all the type definitions, there is nothing to explain in the
-template as the code is self-explanatory.
-
+<!-- --8<-- [start:TemplateEnvironment] -->
 ```juvix
 TemplateEnvironment : Type :=
   EngineEnvironment
@@ -161,8 +159,9 @@ TemplateEnvironment : Type :=
   TemplateMailboxState
   TemplateTimerHandle;
 ```
+<!-- --8<-- [end:TemplateEnvironment] -->
 
-## Example of a `Template` environment
+## An example of a TemplateEnvironment
 
 <!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
