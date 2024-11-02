@@ -392,7 +392,7 @@ templateConflictSolver : Set TemplateMatchableArgument -> List (Set TemplateMatc
 
 <!-- --8<-- [start:TemplateBehaviour] -->
 ```juvix
-TemplateBehaviour : Type := 
+TemplateBehaviour : Type :=
   EngineBehaviour
     TemplateLocalState
     TemplateMailboxState
