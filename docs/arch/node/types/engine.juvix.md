@@ -1,11 +1,11 @@
 ---
-icon: material/file-document-outline
+icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- Engine
-- Behaviour
-- Juvix
+- engine-behaviour
+- engine-type
+- juvix
 ---
 
 ??? quote "Juvix imports"
@@ -18,40 +18,28 @@ tags:
     import arch.node.types.engine_behaviour open public;
     ```
 
-# Engine type
+# The type for engines
 
-The `Engine` type encapsulates the concept of engines within Anoma. As
-defined, it clears up that engines are essentially a collection of guarded
-state-transition functions. Our type for these families is parameterised by a
-type for their local states, a type for their mailboxes' state, a type for time
-handles, a type for action-label action, and a type for the precomputation.
-We usually refer to the type for the local states as `S`, for the mailboxes' state
-as `M`, for the time handles as `H`, for the action-label as `A`, for the precomputation
-as `L`, and for the external inputs as `X`.
+An **engine** is a computational unit with a specific name and [[Engine Behaviour|behaviour]], plus
+an initial [[Engine Environment|environment]], which comprises the specific state, the mailbox cluster,
+the acquaintances, and the timers. We refer to the type of engines as `Engine`,
+instantiated with the types for the local states, the mailboxes' state, the
+time handles, the action-label action, and the precomputation. We use the following
+notation to denote these type parameters:
 
-```juvix
-type EngineBehaviour (S M H A L X : Type) := mkEngineBehaviour {
-  guards : List (Guard S M H A L X);
-  action : ActionFunction S M H A L X;
-  conflictSolver : Set A -> List (Set A);
-};
-```
+- `S` the type for the local states,
+- `M` the type for the mailboxes' state,
+- `H` the type for the time handles,
+- `A` the type for the action-label,
+- `L` the type for the precomputation, and
+- `X` the type for the external inputs.
 
-!!! info "On the use of `List` for guards in `EngineBehaviour`"
+Each engine, not its type, is associated with:
 
-    The `EngineBehaviour` type uses `List` for guards to enable parallel
-    processing. This choice acknowledges that guards can be concurrent or
-    competing, with the latter requiring priority assignment to resolve
-    non-determinism. While guards should form a set, using `List` simplifies the
-    implementation and provides an inherent ordering.
-
-## Engine instance type
-
-Additionally, we define the `Engine` type, which represents an engine.
-A term of this `Engine` type is referred to as an engine instance.
-Each engine instance is associated with a specific name and behaviour,
-plus a declaration of its own execution context, or environment,
-that is, the specific state, mailbox cluster, acquaintances, and timers.
+- a specific name (unique across the system),
+- a specific [[Engine Behaviour|behaviour]], and
+- a declaration of its own [[Engine Environment|execution context]], that is, the
+  specific state, the mailbox cluster, the acquaintances, and the timers.
 
 ```juvix
 type Engine (S M H A L X : Type) := mkEngine {
@@ -63,20 +51,14 @@ type Engine (S M H A L X : Type) := mkEngine {
 
 !!! example "Voting Engine"
 
-    As an example, we could define an engine for voting:
+    As an example, we could define an engine type for a voting system:
 
     - `S` could be a record with fields like `votes`, `voters`, and `results`.
     - The engine-specific message type might be a coproduct of `Vote` and `Result`.
-    - The guarded actions may include actions like:
+    - The behaviour of this engine may include guarded actions such as:
         - `storeVote` to store a vote in the local state,
         - `computeResult` to compute the result of the election, and
         - `announceResult` to send the result to some other engine instances.
 
     With each different election or kind of voters, we obtain a new engine instance,
-    while the underlining voting system, the voting engine, remains the same.
-
-!!! note
-
-    Both the `EngineBehaviour` and `Engine` types are parameterised by several types. When
-    not used in the context of a new engine declaration, these types can be
-    replaced by the unit type `Unit`.
+    while the underlining voting system, the voting engine family, remains the same.

@@ -24,8 +24,10 @@ corresponds to a specific type of message comming from a specific engine.
 For example, the engine `TickerEngine`
 has a corresponding message type `TickerMsg`.
 
+<!-- --8<-- [start:anoma-messages-type] -->
 ```juvix
 type Msg :=
   | MsgTicker TickerMsg
   ;
 ```
+<!-- --8<-- [end:anoma-messages-type] -->

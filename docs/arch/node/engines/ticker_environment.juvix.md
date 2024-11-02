@@ -46,7 +46,7 @@ syntax alias TickerTimerHandle := Unit;
 The [[Ticker Engine Overview|ticker]] does not require a timer handle type.
 Therefore, we define the timer handle type as `Unit`.
 
-## `TickerEnvironment`
+## The Ticker Environment
 
 ```juvix
 TickerEnvironment : Type := EngineEnvironment TickerLocalState TickerMailboxState TickerTimerHandle;
