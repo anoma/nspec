@@ -14,25 +14,39 @@ hide:
 ```juvix
 module everything;
 
-import node_architecture.types;
-import node_architecture.types.basics;
-import node_architecture.types.crypto;
-import node_architecture.types.identities;
-import node_architecture.types.messages;
-import node_architecture.types.engine_environment;
-import node_architecture.types.engine_dynamics;
-import node_architecture.types.engine_family;
-import node_architecture.types.anoma_environment;
-import node_architecture.types.anoma_message;
+{- Prelude -}
+import prelude;
 
-import node_architecture.engines.template;
-import node_architecture.engines.template_overview;
-import node_architecture.engines.template_environment;
-import node_architecture.engines.template_dynamics;
+{- System -}
+import arch.system.identity.index;
+import arch.system.identity.identity;
+
+{- Types -}
+import arch.node.types;
+
+import arch.node.types.basics;
+import arch.node.types.crypto;
+import arch.node.types.messages;
+import arch.node.types.identities;
+
+import arch.node.types.anoma;
+import arch.node.types.anoma_message;
+import arch.node.types.anoma_environment;
+
+import arch.node.types.engine;
+import arch.node.types.engine_behaviour;
+import arch.node.types.engine_environment;
+
 
 {- Engines -}
-import node_architecture.engines.ticker;
-import node_architecture.engines.ticker_overview;
-import node_architecture.engines.ticker_environment;
-import node_architecture.engines.ticker_dynamics;
+import arch.node.engines.ticker;
+import arch.node.engines.ticker_messages;
+import arch.node.engines.ticker_environment;
+import arch.node.engines.ticker_behaviour;
+
+{- Template for new engines -}
+import arch.node.engines.template;
+import arch.node.engines.template_messages;
+import arch.node.engines.template_environment;
+import arch.node.engines.template_behaviour;
 ```
