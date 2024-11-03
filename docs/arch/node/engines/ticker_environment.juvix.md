@@ -2,11 +2,17 @@
 icon: octicons/container-24
 search:
   exclude: false
+categories:
+- engine
+- node
+tags:
+- ticker-engine
+- engine-environment
 ---
 
 # Ticker Environment
 
-??? note "Juvix preamble"
+??? quote "Juvix preamble"
 
     ```juvix
     module arch.node.engines.ticker_environment;

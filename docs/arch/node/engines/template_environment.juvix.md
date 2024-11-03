@@ -1,15 +1,18 @@
 ---
-icon: octicons/gear-16
+icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-behaviour
-- juvix-module
+- engine
+- node
 tags:
+- template-engine
 - engine-environment
 ---
 
-??? note "Juvix preamble"
+# Template Environment
+
+??? quote "Juvix preamble"
 
     ```juvix
     module arch.node.engines.template_environment;
@@ -17,10 +20,6 @@ tags:
     import arch.node.types.engine open;
     import arch.node.engines.template_messages open;
     ```
-
-# Template Environment
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Overview
 

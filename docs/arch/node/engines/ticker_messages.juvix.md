@@ -3,9 +3,10 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-behaviour
+- engine
+- node
 tags:
-- ticker
+- ticker-engine
 - engine-messages
 ---
 
@@ -20,32 +21,23 @@ tags:
 
 ## Message interface
 
-### Increment
+### TickerMsgIncrement
 
-```juvix
-syntax alias IncrementMsg := Unit;
-```
+A `TickerMsgIncrement` message instructs the engine to increase the counter.
+This message doesn't require any arguments.
 
-An `IncrementMsg` message instructs the engine to increase the counter. This
-message doesn't require any arguments.
+### TickerMsgCount
 
-### Count
-
-```juvix
-syntax alias CountMsg := Unit;
-```
-
-A `CountMsg` message requests the engine to send the current counter value back to
+A `TickerMsgCount` message requests the engine to send the current counter value back to
 the requester. This message doesn't require any arguments.
-
 
 ### TickerMsg
 
 <!-- --8<-- [start:TickerMsg] -->
 ```juvix
 type TickerMsg :=
-    | TickerMsgIncrement IncrementMsg
-    | TickerMsgCount CountMsg
+  | TickerMsgIncrement
+  | TickerMsgCount
 ```
 <!-- --8<-- [end:TickerMsg] -->
 
@@ -67,13 +59,13 @@ sequenceDiagram
     participant Ticker
     participant EngineTickerClient
 
-    EngineTickerClient ->> Ticker: Send IncrementMsg
+    EngineTickerClient ->> Ticker: Send TickerMsgIncrement
     Note over Ticker: Counter = 1
 
-    EngineTickerClient ->> Ticker: Send IncrementMsg
+    EngineTickerClient ->> Ticker: Send TickerMsgIncrement
     Note over Ticker: Counter = 2
 
-    EngineTickerClient ->> Ticker: Send CountMsg
+    EngineTickerClient ->> Ticker: Send TickerMsgCount
     Ticker ->> EngineTickerClient: Respond with Counter (2)
 ```
 

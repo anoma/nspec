@@ -3,9 +3,10 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-behaviour
+- engine
+- node
 tags:
-- mytag1
+- template-engine
 - engine-messages
 ---
 
@@ -29,7 +30,11 @@ tags:
     syntax alias MethodTwoArgOne := Nat;
     ```
 
-### MethodOneMsg
+### TemplateMsgMethodZero
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+### TemplateMsgMethodOne MethodOneMsg
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodOneMsg`-message:
@@ -55,7 +60,7 @@ type MethodOneMsg := mkMethodOneMsg {
   can describe more detail about the property about `argOne`
   and `argThree` mentioned above.
 
-### MethodTwoMsg
+### TemplateMsgMethodTwo MethodTwoMsg
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodTwoMsg` message:
@@ -76,11 +81,13 @@ type MethodTwoMsg := mkMethodTwoMsg {
 <!-- --8<-- [start:TemplateMsg] -->
 ```juvix
 type TemplateMsg :=
+  | TemplateMsgMethodZero
   | TemplateMsgMethodOne MethodOneMsg
   | TemplateMsgMethodTwo MethodTwoMsg
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->
+
 
 ## Example messages
 
@@ -88,7 +95,7 @@ type TemplateMsg :=
 ```juvix extract-module-statements
 module example-message-one;
   example_message_one : TemplateMsg :=
-    TemplateMethodOneMsg
+    TemplateMsgMethodOne
       (mkMethodOneMsg@{
         argOne := 1;
         argTwo := 2;
@@ -102,7 +109,7 @@ end;
 <!-- --8<-- [start:message_two_example] -->
 ```juvix extract-module-statements
 module message_two_example;
-  example_message_two : TemplateMsg := 
+  example_message_two : TemplateMsg :=
     TemplateMsgMethodTwo (mkMethodTwoMsg@{
     argOne := 1;
   });
