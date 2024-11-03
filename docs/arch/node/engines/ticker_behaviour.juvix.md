@@ -175,7 +175,7 @@ D --> F([DoIncrement])
 </figure>
 
 <!-- --8<-- [start:incrementGuard] -->
-```juvix
+```TODO
 incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
   (env : TickerEnvironment) : Option TickerGuardOutput
@@ -207,7 +207,7 @@ D --> F([DoRespond])
 </figure>
 
 <!-- --8<-- [start:countGuard] -->
-```juvix
+```
 countGuard
   (t : TimestampedTrigger TickerTimerHandle)
   (env : TickerEnvironment) : Option TickerGuardOutput
@@ -219,7 +219,7 @@ countGuard
         whoAsked := some sender;
         mailbox := none
         })];
-      actionLabel := DoRespond;
+      actionLabel := TickerActionLabelDoRespond;
       precomputationTasks := unit
       });
   }
@@ -232,9 +232,9 @@ countGuard
 
 ??? quote "Auxiliary Juvix code"
 
-    Type alias for the action function.
+    ### TickerActionInput
 
-    ```juvix
+    ```
     TickerActionInput : Type :=
       ActionInput
         TickerLocalState
@@ -243,7 +243,11 @@ countGuard
         TickerMatchableArgument
         TickerActionLabel
         TickerPrecomputation;
+    ```
 
+    ### TickerActionEffect
+
+    ```
     TickerActionEffect : Type :=
       ActionEffect
         TickerLocalState
@@ -307,7 +311,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 
 ### Conflict solver
 
-```juvix
+```
 tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
