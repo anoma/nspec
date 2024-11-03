@@ -29,7 +29,7 @@ tags:
     syntax alias MethodTwoArgOne := Nat;
     ```
 
-### MethodOneMsg 
+### MethodOneMsg
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodOneMsg`-message:
@@ -87,8 +87,8 @@ type TemplateMsg :=
 <!-- --8<-- [start:example-message-one] -->
 ```juvix extract-module-statements
 module example-message-one;
-  example_message_one : TemplateMsg := 
-    TemplateMethodOneMsg 
+  example_message_one : TemplateMsg :=
+    TemplateMethodOneMsg
       (mkMethodOneMsg@{
         argOne := 1;
         argTwo := 2;
@@ -125,7 +125,7 @@ sequenceDiagram
     participant Template
     participant EngineTemplateClient
 
-    EngineTemplateClient ->> Template: Send templateMethodOneMsg 
+    EngineTemplateClient ->> Template: Send templateMethodOneMsg
     Template ->> EngineTemplateClient: Respond with templateMethodOneMsg
 ```
 

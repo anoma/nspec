@@ -50,7 +50,7 @@ labels, we describe the effects of the actions.
     ```
     <!-- --8<-- [end:AnotherActionLabel] -->
 
-### DoAlternative 
+### DoAlternative
 
 <!-- --8<-- [start:DoAlternative] -->
 ```juvix
@@ -166,7 +166,7 @@ type FirstOptionMatchableArgument := mkFirstOptionMatchableArgument {
 };
 ```
 <!-- --8<-- [end:FirstOptionMatchableArgument] -->
-  
+
 ### SecondOptionMatchableArgument
 
 <!-- --8<-- [start:SecondOptionMatchableArgument] -->
@@ -194,8 +194,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     <!-- --8<-- [start:message_one_example] -->
     ```juvix extract-module-statements
     module message_one_example;
-      one : TemplateMatchableArgument := 
-        TemplateMatchableArgumentFirstOption 
+      one : TemplateMatchableArgument :=
+        TemplateMatchableArgumentFirstOption
           (mkFirstOptionMatchableArgument@{data := 1});
     end;
     ```
@@ -205,7 +205,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     ```juvix extract-module-statements
     module some_thing_from_a_mailbox;
       someThingFromAMailboxExample : TemplateMatchableArgument :=
-        TemplateMatchableArgumentSecondOption 
+        TemplateMatchableArgumentSecondOption
           (mkSecondOptionMatchableArgument@{data := "Hello World!"});
     end;
     ```
@@ -220,7 +220,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     syntax alias SomeMessageType := Nat;
     ```
     <!-- --8<-- [end:pseudo-example-auxiliary-code] -->
-    
+
 Precomputation results are the results of the precomputation phase.
 
 ### DeleteMessage
@@ -291,7 +291,7 @@ performed as part of processing a message.
 
 <!-- --8<-- [start:TemplateGuard] -->
 ```juvix
-TemplateGuard : Type := 
+TemplateGuard : Type :=
   Guard
     TemplateLocalState
     TemplateMailboxState
@@ -326,7 +326,7 @@ messageOneGuard : TemplateGuard
   | _ _ :=  some (
     mkGuardOutput@{
       args := [
-        (TemplateMatchableArgumentSecondOption 
+        (TemplateMatchableArgumentSecondOption
           (mkSecondOptionMatchableArgument@{data := "Hello World!"}))
       ];
       label := TemplateActionLabelDoAlternative (left (DoThis "paramneter 2"));
