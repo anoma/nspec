@@ -10,12 +10,6 @@
       mkPoetryOverrides = pkgs: defaultPoetryOverrides:
         defaultPoetryOverrides.extend
           (self: super: {
-            mkdocs-enumerate-headings-plugin = super.mkdocs-enumerate-headings-plugin.overridePythonAttrs
-              (
-                old: {
-                  buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools ];
-                }
-              );
             mkdocs-glightbox = super.mkdocs-glightbox.overridePythonAttrs
               (
                 old: {
@@ -50,12 +44,6 @@
               (
                 old: {
                   buildInputs = (old.buildInputs or [ ]) ++ [ super.hatchling ];
-                }
-              );
-            super-collections = super.super-collections.overridePythonAttrs
-              (
-                old: {
-                  buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools ];
                 }
               );
             urllib3 = super.urllib3.overridePythonAttrs
