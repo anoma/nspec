@@ -35,6 +35,8 @@ incrementing the counter and sending the current counter value.
 
 ## Action labels
 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
 <!-- --8<-- [start:ticker-action-label] -->
 ```juvix
 type TickerActionLabel :=
@@ -126,8 +128,8 @@ syntax alias TickerPrecomputation := Unit;
 
     Type alias for the guard.
 
+    <!-- --8<-- [start:ticker-guard-type] -->
     ```juvix
-    -- --8<-- [start:ticker-guard]
     TickerGuard : Type :=
       Guard
         TickerLocalState
@@ -136,13 +138,16 @@ syntax alias TickerPrecomputation := Unit;
         TickerMatchableArgument
         TickerActionLabel
         TickerPrecomputation;
-    -- --8<-- [end:ticker-guard]
+    ```
+    <!-- --8<-- [end:ticker-guard-type] -->
 
-    -- --8<-- [start:ticker-guard-output]
+
+    <!-- --8<-- [start:ticker-guard-output-type] -->
+    ```juvix
     TickerGuardOutput : Type :=
       GuardOutput TickerMatchableArgument TickerActionLabel TickerPrecomputation;
-    -- --8<-- [end:ticker-guard-output]
     ```
+    <!-- --8<-- [end:ticker-guard-output-type] -->
 
 
 ### `incrementGuard`

@@ -67,4 +67,4 @@ exampleTemplateEngine : TemplateEngine := mkEngine@{
 
 where `templateEnvironmentExample` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnvironmentExample"

@@ -6,7 +6,6 @@ categories:
 - engine-behaviour
 - juvix-module
 tags:
-- mytag1
 - engine-environment
 ---
 
@@ -29,30 +28,36 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Mailbox states
 
-<!-- --8<-- [start:mailbox_auxiliary] -->
 ??? quote "Auxiliary Juvix code"
 
+    <!-- --8<-- [start:MailboxOneOne] -->
     ```juvix
     syntax alias MailboxOneOne := Nat;
+    ```
+    <!-- --8<-- [end:MailboxOneOne] -->
+
+    <!-- --8<-- [start:MailboxTwoOne] -->
+    ```juvix
     syntax alias MailboxTwoOne := String;
+    ```
+    <!-- --8<-- [end:MailboxTwoOne] -->
+
+    <!-- --8<-- [start:MailboxTwoTwo] -->
+    ```juvix
     syntax alias MailboxTwoTwo := Bool;
     ```
-<!-- --8<-- [end:mailbox_auxiliary] -->
+    <!-- --8<-- [end:MailboxTwoTwo] -->
 
-<!-- --8<-- [start:TemplateMailboxState] -->
+### FirstKindMailboxState
+
+<!-- --8<-- [start:FirstKindMailboxState] -->
 ```juvix
-type TemplateMailboxState :=
-| -- --8<-- [start:TemplateMailboxStateOne]
-  TemplateMailboxStateOne { fieldOne : MailboxOneOne }
-  -- --8<-- [end:TemplateMailboxStateOne]
-| -- --8<-- [start:TemplateMailboxStateTwo]
-  TemplateMailboxStateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
-  -- --8<-- [end:TemplateMailboxStateTwo]
-;
+type FirstKindMailboxState := mkFirstKindMailboxState {
+  fieldOne : MailboxOneOne
+};
 ```
-<!-- --8<-- [end:TemplateMailboxState] -->
+<!-- --8<-- [end:FirstKindMailboxState] -->
 
-### `TemplateMailboxStateOne`
 
 This is one family of mailbox states without much complexity.
 
@@ -60,7 +65,16 @@ This is one family of mailbox states without much complexity.
 
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateMailboxStateTwo`
+### SecondKindMailboxState
+
+<!-- --8<-- [start:SecondKindMailboxState] -->
+```juvix
+type SecondKindMailboxState := mkSecondKindMailboxState {
+  fieldOne : MailboxTwoOne;
+  fieldTwo : MailboxTwoTwo
+};
+```
+<!-- --8<-- [end:SecondKindMailboxState] -->
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -72,82 +86,95 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+### TemplateMailboxState
+
+<!-- --8<-- [start:TemplateMailboxState] -->
+```juvix
+type TemplateMailboxState :=
+  | TemplateMailboxStateFirstKind FirstKindMailboxState
+  | TemplateMailboxStateSecondKind SecondKindMailboxState;
+```
+<!-- --8<-- [end:TemplateMailboxState] -->
+
 ## Local state
 
 ??? quote "Auxiliary Juvix code"
 
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+    <!-- --8<-- [start:NiceState] -->
     ```juvix
     type NiceState := mkNiceState { word : String };
     ```
+    <!-- --8<-- [end:NiceState] -->
 
-    `stringRepresentation`
+    `word`
 
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-
 <!-- --8<-- [start:TemplateLocalState] -->
 ```juvix
-type TemplateLocalState := mkTemplateLocalState {
-      taskQueue : NiceState
+type TemplateLocalState :=
+  mkTemplateLocalState {
+    taskQueue : NiceState
 };
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
-
 
 ## Timer handles
 
 ??? quote "Auxiliary Juvix code"
 
+    <!-- --8<-- [start:ArgOne] -->
     ```juvix
     syntax alias ArgOne := Nat;
     ```
+    <!-- --8<-- [end:ArgOne] -->
+### FirstOptionTimerHandle
 
-<!-- --8<-- [start:TemplateTimerHandle] -->
+<!-- --8<-- [start:FirstOptionTimerHandle] -->
 ```juvix
-type TemplateTimerHandle :=
-  | -- --8<-- [start:TemplateTimerHandleOne]
-    TemplateTimerHandleOne { argOne : ArgOne }
-    -- --8<-- [end:TemplateTimerHandleOne]
-  | -- --8<-- [start:TemplateTimerHandleTwo]
-    TemplateTimerHandleTwo { argOne : String; argTwo : Bool }
-    -- --8<-- [end:TemplateTimerHandleTwo]
-  ;
+type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
+  argOne : ArgOne
+};
 ```
-<!-- --8<-- [end:TemplateTimerHandle] -->
-
-### `TemplateTimerHandleOne`
+<!-- --8<-- [end:FirstOptionTimerHandle] -->
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
 an example of this case.
-
-```juvix extract-module-statements
-module handle_one_example;
-
-  handleOneExample : TemplateTimerHandle := TemplateTimerHandleOne@{
-    argOne := 7;
-  };
-end;
-```
 
 `argOne`
 
 : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateTimerHandleTwo`
+### SecondOptionTimerHandle
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
-an example of this case.
-
-```juvix extract-module-statements
-module handle_two_example;
-
-  handleTwoExample : TemplateTimerHandle := TemplateTimerHandleTwo@{
-    argOne := "hello"; argTwo := true;
-  };
-end;
+<!-- --8<-- [start:SecondOptionTimerHandle] -->
+```juvix
+type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
+  argOne : String;
+  argTwo : Bool
+};
 ```
+<!-- --8<-- [end:SecondOptionTimerHandle] -->
+
+`argOne`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+`argTwo`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+### TemplateTimerHandle
+
+<!-- --8<-- [start:TemplateTimerHandle] -->
+```juvix
+type TemplateTimerHandle :=
+  | TemplateTimerHandleFirstOption FirstOptionTimerHandle
+  | TemplateTimerHandleSecondOption SecondOptionTimerHandle;
+```
+<!-- --8<-- [end:TemplateTimerHandle] -->
 
 ## TemplateEnvironment type
 
@@ -155,15 +182,15 @@ end;
 ```juvix
 TemplateEnvironment : Type :=
   EngineEnvironment
-  TemplateLocalState
-  TemplateMailboxState
-  TemplateTimerHandle;
+    TemplateLocalState
+    TemplateMailboxState
+    TemplateTimerHandle;
 ```
 <!-- --8<-- [end:TemplateEnvironment] -->
 
 ## An example of a TemplateEnvironment
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:templateEnvironmentExample] -->
 ```juvix extract-module-statements
 module template_environment_example;
 
@@ -182,4 +209,4 @@ module template_environment_example;
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:templateEnvironmentExample] -->
