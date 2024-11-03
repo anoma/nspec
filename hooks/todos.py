@@ -45,7 +45,6 @@ class RTPreprocessor(Preprocessor):
     def run(self, lines: List[str]) -> List[str]:
         config = self.mkconfig
         current_page_url = None
-        current_page_abs = None
         preprocess_page = SHOW_TODOS_IN_MD
 
         if "current_page" in config and isinstance(config["current_page"], Page):
@@ -64,13 +63,13 @@ class RTPreprocessor(Preprocessor):
         without_todos = []
 
         offset = 1
-        if current_page_abs:
-            with open(current_page_abs, "r") as f:
-                first_line = f.readline()
-                if first_line.startswith("---"):
-                    while f.readline().strip() != "---":
-                        offset += 1
+        with open(current_page_abs, "r") as f:
+            first_line = f.readline()
+            if first_line.startswith("---"):
+                while f.readline().strip() != "---":
                     offset += 1
+                offset += 1
+
         I = 0
         while I < len(lines):
             line = lines[I]
