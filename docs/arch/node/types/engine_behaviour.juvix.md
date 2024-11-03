@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+icon: material/animation-play
 search:
   exclude: false
 tags:

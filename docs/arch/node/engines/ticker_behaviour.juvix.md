@@ -1,5 +1,5 @@
 ---
-icon: octicons/container-24
+icon: material/animation-play
 search:
   exclude: false
 categories:
@@ -35,12 +35,12 @@ incrementing the counter and sending the current counter value.
 
 ## Action labels
 
-### TickerActionLabelDoIncrement
+### TickerActionLabel constructors
 
-This action label corresponds to incrementing the counter and is
-relevant for the `TickerMsgIncrement` message.
+??? quote "TickerActionLabelDoIncrement"
 
-??? quote "`TickerActionLabelDoIncrement` action effect"
+    This action label corresponds to incrementing the counter and is
+    relevant for the `TickerMsgIncrement` message.
 
     This action does the following:
 
@@ -51,12 +51,10 @@ relevant for the `TickerMsgIncrement` message.
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-### TickerActionLabelDoRespond
+??? quote "TickerActionLabelDoRespond"
 
-This action label corresponds to responding with the current counter value and
-is relevant for the `TickerMsgCount` message.
-
-??? quote "`TickerActionLabelDoRespond` action effect"
+    This action label corresponds to responding with the current counter value
+    and is relevant for the `TickerMsgCount` message.
 
     This action does the following:
 
@@ -80,23 +78,25 @@ type TickerActionLabel :=
 
 ## Matchable arguments
 
-### ReplyTo
+### TickerMatchableArgument constructors
 
-```juvix
-type ReplyTo := mkReplyTo {
-  whoAsked : Option EngineID;
-  mailbox : Option MailboxID;
-};
-```
+??? quote "TickerMatchableArgumentReplyTo ReplyTo"
 
-This matchable argument contains the address and mailbox ID of where the
-response message should be sent.
+    ```juvix
+    type ReplyTo := mkReplyTo {
+      whoAsked : Option EngineID;
+      mailbox : Option MailboxID;
+    };
+    ```
 
-`whoAsked`:
-: is the address of the engine that sent the message.
+    This matchable argument contains the address and mailbox ID of where the
+    response message should be sent.
 
-`mailbox`:
-: is the mailbox ID where the response message should be sent.
+    `whoAsked`:
+    : is the address of the engine that sent the message.
+
+    `mailbox`:
+    : is the mailbox ID where the response message should be sent.
 
 ### TickerMatchableArgument
 
@@ -108,23 +108,21 @@ type TickerMatchableArgument :=
 ```
 <!-- --8<-- [end:TickerMatchableArgument] -->
 
-## Precomputation results
+## Precomputation tasks results
 
 The Ticker engine does not require any non-trivial pre-computations.
 
 ### TickerPrecomputationEntry
 
-<!-- --8<-- [start:TickerPrecomputationEntry] -->
 ```juvix
 syntax alias TickerPrecomputationEntry := Unit;
 ```
-<!-- --8<-- [end:TickerPrecomputationEntry] -->
 
 ### TickerPrecomputation
 
 <!-- --8<-- [start:TickerPrecomputation] -->
 ```juvix
-TickerPrecomputation : Type := List TickerPrecomputationEntry;
+TickerPrecomputationList : Type := List TickerPrecomputationEntry;
 ```
 <!-- --8<-- [end:TickerPrecomputation] -->
 
@@ -143,7 +141,7 @@ TickerPrecomputation : Type := List TickerPrecomputationEntry;
         TickerMailboxState
         TickerMatchableArgument
         TickerActionLabel
-        TickerPrecomputation;
+        TickerPrecomputationList;
     ```
     <!-- --8<-- [end:TickerGuard] -->
 
@@ -155,7 +153,7 @@ TickerPrecomputation : Type := List TickerPrecomputationEntry;
       GuardOutput
         TickerMatchableArgument
         TickerActionLabel
-        TickerPrecomputation;
+        TickerPrecomputationList;
     ```
     <!-- --8<-- [end:TickerGuardOutput] -->
 
@@ -245,7 +243,7 @@ countGuard
         TickerTimerHandle
         TickerMatchableArgument
         TickerActionLabel
-        TickerPrecomputation;
+        TickerPrecomputationList;
     ```
 
     ### TickerActionEffect
@@ -258,7 +256,7 @@ countGuard
         TickerTimerHandle
         TickerMatchableArgument
         TickerActionLabel
-        TickerPrecomputation;
+        TickerPrecomputationList;
     ```
 
     ### TickerActionFunction
@@ -271,7 +269,7 @@ countGuard
         TickerTimerHandle
         TickerMatchableArgument
         TickerActionLabel
-        TickerPrecomputation;
+        TickerPrecomputationList;
     ```
 
 ### tickerAction
@@ -286,7 +284,9 @@ received, actioned by the `TickerActionLabelDoRespond` label.
 <!-- --8<-- [start:tickerAction] -->
 ```juvix
 tickerAction (input : TickerActionInput) : TickerActionEffect
-  := let env := ActionInput.env input; out := ActionInput.guardOutput input;
+  := let
+    env := ActionInput.env input;
+    out := ActionInput.guardOutput input;
   in case GuardOutput.actionLabel out of {
   | TickerActionLabelDoIncrement :=
     let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
@@ -334,11 +334,15 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
 
 ## Conflict solver
 
+### tickerConflictSolver
+
 ```juvix
 tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
 ```
 
-## TickerBehaviour
+## The Ticker behaviour
+
+### TickerBehaviour
 
 <!-- --8<-- [start:TickerBehaviour] -->
 ```juvix
@@ -349,11 +353,11 @@ TickerBehaviour : Type :=
     TickerTimerHandle
     TickerMatchableArgument
     TickerActionLabel
-    TickerPrecomputation;
+    TickerPrecomputationList;
 ```
 <!-- --8<-- [end:TickerBehaviour] -->
 
-## TickerBehaviour instance
+#### Instantiation
 
 <!-- --8<-- [start:TickerBehaviour-instance] -->
 ```juvix

@@ -105,7 +105,7 @@ type TemplateMsg :=
     <!-- --8<-- [end:example-message-zero] -->
 
     #### Example message one
-  
+
     <!-- --8<-- [start:example-message-one] -->
     ```juvix extract-module-statements
     module example-message-one;

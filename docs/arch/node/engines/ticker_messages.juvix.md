@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: material/message-draw
 search:
   exclude: false
 categories:
@@ -17,19 +17,19 @@ tags:
     import prelude open;
     ```
 
-# Ticker Messages
+# TickerMsg Message Interface
 
-## Message interface
+## TickerMsg Message Constructors
 
-### TickerMsgIncrement
+??? quote "TickerMsgIncrement"
 
-A `TickerMsgIncrement` message instructs the engine to increase the counter.
-This message doesn't require any arguments.
+    A `TickerMsgIncrement` message instructs the engine to increase the counter.
+    This message doesn't require any arguments.
 
-### TickerMsgCount
+??? quote "TickerMsgCount"
 
-A `TickerMsgCount` message requests the engine to send the current counter value back to
-the requester. This message doesn't require any arguments.
+    A `TickerMsgCount` message requests the engine to send the current counter value back to
+    the requester. This message doesn't require any arguments.
 
 ### TickerMsg
 
@@ -41,9 +41,8 @@ type TickerMsg :=
 ```
 <!-- --8<-- [end:TickerMsg] -->
 
-
-There are only two message tags: `IncrementMsg`, which increases the counter
-state of the ticker, and `CountMsg`, which the ticker responds to with the current
+There are only two message tags: `TickerMsgIncrement`, which increases the counter
+state of the ticker, and `TickerMsgCount`, which the ticker responds to with the current
 counter state.
 
 ## Ticker Interaction Diagram

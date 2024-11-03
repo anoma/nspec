@@ -106,7 +106,7 @@ labels, we describe the effects of the actions.
 
     This action consists of two components.
 
-    #### `Pair.fst`
+    *`Pair.fst`*
 
     This alternative does the following.
 
@@ -117,7 +117,7 @@ labels, we describe the effects of the actions.
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-    #### `Pair.snd`
+    *`Pair.snd`*
 
     This alternative does the following.
 
@@ -220,7 +220,7 @@ type TemplateMatchableArgument :=
     ```
     <!-- --8<-- [end:some_thing_from_a_mailbox] -->
 
-## Precomputation task results
+## Precomputation tasks results
 
 ??? quote "Auxiliary Juvix code"
 
@@ -230,11 +230,15 @@ type TemplateMatchableArgument :=
     ```
     <!-- --8<-- [end:pseudo-example-auxiliary-code] -->
 
-Precomputation task results are the results of the precomputation phase.
+Precomputation tasks results are the outcomes generated during the
+precomputation phase. These results are used to optimize and prepare the
+engine's state and environment before the main computation begins (by actions).
+The results of these tasks are then utilized by the engine to ensure efficient
+and accurate execution of its functions.
 
 ### TemplatePrecomputation constructors
 
-??? quote "TemplatePrecomputationTaskDeleteMessage DeleteMessage"
+??? quote "TemplatePrecomputationEntryDeleteMessage DeleteMessage"
 
     <!-- --8<-- [start:DeleteMessage] -->
     ```juvix
@@ -253,7 +257,7 @@ Precomputation task results are the results of the precomputation phase.
     `messageId`:
     : is the ID of the message to delete.
 
-??? quote "TemplatePrecomputationTaskCloseMailbox CloseMailbox"
+??? quote "TemplatePrecomputationEntryCloseMailbox CloseMailbox"
 
     <!-- --8<-- [start:CloseMailbox] -->
     ```juvix
@@ -268,13 +272,13 @@ Precomputation task results are the results of the precomputation phase.
     `mailboxId`:
     : is the ID of the mailbox to close.
 
-### TemplatePrecomputation
+### TemplatePrecomputationEntry
 
 <!-- --8<-- [start:TemplatePrecomputation] -->
 ```juvix
-type TemplatePrecomputation :=
-  | TemplatePrecomputationTaskDeleteMessage DeleteMessage
-  | TemplatePrecomputationTaskCloseMailbox CloseMailbox
+type TemplatePrecomputationEntry :=
+  | TemplatePrecomputationEntryDeleteMessage DeleteMessage
+  | TemplatePrecomputationEntryCloseMailbox CloseMailbox
   ;
 ```
 <!-- --8<-- [end:TemplatePrecomputation] -->
@@ -283,7 +287,7 @@ type TemplatePrecomputation :=
 
 <!-- --8<-- [start:TemplatePrecomputationList] -->
 ```juvix
-TemplatePrecomputationList : Type := List TemplatePrecomputation;
+TemplatePrecomputationList : Type := List TemplatePrecomputationEntry;
 ```
 <!-- --8<-- [end:TemplatePrecomputationList] -->
 
@@ -344,12 +348,12 @@ messageOneGuard : TemplateGuard
       actionLabel := TemplateActionLabelDoAlternative
         (left (DoThis "parameter 2"));
       precomputationTasks := [
-        TemplatePrecomputationTaskCloseMailbox (
+        TemplatePrecomputationEntryCloseMailbox (
           mkCloseMailbox@{
             mailboxId := 1
           }
         );
-        TemplatePrecomputationTaskDeleteMessage (
+        TemplatePrecomputationEntryDeleteMessage (
           mkDeleteMessage@{
               messageType := 1337;
               messageId := 0}
@@ -376,7 +380,7 @@ The action function amounts to one single case statement.
         TemplateTimerHandle
         TemplateMatchableArgument
         TemplateActionLabel
-        TemplatePrecomputation;
+        TemplatePrecomputationList;
     ```
     <!-- --8<-- [end:TemplateActionInput] -->
 
@@ -391,7 +395,7 @@ The action function amounts to one single case statement.
         TemplateTimerHandle
         TemplateMatchableArgument
         TemplateActionLabel
-        TemplatePrecomputation;
+        TemplatePrecomputationList;
     ```
     <!-- --8<-- [end:TemplateActionEffect] -->
 
@@ -459,6 +463,7 @@ templateConflictSolver :
 ## The Template behaviour
 
 ### TemplateBehaviour
+
 <!-- --8<-- [start:TemplateBehaviour] -->
 ```juvix
 TemplateBehaviour : Type :=
@@ -472,10 +477,7 @@ TemplateBehaviour : Type :=
 ```
 <!-- --8<-- [end:TemplateBehaviour] -->
 
-### Instantiation
-
-The following is what the Template engine really does. It defines the guards,
-action function, and conflict solver.
+#### Instantiation
 
 <!-- --8<-- [start:templateBehaviour] -->
 ```juvix

@@ -54,7 +54,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-  
+
 ??? quote "TemplateMailboxStateSecondKind SecondKindMailboxState"
 
     <!-- --8<-- [start:SecondKindMailboxState] -->
