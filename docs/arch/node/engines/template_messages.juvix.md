@@ -12,6 +12,7 @@ tags:
 
 ??? quote "Juvix imports"
 
+    === "Juvix"
     ```juvix
     module arch.node.engines.template_messages;
     import prelude open;
@@ -25,6 +26,7 @@ These are the messages that the Template engine can receive/respond to.
 
 ??? quote "Auxiliary Juvix code"
 
+    === "Juvix"
     ```juvix
     syntax alias MethodOneArgOne := Nat;
     syntax alias MethodOneArgTwo := Nat;
@@ -42,6 +44,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodOneMsg`-message:
 
 <!-- --8<-- [start:MethodOneMsg] -->
+=== "Juvix"
 ```juvix
 type MethodOneMsg := mkMethodOneMsg {
   argOne : MethodOneArgOne;
@@ -70,6 +73,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodTwoMsg` message:
 
 <!-- --8<-- [start:MethodTwoMsg] -->
+=== "Juvix"
 ```juvix
 type MethodTwoMsg := mkMethodTwoMsg {
   argOne : MethodTwoArgOne;
@@ -87,6 +91,7 @@ type MethodTwoMsg := mkMethodTwoMsg {
 Example request.
 
 <!-- --8<-- [start:ExampleRequest] -->
+=== "Juvix"
 ```juvix
 type ExampleRequest : Type :=
   mkExampleRequest {
@@ -113,6 +118,7 @@ Reply to an `ExampleRequest`.
 Example OK reply.
 
 <!-- --8<-- [start:ExampleReplyOk] -->
+=== "Juvix"
 ```juvix
 type ExampleReplyOk : Type :=
   mkExampleReplyOk {
@@ -131,6 +137,7 @@ type ExampleReplyOk : Type :=
 Example error reply.
 
 <!-- --8<-- [start:ExampleReplyError] -->
+=== "Juvix"
 ```juvix
 type ExampleReplyError : Type :=
   | ExampleErrorOne
@@ -150,6 +157,7 @@ type ExampleReplyError : Type :=
 #### `ExampleReply`
 
 <!-- --8<-- [start:ExampleReply] -->
+=== "Juvix"
 ```juvix
 ExampleReply : Type := Result ExampleReplyOk ExampleReplyError;
 ```
@@ -158,6 +166,7 @@ ExampleReply : Type := Result ExampleReplyOk ExampleReplyError;
 ### `TemplateMsg`
 
 <!-- --8<-- [start:TemplateMsg] -->
+=== "Juvix"
 ```juvix
 type TemplateMsg :=
   | MsgTemplateMethodZero
