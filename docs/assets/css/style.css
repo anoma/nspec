@@ -132,3 +132,7 @@ a.version-link {
   margin: 0;
   padding: 0;
 }
+
+.md-typeset .tabbed-set {
+  margin: 0;
+}
