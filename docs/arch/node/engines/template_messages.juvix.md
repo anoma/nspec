@@ -92,47 +92,6 @@ type TemplateMsg :=
 ```
 <!-- --8<-- [end:TemplateMsg] -->
 
-??? quote "Example of TemplateMsg-messages"
-
-    #### Example message without arguments
-
-    <!-- --8<-- [start:example-message-zero] -->
-    ```juvix extract-module-statements
-    module example-message-zero;
-      example_message_zero : TemplateMsg := TemplateMsgMethodZero;
-    end;
-    ```
-    <!-- --8<-- [end:example-message-zero] -->
-
-    #### Example message one
-
-    <!-- --8<-- [start:example-message-one] -->
-    ```juvix extract-module-statements
-    module example-message-one;
-      example_message_one : TemplateMsg :=
-        TemplateMsgMethodOne
-          (mkMethodOneMsg@{
-            argOne := 1;
-            argTwo := 2;
-            argThree := 3;
-          });
-    end;
-    ```
-    <!-- --8<-- [end:example-message-one] -->
-
-    #### Example message two
-    <!-- --8<-- [start:message_two_example] -->
-    ```juvix extract-module-statements
-    module message_two_example;
-      example_message_two : TemplateMsg :=
-        TemplateMsgMethodTwo (mkMethodTwoMsg@{
-        argOne := 1;
-      });
-    end;
-    ```
-    <!-- --8<-- [end:message_two_example] -->
-
-
 ## TemplateMsg Sequence Diagrams
 
 ### Message Diagram 1

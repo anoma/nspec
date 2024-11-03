@@ -139,17 +139,6 @@ type TemplateActionLabel :=
 ```
 <!-- --8<-- [end:TemplateActionLabel] -->
 
-??? quote "Examples of using `TemplateActionLabel`"
-
-    <!-- --8<-- [start:do-alternative-example] -->
-    ```juvix extract-module-statements
-    module do_alternative_example;
-    example : TemplateActionLabel :=
-    TemplateActionLabelDoAlternative (left (DoThis "do it!"));
-    end;
-    ```
-    <!-- --8<-- [end:do-alternative-example] -->
-
 ## Matchable arguments
 
 The matchable arguments correspond to the arguments that can be matched on in
