@@ -32,11 +32,11 @@ These are the messages that the Template engine can receive/respond to.
     syntax alias MethodTwoArgOne := Nat;
     ```
 
-### `TemplateMsgMethodZero`
+### `MsgTemplateMethodZero`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateMsgMethodOne MethodOneMsg`
+### `MsgTemplateMethodOne MethodOneMsg`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodOneMsg`-message:
@@ -64,7 +64,7 @@ type MethodOneMsg := mkMethodOneMsg {
       can describe more detail about the property about `argOne`
       and `argThree` mentioned above.
 
-### `TemplateMsgMethodTwo MethodTwoMsg`
+### `MsgTemplateMethodTwo MethodTwoMsg`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodTwoMsg` message:
@@ -82,7 +82,7 @@ type MethodTwoMsg := mkMethodTwoMsg {
     `argOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateMsgExampleRequest ExampleRequest`
+### `MsgTemplateExampleRequest ExampleRequest`
 
 Example request.
 
@@ -104,7 +104,7 @@ type ExampleRequest : Type :=
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateMsgExampleReply ExampleReply`
+### `MsgTemplateExampleReply ExampleReply`
 
 Reply to an `ExampleRequest`.
 
@@ -160,11 +160,11 @@ ExampleReply : Type := Result ExampleReplyOk ExampleReplyError;
 <!-- --8<-- [start:TemplateMsg] -->
 ```juvix
 type TemplateMsg :=
-  | TemplateMsgMethodZero
-  | TemplateMsgMethodOne MethodOneMsg
-  | TemplateMsgMethodTwo MethodTwoMsg
-  | TemplateMsgExampleRequest ExampleRequest
-  | TemplateMsgExampleReply ExampleReply
+  | MsgTemplateMethodZero
+  | MsgTemplateMethodOne MethodOneMsg
+  | MsgTemplateMethodTwo MethodTwoMsg
+  | MsgTemplateExampleRequest ExampleRequest
+  | MsgTemplateExampleReply ExampleReply
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->
