@@ -13,54 +13,48 @@ tags:
 
     ```juvix
     module arch.node.engines.ticker_messages;
+    import prelude open;
     ```
 
 # Ticker Messages
 
 ## Message interface
 
+### Increment
+
+```juvix
+syntax alias IncrementMsg := Unit;
+```
+
+An `IncrementMsg` message instructs the engine to increase the counter. This
+message doesn't require any arguments.
+
+### Count
+
+```juvix
+syntax alias CountMsg := Unit;
+```
+
+A `CountMsg` message requests the engine to send the current counter value back to
+the requester. This message doesn't require any arguments.
+
+
+### TickerMsg
+
 <!-- --8<-- [start:TickerMsg] -->
 ```juvix
 type TickerMsg :=
-    | -- --8<-- [start:Increment]
-    Increment
-    -- --8<-- [end:Increment]
-    | -- --8<-- [start:Count]
-    Count
-    -- --8<-- [end:Count]
+    | TickerMsgIncrement IncrementMsg
+    | TickerMsgCount CountMsg
 ```
 <!-- --8<-- [end:TickerMsg] -->
 
 
-There are only two message tags: `Increment`, which increases the counter state
-of the ticker, and `Count`, which the ticker responds to with the current
+There are only two message tags: `IncrementMsg`, which increases the counter
+state of the ticker, and `CountMsg`, which the ticker responds to with the current
 counter state.
 
-### `Increment` message
-
-!!! quote "Increment"
-
-    ```
-    --8<-- "./ticker_messages.juvix.md:Increment"
-    ```
-
-An `Increment` message instructs the engine to increase the counter. This
-message doesn't require any arguments.
-
-### `Count` message
-
-!!! quote "Count"
-
-    ```
-    --8<-- "./ticker_messages.juvix.md:Count"
-    ```
-
-A `Count` message requests the engine to send the current counter value back to
-the requester. This message doesn't require any arguments.
-
-## Message sequence diagrams
-
-### Ticker Interaction Diagram
+## Ticker Interaction Diagram
 
 This diagram represents a simple interaction between a `Ticker` engine instance
 and another entity sending increment requests and count requests.
@@ -73,13 +67,13 @@ sequenceDiagram
     participant Ticker
     participant EngineTickerClient
 
-    EngineTickerClient ->> Ticker: Send Increment
+    EngineTickerClient ->> Ticker: Send IncrementMsg
     Note over Ticker: Counter = 1
 
-    EngineTickerClient ->> Ticker: Send Increment
+    EngineTickerClient ->> Ticker: Send IncrementMsg
     Note over Ticker: Counter = 2
 
-    EngineTickerClient ->> Ticker: Send Count
+    EngineTickerClient ->> Ticker: Send CountMsg
     Ticker ->> EngineTickerClient: Respond with Counter (2)
 ```
 

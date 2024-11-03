@@ -76,8 +76,8 @@ type MethodTwoMsg := mkMethodTwoMsg {
 <!-- --8<-- [start:TemplateMsg] -->
 ```juvix
 type TemplateMsg :=
-  | TemplateMethodOneMsg MethodOneMsg
-  | TemplateMethodTwoMsg MethodTwoMsg
+  | TemplateMsgMethodOne MethodOneMsg
+  | TemplateMsgMethodTwo MethodTwoMsg
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->
@@ -102,7 +102,8 @@ end;
 <!-- --8<-- [start:message_two_example] -->
 ```juvix extract-module-statements
 module message_two_example;
-  example_message_two : TemplateMsg := TemplateMethodTwoMsg (mkMethodTwoMsg@{
+  example_message_two : TemplateMsg := 
+    TemplateMsgMethodTwo (mkMethodTwoMsg@{
     argOne := 1;
   });
 end;

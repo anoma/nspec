@@ -58,6 +58,7 @@ TickerEngine : Type := Engine
 
 ### Example of a ticker engine
 
+<!-- --8<-- [start:example-ticker-engine] -->
 ```juvix extract-module-statements
 exampleTickerEngine : TickerEngine := mkEngine@{
     name := "ticker";
@@ -65,7 +66,7 @@ exampleTickerEngine : TickerEngine := mkEngine@{
     initEnv := zeroTickerEnvironment;
   };
 ```
-
+<!-- --8<-- [end:example-ticker-engine] -->
 where `zeroTickerEnvironment` is defined as follows:
 
 --8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:environment-example"
