@@ -195,9 +195,9 @@ type TemplateMatchableArgument :=
 ```
 <!-- --8<-- [end:template-matchable-argument] -->
 
-### Examples
+??? quote "Examples of using `TemplateMatchableArgument`"
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
     <!-- --8<-- [start:message_one_example] -->
     ```juvix extract-module-statements
@@ -361,22 +361,59 @@ messageOneGuard : TemplateGuard
 
 The action function amounts to one single case statement.
 
-### TemplateActionFunction
+??? quote "Auxiliary Juvix code"
 
-<!-- --8<-- [start:TemplateActionFunction] -->
-```juvix
-TemplateActionFunction : Type :=
-  ActionFunction
-      TemplateLocalState
-      TemplateMailboxState
-      TemplateTimerHandle
-      TemplateMatchableArgument
-      TemplateActionLabel
-      TemplatePrecomputationTasks;
-```
-<!-- --8<-- [end:TemplateActionFunction] -->
+    ### TemplateActionInput
+
+    <!-- --8<-- [start:TemplateActionInput] -->
+    ```juvix
+    TemplateActionInput : Type :=
+      ActionInput
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        TemplateMatchableArgument
+        TemplateActionLabel
+        TemplatePrecomputationTasks;
+    ```
+    <!-- --8<-- [end:TemplateActionInput] -->
+
+    ### TemplateActionEffect
+
+    <!-- --8<-- [start:TemplateActionEffect] -->
+    ```juvix
+    TemplateActionEffect : Type :=
+      ActionEffect
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        TemplateMatchableArgument
+        TemplateActionLabel
+        TemplatePrecomputationTasks;
+    ```
+    <!-- --8<-- [end:TemplateActionEffect] -->
+
+    ### TemplateActionFunction
+
+    <!-- --8<-- [start:TemplateActionFunction] -->
+    ```juvix
+    TemplateActionFunction : Type :=
+      ActionFunction
+          TemplateLocalState
+          TemplateMailboxState
+          TemplateTimerHandle
+          TemplateMatchableArgument
+          TemplateActionLabel
+          TemplatePrecomputationTasks;
+    ```
+    <!-- --8<-- [end:TemplateActionFunction] -->
+
 
 ### templateAction
+
+Give a short description of the action function. The following action called
+`templateAction` does nothing. It preserves the environment, produces no messages,
+sets no timers, spawns no engines.
 
 <!-- --8<-- [start:templateAction] -->
 ```juvix
@@ -432,6 +469,9 @@ TemplateBehaviour : Type :=
 <!-- --8<-- [end:TemplateBehaviour] -->
 
 ## TemplateBehaviour instance
+
+The following is what the Template engine really does. It defines the guards,
+action function, and conflict solver.
 
 <!-- --8<-- [start:TemplateBehaviour-instance] -->
 ```juvix

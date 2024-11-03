@@ -129,6 +129,7 @@ type TemplateLocalState :=
     syntax alias ArgOne := Nat;
     ```
     <!-- --8<-- [end:ArgOne] -->
+
 ### FirstOptionTimerHandle
 
 <!-- --8<-- [start:FirstOptionTimerHandle] -->
