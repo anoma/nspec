@@ -164,8 +164,6 @@ type TemplateMsg :=
   | TemplateMsgMethodOne MethodOneMsg
   | TemplateMsgMethodTwo MethodTwoMsg
   | TemplateMsgExampleRequest ExampleRequest
-  | TemplateMsgExampleReplyOk ExampleReplyOk
-  | TemplateMsgExampleReplyError ExampleReplyError
   | TemplateMsgExampleReply ExampleReply
   ;
 ```
