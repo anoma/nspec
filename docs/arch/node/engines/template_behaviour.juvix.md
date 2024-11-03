@@ -1,5 +1,5 @@
 ---
-icon: octicons/container-24
+icon: material/animation-play
 search:
   exclude: false
 categories:
@@ -52,23 +52,23 @@ labels, we describe the effects of the actions.
     ```
     <!-- --8<-- [end:AnotherActionLabel] -->
 
-### TemplateActionLabelDoOneThing
+### TemplateActionLabel constructors
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+??? quote "TemplateActionLabelDoOneThing"
 
-### TemplateActionLabelDoAlternative
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-<!-- --8<-- [start:DoAlternative] -->
-```juvix
-DoAlternative : Type := Either SomeActionLabel AnotherActionLabel;
-```
-<!-- --8<-- [end:DoAlternative] -->
+??? quote "TemplateActionLabelDoAlternative DoAlternative"
 
-This action label corresponds to performing the `doAlternative` action.
+    <!-- --8<-- [start:DoAlternative] -->
+    ```juvix
+    DoAlternative : Type := Either SomeActionLabel AnotherActionLabel;
+    ```
+    <!-- --8<-- [end:DoAlternative] -->
 
-??? quote "`DoAlternative` action effect"
+    This action label corresponds to performing the `doAlternative` action.
 
-    #### `Either.left`
+    *`Either.left`*
 
     This alternative does the following.
 
@@ -80,7 +80,7 @@ This action label corresponds to performing the `doAlternative` action.
     | Timer updates         | No timers are set or cancelled. |
     | Acquaintance updates  | None |
 
-    #### `Either.right`
+    *`Either.right`*
 
     This alternative does the following.
 
@@ -92,19 +92,17 @@ This action label corresponds to performing the `doAlternative` action.
     | Timer updates         | No timers are set or cancelled. |
     | Spawned engines       | No engines are spawned by this action. |
 
+??? quote "TemplateActionLabelDoBoth DoBoth"
 
-### TemplateActionLabelDoBoth
+    <!-- --8<-- [start:DoBoth] -->
+    ```juvix
+    DoBoth : Type := Pair SomeActionLabel AnotherActionLabel;
+    ```
+    <!-- --8<-- [end:DoBoth] -->
 
-<!-- --8<-- [start:DoBoth] -->
-```juvix
-DoBoth : Type := Pair SomeActionLabel AnotherActionLabel;
-```
-<!-- --8<-- [end:DoBoth] -->
+    This action label corresponds to performing both the `SomeActionLabel` and the
+    `AnotherActionLabel`.
 
-This action label corresponds to performing both the `SomeActionLabel` and the
-`AnotherActionLabel`.
-
-??? quote "`DoBoth` action effect"
 
     This action consists of two components.
 
@@ -130,6 +128,7 @@ This action label corresponds to performing both the `SomeActionLabel` and the
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
+### TemplateActionLabel
 <!-- --8<-- [start:TemplateActionLabel] -->
 ```juvix
 type TemplateActionLabel :=
@@ -140,17 +139,16 @@ type TemplateActionLabel :=
 ```
 <!-- --8<-- [end:TemplateActionLabel] -->
 
+??? quote "Examples of using `TemplateActionLabel`"
 
-### Examples
-
-<!-- --8<-- [start:do-alternative-example] -->
-```juvix extract-module-statements
-module do_alternative_example;
-  example : TemplateActionLabel :=
+    <!-- --8<-- [start:do-alternative-example] -->
+    ```juvix extract-module-statements
+    module do_alternative_example;
+    example : TemplateActionLabel :=
     TemplateActionLabelDoAlternative (left (DoThis "do it!"));
-end;
-```
-<!-- --8<-- [end:do-alternative-example] -->
+    end;
+    ```
+    <!-- --8<-- [end:do-alternative-example] -->
 
 ## Matchable arguments
 
@@ -165,27 +163,30 @@ guards. The data matched on is passed to the action function.
     ```
     <!-- --8<-- [end:Val] -->
 
-### FirstOptionMatchableArgument
+### TemplateMatchableArgument constructors
 
-<!-- --8<-- [start:FirstOptionMatchableArgument] -->
-```juvix
-type FirstOptionMatchableArgument := mkFirstOptionMatchableArgument {
-  data : Val;
-};
-```
-<!-- --8<-- [end:FirstOptionMatchableArgument] -->
+??? quote "TemplateMatchableArgumentFirstOption FirstOptionMatchableArgument"
 
-### SecondOptionMatchableArgument
+    <!-- --8<-- [start:FirstOptionMatchableArgument] -->
+    ```juvix
+    type FirstOptionMatchableArgument := mkFirstOptionMatchableArgument {
+      data : Val;
+    };
+    ```
+    <!-- --8<-- [end:FirstOptionMatchableArgument] -->
 
-<!-- --8<-- [start:SecondOptionMatchableArgument] -->
-```juvix
-type SecondOptionMatchableArgument := mkSecondOptionMatchableArgument {
-  data : String;
-};
-```
-<!-- --8<-- [end:SecondOptionMatchableArgument] -->
+??? quote "TemplateMatchableArgumentSecondOption SecondOptionMatchableArgument"
+
+    <!-- --8<-- [start:SecondOptionMatchableArgument] -->
+    ```juvix
+    type SecondOptionMatchableArgument := mkSecondOptionMatchableArgument {
+    data : String;
+    };
+    ```
+    <!-- --8<-- [end:SecondOptionMatchableArgument] -->
 
 ### TemplateMatchableArgument
+
 <!-- --8<-- [start:template-matchable-argument] -->
 ```juvix
 type TemplateMatchableArgument :=
@@ -219,7 +220,7 @@ type TemplateMatchableArgument :=
     ```
     <!-- --8<-- [end:some_thing_from_a_mailbox] -->
 
-## Precomputation tasks results
+## Precomputation task results
 
 ??? quote "Auxiliary Juvix code"
 
@@ -229,63 +230,64 @@ type TemplateMatchableArgument :=
     ```
     <!-- --8<-- [end:pseudo-example-auxiliary-code] -->
 
-Precomputation tasks results are the results of the precomputation phase.
+Precomputation task results are the results of the precomputation phase.
 
-### DeleteMessage
+### TemplatePrecomputation constructors
 
-<!-- --8<-- [start:DeleteMessage] -->
+??? quote "TemplatePrecomputationTaskDeleteMessage DeleteMessage"
+
+    <!-- --8<-- [start:DeleteMessage] -->
+    ```juvix
+    type DeleteMessage := mkDeleteMessage {
+      messageType : SomeMessageType;
+      messageId : Nat;
+    };
+    ```
+    <!-- --8<-- [end:DeleteMessage] -->
+
+    We delete the given message from the mailbox with the mailbox ID.
+
+    `messageType`:
+    : is the type of the message to delete.
+
+    `messageId`:
+    : is the ID of the message to delete.
+
+??? quote "TemplatePrecomputationTaskCloseMailbox CloseMailbox"
+
+    <!-- --8<-- [start:CloseMailbox] -->
+    ```juvix
+    type CloseMailbox := mkCloseMailbox {
+    mailboxId : Nat;
+    };
+    ```
+    <!-- --8<-- [end:CloseMailbox] -->
+
+    We close the mailbox with the given mailbox ID.
+
+    `mailboxId`:
+    : is the ID of the mailbox to close.
+
+### TemplatePrecomputation
+
+<!-- --8<-- [start:TemplatePrecomputation] -->
 ```juvix
-type DeleteMessage := mkDeleteMessage {
-  messageType : SomeMessageType;
-  messageId : Nat;
-};
-```
-<!-- --8<-- [end:DeleteMessage] -->
-
-We delete the given message from the mailbox with the mailbox ID.
-
-`messageType`:
-: is the type of the message to delete.
-
-`messageId`:
-: is the ID of the message to delete.
-
-
-### CloseMailbox
-
-<!-- --8<-- [start:CloseMailbox] -->
-```juvix
-type CloseMailbox := mkCloseMailbox {
-  mailboxId : Nat;
-};
-```
-<!-- --8<-- [end:CloseMailbox] -->
-
-We close the mailbox with the given mailbox ID.
-
-`mailboxId`:
-: is the ID of the mailbox to close.
-
-### TemplatePrecomputationTask
-
-<!-- --8<-- [start:TemplatePrecomputationTask] -->
-```juvix
-type TemplatePrecomputationTask :=
+type TemplatePrecomputation :=
   | TemplatePrecomputationTaskDeleteMessage DeleteMessage
   | TemplatePrecomputationTaskCloseMailbox CloseMailbox
   ;
 ```
-<!-- --8<-- [end:TemplatePrecomputationTask] -->
+<!-- --8<-- [end:TemplatePrecomputation] -->
 
-### TemplatePrecomputationTasks
+### TemplatePrecomputationList
 
-<!-- --8<-- [start:TemplatePrecomputationTasks] -->
+<!-- --8<-- [start:TemplatePrecomputationList] -->
 ```juvix
-TemplatePrecomputationTasks : Type := List TemplatePrecomputationTask;
+TemplatePrecomputationList : Type := List TemplatePrecomputation;
 ```
-<!-- --8<-- [end:TemplatePrecomputationTasks] -->
+<!-- --8<-- [end:TemplatePrecomputationList] -->
 
-The precomputation tasks results consist of a list of `TemplatePrecomputationTask`
+The precomputation results consist of a list of `TemplatePrecomputation` terms.
 terms. Each entry can be either:
 
 1. A `DeleteMessage` entry indicating a message should be deleted from a mailbox
@@ -309,7 +311,7 @@ performed as part of processing a message.
         TemplateTimerHandle
         TemplateMatchableArgument
         TemplateActionLabel
-        TemplatePrecomputationTasks;
+        TemplatePrecomputationList;
     ```
     <!-- --8<-- [end:TemplateGuard] -->
 
@@ -321,7 +323,7 @@ performed as part of processing a message.
       GuardOutput
         TemplateMatchableArgument
         TemplateActionLabel
-        TemplatePrecomputationTasks;
+        TemplatePrecomputationList;
     ```
     <!-- --8<-- [end:TemplateGuardOutput] -->
 
@@ -374,7 +376,7 @@ The action function amounts to one single case statement.
         TemplateTimerHandle
         TemplateMatchableArgument
         TemplateActionLabel
-        TemplatePrecomputationTasks;
+        TemplatePrecomputation;
     ```
     <!-- --8<-- [end:TemplateActionInput] -->
 
@@ -389,7 +391,7 @@ The action function amounts to one single case statement.
         TemplateTimerHandle
         TemplateMatchableArgument
         TemplateActionLabel
-        TemplatePrecomputationTasks;
+        TemplatePrecomputation;
     ```
     <!-- --8<-- [end:TemplateActionEffect] -->
 
@@ -404,7 +406,7 @@ The action function amounts to one single case statement.
           TemplateTimerHandle
           TemplateMatchableArgument
           TemplateActionLabel
-          TemplatePrecomputationTasks;
+          TemplatePrecomputationList;
     ```
     <!-- --8<-- [end:TemplateActionFunction] -->
 
@@ -445,6 +447,7 @@ serializes guard execution, allowing only one guard to execute at a time.
 <!-- TODO: ask Tobias if he agrees with this description. So far, we have not
 used the conflict solver in any of our examples. -->
 
+### templateConflictSolver
 
 ```juvix
 templateConflictSolver :
@@ -453,8 +456,9 @@ templateConflictSolver :
   | _ := [];
 ```
 
-## TemplateBehaviour
+## The Template behaviour
 
+### TemplateBehaviour
 <!-- --8<-- [start:TemplateBehaviour] -->
 ```juvix
 TemplateBehaviour : Type :=
@@ -464,16 +468,16 @@ TemplateBehaviour : Type :=
     TemplateTimerHandle
     TemplateMatchableArgument
     TemplateActionLabel
-    TemplatePrecomputationTasks;
+    TemplatePrecomputationList;
 ```
 <!-- --8<-- [end:TemplateBehaviour] -->
 
-## TemplateBehaviour instance
+### Instantiation
 
 The following is what the Template engine really does. It defines the guards,
 action function, and conflict solver.
 
-<!-- --8<-- [start:TemplateBehaviour-instance] -->
+<!-- --8<-- [start:templateBehaviour] -->
 ```juvix
 templateBehaviour : TemplateBehaviour :=
   mkEngineBehaviour@{
@@ -483,4 +487,4 @@ templateBehaviour : TemplateBehaviour :=
   }
   ;
 ```
-<!-- --8<-- [end:TemplateBehaviour-instance] -->
+<!-- --8<-- [end:templateBehaviour] -->

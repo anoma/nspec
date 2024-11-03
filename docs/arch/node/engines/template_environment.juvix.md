@@ -25,65 +25,56 @@ tags:
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-## Mailbox states
+## Mailbox state types
 
 ??? quote "Auxiliary Juvix code"
 
-    <!-- --8<-- [start:MailboxOneOne] -->
     ```juvix
     syntax alias MailboxOneOne := Nat;
-    ```
-    <!-- --8<-- [end:MailboxOneOne] -->
-
-    <!-- --8<-- [start:MailboxTwoOne] -->
-    ```juvix
     syntax alias MailboxTwoOne := String;
-    ```
-    <!-- --8<-- [end:MailboxTwoOne] -->
-
-    <!-- --8<-- [start:MailboxTwoTwo] -->
-    ```juvix
     syntax alias MailboxTwoTwo := Bool;
     ```
-    <!-- --8<-- [end:MailboxTwoTwo] -->
 
-### FirstKindMailboxState
+### TemplateMailboxState constructors
 
-<!-- --8<-- [start:FirstKindMailboxState] -->
-```juvix
-type FirstKindMailboxState := mkFirstKindMailboxState {
-  fieldOne : MailboxOneOne
-};
-```
-<!-- --8<-- [end:FirstKindMailboxState] -->
+??? quote "TemplateMailboxStateFirstKind FirstKindMailboxState"
+
+    <!-- --8<-- [start:FirstKindMailboxState] -->
+    ```juvix
+    type FirstKindMailboxState := mkFirstKindMailboxState {
+      fieldOne : MailboxOneOne
+    };
+    ```
+    <!-- --8<-- [end:FirstKindMailboxState] -->
 
 
-This is one family of mailbox states without much complexity.
+    This is one family of mailbox states without much complexity.
 
-`fieldOne`
+    `fieldOne`
 
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### SecondKindMailboxState
+  
+??? quote "TemplateMailboxStateSecondKind SecondKindMailboxState"
 
-<!-- --8<-- [start:SecondKindMailboxState] -->
-```juvix
-type SecondKindMailboxState := mkSecondKindMailboxState {
-  fieldOne : MailboxTwoOne;
-  fieldTwo : MailboxTwoTwo
-};
-```
-<!-- --8<-- [end:SecondKindMailboxState] -->
+    <!-- --8<-- [start:SecondKindMailboxState] -->
+    ```juvix
+    type SecondKindMailboxState := mkSecondKindMailboxState {
+      fieldOne : MailboxTwoOne;
+      fieldTwo : MailboxTwoTwo
+    };
+    ```
+    <!-- --8<-- [end:SecondKindMailboxState] -->
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-`fieldOne`
+    `fieldOne`
 
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-`fieldTwo`
+    `fieldTwo`
 
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### TemplateMailboxState
 
@@ -101,21 +92,22 @@ type TemplateMailboxState :=
 
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-    <!-- --8<-- [start:NiceState] -->
+    <!-- --8<-- [start:CustomData] -->
     ```juvix
-    type NiceState := mkNiceState { word : String };
+    type CustomData := mkCustomData { word : String };
     ```
-    <!-- --8<-- [end:NiceState] -->
+    <!-- --8<-- [end:CustomData] -->
 
     `word`
 
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+### TemplateLocalState
 <!-- --8<-- [start:TemplateLocalState] -->
 ```juvix
 type TemplateLocalState :=
   mkTemplateLocalState {
-    taskQueue : NiceState
+    taskQueue : CustomData
 };
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
@@ -130,41 +122,43 @@ type TemplateLocalState :=
     ```
     <!-- --8<-- [end:ArgOne] -->
 
-### FirstOptionTimerHandle
+### TemplateTimerHandle constructors
 
-<!-- --8<-- [start:FirstOptionTimerHandle] -->
-```juvix
-type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
-  argOne : ArgOne
-};
-```
-<!-- --8<-- [end:FirstOptionTimerHandle] -->
+??? quote "FirstOptionTimerHandle"
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
-an example of this case.
+    <!-- --8<-- [start:FirstOptionTimerHandle] -->
+    ```juvix
+    type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
+      argOne : ArgOne
+    };
+    ```
+    <!-- --8<-- [end:FirstOptionTimerHandle] -->
 
-`argOne`
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
+    an example of this case.
 
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    `argOne`
 
-### SecondOptionTimerHandle
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-<!-- --8<-- [start:SecondOptionTimerHandle] -->
-```juvix
-type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
-  argOne : String;
-  argTwo : Bool
-};
-```
-<!-- --8<-- [end:SecondOptionTimerHandle] -->
+??? quote "SecondOptionTimerHandle"
 
-`argOne`
+    <!-- --8<-- [start:SecondOptionTimerHandle] -->
+    ```juvix
+    type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
+    argOne : String;
+    argTwo : Bool
+    };
+    ```
+    <!-- --8<-- [end:SecondOptionTimerHandle] -->
 
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    `argOne`
 
-`argTwo`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    `argTwo`
+
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### TemplateTimerHandle
 
@@ -176,7 +170,9 @@ type TemplateTimerHandle :=
 ```
 <!-- --8<-- [end:TemplateTimerHandle] -->
 
-## TemplateEnvironment type
+## The Template Environment
+
+### TemplateEnvironment
 
 <!-- --8<-- [start:TemplateEnvironment] -->
 ```juvix
@@ -188,17 +184,17 @@ TemplateEnvironment : Type :=
 ```
 <!-- --8<-- [end:TemplateEnvironment] -->
 
-## An example of a TemplateEnvironment
+#### Instantiation
 
-<!-- --8<-- [start:templateEnvironmentExample] -->
+<!-- --8<-- [start:templateEnvironment] -->
 ```juvix extract-module-statements
 module template_environment_example;
 
-  templateEnvironmentExample : TemplateEnvironment :=
+  templateEnvironment : TemplateEnvironment :=
     mkEngineEnvironment@ {
       name := "template";
       localState := mkTemplateLocalState@{
-        taskQueue := mkNiceState@{
+        taskQueue := mkCustomData@{
           word := "taskQueue"
         }
       };
@@ -209,4 +205,4 @@ module template_environment_example;
   ;
 end;
 ```
-<!-- --8<-- [end:templateEnvironmentExample] -->
+<!-- --8<-- [end:templateEnvironment] -->

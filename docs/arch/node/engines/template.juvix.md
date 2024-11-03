@@ -52,7 +52,7 @@ TemplateEngine : Type :=
     TemplateTimerHandle
     TemplateMatchableArgument
     TemplateActionLabel
-    TemplatePrecomputation;
+    TemplatePrecomputationList;
 ```
 <!-- --8<-- [end:TemplateEngine] -->
 
@@ -62,12 +62,16 @@ TemplateEngine : Type :=
 ```juvix
 exampleTemplateEngine : TemplateEngine := mkEngine@{
   name := "template";
+  initEnv := templateEnvironment;
   behaviour := templateBehaviour;
-  initEnv := templateEnvironmentExample;
 };
 ```
 <!-- --8<-- [end:TemplateEngine] -->
 
-where `templateEnvironmentExample` is defined as follows:
+where `templateEnvironment` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnvironmentExample"
+--8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnvironment"
+
+and `templateBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/template_behaviour.juvix.md:templateBehaviour"

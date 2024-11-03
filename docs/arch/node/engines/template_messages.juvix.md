@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: material/message-draw
 search:
   exclude: false
 categories:
@@ -19,6 +19,8 @@ tags:
 
 # Template Messages
 
+These are the messages that the Template engine can receive/respond to.
+
 ## Message interface
 
 ??? quote "Auxiliary Juvix code"
@@ -30,51 +32,53 @@ tags:
     syntax alias MethodTwoArgOne := Nat;
     ```
 
-### TemplateMsgMethodZero
+### TemplateMsg message constructors
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+??? quote "TemplateMsgMethodZero"
 
-### TemplateMsgMethodOne MethodOneMsg
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-The following is an example of a `MethodOneMsg`-message:
+??? quote "TemplateMsgMethodOne MethodOneMsg"
 
-<!-- --8<-- [start:MethodOneMsg] -->
-```juvix
-type MethodOneMsg := mkMethodOneMsg {
-  argOne : MethodOneArgOne;
-  argTwo : MethodOneArgTwo;
-  argThree : MethodOneArgThree;
-};
-```
-<!-- --8<-- [end:MethodOneMsg] -->
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    The following is an example of a `MethodOneMsg`-message:
 
-`argOne`
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    <!-- --8<-- [start:MethodOneMsg] -->
+    ```juvix
+    type MethodOneMsg := mkMethodOneMsg {
+      argOne : MethodOneArgOne;
+      argTwo : MethodOneArgTwo;
+      argThree : MethodOneArgThree;
+    };
+    ```
+    <!-- --8<-- [end:MethodOneMsg] -->
 
-`argTwo`
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    `argOne`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-`argThree`
-: This is the last argument and here we actually
-  can describe more detail about the property about `argOne`
-  and `argThree` mentioned above.
+    `argTwo`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### TemplateMsgMethodTwo MethodTwoMsg
+    `argThree`
+    : This is the last argument and here we actually
+      can describe more detail about the property about `argOne`
+      and `argThree` mentioned above.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-The following is an example of a `MethodTwoMsg` message:
+??? quote "TemplateMsgMethodTwo MethodTwoMsg"
 
-<!-- --8<-- [start:MethodTwoMsg] -->
-```juvix
-type MethodTwoMsg := mkMethodTwoMsg {
-  argOne : MethodTwoArgOne;
-};
-```
-<!-- --8<-- [end:MethodTwoMsg] -->
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    The following is an example of a `MethodTwoMsg` message:
 
-`argOne`
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    <!-- --8<-- [start:MethodTwoMsg] -->
+    ```juvix
+    type MethodTwoMsg := mkMethodTwoMsg {
+      argOne : MethodTwoArgOne;
+    };
+    ```
+    <!-- --8<-- [end:MethodTwoMsg] -->
+
+    `argOne`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### TemplateMsg
 
@@ -88,44 +92,55 @@ type TemplateMsg :=
 ```
 <!-- --8<-- [end:TemplateMsg] -->
 
+??? quote "Example of TemplateMsg-messages"
 
-## Example messages
+    #### Example message without arguments
 
-<!-- --8<-- [start:example-message-one] -->
-```juvix extract-module-statements
-module example-message-one;
-  example_message_one : TemplateMsg :=
-    TemplateMsgMethodOne
-      (mkMethodOneMsg@{
+    <!-- --8<-- [start:example-message-zero] -->
+    ```juvix extract-module-statements
+    module example-message-zero;
+      example_message_zero : TemplateMsg := TemplateMsgMethodZero;
+    end;
+    ```
+    <!-- --8<-- [end:example-message-zero] -->
+
+    #### Example message one
+  
+    <!-- --8<-- [start:example-message-one] -->
+    ```juvix extract-module-statements
+    module example-message-one;
+      example_message_one : TemplateMsg :=
+        TemplateMsgMethodOne
+          (mkMethodOneMsg@{
+            argOne := 1;
+            argTwo := 2;
+            argThree := 3;
+          });
+    end;
+    ```
+    <!-- --8<-- [end:example-message-one] -->
+
+    #### Example message two
+    <!-- --8<-- [start:message_two_example] -->
+    ```juvix extract-module-statements
+    module message_two_example;
+      example_message_two : TemplateMsg :=
+        TemplateMsgMethodTwo (mkMethodTwoMsg@{
         argOne := 1;
-        argTwo := 2;
-        argThree := 3;
       });
-end;
-```
-<!-- --8<-- [end:example-message-one] -->
+    end;
+    ```
+    <!-- --8<-- [end:message_two_example] -->
 
 
-<!-- --8<-- [start:message_two_example] -->
-```juvix extract-module-statements
-module message_two_example;
-  example_message_two : TemplateMsg :=
-    TemplateMsgMethodTwo (mkMethodTwoMsg@{
-    argOne := 1;
-  });
-end;
-```
-<!-- --8<-- [end:message_two_example] -->
+## TemplateMsg Sequence Diagrams
 
-
-## Message sequence diagrams
-
-### [Title of message sequence diagram ⟨𝑖⟩]
+### Message Diagram 1
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget
 sapien. Nulla facilisi.
 
-<!-- --8<-- [start:message-sequence-diagram] -->
+<!-- --8<-- [start:message-sequence-diagram-2] -->
 <figure markdown="span">
 
 ```mermaid
@@ -133,13 +148,13 @@ sequenceDiagram
     participant Template
     participant EngineTemplateClient
 
-    EngineTemplateClient ->> Template: Send templateMethodOneMsg
-    Template ->> EngineTemplateClient: Respond with templateMethodOneMsg
+    EngineTemplateClient ->> Template: Send TemplateMsgMethodOneMsg
+    Template ->> EngineTemplateClient: Respond with (Anoma.Msg X)
 ```
 
 <figcaption markdown="span">
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </figcaption>
 </figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
+<!-- --8<-- [end:message-sequence-diagram-2] -->
 
