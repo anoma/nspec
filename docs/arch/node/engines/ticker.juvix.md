@@ -61,7 +61,7 @@ TickerEngine : Type := Engine
 ```juvix extract-module-statements
 exampleTickerEngine : TickerEngine := mkEngine@{
     name := "ticker";
-    behaviour := TickerBehaviour;
+    behaviour := tickerBehaviour;
     initEnv := zeroTickerEnvironment;
   };
 ```
