@@ -41,7 +41,7 @@ A proving system must have the following properties:
 - **Completeness**: it must be possible to make a proof for a statement which is true.
 - **Soundness**: it must not be possible to make a proof for a statement which is false.
 
-Certain proving systems may also be **Zero-Knowledge**, meaning that the produced proofs reveal no information other than their own validity.
+Certain proving systems may also be **zero-Knowledge**, meaning that the produced proofs reveal no information other than their own validity.
 
 A proof $\pi$ for which $Verify(pr) = 1$ is considered valid.
 

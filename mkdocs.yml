@@ -71,8 +71,11 @@ nav:
                       - Nullifier: ./system_architecture/state/resource_machine/data_structures/resource/computable_components/nullifier.md
                       - Kind: ./system_architecture/state/resource_machine/data_structures/resource/computable_components/kind.md
                       - Delta: ./system_architecture/state/resource_machine/data_structures/resource/computable_components/delta.md
-                    - Action: ./system_architecture/state/resource_machine/data_structures/action.md
-                    - Transaction: ./system_architecture/state/resource_machine/data_structures/transaction.md
+                  - Action: 
+                    - ./system_architecture/state/resource_machine/data_structures/action.md
+                    - Resource logic proofs: ./system_architecture/state/resource_machine/data_structures/proof/logic.md
+                    - Compliance proofs: ./system_architecture/state/resource_machine/data_structures/proof/compliance.md
+                  - Transaction: ./system_architecture/state/resource_machine/data_structures/transaction.md
                 - Execution flow:
                   - Roles and requirements: ./system_architecture/state/resource_machine/execution_flow/roles_and_requirements.md
                   - Resource machine:
