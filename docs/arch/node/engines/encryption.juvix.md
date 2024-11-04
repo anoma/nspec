@@ -23,11 +23,9 @@ tags:
 
 # Encryption Engine
 
-???
-
 ## Purpose
 
-???
+The encryption engine is responsible for encrypting messages to external identities. It automatically uses "reads for" relationship information from the [[Reads For Engine]] along with caller preference information in order to choose which identity to encrypt to.
 
 ## Components
 
@@ -37,7 +35,7 @@ tags:
 
 ## Useful links
 
-- [Composable Semantic Models for Actor Theories](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=18475015c7c46d38292833ddda32dc88b5655160)
+???
 
 ## Type
 

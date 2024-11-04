@@ -23,11 +23,9 @@ tags:
 
 # Naming Engine
 
-???
-
 ## Purpose
 
-???
+The naming engine is responsible for tracking naming information. It supports name resolution, submitting name evidence, and querying name evidence. Ultimately, this means that the Naming Engine tracks which `Name`s correspond with which `ExternalIdentity`s using `IdentityNameEvidence`.
 
 ## Components
 
@@ -37,7 +35,7 @@ tags:
 
 ## Useful links
 
-- [Composable Semantic Models for Actor Theories](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=18475015c7c46d38292833ddda32dc88b5655160)
+???
 
 ## Type
 

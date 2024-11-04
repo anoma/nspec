@@ -3,14 +3,14 @@ icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- readsFor
+- reads_for
 - engines
 ---
 
 ??? quote "Juvix imports"
 
     ```juvix
-    module arch.node.engines.readsFor;
+    module arch.node.engines.reads_for;
 
     import prelude open;
     import arch.node.types.engine open;
@@ -23,11 +23,9 @@ tags:
 
 # ReadsFor Engine
 
-???
-
 ## Purpose
 
-???
+The Reads For Engine tracks `reads_for` relationships between identities. It supports querying which identities read for another identity or can read for it, submitting evidence that one identity reads for another, and querying evidence concerning known `reads_for` relationships.
 
 ## Components
 

@@ -23,11 +23,9 @@ tags:
 
 # Verification Engine
 
-???
-
 ## Purpose
 
-???
+The verification engine is responsible for verifying commitments made by external identities. It automatically uses "signs for" relationship information from the [[Signs For Engine]] along with caller preference information in order to choose how to verify a commitment.
 
 ## Components
 
@@ -37,7 +35,7 @@ tags:
 
 ## Useful links
 
-- [Composable Semantic Models for Actor Theories](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=18475015c7c46d38292833ddda32dc88b5655160)
+???
 
 ## Type
 

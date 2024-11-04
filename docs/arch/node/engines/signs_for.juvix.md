@@ -3,14 +3,14 @@ icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- signsFor
+- signs_for
 - engines
 ---
 
 ??? quote "Juvix imports"
 
     ```juvix
-    module arch.node.engines.signsFor;
+    module arch.node.engines.signs_for;
 
     import prelude open;
     import arch.node.types.engine open;
@@ -23,11 +23,9 @@ tags:
 
 # SignsFor Engine
 
-???
-
 ## Purpose
 
-???
+The Signs For Engine track `signs_for` relationships between identities. It supports querying which identities sign for another identity or can be signed for by it, submitting evidence that one identity signs for another, and querying evidence concerning known `signs_for` relationships.
 
 ## Components
 
