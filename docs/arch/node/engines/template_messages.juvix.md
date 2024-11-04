@@ -34,57 +34,9 @@ These are the messages that the Template engine can receive/respond to.
     syntax alias MethodTwoArgOne := Nat;
     ```
 
-### `MsgTemplateMethodZero`
+### `MsgTemplateJustHi`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-### `MsgTemplateMethodOne`
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-The following is an example of a `MethodOneMsg`-message:
-
-<!-- --8<-- [start:MethodOneMsg] -->
-=== "Juvix"
-```juvix
-type MethodOneMsg := mkMethodOneMsg {
-  argOne : MethodOneArgOne;
-  argTwo : MethodOneArgTwo;
-  argThree : MethodOneArgThree;
-};
-```
-<!-- --8<-- [end:MethodOneMsg] -->
-
-??? quote "Arguments"
-
-    `argOne`
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-    `argTwo`
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-    `argThree`
-    : This is the last argument and here we actually
-      can describe more detail about the property about `argOne`
-      and `argThree` mentioned above.
-
-### `MsgTemplateMethodTwo`
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-The following is an example of a `MethodTwoMsg` message:
-
-<!-- --8<-- [start:MethodTwoMsg] -->
-=== "Juvix"
-```juvix
-type MethodTwoMsg := mkMethodTwoMsg {
-  argOne : MethodTwoArgOne;
-};
-```
-<!-- --8<-- [end:MethodTwoMsg] -->
-
-??? quote "Arguments"
-
-    `argOne`
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### `MsgTemplateExampleRequest`
 
@@ -169,9 +121,7 @@ ExampleReply : Type := Result ExampleReplyOk ExampleReplyError;
 === "Juvix"
 ```juvix
 type TemplateMsg :=
-  | MsgTemplateMethodZero
-  | MsgTemplateMethodOne MethodOneMsg
-  | MsgTemplateMethodTwo MethodTwoMsg
+  | MsgTemplateJustHi
   | MsgTemplateExampleRequest ExampleRequest
   | MsgTemplateExampleReply ExampleReply
   ;
