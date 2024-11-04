@@ -59,7 +59,7 @@ provide the following.
    message might trigger. Typically, there is no need to add identities or
    addresses of engine instance here.
 
--  _A type for each type name_. The type of the message body is called _messages
+-  _A type for each type name_. The type of the message body is called _message
    type_ as short hand for _message body type_. The message type does not need
    to re-iterate information of the message header. It is allowed that several
    type names refer to the message type.
