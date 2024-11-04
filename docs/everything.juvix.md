@@ -14,71 +14,79 @@ hide:
 ```juvix
 module everything;
 
-import system_architecture.identity.identity;
+{- Prelude -}
+import prelude;
 
-import node_architecture.types.basics;
-import node_architecture.types.crypto;
-import node_architecture.types.identities;
-import node_architecture.types.messages;
+{- System -}
+import arch.system.identity.index;
+import arch.system.identity.identity;
 
-import node_architecture.types.engine_environment;
-import node_architecture.types.engine_dynamics;
-import node_architecture.types.engine_family;
-import node_architecture.types.anoma_environment;
-import node_architecture.types.anoma_message;
-import node_architecture.types;
+{- Types -}
+import arch.node.types;
 
-import node_architecture.engines.template;
+import arch.node.types.basics;
+import arch.node.types.crypto;
+import arch.node.types.messages;
+import arch.node.types.identities;
 
-{- Template for writing new engines -}
-import node_architecture.engines.template_overview;
-import node_architecture.engines.template_environment;
-import node_architecture.engines.template_dynamics;
-import node_architecture.engines.template;
+import arch.node.types.anoma;
+import arch.node.types.anoma_message;
+import arch.node.types.anoma_environment;
+
+import arch.node.types.engine;
+import arch.node.types.engine_behaviour;
+import arch.node.types.engine_environment;
+
 
 {- Engines -}
+import arch.node.engines.ticker;
+import arch.node.engines.ticker_messages;
+import arch.node.engines.ticker_environment;
+import arch.node.engines.ticker_behaviour;
 
-import node_architecture.engines.commitment_overview;
-import node_architecture.engines.commitment_environment;
-import node_architecture.engines.commitment_dynamics;
-import node_architecture.engines.commitment;
+import arch.node.engines.commitment_messages;
+import arch.node.engines.commitment_environment;
+import arch.node.engines.commitment_behaviour;
+import arch.node.engines.commitment;
 
-import node_architecture.engines.decryption_overview;
-import node_architecture.engines.decryption_environment;
-import node_architecture.engines.decryption_dynamics;
-import node_architecture.engines.decryption;
+import arch.node.engines.decryption_messages;
+import arch.node.engines.decryption_environment;
+import arch.node.engines.decryption_behaviour;
+import arch.node.engines.decryption;
 
-import node_architecture.engines.encryption_overview;
-import node_architecture.engines.encryption_environment;
-import node_architecture.engines.encryption_dynamics;
-import node_architecture.engines.encryption;
+import arch.node.engines.encryption_messages;
+import arch.node.engines.encryption_environment;
+import arch.node.engines.encryption_behaviour;
+import arch.node.engines.encryption;
 
-import node_architecture.engines.identity_management_overview;
-import node_architecture.engines.identity_management_environment;
-import node_architecture.engines.identity_management_dynamics;
-import node_architecture.engines.identity_management;
+import arch.node.engines.identity_management_messages;
+import arch.node.engines.identity_management_environment;
+import arch.node.engines.identity_management_behaviour;
+import arch.node.engines.identity_management;
 
-import node_architecture.engines.naming_overview;
-import node_architecture.engines.naming_environment;
-import node_architecture.engines.naming_dynamics;
-import node_architecture.engines.naming;
+import arch.node.engines.naming_messages;
+import arch.node.engines.naming_environment;
+import arch.node.engines.naming_behaviour;
+import arch.node.engines.naming;
 
-import node_architecture.engines.reads_for_overview;
-import node_architecture.engines.reads_for_environment;
-import node_architecture.engines.reads_for_dynamics;
-import node_architecture.engines.reads_for;
+import arch.node.engines.reads_for_messages;
+import arch.node.engines.reads_for_environment;
+import arch.node.engines.reads_for_behaviour;
+import arch.node.engines.reads_for;
 
-import node_architecture.engines.signs_for_overview;
-import node_architecture.engines.signs_for_environment;
-import node_architecture.engines.signs_for_dynamics;
-import node_architecture.engines.signs_for;
+import arch.node.engines.signs_for_messages;
+import arch.node.engines.signs_for_environment;
+import arch.node.engines.signs_for_behaviour;
+import arch.node.engines.signs_for;
 
-import node_architecture.engines.ticker_overview;
-import node_architecture.engines.ticker_environment;
-import node_architecture.engines.ticker_dynamics;
-import node_architecture.engines.ticker;
-import node_architecture.engines.verification_overview;
-import node_architecture.engines.verification_environment;
-import node_architecture.engines.verification_dynamics;
-import node_architecture.engines.verification;
+import arch.node.engines.verification_messages;
+import arch.node.engines.verification_environment;
+import arch.node.engines.verification_behaviour;
+import arch.node.engines.verification;
+
+{- Template for new engines -}
+import arch.node.engines.template;
+import arch.node.engines.template_messages;
+import arch.node.engines.template_environment;
+import arch.node.engines.template_behaviour;
 ```

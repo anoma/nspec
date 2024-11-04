@@ -1,0 +1,185 @@
+---
+icon: octicons/gear-16
+search:
+  exclude: false
+categories:
+- engine-behaviour
+- juvix-module
+tags:
+- mytag1
+- engine-environment
+---
+
+??? quote "Juvix imports"
+
+    ```juvix
+    module arch.node.engines.template_environment;
+    import prelude open;
+    import arch.node.types.engine open;
+    import arch.node.engines.template_messages open;
+    ```
+
+# Template Environment
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+## Overview
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+## Mailbox states
+
+<!-- --8<-- [start:mailbox_auxiliary] -->
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    syntax alias MailboxOneOne := Nat;
+    syntax alias MailboxTwoOne := String;
+    syntax alias MailboxTwoTwo := Bool;
+    ```
+<!-- --8<-- [end:mailbox_auxiliary] -->
+
+<!-- --8<-- [start:TemplateMailboxState] -->
+```juvix
+type TemplateMailboxState :=
+| -- --8<-- [start:TemplateMailboxStateOne]
+  TemplateMailboxStateOne { fieldOne : MailboxOneOne }
+  -- --8<-- [end:TemplateMailboxStateOne]
+| -- --8<-- [start:TemplateMailboxStateTwo]
+  TemplateMailboxStateTwo { fieldOne : MailboxTwoOne; fieldTwo : MailboxTwoTwo }
+  -- --8<-- [end:TemplateMailboxStateTwo]
+;
+```
+<!-- --8<-- [end:TemplateMailboxState] -->
+
+### `TemplateMailboxStateOne`
+
+This is one family of mailbox states without much complexity.
+
+`fieldOne`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+### `TemplateMailboxStateTwo`
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+`fieldOne`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+`fieldTwo`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+## Local state
+
+??? quote "Auxiliary Juvix code"
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+    ```juvix
+    type NiceState := mkNiceState { word : String };
+    ```
+
+    `stringRepresentation`
+
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+
+<!-- --8<-- [start:TemplateLocalState] -->
+```juvix
+type TemplateLocalState := mkTemplateLocalState {
+      taskQueue : NiceState
+};
+```
+<!-- --8<-- [end:TemplateLocalState] -->
+
+
+## Timer handles
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    syntax alias ArgOne := Nat;
+    ```
+
+<!-- --8<-- [start:TemplateTimerHandle] -->
+```juvix
+type TemplateTimerHandle :=
+  | -- --8<-- [start:TemplateTimerHandleOne]
+    TemplateTimerHandleOne { argOne : ArgOne }
+    -- --8<-- [end:TemplateTimerHandleOne]
+  | -- --8<-- [start:TemplateTimerHandleTwo]
+    TemplateTimerHandleTwo { argOne : String; argTwo : Bool }
+    -- --8<-- [end:TemplateTimerHandleTwo]
+  ;
+```
+<!-- --8<-- [end:TemplateTimerHandle] -->
+
+### `TemplateTimerHandleOne`
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
+an example of this case.
+
+```juvix extract-module-statements
+module handle_one_example;
+
+  handleOneExample : TemplateTimerHandle := TemplateTimerHandleOne@{
+    argOne := 7;
+  };
+end;
+```
+
+`argOne`
+
+: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+### `TemplateTimerHandleTwo`
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
+an example of this case.
+
+```juvix extract-module-statements
+module handle_two_example;
+
+  handleTwoExample : TemplateTimerHandle := TemplateTimerHandleTwo@{
+    argOne := "hello"; argTwo := true;
+  };
+end;
+```
+
+## TemplateEnvironment type
+
+<!-- --8<-- [start:TemplateEnvironment] -->
+```juvix
+TemplateEnvironment : Type :=
+  EngineEnvironment
+  TemplateLocalState
+  TemplateMailboxState
+  TemplateTimerHandle;
+```
+<!-- --8<-- [end:TemplateEnvironment] -->
+
+## An example of a TemplateEnvironment
+
+<!-- --8<-- [start:environment-example] -->
+```juvix extract-module-statements
+module template_environment_example;
+
+  templateEnvironmentExample : TemplateEnvironment :=
+    mkEngineEnvironment@ {
+      name := "template";
+      localState := mkTemplateLocalState@{
+        taskQueue := mkNiceState@{
+          word := "taskQueue"
+        }
+      };
+      mailboxCluster := Map.empty;
+      acquaintances := Set.empty;
+      timers := []
+    }
+  ;
+end;
+```
+<!-- --8<-- [end:environment-example] -->
