@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - decryption
@@ -228,6 +228,30 @@ decryptionConflictSolver : Set DecryptionMatchableArgument -> List (Set Decrypti
   | _ := [];
 ```
 
-## `Decryption` Engine Summary
+## DecryptionBehaviour type
 
---8<-- "./docs/arch.node/engines/decryption.juvix.md:decryption-engine-family"
+<!-- --8<-- [start:DecryptionBehaviour] -->
+```juvix
+DecryptionBehaviour : Type :=
+  EngineBehaviour
+    DecryptionLocalState
+    DecryptionMailboxState
+    DecryptionTimerHandle
+    DecryptionMatchableArgument
+    DecryptionActionLabel
+    DecryptionPrecomputation;
+```
+<!-- --8<-- [end:DecryptionBehaviour] -->
+
+## DecryptionBehaviour instance
+
+<!-- --8<-- [start:DecryptionBehaviour-instance] -->
+```juvix
+decryptionBehaviour : DecryptionBehaviour :=
+  mkEngineBehaviour@{
+    guards := [decryptGuard];
+    action := decryptionAction;
+    conflictSolver := decryptionConflictSolver;
+  };
+```
+<!-- --8<-- [end:DecryptionBehaviour-instance] -->

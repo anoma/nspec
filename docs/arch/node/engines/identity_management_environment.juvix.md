@@ -3,7 +3,7 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - identity_management
 - engine-environment
@@ -75,6 +75,7 @@ IdentityManagementEnvironment : Type := EngineEnvironment
 
 ## Example of an `Identity Management` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module identity_management_environment_example;
 
@@ -97,3 +98,4 @@ identityManagementEnvironmentExample : IdentityManagementEnvironment :=
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

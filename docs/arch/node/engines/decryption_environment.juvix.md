@@ -3,7 +3,7 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - decryption
 - engine-environment
@@ -70,6 +70,7 @@ DecryptionEnvironment : Type := EngineEnvironment
 
 ## Example of a `Decryption` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module decryption_environment_example;
 
@@ -89,3 +90,4 @@ decryptionEnvironmentExample : DecryptionEnvironment :=
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

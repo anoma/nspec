@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - signs_for
 - engine-messages
@@ -19,7 +19,7 @@ tags:
 
 # `Signs For` Engine Family Overview
 
---8<-- "./docs/arch.node/engines/signs_for.juvix.md:signs-for-engine-family"
+--8<-- "./docs/arch.node/engines/signs_for.juvix.md:signs-for-engine-behaviour"
 
 The Signs For Engine manages `signs_for` relationships between identities. A `signs_for` relationship indicates that one identity can produce signatures (commitments) on behalf of another identity.
 

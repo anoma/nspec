@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - encryption
 - engine-messages
@@ -19,7 +19,7 @@ tags:
 
 # `Encryption` Engine Family Overview
 
---8<-- "./docs/arch.node/engines/encryption.juvix.md:encryption-engine-family"
+--8<-- "./docs/arch.node/engines/encryption.juvix.md:encryption-engine-behaviour"
 
 The `Encryption` engine is responsible for encrypting data to external identities,
 possibly using known `reads_for` relationships. It automatically utilizes

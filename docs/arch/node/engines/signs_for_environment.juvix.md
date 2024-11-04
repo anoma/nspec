@@ -3,7 +3,7 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - signs_for
 - engine-environment
@@ -65,6 +65,7 @@ SignsForEnvironment : Type := EngineEnvironment
 
 ## Example of a `Signs For` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module signs_for_environment_example;
 
@@ -82,3 +83,4 @@ signsForEnvironmentExample : SignsForEnvironment :=
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

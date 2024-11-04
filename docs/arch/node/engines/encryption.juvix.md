@@ -11,30 +11,58 @@ tags:
 
     ```juvix
     module arch.node.engines.encryption;
-      import prelude open;
-      import arch.node.types.engine_behaviour as Anoma;
-      import arch.node.engines.encryption_behaviour open public;
-      import arch.node.engines.encryption_environment open public;
-      import arch.node.engines.encryption_messages open public;
+
+    import prelude open;
+    import arch.node.types.engine open;
+
+    import arch.node.engines.encryption_messages open public;
+    import arch.node.engines.encryption_environment open public;
+    import arch.node.engines.encryption_behaviour open public;
+    open encryption_environment_example;
     ```
 
-# `Encryption` engine behaviour type
+# Encryption Engine
 
-<!-- --8<-- [start:encryption-engine-family] -->
+???
+
+## Purpose
+
+???
+
+## Components
+
+- [[Encryption Messages]]
+- [[Encryption Environment]]
+- [[Encryption Behaviour]]
+
+## Useful links
+
+- [Composable Semantic Models for Actor Theories](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=18475015c7c46d38292833ddda32dc88b5655160)
+
+## Type
+
+<!-- --8<-- [start:EncryptionEngine] -->
 ```juvix
-EncryptionEngineBehaviour :
-  Anoma.EngineBehaviour
-    EncryptionLocalState
-    EncryptionMailboxState
-    EncryptionTimerHandle
-    EncryptionMatchableArgument
-    EncryptionActionLabel
-    EncryptionPrecomputation
-  := Anoma.mkEngineBehaviour@{
-    guards := [encryptGuard; readsForResponseGuard];
-    action := encryptionAction;
-    conflictSolver := encryptionConflictSolver;
-  }
-  ;
+EncryptionEngine : Type := Engine
+  EncryptionLocalState
+  EncryptionMailboxState
+  EncryptionTimerHandle
+  EncryptionMatchableArgument
+  EncryptionActionLabel
+  EncryptionPrecomputation;
 ```
-<!-- --8<-- [end:encryption-engine-family] -->
+<!-- --8<-- [end:EncryptionEngine] -->
+
+### Example of a encryption engine
+
+```juvix extract-module-statements
+exampleEncryptionEngine : EncryptionEngine := mkEngine@{
+    name := "encryption";
+    behaviour := encryptionBehaviour;
+    initEnv := encryptionEnvironmentExample;
+  };
+```
+
+where `encryptionEnvironmentExample` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/encryption_environment.juvix.md:environment-example"

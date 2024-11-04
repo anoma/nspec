@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - commitment
@@ -222,6 +222,30 @@ commitmentConflictSolver : Set CommitmentMatchableArgument -> List (Set Commitme
   | _ := [];
 ```
 
-## `Commitment` Engine Summary
+## CommitmentBehaviour type
 
---8<-- "./docs/arch.node/engines/commitment.juvix.md:commitment-engine-family"
+<!-- --8<-- [start:CommitmentBehaviour] -->
+```juvix
+CommitmentBehaviour : Type :=
+  EngineBehaviour
+    CommitmentLocalState
+    CommitmentMailboxState
+    CommitmentTimerHandle
+    CommitmentMatchableArgument
+    CommitmentActionLabel
+    CommitmentPrecomputation;
+```
+<!-- --8<-- [end:CommitmentBehaviour] -->
+
+## CommitmentBehaviour instance
+
+<!-- --8<-- [start:CommitmentBehaviour-instance] -->
+```juvix
+commitmentBehaviour : CommitmentBehaviour :=
+  mkEngineBehaviour@{
+    guards := [commitGuard];
+    action := commitmentAction;
+    conflictSolver := commitmentConflictSolver;
+  };
+```
+<!-- --8<-- [end:CommitmentBehaviour-instance] -->

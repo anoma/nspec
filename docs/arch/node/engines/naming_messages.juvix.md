@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - naming
 - engine-messages
@@ -19,7 +19,7 @@ tags:
 
 # `Naming` Engine Family Overview
 
---8<-- "./docs/arch.node/engines/naming.juvix.md:naming-engine-family"
+--8<-- "./docs/arch.node/engines/naming.juvix.md:naming-engine-behaviour"
 
 The Naming Engine is responsible for tracking naming information as described in *Identity Names*. It supports name resolution, submitting name evidence, and querying name evidence.
 

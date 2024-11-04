@@ -3,7 +3,7 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - commitment
 - engine-environment
@@ -68,6 +68,7 @@ CommitmentEnvironment : Type := EngineEnvironment
 
 ## Example of a `Commitment` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module commitment_environment_example;
 
@@ -91,3 +92,4 @@ commitmentEnvironmentExample : CommitmentEnvironment :=
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

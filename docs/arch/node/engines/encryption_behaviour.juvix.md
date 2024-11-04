@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - encryption
@@ -357,6 +357,30 @@ encryptionConflictSolver : Set EncryptionMatchableArgument -> List (Set Encrypti
   | _ := [];
 ```
 
-## `Encryption` Engine Summary
+## EncryptionBehaviour type
 
---8<-- "./docs/arch.node/engines/encryption.juvix.md:encryption-engine-family"
+<!-- --8<-- [start:EncryptionBehaviour] -->
+```juvix
+EncryptionBehaviour : Type :=
+  EngineBehaviour
+    EncryptionLocalState
+    EncryptionMailboxState
+    EncryptionTimerHandle
+    EncryptionMatchableArgument
+    EncryptionActionLabel
+    EncryptionPrecomputation;
+```
+<!-- --8<-- [end:EncryptionBehaviour] -->
+
+## EncryptionBehaviour instance
+
+<!-- --8<-- [start:EncryptionBehaviour-instance] -->
+```juvix
+encryptionBehaviour : EncryptionBehaviour :=
+  mkEngineBehaviour@{
+    guards := [encryptGuard; readsForResponseGuard];
+    action := encryptionAction;
+    conflictSolver := encryptionConflictSolver;
+  };
+```
+<!-- --8<-- [end:EncryptionBehaviour-instance] -->

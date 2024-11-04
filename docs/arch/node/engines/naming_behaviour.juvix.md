@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - naming
@@ -423,6 +423,30 @@ namingConflictSolver : Set NamingMatchableArgument -> List (Set NamingMatchableA
   | _ := [];
 ```
 
-## `Naming` Engine Summary
+## NamingBehaviour type
 
---8<-- "./docs/arch.node/engines/naming.juvix.md:naming-engine-family"
+<!-- --8<-- [start:NamingBehaviour] -->
+```juvix
+NamingBehaviour : Type :=
+  EngineBehaviour
+    NamingLocalState
+    NamingMailboxState
+    NamingTimerHandle
+    NamingMatchableArgument
+    NamingActionLabel
+    NamingPrecomputation;
+```
+<!-- --8<-- [end:NamingBehaviour] -->
+
+## NamingBehaviour instance
+
+<!-- --8<-- [start:NamingBehaviour-instance] -->
+```juvix
+namingBehaviour : NamingBehaviour :=
+  mkEngineBehaviour@{
+    guards := [resolveNameGuard; submitNameEvidenceGuard; queryNameEvidenceGuard];
+    action := namingAction;
+    conflictSolver := namingConflictSolver;
+  };
+```
+<!-- --8<-- [end:NamingBehaviour-instance] -->

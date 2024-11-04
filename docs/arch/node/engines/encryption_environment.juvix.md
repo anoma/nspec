@@ -3,7 +3,7 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - encryption
 - engine-environment
@@ -75,6 +75,7 @@ EncryptionEnvironment : Type := EngineEnvironment
 
 ## Example of an `Encryption` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module encryption_environment_example;
 
@@ -102,3 +103,4 @@ encryptionEnvironmentExample : EncryptionEnvironment :=
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

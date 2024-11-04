@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - reads_for
 - engine-messages
@@ -19,7 +19,7 @@ tags:
 
 # `Reads For` Engine Family Overview
 
---8<-- "./docs/arch.node/engines/reads_for.juvix.md:reads-for-engine-family"
+--8<-- "./docs/arch.node/engines/reads_for.juvix.md:reads-for-engine-behaviour"
 
 The Reads For Engine manages `reads_for` relationships between identities. A `reads_for` relationship indicates that one identity can read data encrypted for another identity.
 

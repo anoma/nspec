@@ -3,7 +3,7 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - naming
 - engine-environment
@@ -64,6 +64,7 @@ NamingEnvironment : Type := EngineEnvironment
 
 ## Example of a `Naming` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module naming_environment_example;
 
@@ -81,3 +82,4 @@ namingEnvironmentExample : NamingEnvironment :=
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

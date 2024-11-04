@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - verification
@@ -356,6 +356,30 @@ verificationConflictSolver : Set VerificationMatchableArgument -> List (Set Veri
   | _ := [];
 ```
 
-## `Verification` Engine Summary
+## VerificationBehaviour type
 
---8<-- "./docs/arch.node/engines/verification.juvix.md:verification-engine-family"
+<!-- --8<-- [start:VerificationBehaviour] -->
+```juvix
+VerificationBehaviour : Type :=
+  EngineBehaviour
+    VerificationLocalState
+    VerificationMailboxState
+    VerificationTimerHandle
+    VerificationMatchableArgument
+    VerificationActionLabel
+    VerificationPrecomputation;
+```
+<!-- --8<-- [end:VerificationBehaviour] -->
+
+## VerificationBehaviour instance
+
+<!-- --8<-- [start:VerificationBehaviour-instance] -->
+```juvix
+verificationBehaviour : VerificationBehaviour :=
+  mkEngineBehaviour@{
+    guards := [verifyGuard; signsForResponseGuard];
+    action := verificationAction;
+    conflictSolver := verificationConflictSolver;
+  }
+```
+<!-- --8<-- [end:VerificationBehaviour-instance] -->

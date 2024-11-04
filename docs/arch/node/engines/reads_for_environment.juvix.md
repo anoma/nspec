@@ -3,7 +3,7 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - reads_for
 - engine-environment
@@ -64,6 +64,7 @@ ReadsForEnvironment : Type := EngineEnvironment
 
 ## Example of a `Reads For` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module reads_for_environment_example;
 
@@ -81,3 +82,4 @@ readsForEnvironmentExample : ReadsForEnvironment :=
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

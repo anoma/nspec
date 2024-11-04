@@ -3,7 +3,7 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - verification
 - engine-environment
@@ -68,6 +68,7 @@ VerificationEnvironment : Type := EngineEnvironment
 
 ## Example of a `Verification` environment
 
+<!-- --8<-- [start:environment-example] -->
 ```juvix extract-module-statements
 module verification_environment_example;
 
@@ -95,3 +96,4 @@ verificationEnvironmentExample : VerificationEnvironment :=
   ;
 end;
 ```
+<!-- --8<-- [end:environment-example] -->

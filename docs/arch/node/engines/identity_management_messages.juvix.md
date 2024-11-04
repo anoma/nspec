@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - identity_management
 - engine-messages
@@ -19,7 +19,7 @@ tags:
 
 # `Identity Management` Engine Family Overview
 
---8<-- "./docs/arch.node/engines/identity_management.juvix.md:identity-management-engine-family"
+--8<-- "./docs/arch.node/engines/identity_management.juvix.md:identity-management-engine-behaviour"
 
 The Identity Management Engine is responsible for generating, connecting, and deleting identities using various backends. It provides a unified interface over different identity backends, including internal identities stored in local memory, identities stored in hardware devices, identities accessed via browser extensions, and identities stored on remote machines accessible over the network.
 

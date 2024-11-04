@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 tags:
 - verification
 - engine-messages
@@ -19,7 +19,7 @@ tags:
 
 # `Verification` Engine Family Overview
 
---8<-- "./docs/arch.node/engines/verification.juvix.md:verification-engine-family"
+--8<-- "./docs/arch.node/engines/verification.juvix.md:verification-engine-behaviour"
 
 The Verification Engine is responsible for verifying commitments (signatures) made by external identities. It automatically uses "signs_for" relationship information from the Signs For Engine along with caller preference information to determine how to verify a commitment.
 

@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - signs_for
@@ -436,6 +436,30 @@ signsForConflictSolver : Set SignsForMatchableArgument -> List (Set SignsForMatc
   | _ := [];
 ```
 
-## `Signs For` Engine Summary
+## SignsForBehaviour type
 
---8<-- "./docs/arch.node/engines/signs_for.juvix.md:signs-for-engine-family"
+<!-- --8<-- [start:SignsForBehaviour] -->
+```juvix
+SignsForBehaviour : Type :=
+  EngineBehaviour
+    SignsForLocalState
+    SignsForMailboxState
+    SignsForTimerHandle
+    SignsForMatchableArgument
+    SignsForActionLabel
+    SignsForPrecomputation;
+```
+<!-- --8<-- [end:SignsForBehaviour] -->
+
+## SignsForBehaviour instance
+
+<!-- --8<-- [start:SignsForBehaviour-instance] -->
+```juvix
+signsForBehaviour : SignsForBehaviour :=
+  mkEngineBehaviour@{
+    guards := [signsForQueryGuard; submitEvidenceGuard; queryEvidenceGuard];
+    action := signsForAction;
+    conflictSolver := signsForConflictSolver;
+  };
+```
+<!-- --8<-- [end:SignsForBehaviour-instance] -->

@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - identity_management
@@ -676,6 +676,30 @@ identityManagementConflictSolver : Set IdentityManagementMatchableArgument -> Li
   | _ := [];
 ```
 
-## `Identity Management` Engine Summary
+## IdentityManagementBehaviour type
 
---8<-- "./docs/arch.node/engines/identity_management.juvix.md:identity-management-engine-family"
+<!-- --8<-- [start:IdentityManagementBehaviour] -->
+```juvix
+IdentityManagementBehaviour : Type :=
+  EngineBehaviour
+    IdentityManagementLocalState
+    IdentityManagementMailboxState
+    IdentityManagementTimerHandle
+    IdentityManagementMatchableArgument
+    IdentityManagementActionLabel
+    IdentityManagementPrecomputation;
+```
+<!-- --8<-- [end:IdentityManagementBehaviour] -->
+
+## IdentityManagementBehaviour instance
+
+<!-- --8<-- [start:IdentityManagementBehaviour-instance] -->
+```juvix
+identityManagementBehaviour : IdentityManagementBehaviour :=
+  mkEngineBehaviour@{
+    guards := [generateIdentityGuard; connectIdentityGuard; deleteIdentityGuard];
+    action := identityManagementAction;
+    conflictSolver := identityManagementConflictSolver;
+  }
+```
+<!-- --8<-- [end:IdentityManagementBehaviour-instance] -->

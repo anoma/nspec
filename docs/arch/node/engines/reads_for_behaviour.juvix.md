@@ -3,7 +3,7 @@ icon: octicons/gear-16
 search:
   exclude: false
 categories:
-- engine-family
+- engine-behaviour
 - juvix-module
 tags:
 - reads_for
@@ -436,6 +436,30 @@ readsForConflictSolver : Set ReadsForMatchableArgument -> List (Set ReadsForMatc
   | _ := [];
 ```
 
-## `Reads For` Engine Summary
+## ReadsForBehaviour type
 
---8<-- "./docs/arch.node/engines/reads_for.juvix.md:reads-for-engine-family"
+<!-- --8<-- [start:ReadsForBehaviour] -->
+```juvix
+ReadsForBehaviour : Type :=
+  EngineBehaviour
+    ReadsForLocalState
+    ReadsForMailboxState
+    ReadsForTimerHandle
+    ReadsForMatchableArgument
+    ReadsForActionLabel
+    ReadsForPrecomputation;
+```
+<!-- --8<-- [end:ReadsForBehaviour] -->
+
+## ReadsForBehaviour instance
+
+<!-- --8<-- [start:ReadsForBehaviour-instance] -->
+```juvix
+readsForBehaviour : ReadsForBehaviour :=
+  mkEngineBehaviour@{
+    guards := [readsForQueryGuard; submitEvidenceGuard; queryEvidenceGuard];
+    action := readsForAction;
+    conflictSolver := readsForConflictSolver;
+  };
+```
+<!-- --8<-- [end:ReadsForBehaviour-instance] -->
