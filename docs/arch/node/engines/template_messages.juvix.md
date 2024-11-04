@@ -62,7 +62,7 @@ The following is an example of a `MethodOneMsg`-message:
 <!-- --8<-- [start:example-message-one] -->
 ```juvix extract-module-statements
 module example-message-one;
-  example_messages_one : TemplateMsg := MethodOneMsg@{
+  example_message_one : TemplateMsg := MethodOneMsg@{
     argOne := 1;
     argTwo := 2;
     argThree := 3;
@@ -96,7 +96,7 @@ The following is an example of a `MethodTwoMsg` message:
 <!-- --8<-- [start:message_two_example] -->
 ```juvix extract-module-statements
 module message_two_example;
-  example_messages_two : TemplateMsg := MethodTwoMsg@{
+  example_message_two : TemplateMsg := MethodTwoMsg@{
     argOne := 1;
   };
 end;

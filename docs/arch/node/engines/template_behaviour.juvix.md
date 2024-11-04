@@ -285,7 +285,7 @@ the mailbox ID.
 
 <!-- --8<-- [start:TemplateDeleteThisMessageFromMailbox] -->
 ```juvix extract-module-statements
-module template_delete_this_messages_from_mailbox;
+module template_delete_this_message_from_mailbox;
 
 templateDeleteThisMessageFromMailboxExample : TemplatePrecomputationEntry :=
   TemplateDeleteThisMessageFromMailbox undef 1;
