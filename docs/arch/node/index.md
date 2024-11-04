@@ -12,6 +12,8 @@ The specification is organized into the following sections:
 
 - [[Hardware Machine]]
 
+- [[Identity Machine]]
+
 - [[Networking Machine]]
 
 - [[Ordering Machine]]
@@ -37,7 +39,7 @@ that are sent and received.
 
 **On Engine Models**
 
-Engines communicate via message passing. Each _messages_ consists of a header and
+Engines communicate via message passing. Each _message_ consists of a header and
 a body. The _header_ gives information about the sender and the intended
 destination, e.g., in the form of ɪᴅs or addresses. The type of the _body_
 almost always depends on the specific type of message. For each engine, we
@@ -58,7 +60,7 @@ provide the following.
    addresses of engine instance here.
 
 -  _A type for each type name_. The type of the message body is called _messages
-   type_ as short hand for _messages body type_. The message type does not need
+   type_ as short hand for _message body type_. The message type does not need
    to re-iterate information of the message header. It is allowed that several
    type names refer to the message type.
 
