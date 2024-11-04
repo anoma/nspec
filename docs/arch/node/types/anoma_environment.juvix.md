@@ -9,7 +9,7 @@ search:
 
     ```juvix
     module arch.node.types.anoma_environment;
-    
+
     import arch.node.engines.ticker_environment open;
     import arch.node.engines.identity_management_environment open;
     import arch.node.engines.decryption_environment open;
