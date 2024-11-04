@@ -38,7 +38,7 @@ These are the messages that the Template engine can receive/respond to.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `MsgTemplateMethodOne MethodOneMsg`
+### `MsgTemplateMethodOne`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodOneMsg`-message:
@@ -67,7 +67,7 @@ type MethodOneMsg := mkMethodOneMsg {
       can describe more detail about the property about `argOne`
       and `argThree` mentioned above.
 
-### `MsgTemplateMethodTwo MethodTwoMsg`
+### `MsgTemplateMethodTwo`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 The following is an example of a `MethodTwoMsg` message:
@@ -86,7 +86,7 @@ type MethodTwoMsg := mkMethodTwoMsg {
     `argOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `MsgTemplateExampleRequest ExampleRequest`
+### `MsgTemplateExampleRequest`
 
 Example request.
 
@@ -109,7 +109,7 @@ type ExampleRequest : Type :=
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `MsgTemplateExampleReply ExampleReply`
+### `MsgTemplateExampleReply`
 
 Reply to an `ExampleRequest`.
 
