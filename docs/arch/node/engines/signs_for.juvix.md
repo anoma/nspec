@@ -23,9 +23,11 @@ tags:
 
 # SignsFor Engine
 
+The Signs For Engine manages `signs_for` relationships between identities. A `signs_for` relationship indicates that one identity can produce signatures (commitments) on behalf of another identity.
+
 ## Purpose
 
-The Signs For Engine track `signs_for` relationships between identities. It supports querying which identities sign for another identity or can be signed for by it, submitting evidence that one identity signs for another, and querying evidence concerning known `signs_for` relationships.
+The Signs For Engine maintains and manages the state of `signs_for` relationships between identities. It handles queries about these relationships, allows submission of new evidence, and provides information about existing relationships. This is useful in scenarios where signature delegation or proxy signing is required.
 
 ## Components
 
@@ -63,4 +65,4 @@ exampleSignsForEngine : SignsForEngine := mkEngine@{
 
 where `signsForEnvironmentExample` is defined as follows:
 
---8<-- "./docs/arch/node/engines/signsFor_environment.juvix.md:environment-example"
+--8<-- "./signs_for_environment.juvix.md:environment-example"

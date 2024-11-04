@@ -134,7 +134,7 @@ type NamingMatchableArgument :=
 !!! quote ""
 
     ```
-    --8<-- "./docs/arch.node/engines/naming_behaviour.juvix.md:ReplyTo"
+    --8<-- "./naming_behaviour.juvix.md:ReplyTo"
     ```
 
 This matchable argument contains the address and mailbox ID of where the response message should be sent.

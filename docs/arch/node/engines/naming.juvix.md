@@ -23,9 +23,11 @@ tags:
 
 # Naming Engine
 
+The Naming Engine is responsible for tracking naming information as described in *Identity Names*. It supports name resolution, submitting name evidence, and querying name evidence.
+
 ## Purpose
 
-The naming engine is responsible for tracking naming information. It supports name resolution, submitting name evidence, and querying name evidence. Ultimately, this means that the Naming Engine tracks which `Name`s correspond with which `ExternalIdentity`s using `IdentityNameEvidence`.
+The Naming Engine tracks which `IdentityName`s correspond with which `ExternalIdentity`s using `IdentityNameEvidence`. It provides functionality for resolving names, submitting name evidence, and querying name evidence.
 
 ## Components
 
@@ -63,4 +65,4 @@ exampleNamingEngine : NamingEngine := mkEngine@{
 
 where `namingEnvironmentExample` is defined as follows:
 
---8<-- "./docs/arch/node/engines/naming_environment.juvix.md:environment-example"
+--8<-- "./naming_environment.juvix.md:environment-example"

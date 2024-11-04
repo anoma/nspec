@@ -135,7 +135,7 @@ type ReadsForMatchableArgument :=
 !!! quote ""
 
     ```
-    --8<-- "./docs/arch.node/engines/reads_for_behaviour.juvix.md:ReplyTo"
+    --8<-- "./reads_for_behaviour.juvix.md:ReplyTo"
     ```
 
 This matchable argument contains the address and mailbox ID of where the response message should be sent.

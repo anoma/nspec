@@ -23,9 +23,17 @@ tags:
 
 # Encryption Engine
 
+The `Encryption` engine is responsible for encrypting data to external identities,
+possibly using known `reads_for` relationships. It automatically utilizes
+"reads_for" relationship information from the Reads For Engine along with caller
+preference information to choose which identity to encrypt to.
+
 ## Purpose
 
-The encryption engine is responsible for encrypting messages to external identities. It automatically uses "reads for" relationship information from the [[Reads For Engine]] along with caller preference information in order to choose which identity to encrypt to.
+The `Encryption` Engine encrypts data to external identities, optionally using
+known `reads_for` relationships. It is a stateless function, and calls to it do
+not need to be ordered. The runtime should implement this intelligently for
+efficiency.
 
 ## Components
 
@@ -63,4 +71,4 @@ exampleEncryptionEngine : EncryptionEngine := mkEngine@{
 
 where `encryptionEnvironmentExample` is defined as follows:
 
---8<-- "./docs/arch/node/engines/encryption_environment.juvix.md:environment-example"
+--8<-- "./encryption_environment.juvix.md:environment-example"

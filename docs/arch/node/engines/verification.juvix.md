@@ -23,9 +23,11 @@ tags:
 
 # Verification Engine
 
+The Verification Engine is responsible for verifying commitments (signatures) made by external identities. It automatically uses "signs_for" relationship information from the Signs For Engine along with caller preference information to determine how to verify a commitment.
+
 ## Purpose
 
-The verification engine is responsible for verifying commitments made by external identities. It automatically uses "signs for" relationship information from the [[Signs For Engine]] along with caller preference information in order to choose how to verify a commitment.
+The Verification Engine verifies commitments (signatures) made by external identities. It can use "signs_for" relationship information and caller preferences to determine how to verify a commitment. This engine is designed to be stateless, allowing for efficient implementation by the runtime.
 
 ## Components
 
@@ -63,4 +65,4 @@ exampleVerificationEngine : VerificationEngine := mkEngine@{
 
 where `verificationEnvironmentExample` is defined as follows:
 
---8<-- "./docs/arch/node/engines/verification_environment.juvix.md:environment-example"
+--8<-- "./verification_environment.juvix.md:environment-example"

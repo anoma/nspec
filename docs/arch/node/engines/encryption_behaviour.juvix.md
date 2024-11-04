@@ -113,7 +113,7 @@ type EncryptionMatchableArgument :=
 !!! quote ""
 
     ```
-    --8<-- "./docs/arch.node/engines/encryption_behaviour.juvix.md:ReplyTo"
+    --8<-- "./encryption_behaviour.juvix.md:ReplyTo"
     ```
 
 This matchable argument contains the address and mailbox ID of where the response message should be sent.

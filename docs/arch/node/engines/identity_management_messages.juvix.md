@@ -17,15 +17,7 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Identity Management` Engine Family Overview
-
---8<-- "./docs/arch.node/engines/identity_management.juvix.md:identity-management-engine-behaviour"
-
-The Identity Management Engine is responsible for generating, connecting, and deleting identities using various backends. It provides a unified interface over different identity backends, including internal identities stored in local memory, identities stored in hardware devices, identities accessed via browser extensions, and identities stored on remote machines accessible over the network.
-
-## Purpose
-
-The Identity Management Engine manages identities across various backends. When an identity is generated or connected, it returns handles to the corresponding commitment and decryption engine instances. These handles can be used to generate commitments or decrypt data associated with the identity.
+# `Identity Management` Messages
 
 ## Message interface
 

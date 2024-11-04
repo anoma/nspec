@@ -17,15 +17,7 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Signs For` Engine Family Overview
-
---8<-- "./docs/arch.node/engines/signs_for.juvix.md:signs-for-engine-behaviour"
-
-The Signs For Engine manages `signs_for` relationships between identities. A `signs_for` relationship indicates that one identity can produce signatures (commitments) on behalf of another identity.
-
-## Purpose
-
-The Signs For Engine maintains and manages the state of `signs_for` relationships between identities. It handles queries about these relationships, allows submission of new evidence, and provides information about existing relationships. This is useful in scenarios where signature delegation or proxy signing is required.
+# `Signs For` Messages
 
 ## Message interface
 

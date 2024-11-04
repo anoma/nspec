@@ -23,19 +23,11 @@ tags:
 
 # IdentityManagement Engine
 
+The Identity Management Engine is responsible for generating, connecting, and deleting identities using various backends. It provides a unified interface over different identity backends, including internal identities stored in local memory, identities stored in hardware devices, identities accessed via browser extensions, and identities stored on remote machines accessible over the network.
+
 ## Purpose
 
-The identity management engine is responsible for generating, connecting, and deleting identities. It abstracts a uniform interface over identities created with different "backends", including, for example:
-
-- internal identities stored in local memory
-
-- internal identities stored in a hardware device, e.g. Ledger
-
-- internal identities stored in a browser extension
-
-- internal identities stored in another machine accessible over the network
-
-When an identity is generated or connected, the identity management engine does not return the internal identity directly, but rather returns handles to the corresponding commitment and decryption engine instances, which can be used to generate commitments by and decrypt data encrypted to, respectively, the internal identity (which is still kept in whatever backend is in use).
+The Identity Management Engine manages identities across various backends. When an identity is generated or connected, it returns handles to the corresponding commitment and decryption engine instances. These handles can be used to generate commitments or decrypt data associated with the identity.
 
 ## Components
 
@@ -73,4 +65,4 @@ exampleIdentityManagementEngine : IdentityManagementEngine := mkEngine@{
 
 where `identityManagementEnvironmentExample` is defined as follows:
 
---8<-- "./docs/arch/node/engines/identityManagement_environment.juvix.md:environment-example"
+--8<-- "./identity_management_environment.juvix.md:environment-example"

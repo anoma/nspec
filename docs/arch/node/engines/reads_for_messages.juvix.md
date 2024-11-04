@@ -17,15 +17,7 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Reads For` Engine Family Overview
-
---8<-- "./docs/arch.node/engines/reads_for.juvix.md:reads-for-engine-behaviour"
-
-The Reads For Engine manages `reads_for` relationships between identities. A `reads_for` relationship indicates that one identity can read data encrypted for another identity.
-
-## Purpose
-
-The Reads For Engine maintains and manages the state of `reads_for` relationships between identities. It handles queries about these relationships, allows submission of new evidence, and provides information about existing relationships. This is useful in scenarios where data access needs to be delegated or shared.
+# `Reads For` Messages
 
 ## Message interface
 

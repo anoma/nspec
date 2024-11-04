@@ -17,15 +17,7 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Naming` Engine Family Overview
-
---8<-- "./docs/arch.node/engines/naming.juvix.md:naming-engine-behaviour"
-
-The Naming Engine is responsible for tracking naming information as described in *Identity Names*. It supports name resolution, submitting name evidence, and querying name evidence.
-
-## Purpose
-
-The Naming Engine tracks which `IdentityName`s correspond with which `ExternalIdentity`s using `IdentityNameEvidence`. It provides functionality for resolving names, submitting name evidence, and querying name evidence.
+# `Naming` Messages
 
 ## Message interface
 

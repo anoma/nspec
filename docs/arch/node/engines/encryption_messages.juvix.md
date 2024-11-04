@@ -17,21 +17,7 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Encryption` Engine Family Overview
-
---8<-- "./docs/arch.node/engines/encryption.juvix.md:encryption-engine-behaviour"
-
-The `Encryption` engine is responsible for encrypting data to external identities,
-possibly using known `reads_for` relationships. It automatically utilizes
-"reads_for" relationship information from the Reads For Engine along with caller
-preference information to choose which identity to encrypt to.
-
-## Purpose
-
-The `Encryption` Engine encrypts data to external identities, optionally using
-known `reads_for` relationships. It is a stateless function, and calls to it do
-not need to be ordered. The runtime should implement this intelligently for
-efficiency.
+# `Encryption` Messages
 
 ## Message interface
 

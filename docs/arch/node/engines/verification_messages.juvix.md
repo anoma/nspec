@@ -17,15 +17,7 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Verification` Engine Family Overview
-
---8<-- "./docs/arch.node/engines/verification.juvix.md:verification-engine-behaviour"
-
-The Verification Engine is responsible for verifying commitments (signatures) made by external identities. It automatically uses "signs_for" relationship information from the Signs For Engine along with caller preference information to determine how to verify a commitment.
-
-## Purpose
-
-The Verification Engine verifies commitments (signatures) made by external identities. It can use "signs_for" relationship information and caller preferences to determine how to verify a commitment. This engine is designed to be stateless, allowing for efficient implementation by the runtime.
+# `Verification` Messages
 
 ## Message interface
 

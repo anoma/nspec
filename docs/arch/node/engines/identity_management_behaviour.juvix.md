@@ -142,7 +142,7 @@ type IdentityManagementMatchableArgument :=
 !!! quote ""
 
     ```
-    --8<-- "./docs/arch.node/engines/identity_management_behaviour.juvix.md:MessageFrom"
+    --8<-- "./identity_management_behaviour.juvix.md:MessageFrom"
     ```
 
 This matchable argument contains the address and mailbox ID of where the response message should be sent.
