@@ -6,7 +6,7 @@ Hash type is defined as a fixed size type that is *binding*, meaning that if the
     TODO:
 
     - for shielded: cryptographic hash, hiding
-    - do we want a separate interface for the logic hash, given it is a verifier key?
+    - do we want a separate interface for the logic hash, given it is a verifier key? UPD in Taiga we had the verifier key hashed. Is it fixed size? If not, what was the reason for tripple hashing? vk + hash + function privacy commitment
 
 ### LogicHash
 
@@ -26,10 +26,11 @@ classDiagram
     Hash <|-- LabelHash
     Hash <|-- ValueHash
 
-    Hash <|-- CommitmentHash
-    Hash <|-- NullifierHash
-    Hash <|-- KindHash
+    Hash <|-- Commitment
+    Hash <|-- Nullifier
+    Hash <|-- Kind
     Hash <|-- DeltaHash
+    Hash <|-- LogicRefHash
 
     Hash <|-- AppDataValueHash
 

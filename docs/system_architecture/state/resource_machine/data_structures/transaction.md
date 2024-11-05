@@ -60,9 +60,3 @@ Checks that require access to global $CMtree$ and $NFset$:
 - each consumed resource wasn't consumed in prior transactions
 
 A transaction is *executable* if it is valid and `transactionDelta` commits to the expected balancing value.
-
-## Transaction function
-
-A transaction function is a function that outputs a transaction: `transactionFunction() -> Transaction`.
-
-Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here](./function_formats/transaction_function.md).

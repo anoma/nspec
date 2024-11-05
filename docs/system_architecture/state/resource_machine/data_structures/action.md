@@ -16,10 +16,10 @@ Actions partition the state change induced by a transaction and limit the resour
 
 ## Interface
 
-- create(Set Resource, Set Resource, ApplicationData) -> Action
-- delta(Action) -> DeltaHash
-- verify(Action) -> Bool
-- prove(Action, (BitString, Proof)) -> Action
+- `create(Set Resource, Set Resource, ApplicationData) -> Action`
+- `delta(Action) -> DeltaHash`
+- `prove(Action, (BitString, Proof)) -> Action` - outputs a proven action
+- `verify(Action) -> Bool`
 
 ## Proofs
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
