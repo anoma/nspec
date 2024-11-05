@@ -14,9 +14,9 @@ tags:
     import arch.node.engines.ticker_messages open using {TickerMsg};
     ```
 
-# Anoma Messages
+# Anoma Message
 
-An _Anoma_ message is a admissible messages
+The _Anoma_ message type contains all admissible messages
 that can be sent between nodes in the network.
 An Anoma message is of the type `Msg`.
 Each constructor of the type `Msg`
