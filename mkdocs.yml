@@ -71,21 +71,21 @@ nav:
                       - Nullifier: ./system_architecture/state/resource_machine/data_structures/resource/computable_components/nullifier.md
                       - Kind: ./system_architecture/state/resource_machine/data_structures/resource/computable_components/kind.md
                       - Delta: ./system_architecture/state/resource_machine/data_structures/resource/computable_components/delta.md
+                      - Tag: ./system_architecture/state/resource_machine/data_structures/resource/computable_components/tag.md 
+                  - Compliance unit: .//system_architecture/state/resource_machine/data_structures/compliance_unit.md
                   - Action: 
                     - ./system_architecture/state/resource_machine/data_structures/action.md
                     - Resource logic proofs: ./system_architecture/state/resource_machine/data_structures/proof/logic.md
                     - Compliance proofs: ./system_architecture/state/resource_machine/data_structures/proof/compliance.md
                   - Transaction: ./system_architecture/state/resource_machine/data_structures/transaction.md
                 - Execution flow:
-                  - Roles and requirements: ./system_architecture/state/resource_machine/execution_flow/roles_and_requirements.md
-                  - Resource machine:
-                    - ./system_architecture/state/resource_machine/execution_flow/rm_def/definition.md
-                    - Stored data format: ./system_architecture/state/resource_machine/execution_flow/rm_def/storage.md
+                  - ./system_architecture/state/resource_machine/execution_flow/flow.md
                 - Notes:
+                  - Roles and requirements: ./system_architecture/state/resource_machine/execution_flow/roles_and_requirements.md
+                  - Stored data format: ./system_architecture/state/resource_machine/execution_flow/rm_def/storage.md
                   - Function formats:
                     - Transaction function: ./system_architecture/state/resource_machine/notes/function_formats/transaction_function.md
                     - Resource logic: ./system_architecture/state/resource_machine/notes/function_formats/resource_logic.md
-                    - Preference function: ./system_architecture/state/resource_machine/notes/function_formats/preference_function.md
                   - Applications: ./system_architecture/state/resource_machine/notes/applications.md
       - Node Architecture:
           - ./node_architecture/index.md

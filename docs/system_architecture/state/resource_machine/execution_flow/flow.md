@@ -46,3 +46,9 @@ Solvers are the parties that have the computational power. Solvers are the parti
 ### Executor
 
 Executors are the final nodes that receive transaction functions after ordering and produce a state change. After receiving a transaction function, the executor runs it, outputting a transaction that describes a state update. The executor node validates the resulting transaction, by performing the checks described [here](./../data_structures/transaction.md#verify). In case the transaction is valid, the executor applies the state changes: adds nullifiers to the nullifier set, commitments to the commitment tree, and possibly some other data to the storage.
+
+## Post- and pre-ordering execution
+
+*Pre-ordering execution* implies partial evaluation of the transaction function. In practice pre-ordering execution happens before the transactions are ordered by the ordering component external to the ARM.
+
+*Post-ordering execution* implies full evaluation of the transaction function. As the name suggests, post-ordering execution happens after the ordering component external to the ARM completed the ordering of transaction functions.
