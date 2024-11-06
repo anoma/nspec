@@ -47,7 +47,7 @@ type EngineEnvironment (S M H : Type) :=
   mkEngineEnvironment {
       name : EngineName ; -- read-only
       localState : S;
-      mailboxCluster : Map MailboxID (Mailbox M);
+      mailboxCluster : Map MailboxID (Mailbox M S);
       acquaintances : Set EngineName;
       timers : List (Timer H);
 };

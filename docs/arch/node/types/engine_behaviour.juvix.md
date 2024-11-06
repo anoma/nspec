@@ -104,7 +104,7 @@ type GuardOutput (A L X : Type) :=
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Guard (S M H A L X : Type) : Type :=
-  (t : TimestampedTrigger H) ->
+  (t : TimestampedTrigger H M) ->
   (env : EngineEnvironment S M H) ->
   Option (GuardOutput A L X);
 ```
@@ -117,7 +117,7 @@ Guard (S M H A L X : Type) : Type :=
 type ActionInput (S M H A L X : Type) := mkActionInput {
   guardOutput : GuardOutput A L X;
   env : EngineEnvironment S M H;
-  timestampedTrigger : TimestampedTrigger H;
+  timestampedTrigger : TimestampedTrigger H M;
 };
 ```
 <!-- --8<-- [end:ActionInput] -->
@@ -127,7 +127,7 @@ type ActionInput (S M H A L X : Type) := mkActionInput {
 - Get the message from an `ActionInput`:
 
     ```juvix
-    getMessageFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : Option Anoma.Msg
+    getMessageFromActionInput {S M H A L X} (input : ActionInput S M H A L X) : Option M
       := getMessageFromTimestampedTrigger (ActionInput.timestampedTrigger input);
     ```
 
@@ -161,7 +161,7 @@ which can be
 ```juvix
 type ActionEffect (S M H A L X : Type) := mkActionEffect {
   newEnv : EngineEnvironment S M H;
-  producedMessages : List EngineMessage;
+  producedMessages : List (EngineMsg M);
   timers : List (Timer H);
   spawnedEngines : List Anoma.Env;
 };

@@ -12,7 +12,7 @@ tags:
 
 # Ticker Environment
 
-??? quote "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module arch.node.engines.ticker_environment;
