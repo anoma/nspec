@@ -9,7 +9,16 @@ search:
 
     ```juvix
     module arch.node.types.anoma_environment;
+
     import arch.node.engines.ticker_environment open;
+    import arch.node.engines.identity_management_environment open;
+    import arch.node.engines.decryption_environment open;
+    import arch.node.engines.encryption_environment open;
+    import arch.node.engines.commitment_environment open;
+    import arch.node.engines.verification_environment open;
+    import arch.node.engines.reads_for_environment open;
+    import arch.node.engines.signs_for_environment open;
+    import arch.node.engines.naming_environment open;
     ```
 
 # Anoma Engine Environments
@@ -28,5 +37,13 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 ```juvix
 type Env :=
   | EnvTicker TickerEnvironment
+  | EnvIdentityManagement IdentityManagementEnvironment
+  | EnvDecryption DecryptionEnvironment
+  | EnvEncryption EncryptionEnvironment
+  | EnvCommitment CommitmentEnvironment
+  | EnvVerification VerificationEnvironment
+  | EnvReadsFor ReadsForEnvironment
+  | EnvSignsFor SignsForEnvironment
+  | EnvNaming NamingEnvironment
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

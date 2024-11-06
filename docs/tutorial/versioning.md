@@ -45,7 +45,4 @@ MAJOR.MINOR.PATCH
 
 
 
-The package started at version 1.0.0 as the initial release. 
-
-Each PR must
-specify which version component to increment based on the above criteria.
+The package started at version 0.1.0 as the initial release.
