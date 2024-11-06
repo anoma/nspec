@@ -108,14 +108,14 @@ Cairo.poseidon_many([
 ])
 ```
 
-#### Nullifier public key(Nullifier key commitment)
+#### Nullifier key commitment
 
 ```Elixir
-@spec get_npk(binary()) :: binary()
+@spec get_nk_commitment(binary()) :: binary()
 @doc """
-Generate the nullifier public key from the nulliffier (private)key.
+Generate the nullifier key commitment from the nulliffier key.
 """
-def get_npk(nk) do
+def get_nk_commitment(nk) do
 Cairo.poseidon(
     nk,
     Constants.felt_zero()
@@ -153,8 +153,7 @@ def decrypt(cihper, sk)
 The `encrypt` in Juvix circuit can be found [here](https://github.com/anoma/aarm-cairo/blob/base/native/cairo_vm/encryption.juvix).
 
 ## Encoding choices
-
-The basic `felt252` in Anoma RM(Elixir) is a `binary()` type with a length of 32 bytes or 256 bits.
+The basic types in Anoma Shielded RM(Elixir) have only one canonical representation, which is `binary()`. The basic `felt252` in Anoma RM(Elixir) is a `binary()` type with a length of 32 bytes or 256 bits.
 
 ### ShieldedResource
 
@@ -173,8 +172,8 @@ typedstruct enforce: true do
     field(:eph, bool(), default: false)
     # resource nonce
     field(:nonce, binary(), default: <<0::256>>)
-    # nullifier public key
-    field(:npk, binary(), default: <<0::256>>)
+    # commitment to nullifier key
+    field(:nk_commitment, binary(), default: <<0::256>>)
     # random seed
     field(:rseed, binary(), default: <<0::256>>)
 end
@@ -190,7 +189,7 @@ type Resource :=
     data : Field;
     eph : Bool;
     nonce : Field;
-    npk : Field;
+    np_commitment : Field;
     rseed : Field
   };
 ```
@@ -208,13 +207,12 @@ end
 def get_cairo_program_hash(proof_record)
 ```
 
-### ComplianceInput(compliance private inputs)
-The private and public inputs in zkvms are generally substituted with program inputs and outputs to enhance the intuitiveness of vm design. We derive the concepts in Cairo RM. The Cairo(STARK) proving system requires JSON format inputs. We also offer an API to generate the JSON string from `ComplianceInput`.
+### ComplianceWitness(compliance private inputs)
 
 ```Elixir
 typedstruct enforce: true do
     # Input resource
-    field(:input_resource, ShieldedResource.t())
+    field(:input_resource, Resource.t())
     # Input resource merkle path
     field(:merkle_proof, CommitmentTree.Proof.t())
     # Nullifier key of the input resource
@@ -222,12 +220,12 @@ typedstruct enforce: true do
     # Ephemeral root
     field(:eph_root, binary(), default: <<0::256>>)
     # Output resource
-    field(:output_resource, ShieldedResource.t())
+    field(:output_resource, Resource.t())
     # Random value in delta proof(binding signature)
     field(:rcv, binary(), default: <<0::256>>)
 end
 
-@spec to_json_string(ComplianceInput.t()) :: binary()
+@spec to_json_string(ComplianceWitness.t()) :: binary()
 @doc """
 Generate the compliance input json
 """
@@ -235,7 +233,7 @@ def to_json_string(input) do
 
 ```
 
-### ComplianceOutput(compliance public inputs)
+### ComplianceInstance(compliance public inputs)
 ```Elixir
 typedstruct enforce: true do
     # Input Resource nullifier
@@ -254,18 +252,18 @@ typedstruct enforce: true do
 end
 ```
 
-### ResourceLogicOutput(resource logic public inputs)
+### LogicInstance(resource logic public inputs)
 
 ```Elixir
 typedstruct enforce: true do
-    # Self resource identity: nullifier of input resource or commitment of output resource
-    field(:self_resource_id, binary())
-    # The merkle root of resources in ptx
-    field(:root, binary())
+    # nullifier of input resource or commitment of output resource
+    field(:tag, binary(), default: <<0::256>>)
+    # The merkle root of resources in current action(execution context)
+    field(:root, binary(), default: <<0::256>>)
     # Ciphertext
-    field(:cipher, list(binary()))
-    # Custom outputs
-    field(:others, list(binary()))
+    field(:cipher, list(binary()), default: [])
+    # Custom public inputs
+    field(:app_data, list(binary()), default: [])
 end
 ```
 
@@ -309,7 +307,7 @@ def verify(transaction)
 @doc "check the existence of merkle roots"
 def resource_existence_check(transaction, storage)
 
-@spec resource_existence_check(ShieldedTransaction.t(), any()) :: boolean()
+@spec nullifier_check(ShieldedTransaction.t(), any()) :: boolean()
 @doc "check the non-existence of nullifiers"
 def nullifier_check(transaction, storage)
 ```
