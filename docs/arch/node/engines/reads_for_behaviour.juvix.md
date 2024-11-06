@@ -196,9 +196,9 @@ readsForQueryGuard
       | some (MsgReadsFor (ReadsForRequest x y)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          args := [ReplyTo (some sender) none] ;
-          label := DoReadsForQuery x y;
-          other := unit
+          matchedArgs := [ReplyTo (some sender) none] ;
+          actionLabel := DoReadsForQuery x y;
+          precomputationTasks := unit
         });}
       | _ := none
   };
@@ -227,9 +227,9 @@ submitEvidenceGuard
       | some (MsgReadsFor (SubmitReadsForEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-          label := DoSubmitEvidence x;
-          other := unit
+                matchedArgs := [ReplyTo (some sender) none] ;
+                actionLabel := DoSubmitEvidence x;
+                precomputationTasks := unit
         });}
       | _ := none
   };
@@ -258,9 +258,9 @@ queryEvidenceGuard
       | some (MsgReadsFor (QueryReadsForEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-                  label := DoQueryEvidence x;
-                  other := unit
+                matchedArgs := [ReplyTo (some sender) none] ;
+                actionLabel := DoQueryEvidence x;
+                precomputationTasks := unit
                 });
         }
       | _ := none
@@ -301,9 +301,9 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
-  case GuardOutput.label out of {
+  case GuardOutput.actionLabel out of {
     | DoReadsForQuery externalIdentityA externalIdentityB :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             hasEvidence := elem \{a b := a && b} true (map \{ evidence :=
               isEQ (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentityA) &&
@@ -327,7 +327,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
     | DoSubmitEvidence evidence :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ :=
             let isValid := ReadsForLocalState.verifyEvidence localState evidence;
             in
@@ -401,7 +401,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
           }
       }
     | DoQueryEvidence externalIdentity' :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             relevantEvidence := AVLfilter \{evidence :=
               isEQ (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentity') ||

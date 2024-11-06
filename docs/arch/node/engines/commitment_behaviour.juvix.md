@@ -143,9 +143,9 @@ commitGuard
       | some (MsgCommitment (CommitRequest data)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-                  label := DoCommit data;
-                  other := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoCommit data;
+                  precomputationTasks := unit
                 });
         }
       | _ := none
@@ -186,9 +186,9 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
-  case GuardOutput.label out of {
+  case GuardOutput.actionLabel out of {
     | DoCommit data :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             signedData :=
               Signer.sign (CommitmentLocalState.signer localState)

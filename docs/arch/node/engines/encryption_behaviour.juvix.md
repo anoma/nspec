@@ -174,9 +174,9 @@ encryptGuard
       | some (MsgEncryption (EncryptRequest data externalIdentity useReadsFor)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-                  label := DoEncrypt data externalIdentity useReadsFor;
-                  other := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoEncrypt data externalIdentity useReadsFor;
+                  precomputationTasks := unit
                 });
         }
       | _ := none
@@ -197,9 +197,9 @@ readsForResponseGuard
             | some sender :=
                 case Ord.isEQ (Ord.cmp sender (EncryptionLocalState.readsForEngineAddress (EngineEnvironment.localState env))) of {
                   | true := some (mkGuardOutput@{
-                      args := [];
-                      label := DoHandleReadsForResponse externalIdentity evidence;
-                      other := unit
+                      matchedArgs := [];
+                      actionLabel := DoHandleReadsForResponse externalIdentity evidence;
+                      precomputationTasks := unit
                     })
                   | false := none
                 }
@@ -269,9 +269,9 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
-  case GuardOutput.label out of {
+  case GuardOutput.actionLabel out of {
     | DoEncrypt data externalIdentity' useReadsFor :=
-        case GuardOutput.args out of {
+        case GuardOutput.matchedArgs out of {
           | (ReplyTo (some whoAsked) _) :: _ :=
               case useReadsFor of {
                 | false :=

@@ -203,9 +203,9 @@ generateIdentityGuard
       | some (MsgIdentityManagement (GenerateIdentityRequest x y z)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [MessageFrom (some sender) none];
-                  label := DoGenerateIdentity x y z;
-                  other := unit
+                  matchedArgs := [MessageFrom (some sender) none];
+                  actionLabel := DoGenerateIdentity x y z;
+                  precomputationTasks := unit
                 });
       }
       | _ := none
@@ -235,9 +235,9 @@ connectIdentityGuard
       | some (MsgIdentityManagement (ConnectIdentityRequest x y z)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [MessageFrom (some sender) none];
-                  label := DoConnectIdentity x y z;
-                  other := unit
+                  matchedArgs := [MessageFrom (some sender) none];
+                  actionLabel := DoConnectIdentity x y z;
+                  precomputationTasks := unit
                 });
         }
       | _ := none
@@ -267,9 +267,9 @@ deleteIdentityGuard
       | some (MsgIdentityManagement (DeleteIdentityRequest x y)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [MessageFrom (some sender) none];
-                  label := DoDeleteIdentity x y;
-                  other := unit
+                  matchedArgs := [MessageFrom (some sender) none];
+                  actionLabel := DoDeleteIdentity x y;
+                  precomputationTasks := unit
                 });
         }
       | _ := none
@@ -452,9 +452,9 @@ identityManagementAction
       local := EngineEnvironment.localState env;
       identities := IdentityManagementLocalState.identities local;
   in
-  case GuardOutput.label out of {
+  case GuardOutput.actionLabel out of {
     | DoGenerateIdentity backend' params' capabilities' :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (MessageFrom (some whoAsked) _) :: _ :=
             case Map.lookup whoAsked identities of {
               | some _ :=
@@ -517,7 +517,7 @@ identityManagementAction
       }
 
     | DoConnectIdentity externalIdentity' backend' capabilities' :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (MessageFrom (some whoAsked) _) :: _ :=
             -- Check if whoAsked already exists
             case Map.lookup whoAsked identities of {
@@ -619,7 +619,7 @@ identityManagementAction
       }
 
     | DoDeleteIdentity externalIdentity backend' :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (MessageFrom (some whoAsked) _) :: _ :=
             -- Check if the identity exists
             case Map.lookup externalIdentity identities of {

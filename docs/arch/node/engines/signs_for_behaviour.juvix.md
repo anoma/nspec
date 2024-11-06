@@ -196,9 +196,9 @@ signsForQueryGuard
       | some (MsgSignsFor (SignsForRequest x y)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          args := [ReplyTo (some sender) none] ;
-          label := DoSignsForQuery x y;
-          other := unit
+                matchedArgs := [ReplyTo (some sender) none] ;
+                actionLabel := DoSignsForQuery x y;
+                precomputationTasks := unit
         });}
       | _ := none
   };
@@ -227,9 +227,9 @@ submitEvidenceGuard
       | some (MsgSignsFor (SubmitSignsForEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-          label := DoSubmitEvidence x;
-          other := unit
+                matchedArgs := [ReplyTo (some sender) none] ;
+                actionLabel := DoSubmitEvidence x;
+                precomputationTasks := unit
         });}
       | _ := none
   };
@@ -258,9 +258,9 @@ queryEvidenceGuard
       | some (MsgSignsFor (QuerySignsForEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-                  label := DoQueryEvidence x;
-                  other := unit
+                matchedArgs := [ReplyTo (some sender) none] ;
+                actionLabel := DoQueryEvidence x;
+                precomputationTasks := unit
                 });
         }
       | _ := none
@@ -301,9 +301,9 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
-  case GuardOutput.label out of {
+  case GuardOutput.actionLabel out of {
     | DoSignsForQuery externalIdentityA externalIdentityB :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             hasEvidence := elem \{a b := a && b} true (map \{ evidence :=
               isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
@@ -327,7 +327,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
     | DoSubmitEvidence evidence :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ :=
             let isValid := SignsForLocalState.verifyEvidence localState evidence;
             in
@@ -401,7 +401,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
           }
       }
     | DoQueryEvidence externalIdentity' :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             relevantEvidence := AVLfilter \{evidence :=
               isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity') ||

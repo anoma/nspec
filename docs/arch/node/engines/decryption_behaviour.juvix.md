@@ -143,9 +143,9 @@ decryptGuard
       | some (MsgDecryption (DecryptRequest data)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-                  label := DoDecrypt data;
-                  other := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoDecrypt data;
+                  precomputationTasks := unit
                 });
         }
       | _ := none
@@ -186,9 +186,9 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
-  case GuardOutput.label out of {
+  case GuardOutput.actionLabel out of {
     | DoDecrypt data :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             decryptedData :=
               Decryptor.decrypt (DecryptionLocalState.decryptor localState)

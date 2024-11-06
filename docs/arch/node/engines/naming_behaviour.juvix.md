@@ -195,9 +195,9 @@ resolveNameGuard
       | some (MsgNaming (ResolveNameRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-          label := DoResolveName x;
-          other := unit
+          matchedArgs := [ReplyTo (some sender) none] ;
+          actionLabel := DoResolveName x;
+          precomputationTasks := unit
         });}
       | _ := none
   };
@@ -226,9 +226,9 @@ submitNameEvidenceGuard
       | some (MsgNaming (SubmitNameEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-          label := DoSubmitNameEvidence x;
-          other := unit
+          matchedArgs := [ReplyTo (some sender) none] ;
+          actionLabel := DoSubmitNameEvidence x;
+          precomputationTasks := unit
         });}
       | _ := none
   };
@@ -257,9 +257,9 @@ queryNameEvidenceGuard
       | some (MsgNaming (QueryNameEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-                  label := DoQueryNameEvidence x;
-                  other := unit
+                matchedArgs := [ReplyTo (some sender) none] ;
+                actionLabel := DoQueryNameEvidence x;
+                precomputationTasks := unit
                 });
         }
       | _ := none
@@ -300,9 +300,9 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
-  case GuardOutput.label out of {
+  case GuardOutput.actionLabel out of {
     | DoResolveName identityName :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             matchingEvidence := AVLfilter \{evidence :=
               isEQ (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
@@ -328,7 +328,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
     | DoSubmitNameEvidence evidence' :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ :=
             let evidence := evidence';
                 isValid := NamingLocalState.verifyEvidence localState evidence;
@@ -389,7 +389,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
           }
       }
     | DoQueryNameEvidence externalIdentity' :=
-      case GuardOutput.args out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             relevantEvidence := AVLfilter \{evidence :=
               isEQ (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity')

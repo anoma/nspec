@@ -176,9 +176,9 @@ verifyGuard
       | some (MsgVerification (VerifyRequest x y z w)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  args := [ReplyTo (some sender) none] ;
-                  label := DoVerify x y z w;
-                  other := unit
+                matchedArgs := [ReplyTo (some sender) none] ;
+                actionLabel := DoVerify x y z w;
+                precomputationTasks := unit
                 });
         }
       | _ := none
@@ -199,9 +199,9 @@ signsForResponseGuard
             | some sender :=
                 case Ord.isEQ (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnvironment.localState env))) of {
                   | true := some (mkGuardOutput@{
-                      args := [];
-                      label := DoHandleSignsForResponse externalIdentity evidence;
-                      other := unit
+                      matchedArgs := [];
+                      actionLabel := DoHandleSignsForResponse externalIdentity evidence;
+                      precomputationTasks := unit
                     })
                   | false := none
                 }
@@ -268,9 +268,9 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
-  case GuardOutput.label out of {
+  case GuardOutput.actionLabel out of {
     | DoVerify data commitment externalIdentity' useSignsFor :=
-        case GuardOutput.args out of {
+        case GuardOutput.matchedArgs out of {
           | (ReplyTo (some whoAsked) _) :: _ :=
               case useSignsFor of {
                 | false :=
