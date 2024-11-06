@@ -8,22 +8,9 @@ A **resource machine** is a deterministic stateless machine that creates, compos
 
 It has read-only access to the external global state, which includes the content-addressed storage system (which in particular stores resources), global commitment accumulator, and the global nullifier set, and can produce writes to the external local state that will later be applied to the system state.
 
-The resource machine has two layers: the outer layer, the resource machine shell, that creates and processes **transaction functions**, and the inner layer, the resource machine core, that creates and processes **transactions**.
-
-We assume the shell is trivial in this version of the ARM: the state change object is travelling over the network in the form of a transaction function, but reaching the ARM, it is evaluated without any verification steps. The result is a transaction that is then passed to the core for processing. The distribution of responsibilities between the shell and the core is expected to change. 
-
-To support the shell layer, the resource machine must have the functionality to produce, compose, and evaluate transaction functions. Assuming the shell is trivial in the current version of the specification, the following description of the resource machine functionality describes the functionality of the resource machine core.
+The resource machine must have the functionality to produce, compose, and evaluate transaction functions and transactions.
 
 Actors working with resource machine include users, solvers, and executor nodes. 
-
-#### Resource machine functions
-
-A resource machine provides the following functions:
-
-- **Create**: given a set of components required to produce a transaction, the create function produces a transaction data structure according to the [transaction creation rules]().
-- **Compose**: taking two transactions $tx_1$ and $tx_2$ as input, produces a new transaction $tx = tx_1 \circ tx_2$ according to the [transaction composition rules]().
-- **Verify**: taking a transaction as input, verifies its validity according to the [transaction validity rules](). If the transaction is valid, the resource machine outputs a state update. Otherwise, the output is empty.
-
 
 # Transaction function
 
