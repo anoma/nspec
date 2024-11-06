@@ -6,7 +6,7 @@ search:
 
 # Ticker Environment
 
-??? note "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module arch.node.engines.ticker_environment;

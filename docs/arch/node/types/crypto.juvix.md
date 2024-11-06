@@ -10,11 +10,12 @@ tags:
 - Crypto
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module arch.node.types.crypto;
     import prelude open;
+    import Stdlib.Trait.Ord open using {Ordering; Ord; mkOrd; EQ};
     ```
 
 ## Cryptographic primitives
@@ -25,6 +26,12 @@ tags:
 type PublicKey :=
   | Curve25519PubKey
   ;
+
+instance
+PublicKeyOrd : Ord PublicKey :=
+  mkOrd@{
+    cmp := \{_ _ := EQ};
+  };
 ```
 
 ### Private key
@@ -33,6 +40,12 @@ type PublicKey :=
 type PrivateKey :=
   | Curve25519PrivKey
   ;
+
+instance
+PrivateKeyOrd : Ord PrivateKey :=
+  mkOrd@{
+    cmp := \{_ _ := EQ};
+  };
 ```
 
 ### Signature
