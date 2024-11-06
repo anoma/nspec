@@ -1,11 +1,12 @@
 ---
-icon: octicons/gear-16
+icon: material/message-draw
 search:
   exclude: false
 categories:
-- engine-behaviour
+- engine
+- node
 tags:
-- mytag1
+- template-engine
 - engine-messages
 ---
 
@@ -18,6 +19,8 @@ tags:
 
 # Template Messages
 
+These are the messages that the Template engine can receive/respond to.
+
 ## Message interface
 
 ??? quote "Auxiliary Juvix code"
@@ -29,105 +32,120 @@ tags:
     syntax alias MethodTwoArgOne := Nat;
     ```
 
+### `MsgTemplateJustHi`
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+### `MsgTemplateExampleRequest`
+
+Example request.
+
+<!-- --8<-- [start:ExampleRequest] -->
+```juvix
+type ExampleRequest : Type :=
+  mkExampleRequest {
+    argOne : Nat;
+    argTwo : Nat;
+  }
+```
+<!-- --8<-- [end:ExampleRequest] -->
+
+??? quote "Arguments"
+
+    `argOne`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+    `argTwo`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+### `MsgTemplateExampleReply`
+
+Reply to an `ExampleRequest`.
+
+#### `ExampleReplyOk`
+
+Example OK reply.
+
+<!-- --8<-- [start:ExampleReplyOk] -->
+```juvix
+type ExampleReplyOk : Type :=
+  mkExampleReplyOk {
+    argOne : Nat;
+  }
+```
+<!-- --8<-- [end:ExampleReplyOk] -->
+
+??? quote "Arguments"
+
+    `argOne`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#### `ExampleReplyError`
+
+Example error reply.
+
+<!-- --8<-- [start:ExampleReplyError] -->
+```juvix
+type ExampleReplyError : Type :=
+  | ExampleErrorOne
+  | ExampleErrorTwo
+  ;
+```
+<!-- --8<-- [end:ExampleReplyError] -->
+
+??? quote "Error types"
+
+    `ExampleErrorOne`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+    `ExampleErrorTwo`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#### `ExampleReply`
+
+<!-- --8<-- [start:ExampleReply] -->
+```juvix
+ExampleReply : Type := Result ExampleReplyOk ExampleReplyError;
+```
+<!-- --8<-- [end:ExampleReply] -->
+
+### `TemplateMsg`
+
 <!-- --8<-- [start:TemplateMsg] -->
 ```juvix
 type TemplateMsg :=
-  | -- --8<-- [start:MethodOneMsg]
-    MethodOneMsg {
-      argOne : MethodOneArgOne;
-      argTwo : MethodOneArgTwo;
-      argThree : MethodOneArgThree;
-    }
-    -- --8<-- [end:MethodOneMsg]
-  | -- --8<-- [start:MethodTwoMsg]
-    MethodTwoMsg {
-      argOne : MethodTwoArgOne;
-    }
-    -- --8<-- [end:MethodTwoMsg]
+  | MsgTemplateJustHi
+  | MsgTemplateExampleRequest ExampleRequest
+  | MsgTemplateExampleReply ExampleReply
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->
 
-### `MethodOneMsg`
+## Sequence Diagrams
 
-!!! quote "MethodOneMsg"
-
-    ```
-    --8<-- "./template_messages.juvix.md:MethodOneMsg"
-    ```
+### `ExampleRequest` & `ExampleReply`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-The following is an example of a `MethodOneMsg`-message:
+Sed ut purus eget sapien. Nulla facilisi.
 
-<!-- --8<-- [start:example-message-one] -->
-```juvix extract-module-statements
-module example-message-one;
-  example_message_one : TemplateMsg := MethodOneMsg@{
-    argOne := 1;
-    argTwo := 2;
-    argThree := 3;
-  };
-end;
-```
-<!-- --8<-- [end:example-message-one] -->
-
-`argOne`
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-`argTwo`
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-`argThree`
-: This is the last argument and here we actually
-  can describe more detail about the property about `argOne`
-  and `argThree` mentioned above.
-
-### `MethodTwoMsg`
-
-!!! quote "MethodTwoMsg"
-
-    ```
-    --8<-- "./template_messages.juvix.md:MethodTwoMsg"
-    ```
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-The following is an example of a `MethodTwoMsg` message:
-
-<!-- --8<-- [start:message_two_example] -->
-```juvix extract-module-statements
-module message_two_example;
-  example_message_two : TemplateMsg := MethodTwoMsg@{
-    argOne := 1;
-  };
-end;
-```
-<!-- --8<-- [end:message_two_example] -->
-
-`argOne`
-: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-## Message sequence diagrams
-
-### [Title of message sequence diagram ⟨𝑖⟩]
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget
-sapien. Nulla facilisi.
-
-<!-- --8<-- [start:message-sequence-diagram] -->
+<!-- --8<-- [start:message-sequence-diagram-ExampleRequest] -->
 <figure markdown="span">
 
 ```mermaid
 sequenceDiagram
+    participant TemplateClient
     participant Template
-    participant EngineTemplateClient
 
-    EngineTemplateClient ->> Template: Send MethodOneMsg
-    Template ->> EngineTemplateClient: Respond with MethodOneMsg
+    TemplateClient ->> Template: ExampleRequest
+    Template ->> TemplateClient: ExampleReplyOk
+
+    TemplateClient ->> Template: ExampleRequest
+    Template ->> TemplateClient: ExampleReplyErrorOne
 ```
 
 <figcaption markdown="span">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Sequence Diagram: `ExampleRequest` & `ExampleReply`
 </figcaption>
 </figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
+<!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
 

@@ -2,11 +2,17 @@
 icon: octicons/container-24
 search:
   exclude: false
+categories:
+- engine
+- node
+tags:
+- ticker-engine
+- engine-environment
 ---
 
 # Ticker Environment
 
-??? quote "Juvix imports"
+??? quote "Juvix preamble"
 
     ```juvix
     module arch.node.engines.ticker_environment;
@@ -48,13 +54,15 @@ Therefore, we define the timer handle type as `Unit`.
 
 ## The Ticker Environment
 
+### TickerEnvironment
+
 ```juvix
 TickerEnvironment : Type := EngineEnvironment TickerLocalState TickerMailboxState TickerTimerHandle;
 ```
 
-## Example of a ticker environment
+#### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:zeroTickerEnvironment] -->
 ```juvix extract-module-statements
 module ticker_environment_example;
 
@@ -70,4 +78,4 @@ zeroTickerEnvironment : TickerEnvironment :=
     };
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:zeroTickerEnvironment] -->
