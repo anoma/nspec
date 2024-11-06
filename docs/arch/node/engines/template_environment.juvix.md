@@ -10,9 +10,7 @@ tags:
 - engine-environment
 ---
 
-# Template Environment
-
-??? quote "Juvix preamble"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.engines.template_environment;
@@ -20,6 +18,8 @@ tags:
     import arch.node.types.engine open;
     import arch.node.engines.template_messages open;
     ```
+
+# Template Environment
 
 ## Overview
 

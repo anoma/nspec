@@ -10,7 +10,7 @@ tags:
 - engine-behaviour
 ---
 
-??? quote "Juvix preamble"
+??? quote "Juvix imports"
 
     ```juvix
     module arch.node.engines.template_behaviour;
