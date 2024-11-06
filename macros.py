@@ -62,7 +62,7 @@ def define_env(env):
         juvix_modules_file = CACHE_DIR / "juvix_modules.json"
         juvix_modules_by_letter = {}
         juvix_modules = load_json_file(juvix_modules_file)
-        sorted(juvix_modules, key=lambda x: x["module_name"])
+        juvix_modules = sorted(juvix_modules, key=lambda x: x["module_name"])
         current_letter = None
         for mod in juvix_modules:
             letter = mod["module_name"][0].upper()

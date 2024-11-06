@@ -437,6 +437,7 @@ nav:
       - ./tutorial/index.md
       - Prepare working environment: ./tutorial/install/index.md
       - Use Git and GitHub: ./tutorial/branch.md
+      - Versioning: ./tutorial/versioning.md
       - File naming conventions: ./tutorial/file_naming.md
       - Write Markdown: ./tutorial/md/index.md
       - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
