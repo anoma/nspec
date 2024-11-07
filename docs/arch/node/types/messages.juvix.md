@@ -14,12 +14,11 @@ tags:
 
     ```juvix
     module arch.node.types.messages;
+
     import prelude open public;
     import arch.node.types.basics open;
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
-    import arch.node.types.network open;
-    import arch.node.types.anoma_message open;
     ```
 
 # Messages and mailboxes
@@ -155,20 +154,20 @@ type TimestampedTrigger H :=
 - Get the actual message from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option Msg
+    getMessageFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option M
       := getMessageFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the sender from a `TimestampedTrigger`:
 
     ```juvix
-    getSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
+    getSenderFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
       := getSenderFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the target from a `TImestampedTrigger`:
 
     ```juvix
-    getTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
+    getTargetFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
       := getTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```

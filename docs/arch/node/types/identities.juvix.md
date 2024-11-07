@@ -135,6 +135,22 @@ Cryptographic domain identity.
 syntax alias DomainID := ExternalID;
 ```
 
+### MemberID
+
+Cryptographic identity of a member in a domain.
+
+```juvix
+syntax alias MemberID := ExternalID;
+```
+
+### ChunkID
+
+Cryptographic content addressed hash digest of a data chunk.
+
+```juvix
+syntax alias ChunkID := Digest;
+```
+
 ## Engine Related Types
 
 ### EngineName

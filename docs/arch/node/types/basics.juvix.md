@@ -27,14 +27,6 @@ please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorial
 
 ## Basic types
 
-### Bytes
-
-Byte array.
-
-```juvix
-syntax alias Bytes := String;
-```
-
 ### Hash
 
 Natural numbers are used (for now) to represent hash values, bytes sizes, and other non-negative integers.

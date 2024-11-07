@@ -86,6 +86,13 @@ nav:
               - Anoma:
                   - Anoma Message: ./arch/node/types/anoma_message.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
+          - Network Subsystem:
+              - ./arch/node/net/index.md
+              - Router: ./arch/node/net/router.juvix.md
+              - Node Proxy: ./arch/node/net/node_proxy.juvix.md
+              - Transport: ./arch/node/net/transport.juvix.md
+              - Topic: ./arch/node/net/topic.juvix.md
+              - Storage: ./arch/node/net/storage.juvix.md
           - Hardware Abstraction Machine:
               - ./arch/node/hardware/index.md
               - Local Storage Engines:

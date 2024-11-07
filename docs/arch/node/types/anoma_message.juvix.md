@@ -13,6 +13,7 @@ tags:
     module arch.node.types.anoma_message;
 
     import arch.node.engines.ticker_messages open using {TickerMsg};
+
     import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
     import arch.node.engines.decryption_messages open using {DecryptionMsg};
     import arch.node.engines.encryption_messages open using {EncryptionMsg};
@@ -21,6 +22,12 @@ tags:
     import arch.node.engines.reads_for_messages open using {ReadsForMsg};
     import arch.node.engines.signs_for_messages open using {SignsForMsg};
     import arch.node.engines.naming_messages open using {NamingMsg};
+
+    import arch.node.net.router_messages open;
+    import arch.node.net.node_proxy_messages open;
+    import arch.node.net.transport_messages open;
+    import arch.node.net.topic_messages open;
+    import arch.node.net.storage_messages open;
     ```
 
 # Anoma Message
@@ -34,6 +41,7 @@ For example, the engine family `Ticker` has a corresponding message type `Ticker
 ```juvix
 type Msg :=
   | MsgTicker TickerMsg
+
   | MsgIdentityManagement IdentityManagementMsg
   | MsgDecryption DecryptionMsg
   | MsgEncryption EncryptionMsg
@@ -42,6 +50,12 @@ type Msg :=
   | MsgReadsFor ReadsForMsg
   | MsgSignsFor SignsForMsg
   | MsgNaming NamingMsg
-  ;
+
+  | MsgAllRouter MsgRouter
+  | MsgAllNodeProxy MsgNodeProxy
+  | MsgAllTransport MsgTransport
+  | MsgAllTopic MsgTopic
+  | MsgAllStorage MsgStorage
+;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

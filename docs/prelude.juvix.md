@@ -90,6 +90,12 @@ For example,
 hello : String := "Hello, World!";
 ```
 
+## Bytes
+
+```juvix
+syntax alias Bytes := String;
+```
+
 ## Unit
 
 The type `Unit` represents a type with a single value. Often used when a function does not return any meaningful value.
