@@ -68,7 +68,7 @@ type Chunk := mkChunk {
 The content of a `Chunk`.
 
 ```juvix
-type ChunkContent := 
+type ChunkContent :=
   | InternalNode (List SecretKey)
   | LeafNode Bytes
   ;

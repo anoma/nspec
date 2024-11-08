@@ -20,7 +20,7 @@ and prekeys for asynchronous encrypted communication.
 ```juvix
 type NodeAdvert :=
   mkNodeAdvert {
-    id : NodeID; 
+    id : NodeID;
     addrs : List TransportAddress;
     prekeys : List ExternalID;
     version : Nat;
