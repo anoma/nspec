@@ -15,13 +15,16 @@ hide:
 module everything;
 
 {- Prelude -}
+
 import prelude;
 
 {- System -}
+
 import arch.system.identity.index;
 import arch.system.identity.identity;
 
 {- Types -}
+
 import arch.node.types;
 
 import arch.node.types.basics;
@@ -37,8 +40,8 @@ import arch.node.types.engine;
 import arch.node.types.engine_behaviour;
 import arch.node.types.engine_environment;
 
-
 {- Engines -}
+
 import arch.node.engines.ticker;
 import arch.node.engines.ticker_messages;
 import arch.node.engines.ticker_environment;
@@ -84,7 +87,33 @@ import arch.node.engines.verification_environment;
 import arch.node.engines.verification_behaviour;
 import arch.node.engines.verification;
 
+import arch.node.net.router;
+import arch.node.net.router_messages;
+-- import arch.node.net.router_environment;
+-- import arch.node.net.router_behaviour;
+
+import arch.node.net.node_proxy;
+import arch.node.net.node_proxy_messages;
+-- import arch.node.net.node_proxy_environment;
+-- import arch.node.net.node_proxy_behaviour;
+
+import arch.node.net.transport;
+import arch.node.net.transport_messages;
+-- import arch.node.net.transport_environment;
+-- import arch.node.net.transport_behaviour;
+
+import arch.node.net.topic;
+import arch.node.net.topic_messages;
+-- import arch.node.net.topic_environment;
+-- import arch.node.net.topic_behaviour;
+
+import arch.node.net.storage;
+import arch.node.net.storage_messages;
+-- import arch.node.net.storage_environment;
+-- import arch.node.net.storage_behaviour;
+
 {- Template for new engines -}
+
 import arch.node.engines.template;
 import arch.node.engines.template_messages;
 import arch.node.engines.template_environment;
