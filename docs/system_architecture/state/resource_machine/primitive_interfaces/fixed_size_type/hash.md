@@ -2,6 +2,8 @@
 
 Hash type is defined as a fixed size type that is *binding*, meaning that if the input value of type `Arg` changed, the output value would change as well.
 
+In the context of hashes, we say `a` is an **opening** of a hash `h: Hash` if `h = hash(a)`.
+
 !!! warning
     TODO:
 

@@ -7,7 +7,7 @@ An action is a composite structure of type `Action` that contains the following 
 |`created`|`Set Commitment`|contains commitments of resources created in this action|
 |`consumed`|`Set Nullifier`|contains nullifiers of resources consumed in this action|
 |`proofs`|`Map BitString PS.Proof`|contains a map of resource logic and compliance proofs associated with this action. The `BitString` key is used to identify the related inputs needed to verify the proof|
-|`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and openings of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./rm_def/storage.md#data-blob-storage)|
+|`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and openings of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage)|
 
 !!! warning
     The key for the proof map probably shouldn't be `BitString` but I couldn't figure out the universal enough key types that can be used as a way to find all associated inputs. Perhaps using literally the same key as for `applicationData` will make it straightforward enough

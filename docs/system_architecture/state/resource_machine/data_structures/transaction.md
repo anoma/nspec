@@ -49,6 +49,7 @@ Having two transactions `tx1` and `tx2`, their composition `compose(tx1, tx2)` i
 A transaction is considered _valid_ if the following statements hold:
 
 Checks that do not require access to global structures:
+
 - all actions in the transaction are valid, as defined per [action validity rules](./action.md#validity)
 - actions partition the state change induced by the transaction:
   - there is no resource created more than once across actions
@@ -56,6 +57,7 @@ Checks that do not require access to global structures:
 - `deltaProof` is valid
 
 Checks that require access to global $CMtree$ and $NFset$:
+
 - each created resource wasn't created in prior transactions
 - each consumed resource wasn't consumed in prior transactions
 

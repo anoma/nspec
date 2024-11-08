@@ -17,7 +17,7 @@ classDiagram
     }
 
     FixedSize <|-- Nonce
-    FixedSize <|-- RSeed
+    FixedSize <|-- RandSeed
     FixedSize <|-- NullifierKeyCommitment
     FixedSize <|-- NullifierKey
 

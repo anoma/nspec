@@ -27,6 +27,9 @@ When proving, resource logics take as input resources created and consumed in th
 - output resource corresponding to the elements of `created`
 - custom inputs
 
+!!! note
+    The instance and witness values are expected to correspond to each other: the first tag in the instance corresponds to the first resource plaintext in the witness, and so on. Note that the tag has to be recomputed from the plaintext to verify that it indeed corresponds to the tag (included in the constraints)
+
 #### Constraints
 
 - for each output resource, check that the corresponding `r.cm` value is derived according to the rules specified by the resource machine instance

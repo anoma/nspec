@@ -11,9 +11,9 @@ The resource machine differentiates between three kinds of proofs, each of which
 
 ||Execution context|Constraints defined by|Are the constraints public by default?|Meaning
 |-|-|-|-|-|
-|Resource logic proof|Action|Application|No|Action is compliant with the application constraints|
-|Compliance proof|Compliance unit|RM instance|Yes|Action (partitioned into compliance units) is compliant with the RM rules|
-|Delta proof|Transaction|RM interface|Yes|Transaction is balanced|
+|Resource logic proof|[Action](./../../data_structures/action.md)|Application|No|Action is compliant with the application constraints|
+|Compliance proof|[Compliance unit](./../../data_structures/compliance_unit.md)|RM instance|Yes|Action (partitioned into compliance units) is compliant with the RM rules|
+|Delta proof|[Transaction](./../../data_structures/transaction.md)|RM interface|Yes|Transaction is balanced|
 
 ## Proving system requirements
 

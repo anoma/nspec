@@ -15,7 +15,10 @@ Compliance proofs are computed over [compliance units](./../compliance_unit.md).
 - paths for each consumed non-ephemeral resource
 - consumed resource commitment
 - nullifier keys for consumed resources
-- opening of `logicRefCommitment` 
+- opening of `logicRefCommitment`
+
+!!! note
+    The instance and witness values are expected to correspond to each other: the first tag in the instance corresponds to the first resource plaintext in the witness, and so on. Note that the tag has to be recomputed from the plaintext to verify that it indeed corresponds to the tag (included in the constraints)
 
 ## Compliance constraints
 Each resource machine compliance proof must check the following:

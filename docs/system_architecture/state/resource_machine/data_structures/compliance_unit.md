@@ -1,6 +1,6 @@
 # Compliance proofs and compliance units
 
-`ComplianceUnit` is a data structure that partitions the [action](./action.md). This partition corresponds to the format expected by the compliance proving system used to produce compliance proofs.
+`ComplianceUnit` is a data structure that partitions the [action](./action.md). This partition corresponds to the format expected by the compliance proving system used to produce compliance proofs. The table below describes the components of a compliance unit:
 
 |Component|Type|Description|
 |-|-|-|
@@ -8,7 +8,7 @@
 |`consumed`|`Set Nullifier`|a subset of the action nullifiers|
 
 
-The size of a compliance unit is determined by the resource machine *instantiation*. The total number of compliance proofs required for an action is determined by the number of compliance units that comprise the action. For example, if the instatiation defines a single compliance proof to include 1 input and 1 output resource, and an action contains 3 input and 2 output resources, the total number of compliance units will be 3 (with a "dummy" output resource in the third compliance unit).
+The size of a compliance unit is determined by the resource machine *instantiation*. The total number of compliance proofs required for an action is determined by the number of compliance units that comprise the action. For example, if the instatiation defines a single compliance proof to include 1 input and 1 output resource, and an action contains 3 input and 2 output resources, the total number of compliance units will be 3 (with a placeholder output resource in the third compliance unit).
 
 ## Interface
 
@@ -17,4 +17,4 @@ The size of a compliance unit is determined by the resource machine *instantiati
 
 ### Compliance unit delta
 
-Compliance unit delta can be computed as follows: `unit.delta() = sum(r.delta() for r in unit.consumed) - sum(r.delta() for r in unit.created)`
+The compliance unit delta can be computed as follows: `unit.delta() = sum(r.delta() for r in unit.consumed) - sum(r.delta() for r in unit.created)`
