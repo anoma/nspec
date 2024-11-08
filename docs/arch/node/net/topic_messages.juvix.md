@@ -5,14 +5,14 @@
     ```juvix
     module arch.node.net.topic_messages;
 
+    import arch.node.net.router_types open;
+    import arch.node.net.storage_types open;
+
     import arch.node.types.basics open;
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    -- import arch.node.types.messages open;
-    -- import arch.node.net.router_messages open;
-    import arch.node.net.storage_types open;
-    import prelude open public;
+    import prelude open;
     ```
 
 # Topic Messages
@@ -138,7 +138,7 @@ type TopicSubReplyError :=
 ### `TopicSubReply`
 
 ```juvix
-TopicSubReply := Result TopicSubReplyOk TopicSubReplyError;
+TopicSubReply : Type := Result TopicSubReplyOk TopicSubReplyError;
 ```
 
 ## `TopicUnsubRequest`
@@ -177,7 +177,7 @@ type TopicUnsubReplyError :=
 ### `TopicUnsubReply`
 
 ```juvix
-TopicUnsubReply := Result TopicUnsubReplyOk TopicUnsubReplyError;
+TopicUnsubReply : Type := Result TopicUnsubReplyOk TopicUnsubReplyError;
 ```
 
 ## `MsgTopic`

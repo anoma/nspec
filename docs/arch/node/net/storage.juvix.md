@@ -13,10 +13,10 @@ tags:
     module arch.node.net.storage;
 
     import prelude open;
-    import arch.node.net.storage_messages open public;
-    -- import arch.node.net.storage_environment open public;
-    -- import arch.node.net.storage_behaviour open public;
-    import arch.node.types.engine open public;
+    import arch.node.net.storage_messages open;
+    -- import arch.node.net.storage_environment open;
+    -- import arch.node.net.storage_behaviour open;
+    import arch.node.types.engine open;
     open template_environment_example;
     ```
 
@@ -57,7 +57,7 @@ or with a `ChunkCommitment` by a node that stores the requested chunk.
 
 <!-- --8<-- [start:StorageEngine] -->
 ```juvix
-StorageEngine :=
+StorageEngine : Type :=
   Engine
     StorageLocalState
     StorageMailboxState

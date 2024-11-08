@@ -13,10 +13,10 @@ tags:
     module arch.node.net.router;
 
     import prelude open;
-    import arch.node.net.router_messages open public;
-    -- import arch.node.net.router_environment open public;
-    -- import arch.node.net.router_behaviour open public;
-    import arch.node.types.engine open public;
+    import arch.node.net.router_messages open;
+    -- import arch.node.net.router_environment open;
+    -- import arch.node.net.router_behaviour open;
+    import arch.node.types.engine open;
     open template_environment_example;
     ```
 
@@ -46,7 +46,7 @@ It also maintains a database of known `NodeAdvert` and `TopicAdvert` messages.
 
 <!-- --8<-- [start:RouterEngine] -->
 ```juvix
-RouterEngine :=
+RouterEngine : Type :=
   Engine
     RouterLocalState
     RouterMailboxState

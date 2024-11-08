@@ -13,10 +13,10 @@ tags:
     module arch.node.engines.topic;
 
     import prelude open;
-    import arch.node.net.topic_messages open public;
-    -- TODO import arch.node.net.topic_environment open public;
-    -- TODO import arch.node.net.topic_behaviour open public;
-    import arch.node.types.engine open public;
+    import arch.node.net.topic_messages open;
+    -- TODO import arch.node.net.topic_environment open;
+    -- TODO import arch.node.net.topic_behaviour open;
+    import arch.node.types.engine open;
     open environment_example;
     ```
 
@@ -55,7 +55,7 @@ The engine instance name corresponds to the `TopicID`.
 
 <!-- --8<-- [start:TopicEngine] -->
 ```TODO juvix
-TopicEngine :=
+TopicEngine : Type :=
   Engine
     TopicLocalState
     TopicMailboxState

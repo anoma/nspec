@@ -8,7 +8,7 @@
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import prelude open public;
+    import prelude open;
     ```
 
 # Node Proxy Messages
@@ -125,7 +125,7 @@ type NodeConnectReplyError :=
 #### `NodeConnectReply`
 
 ```juvix
-NodeConnectReply := Result NodeConnectReplyOk NodeConnectReplyError;
+NodeConnectReply : Type := Result NodeConnectReplyOk NodeConnectReplyError;
 ```
 
 ### `MsgNodeProxyNodeAdvert NodeAdvert`

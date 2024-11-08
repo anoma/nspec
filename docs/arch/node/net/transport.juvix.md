@@ -13,10 +13,10 @@ tags:
     module arch.node.net.transport;
 
     import prelude open;
-    import arch.node.net.transport_messages open public;
-    -- import arch.node.net.transport_environment open public;
-    -- import arch.node.net.transport_behaviour open public;
-    import arch.node.types.engine open public;
+    import arch.node.net.transport_messages open;
+    -- import arch.node.net.transport_environment open;
+    -- import arch.node.net.transport_behaviour open;
+    import arch.node.types.engine open;
     open template_environment_example;
     ```
 
@@ -44,7 +44,7 @@ each of which responsible for a specific transport protocol, such as QUIC or TLS
 
 <!-- --8<-- [start:TransportEngine] -->
 ```juvix
-TransportEngine :=
+TransportEngine : Type :=
   Engine
     TransportLocalState
     TransportMailboxState

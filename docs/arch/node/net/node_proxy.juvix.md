@@ -13,10 +13,10 @@ tags:
     module arch.node.net.node_proxy;
 
     import prelude open;
-    import arch.node.net.node_proxy_messages open public;
-    -- import arch.node.net.node_proxy_environment open public;
-    -- import arch.node.net.node_proxy_behaviour open public;
-    import arch.node.types.engine open public;
+    import arch.node.net.node_proxy_messages open;
+    -- import arch.node.net.node_proxy_environment open;
+    -- import arch.node.net.node_proxy_behaviour open;
+    import arch.node.types.engine open;
     open template_environment_example;
     ```
 
@@ -58,7 +58,7 @@ The engine instance name corresponds to the remote `NodeID`.
 
 <!-- --8<-- [start:NodeProxyEngine] -->
 ```juvix
-NodeProxyEngine :=
+NodeProxyEngine : Type :=
   Engine
     NodeProxyLocalState
     NodeProxyMailboxState

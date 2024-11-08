@@ -8,7 +8,7 @@
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import prelude open public;
+    import prelude open;
     ```
 
 # Router Messages

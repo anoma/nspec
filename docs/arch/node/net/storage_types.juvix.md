@@ -17,7 +17,7 @@ tags:
     import arch.node.types.basics open;
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
-    import prelude open public;
+    import prelude open;
     ```
 
 # Storage Types

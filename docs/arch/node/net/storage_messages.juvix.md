@@ -10,7 +10,7 @@
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
     -- import arch.node.types.messages open;
-    import prelude open public;
+    import prelude open;
     ```
 
 # Storage Engine
@@ -64,7 +64,7 @@ type ChunkGetReplyError :=
 ```
 
 ```juvix
-ChunkGetReply := Result ChunkGetReplyOk ChunkGetReplyError;
+ChunkGetReply : Type := Result ChunkGetReplyOk ChunkGetReplyError;
 ```
 
 ### `MsgStorageChunkPutRequest`
@@ -98,7 +98,7 @@ type ChunkPutReplyError :=
 ```
 
 ```juvix
-ChunkPutReply := Result ChunkPutReplyOk ChunkPutReplyError;
+ChunkPutReply : Type := Result ChunkPutReplyOk ChunkPutReplyError;
 ```
 
 ### `MsgStorage`

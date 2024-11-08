@@ -12,7 +12,7 @@ tags:
 
     ```juvix
     module arch.node.types.basics;
-    import prelude open public;
+    import prelude open;
     ```
 
 # Juvix Prelude of the Anoma Node Architecture

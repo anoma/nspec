@@ -52,16 +52,18 @@ type NodeAdvert :=
 
 ## `TopicAdvert`
 
-A self-signed *node advertisement* contains the node's
-cryptographic identity, transport addresses,
-and prekeys for asynchronous encrypted communication.
+A *topic advertisement* signed by the topic creator
+contains the topic's cryptographic identity,
+and the `NodeID` of a set of relay nodes
+that can be used to subscribe to the topic.
+These may be publishers, subscribers, or dedicated relay nodes for the topic.
 
 ```juvix
-type NodeAdvert :=
-  mkNodeAdvert {
-    id : NodeID; 
-    addrs : List TransportAddress;
-    prekeys : List ExternalID;
+type TopicAdvert :=
+  mkTopicAdvert {
+    id : TopicID;
+    relays : List NodeID;
+    tags : List String;
     version : Nat;
     created : AbsTime;
     sig : Commitment;

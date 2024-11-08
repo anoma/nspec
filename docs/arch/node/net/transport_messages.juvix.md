@@ -15,6 +15,9 @@ tags:
     ```juvix
     module arch.node.net.transport_messages;
 
+    import arch.node.net.transport_types open;
+    import arch.node.types.basics open;
+    import arch.node.types.identities open;
     import arch.node.types.messages open;
     import prelude open;
     ```
@@ -82,7 +85,7 @@ type TransportConnectReplyError :=
 #### `TransportConnectReply`
 
 ```juvix
-TransportConnectReply := Result TransportConnectReplyOk TransportConnectReplyError;
+TransportConnectReply : Type := Result TransportConnectReplyOk TransportConnectReplyError;
 ```
 
 ### `MsgTransport`
