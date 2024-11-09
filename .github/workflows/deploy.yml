@@ -2,6 +2,7 @@ name: deploy
 'on':
   push:
     branches:
+      - main
       - v*
 env:
   CI: true
@@ -118,7 +119,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
           folder: ${{ env.BRANCH_NAME }}
-          target-folder: latest
+          target-folder: ${{ env.BRANCH_NAME == 'main' && 'latest' || env.BRANCH_NAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research

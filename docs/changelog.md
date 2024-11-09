@@ -1,3 +1,12 @@
+---
+icon: octicons/log-16
+social:
+  cards: false
+search:
+    exclude: false
+list_wikilinks: false
+---
+
 # Change Log
 
 ## v0.1.0
@@ -33,7 +42,6 @@ project per version, with better documentation and descriptions of the changes.
     behavior layout
 
 ### BUG FIXES
-
 
 - [Repository maintenance and CI](.)
   - [**#4**](https://github.com/anoma/nspec/pull/4): Fix mike
