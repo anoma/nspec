@@ -112,7 +112,7 @@ def define_env(env):
     def dict_to_md(nav_dict, depth=0) -> str:
         if isinstance(nav_dict, list):
             return "\n\n".join(dict_to_md(section, depth) for section in nav_dict)
-        indented_prefix = f"{'    ' * depth}- "
+        indented_prefix = f"{'  ' * depth}- "
         if isinstance(nav_dict, dict):
             if "title" in nav_dict:
                 title = nav_dict["title"]
