@@ -133,7 +133,7 @@ jobs:
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
-          SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }}))
+          SITE_VERSION: (PR ${{ github.event.pull_request.number }})
       - name: The build failed comment
         if: failure()
         run: |
@@ -146,7 +146,7 @@ jobs:
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
-          SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }})
+          SITE_VERSION: (PR ${{ github.event.pull_request.number }})
           COPYRIGHT: Branch:${{ env.BRANCH_NAME}} - Python:${{ env.PYTHON_VERSION }} - Poetry:${{ env.POETRY_VERSION }} - Material:${{ env.INSIDERS_VERSION }} - Juvix:${{ env.JUVIX_VERSION }}
       - if: steps.material.outcome == 'failure'
         run: |
