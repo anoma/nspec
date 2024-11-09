@@ -21,7 +21,7 @@ tags:
     import Stdlib.Data.String open;
     import prelude open;
     import arch.node.types.basics open;
-    import arch.node.types.engine open;
+    import arch.node.types.engine_behaviour open;
     ```
 
 # Template Behaviour

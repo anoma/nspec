@@ -24,13 +24,13 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
 
 1. Install prerequisites
 
-    The following are the prerequisites to build the website locally:
+  The following are the prerequisites to build the website locally:
 
-    - Python 3.9 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
+  - Python 3.9 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
 
-    - To deploy the website locally, you would need to install `graphviz` to generate SVG files for *dot* files.
+  - To deploy the website locally, you would need to install `graphviz` to generate SVG files for *dot* files.
 
-    - As mentioned, we would need `juvix` to render the Juvix code examples.
+  - As mentioned, we would need `juvix` to render the Juvix code examples.
 
 2. Create a virtual environment
 

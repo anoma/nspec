@@ -49,10 +49,11 @@ gitGraph:
 ## Merging finalised versions
 
 2. To merge a finalised version:
-   - Open a pull request against the version in development.
-   - Pass all CI checks.
-   - Tag it with the `vX` label.
-   - Merge the pull request.
+
+  - Open a pull request against the version in development.
+  - Pass all CI checks.
+  - Tag it with the `vX` label.
+  - Merge the pull request.
 
 ### Adding new features to the current version
 

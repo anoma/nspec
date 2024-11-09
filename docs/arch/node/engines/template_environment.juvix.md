@@ -15,8 +15,8 @@ tags:
     ```juvix
     module arch.node.engines.template_environment;
     import prelude open;
-    import arch.node.types.engine open;
     import arch.node.engines.template_messages open;
+    import arch.node.types.engine_environment open;
     ```
 
 # Template Environment
@@ -191,7 +191,7 @@ TemplateEnvironment : Type :=
 module template_environment_example;
 
   templateEnvironment : TemplateEnvironment :=
-    mkEngineEnvironment@ {
+    mkEngineEnvironment@{
       name := "template";
       localState := mkTemplateLocalState@{
         taskQueue := mkCustomData@{

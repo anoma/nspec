@@ -12,6 +12,7 @@ env:
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
   INSIDERS_VERSION: 9.5.37-insiders-4.53.13
+  JUVIX_VERSION: v0.6.6
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   REPORT_TODOS: false
@@ -42,7 +43,7 @@ jobs:
         uses: jaxxstorm/action-install-gh-release@v1.12.0
         with:
           repo: anoma/juvix
-          tag: v0.6.6
+          tag: ${{ env.JUVIX_VERSION }}
           cache: enable
           rename-to: juvix
           chmod: 0755
@@ -100,6 +101,7 @@ jobs:
         env:
           SITE_DIR: ${{ env.BRANCH_NAME }}
           SITE_URL: https://anoma.github.io/nspec/${{ env.BRANCH_NAME }}
+          COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:

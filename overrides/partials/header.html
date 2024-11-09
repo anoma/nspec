@@ -21,6 +21,9 @@
                 <span class="first-letter">{{ word[0] }}</span>{{ word[1:] }}
                 {%- if not loop.last %} {% endif %}
               {% endfor %}
+              {% if config.site_version %}
+                <span class="md-header__topic-version">{{ config.site_version }}</span>
+              {% endif %}
             </span>
           </div>
           <div class="md-header__topic" data-md-component="header-topic">
