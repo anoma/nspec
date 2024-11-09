@@ -2,22 +2,28 @@
 icon: octicons/gear-16
 search:
   exclude: false
+categories:
+- engine
+- node
 tags:
-- engines
-- conventions
+- ticker-engine
+- engine-definition
 ---
 
-??? note "Juvix preamble"
+??? quote "Juvix preamble"
 
     ```juvix
     module arch.node.engines.ticker;
 
     import prelude open;
+    import arch.node.types.engine_environment open;
+    import arch.node.types.engine_behaviour open;
     import arch.node.types.engine open;
 
     import arch.node.engines.ticker_messages open public;
     import arch.node.engines.ticker_environment open public;
     import arch.node.engines.ticker_behaviour open public;
+
     open ticker_environment_example;
     ```
 
@@ -52,20 +58,21 @@ TickerEngine : Type := Engine
   TickerTimerHandle
   TickerMatchableArgument
   TickerActionLabel
-  TickerPrecomputation;
+  TickerPrecomputationList;
 ```
 <!-- --8<-- [end:TickerEngine] -->
 
 ### Example of a ticker engine
 
-```juvix extract-module-statements
+<!-- --8<-- [start:exampleTickerEngine] -->
+```juvix
 exampleTickerEngine : TickerEngine := mkEngine@{
     name := "ticker";
-    behaviour := TickerBehaviour;
+    behaviour := tickerBehaviour;
     initEnv := zeroTickerEnvironment;
   };
 ```
-
+<!-- --8<-- [end:exampleTickerEngine] -->
 where `zeroTickerEnvironment` is defined as follows:
 
---8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:zeroTickerEnvironment"

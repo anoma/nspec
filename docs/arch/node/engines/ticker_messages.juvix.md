@@ -1,11 +1,12 @@
 ---
-icon: octicons/gear-16
+icon: material/message-draw
 search:
   exclude: false
 categories:
-- engine-behaviour
+- engine
+- node
 tags:
-- ticker
+- ticker-engine
 - engine-messages
 ---
 
@@ -13,54 +14,38 @@ tags:
 
     ```juvix
     module arch.node.engines.ticker_messages;
+    import prelude open;
     ```
 
-# Ticker Messages
+# TickerMsg Message Interface
 
-## Message interface
+## TickerMsg Message Constructors
+
+??? quote "TickerMsgIncrement"
+
+    A `TickerMsgIncrement` message instructs the engine to increase the counter.
+    This message doesn't require any arguments.
+
+??? quote "TickerMsgCount"
+
+    A `TickerMsgCount` message requests the engine to send the current counter value back to
+    the requester. This message doesn't require any arguments.
+
+### TickerMsg
 
 <!-- --8<-- [start:TickerMsg] -->
 ```juvix
 type TickerMsg :=
-    | -- --8<-- [start:Increment]
-    Increment
-    -- --8<-- [end:Increment]
-    | -- --8<-- [start:Count]
-    Count
-    -- --8<-- [end:Count]
+  | TickerMsgIncrement
+  | TickerMsgCount
 ```
 <!-- --8<-- [end:TickerMsg] -->
 
-
-There are only two message tags: `Increment`, which increases the counter state
-of the ticker, and `Count`, which the ticker responds to with the current
+There are only two message tags: `TickerMsgIncrement`, which increases the counter
+state of the ticker, and `TickerMsgCount`, which the ticker responds to with the current
 counter state.
 
-### `Increment` message
-
-!!! quote "Increment"
-
-    ```
-    --8<-- "./ticker_messages.juvix.md:Increment"
-    ```
-
-An `Increment` message instructs the engine to increase the counter. This
-message doesn't require any arguments.
-
-### `Count` message
-
-!!! quote "Count"
-
-    ```
-    --8<-- "./ticker_messages.juvix.md:Count"
-    ```
-
-A `Count` message requests the engine to send the current counter value back to
-the requester. This message doesn't require any arguments.
-
-## Message sequence diagrams
-
-### Ticker Interaction Diagram
+## Ticker Interaction Diagram
 
 This diagram represents a simple interaction between a `Ticker` engine instance
 and another entity sending increment requests and count requests.
@@ -73,13 +58,13 @@ sequenceDiagram
     participant Ticker
     participant EngineTickerClient
 
-    EngineTickerClient ->> Ticker: Send Increment
+    EngineTickerClient ->> Ticker: Send TickerMsgIncrement
     Note over Ticker: Counter = 1
 
-    EngineTickerClient ->> Ticker: Send Increment
+    EngineTickerClient ->> Ticker: Send TickerMsgIncrement
     Note over Ticker: Counter = 2
 
-    EngineTickerClient ->> Ticker: Send Count
+    EngineTickerClient ->> Ticker: Send TickerMsgCount
     Ticker ->> EngineTickerClient: Respond with Counter (2)
 ```
 

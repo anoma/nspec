@@ -4,9 +4,11 @@ site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collecti
 site_url: !ENV [SITE_URL, 'https://anoma.github.io/nspec/latest']
 site_dir: !ENV [SITE_DIR, site]
 copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
+site_version: !ENV [SITE_VERSION, "v0.1.0"]
 use_directory_urls: false
 nav:
   - Home: index.md
+  - Changelog: ./changelog.md
   - Scope:
       - ./scope/index.md
       - World model: ./scope/world_model.md
@@ -437,6 +439,8 @@ nav:
       - ./tutorial/index.md
       - Prepare working environment: ./tutorial/install/index.md
       - Use Git and GitHub: ./tutorial/branch.md
+      - Updating the changelog: ./tutorial/changelog.md
+      - Versioning: ./tutorial/versioning.md
       - File naming conventions: ./tutorial/file_naming.md
       - Write Markdown: ./tutorial/md/index.md
       - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
@@ -575,6 +579,9 @@ extra_javascript:
   - assets/js/tex-svg-full.js
 # See https://squidfunk.github.io/mkdocs-material/reference/math/?h=katex#comparing-mathjax-and-katex on why we use MathJax
 markdown_extensions:
+  - mdx_truly_sane_lists:
+      nested_indent: 2
+      truly_sane: true
   - pymdownx.snippets:
       check_paths: true
       url_download: true
