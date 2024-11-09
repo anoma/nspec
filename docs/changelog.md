@@ -32,7 +32,7 @@ project per version, with better documentation and descriptions of the changes.
   - [**#210**](https://github.com/anoma/nspec/pull/210): Fix engine message, environment and
     behavior layout
 
-### BUG FIXESelabonita
+### BUG FIXES
 
 
 - [Repository maintenance and CI](.)
@@ -116,8 +116,7 @@ project per version, with better documentation and descriptions of the changes.
   - [**#127**](https://github.com/anoma/nspec/pull/127): Update basic abstractions
   - [**#131**](https://github.com/anoma/nspec/pull/131): Add RMv3 content
   - [**#135**](https://github.com/anoma/nspec/pull/135): Show PR number in the site name
-  - Add changelog management system
-    ([\#209](https://github.com/anoma/nspec/pull/209))
+  - [**#209**](https://github.com/anoma/nspec/pull/209): Add changelog management system
 - [Tutorial and documentation](tutorial)
   - [**#134**](https://github.com/anoma/nspec/pull/134): Refactor tutorial for wiki-style links
 - [Juvix types and updates](types)
