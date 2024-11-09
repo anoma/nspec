@@ -1,4 +1,4 @@
-# Anoma Specs [![anoma-spec-ci](https://github.com/anoma/nspec/actions/workflows/ci.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/ci.yml)
+# Anoma Specs [![deploy](https://github.com/anoma/nspec/actions/workflows/deploy.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/deploy.yml)
 
 <!-- --8<-- [start:all]-- -->
 
@@ -7,7 +7,7 @@
 These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes. If this is not your goal,
 you can edit the files Markdown directly on GitHub, open a PR with the changes,
-and the CI/CD pipeline will automatically build and deploy the website, once
+and the CI/CD pipeline will automatically build and deploy the website once
 the PR is merged.
 
 To write the content, we use Markdown with some extensions as described in the
@@ -15,7 +15,7 @@ To write the content, we use Markdown with some extensions as described in the
 
 In addition, we support the use of Juvix code examples in the files with the
 `.juvix.md` extension. These files are rendered using [Juvix
-(+v0.6.6)](https://docs.juvix.org/), and if you want to make sure that the
+(+v0.6.6)](https://docs.juvix.org/), and to ensure the
 code examples are correct, you must have Juvix installed on your machine. One
 way to do this is to install the Juvix plugin for VS Code from [the
 marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
@@ -28,7 +28,7 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
 
   - Python 3.9 or higher + `pip`: You can install it from [here](https://www.python.org/downloads/).
 
-  - To deploy the website locally, you would need to install `graphviz` to generate SVG files for *dot* files.
+  - To deploy the website locally, you must install `graphviz` to generate SVG files for *dot* files.
 
   - As mentioned, we would need `juvix` to render the Juvix code examples.
 
@@ -94,7 +94,7 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
     ```
 
     Take into account that this web server will automatically reload the website
-    when you make changes to the files, and it is not especially fast.
+    when you make changes to the files, it is not especially fast.
 
 <details> <summary> Builds with quiet mode </summary>
 
