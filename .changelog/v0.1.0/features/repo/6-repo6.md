@@ -1,0 +1,1 @@
+  - [**#6**](https://github.com/anoma/nspec/pull/6): Use site_url for link generation

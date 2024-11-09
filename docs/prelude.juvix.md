@@ -12,6 +12,7 @@ tags:
     ```juvix
     module prelude;
     import Stdlib.Trait open public;
+    import Data.Set.AVL open;
     ```
 
 # Common Types - Juvix Base Prelude
@@ -123,6 +124,18 @@ For example,
 
 ```juvix
 pair : Pair Nat Bool := mkPair 42 true;
+```
+
+Projections
+
+```juvix
+fst {A B} : Pair A B -> A
+  | (mkPair a _) := a;
+```
+
+```juvix
+snd {A B} : Pair A B -> B
+  | (mkPair _ b) := b;
 ```
 
 ## Result A B
@@ -286,6 +299,7 @@ import Stdlib.Trait.Functor.Polymorphic as Functor;
 
 ```juvix
 import Stdlib.Data.Fixity open public;
+{-# isabelle-ignore: true #-}
 trait
 type Applicative (f : Type -> Type) :=
   mkApplicative {
@@ -298,6 +312,7 @@ type Applicative (f : Type -> Type) :=
 For example, the `Option` type is an instance of `Applicative`.
 
 ```juvix
+{-# isabelle-ignore: true #-}
 instance
 maybeApplicative : Applicative Option :=
   mkApplicative@{
@@ -311,6 +326,7 @@ maybeApplicative : Applicative Option :=
 ## Monad
 
 ```juvix
+{-# isabelle-ignore: true #-}
 trait
 type Monad (f : Type -> Type) :=
   mkMonad {
@@ -322,17 +338,20 @@ type Monad (f : Type -> Type) :=
 ```
 
 ```juvix
+{-# isabelle-ignore: true #-}
 syntax operator >>= seq;
 >>= {A B} {f : Type -> Type} {{Monad f}} (x : f A) (g : A -> f B) : f B := Monad.bind x g;
 ```
 
 ```juvix
+{-# isabelle-ignore: true #-}
 monadMap {A B} {f : Type -> Type} {{Monad f}} (g : A -> B) (x : f A) : f B := map g x;
 ```
 
 For example, the `Option` type is an instance of `Monad`.
 
 ```juvix
+{-# isabelle-ignore: true #-}
 instance
 maybeMonad : Monad Option :=
   mkMonad@{
@@ -345,4 +364,36 @@ maybeMonad : Monad Option :=
 ```juvix
 open Applicative public;
 open Monad public;
+```
+
+## AVLTree
+
+```juvix
+-- Filters the elements of an AVLTree based on a predicate function.
+terminating
+AVLfilter {A} {{Ord A}} (pred : A -> Bool) (t : AVLTree A) : AVLTree A :=
+  let
+    merge : AVLTree A -> AVLTree A -> AVLTree A
+      | t empty := t
+      | empty t := t
+      | t1 t2 :=
+        case lookupMin t2 of {
+          | nothing := t1  -- This case should not happen since t2 is non-empty
+          | some minVal :=
+            let newT2 := delete minVal t2;
+            in balance (mknode minVal t1 newT2)
+        };
+  in case t of {
+      | empty := empty
+      | (node x _ l r) :=
+        let
+          terminating
+          filteredLeft := AVLfilter pred l;
+          terminating
+          filteredRight := AVLfilter pred r;
+        in case pred x of {
+             | true := balance (mknode x filteredLeft filteredRight)
+             | false := merge filteredLeft filteredRight
+        }
+        };
 ```
