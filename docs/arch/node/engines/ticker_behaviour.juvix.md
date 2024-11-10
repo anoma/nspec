@@ -310,7 +310,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect
         mkActionEffect@{
           newEnv := env;
           producedMessages := [
-              mkEngineMessage@{
+              mkEngineMsg@{
                 sender := getSenderFromActionInput input;
                 target := whoAsked;
                 mailbox := some 0;
