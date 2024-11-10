@@ -9,21 +9,6 @@ list_wikilinks: false
 
 # Change Log
 
-## Unreleased
-
-### FEATURES
-
-- [Repository maintenance and CI](.)
-  -  <details markdown="span">
-    <summary>[**#217**](https://github.com/anoma/nspec/pull/217): Update template engine
-    files to be more consistent.</summary>
-    <ul>
-    <li> Use backticks for Juvix terms/types in headlines. </li>
-    <li> Uncollapsed sections for type constructors arguments. </li>
-    <li> Auxiliary sections of Juvix code are always collapsed. </li>
-    </ul>
-    </details>
-
 ## v0.1.0
 
 This is the first release of Anoma's Spec project, following the [[Versioning|semantic-versioning]] scheme.
@@ -140,7 +125,6 @@ project per version, with better documentation and descriptions of the changes.
   - [**#131**](https://github.com/anoma/nspec/pull/131): Add RMv3 content
   - [**#135**](https://github.com/anoma/nspec/pull/135): Show PR number in the site name
   - [**#209**](https://github.com/anoma/nspec/pull/209): Add changelog management system
-  -  [**#214**](https://github.com/anoma/nspec/pull/214): Add GitHub template for creating PRs
 - [Tutorial and documentation](tutorial)
   - [**#134**](https://github.com/anoma/nspec/pull/134): Refactor tutorial for wiki-style links
 - [Juvix types and updates](types)
