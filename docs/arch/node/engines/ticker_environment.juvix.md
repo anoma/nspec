@@ -38,10 +38,15 @@ syntax alias TickerMailboxState := Unit;
 ## Local state
 
 ```juvix
-type TickerLocalState := mkTickerLocalState {
+type TickerLocalState := mkTickerLocalState@{
   counter : Nat
 };
 ```
+
+???+ quote "Arguments"
+
+    `counter`:
+    : The counter value.
 
 ## Timer Handle
 
