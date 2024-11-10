@@ -4,7 +4,7 @@
 ## Getting Started
 
 
-We use Markdown with extensions according to the [Material for MkDocs reference](https://squidfunk.github.io/mkdocs-material/reference/). 
+We use Markdown with extensions according to the [Material for MkDocs reference](https://squidfunk.github.io/mkdocs-material/reference/).
 
 To set up the project for development and testing on your local machine, please follow these steps.
 Alternatively, you can edit the Markdown files directly on GitHub, open a pull request (PR), and
