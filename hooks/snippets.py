@@ -185,7 +185,7 @@ class SnippetPreprocessor(Preprocessor):
                 f"""
 The snippet section '{section}' could not be located.
 This is likely because the section is inside a Juvix code block,
-which is currently not supported in Juvix v0.6.6 or previous versions.
+which is currently not supported in Juvix v0.6.7 or previous versions.
 Consider wrapping the Juvix code block with a section snippet instead.
 
 Error found in the file '{backup_path}' for the section '{section}'.

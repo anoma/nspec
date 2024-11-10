@@ -15,8 +15,6 @@ tags:
     ```juvix
     module arch.node.engines.encryption_behaviour;
     import prelude open;
-    import Stdlib.Data.List.Base open;
-    import Stdlib.Trait.Ord as Ord;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     import arch.node.engines.encryption_environment open;
     import arch.node.engines.encryption_messages open;
@@ -195,7 +193,7 @@ readsForResponseGuard
       | some (MsgReadsFor (QueryReadsForEvidenceResponse externalIdentity evidence err)) :=
           case getSenderFromTimestampedTrigger t of {
             | some sender :=
-                case Ord.isEQ (Ord.cmp sender (EncryptionLocalState.readsForEngineAddress (EngineEnvironment.localState env))) of {
+                case isEqual (Ord.cmp sender (EncryptionLocalState.readsForEngineAddress (EngineEnvironment.localState env))) of {
                   | true := some (mkGuardOutput@{
                       matchedArgs := [];
                       actionLabel := DoHandleReadsForResponse externalIdentity evidence;
