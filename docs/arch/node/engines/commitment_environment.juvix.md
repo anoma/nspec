@@ -76,7 +76,7 @@ axiom dummyExternalIdentity : ExternalIdentity;
 axiom dummyIDBackend : Backend;
 axiom dummySigningKey : SigningKey;
 
-commitmentEnvironmentExample : CommitmentEnvironment :=
+commitmentEnvironment : CommitmentEnvironment :=
     mkEngineEnvironment@{
       name := "commitment";
       localState := mkCommitmentLocalState@{
