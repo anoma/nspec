@@ -166,8 +166,6 @@ nav:
                       - DecryptResponse: ./arch/node/identity/types/decrypt_response.md
                       - EncryptRequest: ./arch/node/identity/types/encrypt_request.md
                       - EncryptResponse: ./arch/node/identity/types/encrypt_response.md
-                      - CommitRequest: ./arch/node/identity/types/commit_request.md
-                      - CommitResponse: ./arch/node/identity/types/commit_response.md
                       - VerifyRequest: ./arch/node/identity/types/verify_request.md
                       - VerifyResponse: ./arch/node/identity/types/verify_response.md
                       - ReadsForRequest: ./arch/node/identity/types/reads_for_request.md
@@ -199,8 +197,10 @@ nav:
                       - ./arch/node/modules/encryption/index.md
                       - EncryptRequestResponse: ./arch/node/modules/encryption/encrypt_request_response.md
                   - Commitment Engine:
-                      - ./arch/node/identity/commitment/index.md
-                      - CommitRequestResponse: ./arch/node/identity/commitment/commit_request_response.md
+                      - ./arch/node/engines/commitment.juvix.md
+                      - Commitment Messages: ./arch/node/engines/commitment_messages.juvix.md
+                      - Commitment Environment: ./arch/node/engines/commitment_environment.juvix.md
+                      - Commitment Behaviour: ./arch/node/engines/commitment_behaviour.juvix.md
                   - Verification Engine:
                       - ./arch/node/modules/verification/index.md
                       - VerifyRequestResponse: ./arch/node/modules/verification/verify_request_response.md
