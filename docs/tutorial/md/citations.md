@@ -10,8 +10,8 @@ todos: False
 
 # Bibliography
 
-Place your `.bib` files within the `docs/references` directory. For convenience,
-we have included all the ART published papers in the `docs/references/art.bib`
+Place your `.bib` files within the `refs` directory. For convenience,
+we have included all the ART published papers in the `refs/art.bib`
 file.
 
 Any new `.bib`
@@ -28,8 +28,8 @@ This statement requires a citation [@citation_key].
 
 !!! info
 
-    We have `docs/references/update_repo_bibtexs.py` script that can be used to
-    update the `docs/references/anoma_repos.bib` file to cite Anoma repositories
+    We have `refs/update_repo_bibtexs.py` script that can be used to
+    update the `refs/anoma_repos.bib` file to cite Anoma repositories
     in the documentation.
 
 ## References available
@@ -38,17 +38,17 @@ This statement requires a citation [@citation_key].
 ??? quote "Anoma Research Topics (ART) papers"
 
     ```bibtex
-    --8<-- "docs/references/art.bib"
+    --8<-- "refs/art.bib"
     ```
 
 ??? quote "Anoma Public GitHub repositories"
 
     ```bibtex
-    --8<-- "docs/references/anoma_repos.bib"
+    --8<-- "refs/anoma_repos.bib"
     ```
 
 ??? quote "Other literature"
 
     ```bibtex
-    --8<-- "docs/references/ref.bib"
+    --8<-- "refs/ref.bib"
     ```

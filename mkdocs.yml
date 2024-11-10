@@ -542,7 +542,7 @@ plugins:
   - glightbox
   - juvix
   - bibtex:
-      bib_dir: "docs/references"
+      bib_dir: "refs"
   - macros:
       verbose: false
       module_name: macros
