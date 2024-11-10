@@ -243,7 +243,7 @@ encryptResponse
   (env : EncryptionEnvironment)
   (evidence : Set ReadsForEvidence)
   (req : Pair EngineID Plaintext)
-  : EngineMessage
+  : EngineMsg
   := let localState := EngineEnvironment.localState env;
       whoAsked := fst req;
       data := snd req;
@@ -256,7 +256,7 @@ encryptResponse
         ciphertext := encryptedData;
         err := none
       };
-      envelope := mkEngineMessage@{
+      envelope := mkEngineMsg@{
         sender := mkPair none (some (EngineEnvironment.name env));
         target := whoAsked;
         mailbox := some 0;
@@ -302,7 +302,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
                           | none := let requestMsg := QueryReadsForEvidenceRequest@{
                                           externalIdentity := externalIdentity'
                                         };
-                                        envelope := mkEngineMessage@{
+                                        envelope := mkEngineMsg@{
                                           sender := mkPair none (some (EngineEnvironment.name env));
                                           target := EncryptionLocalState.readsForEngineAddress localState;
                                           mailbox := some 0;

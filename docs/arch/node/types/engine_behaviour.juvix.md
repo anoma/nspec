@@ -161,7 +161,7 @@ which can be
 ```juvix
 type ActionEffect (S M H A L X : Type) := mkActionEffect {
   newEnv : EngineEnvironment S M H;
-  producedMessages : List EngineMessage;
+  producedMessages : List EngineMsg;
   timers : List (Timer H);
   spawnedEngines : List Anoma.Env;
 };

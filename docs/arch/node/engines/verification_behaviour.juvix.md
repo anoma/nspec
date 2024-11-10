@@ -240,7 +240,7 @@ signsForResponseGuard
 
 <!-- --8<-- [start:action-function] -->
 ```juvix
-verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironment) (evidence : Set SignsForEvidence) (req : Pair EngineID (Pair Signable Commitment)) : EngineMessage :=
+verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironment) (evidence : Set SignsForEvidence) (req : Pair EngineID (Pair Signable Commitment)) : EngineMsg :=
   let localState := EngineEnvironment.localState env;
       whoAsked := fst req;
       input := snd req;
@@ -255,7 +255,7 @@ verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironm
         result := result';
         err := none
       };
-      envelope := mkEngineMessage@{
+      envelope := mkEngineMsg@{
         sender := mkPair none (some (EngineEnvironment.name env));
         target := whoAsked;
         mailbox := some 0;
@@ -301,7 +301,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
                           | none := let requestMsg := QuerySignsForEvidenceRequest@{
                                               externalIdentity := externalIdentity'
                                             };
-                                            envelope := mkEngineMessage@{
+                                            envelope := mkEngineMsg@{
                                               sender := mkPair none (some (EngineEnvironment.name env));
                                               target := VerificationLocalState.signsForEngineAddress localState;
                                               mailbox := some 0;
