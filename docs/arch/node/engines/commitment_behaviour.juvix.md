@@ -237,7 +237,7 @@ commitmentConflictSolver : Set CommitmentMatchableArgument -> List (Set Commitme
 
 ## The Commitment Behaviour
 
-### `CommitmentBehaviour` 
+### `CommitmentBehaviour`
 
 <!-- --8<-- [start:CommitmentBehaviour] -->
 ```todo
