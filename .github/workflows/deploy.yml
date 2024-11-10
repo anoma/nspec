@@ -3,7 +3,7 @@ name: deploy
   push:
     branches:
       - main
-      - v*
+      - v[0-9]+(\.[0-9]+)? # only major.minor versions
 env:
   CI: true
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -94,6 +94,12 @@ jobs:
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
       - name: Install Python dependencies
         run: poetry install
+      - name: get latest version from VERSION file
+        id: version
+        run: echo "::set-output name=version::$(cat VERSION)"
+      - name: get the last commit short hash
+        id: commit
+        run: echo "::set-output name=commit::$(git rev-parse --short HEAD)"
       - name: Build MkDocs with material insiders version
         id: material
         run: |
@@ -102,6 +108,7 @@ jobs:
         env:
           SITE_DIR: ${{ env.BRANCH_NAME }}
           SITE_URL: https://anoma.github.io/nspec/${{ env.BRANCH_NAME }}
+          SITE_VERSION: ${{ steps.version.outputs.version }}-${{ steps.commit.outputs.commit }}
           COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4.6.4
@@ -112,11 +119,7 @@ jobs:
           clean: false
           git-config-name: Anoma Research
           git-config-email: arts@heliax.dev
-      - name: get latest version from VERSION file
-        id: version
-        run: echo "::set-output name=version::$(cat VERSION)"
-      - if: ${{ env.BRANCH_NAME == steps.version.outputs.version }}
-        uses: JamesIves/github-pages-deploy-action@v4.6.4
+      - uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
           folder: ${{ env.BRANCH_NAME }}
           target-folder: ${{ env.BRANCH_NAME == 'main' && 'latest' || env.BRANCH_NAME }}
