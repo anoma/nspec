@@ -206,7 +206,7 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
             };
           in mkActionEffect@{
             newEnv := env; -- No state change
-            producedMessages := [mkEngineMessage@{
+            producedMessages := [mkEngineMsg@{
               sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;

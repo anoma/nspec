@@ -56,9 +56,10 @@ type Engine (S M H A L X : Type) := mkEngine {
     - `S` could be a record with fields like `votes`, `voters`, and `results`.
     - The engine-specific message type might be a coproduct of `Vote` and `Result`.
     - The behaviour of this engine may include guarded actions such as:
-        - `storeVote` to store a vote in the local state,
-        - `computeResult` to compute the result of the election, and
-        - `announceResult` to send the result to some other engine instances.
+
+      - `storeVote` to store a vote in the local state,
+      - `computeResult` to compute the result of the election, and
+      - `announceResult` to send the result to some other engine instances.
 
     With each different election or kind of voters, we obtain a new engine instance,
     while the underlining voting system, the voting engine family, remains the same.

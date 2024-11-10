@@ -47,7 +47,7 @@ type FirstKindMailboxState := mkFirstKindMailboxState {
 
 This is one family of mailbox states without much complexity.
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `fieldOne`
 
@@ -67,7 +67,7 @@ type SecondKindMailboxState := mkSecondKindMailboxState {
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `fieldOne`
 
@@ -99,7 +99,7 @@ type TemplateMailboxState :=
     ```
     <!-- --8<-- [end:CustomData] -->
 
-    !!! quote "Arguments"
+    ???+ quote "Arguments"
 
         `word`
 
@@ -116,7 +116,7 @@ type TemplateLocalState :=
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `taskQueue`
 
@@ -145,7 +145,7 @@ type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
 an example of this case.
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `argOne`
 
@@ -156,13 +156,13 @@ an example of this case.
 <!-- --8<-- [start:SecondOptionTimerHandle] -->
 ```juvix
 type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
-argOne : String;
-argTwo : Bool
+  argOne : String;
+  argTwo : Bool
 };
 ```
 <!-- --8<-- [end:SecondOptionTimerHandle] -->
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `argOne`
 

@@ -467,7 +467,7 @@ identityManagementAction
                   };
                   in mkActionEffect@{
                     newEnv := env;
-                    producedMessages := [mkEngineMessage@{
+                    producedMessages := [mkEngineMsg@{
                       sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;
@@ -503,7 +503,7 @@ identityManagementAction
                       };
                   in mkActionEffect@{
                     newEnv := newEnv';
-                    producedMessages := [mkEngineMessage@{
+                    producedMessages := [mkEngineMsg@{
                       sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;
@@ -530,7 +530,7 @@ identityManagementAction
                   };
                   in mkActionEffect@{
                     newEnv := env;
-                    producedMessages := [mkEngineMessage@{
+                    producedMessages := [mkEngineMsg@{
                       sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;
@@ -551,7 +551,7 @@ identityManagementAction
                         };
                         in mkActionEffect@{
                           newEnv := env;
-                          producedMessages := [mkEngineMessage@{
+                          producedMessages := [mkEngineMsg@{
                             sender := mkPair none (some (EngineEnvironment.name env));
                             target := whoAsked;
                             mailbox := some 0;
@@ -585,7 +585,7 @@ identityManagementAction
                                   };
                               in mkActionEffect@{
                                 newEnv := newEnv';
-                                producedMessages := [mkEngineMessage@{
+                                producedMessages := [mkEngineMsg@{
                                   sender := mkPair none (some (EngineEnvironment.name env));
                                   target := whoAsked;
                                   mailbox := some 0;
@@ -603,7 +603,7 @@ identityManagementAction
                               };
                               in mkActionEffect@{
                                 newEnv := env;
-                                producedMessages := [mkEngineMessage@{
+                                producedMessages := [mkEngineMsg@{
                                   sender := mkPair none (some (EngineEnvironment.name env));
                                   target := whoAsked;
                                   mailbox := some 0;
@@ -630,7 +630,7 @@ identityManagementAction
                   };
                   in mkActionEffect@{
                     newEnv := env;
-                    producedMessages := [mkEngineMessage@{
+                    producedMessages := [mkEngineMsg@{
                       sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;
@@ -653,7 +653,7 @@ identityManagementAction
                       };
                   in mkActionEffect@{
                     newEnv := newEnv';
-                    producedMessages := [mkEngineMessage@{
+                    producedMessages := [mkEngineMsg@{
                       sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;

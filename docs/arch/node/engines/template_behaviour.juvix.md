@@ -14,13 +14,9 @@ tags:
 
     ```juvix
     module arch.node.engines.template_behaviour;
-
+    import prelude open;
     import arch.node.engines.template_messages open;
     import arch.node.engines.template_environment open;
-
-    import Stdlib.Data.String open;
-    import prelude open;
-    import arch.node.types.basics open;
     import arch.node.types.engine_behaviour open;
     ```
 
@@ -34,7 +30,7 @@ labels, we describe the effects of the actions.
 
 ## Action labels
 
-??? quote "Auxiliary Juvix code"
+???+ quote "Auxiliary Juvix code"
 
     <!-- --8<-- [start:SomeActionLabel] -->
     ```juvix
@@ -66,7 +62,7 @@ DoAlternative : Type := Either SomeActionLabel AnotherActionLabel;
 
 This action label corresponds to performing the `doAlternative` action.
 
-!!! quote "Either.left"
+???+ quote "Either.left"
 
     This alternative does the following.
 
@@ -78,7 +74,7 @@ This action label corresponds to performing the `doAlternative` action.
     | Timer updates         | No timers are set or cancelled. |
     | Acquaintance updates  | None |
 
-!!! quote "Either.right"
+???+ quote "Either.right"
 
     This alternative does the following.
 
@@ -101,7 +97,7 @@ DoBoth : Type := Pair SomeActionLabel AnotherActionLabel;
 This action label corresponds to performing both the `SomeActionLabel` and the
 `AnotherActionLabel`.
 
-!!! quote "`Pair.fst`"
+???+ quote "`Pair.fst`"
 
     This alternative does the following.
 
@@ -112,7 +108,7 @@ This action label corresponds to performing both the `SomeActionLabel` and the
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-!!! quote "`Pair.snd`"
+???+ quote "`Pair.snd`"
 
     This alternative does the following.
 
@@ -158,7 +154,7 @@ type FirstOptionMatchableArgument := mkFirstOptionMatchableArgument {
 ```
 <!-- --8<-- [end:FirstOptionMatchableArgument] -->
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `data`:
     : is the value of the matchable argument.
@@ -173,7 +169,7 @@ type SecondOptionMatchableArgument := mkSecondOptionMatchableArgument {
 ```
 <!-- --8<-- [end:SecondOptionMatchableArgument] -->
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `data`:
     : is the value of the matchable argument.
@@ -218,7 +214,7 @@ type DeleteMessage := mkDeleteMessage {
 
 We delete the given message from the mailbox with the mailbox ID.
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `messageType`:
     : is the type of the message to delete.
@@ -238,7 +234,7 @@ type CloseMailbox := mkCloseMailbox {
 
 We close the mailbox with the given mailbox ID.
 
-!!! quote "Arguments"
+???+ quote "Arguments"
 
     `mailboxId`:
     : is the ID of the mailbox to close.
@@ -273,7 +269,7 @@ performed as part of processing a message.
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+???+ quote "Auxiliary Juvix code"
 
     ### `TemplateGuard`
 

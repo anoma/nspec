@@ -49,13 +49,13 @@ A mailbox identifier is a natural number used to index mailboxes.
 syntax alias MailboxID := Nat;
 ```
 
-### EngineMessage
+### EngineMsg
 
 A message between engines. Consists of a sender, a target, an optional mailbox
 identifier, and the message itself.
 
 ```juvix
-type EngineMessage : Type := mkEngineMessage {
+type EngineMsg : Type := mkEngineMsg {
   sender : EngineID;
   target : EngineID;
   mailbox : Option MailboxID;
@@ -65,7 +65,7 @@ type EngineMessage : Type := mkEngineMessage {
 
 ### MessageID
 
-Message identifier. Cryptographic hash of an `EngineMessage`.
+Message identifier. Cryptographic hash of an `EngineMsg`.
 
 ```juvix
 syntax alias MessageID := Hash;
@@ -87,7 +87,7 @@ such as the priority of the messages in the mailbox.
 
 ```juvix
 type Mailbox (MailboxStateType : Type) : Type := mkMailbox {
-  messages : List EngineMessage;
+  messages : List EngineMsg;
   mailboxState : Option MailboxStateType;
 };
 ```
@@ -105,7 +105,7 @@ type Timer (HandleType : Type): Type := mkTimer {
 
 ```juvix
 type Trigger (HandleType : Type) :=
-  | MessageArrived { msg : EngineMessage; }
+  | MessageArrived { msg : EngineMsg; }
   | Elapsed { timers : List (Timer HandleType) };
 ```
 
@@ -113,7 +113,7 @@ type Trigger (HandleType : Type) :=
 
     ```juvix
     getMessageFromTrigger : {H : Type} -> Trigger H -> Option Msg
-      | MessageArrived@{msg} := some (EngineMessage.msg msg)
+      | MessageArrived@{msg} := some (EngineMsg.msg msg)
       | Elapsed@{} := none;
     ```
 
@@ -121,7 +121,7 @@ type Trigger (HandleType : Type) :=
 
     ```juvix
     getSenderFromTrigger : {H : Type} -> Trigger H -> Option EngineID
-      | MessageArrived@{msg} := some (EngineMessage.sender msg)
+      | MessageArrived@{msg} := some (EngineMsg.sender msg)
       | Elapsed@{} := none;
     ```
 
@@ -129,7 +129,7 @@ type Trigger (HandleType : Type) :=
 
     ```juvix
     getTargetFromTrigger : {H : Type} -> Trigger H -> Option EngineID
-      | MessageArrived@{msg} := some (EngineMessage.target msg)
+      | MessageArrived@{msg} := some (EngineMsg.target msg)
       | Elapsed@{} := none;
     ```
 
