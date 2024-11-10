@@ -58,7 +58,7 @@ TemplateEngine : Type :=
 
 ### Example of a template engine
 
-<!-- --8<-- [start:TemplateEngine] -->
+<!-- --8<-- [start:exampleTemplateEngine] -->
 ```juvix
 exampleTemplateEngine : TemplateEngine := mkEngine@{
   name := "template";
@@ -66,7 +66,7 @@ exampleTemplateEngine : TemplateEngine := mkEngine@{
   behaviour := templateBehaviour;
 };
 ```
-<!-- --8<-- [end:TemplateEngine] -->
+<!-- --8<-- [end:exampleTemplateEngine] -->
 
 where `templateEnvironment` is defined as follows:
 
