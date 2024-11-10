@@ -77,10 +77,11 @@ syntax alias CommitmentTimerHandle := Unit;
 ### `CommitmentEnvironment`
 
 ```juvix
-CommitmentEnvironment : Type := EngineEnvironment
-  CommitmentLocalState
-  CommitmentMailboxState
-  CommitmentTimerHandle;
+CommitmentEnvironment : Type :=
+  EngineEnvironment
+    CommitmentLocalState
+    CommitmentMailboxState
+    CommitmentTimerHandle;
 ```
 
 ### Instantiation
