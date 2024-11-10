@@ -36,7 +36,7 @@ The compute engine keeps in state:
 - A local cache of algorithms to use to solve particular predicates
 
 ```juvix
-type ComputeEngineState := mkComputeEngineState {
+type ComputeEngineState := mkComputeEngineState@{
 };
 ```
 
@@ -62,7 +62,7 @@ axiom Integer : Type;
 axiom Rational : Type;
 axiom Pair : Type -> Type -> Type;
 
-type ComputeRequest := mkComputeRequest {
+type ComputeRequest := mkComputeRequest@{
     predicate : Hash;
     algorithm : Option Hash;
     max_cost_time : Pair Integer Rational;
@@ -83,7 +83,7 @@ Output messages from the compute engine specify:
 - Cost (in time and space) actually incurred, and precision of cost estimates
 
 ```juvix
-type ComputeResult := mkComputeResult {
+type ComputeResult := mkComputeResult@{
     predicate : Hash;
     algorithm : Option Hash;
     solution : Option Hash;
