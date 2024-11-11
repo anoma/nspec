@@ -64,7 +64,7 @@ Given a pair `(proofIdentifier, proof)` in addition to action as input to the fu
 
 ## `verify`
 
-Validity of an action can only be determined for actions that are associated with a transaction. Assuming that an action is associated with a transaction, an action is considered valid if the following holds:
+Validity of an action can only be determined for actions that are associated with a transaction. Assuming that an action is associated with a transaction, an action is considered valid if all of the following conditions hold:
 
 - action input resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
 - action output resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
