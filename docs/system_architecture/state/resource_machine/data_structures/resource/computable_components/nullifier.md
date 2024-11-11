@@ -7,7 +7,7 @@ search:
 
 # Resource Nullifier
 
-A resource nullifier is a computed field publishing of which makrs the associated with the nullifier resource as consumed. 
+A resource nullifier is a computed field, the publishing of which marks the resource associated with the nullifier as consumed. 
 
 For a resource `r`, `r.nullifier(nullifierKey) = NullifierHash(nullifierKey, r)`, where `nullifierKey` is a key provided externally.
 
