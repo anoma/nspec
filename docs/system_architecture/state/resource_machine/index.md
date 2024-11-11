@@ -20,15 +20,15 @@ hide:
 
 ## Data structures
 
-The atomic unit of the ARM state is called a [**resource**](). Resources are immutable, they can be created once and consumed once, which indicates that the system state has been updated.
+The atomic unit of the ARM state is called a [**resource**](./data_structures/resource/definition.md). Resources are immutable, they can be created once and consumed once, which indicates that the system state has been updated.
 
-[**Transactions**]() produced by the ARM represent the proposed state update. They consist of [**actions**](), which group resources with the same execution context.
+[**Transactions**](./data_structures/transaction.md) produced by the ARM represent the proposed state update. They consist of [**actions**](./data_structures/action.md), which group resources with the same execution context.
 
 Ensuring the correctness of the transaction is achieved with the help of non-interactive proofs attached to it: 
 
-- to prove the transaction is balanced correctly, there are [delta proofs](). Balance is the criterion of a transaction's completeness.
-- to prove the transaction complies with the ARM rules, there are [compliance proofs](). Actions are partitioned into [compliance units]() for easier proving.
-- to prove the transaction satisfies the user constraints, there are [resource logic proofs]().
+- to prove the transaction is balanced correctly, there are [delta proofs](./data_structures/proof/delta.md). Balance is the criterion of a transaction's completeness.
+- to prove the transaction complies with the ARM rules, there are [compliance proofs](./data_structures/proof/compliance.md). Actions are partitioned into [compliance units]() for easier proving.
+- to prove the transaction satisfies the user constraints, there are [resource logic proofs](./data_structures/proof/logic.md).
 
 ## The role of the ARM
 

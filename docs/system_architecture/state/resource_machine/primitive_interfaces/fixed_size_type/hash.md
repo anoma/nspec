@@ -7,8 +7,8 @@ In the context of hashes, we say `a` is an **opening** of a hash `h: Hash` if `h
 !!! warning
     TODO:
 
-    - for shielded: cryptographic hash, hiding
-    - do we want a separate interface for the logic hash, given it is a verifier key? UPD in Taiga we had the verifier key hashed. Is it fixed size? If not, what was the reason for tripple hashing? vk + hash + function privacy commitment
+    1. for shielded: cryptographic hash, hiding
+    2. do we want a separate interface for the logic hash, given it is a verifier key? UPD in Taiga we had the verifier key hashed. Is it fixed size? If not, what was the reason for tripple hashing? vk + hash + function privacy commitment
 
 ### LogicHash
 
@@ -38,6 +38,13 @@ classDiagram
 
 ```
 
-#Used in
-- Resource components (logic, label, value)
-- Resource computable components (cm, nf, kind, delta)
+# Used in
+1. Resource components:
+    1. `logicRef`
+    2. `labelRef`
+    3. `valueRef`
+2. Resource computable components:
+    1. `commitment`
+    2. `nullifier`
+    3. `kind`
+    4. `delta`

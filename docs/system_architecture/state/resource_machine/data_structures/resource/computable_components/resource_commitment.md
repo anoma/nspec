@@ -7,7 +7,7 @@ search:
 
 # Resource Commitment
 
-Resource commitment is a unique identifier of a resource used to prove the resource's existence and address the resource. Using resource commitment allows to decouple resource semantics (contained in the resource plaintext) and the fact of the resource's existence. For a resource `r`, `r.commitment() = CommitmentHash(r)`.
+Resource commitment is a unique identifier of a resource used to prove the resource's existence and address the resource. Using resource commitment allows to decouple resource semantics (contained in the resource object) and the fact of the resource's existence. For a resource `r`, `r.commitment() = CommitmentHash(r)`.
 
 To establish the resource's existence, its commitment is added to a global structure called a commitment tree. This structure is external to the resource machine but the resource machine can read from it.
 

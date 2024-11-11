@@ -16,19 +16,19 @@ Actors working with resource machine include users, solvers, and executor nodes.
 
 A transaction function is a function that outputs a transaction: `transactionFunction() -> Transaction`.
 
-Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here]().
+Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here](./../notes/function_formats/transaction_function.md).
 
 
 ### Users
 Users are the initiators of the state change. To initiate the state change, users send the information about the desired state change to solvers. Users own the resources to be consumed/created in the transaction, meaning they are the `nullifierKey` holders and they control the transaction authorisation mechanism (resource logics).
 
-Users are not always online and limited in power.
+Users are not always online and limited in computational power.
 
 Users can create initial actions and transactions that don't require matching, but are assumed to delegate all matching computations to solvers (note that users can take the solver role for themselves as well). To create such transactions, users are expected to be able to do all of the things required to create a transaction, which includes creating all existing data structures, creating all types of proofs, and being able to access the global state.
 
 ### Solvers
 
-Solvers are the parties that have the computational power. Solvers are the parties that see intents and try to match them and output a transaction. Users give solvers the data required to create the future transactions, which may include resource plaintexts, `nullifierKey`, signed messages, etc. Given the data, solvers create, compose, and verify transactions. Once the transaction is complete and valid, the transaction function is sent for ordering.
+Solvers are the parties that have the computational power. Solvers are the parties that see intents and try to match them and output a transaction. Users give solvers the data required to create the future transactions, which may include resource objects, `nullifierKey`, signed messages, etc. Given the data, solvers create, compose, and verify transactions. Once the transaction is complete and valid, the transaction function is sent for ordering.
 
 ### Executor
 

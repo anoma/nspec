@@ -25,6 +25,6 @@ classDiagram
 ```
 
 ## Used in
-- quantity
-- DeltaHash
+1. Resource component: `quantity`
+2. `DeltaHash`
 

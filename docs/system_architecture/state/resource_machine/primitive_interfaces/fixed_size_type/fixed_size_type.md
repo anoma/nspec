@@ -48,4 +48,8 @@ classDiagram
 
 ## Used in (raw)
 
-- rseed, nonce, cnk, nullifierKey
+1. Resource components: 
+    1. `randSeed`
+    2. `nonce`
+    3. `nullifierKeyCommitment`
+2. `nullifierKey`

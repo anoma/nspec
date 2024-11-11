@@ -4,9 +4,9 @@ Delta proving system is used to prove that the transaction delta is equal to a c
 
 `DeltaProvingSystem`:
 
-- `prove(PS.ProvingKey, PS.Instance, PS.Witness) -> PS.Proof`
-- `verify(PS.VerifyingKey, PS.Instance, PS.Proof) -> Bool`
-- `aggregate(PS.Proof, PS.Proof) -> PS.Proof`
+1. `prove(PS.ProvingKey, PS.Instance, PS.Witness) -> PS.Proof`
+2. `verify(PS.VerifyingKey, PS.Instance, PS.Proof) -> Bool`
+3. `aggregate(PS.Proof, PS.Proof) -> PS.Proof`
 
 The aggregation function allows to aggregate proofs in a way that if $\pi_1$ proves that the first transaction's balance is $b_1$ and the second proof $\pi_2$ proves the second transaction's balance is $b_2$, then the proof $Aggregate(\pi_1, \pi_2)$ proves that the composed transaction's balance is $b_1 + b_2$.
 

@@ -7,30 +7,30 @@ An action is a composite structure of type `Action` that contains the following 
 |`created`|`Set Commitment`|contains commitments of resources created in this action|
 |`consumed`|`Set Nullifier`|contains nullifiers of resources consumed in this action|
 |`proofs`|`Map BitString PS.Proof`|contains a map of resource logic and compliance proofs associated with this action. The `BitString` key is used to identify the related inputs needed to verify the proof|
-|`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and openings of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage)|
+|`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and [openings](./../primitive_interfaces/fixed_size_type/hash.md#hash) of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage)|
 
 !!! warning
     The key for the proof map probably shouldn't be `BitString` but I couldn't figure out the universal enough key types that can be used as a way to find all associated inputs. Perhaps using literally the same key as for `applicationData` will make it straightforward enough
 
-Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's $cms$ or $nfs$ correspondingly. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's $nfs$ set. A resource is said to be *created in the action* for a valid action if its commitment is in the action's $cms$ set.
+Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's $cms$ or $nfs$ correspondingly. A resource is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's $nfs$ set. A resource is said to be *created in the action* for a valid action if its commitment is in the action's $cms$ set.
 
 ## Interface
 
-- `create(Set Resource, Set Resource, ApplicationData) -> Action`
-- `delta(Action) -> DeltaHash`
-- `prove(Action, (BitString, Proof)) -> Action` - outputs a proven action
-- `verify(Action) -> Bool`
+1.`create(Set Resource, Set Resource, ApplicationData) -> Action`
+2.`delta(Action) -> DeltaHash`
+3.`prove(Action, (BitString, Proof)) -> Action` - outputs a proven action
+4.`verify(Action) -> Bool`
 
 ## Proofs
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
 
-- *Resource logic proofs* are created by `ResourceLogicProvingSystem`. For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to $1$ given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [here](./proof/logic.md).
-- *Resource machine [compliance proofs](./action.md#compliance-proofs-and-compliance-units)* are created by `ComplianceProvingSystem`. Compliance proofs ensure that the provided action complies with the resource machine definitions. Actions are partitioned into *compliance units*, and there is one compliance proof created for each compliance unit. Compliance proofs and compliance units are further described [here](./proof/compliance.md).
+1. *Resource logic proofs* are created by `ResourceLogicProvingSystem`. For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to $1$ given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [here](./proof/logic.md).
+2. *Resource machine [compliance proofs](./action.md#compliance-proofs-and-compliance-units)* are created by `ComplianceProvingSystem`. Compliance proofs ensure that the provided action complies with the resource machine definitions. Actions are partitioned into *compliance units*, and there is one compliance proof created for each compliance unit. Compliance proofs and compliance units are further described [here](./proof/compliance.md).
 
 
 ## `create`
 
-Given a set of input resource plaintexts `inputResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `outputResources: Set Resource`, and `applicationData`, including a set of custom inputs required by resource logics, a proven action is computed the following way:
+Given a set of input resource objects `inputResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `outputResources: Set Resource`, and `applicationData`, including a set of custom inputs required by resource logics, a proven action is computed the following way:
 
 1. Compute the required resource logic and compliance proofs
 2. Put the pairs `(proofIdentifier, proof)` in the `action.proofs` structure. `proofIdentifier` should allow to determine the required instance and the verifying key to verify the proof`
@@ -66,10 +66,10 @@ Given a pair `(proofIdentifier, proof)` in addition to action as input to the fu
 
 Validity of an action can only be determined for actions that are associated with a transaction. Assuming that an action is associated with a transaction, an action is considered valid if all of the following conditions hold:
 
-- action input resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
-- action output resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
-- all compliance proofs are valid: `Verify(ComplianceVerifyingKey, ComplianceInstance, complianceProof) = True`
-- transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
+1. action input resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
+2. action output resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
+3. all compliance proofs are valid: `Verify(ComplianceVerifyingKey, ComplianceInstance, complianceProof) = True`
+4. transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
 
 ## Action delta (computable component)
 

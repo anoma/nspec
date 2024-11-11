@@ -11,7 +11,7 @@ Resource computable components are the components that are not a resource compon
 
 Resources have four computable components:
 
-- `r.commitment()`
-- `r.nullifier(nullifierKey)`
-- `r.kind()`
-- `r.delta()`
+1. [`r.commitment()`](resource_commitment.md)
+2. [`r.nullifier(nullifierKey)`](nullifier.md)
+3. [`r.kind()`](kind.md)
+4. [`r.delta()`](delta.md)

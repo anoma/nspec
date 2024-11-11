@@ -19,27 +19,27 @@ It is a composite structure that contains the following components:
 
 ## Interface
 
-- `create(Set CMtree.Value, Set Actions) -> Transaction`
-- `compose(Transaction, Transaction) -> Transaction`
-- `verify(Transaction) -> Bool`
+1. `create(Set CMtree.Value, Set Actions) -> Transaction`
+2. `compose(Transaction, Transaction) -> Transaction`
+3. `verify(Transaction) -> Bool`
 
 ## `create`
 Given a set of roots and a set of actions, a transaction is formed as follows:
 
-- `tx.CMTreeRoots = CMTreeRoots`
-- `tx.actions = actions`
-- `tx.transactionDelta = sum(action.Delta() for action in actions)`
-- `tx.deltaProof = DeltaProvingSystem(deltaProvingKey, deltaInstance, deltaWitness)`
+1. `tx.CMTreeRoots = CMTreeRoots`
+2. `tx.actions = actions`
+3. `tx.transactionDelta = sum(action.Delta() for action in actions)`
+4. `tx.deltaProof = DeltaProvingSystem(deltaProvingKey, deltaInstance, deltaWitness)`
 
 
 ## `compose`
 
 Having two transactions `tx1` and `tx2`, their composition `compose(tx1, tx2)` is defined as a transaction `tx`, where:
 
-- `tx.CMTreeRoots = Set.union(tx1.CMTreeRoots, tx2.CMTreeRoots)`
-- `tx.actions = Set.union(tx1.actions, tx2.actions)`
-- `tx.deltaProof = DeltaProvingSystem.aggregate(tx1.deltaProof, tx2.deltaProof)`
-- `tx.transactionDelta = tx1.transactionDelta + tx2.transactionDelta`
+1. `tx.CMTreeRoots = Set.union(tx1.CMTreeRoots, tx2.CMTreeRoots)`
+2. `tx.actions = Set.union(tx1.actions, tx2.actions)`
+3. `tx.deltaProof = DeltaProvingSystem.aggregate(tx1.deltaProof, tx2.deltaProof)`
+4. `tx.transactionDelta = tx1.transactionDelta + tx2.transactionDelta`
 
 !!! note
     When composing transactions, action sets are simply united without [composing the actions themselves](./action.md#composition). For example, composing a transaction with two actions and another transaction with three actions will result in a transaction with five actions.
@@ -50,15 +50,15 @@ A transaction is considered _valid_ if the following statements hold:
 
 Checks that do not require access to global structures:
 
-- all actions in the transaction are valid, as defined per [action validity rules](./action.md#validity)
-- actions partition the state change induced by the transaction:
-  - there is no resource created more than once across actions
-  - there is no resource consumed more than once across actions
-- `deltaProof` is valid
+1. all actions in the transaction are valid, as defined per [action validity rules](./action.md#validity)
+1. actions partition the state change induced by the transaction:
+  1. there is no resource created more than once across actions
+  2. there is no resource consumed more than once across actions
+3. `deltaProof` is valid
 
 Checks that require access to global $CMtree$ and $NFset$:
 
-- each created resource wasn't created in prior transactions
-- each consumed resource wasn't consumed in prior transactions
+1. each created resource wasn't created in prior transactions
+2. each consumed resource wasn't consumed in prior transactions
 
 A transaction is *executable* if it is valid and `transactionDelta` commits to the expected balancing value.

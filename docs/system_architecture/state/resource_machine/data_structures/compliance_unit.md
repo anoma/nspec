@@ -1,6 +1,6 @@
 # Compliance proofs and compliance units
 
-`ComplianceUnit` is a data structure that partitions the [action](./action.md). This partition corresponds to the format expected by the compliance proving system used to produce compliance proofs. The table below describes the components of a compliance unit:
+`ComplianceUnit` is a data structure that partitions the [action](./action.md), meaning that there might be multiple compliance units for a single action, the sets of resources covered by any two compliance units cover don't intersect, and together the compliance proofs cover all of the resources in the action. This partition corresponds to the format expected by the compliance proving system used to produce compliance proofs. The table below describes the components of a compliance unit:
 
 |Component|Type|Description|
 |-|-|-|
@@ -12,8 +12,8 @@ The size of a compliance unit is determined by the resource machine *instantiati
 
 ## Interface
 
-- `prove(ComplianceUnit) -> (PS.Proof, PS.Instance)` - for a given compliance unit, computes and fetches the required inputs from the storage, passes them to the compliance proving system, outputting a compliance proof along with the instance required to verify the proof.
-- `delta(ComplianceUnit) -> DeltaHash`
+1. `prove(ComplianceUnit) -> (PS.Proof, PS.Instance)` - for a given compliance unit, computes and fetches the required inputs from the storage, passes them to the compliance proving system, outputting a compliance proof along with the instance required to verify the proof.
+2. `delta(ComplianceUnit) -> DeltaHash`
 
 ### Compliance unit delta
 

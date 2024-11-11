@@ -5,9 +5,9 @@
 
 The resource machine differentiates between three kinds of proofs, each of which can have a distinct [proving system](./../../../../../basic_abstractions/proving/proof.md) used to produce that sort of proofs:
 
-- resource logic proofs
-- compliance proofs
-- delta proofs
+1. resource logic proofs
+2. compliance proofs
+3. delta proofs
 
 ||Execution context|Constraints defined by|Are the constraints public by default?|Meaning
 |-|-|-|-|-|
