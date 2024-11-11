@@ -15,24 +15,37 @@
 
 ## Message interface
 
-### `MsgNodeProxyNodeMsg NodeMsg`
+### `MsgNodeProxySendMsg SendMsg`
 
---8<-- [start:NodeMsg]
-An outgoing unicast message sent to a remote node:
-consists of the destination node identity,
-along with transport preferences,
-expiry time for send retries,
-and the engine message.
+--8<-- [start:SendMsg]
+Send an `EngineMsg` to a remote node
+with the given transport preferences
+and expiry time for send retries.
 
 ```juvix
-type NodeMsg M := mkNodeMsg {
-  dst : Option NodeID;
+type SendMsg M := mkSendMsg {
   tprefs : TransportPrefs;
   expiry : Time;
   msg : EngineMsg M;
 };
 ```
+--8<-- [end:EngineMsg]
+
+### `MsgNodeProxyNodeMsg NodeMsg`
+
+--8<-- [start:NodeMsg]
+A message sent between nodes.
+
+```juvix
+type NodeMsg M := mkNodeMsg {
+  seq : Nat;
+  msg : EngineMsg M;
+};
+```
 --8<-- [end:NodeMsg]
+
+`seq`
+Sequence number of the sender.
 
 ### `MsgNodeProxyConnectRequest NodeConnectRequest`
 
@@ -130,7 +143,10 @@ NodeConnectReply : Type := Result NodeConnectReplyOk NodeConnectReplyError;
 
 ### `MsgNodeProxyNodeAdvert NodeAdvert`
 
-Node advertisement update.
+Node advertisement update from the remote node.
+The *Node Proxy* forwards this to the router.
+
+--8<-- "./router_types.juvix.md:NodeAdvert"
 
 ### `MsgNodeProxyNodeAdvertReply`
 
@@ -151,6 +167,7 @@ All *Node Proxy* engine messages.
 
 ```juvix
 type MsgNodeProxy M :=
+  | MsgNodeProxySendMsg (SendMsg M)
   | MsgNodeProxyNodeMsg (NodeMsg M)
   | MsgNodeProxyConnectRequest NodeConnectRequest
   | MsgNodeProxyConnectReply NodeConnectReply

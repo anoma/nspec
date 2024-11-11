@@ -21,12 +21,12 @@ Forward a message to a local engine.
 
 --8<-- "../types/messages.juvix.md:EngineMsg"`
 
-### `MsgRouterNodeMsg NodeMsg`
+### `MsgRouterNodeMsg SendMsg`
 
-Forward a message to a [[Node Proxy]].
+Send a message to a [[Node Proxy]].
 If it does not exist yet, the *Router* spawns a new instance beforehand.
 
---8<-- "./node_proxy_messages:NodeMsg"
+--8<-- "./node_proxy_messages:SendMsg"
 
 ### `MsgRouterTopicMsg TopicMsg`
 
