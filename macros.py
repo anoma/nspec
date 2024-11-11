@@ -62,7 +62,7 @@ def define_env(env):
         juvix_modules_file = CACHE_DIR / "juvix_modules.json"
         juvix_modules_by_letter = {}
         juvix_modules = load_json_file(juvix_modules_file)
-        sorted(juvix_modules, key=lambda x: x["module_name"])
+        juvix_modules = sorted(juvix_modules, key=lambda x: x["module_name"])
         current_letter = None
         for mod in juvix_modules:
             letter = mod["module_name"][0].upper()
@@ -112,7 +112,7 @@ def define_env(env):
     def dict_to_md(nav_dict, depth=0) -> str:
         if isinstance(nav_dict, list):
             return "\n\n".join(dict_to_md(section, depth) for section in nav_dict)
-        indented_prefix = f"{'    ' * depth}- "
+        indented_prefix = f"{'  ' * depth}- "
         if isinstance(nav_dict, dict):
             if "title" in nav_dict:
                 title = nav_dict["title"]

@@ -87,7 +87,7 @@
 
         juvix =
           let
-            version = "v0.6.6";
+            version = "v0.6.7";
             baseurl = "https://github.com/anoma/juvix/releases/download/${version}";
             srcs = {
               x86_64-linux = {

@@ -6,6 +6,7 @@ JUVIX_FILES_TO_ISABELLE := \
    ./docs/prelude.juvix.md \
    ./docs/node_architecture/types/engine_dynamics.juvix.md \
 
+
 JUVIX_TO_ISABELLE := $(JUVIX) --log-level error isabelle
 ISABELLE_OUTPUT_DIR := ./docs/theories
 

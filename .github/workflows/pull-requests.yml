@@ -15,6 +15,7 @@ env:
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
   INSIDERS_VERSION: 9.5.41-insiders-4.53.14
+  JUVIX_VERSION: v0.6.7
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   SHOW_TODOS_IN_MD: true
@@ -73,7 +74,7 @@ jobs:
         uses: jaxxstorm/action-install-gh-release@v1.12.0
         with:
           repo: anoma/juvix
-          tag: v0.6.6
+          tag: ${{ env.JUVIX_VERSION }}
           cache: enable
           rename-to: juvix
           chmod: 0755
@@ -132,11 +133,17 @@ jobs:
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
-          SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }}))
+          SITE_VERSION: (PR ${{ github.event.pull_request.number }})
       - name: The build failed comment
         if: failure()
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
+      - name: get the last commit short hash
+        id: commit
+        run: echo "::set-output name=commit::$(git rev-parse --short HEAD)"
+      - name: get the last commit in main
+        id: main-commit
+        run: echo "::set-output name=commit::$(git rev-parse --short main)"
       - name: Build MkDocs with material insiders version
         id: material
         run: |
@@ -145,8 +152,8 @@ jobs:
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
-          SITE_NAME: Anoma Specification (PR ${{ github.event.pull_request.number }})
-          COPYRIGHT: Branch:${{ env.BRANCH_NAME}} - Python:${{ env.PYTHON_VERSION }} - Poetry:${{ env.POETRY_VERSION }} - Material:${{ env.INSIDERS_VERSION }}
+          SITE_VERSION: (PR:${{ github.event.pull_request.number }} - Branch:${{env.BRANCH_NAME }} - Commit:${{ steps.commit.outputs.commit }} - Main:${{ steps.main-commit.outputs.commit }})
+          COPYRIGHT: Powered by Mkdocs, Poetry ${{ env.POETRY_VERSION }}, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
       - if: steps.material.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
