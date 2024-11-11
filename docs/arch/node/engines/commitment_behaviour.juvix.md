@@ -29,7 +29,7 @@ tags:
 
 ## Overview
 
-The behavior of the Commitment Engine define how it processes incoming
+The behavior of the Commitment Engine defines how it processes incoming
 commitment requests and produces the corresponding responses.
 
 ## Action labels
