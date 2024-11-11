@@ -38,7 +38,7 @@ Given a set of input resource plaintexts `inputResources: Set (NullifierKey, Res
 4. `action.created = r.commitment() for r in outputResources`
 5. `action.applicationData = applicationData`
 
-An unproven action would be computed the same way, except the resource logic proofs wouldn't be computed yet.
+An unproven action would be computed the same way, except that the resource logic proofs wouldn't be computed yet.
 
 ## Unproven and proven actions
 
