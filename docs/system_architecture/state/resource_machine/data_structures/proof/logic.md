@@ -1,6 +1,6 @@
 # Resource Logic
 
-A resource logic is a verifiable predicate associated with a resource that constraints the creation and consumption of a resource. Each time a resource is attempted to be created or consumed, the corresponding resource logic proof is required to approve the action.
+A resource logic is a computable predicate associated with a resource that constrains the creation and consumption of a resource. Each time a resource is attempted to be created or consumed, the corresponding resource logic proof is required to approve the action.
 
 Every resource logic has three types of inputs and constraints:
 
