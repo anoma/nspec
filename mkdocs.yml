@@ -148,41 +148,41 @@ nav:
                           - LocalLoggingAppendV1: ./arch/node/hardware/local_logging_engine/types/local_logging_append_v1.md
                           - AppendValueV1: ./arch/node/hardware/local_logging_engine/types/append_value_v1.md
               - Identity Machine:
-                - Identity Management Engine:
-                    - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
-                    - Identity Management Engine Messages: ./arch/node/engines/identity_management_messages.juvix.md
-                    - Identity Management Engine Environment: ./arch/node/engines/identity_management_environment.juvix.md
-                    - Identity Management Engine Behaviour: ./arch/node/engines/identity_management_behaviour.juvix.md
-                - Encryption Engine:
-                    - Encryption Engine: ./arch/node/engines/encryption.juvix.md
-                    - Encryption Engine Messages: ./arch/node/engines/encryption_messages.juvix.md
-                    - Encryption Engine Environment: ./arch/node/engines/encryption_environment.juvix.md
-                    - Encryption Engine Behaviour: ./arch/node/engines/encryption_behaviour.juvix.md
-                - Commitment Engine:
-                    - Commitment Engine: ./arch/node/engines/commitment.juvix.md
-                    - Commitment Engine Messages: ./arch/node/engines/commitment_messages.juvix.md
-                    - Commitment Engine Environment: ./arch/node/engines/commitment_environment.juvix.md
-                    - Commitment Engine Dynamics: ./arch/node/engines/commitment_dynamics.juvix.md
-                - Verification Engine:
-                    - Verification Engine: ./arch/node/engines/verification.juvix.md
-                    - Verification Engine Messages: ./arch/node/engines/verification_messages.juvix.md
-                    - Verification Engine Environment: ./arch/node/engines/verification_environment.juvix.md
-                    - Verification Engine Dynamics: ./arch/node/engines/verification_dynamics.juvix.md
-                - Reads For Engine:
-                    - Reads For Engine: ./arch/node/engines/reads_for.juvix.md
-                    - Reads For Engine Messages: ./arch/node/engines/reads_for_messages.juvix.md
-                    - Reads For Engine Environment: ./arch/node/engines/reads_for_environment.juvix.md
-                    - Reads For Engine Dynamics: ./arch/node/engines/reads_for_dynamics.juvix.md
-                - Signs For Engine:
-                    - Signs For Engine: ./arch/node/engines/signs_for.juvix.md
-                    - Signs For Engine Messages: ./arch/node/engines/signs_for_messages.juvix.md
-                    - Signs For Engine Environment: ./arch/node/engines/signs_for_environment.juvix.md
-                    - Signs For Engine Dynamics: ./arch/node/engines/signs_for_dynamics.juvix.md
-                - Naming Engine:
-                    - Naming Engine: ./arch/node/engines/naming.juvix.md
-                    - Naming Engine Messages: ./arch/node/engines/naming_messages.juvix.md
-                    - Naming Engine Environment: ./arch/node/engines/naming_environment.juvix.md
-                    - Naming Engine Dynamics: ./arch/node/engines/naming_dynamics.juvix.md
+                  - Identity Management Engine:
+                      - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
+                      - Identity Management Engine Messages: ./arch/node/engines/identity_management_messages.juvix.md
+                      - Identity Management Engine Environment: ./arch/node/engines/identity_management_environment.juvix.md
+                      - Identity Management Engine Behaviour: ./arch/node/engines/identity_management_behaviour.juvix.md
+                  - Encryption Engine:
+                      - Encryption Engine: ./arch/node/engines/encryption.juvix.md
+                      - Encryption Engine Messages: ./arch/node/engines/encryption_messages.juvix.md
+                      - Encryption Engine Environment: ./arch/node/engines/encryption_environment.juvix.md
+                      - Encryption Engine Behaviour: ./arch/node/engines/encryption_behaviour.juvix.md
+                  - Commitment Engine:
+                      - Commitment Engine: ./arch/node/engines/commitment.juvix.md
+                      - Commitment Engine Messages: ./arch/node/engines/commitment_messages.juvix.md
+                      - Commitment Engine Environment: ./arch/node/engines/commitment_environment.juvix.md
+                      - Commitment Engine Dynamics: ./arch/node/engines/commitment_dynamics.juvix.md
+                  - Verification Engine:
+                      - Verification Engine: ./arch/node/engines/verification.juvix.md
+                      - Verification Engine Messages: ./arch/node/engines/verification_messages.juvix.md
+                      - Verification Engine Environment: ./arch/node/engines/verification_environment.juvix.md
+                      - Verification Engine Dynamics: ./arch/node/engines/verification_dynamics.juvix.md
+                  - Reads For Engine:
+                      - Reads For Engine: ./arch/node/engines/reads_for.juvix.md
+                      - Reads For Engine Messages: ./arch/node/engines/reads_for_messages.juvix.md
+                      - Reads For Engine Environment: ./arch/node/engines/reads_for_environment.juvix.md
+                      - Reads For Engine Dynamics: ./arch/node/engines/reads_for_dynamics.juvix.md
+                  - Signs For Engine:
+                      - Signs For Engine: ./arch/node/engines/signs_for.juvix.md
+                      - Signs For Engine Messages: ./arch/node/engines/signs_for_messages.juvix.md
+                      - Signs For Engine Environment: ./arch/node/engines/signs_for_environment.juvix.md
+                      - Signs For Engine Dynamics: ./arch/node/engines/signs_for_dynamics.juvix.md
+                  - Naming Engine:
+                      - Naming Engine: ./arch/node/engines/naming.juvix.md
+                      - Naming Engine Messages: ./arch/node/engines/naming_messages.juvix.md
+                      - Naming Engine Environment: ./arch/node/engines/naming_environment.juvix.md
+                      - Naming Engine Dynamics: ./arch/node/engines/naming_dynamics.juvix.md
               - Networking Machine:
                   - ./arch/node/networking/index.md
                   - Intra node & inter node protocols:
