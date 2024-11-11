@@ -158,6 +158,11 @@ nav:
                       - Encryption Engine Messages: ./arch/node/engines/encryption_messages.juvix.md
                       - Encryption Engine Environment: ./arch/node/engines/encryption_environment.juvix.md
                       - Encryption Engine Behaviour: ./arch/node/engines/encryption_behaviour.juvix.md
+                  - Decryption Engine:
+                      - Decryption Engine: ./arch/node/engines/decryption.juvix.md
+                      - Decryption Engine Messages: ./arch/node/engines/decryption_messages.juvix.md
+                      - Decryption Engine Environment: ./arch/node/engines/decryption_environment.juvix.md
+                      - Decryption Engine Behaviour: ./arch/node/engines/decryption_behaviour.juvix.md
                   - Commitment Engine:
                       - Commitment Engine: ./arch/node/engines/commitment.juvix.md
                       - Commitment Engine Messages: ./arch/node/engines/commitment_messages.juvix.md
