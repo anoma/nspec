@@ -37,9 +37,9 @@ The syntax above will render the image in your document like so:
 
     ```html
     <figure markdown="1">
-      
+
       ![Alt Text](image-name.png)
-      
+
       <figcaption markdown="span">Image caption text can include *Markdown*!</figcaption>
     </figure>
     ```
