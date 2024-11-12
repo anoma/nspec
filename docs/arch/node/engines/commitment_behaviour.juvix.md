@@ -57,7 +57,7 @@ given request.
     | Aspect | Description |
     |--------|-------------|
     | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `CommitResponse` message is sent back to the requester. |
+    | Messages to be sent   | A `ResponseCommitment` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
@@ -152,8 +152,8 @@ commitGuard
         -- TODO: fix this, the compiler is not able to see this is correct.
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  matchedArgs := [ReplyTo (some sender) none] ;
-                  actionLabel := DoCommit (RequestCommitment.data request);
+                  matchedArgs := [CommitmentMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+                  actionLabel := CommitmentActionLabelDoCommit (mkDoCommit (RequestCommitment.data request));
                   precomputationTasks := unit
                 });
         }
@@ -168,7 +168,7 @@ commitGuard
 
     Type alias for the action function.
 
-    ```todo
+    ```juvix
     CommitmentActionInput : Type :=
       ActionInput
         CommitmentLocalState
@@ -191,21 +191,21 @@ commitGuard
 ### `commitmentAction`
 
 <!-- --8<-- [start:commitmentAction] -->
-```todo
+```juvix
 commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
-    | DoCommit data :=
+    | CommitmentActionLabelDoCommit (mkDoCommit data) :=
       case GuardOutput.matchedArgs out of {
-        | (ReplyTo (some whoAsked) _) :: _ := let
+        | CommitmentMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
             signedData :=
               Signer.sign (CommitmentLocalState.signer localState)
                 (CommitmentLocalState.backend localState)
                 data;
-            responseMsg := CommitResponse@{
+            responseMsg := mkResponseCommitment@{
                   commitment := signedData;
                   err := none
                 };
@@ -215,7 +215,7 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
               sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgCommitment responseMsg
+              msg := MsgCommitment (MsgCommitmentResponse responseMsg)
             }];
             timers := [];
             spawnedEngines := []
@@ -230,7 +230,7 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
 
 ### `commitmentConflictSolver`
 
-```todo
+```juvix
 commitmentConflictSolver : Set CommitmentMatchableArgument -> List (Set CommitmentMatchableArgument)
   | _ := [];
 ```
@@ -240,7 +240,7 @@ commitmentConflictSolver : Set CommitmentMatchableArgument -> List (Set Commitme
 ### `CommitmentBehaviour`
 
 <!-- --8<-- [start:CommitmentBehaviour] -->
-```todo
+```juvix
 CommitmentBehaviour : Type :=
   EngineBehaviour
     CommitmentLocalState
@@ -255,7 +255,7 @@ CommitmentBehaviour : Type :=
 ### Instantiation
 
 <!-- --8<-- [start:commitmentBehaviour] -->
-```todo
+```juvix
 commitmentBehaviour : CommitmentBehaviour :=
   mkEngineBehaviour@{
     guards := [commitGuard];
