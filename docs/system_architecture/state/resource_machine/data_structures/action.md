@@ -12,14 +12,14 @@ An action is a composite structure of type `Action` that contains the following 
 !!! warning
     The key for the proof map probably shouldn't be `BitString` but I couldn't figure out the universal enough key types that can be used as a way to find all associated inputs. Perhaps using literally the same key as for `applicationData` will make it straightforward enough
 
-Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's $cms$ or $nfs$ correspondingly. A resource is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's $nfs$ set. A resource is said to be *created in the action* for a valid action if its commitment is in the action's $cms$ set.
+Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have guaranteed access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's `created` or `consumed` correspondingly. A resource is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's `consumed` set. A resource is said to be *created in the action* for a valid action if its commitment is in the action's `created` set.
 
 ## Interface
 
-1.`create(Set Resource, Set Resource, ApplicationData) -> Action`
-2.`delta(Action) -> DeltaHash`
-3.`prove(Action, (BitString, Proof)) -> Action` - outputs a proven action
-4.`verify(Action) -> Bool`
+1. `create(Set Resource, Set Resource, ApplicationData) -> Action`
+2. `delta(Action) -> DeltaHash`
+3. `prove(Action, (BitString, Proof)) -> Action` - outputs a proven action
+4. `verify(Action) -> Bool`
 
 ## Proofs
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
@@ -30,12 +30,12 @@ Each action refers to a set of resources to be consumed and a set of resources t
 
 ## `create`
 
-Given a set of input resource objects `inputResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `outputResources: Set Resource`, and `applicationData`, including a set of custom inputs required by resource logics, a proven action is computed the following way:
+Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of custom inputs required by resource logics, a proven action is computed the following way:
 
 1. Compute the required resource logic and compliance proofs
 2. Put the pairs `(proofIdentifier, proof)` in the `action.proofs` structure. `proofIdentifier` should allow to determine the required instance and the verifying key to verify the proof`
-3. `action.consumed = r.nullifier(nullifierKey) for r in inputResources`
-4. `action.created = r.commitment() for r in outputResources`
+3. `action.consumed = r.nullifier(nullifierKey) for r in consumedResources`
+4. `action.created = r.commitment() for r in createdResources`
 5. `action.applicationData = applicationData`
 
 An unproven action would be computed the same way, except that the resource logic proofs wouldn't be computed yet.
@@ -73,7 +73,7 @@ Validity of an action can only be determined for actions that are associated wit
 
 ## Action delta (computable component)
 
-`action.delta() -> DeltaHash` is a computable component used to compute `transactionDelta`. It is computed from `r.delta()` of the resources that comprise the action and defined as `action.delta() = sum(r.delta() for r in inputResources) - sum(r.delta() for r in outputResources)`
+`action.delta() -> DeltaHash` is a computable component used to compute `transactionDelta`. It is computed from `r.delta()` of the resources that comprise the action and defined as `action.delta() = sum(r.delta() for r in consumedResources) - sum(r.delta() for r in createdResources)`
 
 From the homomorphic properties of [`DeltaHash`](./../primitive_interfaces/fixed_size_type/delta_hash.md), for the resources of the same kind $kind$, adding together the deltas of the resources results in the delta corresponding to the total quantity of that resource kind: $\sum_j{h_\Delta(kind, q_{r_{i_j}})} - \sum_j{h_\Delta(kind, q_{r_{o_j}})} = \sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}} =  h_\Delta(kind, q_{kind})$, where $q_{kind}$ is the total quantity of the resources of kind $kind$.
 

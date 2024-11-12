@@ -10,6 +10,6 @@ At this point, this interface seems to be fully covered by the [set interface](.
 !!! note
     For the future versions of the nullifier set:
 
-    1.`Contains` should perform the check in O(1)
-    2. The data structure should support proofs of non-existence
+        1.`Contains` should perform the check in O(1)
+        2. The data structure should support proofs of non-existence
 

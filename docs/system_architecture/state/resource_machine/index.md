@@ -26,9 +26,9 @@ The atomic unit of the ARM state is called a [**resource**](./data_structures/re
 
 Ensuring the correctness of the transaction is achieved with the help of non-interactive proofs attached to it: 
 
-- to prove the transaction is balanced correctly, there are [delta proofs](./data_structures/proof/delta.md). Balance is the criterion of a transaction's completeness.
-- to prove the transaction complies with the ARM rules, there are [compliance proofs](./data_structures/proof/compliance.md). Actions are partitioned into [compliance units]() for easier proving.
-- to prove the transaction satisfies the user constraints, there are [resource logic proofs](./data_structures/proof/logic.md).
+1. to prove the transaction is balanced correctly, there are [delta proofs](./data_structures/proof/delta.md). Balance is the criterion of a transaction's completeness.
+2. to prove the transaction complies with the ARM rules, there are [compliance proofs](./data_structures/proof/compliance.md). Actions are partitioned into [compliance units]() for easier proving.
+3. to prove the transaction satisfies the user constraints, there are [resource logic proofs](./data_structures/proof/logic.md).
 
 ## The role of the ARM
 

@@ -57,10 +57,10 @@ nav:
                     - Hash: ./system_architecture/state/resource_machine/primitive_interfaces/fixed_size_type/hash.md
                     - Delta hash: ./system_architecture/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.md
                   - Proving system: 
-                    - ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving-system.md 
-                    - Delta proving system: ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving-system-delta.md 
-                  - Commitment accumulator: ./system_architecture/state/resource_machine/primitive_interfaces/commitment-accumulator.md
-                  - Nullifier set: ./system_architecture/state/resource_machine/primitive_interfaces/nullifier-set.md
+                    - ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving_system.md 
+                    - Delta proving system: ./system_architecture/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.md 
+                  - Commitment accumulator: ./system_architecture/state/resource_machine/primitive_interfaces/commitment_accumulator.md
+                  - Nullifier set: ./system_architecture/state/resource_machine/primitive_interfaces/nullifier_set.md
                 - Data structures:
                   - ./system_architecture/state/resource_machine/data_structures/index.md
                   - Resource:
@@ -84,7 +84,6 @@ nav:
                   - Stored data format: ./system_architecture/state/resource_machine/notes/storage.md
                   - Function formats:
                     - Transaction function: ./system_architecture/state/resource_machine/notes/function_formats/transaction_function.md
-                    - Resource logic: ./system_architecture/state/resource_machine/notes/function_formats/resource_logic.md
                   - Applications: ./system_architecture/state/resource_machine/notes/applications.md
       - Node Architecture:
           - ./node_architecture/index.md
