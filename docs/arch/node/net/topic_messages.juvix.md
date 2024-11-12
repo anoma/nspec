@@ -65,7 +65,7 @@ type TopicMsgContent :=
 
 `TopicMsgContentChunkRef`
 : Reference to the root chunk of an object.
-  Pair of an encrypted `secretKey` and a `ChunkCommitment`.
+  Pair of an encrypted `SecretKey` and a `ChunkCommitment`.
 
 `TopicMsgContentAck`
 : Acknowledgement of a `TopicMsg`.

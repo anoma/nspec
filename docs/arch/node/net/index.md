@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The *Network Subsystem* s responsible for
+The *Network Subsystem* is responsible for
 sending and receiving messages to and from remote nodes.
 
 ## Overview

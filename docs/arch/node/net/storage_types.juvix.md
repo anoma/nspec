@@ -22,7 +22,7 @@ tags:
 
 # Storage Types
 
-## ACL
+## `ACL`
 
 Access control list stored in a [[Storage]] object.
 
@@ -49,7 +49,7 @@ A chunk of a storage object.
 type Chunk := mkChunk {
   children : List ChunkID;
   expiry : AbsTime;
-  acl : ChunkID;
+  acl : ACL;
   content : Bytes;
 };
 ```

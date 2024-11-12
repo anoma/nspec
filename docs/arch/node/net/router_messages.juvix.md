@@ -59,8 +59,9 @@ type RouterNodeConnect :=
 Allow local engines to subscribe to a [[PubSub Topic]]
 if a `TopicAdvert` is known for the topic.
 
-The *Router* spawns a new [[PubSub Topic]] if it does not exist yet,
-and forwards the `TopicSub` message to the [[PubSub Topic]].
+The *Router* forwards the `TopicSub` message to the [[PubSub Topic]]
+engine instance responsible for the topic.
+If necessary, it spawns a new [[PubSub Topic]] engine instance beforehand.
 
 ```juvix
 type RouterSub :=
