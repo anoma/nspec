@@ -49,9 +49,18 @@ otherwise a list of commitments by nodes that store the chunk.
 ```juvix
 type ChunkGetReplyOk :=
   | ChunkGetReplyOkContent Chunk
-  | ChunkGetReplyOkCommitment (List ChunkCommitment)
+  | ChunkGetReplyOkCommitment (Set ChunkCommitment)
   ;
 ```
+
+`ChunkGetReplyOkContent`
+Reply with chunk content.
+
+`ChunkGetReplyOkCommitment`
+Reply with a set of known storage commitments.
+Each such commitment contains a `NodeID` that stores the chunk until the time specified.
+To retrieve the chunk, the requestor should issue another `ChunkGetRequest` to one of these nodes,
+trying them in the order of most recently successfully contacted.
 
 #### `ChunkGetReplyError`
 
