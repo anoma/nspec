@@ -14,15 +14,13 @@
 ## `NodeAdvert`
 
 A self-signed *node advertisement* contains the node's
-cryptographic identity, transport addresses,
-and prekeys for asynchronous encrypted communication.
+cryptographic identity and transport addresses.
 
 ```juvix
 type NodeAdvert :=
   mkNodeAdvert {
     id : NodeID;
     addrs : List TransportAddress;
-    prekeys : List ExternalID;
     version : Nat;
     created : AbsTime;
     sig : Commitment;
@@ -35,17 +33,11 @@ type NodeAdvert :=
 `addrs`
 : Transport addresses with preferences expressed as weights.
 
-`prekeys`
-: Prekeys for asynchronous communication.
-
 `version`
 : Version number (incremented at every change).
 
 `created`
 : Time of creation.
-
-`prekeys`
-: Prekeys for initiating asynchronous Diffie-Hellman handshake with the node.
 
 `sig`
 : Signature by `id`.
