@@ -11,14 +11,14 @@ The commitment accumulator `Accumulator` parametrised over the types `Witness`,`
 
 1. `Add(Accumulator, Commitment) -> Witness` adds an element to the accumulator, returning the witness used to prove membership.
 2. `Witness(Accumulator, Commitment) -> Maybe Witness` for a given element, returns the witness used to prove membership if the element is present, otherwise returns nothing.
-3. `Verify(Commitment, Witness, AccumulatedValue) -> Bool` verifies the membership proof for an element $cm$ with a membership witness $w$ for the accumulated value $val$.
+3. `Verify(Commitment, Witness, AccumulatedValue) -> Bool` verifies the membership proof for an element `commitment` with a membership witness `witness` for the accumulated value $value$.
 4. `Value(Accumulator) -> AccumulatedValue` returns the accumulator value.
 
 #### Merkle tree
 Currently, the commitment accumulator is assumed to be a Merkle tree $CMtree$ of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are computed using a hash function $h_{CMtree}$.
 
 !!! note
-    The hash function $h_{CMtree}$ used to compute the nodes of the $CMtree$ Merkle tree is not necessarily the same as the function used to compute commitments stored in the tree $h_{cm}$.
+    The hash function $h_{CMtree}$ used to compute the nodes of the $CMtree$ Merkle tree is not necessarily the same as the function used to compute commitments stored in the tree [`Commitment`](./fixed_size_type/hash.md).
 
 ##### Interface
 

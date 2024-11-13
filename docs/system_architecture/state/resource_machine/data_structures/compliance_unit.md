@@ -7,7 +7,6 @@
 |`created`|`Set Commitment`|a subset of the action commitments|
 |`consumed`|`Set Nullifier`|a subset of the action nullifiers|
 
-
 The size of a compliance unit is determined by the resource machine *instantiation*. The total number of compliance proofs required for an action is determined by the number of compliance units that comprise the action. For example, if the instatiation defines a single compliance proof to include 1 input and 1 output resource, and an action contains 3 input and 2 output resources, the total number of compliance units will be 3 (with a placeholder output resource in the third compliance unit).
 
 ## Interface

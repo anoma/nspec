@@ -6,8 +6,15 @@ An action is a composite structure of type `Action` that contains the following 
 |-|-|-|
 |`created`|`Set Commitment`|contains commitments of resources created in this action|
 |`consumed`|`Set Nullifier`|contains nullifiers of resources consumed in this action|
-|`proofs`|`Map BitString PS.Proof`|contains a map of resource logic and compliance proofs associated with this action. The `BitString` key is used to identify the related inputs needed to verify the proof|
-|`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and [openings](./../primitive_interfaces/fixed_size_type/hash.md#hash) of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage)|
+|`resourceLogicProofs`|`Map Tag (LogicRefHash, PS.Proof)`|contains a map of resource logic proofs associated with this action. The key is the `self` resource for which the proof is computed, the first parameter of the value opens to the required verifying key, the second one is the corresponding proof|
+|`complianceProofs`|`Set (PS.VerifyingKey, PS.Instance, PS.Proof)`|contains a set of compliance proofs associated with this action. Each tuple contains all the required parameters to verify the proof. The Merkle tree roots required to verify the proof are referenced by short hashes. All the parameters are expected to be ordered.|
+|`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and [openings](./../primitive_interfaces/fixed_size_type/hash.md#hash) of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage). The openings are expected to be ordered.|
+
+!!! note
+    Referencing Merkle tree roots: the Merkle tree roots required to verify the compliance proofs are stored in the transaction (not in action or a compliance unit), and are referenced by a short hash in the `complianceProofs` data structure. To find the right roots corresponding to the proof, the verifier has to compute the hashes of the roots in the transaction, match them with the short hashes in the `complianceProofs` structure, and use the ones that match for verification.
+
+!!! note
+    `resourceLogicProofs` type: For function privacy, we assume that the produced logic proof is recursive, and the verifying key used to verify the proof is either universal and publicly known (in case we have a recursion) - then the verifying key for the inner proof is committed to in the `LogicRefHash` parameter - or it is contained directly in the `LogicRefHash` parameter. This part isn't properly generalised yet.
 
 !!! warning
     The key for the proof map probably shouldn't be `BitString` but I couldn't figure out the universal enough key types that can be used as a way to find all associated inputs. Perhaps using literally the same key as for `applicationData` will make it straightforward enough
@@ -18,7 +25,7 @@ Actions partition the state change induced by a transaction and limit the resour
 
 1. `create(Set Resource, Set Resource, ApplicationData) -> Action`
 2. `delta(Action) -> DeltaHash`
-3. `prove(Action, (BitString, Proof)) -> Action` - outputs a proven action
+3. `prove(Action, Map Tag (LogicRefHash, PS.Proof), Set (PS.VerifyingKey, PS.Instance, PS.Proof)) -> Action` - takes as input an unproven action, a set of logic proofs, and a set of compliance proofs. Outputs a proven action
 4. `verify(Action) -> Bool`
 
 ## Proofs
@@ -33,12 +40,13 @@ Each action refers to a set of resources to be consumed and a set of resources t
 Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of custom inputs required by resource logics, a proven action is computed the following way:
 
 1. Compute the required resource logic and compliance proofs
-2. Put the pairs `(proofIdentifier, proof)` in the `action.proofs` structure. `proofIdentifier` should allow to determine the required instance and the verifying key to verify the proof`
-3. `action.consumed = r.nullifier(nullifierKey) for r in consumedResources`
-4. `action.created = r.commitment() for r in createdResources`
-5. `action.applicationData = applicationData`
+2. For the compliance proofs, create a set of proof records `Set (PS.VerifyingKey, PS.Instance, PS.Proof)` and put them in `action.complianceProofs`
+3. For the logic proofs, associate each proof with the logic hash reference and the tag of the resource for which the proof is created, and put the resulting map in `action.resourceLogicProofs`
+4. `action.consumed = r.nullifier(nullifierKey) for r in consumedResources`
+5. `action.created = r.commitment() for r in createdResources`
+6. `action.applicationData = applicationData`
 
-An unproven action would be computed the same way, except that the resource logic proofs wouldn't be computed yet.
+An unproven action would be computed the same way, except that some resource logic proofs and compliance proofs wouldn't be computed yet.
 
 ## Unproven and proven actions
 
@@ -52,9 +60,7 @@ After adding the required proofs to an unproven action, the action becomes prove
 
 ## `prove`
 
-Given a pair `(proofIdentifier, proof)` in addition to action as input to the function, the resulting action is computed by adding the proof to the list of action proofs:
-
-`action.proofs.add(proofIdentifier, proof)`
+Given the lacking compliance proofs and logic proofs in addition to action as input to the function, the resulting action is computed by adding the proofs to the relevant components:
 
 !!! warning
     Such an update could also require an update to `applicationData` and possibly other fields. Not sure how to describe this in the most versatile way yet as it isn't clear how proving unproven actions would be used in practice
@@ -68,7 +74,7 @@ Validity of an action can only be determined for actions that are associated wit
 
 1. action input resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
 2. action output resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
-3. all compliance proofs are valid: `Verify(ComplianceVerifyingKey, ComplianceInstance, complianceProof) = True`
+3. all compliance proofs are valid: `Verify(complianceVerifyingKey, complianceInstance, complianceProof) = True`
 4. transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
 
 ## Action delta (computable component)
