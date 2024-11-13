@@ -10,9 +10,6 @@ search:
     ```juvix
     module arch.system.identity.identity;
     import prelude open;
-    import Stdlib.Data.Nat as Nat open using {Nat; +; *; <=} public;
-    import Stdlib.Trait.Eq as Eq open using {==} public;
-    import Stdlib.Trait.Ord as Ord open using {Ordering; EQ} public;
     ```
 
 # Identity Architecture
@@ -792,7 +789,7 @@ type ThresholdComposeEncryptor
   (MapCon : Type -> Type)
   (EncryptorHashOrdKeyType : Type)
   :=
-  mkThresholdComposeEncryptor {
+  mkThresholdComposeEncryptor@{
     map : OrdMap OrdKey MapCon;
     underlyingEncryptor : Encryptor OrdKey EncryptorType Plaintext Ciphertext;
     encryptorHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon);
@@ -803,9 +800,9 @@ type ThresholdComposeEncryptor
 
 ```juvix
 projectEncryptor
-  {OrdKey EncryptorType Plaintext Ciphertext : Type}
+  {OrdKey EncryptorType Plaintext Ciphertext}
   {MapCon : Type -> Type}
-  {EncryptorHashOrdKeyType : Type}
+  {EncryptorHashOrdKeyType}
   (tc : ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType) :
   Encryptor EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon) Plaintext Ciphertext
   :=
@@ -823,9 +820,9 @@ axiom encrypt_DUMMY :
 
 ```juvix
 ThresholdComposeEncryptorFunctor
-  {OrdKey EncryptorType Plaintext Ciphertext : Type}
+  {OrdKey EncryptorType Plaintext Ciphertext}
   {MapCon : Type -> Type}
-  {EncryptorHashOrdKeyType : Type}
+  {EncryptorHashOrdKeyType}
   (encryptor : Encryptor OrdKey EncryptorType Plaintext Ciphertext)
   (mapIn : OrdMap OrdKey MapCon)
   (thresholdComposeHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon)) :
@@ -877,7 +874,7 @@ type ThresholdComposeReadsFor
   ( MapCon : Type -> Type )
   ( EncryptorHashOrdKeyType : Type )
   :=
-  mkThresholdComposeReadsFor {
+  mkThresholdComposeReadsFor@{
     underlyingReadsFor : ReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence;
     encryptor : ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType;
     readsFor : Evidence -> Pair (ComposeHashable EncryptorType MapCon) (ComposeHashable EncryptorType MapCon) -> Bool;
@@ -886,12 +883,24 @@ type ThresholdComposeReadsFor
 
 ```juvix
 projectReadsFor
-  { OrdKey VerifierType Signable Commitment Evidence : Type }
+  { OrdKey VerifierType Signable Commitment Evidence }
   { MapCon : Type -> Type }
   { EncryptorHashOrdKeyType : Type }
-  ( tc : ThresholdComposeReadsFor OrdKey VerifierType Signable Commitment Evidence MapCon EncryptorHashOrdKeyType ) :
-  ReadsFor EncryptorHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable Commitment Evidence :=
-  mkReadsFor@{
+  ( tc : ThresholdComposeReadsFor
+          OrdKey
+          VerifierType
+          Signable
+          Commitment
+          Evidence
+          MapCon
+          EncryptorHashOrdKeyType ) :
+    ReadsFor
+    EncryptorHashOrdKeyType
+    (ComposeHashable VerifierType MapCon)
+    Signable
+    Commitment
+    Evidence
+  := mkReadsFor@{
     encryptor := projectEncryptor (ThresholdComposeReadsFor.encryptor tc);
     readsFor := ThresholdComposeReadsFor.readsFor tc;
   };
@@ -899,9 +908,9 @@ projectReadsFor
 
 ```juvix
 ThresholdComposeReadsForFunctor
-  { OrdKey EncryptorType Plaintext Ciphertext Evidence : Type }
+  { OrdKey EncryptorType Plaintext Ciphertext Evidence}
   { MapCon : Type -> Type }
-  { EncryptorHashOrdKeyType : Type }
+  { EncryptorHashOrdKeyType}
   ( r : ReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence )
   ( map : OrdMap OrdKey MapCon )
   ( thresholdComposeHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon) ) :
@@ -1120,7 +1129,7 @@ SubVerifierFunctor
     checkVerifierName := \{
       (mkPair ph n) c (mkPair pv pc) :=
         (Verifier.verify parent pv (mkPair "I identify this verifier with this name : " (mkPair n (HASH.hash (Verifier.verifierHash child) c))) pc) &&
-        ((OrdKey.compare (HASH.ordKey (Verifier.verifierHash parent)) ph (HASH.hash (Verifier.verifierHash parent) pv)) == EQ)
+        ((OrdKey.compare (HASH.ordKey (Verifier.verifierHash parent)) ph (HASH.hash (Verifier.verifierHash parent) pv)) == Equal)
     };
     verifierNameHash := hash;
   }

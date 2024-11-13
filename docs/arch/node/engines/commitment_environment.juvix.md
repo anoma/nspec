@@ -47,7 +47,7 @@ The local state of a Commitment Engine instance includes the identity's signing 
 ### `CommitmentLocalState`
 
 ```juvix
-type CommitmentLocalState := mkCommitmentLocalState {
+type CommitmentLocalState := mkCommitmentLocalState@{
   signer : Signer Backend Signable Commitment;
   backend : Backend;
 };

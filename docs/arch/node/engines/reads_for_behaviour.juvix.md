@@ -17,10 +17,6 @@ tags:
 
     import prelude open;
     import arch.node.types.messages open;
-    import Data.Set.AVL open;
-    import Stdlib.Data.List.Base open;
-    import Stdlib.Trait.Ord open;
-    import Stdlib.Data.Bool.Base open;
     import arch.node.types.engine_behaviour open;
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
@@ -305,10 +301,10 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
     | DoReadsForQuery externalIdentityA externalIdentityB :=
       case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            hasEvidence := elem \{a b := a && b} true (map \{ evidence :=
-              isEQ (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentityA) &&
-              isEQ (Ord.cmp (ReadsForEvidence.toIdentity evidence) externalIdentityB)
-            } (toList (ReadsForLocalState.evidenceStore localState)));
+            hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
+              isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentityA) &&
+              isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) externalIdentityB)
+            } (Set.toList (ReadsForLocalState.evidenceStore localState)));
             responseMsg := ReadsForResponse@{
               readsFor := hasEvidence;
               err := none
@@ -334,9 +330,9 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
             case isValid of {
               | true :=
                   let alreadyExists :=
-                    elem \{a b := a && b} true (map \{e :=
-                        isEQ (Ord.cmp e evidence)
-                      } (toList (ReadsForLocalState.evidenceStore localState)));
+                    isElement \{a b := a && b} true (map \{e :=
+                        isEqual (Ord.cmp e evidence)
+                      } (Set.toList (ReadsForLocalState.evidenceStore localState)));
                   in
                   case alreadyExists of {
                     | true :=
@@ -403,9 +399,9 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
     | DoQueryEvidence externalIdentity' :=
       case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            relevantEvidence := AVLfilter \{evidence :=
-              isEQ (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentity') ||
-              isEQ (Ord.cmp (ReadsForEvidence.toIdentity evidence) externalIdentity')
+            relevantEvidence := AVLTree.filter \{evidence :=
+              isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentity') ||
+              isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) externalIdentity')
             } (ReadsForLocalState.evidenceStore localState);
             responseMsg := QueryReadsForEvidenceResponse@{
               externalIdentity := externalIdentity';

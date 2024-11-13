@@ -1,3 +1,0 @@
-[submodule "formal/isabelle"]
-	path = formal/isabelle
-	url = git@github.com:anoma/Isabelle-HPaxos.git
