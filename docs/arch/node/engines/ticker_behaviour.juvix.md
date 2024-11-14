@@ -33,7 +33,6 @@ tags:
 The Ticker engine maintains a counter as local state and allows two actions:
 incrementing the counter and sending the current counter value.
 
-
 ## Action labels
 
 ### `TickerActionLabelIncrement`
@@ -42,45 +41,11 @@ This action label corresponds to incrementing the counter
 by the `incrementAction`
 upon reception of the `TickerMsgIncrement` message.
 
-#### State update
-
-The counter value is increased by one.
-
-#### Messages to be sent
-
-No messages are added to the send queue.
-
-#### Engines to be spawned
-
-No engine is created by this action.
-
-#### Timer updates
-
-No timers are set or cancelled.
-
-
 ### `TickerActionLabelRespond`
 
 This action label corresponds to responding with the current counter value
 by the `respondAction`
 upon reception of the `TickerMsgCount` message.
-
-#### State update
-
-The state remains unchanged.
-
-#### Messages to be sent
-
-A message with the current counter value is sent to the requester.
-
-#### Engines to be spawned
-
-No engine is created by this action.
-
-#### Timer updates
-
-No timers are set or cancelled.
-
 
 ### `TickerActionLabel`
 
@@ -292,6 +257,18 @@ countGuard
 Increments the counter if the `TickerMsgIncrement` message is received,
 actioned by the `TickerActionLabelIncrement` label.
 
+State update
+: The counter value is increased by one.
+
+Messages to be sent
+: No messages are added to the send queue.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
 ```juvix
 incrementAction (input : TickerActionInput) : TickerActionEffect :=
   let
@@ -315,6 +292,18 @@ incrementAction (input : TickerActionInput) : TickerActionEffect :=
 
 Responds with the current counter value if the `TickerMsgCount` message is received,
 actioned by the `TickerActionLabelRespond` label.
+
+State update
+: The state remains unchanged.
+
+Messages to be sent
+: A message with the current counter value is sent to the requester.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
 
 ```juvix
 respondAction (input : TickerActionInput) : TickerActionEffect :=

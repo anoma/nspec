@@ -28,7 +28,6 @@ A template engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
 
-
 ## Action labels
 
 ### `TemplateActionLabelDoOneThing`
@@ -37,53 +36,11 @@ This action label corresponds to doing one thing
 by the `doOneThingAction`
 upon reception of the `MsgTemplateJustHi` message.
 
-#### State update
-
-The state is unchanged as the timer will have all information necessary.
-
-#### Messages to be sent
-
-No messages are added to the send queue.
-
-#### Engines to be spawned
-
-No engine is created by this action.
-
-#### Timer updates
-
-No timers are set or cancelled.
-
-#### Acquaintance updates
-
-None.
-
-
 ### `TemplateActionLabelDoSomeThing String`
 
 This action label corresponds to doing something
 by the `doSomeThingAction`
 upon reception of the `MsgTemplateJustHi` message.
-
-#### State update
-
-The state is unchanged as the timer will have all information necessary.
-
-#### Messages to be sent
-
-No messages are added to the send queue.
-
-#### Engines to be spawned
-
-No engine is created by this action.
-
-#### Timer updates
-
-No timers are set or cancelled.
-
-#### Acquaintance updates
-
-None.
-
 
 ### `TemplateActionLabelDoAnotherThing String`
 
@@ -91,38 +48,15 @@ This action label corresponds to doing another thing
 by the `doAnotherThingAction`
 upon reception of the `MsgTemplateJustHi` message.
 
-#### State update
-
-The state is unchanged as the timer will have all information necessary.
-
-#### Messages to be sent
-
-No messages are added to the send queue.
-
-#### Engines to be spawned
-
-No engine is created by this action.
-
-#### Timer updates
-
-No timers are set or cancelled.
-
-#### Acquaintance updates
-
-None.
-
-
 ### `TemplateActionLabelDoAlternative`
 
 This action label corresponds to performing
 either `TemplateActionLabelDoSomeThing` or `TemplateActionLabelDoAnotherThing`.
 
-
 ### `TemplateActionLabelDoBoth`
 
 This action label corresponds to performing
 both `TemplateActionLabelDoSomeThing` and `TemplateActionLabelDoAnotherThing`.
-
 
 ### `TemplateActionLabel`
 
@@ -405,9 +339,21 @@ The action function amounts to one single case statement.
 ### `doOneThingAction`
 
 Give a short description of the action function.
-This action does nothing.
-It preserves the environment, produces no messages,
-sets no timers, spawns no engines.
+
+State update
+: The state is unchanged as the timer will have all information necessary.
+
+Messages to be sent
+: No messages are added to the send queue.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+Acquaintance updates
+: None.
 
 ```juvix
 doOneThingAction (input : TemplateActionInput) : TemplateActionEffect :=
@@ -426,9 +372,21 @@ doOneThingAction (input : TemplateActionInput) : TemplateActionEffect :=
 ### `someAction`
 
 Give a short description of the action function.
-This action does nothing.
-It preserves the environment, produces no messages,
-sets no timers, spawns no engines.
+
+State update
+: The state is unchanged as the timer will have all information necessary.
+
+Messages to be sent
+: No messages are added to the send queue.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+Acquaintance updates
+: None.
 
 ```juvix
 someAction (input : TemplateActionInput) : TemplateActionEffect :=
