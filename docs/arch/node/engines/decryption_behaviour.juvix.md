@@ -57,7 +57,7 @@ given request.
     | Aspect | Description |
     |--------|-------------|
     | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `mkResponseDecryption` message is sent back to the requester. |
+    | Messages to be sent   | A `ResponseDecryption` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
