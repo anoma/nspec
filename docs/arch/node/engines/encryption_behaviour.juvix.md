@@ -302,7 +302,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
                       timers := [];
                       spawnedEngines := []
                     }
-                | true := 
+                | true :=
                     -- Need to request ReadsForEvidence from ReadsFor Engine
                     let existingRequests := Map.lookup externalIdentity' (EncryptionLocalState.pendingRequests localState);
                         newPendingList := case existingRequests of {

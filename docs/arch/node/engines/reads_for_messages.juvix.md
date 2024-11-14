@@ -55,7 +55,7 @@ Response indicating whether the reads_for relationship exists.
 
     `readsFor`:
     : True if externalIdentityA can read for externalIdentityB, False otherwise.
-    
+
     `err`:
     : An error message if the query failed.
 
@@ -120,10 +120,10 @@ Response providing the requested evidence.
 
     `externalIdentity`:
     : The identity for which evidence was requested.
-    
+
     `evidence`:
     : A set of ReadsForEvidence related to the identity.
-    
+
     `err`:
     : An error message if the query failed.
 
