@@ -407,15 +407,11 @@ Calls the action function corresponding to the action label set by the guard.
 <!-- --8<-- [start:templateAction] -->
 ```juvix
 templateAction (input : TemplateActionInput) : TemplateActionEffect :=
-  let
-    env := ActionInput.env input;
-    out := ActionInput.guardOutput input;
-  in
-    case GuardOutput.actionLabel out of {
-    | TemplateActionLabelDoOneThing := doOneThingAction input
-    | TemplateActionLabelDoAlternative (left _) := someAction input
-    | _ := undef
-    };
+  case GuardOutput.actionLabel (ActionInput.guardOutput input) of {
+  | TemplateActionLabelDoOneThing := doOneThingAction input
+  | TemplateActionLabelDoAlternative (left _) := someAction input
+  | _ := undef
+  };
 ```
 <!-- --8<-- [end:templateAction] -->
 

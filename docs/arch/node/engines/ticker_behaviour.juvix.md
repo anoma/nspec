@@ -346,14 +346,10 @@ Calls the action function corresponding to the action label set by the guard.
 <!-- --8<-- [start:tickerAction] -->
 ```juvix
 tickerAction (input : TickerActionInput) : TickerActionEffect :=
-  let
-    env := ActionInput.env input;
-    out := ActionInput.guardOutput input;
-  in
-    case GuardOutput.actionLabel out of {
-    | TickerActionLabelIncrement := incrementAction input
-    | TickerActionLabelRespond := respondAction input
-    };
+  case GuardOutput.actionLabel (ActionInput.guardOutput input) of {
+  | TickerActionLabelIncrement := incrementAction input
+  | TickerActionLabelRespond := respondAction input
+  };
 ```
 <!-- --8<-- [end:tickerAction] -->
 
