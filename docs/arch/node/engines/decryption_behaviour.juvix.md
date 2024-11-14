@@ -84,6 +84,9 @@ type ReplyTo := mkReplyTo {
     `whoAsked`:
     : The engine ID of the requester.
 
+    `mailbox`:
+    : The mailbox ID where the response should be sent.
+
 ### DecryptionMatchableArgument
 
 ```juvix
@@ -91,17 +94,6 @@ type DecryptionMatchableArgument :=
   | DecryptionMatchableArgumentReplyTo ReplyTo
 ;
 ```
-<!-- --8<-- [end:decryption-matchable-argument] -->
-
-### `ReplyTo`
-
-!!! quote ""
-
-    ```
-    --8<-- "./decryption_behaviour.juvix.md:ReplyTo"
-    ```
-
-This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
