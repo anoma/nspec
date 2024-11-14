@@ -24,109 +24,130 @@ tags:
 
 ## Overview
 
-A template engine acts in the ways described on this page. The action labels
-correspond to the actions that can be performed by the engine. Using the action
-labels, we describe the effects of the actions.
+A template engine acts in the ways described on this page.
+The action labels correspond to the actions that can be performed by the engine.
+Using the action labels, we describe the effects of the actions.
+
 
 ## Action labels
 
-???+ quote "Auxiliary Juvix code"
-
-    <!-- --8<-- [start:SomeActionLabel] -->
-    ```juvix
-    type SomeActionLabel :=
-      | DoThis String
-    ;
-    ```
-    <!-- --8<-- [end:SomeActionLabel] -->
-
-    <!-- --8<-- [start:AnotherActionLabel] -->
-    ```juvix
-    type AnotherActionLabel :=
-      | DoThat String
-    ;
-    ```
-    <!-- --8<-- [end:AnotherActionLabel] -->
-
 ### `TemplateActionLabelDoOneThing`
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+This action label corresponds to doing one thing
+by the `doOneThingAction`
+upon reception of the `MsgTemplateJustHi` message.
 
-### `TemplateActionLabelDoAlternative DoAlternative`
+#### State update
 
-<!-- --8<-- [start:DoAlternative] -->
-```juvix
-DoAlternative : Type := Either SomeActionLabel AnotherActionLabel;
-```
-<!-- --8<-- [end:DoAlternative] -->
+The state is unchanged as the timer will have all information necessary.
 
-This action label corresponds to performing the `doAlternative` action.
+#### Messages to be sent
 
-???+ quote "Either.left"
+No messages are added to the send queue.
 
-    This alternative does the following.
+#### Engines to be spawned
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is unchanged as the timer will have all information necessary. |
-    | Messages to be sent   | No messages are added to the send queue. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-    | Acquaintance updates  | None |
+No engine is created by this action.
 
-???+ quote "Either.right"
+#### Timer updates
 
-    This alternative does the following.
+No timers are set or cancelled.
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is unchanged as the timer will have all information necessary. |
-    | Messages to be sent   | No messages are added to the send queue. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-    | Spawned engines       | No engines are spawned by this action. |
+#### Acquaintance updates
 
-### `TemplateActionLabelDoBoth DoBoth`
+None.
 
-<!-- --8<-- [start:DoBoth] -->
-```juvix
-DoBoth : Type := Pair SomeActionLabel AnotherActionLabel;
-```
-<!-- --8<-- [end:DoBoth] -->
 
-This action label corresponds to performing both the `SomeActionLabel` and the
-`AnotherActionLabel`.
+### `TemplateActionLabelDoSomeThing String`
 
-???+ quote "`Pair.fst`"
+This action label corresponds to doing something
+by the `doSomeThingAction`
+upon reception of the `MsgTemplateJustHi` message.
 
-    This alternative does the following.
+#### State update
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is unchanged as the timer will have all information necessary. |
-    | Messages to be sent   | No messages are added to the send queue. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
+The state is unchanged as the timer will have all information necessary.
 
-???+ quote "`Pair.snd`"
+#### Messages to be sent
 
-    This alternative does the following.
+No messages are added to the send queue.
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is unchanged as the timer will have all information necessary. |
-    | Messages to be sent   | No messages are added to the send queue. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
+#### Engines to be spawned
+
+No engine is created by this action.
+
+#### Timer updates
+
+No timers are set or cancelled.
+
+#### Acquaintance updates
+
+None.
+
+
+### `TemplateActionLabelDoAnotherThing String`
+
+This action label corresponds to doing another thing
+by the `doAnotherThingAction`
+upon reception of the `MsgTemplateJustHi` message.
+
+#### State update
+
+The state is unchanged as the timer will have all information necessary.
+
+#### Messages to be sent
+
+No messages are added to the send queue.
+
+#### Engines to be spawned
+
+No engine is created by this action.
+
+#### Timer updates
+
+No timers are set or cancelled.
+
+#### Acquaintance updates
+
+None.
+
+
+### `TemplateActionLabelDoAlternative`
+
+This action label corresponds to performing
+either `TemplateActionLabelDoSomeThing` or `TemplateActionLabelDoAnotherThing`.
+
+
+### `TemplateActionLabelDoBoth`
+
+This action label corresponds to performing
+both `TemplateActionLabelDoSomeThing` and `TemplateActionLabelDoAnotherThing`.
+
 
 ### `TemplateActionLabel`
+
+<!-- --8<-- [start:SomeActionLabel] -->
+```juvix
+type SomeActionLabel :=
+  | TemplateActionLabelDoSomeThing String
+  ;
+```
+<!-- --8<-- [end:SomeActionLabel] -->
+
+<!-- --8<-- [start:AnotherActionLabel] -->
+```juvix
+type AnotherActionLabel :=
+  | TemplateActionLabelDoAnotherThing String
+  ;
+```
+<!-- --8<-- [end:AnotherActionLabel] -->
 
 <!-- --8<-- [start:TemplateActionLabel] -->
 ```juvix
 type TemplateActionLabel :=
   | TemplateActionLabelDoOneThing
-  | TemplateActionLabelDoAlternative DoAlternative
-  | TemplateActionLabelDoBoth DoBoth
+  | TemplateActionLabelDoAlternative (Either SomeActionLabel AnotherActionLabel)
+  | TemplateActionLabelDoBoth (Pair SomeActionLabel AnotherActionLabel)
 ;
 ```
 <!-- --8<-- [end:TemplateActionLabel] -->
@@ -313,7 +334,7 @@ messageOneGuard : TemplateGuard
         )
       ];
       actionLabel := TemplateActionLabelDoAlternative
-        (left (DoThis "parameter 2"));
+        (left (TemplateActionLabelDoSomeThing "parameter 2"));
       precomputationTasks := [
         TemplatePrecomputationEntryCloseMailbox (
           mkCloseMailbox@{
@@ -381,27 +402,64 @@ The action function amounts to one single case statement.
     ```
     <!-- --8<-- [end:TemplateActionFunction] -->
 
+### `doOneThingAction`
+
+Give a short description of the action function.
+This action does nothing.
+It preserves the environment, produces no messages,
+sets no timers, spawns no engines.
+
+```juvix
+doOneThingAction (input : TemplateActionInput) : TemplateActionEffect :=
+  let
+    env := ActionInput.env input;
+    out := ActionInput.guardOutput input;
+  in
+    mkActionEffect@{
+      newEnv := env;
+      producedMessages := [];
+      timers := [];
+      spawnedEngines := [];
+    }
+```
+
+### `someAction`
+
+Give a short description of the action function.
+This action does nothing.
+It preserves the environment, produces no messages,
+sets no timers, spawns no engines.
+
+```juvix
+someAction (input : TemplateActionInput) : TemplateActionEffect :=
+  let
+    env := ActionInput.env input;
+    out := ActionInput.guardOutput input;
+  in
+    mkActionEffect@{
+      newEnv := env;
+      producedMessages := [];
+      timers := [];
+      spawnedEngines := [];
+    }
+```
 
 ### `templateAction`
 
-Give a short description of the action function. The following action called
-`templateAction` does nothing. It preserves the environment, produces no messages,
-sets no timers, spawns no engines.
+Calls the action function corresponding to the action label set by the guard.
 
 <!-- --8<-- [start:templateAction] -->
 ```juvix
-templateAction : TemplateActionFunction
-  | mkActionInput@{ guardOutput := out; env := env }
-    := case GuardOutput.actionLabel out of {
-    | TemplateActionLabelDoAlternative (left _) :=
-          mkActionEffect@{
-            newEnv := env;
-            producedMessages := [];
-            timers := [];
-            spawnedEngines := [];
-        }
+templateAction (input : TemplateActionInput) : TemplateActionEffect :=
+  let
+    env := ActionInput.env input;
+    out := ActionInput.guardOutput input;
+  in
+    case GuardOutput.actionLabel out of {
+    | TemplateActionLabelDoOneThing := doOneThingAction input
+    | TemplateActionLabelDoAlternative (left _) := someAction input
     | _ := undef
-};
+    };
 ```
 <!-- --8<-- [end:templateAction] -->
 
