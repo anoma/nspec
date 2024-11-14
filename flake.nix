@@ -87,20 +87,20 @@
 
         juvix =
           let
-            version = "v0.6.7";
+            version = "v0.6.8";
             baseurl = "https://github.com/anoma/juvix/releases/download/${version}";
             srcs = {
               x86_64-linux = {
                 url = "${baseurl}/juvix-linux-x86_64.tar.gz";
-                sha256 = "1j9zq3dwy1jx1mqjkp9bjiz7cm1wlw701vlld69h3y1adk0b6nyw";
+                sha256 = "0v4kzj5wyn7fy0vwa3f0cxk9k1fpfi0wxdbgzpgpkybzxw3msiic";
               };
               x86_64-darwin = {
                 url = "${baseurl}/juvix-macos-x86_64.tar.gz";
-                sha256 = "008b2s1b7xga8m8b06bkpycpdawk84n7nym1di6kflwgxj8rfc0x";
+                sha256 = "19d6bd4wv2ljmvd4swlishfg2439yl0n8diisbxv7yllmb6zivqc";
               };
               aarch64-darwin = {
                 url = "${baseurl}/juvix-macos-aarch64.tar.gz";
-                sha256 = "1053aqdz4gbqhag4jp3hvi5j8fnzbxshkq67lf0r57v83yv4p2sv";
+                sha256 = "1mkihdcg2gip4yhkq8lsv177b6bik1ajhf09k4vakg02qbhx9166";
               };
             };
           in
