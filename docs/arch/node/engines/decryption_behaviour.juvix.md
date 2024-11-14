@@ -70,6 +70,8 @@ type DecryptionActionLabel :=
   ;
 ```
 
+## Matchable arguments
+
 ### `DecryptionMatchableArgumentReplyTo ReplyTo`
 
 ```juvix
