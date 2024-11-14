@@ -25,7 +25,7 @@ tags:
     import arch.node.types.anoma_message open;
     ```
 
-# The Decryption Behaviour
+# Decryption Behaviour
 
 ## Overview
 
