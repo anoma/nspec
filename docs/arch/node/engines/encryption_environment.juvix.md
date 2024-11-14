@@ -34,6 +34,8 @@ relationships) for its operations.
 
 The `Encryption` Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
+### `EncryptionMailboxState`
+
 ```juvix
 syntax alias EncryptionMailboxState := Unit;
 ```
@@ -46,6 +48,8 @@ specific backend. It also contains a map to a list of pending requests which
 require `ReadsFor` information which is requested from the associated `ReadsFor`
 engine.
 
+### `EncryptionLocalState`
+
 ```juvix
 type EncryptionLocalState := mkEncryptionLocalState@{
   encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
@@ -57,29 +61,34 @@ type EncryptionLocalState := mkEncryptionLocalState@{
 
 ## Timer Handle
 
+The Encryption Engine does not require a timer handle type. Therefore, we define
+the timer handle type as `Unit`.
+
+### `EncryptionTimerHandle`
+
 ```juvix
 syntax alias EncryptionTimerHandle := Unit;
 ```
 
-The Encryption Engine does not require a timer handle type. Therefore, we define
-the timer handle type as `Unit`.
+## The Encryption Environment
 
-## Environment summary
+### `EncryptionEnvironment`
 
 ```juvix
-EncryptionEnvironment : Type := EngineEnvironment
-  EncryptionLocalState
-  EncryptionMailboxState
-  EncryptionTimerHandle;
+EncryptionEnvironment : Type :=
+  EngineEnvironment
+    EncryptionLocalState
+    EncryptionMailboxState
+    EncryptionTimerHandle;
 ```
 
-## Example of an `Encryption` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:encryptionEnvironment] -->
 ```juvix extract-module-statements
 module encryption_environment_example;
 
-encryptionEnvironmentExample : EncryptionEnvironment :=
+encryptionEnvironment : EncryptionEnvironment :=
     mkEngineEnvironment@{
       name := "encryption";
       localState := mkEncryptionLocalState@{
@@ -103,4 +112,4 @@ encryptionEnvironmentExample : EncryptionEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:encryptionEnvironment] -->

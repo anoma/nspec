@@ -2,9 +2,11 @@
 icon: octicons/project-template-24
 search:
   exclude: false
+categories:
+- engine
 tags:
-- encryption
-- engines
+- encryption-engine
+- engine-definition
 ---
 
 ??? quote "Juvix imports"
@@ -23,14 +25,14 @@ tags:
 
 # Encryption Engine
 
-The `Encryption` engine is responsible for encrypting data to external identities,
+The Encryption engine is responsible for encrypting data to external identities,
 possibly using known `reads_for` relationships. It automatically utilizes
-"reads_for" relationship information from the Reads For Engine along with caller
+"reads_for" relationship information from the [[Reads For Engine]] along with caller
 preference information to choose which identity to encrypt to.
 
 ## Purpose
 
-The `Encryption` Engine encrypts data to external identities, optionally using
+The Encryption Engine encrypts data to external identities, optionally using
 known `reads_for` relationships. It is a stateless function, and calls to it do
 not need to be ordered. The runtime should implement this intelligently for
 efficiency.
@@ -40,10 +42,6 @@ efficiency.
 - [[Encryption Messages]]
 - [[Encryption Environment]]
 - [[Encryption Behaviour]]
-
-## Useful links
-
-???
 
 ## Type
 
@@ -61,14 +59,20 @@ EncryptionEngine : Type := Engine
 
 ### Example of a encryption engine
 
-```juvix extract-module-statements
+<!-- --8<-- [start:exampleEncryptionEngine] -->
+```juvix
 exampleEncryptionEngine : EncryptionEngine := mkEngine@{
     name := "encryption";
+    initEnv := encryptionEnvironment;
     behaviour := encryptionBehaviour;
-    initEnv := encryptionEnvironmentExample;
   };
 ```
+<!-- --8<-- [end:exampleEncryptionEngine] -->
 
-where `encryptionEnvironmentExample` is defined as follows:
+where `encryptionEnvironment` is defined as follows:
 
---8<-- "./encryption_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/engines/encryption_environment.juvix.md:environment-example"
+
+and `encryptionBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/encryption_behaviour.juvix.md:encryptionBehaviour"

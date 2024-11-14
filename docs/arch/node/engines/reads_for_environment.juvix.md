@@ -30,6 +30,8 @@ The Reads For Engine environment maintains the state necessary for managing `rea
 
 The Reads For Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
+### `ReadsForMailboxState`
+
 ```juvix
 syntax alias ReadsForMailboxState := Unit;
 ```
@@ -37,6 +39,8 @@ syntax alias ReadsForMailboxState := Unit;
 ## Local state
 
 The local state of the Reads For Engine includes the evidence for reads_for relationships.
+
+### `ReadsForLocalState`
 
 ```juvix
 type ReadsForLocalState := mkReadsForLocalState@{
@@ -47,28 +51,33 @@ type ReadsForLocalState := mkReadsForLocalState@{
 
 ## Timer Handle
 
+The Reads For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+
+### `ReadsForTimerHandle`
+
 ```juvix
 syntax alias ReadsForTimerHandle := Unit;
 ```
 
-The Reads For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Reads For Environment
 
-## Environment summary
+### `ReadsForEnvironment`
 
 ```juvix
-ReadsForEnvironment : Type := EngineEnvironment
-  ReadsForLocalState
-  ReadsForMailboxState
-  ReadsForTimerHandle;
+ReadsForEnvironment : Type :=
+  EngineEnvironment
+    ReadsForLocalState
+    ReadsForMailboxState
+    ReadsForTimerHandle;
 ```
 
-## Example of a `Reads For` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:readsForEnvironment] -->
 ```juvix extract-module-statements
 module reads_for_environment_example;
 
-readsForEnvironmentExample : ReadsForEnvironment :=
+readsForEnvironment : ReadsForEnvironment :=
     mkEngineEnvironment@{
       name := "reads_for";
       localState := mkReadsForLocalState@{
@@ -82,4 +91,4 @@ readsForEnvironmentExample : ReadsForEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:readsForEnvironment] -->
