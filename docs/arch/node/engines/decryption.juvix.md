@@ -46,7 +46,7 @@ instance and decrypt data encrypted to the corresponding identity.
 
 <!-- --8<-- [start:DecryptionEngine] -->
 ```juvix
-DecryptionEngine : Type := 
+DecryptionEngine : Type :=
   Engine
     DecryptionLocalState
     DecryptionMailboxState

@@ -46,7 +46,7 @@ messages to the instance and generate commitments by the corresponding identity.
 
 <!-- --8<-- [start:CommitmentEngine] -->
 ```juvix
-CommitmentEngine : Type := 
+CommitmentEngine : Type :=
   Engine
     CommitmentLocalState
     CommitmentMailboxState
