@@ -72,3 +72,7 @@ exampleDecryptionEngine : DecryptionEngine := mkEngine@{
 where `decryptionEnvironment` is defined as follows:
 
 --8<-- "./docs/arch/node/engines/decryption_behaviour.juvix.md:decryptionBehaviour"
+
+and `decryptionBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/decryption_behaviour.juvix.md:decryptionBehaviour"
