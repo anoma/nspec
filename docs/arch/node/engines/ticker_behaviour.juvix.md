@@ -209,7 +209,7 @@ countGuard
 ```
 <!-- --8<-- [end:countGuard] -->
 
-## Action function
+## Action functions
 
 ??? quote "Auxiliary Juvix code"
 

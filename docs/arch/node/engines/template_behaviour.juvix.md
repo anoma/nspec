@@ -285,9 +285,7 @@ messageOneGuard : TemplateGuard
     ```
 <!-- --8<-- [end:messageOneGuard] -->
 
-## Action function
-
-The action function amounts to one single case statement.
+## Action functions
 
 ??? quote "Auxiliary Juvix code"
 
