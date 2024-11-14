@@ -149,7 +149,6 @@ commitGuard
   (env : CommitmentEnvironment) : Option CommitmentGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | some (MsgCommitment (MsgCommitmentRequest request)) := do {
-        -- TODO: fix this, the compiler is not able to see this is correct.
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
                   matchedArgs := [CommitmentMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;

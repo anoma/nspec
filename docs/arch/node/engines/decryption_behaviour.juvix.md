@@ -25,54 +25,70 @@ tags:
     import arch.node.types.anoma_message open;
     ```
 
-# `Decryption` Dynamics
+# Decryption Dynamics
 
 ## Overview
 
-The behavior of the Decryption Engine define how it processes incoming decryption requests and produces the corresponding responses.
+The behavior of the Decryption Engine define how it processes incoming
+decryption requests and produces the corresponding responses.
 
 ## Action labels
 
-<!-- --8<-- [start:decryption-action-label] -->
+### `DecryptionActionLabelDoDecrypt DoDecrypt`
+
 ```juvix
-type DecryptionActionLabel :=
-  | -- --8<-- [start:DoDecrypt]
-    DoDecrypt {
-      data : ByteString
-    }
-    -- --8<-- [end:DoDecrypt]
-;
+type DoDecrypt := mkDoDecrypt {
+    data : ByteString
+}
 ```
-<!-- --8<-- [end:decryption-action-label] -->
 
-### `DoDecrypt`
+This action label corresponds to decrypting the data in the
+given request.
 
-!!! quote ""
+???+ quote "Arguments"
 
-    --8<-- "./decryption_behaviour.juvix.md:DoDecrypt"
+    `data`:
+    : The data to decrypt.
 
-This action label corresponds to decrypting the data in the given request.
-
-??? quote "`DoDecrypt` action effect"
+???+ quote "`DoDecrypt` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `DecryptResponse` message is sent back to the requester. |
+    | Messages to be sent   | A `mkResponseDecryption` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-## Matchable arguments
 
-<!-- --8<-- [start:decryption-matchable-argument] -->
+### `DecryptionActionLabel`
+
+```juvix
+type DecryptionActionLabel :=
+  | DecryptionActionLabelDoDecrypt DoDecrypt
+  ;
+```
+
+### `DecryptionMatchableArgumentReplyTo ReplyTo`
+
+```juvix
+type ReplyTo := mkReplyTo {
+  whoAsked : Option EngineID;
+  mailbox : Option MailboxID;
+};
+```
+
+???+ quote "Arguments"
+
+    `whoAsked`:
+    : The engine ID of the requester.
+
+### DecryptionMatchableArgument
 
 ```juvix
 type DecryptionMatchableArgument :=
-  | -- --8<-- [start:ReplyTo]
-  ReplyTo (Option EngineID) (Option MailboxID)
-  -- --8<-- [end:ReplyTo]
+  | DecryptionMatchableArgumentReplyTo ReplyTo
 ;
 ```
 <!-- --8<-- [end:decryption-matchable-argument] -->
@@ -91,11 +107,9 @@ This matchable argument contains the address and mailbox ID of where the respons
 
 The Decryption Engine does not require any non-trivial pre-computations.
 
-<!-- --8<-- [start:decryption-precomputation-entry] -->
 ```juvix
 syntax alias DecryptionPrecomputation := Unit;
 ```
-<!-- --8<-- [end:decryption-precomputation-entry] -->
 
 ## Guards
 
@@ -104,7 +118,6 @@ syntax alias DecryptionPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
-    -- --8<-- [start:decryption-guard]
     DecryptionGuard : Type :=
       Guard
         DecryptionLocalState
@@ -113,12 +126,14 @@ syntax alias DecryptionPrecomputation := Unit;
         DecryptionMatchableArgument
         DecryptionActionLabel
         DecryptionPrecomputation;
-    -- --8<-- [end:decryption-guard]
+    ```
 
-    -- --8<-- [start:decryption-guard-output]
+    ```juvix
     DecryptionGuardOutput : Type :=
-      GuardOutput DecryptionMatchableArgument DecryptionActionLabel DecryptionPrecomputation;
-    -- --8<-- [end:decryption-guard-output]
+      GuardOutput
+        DecryptionMatchableArgument
+        DecryptionActionLabel
+        DecryptionPrecomputation;
     ```
 
 ### `decryptGuard`
@@ -134,24 +149,24 @@ flowchart TD
 <figcaption>decryptGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:decrypt-guard] -->
+<!-- --8<-- [start:decryptGuard] -->
 ```juvix
 decryptGuard
   (t : TimestampedTrigger DecryptionTimerHandle)
   (env : DecryptionEnvironment) : Option DecryptionGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgDecryption (DecryptRequest data)) := do {
+      | some (MsgDecryption (MsgDecryptionRequest request)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  matchedArgs := [ReplyTo (some sender) none] ;
-                  actionLabel := DoDecrypt data;
+                  matchedArgs := [DecryptionMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+                  actionLabel := DecryptionActionLabelDoDecrypt (mkDoDecrypt (RequestDecryption.data request));
                   precomputationTasks := unit
                 });
         }
       | _ := none
   };
 ```
-<!-- --8<-- [end:decrypt-guard] -->
+<!-- --8<-- [end:decryptGuard] -->
 
 ## Action function
 
@@ -179,7 +194,9 @@ decryptGuard
         DecryptionPrecomputation;
     ```
 
-<!-- --8<-- [start:action-function] -->
+### `decryptionAction`
+
+<!-- --8<-- [start:decryptionAction] -->
 ```juvix
 decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
   let env := ActionInput.env input;
@@ -187,19 +204,19 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
-    | DoDecrypt data :=
+    | DecryptionActionLabelDoDecrypt (mkDoDecrypt data) :=
       case GuardOutput.matchedArgs out of {
-        | (ReplyTo (some whoAsked) _) :: _ := let
+        | DecryptionMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
             decryptedData :=
               Decryptor.decrypt (DecryptionLocalState.decryptor localState)
                 (DecryptionLocalState.backend localState)
                 data;
             responseMsg := case decryptedData of {
-              | none := DecryptResponse@{
+              | none := mkResponseDecryption@{
                   data := emptyByteString;
                   err := some "Decryption Failed"
                 }
-              | some plaintext := DecryptResponse@{
+              | some plaintext := mkResponseDecryption@{
                   data := plaintext;
                   err := none
                 }
@@ -210,7 +227,7 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
               sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgDecryption responseMsg
+              msg := MsgDecryption (MsgDecryptionResponse responseMsg)
             }];
             timers := [];
             spawnedEngines := []
@@ -219,16 +236,20 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
       }
   };
 ```
-<!-- --8<-- [end:action-function] -->
+<!-- --8<-- [end:decryptionAction] -->
 
 ## Conflict solver
+
+### `decryptionConflictSolver`
 
 ```juvix
 decryptionConflictSolver : Set DecryptionMatchableArgument -> List (Set DecryptionMatchableArgument)
   | _ := [];
 ```
 
-## DecryptionBehaviour type
+## The Decryption Behavior
+
+### `DecryptionBehaviour`
 
 <!-- --8<-- [start:DecryptionBehaviour] -->
 ```juvix
@@ -243,9 +264,9 @@ DecryptionBehaviour : Type :=
 ```
 <!-- --8<-- [end:DecryptionBehaviour] -->
 
-## DecryptionBehaviour instance
+### Instantiation
 
-<!-- --8<-- [start:DecryptionBehaviour-instance] -->
+<!-- --8<-- [start:decryptionBehaviour] -->
 ```juvix
 decryptionBehaviour : DecryptionBehaviour :=
   mkEngineBehaviour@{
@@ -254,4 +275,4 @@ decryptionBehaviour : DecryptionBehaviour :=
     conflictSolver := decryptionConflictSolver;
   };
 ```
-<!-- --8<-- [end:DecryptionBehaviour-instance] -->
+<!-- --8<-- [end:decryptionBehaviour] -->

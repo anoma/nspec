@@ -46,13 +46,14 @@ messages to the instance and generate commitments by the corresponding identity.
 
 <!-- --8<-- [start:CommitmentEngine] -->
 ```juvix
-CommitmentEngine : Type := Engine
-  CommitmentLocalState
-  CommitmentMailboxState
-  CommitmentTimerHandle
-  CommitmentMatchableArgument
-  CommitmentActionLabel
-  CommitmentPrecomputation;
+CommitmentEngine : Type := 
+  Engine
+    CommitmentLocalState
+    CommitmentMailboxState
+    CommitmentTimerHandle
+    CommitmentMatchableArgument
+    CommitmentActionLabel
+    CommitmentPrecomputation;
 ```
 <!-- --8<-- [end:CommitmentEngine] -->
 

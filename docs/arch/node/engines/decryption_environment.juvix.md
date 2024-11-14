@@ -34,6 +34,8 @@ necessary state for decryption operations.
 The Decryption Engine does not require complex mailbox states. We define the
 mailbox state as `Unit`.
 
+### `DecryptionMailboxState`
+
 ```juvix
 syntax alias DecryptionMailboxState := Unit;
 ```
@@ -43,6 +45,8 @@ syntax alias DecryptionMailboxState := Unit;
 The local state of a Decryption Engine instance includes the identity's
 decryption capabilities.
 
+### `DecryptionLocalState`
+
 ```juvix
 type DecryptionLocalState := mkDecryptionLocalState@{
   decryptor : Decryptor Backend Plaintext Ciphertext;
@@ -50,31 +54,44 @@ type DecryptionLocalState := mkDecryptionLocalState@{
 };
 ```
 
+???+ quote "Arguments"
+
+    `decryptor`:
+    : The decryptor for the decrypting.
+
+    `backend`:
+    : The backend to use for decryption.
+
 ## Timer Handle
+
+The Decryption Engine does not require a timer handle type. Therefore, we define
+the timer handle type as `Unit`.
+
+### `DecryptionTimerHandle`
 
 ```juvix
 syntax alias DecryptionTimerHandle := Unit;
 ```
 
-The Decryption Engine does not require a timer handle type. Therefore, we define
-the timer handle type as `Unit`.
+## The Decryption Environment
 
-## Environment summary
+### `DecryptionEnvironment`
 
 ```juvix
-DecryptionEnvironment : Type := EngineEnvironment
-  DecryptionLocalState
-  DecryptionMailboxState
-  DecryptionTimerHandle;
+DecryptionEnvironment : Type :=
+  EngineEnvironment
+    DecryptionLocalState
+    DecryptionMailboxState
+    DecryptionTimerHandle;
 ```
 
-## Example of a `Decryption` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:decryptionEnvironment] -->
 ```juvix extract-module-statements
 module decryption_environment_example;
 
-decryptionEnvironmentExample : DecryptionEnvironment :=
+decryptionEnvironment : DecryptionEnvironment :=
     mkEngineEnvironment@{
       name := "decryption";
       localState := mkDecryptionLocalState@{
@@ -90,4 +107,4 @@ decryptionEnvironmentExample : DecryptionEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:decryptionEnvironment] -->
