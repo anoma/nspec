@@ -18,20 +18,20 @@ When proving, resource logics take as input resources created and consumed in th
 
 1. `action.consumed`
 2. `action.created`
-3. `tag` — identifies the resource being checked. For created resources, `r.tag() = r.commitment()`, for created - `r.tag() = r.nullifier(nullifierKey)`.
+3. [`tag`](./../resource/computable_components/tag.md) — identifies the resource being checked
 4. `action.applicationData`
 
 #### Witness
 
 1. input resources corresponding to the elements of `consumed`
 2. output resource corresponding to the elements of `created`
-3. custom inputs
+3. application inputs
 
 !!! note
-    The instance and witness values are expected to correspond to each other: the first tag in the instance corresponds to the first resource object in the witness, and so on. Note that the tag has to be recomputed from the object to verify that it indeed corresponds to the tag (included in the constraints)
+    The instance and witness values are expected to correspond to each other: the first tag in the instance corresponds to the first resource object in the witness (and corresponds to the resource being checked), and so on. Note that the tag has to be recomputed from the object to verify that it indeed corresponds to the tag (this condition is included in the constraints)
 
 #### Constraints
 
-1. for each output resource, check that the corresponding `r.cm` value is derived according to the rules specified by the resource machine instance
-2. for each input resource, check that the corresponding `r.nf` value is derived according to the rules specified by the resource machine instantiation
-3. custom constraints
+1. for each output resource, check that the corresponding `commitment` value is derived according to the rules specified by the resource machine instance
+2. for each input resource, check that the corresponding `nullifier` value is derived according to the rules specified by the resource machine instantiation
+3. application constraints

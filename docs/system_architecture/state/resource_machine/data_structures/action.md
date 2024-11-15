@@ -23,21 +23,22 @@ Actions partition the state change induced by a transaction and limit the resour
 
 ## Interface
 
-1. `create(Set Resource, Set Resource, ApplicationData) -> Action`
-2. `delta(Action) -> DeltaHash`
-3. `prove(Action, Map Tag (LogicRefHash, PS.Proof), Set (PS.VerifyingKey, PS.Instance, PS.Proof)) -> Action` - takes as input an unproven action, a set of logic proofs, and a set of compliance proofs. Outputs a proven action
-4. `verify(Action) -> Bool`
+1. `createProven(Set Resource, Set Resource, ApplicationData) -> Action` - creates a proven action
+2. `createUnproven(Set Commitment, Set Nullifier, ApplicationData) -> Action` - creates an unproven action
+3. `delta(Action) -> DeltaHash`
+4. `prove(Action, Map Tag (LogicRefHash, PS.Proof), Set (PS.VerifyingKey, PS.Instance, PS.Proof)) -> Action` - takes as input an unproven action, a set of logic proofs, and a set of compliance proofs. Outputs a proven action
+5. `verify(Action) -> Bool`
 
 ## Proofs
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
 
-1. *Resource logic proofs* are created by `ResourceLogicProvingSystem`. For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to $1$ given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [here](./proof/logic.md).
+1. *Resource logic proofs* are created by `ResourceLogicProvingSystem`. For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [here](./proof/logic.md).
 2. *Resource machine [compliance proofs](./action.md#compliance-proofs-and-compliance-units)* are created by `ComplianceProvingSystem`. Compliance proofs ensure that the provided action complies with the resource machine definitions. Actions are partitioned into *compliance units*, and there is one compliance proof created for each compliance unit. Compliance proofs and compliance units are further described [here](./proof/compliance.md).
 
 
 ## `create`
 
-Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of custom inputs required by resource logics, a proven action is computed the following way:
+Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, a proven action is computed the following way:
 
 1. Compute the required resource logic and compliance proofs
 2. For the compliance proofs, create a set of proof records `Set (PS.VerifyingKey, PS.Instance, PS.Proof)` and put them in `action.complianceProofs`

@@ -1,3 +1,3 @@
 # Data structures
 
-This section describes resource machine data structures
+This section describes the resource machine data structures

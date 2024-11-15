@@ -17,6 +17,9 @@ It is a composite structure that contains the following components:
 |`transactionDelta`|`DeltaHash.T`|Transaction delta. It is computed from delta parameters of actions in that transaction. It represents the total quantity change per resource kind induced by the transaction, which is also referred to as _transaction balance_|
 |`deltaProof`|`DeltaProvingSystem.Proof`|Balance proof. It makes sure that `transactionDelta` is correctly derived from the actions' deltas and commits to the expected publicly known value, called a _balancing value_. There is just one delta proof per transaction|
 
+!!! warning
+    Given that we duplicate the roots in the compliance proving records now, do we still need the list of roots in the transaction?
+
 ## Interface
 
 1. `create(Set CMtree.Value, Set Actions) -> Transaction`
@@ -56,7 +59,7 @@ Checks that do not require access to global structures:
   2. there is no resource consumed more than once across actions
 3. `deltaProof` is valid
 
-Checks that require access to global $CMtree$ and $NFset$:
+Checks that require access to global `CMTree` and `NullifierSet`:
 
 1. each created resource wasn't created in prior transactions
 2. each consumed resource wasn't consumed in prior transactions

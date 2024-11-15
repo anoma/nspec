@@ -33,6 +33,7 @@ classDiagram
     Hash <|-- Kind
     Hash <|-- DeltaHash
     Hash <|-- LogicRefHash
+    Hash <|-- MerkleTreeNodeHash
 
     Hash <|-- AppDataValueHash
 
@@ -48,3 +49,4 @@ classDiagram
     2. `nullifier`
     3. `kind`
     4. `delta`
+3. Computing Merkle tree nodes and roots
