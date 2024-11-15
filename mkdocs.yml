@@ -347,9 +347,6 @@ nav:
                       - WorkerHash: ./arch/node/ordering/types/worker_hash.md
                   - Mempool engines:
                       - ./arch/node/ordering/mempool/index.md
-                      - Execution Supervisor:
-                          - ./arch/node/ordering/mempool/execution_supervisor/index.md
-                          - SpawnExecutor: ./arch/node/ordering/mempool/execution_supervisor/spawn_executor.md
                       - Worker Engine:
                           - ./arch/node/ordering/mempool/worker/index.md
                           - ExecutorFinished: ./arch/node/ordering/mempool/worker/executor_finished.md

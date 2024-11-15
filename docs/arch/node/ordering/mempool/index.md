@@ -16,9 +16,10 @@ Finally,
 it also provides partial ordering information to shards,
 and contributes to
 the dissemination of future lock requests to the state.
-In V1,
+In V0.2.0 and below,
 the mempool is roughly a FIFO queue that takes
 transaction requests and passes them on to execution.
+It has only one [[Worker Engine]] and as such requires no ``primary.''
 
 ## Components
 
@@ -30,8 +31,4 @@ transaction requests and passes them on to execution.
   After successful execution,
   workers keep execution logs available.[^1]
 
-- [[Execution Supervisor]]s are the engines that are in charge
-  of spawning new executor processes that workers then use
-  to execute transaction requests.
-
-[^1]: In V2, this will be only for a limited period of time.
+[^1]: In V0.2.0 and below, this will be only for a limited period of time.
