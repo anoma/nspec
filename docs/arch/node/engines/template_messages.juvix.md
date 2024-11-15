@@ -109,7 +109,7 @@ ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
 ```
 <!-- --8<-- [end:ExampleReply] -->
 
-### `MsgTemplate`
+### `TemplateMsg`
 
 <!-- --8<-- [start:TemplateMsg] -->
 ```juvix

@@ -39,13 +39,13 @@ incrementing the counter and sending the current counter value.
 
 This action label corresponds to incrementing the counter
 by the `incrementAction`
-upon reception of the `MsgTickerIncrement` message.
+upon reception of the `TickerMsgIncrement` message.
 
 ### `TickerActionLabelRespond`
 
 This action label corresponds to responding with the current counter value
 by the `respondAction`
-upon reception of the `MsgTickerCount` message.
+upon reception of the `TickerMsgCount` message.
 
 ### `TickerActionLabel`
 
@@ -143,7 +143,7 @@ TickerPrecomputationList : Type := List TickerPrecomputationEntry;
 
 ```mermaid
 flowchart TD
-C{MsgTickerIncrement<br>message<br>received?}
+C{TickerMsgIncrement<br>message<br>received?}
 C -->|Yes| D[enabled]
 C -->|No| E[not enabled]
 D --> F([DoIncrement])
@@ -158,7 +158,7 @@ incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
   (env : TickerEnvironment) : Option TickerGuardOutput :=
   case getMessageFromTimestampedTrigger t of {
-  | some (MsgTicker MsgTickerIncrement) := some (
+  | some (MsgTicker TickerMsgIncrement) := some (
     mkGuardOutput@{
       actionLabel := TickerActionLabelIncrement;
       actionArgs := [];
@@ -190,7 +190,7 @@ countGuard
   (t : TimestampedTrigger TickerTimerHandle)
   (env : TickerEnvironment) : Option TickerGuardOutput :=
   case getMessageFromTimestampedTrigger t of {
-  | some (MsgTicker MsgTickerCount) := do {
+  | some (MsgTicker TickerMsgCount) := do {
     sender <- getSenderFromTimestampedTrigger t;
     pure (mkGuardOutput@{
       actionLabel := TickerActionLabelRespond;
@@ -254,7 +254,7 @@ countGuard
 
 ### `incrementAction`
 
-Increments the counter if the `MsgTickerIncrement` message is received,
+Increments the counter if the `TickerMsgIncrement` message is received,
 actioned by the `TickerActionLabelIncrement` label.
 
 State update
@@ -291,7 +291,7 @@ incrementAction (input : TickerActionInput) : TickerActionEffect :=
 
 ### `respondAction`
 
-Responds with the current counter value if the `MsgTickerCount` message is received,
+Responds with the current counter value if the `TickerMsgCount` message is received,
 actioned by the `TickerActionLabelRespond` label.
 
 State update
@@ -326,7 +326,7 @@ respondAction (input : TickerActionInput) : TickerActionEffect :=
               sender := getSenderFromActionInput input;
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgTicker MsgTickerCount
+              msg := MsgTicker TickerMsgCount
             }
           ];
           timers := [];

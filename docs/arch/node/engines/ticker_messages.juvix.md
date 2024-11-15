@@ -17,33 +17,32 @@ tags:
     import prelude open;
     ```
 
-# Ticker messages
+# TickerMsg Message Interface
 
-## Message Interface
+## TickerMsg Message Constructors
 
+??? quote "TickerMsgIncrement"
 
-### `MsgTickerIncrement`
-
-    A `MsgTickerIncrement` message instructs the engine to increase the counter.
+    A `TickerMsgIncrement` message instructs the engine to increase the counter.
     This message doesn't require any arguments.
 
-### `MsgTickerCount`
+??? quote "TickerMsgCount"
 
-    A `MsgTickerCount` message requests the engine to send the current counter value back to
+    A `TickerMsgCount` message requests the engine to send the current counter value back to
     the requester. This message doesn't require any arguments.
 
-### `MsgTicker`
+### TickerMsg
 
 <!-- --8<-- [start:TickerMsg] -->
 ```juvix
 type TickerMsg :=
-  | MsgTickerIncrement
-  | MsgTickerCount
+  | TickerMsgIncrement
+  | TickerMsgCount
 ```
 <!-- --8<-- [end:TickerMsg] -->
 
-There are only two message tags: `MsgTickerIncrement`, which increases the counter
-state of the ticker, and `MsgTickerCount`, which the ticker responds to with the current
+There are only two message tags: `TickerMsgIncrement`, which increases the counter
+state of the ticker, and `TickerMsgCount`, which the ticker responds to with the current
 counter state.
 
 ## Ticker Interaction Diagram
@@ -59,13 +58,13 @@ sequenceDiagram
     participant Ticker
     participant EngineTickerClient
 
-    EngineTickerClient ->> Ticker: Send MsgTickerIncrement
+    EngineTickerClient ->> Ticker: Send TickerMsgIncrement
     Note over Ticker: Counter = 1
 
-    EngineTickerClient ->> Ticker: Send MsgTickerIncrement
+    EngineTickerClient ->> Ticker: Send TickerMsgIncrement
     Note over Ticker: Counter = 2
 
-    EngineTickerClient ->> Ticker: Send MsgTickerCount
+    EngineTickerClient ->> Ticker: Send TickerMsgCount
     Ticker ->> EngineTickerClient: Respond with Counter (2)
 ```
 
