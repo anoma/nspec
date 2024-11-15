@@ -70,7 +70,7 @@ exampleIdentityManagementEngine : IdentityManagementEngine := mkEngine@{
 ```
 <!-- --8<-- [end:exampleIdentityManagementEngine] -->
 
-where `identityManagementEnvironmentExample` is defined as follows:
+where `identityManagementEnvironment` is defined as follows:
 
 --8<-- "./docs/arch/node/engines/identity_management_environment.juvix.md:identityManagementEnvironment"
 
