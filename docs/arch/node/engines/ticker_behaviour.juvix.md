@@ -23,7 +23,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
-    import arch.node.types.anoma_message open using {MsgTicker};
+    import arch.node.types.anoma_message open;
     ```
 
 # Ticker Behaviour
@@ -39,13 +39,13 @@ incrementing the counter and sending the current counter value.
 
 This action label corresponds to incrementing the counter
 by the `incrementAction`
-upon reception of the `TickerMsgIncrement` message.
+upon reception of the `MsgTickerIncrement` message.
 
 ### `TickerActionLabelRespond`
 
 This action label corresponds to responding with the current counter value
 by the `respondAction`
-upon reception of the `TickerMsgCount` message.
+upon reception of the `MsgTickerCount` message.
 
 ### `TickerActionLabel`
 
@@ -58,9 +58,9 @@ type TickerActionLabel :=
 ```
 <!-- --8<-- [end:TickerActionLabel] -->
 
-## Matchable arguments
+## Action arguments
 
-### `TickerMatchableArgumentReplyTo ReplyTo`
+### `TickerActionArgumentReplyTo ReplyTo`
 
 ```juvix
 type ReplyTo := mkReplyTo {
@@ -69,7 +69,7 @@ type ReplyTo := mkReplyTo {
 };
 ```
 
-This matchable argument contains the address and mailbox ID of where the
+This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
 `whoAsked`:
@@ -78,15 +78,15 @@ response message should be sent.
 `mailbox`:
 : is the mailbox ID where the response message should be sent.
 
-### `TickerMatchableArgument`
+### `TickerActionArgument`
 
-<!-- --8<-- [start:TickerMatchableArgument] -->
+<!-- --8<-- [start:TickerActionArgument] -->
 ```juvix
-type TickerMatchableArgument :=
-  | TickerMatchableArgumentReplyTo ReplyTo
+type TickerActionArgument :=
+  | TickerActionArgumentReplyTo ReplyTo
   ;
 ```
-<!-- --8<-- [end:TickerMatchableArgument] -->
+<!-- --8<-- [end:TickerActionArgument] -->
 
 ## Precomputation tasks results
 
@@ -119,7 +119,7 @@ TickerPrecomputationList : Type := List TickerPrecomputationEntry;
         TickerLocalState
         TickerTimerHandle
         TickerMailboxState
-        TickerMatchableArgument
+        TickerActionArgument
         TickerActionLabel
         TickerPrecomputationList;
     ```
@@ -131,7 +131,7 @@ TickerPrecomputationList : Type := List TickerPrecomputationEntry;
     ```juvix
     TickerGuardOutput : Type :=
       GuardOutput
-        TickerMatchableArgument
+        TickerActionArgument
         TickerActionLabel
         TickerPrecomputationList;
     ```
@@ -143,7 +143,7 @@ TickerPrecomputationList : Type := List TickerPrecomputationEntry;
 
 ```mermaid
 flowchart TD
-C{TickerMsgIncrement<br>message<br>received?}
+C{MsgTickerIncrement<br>message<br>received?}
 C -->|Yes| D[enabled]
 C -->|No| E[not enabled]
 D --> F([DoIncrement])
@@ -156,12 +156,12 @@ D --> F([DoIncrement])
 ```juvix
 incrementGuard
   (t : TimestampedTrigger TickerTimerHandle )
-  (env : TickerEnvironment) : Option TickerGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-  | some (MsgTicker Increment) := some (
+  (env : TickerEnvironment) : Option TickerGuardOutput :=
+  case getMessageFromTimestampedTrigger t of {
+  | some (MsgTicker MsgTickerIncrement) := some (
     mkGuardOutput@{
-      matchedArgs := [];
       actionLabel := TickerActionLabelIncrement;
+      actionArgs := [];
       precomputationTasks := []
     })
   | _ := none
@@ -188,19 +188,19 @@ D --> F([DoRespond])
 ```juvix
 countGuard
   (t : TimestampedTrigger TickerTimerHandle)
-  (env : TickerEnvironment) : Option TickerGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-  | some (MsgTicker Count) := do {
+  (env : TickerEnvironment) : Option TickerGuardOutput :=
+  case getMessageFromTimestampedTrigger t of {
+  | some (MsgTicker MsgTickerCount) := do {
     sender <- getSenderFromTimestampedTrigger t;
     pure (mkGuardOutput@{
-      matchedArgs := [
-        TickerMatchableArgumentReplyTo (
+      actionLabel := TickerActionLabelRespond;
+      actionArgs := [
+        TickerActionArgumentReplyTo (
           mkReplyTo@{
             whoAsked := some sender;
             mailbox := none
         })
       ];
-      actionLabel := TickerActionLabelRespond;
       precomputationTasks := []
       });
   }
@@ -221,7 +221,7 @@ countGuard
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
-        TickerMatchableArgument
+        TickerActionArgument
         TickerActionLabel
         TickerPrecomputationList;
     ```
@@ -234,7 +234,7 @@ countGuard
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
-        TickerMatchableArgument
+        TickerActionArgument
         TickerActionLabel
         TickerPrecomputationList;
     ```
@@ -247,14 +247,14 @@ countGuard
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
-        TickerMatchableArgument
+        TickerActionArgument
         TickerActionLabel
         TickerPrecomputationList;
     ```
 
 ### `incrementAction`
 
-Increments the counter if the `TickerMsgIncrement` message is received,
+Increments the counter if the `MsgTickerIncrement` message is received,
 actioned by the `TickerActionLabelIncrement` label.
 
 State update
@@ -274,6 +274,7 @@ incrementAction (input : TickerActionInput) : TickerActionEffect :=
   let
     env := ActionInput.env input;
     out := ActionInput.guardOutput input;
+    msg := getMessageFromTimestampedTrigger (ActionInput.timestampedTrigger input);
   in
     let counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
     in mkActionEffect@{
@@ -290,7 +291,7 @@ incrementAction (input : TickerActionInput) : TickerActionEffect :=
 
 ### `respondAction`
 
-Responds with the current counter value if the `TickerMsgCount` message is received,
+Responds with the current counter value if the `MsgTickerCount` message is received,
 actioned by the `TickerActionLabelRespond` label.
 
 State update
@@ -310,10 +311,11 @@ respondAction (input : TickerActionInput) : TickerActionEffect :=
   let
     env := ActionInput.env input;
     out := ActionInput.guardOutput input;
+    msg := getMessageFromTimestampedTrigger (ActionInput.timestampedTrigger input);
     counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
   in
-    case GuardOutput.matchedArgs out of {
-      | TickerMatchableArgumentReplyTo (mkReplyTo@{
+    case GuardOutput.actionArgs out of {
+      | TickerActionArgumentReplyTo (mkReplyTo@{
           whoAsked := some whoAsked;
           mailbox := mailbox
         }) :: _ :=
@@ -324,7 +326,7 @@ respondAction (input : TickerActionInput) : TickerActionEffect :=
               sender := getSenderFromActionInput input;
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgTicker TickerMsgCount
+              msg := MsgTicker MsgTickerCount
             }
           ];
           timers := [];
@@ -359,7 +361,7 @@ tickerAction (input : TickerActionInput) : TickerActionEffect :=
 ### `tickerConflictSolver`
 
 ```juvix
-tickerConflictSolver : Set TickerMatchableArgument -> List (Set TickerMatchableArgument) := \{ _ := [] }
+tickerConflictSolver : Set TickerActionArgument -> List (Set TickerActionArgument) := \{ _ := [] }
 ```
 
 ## The Ticker behaviour
@@ -373,7 +375,7 @@ TickerBehaviour : Type :=
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle
-    TickerMatchableArgument
+    TickerActionArgument
     TickerActionLabel
     TickerPrecomputationList;
 ```
@@ -385,7 +387,7 @@ TickerBehaviour : Type :=
 ```juvix
 tickerBehaviour : TickerBehaviour :=
   mkEngineBehaviour@{
-    guards := [incrementGuard ; countGuard];
+    guards := [incrementGuard; countGuard];
     action := tickerAction;
     conflictSolver := tickerConflictSolver;
   }

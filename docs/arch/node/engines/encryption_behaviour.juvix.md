@@ -67,12 +67,12 @@ This action label corresponds to encrypting the data in the given request.
 
     This action does the following:
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | If `useReadsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged. |
+    | Aspect                | Description                                                                                                                                                                                                                    |
+    |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | State update          | If `useReadsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged.                                                                                                              |
     | Messages to be sent   | If `useReadsFor` is false, an `EncryptResponse` message is sent back to the requester. If `useReadsFor` is true and it's the first request for this identity, a `QueryReadsForEvidenceRequest` is sent to the ReadsFor Engine. |
-    | Engines to be spawned | No engines are created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
+    | Engines to be spawned | No engines are created by this action.                                                                                                                                                                                         |
+    | Timer updates         | No timers are set or cancelled.                                                                                                                                                                                                |
 
 ### `DoHandleReadsForResponse`
 
@@ -86,12 +86,12 @@ This action label corresponds to receiving reads for evidence and using it to ad
 
     This action does the following:
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is updated to remove the processed pending requests for the given external identity. |
+    | Aspect                | Description                                                                                        |
+    |-----------------------|----------------------------------------------------------------------------------------------------|
+    | State update          | The state is updated to remove the processed pending requests for the given external identity.     |
     | Messages to be sent   | `EncryptResponse` messages are sent to all requesters who were waiting for this ReadsFor evidence. |
-    | Engines to be spawned | No engines are created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
+    | Engines to be spawned | No engines are created by this action.                                                             |
+    | Timer updates         | No timers are set or cancelled.                                                                    |
 
 ## Matchable arguments
 
@@ -172,7 +172,7 @@ encryptGuard
       | some (MsgEncryption (EncryptRequest data externalIdentity useReadsFor)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionArgs := [ReplyTo (some sender) none] ;
                   actionLabel := DoEncrypt data externalIdentity useReadsFor;
                   precomputationTasks := unit
                 });
@@ -195,7 +195,7 @@ readsForResponseGuard
             | some sender :=
                 case isEqual (Ord.cmp sender (EncryptionLocalState.readsForEngineAddress (EngineEnvironment.localState env))) of {
                   | true := some (mkGuardOutput@{
-                      matchedArgs := [];
+                      actionArgs := [];
                       actionLabel := DoHandleReadsForResponse externalIdentity evidence;
                       precomputationTasks := unit
                     })
@@ -269,7 +269,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
   in
   case GuardOutput.actionLabel out of {
     | DoEncrypt data externalIdentity' useReadsFor :=
-        case GuardOutput.matchedArgs out of {
+        case GuardOutput.actionArgs out of {
           | (ReplyTo (some whoAsked) _) :: _ :=
               case useReadsFor of {
                 | false :=

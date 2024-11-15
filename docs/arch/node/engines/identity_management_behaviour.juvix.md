@@ -77,12 +77,12 @@ This action label corresponds to generating a new identity.
 
     This action does the following:
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | A new identity is created and added to the `identities` map in the local state. The identity includes information about backend, capabilities, and potentially spawned engine references. |
+    | Aspect                | Description                                                                                                                                                                                                 |
+    |-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | State update          | A new identity is created and added to the `identities` map in the local state. The identity includes information about backend, capabilities, and potentially spawned engine references.                   |
     | Messages to be sent   | A `GenerateIdentityResponse` message is sent to the requester, containing the new identity information including references to spawned engines (if any) or an error message if the identity already exists. |
-    | Engines to be spawned | Depending on the requested capabilities, Commitment and/or Decryption engines may be spawned. |
-    | Timer updates         | No timers are set or cancelled. |
+    | Engines to be spawned | Depending on the requested capabilities, Commitment and/or Decryption engines may be spawned.                                                                                                               |
+    | Timer updates         | No timers are set or cancelled.                                                                                                                                                                             |
 
 ### `DoConnectIdentity`
 
@@ -96,12 +96,12 @@ This action label corresponds to connecting to an existing identity.
 
     This action does the following:
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | If successful, a new entry is added to the `identities` map in the local state, copying the the external identity's information to the requesting identity, filtered by the requested capabilities. |
+    | Aspect                | Description                                                                                                                                                                                                                                                                              |
+    |-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | State update          | If successful, a new entry is added to the `identities` map in the local state, copying the the external identity's information to the requesting identity, filtered by the requested capabilities.                                                                                      |
     | Messages to be sent   | A `ConnectIdentityResponse` message is sent to the requester, confirming the connection and providing references to relevant engines, or an error message if the connection fails (e.g., identity already exists, external identity not found, or requested capabilities not available). |
-    | Engines to be spawned | No new engines are spawned. The action reuses existing engine references from the external identity. |
-    | Timer updates         | No timers are set or cancelled. |
+    | Engines to be spawned | No new engines are spawned. The action reuses existing engine references from the external identity.                                                                                                                                                                                     |
+    | Timer updates         | No timers are set or cancelled.                                                                                                                                                                                                                                                          |
 
 ### `DoDeleteIdentity`
 
@@ -115,12 +115,12 @@ This action label corresponds to deleting an existing identity.
 
     This action does the following:
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The specified identity is removed from the `identities` map in the local state if it exists. |
+    | Aspect                | Description                                                                                                                                       |
+    |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+    | State update          | The specified identity is removed from the `identities` map in the local state if it exists.                                                      |
     | Messages to be sent   | A `DeleteIdentityResponse` message is sent to the requester, confirming the deletion or providing an error message if the identity doesn't exist. |
-    | Engines to be spawned | No engines are spawned by this action. |
-    | Timer updates         | No timers are set or cancelled. |
+    | Engines to be spawned | No engines are spawned by this action.                                                                                                            |
+    | Timer updates         | No timers are set or cancelled.                                                                                                                   |
 
 ## Matchable arguments
 
@@ -201,7 +201,7 @@ generateIdentityGuard
       | some (MsgIdentityManagement (GenerateIdentityRequest x y z)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  matchedArgs := [MessageFrom (some sender) none];
+                  actionArgs := [MessageFrom (some sender) none];
                   actionLabel := DoGenerateIdentity x y z;
                   precomputationTasks := unit
                 });
@@ -233,7 +233,7 @@ connectIdentityGuard
       | some (MsgIdentityManagement (ConnectIdentityRequest x y z)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  matchedArgs := [MessageFrom (some sender) none];
+                  actionArgs := [MessageFrom (some sender) none];
                   actionLabel := DoConnectIdentity x y z;
                   precomputationTasks := unit
                 });
@@ -265,7 +265,7 @@ deleteIdentityGuard
       | some (MsgIdentityManagement (DeleteIdentityRequest x y)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  matchedArgs := [MessageFrom (some sender) none];
+                  actionArgs := [MessageFrom (some sender) none];
                   actionLabel := DoDeleteIdentity x y;
                   precomputationTasks := unit
                 });
@@ -452,7 +452,7 @@ identityManagementAction
   in
   case GuardOutput.actionLabel out of {
     | DoGenerateIdentity backend' params' capabilities' :=
-      case GuardOutput.matchedArgs out of {
+      case GuardOutput.actionArgs out of {
         | (MessageFrom (some whoAsked) _) :: _ :=
             case Map.lookup whoAsked identities of {
               | some _ :=
@@ -515,7 +515,7 @@ identityManagementAction
       }
 
     | DoConnectIdentity externalIdentity' backend' capabilities' :=
-      case GuardOutput.matchedArgs out of {
+      case GuardOutput.actionArgs out of {
         | (MessageFrom (some whoAsked) _) :: _ :=
             -- Check if whoAsked already exists
             case Map.lookup whoAsked identities of {
@@ -617,7 +617,7 @@ identityManagementAction
       }
 
     | DoDeleteIdentity externalIdentity backend' :=
-      case GuardOutput.matchedArgs out of {
+      case GuardOutput.actionArgs out of {
         | (MessageFrom (some whoAsked) _) :: _ :=
             -- Check if the identity exists
             case Map.lookup externalIdentity identities of {

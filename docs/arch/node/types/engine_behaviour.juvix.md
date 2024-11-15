@@ -63,8 +63,8 @@ The input is parameterised by the types for:
 - local state (`S`),
 - mailbox state (`M`),
 - timer handles (`H`),
-- matched arguments (`A`),
-- action labels (`L`), and
+- action labels (`L`),
+- action arguments (`A`),
 - precomputation results (`X`).
 
 The types of the input and output of an action are
@@ -77,8 +77,8 @@ The record type `ActionInput S M H A L X` encapsulates the following data:
 
 - A `GuardOutput A L X` term, which includes:
 
-    - Matched arguments, such as those from a received message.
     - An action label that specifies the action to be performed.
+    - Action arguments, such as those from a received message.
     - Precomputation results that are calculated by the guard function and can be reused by the action function.
 
 - The environment of the engine instance.
@@ -91,8 +91,8 @@ The record type `ActionInput S M H A L X` encapsulates the following data:
 ```juvix
 type GuardOutput (A L X : Type) :=
   mkGuardOutput{
-    matchedArgs : List A;
     actionLabel : L;
+    actionArgs : List A;
     precomputationTasks : X
   };
 ```

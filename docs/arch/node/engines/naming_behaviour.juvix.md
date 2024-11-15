@@ -67,12 +67,12 @@ This action label corresponds to resolving a name to associated external identit
 
     This action does the following:
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | No change to the local state. |
+    | Aspect                | Description                                                                                        |
+    |-----------------------|----------------------------------------------------------------------------------------------------|
+    | State update          | No change to the local state.                                                                      |
     | Messages to be sent   | A `ResolveNameResponse` message is sent to the requester, containing matching external identities. |
-    | Engines to be spawned | No engines are spawned by this action. |
-    | Timer updates         | No timers are set or cancelled. |
+    | Engines to be spawned | No engines are spawned by this action.                                                             |
+    | Timer updates         | No timers are set or cancelled.                                                                    |
 
 ### `DoSubmitNameEvidence`
 
@@ -86,12 +86,12 @@ This action label corresponds to submitting new name evidence.
 
     This action does the following:
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state. |
+    | Aspect                | Description                                                                                                                                       |
+    |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+    | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state.                                         |
     | Messages to be sent   | A `SubmitNameEvidenceResponse` message is sent to the requester, confirming the submission or indicating an error if the evidence already exists. |
-    | Engines to be spawned | No engines are spawned by this action. |
-    | Timer updates         | No timers are set or cancelled. |
+    | Engines to be spawned | No engines are spawned by this action.                                                                                                            |
+    | Timer updates         | No timers are set or cancelled.                                                                                                                   |
 
 ### `DoQueryNameEvidence`
 
@@ -105,12 +105,12 @@ This action label corresponds to querying name evidence for a specific external 
 
     This action does the following:
 
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | No change to the local state. |
+    | Aspect                | Description                                                                                                                       |
+    |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+    | State update          | No change to the local state.                                                                                                     |
     | Messages to be sent   | A `QueryNameEvidenceResponse` message is sent to the requester, containing relevant evidence for the specified external identity. |
-    | Engines to be spawned | No engines are spawned by this action. |
-    | Timer updates         | No timers are set or cancelled. |
+    | Engines to be spawned | No engines are spawned by this action.                                                                                            |
+    | Timer updates         | No timers are set or cancelled.                                                                                                   |
 
 ## Matchable arguments
 
@@ -191,7 +191,7 @@ resolveNameGuard
       | some (MsgNaming (ResolveNameRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          matchedArgs := [ReplyTo (some sender) none] ;
+          actionArgs := [ReplyTo (some sender) none] ;
           actionLabel := DoResolveName x;
           precomputationTasks := unit
         });}
@@ -222,7 +222,7 @@ submitNameEvidenceGuard
       | some (MsgNaming (SubmitNameEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          matchedArgs := [ReplyTo (some sender) none] ;
+          actionArgs := [ReplyTo (some sender) none] ;
           actionLabel := DoSubmitNameEvidence x;
           precomputationTasks := unit
         });}
@@ -253,7 +253,7 @@ queryNameEvidenceGuard
       | some (MsgNaming (QueryNameEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
+                actionArgs := [ReplyTo (some sender) none] ;
                 actionLabel := DoQueryNameEvidence x;
                 precomputationTasks := unit
                 });
@@ -298,7 +298,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
   in
   case GuardOutput.actionLabel out of {
     | DoResolveName identityName :=
-      case GuardOutput.matchedArgs out of {
+      case GuardOutput.actionArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             matchingEvidence := AVLTree.filter \{evidence :=
               isEqual (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
@@ -324,7 +324,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
     | DoSubmitNameEvidence evidence' :=
-      case GuardOutput.matchedArgs out of {
+      case GuardOutput.actionArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ :=
             let evidence := evidence';
                 isValid := NamingLocalState.verifyEvidence localState evidence;
@@ -385,7 +385,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
           }
       }
     | DoQueryNameEvidence externalIdentity' :=
-      case GuardOutput.matchedArgs out of {
+      case GuardOutput.actionArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             relevantEvidence := AVLTree.filter \{evidence :=
               isEqual (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity')

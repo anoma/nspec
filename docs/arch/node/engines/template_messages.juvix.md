@@ -105,11 +105,11 @@ type ExampleReplyError : Type :=
 
 <!-- --8<-- [start:ExampleReply] -->
 ```juvix
-ExampleReply : Type := Result ExampleReplyOk ExampleReplyError;
+ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
 ```
 <!-- --8<-- [end:ExampleReply] -->
 
-### `TemplateMsg`
+### `MsgTemplate`
 
 <!-- --8<-- [start:TemplateMsg] -->
 ```juvix
