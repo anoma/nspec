@@ -34,7 +34,7 @@ remote machines accessible over the network.
 ## Purpose
 
 The Identity Management Engine manages identities across various backends. When an identity
-is generated or connected, it returns handles to the corresponding [[Commitment Engine]] and 
+is generated or connected, it returns handles to the corresponding [[Commitment Engine]] and
 [[Decryption Engine]] instances. These handles can be used to generate commitments or decrypt
 data associated with the identity.
 

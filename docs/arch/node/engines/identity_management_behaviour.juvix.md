@@ -709,7 +709,7 @@ identityManagementConflictSolver : Set IdentityManagementMatchableArgument -> Li
   | _ := [];
 ```
 
-## The Identity Management Behaviour 
+## The Identity Management Behaviour
 
 ### `IdentityManagementBehaviour`
 
