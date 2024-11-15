@@ -33,6 +33,8 @@ The Identity Management Engine's environment maintains the state necessary for m
 
 The Identity Management Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
+### `IdentityManagementMailboxState`
+
 ```juvix
 syntax alias IdentityManagementMailboxState := Unit;
 ```
@@ -41,6 +43,8 @@ syntax alias IdentityManagementMailboxState := Unit;
 
 The local state of the Identity Management Engine includes information about the identities it manages.
 
+### `IdentityInfo`
+
 ```juvix
 type IdentityInfo := mkIdentityInfo@{
   backend : Backend;
@@ -48,7 +52,25 @@ type IdentityInfo := mkIdentityInfo@{
   commitmentEngine : Option EngineID;
   decryptionEngine : Option EngineID;
 };
+```
 
+???+ quote "Arguments"
+
+    `backend`:
+    : The backend associated with this identity.
+
+    `capabilities`:
+    : The capabilities available to this identity.
+
+    `commitmentEngine`:
+    : Optional reference to the commitment engine for this identity.
+
+    `decryptionEngine`:
+    : Optional reference to the decryption engine for this identity.
+
+### `IdentityManagementLocalState`
+
+```juvix
 type IdentityManagementLocalState := mkIdentityManagementLocalState {
   identities : Map EngineID IdentityInfo;
   genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext;
@@ -56,30 +78,46 @@ type IdentityManagementLocalState := mkIdentityManagementLocalState {
 };
 ```
 
+???+ quote "Arguments"
+
+    `identities`:
+    : Map of engine IDs to their corresponding identity information.
+
+    `genDecryptor`:
+    : Function to generate a decryptor for a given backend.
+
+    `genSigner`:
+    : Function to generate a signer for a given backend.
+
 ## Timer Handle
+
+The Identity Management Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+
+### `IdentityManagementTimerHandle`
 
 ```juvix
 syntax alias IdentityManagementTimerHandle := Unit;
 ```
 
-The Identity Management Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Identity Management Environment
 
-## Environment summary
+### `IdentityManagementEnvironment`
 
 ```juvix
-IdentityManagementEnvironment : Type := EngineEnvironment
-  IdentityManagementLocalState
-  IdentityManagementMailboxState
-  IdentityManagementTimerHandle;
+IdentityManagementEnvironment : Type :=
+  EngineEnvironment
+    IdentityManagementLocalState
+    IdentityManagementMailboxState
+    IdentityManagementTimerHandle;
 ```
 
-## Example of an `Identity Management` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:identityManagementEnvironment] -->
 ```juvix extract-module-statements
 module identity_management_environment_example;
 
-identityManagementEnvironmentExample : IdentityManagementEnvironment :=
+identityManagementEnvironment : IdentityManagementEnvironment :=
     mkEngineEnvironment@{
       name := "identity_management";
       localState := mkIdentityManagementLocalState@{
@@ -98,4 +136,4 @@ identityManagementEnvironmentExample : IdentityManagementEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:identityManagementEnvironment] -->
