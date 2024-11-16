@@ -288,7 +288,7 @@ doNothingAction (input : TemplateActionInput) : TemplateActionEffect :=
           env := env;
           msgs := [];
           timers := [];
-          engines := []
+          engines := [];
         }
     }
 ```
