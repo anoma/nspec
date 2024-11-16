@@ -71,7 +71,7 @@ exampleReadsForEngine : ReadsForEngine := mkEngine@{
 
 where `readsForEnvironment` is defined as follows:
 
---8<-- "./docs/arch/node/engines/reads_for_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/engines/reads_for_environment.juvix.md:readsForEnvironment"
 
 and `readsForBehaviour` is defined as follows:
 
