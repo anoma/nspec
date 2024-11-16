@@ -17,6 +17,7 @@ tags:
     import prelude open;
     import arch.node.engines.template_messages open;
     import arch.node.types.engine_environment open;
+    import arch.node.types.messages open;
     ```
 
 # Template Environment
@@ -181,6 +182,16 @@ type TemplateTimerHandle :=
   | TemplateTimerHandleSecondOption SecondOptionTimerHandle;
 ```
 <!-- --8<-- [end:TemplateTimerHandle] -->
+
+### `TemplateTimestampedTrigger`
+
+<!-- --8<-- [start:TemplateTimestampedTrigger] -->
+```juvix
+TemplateTimestampedTrigger : Type :=
+  TimestampedTrigger
+    TemplateTimerHandle;
+```
+<!-- --8<-- [end:TemplateTimestampedTrigger] -->
 
 ## The Template Environment
 

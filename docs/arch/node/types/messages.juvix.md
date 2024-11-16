@@ -109,7 +109,19 @@ type Trigger H :=
   | Elapsed { timers : List (Timer H) };
 ```
 
+- Extract the engine message from a trigger in case it has one:
+
+    ```juvix
+    getEngineMsgFromTrigger {H} (tr : Trigger H) : Option EngineMsg
+      := case tr of {
+      | MessageArrived@{msg} := some msg
+      | Elapsed@{} := none
+      };
+    ```
+
 - Extract the actual message from a trigger in case it has one:
+
+    TODO: rename to `getMsgFromTimestampedTrigger` for consistency
 
     ```juvix
     getMessageFromTrigger {H} (tr : Trigger H) : Option Msg
@@ -148,6 +160,13 @@ type TimestampedTrigger H :=
     trigger : Trigger H;
   };
 ```
+
+- Get the engine message from a `TimestampedTrigger`:
+
+    ```juvix
+    getEngineMsgFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineMsg
+      := getEngineMsgFromTrigger (TimestampedTrigger.trigger tr);
+    ```
 
 - Get the actual message from a `TimestampedTrigger`:
 

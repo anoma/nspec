@@ -41,10 +41,10 @@ Each engine, not its type, is associated with:
   specific state, the mailbox cluster, the acquaintances, and the timers.
 
 ```juvix
-type Engine (S M H A L X : Type) := mkEngine {
+type Engine (S M H A X : Type) := mkEngine {
   name : EngineName;
   initEnv : EngineEnvironment S M H;
-  behaviour : EngineBehaviour S M H L A;
+  behaviour : EngineBehaviour S M H A;
 };
 ```
 
