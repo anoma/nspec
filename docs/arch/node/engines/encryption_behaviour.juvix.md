@@ -110,7 +110,7 @@ type EncryptionActionLabel :=
 
 ## Matchable arguments
 
-### `ReplyTo`
+### `EncryptionMatchableArgumentReplyTo ReplyTo`
 
 ```juvix
 type ReplyTo := mkReplyTo {
