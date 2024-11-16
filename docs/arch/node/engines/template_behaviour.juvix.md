@@ -331,7 +331,7 @@ exampleReplyAction (input : TemplateActionInput) : TemplateActionEffect :=
                   (MsgTemplateExampleReply
                     (ok mkExampleReplyOk@{
                       argOne := ExampleRequest.argOne req;
-                    }));              
+                    }));
             }
           ];
           timers := [];
