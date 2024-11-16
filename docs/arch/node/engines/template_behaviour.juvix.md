@@ -144,7 +144,7 @@ type TemplateActionArgument :=
     <!-- --8<-- [end:TemplateGuardOutput] -->
 
     ### `TemplateActionSeq`
-    
+
     <!-- --8<-- [start:TemplateActionSeq] -->
     ```juvix
     TemplateActionSeq : Type :=
