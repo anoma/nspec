@@ -56,7 +56,7 @@ Sent _from_ [[Executor]]
 
 ### Mempool Worker TransactionRequest Sequence
 !!! todo
-    Using the template from commitment messages, make a mermaid diagram with a typical transactionRequest sequence. 
+    Using the template from commitment messages, make a mermaid diagram with a typical transactionRequest sequence.
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">

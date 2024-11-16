@@ -39,7 +39,7 @@ The local state each worker (in v0.2.0 and below there is only 1) tracks the ``i
 
 ## Mailbox states
 !!! todo
-    Figure out what a mailbox state is, what makes it special, and if we're just using Unit. 
+    Figure out what a mailbox state is, what makes it special, and if we're just using Unit.
 
 The Mempool Worker Engine does not require complex mailbox states.
 We define the mailbox state as `Unit`.
@@ -86,7 +86,7 @@ type MempoolWorkerLocalState := mkMempoolWorkerLocalState@{
 
 ## Timer Handle
 !!! todo
-    figure out what a Timer Handle is, and if a mempool worker needs one. 
+    figure out what a Timer Handle is, and if a mempool worker needs one.
 
 The Mempool Worker Engine does not require a timer handle type.
 Therefore, we define the timer handle type as `Unit`.
