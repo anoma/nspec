@@ -30,6 +30,8 @@ The Naming Engine maintains the state necessary for managing associations betwee
 
 The Naming Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
+### `NamingMailboxState`
+
 ```juvix
 syntax alias NamingMailboxState := Unit;
 ```
@@ -38,6 +40,8 @@ syntax alias NamingMailboxState := Unit;
 
 The local state of the Naming Engine includes the evidence for name associations.
 
+### `NamingLocalState`
+
 ```juvix
 type NamingLocalState := mkNamingLocalState@{
   evidenceStore : Set IdentityNameEvidence;
@@ -45,30 +49,44 @@ type NamingLocalState := mkNamingLocalState@{
 };
 ```
 
+???+ quote "Arguments"
+
+    `evidenceStore`:
+    : The pool of evidence which the engine uses for identity verification.
+
+    `verifyEvidence`:
+    : A function used by the engine to validate evidence provided to it.
+
 ## Timer Handle
+
+The Naming Engine does not require a timer handle type. Therefore, we define
+the timer handle type as `Unit`.
+
+### `NamingTimerHandle`
 
 ```juvix
 syntax alias NamingTimerHandle := Unit;
 ```
 
-The Naming Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Naming Environment
 
-## Environment summary
+### `NamingEnvironment`
 
 ```juvix
-NamingEnvironment : Type := EngineEnvironment
-  NamingLocalState
-  NamingMailboxState
-  NamingTimerHandle;
+NamingEnvironment : Type :=
+  EngineEnvironment
+    NamingLocalState
+    NamingMailboxState
+    NamingTimerHandle;
 ```
 
-## Example of a `Naming` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:namingEnvironment] -->
 ```juvix extract-module-statements
 module naming_environment_example;
 
-namingEnvironmentExample : NamingEnvironment :=
+namingEnvironment : NamingEnvironment :=
     mkEngineEnvironment@{
       name := "naming";
       localState := mkNamingLocalState@{
@@ -82,4 +100,4 @@ namingEnvironmentExample : NamingEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:namingEnvironment] -->

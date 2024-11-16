@@ -1,10 +1,12 @@
 ---
-icon: octicons/project-template-24
+icon: octicons/gear-16
 search:
   exclude: false
+categories:
+- engine
 tags:
-- naming
-- engines
+- naming-engine
+- engine-definition
 ---
 
 ??? quote "Juvix imports"
@@ -23,21 +25,20 @@ tags:
 
 # Naming Engine
 
-The Naming Engine is responsible for tracking naming information as described in *Identity Names*. It supports name resolution, submitting name evidence, and querying name evidence.
+The Naming Engine is responsible for tracking naming information. It supports name
+resolution, submitting name evidence, and querying name evidence.
 
 ## Purpose
 
-The Naming Engine tracks which `IdentityName`s correspond with which `ExternalIdentity`s using `IdentityNameEvidence`. It provides functionality for resolving names, submitting name evidence, and querying name evidence.
+The Naming Engine tracks which `IdentityName`s correspond with which `ExternalIdentity`s
+using `IdentityNameEvidence`. It provides functionality for resolving names, submitting
+name evidence, and querying name evidence.
 
 ## Components
 
 - [[Naming Messages]]
 - [[Naming Environment]]
 - [[Naming Behaviour]]
-
-## Useful links
-
-???
 
 ## Type
 
@@ -55,14 +56,20 @@ NamingEngine : Type := Engine
 
 ### Example of a naming engine
 
-```juvix extract-module-statements
+<!-- --8<-- [start:exampleNamingEngine] -->
+```juvix
 exampleNamingEngine : NamingEngine := mkEngine@{
     name := "naming";
+    initEnv := namingEnvironment;
     behaviour := namingBehaviour;
-    initEnv := namingEnvironmentExample;
   };
 ```
+<!-- --8<-- [start:exampleNamingEngine] -->
 
-where `namingEnvironmentExample` is defined as follows:
+where `namingEnvironment` is defined as follows:
 
---8<-- "./naming_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/engines/naming_environment.juvix.md:namingEnvironment"
+
+and `namingBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/naming_behaviour.juvix.md:namingBehaviour"

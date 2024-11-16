@@ -25,125 +25,137 @@ tags:
     import arch.node.types.anoma_message open;
     ```
 
-# `Naming` Dynamics
+# Naming Behaviour
 
 ## Overview
 
-The behavior of the Naming Engine define how it processes incoming messages and updates its state accordingly.
+The behavior of the Naming Engine defines how it processes incoming messages and
+updates its state accordingly.
 
 ## Action labels
 
-<!-- --8<-- [start:naming-action-label] -->
+### `NamingActionLabelDoResolveName DoResolveName`
+
 ```juvix
-type NamingActionLabel :=
-  | -- --8<-- [start:DoResolveName]
-    DoResolveName {
-      identityName : IdentityName
-    }
-    -- --8<-- [end:DoResolveName]
-  | -- --8<-- [start:DoSubmitNameEvidence]
-    DoSubmitNameEvidence {
-      evidence : IdentityNameEvidence
-    }
-    -- --8<-- [end:DoSubmitNameEvidence]
-  | -- --8<-- [start:DoQueryNameEvidence]
-    DoQueryNameEvidence {
-      externalIdentity : ExternalIdentity
-    }
-    -- --8<-- [end:DoQueryNameEvidence]
-;
+type DoResolveName := mkDoResolveName {
+  identityName : IdentityName
+};
 ```
-<!-- --8<-- [end:naming-action-label] -->
-
-### `DoResolveName`
-
-!!! quote ""
-
-    --8<-- "./naming_behaviour.juvix.md:DoResolveName"
 
 This action label corresponds to resolving a name to associated external identities.
 
-??? quote "`DoResolveName` action effect"
+???+ quote "Arguments"
+
+    `identityName`:
+    : The identity name to resolve.
+
+???+ quote "`DoResolveName` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | No change to the local state. |
-    | Messages to be sent   | A `ResolveNameResponse` message is sent to the requester, containing matching external identities. |
+    | Messages to be sent   | A `ResponseResolveName` message is sent to the requester, containing matching external identities. |
     | Engines to be spawned | No engines are spawned by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-### `DoSubmitNameEvidence`
+### `NamingActionLabelDoSubmitNameEvidence DoSubmitNameEvidence`
 
-!!! quote ""
-
-    --8<-- "./naming_behaviour.juvix.md:DoSubmitNameEvidence"
+```juvix
+type DoSubmitNameEvidence := mkDoSubmitNameEvidence {
+  evidence : IdentityNameEvidence
+};
+```
 
 This action label corresponds to submitting new name evidence.
 
-??? quote "DoSubmitNameEvidence action effect"
+???+ quote "Arguments"
+
+    `evidence`:
+    : The name evidence to submit.
+
+???+ quote "`DoSubmitNameEvidence` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state. |
-    | Messages to be sent   | A `SubmitNameEvidenceResponse` message is sent to the requester, confirming the submission or indicating an error if the evidence already exists. |
+    | Messages to be sent   | A `ResponseSubmitNameEvidence` message is sent to the requester, confirming the submission or indicating an error if the evidence already exists. |
     | Engines to be spawned | No engines are spawned by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-### `DoQueryNameEvidence`
+### `NamingActionLabelDoQueryNameEvidence DoQueryNameEvidence`
 
-!!! quote ""
-
-    --8<-- "./naming_behaviour.juvix.md:DoQueryNameEvidence"
+```juvix
+type DoQueryNameEvidence := mkDoQueryNameEvidence {
+  externalIdentity : ExternalIdentity
+};
+```
 
 This action label corresponds to querying name evidence for a specific external identity.
 
-??? quote "DoQueryNameEvidence action effect"
+???+ quote "Arguments"
+
+    `externalIdentity`:
+    : The external identity to query evidence for.
+
+???+ quote "`DoQueryNameEvidence` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | No change to the local state. |
-    | Messages to be sent   | A `QueryNameEvidenceResponse` message is sent to the requester, containing relevant evidence for the specified external identity. |
+    | Messages to be sent   | A `ResponseQueryNameEvidence` message is sent to the requester, containing relevant evidence for the specified external identity. |
     | Engines to be spawned | No engines are spawned by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
+### `NamingActionLabel`
+
+```juvix
+type NamingActionLabel :=
+  | NamingActionLabelDoResolveName DoResolveName
+  | NamingActionLabelDoSubmitNameEvidence DoSubmitNameEvidence
+  | NamingActionLabelDoQueryNameEvidence DoQueryNameEvidence
+;
+```
+
 ## Matchable arguments
 
-<!-- --8<-- [start:naming-matchable-argument] -->
+### `NamingMatchableArgument ReplyTo`
+
+```juvix
+type ReplyTo := mkReplyTo {
+  whoAsked : Option EngineID;
+  mailbox : Option MailboxID
+};
+```
+
+???+ quote "Arguments"
+
+    `whoAsked`:
+    : The engine ID of the requester.
+
+    `mailbox`:
+    : The mailbox ID where the response should be sent.
+
+### `NamingMatchableArgument`
 
 ```juvix
 type NamingMatchableArgument :=
-  | -- --8<-- [start:ReplyTo]
-  ReplyTo (Option EngineID) (Option MailboxID)
-  -- --8<-- [end:ReplyTo]
+  | NamingMatchableArgumentReplyTo ReplyTo
 ;
 ```
-<!-- --8<-- [end:naming-matchable-argument] -->
-
-### `ReplyTo`
-
-!!! quote ""
-
-    ```
-    --8<-- "./naming_behaviour.juvix.md:ReplyTo"
-    ```
-
-This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
 The Naming Engine does not require any non-trivial pre-computations.
 
-<!-- --8<-- [start:naming-precomputation-entry] -->
 ```juvix
 syntax alias NamingPrecomputation := Unit;
 ```
-<!-- --8<-- [end:naming-precomputation-entry] -->
 
 ## Guards
 
@@ -152,7 +164,6 @@ syntax alias NamingPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
-    -- --8<-- [start:ticker-guard]
     NamingGuard : Type :=
       Guard
         NamingLocalState
@@ -161,12 +172,9 @@ syntax alias NamingPrecomputation := Unit;
         NamingMatchableArgument
         NamingActionLabel
         NamingPrecomputation;
-    -- --8<-- [end:ticker-guard]
 
-    -- --8<-- [start:ticker-guard-output]
     NamingGuardOutput : Type :=
       GuardOutput NamingMatchableArgument NamingActionLabel NamingPrecomputation;
-    -- --8<-- [end:ticker-guard-output]
     ```
 
 ### `resolveNameGuard`
@@ -174,7 +182,7 @@ syntax alias NamingPrecomputation := Unit;
 <figure markdown>
 ```mermaid
 flowchart TD
-    C{ResolveNameRequest<br>received?}
+    C{RequestResolveName<br>received?}
     C -->|Yes| D[enabled]
     C -->|No| E[not enabled]
     D --> F([DoResolveName])
@@ -182,30 +190,30 @@ flowchart TD
 <figcaption>resolveNameGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:resolve-name-guard] -->
+<!-- --8<-- [start:resolveNameGuard] -->
 ```juvix
 resolveNameGuard
   (t : TimestampedTrigger NamingTimerHandle)
   (env : NamingEnvironment) : Option NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgNaming (ResolveNameRequest x)) := do {
+      | some (MsgNaming (MsgNamingResolveNameRequest (mkRequestResolveName x))) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          matchedArgs := [ReplyTo (some sender) none] ;
-          actionLabel := DoResolveName x;
+          matchedArgs := [NamingMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+          actionLabel := NamingActionLabelDoResolveName (mkDoResolveName x);
           precomputationTasks := unit
         });}
       | _ := none
   };
 ```
-<!-- --8<-- [end:resolve-name-guard] -->
+<!-- --8<-- [end:resolveNameGuard] -->
 
 ### `submitNameEvidenceGuard`
 
 <figure markdown>
 ```mermaid
 flowchart TD
-    C{SubmitNameEvidenceRequest<br>received?}
+    C{RequestSubmitNameEvidence<br>received?}
     C -->|Yes| D[enabled]
     C -->|No| E[not enabled]
     D --> F([DoSubmitNameEvidence])
@@ -213,30 +221,30 @@ flowchart TD
 <figcaption>submitNameEvidenceGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:submit-name-evidence-guard] -->
+<!-- --8<-- [start:submitNameEvidenceGuard] -->
 ```juvix
 submitNameEvidenceGuard
   (t : TimestampedTrigger NamingTimerHandle)
   (env : NamingEnvironment) : Option NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgNaming (SubmitNameEvidenceRequest x)) := do {
+      | some (MsgNaming (MsgNamingSubmitNameEvidenceRequest (mkRequestSubmitNameEvidence x))) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          matchedArgs := [ReplyTo (some sender) none] ;
-          actionLabel := DoSubmitNameEvidence x;
+          matchedArgs := [NamingMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+          actionLabel := NamingActionLabelDoSubmitNameEvidence (mkDoSubmitNameEvidence x);
           precomputationTasks := unit
         });}
       | _ := none
   };
 ```
-<!-- --8<-- [end:submit-name-evidence-guard] -->
+<!-- --8<-- [end:submitNameEvidenceGuard] -->
 
 ### `queryNameEvidenceGuard`
 
 <figure markdown>
 ```mermaid
 flowchart TD
-    C{QueryNameEvidenceRequest<br>received?}
+    C{RequestQueryNameEvidence<br>received?}
     C -->|Yes| D[enabled]
     C -->|No| E[not enabled]
     D --> F([DoQueryNameEvidence])
@@ -244,24 +252,24 @@ flowchart TD
 <figcaption>queryNameEvidenceGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:query-name-evidence-guard] -->
+<!-- --8<-- [start:queryNameEvidenceGuard] -->
 ```juvix
 queryNameEvidenceGuard
   (t : TimestampedTrigger NamingTimerHandle)
   (env : NamingEnvironment) : Option NamingGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgNaming (QueryNameEvidenceRequest x)) := do {
+      | some (MsgNaming (MsgNamingQueryNameEvidenceRequest (mkRequestQueryNameEvidence x))) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoQueryNameEvidence x;
+                matchedArgs := [NamingMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+                actionLabel := NamingActionLabelDoQueryNameEvidence (mkDoQueryNameEvidence x);
                 precomputationTasks := unit
                 });
         }
       | _ := none
   };
 ```
-<!-- --8<-- [end:query-name-evidence-guard] -->
+<!-- --8<-- [end:queryNameEvidenceGuard] -->
 
 ## Action function
 
@@ -289,7 +297,7 @@ queryNameEvidenceGuard
         NamingPrecomputation;
     ```
 
-<!-- --8<-- [start:action-function] -->
+<!-- --8<-- [start:namingAction] -->
 ```juvix
 namingAction (input : NamingActionInput) : NamingActionEffect :=
   let env := ActionInput.env input;
@@ -297,16 +305,16 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
-    | DoResolveName identityName :=
+    | NamingActionLabelDoResolveName (mkDoResolveName identityName) :=
       case GuardOutput.matchedArgs out of {
-        | (ReplyTo (some whoAsked) _) :: _ := let
+        | (NamingMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _)) :: _ := let
             matchingEvidence := AVLTree.filter \{evidence :=
               isEqual (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
              } (NamingLocalState.evidenceStore localState);
             identities := Set.fromList (map \{evidence :=
               IdentityNameEvidence.externalIdentity evidence
              } (Set.toList matchingEvidence));
-            responseMsg := ResolveNameResponse@{
+            responseMsg := mkResponseResolveName@{
               externalIdentities := identities;
               err := none
             };
@@ -316,22 +324,22 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
               sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgNaming responseMsg
+              msg := MsgNaming (MsgNamingResolveNameResponse responseMsg)
             }];
             timers := [];
             spawnedEngines := []
           }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoSubmitNameEvidence evidence' :=
+    | NamingActionLabelDoSubmitNameEvidence (mkDoSubmitNameEvidence evidence') :=
       case GuardOutput.matchedArgs out of {
-        | (ReplyTo (some whoAsked) _) :: _ :=
+        | (NamingMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _)) :: _ :=
             let evidence := evidence';
                 isValid := NamingLocalState.verifyEvidence localState evidence;
             in
             case isValid of {
               | false :=
-                  let responseMsg := SubmitNameEvidenceResponse@{
+                  let responseMsg := mkResponseSubmitNameEvidence@{
                         err := some "Invalid evidence"
                       };
                   in mkActionEffect@{
@@ -340,7 +348,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                       sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;
-                      msg := MsgNaming responseMsg
+                      msg := MsgNaming (MsgNamingSubmitNameEvidenceResponse responseMsg)
                     }];
                     timers := [];
                     spawnedEngines := []
@@ -360,7 +368,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                       newEnv' := env@EngineEnvironment{
                         localState := newLocalState
                       };
-                      responseMsg := SubmitNameEvidenceResponse@{
+                      responseMsg := mkResponseSubmitNameEvidence@{
                         err := case alreadyExists of {
                           | true := some "Evidence already exists"
                           | false := none
@@ -371,7 +379,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                       sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;
-                      msg := MsgNaming responseMsg
+                      msg := MsgNaming (MsgNamingSubmitNameEvidenceResponse responseMsg)
                     }];
                     timers := [];
                     spawnedEngines := []
@@ -384,13 +392,13 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
             spawnedEngines := []
           }
       }
-    | DoQueryNameEvidence externalIdentity' :=
+    | NamingActionLabelDoQueryNameEvidence (mkDoQueryNameEvidence externalIdentity') :=
       case GuardOutput.matchedArgs out of {
-        | (ReplyTo (some whoAsked) _) :: _ := let
+        | (NamingMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _)) :: _ := let
             relevantEvidence := AVLTree.filter \{evidence :=
               isEqual (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity')
              } (NamingLocalState.evidenceStore localState);
-            responseMsg := QueryNameEvidenceResponse@{
+            responseMsg := mkResponseQueryNameEvidence@{
               externalIdentity := externalIdentity';
               evidence := relevantEvidence;
               err := none
@@ -401,7 +409,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
               sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgNaming responseMsg
+              msg := MsgNaming (MsgNamingQueryNameEvidenceResponse responseMsg)
             }];
             timers := [];
             spawnedEngines := []
@@ -410,16 +418,20 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
       }
   };
 ```
-<!-- --8<-- [end:action-function] -->
+<!-- --8<-- [end:namingAction] -->
 
 ## Conflict solver
+
+### `namingConflictSolver`
 
 ```juvix
 namingConflictSolver : Set NamingMatchableArgument -> List (Set NamingMatchableArgument)
   | _ := [];
 ```
 
-## NamingBehaviour type
+## The Naming Behaviour
+
+### `NamingBehaviour`
 
 <!-- --8<-- [start:NamingBehaviour] -->
 ```juvix
@@ -434,9 +446,9 @@ NamingBehaviour : Type :=
 ```
 <!-- --8<-- [end:NamingBehaviour] -->
 
-## NamingBehaviour instance
+### Instantiation
 
-<!-- --8<-- [start:NamingBehaviour-instance] -->
+<!-- --8<-- [start:namingBehaviour] -->
 ```juvix
 namingBehaviour : NamingBehaviour :=
   mkEngineBehaviour@{
@@ -445,4 +457,4 @@ namingBehaviour : NamingBehaviour :=
     conflictSolver := namingConflictSolver;
   };
 ```
-<!-- --8<-- [end:NamingBehaviour-instance] -->
+<!-- --8<-- [end:namingBehaviour] -->
