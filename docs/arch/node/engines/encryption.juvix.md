@@ -71,7 +71,7 @@ exampleEncryptionEngine : EncryptionEngine := mkEngine@{
 
 where `encryptionEnvironment` is defined as follows:
 
---8<-- "./docs/arch/node/engines/encryption_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/engines/encryption_environment.juvix.md:encryptionEnvironment"
 
 and `encryptionBehaviour` is defined as follows:
 
