@@ -348,12 +348,10 @@ nav:
                   - Mempool engines:
                       - ./arch/node/ordering/mempool/index.md
                       - Worker Engine:
-                          - ./arch/node/ordering/mempool/worker/index.md
-                          - ExecutorFinished: ./arch/node/ordering/mempool/worker/executor_finished.md
-                          - ExecutorPIDAssigned: ./arch/node/ordering/mempool/worker/executor_pid_assigned.md
-                          - KVSLockAcquired: ./arch/node/ordering/mempool/worker/kvs_lock_acquired.md
-                          - TransactionRequest: ./arch/node/ordering/mempool/worker/transaction_request.md
-                          - RequestLogs: ./arch/node/ordering/mempool/worker/request_logs.md
+                          - Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
+                          - Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
+                          - Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
+                          - Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
                   - Consensus Engine:
                       - ./arch/node/ordering/consensus_v1.md
                   - Execution engines:
