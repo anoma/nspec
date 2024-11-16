@@ -114,88 +114,6 @@ type TemplateActionArgument :=
 ```
 <!-- --8<-- [end:template-action-argument] -->
 
-## Precomputation tasks results
-
-??? quote "Auxiliary Juvix code"
-
-    <!-- --8<-- [start:pseudo-example-auxiliary-code] -->
-    ```juvix
-    syntax alias SomeMessageType := Nat;
-    ```
-    <!-- --8<-- [end:pseudo-example-auxiliary-code] -->
-
-Precomputation tasks results are the outcomes generated during the
-precomputation phase. These results are used to optimize and prepare the
-engine's state and environment before the main computation begins (by actions).
-The results of these tasks are then utilised by the engine to ensure efficient
-and accurate execution of its functions.
-
-### `TemplatePrecomputationEntryDeleteMessage DeleteMessage`
-
-<!-- --8<-- [start:DeleteMessage] -->
-```juvix
-type DeleteMessage := mkDeleteMessage {
-  messageType : SomeMessageType;
-  messageId : Nat;
-};
-```
-<!-- --8<-- [end:DeleteMessage] -->
-
-We delete the given message from the mailbox with the mailbox ID.
-
-???+ quote "Arguments"
-
-    `messageType`:
-    : is the type of the message to delete.
-
-    `messageId`:
-    : is the ID of the message to delete.
-
-### `TemplatePrecomputationEntryCloseMailbox CloseMailbox`
-
-<!-- --8<-- [start:CloseMailbox] -->
-```juvix
-type CloseMailbox := mkCloseMailbox {
-  mailboxId : Nat;
-};
-```
-<!-- --8<-- [end:CloseMailbox] -->
-
-We close the mailbox with the given mailbox ID.
-
-???+ quote "Arguments"
-
-    `mailboxId`:
-    : is the ID of the mailbox to close.
-
-### `TemplatePrecomputationEntry`
-
-<!-- --8<-- [start:TemplatePrecomputation] -->
-```juvix
-type TemplatePrecomputationEntry :=
-  | TemplatePrecomputationEntryDeleteMessage DeleteMessage
-  | TemplatePrecomputationEntryCloseMailbox CloseMailbox
-  ;
-```
-<!-- --8<-- [end:TemplatePrecomputation] -->
-
-### `TemplatePrecomputationList`
-
-<!-- --8<-- [start:TemplatePrecomputationList] -->
-```juvix
-TemplatePrecomputationList : Type := List TemplatePrecomputationEntry;
-```
-<!-- --8<-- [end:TemplatePrecomputationList] -->
-
-The precomputation results consist of a list of `TemplatePrecomputation` terms.
-Each entry can be either:
-
-1. A `DeleteMessage` entry indicating a message should be deleted from a mailbox
-2. A `CloseMailbox` entry indicating a mailbox should be closed
-
-These entries are used by guards to specify mailbox operations that need to be
-performed as part of processing a message.
-
 ## Guards
 
 ???+ quote "Auxiliary Juvix code"
@@ -209,9 +127,8 @@ performed as part of processing a message.
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
-        TemplateActionArgument
         TemplateActionLabel
-        TemplatePrecomputationList;
+        TemplateActionArgument;
     ```
     <!-- --8<-- [end:TemplateGuard] -->
 
@@ -221,11 +138,20 @@ performed as part of processing a message.
     ```juvix
     TemplateGuardOutput : Type :=
       GuardOutput
-        TemplateActionArgument
         TemplateActionLabel
-        TemplatePrecomputationList;
+        TemplateActionArgument;
     ```
     <!-- --8<-- [end:TemplateGuardOutput] -->
+
+    ### `TemplateActionSeq`
+    
+    <!-- --8<-- [start:TemplateActionSeq] -->
+    ```juvix
+    TemplateActionSeq : Type :=
+      ActionSeq
+        TemplateActionLabel;
+    ```
+    <!-- --8<-- [end:TemplateActionSeq] -->
 
 ### `justHiGuard`
 
@@ -237,25 +163,12 @@ justHiGuard
   case getMessageFromTimestampedTrigger t of {
   | some (MsgTemplate MsgTemplateJustHi) := some (
     mkGuardOutput@{
-      actionLabel := TemplateActionLabelDoNothing;
-      actionArgs := [
+      actions := Action TemplateActionLabelDoNothing;
+      args := [
         (TemplateActionArgumentTwo
           mkSecondArgument@{
             data := "Hello World!"
           })
-      ];
-      precomputationTasks := [
-        TemplatePrecomputationEntryCloseMailbox (
-          mkCloseMailbox@{
-            mailboxId := 1;
-          }
-        );
-        TemplatePrecomputationEntryDeleteMessage (
-          mkDeleteMessage@{
-            messageType := 1337;
-            messageId := 0;
-          }
-        )
       ];
     })
   | _ := none
@@ -274,10 +187,9 @@ exampleRequestGuard
   | some (MsgTemplate (MsgTemplateExampleRequest _)) := do {
     sender <- getSenderFromTimestampedTrigger t;
     pure (mkGuardOutput@{
-      actionLabel := TemplateActionLabelExampleReply;
-      actionArgs := [];
-      precomputationTasks := []
-      });
+      actions := Seq TemplateActionLabelExampleReply (Action TemplateActionLabelDoNothing);
+      args := [];
+    });
   }
   | _ := none
   };
@@ -297,9 +209,8 @@ exampleRequestGuard
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
-        TemplateActionArgument
         TemplateActionLabel
-        TemplatePrecomputationList;
+        TemplateActionArgument;
     ```
     <!-- --8<-- [end:TemplateActionInput] -->
 
@@ -312,9 +223,8 @@ exampleRequestGuard
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
-        TemplateActionArgument
         TemplateActionLabel
-        TemplatePrecomputationList;
+        TemplateActionArgument;
     ```
     <!-- --8<-- [end:TemplateActionEffect] -->
 
@@ -327,9 +237,8 @@ exampleRequestGuard
           TemplateLocalState
           TemplateMailboxState
           TemplateTimerHandle
-          TemplateActionArgument
           TemplateActionLabel
-          TemplatePrecomputationList;
+          TemplateActionArgument;
     ```
     <!-- --8<-- [end:TemplateActionFunction] -->
 
@@ -359,27 +268,27 @@ doNothingAction (input : TemplateActionInput) : TemplateActionEffect :=
     out := ActionInput.guardOutput input;
     msg := getMessageFromTimestampedTrigger (ActionInput.timestampedTrigger input);
   in
-    case GuardOutput.actionArgs out of {
+    case GuardOutput.args out of {
       | TemplateActionArgumentTwo (mkSecondArgument@{
           data := data;
         }) :: _ :=
         mkActionEffect@{
-          newEnv := env@EngineEnvironment{
+          env := env@EngineEnvironment{
             localState := mkTemplateLocalState@{
               taskQueue := mkCustomData@{
                 word := data
               }
             }
           };
-          producedMessages := [];
+          msgs := [];
           timers := [];
-          spawnedEngines := []
+          engines := [];
         }
       | _ := mkActionEffect@{
-          newEnv := env;
-          producedMessages := [];
+          env := env;
+          msgs := [];
           timers := [];
-          spawnedEngines := []
+          engines := []
         }
     }
 ```
@@ -411,8 +320,8 @@ exampleReplyAction (input : TemplateActionInput) : TemplateActionEffect :=
     case msg of {
       | some (MsgTemplate (MsgTemplateExampleRequest req)) :=
         mkActionEffect@{
-          newEnv := env;
-          producedMessages := [
+          env := env;
+          msgs := [
             mkEngineMsg@{
               sender := getTargetFromActionInput input;
               target := getSenderFromActionInput input;
@@ -426,13 +335,13 @@ exampleReplyAction (input : TemplateActionInput) : TemplateActionEffect :=
             }
           ];
           timers := [];
-          spawnedEngines := []
+          engines := [];
         }
       | _ := mkActionEffect@{
-          newEnv := env;
-          producedMessages := [];
+          env := env;
+          msgs := [];
           timers := [];
-          spawnedEngines := []
+          engines := [];
         }
     }
 ```
@@ -443,35 +352,13 @@ Calls the action function corresponding to the action label set by the guard.
 
 <!-- --8<-- [start:templateAction] -->
 ```juvix
-templateAction (input : TemplateActionInput) : TemplateActionEffect :=
-  case GuardOutput.actionLabel (ActionInput.guardOutput input) of {
+templateAction (label : TemplateActionLabel) (input : TemplateActionInput) : TemplateActionEffect :=
+  case label of {
   | TemplateActionLabelDoNothing := doNothingAction input
   | TemplateActionLabelExampleReply := exampleReplyAction input
   };
 ```
 <!-- --8<-- [end:templateAction] -->
-
-## Conflict solver
-
-The conflict solver is responsible for resolving conflicts between multiple
-guards that match simultaneously. When multiple guards match the same input, the
-conflict solver determines which combinations of guards can execute together.
-
-In this template example, the conflict solver is very simple. It always returns
-an empty list, meaning no guards can execute simultaneously. This effectively
-serializes guard execution, allowing only one guard to execute at a time.
-
-<!-- TODO: ask Tobias if he agrees with this description. So far, we have not
-used the conflict solver in any of our examples. -->
-
-### `templateConflictSolver`
-
-```juvix
-templateConflictSolver :
-  Set TemplateActionArgument ->
-  List (Set TemplateActionArgument)
-  | _ := [];
-```
 
 ## The Template behaviour
 
@@ -484,9 +371,8 @@ TemplateBehaviour : Type :=
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
-    TemplateActionArgument
     TemplateActionLabel
-    TemplatePrecomputationList;
+    TemplateActionArgument;
 ```
 <!-- --8<-- [end:TemplateBehaviour] -->
 
@@ -498,8 +384,6 @@ templateBehaviour : TemplateBehaviour :=
   mkEngineBehaviour@{
     guards := [justHiGuard; exampleRequestGuard];
     action := templateAction;
-    conflictSolver := templateConflictSolver;
-  }
-  ;
+  };
 ```
 <!-- --8<-- [end:templateBehaviour] -->
