@@ -54,12 +54,12 @@ given request.
 
     This action does the following:
 
-    | Aspect                | Description                                                   |
-    |-----------------------|---------------------------------------------------------------|
-    | State update          | The state remains unchanged.                                  |
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state remains unchanged. |
     | Messages to be sent   | A `ResponseCommitment` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action.                          |
-    | Timer updates         | No timers are set or cancelled.                               |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ### `CommitmentActionLabel`
 
@@ -152,7 +152,7 @@ commitGuard
         -- TODO: fix this, the compiler is not able to see this is correct.
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  actionArgs := [CommitmentMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+                  matchedArgs := [CommitmentMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
                   actionLabel := CommitmentActionLabelDoCommit (mkDoCommit (RequestCommitment.data request));
                   precomputationTasks := unit
                 });
@@ -199,7 +199,7 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
   in
   case GuardOutput.actionLabel out of {
     | CommitmentActionLabelDoCommit (mkDoCommit data) :=
-      case GuardOutput.actionArgs out of {
+      case GuardOutput.matchedArgs out of {
         | CommitmentMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
             signedData :=
               Signer.sign (CommitmentLocalState.signer localState)

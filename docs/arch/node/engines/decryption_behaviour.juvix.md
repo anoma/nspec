@@ -57,12 +57,12 @@ This action label corresponds to decrypting the data in the given request.
 
     This action does the following:
 
-    | Aspect                | Description                                                |
-    |-----------------------|------------------------------------------------------------|
-    | State update          | The state remains unchanged.                               |
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state remains unchanged. |
     | Messages to be sent   | A `DecryptResponse` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action.                       |
-    | Timer updates         | No timers are set or cancelled.                            |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ## Matchable arguments
 
@@ -143,7 +143,7 @@ decryptGuard
       | some (MsgDecryption (DecryptRequest data)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  actionArgs := [ReplyTo (some sender) none] ;
+                  matchedArgs := [ReplyTo (some sender) none] ;
                   actionLabel := DoDecrypt data;
                   precomputationTasks := unit
                 });
@@ -188,7 +188,7 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
   in
   case GuardOutput.actionLabel out of {
     | DoDecrypt data :=
-      case GuardOutput.actionArgs out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             decryptedData :=
               Decryptor.decrypt (DecryptionLocalState.decryptor localState)

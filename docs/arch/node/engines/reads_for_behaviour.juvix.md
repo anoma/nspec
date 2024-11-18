@@ -68,12 +68,12 @@ This action label corresponds to processing a reads_for query.
 
     This action does the following:
 
-    | Aspect                | Description                                                 |
-    |-----------------------|-------------------------------------------------------------|
-    | State update          | The state remains unchanged.                                |
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state remains unchanged. |
     | Messages to be sent   | A `ReadsForResponse` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action.                        |
-    | Timer updates         | No timers are set or cancelled.                             |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ### `DoSubmitEvidence`
 
@@ -87,12 +87,12 @@ This action label corresponds to submitting new reads_for evidence.
 
     This action does the following:
 
-    | Aspect                | Description                                                                                               |
-    |-----------------------|-----------------------------------------------------------------------------------------------------------|
+    | Aspect | Description |
+    |--------|-------------|
     | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state. |
-    | Messages to be sent   | A `SubmitReadsForEvidenceResponse` message is sent back to the requester.                                 |
-    | Engines to be spawned | No engine is created by this action.                                                                      |
-    | Timer updates         | No timers are set or cancelled.                                                                           |
+    | Messages to be sent   | A `SubmitReadsForEvidenceResponse` message is sent back to the requester. |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ### `DoQueryEvidence`
 
@@ -106,12 +106,12 @@ This action label corresponds to querying reads_for evidence for a specific iden
 
     This action does the following:
 
-    | Aspect                | Description                                                              |
-    |-----------------------|--------------------------------------------------------------------------|
-    | State update          | The state remains unchanged.                                             |
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state remains unchanged. |
     | Messages to be sent   | A `QueryReadsForEvidenceResponse` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action.                                     |
-    | Timer updates         | No timers are set or cancelled.                                          |
+    | Engines to be spawned | No engine is created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ## Matchable arguments
 
@@ -192,7 +192,7 @@ readsForQueryGuard
       | some (MsgReadsFor (ReadsForRequest x y)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          actionArgs := [ReplyTo (some sender) none] ;
+          matchedArgs := [ReplyTo (some sender) none] ;
           actionLabel := DoReadsForQuery x y;
           precomputationTasks := unit
         });}
@@ -223,7 +223,7 @@ submitEvidenceGuard
       | some (MsgReadsFor (SubmitReadsForEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                actionArgs := [ReplyTo (some sender) none] ;
+                matchedArgs := [ReplyTo (some sender) none] ;
                 actionLabel := DoSubmitEvidence x;
                 precomputationTasks := unit
         });}
@@ -254,7 +254,7 @@ queryEvidenceGuard
       | some (MsgReadsFor (QueryReadsForEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                actionArgs := [ReplyTo (some sender) none] ;
+                matchedArgs := [ReplyTo (some sender) none] ;
                 actionLabel := DoQueryEvidence x;
                 precomputationTasks := unit
                 });
@@ -299,7 +299,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
   in
   case GuardOutput.actionLabel out of {
     | DoReadsForQuery externalIdentityA externalIdentityB :=
-      case GuardOutput.actionArgs out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
               isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentityA) &&
@@ -323,7 +323,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
     | DoSubmitEvidence evidence :=
-      case GuardOutput.actionArgs out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ :=
             let isValid := ReadsForLocalState.verifyEvidence localState evidence;
             in
@@ -397,7 +397,7 @@ readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
           }
       }
     | DoQueryEvidence externalIdentity' :=
-      case GuardOutput.actionArgs out of {
+      case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
             relevantEvidence := AVLTree.filter \{evidence :=
               isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentity') ||

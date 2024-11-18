@@ -69,12 +69,12 @@ This action label corresponds to verifying a commitment.
 
     This action does the following:
 
-    | Aspect                | Description                                                                                                                                                                                                                  |
-    |-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-    | State update          | If `useSignsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged.                                                                                                            |
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | If `useSignsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged. |
     | Messages to be sent   | If `useSignsFor` is false, a `VerifyResponse` message is sent back to the requester. If `useSignsFor` is true and it's the first request for this identity, a `QuerySignsForEvidenceRequest` is sent to the SignsFor Engine. |
-    | Engines to be spawned | No engines are created by this action.                                                                                                                                                                                       |
-    | Timer updates         | No timers are set or cancelled.                                                                                                                                                                                              |
+    | Engines to be spawned | No engines are created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ### `DoHandleSignsForResponse`
 
@@ -88,12 +88,12 @@ This action label corresponds to receiving signs for evidence and using it to ad
 
     This action does the following:
 
-    | Aspect                | Description                                                                                       |
-    |-----------------------|---------------------------------------------------------------------------------------------------|
-    | State update          | The state is updated to remove the processed pending requests for the given external identity.    |
+    | Aspect | Description |
+    |--------|-------------|
+    | State update          | The state is updated to remove the processed pending requests for the given external identity. |
     | Messages to be sent   | `VerifyResponse` messages are sent to all requesters who were waiting for this SignsFor evidence. |
-    | Engines to be spawned | No engines are created by this action.                                                            |
-    | Timer updates         | No timers are set or cancelled.                                                                   |
+    | Engines to be spawned | No engines are created by this action. |
+    | Timer updates         | No timers are set or cancelled. |
 
 ## Matchable arguments
 
@@ -174,7 +174,7 @@ verifyGuard
       | some (MsgVerification (VerifyRequest x y z w)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                actionArgs := [ReplyTo (some sender) none] ;
+                matchedArgs := [ReplyTo (some sender) none] ;
                 actionLabel := DoVerify x y z w;
                 precomputationTasks := unit
                 });
@@ -197,7 +197,7 @@ signsForResponseGuard
             | some sender :=
                 case isEqual (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnvironment.localState env))) of {
                   | true := some (mkGuardOutput@{
-                      actionArgs := [];
+                      matchedArgs := [];
                       actionLabel := DoHandleSignsForResponse externalIdentity evidence;
                       precomputationTasks := unit
                     })
@@ -268,7 +268,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
   in
   case GuardOutput.actionLabel out of {
     | DoVerify data commitment externalIdentity' useSignsFor :=
-        case GuardOutput.actionArgs out of {
+        case GuardOutput.matchedArgs out of {
           | (ReplyTo (some whoAsked) _) :: _ :=
               case useSignsFor of {
                 | false :=
