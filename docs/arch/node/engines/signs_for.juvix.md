@@ -26,7 +26,7 @@ tags:
 # SignsFor Engine
 
 The Signs For Engine manages signs for relationships between identities.
-A "signs for" relationship indicates that one identity can produce signatures 
+A "signs for" relationship indicates that one identity can produce signatures
 (commitments) on behalf of another identity.
 
 ## Purpose

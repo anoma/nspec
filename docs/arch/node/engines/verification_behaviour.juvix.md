@@ -90,7 +90,7 @@ This action label corresponds to receiving signs for evidence and using it to ad
 
     `externalIdentity`:
     : The external identity associated with the evidence.
-    
+
     `signsForEvidence`:
     : The set of SignsFor evidence received.
 

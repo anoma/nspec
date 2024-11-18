@@ -47,7 +47,7 @@ implementation by the runtime.
 
 <!-- --8<-- [start:VerificationEngine] -->
 ```juvix
-VerificationEngine : Type := 
+VerificationEngine : Type :=
   Engine
     VerificationLocalState
     VerificationMailboxState

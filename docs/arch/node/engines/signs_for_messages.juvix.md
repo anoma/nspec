@@ -35,7 +35,7 @@ A `RequestSignsFor` queries whether `externalIdentityA` can sign on behalf of `e
 ???+ quote "Arguments"
     `externalIdentityA`:
     : The identity attempting to sign.
-    
+
     `externalIdentityB`:
     : The identity on whose behalf the signature is made.
 
@@ -53,7 +53,7 @@ A `ResponseSignsFor` indicates whether the `signs_for` relationship exists.
 ???+ quote "Arguments"
     `signsFor`:
     : True if externalIdentityA can sign for externalIdentityB, False otherwise.
-    
+
     `err`:
     : An error message if the query failed.
 
@@ -114,7 +114,7 @@ A `ResponseQuerySignsForEvidence` provides the requested evidence.
 ???+ quote "Arguments"
     `evidence`:
     : A set of SignsForEvidence related to the identity.
-    
+
     `err`:
     : An error message if the query failed.
 
