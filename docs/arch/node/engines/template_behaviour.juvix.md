@@ -148,6 +148,20 @@ TemplateActionArguments : Type := List TemplateActionArgument;
 
 ### `justHi`
 
+<figure markdown>
+
+```mermaid
+flowchart TD
+  CM>TemplateMsgExampleRequest]
+  A(justHiAction)
+  ES[(State update)]
+
+  CM --> A --> ES
+```
+
+<figcaption>`justHi` flowchart</figcaption>
+</figure>
+
 #### `justHiGuard`
 
 Guard description.
@@ -217,6 +231,22 @@ justHiAction
 ```
 
 ### `exampleReply`
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  CM>TemplateMsgExampleRequest]
+  CS[(State condition)]
+  A(exampleReply)
+  ES[(State update)]
+  EM>TemplateMsgExampleResponse]
+
+  CS & CM --> A --> ES & EM
+```
+
+<figcaption>`exampleReply` flowchart</figcaption>
+</figure>
 
 #### `exampleReplyGuard`
 
