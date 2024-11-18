@@ -22,6 +22,7 @@ tags:
     import arch.node.engines.ticker_messages open;
     import arch.node.types.engine_environment open;
     import arch.node.types.messages open;
+    import arch.node.types.identities open;
     ```
 
 ## Overview
@@ -84,6 +85,7 @@ module ticker_environment_example;
 
 zeroTickerEnvironment : TickerEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "ticker";
       localState := mkTickerLocalState@{
         counter := 0

@@ -14,10 +14,12 @@ tags:
 
     ```juvix
     module arch.node.engines.template_environment;
+
     import prelude open;
     import arch.node.engines.template_messages open;
     import arch.node.types.engine_environment open;
     import arch.node.types.messages open;
+    import arch.node.types.identities open;
     ```
 
 # Template Environment
@@ -215,6 +217,7 @@ module template_environment_example;
 
   templateEnvironment : TemplateEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "template";
       localState := mkTemplateLocalState@{
         taskQueue := mkCustomData@{

@@ -63,6 +63,7 @@ EncryptionEngine : Type := Engine
 
 ```juvix extract-module-statements
 exampleEncryptionEngine : EncryptionEngine := mkEngine@{
+    node := Curve25519PubKey "0xabcd1234";
     name := "encryption";
     behaviour := encryptionBehaviour;
     initEnv := encryptionEnvironmentExample;

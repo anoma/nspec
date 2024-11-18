@@ -96,10 +96,11 @@ axiom dummySigningKey : SigningKey;
 
 commitmentEnvironment : CommitmentEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "commitment";
       localState := mkCommitmentLocalState@{
         signer := mkSigner@{
-          sign := \{_ x := Ed25519Signature};
+          sign := \{_ x := Ed25519Signature "0xabcd1234"};
         };
         backend := BackendLocalMemory;
       };

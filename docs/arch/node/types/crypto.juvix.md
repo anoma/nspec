@@ -23,7 +23,7 @@ tags:
 
 ```juvix
 type PublicKey :=
-  | Curve25519PubKey
+  | Curve25519PubKey Bytes
   ;
 
 instance
@@ -37,7 +37,7 @@ PublicKeyOrd : Ord PublicKey :=
 
 ```juvix
 type PrivateKey :=
-  | Curve25519PrivKey
+  | Curve25519PrivKey Bytes
   ;
 
 instance
@@ -53,7 +53,7 @@ Cryptographic signature.
 
 ```juvix
 type Signature :=
-  | Ed25519Signature
+  | Ed25519Signature Bytes
 ```
 
 ### Digest
@@ -63,6 +63,6 @@ Output of a cryptographic hash function.
 
 ```juvix
 type Digest :=
-  | Blake3Digest
+  | Blake3Digest Bytes
   ;
 ```

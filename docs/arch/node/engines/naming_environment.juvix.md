@@ -70,6 +70,7 @@ module naming_environment_example;
 
 namingEnvironmentExample : NamingEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "naming";
       localState := mkNamingLocalState@{
         evidenceStore := Set.empty;

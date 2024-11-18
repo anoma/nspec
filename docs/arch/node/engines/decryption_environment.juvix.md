@@ -76,6 +76,7 @@ module decryption_environment_example;
 
 decryptionEnvironmentExample : DecryptionEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "decryption";
       localState := mkDecryptionLocalState@{
         decryptor := mkDecryptor@{

@@ -71,6 +71,7 @@ module signs_for_environment_example;
 
 signsForEnvironmentExample : SignsForEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "signs_for";
       localState := mkSignsForLocalState@{
         evidenceStore := Set.empty;

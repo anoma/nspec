@@ -81,6 +81,7 @@ module encryption_environment_example;
 
 encryptionEnvironmentExample : EncryptionEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "encryption";
       localState := mkEncryptionLocalState@{
         encryptor := \{_ _ := mkEncryptor@{

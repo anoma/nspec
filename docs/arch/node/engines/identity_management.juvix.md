@@ -57,6 +57,7 @@ IdentityManagementEngine : Type := Engine
 
 ```juvix extract-module-statements
 exampleIdentityManagementEngine : IdentityManagementEngine := mkEngine@{
+    node := Curve25519PubKey "0xabcd1234";
     name := "identityManagement";
     behaviour := identityManagementBehaviour;
     initEnv := identityManagementEnvironmentExample;

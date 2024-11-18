@@ -81,6 +81,7 @@ module identity_management_environment_example;
 
 identityManagementEnvironmentExample : IdentityManagementEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "identity_management";
       localState := mkIdentityManagementLocalState@{
         identities := Map.empty;
@@ -88,7 +89,7 @@ identityManagementEnvironmentExample : IdentityManagementEnvironment :=
           decrypt := \{_ x := some x};
         }};
         genSigner := \{_ := mkSigner@{
-          sign := \{_ x := Ed25519Signature};
+          sign := \{_ x := Ed25519Signature "0xabcd1234"};
         }};
       };
       mailboxCluster := Map.empty;

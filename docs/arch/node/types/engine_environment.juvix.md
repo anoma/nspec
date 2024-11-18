@@ -16,7 +16,6 @@ tags:
     import arch.node.types.basics open public;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import arch.node.types.anoma_message as Anoma;
     ```
 
 # Engine environment type
@@ -45,7 +44,8 @@ types.
 ```juvix
 type EngineEnvironment (S M H : Type) :=
   mkEngineEnvironment {
-      name : EngineName ; -- read-only
+      node : NodeID; -- local NodeID, read-only
+      name : EngineName ; -- local EngineName, read-only
       localState : S;
       mailboxCluster : Map MailboxID (Mailbox M);
       acquaintances : Set EngineName;

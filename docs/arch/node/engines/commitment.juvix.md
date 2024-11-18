@@ -61,6 +61,7 @@ CommitmentEngine : Type := Engine
 <!-- --8<-- [start:exampleCommitmentEngine] -->
 ```juvix
 exampleCommitmentEngine : CommitmentEngine := mkEngine@{
+    node := Curve25519PubKey "0xabcd1234";
     name := "commitment";
     initEnv := commitmentEnvironment;
     behaviour := commitmentBehaviour;

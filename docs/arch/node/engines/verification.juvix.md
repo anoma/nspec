@@ -57,6 +57,7 @@ VerificationEngine : Type := Engine
 
 ```juvix extract-module-statements
 exampleVerificationEngine : VerificationEngine := mkEngine@{
+    node := Curve25519PubKey "0xabcd1234";
     name := "verification";
     behaviour := verificationBehaviour;
     initEnv := verificationEnvironmentExample;

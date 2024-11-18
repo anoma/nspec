@@ -70,6 +70,7 @@ module reads_for_environment_example;
 
 readsForEnvironmentExample : ReadsForEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "reads_for";
       localState := mkReadsForLocalState@{
         evidenceStore := Set.empty;

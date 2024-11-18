@@ -74,6 +74,7 @@ module verification_environment_example;
 
 verificationEnvironmentExample : VerificationEnvironment :=
     mkEngineEnvironment@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "verification";
       localState := mkVerificationLocalState@{
         verifier := \{_ _ := mkVerifier@{

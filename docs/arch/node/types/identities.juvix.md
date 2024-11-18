@@ -14,7 +14,8 @@ tags:
 
     ```juvix
     module arch.node.types.identities;
-    import arch.node.types.crypto open;
+
+    import arch.node.types.crypto open public;
     import prelude open;
     ```
 
