@@ -202,7 +202,7 @@ TemplateTimestampedTrigger : Type :=
 <!-- --8<-- [start:TemplateEnvironment] -->
 ```juvix
 TemplateEnvironment : Type :=
-  EngineEnvironment
+  EngineEnv
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle;
@@ -216,7 +216,7 @@ TemplateEnvironment : Type :=
 module template_environment_example;
 
   templateEnvironment : TemplateEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
       node := Curve25519PubKey "0xabcd1234";
       name := "template";
       localState := mkTemplateLocalState@{

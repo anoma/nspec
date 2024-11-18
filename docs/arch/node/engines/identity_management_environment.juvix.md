@@ -67,7 +67,7 @@ The Identity Management Engine does not require a timer handle type. Therefore, 
 ## Environment summary
 
 ```juvix
-IdentityManagementEnvironment : Type := EngineEnvironment
+IdentityManagementEnvironment : Type := EngineEnv
   IdentityManagementLocalState
   IdentityManagementMailboxState
   IdentityManagementTimerHandle;
@@ -80,7 +80,7 @@ IdentityManagementEnvironment : Type := EngineEnvironment
 module identity_management_environment_example;
 
 identityManagementEnvironmentExample : IdentityManagementEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
       node := Curve25519PubKey "0xabcd1234";
       name := "identity_management";
       localState := mkIdentityManagementLocalState@{

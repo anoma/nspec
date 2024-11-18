@@ -73,7 +73,7 @@ messages, creating new engine instances, and updating timers.
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Guard (S M H A : Type) : Type :=
   (tt : TimestampedTrigger H) ->
-  (env : EngineEnvironment S M H) ->
+  (env : EngineEnv S M H) ->
   Option (GuardOutput A);
 ```
 <!-- --8<-- [end:Guard] -->
@@ -121,7 +121,7 @@ The record type `ActionInput S M H A` encapsulates the following data:
 Action (S M H A : Type) : Type :=
   (args : A) ->
   (tt : TimestampedTrigger H) ->
-  (env : EngineEnvironment S M H) ->
+  (env : EngineEnv S M H) ->
   Option (ActionEffect S M H A);
 ```
 <!-- --8<-- [end:ActionFunction] -->
@@ -147,7 +147,7 @@ are triggered.
     returns a boolean when the predicate is satisfied, specifically of type
 
     ```haskell
-    Trigger H -> EngineEnvironment S M H -> Bool;
+    Trigger H -> EngineEnv S M H -> Bool;
     ```
 
     However, as a design choice, guards will return additional data of type `GuardOutput A` that
@@ -169,7 +169,7 @@ which can be
 <!-- --8<-- [start:ActionEffect] -->
 ```juvix
 type ActionEffect (S M H A : Type) := mkActionEffect {
-  env : EngineEnvironment S M H;
+  env : EngineEnv S M H;
   msgs : List EngineMsg;
   timers : List (Timer H);
   engines : List Anoma.Env;

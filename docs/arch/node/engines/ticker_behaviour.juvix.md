@@ -185,10 +185,10 @@ incrementAction
   (env : TickerEnvironment)
   : Option TickerActionEffect :=
   let
-    counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
+    counterValue := TickerLocalState.counter (EngineEnv.localState env)
   in
     some mkActionEffect@{
-      env := env@EngineEnvironment{
+      env := env@EngineEnv{
         localState := mkTickerLocalState@{
           counter := counterValue + 1
         }
@@ -265,7 +265,7 @@ countAction
   : Option TickerActionEffect :=
   let
     em := getEngineMsgFromTimestampedTrigger tt;
-    counterValue := TickerLocalState.counter (EngineEnvironment.localState env)
+    counterValue := TickerLocalState.counter (EngineEnv.localState env)
   in
     case em of {
     | some emsg :=
@@ -273,7 +273,7 @@ countAction
         env := env;
         msgs := [
           mkEngineMsg@{
-            sender := mkPair (some (EngineEnvironment.node env)) (some (EngineEnvironment.name env));
+            sender := mkPair (some (EngineEnv.node env)) (some (EngineEnv.name env));
             target := EngineMsg.sender emsg;
             mailbox := some 0;
             msg :=

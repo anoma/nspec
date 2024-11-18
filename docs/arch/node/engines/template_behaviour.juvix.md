@@ -228,7 +228,7 @@ justHiAction
       data := data;
     }) :: _ :=
     some mkActionEffect@{
-      env := env@EngineEnvironment{
+      env := env@EngineEnv{
         localState := mkTemplateLocalState@{
           taskQueue := mkCustomData@{
             word := data
@@ -326,7 +326,7 @@ exampleReplyAction
         env := env;
         msgs := [
         mkEngineMsg@{
-          sender := mkPair (some (EngineEnvironment.node env)) (some (EngineEnvironment.name env));
+          sender := mkPair (some (EngineEnv.node env)) (some (EngineEnv.name env));
           target := sender;
             mailbox := some 0;
             msg :=

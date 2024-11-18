@@ -74,7 +74,7 @@ TickerTimestampedTrigger : Type :=
 ### TickerEnvironment
 
 ```juvix
-TickerEnvironment : Type := EngineEnvironment TickerLocalState TickerMailboxState TickerTimerHandle;
+TickerEnvironment : Type := EngineEnv TickerLocalState TickerMailboxState TickerTimerHandle;
 ```
 
 #### Instantiation
@@ -84,7 +84,7 @@ TickerEnvironment : Type := EngineEnvironment TickerLocalState TickerMailboxStat
 module ticker_environment_example;
 
 zeroTickerEnvironment : TickerEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
       node := Curve25519PubKey "0xabcd1234";
       name := "ticker";
       localState := mkTickerLocalState@{

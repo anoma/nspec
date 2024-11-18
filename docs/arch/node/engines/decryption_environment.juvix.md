@@ -62,7 +62,7 @@ the timer handle type as `Unit`.
 ## Environment summary
 
 ```juvix
-DecryptionEnvironment : Type := EngineEnvironment
+DecryptionEnvironment : Type := EngineEnv
   DecryptionLocalState
   DecryptionMailboxState
   DecryptionTimerHandle;
@@ -75,7 +75,7 @@ DecryptionEnvironment : Type := EngineEnvironment
 module decryption_environment_example;
 
 decryptionEnvironmentExample : DecryptionEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
       node := Curve25519PubKey "0xabcd1234";
       name := "decryption";
       localState := mkDecryptionLocalState@{
