@@ -44,13 +44,14 @@ name evidence, and querying name evidence.
 
 <!-- --8<-- [start:NamingEngine] -->
 ```juvix
-NamingEngine : Type := Engine
-  NamingLocalState
-  NamingMailboxState
-  NamingTimerHandle
-  NamingMatchableArgument
-  NamingActionLabel
-  NamingPrecomputation;
+NamingEngine : Type :=
+  Engine
+    NamingLocalState
+    NamingMailboxState
+    NamingTimerHandle
+    NamingMatchableArgument
+    NamingActionLabel
+    NamingPrecomputation;
 ```
 <!-- --8<-- [end:NamingEngine] -->
 
