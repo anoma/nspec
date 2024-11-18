@@ -25,126 +25,141 @@ tags:
     import arch.node.types.anoma_message open;
     ```
 
-# `Signs For` Dynamics
+# Signs For Behaviour
 
 ## Overview
 
-The behavior of the Signs For Engine define how it processes incoming messages and updates its state accordingly.
+The behavior of the Signs For Engine defines how it processes incoming messages and updates
+its state accordingly.
 
 ## Action labels
 
-<!-- --8<-- [start:signs-for-action-label] -->
-```juvix
-type SignsForActionLabel :=
-  | -- --8<-- [start:DoSignsForQuery]
-    DoSignsForQuery {
-      externalIdentityA : ExternalIdentity;
-      externalIdentityB : ExternalIdentity
-    }
-    -- --8<-- [end:DoSignsForQuery]
-  | -- --8<-- [start:DoSubmitEvidence]
-    DoSubmitEvidence {
-      evidence : SignsForEvidence
-    }
-    -- --8<-- [end:DoSubmitEvidence]
-  | -- --8<-- [start:DoQueryEvidence]
-    DoQueryEvidence {
-      externalIdentity : ExternalIdentity
-    }
-    -- --8<-- [end:DoQueryEvidence]
-;
-```
-<!-- --8<-- [end:signs-for-action-label] -->
-
 ### `DoSignsForQuery`
 
-!!! quote ""
-
-    --8<-- "./signs_for_behaviour.juvix.md:DoSignsForQuery"
+```juvix
+type DoSignsForQuery := mkDoSignsForQuery {
+  externalIdentityA : ExternalIdentity;
+  externalIdentityB : ExternalIdentity
+};
+```
 
 This action label corresponds to processing a signs_for query.
 
-??? quote "`DoSignsForQuery` action effect"
+???+ quote "Arguments"
+
+    `externalIdentityA`:
+    : The first external identity in the query.
+
+    `externalIdentityB`:
+    : The second external identity in the query.
+
+???+ quote "`DoSignsForQuery` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `SignsForResponse` message is sent back to the requester. |
+    | Messages to be sent   | A `ResponseSignsFor` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
 ### `DoSubmitEvidence`
 
-!!! quote ""
-
-    --8<-- "./signs_for_behaviour.juvix.md:DoSubmitEvidence"
+```juvix
+type DoSubmitEvidence := mkDoSubmitEvidence {
+  evidence : SignsForEvidence
+};
+```
 
 This action label corresponds to submitting new signs_for evidence.
 
-??? quote "`DoSubmitEvidence` action effect"
+???+ quote "Arguments"
+
+    `evidence`:
+    : The signs_for evidence to submit.
+
+???+ quote "`DoSubmitEvidence` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state. |
-    | Messages to be sent   | A `SubmitSignsForEvidenceResponse` message is sent back to the requester. |
+    | Messages to be sent   | A `ResponseSubmitSignsForEvidence` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
 ### `DoQueryEvidence`
 
-!!! quote ""
-
-    --8<-- "./signs_for_behaviour.juvix.md:DoQueryEvidence"
+```juvix
+type DoQueryEvidence := mkDoQueryEvidence {
+  externalIdentity : ExternalIdentity
+};
+```
 
 This action label corresponds to querying signs_for evidence for a specific identity.
 
-??? quote "`DoQueryEvidence` action effect"
+???+ quote "Arguments"
+
+    `externalIdentity`:
+    : The external identity to query evidence for.
+
+???+ quote "`DoQueryEvidence` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `QuerySignsForEvidenceResponse` message is sent back to the requester. |
+    | Messages to be sent   | A `ResponseQuerySignsForEvidence` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-## Matchable arguments
-
-<!-- --8<-- [start:signs-for-matchable-argument] -->
+### `SignsForActionLabel`
 
 ```juvix
-type SignsForMatchableArgument :=
-  | -- --8<-- [start:ReplyTo]
-  ReplyTo (Option EngineID) (Option MailboxID)
-  -- --8<-- [end:ReplyTo]
+type SignsForActionLabel :=
+  | SignsForActionLabelDoSignsForQuery DoSignsForQuery
+  | SignsForActionLabelDoSubmitEvidence DoSubmitEvidence
+  | SignsForActionLabelDoQueryEvidence DoQueryEvidence
 ;
 ```
-<!-- --8<-- [end:signs-for-matchable-argument] -->
+
+## Matchable arguments
 
 ### `ReplyTo`
 
-!!! quote ""
+```juvix
+type ReplyTo := mkReplyTo {
+  whoAsked : Option EngineID;
+  mailbox : Option MailboxID
+};
+```
 
-    ```
-    --8<-- "./signs_for_behaviour.juvix.md:ReplyTo"
-    ```
+???+ quote "Arguments"
 
-This matchable argument contains the address and mailbox ID of where the response message should be sent.
+    `whoAsked`:
+    : The engine ID of the requester.
+
+    `mailbox`:
+    : The mailbox ID where the response should be sent.
+
+### `SignsForMatchableArgument`
+
+```juvix
+type SignsForMatchableArgument :=
+  | SignsForMatchableArgumentReplyTo ReplyTo
+;
+```
 
 ## Precomputation results
 
 The Signs For Engine does not require any non-trivial pre-computations.
 
-<!-- --8<-- [start:signs-for-precomputation-entry] -->
 ```juvix
 syntax alias SignsForPrecomputation := Unit;
 ```
-<!-- --8<-- [end:signs-for-precomputation-entry] -->
 
 ## Guards
 
@@ -153,7 +168,6 @@ syntax alias SignsForPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
-    -- --8<-- [start:signs-for-guard]
     SignsForGuard : Type :=
       Guard
         SignsForLocalState
@@ -162,12 +176,12 @@ syntax alias SignsForPrecomputation := Unit;
         SignsForMatchableArgument
         SignsForActionLabel
         SignsForPrecomputation;
-    -- --8<-- [end:signs-for-guard]
 
-    -- --8<-- [start:signs-for-guard-output]
     SignsForGuardOutput : Type :=
-      GuardOutput SignsForMatchableArgument SignsForActionLabel SignsForPrecomputation;
-    -- --8<-- [end:signs-for-guard-output]
+      GuardOutput
+        SignsForMatchableArgument
+        SignsForActionLabel
+        SignsForPrecomputation;
     ```
 
 ### `signsForQueryGuard`
@@ -175,7 +189,7 @@ syntax alias SignsForPrecomputation := Unit;
 <figure markdown>
 ```mermaid
 flowchart TD
-    C{SignsForRequest<br>received?}
+    C{RequestSignsFor<br>received?}
     C -->|Yes| D[enabled]
     C -->|No| E[not enabled]
     D --> F([DoSignsForQuery])
@@ -183,23 +197,23 @@ flowchart TD
 <figcaption>signsForQueryGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:signs-for-query-guard] -->
+<!-- --8<-- [start:signsForQueryGuard] -->
 ```juvix
 signsForQueryGuard
   (t : TimestampedTrigger SignsForTimerHandle)
   (env : SignsForEnvironment) : Option SignsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgSignsFor (SignsForRequest x y)) := do {
+      | some (MsgSignsFor (MsgSignsForRequest (mkRequestSignsFor x y))) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoSignsForQuery x y;
+                matchedArgs := [SignsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+                actionLabel := SignsForActionLabelDoSignsForQuery (mkDoSignsForQuery x y);
                 precomputationTasks := unit
         });}
       | _ := none
   };
 ```
-<!-- --8<-- [end:signs-for-query-guard] -->
+<!-- --8<-- [end:signsForQueryGuard] -->
 
 ### `submitEvidenceGuard`
 
@@ -214,23 +228,23 @@ flowchart TD
 <figcaption>submitEvidenceGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:submit-evidence-guard] -->
+<!-- --8<-- [start:submitEvidenceGuard] -->
 ```juvix
 submitEvidenceGuard
   (t : TimestampedTrigger SignsForTimerHandle)
   (env : SignsForEnvironment) : Option SignsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgSignsFor (SubmitSignsForEvidenceRequest x)) := do {
+      | some (MsgSignsFor (MsgSubmitSignsForEvidenceRequest (mkRequestSubmitSignsForEvidence x))) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoSubmitEvidence x;
+                matchedArgs := [SignsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+                actionLabel := SignsForActionLabelDoSubmitEvidence (mkDoSubmitEvidence x);
                 precomputationTasks := unit
         });}
       | _ := none
   };
 ```
-<!-- --8<-- [end:submit-evidence-guard] -->
+<!-- --8<-- [end:submitEvidenceGuard] -->
 
 ### `queryEvidenceGuard`
 
@@ -245,24 +259,24 @@ flowchart TD
 <figcaption>queryEvidenceGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:query-evidence-guard] -->
+<!-- --8<-- [start:queryEvidenceGuard] -->
 ```juvix
 queryEvidenceGuard
   (t : TimestampedTrigger SignsForTimerHandle)
   (env : SignsForEnvironment) : Option SignsForGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgSignsFor (QuerySignsForEvidenceRequest x)) := do {
+      | some (MsgSignsFor (MsgQuerySignsForEvidenceRequest (mkRequestQuerySignsForEvidence x))) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoQueryEvidence x;
+                matchedArgs := [SignsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+                actionLabel := SignsForActionLabelDoQueryEvidence (mkDoQueryEvidence x);
                 precomputationTasks := unit
                 });
         }
       | _ := none
   };
 ```
-<!-- --8<-- [end:query-evidence-guard] -->
+<!-- --8<-- [end:queryEvidenceGuard] -->
 
 ## Action function
 
@@ -290,7 +304,9 @@ queryEvidenceGuard
         SignsForPrecomputation;
     ```
 
-<!-- --8<-- [start:action-function] -->
+### `signsForAction`
+
+<!-- --8<-- [start:signsForAction] -->
 ```juvix
 signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
   let env := ActionInput.env input;
@@ -298,14 +314,14 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
-    | DoSignsForQuery externalIdentityA externalIdentityB :=
+    | SignsForActionLabelDoSignsForQuery (mkDoSignsForQuery externalIdentityA externalIdentityB) :=
       case GuardOutput.matchedArgs out of {
-        | (ReplyTo (some whoAsked) _) :: _ := let
+        | SignsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
             hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
               isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
               isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
             } (Set.toList (SignsForLocalState.evidenceStore localState)));
-            responseMsg := SignsForResponse@{
+            responseMsg := mkResponseSignsFor@{
               signsFor := hasEvidence;
               err := none
             };
@@ -315,16 +331,16 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
               sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgSignsFor responseMsg
+              msg := MsgSignsFor (MsgSignsForResponse responseMsg)
             }];
             timers := [];
             spawnedEngines := []
           }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoSubmitEvidence evidence :=
+    | SignsForActionLabelDoSubmitEvidence (mkDoSubmitEvidence evidence) :=
       case GuardOutput.matchedArgs out of {
-        | (ReplyTo (some whoAsked) _) :: _ :=
+        | SignsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ :=
             let isValid := SignsForLocalState.verifyEvidence localState evidence;
             in
             case isValid of {
@@ -336,7 +352,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                   in
                   case alreadyExists of {
                     | true :=
-                        let responseMsg := SubmitSignsForEvidenceResponse@{
+                        let responseMsg := mkResponseSubmitSignsForEvidence@{
                               err := some "Evidence already exists."
                             };
                         in mkActionEffect@{
@@ -345,7 +361,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                             sender := mkPair none (some (EngineEnvironment.name env));
                             target := whoAsked;
                             mailbox := some 0;
-                            msg := MsgSignsFor responseMsg
+                            msg := MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
                           }];
                           timers := [];
                           spawnedEngines := []
@@ -358,7 +374,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                             newEnv' := env@EngineEnvironment{
                               localState := updatedLocalState
                             };
-                            responseMsg := SubmitSignsForEvidenceResponse@{
+                            responseMsg := mkResponseSubmitSignsForEvidence@{
                               err := none
                             };
                         in mkActionEffect@{
@@ -367,14 +383,14 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                             sender := mkPair none (some (EngineEnvironment.name env));
                             target := whoAsked;
                             mailbox := some 0;
-                            msg := MsgSignsFor responseMsg
+                            msg := MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
                           }];
                           timers := [];
                           spawnedEngines := []
                         }
                   }
               | false :=
-                  let responseMsg := SubmitSignsForEvidenceResponse@{
+                  let responseMsg := mkResponseSubmitSignsForEvidence@{
                         err := some "Invalid evidence provided."
                       };
                   in mkActionEffect@{
@@ -383,7 +399,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                       sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;
-                      msg := MsgSignsFor responseMsg
+                      msg := MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
                     }];
                     timers := [];
                     spawnedEngines := []
@@ -396,14 +412,14 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
             spawnedEngines := []
           }
       }
-    | DoQueryEvidence externalIdentity' :=
+    | SignsForActionLabelDoQueryEvidence (mkDoQueryEvidence externalIdentity') :=
       case GuardOutput.matchedArgs out of {
-        | (ReplyTo (some whoAsked) _) :: _ := let
+        | SignsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
             relevantEvidence := AVLTree.filter \{evidence :=
               isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity') ||
               isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity')
             } (SignsForLocalState.evidenceStore localState);
-            responseMsg := QuerySignsForEvidenceResponse@{
+            responseMsg := mkResponseQuerySignsForEvidence@{
               externalIdentity := externalIdentity';
               evidence := relevantEvidence;
               err := none
@@ -414,25 +430,29 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
               sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgSignsFor responseMsg
+              msg := MsgSignsFor (MsgQuerySignsForEvidenceResponse responseMsg)
             }];
             timers := [];
             spawnedEngines := []
           }
         | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-  };
+};
 ```
-<!-- --8<-- [end:action-function] -->
+<!-- --8<-- [end:signsForAction] -->
 
 ## Conflict solver
+
+### `signsForConflictSolver`
 
 ```juvix
 signsForConflictSolver : Set SignsForMatchableArgument -> List (Set SignsForMatchableArgument)
   | _ := [];
 ```
 
-## SignsForBehaviour type
+## The Signs For Behaviour
+
+### `SignsForBehaviour`
 
 <!-- --8<-- [start:SignsForBehaviour] -->
 ```juvix
@@ -447,9 +467,9 @@ SignsForBehaviour : Type :=
 ```
 <!-- --8<-- [end:SignsForBehaviour] -->
 
-## SignsForBehaviour instance
+### Instantiation
 
-<!-- --8<-- [start:SignsForBehaviour-instance] -->
+<!-- --8<-- [start:signsForBehaviour] -->
 ```juvix
 signsForBehaviour : SignsForBehaviour :=
   mkEngineBehaviour@{
@@ -458,4 +478,4 @@ signsForBehaviour : SignsForBehaviour :=
     conflictSolver := signsForConflictSolver;
   };
 ```
-<!-- --8<-- [end:SignsForBehaviour-instance] -->
+<!-- --8<-- [end:signsForBehaviour] -->

@@ -31,6 +31,8 @@ The Signs For Engine environment maintains the state necessary for managing `sig
 
 The Signs For Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
+### `SignsForMailboxState`
+
 ```juvix
 syntax alias SignsForMailboxState := Unit;
 ```
@@ -39,6 +41,8 @@ syntax alias SignsForMailboxState := Unit;
 
 The local state of the Signs For Engine includes the evidence for signs_for relationships.
 
+### `SignsForLocalState`
+
 ```juvix
 type SignsForLocalState := mkSignsForLocalState@{
   evidenceStore : Set SignsForEvidence;
@@ -46,30 +50,43 @@ type SignsForLocalState := mkSignsForLocalState@{
 };
 ```
 
+???+ quote "Arguments"
+
+    `evidenceStore`:
+    : The collection of validated `SignsForEvidence` which has been submitted to the engine.
+
+    `verifyEvidence`:
+    : Function to validate submitted `SignsForEvidence`.
+
 ## Timer Handle
+
+The Signs For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+
+### `SignsForTimerHandle`
 
 ```juvix
 syntax alias SignsForTimerHandle := Unit;
 ```
 
-The Signs For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Signs For Environment
 
-## Environment summary
+### `SignsForEnvironment`
 
 ```juvix
-SignsForEnvironment : Type := EngineEnvironment
-  SignsForLocalState
-  SignsForMailboxState
-  SignsForTimerHandle;
+SignsForEnvironment : Type :=
+  EngineEnvironment
+    SignsForLocalState
+    SignsForMailboxState
+    SignsForTimerHandle;
 ```
 
-## Example of a `Signs For` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:signsForEnvironment] -->
 ```juvix extract-module-statements
 module signs_for_environment_example;
 
-signsForEnvironmentExample : SignsForEnvironment :=
+signsForEnvironment : SignsForEnvironment :=
     mkEngineEnvironment@{
       name := "signs_for";
       localState := mkSignsForLocalState@{
@@ -83,4 +100,4 @@ signsForEnvironmentExample : SignsForEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:signsForEnvironment] -->

@@ -32,6 +32,8 @@ The Verification Engine is stateless and does not maintain any internal state be
 
 The Verification Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
+### `VerificationMailboxState`
+
 ```juvix
 syntax alias VerificationMailboxState := Unit;
 ```
@@ -39,6 +41,8 @@ syntax alias VerificationMailboxState := Unit;
 ## Local state
 
 The local state of a Verification Engine instance includes the identity's verification capabilities, the address of an associated `SignsFor` engine, and a specific backend. It also contains a map to a list of pending requests which require `SignsFor` information which is requested from the associated `SignsFor` engine.
+
+### `VerificationLocalState`
 
 ```juvix
 type VerificationLocalState := mkVerificationLocalState {
@@ -49,30 +53,49 @@ type VerificationLocalState := mkVerificationLocalState {
 };
 ```
 
+???+ quote "Arguments"
+
+    `verifier`:
+    : Function to generate verifier for a set of evidence and an identity.
+
+    `backend`:
+    : The backend to use for verification.
+
+    `signsForEngineAddress`:
+    : The address of the associated Signs For engine.
+
+    `pendingRequests`:
+    : The backlog of verification requests still in processing.
+
 ## Timer Handle
+
+The Verification Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+
+### `VerificationTimerHandle`
 
 ```juvix
 syntax alias VerificationTimerHandle := Unit;
 ```
 
-The Verification Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Verification Environment
 
-## Environment summary
+### `VerificationEnvironment`
 
 ```juvix
-VerificationEnvironment : Type := EngineEnvironment
-  VerificationLocalState
-  VerificationMailboxState
-  VerificationTimerHandle;
+VerificationEnvironment : Type :=
+  EngineEnvironment
+    VerificationLocalState
+    VerificationMailboxState
+    VerificationTimerHandle;
 ```
 
-## Example of a `Verification` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:verificationEnvironment] -->
 ```juvix extract-module-statements
 module verification_environment_example;
 
-verificationEnvironmentExample : VerificationEnvironment :=
+verificationEnvironment : VerificationEnvironment :=
     mkEngineEnvironment@{
       name := "verification";
       localState := mkVerificationLocalState@{
@@ -96,4 +119,4 @@ verificationEnvironmentExample : VerificationEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:verificationEnvironment] -->

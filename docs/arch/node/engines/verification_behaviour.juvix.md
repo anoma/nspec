@@ -28,105 +28,126 @@ tags:
     import arch.node.types.anoma_message open;
     ```
 
-# `Verification` Dynamics
+# Verification Behaviour
 
 ## Overview
 
-The behavior of the Verification Engine define how it processes incoming verification requests and produces the corresponding responses.
+The behavior of the Verification Engine defines how it processes incoming verification
+requests and produces the corresponding responses.
 
 ## Action labels
 
-<!-- --8<-- [start:verification-action-label] -->
-```juvix
-type VerificationActionLabel :=
-  | -- --8<-- [start:DoVerify]
-    DoVerify {
-      data : Signable;
-      commitment : Commitment;
-      externalIdentity : ExternalIdentity;
-      useSignsFor : Bool
-    }
-    -- --8<-- [end:DoVerify]
-  | -- --8<-- [start:DoHandleSignsForResponse]
-    DoHandleSignsForResponse {
-      externalIdentity : ExternalIdentity;
-      signsForEvidence : Set SignsForEvidence
-    };
-    -- --8<-- [end:DoHandleSignsForResponse]
-;
-```
-<!-- --8<-- [end:verification-action-label] -->
-
 ### `DoVerify`
 
-!!! quote ""
-
-    --8<-- "./verification_behaviour.juvix.md:DoVerify"
+```juvix
+type DoVerify := mkDoVerify {
+  data : Signable;
+  commitment : Commitment;
+  externalIdentity : ExternalIdentity;
+  useSignsFor : Bool
+};
+```
 
 This action label corresponds to verifying a commitment.
 
-??? quote "`DoVerify` action effect"
+???+ quote "Arguments"
+
+    `data`:
+    : The data to verify.
+
+    `commitment`:
+    : The commitment to verify against.
+
+    `externalIdentity`:
+    : The external identity to use for verification.
+
+    `useSignsFor`:
+    : Whether to use SignsFor evidence.
+
+???+ quote "`DoVerify` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | If `useSignsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged. |
-    | Messages to be sent   | If `useSignsFor` is false, a `VerifyResponse` message is sent back to the requester. If `useSignsFor` is true and it's the first request for this identity, a `QuerySignsForEvidenceRequest` is sent to the SignsFor Engine. |
+    | Messages to be sent   | If `useSignsFor` is false, a `ResponseVerification` message is sent back to the requester. If `useSignsFor` is true and it's the first request for this identity, a `QuerySignsForEvidenceRequest` is sent to the SignsFor Engine. |
     | Engines to be spawned | No engines are created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
 ### `DoHandleSignsForResponse`
 
-!!! quote ""
-
-    --8<-- "./verification_behaviour.juvix.md:DoHandleSignsForResponse"
+```juvix
+type DoHandleSignsForResponse := mkDoHandleSignsForResponse {
+  externalIdentity : ExternalIdentity;
+  signsForEvidence : Set SignsForEvidence
+};
+```
 
 This action label corresponds to receiving signs for evidence and using it to address relevant pending requests.
 
-??? quote "`DoHandleSignsForResponse` action effect"
+???+ quote "Arguments"
+
+    `externalIdentity`:
+    : The external identity associated with the evidence.
+    
+    `signsForEvidence`:
+    : The set of SignsFor evidence received.
+
+???+ quote "`DoHandleSignsForResponse` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | The state is updated to remove the processed pending requests for the given external identity. |
-    | Messages to be sent   | `VerifyResponse` messages are sent to all requesters who were waiting for this SignsFor evidence. |
+    | Messages to be sent   | `ResponseVerification` messages are sent to all requesters who were waiting for this SignsFor evidence. |
     | Engines to be spawned | No engines are created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-## Matchable arguments
-
-<!-- --8<-- [start:verification-matchable-argument] -->
+### `VerificationActionLabel`
 
 ```juvix
-type VerificationMatchableArgument :=
-  | -- --8<-- [start:ReplyTo]
-  ReplyTo (Option EngineID) (Option MailboxID)
-  -- --8<-- [end:ReplyTo]
+type VerificationActionLabel :=
+  | VerificationActionLabelDoVerify DoVerify
+  | VerificationActionLabelDoHandleSignsForResponse DoHandleSignsForResponse
 ;
 ```
-<!-- --8<-- [end:verification-matchable-argument] -->
+
+## Matchable arguments
 
 ### `ReplyTo`
 
-!!! quote ""
+```juvix
+type ReplyTo := mkReplyTo {
+  whoAsked : Option EngineID;
+  mailbox : Option MailboxID
+};
+```
 
-    ```
-    --8<-- "./verification_behaviour.juvix.md:ReplyTo"
-    ```
+???+ quote "Arguments"
 
-This matchable argument contains the address and mailbox ID of where the response message should be sent.
+    `whoAsked`:
+    : The engine ID of the requester.
+
+    `mailbox`:
+    : The mailbox ID where the response should be sent.
+
+### `VerificationMatchableArgument`
+
+```juvix
+type VerificationMatchableArgument :=
+  | VerificationMatchableArgumentReplyTo ReplyTo
+;
+```
 
 ## Precomputation results
 
 The Verification Engine does not require any non-trivial pre-computations.
 
-<!-- --8<-- [start:verification-precomputation-entry] -->
 ```juvix
 syntax alias VerificationPrecomputation := Unit;
 ```
-<!-- --8<-- [end:verification-precomputation-entry] -->
 
 ## Guards
 
@@ -135,7 +156,6 @@ syntax alias VerificationPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
-    -- --8<-- [start:verification-guard]
     VerificationGuard : Type :=
       Guard
         VerificationLocalState
@@ -144,12 +164,12 @@ syntax alias VerificationPrecomputation := Unit;
         VerificationMatchableArgument
         VerificationActionLabel
         VerificationPrecomputation;
-    -- --8<-- [end:verification-guard]
 
-    -- --8<-- [start:verification-guard-output]
     VerificationGuardOutput : Type :=
-      GuardOutput VerificationMatchableArgument VerificationActionLabel VerificationPrecomputation;
-    -- --8<-- [end:verification-guard-output]
+      GuardOutput
+        VerificationMatchableArgument
+        VerificationActionLabel
+        VerificationPrecomputation;
     ```
 
 ### `verifyGuard`
@@ -157,7 +177,7 @@ syntax alias VerificationPrecomputation := Unit;
 <figure markdown>
 ```mermaid
 flowchart TD
-    C{VerifyRequest<br>received?}
+    C{RequestVerification<br>received?}
     C -->|Yes| D[enabled]
     C -->|No| E[not enabled]
     D --> F([DoVerify])
@@ -165,40 +185,40 @@ flowchart TD
 <figcaption>verifyGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:verify-guard] -->
+<!-- --8<-- [start:verifyGuard] -->
 ```juvix
 verifyGuard
   (t : TimestampedTrigger VerificationTimerHandle)
   (env : VerificationEnvironment) : Option VerificationGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgVerification (VerifyRequest x y z w)) := do {
+      | some (MsgVerification (MsgVerificationRequest (mkRequestVerification x y z w))) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoVerify x y z w;
+                matchedArgs := [VerificationMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
+                actionLabel := VerificationActionLabelDoVerify (mkDoVerify x y z w);
                 precomputationTasks := unit
                 });
         }
       | _ := none
   };
 ```
-<!-- --8<-- [end:verify-guard] -->
+<!-- --8<-- [end:verifyGuard] -->
 
 ### `signsForResponseGuard`
 
-<!-- --8<-- [start:signs-for-response-guard] -->
+<!-- --8<-- [start:signsForResponseGuard] -->
 ```juvix
 signsForResponseGuard
   (t : TimestampedTrigger VerificationTimerHandle)
   (env : VerificationEnvironment) : Option VerificationGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgSignsFor (QuerySignsForEvidenceResponse externalIdentity evidence err)) :=
+      | some (MsgSignsFor (MsgQuerySignsForEvidenceResponse (mkResponseQuerySignsForEvidence externalIdentity evidence err))) :=
           case getSenderFromTimestampedTrigger t of {
             | some sender :=
                 case isEqual (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnvironment.localState env))) of {
                   | true := some (mkGuardOutput@{
                       matchedArgs := [];
-                      actionLabel := DoHandleSignsForResponse externalIdentity evidence;
+                      actionLabel := VerificationActionLabelDoHandleSignsForResponse (mkDoHandleSignsForResponse externalIdentity evidence);
                       precomputationTasks := unit
                     })
                   | false := none
@@ -208,7 +228,7 @@ signsForResponseGuard
       | _ := none
   };
 ```
-<!-- --8<-- [end:signs-for-response-guard] -->
+<!-- --8<-- [end:signsForResponseGuard] -->
 
 ## Action function
 
@@ -236,9 +256,10 @@ signsForResponseGuard
         VerificationPrecomputation;
     ```
 
-<!-- --8<-- [start:action-function] -->
+### `responseVerification`
+
 ```juvix
-verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironment) (evidence : Set SignsForEvidence) (req : Pair EngineID (Pair Signable Commitment)) : EngineMsg :=
+responseVerification (externalIdentity : ExternalIdentity) (env : VerificationEnvironment) (evidence : Set SignsForEvidence) (req : Pair EngineID (Pair Signable Commitment)) : EngineMsg :=
   let localState := EngineEnvironment.localState env;
       whoAsked := fst req;
       input := snd req;
@@ -249,7 +270,7 @@ verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironm
           (VerificationLocalState.verifier localState evidence externalIdentity)
           (VerificationLocalState.backend localState)
           data commitment;
-      responseMsg := VerifyResponse@{
+      responseMsg := mkResponseVerification@{
         result := result';
         err := none
       };
@@ -257,22 +278,28 @@ verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironm
         sender := mkPair none (some (EngineEnvironment.name env));
         target := whoAsked;
         mailbox := some 0;
-        msg := MsgVerification responseMsg
+        msg := MsgVerification (MsgVerificationResponse responseMsg)
       };
       in envelope;
+```
 
+### `verificationAction`
+
+
+<!-- --8<-- [start:verificationAction] -->
+```juvix
 verificationAction (input : VerificationActionInput) : VerificationActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
-    | DoVerify data commitment externalIdentity' useSignsFor :=
+    | VerificationActionLabelDoVerify (mkDoVerify data commitment externalIdentity' useSignsFor) :=
         case GuardOutput.matchedArgs out of {
-          | (ReplyTo (some whoAsked) _) :: _ :=
+          | VerificationMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ :=
               case useSignsFor of {
                 | false :=
-                    let envelope := verifyResponse externalIdentity' env Set.empty (mkPair whoAsked (mkPair data commitment))
+                    let envelope := responseVerification externalIdentity' env Set.empty (mkPair whoAsked (mkPair data commitment))
                     in mkActionEffect@{
                       newEnv := env; -- No state change
                       producedMessages := [envelope];
@@ -296,14 +323,14 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
                         -- Only send request to SignsFor Engine if this is the first pending request for this identity
                         messagesToSend := case existingRequests of {
                           | some _ := [] -- Request already sent, do none
-                          | none := let requestMsg := QuerySignsForEvidenceRequest@{
+                          | none := let requestMsg := mkRequestQuerySignsForEvidence@{
                                               externalIdentity := externalIdentity'
                                             };
                                             envelope := mkEngineMsg@{
                                               sender := mkPair none (some (EngineEnvironment.name env));
                                               target := VerificationLocalState.signsForEngineAddress localState;
                                               mailbox := some 0;
-                                              msg := MsgSignsFor requestMsg
+                                              msg := MsgSignsFor (MsgQuerySignsForEvidenceRequest requestMsg)
                                             };
                                         in [envelope]
                         };
@@ -316,11 +343,11 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
               }
           | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
       }
-    | DoHandleSignsForResponse externalIdentity evidence :=
+    | VerificationActionLabelDoHandleSignsForResponse (mkDoHandleSignsForResponse externalIdentity evidence) :=
         -- Retrieve pending requests
         case Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState) of {
           | some reqs :=
-              let messages := map (verifyResponse externalIdentity env evidence) reqs;
+              let messages := map (responseVerification externalIdentity env evidence) reqs;
                   newPendingRequests := Map.delete externalIdentity (VerificationLocalState.pendingRequests localState);
                   newLocalState := localState@VerificationLocalState{
                     pendingRequests := newPendingRequests
@@ -345,16 +372,20 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
         }
   };
 ```
-<!-- --8<-- [end:action-function] -->
+<!-- --8<-- [end:verificationAction] -->
 
 ## Conflict solver
+
+### `verificationConflictSolver`
 
 ```juvix
 verificationConflictSolver : Set VerificationMatchableArgument -> List (Set VerificationMatchableArgument)
   | _ := [];
 ```
 
-## VerificationBehaviour type
+## The Verification Behaviour
+
+### `VerificationBehaviour`
 
 <!-- --8<-- [start:VerificationBehaviour] -->
 ```juvix
@@ -369,9 +400,9 @@ VerificationBehaviour : Type :=
 ```
 <!-- --8<-- [end:VerificationBehaviour] -->
 
-## VerificationBehaviour instance
+### Instantiation
 
-<!-- --8<-- [start:VerificationBehaviour-instance] -->
+<!-- --8<-- [start:verificationBehaviour] -->
 ```juvix
 verificationBehaviour : VerificationBehaviour :=
   mkEngineBehaviour@{
@@ -380,4 +411,4 @@ verificationBehaviour : VerificationBehaviour :=
     conflictSolver := verificationConflictSolver;
   }
 ```
-<!-- --8<-- [end:VerificationBehaviour-instance] -->
+<!-- --8<-- [end:verificationBehaviour] -->

@@ -1,10 +1,12 @@
 ---
-icon: octicons/project-template-24
+icon: octicons/gear-16
 search:
   exclude: false
+categories:
+- engine
 tags:
-- verification
-- engines
+- verification-engine
+- engine-definition
 ---
 
 ??? quote "Juvix imports"
@@ -23,11 +25,17 @@ tags:
 
 # Verification Engine
 
-The Verification Engine is responsible for verifying commitments (signatures) made by external identities. It automatically uses "signs_for" relationship information from the Signs For Engine along with caller preference information to determine how to verify a commitment.
+The Verification Engine is responsible for verifying commitments (signatures) made by
+external identities. It automatically uses "signs_for" relationship information from
+the [[Signs For Engine]] along with caller preference information to determine how
+to verify a commitment.
 
 ## Purpose
 
-The Verification Engine verifies commitments (signatures) made by external identities. It can use "signs_for" relationship information and caller preferences to determine how to verify a commitment. This engine is designed to be stateless, allowing for efficient implementation by the runtime.
+The Verification Engine verifies commitments (signatures) made by external identities.
+It can use "signs_for" relationship information and caller preferences to determine how
+to verify a commitment. This engine is designed to be stateless, allowing for efficient
+implementation by the runtime.
 
 ## Components
 
@@ -35,21 +43,18 @@ The Verification Engine verifies commitments (signatures) made by external ident
 - [[Verification Environment]]
 - [[Verification Behaviour]]
 
-## Useful links
-
-???
-
 ## Type
 
 <!-- --8<-- [start:VerificationEngine] -->
 ```juvix
-VerificationEngine : Type := Engine
-  VerificationLocalState
-  VerificationMailboxState
-  VerificationTimerHandle
-  VerificationMatchableArgument
-  VerificationActionLabel
-  VerificationPrecomputation;
+VerificationEngine : Type := 
+  Engine
+    VerificationLocalState
+    VerificationMailboxState
+    VerificationTimerHandle
+    VerificationMatchableArgument
+    VerificationActionLabel
+    VerificationPrecomputation;
 ```
 <!-- --8<-- [end:VerificationEngine] -->
 
@@ -58,11 +63,15 @@ VerificationEngine : Type := Engine
 ```juvix extract-module-statements
 exampleVerificationEngine : VerificationEngine := mkEngine@{
     name := "verification";
+    initEnv := verificationEnvironment;
     behaviour := verificationBehaviour;
-    initEnv := verificationEnvironmentExample;
   };
 ```
 
-where `verificationEnvironmentExample` is defined as follows:
+where `verificationEnvironment` is defined as follows:
 
---8<-- "./verification_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/engines/verification_environment.juvix.md:verificationEnvironment"
+
+and `verificationBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/commitment_behaviour.juvix.md:verificationBehaviour"
