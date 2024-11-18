@@ -47,13 +47,14 @@ efficiency.
 
 <!-- --8<-- [start:EncryptionEngine] -->
 ```juvix
-EncryptionEngine : Type := Engine
-  EncryptionLocalState
-  EncryptionMailboxState
-  EncryptionTimerHandle
-  EncryptionMatchableArgument
-  EncryptionActionLabel
-  EncryptionPrecomputation;
+EncryptionEngine : Type :=
+  Engine
+    EncryptionLocalState
+    EncryptionMailboxState
+    EncryptionTimerHandle
+    EncryptionMatchableArgument
+    EncryptionActionLabel
+    EncryptionPrecomputation;
 ```
 <!-- --8<-- [end:EncryptionEngine] -->
 

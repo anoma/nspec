@@ -49,6 +49,14 @@ type ReadsForLocalState := mkReadsForLocalState@{
 };
 ```
 
+???+ quote "Arguments"
+
+    `evidenceStore`:
+    : The collection of validated `ReadsForEvidence` which has been submitted to the engine.
+
+    `verifyEvidence`:
+    : Function to validate submitted `ReadsForEvidence`.
+
 ## Timer Handle
 
 The Reads For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.

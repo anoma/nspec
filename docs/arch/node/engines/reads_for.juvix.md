@@ -47,13 +47,14 @@ delegated or shared.
 
 <!-- --8<-- [start:ReadsForEngine] -->
 ```juvix
-ReadsForEngine : Type := Engine
-  ReadsForLocalState
-  ReadsForMailboxState
-  ReadsForTimerHandle
-  ReadsForMatchableArgument
-  ReadsForActionLabel
-  ReadsForPrecomputation;
+ReadsForEngine : Type :=
+  Engine
+    ReadsForLocalState
+    ReadsForMailboxState
+    ReadsForTimerHandle
+    ReadsForMatchableArgument
+    ReadsForActionLabel
+    ReadsForPrecomputation;
 ```
 <!-- --8<-- [end:ReadsForEngine] -->
 

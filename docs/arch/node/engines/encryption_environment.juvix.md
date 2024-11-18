@@ -59,6 +59,20 @@ type EncryptionLocalState := mkEncryptionLocalState@{
 };
 ```
 
+???+ quote "Arguments"
+
+    `encryptor`:
+    : Function to generate encryptor for a set of evidence and an identity.
+
+    `backend`:
+    : The backend to use for encryption.
+
+    `readsForEngineAddress`:
+    : The address of the associated Reads For engine.
+
+    `pendingRequests`:
+    : The backlog of encryption requests still in processing.
+
 ## Timer Handle
 
 The Encryption Engine does not require a timer handle type. Therefore, we define
