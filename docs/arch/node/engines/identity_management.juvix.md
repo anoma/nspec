@@ -48,13 +48,14 @@ data associated with the identity.
 
 <!-- --8<-- [start:IdentityManagementEngine] -->
 ```juvix
-IdentityManagementEngine : Type := Engine
-  IdentityManagementLocalState
-  IdentityManagementMailboxState
-  IdentityManagementTimerHandle
-  IdentityManagementMatchableArgument
-  IdentityManagementActionLabel
-  IdentityManagementPrecomputation;
+IdentityManagementEngine : Type :=
+  Engine
+    IdentityManagementLocalState
+    IdentityManagementMailboxState
+    IdentityManagementTimerHandle
+    IdentityManagementMatchableArgument
+    IdentityManagementActionLabel
+    IdentityManagementPrecomputation;
 ```
 <!-- --8<-- [end:IdentityManagementEngine] -->
 
