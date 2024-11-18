@@ -80,16 +80,16 @@ The record type `ActionInput S M H A` encapsulates the following data:
 - The environment of the engine instance.
 - The local time of the engine instance when the guard evaluation was triggered.
 
-### `Exec`
+### `Exec G A`
 
-Execution order of functions,
-such as guard or action functions.
+Definition of guarded action execution as a sequential-parallel graph,
+where each branch specifies either sequential or parallel execution.
 
 ```juvix
-type Exec F :=
+type Exec G A :=
   | End
-  | Seq F (Exec F)
-  | Par F (Exec F)
+  | Seq (Pair G A) (Exec G A)
+  | Par (Pair G A) (Exec G A)
   ;
 ```
 
@@ -165,7 +165,7 @@ are triggered.
 Guard (S M H A : Type) : Type :=
   (tt : TimestampedTrigger H) ->
   (env : EngineEnvironment S M H) ->
-  Option (GuardOutput S M H A);
+  Option (GuardOutput A);
 ```
 <!-- --8<-- [end:Guard] -->
 
@@ -173,9 +173,8 @@ Guard (S M H A : Type) : Type :=
 
 <!-- --8<-- [start:GuardOutput] -->
 ```juvix
-type GuardOutput (S M H A : Type) :=
+type GuardOutput (A : Type) :=
   mkGuardOutput{
-    actions : Exec (Action S M H A);
     args : A;
   };
 ```
@@ -195,8 +194,8 @@ introduced earlier, an `EngineBehaviour` is a set of guards and an action functi
 ```juvix
 type EngineBehaviour (S M H A : Type) :=
   mkEngineBehaviour {
-    guards : Exec (Guard S M H A);
-};
+    exec : Exec (Guard S M H A) (Action S M H A);
+  };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
 

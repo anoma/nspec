@@ -93,22 +93,32 @@ type TemplateActionArgument :=
 TemplateActionArguments : Type := List TemplateActionArgument;
 ```
 
-## Actions
+## Guarded actions
 
 ??? quote "Auxiliary Juvix code"
 
-    ### `TemplateActionEffect`
+    ### `TemplateGuard`
 
-    <!-- --8<-- [start:TemplateActionEffect] -->
+    <!-- --8<-- [start:TemplateGuard] -->
     ```juvix
-    TemplateActionEffect : Type :=
-      ActionEffect
+    TemplateGuard : Type :=
+      Guard
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
         TemplateActionArguments;
     ```
-    <!-- --8<-- [end:TemplateActionEffect] -->
+    <!-- --8<-- [end:TemplateGuard] -->
+
+    ### `TemplateGuardOutput`
+
+    <!-- --8<-- [start:TemplateGuardOutput] -->
+    ```juvix
+    TemplateGuardOutput : Type :=
+      GuardOutput
+        TemplateActionArguments;
+    ```
+    <!-- --8<-- [end:TemplateGuardOutput] -->
 
     ### `TemplateAction`
 
@@ -123,19 +133,47 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```
     <!-- --8<-- [end:TemplateActionFunction] -->
 
-    ### `TemplateActionExec`
+    ### `TemplateActionEffect`
 
-    <!-- --8<-- [start:TemplateActionExec] -->
+    <!-- --8<-- [start:TemplateActionEffect] -->
     ```juvix
-    TemplateActionExec : Type :=
-      Exec
-        TemplateAction;
+    TemplateActionEffect : Type :=
+      ActionEffect
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        TemplateActionArguments;
     ```
-    <!-- --8<-- [end:TemplateActionExec] -->
+    <!-- --8<-- [end:TemplateActionEffect] -->
 
-### `doNothingAction`
+### `justHi`
 
-Give a short description of the action function.
+#### `justHiGuard`
+
+Guard description.
+
+Condition
+: Message type is `MsgTemplateJustHi`
+
+<!-- --8<-- [start:justHiGuard] -->
+```juvix
+justHiGuard
+  (tt : TemplateTimestampedTrigger)
+  (env : TemplateEnvironment)
+  : Option TemplateGuardOutput :=
+  case getMessageFromTimestampedTrigger tt of {
+  | some (MsgTemplate MsgTemplateJustHi) :=
+    some mkGuardOutput@{
+      args := [];
+    }
+  | _ := none
+  };
+```
+<!-- --8<-- [end:justHiGuard] -->
+
+#### `justHiAction`
+
+Action description.
 
 State update
 : The state is unchanged as the timer will have all information necessary.
@@ -153,7 +191,7 @@ Acquaintance updates
 : None.
 
 ```juvix
-doNothingAction
+justHiAction
   (args : List TemplateActionArgument)
   (tt : TemplateTimestampedTrigger)
   (env : TemplateEnvironment)
@@ -178,10 +216,46 @@ doNothingAction
   }
 ```
 
-### `exampleReplyAction`
+### `exampleReply`
 
-Responds to the `MsgTemplateExampleRequest` message,
-actioned by the `TemplateActionLabelExampleReply` label.
+#### `exampleReplyGuard`
+
+Guard description.
+
+Condition
+: Message type is `MsgTemplateExampleRequest`
+
+<!-- --8<-- [start:exampleRequestGuard] -->
+```juvix
+exampleReplyGuard
+  (tt : TemplateTimestampedTrigger)
+  (env : TemplateEnvironment)
+  : Option TemplateGuardOutput :=
+  let
+    em := getEngineMsgFromTimestampedTrigger tt;
+  in
+    case em of {
+    | some emsg :=
+      case EngineMsg.msg emsg of {
+      | MsgTemplate (MsgTemplateExampleRequest req) :=
+        some mkGuardOutput@{
+          args := [
+            (TemplateActionArgumentTwo
+              mkSecondArgument@{
+                data := "Hello World!"
+              })
+          ];
+        }
+      | _ := none
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:exampleRequestGuard] -->
+
+#### `exampleReplyAction`
+
+Action description.
 
 State update
 : The state remains unchanged.
@@ -232,96 +306,6 @@ exampleReplyAction
   }
 ```
 
-## Guards
-
-???+ quote "Auxiliary Juvix code"
-
-    ### `TemplateGuard`
-
-    <!-- --8<-- [start:TemplateGuard] -->
-    ```juvix
-    TemplateGuard : Type :=
-      Guard
-        TemplateLocalState
-        TemplateMailboxState
-        TemplateTimerHandle
-        TemplateActionArguments;
-    ```
-    <!-- --8<-- [end:TemplateGuard] -->
-
-    ### `TemplateGuardOutput`
-
-    <!-- --8<-- [start:TemplateGuardOutput] -->
-    ```juvix
-    TemplateGuardOutput : Type :=
-      GuardOutput
-        TemplateLocalState
-        TemplateMailboxState
-        TemplateTimerHandle
-        TemplateActionArguments;
-    ```
-    <!-- --8<-- [end:TemplateGuardOutput] -->
-
-    ### `TemplateGuardExec`
-
-    <!-- --8<-- [start:TemplateGuardExec] -->
-    ```juvix
-    TemplateGuardExec : Type :=
-      Exec
-        TemplateGuard;
-    ```
-    <!-- --8<-- [end:TemplateGuardExec] -->
-
-### `justHiGuard`
-
-<!-- --8<-- [start:justHiGuard] -->
-```juvix
-justHiGuard
-  (tt : TemplateTimestampedTrigger)
-  (env : TemplateEnvironment)
-  : Option TemplateGuardOutput :=
-  case getMessageFromTimestampedTrigger tt of {
-  | some (MsgTemplate MsgTemplateJustHi) :=
-    some mkGuardOutput@{
-      actions := Seq exampleReplyAction (Seq doNothingAction End);
-      args := [];
-    }
-  | _ := none
-  };
-```
-<!-- --8<-- [end:justHiGuard] -->
-
-### `exampleRequestGuard`
-
-<!-- --8<-- [start:exampleRequestGuard] -->
-```juvix
-exampleRequestGuard
-  (tt : TemplateTimestampedTrigger)
-  (env : TemplateEnvironment)
-  : Option TemplateGuardOutput :=
-  let
-    em := getEngineMsgFromTimestampedTrigger tt;
-  in
-    case em of {
-    | some emsg :=
-      case EngineMsg.msg emsg of {
-      | MsgTemplate (MsgTemplateExampleRequest req) :=
-        some mkGuardOutput@{
-          actions := Seq doNothingAction End;
-          args := [
-            (TemplateActionArgumentTwo
-              mkSecondArgument@{
-                data := "Hello World!"
-              })
-          ];
-        }
-      | _ := none
-      }
-    | _ := none
-    };
-```
-<!-- --8<-- [end:exampleRequestGuard] -->
-
 ## The Template behaviour
 
 ### `TemplateBehaviour`
@@ -343,7 +327,10 @@ TemplateBehaviour : Type :=
 ```juvix
 templateBehaviour : TemplateBehaviour :=
   mkEngineBehaviour@{
-    guards := Seq justHiGuard (Seq exampleRequestGuard End);
+    exec :=
+      Seq (mkPair justHiGuard justHiAction)
+      (Seq (mkPair exampleReplyGuard exampleReplyAction)
+       End);
   };
 ```
 <!-- --8<-- [end:templateBehaviour] -->
