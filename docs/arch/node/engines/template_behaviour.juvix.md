@@ -89,9 +89,13 @@ type TemplateActionArgument :=
 ```
 <!-- --8<-- [end:template-action-argument] -->
 
+### `TemplateActionArguments`
+
+<!-- --8<-- [start:template-action-arguments] -->
 ```juvix
 TemplateActionArguments : Type := List TemplateActionArgument;
 ```
+<!-- --8<-- [end:template-action-arguments] -->
 
 ## Guarded actions
 
@@ -152,7 +156,7 @@ TemplateActionArguments : Type := List TemplateActionArgument;
 
 ```mermaid
 flowchart TD
-  CM>TemplateMsgExampleRequest]
+  CM>TemplateMsgJustHi]
   A(justHiAction)
   ES[(State update)]
 
@@ -238,7 +242,7 @@ justHiAction
 flowchart TD
   CM>TemplateMsgExampleRequest]
   CS[(State condition)]
-  A(exampleReply)
+  A(exampleReplyAction)
   ES[(State update)]
   EM>TemplateMsgExampleResponse]
 
@@ -316,8 +320,8 @@ exampleReplyAction
           env := env;
           msgs := [
           mkEngineMsg@{
-              sender := EngineMsg.sender emsg;
-              target := EngineMsg.target emsg;
+              sender := EngineMsg.target emsg;
+              target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg :=
                 MsgTemplate
