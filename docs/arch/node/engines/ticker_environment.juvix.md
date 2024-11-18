@@ -21,6 +21,7 @@ tags:
     import arch.node.types.basics open;
     import arch.node.engines.ticker_messages open;
     import arch.node.types.engine_environment open;
+    import arch.node.types.messages open;
     ```
 
 ## Overview
@@ -56,6 +57,16 @@ syntax alias TickerTimerHandle := Unit;
 
 The [[Ticker Engine Overview|ticker]] does not require a timer handle type.
 Therefore, we define the timer handle type as `Unit`.
+
+## Timestamped Trigger
+
+<!-- --8<-- [start:TemplateTimestampedTrigger] -->
+```juvix
+TickerTimestampedTrigger : Type :=
+  TimestampedTrigger
+    TickerTimerHandle;
+```
+<!-- --8<-- [end:TemplateTimestampedTrigger] -->
 
 ## The Ticker Environment
 
