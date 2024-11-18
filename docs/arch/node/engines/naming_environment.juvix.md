@@ -39,7 +39,7 @@ syntax alias NamingMailboxState := Unit;
 The local state of the Naming Engine includes the evidence for name associations.
 
 ```juvix
-type NamingLocalState := mkNamingLocalState {
+type NamingLocalState := mkNamingLocalState@{
   evidenceStore : Set IdentityNameEvidence;
   verifyEvidence : IdentityNameEvidence -> Bool;
 };

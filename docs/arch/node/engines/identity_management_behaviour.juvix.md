@@ -15,8 +15,6 @@ tags:
     ```juvix
     module arch.node.engines.identity_management_behaviour;
     import prelude open;
-    import Stdlib.Data.Bool open;
-    import Data.Map open;
     import arch.node.engines.commitment_environment open;
     import arch.node.engines.decryption_environment open;
     import arch.node.engines.identity_management_environment open;
@@ -319,7 +317,7 @@ makeDecryptEnv
         backend := backend';
       };
       -- The Decryption engine has one empty mailbox.
-      mailboxCluster := fromList [(mkPair 0 (mkMailbox@{
+      mailboxCluster := Map.fromList [(mkPair 0 (mkMailbox@{
         messages := [];
         mailboxState := none;
       }))];
@@ -343,7 +341,7 @@ makeCommitmentEnv
         backend := backend';
       };
       -- The Commitment engine has one empty mailbox.
-      mailboxCluster := fromList [(mkPair 0 (mkMailbox@{
+      mailboxCluster := Map.fromList [(mkPair 0 (mkMailbox@{
         messages := [];
         mailboxState := none;
       }))];

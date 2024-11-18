@@ -137,7 +137,7 @@ flowchart TD
 <!-- --8<-- [start:decrypt-guard] -->
 ```juvix
 decryptGuard
-  (t : TimestampedTrigger DecryptionTimerHandle Msg )
+  (t : TimestampedTrigger DecryptionTimerHandle)
   (env : DecryptionEnvironment) : Option DecryptionGuardOutput
   := case getMessageFromTimestampedTrigger t of {
       | some (MsgDecryption (DecryptRequest data)) := do {

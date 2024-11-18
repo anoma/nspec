@@ -44,7 +44,7 @@ The local state of a Decryption Engine instance includes the identity's
 decryption capabilities.
 
 ```juvix
-type DecryptionLocalState := mkDecryptionLocalState {
+type DecryptionLocalState := mkDecryptionLocalState@{
   decryptor : Decryptor Backend Plaintext Ciphertext;
   backend : Backend;
 };
