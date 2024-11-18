@@ -138,14 +138,22 @@ flowchart TD
 
 #### `incrementGuard`
 
+Condition
+: Message type is `TickerMsgIncrement`.
+
 <!-- --8<-- [start:incrementGuard] -->
 ```juvix
 incrementGuard
   (tt : TimestampedTrigger TickerTimerHandle )
   (env : TickerEnvironment)
   : Option TickerGuardOutput :=
-  case getMessageFromTimestampedTrigger tt of {
-  | some (MsgTicker TickerMsgIncrement) :=
+  let
+    emsg := getEngineMsgFromTimestampedTrigger tt;
+  in
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := (MsgTicker TickerMsgIncrement);
+      } :=
     some mkGuardOutput@{
       args := [];
     }
@@ -156,8 +164,7 @@ incrementGuard
 
 #### `incrementAction`
 
-Increments the counter if the `TickerMsgIncrement` message is received,
-actioned by the `TickerActionLabelIncrement` label.
+Increment the counter.
 
 State update
 : The counter value is increased by one.
@@ -192,50 +199,51 @@ incrementAction
     }
 ```
 
-### `count`
-
-Responds with the current counter value if the `TickerMsgCount` message is received.
-
-#### `countGuard`
+### `countReply`
 
 <figure markdown>
 
 ```mermaid
 flowchart TD
-  CM>TemplateMsgCount]
+  CM>TemplateMsgCountRequest]
   A(countAction)
-  EM>TemplateMsgCount]
+  EM>TemplateMsgCountReply]
 
   CM --> A --> EM
 ```
 
-<figcaption>countGuard flowchart</figcaption>
+<figcaption>`countReply` flowchart</figcaption>
 </figure>
+
+#### `countReplyGuard`
+
+Condition
+: Message type is `TickerMsgCountRequest`.
 
 <!-- --8<-- [start:countGuard] -->
 ```juvix
-countGuard
+countReplyGuard
   (tt : TimestampedTrigger TickerTimerHandle)
   (env : TickerEnvironment)
   : Option TickerGuardOutput :=
-  case getMessageFromTimestampedTrigger tt of {
-  | some (MsgTicker TickerMsgCount) := do {
-    pure (mkGuardOutput@{
-      args := [
-        TickerActionArgumentReplyTo (
-          mkReplyTo@{
-            whoAsked := none;
-            mailbox := none
-        })
-      ];
-    });
-  }
-  | _ := none
-  };
+  let
+    emsg := getEngineMsgFromTimestampedTrigger tt;
+  in
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := MsgTicker TickerMsgCount;
+      } :=
+      some mkGuardOutput@{
+        args := [];
+      }
+    | _ := none
+    };
 ```
 <!-- --8<-- [end:countGuard] -->
 
-#### `countAction`
+#### `countReplyAction`
+
+Respond with the counter value.
 
 State update
 : The state remains unchanged.
@@ -265,10 +273,15 @@ countAction
         env := env;
         msgs := [
           mkEngineMsg@{
-            sender := EngineMsg.target emsg;
+            sender := mkPair (some (EngineEnvironment.node env)) (some (EngineEnvironment.name env));
             target := EngineMsg.sender emsg;
             mailbox := some 0;
-            msg := MsgTicker TickerMsgCount
+            msg :=
+              MsgTicker
+                (TickerMsgCountReply
+                  mkCountReply@{
+                    counter := counterValue;
+                  })
           }
         ];
         timers := [];

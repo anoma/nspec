@@ -23,7 +23,6 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
-    import arch.node.types.engine_behaviour open;
     import arch.node.types.anoma_message open;
     ```
 
@@ -179,13 +178,23 @@ justHiGuard
   (tt : TemplateTimestampedTrigger)
   (env : TemplateEnvironment)
   : Option TemplateGuardOutput :=
-  case getMessageFromTimestampedTrigger tt of {
-  | some (MsgTemplate MsgTemplateJustHi) :=
-    some mkGuardOutput@{
-      args := [];
-    }
-  | _ := none
-  };
+  let
+    emsg := getEngineMsgFromTimestampedTrigger tt;
+  in
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := MsgTemplate MsgTemplateJustHi;
+      } :=
+      some mkGuardOutput@{
+        args := [
+          (TemplateActionArgumentTwo
+            mkSecondArgument@{
+              data := "Hello World!"
+            })
+        ];
+      }
+    | _ := none
+    };
 ```
 <!-- --8<-- [end:justHiGuard] -->
 
@@ -194,7 +203,7 @@ justHiGuard
 Action description.
 
 State update
-: The state is unchanged as the timer will have all information necessary.
+: Update state with the data set by `justHiGuard`.
 
 Messages to be sent
 : No messages are added to the send queue.
@@ -220,7 +229,7 @@ justHiAction
     }) :: _ :=
     some mkActionEffect@{
       env := env@EngineEnvironment{
-      localState := mkTemplateLocalState@{
+        localState := mkTemplateLocalState@{
           taskQueue := mkCustomData@{
             word := data
           }
@@ -254,10 +263,8 @@ flowchart TD
 
 #### `exampleReplyGuard`
 
-Guard description.
-
 Condition
-: Message type is `MsgTemplateExampleRequest`
+: Message type is `MsgTemplateExampleRequest`.
 
 <!-- --8<-- [start:exampleRequestGuard] -->
 ```juvix
@@ -266,21 +273,17 @@ exampleReplyGuard
   (env : TemplateEnvironment)
   : Option TemplateGuardOutput :=
   let
-    em := getEngineMsgFromTimestampedTrigger tt;
+    emsg := getEngineMsgFromTimestampedTrigger tt;
   in
-    case em of {
-    | some emsg :=
-      case EngineMsg.msg emsg of {
-      | MsgTemplate (MsgTemplateExampleRequest req) :=
-        some mkGuardOutput@{
-          args := [
-            (TemplateActionArgumentTwo
-              mkSecondArgument@{
-                data := "Hello World!"
-              })
-          ];
-        }
-      | _ := none
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := MsgTemplate (MsgTemplateExampleRequest req);
+        sender := mkPair none _; -- from local engines only (NodeID is none)
+        target := target;
+        mailbox := mailbox;
+      } :=
+      some mkGuardOutput@{
+        args := [];
       }
     | _ := none
     };
@@ -289,7 +292,7 @@ exampleReplyGuard
 
 #### `exampleReplyAction`
 
-Action description.
+Respond with a `TemplateMsgExampleResponse`.
 
 State update
 : The state remains unchanged.
@@ -310,34 +313,35 @@ exampleReplyAction
   (env : TemplateEnvironment)
   : Option TemplateActionEffect :=
   let
-    em := getEngineMsgFromTimestampedTrigger tt;
+    emsg := getEngineMsgFromTimestampedTrigger tt;
   in
-    case em of {
-    | some emsg :=
-      case EngineMsg.msg emsg of {
-      | MsgTemplate (MsgTemplateExampleRequest req) :=
-        some mkActionEffect@{
-          env := env;
-          msgs := [
-          mkEngineMsg@{
-              sender := EngineMsg.target emsg;
-              target := EngineMsg.sender emsg;
-              mailbox := some 0;
-              msg :=
-                MsgTemplate
-                  (MsgTemplateExampleReply
-                    (ok mkExampleReplyOk@{
-                      argOne := ExampleRequest.argOne req;
-                    }));
-            }
-          ];
-          timers := [];
-          engines := [];
-        }
-      | _ := none
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := MsgTemplate (MsgTemplateExampleRequest req);
+        sender := sender;
+        target := target;
+        mailbox := mailbox;
+      } :=
+      some mkActionEffect@{
+        env := env;
+        msgs := [
+        mkEngineMsg@{
+          sender := mkPair (some (EngineEnvironment.node env)) (some (EngineEnvironment.name env));
+          target := sender;
+            mailbox := some 0;
+            msg :=
+              MsgTemplate
+                (MsgTemplateExampleReply
+                  (ok mkExampleReplyOk@{
+                    argOne := ExampleRequest.argOne req;
+                  }));
+          }
+        ];
+        timers := [];
+        engines := [];
       }
-    | _ := none
-  }
+  | _ := none
+  };
 ```
 
 ## The Template behaviour
