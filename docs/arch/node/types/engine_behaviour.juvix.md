@@ -28,12 +28,22 @@ specified by a finite set of _guards_ and an _action function,_ which both
 determine how engine instances react to received messages or timer
 notifications.
 
+## Execution graph
+
+Definition of guarded action execution as a sequential-parallel graph,
+where each branch specifies either sequential or parallel execution.
+
+```juvix
+type Exec G A :=
+  | End
+  | Seq (Pair G A) (Exec G A)
+  | Par (Pair G A) (Exec G A)
+  ;
+```
+
 ## Guards
 
-Guards are terms of type `Guard`, which is a function type
-
---8<-- "./docs/arch/node/types/engine_behaviour.juvix.md:Guard"
-
+Guards are terms of type `Guard`, which is a function type,
 where the _trigger_ of type `TimestampedTrigger H` is a term that captures the
 message received with a timestamp or a clock notification about timers that have
 elapsed during the engine's operation. Guards return data of type `GuardOutput A`
@@ -56,7 +66,30 @@ The action function then computes the effects of the action label;
 besides changes to the engine environment, an action effect comprises sending
 messages, creating new engine instances, and updating timers.
 
-## Action function
+### `Guard`
+
+<!-- --8<-- [start:Guard] -->
+```juvix
+{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
+Guard (S M H A : Type) : Type :=
+  (tt : TimestampedTrigger H) ->
+  (env : EngineEnvironment S M H) ->
+  Option (GuardOutput A);
+```
+<!-- --8<-- [end:Guard] -->
+
+### `GuardOutput`
+
+<!-- --8<-- [start:GuardOutput] -->
+```juvix
+type GuardOutput (A : Type) :=
+  mkGuardOutput{
+    args : A;
+  };
+```
+<!-- --8<-- [end:GuardOutput] -->
+
+## Actions
 
 The input is parameterised by the types for:
 
@@ -80,41 +113,7 @@ The record type `ActionInput S M H A` encapsulates the following data:
 - The environment of the engine instance.
 - The local time of the engine instance when the guard evaluation was triggered.
 
-### `Exec G A`
-
-Definition of guarded action execution as a sequential-parallel graph,
-where each branch specifies either sequential or parallel execution.
-
-```juvix
-type Exec G A :=
-  | End
-  | Seq (Pair G A) (Exec G A)
-  | Par (Pair G A) (Exec G A)
-  ;
-```
-
-### Action effect
-
-The `ActionEffect S M H A` type defines the results produced by the action,
-which can be
-
-- Update its environment (while leaving the name unchanged).
-- Produce a set of messages to be sent to other engine instances.
-- Set, discard, or supersede timers.
-- Define new engine instances to be created.
-
-<!-- --8<-- [start:ActionEffect] -->
-```juvix
-type ActionEffect (S M H A : Type) := mkActionEffect {
-  env : EngineEnvironment S M H;
-  msgs : List EngineMsg;
-  timers : List (Timer H);
-  engines : List Anoma.Env;
-};
-```
-<!-- --8<-- [end:ActionEffect] -->
-
-### Action
+### `Action`
 
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
@@ -157,28 +156,26 @@ are triggered.
     be passed to the action function. Then, if the guard is not satisfied, no data
     is returned.
 
-### `Guard`
+### `ActionEffect`
 
-<!-- --8<-- [start:Guard] -->
+The `ActionEffect S M H A` type defines the results produced by the action,
+which can be
+
+- Update its environment (while leaving the name unchanged).
+- Produce a set of messages to be sent to other engine instances.
+- Set, discard, or supersede timers.
+- Define new engine instances to be created.
+
+<!-- --8<-- [start:ActionEffect] -->
 ```juvix
-{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Guard (S M H A : Type) : Type :=
-  (tt : TimestampedTrigger H) ->
-  (env : EngineEnvironment S M H) ->
-  Option (GuardOutput A);
+type ActionEffect (S M H A : Type) := mkActionEffect {
+  env : EngineEnvironment S M H;
+  msgs : List EngineMsg;
+  timers : List (Timer H);
+  engines : List Anoma.Env;
+};
 ```
-<!-- --8<-- [end:Guard] -->
-
-### `GuardOutput`
-
-<!-- --8<-- [start:GuardOutput] -->
-```juvix
-type GuardOutput (A : Type) :=
-  mkGuardOutput{
-    args : A;
-  };
-```
-<!-- --8<-- [end:GuardOutput] -->
+<!-- --8<-- [end:ActionEffect] -->
 
 ## The type for engine behaviours
 
@@ -198,11 +195,3 @@ type EngineBehaviour (S M H A : Type) :=
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
-
-!!! info "On the use of `List` for guards in `EngineBehaviour`"
-
-    The `EngineBehaviour` type uses `List` for guards to enable parallel
-    processing. This choice acknowledges that guards can be concurrent or
-    competing, with the latter requiring priority assignment to resolve
-    non-determinism. While guards should form a set, using `List` simplifies the
-    implementation and provides an inherent ordering.
