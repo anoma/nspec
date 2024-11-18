@@ -56,9 +56,8 @@ ReadsForEngine : Type := Engine
 ### Example of a readsFor engine
 
 ```juvix extract-module-statements
-exampleReadsForEngine : ReadsForEngine := mkEngine@{
-    node := Curve25519PubKey "0xabcd1234";
-    name := "readsFor";
+exampleReadsForEngine : ReadsForEngine :=
+  mkEngine@{
     behaviour := readsForBehaviour;
     initEnv := readsForEnvironmentExample;
   };

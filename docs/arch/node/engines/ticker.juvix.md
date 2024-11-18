@@ -52,13 +52,12 @@ receiving a `Count` message. The initial state initializes the counter.
 
 <!-- --8<-- [start:TickerEngine] -->
 ```juvix
-TickerEngine : Type := Engine
-  TickerLocalState
-  TickerMailboxState
-  TickerTimerHandle
-  TickerMatchableArgument
-  TickerActionLabel
-  TickerPrecomputationList;
+TickerEngine : Type :=
+  Engine
+    TickerLocalState
+    TickerMailboxState
+    TickerTimerHandle
+    TickerActionArguments;
 ```
 <!-- --8<-- [end:TickerEngine] -->
 
@@ -66,9 +65,8 @@ TickerEngine : Type := Engine
 
 <!-- --8<-- [start:exampleTickerEngine] -->
 ```juvix
-exampleTickerEngine : TickerEngine := mkEngine@{
-    node := Curve25519PubKey "0xabcd1234";
-    name := "ticker";
+exampleTickerEngine : TickerEngine :=
+  mkEngine@{
     behaviour := tickerBehaviour;
     initEnv := zeroTickerEnvironment;
   };
