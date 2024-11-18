@@ -167,10 +167,10 @@ flowchart TD
 
 #### `justHiGuard`
 
-Guard description.
+Guard description (optional).
 
 Condition
-: Message type is `MsgTemplateJustHi`
+: Message type is `MsgTemplateJustHi`.
 
 <!-- --8<-- [start:justHiGuard] -->
 ```juvix
@@ -262,6 +262,8 @@ flowchart TD
 </figure>
 
 #### `exampleReplyGuard`
+
+Guard description (optional).
 
 Condition
 : Message type is `MsgTemplateExampleRequest`.
