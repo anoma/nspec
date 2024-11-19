@@ -156,8 +156,8 @@ an example of this case.
 <!-- --8<-- [start:SecondOptionTimerHandle] -->
 ```juvix
 type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
-argOne : String;
-argTwo : Bool
+  argOne : String;
+  argTwo : Bool
 };
 ```
 <!-- --8<-- [end:SecondOptionTimerHandle] -->
