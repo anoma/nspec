@@ -14,11 +14,10 @@ tags:
 
     ```juvix
     module arch.node.types.messages;
-
     import prelude open public;
     import arch.node.types.basics open;
-    import arch.node.types.crypto open;
     import arch.node.types.identities open;
+    import arch.node.types.anoma_message open;
     ```
 
 # Messages and mailboxes
@@ -35,31 +34,7 @@ the target engine has only one mailbox, the mailbox identifier is redundant.
 
 The following types are used to represent these messages and mailboxes.
 
-### `MessageID`
-
-Message identifier. Cryptographic hash of an `EngineMsg`.
-
-```juvix
-syntax alias MessageID := Digest;
-```
-
-### `EngineMsg M`
-
---8<-- [start:EngineMsg]
-A message between engines. Consists of a sender, a target, an optional mailbox
-identifier, and the message itself.
-
-```juvix
-type EngineMsg M := mkEngineMsg {
-  sender : EngineID;
-  target : EngineID;
-  mailbox : Option MailboxID;
-  msg : M;
-};
-```
---8<-- [end:EngineMsg]
-
-### `MailboxID`
+### MailboxID
 
 A mailbox identifier is a natural number used to index mailboxes.
 
@@ -74,7 +49,29 @@ A mailbox identifier is a natural number used to index mailboxes.
 syntax alias MailboxID := Nat;
 ```
 
-### Mailbox M S
+### EngineMsg
+
+A message between engines. Consists of a sender, a target, an optional mailbox
+identifier, and the message itself.
+
+```juvix
+type EngineMsg := mkEngineMsg@{
+  sender : EngineID;
+  target : EngineID;
+  mailbox : Option MailboxID;
+  msg : Msg;
+};
+```
+
+### MessageID
+
+Message identifier. Cryptographic hash of an `EngineMsg`.
+
+```juvix
+syntax alias MessageID := Hash;
+```
+
+### Mailbox S
 
 A mailbox is a container for messages and optionally a mailbox state. The
 mailbox state could be used to store additional information about the mailbox,
@@ -89,80 +86,87 @@ such as the priority of the messages in the mailbox.
     already have it now.
 
 ```juvix
-type Mailbox M S := mkMailbox {
-  messages : List (EngineMsg M);
-  mailboxState : Option S;
+type Mailbox M := mkMailbox@{
+  messages : List EngineMsg;
+  mailboxState : Option M;
 };
 ```
 
-### Timer H M
+### Timer H
 
 ```juvix
-type Timer H := mkTimer {
+type Timer H := mkTimer@{
   time : Time;
   handle : H;
 };
 ```
 
-### Trigger H M
+### Trigger H
 
 ```juvix
-type Trigger H M :=
-  | MessageArrived { msg : EngineMsg M; }
+type Trigger H :=
+  | MessageArrived { msg : EngineMsg; }
   | Elapsed { timers : List (Timer H) };
 ```
 
 - Extract the actual message from a trigger in case it has one:
 
     ```juvix
-    getMessageFromTrigger : {H M : Type} -> Trigger H M -> Option M
+    getMessageFromTrigger {H} (tr : Trigger H) : Option Msg
+      := case tr of {
       | MessageArrived@{msg} := some (EngineMsg.msg msg)
-      | Elapsed@{} := none;
+      | Elapsed@{} := none
+      };
     ```
 
 - Get the message sender from a trigger:
 
     ```juvix
-    getSenderFromTrigger : {H M : Type} -> Trigger H M -> Option EngineID
+    getSenderFromTrigger {H} (tr : Trigger H) : Option EngineID
+      := case tr of {
       | MessageArrived@{msg} := some (EngineMsg.sender msg)
-      | Elapsed@{} := none;
+      | Elapsed@{} := none
+      };
     ```
 
 - Get the target destination from a trigger:
 
     ```juvix
-    getTargetFromTrigger : {H M : Type} -> Trigger H M -> Option EngineID
+    getTargetFromTrigger {H} (tr : Trigger H) : Option EngineID
+      := case tr of {
       | MessageArrived@{msg} := some (EngineMsg.target msg)
-      | Elapsed@{} := none;
+      | Elapsed@{} := none
+      };
     ```
 
-### TimestampedTrigger H M
+### TimestampedTrigger H
 
 ```juvix
-type TimestampedTrigger H M :=
-  mkTimestampedTrigger {
+type TimestampedTrigger H :=
+  mkTimestampedTrigger@{
     time : Time;
-    trigger : Trigger H M;
+    trigger : Trigger H;
   };
 ```
 
 - Get the actual message from a `TimestampedTrigger`:
 
     ```juvix
-    getMessageFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option M
+    getMessageFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option Msg
       := getMessageFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the sender from a `TimestampedTrigger`:
 
     ```juvix
-    getSenderFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
+    getSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
       := getSenderFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the target from a `TImestampedTrigger`:
 
     ```juvix
-    getTargetFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
+    getTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
       := getTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```
+
