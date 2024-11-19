@@ -55,7 +55,7 @@ NamingEngine : Type := Engine
 
 ### Example of a naming engine
 
-```juvix extract-module-statements
+```juvix
 exampleNamingEngine : NamingEngine := mkEngine@{
     name := "naming";
     behaviour := namingBehaviour;

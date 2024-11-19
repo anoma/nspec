@@ -84,7 +84,6 @@ The record type `ActionInput S M H A L X` encapsulates the following data:
 - The environment of the engine instance.
 - The local time of the engine instance when the guard evaluation was triggered.
 
-
 ### GuardOutput
 
 <!-- --8<-- [start:GuardOutput] -->

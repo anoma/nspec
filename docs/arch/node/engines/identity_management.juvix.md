@@ -55,7 +55,7 @@ IdentityManagementEngine : Type := Engine
 
 ### Example of a identityManagement engine
 
-```juvix extract-module-statements
+```juvix
 exampleIdentityManagementEngine : IdentityManagementEngine := mkEngine@{
     name := "identityManagement";
     behaviour := identityManagementBehaviour;

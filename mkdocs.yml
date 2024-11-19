@@ -2,7 +2,7 @@ site_name: !ENV [SITE_NAME, "Anoma Specification"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_dir: !ENV [SITE_DIR, site]
-site_version: !ENV [SITE_VERSION, "v0.1.0"]
+# site_version: !ENV [SITE_VERSION, "v0.1.0"]
 copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 use_directory_urls: false
 nav:
@@ -70,7 +70,6 @@ nav:
                   - Applications: ./arch/system/state/resource_machine/applications.md
       - Node Architecture:
           - ./arch/node/index.md
-          - Modules: ./arch/node/modules/index.md
           - Basic Types:
               - ./arch/node/types/basics.juvix.md
               - Cryptographic Primitives: ./arch/node/types/crypto.juvix.md
@@ -507,18 +506,15 @@ theme:
 plugins:
   - search
   - glightbox
-  - images # Provided with mkdocs-juvix-plugin
   - juvix # Provided with mkdocs-juvix-plugin
-  - wikilinks # Provided with mkdocs-juvix-plugin
-  #   - todos # Provided with mkdocs-juvix-plugin
-  #   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
-  #       ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
-  #       FileTypes:
-  #         - png
-  #         - svg
-  #       FileTypeOverrides:
-  #         mermaid: png
-  #       FailFast: !ENV CI
+  - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
+      ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
+      FileTypes:
+        - png
+        - svg
+      FileTypeOverrides:
+        mermaid: png
+      FailFast: !ENV CI
   - bibtex:
       bib_dir: "docs/references"
   - macros:
@@ -528,9 +524,8 @@ plugins:
       j2_block_end_string: "@@}"
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
-# hooks:
-#   - hooks/differ.py
-
+hooks:
+  - hooks/fix_changelog.py
 exclude_docs: |
   **/.hooks/**
   docs/.juvix-build/**
@@ -544,7 +539,6 @@ extra_css:
   - assets/css/juvix-material-style.css
   - assets/css/juvix-highlighting.css
   - assets/css/juvix_codeblock_footer.css
-  - assets/css/juvix_codeblock_footer.css
 extra_javascript:
   - assets/js/extra.js
   - assets/js/highlight.js
@@ -555,9 +549,6 @@ markdown_extensions:
   - mdx_truly_sane_lists:
       nested_indent: 2
       truly_sane: true
-  - pymdownx.snippets:
-      check_paths: true
-      url_download: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid

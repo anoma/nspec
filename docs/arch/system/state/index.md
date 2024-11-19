@@ -7,5 +7,5 @@ search:
 
 # State Architecture
 
-- [Resource machine](./resource_machine/index.md)
-- [Intent machine](./intent_machine/index.md)
+- [[Resource machine]] s
+- [[Intent machine]]
