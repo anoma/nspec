@@ -34,21 +34,6 @@ the target engine has only one mailbox, the mailbox identifier is redundant.
 
 The following types are used to represent these messages and mailboxes.
 
-### MailboxID
-
-A mailbox identifier is a natural number used to index mailboxes.
-
-??? info "Where do mailbox identifiers come from?"
-
-    The concept of mailbox identifier is taken from
-    the paper
-    [@special-delivery-mailbox-types-2023]
-    (see also [[Mailbox Cluster]] and [@selectors-actors-2014]).
-
-```juvix
-syntax alias MailboxID := Nat;
-```
-
 ### EngineMsg
 
 A message between engines. Consists of a sender, a target, an optional mailbox
@@ -90,6 +75,21 @@ type Mailbox M := mkMailbox@{
   messages : List EngineMsg;
   mailboxState : Option M;
 };
+```
+
+### MailboxID
+
+A mailbox identifier is a natural number used to index mailboxes.
+
+??? info "Where do mailbox identifiers come from?"
+
+    The concept of mailbox identifier is taken from
+    the paper
+    [@special-delivery-mailbox-types-2023]
+    (see also [[Mailbox Cluster]] and [@selectors-actors-2014]).
+
+```juvix
+syntax alias MailboxID := Nat;
 ```
 
 ### Timer H
