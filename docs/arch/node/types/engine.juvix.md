@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: octicons/project-template-24
 search:
   exclude: false
 tags:
@@ -44,8 +44,8 @@ Each engine, not its type, is associated with:
 ```juvix
 type Engine (S M H A L X : Type) := mkEngine {
   name : EngineName;
-  initEnv : EngineEnvironment S M H;
   behaviour : EngineBehaviour S M H A L X;
+  initEnv : EngineEnvironment S M H;
 };
 ```
 
