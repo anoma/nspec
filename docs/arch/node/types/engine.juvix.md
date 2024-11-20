@@ -24,14 +24,15 @@ An **engine** is a computational unit with a specific name and [[Engine Behaviou
 an initial [[Engine Environment|environment]], which comprises the specific state, the mailbox cluster,
 the acquaintances, and the timers. We refer to the type of engines as `Engine`,
 instantiated with the types for the local states, the mailboxes' state, the
-time handles, the action-label action.
-We use the following notation to denote these type parameters:
+time handles, the action-label action, and the precomputation. We use the following
+notation to denote these type parameters:
 
 - `S` the type for the local states,
 - `M` the type for the mailboxes' state,
 - `H` the type for the time handles,
-- `L` the type for the action label,
-- `A` the type for the action args.
+- `A` the type for the action-label,
+- `L` the type for the precomputation, and
+- `X` the type for the external inputs.
 
 Each engine, not its type, is associated with:
 
@@ -41,9 +42,10 @@ Each engine, not its type, is associated with:
   specific state, the mailbox cluster, the acquaintances, and the timers.
 
 ```juvix
-type Engine (S M H A : Type) := mkEngine {
-  initEnv : EngineEnv S M H;
-  behaviour : EngineBehaviour S M H A;
+type Engine (S M H A L X : Type) := mkEngine {
+  name : EngineName;
+  initEnv : EngineEnvironment S M H;
+  behaviour : EngineBehaviour S M H A L X;
 };
 ```
 
