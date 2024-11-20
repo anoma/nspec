@@ -42,7 +42,7 @@ syntax alias IdentityManagementMailboxState := Unit;
 The local state of the Identity Management Engine includes information about the identities it manages.
 
 ```juvix
-type IdentityInfo := mkIdentityInfo@{
+type IdentityInfo := mkIdentityInfo {
   backend : Backend;
   capabilities : Capabilities;
   commitmentEngine : Option EngineID;

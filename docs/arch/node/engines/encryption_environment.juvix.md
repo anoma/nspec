@@ -47,7 +47,7 @@ require `ReadsFor` information which is requested from the associated `ReadsFor`
 engine.
 
 ```juvix
-type EncryptionLocalState := mkEncryptionLocalState@{
+type EncryptionLocalState := mkEncryptionLocalState {
   encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
   backend : Backend;
   readsForEngineAddress : EngineID;

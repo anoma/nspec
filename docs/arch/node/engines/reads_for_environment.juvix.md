@@ -39,7 +39,7 @@ syntax alias ReadsForMailboxState := Unit;
 The local state of the Reads For Engine includes the evidence for reads_for relationships.
 
 ```juvix
-type ReadsForLocalState := mkReadsForLocalState@{
+type ReadsForLocalState := mkReadsForLocalState {
   evidenceStore : Set ReadsForEvidence;
   verifyEvidence : ReadsForEvidence -> Bool;
 };

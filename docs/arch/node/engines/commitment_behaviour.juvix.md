@@ -25,84 +25,77 @@ tags:
     import arch.node.types.messages open;
     ```
 
-# Commitment Behaviour
+# `Commitment` Dynamics
 
 ## Overview
 
-The behavior of the Commitment Engine defines how it processes incoming
-commitment requests and produces the corresponding responses.
+The behavior of the `Commitment` Engine define how it processes incoming commitment requests and produces the corresponding responses.
 
 ## Action labels
 
-### `CommitmentActionLabelDoCommit DoCommit`
-
+<!-- --8<-- [start:commitment-action-label] -->
 ```juvix
-type DoCommit := mkDoCommit {
-  data : Signable
-};
+type CommitmentActionLabel :=
+  | -- --8<-- [start:DoCommit]
+    DoCommit {
+      data : Signable
+    }
+    -- --8<-- [end:DoCommit]
+;
 ```
+<!-- --8<-- [end:commitment-action-label] -->
 
-This action label corresponds to generating a commitment (signature) for the
-given request.
+### `DoCommit`
 
-???+ quote "Arguments"
+!!! quote ""
 
-    `data`:
-    : The data to sign.
+    --8<-- "./commitment_behaviour.juvix.md:DoCommit"
 
-???+ quote "`DoCommit` action effect"
+This action label corresponds to generating a commitment (signature) for the given request.
+
+??? quote "`DoCommit` action effect"
 
     This action does the following:
 
     | Aspect | Description |
     |--------|-------------|
     | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `ResponseCommitment` message is sent back to the requester. |
+    | Messages to be sent   | A `CommitResponse` message is sent back to the requester. |
     | Engines to be spawned | No engine is created by this action. |
     | Timer updates         | No timers are set or cancelled. |
 
-### `CommitmentActionLabel`
-
-```juvix
-type CommitmentActionLabel :=
-  | CommitmentActionLabelDoCommit DoCommit
-  ;
-```
-
 ## Matchable arguments
 
-### `CommitmentMatchableArgumentReplyTo ReplyTo`
-
-```juvix
-type ReplyTo := mkReplyTo {
-  whoAsked : Option EngineID;
-  mailbox : Option MailboxID;
-};
-```
-
-???+ quote "Arguments"
-
-    `whoAsked`:
-    : The engine ID of the requester.
-
-    `mailbox`:
-    : The mailbox ID where the response should be sent.
-
-### `CommitmentMatchableArgument`
+<!-- --8<-- [start:commitment-matchable-argument] -->
 
 ```juvix
 type CommitmentMatchableArgument :=
-  | CommitmentMatchableArgumentReplyTo ReplyTo
+  | -- --8<-- [start:ReplyTo]
+  ReplyTo (Option EngineID) (Option MailboxID)
+  -- --8<-- [end:ReplyTo]
 ;
 ```
+<!-- --8<-- [end:commitment-matchable-argument] -->
+
+### `ReplyTo`
+
+!!! quote ""
+
+    ```
+    --8<-- "./commitment_behaviour.juvix.md:ReplyTo"
+    ```
+
+This matchable argument contains the address and mailbox ID of where the response message should be sent.
 
 ## Precomputation results
 
 The Commitment Engine does not require any non-trivial pre-computations.
 
+<!-- --8<-- [start:commitment-precomputation-entry] -->
 ```juvix
 syntax alias CommitmentPrecomputation := Unit;
 ```
+<!-- --8<-- [end:commitment-precomputation-entry] -->
 
 ## Guards
 
@@ -111,6 +104,7 @@ syntax alias CommitmentPrecomputation := Unit;
     Type alias for the guard.
 
     ```juvix
+    -- --8<-- [start:commitment-guard]
     CommitmentGuard : Type :=
       Guard
         CommitmentLocalState
@@ -119,14 +113,12 @@ syntax alias CommitmentPrecomputation := Unit;
         CommitmentMatchableArgument
         CommitmentActionLabel
         CommitmentPrecomputation;
-    ```
+    -- --8<-- [end:commitment-guard]
 
-    ```juvix
+    -- --8<-- [start:commitment-guard-output]
     CommitmentGuardOutput : Type :=
-      GuardOutput
-        CommitmentMatchableArgument
-        CommitmentActionLabel
-        CommitmentPrecomputation;
+      GuardOutput CommitmentMatchableArgument CommitmentActionLabel CommitmentPrecomputation;
+    -- --8<-- [end:commitment-guard-output]
     ```
 
 ### `commitGuard`
@@ -142,25 +134,24 @@ flowchart TD
 <figcaption>commitGuard flowchart</figcaption>
 </figure>
 
-<!-- --8<-- [start:commitGuard] -->
+<!-- --8<-- [start:commit-guard] -->
 ```juvix
 commitGuard
   (t : TimestampedTrigger CommitmentTimerHandle)
   (env : CommitmentEnvironment) : Option CommitmentGuardOutput
   := case getMessageFromTimestampedTrigger t of {
-      | some (MsgCommitment (MsgCommitmentRequest request)) := do {
-        -- TODO: fix this, the compiler is not able to see this is correct.
+      | some (MsgCommitment (CommitRequest data)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  matchedArgs := [CommitmentMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-                  actionLabel := CommitmentActionLabelDoCommit (mkDoCommit (RequestCommitment.data request));
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoCommit data;
                   precomputationTasks := unit
                 });
         }
       | _ := none
   };
 ```
-<!-- --8<-- [end:commitGuard] -->
+<!-- --8<-- [end:commit-guard] -->
 
 ## Action function
 
@@ -188,9 +179,7 @@ commitGuard
         CommitmentPrecomputation;
     ```
 
-### `commitmentAction`
-
-<!-- --8<-- [start:commitmentAction] -->
+<!-- --8<-- [start:action-function] -->
 ```juvix
 commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
   let env := ActionInput.env input;
@@ -198,14 +187,14 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
       localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
-    | CommitmentActionLabelDoCommit (mkDoCommit data) :=
+    | DoCommit data :=
       case GuardOutput.matchedArgs out of {
-        | CommitmentMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
+        | (ReplyTo (some whoAsked) _) :: _ := let
             signedData :=
               Signer.sign (CommitmentLocalState.signer localState)
                 (CommitmentLocalState.backend localState)
                 data;
-            responseMsg := mkResponseCommitment@{
+            responseMsg := CommitResponse@{
                   commitment := signedData;
                   err := none
                 };
@@ -215,7 +204,7 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
               sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgCommitment (MsgCommitmentResponse responseMsg)
+              msg := MsgCommitment responseMsg
             }];
             timers := [];
             spawnedEngines := []
@@ -224,20 +213,16 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
       }
   };
 ```
-<!-- --8<-- [end:commitmentAction] -->
+<!-- --8<-- [end:action-function] -->
 
 ## Conflict solver
-
-### `commitmentConflictSolver`
 
 ```juvix
 commitmentConflictSolver : Set CommitmentMatchableArgument -> List (Set CommitmentMatchableArgument)
   | _ := [];
 ```
 
-## The Commitment Behaviour
-
-### `CommitmentBehaviour`
+## CommitmentBehaviour type
 
 <!-- --8<-- [start:CommitmentBehaviour] -->
 ```juvix
@@ -252,9 +237,9 @@ CommitmentBehaviour : Type :=
 ```
 <!-- --8<-- [end:CommitmentBehaviour] -->
 
-### Instantiation
+## CommitmentBehaviour instance
 
-<!-- --8<-- [start:commitmentBehaviour] -->
+<!-- --8<-- [start:CommitmentBehaviour-instance] -->
 ```juvix
 commitmentBehaviour : CommitmentBehaviour :=
   mkEngineBehaviour@{
@@ -263,4 +248,4 @@ commitmentBehaviour : CommitmentBehaviour :=
     conflictSolver := commitmentConflictSolver;
   };
 ```
-<!-- --8<-- [end:commitmentBehaviour] -->
+<!-- --8<-- [end:CommitmentBehaviour-instance] -->

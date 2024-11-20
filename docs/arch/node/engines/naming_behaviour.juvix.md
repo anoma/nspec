@@ -17,6 +17,10 @@ tags:
 
     import prelude open;
     import arch.node.types.messages open;
+    import Data.Set.AVL open;
+    import Stdlib.Data.List.Base open;
+    import Stdlib.Trait.Ord open;
+    import Stdlib.Data.Bool.Base open;
     import arch.node.types.engine_behaviour open;
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
@@ -191,9 +195,9 @@ resolveNameGuard
       | some (MsgNaming (ResolveNameRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          matchedArgs := [ReplyTo (some sender) none] ;
-          actionLabel := DoResolveName x;
-          precomputationTasks := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoResolveName x;
+                  precomputationTasks := unit
         });}
       | _ := none
   };
@@ -222,9 +226,9 @@ submitNameEvidenceGuard
       | some (MsgNaming (SubmitNameEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-          matchedArgs := [ReplyTo (some sender) none] ;
-          actionLabel := DoSubmitNameEvidence x;
-          precomputationTasks := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoSubmitNameEvidence x;
+                  precomputationTasks := unit
         });}
       | _ := none
   };
@@ -253,9 +257,9 @@ queryNameEvidenceGuard
       | some (MsgNaming (QueryNameEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoQueryNameEvidence x;
-                precomputationTasks := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoQueryNameEvidence x;
+                  precomputationTasks := unit
                 });
         }
       | _ := none
@@ -300,12 +304,12 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
     | DoResolveName identityName :=
       case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            matchingEvidence := AVLTree.filter \{evidence :=
-              isEqual (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
+            matchingEvidence := AVLfilter \{evidence :=
+              isEQ (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
              } (NamingLocalState.evidenceStore localState);
-            identities := Set.fromList (map \{evidence :=
+            identities := fromList (map \{evidence :=
               IdentityNameEvidence.externalIdentity evidence
-             } (Set.toList matchingEvidence));
+             } (toList matchingEvidence));
             responseMsg := ResolveNameResponse@{
               externalIdentities := identities;
               err := none
@@ -346,9 +350,9 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                     spawnedEngines := []
                   }
               | true :=
-                  let alreadyExists := isElement \{a b := a && b} true (map \{e :=
-                        isEqual (Ord.cmp e evidence)
-                      } (Set.toList (NamingLocalState.evidenceStore localState)));
+                  let alreadyExists := elem \{a b := a && b} true (map \{e :=
+                        isEQ (Ord.cmp e evidence)
+                      } (toList (NamingLocalState.evidenceStore localState)));
                       newLocalState := case alreadyExists of {
                         | true := localState
                         | false :=
@@ -387,8 +391,8 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
     | DoQueryNameEvidence externalIdentity' :=
       case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            relevantEvidence := AVLTree.filter \{evidence :=
-              isEqual (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity')
+            relevantEvidence := AVLfilter \{evidence :=
+              isEQ (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity')
              } (NamingLocalState.evidenceStore localState);
             responseMsg := QueryNameEvidenceResponse@{
               externalIdentity := externalIdentity';

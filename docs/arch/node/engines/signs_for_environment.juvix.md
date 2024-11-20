@@ -40,7 +40,7 @@ syntax alias SignsForMailboxState := Unit;
 The local state of the Signs For Engine includes the evidence for signs_for relationships.
 
 ```juvix
-type SignsForLocalState := mkSignsForLocalState@{
+type SignsForLocalState := mkSignsForLocalState {
   evidenceStore : Set SignsForEvidence;
   verifyEvidence : SignsForEvidence -> Bool;
 };

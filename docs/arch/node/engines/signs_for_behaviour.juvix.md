@@ -16,6 +16,10 @@ tags:
     module arch.node.engines.signs_for_behaviour;
 
     import prelude open;
+    import Stdlib.Data.List.Base open;
+    import Data.Set.AVL open;
+    import Stdlib.Trait.Ord open;
+    import Stdlib.Data.Bool.Base open;
     import arch.node.types.messages open;
     import arch.node.types.engine_behaviour open;
     import arch.node.types.engine_environment open;
@@ -192,9 +196,9 @@ signsForQueryGuard
       | some (MsgSignsFor (SignsForRequest x y)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoSignsForQuery x y;
-                precomputationTasks := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoSignsForQuery x y;
+                  precomputationTasks := unit
         });}
       | _ := none
   };
@@ -223,9 +227,9 @@ submitEvidenceGuard
       | some (MsgSignsFor (SubmitSignsForEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoSubmitEvidence x;
-                precomputationTasks := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoSubmitEvidence x;
+                  precomputationTasks := unit
         });}
       | _ := none
   };
@@ -254,9 +258,9 @@ queryEvidenceGuard
       | some (MsgSignsFor (QuerySignsForEvidenceRequest x)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                matchedArgs := [ReplyTo (some sender) none] ;
-                actionLabel := DoQueryEvidence x;
-                precomputationTasks := unit
+                  matchedArgs := [ReplyTo (some sender) none] ;
+                  actionLabel := DoQueryEvidence x;
+                  precomputationTasks := unit
                 });
         }
       | _ := none
@@ -301,10 +305,10 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
     | DoSignsForQuery externalIdentityA externalIdentityB :=
       case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
-              isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
-              isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
-            } (Set.toList (SignsForLocalState.evidenceStore localState)));
+            hasEvidence := elem \{a b := a && b} true (map \{ evidence :=
+              isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
+              isEQ (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
+            } (toList (SignsForLocalState.evidenceStore localState)));
             responseMsg := SignsForResponse@{
               signsFor := hasEvidence;
               err := none
@@ -330,9 +334,9 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
             case isValid of {
               | true :=
                   let alreadyExists :=
-                    isElement \{a b := a && b} true (map \{e :=
-                        isEqual (Ord.cmp e evidence)
-                      } (Set.toList (SignsForLocalState.evidenceStore localState)));
+                    elem \{a b := a && b} true (map \{e :=
+                        isEQ (Ord.cmp e evidence)
+                      } (toList (SignsForLocalState.evidenceStore localState)));
                   in
                   case alreadyExists of {
                     | true :=
@@ -399,9 +403,9 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
     | DoQueryEvidence externalIdentity' :=
       case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            relevantEvidence := AVLTree.filter \{evidence :=
-              isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity') ||
-              isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity')
+            relevantEvidence := AVLfilter \{evidence :=
+              isEQ (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity') ||
+              isEQ (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity')
             } (SignsForLocalState.evidenceStore localState);
             responseMsg := QuerySignsForEvidenceResponse@{
               externalIdentity := externalIdentity';
