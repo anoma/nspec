@@ -14,8 +14,6 @@ tags:
 
     ```juvix
     module arch.node.types.identities;
-    import Stdlib.Data.String.Base open;
-    import Stdlib.Trait.Ord open using {Ordering; Ord; mkOrd};
     import arch.node.types.crypto open;
     import prelude open;
     ```

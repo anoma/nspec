@@ -22,10 +22,10 @@ tags:
   files related to the engine in use. For example, the [[Ticker Engine]]
   would have the following files, all prefixed with `ticker`:
 
-      - `ticker.juvix.md`
-      - `ticker_messages.juvix.md`
-      - `ticker_environment.juvix.md`
-      - `ticker_behaviour.juvix.md`
+  - `ticker.juvix.md`
+  - `ticker_messages.juvix.md`
+  - `ticker_environment.juvix.md`
+  - `ticker_behaviour.juvix.md`
 
 </div>
 

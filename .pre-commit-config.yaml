@@ -25,7 +25,7 @@ repos:
         entry: filenames must be lower
         language: fail
         files: '[^a-z0-9._/]'
-        exclude: '.pre-commit.*|^overrides.*|^docs/(assets|images)/|^formal.*|.*Package.juvix.*|^\.github/.*|CITATION|LICENSE|Makefile|README\.md|VERSION'
+        exclude: '.pre-commit.*|^overrides.*|^docs/(assets|images)/|^formal.*|.*Package.juvix.*|^\.github/.*|CITATION|LICENSE|Makefile|README\.md|VERSION|.changelog/.*'
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 3.0.0
     hooks:

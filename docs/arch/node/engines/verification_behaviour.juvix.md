@@ -17,8 +17,6 @@ tags:
 
     import prelude open;
     import arch.node.types.messages open;
-    import Stdlib.Trait.Ord as Ord;
-    import Stdlib.Data.List.Base open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     import arch.node.types.engine_behaviour open;
     import arch.node.types.engine_environment open;
@@ -176,9 +174,9 @@ verifyGuard
       | some (MsgVerification (VerifyRequest x y z w)) := do {
         sender <- getSenderFromTimestampedTrigger t;
         pure (mkGuardOutput@{
-                  matchedArgs := [ReplyTo (some sender) none] ;
-                  actionLabel := DoVerify x y z w;
-                  precomputationTasks := unit
+                matchedArgs := [ReplyTo (some sender) none] ;
+                actionLabel := DoVerify x y z w;
+                precomputationTasks := unit
                 });
         }
       | _ := none
@@ -197,7 +195,7 @@ signsForResponseGuard
       | some (MsgSignsFor (QuerySignsForEvidenceResponse externalIdentity evidence err)) :=
           case getSenderFromTimestampedTrigger t of {
             | some sender :=
-                case Ord.isEQ (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnvironment.localState env))) of {
+                case isEqual (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnvironment.localState env))) of {
                   | true := some (mkGuardOutput@{
                       matchedArgs := [];
                       actionLabel := DoHandleSignsForResponse externalIdentity evidence;

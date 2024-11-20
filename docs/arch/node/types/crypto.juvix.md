@@ -15,7 +15,6 @@ tags:
     ```juvix
     module arch.node.types.crypto;
     import prelude open;
-    import Stdlib.Trait.Ord open using {Ordering; Ord; mkOrd; EQ};
     ```
 
 ## Cryptographic primitives
@@ -30,7 +29,7 @@ type PublicKey :=
 instance
 PublicKeyOrd : Ord PublicKey :=
   mkOrd@{
-    cmp := \{_ _ := EQ};
+    cmp := \{_ _ := Equal};
   };
 ```
 
@@ -44,7 +43,7 @@ type PrivateKey :=
 instance
 PrivateKeyOrd : Ord PrivateKey :=
   mkOrd@{
-    cmp := \{_ _ := EQ};
+    cmp := \{_ _ := Equal};
   };
 ```
 

@@ -1,0 +1,1 @@
+  - [**#5**](https://github.com/anoma/nspec/pull/5): Add Ubuntu dependencies to the CI
