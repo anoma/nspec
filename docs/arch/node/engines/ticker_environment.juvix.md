@@ -12,7 +12,7 @@ tags:
 
 # Ticker Environment
 
-??? quote "Juvix imports"
+??? quote "Juvix preamble"
 
     ```juvix
     module arch.node.engines.ticker_environment;
@@ -38,10 +38,15 @@ syntax alias TickerMailboxState := Unit;
 ## Local state
 
 ```juvix
-type TickerLocalState : Type := mkTickerLocalState {
+type TickerLocalState := mkTickerLocalState@{
   counter : Nat
 };
 ```
+
+???+ quote "Arguments"
+
+    `counter`:
+    : The counter value.
 
 ## Timer Handle
 

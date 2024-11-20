@@ -10,14 +10,16 @@ tags:
 - engine-environment
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.engines.template_environment;
     import prelude open;
-    import arch.node.types.engine open;
     import arch.node.engines.template_messages open;
+    import arch.node.types.engine_environment open;
     ```
+
+# Template Environment
 
 ## Overview
 
@@ -33,38 +35,39 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     syntax alias MailboxTwoTwo := Bool;
     ```
 
-### TemplateMailboxState constructors
+### `TemplateMailboxStateFirstKind FirstKindMailboxState`
 
-??? quote "TemplateMailboxStateFirstKind FirstKindMailboxState"
+<!-- --8<-- [start:FirstKindMailboxState] -->
+```juvix
+type FirstKindMailboxState := mkFirstKindMailboxState {
+  fieldOne : MailboxOneOne
+};
+```
+<!-- --8<-- [end:FirstKindMailboxState] -->
 
-    <!-- --8<-- [start:FirstKindMailboxState] -->
-    ```juvix
-    type FirstKindMailboxState := mkFirstKindMailboxState {
-      fieldOne : MailboxOneOne
-    };
-    ```
-    <!-- --8<-- [end:FirstKindMailboxState] -->
+This is one family of mailbox states without much complexity.
 
-
-    This is one family of mailbox states without much complexity.
+???+ quote "Arguments"
 
     `fieldOne`
 
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 
-??? quote "TemplateMailboxStateSecondKind SecondKindMailboxState"
+### `TemplateMailboxStateSecondKind SecondKindMailboxState`
 
-    <!-- --8<-- [start:SecondKindMailboxState] -->
-    ```juvix
-    type SecondKindMailboxState := mkSecondKindMailboxState {
-      fieldOne : MailboxTwoOne;
-      fieldTwo : MailboxTwoTwo
-    };
-    ```
-    <!-- --8<-- [end:SecondKindMailboxState] -->
+<!-- --8<-- [start:SecondKindMailboxState] -->
+```juvix
+type SecondKindMailboxState := mkSecondKindMailboxState {
+  fieldOne : MailboxTwoOne;
+  fieldTwo : MailboxTwoTwo
+};
+```
+<!-- --8<-- [end:SecondKindMailboxState] -->
 
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+???+ quote "Arguments"
 
     `fieldOne`
 
@@ -74,7 +77,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### TemplateMailboxState
+### `TemplateMailboxState`
 
 <!-- --8<-- [start:TemplateMailboxState] -->
 ```juvix
@@ -96,11 +99,14 @@ type TemplateMailboxState :=
     ```
     <!-- --8<-- [end:CustomData] -->
 
-    `word`
+    ???+ quote "Arguments"
 
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        `word`
 
-### TemplateLocalState
+        : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+### `TemplateLocalState`
+
 <!-- --8<-- [start:TemplateLocalState] -->
 ```juvix
 type TemplateLocalState :=
@@ -109,6 +115,12 @@ type TemplateLocalState :=
 };
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
+
+???+ quote "Arguments"
+
+    `taskQueue`
+
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Timer handles
 
@@ -120,35 +132,37 @@ type TemplateLocalState :=
     ```
     <!-- --8<-- [end:ArgOne] -->
 
-### TemplateTimerHandle constructors
+### `TemplateTimerHandleFirstOption FirstOptionTimerHandle`
 
-??? quote "FirstOptionTimerHandle"
+<!-- --8<-- [start:FirstOptionTimerHandle] -->
+```juvix
+type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
+  argOne : ArgOne
+};
+```
+<!-- --8<-- [end:FirstOptionTimerHandle] -->
 
-    <!-- --8<-- [start:FirstOptionTimerHandle] -->
-    ```juvix
-    type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
-      argOne : ArgOne
-    };
-    ```
-    <!-- --8<-- [end:FirstOptionTimerHandle] -->
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
+an example of this case.
 
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
-    an example of this case.
+???+ quote "Arguments"
 
     `argOne`
 
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-??? quote "SecondOptionTimerHandle"
+### `TemplateTimerHandleSecondOption SecondOptionTimerHandle`
 
-    <!-- --8<-- [start:SecondOptionTimerHandle] -->
-    ```juvix
-    type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
-    argOne : String;
-    argTwo : Bool
-    };
-    ```
-    <!-- --8<-- [end:SecondOptionTimerHandle] -->
+<!-- --8<-- [start:SecondOptionTimerHandle] -->
+```juvix
+type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
+  argOne : String;
+  argTwo : Bool
+};
+```
+<!-- --8<-- [end:SecondOptionTimerHandle] -->
+
+???+ quote "Arguments"
 
     `argOne`
 
@@ -158,7 +172,7 @@ type TemplateLocalState :=
 
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### TemplateTimerHandle
+### `TemplateTimerHandle`
 
 <!-- --8<-- [start:TemplateTimerHandle] -->
 ```juvix
@@ -170,7 +184,7 @@ type TemplateTimerHandle :=
 
 ## The Template Environment
 
-### TemplateEnvironment
+### `TemplateEnvironment`
 
 <!-- --8<-- [start:TemplateEnvironment] -->
 ```juvix
@@ -189,7 +203,7 @@ TemplateEnvironment : Type :=
 module template_environment_example;
 
   templateEnvironment : TemplateEnvironment :=
-    mkEngineEnvironment@ {
+    mkEngineEnvironment@{
       name := "template";
       localState := mkTemplateLocalState@{
         taskQueue := mkCustomData@{

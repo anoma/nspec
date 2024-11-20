@@ -17,21 +17,21 @@ tags:
     import prelude open;
     ```
 
-# Ticker Messages
+# TickerMsg Message Interface
 
-## Message interface
+## TickerMsg Message Constructors
 
-### `MsgTickerIncrement`
+??? quote "TickerMsgIncrement"
 
-    A `MsgTickerIncrement` message instructs the engine to increase the counter.
+    A `TickerMsgIncrement` message instructs the engine to increase the counter.
     This message doesn't require any arguments.
 
-### `MsgTickerCount`
+??? quote "TickerMsgCount"
 
-    A `MsgTickerCount` message requests the engine to send the current counter value back to
+    A `TickerMsgCount` message requests the engine to send the current counter value back to
     the requester. This message doesn't require any arguments.
 
-### `TickerMsg`
+### TickerMsg
 
 <!-- --8<-- [start:TickerMsg] -->
 ```juvix
@@ -45,7 +45,7 @@ There are only two message tags: `TickerMsgIncrement`, which increases the count
 state of the ticker, and `TickerMsgCount`, which the ticker responds to with the current
 counter state.
 
-## Sequence diagrams
+## Ticker Interaction Diagram
 
 This diagram represents a simple interaction between a `Ticker` engine instance
 and another entity sending increment requests and count requests.
