@@ -57,7 +57,6 @@ NamingEngine : Type := Engine
 
 ```juvix
 exampleNamingEngine : NamingEngine := mkEngine@{
-    name := "naming";
     behaviour := namingBehaviour;
     initEnv := namingEnvironmentExample;
   };

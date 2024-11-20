@@ -57,7 +57,6 @@ SignsForEngine : Type := Engine
 
 ```juvix
 exampleSignsForEngine : SignsForEngine := mkEngine@{
-    name := "signsFor";
     behaviour := signsForBehaviour;
     initEnv := signsForEnvironmentExample;
   };

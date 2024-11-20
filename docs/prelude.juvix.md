@@ -71,6 +71,18 @@ For example,
 verdad : Bool := true;
 ```
 
+## ByteString
+
+```juvix
+ByteString : Type := Nat;
+```
+
+A basic type for representing binary data.
+
+```juvix
+emptyByteString : ByteString := 0;
+```
+
 ## String
 
 The type `String` represents sequences of characters. Used for text and communication.

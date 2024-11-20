@@ -57,7 +57,6 @@ IdentityManagementEngine : Type := Engine
 
 ```juvix
 exampleIdentityManagementEngine : IdentityManagementEngine := mkEngine@{
-    name := "identityManagement";
     behaviour := identityManagementBehaviour;
     initEnv := identityManagementEnvironmentExample;
   };

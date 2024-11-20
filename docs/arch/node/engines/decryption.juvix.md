@@ -62,7 +62,6 @@ DecryptionEngine : Type := Engine
 
 ```juvix
 exampleDecryptionEngine : DecryptionEngine := mkEngine@{
-    name := "decryption";
     behaviour := decryptionBehaviour;
     initEnv := decryptionEnvironmentExample;
   };
