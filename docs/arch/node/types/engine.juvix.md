@@ -43,7 +43,8 @@ Each engine, not its type, is associated with:
 
 ```juvix
 type Engine (S M H A L X : Type) := mkEngine {
-  initEnv : EngineEnv S M H;
+  name : EngineName;
+  initEnv : EngineEnvironment S M H;
   behaviour : EngineBehaviour S M H A L X;
 };
 ```
