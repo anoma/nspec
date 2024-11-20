@@ -36,7 +36,7 @@ These are the messages that the Template engine can receive/respond to.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `MsgTemplateExampleRequest ExampleRequest`
+### `MsgTemplateExampleRequest`
 
 Example request.
 
@@ -50,7 +50,7 @@ type ExampleRequest : Type :=
 ```
 <!-- --8<-- [end:ExampleRequest] -->
 
-???+ quote "Arguments"
+??? quote "Arguments"
 
     `argOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -58,7 +58,7 @@ type ExampleRequest : Type :=
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `MsgTemplateExampleReply ExampleReply`
+### `MsgTemplateExampleReply`
 
 Reply to an `ExampleRequest`.
 
@@ -75,7 +75,7 @@ type ExampleReplyOk : Type :=
 ```
 <!-- --8<-- [end:ExampleReplyOk] -->
 
-???+ quote "Arguments"
+??? quote "Arguments"
 
     `argOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -93,7 +93,7 @@ type ExampleReplyError : Type :=
 ```
 <!-- --8<-- [end:ExampleReplyError] -->
 
-???+ quote "Error types"
+??? quote "Error types"
 
     `ExampleErrorOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
