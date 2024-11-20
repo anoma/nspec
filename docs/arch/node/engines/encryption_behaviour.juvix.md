@@ -193,7 +193,7 @@ readsForResponseGuard
       | some (MsgReadsFor (QueryReadsForEvidenceResponse externalIdentity evidence err)) :=
           case getSenderFromTimestampedTrigger t of {
             | some sender :=
-                case isEqual (Ord.cmp sender (EncryptionLocalState.readsForEngineAddress (EngineEnv.localState env))) of {
+                case isEqual (Ord.cmp sender (EncryptionLocalState.readsForEngineAddress (EngineEnvironment.localState env))) of {
                   | true := some (mkGuardOutput@{
                       matchedArgs := [];
                       actionLabel := DoHandleReadsForResponse externalIdentity evidence;
@@ -242,7 +242,7 @@ encryptResponse
   (evidence : Set ReadsForEvidence)
   (req : Pair EngineID Plaintext)
   : EngineMsg
-  := let localState := EngineEnv.localState env;
+  := let localState := EngineEnvironment.localState env;
       whoAsked := fst req;
       data := snd req;
       encryptedData :=
@@ -255,7 +255,7 @@ encryptResponse
         err := none
       };
       envelope := mkEngineMsg@{
-        sender := mkPair none (some (EngineEnv.name env));
+        sender := mkPair none (some (EngineEnvironment.name env));
         target := whoAsked;
         mailbox := some 0;
         msg := MsgEncryption responseMsg
@@ -265,7 +265,7 @@ encryptResponse
 encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
-      localState := EngineEnv.localState env;
+      localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
     | DoEncrypt data externalIdentity' useReadsFor :=
@@ -291,7 +291,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
                         newLocalState := localState@EncryptionLocalState{
                           pendingRequests := newPendingRequests
                         };
-                        newEnv' := env@EngineEnv{
+                        newEnv' := env@EngineEnvironment{
                           localState := newLocalState
                         };
                         -- Only send request to ReadsFor Engine if this is the first pending request for this identity
@@ -301,7 +301,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
                                           externalIdentity := externalIdentity'
                                         };
                                         envelope := mkEngineMsg@{
-                                          sender := mkPair none (some (EngineEnv.name env));
+                                          sender := mkPair none (some (EngineEnvironment.name env));
                                           target := EncryptionLocalState.readsForEngineAddress localState;
                                           mailbox := some 0;
                                           msg := MsgReadsFor requestMsg
@@ -326,7 +326,7 @@ encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
                   newLocalState := localState@EncryptionLocalState{
                     pendingRequests := newPendingRequests
                   };
-                  newEnv' := env@EngineEnv{
+                  newEnv' := env@EngineEnvironment{
                     localState := newLocalState
                   };
               in mkActionEffect@{

@@ -56,8 +56,8 @@ ReadsForEngine : Type := Engine
 ### Example of a readsFor engine
 
 ```juvix extract-module-statements
-exampleReadsForEngine : ReadsForEngine :=
-  mkEngine@{
+exampleReadsForEngine : ReadsForEngine := mkEngine@{
+    name := "readsFor";
     behaviour := readsForBehaviour;
     initEnv := readsForEnvironmentExample;
   };

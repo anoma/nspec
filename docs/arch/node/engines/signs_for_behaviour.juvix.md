@@ -295,7 +295,7 @@ queryEvidenceGuard
 signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
-      localState := EngineEnv.localState env;
+      localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
     | DoSignsForQuery externalIdentityA externalIdentityB :=
@@ -312,7 +312,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
           in mkActionEffect@{
             newEnv := env; -- No state change
             producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnv.name env));
+              sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
               msg := MsgSignsFor responseMsg
@@ -342,7 +342,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                         in mkActionEffect@{
                           newEnv := env;
                           producedMessages := [mkEngineMsg@{
-                            sender := mkPair none (some (EngineEnv.name env));
+                            sender := mkPair none (some (EngineEnvironment.name env));
                             target := whoAsked;
                             mailbox := some 0;
                             msg := MsgSignsFor responseMsg
@@ -355,7 +355,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                             updatedLocalState := localState@SignsForLocalState{
                               evidenceStore := newEvidenceStore
                             };
-                            newEnv' := env@EngineEnv{
+                            newEnv' := env@EngineEnvironment{
                               localState := updatedLocalState
                             };
                             responseMsg := SubmitSignsForEvidenceResponse@{
@@ -364,7 +364,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                         in mkActionEffect@{
                           newEnv := newEnv';
                           producedMessages := [mkEngineMsg@{
-                            sender := mkPair none (some (EngineEnv.name env));
+                            sender := mkPair none (some (EngineEnvironment.name env));
                             target := whoAsked;
                             mailbox := some 0;
                             msg := MsgSignsFor responseMsg
@@ -380,7 +380,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
                   in mkActionEffect@{
                     newEnv := env;
                     producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnv.name env));
+                      sender := mkPair none (some (EngineEnvironment.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgSignsFor responseMsg
@@ -411,7 +411,7 @@ signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
           in mkActionEffect@{
             newEnv := env; -- No state change
             producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnv.name env));
+              sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
               msg := MsgSignsFor responseMsg

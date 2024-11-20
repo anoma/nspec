@@ -56,7 +56,7 @@ The Naming Engine does not require a timer handle type. Therefore, we define the
 ## Environment summary
 
 ```juvix
-NamingEnvironment : Type := EngineEnv
+NamingEnvironment : Type := EngineEnvironment
   NamingLocalState
   NamingMailboxState
   NamingTimerHandle;
@@ -69,8 +69,7 @@ NamingEnvironment : Type := EngineEnv
 module naming_environment_example;
 
 namingEnvironmentExample : NamingEnvironment :=
-    mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
+    mkEngineEnvironment@{
       name := "naming";
       localState := mkNamingLocalState@{
         evidenceStore := Set.empty;

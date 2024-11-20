@@ -195,7 +195,7 @@ commitGuard
 commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
-      localState := EngineEnv.localState env;
+      localState := EngineEnvironment.localState env;
   in
   case GuardOutput.actionLabel out of {
     | CommitmentActionLabelDoCommit (mkDoCommit data) :=
@@ -212,7 +212,7 @@ commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
           in mkActionEffect@{
             newEnv := env; -- No state change
             producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnv.name env));
+              sender := mkPair none (some (EngineEnvironment.name env));
               target := whoAsked;
               mailbox := some 0;
               msg := MsgCommitment (MsgCommitmentResponse responseMsg)

@@ -78,7 +78,7 @@ syntax alias CommitmentTimerHandle := Unit;
 
 ```juvix
 CommitmentEnvironment : Type :=
-  EngineEnv
+  EngineEnvironment
     CommitmentLocalState
     CommitmentMailboxState
     CommitmentTimerHandle;
@@ -95,12 +95,11 @@ axiom dummyIDBackend : Backend;
 axiom dummySigningKey : SigningKey;
 
 commitmentEnvironment : CommitmentEnvironment :=
-    mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
+    mkEngineEnvironment@{
       name := "commitment";
       localState := mkCommitmentLocalState@{
         signer := mkSigner@{
-          sign := \{_ x := Ed25519Signature "0xabcd1234"};
+          sign := \{_ x := Ed25519Signature};
         };
         backend := BackendLocalMemory;
       };

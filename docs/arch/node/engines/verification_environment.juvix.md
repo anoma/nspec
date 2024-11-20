@@ -60,7 +60,7 @@ The Verification Engine does not require a timer handle type. Therefore, we defi
 ## Environment summary
 
 ```juvix
-VerificationEnvironment : Type := EngineEnv
+VerificationEnvironment : Type := EngineEnvironment
   VerificationLocalState
   VerificationMailboxState
   VerificationTimerHandle;
@@ -73,8 +73,7 @@ VerificationEnvironment : Type := EngineEnv
 module verification_environment_example;
 
 verificationEnvironmentExample : VerificationEnvironment :=
-    mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
+    mkEngineEnvironment@{
       name := "verification";
       localState := mkVerificationLocalState@{
         verifier := \{_ _ := mkVerifier@{
