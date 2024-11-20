@@ -16,14 +16,11 @@ tags:
     module arch.node.engines.ticker;
 
     import prelude open;
-    import arch.node.types.engine_environment open;
-    import arch.node.types.engine_behaviour open;
     import arch.node.types.engine open;
 
     import arch.node.engines.ticker_messages open public;
     import arch.node.engines.ticker_environment open public;
     import arch.node.engines.ticker_behaviour open public;
-
     open ticker_environment_example;
     ```
 
@@ -65,7 +62,7 @@ TickerEngine : Type := Engine
 ### Example of a ticker engine
 
 <!-- --8<-- [start:exampleTickerEngine] -->
-```juvix
+```juvix extract-module-statements
 exampleTickerEngine : TickerEngine := mkEngine@{
     name := "ticker";
     behaviour := tickerBehaviour;
