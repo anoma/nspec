@@ -16,6 +16,7 @@ tags:
     import arch.node.types.basics open public;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
+    import arch.node.types.anoma_message as Anoma;
     ```
 
 # Engine environment type
@@ -31,7 +32,7 @@ instances in the following categories:
   name.
 - A list of timers that have been set.
 
-This data is encapsulated within the `EngineEnv` type, which is
+This data is encapsulated within the `EngineEnvironment` type, which is
 parameterised by four types:
 
 - `S`, representing the local state,
@@ -42,10 +43,9 @@ These same letters will be used in the rest of the document to represent these
 types.
 
 ```juvix
-type EngineEnv (S M H : Type) :=
-  mkEngineEnv {
-      node : NodeID; -- local NodeID, read-only
-      name : EngineName ; -- local EngineName, read-only
+type EngineEnvironment (S M H : Type) :=
+  mkEngineEnvironment {
+      name : EngineName ; -- read-only
       localState : S;
       mailboxCluster : Map MailboxID (Mailbox M);
       acquaintances : Set EngineName;
