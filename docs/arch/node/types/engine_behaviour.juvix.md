@@ -29,14 +29,15 @@ notifications.
 
 ## Execution graph
 
-Definition of guarded action execution as a sequential-parallel graph,
-where each branch specifies either sequential or parallel execution.
+The execution order of guarded actions is defined as a graph,
+where each branch defines its guards and actions are evaluated.
+
+Only sequential execution is supported for now.
 
 ```juvix
 type Exec G A :=
   | End
   | Seq (Pair G A) (Exec G A)
-  | Par (Pair G A) (Exec G A)
   ;
 ```
 
