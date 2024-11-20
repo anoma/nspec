@@ -43,10 +43,7 @@ code.juvix::after {{
     content: "Juvix v{version}";
     font-size: 10px;
     color: var(--md-juvix-codeblock-footer);
-    position: absolute;
-    top: 2.5ex;
-    right: 3.5em;
-    display: none;
+    float: right;
 }}
 """
     )
