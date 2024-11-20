@@ -34,13 +34,28 @@ the target engine has only one mailbox, the mailbox identifier is redundant.
 
 The following types are used to represent these messages and mailboxes.
 
-### EngineMsg
+### MailboxID
+
+A mailbox identifier is a natural number used to index mailboxes.
+
+??? info "Where do mailbox identifiers come from?"
+
+    The concept of mailbox identifier is taken from
+    the paper
+    [@special-delivery-mailbox-types-2023]
+    (see also [[Mailbox Cluster]] and [@selectors-actors-2014]).
+
+```juvix
+syntax alias MailboxID := Nat;
+```
+
+### EngineMessage
 
 A message between engines. Consists of a sender, a target, an optional mailbox
 identifier, and the message itself.
 
 ```juvix
-type EngineMsg := mkEngineMsg@{
+type EngineMessage : Type := mkEngineMessage {
   sender : EngineID;
   target : EngineID;
   mailbox : Option MailboxID;
@@ -50,7 +65,7 @@ type EngineMsg := mkEngineMsg@{
 
 ### MessageID
 
-Message identifier. Cryptographic hash of an `EngineMsg`.
+Message identifier. Cryptographic hash of an `EngineMessage`.
 
 ```juvix
 syntax alias MessageID := Hash;
@@ -71,81 +86,60 @@ such as the priority of the messages in the mailbox.
     already have it now.
 
 ```juvix
-type Mailbox M := mkMailbox@{
-  messages : List EngineMsg;
-  mailboxState : Option M;
+type Mailbox (MailboxStateType : Type) : Type := mkMailbox {
+  messages : List EngineMessage;
+  mailboxState : Option MailboxStateType;
 };
-```
-
-### MailboxID
-
-A mailbox identifier is a natural number used to index mailboxes.
-
-??? info "Where do mailbox identifiers come from?"
-
-    The concept of mailbox identifier is taken from
-    the paper
-    [@special-delivery-mailbox-types-2023]
-    (see also [[Mailbox Cluster]] and [@selectors-actors-2014]).
-
-```juvix
-syntax alias MailboxID := Nat;
 ```
 
 ### Timer H
 
 ```juvix
-type Timer H := mkTimer@{
+type Timer (HandleType : Type): Type := mkTimer {
   time : Time;
-  handle : H;
+  handle : HandleType;
 };
 ```
 
 ### Trigger H
 
 ```juvix
-type Trigger H :=
-  | MessageArrived { msg : EngineMsg; }
-  | Elapsed { timers : List (Timer H) };
+type Trigger (HandleType : Type) :=
+  | MessageArrived { msg : EngineMessage; }
+  | Elapsed { timers : List (Timer HandleType) };
 ```
 
 - Extract the actual message from a trigger in case it has one:
 
     ```juvix
-    getMessageFromTrigger {H} (tr : Trigger H) : Option Msg
-      := case tr of {
-      | MessageArrived@{msg} := some (EngineMsg.msg msg)
-      | Elapsed@{} := none
-      };
+    getMessageFromTrigger : {H : Type} -> Trigger H -> Option Msg
+      | MessageArrived@{msg} := some (EngineMessage.msg msg)
+      | Elapsed@{} := none;
     ```
 
 - Get the message sender from a trigger:
 
     ```juvix
-    getSenderFromTrigger {H} (tr : Trigger H) : Option EngineID
-      := case tr of {
-      | MessageArrived@{msg} := some (EngineMsg.sender msg)
-      | Elapsed@{} := none
-      };
+    getSenderFromTrigger : {H : Type} -> Trigger H -> Option EngineID
+      | MessageArrived@{msg} := some (EngineMessage.sender msg)
+      | Elapsed@{} := none;
     ```
 
 - Get the target destination from a trigger:
 
     ```juvix
-    getTargetFromTrigger {H} (tr : Trigger H) : Option EngineID
-      := case tr of {
-      | MessageArrived@{msg} := some (EngineMsg.target msg)
-      | Elapsed@{} := none
-      };
+    getTargetFromTrigger : {H : Type} -> Trigger H -> Option EngineID
+      | MessageArrived@{msg} := some (EngineMessage.target msg)
+      | Elapsed@{} := none;
     ```
 
 ### TimestampedTrigger H
 
 ```juvix
-type TimestampedTrigger H :=
-  mkTimestampedTrigger@{
+type TimestampedTrigger (HandleType : Type) :=
+  mkTimestampedTrigger {
     time : Time;
-    trigger : Trigger H;
+    trigger : Trigger HandleType;
   };
 ```
 
