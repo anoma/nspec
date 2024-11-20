@@ -25,16 +25,6 @@ Types in this section are used to represent identities within the network.
 
 ## Basic Types
 
-### ByteString
-
-A basic type for representing binary data.
-
-```juvix
-ByteString : Type := Nat;
-
-emptyByteString : ByteString := 0;
-```
-
 ### Signable
 
 A type representing data that can be cryptographically signed.

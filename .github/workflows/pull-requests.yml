@@ -88,9 +88,9 @@ jobs:
         name: See the dev version in the documentation
         run: |
           juvix --version
-      - name: typecheck Juvix code
+      - name: typecheck docs
         run: |
-          juvix typecheck docs/everything.juvix.md || true
+          cd docs && juvix typecheck
       - name: Install Python
         uses: actions/setup-python@v5.2.0
         with:
