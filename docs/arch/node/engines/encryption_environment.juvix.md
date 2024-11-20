@@ -90,7 +90,7 @@ encryptionEnvironmentExample : EncryptionEnvironment :=
             ordKey := mkOrdkey@{
                 compare := Ord.cmp
             };
-            hash := \{x := 0};
+            hash := \{x := "0x1234abcd"};
           };
         }};
         backend := BackendLocalMemory;
