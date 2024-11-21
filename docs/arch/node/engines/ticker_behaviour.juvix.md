@@ -258,7 +258,7 @@ Timer updates
 : No timers are set or cancelled.
 
 ```juvix
-countAction
+countReplyAction
   (args : List TickerActionArgument)
   (tt : TickerTimestampedTrigger)
   (env : TickerEnvironment)
@@ -312,7 +312,10 @@ TickerBehaviour : Type :=
 ```juvix
 tickerBehaviour : TickerBehaviour :=
   mkEngineBehaviour@{
-    exec := End; -- TODO
+    exec :=
+      Seq [(mkPair incrementGuard incrementAction);
+           (mkPair countReplyGuard countReplyAction)]
+      End;
   };
 ```
 <!-- --8<-- [end:TickerBehaviour-instance] -->

@@ -368,9 +368,9 @@ TemplateBehaviour : Type :=
 templateBehaviour : TemplateBehaviour :=
   mkEngineBehaviour@{
     exec :=
-      Seq (mkPair justHiGuard justHiAction)
-      (Seq (mkPair exampleReplyGuard exampleReplyAction)
-       End);
+      Seq [(mkPair justHiGuard justHiAction);
+           (mkPair exampleReplyGuard exampleReplyAction)]
+      End;
   };
 ```
 <!-- --8<-- [end:templateBehaviour] -->
