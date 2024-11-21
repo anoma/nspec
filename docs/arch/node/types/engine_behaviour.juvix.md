@@ -37,7 +37,7 @@ Only sequential execution is supported for now.
 ```juvix
 type Exec G A :=
   | End
-  | Seq (Pair G A) (Exec G A)
+  | Seq (List (Pair G A)) (Exec G A)
   ;
 ```
 
