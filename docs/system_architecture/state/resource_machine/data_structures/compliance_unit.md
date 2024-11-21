@@ -4,15 +4,21 @@
 
 |Component|Type|Description|
 |-|-|-|
-|`created`|`Set Resource`|a subset of the action created resources|
-|`consumed`|`Set Resource`|a subset of the action consumed resources|
+|`proof`| `PS.Proof`||
+|`instanceBuilder`|`PS.Instance`|The instance required to verify the compliance proof. Includes the tags of the checked resources, compliance unit delta, `CMtree` roots references|
+|`vk`|`PS.VerifyingKey`|
 
-The size of a compliance unit is determined by the resource machine *instantiation*. The total number of compliance proofs required for an action is determined by the number of compliance units that comprise the action. For example, if the instatiation defines a single compliance proof to include 1 input and 1 output resource, and an action contains 3 input and 2 output resources, the total number of compliance units will be 3 (with a placeholder output resource in the third compliance unit).
+!!! warning
+    TODO: the type of `instanceBuilder` here is wrong. Commitments/nullifiers and roots are referenced (cm/nf are stored in actions, roots are stored in tx) and have to be dereferenced first before being passed as a part of the instance to `ComplianceProvingSystem.Verify`. Conceptually `instanceBuilder` contains all the data required to compute the `instance` but not necessarily the instance itself. But it is hard to describe this idea using types.
 
 !!! note
-    Compliance unit is not included in the transaction directly (as it consists of resource objects), but is used to create compliance proofs included in the [action](./action.md#proofs). Compliance unit is a data structure that is only available to the prover.
+    Referencing Merkle tree roots: the Merkle tree roots required to verify the compliance proofs are stored in the transaction (not in action or a compliance unit), and are referenced by a short hash in `instanceBuilder`. To find the right roots corresponding to the proof, the verifier has to compute the hashes of the roots in the transaction, match them with the short hashes in the `instanceBuilder` structure, and use the ones that match for verification. A similar approach is used to reference the tags of the checked in the compliance unit resources.
+
+
+The size of a compliance unit - the number of created and consumed resources in each unit - is determined by the resource machine *instantiation*. The total number of compliance proofs required for an action is determined by the number of compliance units that comprise the action. For example, if the instatiation defines a single compliance proof to include 1 input and 1 output resource, and an action contains 3 input and 2 output resources, the total number of compliance units will be 3 (with a placeholder output resource in the third compliance unit).
 
 ## Interface
 
-1. `prove(ComplianceUnit) -> (PS.Proof, PS.Instance)` - for a given compliance unit, computes and fetches (if necessary) the required inputs from the storage, passes them to the compliance proving system, outputting a compliance proof along with the instance required to verify the proof.
-2. `delta(ComplianceUnit) -> DeltaHash` - computes the compliance unit delta: `unit.delta() = sum(r.delta() for r in unit.consumed) - sum(r.delta() for r in unit.created)`
+1. `delta(ComplianceUnit) -> DeltaHash` - returns the compliance unit delta, which is stored in `complianceData`: `unit.delta() = unit.complianceData.delta`
+2. `created(ComplianceUnit) -> Set Commimtent` - returns the commitments of the created resources checked in the unit
+3. `consumed(ComplianceUnit) -> Set Nullifier` - returns the nullifiers of the consumed resources checked in the unit

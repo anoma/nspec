@@ -7,11 +7,9 @@ An action is a composite structure of type `Action` that contains the following 
 |`created`|`Set Commitment`|contains commitments of resources created in this action|
 |`consumed`|`Set Nullifier`|contains nullifiers of resources consumed in this action|
 |`resourceLogicProofs`|`Map Tag (LogicRefHash, PS.Proof)`|contains a map of resource logic proofs associated with this action. The key is the `self` resource for which the proof is computed, the first parameter of the value opens to the required verifying key, the second one is the corresponding proof|
-|`complianceProofs`|`Set (PS.VerifyingKey, PS.Instance, PS.Proof)`|contains a set of compliance proofs associated with this action. Each tuple contains all the required parameters to verify the proof. The Merkle tree roots required to verify the proof are referenced by short hashes. All the parameters are expected to be ordered.|
+|`complianceUnits`|`Set ComplianceUnit`|The set of transaction's [compliance units](./compliance_unit.md)|
 |`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and [openings](./../primitive_interfaces/fixed_size_type/hash.md#hash) of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage). The openings are expected to be ordered.|
 
-!!! note
-    Referencing Merkle tree roots: the Merkle tree roots required to verify the compliance proofs are stored in the transaction (not in action or a compliance unit), and are referenced by a short hash in the `complianceProofs` data structure. To find the right roots corresponding to the proof, the verifier has to compute the hashes of the roots in the transaction, match them with the short hashes in the `complianceProofs` structure, and use the ones that match for verification.
 
 !!! note
     `resourceLogicProofs` type: For function privacy, we assume that the produced logic proof is recursive, and the verifying key used to verify the proof is either universal and publicly known (in case we have a recursion) - then the verifying key for the inner proof is committed to in the `LogicRefHash` parameter - or it is contained directly in the `LogicRefHash` parameter. This part isn't properly generalised yet.
