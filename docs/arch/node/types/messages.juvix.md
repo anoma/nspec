@@ -36,25 +36,10 @@ the target engine has only one mailbox, the mailbox identifier is redundant.
 
 The following types are used to represent these messages and mailboxes.
 
-### `MailboxID`
-
-A mailbox identifier is a natural number used to index mailboxes.
-
-??? info "Where do mailbox identifiers come from?"
-
-    The concept of mailbox identifier is taken from
-    the paper
-    [@special-delivery-mailbox-types-2023]
-    (see also [[Mailbox Cluster]] and [@selectors-actors-2014]).
-
-```juvix
-syntax alias MailboxID := Nat;
-```
-
 ### `EngineMsg`
 
-A message between engines. Consists of a sender, a target, an optional mailbox
-identifier, and the message itself.
+An *engine message* is a message between engines.
+It consists of a sender, a target, an optional *mailbox identifier*, and the message itself.
 
 ```juvix
 type EngineMsg := mkEngineMsg {
@@ -67,7 +52,8 @@ type EngineMsg := mkEngineMsg {
 
 ### `EngineMsgID`
 
-Message identifier. Cryptographic hash of an `EngineMsg`.
+An *engine message identifier*.
+The cryptographic hash of the corresponding `EngineMsg`.
 
 ```juvix
 syntax alias EngineMsgID := Digest;
@@ -75,23 +61,38 @@ syntax alias EngineMsgID := Digest;
 
 ### `Mailbox S`
 
-A mailbox is a container for messages and optionally a mailbox state. The
-mailbox state could be used to store additional information about the mailbox,
+A *mailbox* is a container for *engine messages* and optionally a *mailbox state*.
+The mailbox state could be used to store additional information about the mailbox,
 such as the priority of the messages in the mailbox.
 
 ??? info "Where does mailbox state come from?"
 
     The mailbox state is related to the capabilities of mailboxes of the paper
-    [@special-delivery-mailbox-types-2023]. In particular, at any given
-    point in time, a mailbox will have a capability for receiving messages (in
-    later versions of the specs). As mailbox state can be useful in general, we
-    already have it now.
+    [@special-delivery-mailbox-types-2023].
+    In particular, at any given point in time,
+    a mailbox will have a capability for receiving messages (in later versions of the specs).
+    As mailbox state can be useful in general, we already have it now.
 
 ```juvix
 type Mailbox S := mkMailbox@{
   messages : List EngineMsg;
   mailboxState : Option S;
 };
+```
+
+### `MailboxID`
+
+A *mailbox identifier* is a natural number used to index mailboxes.
+
+??? info "Where do mailbox identifiers come from?"
+
+    The concept of mailbox identifier is taken from
+    the paper
+    [@special-delivery-mailbox-types-2023]
+    (see also [[Mailbox Cluster]] and [@selectors-actors-2014]).
+
+```juvix
+syntax alias MailboxID := Nat;
 ```
 
 ### `Timer H`
