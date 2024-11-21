@@ -61,7 +61,6 @@ TemplateEngine : Type :=
 <!-- --8<-- [start:exampleTemplateEngine] -->
 ```juvix
 exampleTemplateEngine : TemplateEngine := mkEngine@{
-  name := "template";
   initEnv := templateEnvironment;
   behaviour := templateBehaviour;
 };
