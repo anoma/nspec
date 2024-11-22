@@ -140,9 +140,7 @@ syntax alias ExternalIdentity := EngineName;
 Engine instance identity combining node identity and engine name.
 
 ```juvix
-EngineID : Type := Pair (Option NodeID) (Option EngineName);
-
-unknownEngineID : EngineID := mkPair none none;
+EngineID : Type := Pair (Option NodeID) EngineName;
 
 isLocalEngineID (eid : EngineID) : Bool :=
   case eid of {
@@ -156,14 +154,8 @@ isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 ### Engine Helper Functions
 
 ```juvix
-nameStr (name : EngineID) : String :=
-  case snd name of {
-    | none := ""
-    | some s := s
-  };
-
 nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
-  (name ++str "_" ++str str ++str "_" ++str nameStr addr);
+  name ++str "_" ++str str ++str "_" ++str (snd addr);
 ```
 
 ## String Comparison
