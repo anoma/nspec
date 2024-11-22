@@ -133,8 +133,16 @@ the following.
 Before a PR can be merged into the `main` branch, it must be able to build the whole codebase.
 The CI checks this automatically, and can be also verified manually:
 
+First, we must check the Juvix codebase, running the following command:
+
 ```bash
 juvix typecheck docs/everything.juvix.md
+```
+
+Next, we must verify the MkDocs site build by running the following command:
+
+```bash
+poetry run mkdocs build
 ```
 
 ## Integration branches for complex changes
@@ -145,18 +153,47 @@ it's best to split them up into smaller PRs that each address a single topic.
 For example, making a change to a type can be in one PR,
 a change to a different type in a second PR,
 and applying the type changes in the rest of the code base in a third one.
-In this case branch 3 needs to merge branch 1 & 2 first,
-then introduce the necessary changes.
+In this case, branch 3 needs to merge branch 1 & 2 first.
 
 We also need to create an integration branch,
 which becomes the base branch for all the interdependent PRs,
 and a corresponding integration PR to be merged into the `main` branch.
 
-This way the topic branches need not be able to build the whole codebase,
-while the integration branch must be able to build it
-once all the topic branches are merged into it.
+On GitHub, make sure to include the list of auxiliary PRs as part of the description of the integration PR.
 
-### Fetch latest updates
+This way the topic branches need not be able to build the whole codebase, while
+the integration branch must be able to build it once all the topic branches are
+merged into it.
+
+A diagram of the integration branch and topic branches is the following,
+assuming the integration branch is `example/integration` against `main`, and the
+topic branches are `example/topic-1` against `main`, `example/topic-2` against
+`main`, and `example/topic-3` against `main`.
+
+```mermaid
+%%{init: { 'theme': 'neutral' } }%%
+gitGraph:
+    commit
+    branch example/topic-1
+    checkout example/topic-1
+    commit
+    checkout main
+    branch example/topic-2
+    checkout example/topic-2
+    commit
+    checkout main
+    branch example/integration
+    checkout example/integration
+    commit
+    merge example/topic-1
+    commit
+    merge example/topic-2
+    commit
+    checkout main
+    merge example/integration
+```
+
+### Fetch the latest updates
 
 ```bash
 git fetch
@@ -184,12 +221,12 @@ git merge example/topic-1
 git merge example/topic-2
 ```
 
-## Using worktrees
+## Using Git Worktrees
 
 When working on multiple branches simultaneously, git worktrees come handy.
 Here's how to use them.
 
-### Fetch latest updates
+### Fetch the latest updates
 
 ```bash
 git fetch
@@ -201,7 +238,7 @@ git fetch
 git branch some-branch origin/main
 ```
 
-### Create a worktree for a branch
+### Create a Worktree for the branch
 
 Either inside the repo starting with a dot (to avoid build issues):
 ```bash
