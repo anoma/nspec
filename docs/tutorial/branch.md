@@ -18,8 +18,8 @@ For changes to the latest version, branch off from `main`. Name your branch by
 prefixing your name and an issue identifier, like `your-name/issue-identifier`.
 
 ```bash
-git checkout main
-git checkout -b your-name/issue-identifier
+git fetch
+git checkout -b your-name/issue-identifier origin/main
 ```
 
 ### For changes to older published versions
@@ -28,15 +28,11 @@ For patching older versions, branch off from the specific version branch.
 Published versions follow the pattern `vX`, where `X` is the version number.
 For example, say the latest version is `v0.1.0`.
 
-```bash
-git checkout v0.1.0
-```
-
 Name your branch by prefixing your name and an patch topic, like
 `your-name/patch-topic`.
 
 ```bash
-git checkout -b your-name/patch-topic
+git checkout -b your-name/patch-topic v0.1.0
 ```
 
 The git graph will look like:
@@ -57,6 +53,19 @@ gitGraph:
 
 So, if your PR is merged, the changes will be incorporated into the version
 branch and on the website.
+
+### Pushing changes
+
+When pushing changes for the first time in a new branch, set the upstream tracking branch:
+
+```bash
+git push -u origin some-branch:some-branch
+```
+
+Afterwards, for subsequent pushes the following is sufficient:
+```bash
+git push
+```
 
 ### Rebasing your work
 
@@ -124,7 +133,7 @@ the following.
 Before a PR can be merged into the `main` branch, it must be able to build the whole codebase.
 The CI checks this automatically, and can be also verified manually:
 
-```
+```bash
 juvix typecheck docs/everything.juvix.md
 ```
 
@@ -149,18 +158,19 @@ once all the topic branches are merged into it.
 
 ### Fetch latest updates
 
-```
+```bash
 git fetch
 ```
 
 ### Create integration branch
-```
+
+```bash
 git branch example/integration origin/main
 ```
 
 ### Create topic branches
 
-```
+```bash
 git branch example/topic-1 example/integration
 git branch example/topic-2 example/integration
 git branch example/topic-3 example/integration
@@ -168,7 +178,7 @@ git branch example/topic-3 example/integration
 
 ### Merge dependencies
 
-```
+```bash
 git checkout example/topic-3
 git merge example/topic-1
 git merge example/topic-2
@@ -181,23 +191,24 @@ Here's how to use them.
 
 ### Fetch latest updates
 
-```
+```bash
 git fetch
 ```
 
 ### Create a branch
-```
+
+```bash
 git branch some-branch origin/main
 ```
 
 ### Create worktree for branch
 
 Either inside the repo starting with a dot, to avoid build issues:
-```
+```bash
 git worktree add /path/to/repo/.tree/some-branch some-branch
 ```
 
 Or outside the repo:
-```
+```bash
 git worktree add /path/to/repo-some-branch some-branch
 ```
