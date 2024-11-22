@@ -17,7 +17,7 @@ tags:
     import prelude open;
     ```
 
-# Commitment Messages
+# Mempool Worker Messages
 
 ## Message interface
 

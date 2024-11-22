@@ -76,7 +76,7 @@ MempoolWorkerEngine : Type := Engine
 ```
 <!-- --8<-- [end:MempoolWorkerEngine] -->
 
-### Example of a commitment engine
+### Example of a mempool worker engine
 
 <!-- --8<-- [start:exampleMempoolWorkerEngine] -->
 ```juvix

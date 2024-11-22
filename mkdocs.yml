@@ -363,9 +363,10 @@ nav:
                           - KVSWrite: ./arch/node/ordering/execution/shard/kvs_write.md
                           - UpdateSeenAll: ./arch/node/ordering/execution/shard/update_seen_all.md
                       - Executor:
-                          - ./arch/node/ordering/execution/executor/index.md
-                          - ExecuteTransaction: ./arch/node/ordering/execution/executor/execute_transaction.md
-                          - KVSRead: ./arch/node/ordering/execution/executor/kvs_read.md
+                          - Executor Engine: ./arch/node/engines/executor.juvix.md
+                          - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
+                          - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
+                          - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
   - Application Architecture:
       - ./application_architecture/index.md
       - Definitions:
