@@ -44,8 +44,6 @@ types.
 ```juvix
 type EngineEnv (S M H : Type) :=
   mkEngineEnv {
-      node : NodeID; -- local NodeID, read-only
-      name : EngineName ; -- local EngineName, read-only
       localState : S;
       mailboxCluster : Map MailboxID (Mailbox M);
       acquaintances : Set EngineName;
