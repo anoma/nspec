@@ -27,20 +27,6 @@ specified by a finite set of _guards_ and an _action function,_ which both
 determine how engine instances react to received messages or timer
 notifications.
 
-## Execution graph
-
-The execution order of guarded actions is defined as a graph,
-where each branch defines its guards and actions are evaluated.
-
-Only sequential execution is supported for now.
-
-```juvix
-type Exec G A :=
-  | End
-  | Seq (List (Pair G A)) (Exec G A)
-  ;
-```
-
 ## Guards
 
 Guards are terms of type `Guard`, which is a function type,
@@ -71,19 +57,23 @@ messages, creating new engine instances, and updating timers.
 <!-- --8<-- [start:Guard] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Guard (S M H A : Type) : Type :=
+Guard (C S M H L A : Type) : Type :=
   (tt : TimestampedTrigger H) ->
+  (cfg : EngineConfig C) ->
   (env : EngineEnv S M H) ->
-  Option (GuardOutput A);
+  Option (GuardOutput L A);
 ```
 <!-- --8<-- [end:Guard] -->
 
 ### `GuardOutput`
 
+The guard output defines an action label and action arguments.
+
 <!-- --8<-- [start:GuardOutput] -->
 ```juvix
-type GuardOutput (A : Type) :=
-  mkGuardOutput{
+type GuardOutput (L A : Type) :=
+  mkGuardOutput@{
+    label : L;
     args : A;
   };
 ```
@@ -118,9 +108,10 @@ The record type `ActionInput S M H A` encapsulates the following data:
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Action (S M H A : Type) : Type :=
+Action (C S M H A : Type) : Type :=
   (args : A) ->
   (tt : TimestampedTrigger H) ->
+  (cfg : ActionConfig C) ->
   (env : EngineEnv S M H) ->
   Option (ActionEffect S M H A);
 ```
@@ -158,22 +149,23 @@ are triggered.
 
 ### `ActionEffect`
 
-The `ActionEffect S M H A` type defines the results produced by the action,
-which can be
+The `ActionEffect S M H A` type defines the effects produced by the action.
+The action can perform any of the following:
 
-- Update its environment (while leaving the name unchanged).
+- Update the engine environment.
 - Produce a set of messages to be sent to other engine instances.
 - Set, discard, or supersede timers.
 - Define new engine instances to be created.
 
 <!-- --8<-- [start:ActionEffect] -->
 ```juvix
-type ActionEffect (S M H A : Type) := mkActionEffect {
-  env : EngineEnv S M H;
-  msgs : List EngineMsg;
-  timers : List (Timer H);
-  engines : List Anoma.Env;
-};
+type ActionEffect (S M H A : Type) :=
+  mkActionEffect {
+    env : EngineEnv S M H;
+    msgs : List EngineMsg;
+    timers : List (Timer H);
+    engines : List Anoma.Env;
+  };
 ```
 <!-- --8<-- [end:ActionEffect] -->
 
@@ -189,9 +181,9 @@ introduced earlier, an `EngineBehaviour` is a set of guards and an action functi
 
 <!-- --8<-- [start:EngineBehaviour] -->
 ```juvix
-type EngineBehaviour (S M H A : Type) :=
-  mkEngineBehaviour {
-    exec : Exec (Guard S M H A) (Action S M H A);
+type EngineBehaviour (C S M H L A : Type) :=
+  mkEngineBehaviour@{
+    guards : List (Guard C S M H L A);
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
