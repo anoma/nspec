@@ -201,9 +201,9 @@ git fetch
 git branch some-branch origin/main
 ```
 
-### Create worktree for branch
+### Create a worktree for a branch
 
-Either inside the repo starting with a dot, to avoid build issues:
+Either inside the repo starting with a dot (to avoid build issues):
 ```bash
 git worktree add /path/to/repo/.tree/some-branch some-branch
 ```
