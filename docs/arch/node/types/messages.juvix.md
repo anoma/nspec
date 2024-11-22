@@ -162,7 +162,7 @@ type TimestampedTrigger H :=
   };
 ```
 
-- Get the `EngineMsg` from a `TimestampedTrigger`:
+- Get the engine message from a timestamped trigger:
 
     ```juvix
     getEngineMsgFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineMsg
