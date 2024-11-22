@@ -165,10 +165,11 @@ This way the topic branches need not be able to build the whole codebase, while
 the integration branch must be able to build it once all the topic branches are
 merged into it.
 
-A possible diagram of the integration branch and topic branches is the following,
-assuming the integration branch is `example/integration` against `main`, and the
-topic branches are `example/topic-1` against `main`, `example/topic-2` against
-`main`, and `example/topic-3` against `main`.
+A possible diagram of the integration branch and topic branches is the
+following, assuming the integration branch is `example/integration` against
+`main`, and the topic branches are `example/topic-1` against `main`,
+`example/topic-2` against `main`, and `example/topic-3` against `main`. The
+topic branches are squashed-and-merged into the integration branch.
 
 ```mermaid
 %%{init: { 'theme': 'neutral' } }%%
