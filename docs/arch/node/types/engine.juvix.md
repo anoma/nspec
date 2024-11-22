@@ -43,19 +43,10 @@ Each engine, not its type, is associated with:
 - as well as a specific [[Engine Behaviour|behaviour]].
 
 ```juvix
-type EngineConfig (C : Type) :=
-  mkEngineConfig {
-    node : NodeID;
-    name : EngineName;
-    cfg : C;
-};
-```
-
-```juvix
 type Engine (C S M H L A : Type) := mkEngine {
   cfg : EngineConfig C;
   env : EngineEnv S M H;
-  behaviour : EngineBehaviour S M H A;
+  behaviour : EngineBehaviour C S M H L A;
 };
 ```
 
