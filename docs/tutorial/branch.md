@@ -118,3 +118,86 @@ the following.
 - Ensure you are on the correct branch before making changes.
 - Regularly update your branch to minimise conflicts.
 - Ask for help if you encounter any issues to the maintainers.
+
+## Merging PRs
+
+Before a PR can be merged into the `main` branch, it must be able to build the whole codebase.
+The CI checks this automatically, and can be also verified manually:
+
+```
+juvix typecheck docs/everything.juvix.md
+```
+
+## Integration branches for complex changes
+
+When making complex changes that consist of a set of interdependent changes,
+it's best to split them up into smaller PRs that each address a single topic.
+
+For example, making a change to a type can be in one PR,
+a change to a different type in a second PR,
+and applying the type changes in the rest of the code base in a third one.
+In this case branch 3 needs to merge branch 1 & 2 first,
+then introduce the necessary changes.
+
+We also need to create an integration branch,
+which becomes the base branch for all the interdependent PRs,
+and a corresponding integration PR to be merged into the `main` branch.
+
+This way the topic branches need not be able to build the whole codebase,
+while the integration branch must be able to build it
+once all the topic branches are merged into it.
+
+### Fetch latest updates
+
+```
+git fetch
+```
+
+### Create integration branch
+```
+git branch example/integration origin/main
+```
+
+### Create topic branches
+
+```
+git branch example/topic-1 example/integration
+git branch example/topic-2 example/integration
+git branch example/topic-3 example/integration
+```
+
+### Merge dependencies
+
+```
+git checkout example/topic-3
+git merge example/topic-1
+git merge example/topic-2
+```
+
+## Using worktrees
+
+When working on multiple branches simultaneously, git worktrees come handy.
+Here's how to use them.
+
+### Fetch latest updates
+
+```
+git fetch
+```
+
+### Create a branch
+```
+git branch some-branch origin/main
+```
+
+### Create worktree for branch
+
+Either inside the repo starting with a dot, to avoid build issues:
+```
+git worktree add /path/to/repo/.tree/some-branch some-branch
+```
+
+Or outside the repo:
+```
+git worktree add /path/to/repo-some-branch some-branch
+```
