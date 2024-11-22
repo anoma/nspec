@@ -165,7 +165,7 @@ This way the topic branches need not be able to build the whole codebase, while
 the integration branch must be able to build it once all the topic branches are
 merged into it.
 
-A diagram of the integration branch and topic branches is the following,
+A possible diagram of the integration branch and topic branches is the following,
 assuming the integration branch is `example/integration` against `main`, and the
 topic branches are `example/topic-1` against `main`, `example/topic-2` against
 `main`, and `example/topic-3` against `main`.
@@ -184,11 +184,9 @@ gitGraph:
     checkout main
     branch example/integration
     checkout example/integration
-    commit
     merge example/topic-1
-    commit
     merge example/topic-2
-    commit
+    commit "Fix merge conflicts"
     checkout main
     merge example/integration
 ```
