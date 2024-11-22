@@ -27,9 +27,9 @@ tags:
 type ExecuteTransaction := mkExecuteTransaction {
   executable : TransactionExecutable; -- "code" to be executed post-ordering
   label : TransactionLabel; -- information about keys that the transaction can rightfully access
-  timestamp : TxFingerprint; -- (partial) ordering information (sufficient for total order in  V0.2.0 and earlier)  
-  curator : ExternalIdentity; -- the [[Worker Engine]] to be informed when execution completes (e.g. for logs) 
-  issuer : ExternalIdentity; -- the ID of the sender of the [[TransactionRequest]]   
+  timestamp : TxFingerprint; -- (partial) ordering information (sufficient for total order in  V0.2.0 and earlier)
+  curator : ExternalIdentity; -- the [[Worker Engine]] to be informed when execution completes (e.g. for logs)
+  issuer : ExternalIdentity; -- the ID of the sender of the [[TransactionRequest]]
 };
 ```
 !!! todo
@@ -47,13 +47,13 @@ The [[Mempool Engines|mempool engines]] instruct the [[Executor]] that a new
      : information about keys that the transaction can rightfully access
 
      `timestamp`:
-     : (partial) ordering information (sufficient for total order in  V0.2.0 and earlier)  
+     : (partial) ordering information (sufficient for total order in  V0.2.0 and earlier)
 
      `curator`:
-     : the [[Worker Engine]] to be informed when execution completes (e.g. for logs) 
+     : the [[Worker Engine]] to be informed when execution completes (e.g. for logs)
 
      `issuer`:
-     : the ID of the sender of the [[TransactionRequest]]  
+     : the ID of the sender of the [[TransactionRequest]]
 
 
 
@@ -89,8 +89,8 @@ The [[TxFingerprint|timestamp]] should match the
 ```juvix
 type KVSRead := mkKVSRead {
   timestamp : TxFingerprint; -- the timestamp at which the datum was read
-  key : KVSKey; --  the key from which the datum is read 
-  data : KVSDatum; -- the datum read  
+  key : KVSKey; --  the key from which the datum is read
+  data : KVSDatum; -- the datum read
 }
 ```
 !!! todo
@@ -110,7 +110,7 @@ When a [[Shard]] has determined what the value read is at the
      : the key from which the datum is read
 
      `data`:
-     : the datum read 
+     : the datum read
 
 
 #### Effects
@@ -149,7 +149,7 @@ If this lets us finish the [[TransactionExecutable]], it may trigger
 
 ### Executor TransactionRequest Sequence
 !!! todo
-    Using the template from commitment messages, make a mermaid diagram with a typical  sequence. 
+    Using the template from commitment messages, make a mermaid diagram with a typical  sequence.
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">

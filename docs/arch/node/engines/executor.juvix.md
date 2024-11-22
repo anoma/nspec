@@ -44,7 +44,7 @@ The [[Execution Engines]] might keep a pool of Executors,
 
 ## Type
 !!! todo
-    Add an element to the executor Engine (perhaps in the behaviour?) that specifises the transaction candidate (and its label) that we're executing. 
+    Add an element to the executor Engine (perhaps in the behaviour?) that specifises the transaction candidate (and its label) that we're executing.
     I think currently these are specified in `ExecuteTransaction` message, but they don't need to be a message.
 <!-- --8<-- [start:ExecutorEngine] -->
 ```juvix

@@ -22,12 +22,12 @@ tags:
 # Executor Environment
 
 ## Overview
-The local state each executor tracks the ``in progress'' transaction candidates post-ordering execution, along with read and write requests from the shards. 
+The local state each executor tracks the ``in progress'' transaction candidates post-ordering execution, along with read and write requests from the shards.
 
 
 ## Mailbox states
 !!! todo
-    Figure out what a mailbox state is, what makes it special, and if we're just using Unit. 
+    Figure out what a mailbox state is, what makes it special, and if we're just using Unit.
 
 The Executor Engine does not require complex mailbox states.
 We define the mailbox state as `Unit`.
@@ -47,7 +47,7 @@ type ExecutorLocalState := mkExecutorLocalState@{
   executable : Maybe ExecuteTransaction; -- if we've received it, the message that tells us what we're executing
   reads : Map KVSKey KVSDatum; -- reads from the label for which we've received results
   writes: Map KVSKey KVSDatum; -- writes issued by execution
-  side_effects : IO (); -- other operations to be issued if the transaction ultimately succeeds. 
+  side_effects : IO (); -- other operations to be issued if the transaction ultimately succeeds.
 };
 ```
 !!! todo
@@ -74,7 +74,7 @@ type ExecutorLocalState := mkExecutorLocalState@{
 
 ## Timer Handle
 !!! todo
-    figure out what a Timer Handle is, and if an executor needs one. 
+    figure out what a Timer Handle is, and if an executor needs one.
 
 The Executor Engine does not require a timer handle type.
 Therefore, we define the timer handle type as `Unit`.
