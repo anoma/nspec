@@ -57,7 +57,7 @@ messages, creating new engine instances, and updating timers.
 <!-- --8<-- [start:Guard] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Guard (C S M H L A : Type) : Type :=
+Guard (C S M H L A : Type) :=
   (tt : TimestampedTrigger H) ->
   (cfg : EngineConfig C) ->
   (env : EngineEnv S M H) ->
@@ -108,7 +108,7 @@ The record type `ActionInput S M H A` encapsulates the following data:
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Action (C S M H A : Type) : Type :=
+Action (C S M H A : Type) :=
   (args : A) ->
   (tt : TimestampedTrigger H) ->
   (cfg : ActionConfig C) ->
