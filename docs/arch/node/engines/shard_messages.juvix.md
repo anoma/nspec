@@ -38,7 +38,7 @@ type KVSAcquireLock := mkKVSAcquireLock {
     make this type check properly (may require introduing TxFingerprint and such types somewhere)
 
 !!! todo
-    figure out how we're expressing Sets like this in Juvix. Probably some kind of Set typeclass, and then there can be different instances for each of the input Sets, but that starts to seem unnecessarily verbose. 
+    figure out how we're expressing Sets like this in Juvix. Probably some kind of Set typeclass, and then there can be different instances for each of the input Sets, but that starts to seem unnecessarily verbose.
 
 
 Inform the shard about keys that a transaction may/will read and/or
@@ -51,7 +51,7 @@ Inform the shard about keys that a transaction may/will read and/or
 
     `eager_read_keys`:
     : Keys this transaction _will_ read (send values read as soon as possible)
-    
+
     `will_write_keys`:
     : Keys this transaction _will_ write. Future reads are dependent _only_ on the [[KVSWrite]] for this [[TxFingerprint]].
 

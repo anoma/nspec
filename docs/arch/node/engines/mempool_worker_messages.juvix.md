@@ -78,7 +78,7 @@ It is an asynchronous response.
 
     `key`:
     : the key in the key value store that will be accessed
-    
+
     `write`:
     : `true` for write, `false` for read
 
@@ -159,7 +159,7 @@ type TransactionRequest = mkTransactionRequest {
 ```
 !!! todo
     make this type check properly (may require introduing TxFingerprint and whatnot types somewhere)
-    
+
 A [[User#user|user]] or [[Solver#solver|solver]] requests that
 a [[TransactionCandidate#transactioncandidate|transaction candidate]]
 be ordered and executed.

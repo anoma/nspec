@@ -147,7 +147,7 @@ type WorkerHeardAll := mkWorkerHeardAll@{
 
     `reads`:
     : the shard will receive no further read [[KVSAcquireLock]]s before this time from this worker. Must be before (or equal to) writes.
-    
+
 ```juvix
 type ShardLocalState := mkShardLocalState@{
   heard_all : Map ExternalIdentity WorkerHeardAll; -- together, these represent `heardAllReads` and `heardAllWrites`
@@ -155,7 +155,7 @@ type ShardLocalState := mkShardLocalState@{
 };
 ```
 !!! todo
-    establish a data structure for storing the timeline for each key, in accordance with what is written in the local state section above. 
+    establish a data structure for storing the timeline for each key, in accordance with what is written in the local state section above.
     This is complicated by the use of range queries (see state ART report)
 
 
