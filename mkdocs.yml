@@ -357,11 +357,10 @@ nav:
                   - Execution engines:
                       - ./arch/node/ordering/execution/index.md
                       - Shard:
-                          - ./arch/node/ordering/execution/shard/index.md
-                          - KVSAcquireLock: ./arch/node/ordering/execution/shard/kvs_acquire_lock.md
-                          - KVSReadRequest: ./arch/node/ordering/execution/shard/kvs_read_request.md
-                          - KVSWrite: ./arch/node/ordering/execution/shard/kvs_write.md
-                          - UpdateSeenAll: ./arch/node/ordering/execution/shard/update_seen_all.md
+                          - Shard Engine: ./arch/node/engines/shard.juvix.md
+                          - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
+                          - Shard Environment: ./arch/node/engines/shard_environment.juvix.md
+                          - Shard Behaviour: ./arch/node/engines/shard_behaviour.juvix.md
                       - Executor:
                           - Executor Engine: ./arch/node/engines/executor.juvix.md
                           - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
