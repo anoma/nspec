@@ -17,9 +17,10 @@ tags:
 
     import prelude open;
     import arch.node.engines.template_messages open;
-    import arch.node.types.engine_environment open;
+    import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Template Environment
@@ -191,7 +192,8 @@ type TemplateTimerHandle :=
 ```juvix
 TemplateTimestampedTrigger : Type :=
   TimestampedTrigger
-    TemplateTimerHandle;
+    TemplateTimerHandle
+    Anoma.Msg;
 ```
 <!-- --8<-- [end:TemplateTimestampedTrigger] -->
 
@@ -205,7 +207,8 @@ TemplateEnv : Type :=
   EngineEnv
     TemplateLocalState
     TemplateMailboxState
-    TemplateTimerHandle;
+    TemplateTimerHandle
+    Anoma.Msg;
 ```
 <!-- --8<-- [end:TemplateEnv] -->
 

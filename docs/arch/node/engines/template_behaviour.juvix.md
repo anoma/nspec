@@ -24,7 +24,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
-    import arch.node.types.anoma open;
+    import arch.node.types.anoma as Anoma open;
     ```
 
 # Template Behaviour
@@ -107,9 +107,12 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateGuard : Type :=
       Guard
+        TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
+        Anoma.Msg
+        TemplateActionLabel
         TemplateActionArguments;
     ```
     <!-- --8<-- [end:TemplateGuard] -->
@@ -120,6 +123,7 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateGuardOutput : Type :=
       GuardOutput
+        TemplateActionLabel
         TemplateActionArguments;
     ```
     <!-- --8<-- [end:TemplateGuardOutput] -->
@@ -130,10 +134,15 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateAction : Type :=
       Action
+          TemplateActionLabel
+          TemplateActionArguments
           TemplateLocalState
           TemplateMailboxState
           TemplateTimerHandle
-          TemplateActionArguments;
+          TemplateCfg
+          Anoma.Msg
+          Anoma.Cfg
+          Anoma.Env;
     ```
     <!-- --8<-- [end:TemplateActionFunction] -->
 
@@ -146,7 +155,9 @@ TemplateActionArguments : Type := List TemplateActionArgument;
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
-        TemplateActionArguments;
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
     <!-- --8<-- [end:TemplateActionEffect] -->
 
@@ -222,6 +233,7 @@ Acquaintance updates
 
 ```juvix
 justHiAction
+  (label : TemplateActionLabel)
   (args : List TemplateActionArgument)
   (tt : TemplateTimestampedTrigger)
   (cfg : EngineCfg TemplateCfg)
@@ -316,6 +328,7 @@ Timer updates
 
 ```juvix
 exampleReplyAction
+  (label : TemplateActionLabel)
   (args : List TemplateActionArgument)
   (tt : TemplateTimestampedTrigger)
   (cfg : EngineCfg TemplateCfg)
@@ -359,9 +372,10 @@ exampleReplyAction
 
 ```juvix
 type TemplateActionLabel :=
-  | TemplateActionLabelJustHi [ justHiAction ]
-  | TemplateActionLabelExampleReply [ exampleReplyAction ]
-  | TemplateActionLabelDoBoth [ justHiAction; exampleReplyAction ];
+  | TemplateActionLabelJustHi -- [ justHiAction ]
+  | TemplateActionLabelExampleReply -- [ exampleReplyAction ]
+  | TemplateActionLabelDoBoth -- [ justHiAction; exampleReplyAction ]
+  ;
 ```
 
 ## The Template behaviour
@@ -387,10 +401,7 @@ TemplateBehaviour : Type :=
 ```juvix
 templateBehaviour : TemplateBehaviour :=
   mkEngineBehaviour@{
-    exec :=
-      Seq [(mkPair justHiGuard justHiAction);
-           (mkPair exampleReplyGuard exampleReplyAction)]
-      End;
+    guards := [ justHiGuard; exampleReplyGuard ];
   };
 ```
 <!-- --8<-- [end:templateBehaviour] -->

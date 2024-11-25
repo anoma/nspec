@@ -5,53 +5,53 @@ categories:
 - engine
 - node
 tags:
-- template-engine
+- ticker-engine
 - engine-environment
 ---
 
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template_config;
+    module arch.node.engines.ticker_config;
 
     import prelude open;
-    import arch.node.engines.template_messages open;
+    import arch.node.engines.ticker_messages open;
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
     ```
 
-# Template Configuration
+# Ticker Configuration
 
 ## Overview
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-## The Template Configuration
+## The Ticker Configuration
 
-### `TemplateCfg`
+### `TickerCfg`
 
-<!-- --8<-- [start:TemplateCfg] -->
+<!-- --8<-- [start:TickerCfg] -->
 ```juvix
-type TemplateCfg :=
-  mkTemplateCfg@{
+type TickerCfg :=
+  mkTickerCfg@{
     example : Nat;
     value : String;
   }
 ```
-<!-- --8<-- [end:TemplateCfg] -->
+<!-- --8<-- [end:TickerCfg] -->
 
 #### Instantiation
 
-<!-- --8<-- [start:templateCfg] -->
+<!-- --8<-- [start:tickerCfg] -->
 ```juvix extract-module-statements
-module template_config_example;
+module ticker_config_example;
 
-  templateCfg : EngineCfg TemplateCfg :=
+  tickerCfg : EngineCfg TickerCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
-      name := "template";
-      cfg := mkTemplateCfg@{
+      name := "ticker";
+      cfg := mkTickerCfg@{
         example := 1;
         value := "hello world";
       };
@@ -59,4 +59,4 @@ module template_config_example;
   ;
 end;
 ```
-<!-- --8<-- [end:templateCfg] -->
+<!-- --8<-- [end:tickerCfg] -->

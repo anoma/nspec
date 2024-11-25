@@ -21,6 +21,8 @@ tags:
     import arch.node.engines.template_environment open public;
     import arch.node.engines.template_behaviour open public;
     import arch.node.types.engine open public;
+
+    open template_config_example;
     open template_environment_example;
     ```
 
@@ -33,6 +35,7 @@ Brief summary of the purpose of the engine.
 ## Components
 
 - [[Template Messages]]
+- [[Template Configuration]]
 - [[Template Environment]]
 - [[Template Behaviour]]
 
@@ -68,7 +71,11 @@ exampleTemplateEngine : TemplateEngine :=
 ```
 <!-- --8<-- [end:exampleTemplateEngine] -->
 
-where `templateEnv` is defined as follows:
+where `templateCfg` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/template_config.juvix.md:templateCfg"
+
+`templateEnv` is defined as follows:
 
 --8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnv"
 

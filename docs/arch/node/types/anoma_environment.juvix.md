@@ -40,7 +40,7 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 ```juvix
 type Env :=
   | EnvTemplate TemplateEnv
-  | EnvTicker TickerEnvironment
+  | EnvTicker TickerEnv
 
 --  | EnvIdentityManagement IdentityManagementEnvironment
 --  | EnvDecryption DecryptionEnvironment

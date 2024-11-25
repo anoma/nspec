@@ -145,7 +145,7 @@ Condition
 ```juvix
 incrementGuard
   (tt : TimestampedTrigger TickerTimerHandle )
-  (env : TickerEnvironment)
+  (env : TickerEnv)
   : Option TickerGuardOutput :=
   let
     emsg := getEngineMsgFromTimestampedTrigger tt;
@@ -182,7 +182,7 @@ Timer updates
 incrementAction
   (args : List TickerActionArgument)
   (tt : TickerTimestampedTrigger)
-  (env : TickerEnvironment)
+  (env : TickerEnv)
   : Option TickerActionEffect :=
   let
     counterValue := TickerLocalState.counter (EngineEnv.localState env)
@@ -224,7 +224,7 @@ Condition
 ```juvix
 countReplyGuard
   (tt : TimestampedTrigger TickerTimerHandle)
-  (env : TickerEnvironment)
+  (env : TickerEnv)
   : Option TickerGuardOutput :=
   let
     emsg := getEngineMsgFromTimestampedTrigger tt;
@@ -261,7 +261,7 @@ Timer updates
 countReplyAction
   (args : List TickerActionArgument)
   (tt : TickerTimestampedTrigger)
-  (env : TickerEnvironment)
+  (env : TickerEnv)
   : Option TickerActionEffect :=
   let
     em := getEngineMsgFromTimestampedTrigger tt;

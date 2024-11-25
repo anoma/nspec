@@ -24,6 +24,7 @@ tags:
     import arch.node.engines.ticker_environment open public;
     import arch.node.engines.ticker_behaviour open public;
 
+    open ticker_config_example;
     open ticker_environment_example;
     ```
 
@@ -41,6 +42,7 @@ receiving a `Count` message. The initial state initializes the counter.
 ## Components
 
 - [[Ticker Messages]]
+- [[Ticker Config]]
 - [[Ticker Environment]]
 - [[Ticker Behaviour]]
 
@@ -67,11 +69,21 @@ TickerEngine : Type :=
 ```juvix
 exampleTickerEngine : TickerEngine :=
   mkEngine@{
+    cfg := tickerCfg;
+    env := tickerEnv;
     behaviour := tickerBehaviour;
-    initEnv := zeroTickerEnvironment;
   };
 ```
 <!-- --8<-- [end:exampleTickerEngine] -->
-where `zeroTickerEnvironment` is defined as follows:
 
---8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:zeroTickerEnvironment"
+where `tickerCfg` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/ticker_config.juvix.md:tickerCfg"
+
+`tickerEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:tickerEnv"
+
+and `tickerBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/ticker_behaviour.juvix.md:tickerBehaviour"
