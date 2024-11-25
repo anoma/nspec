@@ -33,7 +33,7 @@ instantiated with the following type parameters:
 - `S`: the type for the local engine-specific state,
 - `M`: the type for the mailbox state,
 - `H`: the type for the timer handles,
-- `L`: the type for the action labels,
+- `L`: the type for the action labels, and
 - `A`: the type for the action arguments.
 
 Each engine, not its type, is associated with:
