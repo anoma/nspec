@@ -29,14 +29,14 @@ The engine configuration contains the following static information for engine in
 - The local `NodeID`.
 - Engine-specific configuration.
 
-This is defined in the `EngineConfig` type,
+This is defined in the `EngineCfg` type,
 which is parametrized by:
 
 - `C`: represents the engine-specific configuration, which corresponds to the `Cfg` type.
 
 ```juvix
-type EngineConfig (C : Type) :=
-  mkEngineConfig {
+type EngineCfg (C : Type) :=
+  mkEngineCfg {
     node : NodeID;
     name : EngineName;
     cfg : C;

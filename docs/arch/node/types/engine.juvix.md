@@ -46,7 +46,7 @@ Each engine, not its type, is associated with:
 
 ```juvix
 type Engine (C S B H M L A : Type) := mkEngine {
-  cfg : EngineConfig C;
+  cfg : EngineCfg C;
   env : EngineEnv S B H M;
   behaviour : EngineBehaviour C S B H M L A;
 };

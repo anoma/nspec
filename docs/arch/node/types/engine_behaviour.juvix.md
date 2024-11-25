@@ -63,7 +63,7 @@ messages, creating new engine instances, and updating timers.
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Guard (C S B H M L A : Type) : Type :=
   (tt : TimestampedTrigger H M) ->
-  (cfg : EngineConfig C) ->
+  (cfg : EngineCfg C) ->
   (env : EngineEnv S B H M) ->
   Option (GuardOutput L A);
 ```
@@ -116,7 +116,7 @@ Action (L A S B H M C E : Type) : Type :=
   (label : L) ->
   (args : A) ->
   (tt : TimestampedTrigger H M) ->
-  (cfg : EngineConfig C) ->
+  (cfg : EngineCfg C) ->
   (env : EngineEnv S B H M) ->
   Option (ActionEffect S B H M C E);
 ```
