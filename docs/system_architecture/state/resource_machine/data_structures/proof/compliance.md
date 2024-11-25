@@ -7,7 +7,7 @@ Compliance proofs are computed over [compliance units](./../compliance_unit.md).
 1. tags of all of the resources in the compliance unit
 2. roots for the consumed non-ephemeral resources in the compliance unit
 3. unit delta
-4. commitments to `logicRef` resource components (used for referencing the `logicRef` without explicitly using the component value) `logicRefCommitment`
+4. commitments to `logicRef` resource components (used for referencing the `logicRef` without explicitly using the component value) `logicRefHash`
 
 #### Witness
 
@@ -15,7 +15,7 @@ Compliance proofs are computed over [compliance units](./../compliance_unit.md).
 2. paths for each consumed non-ephemeral resource
 3. consumed resource commitment
 4. nullifier keys for consumed resources
-5. opening of `logicRefCommitment`
+5. opening of `logicRefHash`
 
 !!! note
     The instance and witness values are expected to correspond to each other: the first tag in the instance corresponds to the first resource object in the witness, and so on. Note that the tag has to be recomputed from the object to verify that it indeed corresponds to the tag (included in the constraints)
