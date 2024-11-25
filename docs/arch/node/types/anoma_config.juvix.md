@@ -20,7 +20,7 @@ See [[Engine Configuration]] for more information.
 
 Below is the definition of the type `Config`,
 which represents an Anoma engine configuration.
-This means, an Anoma engine instance would have a configuration of type `Config`.
+This means that each Anoma engine instance has a constant configuration of type `Config`, initialised at creation.
 
 For example, a configuration for an engine instance
 of the engine `TickerEngine` is of type `TickerCfg`.
