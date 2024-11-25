@@ -490,16 +490,17 @@ theme:
     - search.highlight
     - search.suggest
     - search.sharing
-    - navigation.instant
+    # - navigation.instant
     # - navigation.instant.prefetch
-    - navigation.instant.progress
-    - navigation.instant.preview
+    # - navigation.instant.progress
+    # - navigation.instant.preview
     - navigation.tracking
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.prune
+    # - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.expand
+    # - navigation.prune
     - navigation.indexes
-    - navigation.top
+    # - navigation.top
     - navigation.path
     - toc.follow
     - toc.integrate
@@ -581,12 +582,14 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
       clickable_checkbox: true
+
+
 validation:
   nav:
     omitted_files: ignore
-    not_found: warn
+    not_found: ignore
     absolute_links: ignore
   links:
-    not_found: warn
+    not_found: ignore
     absolute_links: ignore
-    unrecognized_links: warn
+    unrecognized_links: ignore

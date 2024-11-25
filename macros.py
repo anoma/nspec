@@ -109,6 +109,16 @@ def define_env(env):
         return nav
 
     @env.macro
+    def tutorial_for_contributors(navigation):
+        nav_dict = nav_to_dict(navigation)
+        list_md = []
+        for dict in nav_dict:
+            if dict and "title" in dict and dict["title"] == "Tutorials for contributors":  # type: ignore
+                for chapter in dict["children"]:  # type: ignore
+                    list_md.append(f"- [{chapter['title']}]({chapter['url']})\n")  # type: ignore
+        return "\n".join(list_md)
+
+    @env.macro
     def dict_to_md(nav_dict, depth=0) -> str:
         if isinstance(nav_dict, list):
             return "\n\n".join(dict_to_md(section, depth) for section in nav_dict)
