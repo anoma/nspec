@@ -166,6 +166,7 @@ The action can perform any of the following:
 ```juvix
 type ActionEffect (S B H M C E : Type) :=
   mkActionEffect@{
+    cfg : EngineConfig C;
     env : EngineEnv S B H M;
     msgs : List (EngineMsg M);
     timers : List (Timer H);
