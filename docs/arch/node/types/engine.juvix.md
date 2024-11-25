@@ -29,13 +29,14 @@ the acquaintances, and the timers.
 We refer to the type of engines as `Engine`,
 instantiated with the following type parameters:
 
+- `A`: the type for the action arguments,
 - `C`: the type for the read-only engine configuration,
 - `S`: the type for the local engine-specific state,
 - `B`: the type for the mailbox state,
 - `H`: the type for the timer handles,
-- `M`: the type for all engine messages (`Msg`),
-- `L`: the type for the action labels, and
-- `A`: the type for the action arguments.
+- `AM`: the type for all engine messages (`Msg`)
+- `AC`: the type for all engine configurations (`Cfg`)
+- `AE`: the type for all engine environments (`Env`)
 
 Each engine, not its type, is associated with:
 
@@ -45,11 +46,11 @@ Each engine, not its type, is associated with:
 - as well as a specific [[Engine Behaviour|behaviour]].
 
 ```juvix
-type Engine (C S B H M L A : Type) :=
+type Engine (A C S B H AM AC AE : Type) :=
   mkEngine@{
     cfg : EngineCfg C;
-    env : EngineEnv S B H M;
-    behaviour : EngineBehaviour C S B H M L A;
+    env : EngineEnv S B H AM;
+    behaviour : EngineBehaviour A C S B H AM AC AE;
   };
 ```
 
