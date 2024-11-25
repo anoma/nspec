@@ -47,7 +47,7 @@ The guard function receives:
 - the environment of the engine instance, and
 - an optional time reference for the starting point of the evaluation of all guards.
 
-Given these inputs, the guard function computes an action label, which encodes 
+Given these inputs, the guard function computes an action label, which encodes
 
 - all information necessary to infer how the engine will react
 - additional information on how this action contributes to properties of the Anoma protocol instance the engine is part of.
