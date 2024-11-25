@@ -16,8 +16,8 @@ tags:
     import arch.node.types.basics open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
+    import arch.node.types.engine_config open;
     import arch.node.types.engine_environment open;
-    import arch.node.types.anoma_environment as Anoma;
     ```
 
 # Engine behaviour
@@ -47,7 +47,7 @@ The guard function receives:
 - the environment of the engine instance, and
 - an optional time reference for the starting point of the evaluation of all guards.
 
-Given these inputs, the guard function computes a set of action labels.
+Given these inputs, the guard function computes an action label.
 The action function then computes the effects of the action label;
 besides changes to the engine environment, an action effect comprises sending
 messages, creating new engine instances, and updating timers.
@@ -57,7 +57,7 @@ messages, creating new engine instances, and updating timers.
 <!-- --8<-- [start:Guard] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Guard (C S M H L A : Type) :=
+Guard (C S M H L A : Type) : Type :=
   (tt : TimestampedTrigger H) ->
   (cfg : EngineConfig C) ->
   (env : EngineEnv S M H) ->
@@ -83,37 +83,37 @@ type GuardOutput (L A : Type) :=
 
 The input is parameterised by the types for:
 
-- local state (`S`),
-- mailbox state (`M`),
-- timer handles (`H`),
-- action arguments (`A`).
+- `S`: local state,
+- `M`: mailbox state,
+- `H`: timer handles,
+- `L`: action Label,
+- `A`: action arguments,
+- `C`: type for all engine configurations (`Cfg`)
+- `E`: type for all engine environments (`Env`)
 
-The types of the input and output of an action are
-the following two:
+The `Action` function receives as arguments:
+- the action label,
+- the action arguments,
+- the local time of the engine instance when the guard evaluation was triggered,
+- the configuration of the engine instance,
+- and the environment of the engine instance.
 
-- `ActionInput S M H A`,
-- `ActionEffect S M H A`.
+The type of the output of an action is the following:
 
-The record type `ActionInput S M H A` encapsulates the following data:
-
-- A `GuardOutput A` term, which includes:
-
-    - action arguments (`A`).
-
-- The environment of the engine instance.
-- The local time of the engine instance when the guard evaluation was triggered.
+- `ActionEffect S M H A C E`.
 
 ### `Action`
 
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Action (C S M H A : Type) :=
+Action (S M H L A C E : Type) : Type :=
+  (label : L) ->
   (args : A) ->
   (tt : TimestampedTrigger H) ->
-  (cfg : ActionConfig C) ->
+  (cfg : EngineConfig C) ->
   (env : EngineEnv S M H) ->
-  Option (ActionEffect S M H A);
+  Option (ActionEffect S M H A C E);
 ```
 <!-- --8<-- [end:ActionFunction] -->
 
@@ -149,7 +149,7 @@ are triggered.
 
 ### `ActionEffect`
 
-The `ActionEffect S M H A` type defines the effects produced by the action.
+The `ActionEffect S M H A C E` type defines the effects produced by the action.
 The action can perform any of the following:
 
 - Update the engine environment.
@@ -159,12 +159,12 @@ The action can perform any of the following:
 
 <!-- --8<-- [start:ActionEffect] -->
 ```juvix
-type ActionEffect (S M H A : Type) :=
-  mkActionEffect {
+type ActionEffect (S M H A C E : Type) :=
+  mkActionEffect@{
     env : EngineEnv S M H;
     msgs : List EngineMsg;
     timers : List (Timer H);
-    engines : List Anoma.Env;
+    engines : List (Pair C E);
   };
 ```
 <!-- --8<-- [end:ActionEffect] -->
