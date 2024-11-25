@@ -36,16 +36,16 @@ which is parameterised by four types, which represent:
 - `S`: the local state,
 - `B`: the type of mailboxes' states,
 - `H`: the type of handles for timers, and
-- `M`: the type of all engine messages (`Msg`).
+- `AM`: the type of all engine messages (`Msg`).
 
 These same letters will be used in the rest of the document to represent these
 types.
 
 ```juvix
-type EngineEnv (S B H M : Type) :=
+type EngineEnv (S B H AM : Type) :=
   mkEngineEnv@{
     localState : S;
-    mailboxCluster : Map MailboxID (Mailbox B M);
+    mailboxCluster : Map MailboxID (Mailbox B AM);
     acquaintances : Set EngineName;
     timers : List (Timer H);
   };
