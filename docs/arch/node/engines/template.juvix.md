@@ -21,6 +21,7 @@ tags:
     import arch.node.engines.template_environment open public;
     import arch.node.engines.template_behaviour open public;
     import arch.node.types.engine open public;
+    import arch.node.types.anoma as Anoma open;
 
     open template_config_example;
     open template_environment_example;
@@ -51,10 +52,14 @@ Brief summary of the purpose of the engine.
 ```juvix
 TemplateEngine : Type :=
   Engine
+    TemplateActionArguments
+    TemplateCfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
-    TemplateActionArguments;
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:TemplateEngine] -->
 

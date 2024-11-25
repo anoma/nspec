@@ -97,36 +97,9 @@ TemplateActionArguments : Type := List TemplateActionArgument;
 ```
 <!-- --8<-- [end:TemplateActionArguments] -->
 
-## Guarded actions
+## Actions
 
 ??? quote "Auxiliary Juvix code"
-
-    ### `TemplateGuard`
-
-    <!-- --8<-- [start:TemplateGuard] -->
-    ```juvix
-    TemplateGuard : Type :=
-      Guard
-        TemplateCfg
-        TemplateLocalState
-        TemplateMailboxState
-        TemplateTimerHandle
-        Anoma.Msg
-        TemplateActionLabel
-        TemplateActionArguments;
-    ```
-    <!-- --8<-- [end:TemplateGuard] -->
-
-    ### `TemplateGuardOutput`
-
-    <!-- --8<-- [start:TemplateGuardOutput] -->
-    ```juvix
-    TemplateGuardOutput : Type :=
-      GuardOutput
-        TemplateActionLabel
-        TemplateActionArguments;
-    ```
-    <!-- --8<-- [end:TemplateGuardOutput] -->
 
     ### `TemplateAction`
 
@@ -134,17 +107,31 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateAction : Type :=
       Action
-        TemplateActionLabel
         TemplateActionArguments
+        TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
-        TemplateCfg
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
     ```
-    <!-- --8<-- [end:TemplateActionFunction] -->
+    <!-- --8<-- [end:TemplateAction] -->
+
+    ### `TemplateActionInput`
+
+    <!-- --8<-- [start:TemplateActionInput] -->
+    ```juvix
+    TemplateActionInput : Type :=
+      ActionInput
+        TemplateActionArguments
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        Anoma.Msg;
+    ```
+    <!-- --8<-- [end:TemplateActionInput] -->
 
     ### `TemplateActionEffect`
 
@@ -161,58 +148,24 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```
     <!-- --8<-- [end:TemplateActionEffect] -->
 
-### `justHi`
+    ### `TemplateActionExec`
 
-<figure markdown>
+    <!-- --8<-- [start:TemplateActionExec] -->
+    ```juvix
+    TemplateActionExec : Type :=
+      ActionExec
+        TemplateActionArguments
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TemplateActionExec] -->
 
-```mermaid
-flowchart TD
-  CM>TemplateMsgJustHi]
-  A(justHiAction)
-  ES[(State update)]
-
-  CM --> A --> ES
-```
-
-<figcaption>`justHi` flowchart</figcaption>
-</figure>
-
-#### `justHiGuard`
-
-Guard description (optional).
-
-Condition
-: Message type is `TemplateMsgJustHi`.
-
-<!-- --8<-- [start:justHiGuard] -->
-```juvix
-justHiGuard
-  (tt : TemplateTimestampedTrigger)
-  (cfg : EngineCfg TemplateCfg)
-  (env : TemplateEnv)
-  : Option TemplateGuardOutput :=
-  let
-    emsg := getEngineMsgFromTimestampedTrigger tt;
-  in
-    case emsg of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplate TemplateMsgJustHi;
-      } :=
-      some mkGuardOutput@{
-        label := TemplateActionLabelJustHi;
-        args := [
-          (TemplateActionArgumentTwo
-            mkSecondArgument@{
-              data := "Hello World!"
-            })
-        ];
-      }
-    | _ := none
-    };
-```
-<!-- --8<-- [end:justHiGuard] -->
-
-#### `justHiAction`
+### `justHiAction`
 
 Action description.
 
@@ -234,83 +187,32 @@ Acquaintance updates
 <!-- --8<-- [start:justHiAction] -->
 ```juvix
 justHiAction
-  (label : TemplateActionLabel)
-  (args : List TemplateActionArgument)
-  (tt : TemplateTimestampedTrigger)
-  (cfg : EngineCfg TemplateCfg)
-  (env : TemplateEnv)
+  (input : TemplateActionInput)
   : Option TemplateActionEffect :=
-  case args of {
-  | TemplateActionArgumentTwo (mkSecondArgument@{
-      data := data;
-    }) :: _ :=
-    some mkActionEffect@{
-      env := env@EngineEnv{
-        localState := mkTemplateLocalState@{
-          taskQueue := mkCustomData@{
-            word := data
-          }
-        }
-      };
-      msgs := [];
-      timers := [];
-      engines := [];
-    }
-  | _ := none
-  }
-```
-<!-- --8<-- [end:justHiAction] -->
-
-### `exampleReply`
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>TemplateMsgExampleRequest]
-  CS[(State condition)]
-  A(exampleReplyAction)
-  ES[(State update)]
-  EM>TemplateMsgExampleResponse]
-
-  CS & CM --> A --> ES & EM
-```
-
-<figcaption>`exampleReply` flowchart</figcaption>
-</figure>
-
-#### `exampleReplyGuard`
-
-Guard description (optional).
-
-Condition
-: Message type is `TemplateMsgExampleRequest`.
-
-<!-- --8<-- [start:exampleReplyGuard] -->
-```juvix
-exampleReplyGuard
-  (tt : TemplateTimestampedTrigger)
-  (cfg : EngineCfg TemplateCfg)
-  (env : TemplateEnv)
-  : Option TemplateGuardOutput :=
   let
-    emsg := getEngineMsgFromTimestampedTrigger tt;
+    args := ActionInput.args input;
+    env := ActionInput.env input;
   in
-    case emsg of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
-        sender := mkPair none _; -- from local engines only (NodeID is none)
-        target := target;
-        mailbox := mailbox;
-      } :=
-      some mkGuardOutput@{
-        label := TemplateActionLabelExampleReply;
-        args := [];
+    case args of {
+    | TemplateActionArgumentTwo (mkSecondArgument@{
+        data := data;
+      }) :: _ :=
+      some mkActionEffect@{
+        env := env@EngineEnv{
+          localState := mkTemplateLocalState@{
+            taskQueue := mkCustomData@{
+              word := data
+            }
+          }
+        };
+        msgs := [];
+        timers := [];
+        engines := [];
       }
     | _ := none
-    };
+    }
 ```
-<!-- --8<-- [end:exampleReplyGuard] -->
+<!-- --8<-- [end:justHiAction] -->
 
 #### `exampleReplyAction`
 
@@ -331,14 +233,14 @@ Timer updates
 <!-- --8<-- [start:exampleReplyAction] -->
 ```juvix
 exampleReplyAction
-  (label : TemplateActionLabel)
-  (args : List TemplateActionArgument)
-  (tt : TemplateTimestampedTrigger)
-  (cfg : EngineCfg TemplateCfg)
-  (env : TemplateEnv)
+  (input : TemplateActionInput)
   : Option TemplateActionEffect :=
   let
-    emsg := getEngineMsgFromTimestampedTrigger tt;
+    args := ActionInput.args input;
+    cfg := ActionInput.cfg input;
+    env := ActionInput.env input;
+    trigger := ActionInput.trigger input;
+    emsg := getEngineMsgFromTimestampedTrigger trigger;
   in
     case emsg of {
     | some mkEngineMsg@{
@@ -370,19 +272,154 @@ exampleReplyAction
 ```
 <!-- --8<-- [end:exampleReplyAction] -->
 
-## Action labels
+## Action Labels
 
-### `TemplateActionLabel`
+### `justHiActionLabel`
 
-<!-- --8<-- [start:TemplateActionLabel] -->
 ```juvix
-type TemplateActionLabel :=
-  | TemplateActionLabelJustHi [ justHiAction ]
-  | TemplateActionLabelExampleReply [ exampleReplyAction ]
-  | TemplateActionLabelDoBoth [ justHiAction; exampleReplyAction ]
-  ;
+justHiActionLabel : TemplateActionExec :=
+  Seq [ justHiAction ];
 ```
-<!-- --8<-- [end:TemplateActionLabel] -->
+
+### `exampleReplyActionLabel`
+
+```juvix
+exampleReplyActionLabel : TemplateActionExec :=
+  Seq [ exampleReplyAction ];
+```
+
+### `doBothActionLabel`
+
+```juvix
+doBothActionLabel : TemplateActionExec :=
+  Seq [
+    justHiAction;
+    exampleReplyAction;
+  ];
+```
+
+## Guards
+
+??? quote "Auxiliary Juvix code"
+
+    ### `TemplateGuard`
+
+    <!-- --8<-- [start:TemplateGuard] -->
+    ```juvix
+    TemplateGuard : Type :=
+      Guard
+        TemplateActionArguments
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TemplateGuard] -->
+
+    ### `TemplateGuardOutput`
+
+    <!-- --8<-- [start:TemplateGuardOutput] -->
+    ```juvix
+    TemplateGuardOutput : Type :=
+      GuardOutput
+        TemplateActionArguments
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TemplateGuardOutput] -->
+
+    ### `TemplateGuardEval`
+
+    <!-- --8<-- [start:TemplateGuardEval] -->
+    ```juvix
+    TemplateGuardEval : Type :=
+      GuardEval
+        TemplateActionArguments
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TemplateGuardEval] -->
+
+### `justHiGuard`
+
+Guard description (optional).
+
+Condition
+: Message type is `TemplateMsgJustHi`.
+
+<!-- --8<-- [start:justHiGuard] -->
+```juvix
+justHiGuard
+  (trigger : TemplateTimestampedTrigger)
+  (cfg : EngineCfg TemplateCfg)
+  (env : TemplateEnv)
+  : Option TemplateGuardOutput :=
+  let
+    emsg := getEngineMsgFromTimestampedTrigger trigger;
+  in
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgTemplate TemplateMsgJustHi;
+      } :=
+      some mkGuardOutput@{
+        actions := justHiActionLabel;
+        args := [
+          (TemplateActionArgumentTwo
+            mkSecondArgument@{
+              data := "Hello World!"
+            })
+        ];
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:justHiGuard] -->
+
+### `exampleReplyGuard`
+
+Guard description (optional).
+
+Condition
+: Message type is `TemplateMsgExampleRequest`.
+
+<!-- --8<-- [start:exampleReplyGuard] -->
+```juvix
+exampleReplyGuard
+  (tt : TemplateTimestampedTrigger)
+  (cfg : EngineCfg TemplateCfg)
+  (env : TemplateEnv)
+  : Option TemplateGuardOutput :=
+  let
+    emsg := getEngineMsgFromTimestampedTrigger tt;
+  in
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
+        sender := mkPair none _; -- from local engines only (NodeID is none)
+        target := target;
+        mailbox := mailbox;
+      } :=
+      some mkGuardOutput@{
+        actions := exampleReplyActionLabel;
+        args := [];
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:exampleReplyGuard] -->
 
 ## The Template behaviour
 
@@ -392,13 +429,14 @@ type TemplateActionLabel :=
 ```juvix
 TemplateBehaviour : Type :=
   EngineBehaviour
+    TemplateActionArguments
     TemplateCfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
     Anoma.Msg
-    TemplateActionLabel
-    TemplateActionArguments;
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:TemplateBehaviour] -->
 
@@ -408,7 +446,47 @@ TemplateBehaviour : Type :=
 ```juvix
 templateBehaviour : TemplateBehaviour :=
   mkEngineBehaviour@{
-    guards := [ justHiGuard; exampleReplyGuard ];
+    guards :=
+      First [
+        justHiGuard;
+        exampleReplyGuard;
+      ];
   };
 ```
 <!-- --8<-- [end:templateBehaviour] -->
+
+## Diagrams
+
+### `justHi`
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  CM>TemplateMsgJustHi]
+  A(justHiAction)
+  ES[(State update)]
+
+  CM --> A --> ES
+```
+
+<figcaption>`justHi` flowchart</figcaption>
+</figure>
+
+### `exampleReply`
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  CM>TemplateMsgExampleRequest]
+  CS[(State condition)]
+  A(exampleReplyAction)
+  ES[(State update)]
+  EM>TemplateMsgExampleResponse]
+
+  CS & CM --> A --> ES & EM
+```
+
+<figcaption>`exampleReply` flowchart</figcaption>
+</figure>
