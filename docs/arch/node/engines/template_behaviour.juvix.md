@@ -467,7 +467,7 @@ flowchart TD
   A(justHiAction)
   ES[(State update)]
 
-  CM --> A --> ES
+  CM --justHiGuard--> A --justHiActionLabel--> ES
 ```
 
 <figcaption>`justHi` flowchart</figcaption>
@@ -485,7 +485,7 @@ flowchart TD
   ES[(State update)]
   EM>TemplateMsgExampleResponse]
 
-  CS & CM --> A --> ES & EM
+  CS & CM --exampleReplyGuard--> A --exampleReplyActionLabel--> ES & EM
 ```
 
 <figcaption>`exampleReply` flowchart</figcaption>
