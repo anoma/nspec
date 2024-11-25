@@ -33,7 +33,7 @@ instantiated with the following type parameters:
 - `S`: the type for the local engine-specific state,
 - `B`: the type for the mailbox state,
 - `H`: the type for the timer handles,
-- `AM`: the type for all engine messages (`Msg`),
+- `M`: the type for all engine messages (`Msg`),
 - `L`: the type for the action labels, and
 - `A`: the type for the action arguments.
 
@@ -45,11 +45,11 @@ Each engine, not its type, is associated with:
 - as well as a specific [[Engine Behaviour|behaviour]].
 
 ```juvix
-type Engine (C S B H AM L A : Type) :=
+type Engine (C S B H M L A : Type) :=
   mkEngine@{
     cfg : EngineCfg C;
-    env : EngineEnv S B H AM;
-    behaviour : EngineBehaviour C S B H AM L A;
+    env : EngineEnv S B H M;
+    behaviour : EngineBehaviour C S B H M L A;
   };
 ```
 
