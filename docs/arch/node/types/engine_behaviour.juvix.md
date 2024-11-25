@@ -58,10 +58,12 @@ messages, creating new engine instances, and updating timers.
 
 ## Actions
 
-The input is parameterised by the types for:
+### `Action`
 
-- `L`: action Label,
+The input of the action function is parameterised by the types for:
+
 - `A`: action arguments,
+- `C`: engine configuration,
 - `S`: local state,
 - `B`: mailbox state,
 - `H`: timer handles,
@@ -69,32 +71,8 @@ The input is parameterised by the types for:
 - `AC`: type for all engine configurations (`Cfg`)
 - `AE`: type for all engine environments (`Env`)
 
-The `Action` function receives as arguments:
-- the action label,
-- the action arguments,
-- the local time of the engine instance when the guard evaluation was triggered,
-- the configuration of the engine instance,
-- and the environment of the engine instance.
-
-The type of the output of an action is the following:
-
-- `ActionEffect S B H A C E`.
-
-### `ActionInput`
-
-<!-- --8<-- [start:ActionInput] -->
-```juvix
-type ActionInput (A C S B H AM : Type) :=
-  mkActionInput {
-    args : A;
-    cfg : EngineCfg C;
-    env : EngineEnv S B H AM;
-    trigger : TimestampedTrigger H AM;
-  };
-```
-<!-- --8<-- [end:ActionInput] -->
-
-### `Action`
+The `Action` function receives as argument the `ActionInput`,
+and returns the `ActionEffect`.
 
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
@@ -134,6 +112,27 @@ are triggered.
     the guard is satisfied, this data (of type `GuardOutput A`) is assumed to
     be passed to the action function. Then, if the guard is not satisfied, no data
     is returned.
+
+### `ActionInput`
+
+The `ActionInput` contains:
+
+- the action arguments,
+- the local time of the engine instance when the guard evaluation was triggered,
+- the configuration of the engine instance,
+- and the environment of the engine instance.
+
+<!-- --8<-- [start:ActionInput] -->
+```juvix
+type ActionInput (A C S B H AM : Type) :=
+  mkActionInput {
+    args : A;
+    cfg : EngineCfg C;
+    env : EngineEnv S B H AM;
+    trigger : TimestampedTrigger H AM;
+  };
+```
+<!-- --8<-- [end:ActionInput] -->
 
 ### `ActionEffect`
 
