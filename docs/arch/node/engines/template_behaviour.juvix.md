@@ -182,7 +182,7 @@ flowchart TD
 Guard description (optional).
 
 Condition
-: Message type is `MsgTemplateJustHi`.
+: Message type is `TemplateMsgJustHi`.
 
 <!-- --8<-- [start:justHiGuard] -->
 ```juvix
@@ -196,7 +196,7 @@ justHiGuard
   in
     case emsg of {
     | some mkEngineMsg@{
-        msg := MsgTemplate MsgTemplateJustHi;
+        msg := Anoma.MsgTemplate TemplateMsgJustHi;
       } :=
       some mkGuardOutput@{
         label := TemplateActionLabelJustHi;
@@ -282,7 +282,7 @@ flowchart TD
 Guard description (optional).
 
 Condition
-: Message type is `MsgTemplateExampleRequest`.
+: Message type is `TemplateMsgExampleRequest`.
 
 <!-- --8<-- [start:exampleRequestGuard] -->
 ```juvix
@@ -296,7 +296,7 @@ exampleReplyGuard
   in
     case emsg of {
     | some mkEngineMsg@{
-        msg := MsgTemplate (MsgTemplateExampleRequest req);
+        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
         target := target;
         mailbox := mailbox;
@@ -318,7 +318,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `MsgTemplateExampleReply` message with `argOne` from the received `MsgTemplateExampleRequest`.
+: A `TemplateMsgExampleReply` message with `argOne` from the received `TemplateMsgExampleRequest`.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -339,7 +339,7 @@ exampleReplyAction
   in
     case emsg of {
     | some mkEngineMsg@{
-        msg := MsgTemplate (MsgTemplateExampleRequest req);
+        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
@@ -352,8 +352,8 @@ exampleReplyAction
           target := sender;
             mailbox := some 0;
             msg :=
-              MsgTemplate
-                (MsgTemplateExampleReply
+              Anoma.MsgTemplate
+                (TemplateMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
                   }));

@@ -165,7 +165,7 @@ incrementGuard
   in
     case emsg of {
     | some mkEngineMsg@{
-        msg := (MsgTicker TickerMsgIncrement);
+        msg := (Anoma.MsgTicker TickerMsgIncrement);
       } :=
     some mkGuardOutput@{
       label := TickerActionLabelIncrement;
@@ -248,7 +248,7 @@ countReplyGuard
   in
     case emsg of {
     | some mkEngineMsg@{
-        msg := MsgTicker TickerMsgCount;
+        msg := Anoma.MsgTicker TickerMsgCountRequest;
       } :=
       some mkGuardOutput@{
         label := TickerActionLabelCountReply;
@@ -297,7 +297,7 @@ countReplyAction
             target := EngineMsg.sender emsg;
             mailbox := some 0;
             msg :=
-              MsgTicker
+              Anoma.MsgTicker
                 (TickerMsgCountReply
                   mkCountReply@{
                     counter := counterValue;

@@ -32,11 +32,11 @@ These are the messages that the Template engine can receive/respond to.
     syntax alias MethodTwoArgOne := Nat;
     ```
 
-### `MsgTemplateJustHi`
+### `TemplateMsgJustHi`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `MsgTemplateExampleRequest ExampleRequest`
+### `TemplateMsgExampleRequest ExampleRequest`
 
 Example request.
 
@@ -58,7 +58,7 @@ type ExampleRequest : Type :=
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `MsgTemplateExampleReply ExampleReply`
+### `TemplateMsgExampleReply ExampleReply`
 
 Reply to an `ExampleRequest`.
 
@@ -114,9 +114,9 @@ ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
 <!-- --8<-- [start:TemplateMsg] -->
 ```juvix
 type TemplateMsg :=
-  | MsgTemplateJustHi
-  | MsgTemplateExampleRequest ExampleRequest
-  | MsgTemplateExampleReply ExampleReply
+  | TemplateMsgJustHi
+  | TemplateMsgExampleRequest ExampleRequest
+  | TemplateMsgExampleReply ExampleReply
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->
