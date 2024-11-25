@@ -79,10 +79,12 @@ nav:
               - ./arch/node/engines/index.md
               - Engine:
                   - ./arch/node/types/engine.juvix.md
+                  - Engine Configuration: ./arch/node/types/engine_config.juvix.md
                   - Engine Environment: ./arch/node/types/engine_environment.juvix.md
                   - Engine Behaviour: ./arch/node/types/engine_behaviour.juvix.md
               - Anoma:
                   - Anoma Message: ./arch/node/types/anoma_message.juvix.md
+                  - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
           - Hardware Abstraction Machine:
               - ./arch/node/hardware/index.md
