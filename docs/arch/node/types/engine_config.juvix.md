@@ -42,10 +42,3 @@ type EngineCfg (C : Type) :=
     cfg : C;
   };
 ```
-
-- Get the local `EngineID` from an `EngineCfg`:
-
-```juvix
-getEngineIDFromEngineCfg {C} (cfg : EngineCfg C) : EngineID :=
-  mkPair (some (EngineCfg.node cfg)) (EngineCfg.name cfg);
-```
