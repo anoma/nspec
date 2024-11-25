@@ -18,25 +18,24 @@ tags:
     import arch.node.types.messages open;
     ```
 
-# Engine environment type
+# Engine environment
 
-The engine environment encompasses static information for engine
-instances in the following categories:
+## Engine environment type
 
-- A global reference, `name`, for the engine instance.
+The engine environment contains the following dynamic information for engine instances:
+
 - Local state whose type is specific to the engine.
 - Mailbox cluster, which is a map of mailbox IDs to mailboxes.
 - A set of names of acquainted engine instances. It is implicit that the engine
-  instance is acquainted with itself, so there is no need to include its own
-  name.
+  instance is acquainted with itself, so there is no need to include its own name.
 - A list of timers that have been set.
 
-This data is encapsulated within the `EngineEnv` type, which is
-parameterised by four types:
+This data is encapsulated within the `EngineEnv` type,
+which is parameterised by four types:
 
-- `S`, representing the local state,
-- `M`, representing the type of mailboxes' states, and
-- `H`, representing the type of handles for timers.
+- `S`: represents the local state,
+- `M`: represents the type of mailboxes' states, and
+- `H`: represents the type of handles for timers.
 
 These same letters will be used in the rest of the document to represent these
 types.
@@ -44,8 +43,6 @@ types.
 ```juvix
 type EngineEnv (S M H : Type) :=
   mkEngineEnv {
-      node : NodeID; -- local NodeID, read-only
-      name : EngineName ; -- local EngineName, read-only
       localState : S;
       mailboxCluster : Map MailboxID (Mailbox M);
       acquaintances : Set EngineName;
