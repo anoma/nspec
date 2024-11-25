@@ -43,12 +43,12 @@ types.
 
 ```juvix
 type EngineEnv (S B H M : Type) :=
-  mkEngineEnv {
-      localState : S;
-      mailboxCluster : Map MailboxID (Mailbox B M);
-      acquaintances : Set EngineName;
-      timers : List (Timer H);
-};
+  mkEngineEnv@{
+    localState : S;
+    mailboxCluster : Map MailboxID (Mailbox B M);
+    acquaintances : Set EngineName;
+    timers : List (Timer H);
+  };
 ```
 
 ??? info "On the mailbox cluster"

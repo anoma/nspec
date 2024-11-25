@@ -41,12 +41,13 @@ An *engine message* is a message between engines.
 It consists of a sender, a target, an optional *mailbox identifier*, and the message itself.
 
 ```juvix
-type EngineMsg M := mkEngineMsg {
-  sender : EngineID;
-  target : EngineID;
-  mailbox : Option MailboxID;
-  msg : M;
-};
+type EngineMsg M :=
+  mkEngineMsg@{
+    sender : EngineID;
+    target : EngineID;
+    mailbox : Option MailboxID;
+    msg : M;
+  };
 ```
 
 ### `EngineMsgID`

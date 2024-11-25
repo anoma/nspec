@@ -45,11 +45,12 @@ Each engine, not its type, is associated with:
 - as well as a specific [[Engine Behaviour|behaviour]].
 
 ```juvix
-type Engine (C S B H M L A : Type) := mkEngine {
-  cfg : EngineCfg C;
-  env : EngineEnv S B H M;
-  behaviour : EngineBehaviour C S B H M L A;
-};
+type Engine (C S B H M L A : Type) :=
+  mkEngine@{
+    cfg : EngineCfg C;
+    env : EngineEnv S B H M;
+    behaviour : EngineBehaviour C S B H M L A;
+  };
 ```
 
 !!! example "Voting Engine"
