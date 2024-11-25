@@ -134,15 +134,15 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateAction : Type :=
       Action
-          TemplateActionLabel
-          TemplateActionArguments
-          TemplateLocalState
-          TemplateMailboxState
-          TemplateTimerHandle
-          TemplateCfg
-          Anoma.Msg
-          Anoma.Cfg
-          Anoma.Env;
+        TemplateActionLabel
+        TemplateActionArguments
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        TemplateCfg
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
     <!-- --8<-- [end:TemplateActionFunction] -->
 
@@ -348,7 +348,7 @@ exampleReplyAction
         env := env;
         msgs := [
         mkEngineMsg@{
-          sender := mkPair (some (EngineCfg.node cfg)) (EngineCfg.name cfg);
+          sender := getEngineIDFromEngineCfg cfg;
           target := sender;
             mailbox := some 0;
             msg :=
