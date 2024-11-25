@@ -101,7 +101,7 @@ TemplateActionArguments : Type := List TemplateActionArgument;
 
 ### `TemplateActionLabel`
 
-<!-- --8<-- [start:TemplateActionLabel] --> 
+<!-- --8<-- [start:TemplateActionLabel] -->
 ```juvix
 type TemplateActionLabel :=
   | TemplateActionLabelJustHi -- [ justHiAction ]
@@ -244,7 +244,7 @@ Timer updates
 Acquaintance updates
 : None.
 
-<!-- --8<-- [start:justHiAction] -->    
+<!-- --8<-- [start:justHiAction] -->
 ```juvix
 justHiAction
   (label : TemplateActionLabel)
