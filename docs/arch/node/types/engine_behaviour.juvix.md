@@ -67,9 +67,9 @@ The input of the action function is parameterised by the types for:
 - `S`: local state,
 - `B`: mailbox state,
 - `H`: timer handles,
-- `AM`: type for all engine messages (`Msg`),
-- `AC`: type for all engine configurations (`Cfg`),
-- `AE`: type for all engine environments (`Env`).
+- `AM`: type for all engine messages (`Msg`)
+- `AC`: type for all engine configurations (`Cfg`)
+- `AE`: type for all engine environments (`Env`)
 
 The `Action` function receives as argument the `ActionInput`,
 and returns the `ActionEffect`.
