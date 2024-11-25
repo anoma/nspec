@@ -30,17 +30,17 @@ We refer to the type of engines as `Engine`,
 instantiated with the following type parameters:
 
 - `C`: the type for the read-only engine configuration,
-- `S`: the type for the local state,
+- `S`: the type for the local engine-specific state,
 - `M`: the type for the mailbox state,
 - `H`: the type for the timer handles,
-- `L`: the type for the action labels,
+- `L`: the type for the action labels, and
 - `A`: the type for the action arguments.
 
 Each engine, not its type, is associated with:
 
 - a specific configuration, which contains the engine name (unique across the system), node ID, and engine-specific configuration,
 - a declaration of its own [[Engine Environment|execution context]], that is,
-  the specific local state, the mailbox cluster, the acquaintances, and the timers,
+  the engine-specific local state, the mailbox cluster, the acquaintances, and the timers,
 - as well as a specific [[Engine Behaviour|behaviour]].
 
 ```juvix
