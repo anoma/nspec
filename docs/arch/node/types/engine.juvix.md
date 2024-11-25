@@ -30,7 +30,7 @@ We refer to the type of engines as `Engine`,
 instantiated with the following type parameters:
 
 - `C`: the type for the read-only engine configuration,
-- `S`: the type for the local state,
+- `S`: the type for the local engine-specific state,
 - `M`: the type for the mailbox state,
 - `H`: the type for the timer handles,
 - `L`: the type for the action labels,
