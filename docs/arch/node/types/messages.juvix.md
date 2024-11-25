@@ -19,7 +19,6 @@ tags:
     import arch.node.types.basics open;
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
-    import arch.node.types.anoma_message open;
     ```
 
 # Messages and mailboxes
@@ -42,12 +41,13 @@ An *engine message* is a message between engines.
 It consists of a sender, a target, an optional *mailbox identifier*, and the message itself.
 
 ```juvix
-type EngineMsg := mkEngineMsg {
-  sender : EngineID;
-  target : EngineID;
-  mailbox : Option MailboxID;
-  msg : Msg;
-};
+type EngineMsg M :=
+  mkEngineMsg@{
+    sender : EngineID;
+    target : EngineID;
+    mailbox : Option MailboxID;
+    msg : M;
+  };
 ```
 
 ### `EngineMsgID`
@@ -74,8 +74,8 @@ such as the priority of the messages in the mailbox.
     As mailbox state can be useful in general, we already have it now.
 
 ```juvix
-type Mailbox S := mkMailbox@{
-  messages : List EngineMsg;
+type Mailbox S M := mkMailbox@{
+  messages : List (EngineMsg M);
   mailboxState : Option S;
 };
 ```
@@ -107,15 +107,15 @@ type Timer H := mkTimer@{
 ### `Trigger H`
 
 ```juvix
-type Trigger H :=
-  | MessageArrived { msg : EngineMsg; }
+type Trigger H M :=
+  | MessageArrived { msg : EngineMsg M; }
   | Elapsed { timers : List (Timer H) };
 ```
 
 - Extract the `EngineMsg` from a trigger in case it has one:
 
     ```juvix
-    getEngineMsgFromTrigger {H} (tr : Trigger H) : Option EngineMsg
+    getEngineMsgFromTrigger {H M} (tr : Trigger H M) : Option (EngineMsg M)
       := case tr of {
       | MessageArrived@{msg} := some msg
       | Elapsed@{} := none
@@ -125,7 +125,7 @@ type Trigger H :=
 - Extract the `Msg` from a trigger in case it has one:
 
     ```juvix
-    getMsgFromTrigger {H} (tr : Trigger H) : Option Msg
+    getMsgFromTrigger {H M} (tr : Trigger H M) : Option M
       := case tr of {
       | MessageArrived@{msg} := some (EngineMsg.msg msg)
       | Elapsed@{} := none
@@ -135,7 +135,7 @@ type Trigger H :=
 - Get the message sender from a trigger:
 
     ```juvix
-    getSenderFromTrigger {H} (tr : Trigger H) : Option EngineID
+    getSenderFromTrigger {H M} (tr : Trigger H M) : Option EngineID
       := case tr of {
       | MessageArrived@{msg} := some (EngineMsg.sender msg)
       | Elapsed@{} := none
@@ -145,7 +145,7 @@ type Trigger H :=
 - Get the target destination from a trigger:
 
     ```juvix
-    getTargetFromTrigger {H} (tr : Trigger H) : Option EngineID
+    getTargetFromTrigger {H M} (tr : Trigger H M) : Option EngineID
       := case tr of {
       | MessageArrived@{msg} := some (EngineMsg.target msg)
       | Elapsed@{} := none
@@ -155,37 +155,37 @@ type Trigger H :=
 ### `TimestampedTrigger H`
 
 ```juvix
-type TimestampedTrigger H :=
+type TimestampedTrigger H M :=
   mkTimestampedTrigger@{
     time : Time;
-    trigger : Trigger H;
+    trigger : Trigger H M;
   };
 ```
 
 - Get the engine message from a timestamped trigger:
 
     ```juvix
-    getEngineMsgFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineMsg
+    getEngineMsgFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option (EngineMsg M)
       := getEngineMsgFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the `Msg` from a `TimestampedTrigger`:
 
     ```juvix
-    getMsgFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option Msg
+    getMsgFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option M
       := getMsgFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the sender from a `TimestampedTrigger`:
 
     ```juvix
-    getSenderFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
+    getSenderFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
       := getSenderFromTrigger (TimestampedTrigger.trigger tr);
     ```
 
 - Get the target from a `TimestampedTrigger`:
 
     ```juvix
-    getTargetFromTimestampedTrigger {H} (tr : TimestampedTrigger H) : Option EngineID
+    getTargetFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
       := getTargetFromTrigger (TimestampedTrigger.trigger tr);
     ```

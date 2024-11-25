@@ -61,10 +61,10 @@ messages, creating new engine instances, and updating timers.
 <!-- --8<-- [start:Guard] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Guard (C S M H L A : Type) : Type :=
-  (tt : TimestampedTrigger H) ->
-  (cfg : EngineConfig C) ->
-  (env : EngineEnv S M H) ->
+Guard (C S B H M L A : Type) : Type :=
+  (tt : TimestampedTrigger H M) ->
+  (cfg : EngineCfg C) ->
+  (env : EngineEnv S B H M) ->
   Option (GuardOutput L A);
 ```
 <!-- --8<-- [end:Guard] -->
@@ -87,11 +87,12 @@ type GuardOutput (L A : Type) :=
 
 The input is parameterised by the types for:
 
-- `S`: local state,
-- `M`: mailbox state,
-- `H`: timer handles,
 - `L`: action Label,
 - `A`: action arguments,
+- `S`: local state,
+- `B`: mailbox state,
+- `H`: timer handles,
+- `M`: type for all engine messages (`Msg`)
 - `C`: type for all engine configurations (`Cfg`)
 - `E`: type for all engine environments (`Env`)
 
@@ -104,20 +105,20 @@ The `Action` function receives as arguments:
 
 The type of the output of an action is the following:
 
-- `ActionEffect S M H A C E`.
+- `ActionEffect S B H A C E`.
 
 ### `Action`
 
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Action (S M H L A C E : Type) : Type :=
+Action (L A S B H M C E : Type) : Type :=
   (label : L) ->
   (args : A) ->
-  (tt : TimestampedTrigger H) ->
-  (cfg : EngineConfig C) ->
-  (env : EngineEnv S M H) ->
-  Option (ActionEffect S M H A C E);
+  (tt : TimestampedTrigger H M) ->
+  (cfg : EngineCfg C) ->
+  (env : EngineEnv S B H M) ->
+  Option (ActionEffect S B H M C E);
 ```
 <!-- --8<-- [end:ActionFunction] -->
 
@@ -142,7 +143,7 @@ are triggered.
     returns a boolean when the predicate is satisfied, specifically of type
 
     ```haskell
-    Trigger H -> EngineEnv S M H -> Bool;
+    Trigger H -> EngineEnv S B H -> Bool;
     ```
 
     However, as a design choice, guards will return additional data of type `GuardOutput A` that
@@ -153,7 +154,7 @@ are triggered.
 
 ### `ActionEffect`
 
-The `ActionEffect S M H A C E` type defines the effects produced by the action.
+The `ActionEffect S B H A C E` type defines the effects produced by the action.
 The action can perform any of the following:
 
 - Update the engine environment.
@@ -163,10 +164,10 @@ The action can perform any of the following:
 
 <!-- --8<-- [start:ActionEffect] -->
 ```juvix
-type ActionEffect (S M H A C E : Type) :=
+type ActionEffect (S B H M C E : Type) :=
   mkActionEffect@{
-    env : EngineEnv S M H;
-    msgs : List EngineMsg;
+    env : EngineEnv S B H M;
+    msgs : List (EngineMsg M);
     timers : List (Timer H);
     engines : List (Pair C E);
   };
@@ -185,9 +186,9 @@ introduced earlier, an `EngineBehaviour` is a set of guards and an action functi
 
 <!-- --8<-- [start:EngineBehaviour] -->
 ```juvix
-type EngineBehaviour (C S M H L A : Type) :=
+type EngineBehaviour (C S B H M L A : Type) :=
   mkEngineBehaviour@{
-    guards : List (Guard C S M H L A);
+    guards : List (Guard C S B H M L A);
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
