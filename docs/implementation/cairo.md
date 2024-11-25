@@ -161,21 +161,21 @@ The basic types in Anoma Shielded RM(Elixir) have only one canonical representat
 ```Elixir
 typedstruct enforce: true do
     # resource logic
-    field(:logic, binary(), default: <<0::256>>)
+    field(:logic, <<_::256>>, default: <<0::256>>)
     # fungibility label
-    field(:label, binary(), default: <<0::256>>)
+    field(:label, <<_::256>>, default: <<0::256>>)
     # quantity
-    field(:quantity, binary(), default: <<0::256>>)
+    field(:quantity, <<_::256>>, default: <<0::256>>)
     # arbitrary data
-    field(:data, binary(), default: <<0::256>>)
+    field(:data, <<_::256>>, default: <<0::256>>)
     # ephemerality flag
     field(:eph, bool(), default: false)
     # resource nonce
-    field(:nonce, binary(), default: <<0::256>>)
+    field(:nonce, <<_::256>>, default: <<0::256>>)
     # commitment to nullifier key
-    field(:nk_commitment, binary(), default: <<0::256>>)
+    field(:nk_commitment, <<_::256>>, default: <<0::256>>)
     # random seed
-    field(:rseed, binary(), default: <<0::256>>)
+    field(:rseed, <<_::256>>, default: <<0::256>>)
 end
 ```
 
@@ -216,13 +216,13 @@ typedstruct enforce: true do
     # Input resource merkle path
     field(:merkle_proof, CommitmentTree.Proof.t())
     # Nullifier key of the input resource
-    field(:input_nf_key, binary(), default: <<0::256>>)
+    field(:input_nf_key, <<_::256>>, default: <<0::256>>)
     # Ephemeral root
-    field(:eph_root, binary(), default: <<0::256>>)
+    field(:eph_root, <<_::256>>, default: <<0::256>>)
     # Output resource
     field(:output_resource, Resource.t())
     # Random value in delta proof(binding signature)
-    field(:rcv, binary(), default: <<0::256>>)
+    field(:rcv, <<_::256>>, default: <<0::256>>)
 end
 
 @spec to_json_string(ComplianceWitness.t()) :: binary()
@@ -237,18 +237,18 @@ def to_json_string(input) do
 ```Elixir
 typedstruct enforce: true do
     # Input Resource nullifier
-    field(:nullifier, binary(), default: <<0::256>>)
+    field(:nullifier, <<_::256>>, default: <<0::256>>)
     # Output Resource commitment
-    field(:output_cm, binary(), default: <<0::256>>)
+    field(:output_cm, <<_::256>>, default: <<0::256>>)
     # Resource commitment Merkle tree root
-    field(:root, binary(), default: <<0::256>>)
+    field(:root, <<_::256>>, default: <<0::256>>)
     # Resource delta
-    field(:delta_x, binary(), default: <<0::256>>)
-    field(:delta_y, binary(), default: <<0::256>>)
+    field(:delta_x, <<_::256>>, default: <<0::256>>)
+    field(:delta_y, <<_::256>>, default: <<0::256>>)
     # Input Resource logic
-    field(:input_logic, binary(), default: <<0::256>>)
+    field(:input_logic, <<_::256>>, default: <<0::256>>)
     # Output Resource logic
-    field(:output_logic, binary(), default: <<0::256>>)
+    field(:output_logic, <<_::256>>, default: <<0::256>>)
 end
 ```
 
@@ -257,13 +257,13 @@ end
 ```Elixir
 typedstruct enforce: true do
     # nullifier of input resource or commitment of output resource
-    field(:tag, binary(), default: <<0::256>>)
+    field(:tag, <<_::256>>, default: <<0::256>>)
     # The merkle root of resources in current action(execution context)
-    field(:root, binary(), default: <<0::256>>)
+    field(:root, <<_::256>>, default: <<0::256>>)
     # Ciphertext
-    field(:cipher, list(binary()), default: [])
+    field(:cipher, list(<<_::256>>), default: [])
     # Custom public inputs
-    field(:app_data, list(binary()), default: [])
+    field(:app_data, list(<<_::256>>), default: [])
 end
 ```
 
@@ -286,9 +286,9 @@ def verify(action)
 ### ShieldedTransaction
 ```Elixir
 typedstruct enforce: true do
-    field(:roots, list(binary()), default: [])
-    field(:commitments, list(binary()), default: [])
-    field(:nullifiers, list(binary()), default: [])
+    field(:roots, list(<<_::256>>), default: [])
+    field(:commitments, list(<<_::256>>), default: [])
+    field(:nullifiers, list(<<_::256>>), default: [])
     field(:actions, list(ShieldedAction.t()), default: [])
 
     # When the tx is not finalized(balanced), the delta is the collection of private keys
@@ -322,10 +322,10 @@ To support varying numbers of resources in the Action and prevent information le
 typedstruct enforce: true do
     # The resource merkle tree
     field(:tree, CommitmentTree.t())
-    # The merkle root of resources in ptx
-    field(:root, binary())
+    # The merkle root of resources in ation
+    field(:root, <<_::256>>)
     # The tree leaves: help find the target index
-    field(:leaves, list(binary()))
+    field(:leaves, list(<<_::256>>))
 end
 
 @spec construct(CommitmentTree.Spec.t(), list(binary())) :: ResourceTree.t()
