@@ -97,18 +97,6 @@ TemplateActionArguments : Type := List TemplateActionArgument;
 ```
 <!-- --8<-- [end:template-action-arguments] -->
 
-## Action labels
-
-### `TemplateActionLabel`
-
-```juvix
-type TemplateActionLabel :=
-  | TemplateActionLabelJustHi -- [ justHiAction ]
-  | TemplateActionLabelExampleReply -- [ exampleReplyAction ]
-  | TemplateActionLabelDoBoth -- [ justHiAction; exampleReplyAction ]
-  ;
-```
-
 ## Guarded actions
 
 ??? quote "Auxiliary Juvix code"
@@ -378,6 +366,17 @@ exampleReplyAction
   };
 ```
 
+## Action labels
+
+### `TemplateActionLabel`
+
+```juvix
+type TemplateActionLabel :=
+  | TemplateActionLabelJustHi [ justHiAction ]
+  | TemplateActionLabelExampleReply [ exampleReplyAction ]
+  | TemplateActionLabelDoBoth [ justHiAction; exampleReplyAction ]
+  ;
+```
 
 ## The Template behaviour
 

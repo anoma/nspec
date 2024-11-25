@@ -313,7 +313,7 @@ countReplyAction
 
 ## Action labels
 
-### `TemplateActionLabel`
+### `TickerActionLabel`
 
 ```juvix
 type TickerActionLabel :=
@@ -329,9 +329,12 @@ type TickerActionLabel :=
 ```juvix
 TickerBehaviour : Type :=
   EngineBehaviour
+    TickerCfg
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle
+    Anoma.Msg
+    TickerActionLabel
     TickerActionArguments;
 ```
 <!-- --8<-- [end:TickerBehaviour] -->
