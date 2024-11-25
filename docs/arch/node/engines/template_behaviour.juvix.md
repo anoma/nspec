@@ -16,6 +16,7 @@ tags:
     module arch.node.engines.template_behaviour;
 
     import arch.node.engines.template_messages open;
+    import arch.node.engines.template_config open;
     import arch.node.engines.template_environment open;
 
     import prelude open;
@@ -23,7 +24,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
-    import arch.node.types.anoma_message open;
+    import arch.node.types.anoma open;
     ```
 
 # Template Behaviour
@@ -176,7 +177,8 @@ Condition
 ```juvix
 justHiGuard
   (tt : TemplateTimestampedTrigger)
-  (env : TemplateEnvironment)
+  (cfg : EngineCfg TemplateCfg)
+  (env : TemplateEnv)
   : Option TemplateGuardOutput :=
   let
     emsg := getEngineMsgFromTimestampedTrigger tt;
@@ -186,6 +188,7 @@ justHiGuard
         msg := MsgTemplate MsgTemplateJustHi;
       } :=
       some mkGuardOutput@{
+        label := TemplateActionLabelJustHi;
         args := [
           (TemplateActionArgumentTwo
             mkSecondArgument@{
@@ -221,7 +224,8 @@ Acquaintance updates
 justHiAction
   (args : List TemplateActionArgument)
   (tt : TemplateTimestampedTrigger)
-  (env : TemplateEnvironment)
+  (cfg : EngineCfg TemplateCfg)
+  (env : TemplateEnv)
   : Option TemplateActionEffect :=
   case args of {
   | TemplateActionArgumentTwo (mkSecondArgument@{
@@ -272,7 +276,8 @@ Condition
 ```juvix
 exampleReplyGuard
   (tt : TemplateTimestampedTrigger)
-  (env : TemplateEnvironment)
+  (cfg : EngineCfg TemplateCfg)
+  (env : TemplateEnv)
   : Option TemplateGuardOutput :=
   let
     emsg := getEngineMsgFromTimestampedTrigger tt;
@@ -285,6 +290,7 @@ exampleReplyGuard
         mailbox := mailbox;
       } :=
       some mkGuardOutput@{
+        label := TemplateActionLabelExampleReply;
         args := [];
       }
     | _ := none
@@ -312,7 +318,8 @@ Timer updates
 exampleReplyAction
   (args : List TemplateActionArgument)
   (tt : TemplateTimestampedTrigger)
-  (env : TemplateEnvironment)
+  (cfg : EngineCfg TemplateCfg)
+  (env : TemplateEnv)
   : Option TemplateActionEffect :=
   let
     emsg := getEngineMsgFromTimestampedTrigger tt;
@@ -328,7 +335,7 @@ exampleReplyAction
         env := env;
         msgs := [
         mkEngineMsg@{
-          sender := mkPair (some (EngineEnv.node env)) (some (EngineEnv.name env));
+          sender := mkPair (some (EngineCfg.node cfg)) (EngineCfg.name cfg);
           target := sender;
             mailbox := some 0;
             msg :=
@@ -346,6 +353,17 @@ exampleReplyAction
   };
 ```
 
+## Action labels
+
+### `TemplateActionLabel`
+
+```juvix
+type TemplateActionLabel :=
+  | TemplateActionLabelJustHi [ justHiAction ]
+  | TemplateActionLabelExampleReply [ exampleReplyAction ]
+  | TemplateActionLabelDoBoth [ justHiAction; exampleReplyAction ];
+```
+
 ## The Template behaviour
 
 ### `TemplateBehaviour`
@@ -354,9 +372,11 @@ exampleReplyAction
 ```juvix
 TemplateBehaviour : Type :=
   EngineBehaviour
+    Anoma.Cfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
+    TemplateActionLabel
     TemplateActionArguments;
 ```
 <!-- --8<-- [end:TemplateBehaviour] -->

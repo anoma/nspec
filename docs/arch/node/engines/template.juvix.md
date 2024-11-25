@@ -17,6 +17,7 @@ tags:
 
     import prelude open;
     import arch.node.engines.template_messages open public;
+    import arch.node.engines.template_config open public;
     import arch.node.engines.template_environment open public;
     import arch.node.engines.template_behaviour open public;
     import arch.node.types.engine open public;
@@ -60,15 +61,16 @@ TemplateEngine : Type :=
 ```juvix
 exampleTemplateEngine : TemplateEngine :=
   mkEngine@{
-    initEnv := templateEnvironment;
+    cfg := templateCfg;
+    env := templateEnv;
     behaviour := templateBehaviour;
   };
 ```
 <!-- --8<-- [end:exampleTemplateEngine] -->
 
-where `templateEnvironment` is defined as follows:
+where `templateEnv` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnvironment"
+--8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnv"
 
 and `templateBehaviour` is defined as follows:
 

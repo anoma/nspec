@@ -23,7 +23,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
-    import arch.node.types.anoma_message open;
+    import arch.node.types.anoma open;
     ```
 
 # Ticker Behaviour

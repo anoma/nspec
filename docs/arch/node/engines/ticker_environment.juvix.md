@@ -85,8 +85,6 @@ module ticker_environment_example;
 
 zeroTickerEnvironment : TickerEnvironment :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "ticker";
       localState := mkTickerLocalState@{
         counter := 0
       };

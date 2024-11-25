@@ -197,28 +197,26 @@ TemplateTimestampedTrigger : Type :=
 
 ## The Template Environment
 
-### `TemplateEnvironment`
+### `TemplateEnv`
 
-<!-- --8<-- [start:TemplateEnvironment] -->
+<!-- --8<-- [start:TemplateEnv] -->
 ```juvix
-TemplateEnvironment : Type :=
+TemplateEnv : Type :=
   EngineEnv
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle;
 ```
-<!-- --8<-- [end:TemplateEnvironment] -->
+<!-- --8<-- [end:TemplateEnv] -->
 
 #### Instantiation
 
-<!-- --8<-- [start:templateEnvironment] -->
+<!-- --8<-- [start:templateEnv] -->
 ```juvix extract-module-statements
 module template_environment_example;
 
-  templateEnvironment : TemplateEnvironment :=
+  templateEnv : TemplateEnv :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "template";
       localState := mkTemplateLocalState@{
         taskQueue := mkCustomData@{
           word := "taskQueue"
@@ -231,4 +229,4 @@ module template_environment_example;
   ;
 end;
 ```
-<!-- --8<-- [end:templateEnvironment] -->
+<!-- --8<-- [end:templateEnv] -->
