@@ -14,6 +14,7 @@ tags:
     module arch.node.types.engine;
     import prelude open;
     import arch.node.types.identities open;
+    import arch.node.types.engine_config open public;
     import arch.node.types.engine_environment open public;
     import arch.node.types.engine_behaviour open public;
     ```
