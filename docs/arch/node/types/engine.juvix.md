@@ -40,7 +40,7 @@ Each engine, not its type, is associated with:
 
 - a specific configuration, which contains the engine name (unique across the system), node ID, and engine-specific configuration,
 - a declaration of its own [[Engine Environment|execution context]], that is,
-  the specific local state, the mailbox cluster, the acquaintances, and the timers,
+  the engine-specific local state, the mailbox cluster, the acquaintances, and the timers,
 - as well as a specific [[Engine Behaviour|behaviour]].
 
 ```juvix
