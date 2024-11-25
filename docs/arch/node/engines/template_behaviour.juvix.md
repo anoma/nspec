@@ -80,27 +80,28 @@ type SecondArgument := mkSecondArgument {
 
 ### `TemplateActionArgument`
 
-<!-- --8<-- [start:template-action-argument] -->
+<!-- --8<-- [start:TemplateActionArgument] -->
 ```juvix
 type TemplateActionArgument :=
   | TemplateActionArgumentOne FirstArgument
   | TemplateActionArgumentTwo SecondArgument
   ;
 ```
-<!-- --8<-- [end:template-action-argument] -->
+<!-- --8<-- [end:TemplateActionArgument] -->
 
 ### `TemplateActionArguments`
 
-<!-- --8<-- [start:template-action-arguments] -->
+<!-- --8<-- [start:TemplateActionArguments] -->
 ```juvix
 TemplateActionArguments : Type := List TemplateActionArgument;
 ```
-<!-- --8<-- [end:template-action-arguments] -->
+<!-- --8<-- [end:TemplateActionArguments] -->
 
 ## Action labels
 
 ### `TemplateActionLabel`
 
+<!-- --8<-- [start:TemplateActionLabel] --> 
 ```juvix
 type TemplateActionLabel :=
   | TemplateActionLabelJustHi -- [ justHiAction ]
@@ -108,7 +109,7 @@ type TemplateActionLabel :=
   | TemplateActionLabelDoBoth -- [ justHiAction; exampleReplyAction ]
   ;
 ```
-
+<!-- --8<-- [end:TemplateActionLabel] -->
 ## Guarded actions
 
 ??? quote "Auxiliary Juvix code"
@@ -243,6 +244,7 @@ Timer updates
 Acquaintance updates
 : None.
 
+<!-- --8<-- [start:justHiAction] -->    
 ```juvix
 justHiAction
   (label : TemplateActionLabel)
@@ -270,6 +272,7 @@ justHiAction
   | _ := none
   }
 ```
+<!-- --8<-- [end:justHiAction] -->
 
 ### `exampleReply`
 
@@ -296,7 +299,7 @@ Guard description (optional).
 Condition
 : Message type is `TemplateMsgExampleRequest`.
 
-<!-- --8<-- [start:exampleRequestGuard] -->
+<!-- --8<-- [start:exampleReplyGuard] -->
 ```juvix
 exampleReplyGuard
   (tt : TemplateTimestampedTrigger)
@@ -320,7 +323,7 @@ exampleReplyGuard
     | _ := none
     };
 ```
-<!-- --8<-- [end:exampleRequestGuard] -->
+<!-- --8<-- [end:exampleReplyGuard] -->
 
 #### `exampleReplyAction`
 
@@ -338,6 +341,7 @@ Engines to be spawned
 Timer updates
 : No timers are set or cancelled.
 
+<!-- --8<-- [start:exampleReplyAction] -->
 ```juvix
 exampleReplyAction
   (label : TemplateActionLabel)
@@ -377,7 +381,7 @@ exampleReplyAction
   | _ := none
   };
 ```
-
+<!-- --8<-- [end:exampleReplyAction] -->
 
 ## The Template behaviour
 
