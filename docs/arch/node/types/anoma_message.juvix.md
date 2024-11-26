@@ -1,5 +1,5 @@
 ---
-icon: octicons/project-template-24
+icon: material/file-document-outline
 search:
   exclude: false
 tags:
@@ -39,8 +39,10 @@ tags:
 The _Anoma_ message type contains all admissible messages
 that can be sent between nodes in the network.
 An Anoma message is of the type `Msg`.
-Each constructor of the type `Msg` corresponds to a specific type of message coming from a specific engine.
-For example, the engine family `Ticker` has a corresponding message type `TickerMsg`.
+Each constructor of the type `Msg`
+corresponds to a specific type of message comming from a specific engine.
+For example, the engine `TickerEngine`
+has a corresponding message type `TickerMsg`.
 
 <!-- --8<-- [start:anoma-messages-type] -->
 ```juvix
