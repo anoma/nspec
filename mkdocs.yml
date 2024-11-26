@@ -512,6 +512,7 @@ plugins:
   - search
   - glightbox
   - juvix # Provided with mkdocs-juvix-plugin
+  - todos
   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
       ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
       FileTypes:
@@ -534,7 +535,6 @@ hooks:
 exclude_docs: |
   **/.hooks/**
   docs/.juvix-build/**
-  /requirements.txt
   **/art-template/**/*.md
   */**/.juvix-build/
   docs/indexes/*.txt

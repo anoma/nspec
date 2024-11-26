@@ -9,8 +9,7 @@ plugins:
   - social
   - tags
   - glightbox
-  - images
-  - wikilinks
+  - juvix # Provided with mkdocs-juvix-plugin
   - todos
   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
       ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
