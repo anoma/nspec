@@ -29,17 +29,16 @@ notifications.
 
 ## Guards
 
-Guards are terms of type `Guard`, which is a function type,
-where the _trigger_ of type `TimestampedTrigger H` is a term that captures the
-message received with a timestamp or a clock notification about timers that have
-elapsed during the engine's operation. Guards return data of type `GuardOutput A`
-if the precondition of the action that they are guarding is met.
+Guards are terms of type `Guard`, which is a function type, where the _trigger_
+of type `TimestampedTrigger H` is a term that captures the message received with
+a timestamp or a clock notification about timers that have elapsed during the
+engine's operation. Guards return data of type `GuardOutput A` if the
+precondition of the action that they are guarding is met.
 
 Recall that the behaviour is described by a set of guards and an action
 function. The guard is a function that evaluates conditions in the engine
-environment to determine what action should be performed;
-for this, each guard creates an _action label,_
-that then is "interpreted" by the action function.
+environment to determine what action should be performed; for this, each guard
+creates an _action label,_ that then is "interpreted" by the action function.
 
 The guard function receives:
 
@@ -50,7 +49,8 @@ The guard function receives:
 Given these inputs, the guard function computes an action label, which encodes
 
 - all information necessary to infer how the engine will react
-- additional information on how this action contributes to properties of the Anoma protocol instance the engine is part of.
+- additional information on how this action contributes to properties of the
+Anoma protocol instance the engine is part of.
 
 The action function then computes the effects of the action label;
 besides changes to the engine environment, an action effect comprises sending
@@ -62,13 +62,13 @@ messages, creating new engine instances, and updating timers.
 
 The input of the action function is parameterised by the types for:
 
-- `A`: action arguments,
 - `C`: engine configuration,
 - `S`: local state,
 - `B`: mailbox state,
 - `H`: timer handles,
+- `A`: action arguments,
 - `AM`: type for all engine messages (`Msg`),
-- `AC`: type for all engine configurations (`Cfg`),
+- `AC`: type for all engine configurations (`Cfg`), and
 - `AE`: type for all engine environments (`Env`).
 
 The `Action` function receives as argument the `ActionInput`,
@@ -77,8 +77,8 @@ and returns the `ActionEffect`.
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Action (A C S B H AM AC AE : Type) : Type :=
-  (input : ActionInput A C S B H AM) ->
+Action (C S B H A AM AC AE : Type) : Type :=
+  (input : ActionInput C S B H A AM) ->
   Option (ActionEffect S B H AM AC AE);
 ```
 <!-- --8<-- [end:ActionFunction] -->
@@ -118,13 +118,13 @@ are triggered.
 The `ActionInput` contains:
 
 - the action arguments,
-- the local time of the engine instance when the guard evaluation was triggered,
-- the configuration of the engine instance,
-- and the environment of the engine instance.
+- the engine configuration, 
+- the engine environment, and
+- the timestamped trigger that caused the guard evaluation.
 
 <!-- --8<-- [start:ActionInput] -->
 ```juvix
-type ActionInput (A C S B H AM : Type) :=
+type ActionInput (C S B H A AM : Type) :=
   mkActionInput {
     args : A;
     cfg : EngineCfg C;
@@ -136,8 +136,8 @@ type ActionInput (A C S B H AM : Type) :=
 
 ### `ActionEffect`
 
-The `ActionEffect S B H A C E` type defines the effects produced by the action.
-The action can perform any of the following:
+The `ActionEffect S B H AM AC AE` type defines the effects produced by the
+action. The action can perform any of the following:
 
 - Update the engine environment.
 - Produce a set of messages to be sent to other engine instances.
@@ -160,8 +160,8 @@ type ActionEffect (S B H AM AC AE : Type) :=
 
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
-type ActionExec (A C S B H AM AC AE : Type) :=
-  | Seq (List (Action A C S B H AM AC AE))
+type ActionExec (C S B H A AM AC AE : Type) :=
+  | Seq (List (Action C S B H A AM AC AE))
   ;
 ```
 <!-- --8<-- [end:ActionExec] -->
@@ -171,23 +171,24 @@ type ActionExec (A C S B H AM AC AE : Type) :=
 <!-- --8<-- [start:Guard] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
-Guard (A C S B H AM AC AE : Type) : Type :=
+Guard (C S B H A AM AC AE : Type) : Type :=
   (trigger : TimestampedTrigger H AM) ->
   (cfg : EngineCfg C) ->
   (env : EngineEnv S B H AM) ->
-  Option (GuardOutput A C S B H AM AC AE);
+  Option (GuardOutput C S B H A AM AC AE);
 ```
 <!-- --8<-- [end:Guard] -->
 
 ### `GuardOutput`
 
-The guard output defines an action label and action arguments.
+The guard output defines an action sequence, the programmatic action to be
+performed, and action arguments.
 
 <!-- --8<-- [start:GuardOutput] -->
 ```juvix
-type GuardOutput (A C S B H AM AC AE : Type) :=
+type GuardOutput (C S B H A AM AC AE : Type) :=
   mkGuardOutput@{
-    actions : ActionExec A C S B H AM AC AE;
+    action : ActionExec C S B H A AM AC AE;
     args : A;
   };
 ```
@@ -197,12 +198,22 @@ type GuardOutput (A C S B H AM AC AE : Type) :=
 
 <!-- --8<-- [start:GuardEval] -->
 ```juvix
-type GuardEval (A C S B H AM AC AE : Type) :=
-  | First (List (Guard A C S B H AM AC AE))
-  | Any (List (Guard A C S B H AM AC AE))
+type GuardEval (C S B H A AM AC AE : Type) :=
+  | First (List (Guard C S B H A AM AC AE))
+  | Any (List (Guard C S B H A AM AC AE))
   ;
 ```
 <!-- --8<-- [end:GuardEval] -->
+
+The `GuardEval` type defines the criteria for evaluating actions associated with
+guards inside the given list. The evaluation strategies are as follows:
+
+- With `First`, we say that the first guard in the provided list that holds,
+i.e., yields a result, upon sequential evaluation is selected, its associated
+action is performed, and the evaluation stops.
+- With `Any`, we say that any guard in the provided list that holds upon
+sequential evaluation is selected, their associated actions are performed, and
+the evaluation stops.
 
 ## The type for engine behaviours
 
@@ -216,9 +227,9 @@ introduced earlier, an `EngineBehaviour` is a set of guards and an action functi
 
 <!-- --8<-- [start:EngineBehaviour] -->
 ```juvix
-type EngineBehaviour (A C S B H AM AC AE : Type) :=
+type EngineBehaviour (C S B H A AM AC AE : Type) :=
   mkEngineBehaviour@{
-    guards : GuardEval A C S B H AM AC AE;
+    guards : GuardEval C S B H A AM AC AE;
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->

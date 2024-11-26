@@ -107,11 +107,11 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateAction : Type :=
       Action
-        TemplateActionArguments
         TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
+        TemplateActionArguments
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
@@ -124,11 +124,11 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateActionInput : Type :=
       ActionInput
-        TemplateActionArguments
         TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
+        TemplateActionArguments
         Anoma.Msg;
     ```
     <!-- --8<-- [end:TemplateActionInput] -->
@@ -154,11 +154,11 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateActionExec : Type :=
       ActionExec
-        TemplateActionArguments
         TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
+        TemplateActionArguments
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
@@ -222,7 +222,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `TemplateMsgExampleReply` message with `argOne` from the received `TemplateMsgExampleRequest`.
+: A `TemplateMsgExampleReply` message with the data set by `exampleReplyGuard`.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -325,11 +325,11 @@ doBothActionLabel : TemplateActionExec :=
     ```juvix
     TemplateGuardOutput : Type :=
       GuardOutput
-        TemplateActionArguments
         TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
+        TemplateActionArguments
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
@@ -375,7 +375,7 @@ justHiGuard
         msg := Anoma.MsgTemplate TemplateMsgJustHi;
       } :=
       some mkGuardOutput@{
-        actions := justHiActionLabel;
+        action := justHiActionLabel;
         args := [
           (TemplateActionArgumentTwo
             mkSecondArgument@{
@@ -413,7 +413,7 @@ exampleReplyGuard
         mailbox := mailbox;
       } :=
       some mkGuardOutput@{
-        actions := exampleReplyActionLabel;
+        action := exampleReplyActionLabel;
         args := [];
       }
     | _ := none
@@ -429,11 +429,11 @@ exampleReplyGuard
 ```juvix
 TemplateBehaviour : Type :=
   EngineBehaviour
-    TemplateActionArguments
     TemplateCfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
+    TemplateActionArguments
     Anoma.Msg
     Anoma.Cfg
     Anoma.Env;
