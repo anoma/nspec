@@ -133,7 +133,7 @@ jobs:
           poetry run mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/
           SITE_VERSION: (PR ${{ github.event.pull_request.number }})
       - name: The build failed comment
         if: failure()
@@ -152,7 +152,7 @@ jobs:
           poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/
           SITE_VERSION: (PR:${{ github.event.pull_request.number }} - Branch:${{env.BRANCH_NAME }} - Commit:${{ steps.commit.outputs.commit }} - Main:${{ steps.main-commit.outputs.commit }})
           COPYRIGHT: Powered by Mkdocs, Poetry ${{ env.POETRY_VERSION }}, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
       - if: steps.material.outcome == 'failure'
