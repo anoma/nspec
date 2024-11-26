@@ -20,10 +20,14 @@ tags:
     import arch.node.types.engine_behaviour open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.ticker_config open public;
     import arch.node.engines.ticker_messages open public;
     import arch.node.engines.ticker_environment open public;
     import arch.node.engines.ticker_behaviour open public;
 
+    import arch.node.types.anoma as Anoma open;
+
+    open ticker_config_example;
     open ticker_environment_example;
     ```
 
@@ -41,6 +45,7 @@ receiving a `Count` message. The initial state initializes the counter.
 ## Components
 
 - [[Ticker Messages]]
+- [[Ticker Config]]
 - [[Ticker Environment]]
 - [[Ticker Behaviour]]
 
@@ -52,13 +57,16 @@ receiving a `Count` message. The initial state initializes the counter.
 
 <!-- --8<-- [start:TickerEngine] -->
 ```juvix
-TickerEngine : Type := Engine
-  TickerLocalState
-  TickerMailboxState
-  TickerTimerHandle
-  TickerMatchableArgument
-  TickerActionLabel
-  TickerPrecomputationList;
+TickerEngine : Type :=
+  Engine
+    TickerCfg
+    TickerLocalState
+    TickerMailboxState
+    TickerTimerHandle
+    TickerActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:TickerEngine] -->
 
@@ -66,13 +74,23 @@ TickerEngine : Type := Engine
 
 <!-- --8<-- [start:exampleTickerEngine] -->
 ```juvix
-exampleTickerEngine : TickerEngine := mkEngine@{
-    name := "ticker";
+exampleTickerEngine : TickerEngine :=
+  mkEngine@{
+    cfg := tickerCfg;
+    env := tickerEnv;
     behaviour := tickerBehaviour;
-    initEnv := zeroTickerEnvironment;
   };
 ```
 <!-- --8<-- [end:exampleTickerEngine] -->
-where `zeroTickerEnvironment` is defined as follows:
 
---8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:zeroTickerEnvironment"
+where `tickerCfg` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/ticker_config.juvix.md:tickerCfg"
+
+`tickerEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:tickerEnv"
+
+and `tickerBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/ticker_behaviour.juvix.md:tickerBehaviour"

@@ -55,8 +55,9 @@ NamingEngine : Type := Engine
 
 ### Example of a naming engine
 
-```juvix
-exampleNamingEngine : NamingEngine := mkEngine@{
+```juvix extract-module-statements
+exampleNamingEngine : NamingEngine :=
+  mkEngine@{
     behaviour := namingBehaviour;
     initEnv := namingEnvironmentExample;
   };

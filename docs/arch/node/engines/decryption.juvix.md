@@ -60,8 +60,10 @@ DecryptionEngine : Type := Engine
 
 ### Example of a decryption engine
 
-```juvix
-exampleDecryptionEngine : DecryptionEngine := mkEngine@{
+
+```juvix extract-module-statements
+exampleDecryptionEngine : DecryptionEngine :=
+  mkEngine@{
     behaviour := decryptionBehaviour;
     initEnv := decryptionEnvironmentExample;
   };

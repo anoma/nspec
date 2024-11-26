@@ -55,8 +55,9 @@ SignsForEngine : Type := Engine
 
 ### Example of a signsFor engine
 
-```juvix
-exampleSignsForEngine : SignsForEngine := mkEngine@{
+```juvix extract-module-statements
+exampleSignsForEngine : SignsForEngine :=
+  mkEngine@{
     behaviour := signsForBehaviour;
     initEnv := signsForEnvironmentExample;
   };

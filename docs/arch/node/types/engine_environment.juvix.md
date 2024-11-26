@@ -31,23 +31,24 @@ The engine environment contains the following dynamic information for engine ins
 - A list of timers that have been set.
 
 This data is encapsulated within the `EngineEnv` type,
-which is parameterised by four types:
+which is parameterised by four types, which represent:
 
-- `S`: represents the local state,
-- `M`: represents the type of mailboxes' states, and
-- `H`: represents the type of handles for timers.
+- `S`: the local state,
+- `B`: the type of mailboxes' states,
+- `H`: the type of handles for timers, and
+- `AM`: the type of all engine messages (`Msg`).
 
 These same letters will be used in the rest of the document to represent these
 types.
 
 ```juvix
-type EngineEnv (S M H : Type) :=
-  mkEngineEnv {
-      localState : S;
-      mailboxCluster : Map MailboxID (Mailbox M);
-      acquaintances : Set EngineName;
-      timers : List (Timer H);
-};
+type EngineEnv (S B H AM : Type) :=
+  mkEngineEnv@{
+    localState : S;
+    mailboxCluster : Map MailboxID (Mailbox B AM);
+    acquaintances : Set EngineName;
+    timers : List (Timer H);
+  };
 ```
 
 ??? info "On the mailbox cluster"
@@ -56,7 +57,7 @@ type EngineEnv (S M H : Type) :=
     an index type, and the mailbox is a record containing the following data:
 
     - The enveloped messages that the mailbox contains.
-    - The mailbox state, which is of type `Option M`, i.e., it could be
+    - The mailbox state, which is of type `Option B`, i.e., it could be
     _none_.
 
     If you don't need multiple mailboxes, you can use any ID as the key.
