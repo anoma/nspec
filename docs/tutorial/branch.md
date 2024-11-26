@@ -8,74 +8,64 @@ tags:
 # Git branching strategy
 
 The general workflow is to branch off from the latest version's branch, perform
-your changes, open a pull request, and merge your updates. An open pull request
-can finalise a version, or patch it with updates.
+your changes, open a pull request, and merge your updates.
 
 ## Branching strategy
 
-For new versions, branch off from the latest version. This is usually done by
-maintainers. Call the branch as `vX`, where `X` is the new version number,
-the successor of the latest version. To find the latest version, check the
-`VERSION` file in the repository root. For example, if the latest version is
-`v1`, the new version branch will be `v2`, and the git graph will look like:
+### For changes to the latest version
+
+For changes to the latest version, branch off from `main`. Name your branch by
+prefixing your name and an issue identifier, like `your-name/issue-identifier`.
+
+```bash
+git fetch
+git checkout -b your-name/issue-identifier origin/main
+```
+
+### For changes to older published versions
+
+For patching older versions, branch off from the specific version branch.
+Published versions follow the pattern `vX`, where `X` is the version number.
+For example, say the latest version is `v0.1.0`.
+
+Name your branch by prefixing your name and an patch topic, like
+`your-name/patch-topic`.
+
+```bash
+git checkout -b your-name/patch-topic v0.1.0
+```
+
+The git graph will look like:
 
 ```mermaid
 %%{init: { 'theme': 'neutral' } }%%
 gitGraph:
     commit
-    branch v1
-    checkout v1
+    branch vX
+    checkout vX
     commit
     branch your-name/issue-identifier
     checkout your-name/issue-identifier
     commit
-    checkout v1
+    checkout vX
     merge your-name/issue-identifier
-    commit
-    commit tag: "v1"
-    branch v2
-    checkout v2
-    commit
-    commit id:"still in development"
 ```
 
-!!! info
+So, if your PR is merged, the changes will be incorporated into the version
+branch and on the website.
 
-    The branch `vX` is the base branch for all new features and patches for the
-    version `X`. That means that, even when there are new versions, the branch `vX`
-    can still be used for patches and minor updates to the version `X`.
+### Pushing changes
 
+When pushing changes for the first time in a new branch, set the upstream tracking branch:
 
-## Merging finalised versions
+```bash
+git push -u origin some-branch:some-branch
+```
 
-2. To merge a finalised version:
-   - Open a pull request against the version in development.
-   - Pass all CI checks.
-   - Tag it with the `vX` label.
-   - Merge the pull request.
-
-### Adding new features to the current version
-
-For patches or minor updates, again, branch off from the latest version. Name
-your branch prefixing your name and an issue identifier, like
-`your-name/issue-identifier`. Short descriptive labels are recommended, like
-`fix-typo`, or `new-solver-engine`. So, the steps are:
-
-1. **Fetch the latest changes**:
-    ```bash
-    git fetch --all
-    ```
-2. **Create a new branch**:
-    ```bash
-    git checkout vX # Replace vX with the current version
-    git checkout -b your-name/issue-identifier
-    ```
-3. Open a pull request against the version in development. If you are using
-   `gh`, after pushing your changes, you can create a pull request with:
-
-    ```bash
-    gh pr create
-    ```
+Afterwards, for subsequent pushes the following is sufficient:
+```bash
+git push
+```
 
 ### Rebasing your work
 
@@ -93,34 +83,41 @@ the following.
 - Initiate the rebase onto the target branch:
 
     ```bash
-    git pull origin vX --rebase
+    git pull origin main --rebase
     ```
 
-    Or merge the changes from the base branch:
+    Or merge the changes from the base branch which is convenient most of the
+    time:
 
     ```bash
-    git merge vX
+    git merge main
     ```
 
 #### Resolve conflicts
 
 - Git will pause for conflict resolution.
 - After resolving each conflict:
-    ```bash
-    git rebase --continue
-    ```
+
+  ```bash
+  git rebase --continue
+  ```
+
 - To stop the rebase process:
-    ```bash
-    git rebase --abort
-    ```
+
+  ```bash
+  git rebase --abort
+  ```
 
 #### Push your changes
 
 - Once rebase is complete, push changes:
+
     ```bash
     git push origin your-name/issue-identifier
     ```
+
 - A force push may be required:
+
     ```bash
     git push origin your-name/issue-identifier --force-with-lease
     ```
@@ -130,3 +127,124 @@ the following.
 - Ensure you are on the correct branch before making changes.
 - Regularly update your branch to minimise conflicts.
 - Ask for help if you encounter any issues to the maintainers.
+
+## Merging PRs
+
+Before a PR can be merged into the `main` branch, it must be able to build the whole codebase.
+The CI checks this automatically, and can be also verified manually:
+
+First, we must check the Juvix codebase, running the following command:
+
+```bash
+juvix typecheck docs/everything.juvix.md
+```
+
+Next, we must verify the MkDocs site build by running the following command:
+
+```bash
+poetry run mkdocs build
+```
+
+## Integration branches for complex changes
+
+When making complex changes that consist of a set of interdependent changes,
+it's best to split them up into smaller PRs that each address a single topic.
+
+For example, making a change to a type can be in one PR,
+a change to a different type in a second PR,
+and applying the type changes in the rest of the code base in a third one.
+In this case, branch 3 needs to merge branch 1 & 2 first.
+
+We also need to create an integration branch,
+which becomes the base branch for all the interdependent PRs,
+and a corresponding integration PR to be merged into the `main` branch.
+
+On GitHub, make sure to include the list of auxiliary PRs as part of the description of the integration PR.
+
+This way the topic branches need not be able to build the whole codebase, while
+the integration branch must be able to build it once all the topic branches are
+merged into it.
+
+A possible diagram of the integration branch and topic branches is the
+following, assuming the integration branch is `example/integration` against
+`main`, and the topic branches are `example/topic-1` against `main`,
+`example/topic-2` against `main`, and `example/topic-3` against `main`. The
+topic branches are squashed-and-merged into the integration branch.
+
+```mermaid
+%%{init: { 'theme': 'neutral' } }%%
+gitGraph:
+    commit
+    branch example/topic-1
+    checkout example/topic-1
+    commit
+    checkout main
+    branch example/topic-2
+    checkout example/topic-2
+    commit
+    checkout main
+    branch example/integration
+    checkout example/integration
+    merge example/topic-1
+    merge example/topic-2
+    commit "Fix merge conflicts"
+    checkout main
+    merge example/integration
+```
+
+### Fetch the latest updates
+
+```bash
+git fetch
+```
+
+### Create integration branch
+
+```bash
+git branch example/integration origin/main
+```
+
+### Create topic branches
+
+```bash
+git branch example/topic-1 example/integration
+git branch example/topic-2 example/integration
+git branch example/topic-3 example/integration
+```
+
+### Merge dependencies
+
+```bash
+git checkout example/topic-3
+git merge example/topic-1
+git merge example/topic-2
+```
+
+## Using Git Worktrees
+
+When working on multiple branches simultaneously, git worktrees come handy.
+Here's how to use them.
+
+### Fetch the latest updates
+
+```bash
+git fetch
+```
+
+### Create a branch
+
+```bash
+git branch some-branch origin/main
+```
+
+### Create a Worktree for the branch
+
+Either inside the repo starting with a dot (to avoid build issues):
+```bash
+git worktree add /path/to/repo/.tree/some-branch some-branch
+```
+
+Or outside the repo:
+```bash
+git worktree add /path/to/repo-some-branch some-branch
+```

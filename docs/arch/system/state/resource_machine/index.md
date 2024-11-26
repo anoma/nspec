@@ -44,5 +44,4 @@ This specification describes a common interface shared by all ARM instantiations
 
 The design of the Anoma Resource Machine was significantly inspired by the [Zcash protocol](https://zips.z.cash/protocol/protocol.pdf).
 
-
 - Keywords: anoma, blockchain technology, protocol design, resource machine

@@ -12,6 +12,8 @@ tags:
     ```juvix
     module prelude;
     import Stdlib.Trait open public;
+    import Stdlib.Trait.Ord open using {Ordering; mkOrd; Equal; isEqual} public;
+    import Stdlib.Trait.Eq open using {==} public;
     ```
 
 # Common Types - Juvix Base Prelude
@@ -22,7 +24,8 @@ used to define more complex types in the Anoma Specification.
 
 ## Nat
 
-The type `Nat` represents natural numbers (non-negative integers). Used for counting and indexing.
+The type `Nat` represents natural numbers (non-negative integers). Used for
+counting and indexing.
 
 ```juvix
 import Stdlib.Data.Nat as Nat
@@ -30,7 +33,10 @@ import Stdlib.Data.Nat as Nat
   { Nat;
     zero;
     suc;
-    natToString
+    natToString;
+    +;
+    *;
+    <=;
   } public;
 ```
 
@@ -50,8 +56,9 @@ import Stdlib.Data.Bool as Bool
   { Bool;
     true;
     false;
-    ite;
+    ite; -- TODO: remove this, use if | ... | else ... instead
     &&;
+    ||;
     not;
     or;
     and
@@ -72,7 +79,8 @@ The type `String` represents sequences of characters. Used for text and communic
 import Stdlib.Data.String
   as String
   open using
-  { String
+  { String;
+    ++str;
   } public;
 ```
 
@@ -80,6 +88,18 @@ For example,
 
 ```juvix
 hello : String := "Hello, World!";
+```
+
+## ByteString
+
+```juvix
+ByteString : Type := String;
+```
+
+A basic type for representing binary data.
+
+```juvix
+emptyByteString : ByteString := "";
 ```
 
 ## Unit
@@ -125,6 +145,18 @@ For example,
 pair : Pair Nat Bool := mkPair 42 true;
 ```
 
+Projections
+
+```juvix
+fst {A B} : Pair A B -> A
+  | (mkPair a _) := a;
+```
+
+```juvix
+snd {A B} : Pair A B -> B
+  | (mkPair _ b) := b;
+```
+
 ## Result A B
 
 The `Result A B` type represents either a success with a value of `ok x` with `x` of type `A` or an error
@@ -166,7 +198,9 @@ import Stdlib.Data.List as List
   open using {
   List;
   nil;
-  ::
+  ::;
+  isElement;
+  ++;
 } public;
 ```
 
@@ -231,7 +265,7 @@ The type `Map K V` represents a collection of key-value pairs, sometimes called
 a dictionary, where keys are of type `K` and values are of type `V`.
 
 ```juvix
-import Data.Map as Map public;
+import Stdlib.Data.Map as Map public;
 open Map using {
     Map
   } public;
@@ -249,9 +283,10 @@ The type `Set A` represents a collection of unique elements of type `A`. Used
 for sets of values.
 
 ```juvix
-import Data.Set as Set public;
+
+import Stdlib.Data.Set as Set public;
 open Set using {
-    Set
+    Set;
   } public;
 ```
 
@@ -261,12 +296,14 @@ For example,
 uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
 ```
 
+
 ## Undefined values
 
 The term `undef` is a placeholder for unspecified values.
 
 ```juvix
 axiom undef : {A : Type} -> A;
+axiom TODO : {A : Type} -> A;
 ```
 
 For example,
@@ -275,7 +312,6 @@ For example,
 undefinedNat : Nat := undef;
 ```
 
--- TODO: perhaps remove the following sections once the stdlib is updated
 ## Functor
 
 ```juvix
@@ -286,63 +322,22 @@ import Stdlib.Trait.Functor.Polymorphic as Functor;
 
 ```juvix
 import Stdlib.Data.Fixity open public;
-trait
-type Applicative (f : Type -> Type) :=
-  mkApplicative {
-    {{ApplicativeFunctor}} : Functor f;
-    pure : {A : Type} -> A -> f A;
-    ap : {A B : Type} -> f (A -> B) -> f A -> f B
-  };
-```
-
-For example, the `Option` type is an instance of `Applicative`.
-
-```juvix
-instance
-maybeApplicative : Applicative Option :=
-  mkApplicative@{
-    pure := some;
-    ap {A B} : Option (A -> B) -> Option A -> Option B
-      | (some f) (some x) := some (f x)
-      | _ _ := none
-  };
+import Stdlib.Trait.Applicative open using {Applicative; mkApplicative} public;
+open Applicative public;
 ```
 
 ## Monad
 
 ```juvix
-trait
-type Monad (f : Type -> Type) :=
-  mkMonad {
-    {{MonadApplicative}} : Applicative f;
-
-    builtin monad-bind
-    bind : {A B : Type} -> f A -> (A -> f B) -> f B
-  };
-```
-
-```juvix
-syntax operator >>= seq;
->>= {A B} {f : Type -> Type} {{Monad f}} (x : f A) (g : A -> f B) : f B := Monad.bind x g;
-```
-
-```juvix
-monadMap {A B} {f : Type -> Type} {{Monad f}} (g : A -> B) (x : f A) : f B := map g x;
-```
-
-For example, the `Option` type is an instance of `Monad`.
-
-```juvix
-instance
-maybeMonad : Monad Option :=
-  mkMonad@{
-    bind {A B} : Option A -> (A -> Option B) -> Option B
-      | none _ := none
-      | (some a) f := f a
-  };
-```
-
-```juvix
-open Applicative public;
+import Stdlib.Trait.Monad open using {Monad; mkMonad} public;
 open Monad public;
+```
+
+## AVLTree
+
+```juvix
+import Stdlib.Data.Set.AVL as AVLTree public;
+open AVLTree using {
+    AVLTree;
+} public;
 ```
