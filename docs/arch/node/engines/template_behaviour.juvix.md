@@ -399,7 +399,7 @@ exampleReplyGuard
   (cfg : EngineCfg TemplateCfg)
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
-  case getEngineMsgFromTimestampedTrigger tt of {
+  case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)

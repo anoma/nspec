@@ -191,12 +191,12 @@ countReplyAction
   (input : TickerActionInput)
   : Option TickerActionEffect :=
   let
-    env := ActionInput.env input;
-    tt := ActionInput.trigger input;
     cfg := ActionInput.cfg input;
+    env := ActionInput.env input;
+    trigger := ActionInput.trigger input;
     counterValue := TickerLocalState.counter (EngineEnv.localState env)
   in
-    case getEngineMsgFromTimestampedTrigger tt of {
+    case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
       some mkActionEffect@{
         env := env;
@@ -303,7 +303,7 @@ incrementGuard
   (env : TickerEnv)
   : Option TickerGuardOutput :=
   let
-    emsg := getEngineMsgFromTimestampedTrigger tt;
+    emsg := getEngineMsgFromTimestampedTrigger trigger;
   in
     case emsg of {
     | some mkEngineMsg@{
@@ -330,7 +330,7 @@ countReplyGuard
   (cfg : EngineCfg TickerCfg)
   (env : TickerEnv)
   : Option TickerGuardOutput :=
-  case getEngineMsgFromTimestampedTrigger tt of {
+  case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgTicker TickerMsgCountRequest;
       } := some mkGuardOutput@{
