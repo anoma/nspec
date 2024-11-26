@@ -48,7 +48,7 @@ classDiagram
 
 ## Used in (raw)
 
-1. Resource components: 
+1. Resource components:
     1. `randSeed`
     2. `nonce`
     3. `nullifierKeyCommitment`

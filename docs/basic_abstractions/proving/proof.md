@@ -36,12 +36,12 @@ We define a set of structures required to define a proving system $PS$ as follow
 A proving system $PS$ consists of a pair of algorithms, $(Prove, Verify)$:
 
 - $Prove(pk, x, w): PS.ProvingKey \times PS.Instance \times PS.Witness \rightarrow PS.Proof$
-- $Verify(vk, x, \pi): PS.VerifyingKey \times PS.Instance \times PS.Proof \rightarrow Bool. 
+- $Verify(vk, x, \pi): PS.VerifyingKey \times PS.Instance \times PS.Proof \rightarrow Bool.
 
 A proving system must have the following properties:
 
-- **Completeness**: it must be possible to make a proof for a statement which is true. 
-- **Soundness**: it must not be possible to make a proof for a statement which is false. 
+- **Completeness**: it must be possible to make a proof for a statement which is true.
+- **Soundness**: it must not be possible to make a proof for a statement which is false.
 
 For a statement `f`, `Verify(vk, x, proof) = True` implies that `f x w = True` and `Verify(vk, x, proof) = False` implies that `f x w = False`.
 

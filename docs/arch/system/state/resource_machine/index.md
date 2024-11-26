@@ -24,7 +24,7 @@ The atomic unit of the ARM state is called a [**resource**](./data_structures/re
 
 [**Transactions**](./data_structures/transaction.md) produced by the ARM represent the proposed state update. They consist of [**actions**](./data_structures/action.md), which group resources with the same execution context.
 
-Ensuring the correctness of the transaction is achieved with the help of non-interactive proofs attached to it: 
+Ensuring the correctness of the transaction is achieved with the help of non-interactive proofs attached to it:
 
 1. to prove the transaction is balanced correctly, there are [delta proofs](./data_structures/proof/delta.md). Balance is the criterion of a transaction's completeness.
 2. to prove the transaction complies with the ARM rules, there are [compliance proofs](./data_structures/proof/compliance.md). Actions are partitioned into [compliance units](./data_structures/compliance_unit.md) for easier proving.

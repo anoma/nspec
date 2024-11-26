@@ -13,7 +13,7 @@ To establish the resource's existence, its commitment is added to a global struc
 
 !!! note
     The resource commitment is also used as the resource's address $r.addr$ in the content-addressed storage.
- 
+
 !!! note
     Consumption of the resource does not necessarily affect the resource's status in the storage (e.g., it doesn't get deleted).
 

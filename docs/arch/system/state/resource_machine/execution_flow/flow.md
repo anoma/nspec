@@ -1,6 +1,6 @@
 # Intro
 
-This section describes the resource machine execution flow and how it is used by various actors. 
+This section describes the resource machine execution flow and how it is used by various actors.
 
 # Resource machine
 
@@ -10,7 +10,7 @@ It has read-only access to the external global state, which includes the content
 
 The resource machine must have the functionality to produce, compose, and evaluate transaction functions and transactions.
 
-Actors working with resource machine include users, solvers, and executor nodes. 
+Actors working with resource machine include users, solvers, and executor nodes.
 
 # Transaction function
 

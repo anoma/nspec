@@ -14,7 +14,7 @@ This specification explicitly defines only the architecture-level inputs and con
 
 When proving, resource logics take as input resources created and consumed in the action:
 
-#### Instance 
+#### Instance
 
 1. `action.consumed`
 2. `action.created`

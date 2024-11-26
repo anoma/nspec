@@ -25,11 +25,11 @@ Each resource machine compliance proof must check the following:
 
 1. each *non-ephemeral* consumed resource was created: for each resource associated with a nullifier from the `consumedResourceTagSet`: `CMTree::Verify(cm, path, root) = True`
 2. the resource commitments and nullifiers are derived according to the commitment and nullifier derivation rules (including the commitments of the consumed resources):
-  1. for each consumed resource `r`: 
+  1. for each consumed resource `r`:
     1. `r.nullifier(nullifierKey) is in consumedResourceTagSet`
-    2. `r.commitment() = cm` 
-  2. for each created resource `r`: 
-    1. `r.commitment() is in createdResourceTagSet` 
+    2. `r.commitment() = cm`
+  2. for each created resource `r`:
+    1. `r.commitment() is in createdResourceTagSet`
 3. delta of the unit is computed correctly
 4. the verifying keys used to verify the logic proofs are the same keys that the resources are associated with (`logicRef` component). Together with checking the logic proofs (separately) allows to ensure the logics associated with the resources are satisfied
 
