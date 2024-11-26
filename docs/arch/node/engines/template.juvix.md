@@ -52,11 +52,11 @@ Brief summary of the purpose of the engine.
 ```juvix
 TemplateEngine : Type :=
   Engine
-    TemplateActionArguments
     TemplateCfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
+    TemplateActionArguments
     Anoma.Msg
     Anoma.Cfg
     Anoma.Env;

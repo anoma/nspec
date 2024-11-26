@@ -20,9 +20,12 @@ tags:
     import arch.node.types.engine_behaviour open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.ticker_config open public;
     import arch.node.engines.ticker_messages open public;
     import arch.node.engines.ticker_environment open public;
     import arch.node.engines.ticker_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
 
     open ticker_config_example;
     open ticker_environment_example;
@@ -56,10 +59,14 @@ receiving a `Count` message. The initial state initializes the counter.
 ```juvix
 TickerEngine : Type :=
   Engine
+    TickerCfg
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle
-    TickerActionArguments;
+    TickerActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:TickerEngine] -->
 

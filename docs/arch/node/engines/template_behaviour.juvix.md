@@ -277,15 +277,13 @@ exampleReplyAction
 ### `justHiActionLabel`
 
 ```juvix
-justHiActionLabel : TemplateActionExec :=
-  Seq [ justHiAction ];
+justHiActionLabel : TemplateActionExec := Seq [ justHiAction ];
 ```
 
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : TemplateActionExec :=
-  Seq [ exampleReplyAction ];
+exampleReplyActionLabel : TemplateActionExec := Seq [ exampleReplyAction ];
 ```
 
 ### `doBothActionLabel`
@@ -308,11 +306,11 @@ doBothActionLabel : TemplateActionExec :=
     ```juvix
     TemplateGuard : Type :=
       Guard
-        TemplateActionArguments
         TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
+        TemplateActionArguments
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
@@ -342,11 +340,11 @@ doBothActionLabel : TemplateActionExec :=
     ```juvix
     TemplateGuardEval : Type :=
       GuardEval
-        TemplateActionArguments
         TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
+        TemplateActionArguments
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;

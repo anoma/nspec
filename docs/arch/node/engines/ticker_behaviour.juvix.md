@@ -72,51 +72,36 @@ TickerActionArguments : Type := List TickerActionArgument;
 ```
 <!-- --8<-- [end:ticker-action-arguments] -->
 
-## Guarded actions
+## Actions
 
 ??? quote "Auxiliary Juvix code"
 
-    ### TickerGuard
-
-    <!-- --8<-- [start:TickerGuard] -->
-    ```juvix
-    TickerGuard : Type :=
-      Guard
-        TickerCfg
-        TickerLocalState
-        TickerMailboxState
-        TickerTimerHandle
-        Anoma.Msg
-        TickerActionLabel
-        TickerActionArguments;
-    ```
-    <!-- --8<-- [end:TickerGuard] -->
-
-    ### TickerGuardOutput
-
-    <!-- --8<-- [start:TickerGuardOutput] -->
-    ```juvix
-    TickerGuardOutput : Type :=
-      GuardOutput
-        TickerActionLabel
-        TickerActionArguments;
-    ```
-    <!-- --8<-- [end:TickerGuardOutput] -->
-
-    ### `TickerAction`
+    ## `TickerAction`
 
     ```juvix
     TickerAction : Type :=
       Action
-        TickerActionLabel
-        TickerActionArguments
+        TickerCfg
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
-        TickerCfg
+        TickerActionArguments
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+
+    ## `TickerActionInput`
+
+    ```juvix
+    TickerActionInput : Type :=
+      ActionInput
+        TickerCfg
+        TickerLocalState
+        TickerMailboxState
+        TickerTimerHandle
+        TickerActionArguments
+        Anoma.Msg;
     ```
 
     ### `TickerActionEffect`
@@ -132,49 +117,21 @@ TickerActionArguments : Type := List TickerActionArgument;
         Anoma.Env;
     ```
 
-### `increment`
+    ### `TickerActionExec`
 
-<figure markdown>
+    ```juvix
+    TickerActionExec : Type :=
+      ActionExec
+        TickerCfg
+        TickerLocalState
+        TickerMailboxState
+        TickerTimerHandle
+        TickerActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
 
-```mermaid
-flowchart TD
-  CM>TickerMsgIncrement]
-  A(incrementAction)
-  ES[(increment counter)]
-
-  CM --> A --> ES
-```
-
-<figcaption>increment flowchart</figcaption>
-</figure>
-
-#### `incrementGuard`
-
-Condition
-: Message type is `TickerMsgIncrement`.
-
-<!-- --8<-- [start:incrementGuard] -->
-```juvix
-incrementGuard
-  (tt : TimestampedTrigger TickerTimerHandle )
-  (cfg : EngineCfg TickerCfg)
-  (env : TickerEnv)
-  : Option TickerGuardOutput :=
-  let
-    emsg := getEngineMsgFromTimestampedTrigger tt;
-  in
-    case emsg of {
-    | some mkEngineMsg@{
-        msg := (Anoma.MsgTicker TickerMsgIncrement);
-      } :=
-    some mkGuardOutput@{
-      label := TickerActionLabelIncrement;
-      args := [];
-    }
-  | _ := none
-  };
-```
-<!-- --8<-- [end:incrementGuard] -->
 
 #### `incrementAction`
 
@@ -194,16 +151,12 @@ Timer updates
 
 ```juvix
 incrementAction
-  (label : TickerActionLabel)
-  (args : List TickerActionArgument)
-  (tt : TickerTimestampedTrigger)
-  (cfg : EngineCfg TickerCfg)
-  (env : TickerEnv)
+  (input : TickerActionInput)
   : Option TickerActionEffect :=
   let
+    env := ActionInput.env input;
     counterValue := TickerLocalState.counter (EngineEnv.localState env)
-  in
-    some mkActionEffect@{
+  in some mkActionEffect@{
       env := env@EngineEnv{
         localState := mkTickerLocalState@{
           counter := counterValue + 1
@@ -215,49 +168,6 @@ incrementAction
     }
 ```
 
-### `countReply`
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>TickerMsgCountRequest]
-  A(countAction)
-  EM>TickerMsgCountReply]
-
-  CM --> A --> EM
-```
-
-<figcaption>`countReply` flowchart</figcaption>
-</figure>
-
-#### `countReplyGuard`
-
-Condition
-: Message type is `TickerMsgCountRequest`.
-
-<!-- --8<-- [start:countGuard] -->
-```juvix
-countReplyGuard
-  (tt : TimestampedTrigger TickerTimerHandle)
-  (cfg : EngineCfg TickerCfg)
-  (env : TickerEnv)
-  : Option TickerGuardOutput :=
-  let
-    emsg := getEngineMsgFromTimestampedTrigger tt;
-  in
-    case emsg of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTicker TickerMsgCountRequest;
-      } :=
-      some mkGuardOutput@{
-        label := TickerActionLabelCountReply;
-        args := [];
-      }
-    | _ := none
-    };
-```
-<!-- --8<-- [end:countGuard] -->
 
 #### `countReplyAction`
 
@@ -277,14 +187,13 @@ Timer updates
 
 ```juvix
 countReplyAction
-  (label : TickerActionLabel)
-  (args : List TickerActionArgument)
-  (tt : TickerTimestampedTrigger)
-  (cfg : EngineCfg TickerCfg)
-  (env : TickerEnv)
+  (input : TickerActionInput)
   : Option TickerActionEffect :=
   let
+    env := ActionInput.env input;
+    tt := ActionInput.trigger input;
     em := getEngineMsgFromTimestampedTrigger tt;
+    cfg := ActionInput.cfg input;
     counterValue := TickerLocalState.counter (EngineEnv.localState env)
   in
     case em of {
@@ -311,15 +220,127 @@ countReplyAction
     };
 ```
 
-## Action labels
+## Action Labels
 
-### `TickerActionLabel`
+### `incrementActionLabel`
 
 ```juvix
-type TickerActionLabel :=
-  | TickerActionLabelIncrement [ incrementAction ]
-  | TickerActionLabelCountReply [ countReplyAction ]
+incrementActionLabel : TickerActionExec :=  Seq [ incrementAction ];
 ```
+
+### `countReplyActionLabel`
+
+```juvix
+countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
+```
+
+## Guards
+
+??? quote "Auxiliary Juvix code"
+
+    ### `TickerGuard`
+
+    <!-- --8<-- [start:TickerGuard] -->
+    ```juvix
+    TickerGuard : Type :=
+      Guard
+        TickerCfg
+        TickerLocalState
+        TickerMailboxState
+        TickerTimerHandle
+        TickerActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TickerGuard] -->
+
+    ### `TickerGuardOutput`
+
+    <!-- --8<-- [start:TickerGuardOutput] -->
+    ```juvix
+    TickerGuardOutput : Type :=
+      GuardOutput
+        TickerCfg
+        TickerLocalState
+        TickerMailboxState
+        TickerTimerHandle
+        TickerActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TickerGuardOutput] -->
+
+    ### `TickerGuardEval`
+
+    <!-- --8<-- [start:TickerGuardEval] -->
+    ```juvix
+    TickerGuardEval : Type :=
+      GuardEval
+        TickerCfg
+        TickerLocalState
+        TickerMailboxState
+        TickerTimerHandle
+        TickerActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TickerGuardEval] -->
+
+
+#### `incrementGuard`
+
+Condition
+: Message type is `TickerMsgIncrement`.
+
+<!-- --8<-- [start:incrementGuard] -->
+```juvix
+incrementGuard
+  (tt : TimestampedTrigger TickerTimerHandle Anoma.Msg)
+  (cfg : EngineCfg TickerCfg)
+  (env : TickerEnv)
+  : Option TickerGuardOutput :=
+  let
+    emsg := getEngineMsgFromTimestampedTrigger tt;
+  in
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := (Anoma.MsgTicker TickerMsgIncrement);
+      } :=
+      some mkGuardOutput@{
+        action := incrementActionLabel;
+        args := [];
+      }
+  | _ := none
+  };
+```
+<!-- --8<-- [end:incrementGuard] -->
+
+#### `countReplyGuard`
+
+Condition
+: Message type is `TickerMsgCountRequest`.
+
+<!-- --8<-- [start:countReplyGuard] -->
+```juvix
+countReplyGuard
+  (tt : TimestampedTrigger TickerTimerHandle Anoma.Msg)
+  (cfg : EngineCfg TickerCfg)
+  (env : TickerEnv)
+  : Option TickerGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgTicker TickerMsgCountRequest;
+      } := some mkGuardOutput@{
+        action := countReplyActionLabel;
+        args := [];
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:countReplyGuard] -->
 
 ## The Ticker behaviour
 
@@ -333,9 +354,10 @@ TickerBehaviour : Type :=
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle
+    TickerActionArguments
     Anoma.Msg
-    TickerActionLabel
-    TickerActionArguments;
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:TickerBehaviour] -->
 
@@ -345,7 +367,11 @@ TickerBehaviour : Type :=
 ```juvix
 tickerBehaviour : TickerBehaviour :=
   mkEngineBehaviour@{
-    guards := [ incrementGuard; countReplyGuard ];
+    guards := 
+      First [
+        incrementGuard;
+        countReplyGuard
+      ];
   };
 ```
 <!-- --8<-- [end:TickerBehaviour-instance] -->
