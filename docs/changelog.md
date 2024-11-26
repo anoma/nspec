@@ -9,6 +9,67 @@ list_wikilinks: false
 
 # Change Log
 
+## v0.1.1
+
+Major revision of the engine definitions, the template, and the ticker engine.
+
+### FEATURES
+
+- [Repository maintenance and CI](.)
+  -  [**#217**](https://github.com/anoma/nspec/pull/217): Update template engine
+    files to be more consistent, use backticks for Juvix terms/types in
+    headlines, uncollapsed sections for type constructors arguments in template
+    engine files, and auxiliary sections of Juvix code are always collapsed.
+
+### FIXES
+
+- [Node architecture](node)
+  -  [**#219**](https://github.com/anoma/nspec/pull/219): Revisit [[Commitment Engine]]. Changes to the messages, environment, and behaviour types to conform the recent template changes.
+  -  [**#253**](https://github.com/anoma/nspec/pull/253): Integration PR that
+    combines multiple engine-related changes: [Engines: Use `ByteString` in
+    crypto types #242](https://github.com/anoma/nspec/pull/242), [Engines:
+    ByteString type definition #255](https://github.com/anoma/nspec/pull/255),
+    [Engines: `EngineMsg` revision #241](https://github.com/anoma/nspec/pull/241),
+    [EngineID: make `EngineName` compulsory #256](https://github.com/anoma/nspec/pull/256), [Engines: Engine type revision #244](https://github.com/anoma/nspec/pull/244), [ `EngineMsg`: add type param #258](https://github.com/anoma/nspec/pull/258), [Engines: add `GuardEval` and `ActionExec` #260](https://github.com/anoma/nspec/pull/260), and [Engines: Behaviour template revision #226](https://github.com/anoma/nspec/pull/226).
+  -  [**#256**](https://github.com/anoma/nspec/pull/256): Make `EngineName`
+    compulsory in `EngineID`.
+- [Repository maintenance and CI](.)
+  -  [**#218**](https://github.com/anoma/nspec/pull/218): Rename `EngineMessage` type to `EngineMsg` and `mkEngineMessage` to `mkEngineMsg`.
+  -  [**#220**](https://github.com/anoma/nspec/pull/220): Fix the deployment of the latest version by deploying the website if the branch name is `main` or matches the semver pattern, and add information about the version and the commit hash to the title for reference.
+  -  [**#222**](https://github.com/anoma/nspec/pull/222): Remove SML codebase as
+    not used any more and any other reference in the markdown files
+  -  [**#225**](https://github.com/anoma/nspec/pull/225): Fix navigation table for the identity component
+  -  [**#227**](https://github.com/anoma/nspec/pull/227): Update Juvix version in Nix flake due to breaking changes, and
+    also the input packages while at it.
+  -  [**#250**](https://github.com/anoma/nspec/pull/250): Update policy on Juvix typechecking. The whole codebase in a
+    PR should typecheck before merging
+- [Tutorial and documentation](tutorial)
+  -  [**#257**](https://github.com/anoma/nspec/pull/257): Refactor the Git strategy: introduce integration PRs for
+    better overview of complex changes
+- [Juvix types and updates](types)
+  -  [**#221**](https://github.com/anoma/nspec/pull/221): Update the prelude to
+    incorporate the latest changes in the `Stdlib`, including the addition of
+    applicative and monad traits, and the integration of the `containers` library.
+    This update also includes changes to data type definitions, with the `@`
+    syntax now used for declaration, creation, and matching on records, and other
+    removals like `: Type` for implicit arguments and function-style declarations.
+  -  [**#226**](https://github.com/anoma/nspec/pull/226): Update [[Template Engine|Template]] & [[Ticker Behaviour|Ticker Behaviour]] according to the engine & message type changes. The examples have been improved with better clarity. The documentation now uses headlines instead of collapsible boxes and definition lists instead of tables. A new diagram template has been added that illustrates conditions and effects of actions.
+  -  [**#241**](https://github.com/anoma/nspec/pull/241): `EngineMsg`-related changes: rename `MessageID` to `EngineMsgID`, add `getEngineMsgFrom(Timestamped)Trigger`, and rename `getMessageFrom(Timestamped)Trigger` to `getMsgFrom(Timestamped)Trigger`.
+  -  [**#242**](https://github.com/anoma/nspec/pull/242): Use `ByteString` in crypto types.
+  - [**#244**](https://github.com/anoma/nspec/pull/244): Major refactoring of
+    engine-related types. The `Engine` type now includes a `cfg` field of type
+    `EngineConfig` containing static configuration (engine name and local node
+    ID). For consistency, `EngineEnvironment` has been renamed to `EngineEnv`. The
+    `EngineBehaviour` type has undergone several changes: the conflict solver has
+    been removed (to be replaced by new mechanism in
+    [#246](https://github.com/anoma/nspec/pull/246)), precomputation results are
+    now passed directly as action arguments, and the `action` field has been
+    replaced with action labels defined by label type.
+  -  [**#249**](https://github.com/anoma/nspec/pull/249): Remove `name` field in Engine instances due to PR 242
+  -  [**#255**](https://github.com/anoma/nspec/pull/255): Make ByteString `String` instead of `Nat`
+  -  [**#258**](https://github.com/anoma/nspec/pull/258): Engine-related changes: add type parameter to parameterized the type of message and [rename `EngineConfig` to `EngineCfg`](https://github.com/anoma/nspec/pull/258/commits/e35d75f8a187155629fa1b0a5b72ea6983a49e2d)
+  -  [**#260**](https://github.com/anoma/nspec/pull/260): Revise engine behaviour type: add `GuardEval (Seq)` and `ActionExec (First & Any)`, `EngineCfg`: add `getEngineIDFromEngineCfg`. Partially addresses [#246](https://github.com/anoma/nspec/issues/246).
+
 ## v0.1.0
 
 This is the first release of Anoma's Spec project, following the [[Versioning|semantic-versioning]] scheme.
@@ -125,6 +186,7 @@ project per version, with better documentation and descriptions of the changes.
   - [**#131**](https://github.com/anoma/nspec/pull/131): Add RMv3 content
   - [**#135**](https://github.com/anoma/nspec/pull/135): Show PR number in the site name
   - [**#209**](https://github.com/anoma/nspec/pull/209): Add changelog management system
+  -  [**#214**](https://github.com/anoma/nspec/pull/214): Add GitHub template for creating PRs
 - [Tutorial and documentation](tutorial)
   - [**#134**](https://github.com/anoma/nspec/pull/134): Refactor tutorial for wiki-style links
 - [Juvix types and updates](types)
