@@ -192,11 +192,10 @@ countReplyAction
   let
     env := ActionInput.env input;
     tt := ActionInput.trigger input;
-    em := getEngineMsgFromTimestampedTrigger tt;
     cfg := ActionInput.cfg input;
     counterValue := TickerLocalState.counter (EngineEnv.localState env)
   in
-    case em of {
+    case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       some mkActionEffect@{
         env := env;
@@ -388,7 +387,7 @@ flowchart TD
   CM>TickerMsgIncrement]
   ES[(State update<br>counter := counter + 1)]
 
-  CM --incrementGuard--> A --incrementActionLabel--> incrementAction --> ES
+  CM --incrementGuard--> A --incrementActionLabel--> incrementAction --> ES 
 ```
 
 <figcaption markdown="span">
@@ -407,7 +406,7 @@ flowchart TD
 flowchart TD
   CM>TickerMsgCountRequest]
   A(countReplyAction)
-  RE>TickerMsgCountReply counterValue]
+  RE>TickerMsgCountReply counterVa]
 
   CM --countReplyGuard--> A --countReplyActionLabel--> RE
 ```
