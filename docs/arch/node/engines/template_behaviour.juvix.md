@@ -453,11 +453,18 @@ templateBehaviour : TemplateBehaviour :=
 
 ```mermaid
 flowchart TD
-  CM>TemplateMsgJustHi]
-  A(justHiAction)
-  ES[(State update)]
+  subgraph C[Conditions]
+    CMsg>TemplateMsgJustHi]
+  end
 
-  CM --justHiGuard--> A --justHiActionLabel--> ES
+  G(justHiGuard)
+  A(justHiAction)
+
+  C --> G -- *justHiActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(Env update)]
+  end
 ```
 
 <figcaption markdown="span">
@@ -473,13 +480,20 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  CM>TemplateMsgExampleRequest]
-  CS[(State condition)]
-  A(exampleReplyAction)
-  ES[(State update)]
-  EM>TemplateMsgExampleResponse]
+  subgraph C[Conditions]
+    CMsg>TemplateMsgExampleRequest<br/>from local engine]
+    CEnv[(value < 10)]
+  end
 
-  CS & CM --exampleReplyGuard--> A --exampleReplyActionLabel--> ES & EM
+  G(exampleReplyGuard)
+  A(exampleReplyAction)
+
+  C --> G -- *exampleReplyActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(value := value + 1)]
+    EMsg>TemplateMsgExampleResponse<br/>value]
+  end
 ```
 
 <figcaption markdown="span">

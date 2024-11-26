@@ -385,10 +385,18 @@ tickerBehaviour : TickerBehaviour :=
 
 ```mermaid
 flowchart TD
-  CM>TickerMsgIncrement]
-  ES[(State update<br>counter := counter + 1)]
+  subgraph C[Conditions]
+    CMsg>TickerMsgIncrement]
+  end
 
-  CM --incrementGuard--> A --incrementActionLabel--> incrementAction --> ES
+  G(incrementGuard)
+  A(incrementAction)
+
+  C --> G -- *incrementActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(count := counter + 1)]
+  end
 ```
 
 <figcaption markdown="span">
@@ -405,11 +413,18 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  CM>TickerMsgCountRequest]
-  A(countReplyAction)
-  RE>TickerMsgCountReply counterVa]
+  subgraph C[Conditions]
+    CMsg>TickerMsgCountRequest]
+  end
 
-  CM --countReplyGuard--> A --countReplyActionLabel--> RE
+  G(countReplyGuard)
+  A(countReplyAction)
+
+  C --> G -- *countReplyActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EMsg>TickerMsgCountReply<br/>counterValue]
+  end
 ```
 
 <figcaption markdown="span">
