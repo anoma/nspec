@@ -42,10 +42,19 @@ import arch.node.types.engine_environment;
 
 {- Engines -}
 
+{- Examples -}
+
+import arch.node.engines.template;
+import arch.node.engines.template_messages;
+import arch.node.engines.template_environment;
+import arch.node.engines.template_behaviour;
+
 import arch.node.engines.ticker;
 import arch.node.engines.ticker_messages;
 import arch.node.engines.ticker_environment;
 import arch.node.engines.ticker_behaviour;
+
+{- Identity -}
 
 -- import arch.node.engines.commitment_messages;
 -- import arch.node.engines.commitment_environment;
@@ -87,35 +96,35 @@ import arch.node.engines.ticker_behaviour;
 -- import arch.node.engines.verification_behaviour;
 -- import arch.node.engines.verification;
 
+{- Network -}
+
 import arch.node.net.router;
 import arch.node.net.router_messages;
+-- import arch.node.net.router_config;
 -- import arch.node.net.router_environment;
 -- import arch.node.net.router_behaviour;
 
 import arch.node.net.node_proxy;
 import arch.node.net.node_proxy_messages;
+-- import arch.node.net.node_proxy_config;
 -- import arch.node.net.node_proxy_environment;
 -- import arch.node.net.node_proxy_behaviour;
 
 import arch.node.net.transport;
 import arch.node.net.transport_messages;
+-- import arch.node.net.transport_config;
 -- import arch.node.net.transport_environment;
 -- import arch.node.net.transport_behaviour;
 
 import arch.node.net.topic;
 import arch.node.net.topic_messages;
+-- import arch.node.net.topic_config;
 -- import arch.node.net.topic_environment;
 -- import arch.node.net.topic_behaviour;
 
 import arch.node.net.storage;
 import arch.node.net.storage_messages;
+-- import arch.node.net.storage_config;
 -- import arch.node.net.storage_environment;
 -- import arch.node.net.storage_behaviour;
-
-{- Template for new engines -}
-
-import arch.node.engines.template;
-import arch.node.engines.template_messages;
-import arch.node.engines.template_environment;
-import arch.node.engines.template_behaviour;
 ```
