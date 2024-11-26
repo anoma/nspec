@@ -482,7 +482,7 @@ flowchart TD
 flowchart TD
   subgraph C[Conditions]
     CMsg>TemplateMsgExampleRequest<br/>from local engine]
-    CEnv[(value < 10)]
+    CEnv[(exampleValue < 10)]
   end
 
   G(exampleReplyGuard)
@@ -491,8 +491,8 @@ flowchart TD
   C --> G -- *exampleReplyActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EEnv[(value := value + 1)]
-    EMsg>TemplateMsgExampleResponse<br/>value]
+    EEnv[(exampleValue := exampleValue + 1)]
+    EMsg>TemplateMsgExampleResponse<br/>argOne]
   end
 ```
 

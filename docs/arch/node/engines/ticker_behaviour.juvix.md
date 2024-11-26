@@ -395,7 +395,7 @@ flowchart TD
   C --> G -- *incrementActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EEnv[(count := counter + 1)]
+    EEnv[(counter := counter + 1)]
   end
 ```
 
@@ -423,7 +423,7 @@ flowchart TD
   C --> G -- *countReplyActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EMsg>TickerMsgCountReply<br/>counterValue]
+    EMsg>TickerMsgCountReply<br/>counter]
   end
 ```
 
