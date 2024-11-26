@@ -387,7 +387,7 @@ flowchart TD
   CM>TickerMsgIncrement]
   ES[(State update<br>counter := counter + 1)]
 
-  CM --incrementGuard--> A --incrementActionLabel--> incrementAction --> ES 
+  CM --incrementGuard--> A --incrementActionLabel--> incrementAction --> ES
 ```
 
 <figcaption markdown="span">
