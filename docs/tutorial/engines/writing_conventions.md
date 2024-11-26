@@ -115,7 +115,7 @@ type Msg :=
 
 All configuration types must be added to the `arch/node/types/anoma_config.juvix.md` file.
 Similarly to the message types, the new type constructor should be `CfgTicker`
-along with the corresponding type for the configuration, that is, `TickerCfg`. 
+along with the corresponding type for the configuration, that is, `TickerCfg`.
 Do not forget to import the environment type in the `Env` type.
 
 ```diff title="arch/node/types/anoma_config.juvix.md"
