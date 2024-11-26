@@ -90,10 +90,16 @@ For example,
 hello : String := "Hello, World!";
 ```
 
-## Bytes
+## ByteString
 
 ```juvix
-syntax alias Bytes := String;
+ByteString : Type := String;
+```
+
+A basic type for representing binary data.
+
+```juvix
+emptyByteString : ByteString := "";
 ```
 
 ## Unit

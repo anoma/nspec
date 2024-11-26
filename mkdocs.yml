@@ -3,7 +3,7 @@ site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_url: !ENV [SITE_URL, 'https://anoma.github.io/nspec/latest']
 site_dir: !ENV [SITE_DIR, site]
-site_version: !ENV [SITE_VERSION, "v0.1.0"]
+site_version: !ENV [SITE_VERSION, "v0.1.1"]
 copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 use_directory_urls: false
 nav:
@@ -81,10 +81,12 @@ nav:
               - ./arch/node/engines/index.md
               - Engine:
                   - ./arch/node/types/engine.juvix.md
+                  - Engine Configuration: ./arch/node/types/engine_config.juvix.md
                   - Engine Environment: ./arch/node/types/engine_environment.juvix.md
                   - Engine Behaviour: ./arch/node/types/engine_behaviour.juvix.md
               - Anoma:
                   - Anoma Message: ./arch/node/types/anoma_message.juvix.md
+                  - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
           - Network Subsystem:
               - ./arch/node/net/index.md
@@ -155,77 +157,46 @@ nav:
                           - LocalLoggingAppendV1: ./arch/node/hardware/local_logging_engine/types/local_logging_append_v1.md
                           - AppendValueV1: ./arch/node/hardware/local_logging_engine/types/append_value_v1.md
               - Identity Machine:
-                  - ./arch/node/identity/index.md
-                  - Types:
-                      - Backend: ./arch/node/identity/types/backend.md
-                      - Capabilities: ./arch/node/identity/types/capabilities.md
-                      - ExternalIdentity: ./arch/node/identity/types/external_identity.md
-                      - IdentityName: ./arch/node/identity/types/identity_name.md
-                      - IdentityNameEvidence: ./arch/node/identity/types/identity_name_evidence.md
-                      - Params: ./arch/node/identity/types/params.md
-                      - GenerateIdentityRequest: ./arch/node/identity/types/generate_identity_request.md
-                      - GenerateIdentityResponse: ./arch/node/identity/types/generate_identity_response.md
-                      - ConnectIdentityRequest: ./arch/node/identity/types/connect_identity_request.md
-                      - ConnectIdentityResponse: ./arch/node/identity/types/connect_identity_response.md
-                      - DeleteIdentityRequest: ./arch/node/identity/types/delete_identity_request.md
-                      - DeleteIdentityResponse: ./arch/node/identity/types/delete_identity_response.md
-                      - DecryptRequest: ./arch/node/identity/types/decrypt_request.md
-                      - DecryptResponse: ./arch/node/identity/types/decrypt_response.md
-                      - EncryptRequest: ./arch/node/identity/types/encrypt_request.md
-                      - EncryptResponse: ./arch/node/identity/types/encrypt_response.md
-                      - CommitRequest: ./arch/node/identity/types/commit_request.md
-                      - CommitResponse: ./arch/node/identity/types/commit_response.md
-                      - VerifyRequest: ./arch/node/identity/types/verify_request.md
-                      - VerifyResponse: ./arch/node/identity/types/verify_response.md
-                      - ReadsForRequest: ./arch/node/identity/types/reads_for_request.md
-                      - ReadsForResponse: ./arch/node/identity/types/reads_for_response.md
-                      - SubmitReadsForEvidenceRequest: ./arch/node/identity/types/submit_reads_for_evidence_request.md
-                      - SubmitReadsForEvidenceResponse: ./arch/node/identity/types/submit_reads_for_evidence_response.md
-                      - QueryReadsForEvidenceRequest: ./arch/node/identity/types/query_reads_for_evidence_request.md
-                      - QueryReadsForEvidenceResponse: ./arch/node/identity/types/query_reads_for_evidence_response.md
-                      - SignsForRequest: ./arch/node/identity/types/signs_for_request.md
-                      - SignsForResponse: ./arch/node/identity/types/signs_for_response.md
-                      - SubmitSignsForEvidenceRequest: ./arch/node/identity/types/submit_signs_for_evidence_request.md
-                      - SubmitSignsForEvidenceResponse: ./arch/node/identity/types/submit_signs_for_evidence_response.md
-                      - QuerySignsForEvidenceRequest: ./arch/node/identity/types/query_signs_for_evidence_request.md
-                      - QuerySignsForEvidenceResponse: ./arch/node/identity/types/query_signs_for_evidence_response.md
-                      - ResolveNameRequest: ./arch/node/identity/types/resolve_name_request.md
-                      - ResolveNameResponse: ./arch/node/identity/types/resolve_name_response.md
-                      - SubmitNameEvidenceRequest: ./arch/node/identity/types/submit_name_evidence_request.md
-                      - SubmitNameForEvidenceResponse: ./arch/node/identity/types/submit_name_evidence_response.md
-                      - QueryNameEvidenceRequest: ./arch/node/identity/types/query_name_evidence_request.md
-                      - QueryNameEvidenceResponse: ./arch/node/identity/types/query_name_evidence_response.md
                   - Identity Management Engine:
-                      - ./arch/node/modules/identity_management/index.md
-                      - GenerateIdentityRequestResponse: ./arch/node/modules/identity_management/generate_identity_request_response.md
-                      - ConnectIdentityRequestResponse: ./arch/node/modules/identity_management/connect_identity_request_response.md
-                  - Decryption Engine:
-                      - ./arch/node/identity/decryption/index.md
-                      - DecryptRequestResponse: ./arch/node/identity/decryption/decrypt_request_response.md
+                      - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
+                      - Identity Management Engine Messages: ./arch/node/engines/identity_management_messages.juvix.md
+                      - Identity Management Engine Environment: ./arch/node/engines/identity_management_environment.juvix.md
+                      - Identity Management Engine Behaviour: ./arch/node/engines/identity_management_behaviour.juvix.md
                   - Encryption Engine:
-                      - ./arch/node/modules/encryption/index.md
-                      - EncryptRequestResponse: ./arch/node/modules/encryption/encrypt_request_response.md
+                      - Encryption Engine: ./arch/node/engines/encryption.juvix.md
+                      - Encryption Engine Messages: ./arch/node/engines/encryption_messages.juvix.md
+                      - Encryption Engine Environment: ./arch/node/engines/encryption_environment.juvix.md
+                      - Encryption Engine Behaviour: ./arch/node/engines/encryption_behaviour.juvix.md
+                  - Decryption Engine:
+                      - Decryption Engine: ./arch/node/engines/decryption.juvix.md
+                      - Decryption Engine Messages: ./arch/node/engines/decryption_messages.juvix.md
+                      - Decryption Engine Environment: ./arch/node/engines/decryption_environment.juvix.md
+                      - Decryption Engine Behaviour: ./arch/node/engines/decryption_behaviour.juvix.md
                   - Commitment Engine:
-                      - ./arch/node/identity/commitment/index.md
-                      - CommitRequestResponse: ./arch/node/identity/commitment/commit_request_response.md
+                      - Commitment Engine: ./arch/node/engines/commitment.juvix.md
+                      - Commitment Messages: ./arch/node/engines/commitment_messages.juvix.md
+                      - Commitment Environment: ./arch/node/engines/commitment_environment.juvix.md
+                      - Commitment Behaviour: ./arch/node/engines/commitment_behaviour.juvix.md
                   - Verification Engine:
-                      - ./arch/node/modules/verification/index.md
-                      - VerifyRequestResponse: ./arch/node/modules/verification/verify_request_response.md
+                      - Verification Engine: ./arch/node/engines/verification.juvix.md
+                      - Verification Engine Messages: ./arch/node/engines/verification_messages.juvix.md
+                      - Verification Engine Environment: ./arch/node/engines/verification_environment.juvix.md
+                      - Verification Engine Behaviour: ./arch/node/engines/verification_behaviour.juvix.md
                   - Reads For Engine:
-                      - ./arch/node/modules/reads_for/index.md
-                      - ReadsForRequestResponse: ./arch/node/modules/reads_for/reads_for_request_response.md
-                      - SubmitReadsForEvidenceRequestResponse: ./arch/node/modules/reads_for/submit_reads_for_evidence_request_response.md
-                      - QueryReadsForEvidenceRequestResponse: ./arch/node/modules/reads_for/query_reads_for_evidence_request_response.md
+                      - Reads For Engine: ./arch/node/engines/reads_for.juvix.md
+                      - Reads For Engine Messages: ./arch/node/engines/reads_for_messages.juvix.md
+                      - Reads For Engine Environment: ./arch/node/engines/reads_for_environment.juvix.md
+                      - Reads For Engine Behaviour: ./arch/node/engines/reads_for_behaviour.juvix.md
                   - Signs For Engine:
-                      - ./arch/node/modules/signs_for/index.md
-                      - SignsForRequestResponse: ./arch/node/modules/signs_for/signs_for_request_response.md
-                      - SubmitSignsForEvidenceRequestResponse: ./arch/node/modules/signs_for/submit_signs_for_evidence_request_response.md
-                      - QuerySignsForEvidenceRequestResponse: ./arch/node/modules/signs_for/query_signs_for_evidence_request_response.md
-                  - Name Engine:
-                      - ./arch/node/modules/name/index.md
-                      - ResolveNameRequestResponse: ./arch/node/modules/name/resolve_name_request_response.md
-                      - SubmitNameEvidenceRequestResponse: ./arch/node/modules/name/submit_name_evidence_request_response.md
-                      - QueryNameEvidencRequestResponse: ./arch/node/modules/name/query_name_evidence_request_response.md
+                      - Signs For Engine: ./arch/node/engines/signs_for.juvix.md
+                      - Signs For Engine Messages: ./arch/node/engines/signs_for_messages.juvix.md
+                      - Signs For Engine Environment: ./arch/node/engines/signs_for_environment.juvix.md
+                      - Signs For Engine Behaviour: ./arch/node/engines/signs_for_behaviour.juvix.md
+                  - Naming Engine:
+                      - Naming Engine: ./arch/node/engines/naming.juvix.md
+                      - Naming Engine Messages: ./arch/node/engines/naming_messages.juvix.md
+                      - Naming Engine Environment: ./arch/node/engines/naming_environment.juvix.md
+                      - Naming Engine Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
               - Networking Machine:
                   - ./arch/node/networking/index.md
                   - Intra node & inter node protocols:
@@ -466,11 +437,13 @@ nav:
               - Template Engine:
                   - Template Engine: ./arch/node/engines/template.juvix.md
                   - Template Messages: ./arch/node/engines/template_messages.juvix.md
+                  - Template Configuration: ./arch/node/engines/template_config.juvix.md
                   - Template Environment: ./arch/node/engines/template_environment.juvix.md
                   - Template Behaviour: ./arch/node/engines/template_behaviour.juvix.md
               - Ticker Engine:
                   - Ticker Engine: ./arch/node/engines/ticker.juvix.md
                   - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
+                  - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
                   - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
                   - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
 extra:

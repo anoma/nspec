@@ -34,6 +34,8 @@ signing capabilities and any necessary signing keys or handles.
 
 The Commitment Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
+### `CommitmentMailboxState`
+
 ```juvix
 syntax alias CommitmentMailboxState := Unit;
 ```
@@ -42,6 +44,8 @@ syntax alias CommitmentMailboxState := Unit;
 
 The local state of a Commitment Engine instance includes the identity's signing capabilities.
 
+### `CommitmentLocalState`
+
 ```juvix
 type CommitmentLocalState := mkCommitmentLocalState@{
   signer : Signer Backend Signable Commitment;
@@ -49,26 +53,40 @@ type CommitmentLocalState := mkCommitmentLocalState@{
 };
 ```
 
+???+ quote "Arguments"
+
+    `signer`:
+    : The signer for the identity.
+
+    `backend`:
+    : The backend to use for signing.
+
 ## Timer Handle
+
+The Commitment Engine does not require a timer handle type. Therefore, we define
+the timer handle type as `Unit`.
+
+### `CommitmentTimerHandle`
 
 ```juvix
 syntax alias CommitmentTimerHandle := Unit;
 ```
 
-The Commitment Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Commitment Environment
 
-## Environment summary
+### `CommitmentEnvironment`
 
 ```juvix
-CommitmentEnvironment : Type := EngineEnvironment
-  CommitmentLocalState
-  CommitmentMailboxState
-  CommitmentTimerHandle;
+CommitmentEnvironment : Type :=
+  EngineEnv
+    CommitmentLocalState
+    CommitmentMailboxState
+    CommitmentTimerHandle;
 ```
 
-## Example of a `Commitment` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:commitmentEnvironment] -->
 ```juvix extract-module-statements
 module commitment_environment_example;
 
@@ -76,12 +94,13 @@ axiom dummyExternalIdentity : ExternalIdentity;
 axiom dummyIDBackend : Backend;
 axiom dummySigningKey : SigningKey;
 
-commitmentEnvironmentExample : CommitmentEnvironment :=
-    mkEngineEnvironment@{
+commitmentEnvironment : CommitmentEnvironment :=
+    mkEngineEnv@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "commitment";
       localState := mkCommitmentLocalState@{
         signer := mkSigner@{
-          sign := \{_ x := Ed25519Signature};
+          sign := \{_ x := Ed25519Signature "0xabcd1234"};
         };
         backend := BackendLocalMemory;
       };
@@ -92,4 +111,4 @@ commitmentEnvironmentExample : CommitmentEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:commitmentEnvironment] -->

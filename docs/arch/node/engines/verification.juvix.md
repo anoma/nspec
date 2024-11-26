@@ -56,8 +56,8 @@ VerificationEngine : Type := Engine
 ### Example of a verification engine
 
 ```juvix extract-module-statements
-exampleVerificationEngine : VerificationEngine := mkEngine@{
-    name := "verification";
+exampleVerificationEngine : VerificationEngine :=
+  mkEngine@{
     behaviour := verificationBehaviour;
     initEnv := verificationEnvironmentExample;
   };

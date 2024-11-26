@@ -12,22 +12,26 @@ tags:
     ```juvix
     module arch.node.types.anoma_message;
 
+-- Examples
+    import arch.node.engines.template_messages open using {TemplateMsg};
     import arch.node.engines.ticker_messages open using {TickerMsg};
 
-    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
-    import arch.node.engines.decryption_messages open using {DecryptionMsg};
-    import arch.node.engines.encryption_messages open using {EncryptionMsg};
-    import arch.node.engines.commitment_messages open using {CommitmentMsg};
-    import arch.node.engines.verification_messages open using {VerificationMsg};
-    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
-    import arch.node.engines.signs_for_messages open using {SignsForMsg};
-    import arch.node.engines.naming_messages open using {NamingMsg};
-
+-- Network
     import arch.node.net.router_messages open;
     import arch.node.net.node_proxy_messages open;
     import arch.node.net.transport_messages open;
     import arch.node.net.topic_messages open;
     import arch.node.net.storage_messages open;
+
+-- Identity
+--    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
+--    import arch.node.engines.decryption_messages open using {DecryptionMsg};
+--    import arch.node.engines.encryption_messages open using {EncryptionMsg};
+--    import arch.node.engines.commitment_messages open using {CommitmentMsg};
+--    import arch.node.engines.verification_messages open using {VerificationMsg};
+--    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
+--    import arch.node.engines.signs_for_messages open using {SignsForMsg};
+--    import arch.node.engines.naming_messages open using {NamingMsg};
     ```
 
 # Anoma Message
@@ -38,24 +42,29 @@ An Anoma message is of the type `Msg`.
 Each constructor of the type `Msg` corresponds to a specific type of message coming from a specific engine.
 For example, the engine family `Ticker` has a corresponding message type `TickerMsg`.
 
+<!-- --8<-- [start:anoma-messages-type] -->
 ```juvix
 type Msg :=
+-- Examples
+  | MsgTemplate TemplateMsg
   | MsgTicker TickerMsg
 
-  | MsgIdentityManagement IdentityManagementMsg
-  | MsgDecryption DecryptionMsg
-  | MsgEncryption EncryptionMsg
-  | MsgCommitment CommitmentMsg
-  | MsgVerification VerificationMsg
-  | MsgReadsFor ReadsForMsg
-  | MsgSignsFor SignsForMsg
-  | MsgNaming NamingMsg
-
+-- Network
   | MsgAllRouter MsgRouter
   | MsgAllNodeProxy MsgNodeProxy
   | MsgAllTransport MsgTransport
   | MsgAllTopic MsgTopic
   | MsgAllStorage MsgStorage
-;
+
+-- Identity
+--  | MsgIdentityManagement IdentityManagementMsg
+--  | MsgDecryption DecryptionMsg
+--  | MsgEncryption EncryptionMsg
+--  | MsgCommitment CommitmentMsg
+--  | MsgVerification VerificationMsg
+--  | MsgReadsFor ReadsForMsg
+--  | MsgSignsFor SignsForMsg
+--  | MsgNaming NamingMsg
+  ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

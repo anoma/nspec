@@ -14,9 +14,13 @@ tags:
 
     ```juvix
     module arch.node.engines.template_environment;
+
     import prelude open;
     import arch.node.engines.template_messages open;
-    import arch.node.types.engine_environment open;
+    import arch.node.types.engine open;
+    import arch.node.types.messages open;
+    import arch.node.types.identities open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Template Environment
@@ -156,8 +160,8 @@ an example of this case.
 <!-- --8<-- [start:SecondOptionTimerHandle] -->
 ```juvix
 type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
-argOne : String;
-argTwo : Bool
+  argOne : String;
+  argTwo : Bool
 };
 ```
 <!-- --8<-- [end:SecondOptionTimerHandle] -->
@@ -182,29 +186,40 @@ type TemplateTimerHandle :=
 ```
 <!-- --8<-- [end:TemplateTimerHandle] -->
 
+### `TemplateTimestampedTrigger`
+
+<!-- --8<-- [start:TemplateTimestampedTrigger] -->
+```juvix
+TemplateTimestampedTrigger : Type :=
+  TimestampedTrigger
+    TemplateTimerHandle
+    Anoma.Msg;
+```
+<!-- --8<-- [end:TemplateTimestampedTrigger] -->
+
 ## The Template Environment
 
-### `TemplateEnvironment`
+### `TemplateEnv`
 
-<!-- --8<-- [start:TemplateEnvironment] -->
+<!-- --8<-- [start:TemplateEnv] -->
 ```juvix
-TemplateEnvironment : Type :=
-  EngineEnvironment
+TemplateEnv : Type :=
+  EngineEnv
     TemplateLocalState
     TemplateMailboxState
-    TemplateTimerHandle;
+    TemplateTimerHandle
+    Anoma.Msg;
 ```
-<!-- --8<-- [end:TemplateEnvironment] -->
+<!-- --8<-- [end:TemplateEnv] -->
 
 #### Instantiation
 
-<!-- --8<-- [start:templateEnvironment] -->
+<!-- --8<-- [start:templateEnv] -->
 ```juvix extract-module-statements
 module template_environment_example;
 
-  templateEnvironment : TemplateEnvironment :=
-    mkEngineEnvironment@{
-      name := "template";
+  templateEnv : TemplateEnv :=
+    mkEngineEnv@{
       localState := mkTemplateLocalState@{
         taskQueue := mkCustomData@{
           word := "taskQueue"
@@ -217,4 +232,4 @@ module template_environment_example;
   ;
 end;
 ```
-<!-- --8<-- [end:templateEnvironment] -->
+<!-- --8<-- [end:templateEnv] -->

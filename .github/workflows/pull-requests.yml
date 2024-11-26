@@ -15,7 +15,7 @@ env:
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
   INSIDERS_VERSION: 9.5.37-insiders-4.53.13
-  JUVIX_VERSION: v0.6.7
+  JUVIX_VERSION: v0.6.8
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   SHOW_TODOS_IN_MD: true
@@ -88,9 +88,10 @@ jobs:
         name: See the dev version in the documentation
         run: |
           juvix --version
-      - name: typecheck Juvix code
+      - name: typecheck docs
+        continue-on-error: true
         run: |
-          juvix typecheck docs/everything.juvix.md || true
+          juvix typecheck docs/everything.juvix.md
       - name: Install Python
         uses: actions/setup-python@v5.2.0
         with:
