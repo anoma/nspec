@@ -43,6 +43,8 @@ type EngineCfg (C : Type) :=
   };
 ```
 
+### `getEngineIDFromEngineCfg`
+
 - Get the local `EngineID` from an `EngineCfg`:
 
 ```juvix

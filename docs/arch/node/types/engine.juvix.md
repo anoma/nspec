@@ -46,13 +46,23 @@ Each engine, not its type, is associated with:
 - as well as a specific [[Engine Behaviour|behaviour]].
 
 ```juvix
-type Engine (A C S B H AM AC AE : Type) :=
+type Engine (C S B H A AM AC AE : Type) :=
   mkEngine@{
     cfg : EngineCfg C;
     env : EngineEnv S B H AM;
-    behaviour : EngineBehaviour A C S B H AM AC AE;
+    behaviour : EngineBehaviour C S B H A AM AC AE;
   };
 ```
+
+!!! note "Engine type parameters"
+
+    In the related types to `Engine` such as `EngineBehaviour`, we try to follow
+    the following convention:
+
+    - the type parameters are ordered such that they form a subsequence of the
+      type parameters sequence in the `Engine` type, and
+    - the first type parameter of `EngineBehaviour` is always `C`, the type for
+      the read-only engine configuration.
 
 !!! example "Voting Engine"
 
