@@ -185,6 +185,7 @@ Engines to be spawned
 Timer updates
 : No timers are set or cancelled.
 
+<!-- --8<-- [start:countReplyAction] -->
 ```juvix
 countReplyAction
   (input : TickerActionInput)
@@ -218,7 +219,7 @@ countReplyAction
     | _ := none
     };
 ```
-
+<!-- --8<-- [end:countReplyAction] -->
 ## Action Labels
 
 ### `incrementActionLabel`
@@ -362,7 +363,7 @@ TickerBehaviour : Type :=
 
 #### Instantiation
 
-<!-- --8<-- [start:TickerBehaviour-instance] -->
+<!-- --8<-- [start:tickerBehaviour] -->
 ```juvix
 tickerBehaviour : TickerBehaviour :=
   mkEngineBehaviour@{
@@ -373,7 +374,7 @@ tickerBehaviour : TickerBehaviour :=
       ];
   };
 ```
-<!-- --8<-- [end:TickerBehaviour-instance] -->
+<!-- --8<-- [end:tickerBehaviour] -->
 
 ## Ticker Action Flowchart
 
