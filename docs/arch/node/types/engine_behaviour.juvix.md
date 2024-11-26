@@ -118,7 +118,7 @@ are triggered.
 The `ActionInput` contains:
 
 - the action arguments,
-- the engine configuration, 
+- the engine configuration,
 - the engine environment, and
 - the timestamped trigger that caused the guard evaluation.
 

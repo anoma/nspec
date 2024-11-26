@@ -367,7 +367,7 @@ TickerBehaviour : Type :=
 ```juvix
 tickerBehaviour : TickerBehaviour :=
   mkEngineBehaviour@{
-    guards := 
+    guards :=
       First [
         incrementGuard;
         countReplyGuard
