@@ -309,9 +309,9 @@ makeDecryptEnv
   (addr : EngineID)
   : DecryptionEnvironment
   := let
-      local := EngineEnvironment.localState env;
-  in mkEngineEnvironment@{
-      name := nameGen "decryptor" (EngineEnvironment.name env) addr;
+      local := EngineEnv.localState env;
+  in mkEngineEnv@{
+      name := nameGen "decryptor" (EngineEnv.name env) addr;
       localState := mkDecryptionLocalState@{
         decryptor := IdentityManagementLocalState.genDecryptor local backend';
         backend := backend';
@@ -333,9 +333,9 @@ makeCommitmentEnv
   (addr : EngineID)
   : CommitmentEnvironment
   := let
-      local := EngineEnvironment.localState env;
-    in mkEngineEnvironment@{
-      name := nameGen "committer" (EngineEnvironment.name env) addr;
+      local := EngineEnv.localState env;
+    in mkEngineEnv@{
+      name := nameGen "committer" (EngineEnv.name env) addr;
       localState := mkCommitmentLocalState@{
         signer := IdentityManagementLocalState.genSigner local backend';
         backend := backend';
@@ -388,9 +388,9 @@ updateIdentityAndSpawnEngines
   := case capabilities' of {
     | CapabilityCommitAndDecrypt :=
         let commitmentEnv := makeCommitmentEnv env backend' whoAsked;
-            commitmentEngineName := EngineEnvironment.name commitmentEnv;
+            commitmentEngineName := EngineEnv.name commitmentEnv;
             decryptionEnv := makeDecryptEnv env backend' whoAsked;
-            decryptionEngineName := EngineEnvironment.name decryptionEnv;
+            decryptionEngineName := EngineEnv.name decryptionEnv;
             spawnedEngines := [EnvCommitment commitmentEnv; EnvDecryption decryptionEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
               commitmentEngine := some (mkPair none (some commitmentEngineName));
@@ -399,7 +399,7 @@ updateIdentityAndSpawnEngines
         in mkPair updatedIdentityInfo1 spawnedEngines
     | CapabilityCommit :=
         let commitmentEnv := makeCommitmentEnv env backend' whoAsked;
-            commitmentEngineName := EngineEnvironment.name commitmentEnv;
+            commitmentEngineName := EngineEnv.name commitmentEnv;
             spawnedEngines := [EnvCommitment commitmentEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
               commitmentEngine := some (mkPair none (some commitmentEngineName))
@@ -407,7 +407,7 @@ updateIdentityAndSpawnEngines
         in mkPair updatedIdentityInfo1 spawnedEngines
     | CapabilityDecrypt :=
         let decryptionEnv := makeDecryptEnv env backend' whoAsked;
-            decryptionEngineName := EngineEnvironment.name decryptionEnv;
+            decryptionEngineName := EngineEnv.name decryptionEnv;
             spawnedEngines := [EnvDecryption decryptionEnv];
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
               decryptionEngine := some (mkPair none (some decryptionEngineName))
@@ -447,7 +447,7 @@ identityManagementAction
   : IdentityManagementActionEffect
   := let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
-      local := EngineEnvironment.localState env;
+      local := EngineEnv.localState env;
       identities := IdentityManagementLocalState.identities local;
   in
   case GuardOutput.actionLabel out of {
@@ -466,7 +466,7 @@ identityManagementAction
                   in mkActionEffect@{
                     newEnv := env;
                     producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgIdentityManagement responseMsg
@@ -490,7 +490,7 @@ identityManagementAction
                       newLocalState := local@IdentityManagementLocalState{
                         identities := updatedIdentities
                       };
-                      newEnv' := env@EngineEnvironment{
+                      newEnv' := env@EngineEnv{
                         localState := newLocalState
                       };
                       responseMsg := GenerateIdentityResponse@{
@@ -502,7 +502,7 @@ identityManagementAction
                   in mkActionEffect@{
                     newEnv := newEnv';
                     producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgIdentityManagement responseMsg
@@ -529,7 +529,7 @@ identityManagementAction
                   in mkActionEffect@{
                     newEnv := env;
                     producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgIdentityManagement responseMsg
@@ -550,7 +550,7 @@ identityManagementAction
                         in mkActionEffect@{
                           newEnv := env;
                           producedMessages := [mkEngineMsg@{
-                            sender := mkPair none (some (EngineEnvironment.name env));
+                            sender := mkPair none (some (EngineEnv.name env));
                             target := whoAsked;
                             mailbox := some 0;
                             msg := MsgIdentityManagement responseMsg
@@ -573,7 +573,7 @@ identityManagementAction
                                   newLocalState := local@IdentityManagementLocalState{
                                     identities := updatedIdentities
                                   };
-                                  newEnv' := env@EngineEnvironment{
+                                  newEnv' := env@EngineEnv{
                                     localState := newLocalState
                                   };
                                   responseMsg := ConnectIdentityResponse@{
@@ -584,7 +584,7 @@ identityManagementAction
                               in mkActionEffect@{
                                 newEnv := newEnv';
                                 producedMessages := [mkEngineMsg@{
-                                  sender := mkPair none (some (EngineEnvironment.name env));
+                                  sender := mkPair none (some (EngineEnv.name env));
                                   target := whoAsked;
                                   mailbox := some 0;
                                   msg := MsgIdentityManagement responseMsg;
@@ -602,7 +602,7 @@ identityManagementAction
                               in mkActionEffect@{
                                 newEnv := env;
                                 producedMessages := [mkEngineMsg@{
-                                  sender := mkPair none (some (EngineEnvironment.name env));
+                                  sender := mkPair none (some (EngineEnv.name env));
                                   target := whoAsked;
                                   mailbox := some 0;
                                   msg := MsgIdentityManagement responseMsg
@@ -629,7 +629,7 @@ identityManagementAction
                   in mkActionEffect@{
                     newEnv := env;
                     producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgIdentityManagement responseMsg
@@ -643,7 +643,7 @@ identityManagementAction
                       newLocalState := local@IdentityManagementLocalState{
                         identities := updatedIdentities
                       };
-                      newEnv' := env@EngineEnvironment{
+                      newEnv' := env@EngineEnv{
                         localState := newLocalState
                       };
                       responseMsg := DeleteIdentityResponse@{
@@ -652,7 +652,7 @@ identityManagementAction
                   in mkActionEffect@{
                     newEnv := newEnv';
                     producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgIdentityManagement responseMsg

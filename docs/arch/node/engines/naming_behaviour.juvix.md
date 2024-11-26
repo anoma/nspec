@@ -302,7 +302,7 @@ queryNameEvidenceGuard
 namingAction (input : NamingActionInput) : NamingActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
-      localState := EngineEnvironment.localState env;
+      localState := EngineEnv.localState env;
   in
   case GuardOutput.actionLabel out of {
     | NamingActionLabelDoResolveName (mkDoResolveName identityName) :=
@@ -321,7 +321,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
           in mkActionEffect@{
             newEnv := env; -- No state change
             producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnvironment.name env));
+              sender := mkPair none (some (EngineEnv.name env));
               target := whoAsked;
               mailbox := some 0;
               msg := MsgNaming (MsgNamingResolveNameResponse responseMsg)
@@ -345,7 +345,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                   in mkActionEffect@{
                     newEnv := env;
                     producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgNaming (MsgNamingSubmitNameEvidenceResponse responseMsg)
@@ -365,7 +365,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                               evidenceStore := newEvidenceStore
                             }
                       };
-                      newEnv' := env@EngineEnvironment{
+                      newEnv' := env@EngineEnv{
                         localState := newLocalState
                       };
                       responseMsg := mkResponseSubmitNameEvidence@{
@@ -376,7 +376,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                   in mkActionEffect@{
                     newEnv := newEnv';
                     producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgNaming (MsgNamingSubmitNameEvidenceResponse responseMsg)
@@ -406,7 +406,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
           in mkActionEffect@{
             newEnv := env; -- No state change
             producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnvironment.name env));
+              sender := mkPair none (some (EngineEnv.name env));
               target := whoAsked;
               mailbox := some 0;
               msg := MsgNaming (MsgNamingQueryNameEvidenceResponse responseMsg)

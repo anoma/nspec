@@ -90,6 +90,18 @@ For example,
 hello : String := "Hello, World!";
 ```
 
+## ByteString
+
+```juvix
+ByteString : Type := String;
+```
+
+A basic type for representing binary data.
+
+```juvix
+emptyByteString : ByteString := "";
+```
+
 ## Unit
 
 The type `Unit` represents a type with a single value. Often used when a function does not return any meaningful value.

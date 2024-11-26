@@ -74,7 +74,7 @@ syntax alias NamingTimerHandle := Unit;
 
 ```juvix
 NamingEnvironment : Type :=
-  EngineEnvironment
+  EngineEnv
     NamingLocalState
     NamingMailboxState
     NamingTimerHandle;
@@ -87,7 +87,8 @@ NamingEnvironment : Type :=
 module naming_environment_example;
 
 namingEnvironment : NamingEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "naming";
       localState := mkNamingLocalState@{
         evidenceStore := Set.empty;
