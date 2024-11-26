@@ -236,13 +236,11 @@ exampleReplyAction
   (input : TemplateActionInput)
   : Option TemplateActionEffect :=
   let
-    args := ActionInput.args input;
     cfg := ActionInput.cfg input;
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
-    emsg := getEngineMsgFromTimestampedTrigger trigger;
   in
-    case emsg of {
+    case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
         sender := sender;
@@ -252,9 +250,9 @@ exampleReplyAction
       some mkActionEffect@{
         env := env;
         msgs := [
-        mkEngineMsg@{
-          sender := getEngineIDFromEngineCfg cfg;
-          target := sender;
+          mkEngineMsg@{
+            sender := getEngineIDFromEngineCfg cfg;
+            target := sender;
             mailbox := some 0;
             msg :=
               Anoma.MsgTemplate
@@ -375,10 +373,10 @@ justHiGuard
       some mkGuardOutput@{
         action := justHiActionLabel;
         args := [
-          (TemplateActionArgumentTwo
+          TemplateActionArgumentTwo
             mkSecondArgument@{
               data := "Hello World!"
-            })
+            }
         ];
       }
     | _ := none
@@ -400,17 +398,11 @@ exampleReplyGuard
   (cfg : EngineCfg TemplateCfg)
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
-  let
-    emsg := getEngineMsgFromTimestampedTrigger tt;
-  in
-    case emsg of {
+  case getEngineMsgFromTimestampedTrigger tt of {
     | some mkEngineMsg@{
         msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-        target := target;
-        mailbox := mailbox;
-      } :=
-      some mkGuardOutput@{
+      } := some mkGuardOutput@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -453,9 +445,9 @@ templateBehaviour : TemplateBehaviour :=
 ```
 <!-- --8<-- [end:templateBehaviour] -->
 
-## Diagrams
+## Template Action Flowchart
 
-### `justHi`
+### `justHi` Flowchart
 
 <figure markdown>
 
@@ -468,10 +460,14 @@ flowchart TD
   CM --justHiGuard--> A --justHiActionLabel--> ES
 ```
 
-<figcaption>`justHi` flowchart</figcaption>
+<figcaption markdown="span">
+
+`justHi` flowchart
+
+</figcaption>
 </figure>
 
-### `exampleReply`
+### `exampleReply` Flowchart
 
 <figure markdown>
 
@@ -486,5 +482,9 @@ flowchart TD
   CS & CM --exampleReplyGuard--> A --exampleReplyActionLabel--> ES & EM
 ```
 
-<figcaption>`exampleReply` flowchart</figcaption>
+<figcaption markdown="span">
+
+`exampleReply` flowchart
+
+</figcaption>
 </figure>

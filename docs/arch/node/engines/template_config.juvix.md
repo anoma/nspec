@@ -41,7 +41,7 @@ type TemplateCfg :=
 ```
 <!-- --8<-- [end:TemplateCfg] -->
 
-#### Instantiation
+## Instantiation
 
 <!-- --8<-- [start:templateCfg] -->
 ```juvix extract-module-statements

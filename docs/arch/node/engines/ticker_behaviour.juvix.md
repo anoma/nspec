@@ -375,3 +375,46 @@ tickerBehaviour : TickerBehaviour :=
   };
 ```
 <!-- --8<-- [end:TickerBehaviour-instance] -->
+
+## Ticker Action Flowchart
+
+### `incrementAction` flowchart
+
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  CM>TickerMsgIncrement]
+  ES[(State update<br>counter := counter + 1)]
+
+  CM --incrementGuard--> A --incrementActionLabel--> incrementAction --> ES
+```
+
+<figcaption markdown="span">
+
+`incrementAction` flowchart
+
+</figcaption>
+</figure>
+
+
+### `countReplyAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  CM>TickerMsgCountRequest]
+  A(countReplyAction)
+  RE>TickerMsgCountReply counterValue]
+
+  CM --countReplyGuard--> A --countReplyActionLabel--> RE
+```
+
+<figcaption markdown="span">
+
+`countReplyAction` flowchart
+
+</figcaption>
+</figure>
