@@ -12,18 +12,11 @@ tags:
     ```juvix
     module arch.node.types.anoma_message;
 
--- Examples
+{- Examples -}
     import arch.node.engines.template_messages open using {TemplateMsg};
     import arch.node.engines.ticker_messages open using {TickerMsg};
 
--- Network
-    import arch.node.net.router_messages open;
-    import arch.node.net.node_proxy_messages open;
-    import arch.node.net.transport_messages open;
-    import arch.node.net.topic_messages open;
-    import arch.node.net.storage_messages open;
-
--- Identity
+{- Identity -}
 --    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
 --    import arch.node.engines.decryption_messages open using {DecryptionMsg};
 --    import arch.node.engines.encryption_messages open using {EncryptionMsg};
@@ -32,6 +25,13 @@ tags:
 --    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
 --    import arch.node.engines.signs_for_messages open using {SignsForMsg};
 --    import arch.node.engines.naming_messages open using {NamingMsg};
+
+{- Network -}
+    import arch.node.net.router_messages open;
+    import arch.node.net.node_proxy_messages open;
+    import arch.node.net.transport_messages open;
+    import arch.node.net.topic_messages open;
+    import arch.node.net.storage_messages open;
     ```
 
 # Anoma Message
@@ -45,18 +45,11 @@ For example, the engine family `Ticker` has a corresponding message type `Ticker
 <!-- --8<-- [start:anoma-messages-type] -->
 ```juvix
 type Msg :=
--- Examples
+{- Examples -}
   | MsgTemplate TemplateMsg
   | MsgTicker TickerMsg
 
--- Network
-  | MsgAllRouter MsgRouter
-  | MsgAllNodeProxy MsgNodeProxy
-  | MsgAllTransport MsgTransport
-  | MsgAllTopic MsgTopic
-  | MsgAllStorage MsgStorage
-
--- Identity
+{- Identity -}
 --  | MsgIdentityManagement IdentityManagementMsg
 --  | MsgDecryption DecryptionMsg
 --  | MsgEncryption EncryptionMsg
@@ -65,6 +58,13 @@ type Msg :=
 --  | MsgReadsFor ReadsForMsg
 --  | MsgSignsFor SignsForMsg
 --  | MsgNaming NamingMsg
+
+{- Network -}
+  | MsgRouter RouterMsg
+  | MsgNodeProxy NodeProxyMsg
+  | MsgTransport TransportMsg
+  | MsgTopic TopicMsg
+  | MsgStorage StorageMsg
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

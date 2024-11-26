@@ -10,9 +10,11 @@ search:
     ```juvix
     module arch.node.types.anoma_environment;
 
+{- Examples -}
     import arch.node.engines.template_environment open;
     import arch.node.engines.ticker_environment open;
 
+{- Identity -}
 --    import arch.node.engines.identity_management_environment open;
 --    import arch.node.engines.decryption_environment open;
 --    import arch.node.engines.encryption_environment open;
@@ -21,6 +23,13 @@ search:
 --    import arch.node.engines.reads_for_environment open;
 --    import arch.node.engines.signs_for_environment open;
 --    import arch.node.engines.naming_environment open;
+
+{- Network -)
+--    import arch.node.net.router_environment open;
+--    import arch.node.net.node_proxy_environment open;
+--    import arch.node.net.transport_environment open;
+--    import arch.node.net.topic_environment open;
+--    import arch.node.net.storage_environment open;
     ```
 
 # Anoma Engine Environments
@@ -39,9 +48,11 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 <!-- --8<-- [start:anoma-environment-type] -->
 ```juvix
 type Env :=
+{- Examples -}
   | EnvTemplate TemplateEnv
   | EnvTicker TickerEnv
 
+{- Identity -}
 --  | EnvIdentityManagement IdentityManagementEnvironment
 --  | EnvDecryption DecryptionEnvironment
 --  | EnvEncryption EncryptionEnvironment
@@ -50,5 +61,12 @@ type Env :=
 --  | EnvReadsFor ReadsForEnvironment
 --  | EnvSignsFor SignsForEnvironment
 --  | EnvNaming NamingEnvironment
+
+{- Network -}
+--  | EnvRouter RouterEnv
+--  | EnvNodeProxy NodeProxyEnv
+--  | EnvTransport TransportEnv
+--  | EnvTopic TopicEnv
+--  | EnvStorage StorageEnv
 ```
 <!-- --8<-- [end:anoma-environment-type] -->
