@@ -30,7 +30,7 @@ notifications.
 ## Guards
 
 Guards are terms of type `Guard`, which is a function type, where the _trigger_
-of type `TimestampedTrigger H` is a term that captures the message received with
+of type `TimestampedTrigger H AM` is a term that captures the message received with
 a timestamp or a clock notification about timers that have elapsed during the
 engine's operation. Guards return data of type `GuardOutput A` if the
 precondition of the action that they are guarding is met.
