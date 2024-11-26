@@ -191,12 +191,12 @@ countReplyAction
   (input : TickerActionInput)
   : Option TickerActionEffect :=
   let
-    env := ActionInput.env input;
-    tt := ActionInput.trigger input;
     cfg := ActionInput.cfg input;
+    env := ActionInput.env input;
+    trigger := ActionInput.trigger input;
     counterValue := TickerLocalState.counter (EngineEnv.localState env)
   in
-    case getEngineMsgFromTimestampedTrigger tt of {
+    case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
       some mkActionEffect@{
         env := env;
@@ -298,12 +298,12 @@ Condition
 <!-- --8<-- [start:incrementGuard] -->
 ```juvix
 incrementGuard
-  (tt : TimestampedTrigger TickerTimerHandle Anoma.Msg)
+  (trigger : TimestampedTrigger TickerTimerHandle Anoma.Msg)
   (cfg : EngineCfg TickerCfg)
   (env : TickerEnv)
   : Option TickerGuardOutput :=
   let
-    emsg := getEngineMsgFromTimestampedTrigger tt;
+    emsg := getEngineMsgFromTimestampedTrigger trigger;
   in
     case emsg of {
     | some mkEngineMsg@{
@@ -326,11 +326,11 @@ Condition
 <!-- --8<-- [start:countReplyGuard] -->
 ```juvix
 countReplyGuard
-  (tt : TimestampedTrigger TickerTimerHandle Anoma.Msg)
+  (trigger : TimestampedTrigger TickerTimerHandle Anoma.Msg)
   (cfg : EngineCfg TickerCfg)
   (env : TickerEnv)
   : Option TickerGuardOutput :=
-  case getEngineMsgFromTimestampedTrigger tt of {
+  case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgTicker TickerMsgCountRequest;
       } := some mkGuardOutput@{
@@ -385,10 +385,18 @@ tickerBehaviour : TickerBehaviour :=
 
 ```mermaid
 flowchart TD
-  CM>TickerMsgIncrement]
-  ES[(State update<br>counter := counter + 1)]
+  subgraph C[Conditions]
+    CMsg>TickerMsgIncrement]
+  end
 
-  CM --incrementGuard--> A --incrementActionLabel--> incrementAction --> ES
+  G(incrementGuard)
+  A(incrementAction)
+
+  C --> G -- *incrementActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(counter := counter + 1)]
+  end
 ```
 
 <figcaption markdown="span">
@@ -405,11 +413,18 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  CM>TickerMsgCountRequest]
-  A(countReplyAction)
-  RE>TickerMsgCountReply counterVa]
+  subgraph C[Conditions]
+    CMsg>TickerMsgCountRequest]
+  end
 
-  CM --countReplyGuard--> A --countReplyActionLabel--> RE
+  G(countReplyGuard)
+  A(countReplyAction)
+
+  C --> G -- *countReplyActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EMsg>TickerMsgCountReply<br/>counter]
+  end
 ```
 
 <figcaption markdown="span">

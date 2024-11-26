@@ -34,13 +34,14 @@ instantiated with the following type parameters:
 - `S`: the type for the local engine-specific state,
 - `B`: the type for the mailbox state,
 - `H`: the type for the timer handles,
-- `AM`: the type for all engine messages (`Msg`)
-- `AC`: the type for all engine configurations (`Cfg`)
-- `AE`: the type for all engine environments (`Env`)
+- `AM`: the type for all engine messages (`Msg`),
+- `AC`: the type for all engine configurations (`Cfg`), and
+- `AE`: the type for all engine environments (`Env`).
 
 Each engine, not its type, is associated with:
 
-- a specific configuration, which contains the engine name (unique across the system), node ID, and engine-specific configuration,
+- a specific [Engine Configuration|configuration],
+  which contains the engine name (unique across the system), node ID, and engine-specific configuration,
 - a declaration of its own [[Engine Environment|execution context]], that is,
   the engine-specific local state, the mailbox cluster, the acquaintances, and the timers,
 - as well as a specific [[Engine Behaviour|behaviour]].

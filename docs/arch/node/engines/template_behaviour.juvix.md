@@ -190,8 +190,8 @@ justHiAction
   (input : TemplateActionInput)
   : Option TemplateActionEffect :=
   let
-    args := ActionInput.args input;
     env := ActionInput.env input;
+    args := ActionInput.args input;
   in
     case args of {
     | TemplateActionArgumentTwo (mkSecondArgument@{
@@ -239,6 +239,7 @@ exampleReplyAction
     cfg := ActionInput.cfg input;
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
+    args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
@@ -394,11 +395,11 @@ Condition
 <!-- --8<-- [start:exampleReplyGuard] -->
 ```juvix
 exampleReplyGuard
-  (tt : TemplateTimestampedTrigger)
+  (trigger : TemplateTimestampedTrigger)
   (cfg : EngineCfg TemplateCfg)
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
-  case getEngineMsgFromTimestampedTrigger tt of {
+  case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
@@ -453,11 +454,18 @@ templateBehaviour : TemplateBehaviour :=
 
 ```mermaid
 flowchart TD
-  CM>TemplateMsgJustHi]
-  A(justHiAction)
-  ES[(State update)]
+  subgraph C[Conditions]
+    CMsg>TemplateMsgJustHi]
+  end
 
-  CM --justHiGuard--> A --justHiActionLabel--> ES
+  G(justHiGuard)
+  A(justHiAction)
+
+  C --> G -- *justHiActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(Env update)]
+  end
 ```
 
 <figcaption markdown="span">
@@ -473,13 +481,20 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  CM>TemplateMsgExampleRequest]
-  CS[(State condition)]
-  A(exampleReplyAction)
-  ES[(State update)]
-  EM>TemplateMsgExampleResponse]
+  subgraph C[Conditions]
+    CMsg>TemplateMsgExampleRequest<br/>from local engine]
+    CEnv[(exampleValue < 10)]
+  end
 
-  CS & CM --exampleReplyGuard--> A --exampleReplyActionLabel--> ES & EM
+  G(exampleReplyGuard)
+  A(exampleReplyAction)
+
+  C --> G -- *exampleReplyActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(exampleValue := exampleValue + 1)]
+    EMsg>TemplateMsgExampleResponse<br/>argOne]
+  end
 ```
 
 <figcaption markdown="span">
