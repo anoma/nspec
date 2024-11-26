@@ -75,6 +75,7 @@ TickerTimestampedTrigger : Type :=
 
 ### `TickerEnv`
 
+<!-- --8<-- [start:TickerEnv] -->
 ```juvix
 TickerEnv : Type :=
   EngineEnv
@@ -83,10 +84,11 @@ TickerEnv : Type :=
     TickerTimerHandle
     Anoma.Msg;
 ```
+<!-- --8<-- [end:TickerEnv] -->
 
 #### Instantiation
 
-<!-- --8<-- [roTickerEnvironment] -->
+<!-- --8<-- [start:tickerEnv] -->
 ```juvix extract-module-statements
 module ticker_environment_example;
 
@@ -101,4 +103,4 @@ tickerEnv : TickerEnv :=
   };
 end;
 ```
-<!-- --8<-- [TickerEnvironment] -->
+<!-- --8<-- [end:exampleTickerEnvironment] -->
