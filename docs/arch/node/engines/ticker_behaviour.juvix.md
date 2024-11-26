@@ -298,7 +298,7 @@ Condition
 <!-- --8<-- [start:incrementGuard] -->
 ```juvix
 incrementGuard
-  (tt : TimestampedTrigger TickerTimerHandle Anoma.Msg)
+  (trigger : TimestampedTrigger TickerTimerHandle Anoma.Msg)
   (cfg : EngineCfg TickerCfg)
   (env : TickerEnv)
   : Option TickerGuardOutput :=
@@ -326,7 +326,7 @@ Condition
 <!-- --8<-- [start:countReplyGuard] -->
 ```juvix
 countReplyGuard
-  (tt : TimestampedTrigger TickerTimerHandle Anoma.Msg)
+  (trigger : TimestampedTrigger TickerTimerHandle Anoma.Msg)
   (cfg : EngineCfg TickerCfg)
   (env : TickerEnv)
   : Option TickerGuardOutput :=

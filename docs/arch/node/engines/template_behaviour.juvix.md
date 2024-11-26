@@ -190,8 +190,8 @@ justHiAction
   (input : TemplateActionInput)
   : Option TemplateActionEffect :=
   let
-    args := ActionInput.args input;
     env := ActionInput.env input;
+    args := ActionInput.args input;
   in
     case args of {
     | TemplateActionArgumentTwo (mkSecondArgument@{
@@ -239,6 +239,7 @@ exampleReplyAction
     cfg := ActionInput.cfg input;
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
+    args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
@@ -394,7 +395,7 @@ Condition
 <!-- --8<-- [start:exampleReplyGuard] -->
 ```juvix
 exampleReplyGuard
-  (tt : TemplateTimestampedTrigger)
+  (trigger : TemplateTimestampedTrigger)
   (cfg : EngineCfg TemplateCfg)
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
