@@ -24,6 +24,7 @@ tags:
 
   - `ticker.juvix.md`
   - `ticker_messages.juvix.md`
+  - `ticker_config.juvix.md`
   - `ticker_environment.juvix.md`
   - `ticker_behaviour.juvix.md`
 
@@ -52,6 +53,7 @@ arch/node/
     ├── ...
     ├── ticker.juvix.md
     ├── ticker_messages.juvix.md
+    ├── ticker_config.juvix.md
     ├── ticker_environment.juvix.md
     └── ticker_behaviour.juvix.md
 ```
@@ -86,6 +88,7 @@ module everything;
 {- Engines -}
 + import arch.node.engines.ticker;
 + import arch.node.engines.ticker_messages;
++ import arch.node.engines.ticker_config;
 + import arch.node.engines.ticker_environment;
 + import arch.node.engines.ticker_behaviour;
 ```
@@ -93,33 +96,49 @@ module everything;
 
 ### Anoma Message
 
-All message types must be added to the `arch/node/types/anoma_message.juvix.md`
-file. Use the same pattern as the existing message types. For example, if the
-engine is the `ticker`, the new type constructor should be `MsgTicker` along
-with the corresponding type for the messages, that is, `TickerMsg`.
+All message types must be added to the `arch/node/types/anoma_message.juvix.md` file.
+Use the same pattern as the existing message types.
+For example, if the engine is the `ticker`, the new type constructor should be `MsgTicker`
+along with the corresponding type for the messages, that is, `TickerMsg`.
 
 ```diff title="arch/node/types/anoma_message.juvix.md"
 ...
 module arch.ode.types.anoma_message;
-+ import arch.node.engines.ticker_messages open using {TickerMsg};
++ import arch.node.engines.ticker_messages open;
 
 type Msg :=
 +  | MsgTicker TickerMsg
 ```
 
+
+### Anoma Configuration Index
+
+All configuration types must be added to the `arch/node/types/anoma_config.juvix.md` file.
+Similarly to the message types, the new type constructor should be `CfgTicker`
+along with the corresponding type for the configuration, that is, `TickerCfg`. 
+Do not forget to import the environment type in the `Env` type.
+
+```diff title="arch/node/types/anoma_config.juvix.md"
+module arch.node.types.anoma_config;
+...
++ import arch.node.engines.ticker_config open;
+...
+type Cfg :=
++  | CfgTicker TickerCfg
+```
+
 ### Anoma Environment Index
 
-All environment types must be added to the
-`arch/node/types/anoma_environment.juvix.md` file. Similarly to the message
-types, the new type constructor should be `EnvTicker` along with the
-corresponding type for the environment, that is, `TickerEnvironment`. Do not
-forget to import the environment type in the `Env` type.
+All environment types must be added to the `arch/node/types/anoma_environment.juvix.md` file.
+Similarly to the message types, the new type constructor should be `EnvTicker`
+along with the corresponding type for the environment, that is, `TickerEnv`.
+Do not forget to import the environment type in the `Env` type.
 
 ```diff title="arch/node/types/anoma_environment.juvix.md"
 module arch.node.types.anoma_environment;
 ...
-+ import arch.node.engines.ticker_environment open using {TickerEnvironment};
++ import arch.node.engines.ticker_environment open;
 ...
 type Env :=
-+  | EnvTicker TickerEnvironment
++  | EnvTicker TickerEnv
 ```
