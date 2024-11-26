@@ -36,7 +36,7 @@ This happens when there are no subscribers.
 
 --8<-- "./topic_messages:TopicMsg"
 
-### `MsgRouterNodeConnect RouterNodeConnect`
+### `MsgRouterNodeConnect NodeConnect`
 
 Request to establish a permanent connection to a remote node.
 
@@ -45,8 +45,8 @@ or sets the connection permanence of an existing [[Node Proxy]]
 via `MsgNodeProxySetPermanence`.
 
 ```juvix
-type RouterNodeConnect :=
-  mkRouterNodeConnect {
+type NodeConnect :=
+  mkNodeConnect {
     node_id : NodeID;
   }
 ```
@@ -111,7 +111,7 @@ type MsgRouter M :=
   | MsgRouterEngineMsg (EngineMsg M)
   | MsgRouterNodeMsg (NodeMsg M)
   | MsgRouterTopicMsg TopicMsg
-  | MsgRouterNodeConnect RouterNodeConnect
+  | MsgRouterNodeConnect NodeConnect
   | MsgRouterNodeAdvert NodeAdvert
   | MsgRouterTopicAdvert TopicAdvert
   ;

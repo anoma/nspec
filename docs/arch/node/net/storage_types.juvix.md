@@ -36,7 +36,8 @@ to a pub/sub topic identified by the ACL owner's `ExternalID`.
 
 ```juvix
 type ACL := mkACL {
-  members : List ExternalID;
+  members : Set ExternalID;
+  version: Nat;
   sig : Commitment;
 }
 ```
@@ -49,7 +50,7 @@ A chunk of a storage object.
 type Chunk := mkChunk {
   children : List ChunkID;
   expiry : AbsTime;
-  acl : ACL;
+  acl : Option ACL;
   content : Bytes;
 };
 ```
@@ -62,6 +63,9 @@ type Chunk := mkChunk {
 
 `content`
 : Encrypted `ChunkContent`.
+
+`acl`
+: Nodes that are allowed to request the chunk.
 
 ## `ChunkContent`
 
