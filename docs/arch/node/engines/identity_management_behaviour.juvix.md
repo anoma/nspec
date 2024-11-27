@@ -69,6 +69,8 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 
 ??? quote "Auxiliary Juvix code"
 
+    ### IdentityManagementAction
+
     ```juvix
     IdentityManagementAction : Type :=
       Action
@@ -80,7 +82,11 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
 
+    ### IdentityManagementActionInput
+
+    ```juvix
     IdentityManagementActionInput : Type :=
       ActionInput
         IdentityManagementCfg
@@ -89,7 +95,11 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         IdentityManagementTimerHandle
         IdentityManagementActionArguments
         Anoma.Msg;
+    ```
 
+    ### IdentityManagementActionEffect
+
+    ```juvix
     IdentityManagementActionEffect : Type :=
       ActionEffect
         IdentityManagementLocalState
@@ -98,7 +108,11 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
 
+    ### IdentityManagementActionExec
+
+    ```juvix
     IdentityManagementActionExec : Type :=
       ActionExec
         IdentityManagementCfg
@@ -526,6 +540,9 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
 
 ??? quote "Auxiliary Juvix code"
 
+    ### `IdentityManagementGuard`
+
+    <!-- --8<-- [start:IdentityManagementGuard] -->
     ```juvix
     IdentityManagementGuard : Type :=
       Guard
@@ -537,7 +554,13 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:IdentityManagementGuard] -->
 
+    ### `IdentityManagementGuardOutput`
+
+    <!-- --8<-- [start:IdentityManagementGuardOutput] -->
+    ```juvix
     IdentityManagementGuardOutput : Type :=
       GuardOutput
         IdentityManagementCfg
@@ -548,7 +571,13 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:IdentityManagementGuardOutput] -->
 
+    ### `IdentityManagementGuardEval`
+
+    <!-- --8<-- [start:IdentityManagementGuardEval] -->
+    ```juvix
     IdentityManagementGuardEval : Type :=
       GuardEval
         IdentityManagementCfg
@@ -560,6 +589,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
         Anoma.Cfg
         Anoma.Env;
     ```
+    <!-- --8<-- [end:IdentityManagementGuardEval] -->
 
 ### `generateIdentityGuard`
 
