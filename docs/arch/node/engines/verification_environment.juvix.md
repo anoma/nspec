@@ -83,7 +83,7 @@ syntax alias VerificationTimerHandle := Unit;
 
 ```juvix
 VerificationEnvironment : Type :=
-  EngineEnvironment
+  EngineEnv
     VerificationLocalState
     VerificationMailboxState
     VerificationTimerHandle;
@@ -105,7 +105,7 @@ verificationEnvironment : VerificationEnvironment :=
             ordKey := mkOrdkey@{
                 compare := Ord.cmp
             };
-            hash := \{x := 0};
+            hash := \{x := "0x1234abcd"};
           };
         }};
         backend := BackendLocalMemory;

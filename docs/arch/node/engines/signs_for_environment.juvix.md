@@ -74,7 +74,7 @@ syntax alias SignsForTimerHandle := Unit;
 
 ```juvix
 SignsForEnvironment : Type :=
-  EngineEnvironment
+  EngineEnv
     SignsForLocalState
     SignsForMailboxState
     SignsForTimerHandle;
