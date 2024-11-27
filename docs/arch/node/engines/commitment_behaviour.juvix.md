@@ -14,15 +14,17 @@ tags:
 
     ```juvix
     module arch.node.engines.commitment_behaviour;
+    
     import prelude open;
     import arch.system.identity.identity open;
     import arch.node.engines.commitment_messages open;
+    import arch.node.engines.commitment_config open;
     import arch.node.engines.commitment_environment open;
-    import arch.node.types.anoma_message open;
-    import arch.node.types.engine_behaviour open;
-    import arch.node.types.engine_environment open;
+    import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
+    import arch.node.types.engine open;
+    import arch.node.types.anoma as Anoma open;
     ```
 
 # Commitment Behaviour
@@ -32,46 +34,9 @@ tags:
 The behavior of the Commitment Engine defines how it processes incoming
 commitment requests and produces the corresponding responses.
 
-## Action labels
+## Action arguments
 
-### `CommitmentActionLabelDoCommit DoCommit`
-
-```juvix
-type DoCommit := mkDoCommit {
-  data : Signable
-};
-```
-
-This action label corresponds to generating a commitment (signature) for the
-given request.
-
-???+ quote "Arguments"
-
-    `data`:
-    : The data to sign.
-
-???+ quote "`DoCommit` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `ResponseCommitment` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `CommitmentActionLabel`
-
-```juvix
-type CommitmentActionLabel :=
-  | CommitmentActionLabelDoCommit DoCommit
-  ;
-```
-
-## Matchable arguments
-
-### `CommitmentMatchableArgumentReplyTo ReplyTo`
+### `CommitmentActionArgumentReplyTo ReplyTo`
 
 ```juvix
 type ReplyTo := mkReplyTo {
@@ -80,161 +45,241 @@ type ReplyTo := mkReplyTo {
 };
 ```
 
-???+ quote "Arguments"
+This action argument contains the address and mailbox ID of where the
+response message should be sent.
 
-    `whoAsked`:
-    : The engine ID of the requester.
+`whoAsked`:
+: is the address of the engine that sent the message.
 
-    `mailbox`:
-    : The mailbox ID where the response should be sent.
+`mailbox`:
+: is the mailbox ID where the response message should be sent.
 
-### `CommitmentMatchableArgument`
+### `CommitmentActionArgument`
 
+<!-- --8<-- [start:CommitmentActionArgument] -->
 ```juvix
-type CommitmentMatchableArgument :=
-  | CommitmentMatchableArgumentReplyTo ReplyTo
-;
+type CommitmentActionArgument :=
+  | CommitmentActionArgumentReplyTo ReplyTo
+  ;
 ```
+<!-- --8<-- [end:CommitmentActionArgument] -->
 
-## Precomputation results
+### `CommitmentActionArguments`
 
-The Commitment Engine does not require any non-trivial pre-computations.
+<!-- --8<-- [start:commitment-action-arguments] -->
+```juvix
+CommitmentActionArguments : Type := List CommitmentActionArgument;
+```
+<!-- --8<-- [end:commitment-action-arguments] -->
+
+## Actions
+
+??? quote "Auxiliary Juvix code"
+
+    ### `CommitmentAction`
+
+    ```juvix
+    CommitmentAction : Type :=
+      Action
+        CommitmentCfg
+        CommitmentLocalState
+        CommitmentMailboxState
+        CommitmentTimerHandle
+        CommitmentActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+
+    ### `CommitmentActionInput`
+
+    ```juvix
+    CommitmentActionInput : Type :=
+      ActionInput
+        CommitmentCfg
+        CommitmentLocalState
+        CommitmentMailboxState
+        CommitmentTimerHandle
+        CommitmentActionArguments
+        Anoma.Msg;
+    ```
+
+    ### `CommitmentActionEffect`
+
+    ```juvix
+    CommitmentActionEffect : Type :=
+      ActionEffect
+        CommitmentLocalState
+        CommitmentMailboxState
+        CommitmentTimerHandle
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+
+    ### `CommitmentActionExec`
+
+    ```juvix
+    CommitmentActionExec : Type :=
+      ActionExec
+        CommitmentCfg
+        CommitmentLocalState
+        CommitmentMailboxState
+        CommitmentTimerHandle
+        CommitmentActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+
+#### `commitAction`
+
+Generate a commitment (signature) for the given request.
+
+State update
+: The state remains unchanged.
+
+Messages to be sent
+: A `ResponseCommitment` message is sent back to the requester.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+<!-- --8<-- [start:commitAction] -->
+```juvix
+commitAction
+  (input : CommitmentActionInput)
+  : Option CommitmentActionEffect :=
+  let
+    env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
+    tt := ActionInput.trigger input;
+    localState := EngineEnv.localState env
+  in
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some emsg :=
+      case emsg of {
+      | mkEngineMsg@{msg := Anoma.MsgCommitment (MsgCommitmentRequest request)} :=
+        let
+          signedData := Signer.sign 
+            (CommitmentLocalState.signer localState)
+            (CommitmentLocalState.backend localState)
+            (RequestCommitment.data request);
+          responseMsg := mkResponseCommitment@{
+            commitment := signedData;
+            err := none
+          }
+        in some mkActionEffect@{
+          env := env;
+          msgs := [
+            mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg cfg;
+              target := EngineMsg.sender emsg;
+              mailbox := some 0;
+              msg := Anoma.MsgCommitment (MsgCommitmentResponse responseMsg)
+            }
+          ];
+          timers := [];
+          engines := []
+        }
+      | _ := none
+      }
+    | _ := none
+    }
+```
+<!-- --8<-- [end:commitAction] -->
+
+## Action Labels
+
+### `commitActionLabel`
 
 ```juvix
-syntax alias CommitmentPrecomputation := Unit;
+commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
 ```
 
 ## Guards
 
 ??? quote "Auxiliary Juvix code"
 
-    Type alias for the guard.
+    ### `CommitmentGuard`
 
+    <!-- --8<-- [start:CommitmentGuard] -->
     ```juvix
     CommitmentGuard : Type :=
       Guard
+        CommitmentCfg
         CommitmentLocalState
         CommitmentMailboxState
         CommitmentTimerHandle
-        CommitmentMatchableArgument
-        CommitmentActionLabel
-        CommitmentPrecomputation;
+        CommitmentActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
+    <!-- --8<-- [end:CommitmentGuard] -->
 
+    ### `CommitmentGuardOutput`
+
+    <!-- --8<-- [start:CommitmentGuardOutput] -->
     ```juvix
     CommitmentGuardOutput : Type :=
       GuardOutput
-        CommitmentMatchableArgument
-        CommitmentActionLabel
-        CommitmentPrecomputation;
+        CommitmentCfg
+        CommitmentLocalState
+        CommitmentMailboxState
+        CommitmentTimerHandle
+        CommitmentActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
+    <!-- --8<-- [end:CommitmentGuardOutput] -->
+
+    ### `CommitmentGuardEval`
+
+    <!-- --8<-- [start:CommitmentGuardEval] -->
+    ```juvix
+    CommitmentGuardEval : Type :=
+      GuardEval
+        CommitmentCfg
+        CommitmentLocalState
+        CommitmentMailboxState
+        CommitmentTimerHandle
+        CommitmentActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:CommitmentGuardEval] -->
 
 ### `commitGuard`
 
-<figure markdown>
-```mermaid
-flowchart TD
-    C{CommitRequest<br>received?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([DoCommit])
-```
-<figcaption>commitGuard flowchart</figcaption>
-</figure>
+Condition
+: Message type is `MsgCommitmentRequest`.
 
 <!-- --8<-- [start:commitGuard] -->
 ```juvix
 commitGuard
-  (t : TimestampedTrigger CommitmentTimerHandle)
-  (env : CommitmentEnvironment) : Option CommitmentGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgCommitment (MsgCommitmentRequest request)) := do {
-        sender <- getSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                  matchedArgs := [CommitmentMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-                  actionLabel := CommitmentActionLabelDoCommit (mkDoCommit (RequestCommitment.data request));
-                  precomputationTasks := unit
-                });
-        }
-      | _ := none
-  };
+  (tt : TimestampedTrigger CommitmentTimerHandle Anoma.Msg)
+  (cfg : EngineCfg CommitmentCfg)
+  (env : CommitmentEnvironment)
+  : Option CommitmentGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgCommitment (MsgCommitmentRequest _);
+      } := some mkGuardOutput@{
+        action := commitActionLabel;
+        args := [];
+      }
+    | _ := none
+    };
 ```
 <!-- --8<-- [end:commitGuard] -->
 
-## Action function
-
-??? quote "Auxiliary Juvix code"
-
-    Type alias for the action function.
-
-    ```juvix
-    CommitmentActionInput : Type :=
-      ActionInput
-        CommitmentLocalState
-        CommitmentMailboxState
-        CommitmentTimerHandle
-        CommitmentMatchableArgument
-        CommitmentActionLabel
-        CommitmentPrecomputation;
-
-    CommitmentActionEffect : Type :=
-      ActionEffect
-        CommitmentLocalState
-        CommitmentMailboxState
-        CommitmentTimerHandle
-        CommitmentMatchableArgument
-        CommitmentActionLabel
-        CommitmentPrecomputation;
-    ```
-
-### `commitmentAction`
-
-<!-- --8<-- [start:commitmentAction] -->
-```juvix
-commitmentAction (input : CommitmentActionInput) : CommitmentActionEffect :=
-  let env := ActionInput.env input;
-      out := ActionInput.guardOutput input;
-      localState := EngineEnv.localState env;
-  in
-  case GuardOutput.actionLabel out of {
-    | CommitmentActionLabelDoCommit (mkDoCommit data) :=
-      case GuardOutput.matchedArgs out of {
-        | CommitmentMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
-            signedData :=
-              Signer.sign (CommitmentLocalState.signer localState)
-                (CommitmentLocalState.backend localState)
-                data;
-            responseMsg := mkResponseCommitment@{
-                  commitment := signedData;
-                  err := none
-                };
-          in mkActionEffect@{
-            newEnv := env; -- No state change
-            producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnv.name env));
-              target := whoAsked;
-              mailbox := some 0;
-              msg := MsgCommitment (MsgCommitmentResponse responseMsg)
-            }];
-            timers := [];
-            spawnedEngines := []
-          }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
-      }
-  };
-```
-<!-- --8<-- [end:commitmentAction] -->
-
-## Conflict solver
-
-### `commitmentConflictSolver`
-
-```juvix
-commitmentConflictSolver : Set CommitmentMatchableArgument -> List (Set CommitmentMatchableArgument)
-  | _ := [];
-```
-
-## The Commitment Behaviour
+## The Commitment behaviour
 
 ### `CommitmentBehaviour`
 
@@ -242,24 +287,49 @@ commitmentConflictSolver : Set CommitmentMatchableArgument -> List (Set Commitme
 ```juvix
 CommitmentBehaviour : Type :=
   EngineBehaviour
+    CommitmentCfg
     CommitmentLocalState
     CommitmentMailboxState
     CommitmentTimerHandle
-    CommitmentMatchableArgument
-    CommitmentActionLabel
-    CommitmentPrecomputation;
+    CommitmentActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:CommitmentBehaviour] -->
 
-### Instantiation
+#### Instantiation
 
 <!-- --8<-- [start:commitmentBehaviour] -->
 ```juvix
 commitmentBehaviour : CommitmentBehaviour :=
   mkEngineBehaviour@{
-    guards := [commitGuard];
-    action := commitmentAction;
-    conflictSolver := commitmentConflictSolver;
+    guards :=
+      First [
+        commitGuard
+      ];
   };
 ```
 <!-- --8<-- [end:commitmentBehaviour] -->
+
+## Commitment Action Flowchart
+
+### `commitAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  CM>MsgCommitmentRequest]
+  A(commitAction)
+  RE>MsgCommitmentResponse signedData]
+
+  CM --commitGuard--> A --commitActionLabel--> RE
+```
+
+<figcaption markdown="span">
+
+`commitAction` flowchart
+
+</figcaption>
+</figure>

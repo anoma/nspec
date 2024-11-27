@@ -20,6 +20,7 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Commitment Environment
@@ -81,12 +82,13 @@ CommitmentEnvironment : Type :=
   EngineEnv
     CommitmentLocalState
     CommitmentMailboxState
-    CommitmentTimerHandle;
+    CommitmentTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
 
-<!-- --8<-- [start:commitmentEnvironment] -->
+<!-- --8<-- [start:commitmentEnv] -->
 ```juvix extract-module-statements
 module commitment_environment_example;
 
@@ -94,10 +96,8 @@ axiom dummyExternalIdentity : ExternalIdentity;
 axiom dummyIDBackend : Backend;
 axiom dummySigningKey : SigningKey;
 
-commitmentEnvironment : CommitmentEnvironment :=
+commitmentEnv : CommitmentEnvironment :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "commitment";
       localState := mkCommitmentLocalState@{
         signer := mkSigner@{
           sign := \{_ x := Ed25519Signature "0xabcd1234"};
@@ -111,4 +111,4 @@ commitmentEnvironment : CommitmentEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:commitmentEnvironment] -->
+<!-- --8<-- [end:commitmentEnv] -->
