@@ -14,14 +14,15 @@ tags:
 
     ```juvix
     module arch.node.engines.encryption_behaviour;
+    
     import prelude open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     import arch.node.engines.encryption_environment open;
     import arch.node.engines.encryption_messages open;
+    import arch.node.engines.encryption_config open;
     import arch.node.engines.reads_for_messages open;
-    import arch.node.types.anoma_message open;
-    import arch.node.types.engine_behaviour open;
-    import arch.node.types.engine_environment open;
+    import arch.node.types.anoma as Anoma open;
+    import arch.node.types.engine open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     ```
@@ -33,84 +34,9 @@ tags:
 The behavior of the Encryption Engine defines how it processes incoming
 encryption requests and produces the corresponding responses.
 
-## Action labels
+## Action arguments
 
-### `EncryptionActionLabelDoEncrypt DoEncrypt`
-
-```juvix
-type DoEncrypt := mkDoEncrypt {
-  data : Plaintext;
-  externalIdentity : ExternalIdentity;
-  useReadsFor : Bool
-};
-```
-
-This action label corresponds to encrypting the data in the given request.
-
-???+ quote "Arguments"
-
-    `data`:
-    : The plaintext data to encrypt.
-
-    `externalIdentity`:
-    : The external identity to use for encryption.
-
-    `useReadsFor`:
-    : Whether to use ReadsFor evidence.
-
-???+ quote "`DoEncrypt` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | If `useReadsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged. |
-    | Messages to be sent   | If `useReadsFor` is false, an `ResponseEncrypt` message is sent back to the requester. If `useReadsFor` is true and it's the first request for this identity, a `QueryReadsForEvidenceRequest` is sent to the ReadsFor Engine. |
-    | Engines to be spawned | No engines are created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `EncryptionActionLabelDoHandleReadsForResponse DoHandleReadsForResponse`
-
-```juvix
-type DoHandleReadsForResponse := mkDoHandleReadsForResponse {
-  externalIdentity : ExternalIdentity;
-  readsForEvidence : Set ReadsForEvidence
-};
-```
-
-This action label corresponds to receiving reads for evidence and using it to address relevant pending requests.
-
-???+ quote "Arguments"
-
-    `externalIdentity`:
-    : The external identity associated with the evidence.
-
-    `readsForEvidence`:
-    : The set of ReadsFor evidence received.
-
-???+ quote "`DoHandleReadsForResponse` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is updated to remove the processed pending requests for the given external identity. |
-    | Messages to be sent   | `ResponseEncrypt` messages are sent to all requesters who were waiting for this ReadsFor evidence. |
-    | Engines to be spawned | No engines are created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `EncryptionActionLabel`
-
-```juvix
-type EncryptionActionLabel :=
-  | EncryptionActionLabelDoEncrypt DoEncrypt
-  | EncryptionActionLabelDoHandleReadsForResponse DoHandleReadsForResponse
-;
-```
-
-## Matchable arguments
-
-### `EncryptionMatchableArgumentReplyTo ReplyTo`
+### `EncryptionActionArgumentReplyTo ReplyTo`
 
 ```juvix
 type ReplyTo := mkReplyTo {
@@ -119,81 +45,327 @@ type ReplyTo := mkReplyTo {
 };
 ```
 
-???+ quote "Arguments"
+This action argument contains the address and mailbox ID of where the
+response message should be sent.
 
-    `whoAsked`:
-    : The engine ID of the requester.
+`whoAsked`:
+: is the address of the engine that sent the message.
 
-    `mailbox`:
-    : The mailbox ID where the response should be sent.
+`mailbox`:
+: is the mailbox ID where the response message should be sent.
 
-### `EncryptionMatchableArgument`
+### `EncryptionActionArgument`
+
+<!-- --8<-- [start:EncryptionActionArgument] -->
+```juvix
+type EncryptionActionArgument :=
+  | EncryptionActionArgumentReplyTo ReplyTo
+  ;
+```
+<!-- --8<-- [end:EncryptionActionArgument] -->
+
+### `EncryptionActionArguments`
+
+<!-- --8<-- [start:encryption-action-arguments] -->
+```juvix
+EncryptionActionArguments : Type := List EncryptionActionArgument;
+```
+<!-- --8<-- [end:encryption-action-arguments] -->
+
+## Actions
+
+??? quote "Auxiliary Juvix code"
+
+    ## `EncryptionAction`
+
+    ```juvix
+    EncryptionAction : Type :=
+      Action
+        EncryptionCfg
+        EncryptionLocalState
+        EncryptionMailboxState
+        EncryptionTimerHandle
+        EncryptionActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+
+    ## `EncryptionActionInput`
+
+    ```juvix
+    EncryptionActionInput : Type :=
+      ActionInput
+        EncryptionCfg
+        EncryptionLocalState
+        EncryptionMailboxState
+        EncryptionTimerHandle
+        EncryptionActionArguments
+        Anoma.Msg;
+    ```
+
+    ### `EncryptionActionEffect`
+
+    ```juvix
+    EncryptionActionEffect : Type :=
+      ActionEffect
+        EncryptionLocalState
+        EncryptionMailboxState
+        EncryptionTimerHandle
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+
+    ### `EncryptionActionExec`
+
+    ```juvix
+    EncryptionActionExec : Type :=
+      ActionExec
+        EncryptionCfg
+        EncryptionLocalState
+        EncryptionMailboxState
+        EncryptionTimerHandle
+        EncryptionActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+
+### `encryptAction`
+
+Process an encryption request.
+
+State update
+: If `useReadsFor` is true, the state is updated to store pending requests.
+Otherwise, the state remains unchanged.
+
+Messages to be sent
+: If `useReadsFor` is false, a `ResponseEncrypt` message is sent back to
+the requester. If `useReadsFor` is true and it's the first request for
+this identity, a `QueryReadsForEvidenceRequest` is sent to the ReadsFor
+Engine.
+
+Engines to be spawned
+: No engines are created by this action.
+
+Timer updates
+: No timers are set or cancelled.
 
 ```juvix
-type EncryptionMatchableArgument :=
-  | EncryptionMatchableArgumentReplyTo ReplyTo
-;
+encryptAction
+  (input : EncryptionActionInput)
+  : Option EncryptionActionEffect :=
+  let
+    env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
+    tt := ActionInput.trigger input;
+    localState := EngineEnv.localState env;
+  in
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some emsg :=
+      case EngineMsg.msg emsg of {
+      | Anoma.MsgEncryption (MsgEncryptionRequest (mkRequestEncrypt data externalIdentity useReadsFor)) :=
+        case useReadsFor of {
+        | false :=
+          some mkActionEffect@{
+            env := env;
+            msgs := [
+              mkEngineMsg@{
+                sender := getEngineIDFromEngineCfg cfg;
+                target := EngineMsg.sender emsg;
+                mailbox := some 0;
+                msg := Anoma.MsgEncryption (MsgEncryptionResponse (
+                  mkResponseEncrypt@{
+                    ciphertext := Encryptor.encrypt
+                      (EncryptionLocalState.encryptor localState Set.empty externalIdentity)
+                      (EncryptionLocalState.backend localState)
+                      data;
+                    err := none
+                  }))
+              }
+            ];
+            timers := [];
+            engines := []
+          }
+        | true :=
+          let existingRequests := Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState);
+              newPendingList := case existingRequests of {
+                | some reqs := reqs ++ [mkPair (EngineMsg.sender emsg) data]
+                | none := [mkPair (EngineMsg.sender emsg) data]
+              };
+              newLocalState := localState@EncryptionLocalState{
+                pendingRequests := Map.insert externalIdentity newPendingList (EncryptionLocalState.pendingRequests localState)
+              };
+          in some mkActionEffect@{
+              env := env@EngineEnv{
+                localState := newLocalState
+              };
+              msgs := case existingRequests of {
+                | some _ := []
+                | none := [
+                    mkEngineMsg@{
+                      sender := getEngineIDFromEngineCfg cfg;
+                      target := EncryptionLocalState.readsForEngineAddress localState;
+                      mailbox := some 0;
+                      msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceRequest (
+                        mkRequestQueryReadsForEvidence@{
+                          externalIdentity := externalIdentity
+                        }))
+                    }
+                  ]
+              };
+              timers := [];
+              engines := []
+            }
+        }
+      | _ := none
+      }
+    | _ := none
+    };
 ```
 
-## Precomputation results
+### `handleReadsForResponseAction`
 
-The Encryption Engine does not require any non-trivial pre-computations.
+Process reads-for evidence response.
+
+State update
+: The state is updated to remove processed pending requests.
+
+Messages to be sent
+: `ResponseEncrypt` messages are sent to all requesters who were waiting
+for this ReadsFor evidence.
+
+Engines to be spawned
+: No engines are created by this action.
+
+Timer updates
+: No timers are set or cancelled.
 
 ```juvix
-syntax alias EncryptionPrecomputation := Unit;
+handleReadsForResponseAction
+  (input : EncryptionActionInput)
+  : Option EncryptionActionEffect :=
+  let
+    env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
+    tt := ActionInput.trigger input;
+    localState := EngineEnv.localState env;
+  in
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some emsg :=
+      case EngineMsg.msg emsg of {
+      | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse (mkResponseQueryReadsForEvidence externalIdentity evidence err)) :=
+        case Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState) of {
+        | some reqs :=
+          let newLocalState := localState@EncryptionLocalState{
+                pendingRequests := Map.delete externalIdentity (EncryptionLocalState.pendingRequests localState)
+              };
+          in some mkActionEffect@{
+              env := env@EngineEnv{
+                localState := newLocalState
+              };
+              msgs := map
+                (\{req := let whoAsked := fst req;
+                            data := snd req;
+                         in mkEngineMsg@{
+                              sender := getEngineIDFromEngineCfg cfg;
+                              target := whoAsked;
+                              mailbox := some 0;
+                              msg := Anoma.MsgEncryption (MsgEncryptionResponse (
+                                mkResponseEncrypt@{
+                                  ciphertext := Encryptor.encrypt
+                                    (EncryptionLocalState.encryptor localState evidence externalIdentity)
+                                    (EncryptionLocalState.backend localState)
+                                    data;
+                                  err := none
+                                }))
+                            }})
+                reqs;
+              timers := [];
+              engines := []
+            }
+        | none := none
+        }
+      | _ := none
+      }
+    | _ := none
+    };
+```
+
+## Action Labels
+
+### `encryptActionLabel`
+
+```juvix
+encryptActionLabel : EncryptionActionExec := Seq [ encryptAction ];
+```
+
+### `handleReadsForResponseActionLabel`
+
+```juvix
+handleReadsForResponseActionLabel : EncryptionActionExec := Seq [ handleReadsForResponseAction ];
 ```
 
 ## Guards
 
 ??? quote "Auxiliary Juvix code"
 
-    Type alias for the guard.
+    ### `EncryptionGuard`
 
+    <!-- --8<-- [start:EncryptionGuard] -->
     ```juvix
     EncryptionGuard : Type :=
       Guard
+        EncryptionCfg
         EncryptionLocalState
         EncryptionMailboxState
         EncryptionTimerHandle
-        EncryptionMatchableArgument
-        EncryptionActionLabel
-        EncryptionPrecomputation;
+        EncryptionActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:EncryptionGuard] -->
 
+    ### `EncryptionGuardOutput`
+
+    <!-- --8<-- [start:EncryptionGuardOutput] -->
+    ```juvix
     EncryptionGuardOutput : Type :=
       GuardOutput
-        EncryptionMatchableArgument
-        EncryptionActionLabel
-        EncryptionPrecomputation;
+        EncryptionCfg
+        EncryptionLocalState
+        EncryptionMailboxState
+        EncryptionTimerHandle
+        EncryptionActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
+    <!-- --8<-- [end:EncryptionGuardOutput] -->
 
 ### `encryptGuard`
 
-<figure markdown>
-```mermaid
-flowchart TD
-    C{EncryptRequest<br>received?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([DoEncrypt])
-```
-<figcaption>encryptGuard flowchart</figcaption>
-</figure>
+Condition
+: Message type is `MsgEncryptionRequest`.
 
 <!-- --8<-- [start:encryptGuard] -->
 ```juvix
 encryptGuard
-  (t : TimestampedTrigger EncryptionTimerHandle)
-  (env : EncryptionEnvironment) : Option EncryptionGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgEncryption (MsgEncryptionRequest (mkRequestEncrypt data externalIdentity useReadsFor))) := do {
-        sender <- getSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                  matchedArgs := [EncryptionMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-                  actionLabel := EncryptionActionLabelDoEncrypt (mkDoEncrypt data externalIdentity useReadsFor);
-                  precomputationTasks := unit
-                });
-        }
-      | _ := none
+  (tt : TimestampedTrigger EncryptionTimerHandle Anoma.Msg)
+  (cfg : EngineCfg EncryptionCfg)
+  (env : EncryptionEnv)
+  : Option EncryptionGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+  | some mkEngineMsg@{
+      msg := Anoma.MsgEncryption (MsgEncryptionRequest _);
+    } :=
+    some mkGuardOutput@{
+      action := encryptActionLabel;
+      args := []
+    }
+  | _ := none
   };
 ```
 <!-- --8<-- [end:encryptGuard] -->
@@ -203,181 +375,27 @@ encryptGuard
 <!-- --8<-- [start:readsForResponseGuard] -->
 ```juvix
 readsForResponseGuard
-  (t : TimestampedTrigger EncryptionTimerHandle)
-  (env : EncryptionEnvironment) : Option EncryptionGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgReadsFor (MsgQueryReadsForEvidenceResponse (mkResponseQueryReadsForEvidence externalIdentity evidence err))) :=
-          case getSenderFromTimestampedTrigger t of {
-            | some sender :=
-                case isEqual (Ord.cmp sender (EncryptionLocalState.readsForEngineAddress (EngineEnv.localState env))) of {
-                  | true := some (mkGuardOutput@{
-                      matchedArgs := [];
-                      actionLabel := EncryptionActionLabelDoHandleReadsForResponse (mkDoHandleReadsForResponse externalIdentity evidence);
-                      precomputationTasks := unit
-                    })
-                  | false := none
-                }
-            | none := none
-          }
-      | _ := none
+  (tt : TimestampedTrigger EncryptionTimerHandle Anoma.Msg)
+  (cfg : EngineCfg EncryptionCfg)
+  (env : EncryptionEnv)
+  : Option EncryptionGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+  | some emsg :=
+    case EngineMsg.msg emsg of {
+    | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse _) :=
+      case isEqual (Ord.cmp (EngineMsg.sender emsg) (EncryptionLocalState.readsForEngineAddress (EngineEnv.localState env))) of {
+      | true := some mkGuardOutput@{
+          action := handleReadsForResponseActionLabel;
+          args := []
+        }
+      | false := none
+      }
+    | _ := none
+    }
+  | _ := none
   };
 ```
 <!-- --8<-- [end:readsForResponseGuard] -->
-
-## Action function
-
-??? quote "Auxiliary Juvix code"
-
-    Type alias for the action function.
-
-    ```juvix
-    EncryptionActionInput : Type :=
-      ActionInput
-        EncryptionLocalState
-        EncryptionMailboxState
-        EncryptionTimerHandle
-        EncryptionMatchableArgument
-        EncryptionActionLabel
-        EncryptionPrecomputation;
-
-    EncryptionActionEffect : Type :=
-      ActionEffect
-        EncryptionLocalState
-        EncryptionMailboxState
-        EncryptionTimerHandle
-        EncryptionMatchableArgument
-        EncryptionActionLabel
-        EncryptionPrecomputation;
-    ```
-
-### `encryptResponse` helper
-
-```juvix
-encryptResponse
-  (externalIdentity : ExternalIdentity)
-  (env : EncryptionEnvironment)
-  (evidence : Set ReadsForEvidence)
-  (req : Pair EngineID Plaintext)
-  : EngineMsg
-  := let localState := EngineEnv.localState env;
-      whoAsked := fst req;
-      data := snd req;
-      encryptedData :=
-        Encryptor.encrypt
-          (EncryptionLocalState.encryptor localState evidence externalIdentity)
-          (EncryptionLocalState.backend localState)
-          data;
-      responseMsg := mkResponseEncrypt@{
-        ciphertext := encryptedData;
-        err := none
-      };
-      envelope := mkEngineMsg@{
-        sender := mkPair none (some (EngineEnv.name env));
-        target := whoAsked;
-        mailbox := some 0;
-        msg := MsgEncryption (MsgEncryptionResponse responseMsg)
-      };
-      in envelope;
-```
-
-### `encryptionAction`
-
-<!-- --8<-- [start:encryptionAction] -->
-```juvix
-encryptionAction (input : EncryptionActionInput) : EncryptionActionEffect :=
-  let env := ActionInput.env input;
-      out := ActionInput.guardOutput input;
-      localState := EngineEnv.localState env;
-  in
-  case GuardOutput.actionLabel out of {
-    | EncryptionActionLabelDoEncrypt (mkDoEncrypt data externalIdentity' useReadsFor) :=
-        case GuardOutput.matchedArgs out of {
-          | EncryptionMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ :=
-              case useReadsFor of {
-                | false :=
-                    let envelope := encryptResponse externalIdentity' env Set.empty (mkPair whoAsked data)
-                    in mkActionEffect@{
-                      newEnv := env; -- No state change
-                      producedMessages := [envelope];
-                      timers := [];
-                      spawnedEngines := []
-                    }
-                | true :=
-                    -- Need to request ReadsForEvidence from ReadsFor Engine
-                    let existingRequests := Map.lookup externalIdentity' (EncryptionLocalState.pendingRequests localState);
-                        newPendingList := case existingRequests of {
-                          | some reqs := reqs ++ [mkPair whoAsked data]
-                          | none := [mkPair whoAsked data]
-                        };
-                        newPendingRequests := Map.insert externalIdentity' newPendingList (EncryptionLocalState.pendingRequests localState);
-                        newLocalState := localState@EncryptionLocalState{
-                          pendingRequests := newPendingRequests
-                        };
-                        newEnv' := env@EngineEnv{
-                          localState := newLocalState
-                        };
-                        -- Only send request to ReadsFor Engine if this is the first pending request for this identity
-                        messagesToSend := case existingRequests of {
-                          | some _ := [] -- Request already sent, do nothing
-                          | none := let requestMsg := mkRequestQueryReadsForEvidence@{
-                                          externalIdentity := externalIdentity'
-                                        };
-                                        envelope := mkEngineMsg@{
-                                          sender := mkPair none (some (EngineEnv.name env));
-                                          target := EncryptionLocalState.readsForEngineAddress localState;
-                                          mailbox := some 0;
-                                          msg := MsgReadsFor (MsgQueryReadsForEvidenceRequest requestMsg)
-                                        };
-                                        in [envelope]
-                        };
-                    in mkActionEffect@{
-                      newEnv := newEnv';
-                      producedMessages := messagesToSend;
-                      timers := [];
-                      spawnedEngines := []
-                    }
-              }
-          | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
-      }
-    | EncryptionActionLabelDoHandleReadsForResponse (mkDoHandleReadsForResponse externalIdentity evidence) :=
-        -- Retrieve pending requests
-        case Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState) of {
-          | some reqs :=
-              let messages := map (encryptResponse externalIdentity env evidence) reqs;
-                  newPendingRequests := Map.delete externalIdentity (EncryptionLocalState.pendingRequests localState);
-                  newLocalState := localState@EncryptionLocalState{
-                    pendingRequests := newPendingRequests
-                  };
-                  newEnv' := env@EngineEnv{
-                    localState := newLocalState
-                  };
-              in mkActionEffect@{
-                newEnv := newEnv';
-                producedMessages := messages;
-                timers := [];
-                spawnedEngines := []
-              }
-          | none :=
-              -- No pending requests, do none
-              mkActionEffect@{
-                newEnv := env;
-                producedMessages := [];
-                timers := [];
-                spawnedEngines := []
-              }
-        }
-  };
-```
-<!-- --8<-- [end:encryptionAction] -->
-
-## Conflict solver
-
-### `encryptionConflictSolver`
-
-```juvix
-encryptionConflictSolver : Set EncryptionMatchableArgument -> List (Set EncryptionMatchableArgument)
-  | _ := [];
-```
 
 ## The Encryption Behaviour
 
@@ -387,25 +405,80 @@ encryptionConflictSolver : Set EncryptionMatchableArgument -> List (Set Encrypti
 ```juvix
 EncryptionBehaviour : Type :=
   EngineBehaviour
+    EncryptionCfg
     EncryptionLocalState
     EncryptionMailboxState
     EncryptionTimerHandle
-    EncryptionMatchableArgument
-    EncryptionActionLabel
-    EncryptionPrecomputation;
+    EncryptionActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:EncryptionBehaviour] -->
 
 ### Instantiation
 
-
 <!-- --8<-- [start:encryptionBehaviour] -->
 ```juvix
 encryptionBehaviour : EncryptionBehaviour :=
   mkEngineBehaviour@{
-    guards := [encryptGuard; readsForResponseGuard];
-    action := encryptionAction;
-    conflictSolver := encryptionConflictSolver;
+    guards :=
+      First [
+        encryptGuard;
+        readsForResponseGuard
+      ];
   };
 ```
 <!-- --8<-- [end:encryptionBehaviour] -->
+
+## Encryption Action Flowchart
+
+### `encryptAction` flowchart
+
+<figure markdown>
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>MsgEncryptionRequest]
+  end
+
+  G(encryptGuard)
+  A(encryptAction)
+
+  C --> G -- *encryptActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    direction TB
+    E1[(Update pending requests)]
+    E2>Send encrypted response]
+  end
+```
+<figcaption markdown="span">
+`encryptAction` flowchart
+</figcaption>
+</figure>
+
+### `handleReadsForResponseAction` flowchart
+
+<figure markdown>
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>MsgQueryReadsForEvidenceResponse]
+  end
+
+  G(readsForResponseGuard)
+  A(handleReadsForResponseAction)
+
+  C --> G -- *handleReadsForResponseActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    direction TB
+    E1[(Remove pending requests)]
+    E2>Send encrypted responses]
+  end
+```
+<figcaption markdown="span">
+`handleReadsForResponseAction` flowchart
+</figcaption>
+</figure>

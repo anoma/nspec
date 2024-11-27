@@ -87,10 +87,10 @@ syntax alias EncryptionTimerHandle := Unit;
 
 ## The Encryption Environment
 
-### `EncryptionEnvironment`
+### `EncryptionEnv`
 
 ```juvix
-EncryptionEnvironment : Type :=
+EncryptionEnv : Type :=
   EngineEnv
     EncryptionLocalState
     EncryptionMailboxState
@@ -100,11 +100,11 @@ EncryptionEnvironment : Type :=
 
 ### Instantiation
 
-<!-- --8<-- [start:encryptionEnvironment] -->
+<!-- --8<-- [start:encryptionEnv] -->
 ```juvix extract-module-statements
 module encryption_environment_example;
 
-encryptionEnvironment : EncryptionEnvironment :=
+encryptionEnv : EncryptionEnv :=
     mkEngineEnv@{
       localState := mkEncryptionLocalState@{
         encryptor := \{_ _ := mkEncryptor@{
@@ -127,4 +127,4 @@ encryptionEnvironment : EncryptionEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:encryptionEnvironment] -->
+<!-- --8<-- [end:encryptionEnv] -->

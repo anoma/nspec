@@ -20,6 +20,15 @@ tags:
     import arch.node.engines.encryption_messages open public;
     import arch.node.engines.encryption_environment open public;
     import arch.node.engines.encryption_behaviour open public;
+
+    import arch.node.engines.encryption_config open public;
+    import arch.node.engines.encryption_messages open public;
+    import arch.node.engines.encryption_environment open public;
+    import arch.node.engines.encryption_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open encryption_config_example;
     open encryption_environment_example;
     ```
 
@@ -40,6 +49,7 @@ efficiency.
 ## Components
 
 - [[Encryption Messages]]
+- [[Encryption Config]]
 - [[Encryption Environment]]
 - [[Encryption Behaviour]]
 
@@ -49,12 +59,14 @@ efficiency.
 ```juvix
 EncryptionEngine : Type :=
   Engine
+    EncryptionCfg
     EncryptionLocalState
     EncryptionMailboxState
     EncryptionTimerHandle
-    EncryptionMatchableArgument
-    EncryptionActionLabel
-    EncryptionPrecomputation;
+    EncryptionActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:EncryptionEngine] -->
 
@@ -64,15 +76,20 @@ EncryptionEngine : Type :=
 ```juvix
 exampleEncryptionEngine : EncryptionEngine :=
   mkEngine@{
-    initEnv := encryptionEnvironment;
+    cfg := encryptionCfg;
+    env := encryptionEnv;
     behaviour := encryptionBehaviour;
   };
 ```
 <!-- --8<-- [end:exampleEncryptionEngine] -->
 
-where `encryptionEnvironment` is defined as follows:
+where `encryptionCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/encryption_environment.juvix.md:encryptionEnvironment"
+--8<-- "./docs/arch/node/engines/encryption_config.juvix.md:encryptionCfg"
+
+`encryptionEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/encryption_environment.juvix.md:encryptionEnv"
 
 and `encryptionBehaviour` is defined as follows:
 
