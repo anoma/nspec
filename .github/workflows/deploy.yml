@@ -54,10 +54,10 @@ jobs:
           path: .juvix-build
           restore-keys: |
             juvix-cache-
-      - name: Typecheck everything.juvix.md
+      - name: typecheck docs
+        continue-on-error: true
         run: |
-          juvix --version
-          juvix typecheck docs/everything.juvix.md || true
+          juvix typecheck docs/everything.juvix.md
       - name: Install Python
         uses: actions/setup-python@v5.2.0
         with:

@@ -105,7 +105,7 @@ syntax alias IdentityManagementTimerHandle := Unit;
 
 ```juvix
 IdentityManagementEnvironment : Type :=
-  EngineEnvironment
+  EngineEnv
     IdentityManagementLocalState
     IdentityManagementMailboxState
     IdentityManagementTimerHandle;
@@ -126,7 +126,7 @@ identityManagementEnvironment : IdentityManagementEnvironment :=
           decrypt := \{_ x := some x};
         }};
         genSigner := \{_ := mkSigner@{
-          sign := \{_ x := Ed25519Signature};
+          sign := \{_ x := Ed25519Signature "0xabcd1234"};
         }};
       };
       mailboxCluster := Map.empty;
