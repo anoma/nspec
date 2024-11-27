@@ -71,11 +71,6 @@ jobs:
           poetry config virtualenvs.create true --local
           poetry config virtualenvs.in-project true --local
       - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
-      - name: Cache .venv
-        uses: actions/cache@v4.0.2
-        with:
-          path: ./.venv
-          key: venv-${{ env.cache_id }}
       - name: Cache .cache
         uses: actions/cache@v4.0.2
         with:
@@ -83,13 +78,13 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - name: Cache .hooks
+      - name: Cache .cache-juvix-mkdocs
         uses: actions/cache@v4.0.2
         with:
-          key: hooks-${{ env.cache_id }}
-          path: .hooks
+          key: cache-juvix-mkdocs-${{ env.cache_id }}
+          path: .cache-juvix-mkdocs
           restore-keys: |
-            hooks-
+            cache-juvix-mkdocs-
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
       - name: Install Python dependencies
