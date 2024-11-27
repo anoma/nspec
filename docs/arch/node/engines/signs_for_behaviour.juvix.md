@@ -74,6 +74,8 @@ SignsForActionArguments : Type := List SignsForActionArgument;
 
 ??? quote "Auxiliary Juvix code"
 
+    ### SignsForAction
+
     ```juvix
     SignsForAction : Type :=
       Action
@@ -85,7 +87,11 @@ SignsForActionArguments : Type := List SignsForActionArgument;
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
 
+    ### SignsForActionInput
+
+    ```juvix
     SignsForActionInput : Type :=
       ActionInput
         SignsForCfg
@@ -94,7 +100,11 @@ SignsForActionArguments : Type := List SignsForActionArgument;
         SignsForTimerHandle
         SignsForActionArguments
         Anoma.Msg;
+    ```
 
+    ### SignsForActionEffect
+
+    ```juvix
     SignsForActionEffect : Type :=
       ActionEffect
         SignsForLocalState
@@ -103,7 +113,11 @@ SignsForActionArguments : Type := List SignsForActionArgument;
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
 
+    ### SignsForActionExec
+
+    ```juvix
     SignsForActionExec : Type :=
       ActionExec
         SignsForCfg
@@ -352,6 +366,9 @@ queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
 
 ??? quote "Auxiliary Juvix code"
 
+    ### `SignsForGuard`
+
+    <!-- --8<-- [start:SignsForGuard] -->
     ```juvix
     SignsForGuard : Type :=
       Guard
@@ -363,7 +380,13 @@ queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:SignsForGuard] -->
 
+    ### `SignsForGuardOutput`
+
+    <!-- --8<-- [start:SignsForGuardOutput] -->
+    ```juvix
     SignsForGuardOutput : Type :=
       GuardOutput
         SignsForCfg
@@ -374,7 +397,13 @@ queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:SignsForGuardOutput] -->
 
+    ### `SignsForGuardEval`
+
+    <!-- --8<-- [start:SignsForGuardEval] -->
+    ```juvix
     SignsForGuardEval : Type :=
       GuardEval
         SignsForCfg
@@ -386,6 +415,7 @@ queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
         Anoma.Cfg
         Anoma.Env;
     ```
+    <!-- --8<-- [end:SignsForGuardEval] -->
 
 ### `signsForQueryGuard`
 

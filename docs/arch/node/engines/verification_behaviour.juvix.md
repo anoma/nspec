@@ -77,7 +77,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
 
 ??? quote "Auxiliary Juvix code"
 
-    ## `VerificationAction`
+    ### `VerificationAction`
 
     ```juvix
     VerificationAction : Type :=
@@ -92,7 +92,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
         Anoma.Env;
     ```
 
-    ## `VerificationActionInput`
+    ### `VerificationActionInput`
 
     ```juvix
     VerificationActionInput : Type :=
