@@ -19,6 +19,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.engine_environment open;
     import arch.node.engines.identity_management_messages open;
+    import arch.node.types.anoma_message as Anoma open;
 
     import arch.system.identity.identity open hiding {ExternalIdentity};
     ```
@@ -108,7 +109,8 @@ IdentityManagementEnvironment : Type :=
   EngineEnv
     IdentityManagementLocalState
     IdentityManagementMailboxState
-    IdentityManagementTimerHandle;
+    IdentityManagementTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
@@ -118,8 +120,7 @@ IdentityManagementEnvironment : Type :=
 module identity_management_environment_example;
 
 identityManagementEnvironment : IdentityManagementEnvironment :=
-    mkEngineEnvironment@{
-      name := "identity_management";
+    mkEngineEnv@{
       localState := mkIdentityManagementLocalState@{
         identities := Map.empty;
         genDecryptor := \{_ := mkDecryptor@{
