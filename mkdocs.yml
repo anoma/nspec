@@ -2,6 +2,7 @@ site_name: !ENV [SITE_NAME, "Anoma Specification"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_dir: !ENV [SITE_DIR, site]
+site_url: !ENV [SITE_URL, 'https://specs.anoma.net/']
 site_version: !ENV [SITE_VERSION, "v0.1.1"]
 copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 use_directory_urls: false
@@ -516,11 +517,10 @@ plugins:
   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
       ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
       FileTypes:
-        - png
         - svg
+        - png
       FileTypeOverrides:
-        mermaid: png
-      FailFast: !ENV CI
+        mermaid: svg
   - bibtex:
       bib_dir: "docs/references"
   - macros:
