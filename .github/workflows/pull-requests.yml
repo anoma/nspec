@@ -164,8 +164,8 @@ jobs:
           pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
           poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
-          SITE_DIR: pr-${{ github.event.pull_request.number }}-insiders
-          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}-insiders/
+          SITE_DIR: pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/
           SITE_VERSION: (PR:${{ github.event.pull_request.number }} - Branch:${{env.BRANCH_NAME }} - Commit:${{ steps.commit.outputs.commit }} - Main:${{ steps.main-commit.outputs.commit }})
           COPYRIGHT: Powered by Mkdocs, Poetry ${{ env.POETRY_VERSION }}, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
       - if: steps.mkdocs-insiders.outcome == 'failure'
@@ -181,7 +181,7 @@ jobs:
         with:
           repository-name: anoma/nspec
           branch: gh-pages
-          folder: pr-${{ github.event.pull_request.number }}-insiders
+          folder: pr-${{ github.event.pull_request.number }}
           target-folder: pr-${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
