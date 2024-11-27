@@ -76,7 +76,7 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
 
 ??? quote "Auxiliary Juvix code"
 
-    ## `EncryptionAction`
+    ### `EncryptionAction`
 
     ```juvix
     EncryptionAction : Type :=
@@ -91,7 +91,7 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Env;
     ```
 
-    ## `EncryptionActionInput`
+    ### `EncryptionActionInput`
 
     ```juvix
     EncryptionActionInput : Type :=
@@ -431,26 +431,26 @@ encryptionBehaviour : EncryptionBehaviour :=
 ```
 <!-- --8<-- [end:encryptionBehaviour] -->
 
-## Encryption Action Flowchart
+## Encryption Action Flowcharts
 
 ### `encryptAction` flowchart
 
 <figure markdown>
 ```mermaid
 flowchart TD
-  subgraph C[Conditions]
-    CMsg>MsgEncryptionRequest]
+  subgraph C [Conditions]
+    CMsg[MsgEncryptionRequest]
   end
 
-  G(encryptGuard)
-  A(encryptAction)
+  G[encryptGuard]
+  A[encryptAction]
 
-  C --> G -- *encryptActionLabel* --> A --> E
+  C --> G -->|encryptActionLabel| A --> E
 
-  subgraph E[Effects]
+  subgraph E [Effects]
     direction TB
     E1[(Update pending requests)]
-    E2>Send encrypted response]
+    E2[Send encrypted response]
   end
 ```
 <figcaption markdown="span">
@@ -463,19 +463,19 @@ flowchart TD
 <figure markdown>
 ```mermaid
 flowchart TD
-  subgraph C[Conditions]
-    CMsg>MsgQueryReadsForEvidenceResponse]
+  subgraph C [Conditions]
+    CMsg[MsgQueryReadsForEvidenceResponse]
   end
 
-  G(readsForResponseGuard)
-  A(handleReadsForResponseAction)
+  G[readsForResponseGuard]
+  A[handleReadsForResponseAction]
 
-  C --> G -- *handleReadsForResponseActionLabel* --> A --> E
+  C --> G -->|handleReadsForResponseActionLabel| A --> E
 
-  subgraph E[Effects]
+  subgraph E [Effects]
     direction TB
     E1[(Remove pending requests)]
-    E2>Send encrypted responses]
+    E2[Send encrypted responses]
   end
 ```
 <figcaption markdown="span">

@@ -74,6 +74,8 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
 
 ??? quote "Auxiliary Juvix code"
 
+    ### ReadsForAction
+
     ```juvix
     ReadsForAction : Type :=
       Action
@@ -85,7 +87,11 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
 
+    ### ReadsForActionInput
+
+    ```juvix
     ReadsForActionInput : Type :=
       ActionInput
         ReadsForCfg
@@ -94,7 +100,11 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
         ReadsForTimerHandle
         ReadsForActionArguments
         Anoma.Msg;
+    ```
 
+    ### ReadsForActionEffect
+
+    ```juvix
     ReadsForActionEffect : Type :=
       ActionEffect
         ReadsForLocalState
@@ -103,7 +113,11 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
 
+    ### ReadsForActionExec
+
+    ```juvix
     ReadsForActionExec : Type :=
       ActionExec
         ReadsForCfg
@@ -334,6 +348,9 @@ queryEvidenceActionLabel : ReadsForActionExec := Seq [ queryEvidenceAction ];
 
 ??? quote "Auxiliary Juvix code"
 
+    ### `ReadsForGuard`
+
+    <!-- --8<-- [start:ReadsForGuard] -->
     ```juvix
     ReadsForGuard : Type :=
       Guard
@@ -345,7 +362,13 @@ queryEvidenceActionLabel : ReadsForActionExec := Seq [ queryEvidenceAction ];
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:ReadsForGuard] -->
 
+    ### `ReadsForGuardOutput`
+
+    <!-- --8<-- [start:ReadsForGuardOutput] -->
+    ```juvix
     ReadsForGuardOutput : Type :=
       GuardOutput
         ReadsForCfg
@@ -356,7 +379,13 @@ queryEvidenceActionLabel : ReadsForActionExec := Seq [ queryEvidenceAction ];
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:ReadsForGuardOutput] -->
 
+    ### `ReadsForGuardEval`
+
+    <!-- --8<-- [start:ReadsForGuardEval] -->
+    ```juvix
     ReadsForGuardEval : Type :=
       GuardEval
         ReadsForCfg
@@ -368,6 +397,7 @@ queryEvidenceActionLabel : ReadsForActionExec := Seq [ queryEvidenceAction ];
         Anoma.Cfg
         Anoma.Env;
     ```
+    <!-- --8<-- [end:ReadsForGuardEval] -->
 
 ### `readsForQueryGuard`
 
