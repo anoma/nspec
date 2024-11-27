@@ -18,6 +18,7 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.engines.naming_messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Naming Environment
@@ -77,7 +78,8 @@ NamingEnvironment : Type :=
   EngineEnv
     NamingLocalState
     NamingMailboxState
-    NamingTimerHandle;
+    NamingTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
@@ -88,8 +90,6 @@ module naming_environment_example;
 
 namingEnvironment : NamingEnvironment :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "naming";
       localState := mkNamingLocalState@{
         evidenceStore := Set.empty;
         verifyEvidence := \{ _ := true }
