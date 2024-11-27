@@ -139,7 +139,7 @@ resolveNameAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
   in case getEngineMsgFromTimestampedTrigger tt of {
-    | some emsg := 
+    | some emsg :=
       case EngineMsg.msg emsg of {
         | (Anoma.MsgNaming (MsgNamingResolveNameRequest (mkRequestResolveName identityName))) :=
           let
@@ -198,7 +198,7 @@ submitNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
   in case getEngineMsgFromTimestampedTrigger tt of {
-    | some emsg := 
+    | some emsg :=
       case EngineMsg.msg emsg of {
         | Anoma.MsgNaming (MsgNamingSubmitNameEvidenceRequest (mkRequestSubmitNameEvidence evidence)) :=
           let
@@ -224,7 +224,7 @@ submitNameEvidenceAction
               }
             | true :=
               let
-                alreadyExists := isElement \{a b := a && b} true (map \{e := 
+                alreadyExists := isElement \{a b := a && b} true (map \{e :=
                   isEqual (Ord.cmp e evidence)
                 } (Set.toList (NamingLocalState.evidenceStore localState)));
                 newLocalState := case alreadyExists of {
@@ -291,7 +291,7 @@ queryNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
   in case getEngineMsgFromTimestampedTrigger tt of {
-    | some emsg := 
+    | some emsg :=
       case EngineMsg.msg emsg of {
         | Anoma.MsgNaming (MsgNamingQueryNameEvidenceRequest (mkRequestQueryNameEvidence externalIdentity)) :=
           let
