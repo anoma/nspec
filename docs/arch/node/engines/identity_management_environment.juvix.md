@@ -102,10 +102,10 @@ syntax alias IdentityManagementTimerHandle := Unit;
 
 ## The Identity Management Environment
 
-### `IdentityManagementEnvironment`
+### `IdentityManagementEnv`
 
 ```juvix
-IdentityManagementEnvironment : Type :=
+IdentityManagementEnv : Type :=
   EngineEnv
     IdentityManagementLocalState
     IdentityManagementMailboxState
@@ -115,11 +115,11 @@ IdentityManagementEnvironment : Type :=
 
 ### Instantiation
 
-<!-- --8<-- [start:identityManagementEnvironment] -->
+<!-- --8<-- [start:identityManagementEnv] -->
 ```juvix extract-module-statements
 module identity_management_environment_example;
 
-identityManagementEnvironment : IdentityManagementEnvironment :=
+identityManagementEnv : IdentityManagementEnv :=
     mkEngineEnv@{
       localState := mkIdentityManagementLocalState@{
         identities := Map.empty;
@@ -137,4 +137,4 @@ identityManagementEnvironment : IdentityManagementEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:identityManagementEnvironment] -->
+<!-- --8<-- [end:identityManagementEnv] -->

@@ -29,5 +29,7 @@ of the engine `TickerEngine` is of type `TickerCfg`.
 ```juvix
 type Cfg :=
   | CfgTicker -- TickerCfg
+  | CfgCommitment -- TickerCfg
+  | CfgDecryption -- TickerCfg
 ```
 <!-- --8<-- [end:anoma-config-type] -->

@@ -15,7 +15,7 @@ tags:
     import arch.node.engines.template_messages open using {TemplateMsg};
     import arch.node.engines.ticker_messages open using {TickerMsg};
 
---    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
+    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
 --    import arch.node.engines.decryption_messages open using {DecryptionMsg};
 --    import arch.node.engines.encryption_messages open using {EncryptionMsg};
 --    import arch.node.engines.commitment_messages open using {CommitmentMsg};
@@ -41,7 +41,7 @@ type Msg :=
   | MsgTemplate TemplateMsg
   | MsgTicker TickerMsg
 
---  | MsgIdentityManagement IdentityManagementMsg
+  | MsgIdentityManagement IdentityManagementMsg
 --  | MsgDecryption DecryptionMsg
 --  | MsgEncryption EncryptionMsg
 --  | MsgCommitment CommitmentMsg

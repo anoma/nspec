@@ -20,6 +20,15 @@ tags:
     import arch.node.engines.identity_management_messages open public;
     import arch.node.engines.identity_management_environment open public;
     import arch.node.engines.identity_management_behaviour open public;
+
+    import arch.node.engines.identity_management_config open public;
+    import arch.node.engines.identity_management_messages open public;
+    import arch.node.engines.identity_management_environment open public;
+    import arch.node.engines.identity_management_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open identity_management_config_example;
     open identity_management_environment_example;
     ```
 
@@ -41,6 +50,7 @@ data associated with the identity.
 ## Components
 
 - [[Identity Management Messages]]
+- [[Identity Management Config]]
 - [[Identity Management Environment]]
 - [[Identity Management Behaviour]]
 
@@ -50,30 +60,37 @@ data associated with the identity.
 ```juvix
 IdentityManagementEngine : Type :=
   Engine
+    IdentityManagementCfg
     IdentityManagementLocalState
     IdentityManagementMailboxState
     IdentityManagementTimerHandle
-    IdentityManagementMatchableArgument
-    IdentityManagementActionLabel
-    IdentityManagementPrecomputation;
+    IdentityManagementActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:IdentityManagementEngine] -->
 
-### Example of a identityManagement engine
+### Example of a identity management engine
 
 <!-- --8<-- [start:exampleIdentityManagementEngine] -->
 ```juvix
 exampleIdentityManagementEngine : IdentityManagementEngine :=
   mkEngine@{
-    initEnv := identityManagementEnvironment;
+    cfg := identityManagementCfg;
+    env := identityManagementEnv;
     behaviour := identityManagementBehaviour;
   };
 ```
 <!-- --8<-- [end:exampleIdentityManagementEngine] -->
 
-where `identityManagementEnvironment` is defined as follows:
+where `identityManagementCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/identity_management_environment.juvix.md:identityManagementEnvironment"
+--8<-- "./docs/arch/node/engines/identity_management_config.juvix.md:identityManagementCfg"
+
+`identityManagementEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/identity_management_environment.juvix.md:identityManagementEnv"
 
 and `identityManagementBehaviour` is defined as follows:
 
