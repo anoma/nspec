@@ -165,7 +165,7 @@ jobs:
         with:
           repository-name: anoma/nspec
           branch: gh-pages
-          folder: ${{ steps.mkdocs-insiders.outcome == 'success' && 'pr-' + github.event.pull_request.number + '-insiders' || 'pr-' + github.event.pull_request.number }}
+          folder: ${{ steps.mkdocs-insiders.outcome == 'success' && "pr-${{ github.event.pull_request.number }}-insiders" || "pr-${{ github.event.pull_request.number }}" }}
           target-folder: pr-${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
