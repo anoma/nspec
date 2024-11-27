@@ -71,10 +71,10 @@ syntax alias SignsForTimerHandle := Unit;
 
 ## The Signs For Environment
 
-### `SignsForEnvironment`
+### `SignsForEnv`
 
 ```juvix
-SignsForEnvironment : Type :=
+SignsForEnv : Type :=
   EngineEnv
     SignsForLocalState
     SignsForMailboxState
@@ -84,11 +84,11 @@ SignsForEnvironment : Type :=
 
 ### Instantiation
 
-<!-- --8<-- [start:signsForEnvironment] -->
+<!-- --8<-- [start:signsForEnv] -->
 ```juvix extract-module-statements
 module signs_for_environment_example;
 
-signsForEnvironment : SignsForEnvironment :=
+signsForEnv : SignsForEnv :=
     mkEngineEnv@{
       localState := mkSignsForLocalState@{
         evidenceStore := Set.empty;
@@ -101,4 +101,4 @@ signsForEnvironment : SignsForEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:signsForEnvironment] -->
+<!-- --8<-- [end:signsForEnv] -->

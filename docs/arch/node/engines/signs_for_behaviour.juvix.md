@@ -17,12 +17,12 @@ tags:
 
     import prelude open;
     import arch.node.types.messages open;
-    import arch.node.types.engine_behaviour open;
-    import arch.node.types.engine_environment open;
+    import arch.node.types.engine open;
     import arch.node.types.identities open;
     import arch.node.engines.signs_for_environment open;
     import arch.node.engines.signs_for_messages open;
-    import arch.node.types.anoma_message open;
+    import arch.node.engines.signs_for_config open;
+    import arch.node.types.anoma as Anoma open;
     ```
 
 # Signs For Behaviour
@@ -32,423 +32,432 @@ tags:
 The behavior of the Signs For Engine defines how it processes incoming messages and updates
 its state accordingly.
 
-## Action labels
+## Action arguments
 
-### `DoSignsForQuery`
-
-```juvix
-type DoSignsForQuery := mkDoSignsForQuery {
-  externalIdentityA : ExternalIdentity;
-  externalIdentityB : ExternalIdentity
-};
-```
-
-This action label corresponds to processing a signs_for query.
-
-???+ quote "Arguments"
-
-    `externalIdentityA`:
-    : The first external identity in the query.
-
-    `externalIdentityB`:
-    : The second external identity in the query.
-
-???+ quote "`DoSignsForQuery` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `ResponseSignsFor` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `DoSubmitEvidence`
-
-```juvix
-type DoSubmitEvidence := mkDoSubmitEvidence {
-  evidence : SignsForEvidence
-};
-```
-
-This action label corresponds to submitting new signs_for evidence.
-
-???+ quote "Arguments"
-
-    `evidence`:
-    : The signs_for evidence to submit.
-
-???+ quote "`DoSubmitEvidence` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state. |
-    | Messages to be sent   | A `ResponseSubmitSignsForEvidence` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `DoQueryEvidence`
-
-```juvix
-type DoQueryEvidence := mkDoQueryEvidence {
-  externalIdentity : ExternalIdentity
-};
-```
-
-This action label corresponds to querying signs_for evidence for a specific identity.
-
-???+ quote "Arguments"
-
-    `externalIdentity`:
-    : The external identity to query evidence for.
-
-???+ quote "`DoQueryEvidence` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `ResponseQuerySignsForEvidence` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `SignsForActionLabel`
-
-```juvix
-type SignsForActionLabel :=
-  | SignsForActionLabelDoSignsForQuery DoSignsForQuery
-  | SignsForActionLabelDoSubmitEvidence DoSubmitEvidence
-  | SignsForActionLabelDoQueryEvidence DoQueryEvidence
-;
-```
-
-## Matchable arguments
-
-### `ReplyTo`
+### `SignsForActionArgumentReplyTo ReplyTo`
 
 ```juvix
 type ReplyTo := mkReplyTo {
   whoAsked : Option EngineID;
-  mailbox : Option MailboxID
+  mailbox : Option MailboxID;
 };
 ```
 
-???+ quote "Arguments"
+This action argument contains the address and mailbox ID of where the
+response message should be sent.
 
-    `whoAsked`:
-    : The engine ID of the requester.
+`whoAsked`:
+: The engine ID of the requester.
 
-    `mailbox`:
-    : The mailbox ID where the response should be sent.
+`mailbox`:
+: The mailbox ID where the response should be sent.
 
-### `SignsForMatchableArgument`
+### `SignsForActionArgument`
 
+<!-- --8<-- [start:SignsForActionArgument] -->
 ```juvix
-type SignsForMatchableArgument :=
-  | SignsForMatchableArgumentReplyTo ReplyTo
-;
+type SignsForActionArgument :=
+  | SignsForActionArgumentReplyTo ReplyTo
+  ;
 ```
+<!-- --8<-- [end:SignsForActionArgument] -->
 
-## Precomputation results
+### `SignsForActionArguments`
 
-The Signs For Engine does not require any non-trivial pre-computations.
-
+<!-- --8<-- [start:signs-for-action-arguments] -->
 ```juvix
-syntax alias SignsForPrecomputation := Unit;
+SignsForActionArguments : Type := List SignsForActionArgument;
 ```
+<!-- --8<-- [end:signs-for-action-arguments] -->
 
-## Guards
+## Actions
 
 ??? quote "Auxiliary Juvix code"
 
-    Type alias for the guard.
-
     ```juvix
-    SignsForGuard : Type :=
-      Guard
+    SignsForAction : Type :=
+      Action
+        SignsForCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
-        SignsForMatchableArgument
-        SignsForActionLabel
-        SignsForPrecomputation;
+        SignsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
 
-    SignsForGuardOutput : Type :=
-      GuardOutput
-        SignsForMatchableArgument
-        SignsForActionLabel
-        SignsForPrecomputation;
-    ```
-
-### `signsForQueryGuard`
-
-<figure markdown>
-```mermaid
-flowchart TD
-    C{RequestSignsFor<br>received?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([DoSignsForQuery])
-```
-<figcaption>signsForQueryGuard flowchart</figcaption>
-</figure>
-
-<!-- --8<-- [start:signsForQueryGuard] -->
-```juvix
-signsForQueryGuard
-  (t : TimestampedTrigger SignsForTimerHandle)
-  (env : SignsForEnvironment) : Option SignsForGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgSignsFor (MsgSignsForRequest (mkRequestSignsFor x y))) := do {
-        sender <- getSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                matchedArgs := [SignsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-                actionLabel := SignsForActionLabelDoSignsForQuery (mkDoSignsForQuery x y);
-                precomputationTasks := unit
-        });}
-      | _ := none
-  };
-```
-<!-- --8<-- [end:signsForQueryGuard] -->
-
-### `submitEvidenceGuard`
-
-<figure markdown>
-```mermaid
-flowchart TD
-    C{SubmitSignsForEvidence<br>Request received?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([DoSubmitEvidence])
-```
-<figcaption>submitEvidenceGuard flowchart</figcaption>
-</figure>
-
-<!-- --8<-- [start:submitEvidenceGuard] -->
-```juvix
-submitEvidenceGuard
-  (t : TimestampedTrigger SignsForTimerHandle)
-  (env : SignsForEnvironment) : Option SignsForGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgSignsFor (MsgSubmitSignsForEvidenceRequest (mkRequestSubmitSignsForEvidence x))) := do {
-        sender <- getSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                matchedArgs := [SignsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-                actionLabel := SignsForActionLabelDoSubmitEvidence (mkDoSubmitEvidence x);
-                precomputationTasks := unit
-        });}
-      | _ := none
-  };
-```
-<!-- --8<-- [end:submitEvidenceGuard] -->
-
-### `queryEvidenceGuard`
-
-<figure markdown>
-```mermaid
-flowchart TD
-    C{QuerySignsForEvidence<br>Request received?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([DoQueryEvidence])
-```
-<figcaption>queryEvidenceGuard flowchart</figcaption>
-</figure>
-
-<!-- --8<-- [start:queryEvidenceGuard] -->
-```juvix
-queryEvidenceGuard
-  (t : TimestampedTrigger SignsForTimerHandle)
-  (env : SignsForEnvironment) : Option SignsForGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgSignsFor (MsgQuerySignsForEvidenceRequest (mkRequestQuerySignsForEvidence x))) := do {
-        sender <- getSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                matchedArgs := [SignsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-                actionLabel := SignsForActionLabelDoQueryEvidence (mkDoQueryEvidence x);
-                precomputationTasks := unit
-                });
-        }
-      | _ := none
-  };
-```
-<!-- --8<-- [end:queryEvidenceGuard] -->
-
-## Action function
-
-??? quote "Auxiliary Juvix code"
-
-    Type alias for the action function.
-
-    ```juvix
     SignsForActionInput : Type :=
       ActionInput
+        SignsForCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
-        SignsForMatchableArgument
-        SignsForActionLabel
-        SignsForPrecomputation;
+        SignsForActionArguments
+        Anoma.Msg;
 
     SignsForActionEffect : Type :=
       ActionEffect
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
-        SignsForMatchableArgument
-        SignsForActionLabel
-        SignsForPrecomputation;
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+
+    SignsForActionExec : Type :=
+      ActionExec
+        SignsForCfg
+        SignsForLocalState
+        SignsForMailboxState
+        SignsForTimerHandle
+        SignsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
 
-### `signsForAction`
+### `signsForQueryAction`
 
-<!-- --8<-- [start:signsForAction] -->
+Respond to a signs_for query.
+
+State update
+: The state remains unchanged.
+
+Messages to be sent
+: A `ResponseSignsFor` message is sent back to the requester.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
 ```juvix
-signsForAction (input : SignsForActionInput) : SignsForActionEffect :=
-  let env := ActionInput.env input;
-      out := ActionInput.guardOutput input;
-      localState := EngineEnv.localState env;
+signsForQueryAction
+  (input : SignsForActionInput)
+  : Option SignsForActionEffect :=
+  let
+    env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
+    tt := ActionInput.trigger input;
+    localState := EngineEnv.localState env;
   in
-  case GuardOutput.actionLabel out of {
-    | SignsForActionLabelDoSignsForQuery (mkDoSignsForQuery externalIdentityA externalIdentityB) :=
-      case GuardOutput.matchedArgs out of {
-        | SignsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
-            hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
-              isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
-              isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
-            } (Set.toList (SignsForLocalState.evidenceStore localState)));
-            responseMsg := mkResponseSignsFor@{
-              signsFor := hasEvidence;
-              err := none
-            };
-          in mkActionEffect@{
-            newEnv := env; -- No state change
-            producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnv.name env));
-              target := whoAsked;
-              mailbox := some 0;
-              msg := MsgSignsFor (MsgSignsForResponse responseMsg)
-            }];
-            timers := [];
-            spawnedEngines := []
-          }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgSignsFor (MsgSignsForRequest (mkRequestSignsFor externalIdentityA externalIdentityB));
+        sender := msgSender
+      } :=
+      let
+        hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
+          isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
+          isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
+        } (Set.toList (SignsForLocalState.evidenceStore localState)));
+        responseMsg := mkResponseSignsFor@{
+          signsFor := hasEvidence;
+          err := none
+        };
+      in some mkActionEffect@{
+        env := env;
+        msgs := [mkEngineMsg@{
+          sender := getEngineIDFromEngineCfg cfg;
+          target := msgSender;
+          mailbox := some 0;
+          msg := Anoma.MsgSignsFor (MsgSignsForResponse responseMsg)
+        }];
+        timers := [];
+        engines := []
       }
-    | SignsForActionLabelDoSubmitEvidence (mkDoSubmitEvidence evidence) :=
-      case GuardOutput.matchedArgs out of {
-        | SignsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ :=
-            let isValid := SignsForLocalState.verifyEvidence localState evidence;
-            in
-            case isValid of {
-              | true :=
-                  let alreadyExists :=
-                    isElement \{a b := a && b} true (map \{e :=
-                        isEqual (Ord.cmp e evidence)
-                      } (Set.toList (SignsForLocalState.evidenceStore localState)));
-                  in
-                  case alreadyExists of {
-                    | true :=
-                        let responseMsg := mkResponseSubmitSignsForEvidence@{
-                              err := some "Evidence already exists."
-                            };
-                        in mkActionEffect@{
-                          newEnv := env;
-                          producedMessages := [mkEngineMsg@{
-                            sender := mkPair none (some (EngineEnv.name env));
-                            target := whoAsked;
-                            mailbox := some 0;
-                            msg := MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
-                          }];
-                          timers := [];
-                          spawnedEngines := []
-                        }
-                    | false :=
-                        let newEvidenceStore := Set.insert evidence (SignsForLocalState.evidenceStore localState);
-                            updatedLocalState := localState@SignsForLocalState{
-                              evidenceStore := newEvidenceStore
-                            };
-                            newEnv' := env@EngineEnv{
-                              localState := updatedLocalState
-                            };
-                            responseMsg := mkResponseSubmitSignsForEvidence@{
-                              err := none
-                            };
-                        in mkActionEffect@{
-                          newEnv := newEnv';
-                          producedMessages := [mkEngineMsg@{
-                            sender := mkPair none (some (EngineEnv.name env));
-                            target := whoAsked;
-                            mailbox := some 0;
-                            msg := MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
-                          }];
-                          timers := [];
-                          spawnedEngines := []
-                        }
-                  }
-              | false :=
-                  let responseMsg := mkResponseSubmitSignsForEvidence@{
-                        err := some "Invalid evidence provided."
-                      };
-                  in mkActionEffect@{
-                    newEnv := env;
-                    producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnv.name env));
-                      target := whoAsked;
-                      mailbox := some 0;
-                      msg := MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
-                    }];
-                    timers := [];
-                    spawnedEngines := []
-                  }
-            }
-        | _ := mkActionEffect@{
-            newEnv := env;
-            producedMessages := [];
-            timers := [];
-            spawnedEngines := []
-          }
-      }
-    | SignsForActionLabelDoQueryEvidence (mkDoQueryEvidence externalIdentity') :=
-      case GuardOutput.matchedArgs out of {
-        | SignsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _) :: _ := let
-            relevantEvidence := AVLTree.filter \{evidence :=
-              isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity') ||
-              isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity')
-            } (SignsForLocalState.evidenceStore localState);
-            responseMsg := mkResponseQuerySignsForEvidence@{
-              externalIdentity := externalIdentity';
-              evidence := relevantEvidence;
-              err := none
-            };
-          in mkActionEffect@{
-            newEnv := env; -- No state change
-            producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnv.name env));
-              target := whoAsked;
-              mailbox := some 0;
-              msg := MsgSignsFor (MsgQuerySignsForEvidenceResponse responseMsg)
-            }];
-            timers := [];
-            spawnedEngines := []
-          }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
-      }
-};
+    | _ := none
+    }
 ```
-<!-- --8<-- [end:signsForAction] -->
 
-## Conflict solver
+### `submitEvidenceAction`
 
-### `signsForConflictSolver`
+Submit new signs_for evidence.
+
+State update
+: If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state.
+
+Messages to be sent
+: A `ResponseSubmitSignsForEvidence` message is sent back to the requester.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
 
 ```juvix
-signsForConflictSolver : Set SignsForMatchableArgument -> List (Set SignsForMatchableArgument)
-  | _ := [];
+submitEvidenceAction
+  (input : SignsForActionInput)
+  : Option SignsForActionEffect :=
+  let
+    env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
+    tt := ActionInput.trigger input;
+    localState := EngineEnv.localState env;
+  in
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceRequest (mkRequestSubmitSignsForEvidence evidence));
+        sender := msgSender
+      } :=
+      let
+        isValid := SignsForLocalState.verifyEvidence localState evidence;
+      in case isValid of {
+        | true :=
+          let
+            alreadyExists := isElement \{a b := a && b} true (map \{e :=
+              isEqual (Ord.cmp e evidence)
+            } (Set.toList (SignsForLocalState.evidenceStore localState)));
+          in case alreadyExists of {
+            | true :=
+              let
+                responseMsg := mkResponseSubmitSignsForEvidence@{
+                  err := some "Evidence already exists."
+                };
+              in some mkActionEffect@{
+                env := env;
+                msgs := [mkEngineMsg@{
+                  sender := getEngineIDFromEngineCfg cfg;
+                  target := msgSender;
+                  mailbox := some 0;
+                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
+                }];
+                timers := [];
+                engines := []
+              }
+            | false :=
+              let
+                newEvidenceStore := Set.insert evidence (SignsForLocalState.evidenceStore localState);
+                updatedLocalState := localState@SignsForLocalState{
+                  evidenceStore := newEvidenceStore
+                };
+                newEnv := env@EngineEnv{
+                  localState := updatedLocalState
+                };
+                responseMsg := mkResponseSubmitSignsForEvidence@{
+                  err := none
+                };
+              in some mkActionEffect@{
+                env := newEnv;
+                msgs := [mkEngineMsg@{
+                  sender := getEngineIDFromEngineCfg cfg;
+                  target := msgSender;
+                  mailbox := some 0;
+                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
+                }];
+                timers := [];
+                engines := []
+              }
+          }
+        | false :=
+          let
+            responseMsg := mkResponseSubmitSignsForEvidence@{
+              err := some "Invalid evidence provided."
+            };
+          in some mkActionEffect@{
+            env := env;
+            msgs := [mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg cfg;
+              target := msgSender;
+              mailbox := some 0;
+              msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
+            }];
+            timers := [];
+            engines := []
+          }
+      }
+    | _ := none
+    }
 ```
+
+### `queryEvidenceAction`
+
+Query signs_for evidence for a specific identity.
+
+State update
+: The state remains unchanged.
+
+Messages to be sent
+: A `ResponseQuerySignsForEvidence` message is sent back to the requester.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+```juvix
+queryEvidenceAction
+  (input : SignsForActionInput)
+  : Option SignsForActionEffect :=
+  let
+    env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
+    tt := ActionInput.trigger input;
+    localState := EngineEnv.localState env;
+  in
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceRequest (mkRequestQuerySignsForEvidence externalIdentity));
+        sender := msgSender
+      } :=
+      let
+        relevantEvidence := AVLTree.filter \{evidence :=
+          isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity) ||
+          isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity)
+        } (SignsForLocalState.evidenceStore localState);
+        responseMsg := mkResponseQuerySignsForEvidence@{
+          externalIdentity := externalIdentity;
+          evidence := relevantEvidence;
+          err := none
+        };
+      in some mkActionEffect@{
+        env := env;
+        msgs := [mkEngineMsg@{
+          sender := getEngineIDFromEngineCfg cfg;
+          target := msgSender;
+          mailbox := some 0;
+          msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse responseMsg)
+        }];
+        timers := [];
+        engines := []
+      }
+    | _ := none
+    }
+```
+
+## Action Labels
+
+### `signsForQueryActionLabel`
+
+```juvix
+signsForQueryActionLabel : SignsForActionExec := Seq [ signsForQueryAction ];
+```
+
+### `submitEvidenceActionLabel`
+
+```juvix
+submitEvidenceActionLabel : SignsForActionExec := Seq [ submitEvidenceAction ];
+```
+
+### `queryEvidenceActionLabel`
+
+```juvix
+queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
+```
+
+## Guards
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    SignsForGuard : Type :=
+      Guard
+        SignsForCfg
+        SignsForLocalState
+        SignsForMailboxState
+        SignsForTimerHandle
+        SignsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+
+    SignsForGuardOutput : Type :=
+      GuardOutput
+        SignsForCfg
+        SignsForLocalState
+        SignsForMailboxState
+        SignsForTimerHandle
+        SignsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+
+    SignsForGuardEval : Type :=
+      GuardEval
+        SignsForCfg
+        SignsForLocalState
+        SignsForMailboxState
+        SignsForTimerHandle
+        SignsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+
+### `signsForQueryGuard`
+
+Condition
+: Message type is `MsgSignsForRequest`.
+
+<!-- --8<-- [start:signsForQueryGuard] -->
+```juvix
+signsForQueryGuard
+  (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
+  (cfg : EngineCfg SignsForCfg)
+  (env : SignsForEnv)
+  : Option SignsForGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgSignsFor (MsgSignsForRequest _);
+      } := some mkGuardOutput@{
+        action := signsForQueryActionLabel;
+        args := []
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:signsForQueryGuard] -->
+
+### `submitEvidenceGuard`
+
+Condition
+: Message type is `MsgSubmitSignsForEvidenceRequest`.
+
+<!-- --8<-- [start:submitEvidenceGuard] -->
+```juvix
+submitEvidenceGuard
+  (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
+  (cfg : EngineCfg SignsForCfg)
+  (env : SignsForEnv)
+  : Option SignsForGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceRequest _);
+      } := some mkGuardOutput@{
+        action := submitEvidenceActionLabel;
+        args := []
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:submitEvidenceGuard] -->
+
+### `queryEvidenceGuard`
+
+Condition
+: Message type is `MsgQuerySignsForEvidenceRequest`.
+
+<!-- --8<-- [start:queryEvidenceGuard] -->
+```juvix
+queryEvidenceGuard
+  (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
+  (cfg : EngineCfg SignsForCfg)
+  (env : SignsForEnv)
+  : Option SignsForGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceRequest _);
+      } := some mkGuardOutput@{
+        action := queryEvidenceActionLabel;
+        args := []
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:queryEvidenceGuard] -->
 
 ## The Signs For Behaviour
 
@@ -458,12 +467,14 @@ signsForConflictSolver : Set SignsForMatchableArgument -> List (Set SignsForMatc
 ```juvix
 SignsForBehaviour : Type :=
   EngineBehaviour
+    SignsForCfg
     SignsForLocalState
     SignsForMailboxState
     SignsForTimerHandle
-    SignsForMatchableArgument
-    SignsForActionLabel
-    SignsForPrecomputation;
+    SignsForActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:SignsForBehaviour] -->
 
@@ -473,9 +484,89 @@ SignsForBehaviour : Type :=
 ```juvix
 signsForBehaviour : SignsForBehaviour :=
   mkEngineBehaviour@{
-    guards := [signsForQueryGuard; submitEvidenceGuard; queryEvidenceGuard];
-    action := signsForAction;
-    conflictSolver := signsForConflictSolver;
+    guards := First [
+      signsForQueryGuard;
+      submitEvidenceGuard;
+      queryEvidenceGuard
+    ]
   };
 ```
 <!-- --8<-- [end:signsForBehaviour] -->
+
+## Signs For Action Flowcharts
+
+### `signsForQueryAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>MsgSignsForRequest]
+  end
+
+  G(signsForQueryGuard)
+  A(signsForQueryAction)
+
+  C --> G -- *signsForQueryActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EMsg>MsgSignsForResponse<br/>signsFor result]
+  end
+```
+
+<figcaption markdown="span">
+signsForQueryAction flowchart
+</figcaption>
+</figure>
+
+### `submitEvidenceAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>MsgSubmitSignsForEvidenceRequest]
+  end
+
+  G(submitEvidenceGuard)
+  A(submitEvidenceAction)
+
+  C --> G -- *submitEvidenceActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(evidenceStore update)]
+    EMsg>MsgSubmitSignsForEvidenceResponse]
+  end
+```
+
+<figcaption markdown="span">
+submitEvidenceAction flowchart
+</figcaption>
+</figure>
+
+### `queryEvidenceAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>MsgQuerySignsForEvidenceRequest]
+  end
+
+  G(queryEvidenceGuard)
+  A(queryEvidenceAction)
+
+  C --> G -- *queryEvidenceActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EMsg>MsgQuerySignsForEvidenceResponse<br/>matching evidence]
+  end
+```
+
+<figcaption markdown="span">
+queryEvidenceAction flowchart
+</figcaption>
+</figure>

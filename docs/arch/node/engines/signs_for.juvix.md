@@ -17,13 +17,18 @@ tags:
     import prelude open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.signs_for_config open public;
     import arch.node.engines.signs_for_messages open public;
     import arch.node.engines.signs_for_environment open public;
     import arch.node.engines.signs_for_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open signs_for_config_example;
     open signs_for_environment_example;
     ```
 
-# SignsFor Engine
+# Signs For Engine
 
 The Signs For Engine manages signs for relationships between identities.
 A "signs for" relationship indicates that one identity can produce signatures
@@ -38,9 +43,10 @@ scenarios where signature delegation or proxy signing is required.
 
 ## Components
 
-- [[SignsFor Messages]]
-- [[SignsFor Environment]]
-- [[SignsFor Behaviour]]
+- [[Signs For Messages]]
+- [[Signs For Config]]
+- [[Signs For Environment]]
+- [[Signs For Behaviour]]
 
 ## Type
 
@@ -48,29 +54,38 @@ scenarios where signature delegation or proxy signing is required.
 ```juvix
 SignsForEngine : Type :=
   Engine
+    SignsForCfg
     SignsForLocalState
     SignsForMailboxState
     SignsForTimerHandle
-    SignsForMatchableArgument
-    SignsForActionLabel
-    SignsForPrecomputation;
+    SignsForActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:SignsForEngine] -->
 
 ### Example of a signsFor engine
 
-```juvix extract-module-statements
+<!-- --8<-- [start:exampleSignsForEngine] -->
+```juvix
 exampleSignsForEngine : SignsForEngine :=
   mkEngine@{
-    initEnv := signsForEnvironment;
+    cfg := signsForCfg;
+    env := signsForEnv;
     behaviour := signsForBehaviour;
   };
 ```
+<!-- --8<-- [end:exampleSignsForEngine] -->
 
-where `signsForEnvironment` is defined as follows:
+where `signsForCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/signs_for_environment.juvix.md:signsForEnvironment"
+--8<-- "./docs/arch/node/engines/signs_for_config.juvix.md:signsForCfg"
 
-and `commitmentBehaviour` is defined as follows:
+`signsForEnv` is defined as follows:
 
---8<-- "./docs/arch/node/engines/signs_for_environment.juvix.md:signsForBehaviour"
+--8<-- "./docs/arch/node/engines/signs_for_environment.juvix.md:signsForEnv"
+
+and `signsForBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/signs_for_behaviour.juvix.md:signsForBehaviour"
