@@ -436,6 +436,7 @@ encryptionBehaviour : EncryptionBehaviour :=
 ### `encryptAction` flowchart
 
 <figure markdown>
+
 ```mermaid
 flowchart TD
   subgraph C [Conditions]
@@ -453,6 +454,7 @@ flowchart TD
     E2[Send encrypted response]
   end
 ```
+
 <figcaption markdown="span">
 `encryptAction` flowchart
 </figcaption>
@@ -461,6 +463,7 @@ flowchart TD
 ### `handleReadsForResponseAction` flowchart
 
 <figure markdown>
+
 ```mermaid
 flowchart TD
   subgraph C [Conditions]
@@ -478,6 +481,7 @@ flowchart TD
     E2[Send encrypted responses]
   end
 ```
+
 <figcaption markdown="span">
 `handleReadsForResponseAction` flowchart
 </figcaption>
