@@ -74,6 +74,8 @@ NamingActionArguments : Type := List NamingActionArgument;
 
 ??? quote "Auxiliary Juvix code"
 
+    ### NamingAction
+
     ```juvix
     NamingAction : Type :=
       Action
@@ -85,7 +87,11 @@ NamingActionArguments : Type := List NamingActionArgument;
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
 
+    ### NamingActionInput
+
+    ```juvix
     NamingActionInput : Type :=
       ActionInput
         NamingCfg
@@ -94,7 +100,11 @@ NamingActionArguments : Type := List NamingActionArgument;
         NamingTimerHandle
         NamingActionArguments
         Anoma.Msg;
+    ```
 
+    ### NamingActionEffect
+
+    ```juvix
     NamingActionEffect : Type :=
       ActionEffect
         NamingLocalState
@@ -103,7 +113,11 @@ NamingActionArguments : Type := List NamingActionArgument;
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
 
+    ### NamingActionExec
+
+    ```juvix
     NamingActionExec : Type :=
       ActionExec
         NamingCfg
@@ -332,6 +346,9 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
 
 ??? quote "Auxiliary Juvix code"
 
+    ### `NamingGuard`
+
+    <!-- --8<-- [start:NamingGuard] -->
     ```juvix
     NamingGuard : Type :=
       Guard
@@ -343,7 +360,13 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:NamingGuard] -->
 
+    ### `NamingGuardOutput`
+
+    <!-- --8<-- [start:NamingGuardOutput] -->
+    ```juvix
     NamingGuardOutput : Type :=
       GuardOutput
         NamingCfg
@@ -354,7 +377,13 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:NamingGuardOutput] -->
 
+    ### `NamingGuardEval`
+
+    <!-- --8<-- [start:NamingGuardEval] -->
+    ```juvix
     NamingGuardEval : Type :=
       GuardEval
         NamingCfg
@@ -366,6 +395,7 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
         Anoma.Cfg
         Anoma.Env;
     ```
+    <!-- --8<-- [end:NamingGuardEval] -->
 
 ### `resolveNameGuard`
 
@@ -487,7 +517,6 @@ flowchart TD
 
   MSG --resolveNameGuard--> A --resolveNameActionLabel--> RES
 ```
-<figcaption markdown="span">
 <figcaption>`resolveNameAction` flowchart</figcaption>
 </figure>
 
