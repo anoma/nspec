@@ -265,7 +265,7 @@ Condition
 commitGuard
   (tt : TimestampedTrigger CommitmentTimerHandle Anoma.Msg)
   (cfg : EngineCfg CommitmentCfg)
-  (env : CommitmentEnvironment)
+  (env : CommitmentEnv)
   : Option CommitmentGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some mkEngineMsg@{

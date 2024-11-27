@@ -271,7 +271,7 @@ Condition
 decryptGuard
   (tt : TimestampedTrigger DecryptionTimerHandle Anoma.Msg)
   (cfg : EngineCfg DecryptionCfg)
-  (env : DecryptionEnvironment)
+  (env : DecryptionEnv)
   : Option DecryptionGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some mkEngineMsg@{

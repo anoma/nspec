@@ -76,10 +76,10 @@ syntax alias DecryptionTimerHandle := Unit;
 
 ## The Decryption Environment
 
-### `DecryptionEnvironment`
+### `DecryptionEnv`
 
 ```juvix
-DecryptionEnvironment : Type :=
+DecryptionEnv : Type :=
   EngineEnv
     DecryptionLocalState
     DecryptionMailboxState
@@ -93,7 +93,7 @@ DecryptionEnvironment : Type :=
 ```juvix extract-module-statements
 module decryption_environment_example;
 
-decryptionEnv : DecryptionEnvironment :=
+decryptionEnv : DecryptionEnv :=
     mkEngineEnv@{
       localState := mkDecryptionLocalState@{
         decryptor := mkDecryptor@{
