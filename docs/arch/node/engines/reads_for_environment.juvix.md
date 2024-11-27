@@ -70,10 +70,10 @@ syntax alias ReadsForTimerHandle := Unit;
 
 ## The Reads For Environment
 
-### `ReadsForEnvironment`
+### `ReadsForEnv`
 
 ```juvix
-ReadsForEnvironment : Type :=
+ReadsForEnv : Type :=
   EngineEnv
     ReadsForLocalState
     ReadsForMailboxState
@@ -83,11 +83,11 @@ ReadsForEnvironment : Type :=
 
 ### Instantiation
 
-<!-- --8<-- [start:readsForEnvironment] -->
+<!-- --8<-- [start:readsForEnv] -->
 ```juvix extract-module-statements
 module reads_for_environment_example;
 
-readsForEnvironment : ReadsForEnvironment :=
+readsForEnv : ReadsForEnv :=
     mkEngineEnv@{
       localState := mkReadsForLocalState@{
         evidenceStore := Set.empty;
@@ -100,4 +100,4 @@ readsForEnvironment : ReadsForEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:readsForEnvironment] -->
+<!-- --8<-- [end:readsForEnv] -->

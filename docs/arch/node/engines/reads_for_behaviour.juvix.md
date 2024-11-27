@@ -17,12 +17,12 @@ tags:
 
     import prelude open;
     import arch.node.types.messages open;
-    import arch.node.types.engine_behaviour open;
-    import arch.node.types.engine_environment open;
+    import arch.node.types.engine open;
     import arch.node.types.identities open;
     import arch.node.engines.reads_for_messages open;
+    import arch.node.engines.reads_for_config open;
     import arch.node.engines.reads_for_environment open;
-    import arch.node.types.anoma_message open;
+    import arch.node.types.anoma as Anoma open;
     ```
 
 # Reads For Behaviour
@@ -32,103 +32,9 @@ tags:
 The behavior of the Reads For Engine defines how it processes
 incoming messages and updates its state accordingly.
 
-## Action labels
+## Action arguments
 
-### `ReadsForActionLabelDoReadsForQuery DoReadsForQuery`
-
-```juvix
-type DoReadsForQuery := mkDoReadsForQuery {
-  externalIdentityA : ExternalIdentity;
-  externalIdentityB : ExternalIdentity
-};
-```
-
-This action label corresponds to processing a reads for query.
-
-???+ quote "Arguments"
-
-    `externalIdentityA`:
-    : The first external identity to check.
-
-    `externalIdentityB`:
-    : The second external identity to check.
-
-???+ quote "`DoReadsForQuery` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `ResponseReadsFor` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `ReadsForActionLabelDoSubmitEvidence DoSubmitEvidence`
-
-```juvix
-type DoSubmitEvidence := mkDoSubmitEvidence {
-  evidence : ReadsForEvidence
-};
-```
-
-This action label corresponds to submitting new reads for evidence.
-
-???+ quote "Arguments"
-
-    `evidence`:
-    : The reads for evidence to be submitted.
-
-???+ quote "`DoSubmitEvidence` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state. |
-    | Messages to be sent   | A `ResponseSubmitReadsForEvidence` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `ReadsForActionLabelDoQueryEvidence DoQueryEvidence`
-
-```juvix
-type DoQueryEvidence := mkDoQueryEvidence {
-  externalIdentity : ExternalIdentity
-};
-```
-
-This action label corresponds to querying reads for evidence for a specific identity.
-
-???+ quote "Arguments"
-
-    `externalIdentity`:
-    : The external identity to query evidence for.
-
-???+ quote "`DoQueryEvidence` action effect"
-
-    This action does the following:
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state remains unchanged. |
-    | Messages to be sent   | A `ResponseQueryReadsForEvidence` message is sent back to the requester. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `ReadsForActionLabel`
-
-```juvix
-type ReadsForActionLabel :=
-  | ReadsForActionLabelDoReadsForQuery DoReadsForQuery
-  | ReadsForActionLabelDoSubmitEvidence DoSubmitEvidence
-  | ReadsForActionLabelDoQueryEvidence DoQueryEvidence
-;
-```
-
-## Matchable arguments
-
-### `ReadsForMatchableArgumentReplyTo ReplyTo`
+### `ReadsForActionArgumentReplyTo ReplyTo`
 
 ```juvix
 type ReplyTo := mkReplyTo {
@@ -137,313 +43,400 @@ type ReplyTo := mkReplyTo {
 };
 ```
 
-???+ quote "Arguments"
+This action argument contains the address and mailbox ID of where the
+response message should be sent.
 
-    `whoAsked`:
-    : The engine ID of the requester.
+`whoAsked`:
+: is the address of the engine that sent the message.
 
-    `mailbox`:
-    : The mailbox ID where the response should be sent.
+`mailbox`:
+: is the mailbox ID where the response should be sent.
 
-### `ReadsForMatchableArgument`
+### `ReadsForActionArgument`
 
+<!-- --8<-- [start:ReadsForActionArgument] -->
 ```juvix
-type ReadsForMatchableArgument :=
-  | ReadsForMatchableArgumentReplyTo ReplyTo
-;
+type ReadsForActionArgument :=
+  | ReadsForActionArgumentReplyTo ReplyTo
+  ;
 ```
+<!-- --8<-- [end:ReadsForActionArgument] -->
 
-## Precomputation results
+### `ReadsForActionArguments`
 
-The Reads For Engine does not require any non-trivial pre-computations.
-
+<!-- --8<-- [start:reads-for-action-arguments] -->
 ```juvix
-syntax alias ReadsForPrecomputation := Unit;
+ReadsForActionArguments : Type := List ReadsForActionArgument;
 ```
+<!-- --8<-- [end:reads-for-action-arguments] -->
 
-## Guards
+## Actions
 
 ??? quote "Auxiliary Juvix code"
 
-    Type alias for the guard.
-
     ```juvix
-    ReadsForGuard : Type :=
-      Guard
+    ReadsForAction : Type :=
+      Action
+        ReadsForCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
-        ReadsForMatchableArgument
-        ReadsForActionLabel
-        ReadsForPrecomputation;
+        ReadsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
 
-    ReadsForGuardOutput : Type :=
-      GuardOutput ReadsForMatchableArgument ReadsForActionLabel ReadsForPrecomputation;
-    ```
-
-### `readsForQueryGuard`
-
-<figure markdown>
-```mermaid
-flowchart TD
-    C{RequestReadsFor<br>received?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([DoReadsForQuery])
-```
-<figcaption>readsForQueryGuard flowchart</figcaption>
-</figure>
-
-<!-- --8<-- [start:readsForQueryGuard] -->
-```juvix
-readsForQueryGuard
-  (t : TimestampedTrigger ReadsForTimerHandle)
-  (env : ReadsForEnvironment) : Option ReadsForGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgReadsFor (MsgReadsForRequest (mkRequestReadsFor x y))) := do {
-        sender <- getSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-          matchedArgs := [ReadsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-          actionLabel := ReadsForActionLabelDoReadsForQuery (mkDoReadsForQuery x y);
-          precomputationTasks := unit
-        });}
-      | _ := none
-  };
-```
-<!-- --8<-- [end:readsForQueryGuard] -->
-
-### `submitEvidenceGuard`
-
-<figure markdown>
-```mermaid
-flowchart TD
-    C{SubmitReadsForEvidence<br>Request received?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([DoSubmitEvidence])
-```
-<figcaption>submitEvidenceGuard flowchart</figcaption>
-</figure>
-
-<!-- --8<-- [start:submitEvidenceGuard] -->
-```juvix
-submitEvidenceGuard
-  (t : TimestampedTrigger ReadsForTimerHandle)
-  (env : ReadsForEnvironment) : Option ReadsForGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgReadsFor (MsgSubmitReadsForEvidenceRequest (mkRequestSubmitReadsForEvidence x))) := do {
-        sender <- getSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                matchedArgs := [ReadsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-                actionLabel := ReadsForActionLabelDoSubmitEvidence (mkDoSubmitEvidence x);
-                precomputationTasks := unit
-        });}
-      | _ := none
-  };
-```
-<!-- --8<-- [end:submitEvidenceGuard] -->
-
-### `queryEvidenceGuard`
-
-<figure markdown>
-```mermaid
-flowchart TD
-    C{QueryReadsForEvidence<br>Request received?}
-    C -->|Yes| D[enabled]
-    C -->|No| E[not enabled]
-    D --> F([DoQueryEvidence])
-```
-<figcaption>queryEvidenceGuard flowchart</figcaption>
-</figure>
-
-<!-- --8<-- [start:queryEvidenceGuard] -->
-```juvix
-queryEvidenceGuard
-  (t : TimestampedTrigger ReadsForTimerHandle)
-  (env : ReadsForEnvironment) : Option ReadsForGuardOutput
-  := case getMessageFromTimestampedTrigger t of {
-      | some (MsgReadsFor (MsgQueryReadsForEvidenceRequest (mkRequestQueryReadsForEvidence x))) := do {
-        sender <- getSenderFromTimestampedTrigger t;
-        pure (mkGuardOutput@{
-                matchedArgs := [ReadsForMatchableArgumentReplyTo (mkReplyTo (some sender) none)] ;
-                actionLabel := ReadsForActionLabelDoQueryEvidence (mkDoQueryEvidence x);
-                precomputationTasks := unit
-                });
-        }
-      | _ := none
-  };
-```
-<!-- --8<-- [end:queryEvidenceGuard] -->
-
-## Action function
-
-??? quote "Auxiliary Juvix code"
-
-    Type alias for the action function.
-
-    ```juvix
     ReadsForActionInput : Type :=
       ActionInput
+        ReadsForCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
-        ReadsForMatchableArgument
-        ReadsForActionLabel
-        ReadsForPrecomputation;
+        ReadsForActionArguments
+        Anoma.Msg;
 
     ReadsForActionEffect : Type :=
       ActionEffect
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
-        ReadsForMatchableArgument
-        ReadsForActionLabel
-        ReadsForPrecomputation;
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+
+    ReadsForActionExec : Type :=
+      ActionExec
+        ReadsForCfg
+        ReadsForLocalState
+        ReadsForMailboxState
+        ReadsForTimerHandle
+        ReadsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
 
-<!-- --8<-- [start:readsForAction] -->
+### `readsForQueryAction`
+
+Process a reads for query and respond with whether the relationship exists.
+
+State update
+: The state remains unchanged.
+
+Messages to be sent
+: A `ResponseReadsFor` message is sent back to the requester.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
 ```juvix
-readsForAction (input : ReadsForActionInput) : ReadsForActionEffect :=
-  let env := ActionInput.env input;
-      out := ActionInput.guardOutput input;
-      localState := EngineEnv.localState env;
+readsForQueryAction
+  (input : ReadsForActionInput)
+  : Option ReadsForActionEffect :=
+  let
+    env := ActionInput.env input;
+    tt := ActionInput.trigger input;
+    cfg := ActionInput.cfg input;
+    localState := EngineEnv.localState env
   in
-  case GuardOutput.actionLabel out of {
-    | ReadsForActionLabelDoReadsForQuery (mkDoReadsForQuery externalIdentityA externalIdentityB) :=
-      case GuardOutput.matchedArgs out of {
-        | (ReadsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _)) :: _ := let
-            hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
-              isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentityA) &&
-              isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) externalIdentityB)
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some emsg :=
+      case emsg of {
+      | mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgReadsForRequest (mkRequestReadsFor identityA identityB))} :=
+        let
+          hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
+              isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) identityA) &&
+              isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) identityB)
             } (Set.toList (ReadsForLocalState.evidenceStore localState)));
-            responseMsg := mkResponseReadsFor@{
-              readsFor := hasEvidence;
-              err := none
-            };
-          in mkActionEffect@{
-            newEnv := env; -- No state change
-            producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnv.name env));
-              target := whoAsked;
+          responseMsg := mkResponseReadsFor@{
+            readsFor := hasEvidence;
+            err := none
+          }
+        in some mkActionEffect@{
+          env := env;
+          msgs := [mkEngineMsg@{
+            sender := getEngineIDFromEngineCfg cfg;
+            target := EngineMsg.sender emsg;
+            mailbox := some 0;
+            msg := Anoma.MsgReadsFor (MsgReadsForResponse responseMsg)
+          }];
+          timers := [];
+          engines := []
+        }
+      | _ := none
+      }
+    | _ := none
+    }
+```
+
+### `submitEvidenceAction`
+
+Process submission of new reads for evidence.
+
+State update
+: If the evidence is valid and doesn't exist, it's added to the evidence store.
+
+Messages to be sent
+: A `ResponseSubmitReadsForEvidence` message is sent back to the requester.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+```juvix
+submitEvidenceAction
+  (input : ReadsForActionInput)
+  : Option ReadsForActionEffect :=
+  let
+    env := ActionInput.env input;
+    tt := ActionInput.trigger input;
+    cfg := ActionInput.cfg input;
+    localState := EngineEnv.localState env
+  in
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some emsg :=
+      case emsg of {
+      | mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceRequest (mkRequestSubmitReadsForEvidence evidence))} :=
+        case ReadsForLocalState.verifyEvidence localState evidence of {
+        | true :=
+          case isElement \{a b := a && b} true (map \{e := isEqual (Ord.cmp e evidence)} (Set.toList (ReadsForLocalState.evidenceStore localState))) of {
+          | true :=
+            some mkActionEffect@{
+              env := env;
+              msgs := [mkEngineMsg@{
+                sender := getEngineIDFromEngineCfg cfg;
+                target := EngineMsg.sender emsg;
+                mailbox := some 0;
+                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceResponse (mkResponseSubmitReadsForEvidence (some "Evidence already exists.")))
+              }];
+              timers := [];
+              engines := []
+            }
+          | false :=
+            let
+              newEvidenceStore := Set.insert evidence (ReadsForLocalState.evidenceStore localState);
+              updatedLocalState := localState@ReadsForLocalState{evidenceStore := newEvidenceStore};
+              newEnv := env@EngineEnv{localState := updatedLocalState}
+            in some mkActionEffect@{
+              env := newEnv;
+              msgs := [mkEngineMsg@{
+                sender := getEngineIDFromEngineCfg cfg;
+                target := EngineMsg.sender emsg;
+                mailbox := some 0;
+                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceResponse (mkResponseSubmitReadsForEvidence none))
+              }];
+              timers := [];
+              engines := []
+            }
+          }
+        | false :=
+          some mkActionEffect@{
+            env := env;
+            msgs := [mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg cfg;
+              target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := MsgReadsFor (MsgReadsForResponse responseMsg)
+              msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceResponse (mkResponseSubmitReadsForEvidence (some "Invalid evidence provided.")))
             }];
             timers := [];
-            spawnedEngines := []
+            engines := []
           }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
+        }
+      | _ := none
       }
-    | ReadsForActionLabelDoSubmitEvidence (mkDoSubmitEvidence evidence) :=
-      case GuardOutput.matchedArgs out of {
-        | (ReadsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _)) :: _ :=
-            let isValid := ReadsForLocalState.verifyEvidence localState evidence;
-            in
-            case isValid of {
-              | true :=
-                  let alreadyExists :=
-                    isElement \{a b := a && b} true (map \{e :=
-                        isEqual (Ord.cmp e evidence)
-                      } (Set.toList (ReadsForLocalState.evidenceStore localState)));
-                  in
-                  case alreadyExists of {
-                    | true :=
-                        let responseMsg := mkResponseSubmitReadsForEvidence@{
-                              err := some "Evidence already exists."
-                            };
-                        in mkActionEffect@{
-                          newEnv := env;
-                          producedMessages := [mkEngineMsg@{
-                            sender := mkPair none (some (EngineEnv.name env));
-                            target := whoAsked;
-                            mailbox := some 0;
-                            msg := MsgReadsFor (MsgSubmitReadsForEvidenceResponse responseMsg)
-                          }];
-                          timers := [];
-                          spawnedEngines := []
-                        }
-                    | false :=
-                        let newEvidenceStore := Set.insert evidence (ReadsForLocalState.evidenceStore localState);
-                            updatedLocalState := localState@ReadsForLocalState{
-                              evidenceStore := newEvidenceStore
-                            };
-                            newEnv' := env@EngineEnv{
-                              localState := updatedLocalState
-                            };
-                            responseMsg := mkResponseSubmitReadsForEvidence@{
-                              err := none
-                            };
-                        in mkActionEffect@{
-                          newEnv := newEnv';
-                          producedMessages := [mkEngineMsg@{
-                            sender := mkPair none (some (EngineEnv.name env));
-                            target := whoAsked;
-                            mailbox := some 0;
-                            msg := MsgReadsFor (MsgSubmitReadsForEvidenceResponse responseMsg)
-                          }];
-                          timers := [];
-                          spawnedEngines := []
-                        }
-                  }
-              | false :=
-                  let responseMsg := mkResponseSubmitReadsForEvidence@{
-                        err := some "Invalid evidence provided."
-                      };
-                  in mkActionEffect@{
-                    newEnv := env;
-                    producedMessages := [mkEngineMsg@{
-                      sender := mkPair none (some (EngineEnv.name env));
-                      target := whoAsked;
-                      mailbox := some 0;
-                      msg := MsgReadsFor (MsgSubmitReadsForEvidenceResponse responseMsg)
-                    }];
-                    timers := [];
-                    spawnedEngines := []
-                  }
-            }
-        | _ := mkActionEffect@{
-            newEnv := env;
-            producedMessages := [];
-            timers := [];
-            spawnedEngines := []
-          }
-      }
-    | ReadsForActionLabelDoQueryEvidence (mkDoQueryEvidence externalIdentity') :=
-      case GuardOutput.matchedArgs out of {
-        | (ReadsForMatchableArgumentReplyTo (mkReplyTo (some whoAsked) _)) :: _ := let
-            relevantEvidence := AVLTree.filter \{evidence :=
-              isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) externalIdentity') ||
-              isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) externalIdentity')
+    | _ := none
+    }
+```
+
+### `queryEvidenceAction`
+
+Query all evidence related to a specific identity.
+
+State update
+: The state remains unchanged.
+
+Messages to be sent
+: A `ResponseQueryReadsForEvidence` message is sent back to the requester.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+```juvix
+queryEvidenceAction
+  (input : ReadsForActionInput)
+  : Option ReadsForActionEffect :=
+  let
+    env := ActionInput.env input;
+    tt := ActionInput.trigger input;
+    cfg := ActionInput.cfg input;
+    localState := EngineEnv.localState env
+  in
+    case getEngineMsgFromTimestampedTrigger tt of {
+    | some emsg :=
+      case emsg of {
+      | mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceRequest (mkRequestQueryReadsForEvidence identity))} :=
+        let
+          relevantEvidence := AVLTree.filter \{evidence :=
+              isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) identity) ||
+              isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) identity)
             } (ReadsForLocalState.evidenceStore localState);
-            responseMsg := mkResponseQueryReadsForEvidence@{
-              externalIdentity := externalIdentity';
+          responseMsg := mkResponseQueryReadsForEvidence@{
+              externalIdentity := identity;
               evidence := relevantEvidence;
               err := none
-            };
-          in mkActionEffect@{
-            newEnv := env; -- No state change
-            producedMessages := [mkEngineMsg@{
-              sender := mkPair none (some (EngineEnv.name env));
-              target := whoAsked;
-mailbox := some 0;
-              msg := MsgReadsFor (MsgQueryReadsForEvidenceResponse responseMsg)
-            }];
-            timers := [];
-            spawnedEngines := []
-          }
-        | _ := mkActionEffect@{newEnv := env; producedMessages := []; timers := []; spawnedEngines := []}
+            }
+        in some mkActionEffect@{
+          env := env;
+          msgs := [mkEngineMsg@{
+            sender := getEngineIDFromEngineCfg cfg;
+            target := EngineMsg.sender emsg;
+            mailbox := some 0;
+            msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse responseMsg)
+          }];
+          timers := [];
+          engines := []
+        }
+      | _ := none
       }
-  };
+    | _ := none
+    }
 ```
-<!-- --8<-- [end:readsForAction] -->
 
-## Conflict solver
+## Action Labels
 
-### `readsForConflictSolver`
+### `readsForQueryActionLabel`
 
 ```juvix
-readsForConflictSolver : Set ReadsForMatchableArgument -> List (Set ReadsForMatchableArgument)
-  | _ := [];
+readsForQueryActionLabel : ReadsForActionExec := Seq [ readsForQueryAction ];
 ```
+
+### `submitEvidenceActionLabel`
+
+```juvix
+submitEvidenceActionLabel : ReadsForActionExec := Seq [ submitEvidenceAction ];
+```
+
+### `queryEvidenceActionLabel`
+
+```juvix
+queryEvidenceActionLabel : ReadsForActionExec := Seq [ queryEvidenceAction ];
+```
+
+## Guards
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    ReadsForGuard : Type :=
+      Guard
+        ReadsForCfg
+        ReadsForLocalState
+        ReadsForMailboxState
+        ReadsForTimerHandle
+        ReadsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+
+    ReadsForGuardOutput : Type :=
+      GuardOutput
+        ReadsForCfg
+        ReadsForLocalState
+        ReadsForMailboxState
+        ReadsForTimerHandle
+        ReadsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+
+    ReadsForGuardEval : Type :=
+      GuardEval
+        ReadsForCfg
+        ReadsForLocalState
+        ReadsForMailboxState
+        ReadsForTimerHandle
+        ReadsForActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+
+### `readsForQueryGuard`
+
+Condition
+: Message type is `MsgReadsForRequest`.
+
+<!-- --8<-- [start:readsForQueryGuard] -->
+```juvix
+readsForQueryGuard
+  (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
+  (cfg : EngineCfg ReadsForCfg)
+  (env : ReadsForEnv)
+  : Option ReadsForGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgReadsForRequest _)} :=
+      some mkGuardOutput@{
+        action := readsForQueryActionLabel;
+        args := []
+      }
+    | _ := none
+  }
+```
+<!-- --8<-- [end:readsForQueryGuard] -->
+
+### `submitEvidenceGuard`
+
+Condition
+: Message type is `MsgSubmitReadsForEvidenceRequest`.
+
+<!-- --8<-- [start:submitEvidenceGuard] -->
+```juvix
+submitEvidenceGuard
+  (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
+  (cfg : EngineCfg ReadsForCfg)
+  (env : ReadsForEnv)
+  : Option ReadsForGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceRequest _)} :=
+      some mkGuardOutput@{
+        action := submitEvidenceActionLabel;
+        args := []
+      }
+    | _ := none
+  }
+```
+<!-- --8<-- [end:submitEvidenceGuard] -->
+
+### `queryEvidenceGuard`
+
+Condition
+: Message type is `MsgQueryReadsForEvidenceRequest`.
+
+<!-- --8<-- [start:queryEvidenceGuard] -->
+```juvix
+queryEvidenceGuard
+  (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
+  (cfg : EngineCfg ReadsForCfg)
+  (env : ReadsForEnv)
+  : Option ReadsForGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger tt of {
+    | some mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceRequest _)} :=
+      some mkGuardOutput@{
+        action := queryEvidenceActionLabel;
+        args := []
+      }
+    | _ := none
+  }
+```
+<!-- --8<-- [end:queryEvidenceGuard] -->
 
 ## The Reads For Behaviour
 
@@ -453,12 +446,14 @@ readsForConflictSolver : Set ReadsForMatchableArgument -> List (Set ReadsForMatc
 ```juvix
 ReadsForBehaviour : Type :=
   EngineBehaviour
+    ReadsForCfg
     ReadsForLocalState
     ReadsForMailboxState
     ReadsForTimerHandle
-    ReadsForMatchableArgument
-    ReadsForActionLabel
-    ReadsForPrecomputation;
+    ReadsForActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:ReadsForBehaviour] -->
 
@@ -468,9 +463,98 @@ ReadsForBehaviour : Type :=
 ```juvix
 readsForBehaviour : ReadsForBehaviour :=
   mkEngineBehaviour@{
-    guards := [readsForQueryGuard; submitEvidenceGuard; queryEvidenceGuard];
-    action := readsForAction;
-    conflictSolver := readsForConflictSolver;
+    guards :=
+      First [
+        readsForQueryGuard;
+        submitEvidenceGuard;
+        queryEvidenceGuard
+      ];
   };
 ```
 <!-- --8<-- [end:readsForBehaviour] -->
+
+## Reads For Action Flowcharts
+
+### `readsForQueryAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>MsgReadsForRequest]
+  end
+
+  G(readsForQueryGuard)
+  A(readsForQueryAction)
+
+  C --> G -- *readsForQueryActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EMsg>ResponseReadsFor<br/>readsFor]
+  end
+```
+
+<figcaption markdown="span">
+
+`readsForQueryAction` flowchart
+
+</figcaption>
+</figure>
+
+
+### `submitEvidenceAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>MsgSubmitReadsForEvidenceRequest]
+  end
+
+  G(submitEvidenceGuard)
+  A(submitEvidenceAction)
+
+  C --> G -- *submitEvidenceActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(evidenceStore update)]
+    EMsg>ResponseSubmitReadsForEvidence<br/>error]
+  end
+```
+
+<figcaption markdown="span">
+
+`submitEvidenceAction` flowchart
+
+</figcaption>
+</figure>
+
+
+### `queryEvidenceAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>MsgQueryReadsForEvidenceRequest]
+  end
+
+  G(queryEvidenceGuard)
+  A(queryEvidenceAction)
+
+  C --> G -- *queryEvidenceActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EMsg>ResponseQueryReadsForEvidence<br/>evidence list]
+  end
+```
+
+<figcaption markdown="span">
+
+`queryEvidenceAction` flowchart
+
+</figcaption>
+</figure>

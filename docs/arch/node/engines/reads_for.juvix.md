@@ -20,6 +20,15 @@ tags:
     import arch.node.engines.reads_for_messages open public;
     import arch.node.engines.reads_for_environment open public;
     import arch.node.engines.reads_for_behaviour open public;
+
+    import arch.node.engines.reads_for_config open public;
+    import arch.node.engines.reads_for_messages open public;
+    import arch.node.engines.reads_for_environment open public;
+    import arch.node.engines.reads_for_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open reads_for_config_example;
     open reads_for_environment_example;
     ```
 
@@ -39,9 +48,10 @@ delegated or shared.
 
 ## Components
 
-- [[ReadsFor Messages]]
-- [[ReadsFor Environment]]
-- [[ReadsFor Behaviour]]
+- [[Reads For Messages]]
+- [[Reads For Config]]
+- [[Reads For Environment]]
+- [[Reads For Behaviour]]
 
 ## Type
 
@@ -49,30 +59,37 @@ delegated or shared.
 ```juvix
 ReadsForEngine : Type :=
   Engine
+    ReadsForCfg
     ReadsForLocalState
     ReadsForMailboxState
     ReadsForTimerHandle
-    ReadsForMatchableArgument
-    ReadsForActionLabel
-    ReadsForPrecomputation;
+    ReadsForActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:ReadsForEngine] -->
 
-### Example of a readsFor engine
+### Example of a reads for engine
 
 <!-- --8<-- [start:exampleReadsForEngine] -->
 ```juvix
 exampleReadsForEngine : ReadsForEngine :=
   mkEngine@{
-    initEnv := readsForEnvironment;
+    cfg := readsForCfg;
+    env := readsForEnv;
     behaviour := readsForBehaviour;
   };
 ```
 <!-- --8<-- [end:exampleReadsForEngine] -->
 
-where `readsForEnvironment` is defined as follows:
+where `readsForCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/reads_for_environment.juvix.md:readsForEnvironment"
+--8<-- "./docs/arch/node/engines/reads_for_config.juvix.md:readsForCfg"
+
+`readsForEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/reads_for_environment.juvix.md:readsForEnv"
 
 and `readsForBehaviour` is defined as follows:
 
