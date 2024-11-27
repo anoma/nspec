@@ -149,7 +149,7 @@ Timer updates
 
 <!-- --8<-- [start:decryptAction] -->
 ```juvix
-decryptAction 
+decryptAction
   (input : DecryptionActionInput)
   : Option DecryptionActionEffect :=
   let
@@ -164,7 +164,7 @@ decryptAction
       | Anoma.MsgDecryption (MsgDecryptionRequest request) :=
         let
           decryptedData :=
-            Decryptor.decrypt 
+            Decryptor.decrypt
               (DecryptionLocalState.decryptor localState)
               (DecryptionLocalState.backend localState)
               (RequestDecryption.data request);
