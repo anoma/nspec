@@ -142,7 +142,7 @@ resolveNameAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     identityName := case getEngineMsgFromTimestampedTrigger tt of {
-      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingResolveNameRequest req)} := 
+      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingResolveNameRequest req)} :=
           some (RequestResolveName.identityName req)
       | _ := none
     }
@@ -202,7 +202,7 @@ submitNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     evidence := case getEngineMsgFromTimestampedTrigger tt of {
-      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceRequest req)} := 
+      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceRequest req)} :=
           some (RequestSubmitNameEvidence.evidence req)
       | _ := none
     }
@@ -276,7 +276,7 @@ queryNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     externalIdentity := case getEngineMsgFromTimestampedTrigger tt of {
-      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceRequest req)} := 
+      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceRequest req)} :=
           some (RequestQueryNameEvidence.externalIdentity req)
       | _ := none
     }
