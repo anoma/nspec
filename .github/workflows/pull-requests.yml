@@ -158,7 +158,7 @@ jobs:
       - if: steps.mkdocs-insiders.outcome == 'success'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "Builds using material and material-insiders theme succeed. We are now deploying the preview"
-        continue-on-error:
+        continue-on-error: true
       - name: Deploy MkDocs with insiders theme
         if: success()
         uses: JamesIves/github-pages-deploy-action@v4.6.4
