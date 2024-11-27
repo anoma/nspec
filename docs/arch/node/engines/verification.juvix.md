@@ -17,9 +17,14 @@ tags:
     import prelude open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.verification_config open public;
     import arch.node.engines.verification_messages open public;
     import arch.node.engines.verification_environment open public;
     import arch.node.engines.verification_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open verification_config_example;
     open verification_environment_example;
     ```
 
@@ -40,6 +45,7 @@ implementation by the runtime.
 ## Components
 
 - [[Verification Messages]]
+- [[Verification Config]]
 - [[Verification Environment]]
 - [[Verification Behaviour]]
 
@@ -49,29 +55,38 @@ implementation by the runtime.
 ```juvix
 VerificationEngine : Type :=
   Engine
+    VerificationCfg
     VerificationLocalState
     VerificationMailboxState
     VerificationTimerHandle
-    VerificationMatchableArgument
-    VerificationActionLabel
-    VerificationPrecomputation;
+    VerificationActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:VerificationEngine] -->
 
 ### Example of a verification engine
 
-```juvix extract-module-statements
+<!-- --8<-- [start:exampleVerificationEngine] -->
+```juvix
 exampleVerificationEngine : VerificationEngine :=
   mkEngine@{
-    initEnv := verificationEnvironment;
+    cfg := verificationCfg;
+    env := verificationEnv;
     behaviour := verificationBehaviour;
   };
 ```
+<!-- --8<-- [end:exampleVerificationEngine] -->
 
-where `verificationEnvironment` is defined as follows:
+where `verificationCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/verification_environment.juvix.md:verificationEnvironment"
+--8<-- "./docs/arch/node/engines/verification_config.juvix.md:verificationCfg"
+
+`verificationEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/verification_environment.juvix.md:verificationEnv"
 
 and `verificationBehaviour` is defined as follows:
 
---8<-- "./docs/arch/node/engines/commitment_behaviour.juvix.md:verificationBehaviour"
+--8<-- "./docs/arch/node/engines/verification_behaviour.juvix.md:verificationBehaviour"

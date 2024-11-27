@@ -80,10 +80,10 @@ syntax alias VerificationTimerHandle := Unit;
 
 ## The Verification Environment
 
-### `VerificationEnvironment`
+### `VerificationEnv`
 
 ```juvix
-VerificationEnvironment : Type :=
+VerificationEnv : Type :=
   EngineEnv
     VerificationLocalState
     VerificationMailboxState
@@ -93,11 +93,11 @@ VerificationEnvironment : Type :=
 
 ### Instantiation
 
-<!-- --8<-- [start:verificationEnvironment] -->
+<!-- --8<-- [start:verificationEnv] -->
 ```juvix extract-module-statements
 module verification_environment_example;
 
-verificationEnvironment : VerificationEnvironment :=
+verificationEnv : VerificationEnv :=
     mkEngineEnv@{
       localState := mkVerificationLocalState@{
         verifier := \{_ _ := mkVerifier@{
@@ -120,4 +120,4 @@ verificationEnvironment : VerificationEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:verificationEnvironment] -->
+<!-- --8<-- [end:verificationEnv] -->
