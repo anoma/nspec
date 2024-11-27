@@ -154,14 +154,12 @@ jobs:
           clean: false
         continue-on-error: false
         
-      - id: comment-success
+      - id: comment-success-basic
         if: success()
         continue-on-error: true
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
-          MSG: "Success! Preview available at
-          https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number
-          }}/."
+          MSG: "Success! Preview available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
           
       - name: Build MkDocs with material insiders version
         id: mkdocs-insiders
@@ -193,7 +191,7 @@ jobs:
           clean: false
         continue-on-error: false
 
-      - id: comment-success
+      - id: comment-success-insiders
         if: success()
         continue-on-error: true
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
