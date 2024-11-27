@@ -14,7 +14,7 @@ tags:
 
     ```juvix
     module arch.node.engines.encryption_behaviour;
-    
+
     import prelude open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     import arch.node.engines.encryption_environment open;
