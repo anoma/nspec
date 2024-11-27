@@ -67,7 +67,7 @@ Semantic version number (major.minor.patch).
 
 ```juvix
 type Version : Type :=
-  mkVersion {
+  mkVersion@{
     major : Nat;
     minor : Nat;
     patch : Nat;

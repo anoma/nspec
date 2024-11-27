@@ -73,7 +73,7 @@ syntax alias ReadsForTimerHandle := Unit;
 
 ```juvix
 ReadsForEnvironment : Type :=
-  EngineEnvironment
+  EngineEnv
     ReadsForLocalState
     ReadsForMailboxState
     ReadsForTimerHandle;
@@ -86,7 +86,8 @@ ReadsForEnvironment : Type :=
 module reads_for_environment_example;
 
 readsForEnvironment : ReadsForEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "reads_for";
       localState := mkReadsForLocalState@{
         evidenceStore := Set.empty;

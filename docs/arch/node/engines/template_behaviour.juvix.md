@@ -14,127 +14,31 @@ tags:
 
     ```juvix
     module arch.node.engines.template_behaviour;
-    import prelude open;
+
     import arch.node.engines.template_messages open;
+    import arch.node.engines.template_config open;
     import arch.node.engines.template_environment open;
-    import arch.node.types.engine_behaviour open;
+
+    import prelude open;
+    import arch.node.types.basics open;
+    import arch.node.types.identities open;
+    import arch.node.types.messages open;
+    import arch.node.types.engine open;
+    import arch.node.types.anoma as Anoma open;
     ```
 
 # Template Behaviour
 
 ## Overview
 
-A template engine acts in the ways described on this page. The action labels
-correspond to the actions that can be performed by the engine. Using the action
-labels, we describe the effects of the actions.
+A template engine acts in the ways described on this page.
+The action labels correspond to the actions that can be performed by the engine.
+Using the action labels, we describe the effects of the actions.
 
-## Action labels
+## Action arguments
 
-???+ quote "Auxiliary Juvix code"
-
-    <!-- --8<-- [start:SomeActionLabel] -->
-    ```juvix
-    type SomeActionLabel :=
-      | DoThis String
-    ;
-    ```
-    <!-- --8<-- [end:SomeActionLabel] -->
-
-    <!-- --8<-- [start:AnotherActionLabel] -->
-    ```juvix
-    type AnotherActionLabel :=
-      | DoThat String
-    ;
-    ```
-    <!-- --8<-- [end:AnotherActionLabel] -->
-
-### `TemplateActionLabelDoOneThing`
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-### `TemplateActionLabelDoAlternative DoAlternative`
-
-<!-- --8<-- [start:DoAlternative] -->
-```juvix
-DoAlternative : Type := Either SomeActionLabel AnotherActionLabel;
-```
-<!-- --8<-- [end:DoAlternative] -->
-
-This action label corresponds to performing the `doAlternative` action.
-
-???+ quote "Either.left"
-
-    This alternative does the following.
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is unchanged as the timer will have all information necessary. |
-    | Messages to be sent   | No messages are added to the send queue. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-    | Acquaintance updates  | None |
-
-???+ quote "Either.right"
-
-    This alternative does the following.
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is unchanged as the timer will have all information necessary. |
-    | Messages to be sent   | No messages are added to the send queue. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-    | Spawned engines       | No engines are spawned by this action. |
-
-### `TemplateActionLabelDoBoth DoBoth`
-
-<!-- --8<-- [start:DoBoth] -->
-```juvix
-DoBoth : Type := Pair SomeActionLabel AnotherActionLabel;
-```
-<!-- --8<-- [end:DoBoth] -->
-
-This action label corresponds to performing both the `SomeActionLabel` and the
-`AnotherActionLabel`.
-
-???+ quote "`Pair.fst`"
-
-    This alternative does the following.
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is unchanged as the timer will have all information necessary. |
-    | Messages to be sent   | No messages are added to the send queue. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-???+ quote "`Pair.snd`"
-
-    This alternative does the following.
-
-    | Aspect | Description |
-    |--------|-------------|
-    | State update          | The state is unchanged as the timer will have all information necessary. |
-    | Messages to be sent   | No messages are added to the send queue. |
-    | Engines to be spawned | No engine is created by this action. |
-    | Timer updates         | No timers are set or cancelled. |
-
-### `TemplateActionLabel`
-
-<!-- --8<-- [start:TemplateActionLabel] -->
-```juvix
-type TemplateActionLabel :=
-  | TemplateActionLabelDoOneThing
-  | TemplateActionLabelDoAlternative DoAlternative
-  | TemplateActionLabelDoBoth DoBoth
-;
-```
-<!-- --8<-- [end:TemplateActionLabel] -->
-
-## Matchable arguments
-
-The matchable arguments correspond to the arguments that can be matched on in
-guards. The data matched on is passed to the action function.
+The action arguments are set by a guard
+and passed to the action function as part of the `GuardOutput`.
 
 ??? quote "Auxiliary Juvix code"
 
@@ -144,197 +48,75 @@ guards. The data matched on is passed to the action function.
     ```
     <!-- --8<-- [end:Val] -->
 
-### `TemplateMatchableArgumentFirstOption FirstOptionMatchableArgument`
+### `TemplateActionArgumentOne FirstArgument`
 
-<!-- --8<-- [start:FirstOptionMatchableArgument] -->
+<!-- --8<-- [start:FirstArgument] -->
 ```juvix
-type FirstOptionMatchableArgument := mkFirstOptionMatchableArgument {
+type FirstArgument := mkFirstArgument {
   data : Val;
 };
 ```
-<!-- --8<-- [end:FirstOptionMatchableArgument] -->
+<!-- --8<-- [end:FirstArgument] -->
 
 ???+ quote "Arguments"
 
     `data`:
-    : is the value of the matchable argument.
+    : is the value of the action argument.
 
-### `TemplateMatchableArgumentSecondOption SecondOptionMatchableArgument`
+### `TemplateActionArgumentTwo SecondArgument`
 
-<!-- --8<-- [start:SecondOptionMatchableArgument] -->
+<!-- --8<-- [start:SecondArgument] -->
 ```juvix
-type SecondOptionMatchableArgument := mkSecondOptionMatchableArgument {
+type SecondArgument := mkSecondArgument {
   data : String;
 };
 ```
-<!-- --8<-- [end:SecondOptionMatchableArgument] -->
+<!-- --8<-- [end:SecondArgument] -->
 
 ???+ quote "Arguments"
 
     `data`:
-    : is the value of the matchable argument.
+    : is the value of the action argument.
 
-### `TemplateMatchableArgument`
+### `TemplateActionArgument`
 
-<!-- --8<-- [start:template-matchable-argument] -->
+<!-- --8<-- [start:TemplateActionArgument] -->
 ```juvix
-type TemplateMatchableArgument :=
-  | TemplateMatchableArgumentFirstOption FirstOptionMatchableArgument
-  | TemplateMatchableArgumentSecondOption SecondOptionMatchableArgument
+type TemplateActionArgument :=
+  | TemplateActionArgumentOne FirstArgument
+  | TemplateActionArgumentTwo SecondArgument
   ;
 ```
-<!-- --8<-- [end:template-matchable-argument] -->
+<!-- --8<-- [end:TemplateActionArgument] -->
 
-## Precomputation tasks results
+### `TemplateActionArguments`
+
+<!-- --8<-- [start:TemplateActionArguments] -->
+```juvix
+TemplateActionArguments : Type := List TemplateActionArgument;
+```
+<!-- --8<-- [end:TemplateActionArguments] -->
+
+## Actions
 
 ??? quote "Auxiliary Juvix code"
 
-    <!-- --8<-- [start:pseudo-example-auxiliary-code] -->
+    ### `TemplateAction`
+
+    <!-- --8<-- [start:TemplateAction] -->
     ```juvix
-    syntax alias SomeMessageType := Nat;
-    ```
-    <!-- --8<-- [end:pseudo-example-auxiliary-code] -->
-
-Precomputation tasks results are the outcomes generated during the
-precomputation phase. These results are used to optimize and prepare the
-engine's state and environment before the main computation begins (by actions).
-The results of these tasks are then utilised by the engine to ensure efficient
-and accurate execution of its functions.
-
-### `TemplatePrecomputationEntryDeleteMessage DeleteMessage`
-
-<!-- --8<-- [start:DeleteMessage] -->
-```juvix
-type DeleteMessage := mkDeleteMessage {
-  messageType : SomeMessageType;
-  messageId : Nat;
-};
-```
-<!-- --8<-- [end:DeleteMessage] -->
-
-We delete the given message from the mailbox with the mailbox ID.
-
-???+ quote "Arguments"
-
-    `messageType`:
-    : is the type of the message to delete.
-
-    `messageId`:
-    : is the ID of the message to delete.
-
-### `TemplatePrecomputationEntryCloseMailbox CloseMailbox`
-
-<!-- --8<-- [start:CloseMailbox] -->
-```juvix
-type CloseMailbox := mkCloseMailbox {
-  mailboxId : Nat;
-};
-```
-<!-- --8<-- [end:CloseMailbox] -->
-
-We close the mailbox with the given mailbox ID.
-
-???+ quote "Arguments"
-
-    `mailboxId`:
-    : is the ID of the mailbox to close.
-
-### `TemplatePrecomputationEntry`
-
-<!-- --8<-- [start:TemplatePrecomputation] -->
-```juvix
-type TemplatePrecomputationEntry :=
-  | TemplatePrecomputationEntryDeleteMessage DeleteMessage
-  | TemplatePrecomputationEntryCloseMailbox CloseMailbox
-  ;
-```
-<!-- --8<-- [end:TemplatePrecomputation] -->
-
-### `TemplatePrecomputationList`
-
-<!-- --8<-- [start:TemplatePrecomputationList] -->
-```juvix
-TemplatePrecomputationList : Type := List TemplatePrecomputationEntry;
-```
-<!-- --8<-- [end:TemplatePrecomputationList] -->
-
-The precomputation results consist of a list of `TemplatePrecomputation` terms.
-Each entry can be either:
-
-1. A `DeleteMessage` entry indicating a message should be deleted from a mailbox
-2. A `CloseMailbox` entry indicating a mailbox should be closed
-
-These entries are used by guards to specify mailbox operations that need to be
-performed as part of processing a message.
-
-## Guards
-
-???+ quote "Auxiliary Juvix code"
-
-    ### `TemplateGuard`
-
-    <!-- --8<-- [start:TemplateGuard] -->
-    ```juvix
-    TemplateGuard : Type :=
-      Guard
+    TemplateAction : Type :=
+      Action
+        TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
-        TemplateMatchableArgument
-        TemplateActionLabel
-        TemplatePrecomputationList;
+        TemplateActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
-    <!-- --8<-- [end:TemplateGuard] -->
-
-    ### `TemplateGuardOutput`
-
-    <!-- --8<-- [start:TemplateGuardOutput] -->
-    ```juvix
-    TemplateGuardOutput : Type :=
-      GuardOutput
-        TemplateMatchableArgument
-        TemplateActionLabel
-        TemplatePrecomputationList;
-    ```
-    <!-- --8<-- [end:TemplateGuardOutput] -->
-
-### `messageOneGuard`
-
-<!-- --8<-- [start:messageOneGuard] -->
-```juvix
-messageOneGuard : TemplateGuard
-  | _ _ :=  some (
-    mkGuardOutput@{
-      matchedArgs := [
-        (TemplateMatchableArgumentSecondOption
-          (mkSecondOptionMatchableArgument@{
-            data := "Hello World!"
-          })
-        )
-      ];
-      actionLabel := TemplateActionLabelDoAlternative
-        (left (DoThis "parameter 2"));
-      precomputationTasks := [
-        TemplatePrecomputationEntryCloseMailbox (
-          mkCloseMailbox@{
-            mailboxId := 1
-          }
-        );
-        TemplatePrecomputationEntryDeleteMessage (
-          mkDeleteMessage@{
-              messageType := 1337;
-              messageId := 0}
-          )
-        ]
-      });
-    ```
-<!-- --8<-- [end:messageOneGuard] -->
-
-## Action function
-
-The action function amounts to one single case statement.
-
-??? quote "Auxiliary Juvix code"
+    <!-- --8<-- [end:TemplateAction] -->
 
     ### `TemplateActionInput`
 
@@ -342,12 +124,12 @@ The action function amounts to one single case statement.
     ```juvix
     TemplateActionInput : Type :=
       ActionInput
+        TemplateCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
-        TemplateMatchableArgument
-        TemplateActionLabel
-        TemplatePrecomputationList;
+        TemplateActionArguments
+        Anoma.Msg;
     ```
     <!-- --8<-- [end:TemplateActionInput] -->
 
@@ -360,72 +142,275 @@ The action function amounts to one single case statement.
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
-        TemplateMatchableArgument
-        TemplateActionLabel
-        TemplatePrecomputationList;
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
     <!-- --8<-- [end:TemplateActionEffect] -->
 
-    ### `TemplateActionFunction`
+    ### `TemplateActionExec`
 
-    <!-- --8<-- [start:TemplateActionFunction] -->
+    <!-- --8<-- [start:TemplateActionExec] -->
     ```juvix
-    TemplateActionFunction : Type :=
-      ActionFunction
-          TemplateLocalState
-          TemplateMailboxState
-          TemplateTimerHandle
-          TemplateMatchableArgument
-          TemplateActionLabel
-          TemplatePrecomputationList;
+    TemplateActionExec : Type :=
+      ActionExec
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        TemplateActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
-    <!-- --8<-- [end:TemplateActionFunction] -->
+    <!-- --8<-- [end:TemplateActionExec] -->
 
+### `justHiAction`
 
-### `templateAction`
+Action description.
 
-Give a short description of the action function. The following action called
-`templateAction` does nothing. It preserves the environment, produces no messages,
-sets no timers, spawns no engines.
+State update
+: Update state with the data set by `justHiGuard`.
 
-<!-- --8<-- [start:templateAction] -->
+Messages to be sent
+: No messages are added to the send queue.
+
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+Acquaintance updates
+: None.
+
+<!-- --8<-- [start:justHiAction] -->
 ```juvix
-templateAction : TemplateActionFunction
-  | mkActionInput@{ guardOutput := out; env := env }
-    := case GuardOutput.actionLabel out of {
-    | TemplateActionLabelDoAlternative (left _) :=
-          mkActionEffect@{
-            newEnv := env;
-            producedMessages := [];
-            timers := [];
-            spawnedEngines := [];
-        }
-    | _ := undef
-};
+justHiAction
+  (input : TemplateActionInput)
+  : Option TemplateActionEffect :=
+  let
+    env := ActionInput.env input;
+    args := ActionInput.args input;
+  in
+    case args of {
+    | TemplateActionArgumentTwo (mkSecondArgument@{
+        data := data;
+      }) :: _ :=
+      some mkActionEffect@{
+        env := env@EngineEnv{
+          localState := mkTemplateLocalState@{
+            taskQueue := mkCustomData@{
+              word := data
+            }
+          }
+        };
+        msgs := [];
+        timers := [];
+        engines := [];
+      }
+    | _ := none
+    }
 ```
-<!-- --8<-- [end:templateAction] -->
+<!-- --8<-- [end:justHiAction] -->
 
-## Conflict solver
+#### `exampleReplyAction`
 
-The conflict solver is responsible for resolving conflicts between multiple
-guards that match simultaneously. When multiple guards match the same input, the
-conflict solver determines which combinations of guards can execute together.
+Respond with a `TemplateMsgExampleResponse`.
 
-In this template example, the conflict solver is very simple. It always returns
-an empty list, meaning no guards can execute simultaneously. This effectively
-serializes guard execution, allowing only one guard to execute at a time.
+State update
+: The state remains unchanged.
 
-<!-- TODO: ask Tobias if he agrees with this description. So far, we have not
-used the conflict solver in any of our examples. -->
+Messages to be sent
+: A `TemplateMsgExampleReply` message with the data set by `exampleReplyGuard`.
 
-### `templateConflictSolver`
+Engines to be spawned
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+<!-- --8<-- [start:exampleReplyAction] -->
+```juvix
+exampleReplyAction
+  (input : TemplateActionInput)
+  : Option TemplateActionEffect :=
+  let
+    cfg := ActionInput.cfg input;
+    env := ActionInput.env input;
+    trigger := ActionInput.trigger input;
+    args := ActionInput.args input;
+  in
+    case getEngineMsgFromTimestampedTrigger trigger of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
+        sender := sender;
+        target := target;
+        mailbox := mailbox;
+      } :=
+      some mkActionEffect@{
+        env := env;
+        msgs := [
+          mkEngineMsg@{
+            sender := getEngineIDFromEngineCfg cfg;
+            target := sender;
+            mailbox := some 0;
+            msg :=
+              Anoma.MsgTemplate
+                (TemplateMsgExampleReply
+                  (ok mkExampleReplyOk@{
+                    argOne := ExampleRequest.argOne req;
+                  }));
+          }
+        ];
+        timers := [];
+        engines := [];
+      }
+  | _ := none
+  };
+```
+<!-- --8<-- [end:exampleReplyAction] -->
+
+## Action Labels
+
+### `justHiActionLabel`
 
 ```juvix
-templateConflictSolver :
-  Set TemplateMatchableArgument ->
-  List (Set TemplateMatchableArgument)
-  | _ := [];
+justHiActionLabel : TemplateActionExec := Seq [ justHiAction ];
 ```
+
+### `exampleReplyActionLabel`
+
+```juvix
+exampleReplyActionLabel : TemplateActionExec := Seq [ exampleReplyAction ];
+```
+
+### `doBothActionLabel`
+
+```juvix
+doBothActionLabel : TemplateActionExec :=
+  Seq [
+    justHiAction;
+    exampleReplyAction;
+  ];
+```
+
+## Guards
+
+??? quote "Auxiliary Juvix code"
+
+    ### `TemplateGuard`
+
+    <!-- --8<-- [start:TemplateGuard] -->
+    ```juvix
+    TemplateGuard : Type :=
+      Guard
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        TemplateActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TemplateGuard] -->
+
+    ### `TemplateGuardOutput`
+
+    <!-- --8<-- [start:TemplateGuardOutput] -->
+    ```juvix
+    TemplateGuardOutput : Type :=
+      GuardOutput
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        TemplateActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TemplateGuardOutput] -->
+
+    ### `TemplateGuardEval`
+
+    <!-- --8<-- [start:TemplateGuardEval] -->
+    ```juvix
+    TemplateGuardEval : Type :=
+      GuardEval
+        TemplateCfg
+        TemplateLocalState
+        TemplateMailboxState
+        TemplateTimerHandle
+        TemplateActionArguments
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
+    ```
+    <!-- --8<-- [end:TemplateGuardEval] -->
+
+### `justHiGuard`
+
+Guard description (optional).
+
+Condition
+: Message type is `TemplateMsgJustHi`.
+
+<!-- --8<-- [start:justHiGuard] -->
+```juvix
+justHiGuard
+  (trigger : TemplateTimestampedTrigger)
+  (cfg : EngineCfg TemplateCfg)
+  (env : TemplateEnv)
+  : Option TemplateGuardOutput :=
+  let
+    emsg := getEngineMsgFromTimestampedTrigger trigger;
+  in
+    case emsg of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgTemplate TemplateMsgJustHi;
+      } :=
+      some mkGuardOutput@{
+        action := justHiActionLabel;
+        args := [
+          TemplateActionArgumentTwo
+            mkSecondArgument@{
+              data := "Hello World!"
+            }
+        ];
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:justHiGuard] -->
+
+### `exampleReplyGuard`
+
+Guard description (optional).
+
+Condition
+: Message type is `TemplateMsgExampleRequest`.
+
+<!-- --8<-- [start:exampleReplyGuard] -->
+```juvix
+exampleReplyGuard
+  (trigger : TemplateTimestampedTrigger)
+  (cfg : EngineCfg TemplateCfg)
+  (env : TemplateEnv)
+  : Option TemplateGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger trigger of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
+        sender := mkPair none _; -- from local engines only (NodeID is none)
+      } := some mkGuardOutput@{
+        action := exampleReplyActionLabel;
+        args := [];
+      }
+    | _ := none
+    };
+```
+<!-- --8<-- [end:exampleReplyGuard] -->
 
 ## The Template behaviour
 
@@ -435,12 +420,14 @@ templateConflictSolver :
 ```juvix
 TemplateBehaviour : Type :=
   EngineBehaviour
+    TemplateCfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
-    TemplateMatchableArgument
-    TemplateActionLabel
-    TemplatePrecomputationList;
+    TemplateActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:TemplateBehaviour] -->
 
@@ -450,10 +437,69 @@ TemplateBehaviour : Type :=
 ```juvix
 templateBehaviour : TemplateBehaviour :=
   mkEngineBehaviour@{
-    guards := [messageOneGuard];
-    action := templateAction;
-    conflictSolver := templateConflictSolver;
-  }
-  ;
+    guards :=
+      First [
+        justHiGuard;
+        exampleReplyGuard;
+      ];
+  };
 ```
 <!-- --8<-- [end:templateBehaviour] -->
+
+## Template Action Flowchart
+
+### `justHi` Flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>TemplateMsgJustHi]
+  end
+
+  G(justHiGuard)
+  A(justHiAction)
+
+  C --> G -- *justHiActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(Env update)]
+  end
+```
+
+<figcaption markdown="span">
+
+`justHi` flowchart
+
+</figcaption>
+</figure>
+
+### `exampleReply` Flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>TemplateMsgExampleRequest<br/>from local engine]
+    CEnv[(exampleValue < 10)]
+  end
+
+  G(exampleReplyGuard)
+  A(exampleReplyAction)
+
+  C --> G -- *exampleReplyActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(exampleValue := exampleValue + 1)]
+    EMsg>TemplateMsgExampleResponse<br/>argOne]
+  end
+```
+
+<figcaption markdown="span">
+
+`exampleReply` flowchart
+
+</figcaption>
+</figure>

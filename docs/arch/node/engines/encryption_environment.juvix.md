@@ -90,7 +90,7 @@ syntax alias EncryptionTimerHandle := Unit;
 
 ```juvix
 EncryptionEnvironment : Type :=
-  EngineEnvironment
+  EngineEnv
     EncryptionLocalState
     EncryptionMailboxState
     EncryptionTimerHandle;
@@ -103,7 +103,8 @@ EncryptionEnvironment : Type :=
 module encryption_environment_example;
 
 encryptionEnvironment : EncryptionEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "encryption";
       localState := mkEncryptionLocalState@{
         encryptor := \{_ _ := mkEncryptor@{
@@ -112,7 +113,7 @@ encryptionEnvironment : EncryptionEnvironment :=
             ordKey := mkOrdkey@{
                 compare := Ord.cmp
             };
-            hash := \{x := 0};
+            hash := \{x := "0x1234abcd"};
           };
         }};
         backend := BackendLocalMemory;
