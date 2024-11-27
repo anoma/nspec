@@ -251,7 +251,7 @@ generateIdentityAction
     identities := IdentityManagementLocalState.identities local;
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some emsg := 
+    | some emsg :=
       let whoAsked := EngineMsg.sender emsg;
       in case Map.lookup whoAsked identities of {
         | some _ :=
@@ -261,7 +261,7 @@ generateIdentityAction
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityResponse 
+              msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityResponse
                 (mkResponseGenerateIdentity@{
                   commitmentEngine := none;
                   decryptionEngine := none;
@@ -272,9 +272,9 @@ generateIdentityAction
             timers := [];
             engines := []
           }
-        | none := 
+        | none :=
           case emsg of {
-            | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementGenerateIdentityRequest (mkRequestGenerateIdentity backend' params' capabilities'))} := 
+            | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementGenerateIdentityRequest (mkRequestGenerateIdentity backend' params' capabilities'))} :=
               let identityInfo := mkIdentityInfo@{
                     backend := backend';
                     capabilities := capabilities';
@@ -297,7 +297,7 @@ generateIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityResponse 
+                  msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityResponse
                     (mkResponseGenerateIdentity@{
                       commitmentEngine := IdentityInfo.commitmentEngine updatedIdentityInfo;
                       decryptionEngine := IdentityInfo.decryptionEngine updatedIdentityInfo;
@@ -341,7 +341,7 @@ connectIdentityAction
     identities := IdentityManagementLocalState.identities local;
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some emsg := 
+    | some emsg :=
       let whoAsked := EngineMsg.sender emsg;
       in case Map.lookup whoAsked identities of {
         | some _ :=
@@ -351,7 +351,7 @@ connectIdentityAction
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse 
+              msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
                 (mkConnectIdentityResponse@{
                   commitmentEngine := none;
                   decryptionEngine := none;
@@ -372,7 +372,7 @@ connectIdentityAction
                       sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                       target := whoAsked;
                       mailbox := some 0;
-                      msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse 
+                      msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
                         (mkConnectIdentityResponse@{
                           commitmentEngine := none;
                           decryptionEngine := none;
@@ -400,7 +400,7 @@ connectIdentityAction
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse 
+                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
                             (mkConnectIdentityResponse@{
                               commitmentEngine := IdentityInfo.commitmentEngine newIdentityInfo;
                               decryptionEngine := IdentityInfo.decryptionEngine newIdentityInfo;
@@ -417,7 +417,7 @@ connectIdentityAction
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse 
+                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
                             (mkConnectIdentityResponse@{
                               commitmentEngine := none;
                               decryptionEngine := none;
@@ -462,7 +462,7 @@ deleteIdentityAction
     identities := IdentityManagementLocalState.identities local;
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some emsg := 
+    | some emsg :=
       let whoAsked := EngineMsg.sender emsg;
       in case emsg of {
         | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementDeleteIdentityRequest (mkRequestDeleteIdentity externalIdentity backend'))} :=
@@ -474,7 +474,7 @@ deleteIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityResponse 
+                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityResponse
                     (mkResponseDeleteIdentity@{
                       err := some "Identity does not exist"
                     }))
@@ -496,7 +496,7 @@ deleteIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityResponse 
+                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityResponse
                     (mkResponseDeleteIdentity@{
                       err := none
                     }))
@@ -576,7 +576,7 @@ generateIdentityGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgIdentityManagement (MsgIdentityManagementGenerateIdentityRequest _)
-      } := 
+      } :=
       some mkGuardOutput@{
         action := generateIdentityActionLabel;
         args := []
@@ -601,7 +601,7 @@ connectIdentityGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgIdentityManagement (MsgIdentityManagementConnectIdentityRequest _)
-      } := 
+      } :=
       some mkGuardOutput@{
         action := connectIdentityActionLabel;
         args := []
@@ -626,7 +626,7 @@ deleteIdentityGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgIdentityManagement (MsgIdentityManagementDeleteIdentityRequest _)
-      } := 
+      } :=
       some mkGuardOutput@{
         action := deleteIdentityActionLabel;
         args := []
