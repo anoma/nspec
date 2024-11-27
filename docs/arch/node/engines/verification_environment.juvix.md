@@ -20,6 +20,7 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.engines.verification_messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Verification Environment
@@ -60,10 +61,12 @@ The Verification Engine does not require a timer handle type. Therefore, we defi
 ## Environment summary
 
 ```juvix
-VerificationEnvironment : Type := EngineEnv
-  VerificationLocalState
-  VerificationMailboxState
-  VerificationTimerHandle;
+VerificationEnvironment : Type :=
+  EngineEnv
+    VerificationLocalState
+    VerificationMailboxState
+    VerificationTimerHandle
+    Anoma.Msg;
 ```
 
 ## Example of a `Verification` environment
@@ -74,8 +77,6 @@ module verification_environment_example;
 
 verificationEnvironmentExample : VerificationEnvironment :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "verification";
       localState := mkVerificationLocalState@{
         verifier := \{_ _ := mkVerifier@{
           verify := \{_ _ _ := true};
@@ -87,7 +88,7 @@ verificationEnvironmentExample : VerificationEnvironment :=
           };
         }};
         backend := BackendLocalMemory;
-        signsForEngineAddress := mkPair none (some "Blah");
+        signsForEngineAddress := mkPair none "Blah";
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;
