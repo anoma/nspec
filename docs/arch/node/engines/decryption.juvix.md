@@ -17,9 +17,14 @@ tags:
     import prelude open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.decryption_config open public;
     import arch.node.engines.decryption_messages open public;
     import arch.node.engines.decryption_environment open public;
     import arch.node.engines.decryption_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open decryption_config_example;
     open decryption_environment_example;
     ```
 
@@ -39,6 +44,7 @@ instance and decrypt data encrypted to the corresponding identity.
 ## Components
 
 - [[Decryption Messages]]
+- [[Decryption Config]]
 - [[Decryption Environment]]
 - [[Decryption Behaviour]]
 
@@ -48,12 +54,14 @@ instance and decrypt data encrypted to the corresponding identity.
 ```juvix
 DecryptionEngine : Type :=
   Engine
+    DecryptionCfg
     DecryptionLocalState
     DecryptionMailboxState
     DecryptionTimerHandle
-    DecryptionMatchableArgument
-    DecryptionActionLabel
-    DecryptionPrecomputation;
+    DecryptionActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:DecryptionEngine] -->
 
@@ -63,15 +71,20 @@ DecryptionEngine : Type :=
 ```juvix
 exampleDecryptionEngine : DecryptionEngine :=
   mkEngine@{
-    initEnv := decryptionEnvironment;
+    cfg := decryptionCfg;
+    env := decryptionEnv;
     behaviour := decryptionBehaviour;
   };
 ```
 <!-- --8<-- [end:exampleDecryptionEngine] -->
 
-where `decryptionEnvironment` is defined as follows:
+where `decryptionCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/decryption_behaviour.juvix.md:decryptionBehaviour"
+--8<-- "./docs/arch/node/engines/decryption_config.juvix.md:decryptionCfg"
+
+`decryptionEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/decryption_environment.juvix.md:decryptionEnv"
 
 and `decryptionBehaviour` is defined as follows:
 

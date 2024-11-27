@@ -19,6 +19,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.system.identity.identity open using {Decryptor; mkDecryptor};
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Decryption Environment
@@ -82,16 +83,17 @@ DecryptionEnvironment : Type :=
   EngineEnv
     DecryptionLocalState
     DecryptionMailboxState
-    DecryptionTimerHandle;
+    DecryptionTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
 
-<!-- --8<-- [start:decryptionEnvironment] -->
+<!-- --8<-- [start:decryptionEnv] -->
 ```juvix extract-module-statements
 module decryption_environment_example;
 
-decryptionEnvironmentExample : DecryptionEnvironment :=
+decryptionEnv : DecryptionEnvironment :=
     mkEngineEnv@{
       localState := mkDecryptionLocalState@{
         decryptor := mkDecryptor@{
@@ -106,4 +108,4 @@ decryptionEnvironmentExample : DecryptionEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:decryptionEnvironment] -->
+<!-- --8<-- [end:decryptionEnv] -->
