@@ -20,6 +20,7 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.engines.verification_messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Verification Environment
@@ -86,7 +87,8 @@ VerificationEnvironment : Type :=
   EngineEnv
     VerificationLocalState
     VerificationMailboxState
-    VerificationTimerHandle;
+    VerificationTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
@@ -96,8 +98,7 @@ VerificationEnvironment : Type :=
 module verification_environment_example;
 
 verificationEnvironment : VerificationEnvironment :=
-    mkEngineEnvironment@{
-      name := "verification";
+    mkEngineEnv@{
       localState := mkVerificationLocalState@{
         verifier := \{_ _ := mkVerifier@{
           verify := \{_ _ _ := true};
@@ -109,7 +110,7 @@ verificationEnvironment : VerificationEnvironment :=
           };
         }};
         backend := BackendLocalMemory;
-        signsForEngineAddress := mkPair none (some "Blah");
+        signsForEngineAddress := mkPair none "Blah";
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;

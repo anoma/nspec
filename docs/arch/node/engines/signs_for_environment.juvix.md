@@ -19,6 +19,7 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.engines.signs_for_messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Signs For Environment
@@ -77,7 +78,8 @@ SignsForEnvironment : Type :=
   EngineEnv
     SignsForLocalState
     SignsForMailboxState
-    SignsForTimerHandle;
+    SignsForTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
@@ -87,8 +89,7 @@ SignsForEnvironment : Type :=
 module signs_for_environment_example;
 
 signsForEnvironment : SignsForEnvironment :=
-    mkEngineEnvironment@{
-      name := "signs_for";
+    mkEngineEnv@{
       localState := mkSignsForLocalState@{
         evidenceStore := Set.empty;
         verifyEvidence := \{ _ := true }
