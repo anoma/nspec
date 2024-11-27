@@ -150,7 +150,7 @@ Timer updates
 : No timers are set or cancelled.
 
 ```juvix
-verifyAction 
+verifyAction
   (input : VerificationActionInput)
   : Option VerificationActionEffect :=
   let
@@ -159,7 +159,7 @@ verifyAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env
   in case getEngineMsgFromTimestampedTrigger tt of {
-    | some emsg := 
+    | some emsg :=
       case emsg of {
         | mkEngineMsg@{msg := Anoma.MsgVerification (MsgVerificationRequest (mkRequestVerification data commitment externalIdentity useSignsFor))} :=
           case useSignsFor of {
@@ -171,7 +171,7 @@ verifyAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := EngineMsg.sender emsg;
                     mailbox := some 0;
-                    msg := Anoma.MsgVerification (MsgVerificationResponse (mkResponseVerification 
+                    msg := Anoma.MsgVerification (MsgVerificationResponse (mkResponseVerification
                       (Verifier.verify
                         (VerificationLocalState.verifier localState Set.empty externalIdentity)
                         (VerificationLocalState.backend localState)
@@ -182,7 +182,7 @@ verifyAction
                 timers := [];
                 engines := []
               }
-            | true := 
+            | true :=
               let
                 existingRequests := Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState);
                 newPendingList := case existingRequests of {
@@ -245,7 +245,7 @@ handleSignsForResponseAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env
   in case getEngineMsgFromTimestampedTrigger tt of {
-    | some emsg := 
+    | some emsg :=
       case emsg of {
         | mkEngineMsg@{msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse (mkResponseQuerySignsForEvidence externalIdentity evidence err))} :=
           case Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState) of {
@@ -294,7 +294,7 @@ handleSignsForResponseAction
 
 ## Action Labels
 
-### `verifyActionLabel` 
+### `verifyActionLabel`
 
 ```juvix
 verifyActionLabel : VerificationActionExec := Seq [ verifyAction ];
@@ -404,7 +404,7 @@ signsForResponseGuard
         | mkEngineMsg@{
             msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse _);
             sender := sender
-          } := 
+          } :=
           case isEqual (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnv.localState env))) of {
             | true := some mkGuardOutput@{
               action := handleSignsForResponseActionLabel;
