@@ -18,6 +18,7 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.engines.reads_for_messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Reads For Environment
@@ -76,7 +77,8 @@ ReadsForEnvironment : Type :=
   EngineEnv
     ReadsForLocalState
     ReadsForMailboxState
-    ReadsForTimerHandle;
+    ReadsForTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
@@ -87,8 +89,6 @@ module reads_for_environment_example;
 
 readsForEnvironment : ReadsForEnvironment :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "reads_for";
       localState := mkReadsForLocalState@{
         evidenceStore := Set.empty;
         verifyEvidence := \{ _ := true }

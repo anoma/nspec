@@ -20,6 +20,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # `Encryption` Engine Environment
@@ -93,7 +94,8 @@ EncryptionEnvironment : Type :=
   EngineEnv
     EncryptionLocalState
     EncryptionMailboxState
-    EncryptionTimerHandle;
+    EncryptionTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
@@ -104,8 +106,6 @@ module encryption_environment_example;
 
 encryptionEnvironment : EncryptionEnvironment :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "encryption";
       localState := mkEncryptionLocalState@{
         encryptor := \{_ _ := mkEncryptor@{
           encrypt := \{_ x := x};
@@ -117,7 +117,7 @@ encryptionEnvironment : EncryptionEnvironment :=
           };
         }};
         backend := BackendLocalMemory;
-        readsForEngineAddress := mkPair none (some "Blah");
+        readsForEngineAddress := mkPair none "Blah";
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;
