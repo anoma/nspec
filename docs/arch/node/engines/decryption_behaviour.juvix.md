@@ -75,7 +75,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
 
 ??? quote "Auxiliary Juvix code"
 
-    ## `DecryptionAction`
+    ### `DecryptionAction`
 
     ```juvix
     DecryptionAction : Type :=
@@ -90,7 +90,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Env;
     ```
 
-    ## `DecryptionActionInput`
+    ### `DecryptionActionInput`
 
     ```juvix
     DecryptionActionInput : Type :=
