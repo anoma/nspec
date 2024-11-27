@@ -61,8 +61,8 @@ CommitmentEngine : Type :=
 
 <!-- --8<-- [start:exampleCommitmentEngine] -->
 ```juvix
-exampleCommitmentEngine : CommitmentEngine := mkEngine@{
-    name := "commitment";
+exampleCommitmentEngine : CommitmentEngine :=
+  mkEngine@{
     initEnv := commitmentEnvironment;
     behaviour := commitmentBehaviour;
   };

@@ -79,7 +79,7 @@ syntax alias DecryptionTimerHandle := Unit;
 
 ```juvix
 DecryptionEnvironment : Type :=
-  EngineEnvironment
+  EngineEnv
     DecryptionLocalState
     DecryptionMailboxState
     DecryptionTimerHandle;
@@ -91,9 +91,8 @@ DecryptionEnvironment : Type :=
 ```juvix extract-module-statements
 module decryption_environment_example;
 
-decryptionEnvironment : DecryptionEnvironment :=
-    mkEngineEnvironment@{
-      name := "decryption";
+decryptionEnvironmentExample : DecryptionEnvironment :=
+    mkEngineEnv@{
       localState := mkDecryptionLocalState@{
         decryptor := mkDecryptor@{
           decrypt := \{_ x := some x};

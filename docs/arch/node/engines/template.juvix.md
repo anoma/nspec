@@ -17,9 +17,13 @@ tags:
 
     import prelude open;
     import arch.node.engines.template_messages open public;
+    import arch.node.engines.template_config open public;
     import arch.node.engines.template_environment open public;
     import arch.node.engines.template_behaviour open public;
     import arch.node.types.engine open public;
+    import arch.node.types.anoma as Anoma open;
+
+    open template_config_example;
     open template_environment_example;
     ```
 
@@ -32,6 +36,7 @@ Brief summary of the purpose of the engine.
 ## Components
 
 - [[Template Messages]]
+- [[Template Configuration]]
 - [[Template Environment]]
 - [[Template Behaviour]]
 
@@ -47,12 +52,14 @@ Brief summary of the purpose of the engine.
 ```juvix
 TemplateEngine : Type :=
   Engine
+    TemplateCfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle
-    TemplateMatchableArgument
-    TemplateActionLabel
-    TemplatePrecomputationList;
+    TemplateActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:TemplateEngine] -->
 
@@ -60,17 +67,22 @@ TemplateEngine : Type :=
 
 <!-- --8<-- [start:exampleTemplateEngine] -->
 ```juvix
-exampleTemplateEngine : TemplateEngine := mkEngine@{
-  name := "template";
-  initEnv := templateEnvironment;
-  behaviour := templateBehaviour;
-};
+exampleTemplateEngine : TemplateEngine :=
+  mkEngine@{
+    cfg := templateCfg;
+    env := templateEnv;
+    behaviour := templateBehaviour;
+  };
 ```
 <!-- --8<-- [end:exampleTemplateEngine] -->
 
-where `templateEnvironment` is defined as follows:
+where `templateCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnvironment"
+--8<-- "./docs/arch/node/engines/template_config.juvix.md:templateCfg"
+
+`templateEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnv"
 
 and `templateBehaviour` is defined as follows:
 

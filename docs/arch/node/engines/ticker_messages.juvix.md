@@ -21,23 +21,35 @@ tags:
 
 ## TickerMsg Message Constructors
 
-??? quote "TickerMsgIncrement"
+### `TickerMsgIncrement`
 
-    A `TickerMsgIncrement` message instructs the engine to increase the counter.
-    This message doesn't require any arguments.
+A `TickerMsgIncrement` message instructs the engine to increase the counter.
+This message doesn't require any arguments.
 
-??? quote "TickerMsgCount"
+### `TickerMsgCountRequest`
 
-    A `TickerMsgCount` message requests the engine to send the current counter value back to
-    the requester. This message doesn't require any arguments.
+A `TickerMsgCountRequest` message requests the engine to send the current counter value back to
+the requester. This message doesn't require any arguments.
 
-### TickerMsg
+### `TickerMsgCountReply CountReply`
+
+The `TickerMsgCountReply` contains the counter value.
+
+```juvix
+type CountReply : Type :=
+  mkCountReply {
+    counter : Nat;
+  }
+```
+
+### `TickerMsg`
 
 <!-- --8<-- [start:TickerMsg] -->
 ```juvix
 type TickerMsg :=
   | TickerMsgIncrement
-  | TickerMsgCount
+  | TickerMsgCountRequest
+  | TickerMsgCountReply CountReply
 ```
 <!-- --8<-- [end:TickerMsg] -->
 

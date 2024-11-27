@@ -12,15 +12,17 @@ tags:
     ```juvix
     module arch.node.types.anoma_message;
 
+    import arch.node.engines.template_messages open using {TemplateMsg};
     import arch.node.engines.ticker_messages open using {TickerMsg};
-    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
-    import arch.node.engines.decryption_messages open using {DecryptionMsg};
-    import arch.node.engines.encryption_messages open using {EncryptionMsg};
-    import arch.node.engines.commitment_messages open using {CommitmentMsg};
-    import arch.node.engines.verification_messages open using {VerificationMsg};
-    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
-    import arch.node.engines.signs_for_messages open using {SignsForMsg};
-    import arch.node.engines.naming_messages open using {NamingMsg};
+
+--    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
+--    import arch.node.engines.decryption_messages open using {DecryptionMsg};
+--    import arch.node.engines.encryption_messages open using {EncryptionMsg};
+--    import arch.node.engines.commitment_messages open using {CommitmentMsg};
+--    import arch.node.engines.verification_messages open using {VerificationMsg};
+--    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
+--    import arch.node.engines.signs_for_messages open using {SignsForMsg};
+--    import arch.node.engines.naming_messages open using {NamingMsg};
     ```
 
 # Anoma Message
@@ -36,15 +38,17 @@ has a corresponding message type `TickerMsg`.
 <!-- --8<-- [start:anoma-messages-type] -->
 ```juvix
 type Msg :=
+  | MsgTemplate TemplateMsg
   | MsgTicker TickerMsg
-  | MsgIdentityManagement IdentityManagementMsg
-  | MsgDecryption DecryptionMsg
-  | MsgEncryption EncryptionMsg
-  | MsgCommitment CommitmentMsg
-  | MsgVerification VerificationMsg
-  | MsgReadsFor ReadsForMsg
-  | MsgSignsFor SignsForMsg
-  | MsgNaming NamingMsg
+
+--  | MsgIdentityManagement IdentityManagementMsg
+--  | MsgDecryption DecryptionMsg
+--  | MsgEncryption EncryptionMsg
+--  | MsgCommitment CommitmentMsg
+--  | MsgVerification VerificationMsg
+--  | MsgReadsFor ReadsForMsg
+--  | MsgSignsFor SignsForMsg
+--  | MsgNaming NamingMsg
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

@@ -195,7 +195,7 @@ signsForResponseGuard
       | some (MsgSignsFor (QuerySignsForEvidenceResponse externalIdentity evidence err)) :=
           case getSenderFromTimestampedTrigger t of {
             | some sender :=
-                case isEqual (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnvironment.localState env))) of {
+                case isEqual (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnv.localState env))) of {
                   | true := some (mkGuardOutput@{
                       matchedArgs := [];
                       actionLabel := DoHandleSignsForResponse externalIdentity evidence;
@@ -239,7 +239,7 @@ signsForResponseGuard
 <!-- --8<-- [start:action-function] -->
 ```juvix
 verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironment) (evidence : Set SignsForEvidence) (req : Pair EngineID (Pair Signable Commitment)) : EngineMsg :=
-  let localState := EngineEnvironment.localState env;
+  let localState := EngineEnv.localState env;
       whoAsked := fst req;
       input := snd req;
       data := fst input;
@@ -254,7 +254,7 @@ verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironm
         err := none
       };
       envelope := mkEngineMsg@{
-        sender := mkPair none (some (EngineEnvironment.name env));
+        sender := mkPair none (some (EngineEnv.name env));
         target := whoAsked;
         mailbox := some 0;
         msg := MsgVerification responseMsg
@@ -264,7 +264,7 @@ verifyResponse (externalIdentity : ExternalIdentity) (env : VerificationEnvironm
 verificationAction (input : VerificationActionInput) : VerificationActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
-      localState := EngineEnvironment.localState env;
+      localState := EngineEnv.localState env;
   in
   case GuardOutput.actionLabel out of {
     | DoVerify data commitment externalIdentity' useSignsFor :=
@@ -290,7 +290,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
                         newLocalState := localState@VerificationLocalState{
                           pendingRequests := newPendingRequests
                         };
-                        newEnv' := env@EngineEnvironment{
+                        newEnv' := env@EngineEnv{
                           localState := newLocalState
                         };
                         -- Only send request to SignsFor Engine if this is the first pending request for this identity
@@ -300,7 +300,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
                                               externalIdentity := externalIdentity'
                                             };
                                             envelope := mkEngineMsg@{
-                                              sender := mkPair none (some (EngineEnvironment.name env));
+                                              sender := mkPair none (some (EngineEnv.name env));
                                               target := VerificationLocalState.signsForEngineAddress localState;
                                               mailbox := some 0;
                                               msg := MsgSignsFor requestMsg
@@ -325,7 +325,7 @@ verificationAction (input : VerificationActionInput) : VerificationActionEffect 
                   newLocalState := localState@VerificationLocalState{
                     pendingRequests := newPendingRequests
                   };
-                  newEnv' := env@EngineEnvironment{
+                  newEnv' := env@EngineEnv{
                     localState := newLocalState
                   };
               in mkActionEffect@{
