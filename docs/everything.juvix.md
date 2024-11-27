@@ -59,10 +59,10 @@ import arch.node.engines.ticker_behaviour;
 -- import arch.node.engines.encryption_behaviour;
 -- import arch.node.engines.encryption;
 
--- import arch.node.engines.identity_management_messages;
--- import arch.node.engines.identity_management_environment;
--- import arch.node.engines.identity_management_behaviour;
--- import arch.node.engines.identity_management;
+import arch.node.engines.identity_management_messages;
+import arch.node.engines.identity_management_environment;
+import arch.node.engines.identity_management_behaviour;
+import arch.node.engines.identity_management;
 
 -- import arch.node.engines.naming_messages;
 -- import arch.node.engines.naming_environment;
