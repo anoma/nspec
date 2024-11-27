@@ -17,9 +17,9 @@ search:
 --    import arch.node.engines.decryption_environment open;
 --    import arch.node.engines.encryption_environment open;
 --    import arch.node.engines.commitment_environment open;
---    import arch.node.engines.verification_environment open;
+    import arch.node.engines.verification_environment open;
 --    import arch.node.engines.reads_for_environment open;
---    import arch.node.engines.signs_for_environment open;
+    import arch.node.engines.signs_for_environment open;
 --    import arch.node.engines.naming_environment open;
     ```
 
@@ -46,9 +46,9 @@ type Env :=
 --  | EnvDecryption DecryptionEnvironment
 --  | EnvEncryption EncryptionEnvironment
 --  | EnvCommitment CommitmentEnvironment
---  | EnvVerification VerificationEnvironment
+  | EnvVerification VerificationEnv
 --  | EnvReadsFor ReadsForEnvironment
---  | EnvSignsFor SignsForEnvironment
+  | EnvSignsFor SignsForEnv
 --  | EnvNaming NamingEnvironment
 ```
 <!-- --8<-- [end:anoma-environment-type] -->
