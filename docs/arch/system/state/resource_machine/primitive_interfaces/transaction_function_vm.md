@@ -1,13 +1,13 @@
 # Transaction function VM
 
-Transaction function VM is used to interpret transaction functions. 
+Transaction function VM is used to interpret transaction functions.
 
 ## Interface
 
 - `eval(TransactionFunction, GasLimit) -> Transaction`
 
-Examples: 
-- nock (transparent-only; transaction function) 
+Examples:
+- nock (transparent-only; transaction function)
 - (?) cairo, risc0 (circuits)
 
 !!! warning
