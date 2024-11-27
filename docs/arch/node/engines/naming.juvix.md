@@ -17,9 +17,14 @@ tags:
     import prelude open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.naming_config open public;
     import arch.node.engines.naming_messages open public;
     import arch.node.engines.naming_environment open public;
     import arch.node.engines.naming_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open naming_config_example;
     open naming_environment_example;
     ```
 
@@ -37,6 +42,7 @@ name evidence, and querying name evidence.
 ## Components
 
 - [[Naming Messages]]
+- [[Naming Config]]
 - [[Naming Environment]]
 - [[Naming Behaviour]]
 
@@ -46,12 +52,14 @@ name evidence, and querying name evidence.
 ```juvix
 NamingEngine : Type :=
   Engine
+    NamingCfg
     NamingLocalState
     NamingMailboxState
     NamingTimerHandle
-    NamingMatchableArgument
-    NamingActionLabel
-    NamingPrecomputation;
+    NamingActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:NamingEngine] -->
 
@@ -59,17 +67,22 @@ NamingEngine : Type :=
 
 <!-- --8<-- [start:exampleNamingEngine] -->
 ```juvix
-exampleNamingEngine : NamingEngine := mkEngine@{
-    name := "naming";
-    initEnv := namingEnvironment;
+exampleNamingEngine : NamingEngine :=
+  mkEngine@{
+    cfg := namingCfg;
+    env := namingEnv;
     behaviour := namingBehaviour;
   };
 ```
 <!-- --8<-- [start:exampleNamingEngine] -->
 
-where `namingEnvironment` is defined as follows:
+where `namingCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/naming_environment.juvix.md:namingEnvironment"
+--8<-- "./docs/arch/node/engines/naming_config.juvix.md:namingCfg"
+
+where `namingEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/naming_environment.juvix.md:namingEnv"
 
 and `namingBehaviour` is defined as follows:
 

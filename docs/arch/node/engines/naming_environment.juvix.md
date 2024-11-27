@@ -84,11 +84,11 @@ NamingEnvironment : Type :=
 
 ### Instantiation
 
-<!-- --8<-- [start:namingEnvironment] -->
+<!-- --8<-- [start:namingEnv] -->
 ```juvix extract-module-statements
 module naming_environment_example;
 
-namingEnvironment : NamingEnvironment :=
+namingEnv : NamingEnvironment :=
     mkEngineEnv@{
       localState := mkNamingLocalState@{
         evidenceStore := Set.empty;
@@ -101,4 +101,4 @@ namingEnvironment : NamingEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:namingEnvironment] -->
+<!-- --8<-- [end:namingEnv] -->

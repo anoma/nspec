@@ -22,7 +22,7 @@ tags:
 --    import arch.node.engines.verification_messages open using {VerificationMsg};
 --    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
 --    import arch.node.engines.signs_for_messages open using {SignsForMsg};
---    import arch.node.engines.naming_messages open using {NamingMsg};
+    import arch.node.engines.naming_messages open using {NamingMsg};
     ```
 
 # Anoma Message
@@ -48,7 +48,7 @@ type Msg :=
 --  | MsgVerification VerificationMsg
 --  | MsgReadsFor ReadsForMsg
 --  | MsgSignsFor SignsForMsg
---  | MsgNaming NamingMsg
+  | MsgNaming NamingMsg
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->
