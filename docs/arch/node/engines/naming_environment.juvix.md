@@ -71,10 +71,10 @@ syntax alias NamingTimerHandle := Unit;
 
 ## The Naming Environment
 
-### `NamingEnvironment`
+### `NamingEnv`
 
 ```juvix
-NamingEnvironment : Type :=
+NamingEnv : Type :=
   EngineEnv
     NamingLocalState
     NamingMailboxState
@@ -88,7 +88,7 @@ NamingEnvironment : Type :=
 ```juvix extract-module-statements
 module naming_environment_example;
 
-namingEnv : NamingEnvironment :=
+namingEnv : NamingEnv :=
     mkEngineEnv@{
       localState := mkNamingLocalState@{
         evidenceStore := Set.empty;

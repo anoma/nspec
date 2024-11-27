@@ -377,7 +377,7 @@ Condition
 resolveNameGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
   (cfg : EngineCfg NamingCfg)
-  (env : NamingEnvironment)
+  (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some mkEngineMsg@{
@@ -401,7 +401,7 @@ Condition
 submitNameEvidenceGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
   (cfg : EngineCfg NamingCfg)
-  (env : NamingEnvironment)
+  (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some mkEngineMsg@{
@@ -425,7 +425,7 @@ Condition
 queryNameEvidenceGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
   (cfg : EngineCfg NamingCfg)
-  (env : NamingEnvironment)
+  (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some mkEngineMsg@{
