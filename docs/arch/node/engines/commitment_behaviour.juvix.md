@@ -14,7 +14,7 @@ tags:
 
     ```juvix
     module arch.node.engines.commitment_behaviour;
-    
+
     import prelude open;
     import arch.system.identity.identity open;
     import arch.node.engines.commitment_messages open;
@@ -164,7 +164,7 @@ commitAction
       case emsg of {
       | mkEngineMsg@{msg := Anoma.MsgCommitment (MsgCommitmentRequest request)} :=
         let
-          signedData := Signer.sign 
+          signedData := Signer.sign
             (CommitmentLocalState.signer localState)
             (CommitmentLocalState.backend localState)
             (RequestCommitment.data request);
