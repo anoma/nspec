@@ -509,6 +509,7 @@ namingBehaviour : NamingBehaviour :=
 ### `resolveNameAction` flowchart
 
 <figure markdown>
+
 ```mermaid
 flowchart TD
   MSG>MsgNamingResolveNameRequest]
@@ -517,12 +518,16 @@ flowchart TD
 
   MSG --resolveNameGuard--> A --resolveNameActionLabel--> RES
 ```
-<figcaption>`resolveNameAction` flowchart</figcaption>
+
+<figcaption markdown="span">
+`resolveNameAction` flowchart
+</figcaption>
 </figure>
 
 ### `submitNameEvidenceAction` flowchart
 
 <figure markdown>
+
 ```mermaid
 flowchart TD
   MSG>MsgNamingSubmitNameEvidenceRequest]
@@ -534,12 +539,16 @@ flowchart TD
 
   MSG --submitNameEvidenceGuard--> A --submitNameEvidenceActionLabel--> E
 ```
-<figcaption>`submitNameEvidenceAction` flowchart</figcaption>
+
+<figcaption markdown="span">
+`submitNameEvidenceAction` flowchart
+</figcaption>
 </figure>
 
 ### `queryNameEvidenceAction` flowchart
 
 <figure markdown>
+
 ```mermaid
 flowchart TD
   MSG>MsgNamingQueryNameEvidenceRequest]
@@ -548,5 +557,8 @@ flowchart TD
 
   MSG --queryNameEvidenceGuard--> A --queryNameEvidenceActionLabel--> RES
 ```
-<figcaption>`queryNameEvidenceAction` flowchart</figcaption>
+
+<figcaption markdown="span">
+`queryNameEvidenceAction` flowchart
+</figcaption>
 </figure>
