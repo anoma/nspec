@@ -30,7 +30,7 @@ We define a set of structures required to define a proving system $PS$ as follow
 - Instance $x: PS.Instance$ is the ordered input data structure used to produce and verify a proof.
 - Witness $w: PS.Witness$ is the ordered input data structure used to produce (but not verify) a proof.
 - Proving key $pk: PS.ProvingKey$ contains the data required to produce a proof for a pair $(x, w)$. Specific to a particular statement (different statements `f` and `f'` imply different proving keys) being proven, but doesn't depend on the inputs.
-- Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the instance $x$, to verify a proof $\pi$. Specific to a particular statement being proven (different statements `f` and `f'` imply different proving keys), but doesn't depend on the inputs.
+- Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the instance $x$, to verify a proof $\pi$. Specific to a particular statement being proven (different statements `f` and `f'` imply different verifying keys), but doesn't depend on the inputs.
 
 
 A proving system $PS$ consists of a pair of algorithms, $(Prove, Verify)$:

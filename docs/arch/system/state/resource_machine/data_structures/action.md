@@ -21,7 +21,7 @@ Actions partition the state change induced by a transaction and limit the resour
 
 ## Interface
 
-1. `createProven(Set Resource, Set Resource, ApplicationData) -> Action` - creates a proven action
+1. `createProven(Set (NullifierKey, Resource), Set Resource, ApplicationData) -> Action` - creates a proven action
 2. `createUnproven(Set Commitment, Set Nullifier, ApplicationData) -> Action` - creates an unproven action
 3. `delta(Action) -> DeltaHash`
 4. `prove(Action, Map Tag (LogicRefHash, PS.Proof), Set (PS.VerifyingKey, PS.Instance, PS.Proof)) -> Action` - takes as input an unproven action, a set of logic proofs, and a set of compliance proofs. Outputs a proven action
@@ -36,16 +36,15 @@ Each action refers to a set of resources to be consumed and a set of resources t
 
 ## `create`
 
-Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, a proven action is computed the following way:
+Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, a _proven_ action is computed the following way:
 
-1. Compute the required resource logic and compliance proofs
-2. For the compliance proofs, create a set of proof records `Set (PS.VerifyingKey, PS.Instance, PS.Proof)` and put them in `action.complianceProofs`
-3. For the logic proofs, associate each proof with the logic hash reference and the tag of the resource for which the proof is created, and put the resulting map in `action.resourceLogicProofs`
-4. `action.consumed = r.nullifier(nullifierKey) for r in consumedResources`
-5. `action.created = r.commitment() for r in createdResources`
-6. `action.applicationData = applicationData`
+1. For each resource, compute a resource logic proof. Associate each proof with the tag of the resource and the logic hash reference. Put the resulting map in `action.resourceLogicProofs`
+2. Partition action into compliance units and compute a compliance proof for each unit. Put the information about the units in `action.complianceUnits`
+3. `action.consumed = r.nullifier(nullifierKey) for r in consumedResources`
+4. `action.created = r.commitment() for r in createdResources`
+5. `action.applicationData = applicationData`
 
-An unproven action would be computed the same way, except that some resource logic proofs and compliance proofs wouldn't be computed yet.
+An _unproven_ action can be computed by skipping steps 1 and 2.
 
 ## Unproven and proven actions
 
@@ -73,26 +72,18 @@ Validity of an action can only be determined for actions that are associated wit
 
 1. action input resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
 2. action output resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
-3. all compliance proofs are valid: `Verify(complianceVerifyingKey, complianceInstance, complianceProof) = True`
+3. all compliance proofs are valid: `complianceUnit.verify() = True`
 4. transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
 
-## Action delta (computable component)
+## Action delta
 
-`action.delta() -> DeltaHash` is a computable component used to compute `transactionDelta`. It is computed from `r.delta()` of the resources that comprise the action and defined as `action.delta() = sum(r.delta() for r in consumedResources) - sum(r.delta() for r in createdResources)`
-
-From the homomorphic properties of [`DeltaHash`](./../primitive_interfaces/fixed_size_type/delta_hash.md), for the resources of the same kind $kind$, adding together the deltas of the resources results in the delta corresponding to the total quantity of that resource kind: $\sum_j{h_\Delta(kind, q_{r_{i_j}})} - \sum_j{h_\Delta(kind, q_{r_{o_j}})} = \sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}} =  h_\Delta(kind, q_{kind})$, where $q_{kind}$ is the total quantity of the resources of kind $kind$.
-
-The kind-distinctness property of $h_\Delta$ allows computing $\Delta_{tx} = \sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}}$ adding resources of all kinds together without the need to account for distinct resource kinds explicitly: $\sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$.
-
-
-!!! note
-    When action delta is provided as input and not computed directly, it has to be explicitly checked that the action delta is correctly computed from the resource deltas.
-
-!!! note
-    Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
+`action.delta() -> DeltaHash` is a computable component used to compute `transactionDelta`. It is computed from `r.delta()` of the resources that comprise the action and defined as `action.delta() = sum(cu.delta() for cu in action.complianceUnits)`.
 
 ## Action composition
 
 Since proven actions already contain all of the required proofs, there is no need to expand the evaluation context of such actions, therefore *proven actions are not composable*.
 
 Right now we assume that each action is created by exactly one party in one step, meaning that *unproven actions are not composable*.
+
+!!! note
+    Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
