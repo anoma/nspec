@@ -36,7 +36,7 @@ Each action refers to a set of resources to be consumed and a set of resources t
 
 ## `create`
 
-Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, a _proven_ action is computed the following way:
+Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource, RootRef)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, a _proven_ action is computed the following way:
 
 1. For each resource, compute a resource logic proof. Associate each proof with the tag of the resource and the logic hash reference. Put the resulting map in `action.resourceLogicProofs`
 2. Partition action into compliance units and compute a compliance proof for each unit. Put the information about the units in `action.complianceUnits`
