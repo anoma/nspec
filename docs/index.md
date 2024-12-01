@@ -25,7 +25,7 @@ list_wikilinks: false
 
     The term "Anoma" as used on this site refers specifically to the Anoma Protocol. However, it may
     also be used elsewhere to refer to related entities such as the Anoma Network or the Anoma
-    Foundation.
+    Foundation. Hoder
 
     - The Anoma Network, which consists of nodes using the Anoma protocol.
 
@@ -55,11 +55,3 @@ This site aims to describe the architecture required to implement the
 Anoma protocol and serves as a guide for Anoma researchers and implementors.
 
 <!-- The following todo would desapear on the online version. -->
-
-<details markdown="1">
-
-<summary>Table of Contents</summary>
-
-{@ dict_to_md(nav_to_dict(navigation)) @}
-
-</details>

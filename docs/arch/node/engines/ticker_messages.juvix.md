@@ -35,7 +35,8 @@ the requester. This message doesn't require any arguments.
 
 The `TickerMsgCountReply` contains the counter value.
 
-```juvix
+```
+asdfasdf
 type CountReply : Type :=
   mkCountReply {
     counter : Nat;

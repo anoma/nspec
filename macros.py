@@ -6,16 +6,15 @@ from pathlib import Path
 
 from mkdocs.structure.nav import Link, Navigation, Section
 from mkdocs.structure.pages import Page
+from mkdocs_juvix.logger import log
 
 ROOT_DIR = Path(__file__).parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 
 REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", False))
 
-CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
+CACHE_DIR: Path = ROOT_DIR.joinpath(".cache-juvix-mkdocs")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
-
-log = logging.getLogger("mkdocs")
 
 
 def load_json_file(file_path):
@@ -62,6 +61,8 @@ def define_env(env):
         juvix_modules_file = CACHE_DIR / "juvix_modules.json"
         juvix_modules_by_letter = {}
         juvix_modules = load_json_file(juvix_modules_file)
+        # filter out the ones that have no module_name
+        juvix_modules = [mod for mod in juvix_modules if mod["module_name"]]
         juvix_modules = sorted(juvix_modules, key=lambda x: x["module_name"])
         current_letter = None
         for mod in juvix_modules:

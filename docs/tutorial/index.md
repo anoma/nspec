@@ -5,7 +5,6 @@ search:
 tags:
     - guidelines
     - documentation
-list_wikilinks: true
 ---
 
 # Tutorials and guidelines for writing Anoma Specification documentation
@@ -29,4 +28,3 @@ request with your changes.
 - [[Add pending tasks with Todos admonition]]
 - [[Add literature references]]
 - [[Add diffs for versioning]]
-
