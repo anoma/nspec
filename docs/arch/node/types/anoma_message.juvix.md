@@ -24,7 +24,7 @@ tags:
 --    import arch.node.engines.signs_for_messages open using {SignsForMsg};
 --    import arch.node.engines.naming_messages open using {NamingMsg};
     import arch.node.engines.local_key_value_storage_messages open using {LocalKVStorageMsg};
---    import arch.node.engines.local_logging_messages open using {LocalLoggingMsg};
+    import arch.node.engines.logging_messages open using {LoggingMsg};
 --    import arch.node.engines.local_wall_clock_messages open using {LocalWallClockMsg};
 --    import arch.node.engines.local_time_series_storage_messages open using {LocalTimeSeriesMsg};
     ```
@@ -54,7 +54,7 @@ type Msg :=
 --  | MsgSignsFor SignsForMsg
 --  | MsgNaming NamingMsg
   | MsgLocalKVStorage LocalKVStorageMsg
---  | MsgLocalLogging LocalLoggingMsg
+  | MsgLogging LoggingMsg
 --  | MsgLocalWallClock LocalWallClockMsg
 --  | MsgLocalTimeSeries LocalTimeSeriesMsg
   ;

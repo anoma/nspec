@@ -90,11 +90,11 @@ import arch.node.engines.local_key_value_storage_environment;
 import arch.node.engines.local_key_value_storage_behaviour;
 import arch.node.engines.local_key_value_storage;
 
--- import arch.node.engines.local_logging_messages;
--- import arch.node.engines.local_logging_config;
--- import arch.node.engines.local_logging_environment;
--- import arch.node.engines.local_logging_behaviour;
--- import arch.node.engines.local_logging;
+import arch.node.engines.logging_messages;
+import arch.node.engines.logging_config;
+import arch.node.engines.logging_environment;
+import arch.node.engines.logging_behaviour;
+import arch.node.engines.logging;
 
 -- import arch.node.engines.local_wall_clock_messages;
 -- import arch.node.engines.local_wall_clock_config;
