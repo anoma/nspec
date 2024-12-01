@@ -84,6 +84,30 @@ import arch.node.engines.ticker_behaviour;
 -- import arch.node.engines.verification_behaviour;
 -- import arch.node.engines.verification;
 
+-- import arch.node.engines.local_key_value_storage_messages;
+-- import arch.node.engines.local_key_value_storage_config;
+-- import arch.node.engines.local_key_value_storage_environment;
+-- import arch.node.engines.local_key_value_storage_behaviour;
+-- import arch.node.engines.local_key_value_storage;
+
+-- import arch.node.engines.local_logging_messages;
+-- import arch.node.engines.local_logging_config;
+-- import arch.node.engines.local_logging_environment;
+-- import arch.node.engines.local_logging_behaviour;
+-- import arch.node.engines.local_logging;
+
+-- import arch.node.engines.local_wall_clock_messages;
+-- import arch.node.engines.local_wall_clock_config;
+-- import arch.node.engines.local_wall_clock_environment;
+-- import arch.node.engines.local_wall_clock_behaviour;
+-- import arch.node.engines.local_wall_clock;
+
+-- import arch.node.engines.local_time_series_storage_messages;
+-- import arch.node.engines.local_time_series_storage_config;
+-- import arch.node.engines.local_time_series_storage_environment;
+-- import arch.node.engines.local_time_series_storage_behaviour;
+-- import arch.node.engines.local_time_series_storage;
+
 {- Template for new engines -}
 import arch.node.engines.template;
 import arch.node.engines.template_messages;

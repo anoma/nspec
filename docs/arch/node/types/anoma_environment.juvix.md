@@ -21,6 +21,10 @@ search:
 --    import arch.node.engines.reads_for_environment open;
 --    import arch.node.engines.signs_for_environment open;
 --    import arch.node.engines.naming_environment open;
+--    import arch.node.engines.local_key_value_storage_environment open;
+--    import arch.node.engines.local_logging_environment open;
+--    import arch.node.engines.local_wall_clock_environment open;
+--    import arch.node.engines.local_time_series_storage_environment open;
     ```
 
 # Anoma Engine Environments
@@ -50,5 +54,9 @@ type Env :=
 --  | EnvReadsFor ReadsForEnvironment
 --  | EnvSignsFor SignsForEnvironment
 --  | EnvNaming NamingEnvironment
+--  | EnvLocalKeyValueStorage LocalKeyValueStorageEnv
+--  | EnvLocalLogging LocalLoggingEnv
+--  | EnvLocalWallClock LocalWallClockEnv
+--  | EnvLocalTimeSeries LocalTimeSeriesEnv
 ```
 <!-- --8<-- [end:anoma-environment-type] -->
