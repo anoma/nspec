@@ -148,7 +148,7 @@ type ValueChangedKVStore := mkValueChangedKVStore {
 type LocalKVStorageMsg :=
   | LocalKVStorageMsgGetValueRequest GetValueKVStoreRequest
   | LocalKVStorageMsgGetValueResponse GetValueKVStoreResponse
-  | LocalKVStorageMsgSetValueRequest SetValueKVStoreRequest 
+  | LocalKVStorageMsgSetValueRequest SetValueKVStoreRequest
   | LocalKVStorageMsgSetValueResponse SetValueKVStoreResponse
   | LocalKVStorageMsgDeleteValueRequest DeleteValueKVStoreRequest
   | LocalKVStorageMsgDeleteValueResponse DeleteValueKVStoreResponse
