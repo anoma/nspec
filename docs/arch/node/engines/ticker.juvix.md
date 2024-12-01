@@ -45,7 +45,7 @@ receiving a `Count` message. The initial state initializes the counter.
 ## Components
 
 - [[Ticker Messages]]
-- [[Ticker Config]]
+- [[Ticker Configuration]]
 - [[Ticker Environment]]
 - [[Ticker Behaviour]]
 
