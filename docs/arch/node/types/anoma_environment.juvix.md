@@ -24,7 +24,7 @@ search:
     import arch.node.engines.local_key_value_storage_environment open;
     import arch.node.engines.logging_environment open;
     import arch.node.engines.wall_clock_environment open;
---    import arch.node.engines.local_time_series_storage_environment open;
+    import arch.node.engines.local_time_series_storage_environment open;
     ```
 
 # Anoma Engine Environments
@@ -57,6 +57,6 @@ type Env :=
   | EnvLocalKeyValueStorage LocalKVStorageEnv
   | EnvLogging LoggingEnv
   | EnvWallClock WallClockEnv
---  | EnvLocalTSeries LocalTSeriesEnv
+  | EnvLocalTSeries LocalTSStorageEnv
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

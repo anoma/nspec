@@ -25,8 +25,8 @@ tags:
 --    import arch.node.engines.naming_messages open using {NamingMsg};
     import arch.node.engines.local_key_value_storage_messages open using {LocalKVStorageMsg};
     import arch.node.engines.logging_messages open using {LoggingMsg};
---    import arch.node.engines.local_wall_clock_messages open using {LocalWallClockMsg};
---    import arch.node.engines.local_time_series_storage_messages open using {LocalTimeSeriesMsg};
+    import arch.node.engines.wall_clock_messages open using {WallClockMsg};
+    import arch.node.engines.local_time_series_storage_messages open using {LocalTSStorageMsg};
     ```
 
 # Anoma Message
@@ -55,8 +55,8 @@ type Msg :=
 --  | MsgNaming NamingMsg
   | MsgLocalKVStorage LocalKVStorageMsg
   | MsgLogging LoggingMsg
---  | MsgLocalWallClock LocalWallClockMsg
---  | MsgLocalTimeSeries LocalTimeSeriesMsg
+  | MsgWallClock WallClockMsg
+  | MsgLocalTSStorage LocalTSStorageMsg
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->
