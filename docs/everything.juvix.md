@@ -55,6 +55,7 @@ import arch.node.engines.ticker_behaviour;
 -- import arch.node.engines.decryption;
 
 import arch.node.engines.encryption_messages;
+import arch.node.engines.encryption_config;
 import arch.node.engines.encryption_environment;
 import arch.node.engines.encryption_behaviour;
 import arch.node.engines.encryption;
