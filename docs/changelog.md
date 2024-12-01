@@ -65,7 +65,7 @@ Major revision of the engine definitions, the template, and the ticker engine.
     [#246](https://github.com/anoma/nspec/pull/246)), precomputation results are
     now passed directly as action arguments, and the `action` field has been
     replaced with action labels defined by label type.
-    
+
   -  [**#249**](https://github.com/anoma/nspec/pull/249): Remove `name` field in Engine instances due to PR 242
   -  [**#255**](https://github.com/anoma/nspec/pull/255): Make ByteString `String` instead of `Nat`
   -  [**#258**](https://github.com/anoma/nspec/pull/258): Engine-related changes: add type parameter to parameterized the type of message and [rename `EngineConfig` to `EngineCfg`](https://github.com/anoma/nspec/pull/258/commits/e35d75f8a187155629fa1b0a5b72ea6983a49e2d)
