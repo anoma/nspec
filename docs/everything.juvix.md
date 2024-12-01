@@ -84,11 +84,11 @@ import arch.node.engines.ticker_behaviour;
 -- import arch.node.engines.verification_behaviour;
 -- import arch.node.engines.verification;
 
--- import arch.node.engines.local_key_value_storage_messages;
--- import arch.node.engines.local_key_value_storage_config;
--- import arch.node.engines.local_key_value_storage_environment;
--- import arch.node.engines.local_key_value_storage_behaviour;
--- import arch.node.engines.local_key_value_storage;
+import arch.node.engines.local_key_value_storage_messages;
+import arch.node.engines.local_key_value_storage_config;
+import arch.node.engines.local_key_value_storage_environment;
+import arch.node.engines.local_key_value_storage_behaviour;
+import arch.node.engines.local_key_value_storage;
 
 -- import arch.node.engines.local_logging_messages;
 -- import arch.node.engines.local_logging_config;
