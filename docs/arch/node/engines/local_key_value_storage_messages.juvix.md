@@ -64,7 +64,7 @@ type GetValueKVStoreResponseV1 := mkGetValueKVStoreResponseV1 {
 
     `key`
     : The key that maps to the requested value in the KV-store.
-    
+
     `value`
     : The requested value from the KV-store.
 
@@ -85,7 +85,7 @@ type SetValueKVStoreRequestV1 := mkSetValueKVStoreRequestV1 {
 
     `key`
     : The key that identifies the data in the KV-store.
-    
+
     `value`
     : The value to store in the KV-store.
 
@@ -148,7 +148,7 @@ type ValueChangedKVStore := mkValueChangedKVStore {
 type LocalKVStorageMsg :=
   | LocalKVStorageMsgGetValueRequest GetValueKVStoreRequestV1
   | LocalKVStorageMsgGetValueResponse GetValueKVStoreResponseV1
-  | LocalKVStorageMsgSetValueRequest SetValueKVStoreRequestV1 
+  | LocalKVStorageMsgSetValueRequest SetValueKVStoreRequestV1
   | LocalKVStorageMsgSetValueResponse SetValueKVStoreResponseV1
   | LocalKVStorageMsgDeleteValueRequest DeleteValueKVStoreRequestV1
   | LocalKVStorageMsgDeleteValueResponse DeleteValueKVStoreResponseV1
@@ -167,7 +167,7 @@ type LocalKVStorageMsg :=
 sequenceDiagram
     participant Client
     participant KVStorage
-    
+
     Client ->>+ KVStorage: GetValueKVStoreRequest
     KVStorage -->>- Client: GetValueKVStoreResponse
 ```
@@ -187,7 +187,7 @@ Get Value Request/Response Flow
 sequenceDiagram
     participant Client
     participant KVStorage
-    
+
     Client ->>+ KVStorage: SetValueKVStoreRequest
     KVStorage -->>- Client: SetValueKVStoreResponse
 ```
@@ -207,7 +207,7 @@ Set Value Request/Response Flow
 sequenceDiagram
     participant Client
     participant KVStorage
-    
+
     Client ->>+ KVStorage: DeleteValueKVStoreRequest
     KVStorage -->>- Client: DeleteValueKVStoreResponse
 ```

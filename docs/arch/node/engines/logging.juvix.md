@@ -21,7 +21,7 @@ tags:
     import arch.node.engines.logging_environment open public;
     import arch.node.engines.logging_behaviour open public;
     import arch.node.engines.logging_config open public;
-    
+
     import arch.node.types.anoma as Anoma open;
 
     open logging_config_example;

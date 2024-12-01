@@ -60,7 +60,7 @@ Therefore, we define the timer handle type as `Unit`.
 syntax alias WallClockTimerHandle := Unit;
 ```
 
-## The Wall Clock Environment 
+## The Wall Clock Environment
 
 ### Auxiliary abstraction Functions
 

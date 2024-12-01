@@ -133,7 +133,7 @@ type DeleteDataTSStorageDBResponseV1 := mkDeleteDataTSStorageDBResponseV1 {
     `success`
     : The success of the operation, indicating that the data was deleted successfully or not.
 
-### `DataChangedTSStorageDBV1` 
+### `DataChangedTSStorageDBV1`
 
 <!-- --8<-- [start:DataChangedTSStorageDBV1] -->
 ```juvix
@@ -183,7 +183,7 @@ type LocalTSStorageMsg :=
 sequenceDiagram
     participant AnyEngine
     participant LocalTSStorageDB
-    
+
     AnyEngine ->> LocalTSStorageDB: GetDataTSStorageDBRequest
     LocalTSStorageDB ->> AnyEngine: GetDataTSStorageDBResponse
 ```
@@ -201,9 +201,9 @@ Sequence Diagram: Get Data Flow
 
 ```mermaid
 sequenceDiagram
-    participant AnyEngine  
+    participant AnyEngine
     participant LocalTSStorageDB
-    
+
     AnyEngine ->> LocalTSStorageDB: RecordDataTSStorageDBRequest
     LocalTSStorageDB ->> AnyEngine: RecordDataTSStorageDBResponse
 ```
@@ -223,7 +223,7 @@ Sequence Diagram: Record Data Flow
 sequenceDiagram
     participant AnyEngine
     participant LocalTSStorageDB
-    
+
     AnyEngine ->> LocalTSStorageDB: DeleteDataTSStorageDBRequest
     LocalTSStorageDB ->> AnyEngine: DeleteDataTSStorageDBResponse
 ```

@@ -38,7 +38,7 @@ The Local Key-Value Storage Engine provides the local storage and retrieval of d
 
 - [[Local Key-Value Storage Messages]]
 - [[Local Key-Value Storage Configuration]]
-- [[Local Key-Value Storage Environment]] 
+- [[Local Key-Value Storage Environment]]
 - [[Local Key-Value Storage Behaviour]]
 
 ## Type

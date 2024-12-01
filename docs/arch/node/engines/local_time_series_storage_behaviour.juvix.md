@@ -182,8 +182,8 @@ recordDataAction
             sender := getEngineIDFromEngineCfg cfg;
             target := whoAsked;
             mailbox := some 0;
-            msg := 
-              Anoma.MsgLocalTSStorage 
+            msg :=
+              Anoma.MsgLocalTSStorage
                 (LocalTSStorageMsgRecordResponse
                   (mkRecordDataTSStorageDBResponseV1@{
                     query := RecordDataTSStorageDBRequestV1.query req;
@@ -237,8 +237,8 @@ getDataAction
             sender := getEngineIDFromEngineCfg cfg;
             target := whoAsked;
             mailbox := some 0;
-            msg := 
-              Anoma.MsgLocalTSStorage 
+            msg :=
+              Anoma.MsgLocalTSStorage
                 (LocalTSStorageMsgGetResponse
                   (mkGetDataTSStorageDBResponseV1@{
                     query := GetDataTSStorageDBRequestV1.query req;
@@ -298,8 +298,8 @@ deleteDataAction
             sender := getEngineIDFromEngineCfg cfg;
             target := whoAsked;
             mailbox := some 0;
-            msg := 
-              Anoma.MsgLocalTSStorage 
+            msg :=
+              Anoma.MsgLocalTSStorage
                 (LocalTSStorageMsgDeleteResponse
                   (mkDeleteDataTSStorageDBResponseV1@{
                     query := DeleteDataTSStorageDBRequestV1.query req;
