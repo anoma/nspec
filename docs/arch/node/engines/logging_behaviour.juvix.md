@@ -55,6 +55,9 @@ LoggingActionArguments : Type := List LoggingActionArgument;
 
 ??? quote "Auxiliary Juvix code"
 
+    ### `LoggingAction`
+
+    <!-- --8<-- [start:LoggingAction] -->
     ```juvix
     LoggingAction : Type :=
       Action
@@ -66,7 +69,13 @@ LoggingActionArguments : Type := List LoggingActionArgument;
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:LoggingAction] -->
 
+    ### `LoggingActionInput`
+
+    <!-- --8<-- [start:LoggingActionInput] -->
+    ```juvix
     LoggingActionInput : Type :=
       ActionInput
         LoggingCfg
@@ -75,7 +84,13 @@ LoggingActionArguments : Type := List LoggingActionArgument;
         LoggingTimerHandle
         LoggingActionArguments
         Anoma.Msg;
+    ```
+    <!-- --8<-- [end:LoggingActionInput] -->
 
+    ### `LoggingActionEffect`
+
+    <!-- --8<-- [start:LoggingActionEffect] -->
+    ```juvix
     LoggingActionEffect : Type :=
       ActionEffect
         LoggingLocalState
@@ -84,7 +99,13 @@ LoggingActionArguments : Type := List LoggingActionArgument;
         Anoma.Msg
         Anoma.Cfg
         Anoma.Env;
+    ```
+    <!-- --8<-- [end:LoggingActionEffect] -->
 
+    ### `LoggingActionExec`
+
+    <!-- --8<-- [start:LoggingActionExec] -->
+    ```juvix
     LoggingActionExec : Type :=
       ActionExec
         LoggingCfg
@@ -96,10 +117,11 @@ LoggingActionArguments : Type := List LoggingActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+    <!-- --8<-- [end:LoggingActionExec] -->
 
 ### `appendLogAction`
 
-Action for appending a new log entry to the logbook.
+Append new log entry to the logbook.
 
 State update
 : Add the new log entry to the logbook.

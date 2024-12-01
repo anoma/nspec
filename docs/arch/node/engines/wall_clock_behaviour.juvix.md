@@ -70,6 +70,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
 
     ### WallClockAction
 
+    <!-- --8<-- [start:WallClockAction] -->
     ```juvix
     WallClockAction : Type :=
       Action
@@ -82,9 +83,11 @@ WallClockActionArguments : Type := List WallClockActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+    <!-- --8<-- [end:WallClockAction] -->
 
     ### WallClockActionInput
 
+    <!-- --8<-- [start:WallClockActionInput] -->
     ```juvix
     WallClockActionInput : Type :=
       ActionInput
@@ -95,9 +98,11 @@ WallClockActionArguments : Type := List WallClockActionArgument;
         WallClockActionArguments
         Anoma.Msg;
     ```
+    <!-- --8<-- [end:WallClockActionInput] -->
 
     ### WallClockActionEffect
 
+    <!-- --8<-- [start:WallClockActionEffect] -->
     ```juvix
     WallClockActionEffect : Type :=
       ActionEffect
@@ -108,9 +113,11 @@ WallClockActionArguments : Type := List WallClockActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+    <!-- --8<-- [end:WallClockActionEffect] -->
 
     ### WallClockActionExec
 
+    <!-- --8<-- [start:WallClockActionExec] -->
     ```juvix
     WallClockActionExec : Type :=
       ActionExec
@@ -123,6 +130,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+    <!-- --8<-- [end:WallClockActionExec] -->
 
 ### `getTimeAction`
 

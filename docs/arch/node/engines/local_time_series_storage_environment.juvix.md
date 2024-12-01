@@ -31,83 +31,15 @@ The environment contains the state and context needed for the time series storag
 
 ## Mailbox state types
 
-??? quote "Auxiliary Juvix code"
-
-    ```juvix
-    syntax alias MailboxOneOne := Nat;
-    syntax alias MailboxTwoOne := String;
-    syntax alias MailboxTwoTwo := Bool;
-    ```
-
-### `LocalTSStorageMailboxStateFirstKind FirstKindMailboxState`
-
-<!-- --8<-- [start:FirstKindMailboxState] -->
-```juvix
-type FirstKindMailboxState := mkFirstKindMailboxState {
-  fieldOne : MailboxOneOne
-};
-```
-<!-- --8<-- [end:FirstKindMailboxState] -->
-
-This is one family of mailbox states used for basic query operations.
-
-???+ quote "Arguments"
-
-    `fieldOne`
-
-    : A numeric identifier for tracking query operations.
-
-
-### `LocalTSStorageMailboxStateSecondKind SecondKindMailboxState`
-
-<!-- --8<-- [start:SecondKindMailboxState] -->
-```juvix
-type SecondKindMailboxState := mkSecondKindMailboxState {
-  fieldOne : MailboxTwoOne;
-  fieldTwo : MailboxTwoTwo
-};
-```
-<!-- --8<-- [end:SecondKindMailboxState] -->
-
-A more complex mailbox state used for data modification operations.
-
-???+ quote "Arguments"
-
-    `fieldOne`
-
-    : A string identifier for the data being modified.
-
-    `fieldTwo`
-
-    : A boolean flag indicating if the operation was successful.
-
 ### `LocalTSStorageMailboxState`
 
 <!-- --8<-- [start:LocalTSStorageMailboxState] -->
 ```juvix
-type LocalTSStorageMailboxState :=
-  | LocalTSStorageMailboxStateFirstKind FirstKindMailboxState
-  | LocalTSStorageMailboxStateSecondKind SecondKindMailboxState;
+type LocalTSStorageMailboxState := Unit;
 ```
 <!-- --8<-- [end:LocalTSStorageMailboxState] -->
 
 ## Local state
-
-??? quote "Auxiliary Juvix code"
-
-    Contains the basic data types used for managing the task queue.
-
-    <!-- --8<-- [start:CustomData] -->
-    ```juvix
-    type CustomData := mkCustomData { word : String };
-    ```
-    <!-- --8<-- [end:CustomData] -->
-
-    ???+ quote "Arguments"
-
-        `word`
-
-        : The current task being processed in the queue.
 
 ### `LocalTSStorageLocalState`
 
@@ -115,16 +47,15 @@ type LocalTSStorageMailboxState :=
 ```juvix
 type LocalTSStorageLocalState :=
   mkLocalTSStorageLocalState {
-    taskQueue : CustomData
+    database : Map TSStorageDBQuery TSStorageDBData
 };
 ```
 <!-- --8<-- [end:LocalTSStorageLocalState] -->
 
 ???+ quote "Arguments"
 
-    `taskQueue`
-
-    : Maintains the queue of operations to be performed on the time series data.
+    `database`
+    : The key-value store mapping queries to time series data.
 
 ## Timer handles
 
@@ -220,9 +151,7 @@ module local_ts_storage_environment_example;
   localTSStorageEnv : LocalTSStorageEnv :=
     mkEngineEnv@{
       localState := mkLocalTSStorageLocalState@{
-        taskQueue := mkCustomData@{
-          word := "taskQueue"
-        }
+        database := Map.empty
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

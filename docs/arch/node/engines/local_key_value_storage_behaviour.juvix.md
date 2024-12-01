@@ -158,9 +158,9 @@ getValueAction
               target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueResponse
-                (mkGetValueKVStoreResponseV1@{
-                  key := GetValueKVStoreRequestV1.key req;
-                  value := fromOption (Map.lookup (GetValueKVStoreRequestV1.key req) storage) ""
+                (mkGetValueKVStoreResponse@{
+                  key := GetValueKVStoreRequest.key req;
+                  value := fromOption (Map.lookup (GetValueKVStoreRequest.key req) storage) ""
                 }))
             }];
             timers := [];
@@ -204,7 +204,7 @@ setValueAction
       case emsg of {
         | mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueRequest req)} :=
           let
-            newStorage := Map.insert (SetValueKVStoreRequestV1.key req) (SetValueKVStoreRequestV1.value req) storage;
+            newStorage := Map.insert (SetValueKVStoreRequest.key req) (SetValueKVStoreRequest.value req) storage;
             newLocal := local@LocalKVStorageLocalState{storage := newStorage};
             newEnv := env@EngineEnv{localState := newLocal};
           in some mkActionEffect@{
@@ -214,8 +214,8 @@ setValueAction
               target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueResponse
-                (mkSetValueKVStoreResponseV1@{
-                  key := SetValueKVStoreRequestV1.key req;
+                (mkSetValueKVStoreResponse@{
+                  key := SetValueKVStoreRequest.key req;
                   success := true
                 }))
             }];
@@ -260,7 +260,7 @@ deleteValueAction
       case emsg of {
         | mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueRequest req)} :=
           let
-            newStorage := Map.delete (DeleteValueKVStoreRequestV1.key req) storage;
+            newStorage := Map.delete (DeleteValueKVStoreRequest.key req) storage;
             newLocal := local@LocalKVStorageLocalState{storage := newStorage};
             newEnv := env@EngineEnv{localState := newLocal};
           in some mkActionEffect@{
@@ -270,8 +270,8 @@ deleteValueAction
               target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueResponse
-                (mkDeleteValueKVStoreResponseV1@{
-                  key := DeleteValueKVStoreRequestV1.key req;
+                (mkDeleteValueKVStoreResponse@{
+                  key := DeleteValueKVStoreRequest.key req;
                   success := true
                 }))
             }];
@@ -463,7 +463,7 @@ localKVStorageBehaviour : LocalKVStorageBehaviour :=
 ```
 <!-- --8<-- [end:localKVStorageBehaviour] -->
 
-## Local Key-Value Storage Action Flowcharts
+## Local Key-Value Storage Action Flowcharts 
 
 ### `getValue` Flowchart
 

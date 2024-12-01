@@ -30,35 +30,35 @@ These are the messages that the Local Key-Value Storage engine can receive/respo
     syntax alias StorageValue := String;
     ```
 
-### `GetValueKVStoreRequest GetValueKVStoreRequestV1`
+### `GetValueKVStoreRequest GetValueKVStoreRequest`
 
 Request to get a value from storage.
 
-<!-- --8<-- [start:GetValueKVStoreRequestV1] -->
+<!-- --8<-- [start:GetValueKVStoreRequest] -->
 ```juvix
-type GetValueKVStoreRequestV1 := mkGetValueKVStoreRequestV1 {
+type GetValueKVStoreRequest := mkGetValueKVStoreRequest {
   key : StorageKey;
 };
 ```
-<!-- --8<-- [end:GetValueKVStoreRequestV1] -->
+<!-- --8<-- [end:GetValueKVStoreRequest] -->
 
 ???+ quote "Arguments"
 
     `key`
     : The key that maps to the requested value in the KV-store.
 
-### `GetValueKVStoreResponse GetValueKVStoreResponseV1`
+### `GetValueKVStoreResponse GetValueKVStoreResponse`
 
 Response containing requested value.
 
-<!-- --8<-- [start:GetValueKVStoreResponseV1] -->
+<!-- --8<-- [start:GetValueKVStoreResponse] -->
 ```juvix
-type GetValueKVStoreResponseV1 := mkGetValueKVStoreResponseV1 {
+type GetValueKVStoreResponse := mkGetValueKVStoreResponse {
   key : StorageKey;
   value : StorageValue;
 };
 ```
-<!-- --8<-- [end:GetValueKVStoreResponseV1] -->
+<!-- --8<-- [end:GetValueKVStoreResponse] -->
 
 ???+ quote "Arguments"
 
@@ -68,18 +68,18 @@ type GetValueKVStoreResponseV1 := mkGetValueKVStoreResponseV1 {
     `value`
     : The requested value from the KV-store.
 
-### `SetValueKVStoreRequest SetValueKVStoreRequestV1`
+### `SetValueKVStoreRequest SetValueKVStoreRequest`
 
 Request to set a value in storage.
 
-<!-- --8<-- [start:SetValueKVStoreRequestV1] -->
+<!-- --8<-- [start:SetValueKVStoreRequest] -->
 ```juvix
-type SetValueKVStoreRequestV1 := mkSetValueKVStoreRequestV1 {
+type SetValueKVStoreRequest := mkSetValueKVStoreRequest {
   key : StorageKey;
   value : StorageValue;
 };
 ```
-<!-- --8<-- [end:SetValueKVStoreRequestV1] -->
+<!-- --8<-- [end:SetValueKVStoreRequest] -->
 
 ???+ quote "Arguments"
 
@@ -89,43 +89,43 @@ type SetValueKVStoreRequestV1 := mkSetValueKVStoreRequestV1 {
     `value`
     : The value to store in the KV-store.
 
-### `SetValueKVStoreResponse SetValueKVStoreResponseV1`
+### `SetValueKVStoreResponse SetValueKVStoreResponse`
 
 Response indicating success/failure of set operation.
 
-<!-- --8<-- [start:SetValueKVStoreResponseV1] -->
+<!-- --8<-- [start:SetValueKVStoreResponse] -->
 ```juvix
-type SetValueKVStoreResponseV1 := mkSetValueKVStoreResponseV1 {
+type SetValueKVStoreResponse := mkSetValueKVStoreResponse {
   key : StorageKey;
   success : Bool;
 };
 ```
-<!-- --8<-- [end:SetValueKVStoreResponseV1] -->
+<!-- --8<-- [end:SetValueKVStoreResponse] -->
 
-### `DeleteValueKVStoreRequest DeleteValueKVStoreRequestV1`
+### `DeleteValueKVStoreRequest DeleteValueKVStoreRequest`
 
 Request to delete a value from storage.
 
-<!-- --8<-- [start:DeleteValueKVStoreRequestV1] -->
+<!-- --8<-- [start:DeleteValueKVStoreRequest] -->
 ```juvix
-type DeleteValueKVStoreRequestV1 := mkDeleteValueKVStoreRequestV1 {
+type DeleteValueKVStoreRequest := mkDeleteValueKVStoreRequest {
   key : StorageKey;
 };
 ```
-<!-- --8<-- [end:DeleteValueKVStoreRequestV1] -->
+<!-- --8<-- [end:DeleteValueKVStoreRequest] -->
 
-### `DeleteValueKVStoreResponse DeleteValueKVStoreResponseV1`
+### `DeleteValueKVStoreResponse DeleteValueKVStoreResponse`
 
 Response indicating success/failure of delete operation.
 
-<!-- --8<-- [start:DeleteValueKVStoreResponseV1] -->
+<!-- --8<-- [start:DeleteValueKVStoreResponse] -->
 ```juvix
-type DeleteValueKVStoreResponseV1 := mkDeleteValueKVStoreResponseV1 {
+type DeleteValueKVStoreResponse := mkDeleteValueKVStoreResponse {
   key : StorageKey;
   success : Bool;
 };
 ```
-<!-- --8<-- [end:DeleteValueKVStoreResponseV1] -->
+<!-- --8<-- [end:DeleteValueKVStoreResponse] -->
 
 ### `ValueChangedKVStore`
 
@@ -146,12 +146,12 @@ type ValueChangedKVStore := mkValueChangedKVStore {
 <!-- --8<-- [start:LocalKVStorageMsg] -->
 ```juvix
 type LocalKVStorageMsg :=
-  | LocalKVStorageMsgGetValueRequest GetValueKVStoreRequestV1
-  | LocalKVStorageMsgGetValueResponse GetValueKVStoreResponseV1
-  | LocalKVStorageMsgSetValueRequest SetValueKVStoreRequestV1
-  | LocalKVStorageMsgSetValueResponse SetValueKVStoreResponseV1
-  | LocalKVStorageMsgDeleteValueRequest DeleteValueKVStoreRequestV1
-  | LocalKVStorageMsgDeleteValueResponse DeleteValueKVStoreResponseV1
+  | LocalKVStorageMsgGetValueRequest GetValueKVStoreRequest
+  | LocalKVStorageMsgGetValueResponse GetValueKVStoreResponse
+  | LocalKVStorageMsgSetValueRequest SetValueKVStoreRequest 
+  | LocalKVStorageMsgSetValueResponse SetValueKVStoreResponse
+  | LocalKVStorageMsgDeleteValueRequest DeleteValueKVStoreRequest
+  | LocalKVStorageMsgDeleteValueResponse DeleteValueKVStoreResponse
   | LocalKVStorageMsgValueChanged ValueChangedKVStore;
 ```
 <!-- --8<-- [end:LocalKVStorageMsg] -->

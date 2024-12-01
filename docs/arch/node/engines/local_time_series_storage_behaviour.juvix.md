@@ -173,7 +173,7 @@ recordDataAction
         env := env@EngineEnv{
           localState := mkLocalTSStorageLocalState@{
             taskQueue := mkCustomData@{
-              word := RecordDataTSStorageDBRequestV1.query req
+              word := RecordDataTSStorageDBRequest.query req
             }
           }
         };
@@ -185,8 +185,8 @@ recordDataAction
             msg :=
               Anoma.MsgLocalTSStorage
                 (LocalTSStorageMsgRecordResponse
-                  (mkRecordDataTSStorageDBResponseV1@{
-                    query := RecordDataTSStorageDBRequestV1.query req;
+                  (mkRecordDataTSStorageDBResponse@{
+                    query := RecordDataTSStorageDBRequest.query req;
                     success := true
                   }))
           }
@@ -240,8 +240,8 @@ getDataAction
             msg :=
               Anoma.MsgLocalTSStorage
                 (LocalTSStorageMsgGetResponse
-                  (mkGetDataTSStorageDBResponseV1@{
-                    query := GetDataTSStorageDBRequestV1.query req;
+                  (mkGetDataTSStorageDBResponse@{
+                    query := GetDataTSStorageDBRequest.query req;
                     data := "data"
                   }))
           }
@@ -289,7 +289,7 @@ deleteDataAction
         env := env@EngineEnv{
           localState := mkLocalTSStorageLocalState@{
             taskQueue := mkCustomData@{
-              word := DeleteDataTSStorageDBRequestV1.query req
+              word := DeleteDataTSStorageDBRequest.query req
             }
           }
         };
@@ -301,8 +301,8 @@ deleteDataAction
             msg :=
               Anoma.MsgLocalTSStorage
                 (LocalTSStorageMsgDeleteResponse
-                  (mkDeleteDataTSStorageDBResponseV1@{
-                    query := DeleteDataTSStorageDBRequestV1.query req;
+                  (mkDeleteDataTSStorageDBResponse@{
+                    query := DeleteDataTSStorageDBRequest.query req;
                     success := true
                   }))
           }

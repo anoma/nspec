@@ -17,7 +17,7 @@ tags:
     import prelude open;
     ```
 
-# Local Time Series Messages
+# Local Time Series Storage Messages
 
 These are the messages that the Local Time Series Storage engine can receive/respond to.
 
@@ -31,31 +31,31 @@ These are the messages that the Local Time Series Storage engine can receive/res
     syntax alias EpochTimestamp := Nat;
     ```
 
-### `GetDataTSStorageDBRequestV1`
+### `GetDataTSStorageDBRequest`
 
-<!-- --8<-- [start:GetDataTSStorageDBRequestV1] -->
+<!-- --8<-- [start:GetDataTSStorageDBRequest] -->
 ```juvix
-type GetDataTSStorageDBRequestV1 := mkGetDataTSStorageDBRequestV1 {
+type GetDataTSStorageDBRequest := mkGetDataTSStorageDBRequest {
   query : TSStorageDBQuery
 };
 ```
-<!-- --8<-- [end:GetDataTSStorageDBRequestV1] -->
+<!-- --8<-- [end:GetDataTSStorageDBRequest] -->
 
 ???+ quote "Arguments"
 
     `query`
     : The query that finds the requested time series data in the DB.
 
-### `GetDataTSStorageDBResponseV1`
+### `GetDataTSStorageDBResponse`
 
-<!-- --8<-- [start:GetDataTSStorageDBResponseV1] -->
+<!-- --8<-- [start:GetDataTSStorageDBResponse] -->
 ```juvix
-type GetDataTSStorageDBResponseV1 := mkGetDataTSStorageDBResponseV1 {
+type GetDataTSStorageDBResponse := mkGetDataTSStorageDBResponse {
   query : TSStorageDBQuery;
   data : TSStorageDBData
 };
 ```
-<!-- --8<-- [end:GetDataTSStorageDBResponseV1] -->
+<!-- --8<-- [end:GetDataTSStorageDBResponse] -->
 
 ???+ quote "Arguments"
 
@@ -65,31 +65,31 @@ type GetDataTSStorageDBResponseV1 := mkGetDataTSStorageDBResponseV1 {
     `data`
     : The requested time series data.
 
-### `RecordDataTSStorageDBRequestV1`
+### `RecordDataTSStorageDBRequest`
 
-<!-- --8<-- [start:RecordDataTSStorageDBRequestV1] -->
+<!-- --8<-- [start:RecordDataTSStorageDBRequest] -->
 ```juvix
-type RecordDataTSStorageDBRequestV1 := mkRecordDataTSStorageDBRequestV1 {
+type RecordDataTSStorageDBRequest := mkRecordDataTSStorageDBRequest {
   query : TSStorageDBQuery
 };
 ```
-<!-- --8<-- [end:RecordDataTSStorageDBRequestV1] -->
+<!-- --8<-- [end:RecordDataTSStorageDBRequest] -->
 
 ???+ quote "Arguments"
 
     `query`
     : The query that expresses the addition of the time series data into the DB.
 
-### `RecordDataTSStorageDBResponseV1`
+### `RecordDataTSStorageDBResponse`
 
-<!-- --8<-- [start:RecordDataTSStorageDBResponseV1] -->
+<!-- --8<-- [start:RecordDataTSStorageDBResponse] -->
 ```juvix
-type RecordDataTSStorageDBResponseV1 := mkRecordDataTSStorageDBResponseV1 {
+type RecordDataTSStorageDBResponse := mkRecordDataTSStorageDBResponse {
   query : TSStorageDBQuery;
   success : Bool
 };
 ```
-<!-- --8<-- [end:RecordDataTSStorageDBResponseV1] -->
+<!-- --8<-- [end:RecordDataTSStorageDBResponse] -->
 
 ???+ quote "Arguments"
 
@@ -99,31 +99,31 @@ type RecordDataTSStorageDBResponseV1 := mkRecordDataTSStorageDBResponseV1 {
     `success`
     : The success of the operation, indicating that the data was stored successfully or not.
 
-### `DeleteDataTSStorageDBRequestV1`
+### `DeleteDataTSStorageDBRequest`
 
-<!-- --8<-- [start:DeleteDataTSStorageDBRequestV1] -->
+<!-- --8<-- [start:DeleteDataTSStorageDBRequest] -->
 ```juvix
-type DeleteDataTSStorageDBRequestV1 := mkDeleteDataTSStorageDBRequestV1 {
+type DeleteDataTSStorageDBRequest := mkDeleteDataTSStorageDBRequest {
   query : TSStorageDBQuery
 };
 ```
-<!-- --8<-- [end:DeleteDataTSStorageDBRequestV1] -->
+<!-- --8<-- [end:DeleteDataTSStorageDBRequest] -->
 
 ???+ quote "Arguments"
 
     `query`
     : The query that expresses the deletion of the time series data from the DB.
 
-### `DeleteDataTSStorageDBResponseV1`
+### `DeleteDataTSStorageDBResponse`
 
-<!-- --8<-- [start:DeleteDataTSStorageDBResponseV1] -->
+<!-- --8<-- [start:DeleteDataTSStorageDBResponse] -->
 ```juvix
-type DeleteDataTSStorageDBResponseV1 := mkDeleteDataTSStorageDBResponseV1 {
+type DeleteDataTSStorageDBResponse := mkDeleteDataTSStorageDBResponse {
   query : TSStorageDBQuery;
   success : Bool
 };
 ```
-<!-- --8<-- [end:DeleteDataTSStorageDBResponseV1] -->
+<!-- --8<-- [end:DeleteDataTSStorageDBResponse] -->
 
 ???+ quote "Arguments"
 
@@ -133,17 +133,17 @@ type DeleteDataTSStorageDBResponseV1 := mkDeleteDataTSStorageDBResponseV1 {
     `success`
     : The success of the operation, indicating that the data was deleted successfully or not.
 
-### `DataChangedTSStorageDBV1`
+### `DataChangedTSStorageDB`
 
-<!-- --8<-- [start:DataChangedTSStorageDBV1] -->
+<!-- --8<-- [start:DataChangedTSStorageDB] -->
 ```juvix
-type DataChangedTSStorageDBV1 := mkDataChangedTSStorageDBV1 {
+type DataChangedTSStorageDB := mkDataChangedTSStorageDB {
   query : TSStorageDBQuery;
   data : TSStorageDBData;
   timestamp : EpochTimestamp
 };
 ```
-<!-- --8<-- [end:DataChangedTSStorageDBV1] -->
+<!-- --8<-- [end:DataChangedTSStorageDB] -->
 
 ???+ quote "Arguments"
 
@@ -161,13 +161,13 @@ type DataChangedTSStorageDBV1 := mkDataChangedTSStorageDBV1 {
 <!-- --8<-- [start:LocalTSStorageMsg] -->
 ```juvix
 type LocalTSStorageMsg :=
-  | LocalTSStorageMsgGetRequest GetDataTSStorageDBRequestV1
-  | LocalTSStorageMsgGetResponse GetDataTSStorageDBResponseV1
-  | LocalTSStorageMsgRecordRequest RecordDataTSStorageDBRequestV1
-  | LocalTSStorageMsgRecordResponse RecordDataTSStorageDBResponseV1
-  | LocalTSStorageMsgDeleteRequest DeleteDataTSStorageDBRequestV1
-  | LocalTSStorageMsgDeleteResponse DeleteDataTSStorageDBResponseV1
-  | LocalTSStorageMsgDataChanged DataChangedTSStorageDBV1
+  | LocalTSStorageMsgGetRequest GetDataTSStorageDBRequest
+  | LocalTSStorageMsgGetResponse GetDataTSStorageDBResponse
+  | LocalTSStorageMsgRecordRequest RecordDataTSStorageDBRequest
+  | LocalTSStorageMsgRecordResponse RecordDataTSStorageDBResponse
+  | LocalTSStorageMsgDeleteRequest DeleteDataTSStorageDBRequest
+  | LocalTSStorageMsgDeleteResponse DeleteDataTSStorageDBResponse
+  | LocalTSStorageMsgDataChanged DataChangedTSStorageDB
   ;
 ```
 <!-- --8<-- [end:LocalTSStorageMsg] -->
@@ -183,7 +183,7 @@ type LocalTSStorageMsg :=
 sequenceDiagram
     participant AnyEngine
     participant LocalTSStorageDB
-
+    
     AnyEngine ->> LocalTSStorageDB: GetDataTSStorageDBRequest
     LocalTSStorageDB ->> AnyEngine: GetDataTSStorageDBResponse
 ```
@@ -201,9 +201,9 @@ Sequence Diagram: Get Data Flow
 
 ```mermaid
 sequenceDiagram
-    participant AnyEngine
+    participant AnyEngine  
     participant LocalTSStorageDB
-
+    
     AnyEngine ->> LocalTSStorageDB: RecordDataTSStorageDBRequest
     LocalTSStorageDB ->> AnyEngine: RecordDataTSStorageDBResponse
 ```
@@ -223,7 +223,7 @@ Sequence Diagram: Record Data Flow
 sequenceDiagram
     participant AnyEngine
     participant LocalTSStorageDB
-
+    
     AnyEngine ->> LocalTSStorageDB: DeleteDataTSStorageDBRequest
     LocalTSStorageDB ->> AnyEngine: DeleteDataTSStorageDBResponse
 ```
