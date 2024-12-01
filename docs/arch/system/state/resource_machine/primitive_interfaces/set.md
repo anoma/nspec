@@ -17,6 +17,5 @@ For a set parametrised over the element type `T`:
 9. `Contains(Set, T) -> Bool` - checks if an element is in the set.
 
 ## Used in
-1. Action (commitments, nullifiers)
-2. Transaction (roots, actions)
-3. Nullifier set
+1. Transaction (roots, actions)
+2. Nullifier set

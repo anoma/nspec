@@ -4,8 +4,8 @@ An action is a composite structure of type `Action` that contains the following 
 
 |Component|Type|Description|
 |-|-|-|
-|`created`|`Set Commitment`|contains commitments of resources created in this action|
-|`consumed`|`Set Nullifier`|contains nullifiers of resources consumed in this action|
+|`created`|`List Commitment`|contains commitments of resources created in this action|
+|`consumed`|`List Nullifier`|contains nullifiers of resources consumed in this action|
 |`resourceLogicProofs`|`Map Tag (LogicRefHash, PS.Proof)`|contains a map of resource logic proofs associated with this action. The key is the `self` resource for which the proof is computed, the first parameter of the value opens to the required verifying key, the second one is the corresponding proof|
 |`complianceUnits`|`Set ComplianceUnit`|The set of transaction's [compliance units](./compliance_unit.md)|
 |`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and [openings](./../primitive_interfaces/fixed_size_type/hash.md#hash) of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage). The openings are expected to be ordered.|
@@ -36,7 +36,7 @@ Each action refers to a set of resources to be consumed and a set of resources t
 
 ## `create`
 
-Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource, RootRef)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, a _proven_ action is computed the following way:
+Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource, CMtreePath)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, a _proven_ action is computed the following way:
 
 1. Partition action into compliance units and compute a compliance proof for each unit. Put the information about the units in `action.complianceUnits`
 2. For each resource, compute a resource logic proof. Associate each proof with the tag of the resource and the logic hash reference. Put the resulting map in `action.resourceLogicProofs`

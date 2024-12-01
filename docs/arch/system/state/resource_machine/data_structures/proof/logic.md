@@ -16,9 +16,9 @@ When proving, resource logics take as input resources created and consumed in th
 
 #### Instance
 
-1. `action.consumed`
-2. `action.created`
-3. [`tag`](./../resource/computable_components/tag.md) — identifies the resource being checked
+1. [`tag`](./../resource/computable_components/tag.md) — identifies the resource being checked
+2. `action.consumed` (possibly excluding the tagged resource, if it is consumed)
+3. `action.created` (possibly excluding the tagged resource, if it is created)
 4. `action.applicationData`
 
 #### Witness

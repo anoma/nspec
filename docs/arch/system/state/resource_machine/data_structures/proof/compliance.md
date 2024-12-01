@@ -4,16 +4,17 @@ Compliance proofs are computed over [compliance units](./../compliance_unit.md).
 
 #### Instance
 
-1. tags of all of the resources in the compliance unit
-2. roots for the consumed non-ephemeral resources in the compliance unit
-3. unit delta
-4. commitments to `logicRef` resource components (used for referencing the `logicRef` without explicitly using the component value) `logicRefHash`
+|Name|Type|Description|
+|-|-|-|
+|`consumed`|`List (NullifierRef, RootRef, LogicRefHash)`|Includes nullifiers' references of all of the consumed resources in the compliance unit, root references, and commitments to [`logicRef` resource components](./../resource/definition.md) (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
+|`created`|`List (CommitmentRef, LogicRefHash)`|Commitments' references of all of the created resources in the compliance unit|
+|`unitDelta`|`DeltaHash`|Unit delta|
 
 #### Witness
 
 1. resource objects of all resources in the compliance unit
 2. paths for each consumed non-ephemeral resource
-3. consumed resource commitment
+3. _consumed_ resource _commitments_
 4. nullifier keys for consumed resources
 5. opening of `logicRefHash`
 
