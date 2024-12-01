@@ -23,7 +23,7 @@ search:
 --    import arch.node.engines.naming_environment open;
     import arch.node.engines.local_key_value_storage_environment open;
     import arch.node.engines.logging_environment open;
---    import arch.node.engines.local_wall_clock_environment open;
+    import arch.node.engines.wall_clock_environment open;
 --    import arch.node.engines.local_time_series_storage_environment open;
     ```
 
@@ -56,7 +56,7 @@ type Env :=
 --  | EnvNaming NamingEnvironment
   | EnvLocalKeyValueStorage LocalKVStorageEnv
   | EnvLogging LoggingEnv
---  | EnvLocalWallClock LocalWallClockEnv
+  | EnvWallClock WallClockEnv
 --  | EnvLocalTSeries LocalTSeriesEnv
 ```
 <!-- --8<-- [end:anoma-environment-type] -->
