@@ -27,19 +27,24 @@ tags:
 
 ## Overview
 
-The environment contains the state and context needed for the time series storage engine to operate, including its mailbox states, local state, and timer handles.
+The Local Time Series Storage Engine maintains a database of time series data with query and update capabilities.
 
-## Mailbox state types
+## Mailbox state
 
-### `LocalTSStorageMailboxState`
-
-<!-- --8<-- [start:LocalTSStorageMailboxState] -->
 ```juvix
-type LocalTSStorageMailboxState := Unit;
+syntax alias LocalTSStorageMailboxState := Unit;
 ```
-<!-- --8<-- [end:LocalTSStorageMailboxState] -->
 
 ## Local state
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    syntax alias Database := String; -- Abstract DB type
+
+    axiom updateDB : Database -> TSStorageDBQuery -> TSStorageDBData -> Database;
+    axiom queryDB : Database -> TSStorageDBQuery -> Option TSStorageDBData;
+    ```
 
 ### `LocalTSStorageLocalState`
 
@@ -47,74 +52,21 @@ type LocalTSStorageMailboxState := Unit;
 ```juvix
 type LocalTSStorageLocalState :=
   mkLocalTSStorageLocalState {
-    database : Map TSStorageDBQuery TSStorageDBData
-};
+    db : Database
+  };
 ```
 <!-- --8<-- [end:LocalTSStorageLocalState] -->
 
 ???+ quote "Arguments"
 
-    `database`
-    : The key-value store mapping queries to time series data.
+    `db`
+    : The database storing the time series data.
 
-## Timer handles
+## Timer Handle
 
-??? quote "Auxiliary Juvix code"
-
-    <!-- --8<-- [start:ArgOne] -->
-    ```juvix
-    syntax alias ArgOne := Nat;
-    ```
-    <!-- --8<-- [end:ArgOne] -->
-
-### `LocalTSStorageTimerHandleFirstOption FirstOptionTimerHandle`
-
-<!-- --8<-- [start:FirstOptionTimerHandle] -->
 ```juvix
-type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
-  argOne : ArgOne
-};
+syntax alias LocalTSStorageTimerHandle := Unit;
 ```
-<!-- --8<-- [end:FirstOptionTimerHandle] -->
-
-A basic timer handle used for scheduling data maintenance tasks.
-
-???+ quote "Arguments"
-
-    `argOne`
-
-    : The scheduled time for the maintenance task.
-
-### `LocalTSStorageTimerHandleSecondOption SecondOptionTimerHandle`
-
-<!-- --8<-- [start:SecondOptionTimerHandle] -->
-```juvix
-type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
-  argOne : String;
-  argTwo : Bool
-};
-```
-<!-- --8<-- [end:SecondOptionTimerHandle] -->
-
-???+ quote "Arguments"
-
-    `argOne`
-
-    : The identifier for the scheduled operation.
-
-    `argTwo`
-
-    : Whether the operation is a recurring task.
-
-### `LocalTSStorageTimerHandle`
-
-<!-- --8<-- [start:LocalTSStorageTimerHandle] -->
-```juvix
-type LocalTSStorageTimerHandle :=
-  | LocalTSStorageTimerHandleFirstOption FirstOptionTimerHandle
-  | LocalTSStorageTimerHandleSecondOption SecondOptionTimerHandle;
-```
-<!-- --8<-- [end:LocalTSStorageTimerHandle] -->
 
 ### `LocalTSStorageTimestampedTrigger`
 
@@ -129,7 +81,7 @@ LocalTSStorageTimestampedTrigger : Type :=
 
 ## The Local Time Series Storage Environment
 
-### `LocalTSStorageEnv`
+### `LocalTSStorageEnv` 
 
 <!-- --8<-- [start:LocalTSStorageEnv] -->
 ```juvix
@@ -151,7 +103,7 @@ module local_ts_storage_environment_example;
   localTSStorageEnv : LocalTSStorageEnv :=
     mkEngineEnv@{
       localState := mkLocalTSStorageLocalState@{
-        database := Map.empty
+        db := ""
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

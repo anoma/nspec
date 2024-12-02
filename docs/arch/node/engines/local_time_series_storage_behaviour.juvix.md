@@ -31,33 +31,15 @@ tags:
 
 ## Overview
 
-A local time series storage engine acts in the ways described on this page.
-The action labels correspond to the actions that can be performed by the engine.
-Using the action labels, we describe the effects of the actions.
+A time series storage engine acts as a database that can store, retrieve and delete time series data.
 
 ## Action arguments
-
-The action arguments are set by a guard
-and passed to the action function as part of the `GuardOutput`.
-
-??? quote "Auxiliary Juvix code"
-
-    <!-- --8<-- [start:MessageFrom] -->
-    ```juvix
-    type MessageFrom := mkMessageFrom {
-      whoAsked : Option EngineID;
-      mailbox : Option MailboxID;
-    };
-    ```
-    <!-- --8<-- [end:MessageFrom] -->
 
 ### `LocalTSStorageActionArgument`
 
 <!-- --8<-- [start:LocalTSStorageActionArgument] -->
 ```juvix
-type LocalTSStorageActionArgument :=
-  | LocalTSStorageActionArgumentMessageFrom MessageFrom
-  ;
+type LocalTSStorageActionArgument := Unit;
 ```
 <!-- --8<-- [end:LocalTSStorageActionArgument] -->
 
@@ -137,80 +119,18 @@ LocalTSStorageActionArguments : Type := List LocalTSStorageActionArgument;
     ```
     <!-- --8<-- [end:LocalTSStorageActionExec] -->
 
-### `recordDataAction`
-
-Records data in the time series storage.
-
-State update
-: Updates state with the data from request.
-
-Messages to be sent
-: A response message indicating success or failure.
-
-Engines to be spawned
-: No engines are created by this action.
-
-Timer updates
-: No timers are set or cancelled.
-
-<!-- --8<-- [start:recordDataAction] -->
-```juvix
-recordDataAction
-  (input : LocalTSStorageActionInput)
-  : Option LocalTSStorageActionEffect :=
-  let
-    cfg := ActionInput.cfg input;
-    env := ActionInput.env input;
-    trigger := ActionInput.trigger input;
-    local := ActionInput.env input;
-  in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordRequest req);
-        sender := whoAsked;
-        mailbox := mailboxId;
-      } :=
-      some mkActionEffect@{
-        env := env@EngineEnv{
-          localState := mkLocalTSStorageLocalState@{
-            taskQueue := mkCustomData@{
-              word := RecordDataTSStorageDBRequest.query req
-            }
-          }
-        };
-        msgs := [
-          mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg cfg;
-            target := whoAsked;
-            mailbox := some 0;
-            msg :=
-              Anoma.MsgLocalTSStorage
-                (LocalTSStorageMsgRecordResponse
-                  (mkRecordDataTSStorageDBResponse@{
-                    query := RecordDataTSStorageDBRequest.query req;
-                    success := true
-                  }))
-          }
-        ];
-        timers := [];
-        engines := [];
-      }
-    | _ := none
-    };
-```
-<!-- --8<-- [end:recordDataAction] -->
-
 ### `getDataAction`
 
-Retrieves data from the time series storage.
+Get data from the time series database.
 
 State update
 : The state remains unchanged.
 
 Messages to be sent
-: A response message containing the requested data.
+: A `GetDataTSStorageDBResponse` message with the requested data.
 
 Engines to be spawned
-: No engines are created by this action.
+: No engine is created by this action.
 
 Timer updates
 : No timers are set or cancelled.
@@ -221,51 +141,142 @@ getDataAction
   (input : LocalTSStorageActionInput)
   : Option LocalTSStorageActionEffect :=
   let
-    cfg := ActionInput.cfg input;
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
+    cfg := ActionInput.cfg input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
-        msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetRequest req);
-        sender := whoAsked;
-        mailbox := mailboxId;
-      } :=
-      some mkActionEffect@{
-        env := env;
-        msgs := [
-          mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg cfg;
-            target := whoAsked;
-            mailbox := some 0;
-            msg :=
-              Anoma.MsgLocalTSStorage
-                (LocalTSStorageMsgGetResponse
-                  (mkGetDataTSStorageDBResponse@{
-                    query := GetDataTSStorageDBRequest.query req;
-                    data := "data"
-                  }))
+        msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetRequest request);
+        sender := sender;
+      } := 
+      let result := queryDB (LocalTSStorageLocalState.db (EngineEnv.localState env)) (GetDataTSStorageDBRequest.query request);
+      in case result of {
+        | some data := some mkActionEffect@{
+            env := env;
+            msgs := [mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg cfg;
+              target := sender;
+              mailbox := some 0;
+              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetResponse
+                mkGetDataTSStorageDBResponse@{
+                  query := GetDataTSStorageDBRequest.query request;
+                  data := data;
+                })
+            }];
+            timers := [];
+            engines := [];
           }
-        ];
-        timers := [];
-        engines := [];
+        | none := none
       }
     | _ := none
-    };
+  };
 ```
 <!-- --8<-- [end:getDataAction] -->
 
-### `deleteDataAction`
+### `recordDataAction`
 
-Deletes data from the time series storage.
+Record new data in the time series database.
 
 State update
-: Updates state to reflect deleted data.
+: Updates the database with new time series data.
 
 Messages to be sent
-: A response message indicating success or failure.
+: A `RecordDataTSStorageDBResponse` message indicating success/failure.
+: A `DataChangedTSStorageDB` notification if successful.
 
 Engines to be spawned
-: No engines are created by this action.
+: No engine is created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
+<!-- --8<-- [start:recordDataAction] -->
+```juvix
+recordDataAction
+  (input : LocalTSStorageActionInput)
+  : Option LocalTSStorageActionEffect := 
+  let
+    env := ActionInput.env input;
+    trigger := ActionInput.trigger input;
+    cfg := ActionInput.cfg input;
+  in case getEngineMsgFromTimestampedTrigger trigger of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordRequest request);
+        sender := sender;
+      } :=
+      let query := RecordDataTSStorageDBRequest.query request;
+          db := LocalTSStorageLocalState.db (EngineEnv.localState env);
+          data := queryDB db query;
+      in case data of {
+        | some value := 
+          let newDb := updateDB db query value;
+              newEnv := env@EngineEnv{
+                localState := mkLocalTSStorageLocalState@{
+                  db := newDb
+                }
+              };
+          in some mkActionEffect@{
+              env := newEnv;
+              msgs := [
+                mkEngineMsg@{
+                  sender := getEngineIDFromEngineCfg cfg;
+                  target := sender;
+                  mailbox := some 0;
+                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordResponse
+                    mkRecordDataTSStorageDBResponse@{
+                      query := query;
+                      success := true;
+                    })
+                };
+                mkEngineMsg@{
+                  sender := getEngineIDFromEngineCfg cfg;
+                  target := sender;
+                  mailbox := some 0;
+                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
+                    mkDataChangedTSStorageDB@{
+                      query := query;
+                      data := value;
+                      timestamp := 0;
+                    })
+                }
+              ];
+              timers := [];
+              engines := [];
+            }
+        | none := some mkActionEffect@{
+            env := env;
+            msgs := [mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg cfg;
+              target := sender;
+              mailbox := some 0;
+              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordResponse
+                mkRecordDataTSStorageDBResponse@{
+                  query := query;
+                  success := false;
+                })
+            }];
+            timers := [];
+            engines := [];
+          }
+      }
+    | _ := none
+  };
+```
+<!-- --8<-- [end:recordDataAction] -->
+
+### `deleteDataAction`
+
+Delete data from the time series database.
+
+State update
+: Updates the database by removing specified time series data.
+
+Messages to be sent
+: A DeleteDataTSStorageDBResponse message indicating success/failure.
+: A DataChangedTSStorageDB notification if successful.
+
+Engines to be spawned
+: No engine is created by this action.
 
 Timer updates
 : No timers are set or cancelled.
@@ -276,57 +287,86 @@ deleteDataAction
   (input : LocalTSStorageActionInput)
   : Option LocalTSStorageActionEffect :=
   let
-    cfg := ActionInput.cfg input;
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
+    cfg := ActionInput.cfg input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
-        msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteRequest req);
-        sender := whoAsked;
-        mailbox := mailboxId;
+        msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteRequest request);
+        sender := sender;
       } :=
-      some mkActionEffect@{
-        env := env@EngineEnv{
-          localState := mkLocalTSStorageLocalState@{
-            taskQueue := mkCustomData@{
-              word := DeleteDataTSStorageDBRequest.query req
+      let query := DeleteDataTSStorageDBRequest.query request;
+          db := LocalTSStorageLocalState.db (EngineEnv.localState env);
+          data := queryDB db query;
+      in case data of {
+        | some value := 
+          let newDb := updateDB db query "";
+              newEnv := env@EngineEnv{
+                localState := mkLocalTSStorageLocalState@{
+                  db := newDb
+                }
+              };
+          in some mkActionEffect@{
+              env := newEnv;
+              msgs := [
+                mkEngineMsg@{
+                  sender := getEngineIDFromEngineCfg cfg;
+                  target := sender;
+                  mailbox := some 0;
+                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteResponse
+                    mkDeleteDataTSStorageDBResponse@{
+                      query := query;
+                      success := true;
+                    })
+                };
+                mkEngineMsg@{
+                  sender := getEngineIDFromEngineCfg cfg;
+                  target := sender;
+                  mailbox := some 0;
+                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
+                    mkDataChangedTSStorageDB@{
+                      query := query;
+                      data := "";
+                      timestamp := 0;
+                    })
+                }
+              ];
+              timers := [];
+              engines := [];
             }
+        | none := some mkActionEffect@{
+            env := env;
+            msgs := [mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg cfg;
+              target := sender;
+              mailbox := some 0;
+              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteResponse
+                mkDeleteDataTSStorageDBResponse@{
+                  query := query;
+                  success := false;
+                })
+            }];
+            timers := [];
+            engines := [];
           }
-        };
-        msgs := [
-          mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg cfg;
-            target := whoAsked;
-            mailbox := some 0;
-            msg :=
-              Anoma.MsgLocalTSStorage
-                (LocalTSStorageMsgDeleteResponse
-                  (mkDeleteDataTSStorageDBResponse@{
-                    query := DeleteDataTSStorageDBRequest.query req;
-                    success := true
-                  }))
-          }
-        ];
-        timers := [];
-        engines := [];
       }
     | _ := none
-    };
+  };
 ```
 <!-- --8<-- [end:deleteDataAction] -->
 
 ## Action Labels
 
-### `recordDataActionLabel`
-
-```juvix
-recordDataActionLabel : LocalTSStorageActionExec := Seq [ recordDataAction ];
-```
-
 ### `getDataActionLabel`
 
 ```juvix
 getDataActionLabel : LocalTSStorageActionExec := Seq [ getDataAction ];
+```
+
+### `recordDataActionLabel`
+
+```juvix
+recordDataActionLabel : LocalTSStorageActionExec := Seq [ recordDataAction ];
 ```
 
 ### `deleteDataActionLabel`
@@ -390,29 +430,10 @@ deleteDataActionLabel : LocalTSStorageActionExec := Seq [ deleteDataAction ];
     ```
     <!-- --8<-- [end:LocalTSStorageGuardEval] -->
 
-### `recordDataGuard`
-
-<!-- --8<-- [start:recordDataGuard] -->
-```juvix
-recordDataGuard
-  (trigger : LocalTSStorageTimestampedTrigger)
-  (cfg : EngineCfg LocalTSStorageCfg)
-  (env : LocalTSStorageEnv)
-  : Option LocalTSStorageGuardOutput :=
-  case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordRequest _);
-      } :=
-      some mkGuardOutput@{
-        action := recordDataActionLabel;
-        args := [];
-      }
-    | _ := none
-  };
-```
-<!-- --8<-- [end:recordDataGuard] -->
-
 ### `getDataGuard`
+
+Condition
+: Message type is LocalTSStorageMsgGetRequest.
 
 <!-- --8<-- [start:getDataGuard] -->
 ```juvix
@@ -424,8 +445,7 @@ getDataGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetRequest _);
-      } :=
-      some mkGuardOutput@{
+      } := some mkGuardOutput@{
         action := getDataActionLabel;
         args := [];
       }
@@ -434,7 +454,34 @@ getDataGuard
 ```
 <!-- --8<-- [end:getDataGuard] -->
 
+### `recordDataGuard`
+
+Condition
+: Message type is LocalTSStorageMsgRecordRequest.
+
+<!-- --8<-- [start:recordDataGuard] -->
+```juvix
+recordDataGuard
+  (trigger : LocalTSStorageTimestampedTrigger)
+  (cfg : EngineCfg LocalTSStorageCfg)
+  (env : LocalTSStorageEnv)
+  : Option LocalTSStorageGuardOutput :=
+  case getEngineMsgFromTimestampedTrigger trigger of {
+    | some mkEngineMsg@{
+        msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordRequest _);
+      } := some mkGuardOutput@{
+        action := recordDataActionLabel;
+        args := [];
+      }
+    | _ := none
+  };
+```
+<!-- --8<-- [end:recordDataGuard] -->
+
 ### `deleteDataGuard`
+
+Condition
+: Message type is LocalTSStorageMsgDeleteRequest.
 
 <!-- --8<-- [start:deleteDataGuard] -->
 ```juvix
@@ -446,8 +493,7 @@ deleteDataGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteRequest _);
-      } :=
-      some mkGuardOutput@{
+      } := some mkGuardOutput@{
         action := deleteDataActionLabel;
         args := [];
       }
@@ -475,51 +521,22 @@ LocalTSStorageBehaviour : Type :=
 ```
 <!-- --8<-- [end:LocalTSStorageBehaviour] -->
 
-### Instantiation
+#### Instantiation
 
 <!-- --8<-- [start:localTSStorageBehaviour] -->
 ```juvix
 localTSStorageBehaviour : LocalTSStorageBehaviour :=
   mkEngineBehaviour@{
-    guards :=
-      First [
-        recordDataGuard;
-        getDataGuard;
-        deleteDataGuard;
-      ];
+    guards := First [
+      getDataGuard;
+      recordDataGuard;
+      deleteDataGuard
+    ];
   };
 ```
 <!-- --8<-- [end:localTSStorageBehaviour] -->
 
 ## Local Time Series Storage Action Flowcharts
-
-### `recordData` Flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C[Conditions]
-    CMsg>LocalTSStorageMsgRecordRequest]
-  end
-
-  G(recordDataGuard)
-  A(recordDataAction)
-
-  C --> G -- *recordDataActionLabel* --> A --> E
-
-  subgraph E[Effects]
-    EEnv[(Env update)]
-    EMsg>LocalTSStorageMsgRecordResponse]
-  end
-```
-
-<figcaption markdown="span">
-
-`recordData` flowchart
-
-</figcaption>
-</figure>
 
 ### `getData` Flowchart
 
@@ -548,6 +565,35 @@ flowchart TD
 </figcaption>
 </figure>
 
+### `recordData` Flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>LocalTSStorageMsgRecordRequest]
+  end
+
+  G(recordDataGuard)
+  A(recordDataAction)
+
+  C --> G -- *recordDataActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(DB update)]
+    EMsg1>LocalTSStorageMsgRecordResponse]
+    EMsg2>LocalTSStorageMsgDataChanged]
+  end
+```
+
+<figcaption markdown="span">
+
+`recordData` flowchart
+
+</figcaption>
+</figure>
+
 ### `deleteData` Flowchart
 
 <figure markdown>
@@ -564,8 +610,9 @@ flowchart TD
   C --> G -- *deleteDataActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EEnv[(Env update)]
-    EMsg>LocalTSStorageMsgDeleteResponse]
+    EEnv[(DB update)]
+    EMsg1>LocalTSStorageMsgDeleteResponse]
+    EMsg2>LocalTSStorageMsgDataChanged]
   end
 ```
 

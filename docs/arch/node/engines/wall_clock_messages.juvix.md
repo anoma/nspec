@@ -21,6 +21,10 @@ tags:
 
 ## Message interface
 
+### `WallClockGetTime`
+
+A `WallClockGetTime` message requests the current time from the wall clock engine. This message doesn't require any arguments.
+
 ### `WallClockGetTimeResult TimeResult`
 
 Response containing the current wall clock time.
