@@ -7,5 +7,5 @@ search:
 
 # State Architecture
 
-- [[Resource machine]] s
+- [[Resource machine]]
 - [[Intent machine]]
