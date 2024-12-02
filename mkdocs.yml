@@ -3,7 +3,7 @@ site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_url: !ENV [SITE_URL, 'https://anoma.github.io/nspec/latest']
 site_dir: !ENV [SITE_DIR, site]
-site_version: !ENV [SITE_VERSION, "v0.1.0"]
+site_version: !ENV [SITE_VERSION, "v0.1.1"]
 copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 use_directory_urls: false
 nav:
@@ -81,10 +81,12 @@ nav:
               - ./arch/node/engines/index.md
               - Engine:
                   - ./arch/node/types/engine.juvix.md
+                  - Engine Configuration: ./arch/node/types/engine_config.juvix.md
                   - Engine Environment: ./arch/node/types/engine_environment.juvix.md
                   - Engine Behaviour: ./arch/node/types/engine_behaviour.juvix.md
               - Anoma:
                   - Anoma Message: ./arch/node/types/anoma_message.juvix.md
+                  - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
           - Hardware Abstraction Machine:
               - ./arch/node/hardware/index.md
@@ -423,11 +425,13 @@ nav:
               - Template Engine:
                   - Template Engine: ./arch/node/engines/template.juvix.md
                   - Template Messages: ./arch/node/engines/template_messages.juvix.md
+                  - Template Configuration: ./arch/node/engines/template_config.juvix.md
                   - Template Environment: ./arch/node/engines/template_environment.juvix.md
                   - Template Behaviour: ./arch/node/engines/template_behaviour.juvix.md
               - Ticker Engine:
                   - Ticker Engine: ./arch/node/engines/ticker.juvix.md
                   - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
+                  - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
                   - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
                   - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
 extra:
