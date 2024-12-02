@@ -19,21 +19,33 @@ tags:
 
 # Wall Clock Messages
 
-## Message interface
+These are the messages that the Wall Clock engine can receive/respond to.
+
+## Message Interface
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    syntax alias StorageKey := String;
+    syntax alias StorageValue := String;
+    syntax alias EpochTimestamp := Nat;
+    ```
 
 ### `WallClockGetTime`
 
-A `WallClockGetTime` message requests the current time from the wall clock engine. This message doesn't require any arguments.
+A `WallClockGetTime` message tracks and manages time within the
+local computing environment. This message doesn't require any
+arguments.
 
 ### `WallClockGetTimeResult TimeResult`
 
-Response containing the current wall clock time.
+Response to a `WallClockGetTime` request.
 
 <!-- --8<-- [start:TimeResult] -->
 ```juvix
 type TimeResult : Type :=
   mkTimeResult {
-    epochTime : Nat;
+    epochTime : EpochTimestamp;
   }
 ```
 <!-- --8<-- [end:TimeResult] -->

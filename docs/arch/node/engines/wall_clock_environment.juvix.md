@@ -27,8 +27,8 @@ tags:
 
 ## Overview
 
-The wall clock environment maintains the current time state and provides
-an axiom for updating the time.
+The Local Wall Clock Engine provides and keeps track of a local
+time.
 
 ## Mailbox states
 
@@ -42,7 +42,7 @@ syntax alias WallClockMailboxState := Unit;
 
 ```juvix
 type WallClockLocalState := mkWallClockLocalState@{
-  currentTime : Nat
+  currentTime : EpochTimestamp
 };
 ```
 
@@ -65,7 +65,7 @@ syntax alias WallClockTimerHandle := Unit;
 ### Auxiliary abstraction Functions
 
 ```juvix
-axiom updateTime : Nat -> Nat;
+axiom advanceTime : EpochTimestamp -> EpochTimestamp;
 ```
 
 ### `WallClockEnv`

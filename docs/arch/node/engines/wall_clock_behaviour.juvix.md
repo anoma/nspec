@@ -137,10 +137,10 @@ WallClockActionArguments : Type := List WallClockActionArgument;
 Return the current wall clock time.
 
 State update
-: Time will update to current time.
+: Time will have advanced.
 
 Messages to be sent
-: A WallClockGetTimeResult message with the current time.
+: A `WallClockGetTimeResult` message with the current time.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -158,7 +158,7 @@ getTimeAction
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
     currentTime := WallClockLocalState.currentTime (EngineEnv.localState env);
-    newTime := updateTime currentTime;
+    newTime := advanceTime currentTime;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
@@ -326,7 +326,7 @@ flowchart TD
   C --> G -- *getTimeActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EEnv[(time := updateTime time)]
+    EEnv[(time := advanceTime time)]
     EMsg>WallClockGetTimeResult<br/>epochTime]
   end
 ```
