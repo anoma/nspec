@@ -361,7 +361,7 @@ Condition
 ```juvix
 justHiGuard
   (trigger : TemplateTimestampedTrigger)
-  (cfg : EngineCfg TemplateCfg)
+  (cfg : EngineCfg TemplateCfg) 
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
   let

@@ -8,24 +8,13 @@ search:
 list_wikilinks: false
 ---
 
-{@@ if preview @@}
-!!! info
-
-{@@ if pull_request @@}
-    This is a preview of the Anoma specification using [{@ pr_number @}](https://github.com/anoma/nspec/{@ pr_number @}).
-{@@ else @@}
-    This is a preview of the Anoma specification using the last commit on the `main` branch.
-{@@ endif @@}
-
-{@@ endif @@}
-
 # Anoma Specification
 
 !!! info inline end "Anoma entities"
 
     The term "Anoma" as used on this site refers specifically to the Anoma Protocol. However, it may
-    also be used elsewhere to refer to related entities such as the Anoma Network or the Anoma
-    Foundation. Hoder
+    also be used elsewhere to refer to related entities such as the Anoma
+    Network or the Anoma Foundation.
 
     - The Anoma Network, which consists of nodes using the Anoma protocol.
 
