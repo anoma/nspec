@@ -32,12 +32,16 @@ tags:
 
 ## Purpose
 
-The Logging Engine provides capabilities for recording, monitoring, analyzing, and managing events and activities locally on the physical machine that the Anoma node is running. It supports diagnostic efforts, security monitoring, performance optimization, and historical analysis to ensure stability, security, and efficiency.
+The Logging Engine provides capabilities for recording, monitoring,
+analyzing, and managing events and activities locally on the physical
+machine that the Anoma node is running. It supports diagnostic efforts,
+security monitoring, performance optimization, and historical analysis
+to ensure stability, security, and efficiency.
 
 ## Components
 
 - [[Logging Messages]]
-- [[Logging Configuration]]
+- [[Logging Config]]
 - [[Logging Environment]]
 - [[Logging Behaviour]]
 

@@ -127,7 +127,7 @@ State update
 : Add the new log entry to the logbook.
 
 Messages to be sent
-: No messages are added to the send queue.
+: No messages are sent by this action.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -217,7 +217,7 @@ appendLogActionLabel : LoggingActionExec := Seq [ appendLogAction ];
 Guard for append log action.
 
 Condition
-: Message type is LoggingMsgAppend.
+: Message type is `LoggingMsgAppend`.
 
 <!-- --8<-- [start:appendLogGuard] -->
 ```juvix
