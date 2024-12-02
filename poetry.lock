@@ -1052,35 +1052,33 @@ files = [
 
 [[package]]
 name = "mkdocs-juvix-plugin"
-version = "0.4.5"
+version = "0.4.6"
 description = "MkDocs documentation with support for Juvix Markdown files"
 optional = false
-python-versions = ">=3.10,<3.14"
-files = []
-develop = true
+python-versions = "<3.14,>=3.10"
+files = [
+    {file = "mkdocs_juvix_plugin-0.4.6-py3-none-any.whl", hash = "sha256:dd34f8678d5e2997c5b08fd355920c81cabb4f88e8f0011ab0796c8eb25be888"},
+    {file = "mkdocs_juvix_plugin-0.4.6.tar.gz", hash = "sha256:d81fd6b338f871913aaa81ef20dcf2aaace43c601f193808d3b7bb34073a261c"},
+]
 
 [package.dependencies]
-bs4 = "^0.0.2"
-click = "^8.1.7"
-fuzzywuzzy = "^0.18.0"
-graphviz = "^0.20.3"
-intervaltree = "^3.1.0"
-mkdocs = "^1.6.1"
-mkdocs-material = "^9.5.46"
-ncls = "^0.0.68"
-pymdown-extensions = "^10.11.2"
-python-dotenv = "^1.0.1"
-python-levenshtein = "^0.26.0"
-questionary = "^2.0.1"
-rich = "^13.9.4"
-semver = "^3.0.2"
-toml = "^0.10.2"
-tqdm = "^4.67.1"
-trio = "^0.27.0"
-
-[package.source]
-type = "directory"
-url = "../juvix-mkdocs"
+bs4 = ">=0.0.2,<0.0.3"
+click = ">=8.1.7,<9.0.0"
+fuzzywuzzy = ">=0.18.0,<0.19.0"
+graphviz = ">=0.20.3,<0.21.0"
+intervaltree = ">=3.1.0,<4.0.0"
+mkdocs = ">=1.6.1,<2.0.0"
+mkdocs-material = ">=9.5.46,<10.0.0"
+ncls = ">=0.0.68,<0.0.69"
+pymdown-extensions = ">=10.11.2,<11.0.0"
+python-dotenv = ">=1.0.1,<2.0.0"
+python-levenshtein = ">=0.26.0,<0.27.0"
+questionary = ">=2.0.1,<3.0.0"
+rich = ">=13.9.4,<14.0.0"
+semver = ">=3.0.2,<4.0.0"
+toml = ">=0.10.2,<0.11.0"
+tqdm = ">=4.67.1,<5.0.0"
+trio = ">=0.27.0,<0.28.0"
 
 [[package]]
 name = "mkdocs-kroki-plugin"
@@ -2361,4 +2359,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.14"
-content-hash = "4c8b208989aa8f01aff138e9923ae99f82284ee7359ae995b2efc87caa0c2d7d"
+content-hash = "75ffa3e4480dee5509c08f8a03b8c3543e5458975815f2d21bdaa067bb3e5c2d"
