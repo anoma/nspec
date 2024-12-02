@@ -30,9 +30,14 @@ tags:
 
 # Local Key-Value Storage Engine
 
+The Local Key-Value Storage Engine handles persistent storage
+and retrieval of data in a key-value format on the local machine.
+
 ## Purpose
 
-The Local Key-Value Storage Engine provides the local storage and retrieval of data in a key-value format.
+The Local Key-Value Storage Engine provides local storage and retrieval of
+data in a key-value format. It supports storing, retrieving and
+deleting key-value pairs while notifying interested parties of changes.
 
 ## Components
 

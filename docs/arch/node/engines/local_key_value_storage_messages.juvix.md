@@ -117,7 +117,7 @@ type DeleteValueKVStoreRequest := mkDeleteValueKVStoreRequest {
 
 ### `DeleteValueKVStoreResponse DeleteValueKVStoreResponse`
 
-Response indicating success/failure of delete operation.
+Response indicating success/failure of a delete operation.
 
 <!-- --8<-- [start:DeleteValueKVStoreResponse] -->
 ```juvix
@@ -130,7 +130,7 @@ type DeleteValueKVStoreResponse := mkDeleteValueKVStoreResponse {
 
 ### `ValueChangedKVStore`
 
-Notification that a value has changed. (Note: this seems unused)
+Notification that a value has changed.
 
 <!-- --8<-- [start:ValueChangedKVStore] -->
 ```juvix

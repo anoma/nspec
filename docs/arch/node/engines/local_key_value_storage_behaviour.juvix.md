@@ -129,7 +129,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A GetValueKVStoreResponse message with the requested value.
+: A `GetValueKVStoreResponse` message with the requested value.
 
 Engines to be spawned
 : No engines are created by this action.

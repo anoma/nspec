@@ -26,7 +26,7 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The Local Key Value Storage engine configuration contains static information for Local Key Value Storage engine instances.
 
 ## The Local Key Value Storage Configuration
 
