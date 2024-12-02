@@ -26,7 +26,7 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The Local Time Series Storage engine configuration contains static information for Local Time Series Storage engine instances.
 
 ## The Local Time Series Storage Configuration
 

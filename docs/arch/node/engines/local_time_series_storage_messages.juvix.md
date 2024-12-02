@@ -44,7 +44,7 @@ type GetDataTSStorageDBRequest := mkGetDataTSStorageDBRequest {
 ???+ quote "Arguments"
 
     `query`
-    : The query that finds the requested time series data in the DB.
+    : The query to find the requested time series data in the DB.
 
 ### `GetDataTSStorageDBResponse`
 
@@ -60,7 +60,7 @@ type GetDataTSStorageDBResponse := mkGetDataTSStorageDBResponse {
 ???+ quote "Arguments"
 
     `query`
-    : The query that finds the requested time series data in the DB.
+    : The query to find the requested time series data in the DB.
 
     `data`
     : The requested time series data.
@@ -97,7 +97,7 @@ type RecordDataTSStorageDBResponse := mkRecordDataTSStorageDBResponse {
     : The query that expresses the recording of the time series data into the DB.
 
     `success`
-    : The success of the operation, indicating that the data was stored successfully or not.
+    : The success of the operation, indicating if the data was stored successfully or not.
 
 ### `DeleteDataTSStorageDBRequest`
 
@@ -131,7 +131,7 @@ type DeleteDataTSStorageDBResponse := mkDeleteDataTSStorageDBResponse {
     : The query that expresses the deletion of the time series data from the DB.
 
     `success`
-    : The success of the operation, indicating that the data was deleted successfully or not.
+    : The success of the operation, indicating if the data was deleted successfully or not.
 
 ### `DataChangedTSStorageDB`
 

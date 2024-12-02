@@ -31,7 +31,7 @@ tags:
 
 ## Overview
 
-A time series storage engine acts as a database that can store, retrieve and delete time series data.
+A time series storage engine acts as a database that can store, retrieve, and delete time series data.
 
 ## Action arguments
 
@@ -179,7 +179,7 @@ getDataAction
 Record new data in the time series database.
 
 State update
-: Updates the database with new time series data.
+: Updates the database with new time series data, if successful.
 
 Messages to be sent
 : A `RecordDataTSStorageDBResponse` message indicating success/failure.
@@ -273,7 +273,7 @@ recordDataAction
 Delete data from the time series database.
 
 State update
-: Updates the database by removing specified time series data.
+: Updates the database by removing specified time series data, if successful.
 
 Messages to be sent
 : A `DeleteDataTSStorageDBResponse` message indicating success/failure.
@@ -440,7 +440,7 @@ deleteDataActionLabel : LocalTSStorageActionExec := Seq [ deleteDataAction ];
 ### `getDataGuard`
 
 Condition
-: Message type is LocalTSStorageMsgGetRequest.
+: Message type is `LocalTSStorageMsgGetRequest`.
 
 <!-- --8<-- [start:getDataGuard] -->
 ```juvix
@@ -464,7 +464,7 @@ getDataGuard
 ### `recordDataGuard`
 
 Condition
-: Message type is LocalTSStorageMsgRecordRequest.
+: Message type is `LocalTSStorageMsgRecordRequest`.
 
 <!-- --8<-- [start:recordDataGuard] -->
 ```juvix
@@ -488,7 +488,7 @@ recordDataGuard
 ### `deleteDataGuard`
 
 Condition
-: Message type is LocalTSStorageMsgDeleteRequest.
+: Message type is `LocalTSStorageMsgDeleteRequest`.
 
 <!-- --8<-- [start:deleteDataGuard] -->
 ```juvix

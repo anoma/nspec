@@ -255,7 +255,7 @@ getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
 ### `getTimeGuard`
 
 Condition
-: Message type is WallClockGetTime.
+: Message type is `WallClockGetTime`.
 
 <!-- --8<-- [start:getTimeGuard] -->
 ```juvix

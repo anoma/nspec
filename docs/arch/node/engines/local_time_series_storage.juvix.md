@@ -31,11 +31,14 @@ tags:
 
 # Local Time Series Storage Engine
 
-The Local Time Series Storage Engine provides local storage and retrieval of time series data.
+The Local Time Series Storage Engine provides local storage and
+retrieval of time series data.
 
 ## Purpose
 
-The Local Time Series Storage Engine manages local storage and retrieval of time series data. It provides functions for recording new data, retrieving existing data, and deleting data when needed.
+The Local Time Series Storage Engine manages local storage and
+retrieval of time series data. It provides functions for recording
+new data, retrieving existing data, and deleting data when needed.
 
 ## Components
 

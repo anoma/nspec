@@ -399,7 +399,7 @@ deleteValueActionLabel : LocalKVStorageActionExec := Seq [ deleteValueAction ];
 ### `getValueGuard`
 
 Condition
-: Message type is LocalKVStorageMsgGetValueRequest.
+: Message type is `LocalKVStorageMsgGetValueRequest`.
 
 <!-- --8<-- [start:getValueGuard] -->
 ```juvix
@@ -422,7 +422,7 @@ getValueGuard
 ### `setValueGuard`
 
 Condition
-: Message type is LocalKVStorageMsgSetValueRequest.
+: Message type is `LocalKVStorageMsgSetValueRequest`.
 
 <!-- --8<-- [start:setValueGuard] -->
 ```juvix
@@ -445,7 +445,7 @@ setValueGuard
 ### `deleteValueGuard`
 
 Condition
-: Message type is LocalKVStorageMsgDeleteValueRequest.
+: Message type is `LocalKVStorageMsgDeleteValueRequest`.
 
 <!-- --8<-- [start:deleteValueGuard] -->
 ```juvix
