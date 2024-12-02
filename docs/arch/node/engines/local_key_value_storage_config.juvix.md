@@ -35,10 +35,7 @@ The Local Key Value Storage engine configuration contains static information for
 <!-- --8<-- [start:LocalKVStorageCfg] -->
 ```juvix
 type LocalKVStorageCfg :=
-  mkLocalKVStorageCfg@{
-    example : Nat;
-    value : String;
-  }
+  mkLocalKVStorageCfg;
 ```
 <!-- --8<-- [end:LocalKVStorageCfg] -->
 
