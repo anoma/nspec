@@ -87,7 +87,7 @@ LocalTSStorageTimestampedTrigger : Type :=
 
 ## The Local Time Series Storage Environment
 
-### `LocalTSStorageEnv` 
+### `LocalTSStorageEnv`
 
 <!-- --8<-- [start:LocalTSStorageEnv] -->
 ```juvix
