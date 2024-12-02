@@ -129,7 +129,7 @@ jobs:
           poetry run mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/
+          SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
           SITE_VERSION: (PR ${{ github.event.pull_request.number }})
       - name: The build failed comment
         if: failure()
