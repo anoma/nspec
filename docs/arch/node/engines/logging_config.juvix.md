@@ -34,11 +34,7 @@ The logging engine configuration contains static information for logging engine 
 
 <!-- --8<-- [start:LoggingCfg] -->
 ```juvix
-type LoggingCfg :=
-  mkLoggingCfg@{
-    example : Nat;
-    value : String;
-  }
+type LoggingCfg := mkLoggingCfg;
 ```
 <!-- --8<-- [end:LoggingCfg] -->
 
@@ -52,10 +48,7 @@ module logging_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "logging";
-      cfg := mkLoggingCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkLoggingCfg;
     }
   ;
 end;

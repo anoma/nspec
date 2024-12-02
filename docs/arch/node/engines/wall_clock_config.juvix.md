@@ -35,11 +35,7 @@ the wall clock engine to function.
 
 <!-- --8<-- [start:WallClockCfg] -->
 ```juvix
-type WallClockCfg :=
-  mkWallClockCfg@{
-    example : Nat;
-    value : String;
-  }
+type WallClockCfg := mkWallClockCfg;
 ```
 <!-- --8<-- [end:WallClockCfg] -->
 
@@ -53,10 +49,7 @@ module wall_clock_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "wall clock";
-      cfg := mkWallClockCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkWallClockCfg;
     }
   ;
 end;

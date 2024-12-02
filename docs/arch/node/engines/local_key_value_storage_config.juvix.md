@@ -34,8 +34,7 @@ The Local Key Value Storage engine configuration contains static information for
 
 <!-- --8<-- [start:LocalKVStorageCfg] -->
 ```juvix
-type LocalKVStorageCfg :=
-  mkLocalKVStorageCfg;
+type LocalKVStorageCfg := mkLocalKVStorageCfg;
 ```
 <!-- --8<-- [end:LocalKVStorageCfg] -->
 
@@ -49,10 +48,7 @@ module local_key_value_storage_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "key value storage";
-      cfg := mkLocalKVStorageCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkLocalKVStorageCfg;
     }
   ;
 end;
