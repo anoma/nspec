@@ -15,11 +15,24 @@ tags:
     ```juvix
     module arch.node.engines.executor_messages;
     import prelude open;
+    import arch.node.types.identities open;
     ```
 
 # Executor Messages
 
 ## Message interface
+
+
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    syntax alias TransactionExecutable := String;
+    syntax alias TransactionLabel := String;
+    syntax alias TxFingerprint := String;
+    syntax alias KVSKey := Nat;
+    syntax alias KVSDatum := Nat;
+    ```
 
 ### `ExecuteTransaction`
 
@@ -32,8 +45,6 @@ type ExecuteTransaction := mkExecuteTransaction {
   issuer : ExternalIdentity; -- the ID of the sender of the [[TransactionRequest]]
 };
 ```
-!!! todo
-    make this type check properly (may require introduing TxFingerprint and such types somewhere)
 
 The [[Mempool Engines|mempool engines]] instruct the [[Executor]] that a new
  [[TransactionCandidate]] has been recorded, its locks are being
@@ -93,8 +104,6 @@ type KVSRead := mkKVSRead {
   data : KVSDatum; -- the datum read
 }
 ```
-!!! todo
-    make this type check properly (may require introduing KVSKey and such types somewhere)
 
 [[Executor]]s have to read data from keys to execute
  [[TransactionCandidate]]s.
