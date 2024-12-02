@@ -27,7 +27,17 @@ tags:
 
 ## Overview
 
-The Local Key-Value Storage Engine provides local storage and retrieval of data in a key-value format.
+The Local Key-Value Storage Engine provides local storage and
+retrieval of data in a key-value format.
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    -- Get list of engine IDs that should be notified for a given key
+    axiom getNotificationTargets : StorageKey -> List EngineID;
+
+    axiom advanceTime : Nat -> Nat;
+    ```
 
 ## Mailbox state types
 
@@ -46,7 +56,8 @@ syntax alias LocalKVStorageMailboxState := Unit;
 <!-- --8<-- [start:LocalKVStorageLocalState] -->
 ```juvix
 type LocalKVStorageLocalState := mkLocalKVStorageLocalState {
-  storage : Map StorageKey StorageValue
+  storage : Map StorageKey StorageValue;
+  localClock : Nat
 };
 ```
 <!-- --8<-- [end:LocalKVStorageLocalState] -->
@@ -101,7 +112,8 @@ module local_key_value_storage_environment_example;
   localKVStorageEnv : LocalKVStorageEnv :=
     mkEngineEnv@{
       localState := mkLocalKVStorageLocalState@{
-        storage := Map.empty
+        storage := Map.empty;
+        localClock := 0;
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

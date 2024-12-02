@@ -181,7 +181,7 @@ State update
 : The storage map is updated with new key-value pair.
 
 Messages to be sent
-: A SetValueKVStoreResponse message indicating success/failure.
+: A `SetValueKVStoreResponse` message indicating success/failure. Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -199,26 +199,42 @@ setValueAction
     local := EngineEnv.localState env;
     storage := LocalKVStorageLocalState.storage local;
     trigger := ActionInput.trigger input;
+    newTime := advanceTime (LocalKVStorageLocalState.localClock local)
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
       case emsg of {
         | mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueRequest req)} :=
           let
-            newStorage := Map.insert (SetValueKVStoreRequest.key req) (SetValueKVStoreRequest.value req) storage;
-            newLocal := local@LocalKVStorageLocalState{storage := newStorage};
+            key := SetValueKVStoreRequest.key req;
+            value := SetValueKVStoreRequest.value req;
+            newStorage := Map.insert key value storage;
+            newLocal := local@LocalKVStorageLocalState{storage := newStorage; localClock := newTime};
             newEnv := env@EngineEnv{localState := newLocal};
-          in some mkActionEffect@{
-            env := newEnv;
-            msgs := [mkEngineMsg@{
+            responseMsg := mkEngineMsg@{
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueResponse
                 (mkSetValueKVStoreResponse@{
-                  key := SetValueKVStoreRequest.key req;
+                  key := key;
                   success := true
                 }))
-            }];
+            };
+            notificationMsg := \{target := mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+              target := target;
+              mailbox := some 0;
+              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
+                (mkValueChangedKVStore@{
+                  key := key;
+                  value := value;
+                  timestamp := newTime
+                }))
+            }};
+            notificationMsgs := map notificationMsg (getNotificationTargets key);
+          in some mkActionEffect@{
+            env := newEnv;
+            msgs := responseMsg :: notificationMsgs;
             timers := [];
             engines := [];
           }
@@ -237,7 +253,7 @@ State update
 : The storage map is updated to remove the key-value pair.
 
 Messages to be sent
-: A DeleteValueKVStoreResponse message indicating success/failure.
+: A DeleteValueKVStoreResponse message indicating success/failure. Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -255,26 +271,41 @@ deleteValueAction
     local := EngineEnv.localState env;
     storage := LocalKVStorageLocalState.storage local;
     trigger := ActionInput.trigger input;
+    newTime := advanceTime (LocalKVStorageLocalState.localClock local)
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
       case emsg of {
         | mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueRequest req)} :=
           let
-            newStorage := Map.delete (DeleteValueKVStoreRequest.key req) storage;
-            newLocal := local@LocalKVStorageLocalState{storage := newStorage};
+            key := DeleteValueKVStoreRequest.key req;
+            newStorage := Map.delete key storage;
+            newLocal := local@LocalKVStorageLocalState{storage := newStorage; localClock := newTime};
             newEnv := env@EngineEnv{localState := newLocal};
-          in some mkActionEffect@{
-            env := newEnv;
-            msgs := [mkEngineMsg@{
+            responseMsg := mkEngineMsg@{
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueResponse
                 (mkDeleteValueKVStoreResponse@{
-                  key := DeleteValueKVStoreRequest.key req;
+                  key := key;
                   success := true
                 }))
-            }];
+            };
+            notificationMsg := \{target := mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+              target := target;
+              mailbox := some 0;
+              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
+                (mkValueChangedKVStore@{
+                  key := key;
+                  value := "";
+                  timestamp := newTime
+                }))
+            }};
+            notificationMsgs := map notificationMsg (getNotificationTargets key);
+          in some mkActionEffect@{
+            env := newEnv;
+            msgs := responseMsg :: notificationMsgs;
             timers := [];
             engines := [];
           }
