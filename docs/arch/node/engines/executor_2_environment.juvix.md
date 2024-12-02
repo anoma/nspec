@@ -80,7 +80,7 @@ syntax alias ExecutorTimerHandle := Unit;
 
 The executor engine does not require timers. Therefore, we define the timer handle type as `Unit`.
 
-## The Executor Environment 
+## The Executor Environment
 
 ### `ExecutorEnv`
 

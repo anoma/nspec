@@ -62,8 +62,8 @@ type ExecuteTransactionRequest : Type :=
 
     `timestamp`
     : Ordering information sufficient for V1
-    
-    `curator` 
+
+    `curator`
     : The Worker Engine to be informed when execution completes
 
     `issuer`
@@ -75,7 +75,7 @@ Notification that execution is complete.
 
 <!-- --8<-- [start:ExecutorFinishedMsg] -->
 ```juvix
-type ExecutorFinishedMsg : Type := 
+type ExecutorFinishedMsg : Type :=
   mkExecutorFinishedMsg {
     timestamp : TxFingerprint
   }
