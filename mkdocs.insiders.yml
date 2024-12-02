@@ -18,7 +18,6 @@ plugins:
         - svg
       FileTypeOverrides:
         mermaid: png
-      FailFast: !ENV CI
   - bibtex:
       bib_dir: "docs/references"
   - git-revision-date-localized:
