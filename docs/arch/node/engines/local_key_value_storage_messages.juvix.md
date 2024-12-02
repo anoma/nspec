@@ -28,6 +28,7 @@ These are the messages that the Local Key-Value Storage engine can receive/respo
     ```juvix
     syntax alias StorageKey := String;
     syntax alias StorageValue := String;
+    syntax alias EpochTimestamp := Nat;
     ```
 
 ### `GetValueKVStoreRequest GetValueKVStoreRequest`
@@ -136,7 +137,7 @@ Notification that a value has changed. (Note: this seems unused)
 type ValueChangedKVStore := mkValueChangedKVStore {
   key : StorageKey;
   value : StorageValue;
-  timestamp : Nat;
+  timestamp : EpochTimestamp;
 };
 ```
 <!-- --8<-- [end:ValueChangedKVStore] -->

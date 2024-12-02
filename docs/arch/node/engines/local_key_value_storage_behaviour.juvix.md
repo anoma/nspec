@@ -144,6 +144,7 @@ getValueAction
   : Option LocalKVStorageActionEffect :=
   let
     env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
     local := EngineEnv.localState env;
     storage := LocalKVStorageLocalState.storage local;
     trigger := ActionInput.trigger input;
@@ -154,7 +155,7 @@ getValueAction
           some mkActionEffect@{
             env := env;
             msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+              sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueResponse
@@ -181,7 +182,8 @@ State update
 : The storage map is updated with new key-value pair.
 
 Messages to be sent
-: A `SetValueKVStoreResponse` message indicating success/failure. Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
+: A `SetValueKVStoreResponse` message indicating success/failure.
+: Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -196,6 +198,7 @@ setValueAction
   : Option LocalKVStorageActionEffect :=
   let
     env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
     local := EngineEnv.localState env;
     storage := LocalKVStorageLocalState.storage local;
     trigger := ActionInput.trigger input;
@@ -211,7 +214,7 @@ setValueAction
             newLocal := local@LocalKVStorageLocalState{storage := newStorage; localClock := newTime};
             newEnv := env@EngineEnv{localState := newLocal};
             responseMsg := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+              sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueResponse
@@ -221,7 +224,7 @@ setValueAction
                 }))
             };
             notificationMsg := \{target := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+              sender := getEngineIDFromEngineCfg cfg;
               target := target;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
@@ -253,7 +256,8 @@ State update
 : The storage map is updated to remove the key-value pair.
 
 Messages to be sent
-: A DeleteValueKVStoreResponse message indicating success/failure. Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
+: A `DeleteValueKVStoreResponse message` indicating success/failure.
+: Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -268,6 +272,7 @@ deleteValueAction
   : Option LocalKVStorageActionEffect :=
   let
     env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
     local := EngineEnv.localState env;
     storage := LocalKVStorageLocalState.storage local;
     trigger := ActionInput.trigger input;
@@ -282,7 +287,7 @@ deleteValueAction
             newLocal := local@LocalKVStorageLocalState{storage := newStorage; localClock := newTime};
             newEnv := env@EngineEnv{localState := newLocal};
             responseMsg := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+              sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueResponse
@@ -292,7 +297,7 @@ deleteValueAction
                 }))
             };
             notificationMsg := \{target := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+              sender := getEngineIDFromEngineCfg cfg;
               target := target;
               mailbox := some 0;
               msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged

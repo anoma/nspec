@@ -144,12 +144,13 @@ getDataAction
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
     cfg := ActionInput.cfg input;
+    local := EngineEnv.localState env;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetRequest request);
         sender := sender;
       } := 
-      let result := queryDB (LocalTSStorageLocalState.db (EngineEnv.localState env)) (GetDataTSStorageDBRequest.query request);
+      let result := queryDB (LocalTSStorageLocalState.db local) (GetDataTSStorageDBRequest.query request);
       in case result of {
         | some data := some mkActionEffect@{
             env := env;
@@ -182,7 +183,7 @@ State update
 
 Messages to be sent
 : A `RecordDataTSStorageDBResponse` message indicating success/failure.
-: A `DataChangedTSStorageDB` notification if successful.
+: Several `DataChangedTSStorageDB` messages to those interested engines, if successful.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -199,47 +200,50 @@ recordDataAction
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
     cfg := ActionInput.cfg input;
+    local := EngineEnv.localState env;
+    newTime := advanceTime (LocalTSStorageLocalState.localClock local)
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordRequest request);
         sender := sender;
       } :=
       let query := RecordDataTSStorageDBRequest.query request;
-          db := LocalTSStorageLocalState.db (EngineEnv.localState env);
+          db := LocalTSStorageLocalState.db local;
           data := queryDB db query;
       in case data of {
         | some value := 
           let newDb := updateDB db query value;
               newEnv := env@EngineEnv{
                 localState := mkLocalTSStorageLocalState@{
-                  db := newDb
+                  db := newDb;
+                  localClock := newTime
                 }
               };
-          in some mkActionEffect@{
-              env := newEnv;
-              msgs := [
-                mkEngineMsg@{
+            responseMsg := mkEngineMsg@{
                   sender := getEngineIDFromEngineCfg cfg;
                   target := sender;
                   mailbox := some 0;
-                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordResponse
-                    mkRecordDataTSStorageDBResponse@{
+                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteResponse
+                    mkDeleteDataTSStorageDBResponse@{
                       query := query;
                       success := true;
                     })
                 };
-                mkEngineMsg@{
-                  sender := getEngineIDFromEngineCfg cfg;
-                  target := sender;
-                  mailbox := some 0;
-                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
-                    mkDataChangedTSStorageDB@{
-                      query := query;
-                      data := value;
-                      timestamp := 0;
-                    })
-                }
-              ];
+            notificationMsg := \{target := mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg cfg;
+              target := target;
+              mailbox := some 0;
+              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
+                (mkDataChangedTSStorageDB@{
+                  query := query;
+                  data := value;
+                  timestamp := newTime
+                }))
+            }};
+            notificationMsgs := map notificationMsg (getNotificationTargets query);
+          in some mkActionEffect@{
+              env := newEnv;
+              msgs := responseMsg :: notificationMsgs;
               timers := [];
               engines := [];
             }
@@ -272,8 +276,8 @@ State update
 : Updates the database by removing specified time series data.
 
 Messages to be sent
-: A DeleteDataTSStorageDBResponse message indicating success/failure.
-: A DataChangedTSStorageDB notification if successful.
+: A `DeleteDataTSStorageDBResponse` message indicating success/failure.
+: Several `DataChangedTSStorageDB` messages to those interested engines, if successful.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -290,26 +294,26 @@ deleteDataAction
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
     cfg := ActionInput.cfg input;
+    local := EngineEnv.localState env;
+    newTime := advanceTime (LocalTSStorageLocalState.localClock local)
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteRequest request);
         sender := sender;
       } :=
       let query := DeleteDataTSStorageDBRequest.query request;
-          db := LocalTSStorageLocalState.db (EngineEnv.localState env);
+          db := LocalTSStorageLocalState.db local;
           data := queryDB db query;
       in case data of {
         | some value := 
           let newDb := updateDB db query "";
               newEnv := env@EngineEnv{
                 localState := mkLocalTSStorageLocalState@{
-                  db := newDb
+                  db := newDb;
+                  localClock := newTime
                 }
               };
-          in some mkActionEffect@{
-              env := newEnv;
-              msgs := [
-                mkEngineMsg@{
+            responseMsg := mkEngineMsg@{
                   sender := getEngineIDFromEngineCfg cfg;
                   target := sender;
                   mailbox := some 0;
@@ -319,18 +323,21 @@ deleteDataAction
                       success := true;
                     })
                 };
-                mkEngineMsg@{
-                  sender := getEngineIDFromEngineCfg cfg;
-                  target := sender;
-                  mailbox := some 0;
-                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
-                    mkDataChangedTSStorageDB@{
-                      query := query;
-                      data := "";
-                      timestamp := 0;
-                    })
-                }
-              ];
+            notificationMsg := \{target := mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg cfg;
+              target := target;
+              mailbox := some 0;
+              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
+                (mkDataChangedTSStorageDB@{
+                  query := query;
+                  data := value;
+                  timestamp := newTime
+                }))
+            }};
+            notificationMsgs := map notificationMsg (getNotificationTargets query);
+          in some mkActionEffect@{
+              env := newEnv;
+              msgs := responseMsg :: notificationMsgs;
               timers := [];
               engines := [];
             }

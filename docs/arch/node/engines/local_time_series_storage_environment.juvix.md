@@ -44,6 +44,8 @@ syntax alias LocalTSStorageMailboxState := Unit;
 
     axiom updateDB : Database -> TSStorageDBQuery -> TSStorageDBData -> Database;
     axiom queryDB : Database -> TSStorageDBQuery -> Option TSStorageDBData;
+    axiom getNotificationTargets : TSStorageDBQuery -> List EngineID;
+    axiom advanceTime : EpochTimestamp -> EpochTimestamp;
     ```
 
 ### `LocalTSStorageLocalState`
@@ -52,7 +54,8 @@ syntax alias LocalTSStorageMailboxState := Unit;
 ```juvix
 type LocalTSStorageLocalState :=
   mkLocalTSStorageLocalState {
-    db : Database
+    db : Database;
+    localClock : EpochTimestamp
   };
 ```
 <!-- --8<-- [end:LocalTSStorageLocalState] -->
@@ -61,6 +64,9 @@ type LocalTSStorageLocalState :=
 
     `db`
     : The database storing the time series data.
+
+    `localClock`
+    : The local time of the engine, used to make timestamps.
 
 ## Timer Handle
 
@@ -103,7 +109,8 @@ module local_ts_storage_environment_example;
   localTSStorageEnv : LocalTSStorageEnv :=
     mkEngineEnv@{
       localState := mkLocalTSStorageLocalState@{
-        db := ""
+        db := "";
+        localClock := 0
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

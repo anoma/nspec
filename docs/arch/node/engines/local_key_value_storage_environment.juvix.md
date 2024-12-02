@@ -33,10 +33,8 @@ retrieval of data in a key-value format.
 ??? quote "Auxiliary Juvix code"
 
     ```juvix
-    -- Get list of engine IDs that should be notified for a given key
     axiom getNotificationTargets : StorageKey -> List EngineID;
-
-    axiom advanceTime : Nat -> Nat;
+    axiom advanceTime : EpochTimestamp -> EpochTimestamp;
     ```
 
 ## Mailbox state types
@@ -57,7 +55,7 @@ syntax alias LocalKVStorageMailboxState := Unit;
 ```juvix
 type LocalKVStorageLocalState := mkLocalKVStorageLocalState {
   storage : Map StorageKey StorageValue;
-  localClock : Nat
+  localClock : EpochTimestamp
 };
 ```
 <!-- --8<-- [end:LocalKVStorageLocalState] -->
@@ -66,6 +64,9 @@ type LocalKVStorageLocalState := mkLocalKVStorageLocalState {
 
     `storage`
     : The key-value store mapping keys to values.
+
+    `localClock`
+    : The local time of the engine, used to make timestamps.
 
 ## Timer handles
 
