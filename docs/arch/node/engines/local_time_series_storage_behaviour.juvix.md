@@ -148,7 +148,7 @@ getDataAction
     | some mkEngineMsg@{
         msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetRequest request);
         sender := sender;
-      } := 
+      } :=
       let result := queryDB (LocalTSStorageLocalState.db (EngineEnv.localState env)) (GetDataTSStorageDBRequest.query request);
       in case result of {
         | some data := some mkActionEffect@{
@@ -194,7 +194,7 @@ Timer updates
 ```juvix
 recordDataAction
   (input : LocalTSStorageActionInput)
-  : Option LocalTSStorageActionEffect := 
+  : Option LocalTSStorageActionEffect :=
   let
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
@@ -208,7 +208,7 @@ recordDataAction
           db := LocalTSStorageLocalState.db (EngineEnv.localState env);
           data := queryDB db query;
       in case data of {
-        | some value := 
+        | some value :=
           let newDb := updateDB db query value;
               newEnv := env@EngineEnv{
                 localState := mkLocalTSStorageLocalState@{
@@ -299,7 +299,7 @@ deleteDataAction
           db := LocalTSStorageLocalState.db (EngineEnv.localState env);
           data := queryDB db query;
       in case data of {
-        | some value := 
+        | some value :=
           let newDb := updateDB db query "";
               newEnv := env@EngineEnv{
                 localState := mkLocalTSStorageLocalState@{
