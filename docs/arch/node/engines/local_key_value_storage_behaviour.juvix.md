@@ -494,7 +494,7 @@ localKVStorageBehaviour : LocalKVStorageBehaviour :=
 ```
 <!-- --8<-- [end:localKVStorageBehaviour] -->
 
-## Local Key-Value Storage Action Flowcharts 
+## Local Key-Value Storage Action Flowcharts
 
 ### `getValue` Flowchart
 
