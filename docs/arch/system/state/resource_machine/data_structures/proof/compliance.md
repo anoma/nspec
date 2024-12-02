@@ -32,10 +32,10 @@ Each resource machine compliance proof must check the following:
 2. for each consumed resource `r`:
     1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumedResourceTagSet`
     2. Consumed commitment integrity: `r.commitment() = cm`
-    3. Logic integrity: `logicRefHash = hash(r.logicRef, ...)` 
+    3. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
 3. for each created resource `r`:
     1. Commitment integrity: `r.commitment() is in createdResourceTagSet`
-    2. Logic integrity: `logicRefHash = hash(r.logicRef, ...)` 
+    2. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
 4. Delta integrity: `unitDelta = sum(r.delta() for r in consumed) - sum(r.delta() for r in created)`
 
 !!! note
