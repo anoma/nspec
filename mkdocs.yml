@@ -514,13 +514,13 @@ plugins:
   - glightbox
   - juvix # Provided with mkdocs-juvix-plugin
   - todos
-  #   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
-  #       ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
-  #       FileTypes:
-  #         - svg
-  #         - png
-  #       FileTypeOverrides:
-  #         mermaid: svg
+     - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
+         ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io']
+         FileTypes:
+           - svg
+           - png
+         FileTypeOverrides:
+           mermaid: svg
   - bibtex:
       bib_dir: "docs/references"
   - macros:
