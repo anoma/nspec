@@ -34,11 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:VerificationCfg] -->
 ```juvix
-type VerificationCfg :=
-  mkVerificationCfg@{
-    example : Nat;
-    value : String;
-  }
+type VerificationCfg := mkVerificationCfg
 ```
 <!-- --8<-- [end:VerificationCfg] -->
 
@@ -52,10 +48,7 @@ module verification_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "verification";
-      cfg := mkVerificationCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkVerificationCfg
     }
   ;
 end;

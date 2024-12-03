@@ -34,11 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:SignsForCfg] -->
 ```juvix
-type SignsForCfg :=
-  mkSignsForCfg@{
-    example : Nat;
-    value : String;
-  }
+type SignsForCfg := mkSignsForCfg
 ```
 <!-- --8<-- [end:SignsForCfg] -->
 
@@ -52,10 +48,7 @@ module signs_for_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "signs for";
-      cfg := mkSignsForCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkSignsForCfg
     }
   ;
 end;
