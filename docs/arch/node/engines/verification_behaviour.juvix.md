@@ -173,8 +173,8 @@ verifyAction
                     mailbox := some 0;
                     msg := Anoma.MsgVerification (MsgVerificationResponse (mkResponseVerification
                       (Verifier.verify
-                        (VerificationLocalState.verifier localState Set.empty externalIdentity)
-                        (VerificationLocalState.backend localState)
+                        (VerificationCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
+                        (VerificationCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
                   }
@@ -203,7 +203,7 @@ verifyAction
                   | none := [
                     mkEngineMsg@{
                       sender := getEngineIDFromEngineCfg cfg;
-                      target := VerificationLocalState.signsForEngineAddress localState;
+                      target := VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg);
                       mailbox := some 0;
                       msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceRequest (mkRequestQuerySignsForEvidence externalIdentity))
                     }
@@ -271,8 +271,8 @@ handleSignsForResponseAction
                     mailbox := some 0;
                     msg := Anoma.MsgVerification (MsgVerificationResponse (mkResponseVerification
                       (Verifier.verify
-                        (VerificationLocalState.verifier localState evidence externalIdentity)
-                        (VerificationLocalState.backend localState)
+                        (VerificationCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
+                        (VerificationCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
                   }}) reqs;
@@ -405,7 +405,7 @@ signsForResponseGuard
             msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse _);
             sender := sender
           } :=
-          case isEqual (Ord.cmp sender (VerificationLocalState.signsForEngineAddress (EngineEnv.localState env))) of {
+          case isEqual (Ord.cmp sender (VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
             | true := some mkGuardOutput@{
               action := handleSignsForResponseActionLabel;
               args := []
