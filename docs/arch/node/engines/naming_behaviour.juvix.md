@@ -17,10 +17,6 @@ tags:
 
     import prelude open;
     import arch.node.types.messages open;
-    import Data.Set.AVL open;
-    import Stdlib.Data.List.Base open;
-    import Stdlib.Trait.Ord open;
-    import Stdlib.Data.Bool.Base open;
     import arch.node.types.engine_behaviour open;
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
@@ -298,26 +294,26 @@ queryNameEvidenceGuard
 namingAction (input : NamingActionInput) : NamingActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
-      localState := EngineEnvironment.localState env;
+      localState := EngineEnv.localState env;
   in
   case GuardOutput.actionLabel out of {
     | DoResolveName identityName :=
       case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            matchingEvidence := AVLfilter \{evidence :=
-              isEQ (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
+            matchingEvidence := AVLTree.filter \{evidence :=
+              isEqual (Ord.cmp (IdentityNameEvidence.identityName evidence) identityName)
              } (NamingLocalState.evidenceStore localState);
-            identities := fromList (map \{evidence :=
+            identities := Set.fromList (map \{evidence :=
               IdentityNameEvidence.externalIdentity evidence
-             } (toList matchingEvidence));
+             } (Set.toList matchingEvidence));
             responseMsg := ResolveNameResponse@{
               externalIdentities := identities;
               err := none
             };
           in mkActionEffect@{
             newEnv := env; -- No state change
-            producedMessages := [mkEngineMessage@{
-              sender := mkPair none (some (EngineEnvironment.name env));
+            producedMessages := [mkEngineMsg@{
+              sender := mkPair none (some (EngineEnv.name env));
               target := whoAsked;
               mailbox := some 0;
               msg := MsgNaming responseMsg
@@ -340,8 +336,8 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                       };
                   in mkActionEffect@{
                     newEnv := env;
-                    producedMessages := [mkEngineMessage@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                    producedMessages := [mkEngineMsg@{
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgNaming responseMsg
@@ -350,9 +346,9 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                     spawnedEngines := []
                   }
               | true :=
-                  let alreadyExists := elem \{a b := a && b} true (map \{e :=
-                        isEQ (Ord.cmp e evidence)
-                      } (toList (NamingLocalState.evidenceStore localState)));
+                  let alreadyExists := isElement \{a b := a && b} true (map \{e :=
+                        isEqual (Ord.cmp e evidence)
+                      } (Set.toList (NamingLocalState.evidenceStore localState)));
                       newLocalState := case alreadyExists of {
                         | true := localState
                         | false :=
@@ -361,7 +357,7 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                               evidenceStore := newEvidenceStore
                             }
                       };
-                      newEnv' := env@EngineEnvironment{
+                      newEnv' := env@EngineEnv{
                         localState := newLocalState
                       };
                       responseMsg := SubmitNameEvidenceResponse@{
@@ -371,8 +367,8 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
                       }};
                   in mkActionEffect@{
                     newEnv := newEnv';
-                    producedMessages := [mkEngineMessage@{
-                      sender := mkPair none (some (EngineEnvironment.name env));
+                    producedMessages := [mkEngineMsg@{
+                      sender := mkPair none (some (EngineEnv.name env));
                       target := whoAsked;
                       mailbox := some 0;
                       msg := MsgNaming responseMsg
@@ -391,8 +387,8 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
     | DoQueryNameEvidence externalIdentity' :=
       case GuardOutput.matchedArgs out of {
         | (ReplyTo (some whoAsked) _) :: _ := let
-            relevantEvidence := AVLfilter \{evidence :=
-              isEQ (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity')
+            relevantEvidence := AVLTree.filter \{evidence :=
+              isEqual (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) externalIdentity')
              } (NamingLocalState.evidenceStore localState);
             responseMsg := QueryNameEvidenceResponse@{
               externalIdentity := externalIdentity';
@@ -401,8 +397,8 @@ namingAction (input : NamingActionInput) : NamingActionEffect :=
             };
           in mkActionEffect@{
             newEnv := env; -- No state change
-            producedMessages := [mkEngineMessage@{
-              sender := mkPair none (some (EngineEnvironment.name env));
+            producedMessages := [mkEngineMsg@{
+              sender := mkPair none (some (EngineEnv.name env));
               target := whoAsked;
               mailbox := some 0;
               msg := MsgNaming responseMsg

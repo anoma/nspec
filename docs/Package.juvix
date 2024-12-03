@@ -6,8 +6,9 @@ import PackageDescription.V2 open;
 package : Package :=
   defaultPackage@{
     name := "nspec";
-    version := mkVersion 0 1 0;
+    version := mkVersion 0 1 1;
     dependencies :=
-      [github "anoma" "juvix-stdlib" "v0.6.0"; github "anoma" "juvix-containers" "v0.14.1"]
+      [github "anoma" "juvix-stdlib" "v0.8.0"]
   };
 -- --8<-- [end:package]
+

@@ -41,7 +41,7 @@ MAJOR.MINOR.PATCH
 
 - [ ] Update `mkdocs.yml`
 - [ ] Update `docs/Package.juvix`
-- [ ] Update `docs/references/references.bib`
+- [ ] Update `docs/references/ref.bib`
 - [ ] Git tag the new version
 - [ ] Release a new changelog entry
 
