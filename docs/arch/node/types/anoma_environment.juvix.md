@@ -45,13 +45,13 @@ type Env :=
   | EnvTemplate TemplateEnv
   | EnvTicker TickerEnv
 
-  | EnvIdentityManagement IdentityManagementEnvironment
+  | EnvIdentityManagement IdentityManagementEnv
   | EnvDecryption DecryptionEnv
-  | EnvEncryption EncryptionEnvironment
+  | EnvEncryption EncryptionEnv
   | EnvCommitment CommitmentEnv
-  | EnvVerification VerificationEnvironment
+  | EnvVerification VerificationEnv
   | EnvReadsFor ReadsForEnv
-  | EnvSignsFor SignsForEnvironment
+  | EnvSignsFor SignsForEnv
   | EnvNaming NamingEnv
   | EnvLocalKeyValueStorage LocalKVStorageEnv
   | EnvLogging LoggingEnv

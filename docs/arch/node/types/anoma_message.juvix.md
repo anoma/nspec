@@ -12,13 +12,15 @@ tags:
     ```juvix
     module arch.node.types.anoma_message;
 
+    import prelude;
+
     import arch.node.engines.template_messages open using {TemplateMsg};
     import arch.node.engines.ticker_messages open using {TickerMsg};
 
+    import arch.node.engines.commitment_messages open using {CommitmentMsg};
     import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
     import arch.node.engines.decryption_messages open using {DecryptionMsg};
     import arch.node.engines.encryption_messages open using {EncryptionMsg};
-    import arch.node.engines.commitment_messages open using {CommitmentMsg};
     
     import arch.node.engines.verification_messages open using {VerificationMsg};
     import arch.node.engines.reads_for_messages open using {ReadsForMsg};
@@ -46,10 +48,10 @@ has a corresponding message type `TickerMsg`.
 type Msg :=
   | MsgTemplate TemplateMsg
   | MsgTicker TickerMsg
+  | MsgCommitment CommitmentMsg
   | MsgIdentityManagement IdentityManagementMsg
   | MsgDecryption DecryptionMsg
   | MsgEncryption EncryptionMsg
-  | MsgCommitment CommitmentMsg
   | MsgVerification VerificationMsg
   | MsgReadsFor ReadsForMsg
   | MsgSignsFor SignsForMsg
