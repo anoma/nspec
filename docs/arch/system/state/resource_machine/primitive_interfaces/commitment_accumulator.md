@@ -9,10 +9,10 @@ For a commitment that existed in the accumulator before a new one was added, bot
 
 The commitment accumulator has type `Accumulator` and is parametrised over the types `Witness`,`CommitmentIdentifier`, and `AccumulatedValue`. The commitment accumulator interface must support the following functionality:
 
-1. `Add(Accumulator, CommitmentIdentifier) -> Witness` adds an element to the accumulator, returning the witness used to prove membership.
-2. `Witness(Accumulator, CommitmentIdentifier) -> Maybe Witness` for a given element, returns the witness used to prove membership if the element is present, otherwise returns nothing.
-3. `Verify(CommitmentIdentifier, Witness, AccumulatedValue) -> Bool` verifies the membership proof for a commitment identified with `CommitmentIdentifier` element with a membership witness `witness` for the accumulated value `value`.
-4. `Value(Accumulator) -> AccumulatedValue` returns the accumulator value.
+1. `add(Accumulator, CommitmentIdentifier) -> Witness` adds an element to the accumulator, returning the witness used to prove membership.
+2. `witness(Accumulator, CommitmentIdentifier) -> Maybe Witness` for a given element, returns the witness used to prove membership if the element is present, otherwise returns nothing.
+3. `verify(CommitmentIdentifier, Witness, AccumulatedValue) -> Bool` verifies the membership proof for a commitment identified with `CommitmentIdentifier` element with a membership witness `witness` for the accumulated value `value`.
+4. `value(Accumulator) -> AccumulatedValue` returns the accumulator value.
 
 #### Merkle tree
 Currently, the commitment accumulator is assumed to be a Merkle tree `CMTree` of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are of type [`MerkleTreeNodeHash`](./fixed_size_type/hash.md).

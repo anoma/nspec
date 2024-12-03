@@ -1,6 +1,6 @@
 # Delta hash
 
-Delta hash is a unique interface that implements both `Hash` type and `Arithmetic` type. It is also required to be additively homomorphic and kind-distinct:
+Delta hash is an interface that implements both `Hash` type and `Arithmetic` type. It is also required to be additively homomorphic and kind-distinct:
 
 1. For resources of the same kind $kind$, $h_{\Delta}$ should be *additively homomorphic*:
 $\Delta_1 + \Delta_2 = h_{\Delta}(kind, q_1) + h_{\Delta}(kind, q_2) = h_{\Delta}(kind, q_1 + q_2)$

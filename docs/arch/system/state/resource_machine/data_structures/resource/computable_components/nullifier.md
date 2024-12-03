@@ -9,7 +9,7 @@ search:
 
 A resource nullifier is a computed field, the publishing of which marks the resource associated with the nullifier as consumed.
 
-For a resource `r`, `r.nullifier(nullifierKey) = NullifierHash(nullifierKey, r)`, where `nullifierKey` is a key provided externally.
+For a resource `r`, `r.nullifier(nullifierKey) = nullifierHash(nullifierKey, r)`, where `nullifierKey` is a key provided externally.
 
 A resource can be consumed only once. Nullifiers of consumed resources are stored in a public append-only structure called the resource *nullifier set*. This structure is external to the resource machine, but the resource machine can read from it and append to it.
 

@@ -52,6 +52,7 @@ nav:
                   - Primitive interfaces:
                       - ./arch/system/state/resource_machine/primitive_interfaces/index.md
                       - Set: ./arch/system/state/resource_machine/primitive_interfaces/set.md
+                      - List: ./arch/system/state/resource_machine/primitive_interfaces/list.md
                       - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.md
                       - Fixed size type:
                           - ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md

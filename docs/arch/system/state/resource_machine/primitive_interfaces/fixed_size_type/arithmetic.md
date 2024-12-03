@@ -21,6 +21,7 @@ classDiagram
     }
 
     Arithmetic <|-- Quantity
+    Arithmetic <|-- Balance
 
 ```
 

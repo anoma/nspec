@@ -48,8 +48,8 @@ Given a set of input resource objects `consumedResources: Set (NullifierKey, Res
 
 Validity of an action can only be determined for actions that are associated with a transaction. Assuming that an action is associated with a transaction, an action is considered valid if all of the following conditions hold:
 
-1. action input resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
-2. action output resources have valid resource logic proofs associated with them: `Verify(RLVerifyingKey, RLInstance, RLproof) = True`
+1. action input resources have valid resource logic proofs associated with them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
+2. action output resources have valid resource logic proofs associated with them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
 3. all compliance proofs are valid: `complianceUnit.verify() = True`
 4. transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
 
