@@ -33,7 +33,6 @@ nav:
           - ./basic_abstractions/cryptographic_primitives/index.md
           - Hash function: ./basic_abstractions/cryptographic_primitives/hash_function.md
           - Accumulator: ./basic_abstractions/cryptographic_primitives/accumulator.md
-          - Commitment: ./basic_abstractions/cryptographic_primitives/commitment.md
   - Protocol Architecture:
       - ./arch/index.md
       - System Architecture:
