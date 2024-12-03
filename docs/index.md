@@ -1,9 +1,6 @@
 ---
 icon: material/home
 description: A work-in-progress specification for the Anoma protocol.
-hide:
-  - toc
-  - navigation
 social:
   cards: false
 search:
@@ -11,24 +8,13 @@ search:
 list_wikilinks: false
 ---
 
-{@@ if preview @@}
-!!! info
-
-{@@ if pull_request @@}
-    This is a preview of the Anoma specification using [{@ pr_number @}](https://github.com/anoma/nspec/{@ pr_number @}).
-{@@ else @@}
-    This is a preview of the Anoma specification using the last commit on the `main` branch.
-{@@ endif @@}
-
-{@@ endif @@}
-
 # Anoma Specification
 
 !!! info inline end "Anoma entities"
 
     The term "Anoma" as used on this site refers specifically to the Anoma Protocol. However, it may
-    also be used elsewhere to refer to related entities such as the Anoma Network or the Anoma
-    Foundation.
+    also be used elsewhere to refer to related entities such as the Anoma
+    Network or the Anoma Foundation.
 
     - The Anoma Network, which consists of nodes using the Anoma protocol.
 
@@ -58,11 +44,3 @@ This site aims to describe the architecture required to implement the
 Anoma protocol and serves as a guide for Anoma researchers and implementors.
 
 <!-- The following todo would desapear on the online version. -->
-
-<details markdown="1">
-
-<summary>Table of Contents</summary>
-
-{@ dict_to_md(nav_to_dict(navigation)) @}
-
-</details>

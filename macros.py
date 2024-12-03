@@ -6,16 +6,15 @@ from pathlib import Path
 
 from mkdocs.structure.nav import Link, Navigation, Section
 from mkdocs.structure.pages import Page
+from mkdocs_juvix.logger import log
 
 ROOT_DIR = Path(__file__).parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
 
 REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", False))
 
-CACHE_DIR: Path = ROOT_DIR.joinpath(".hooks")
+CACHE_DIR: Path = ROOT_DIR.joinpath(".cache-juvix-mkdocs")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
-
-log = logging.getLogger("mkdocs")
 
 
 def load_json_file(file_path):
@@ -62,6 +61,8 @@ def define_env(env):
         juvix_modules_file = CACHE_DIR / "juvix_modules.json"
         juvix_modules_by_letter = {}
         juvix_modules = load_json_file(juvix_modules_file)
+        # filter out the ones that have no module_name
+        juvix_modules = [mod for mod in juvix_modules if mod["module_name"]]
         juvix_modules = sorted(juvix_modules, key=lambda x: x["module_name"])
         current_letter = None
         for mod in juvix_modules:
@@ -107,6 +108,16 @@ def define_env(env):
                     url = url.replace(".html", ".md")
             return {"title": nav.title, "url": str(url)}
         return nav
+
+    @env.macro
+    def tutorial_for_contributors(navigation):
+        nav_dict = nav_to_dict(navigation)
+        list_md = []
+        for dict in nav_dict:
+            if dict and "title" in dict and dict["title"] == "Tutorials for contributors":  # type: ignore
+                for chapter in dict["children"]:  # type: ignore
+                    list_md.append(f"- [{chapter['title']}]({chapter['url']})\n")  # type: ignore
+        return "\n".join(list_md)
 
     @env.macro
     def dict_to_md(nav_dict, depth=0) -> str:

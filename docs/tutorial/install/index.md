@@ -9,4 +9,4 @@ tags:
 
 # Preparing the local environment for writing documentation
 
---8<-- "./README.md:all"
+--8<-- "./docs/../README.md:all"

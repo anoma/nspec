@@ -116,7 +116,7 @@ but these are not considered in V1.
 
 ![](ordering_v1.svg)
 
---8<-- "./ordering/a_complete_lifecycle.md:all"
+--8<-- "./a_complete_lifecycle.md:all"
 
 [^1 time stamp]: In fact it is the latter time stamp that is most relevant;
     the former is merely an indicator about performance of the worker.

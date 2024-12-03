@@ -67,6 +67,7 @@ DecryptionEngine : Type :=
 
 ### Example of a decryption engine
 
+
 <!-- --8<-- [start:exampleDecryptionEngine] -->
 ```juvix
 exampleDecryptionEngine : DecryptionEngine :=
