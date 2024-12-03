@@ -44,6 +44,14 @@ type CommitmentCfg := mkCommitmentCfg@{
 ```
 <!-- --8<-- [end:CommitmentCfg] -->
 
+???+ quote "Arguments"
+
+    `signer`:
+    : The signer for the identity.
+
+    `backend`:
+    : The backend to use for signing.
+
 #### Instantiation
 
 <!-- --8<-- [start:commitmentCfg] -->

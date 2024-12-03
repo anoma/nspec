@@ -50,14 +50,6 @@ The Commitment engine is statless.
 syntax alias CommitmentLocalState := Unit;
 ```
 
-???+ quote "Arguments"
-
-    `signer`:
-    : The signer for the identity.
-
-    `backend`:
-    : The backend to use for signing.
-
 ## Timer Handle
 
 The Commitment Engine does not require a timer handle type. Therefore, we define

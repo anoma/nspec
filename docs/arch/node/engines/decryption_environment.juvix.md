@@ -50,14 +50,6 @@ The decryption engine is stateless.
 syntax alias DecryptionLocalState := Unit;
 ```
 
-???+ quote "Arguments"
-
-    `decryptor`:
-    : The decryptor for the decrypting.
-
-    `backend`:
-    : The backend to use for decryption.
-
 ## Timer Handle
 
 The Decryption Engine does not require a timer handle type. Therefore, we define
