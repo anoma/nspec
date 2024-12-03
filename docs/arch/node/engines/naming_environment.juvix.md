@@ -27,6 +27,12 @@ tags:
 
 The Naming Engine maintains the state necessary for managing associations between `IdentityName`s and `ExternalIdentity`s, including storing evidence submitted by clients.
 
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    axiom verifyEvidence : IdentityNameEvidence -> Bool;
+    ```
+
 ## Mailbox states
 
 The Naming Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
@@ -46,7 +52,6 @@ The local state of the Naming Engine includes the evidence for name associations
 ```juvix
 type NamingLocalState := mkNamingLocalState@{
   evidenceStore : Set IdentityNameEvidence;
-  verifyEvidence : IdentityNameEvidence -> Bool;
 };
 ```
 
@@ -54,9 +59,6 @@ type NamingLocalState := mkNamingLocalState@{
 
     `evidenceStore`:
     : The pool of evidence which the engine uses for identity verification.
-
-    `verifyEvidence`:
-    : A function used by the engine to validate evidence provided to it.
 
 ## Timer Handle
 
@@ -92,7 +94,6 @@ namingEnv : NamingEnv :=
     mkEngineEnv@{
       localState := mkNamingLocalState@{
         evidenceStore := Set.empty;
-        verifyEvidence := \{ _ := true }
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

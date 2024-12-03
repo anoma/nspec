@@ -222,7 +222,7 @@ submitNameEvidenceAction
     }
   in case evidence of {
     | some ev := let
-        isValid := NamingLocalState.verifyEvidence localState ev;
+        isValid := verifyEvidence ev;
         alreadyExists := case isValid of {
           | true := isElement \{a b := a && b} true (map \{e :=
               isEqual (Ord.cmp e ev)
