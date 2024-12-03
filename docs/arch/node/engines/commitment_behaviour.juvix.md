@@ -322,7 +322,7 @@ flowchart TD
   CM>MsgCommitmentRequest]
   A(commitAction)
   RE>MsgCommitmentResponse signedData]
-
+  G(commitGuard)
   CM --commitGuard--> A --commitActionLabel--> RE
 ```
 
