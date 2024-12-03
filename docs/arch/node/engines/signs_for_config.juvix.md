@@ -26,7 +26,7 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The Signs For engine configuration contains static information for Signs For engine instances.
 
 ## The Signs For Configuration
 

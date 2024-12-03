@@ -215,10 +215,7 @@ submitEvidenceAction
     | some mkEngineMsg@{
         msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceRequest (mkRequestSubmitSignsForEvidence evidence));
         sender := msgSender
-      } :=
-      let
-        isValid := SignsForLocalState.verifyEvidence localState evidence;
-      in case isValid of {
+      } := case verifyEvidence evidence of {
         | true :=
           let
             alreadyExists := isElement \{a b := a && b} true (map \{e :=
