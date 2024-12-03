@@ -34,11 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:NamingCfg] -->
 ```juvix
-type NamingCfg :=
-  mkNamingCfg@{
-    example : Nat;
-    value : String;
-  }
+type NamingCfg := mkNamingCfg
 ```
 <!-- --8<-- [end:NamingCfg] -->
 
@@ -52,10 +48,7 @@ module naming_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "naming";
-      cfg := mkNamingCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkNamingCfg
     }
   ;
 end;
