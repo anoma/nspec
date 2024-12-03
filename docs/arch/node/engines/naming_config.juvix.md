@@ -26,7 +26,7 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The Naming engine configuration contains static information for Naming engine instances.
 
 ## The Naming Configuration
 
