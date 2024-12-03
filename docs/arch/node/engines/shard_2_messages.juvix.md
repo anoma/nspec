@@ -37,48 +37,6 @@ These are the messages that the Shard engine can receive/respond to.
     syntax alias Learner := String;
     ```
 
-### `ShardMsgKVSAcquireLock KVSAcquireLockMsg`
-
-Request to acquire locks for transaction execution.
-
-<!-- --8<-- [start:KVSAcquireLockMsg] -->
-```juvix
-type KVSAcquireLockMsg : Type :=
-  mkKVSAcquireLockMsg {
-    lazy_read_keys : Set KVSKey;
-    eager_read_keys : Set KVSKey;
-    will_write_keys : Set KVSKey;
-    may_write_keys : Set KVSKey;
-    curator : EngineID;
-    executor : EngineID;
-    timestamp : TxFingerprint
-  }
-```
-<!-- --8<-- [end:KVSAcquireLockMsg] -->
-
-???+ quote "Arguments"
-
-    `lazy_read_keys`
-    : Keys this transaction may read (only send values read in response to KVSReadRequests)
-
-    `eager_read_keys`
-    : Keys this transaction will read (send values read as soon as possible)
-
-    `will_write_keys`
-    : Keys this transaction will write
-
-    `may_write_keys`
-    : Keys this transaction may write
-
-    `curator`
-    : The Worker Engine in charge of the transaction
-
-    `executor`
-    : The Executor for this transaction
-
-    `timestamp`
-    : Specifies the transaction affiliated with these locks
-
 ### `ShardMsgKVSReadRequest KVSReadRequestMsg`
 
 Read request from an executor.
@@ -123,13 +81,78 @@ type KVSWriteMsg : Type :=
 ???+ quote "Arguments"
 
     `timestamp`
-    : The logical timestamp at which to write
+    : The timestamp identifying the transaction in which to write
 
     `key`
     : The key to write to
 
     `datum`
     : The data to write, or None to indicate no write
+
+### `ShardMsgUpdateSeenAll UpdateSeenAllMsg` 
+
+Update about seen transactions from mempool.
+
+<!-- --8<-- [start:UpdateSeenAllMsg] -->
+```juvix
+type UpdateSeenAllMsg : Type :=
+  mkUpdateSeenAllMsg {
+    timestamp : TxFingerprint;
+    write : Bool
+  }
+```
+<!-- --8<-- [end:UpdateSeenAllMsg] -->
+
+???+ quote "Arguments"
+
+    `timestamp`
+    : The logical timestamp at which to push the SeenAll value.
+
+    `write`
+    : Whether it is the `SeenAllReads` or `SeenAllWrites` to update.
+
+
+### `ShardMsgKVSAcquireLock KVSAcquireLockMsg`
+
+Request to acquire locks for transaction execution.
+
+<!-- --8<-- [start:KVSAcquireLockMsg] -->
+```juvix
+type KVSAcquireLockMsg : Type :=
+  mkKVSAcquireLockMsg {
+    lazy_read_keys : Set KVSKey;
+    eager_read_keys : Set KVSKey;
+    will_write_keys : Set KVSKey;
+    may_write_keys : Set KVSKey;
+    curator : EngineID;
+    executor : EngineID;
+    timestamp : TxFingerprint
+  }
+```
+<!-- --8<-- [end:KVSAcquireLockMsg] -->
+
+???+ quote "Arguments"
+
+    `lazy_read_keys`
+    : Keys this transaction may read (only send values read in response to KVSReadRequests)
+
+    `eager_read_keys`
+    : Keys this transaction will read (send values read as soon as possible)
+
+    `will_write_keys`
+    : Keys this transaction will write
+
+    `may_write_keys`
+    : Keys this transaction may write
+
+    `curator`
+    : The Worker Engine in charge of the transaction
+
+    `executor`
+    : The Executor for this transaction
+
+    `timestamp`
+    : Specifies the transaction affiliated with these locks
 
 ### `ShardMsgKVSLockAcquired KVSLockAcquiredMsg`
 
@@ -143,6 +166,11 @@ type KVSLockAcquiredMsg : Type :=
   }
 ```
 <!-- --8<-- [end:KVSLockAcquiredMsg] -->
+
+???+ quote "Arguments"
+
+    `timestamp`
+    : The timestamp of the transaction which was locked.
 
 ### `ShardMsgKVSRead KVSReadMsg`
 
@@ -159,16 +187,28 @@ type KVSReadMsg : Type :=
 ```
 <!-- --8<-- [end:KVSReadMsg] -->
 
+???+ quote "Arguments"
+
+    `timestamp`
+    : The timestamp of the transaction which was read.
+
+    `key`
+    : The key which was read.
+
+    `data`
+    : The the data read.
+
 ### `ShardMsg`
 
 <!-- --8<-- [start:ShardMsg] -->
 ```juvix
 type ShardMsg :=
-  | ShardMsgKVSAcquireLock KVSAcquireLockMsg
   | ShardMsgKVSReadRequest KVSReadRequestMsg
   | ShardMsgKVSWrite KVSWriteMsg
+  | ShardMsgKVSAcquireLock KVSAcquireLockMsg
   | ShardMsgKVSLockAcquired KVSLockAcquiredMsg
   | ShardMsgKVSRead KVSReadMsg
+  | ShardMsgUpdateSeenAll UpdateSeenAllMsg
   ;
 ```
 <!-- --8<-- [end:ShardMsg] -->

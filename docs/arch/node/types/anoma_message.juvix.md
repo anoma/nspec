@@ -23,6 +23,7 @@ tags:
 --    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
 --    import arch.node.engines.signs_for_messages open using {SignsForMsg};
 --    import arch.node.engines.naming_messages open using {NamingMsg};
+    import arch.node.engines.shard_2_messages open using {ShardMsg};
     ```
 
 # Anoma Message
@@ -49,6 +50,7 @@ type Msg :=
 --  | MsgReadsFor ReadsForMsg
 --  | MsgSignsFor SignsForMsg
 --  | MsgNaming NamingMsg
+  | MsgShard ShardMsg
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

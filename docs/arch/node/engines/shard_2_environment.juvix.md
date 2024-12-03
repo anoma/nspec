@@ -19,22 +19,14 @@ tags:
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Shard Environment
 
-??? quote "Auxiliary Juvix code"
-
-    ```juvix
-    syntax alias ChainId := String;
-    syntax alias Height := Nat;
-    syntax alias Learner := String;
-    syntax alias KVSTimestamp := TxFingerprint;
-    ```
-
 ## Overview
 
-The shard environment maintains state about key-value pairs, timestamps, timelines, and transaction histories. It provides multi-version concurrent storage capabilities.
+The shard environment maintains state about key-value pairs, tracking read and write accesses for each key across different transaction timestamps. It provides multi-version concurrent storage capabilities.
 
 ## Mailbox states
 
@@ -48,38 +40,38 @@ The shard engine does not require complex mailbox states. Therefore, we define t
 
 ??? quote "Auxiliary Juvix code"
 
-    <!-- --8<-- [start:KeyData] -->
+    <!-- --8<-- [start:DAGStructure] -->
     ```juvix
-    type WriteMarker := mkWriteMarker {
+    type ReadStatus := mkReadStatus {
+      hasBeenRead : Bool;
+      isEager : Bool;
+      executor : EngineID
+    };
+
+    type WriteStatus : Type := mkWriteStatus {
+      data : Option KVSDatum;
       mayWrite : Bool
     };
 
-    type ReadMarker := mkReadMarker {
-      executor : EngineID;
-      isEager : Bool
+    type KeyAccess := mkKeyAccess {
+      readStatus : Option ReadStatus;
+      writeStatus : Option WriteStatus
     };
 
-    type KeyState := mkKeyState {
-      value : KVSDatum;
-      readMarkers : Map KVSTimestamp ReadMarker;
-      writeMarkers : Map KVSTimestamp WriteMarker;
-    };
-
-    type TimestampBound := mkTimestampBound {
-      timestamp : KVSTimestamp;
-      write : Bool
+    type DAGStructure := mkDAGStructure {
+      keyAccesses : Map KVSKey (Map TxFingerprint KeyAccess);
+      heardAllReads : TxFingerprint;
+      heardAllWrites : TxFingerprint
     };
     ```
-    <!-- --8<-- [end:KeyData] -->
+    <!-- --8<-- [end:DAGStructure] -->
 
 ### `ShardLocalState`
 
 <!-- --8<-- [start:ShardLocalState] -->
 ```juvix
 type ShardLocalState := mkShardLocalState {
-  keyStates : Map KVSKey KeyState;
-  heardAllBounds : Map EngineID TimestampBound;
-  dagStructure : List NarwhalBlock;
+  dagStructure : DAGStructure;
   anchors : List NarwhalBlock
 };
 ```
@@ -87,14 +79,8 @@ type ShardLocalState := mkShardLocalState {
 
 ???+ quote "Arguments"
 
-    `keyStates`
-    : Map of keys to their timeline state including values, read markers and write markers
-
-    `heardAllBounds`
-    : Timestamp bounds from each worker engine before which all reads/writes are known
-
     `dagStructure`
-    : DAG structure from mempool for ordering transactions
+    : Structure tracking all key accesses across transactions, including read/write status and heardAllWrites point
 
     `anchors`
     : Sequence of consensus decisions
@@ -105,7 +91,8 @@ type ShardLocalState := mkShardLocalState {
 syntax alias ShardTimerHandle := Unit;
 ```
 
-The shard engine in V1 does not require timers. Therefore, we define the timer handle type as `Unit`.
+The shard engine does not require timers. Therefore, we define the timer handle type as `Unit`.
+
 ## The Shard Environment
 
 ### `ShardEnv`
@@ -117,7 +104,7 @@ ShardEnv : Type :=
     ShardLocalState
     ShardMailboxState
     ShardTimerHandle
-    ShardMsg;
+    Anoma.Msg;
 ```
 <!-- --8<-- [end:ShardEnv] -->
 
@@ -130,9 +117,11 @@ module shard_environment_example;
   shardEnv : ShardEnv :=
     mkEngineEnv@{
       localState := mkShardLocalState@{
-        keyStates := Map.empty;
-        heardAllBounds := Map.empty;
-        dagStructure := [];
+        dagStructure := mkDAGStructure@{
+          keyAccesses := Map.empty;
+          heardAllReads := 0;
+          heardAllWrites := 0
+        };
         anchors := []
       };
       mailboxCluster := Map.empty;
