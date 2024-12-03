@@ -34,11 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:CommitmentCfg] -->
 ```juvix
-type CommitmentCfg :=
-  mkCommitmentCfg@{
-    example : Nat;
-    value : String;
-  }
+type CommitmentCfg := mkCommitmentCfg
 ```
 <!-- --8<-- [end:CommitmentCfg] -->
 
@@ -52,10 +48,7 @@ module commitment_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "commitment";
-      cfg := mkCommitmentCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkCommitmentCfg
     }
   ;
 end;
