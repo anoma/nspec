@@ -12,7 +12,7 @@ env:
   POETRY_VERSION: 1.8.3
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
-  INSIDERS_VERSION: 9.5.37-insiders-4.53.13
+  INSIDERS_VERSION: 9.5.46-insiders-4.53.14
   JUVIX_VERSION: v0.6.8
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
@@ -71,11 +71,6 @@ jobs:
           poetry config virtualenvs.create true --local
           poetry config virtualenvs.in-project true --local
       - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
-      - name: Cache .venv
-        uses: actions/cache@v4.0.2
-        with:
-          path: ./.venv
-          key: venv-${{ env.cache_id }}
       - name: Cache .cache
         uses: actions/cache@v4.0.2
         with:
@@ -83,13 +78,13 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - name: Cache .hooks
+      - name: Cache .cache-juvix-mkdocs
         uses: actions/cache@v4.0.2
         with:
-          key: hooks-${{ env.cache_id }}
-          path: .hooks
+          key: cache-juvix-mkdocs-${{ env.cache_id }}
+          path: .cache-juvix-mkdocs
           restore-keys: |
-            hooks-
+            cache-juvix-mkdocs-
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
       - name: Install Python dependencies
@@ -107,7 +102,7 @@ jobs:
           poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: ${{ env.BRANCH_NAME }}
-          SITE_URL: https://anoma.github.io/nspec/${{ env.BRANCH_NAME }}
+          SITE_URL: https://specs.anoma.net/${{ env.BRANCH_NAME }}/
           SITE_VERSION: ${{ steps.version.outputs.version }}-${{ steps.commit.outputs.commit }}
           COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
       - if: success()

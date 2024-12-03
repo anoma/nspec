@@ -7,28 +7,26 @@ authors = []
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.10,<3.14"
 mkdocs = "^1.6.1"
 mkdocs-bibtex = "^2.16.2"
-mkdocs-git-authors-plugin = "^0.9.0"
-mkdocs-git-committers-plugin-2 = "^2.3.0"
-mkdocs-git-revision-date-localized-plugin = "^1.2.9"
+mkdocs-git-authors-plugin = "^0.9.2"
+mkdocs-git-committers-plugin-2 = "^2.4.1"
+mkdocs-git-revision-date-localized-plugin = "^1.3.0"
 mkdocs-git-revision-date-plugin = "^0.3.2"
 mkdocs-literate-nav = "^0.6.1"
 mkdocs-macros-plugin = "^1.2.0"
-mkdocs-material = {extras = ["imaging"], version = "==9.5.37"}
+mkdocs-material = {extras = ["imaging"], version = "==9.5.46"}
 mkdocs-section-index = "^0.3.9"
-pymdown-extensions = "^10.10.1"
+pymdown-extensions = "^10.12.0"
 mkdocs-autorefs = "^1.0.1"
 mkdocs-glightbox = "^0.4.0"
-mkdocs-juvix-plugin = "^0.2.7"
+mkdocs-juvix-plugin = "^0.4.6"
 mike = "^2.1.1"
 pre-commit = "^3.7.1"
-python-levenshtein = "^0.25.1"
-fuzzywuzzy = "^0.18.0"
-common = {path = "hooks"}
 graphviz = "^0.20.3"
 mdx-truly-sane-lists = "^1.3"
+mkdocs-kroki-plugin = "^0.9.0"
 
 [build-system]
 requires = ["poetry-core"]
