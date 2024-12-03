@@ -19,6 +19,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     import arch.node.types.anoma_message as Anoma open;
+    import arch.system.identity.identity open;
     ```
 
 # Decryption Environment
