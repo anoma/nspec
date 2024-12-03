@@ -17,6 +17,7 @@ tags:
 
     import prelude open;
     import arch.node.engines.commitment_messages open;
+    import arch.system.identity.identity open using {Signer; mkSigner};
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
@@ -26,15 +27,20 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The commitment engine configuration contains static information for commitment engine instances.
 
 ## The Commitment Configuration
+
+The configuration of a Commitment Engine instance includes the identity's signing capabilities.
 
 ### `CommitmentCfg`
 
 <!-- --8<-- [start:CommitmentCfg] -->
 ```juvix
-type CommitmentCfg := mkCommitmentCfg
+type CommitmentCfg := mkCommitmentCfg@{
+  signer : Signer Backend Signable Commitment;
+  backend : Backend;
+};
 ```
 <!-- --8<-- [end:CommitmentCfg] -->
 
@@ -48,7 +54,12 @@ module commitment_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "commitment";
-      cfg := mkCommitmentCfg
+      cfg := mkCommitmentCfg@{
+        signer := mkSigner@{
+          sign := \{_ x := Ed25519Signature "0xabcd1234"};
+        };
+        backend := BackendLocalMemory;
+      };
     }
   ;
 end;

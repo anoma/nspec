@@ -165,8 +165,8 @@ commitAction
       | mkEngineMsg@{msg := Anoma.MsgCommitment (MsgCommitmentRequest request)} :=
         let
           signedData := Signer.sign
-            (CommitmentLocalState.signer localState)
-            (CommitmentLocalState.backend localState)
+            (CommitmentCfg.signer (EngineCfg.cfg cfg))
+            (CommitmentCfg.backend (EngineCfg.cfg cfg))
             (RequestCommitment.data request);
           responseMsg := mkResponseCommitment@{
             commitment := signedData;

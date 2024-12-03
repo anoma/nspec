@@ -14,7 +14,6 @@ tags:
     ```juvix
     module arch.node.engines.commitment_environment;
     import prelude open;
-    import arch.system.identity.identity open using {Signer; mkSigner};
     import arch.node.engines.commitment_messages open;
     import arch.node.types.crypto open;
     import arch.node.types.engine_environment open;
@@ -48,10 +47,7 @@ The local state of a Commitment Engine instance includes the identity's signing 
 ### `CommitmentLocalState`
 
 ```juvix
-type CommitmentLocalState := mkCommitmentLocalState@{
-  signer : Signer Backend Signable Commitment;
-  backend : Backend;
-};
+syntax alias CommitmentLocalState := Unit;
 ```
 
 ???+ quote "Arguments"
@@ -98,12 +94,7 @@ axiom dummySigningKey : SigningKey;
 
 commitmentEnv : CommitmentEnv :=
     mkEngineEnv@{
-      localState := mkCommitmentLocalState@{
-        signer := mkSigner@{
-          sign := \{_ x := Ed25519Signature "0xabcd1234"};
-        };
-        backend := BackendLocalMemory;
-      };
+      localState := unit;
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []
