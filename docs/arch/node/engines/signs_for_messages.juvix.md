@@ -17,125 +17,121 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Signs For` Messages
+# Signs For Messages
 
 ## Message interface
+
+### `MsgSignsForRequest RequestSignsFor`
+
+```juvix
+type RequestSignsFor := mkRequestSignsFor {
+  externalIdentityA : ExternalIdentity;
+  externalIdentityB : ExternalIdentity
+};
+```
+
+A `RequestSignsFor` queries whether `externalIdentityA` can sign on behalf of `externalIdentityB`.
+
+???+ quote "Arguments"
+    `externalIdentityA`:
+    : The identity attempting to sign.
+
+    `externalIdentityB`:
+    : The identity on whose behalf the signature is made.
+
+### `MsgSignsForResponse ResponseSignsFor`
+
+```juvix
+type ResponseSignsFor := mkResponseSignsFor {
+  signsFor : Bool;
+  err : Option String
+};
+```
+
+A `ResponseSignsFor` indicates whether the `signs_for` relationship exists.
+
+???+ quote "Arguments"
+    `signsFor`:
+    : True if externalIdentityA can sign for externalIdentityB, False otherwise.
+
+    `err`:
+    : An error message if the query failed.
+
+### `MsgSubmitSignsForEvidenceRequest RequestSubmitSignsForEvidence`
+
+```juvix
+type RequestSubmitSignsForEvidence := mkRequestSubmitSignsForEvidence {
+  evidence : SignsForEvidence
+};
+```
+
+A `RequestSubmitSignsForEvidence` submits evidence of a `signs_for` relationship.
+
+???+ quote "Arguments"
+    `evidence`:
+    : The evidence supporting the `signs_for` relationship.
+
+### `MsgSubmitSignsForEvidenceResponse ResponseSubmitSignsForEvidence`
+
+```juvix
+type ResponseSubmitSignsForEvidence := mkResponseSubmitSignsForEvidence {
+  err : Option String
+};
+```
+
+A `ResponseSubmitSignsForEvidence` acknowledges the submission of evidence.
+
+???+ quote "Arguments"
+    `err`:
+    : An error message if the submission failed.
+
+### `MsgQuerySignsForEvidenceRequest RequestQuerySignsForEvidence`
+
+```juvix
+type RequestQuerySignsForEvidence := mkRequestQuerySignsForEvidence {
+  externalIdentity : ExternalIdentity
+};
+```
+
+A `RequestQuerySignsForEvidence` queries all `signs_for` evidence related to an identity.
+
+???+ quote "Arguments"
+    `externalIdentity`:
+    : The identity for which to retrieve evidence.
+
+### `MsgQuerySignsForEvidenceResponse ResponseQuerySignsForEvidence`
+
+```juvix
+type ResponseQuerySignsForEvidence := mkResponseQuerySignsForEvidence {
+  externalIdentity : ExternalIdentity;
+  evidence : Set SignsForEvidence;
+  err : Option String
+};
+```
+
+A `ResponseQuerySignsForEvidence` provides the requested evidence.
+
+???+ quote "Arguments"
+    `evidence`:
+    : A set of SignsForEvidence related to the identity.
+
+    `err`:
+    : An error message if the query failed.
+
+### `SignsForMsg`
 
 <!-- --8<-- [start:SignsForMsg] -->
 ```juvix
 type SignsForMsg :=
-  | -- --8<-- [start:SignsForRequest]
-    SignsForRequest {
-      externalIdentityA : ExternalIdentity;
-      externalIdentityB : ExternalIdentity
-    }
-    -- --8<-- [end:SignsForRequest]
-  | -- --8<-- [start:SignsForResponse]
-    SignsForResponse {
-      signsFor : Bool;
-      err : Option String
-    }
-    -- --8<-- [end:SignsForResponse]
-  | -- --8<-- [start:SubmitSignsForEvidenceRequest]
-    SubmitSignsForEvidenceRequest {
-      evidence : SignsForEvidence
-    }
-    -- --8<-- [end:SubmitSignsForEvidenceRequest]
-  | -- --8<-- [start:SubmitSignsForEvidenceResponse]
-    SubmitSignsForEvidenceResponse {
-      err : Option String
-    }
-    -- --8<-- [end:SubmitSignsForEvidenceResponse]
-  | -- --8<-- [start:QuerySignsForEvidenceRequest]
-    QuerySignsForEvidenceRequest {
-      externalIdentity : ExternalIdentity
-    }
-    -- --8<-- [end:QuerySignsForEvidenceRequest]
-  | -- --8<-- [start:QuerySignsForEvidenceResponse]
-    QuerySignsForEvidenceResponse {
-      externalIdentity : ExternalIdentity;
-      evidence : Set SignsForEvidence;
-      err : Option String
-    }
-    -- --8<-- [end:QuerySignsForEvidenceResponse]
+  | MsgSignsForRequest RequestSignsFor
+  | MsgSignsForResponse ResponseSignsFor
+  | MsgSubmitSignsForEvidenceRequest RequestSubmitSignsForEvidence
+  | MsgSubmitSignsForEvidenceResponse ResponseSubmitSignsForEvidence
+  | MsgQuerySignsForEvidenceRequest RequestQuerySignsForEvidence
+  | MsgQuerySignsForEvidenceResponse ResponseQuerySignsForEvidence
   ;
 ```
 <!-- --8<-- [end:SignsForMsg] -->
-
-### `SignsForRequest` message
-
-!!! quote "SignsForRequest"
-
-    ```
-    --8<-- "./signs_for_messages.juvix.md:SignsForRequest"
-    ```
-
-A `SignsForRequest` queries whether `externalIdentityA` can sign on behalf of `externalIdentityB`.
-
-- `externalIdentityA`: The identity attempting to sign.
-- `externalIdentityB`: The identity on whose behalf the signature is made.
-
-### `SignsForResponse` message
-
-!!! quote "SignsForResponse"
-
-    ```
-    --8<-- "./signs_for_messages.juvix.md:SignsForResponse"
-    ```
-
-A `SignsForResponse` indicates whether the `signs_for` relationship exists.
-
-- `signsFor`: True if externalIdentityA can sign for externalIdentityB, False otherwise.
-- `err`: An error message if the query failed.
-
-### `SubmitSignsForEvidenceRequest` message
-
-!!! quote "SubmitSignsForEvidenceRequest"
-
-    ```
-    --8<-- "./signs_for_messages.juvix.md:SubmitSignsForEvidenceRequest"
-    ```
-
-A `SubmitSignsForEvidenceRequest` submits evidence of a `signs_for` relationship.
-
-- `evidence`: The evidence supporting the `signs_for` relationship.
-
-### `SubmitSignsForEvidenceResponse` message
-
-!!! quote "SubmitSignsForEvidenceResponse"
-
-    ```
-    --8<-- "./signs_for_messages.juvix.md:SubmitSignsForEvidenceResponse"
-    ```
-
-A `SubmitSignsForEvidenceResponse` acknowledges the submission of evidence.
-
-- `err`: An error message if the submission failed.
-
-### `QuerySignsForEvidenceRequest` message
-
-!!! quote "QuerySignsForEvidenceRequest"
-
-    ```
-    --8<-- "./signs_for_messages.juvix.md:QuerySignsForEvidenceRequest"
-    ```
-
-A `QuerySignsForEvidenceRequest` queries all `signs_for` evidence related to an identity.
-
-- `externalIdentity`: The identity for which to retrieve evidence.
-
-### `QuerySignsForEvidenceResponse` message
-
-!!! quote "QuerySignsForEvidenceResponse"
-
-    ```
-    --8<-- "./signs_for_messages.juvix.md:QuerySignsForEvidenceResponse"
-    ```
-
-A `QuerySignsForEvidenceResponse` provides the requested evidence.
-
-- `evidence`: A set of SignsForEvidence related to the identity.
-- `err`: An error message if the query failed.
 
 ## Message sequence diagrams
 
@@ -149,9 +145,9 @@ sequenceDiagram
     participant Client
     participant SignsForEngine
 
-    Client->>SignsForEngine: SubmitSignsForEvidenceRequest
+    Client->>SignsForEngine: RequestSubmitSignsForEvidence
     Note over SignsForEngine: Process and store evidence
-    SignsForEngine->>Client: SubmitSignsForEvidenceResponse
+    SignsForEngine->>Client: ResponseSubmitSignsForEvidence
 ```
 
 <figcaption markdown="span">
@@ -170,9 +166,9 @@ sequenceDiagram
     participant Client
     participant SignsForEngine
 
-    Client->>SignsForEngine: SignsForRequest (X signs for Y?)
+    Client->>SignsForEngine: RequestSignsFor (X signs for Y?)
     Note over SignsForEngine: Check stored evidence
-    SignsForEngine->>Client: SignsForResponse
+    SignsForEngine->>Client: ResponseSignsFor
 ```
 
 <figcaption markdown="span">
@@ -191,9 +187,9 @@ sequenceDiagram
     participant Client
     participant SignsForEngine
 
-    Client->>SignsForEngine: QuerySignsForEvidenceRequest (for X)
+    Client->>SignsForEngine: RequestQuerySignsForEvidence (for X)
     Note over SignsForEngine: Retrieve relevant evidence
-    SignsForEngine->>Client: QuerySignsForEvidenceResponse
+    SignsForEngine->>Client: ResponseQuerySignsForEvidence
 ```
 
 <figcaption markdown="span">
@@ -204,7 +200,5 @@ Retrieving all signs_for evidence related to a particular identity
 
 ## Engine Components
 
-- [[Signs For Environment|`Signs For` Engine Environment]]
-- [[Signs For Dynamics|`Signs For` Engine Dynamics]]
-
-## Useful links
+- [[Signs For Environment]]
+- [[Signs For Behaviour]]

@@ -17,54 +17,54 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Decryption` Messages
+# Decryption Messages
 
 ## Message interface
+
+### `MsgDecryptionRequest RequestDecryption`
+
+```juvix
+type RequestDecryption := mkRequestDecryption {
+  data : Ciphertext
+};
+```
+
+A `RequestDecryption` instructs a decryption engine instance to decrypt data.
+
+???+ quote "Arguments"
+    `data`:
+    : The encrypted ciphertext to decrypt.
+
+### `MsgDecryptionResponse ResponseDecryption`
+
+```juvix
+type ResponseDecryption := mkResponseDecryption {
+  data : Plaintext;
+  err : Option String
+};
+```
+
+A `ResponseDecryption` contains the data decrypted by a decryption engine instance
+in response to a `RequestDecryption`.
+
+???+ quote "Arguments"
+
+    `data`:
+    : The decrypted data.
+
+    `err`:
+    : An error message if decryption failed.
+
+### `DecryptionMsg`
 
 <!-- --8<-- [start:DecryptionMsg] -->
 ```juvix
 type DecryptionMsg :=
-  | -- --8<-- [start:DecryptRequest]
-    DecryptRequest {
-      data : Ciphertext
-    }
-    -- --8<-- [end:DecryptRequest]
-  | -- --8<-- [start:DecryptResponse]
-    DecryptResponse {
-      data : Plaintext;
-      err : Option String
-    }
-    -- --8<-- [end:DecryptResponse]
+  | MsgDecryptionRequest RequestDecryption
+  | MsgDecryptionResponse ResponseDecryption
   ;
 ```
 <!-- --8<-- [end:DecryptionMsg] -->
-
-### `DecryptRequest` message
-
-!!! quote "DecryptRequest"
-
-    ```
-    --8<-- "./decryption_messages.juvix.md:DecryptRequest"
-    ```
-
-A `DecryptRequest` instructs a decryption engine instance to decrypt data as the
-internal identity corresponding to that engine instance.
-
-- `data`: The encrypted ciphertext to decrypt.
-
-### `DecryptResponse` message
-
-!!! quote "DecryptResponse"
-
-    ```
-    --8<-- "./decryption_messages.juvix.md:DecryptResponse"
-    ```
-
-A `DecryptResponse` contains the data decrypted by a decryption engine instance
-in response to a `DecryptRequest`.
-
-- `data`: The decrypted data.
-- `err`: An error message if decryption failed.
 
 ## Message sequence diagrams
 
@@ -78,12 +78,12 @@ sequenceDiagram
     participant C as Client
     participant DE as Decryption Engine
 
-    C->>DE: DecryptRequest(encryptedData)
+    C->>DE: RequestDecryption(encryptedData)
     Note over DE: Attempt to decrypt data
     alt Decryption Successful
-        DE-->>C: DecryptResponse(decryptedData, err=none)
+        DE-->>C: ResponseDecryption(decryptedData, err=none)
     else Decryption Failed
-        DE-->>C: DecryptResponse(emptyByteString, err="Decryption Failed")
+        DE-->>C: ResponseDecryption(emptyByteString, err="Decryption Failed")
     end
 ```
 
@@ -95,8 +95,5 @@ Sequence diagram for decryption.
 
 ## Engine Components
 
-- [[Decryption Environment|`Decryption` Engine Environment]]
-- [[Decryption Dynamics|`Decryption` Engine Dynamics]]
-
-## Useful links
-
+- [[Decryption Environment]]
+- [[Decryption Behaviour]]
