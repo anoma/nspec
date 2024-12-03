@@ -34,11 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:ReadsForCfg] -->
 ```juvix
-type ReadsForCfg :=
-  mkReadsForCfg@{
-    example : Nat;
-    value : String;
-  }
+type ReadsForCfg := mkReadsForCfg
 ```
 <!-- --8<-- [end:ReadsForCfg] -->
 
@@ -52,10 +48,7 @@ module reads_for_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "reads for";
-      cfg := mkReadsForCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkReadsForCfg
     }
   ;
 end;

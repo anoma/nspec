@@ -34,11 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:EncryptionCfg] -->
 ```juvix
-type EncryptionCfg :=
-  mkEncryptionCfg@{
-    example : Nat;
-    value : String;
-  }
+type EncryptionCfg := mkEncryptionCfg
 ```
 <!-- --8<-- [end:EncryptionCfg] -->
 
@@ -52,10 +48,7 @@ module encryption_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "encryption";
-      cfg := mkEncryptionCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkEncryptionCfg
     }
   ;
 end;
