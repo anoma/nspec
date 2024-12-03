@@ -39,7 +39,7 @@ syntax alias ReadsForMailboxState := Unit;
 The local state of the Reads For Engine includes the evidence for reads_for relationships.
 
 ```juvix
-type ReadsForLocalState := mkReadsForLocalState {
+type ReadsForLocalState := mkReadsForLocalState@{
   evidenceStore : Set ReadsForEvidence;
   verifyEvidence : ReadsForEvidence -> Bool;
 };
@@ -56,7 +56,7 @@ The Reads For Engine does not require a timer handle type. Therefore, we define 
 ## Environment summary
 
 ```juvix
-ReadsForEnvironment : Type := EngineEnvironment
+ReadsForEnvironment : Type := EngineEnv
   ReadsForLocalState
   ReadsForMailboxState
   ReadsForTimerHandle;
@@ -69,7 +69,8 @@ ReadsForEnvironment : Type := EngineEnvironment
 module reads_for_environment_example;
 
 readsForEnvironmentExample : ReadsForEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "reads_for";
       localState := mkReadsForLocalState@{
         evidenceStore := Set.empty;

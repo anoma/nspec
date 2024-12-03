@@ -15,7 +15,6 @@ tags:
     ```juvix
     module arch.node.types.crypto;
     import prelude open;
-    import Stdlib.Trait.Ord open using {Ordering; Ord; mkOrd; EQ};
     ```
 
 ## Cryptographic primitives
@@ -24,13 +23,13 @@ tags:
 
 ```juvix
 type PublicKey :=
-  | Curve25519PubKey
+  | Curve25519PubKey ByteString
   ;
 
 instance
 PublicKeyOrd : Ord PublicKey :=
   mkOrd@{
-    cmp := \{_ _ := EQ};
+    cmp := \{_ _ := Equal};
   };
 ```
 
@@ -38,13 +37,13 @@ PublicKeyOrd : Ord PublicKey :=
 
 ```juvix
 type PrivateKey :=
-  | Curve25519PrivKey
+  | Curve25519PrivKey ByteString
   ;
 
 instance
 PrivateKeyOrd : Ord PrivateKey :=
   mkOrd@{
-    cmp := \{_ _ := EQ};
+    cmp := \{_ _ := Equal};
   };
 ```
 
@@ -54,7 +53,7 @@ Cryptographic signature.
 
 ```juvix
 type Signature :=
-  | Ed25519Signature
+  | Ed25519Signature ByteString
 ```
 
 ### Digest
@@ -64,6 +63,6 @@ Output of a cryptographic hash function.
 
 ```juvix
 type Digest :=
-  | Blake3Digest
+  | Blake3Digest ByteString
   ;
 ```

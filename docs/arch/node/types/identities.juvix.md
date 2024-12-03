@@ -14,9 +14,8 @@ tags:
 
     ```juvix
     module arch.node.types.identities;
-    import Stdlib.Data.String.Base open;
-    import Stdlib.Trait.Ord open using {Ordering; Ord; mkOrd};
-    import arch.node.types.crypto open;
+
+    import arch.node.types.crypto open public;
     import prelude open;
     ```
 
@@ -25,16 +24,6 @@ tags:
 Types in this section are used to represent identities within the network.
 
 ## Basic Types
-
-### ByteString
-
-A basic type for representing binary data.
-
-```juvix
-ByteString : Type := Nat;
-
-emptyByteString : ByteString := 0;
-```
 
 ### Signable
 
@@ -152,9 +141,7 @@ syntax alias ExternalIdentity := EngineName;
 Engine instance identity combining node identity and engine name.
 
 ```juvix
-EngineID : Type := Pair (Option NodeID) (Option EngineName);
-
-unknownEngineID : EngineID := mkPair none none;
+EngineID : Type := Pair (Option NodeID) EngineName;
 
 isLocalEngineID (eid : EngineID) : Bool :=
   case eid of {
@@ -168,14 +155,8 @@ isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 ### Engine Helper Functions
 
 ```juvix
-nameStr (name : EngineID) : String :=
-  case snd name of {
-    | none := ""
-    | some s := s
-  };
-
 nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
-  (name ++str "_" ++str str ++str "_" ++str nameStr addr);
+  name ++str "_" ++str str ++str "_" ++str (snd addr);
 ```
 
 ## String Comparison

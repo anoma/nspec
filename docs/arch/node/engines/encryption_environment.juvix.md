@@ -47,7 +47,7 @@ require `ReadsFor` information which is requested from the associated `ReadsFor`
 engine.
 
 ```juvix
-type EncryptionLocalState := mkEncryptionLocalState {
+type EncryptionLocalState := mkEncryptionLocalState@{
   encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
   backend : Backend;
   readsForEngineAddress : EngineID;
@@ -67,7 +67,7 @@ the timer handle type as `Unit`.
 ## Environment summary
 
 ```juvix
-EncryptionEnvironment : Type := EngineEnvironment
+EncryptionEnvironment : Type := EngineEnv
   EncryptionLocalState
   EncryptionMailboxState
   EncryptionTimerHandle;
@@ -80,7 +80,8 @@ EncryptionEnvironment : Type := EngineEnvironment
 module encryption_environment_example;
 
 encryptionEnvironmentExample : EncryptionEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "encryption";
       localState := mkEncryptionLocalState@{
         encryptor := \{_ _ := mkEncryptor@{
@@ -89,7 +90,7 @@ encryptionEnvironmentExample : EncryptionEnvironment :=
             ordKey := mkOrdkey@{
                 compare := Ord.cmp
             };
-            hash := \{x := 0};
+            hash := \{x := "0x1234abcd"};
           };
         }};
         backend := BackendLocalMemory;

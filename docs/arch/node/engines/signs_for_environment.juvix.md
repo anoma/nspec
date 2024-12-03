@@ -40,7 +40,7 @@ syntax alias SignsForMailboxState := Unit;
 The local state of the Signs For Engine includes the evidence for signs_for relationships.
 
 ```juvix
-type SignsForLocalState := mkSignsForLocalState {
+type SignsForLocalState := mkSignsForLocalState@{
   evidenceStore : Set SignsForEvidence;
   verifyEvidence : SignsForEvidence -> Bool;
 };
@@ -57,7 +57,7 @@ The Signs For Engine does not require a timer handle type. Therefore, we define 
 ## Environment summary
 
 ```juvix
-SignsForEnvironment : Type := EngineEnvironment
+SignsForEnvironment : Type := EngineEnv
   SignsForLocalState
   SignsForMailboxState
   SignsForTimerHandle;
@@ -70,7 +70,8 @@ SignsForEnvironment : Type := EngineEnvironment
 module signs_for_environment_example;
 
 signsForEnvironmentExample : SignsForEnvironment :=
-    mkEngineEnvironment@{
+    mkEngineEnv@{
+      node := Curve25519PubKey "0xabcd1234";
       name := "signs_for";
       localState := mkSignsForLocalState@{
         evidenceStore := Set.empty;

@@ -184,7 +184,7 @@ decryptGuard
 decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
   let env := ActionInput.env input;
       out := ActionInput.guardOutput input;
-      localState := EngineEnvironment.localState env;
+      localState := EngineEnv.localState env;
   in
   case GuardOutput.actionLabel out of {
     | DoDecrypt data :=
@@ -206,8 +206,8 @@ decryptionAction (input : DecryptionActionInput) : DecryptionActionEffect :=
             };
           in mkActionEffect@{
             newEnv := env; -- No state change
-            producedMessages := [mkEngineMessage@{
-              sender := mkPair none (some (EngineEnvironment.name env));
+            producedMessages := [mkEngineMsg@{
+              sender := mkPair none (some (EngineEnv.name env));
               target := whoAsked;
               mailbox := some 0;
               msg := MsgDecryption responseMsg
