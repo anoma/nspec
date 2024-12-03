@@ -19,7 +19,7 @@ search:
 --    import arch.node.engines.verification_environment open;
     import arch.node.engines.reads_for_environment open;
 --    import arch.node.engines.signs_for_environment open;
---    import arch.node.engines.naming_environment open;
+    import arch.node.engines.naming_environment open;
     ```
 
 # Anoma Engine Environments
@@ -48,6 +48,6 @@ type Env :=
 --  | EnvVerification VerificationEnvironment
   | EnvReadsFor ReadsForEnv
 --  | EnvSignsFor SignsForEnvironment
---  | EnvNaming NamingEnvironment
+  | EnvNaming NamingEnv
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

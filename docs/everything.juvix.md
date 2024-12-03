@@ -67,10 +67,11 @@ import arch.node.engines.identity_management_environment;
 import arch.node.engines.identity_management_behaviour;
 import arch.node.engines.identity_management;
 
--- import arch.node.engines.naming_messages;
--- import arch.node.engines.naming_environment;
--- import arch.node.engines.naming_behaviour;
--- import arch.node.engines.naming;
+import arch.node.engines.naming_messages;
+import arch.node.engines.naming_config;
+import arch.node.engines.naming_environment;
+import arch.node.engines.naming_behaviour;
+import arch.node.engines.naming;
 
 import arch.node.engines.reads_for_messages;
 import arch.node.engines.reads_for_environment;
