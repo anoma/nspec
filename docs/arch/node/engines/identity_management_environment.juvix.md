@@ -20,7 +20,6 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.engines.identity_management_messages open;
     import arch.node.types.anoma_message as Anoma open;
-
     import arch.system.identity.identity open hiding {ExternalIdentity};
     ```
 
@@ -29,6 +28,13 @@ tags:
 ## Overview
 
 The Identity Management Engine's environment maintains the state necessary for managing identities, including information about connected identities, backends, and capabilities.
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    axiom genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext;
+    axiom genSigner : Backend -> Signer Backend Signable Commitment
+    ```
 
 ## Mailbox states
 
@@ -74,8 +80,6 @@ type IdentityInfo := mkIdentityInfo@{
 ```juvix
 type IdentityManagementLocalState := mkIdentityManagementLocalState {
   identities : Map EngineID IdentityInfo;
-  genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext;
-  genSigner : Backend -> Signer Backend Signable Commitment
 };
 ```
 
@@ -83,12 +87,6 @@ type IdentityManagementLocalState := mkIdentityManagementLocalState {
 
     `identities`:
     : Map of engine IDs to their corresponding identity information.
-
-    `genDecryptor`:
-    : Function to generate a decryptor for a given backend.
-
-    `genSigner`:
-    : Function to generate a signer for a given backend.
 
 ## Timer Handle
 
@@ -122,13 +120,7 @@ module identity_management_environment_example;
 identityManagementEnv : IdentityManagementEnv :=
     mkEngineEnv@{
       localState := mkIdentityManagementLocalState@{
-        identities := Map.empty;
-        genDecryptor := \{_ := mkDecryptor@{
-          decrypt := \{_ x := some x};
-        }};
-        genSigner := \{_ := mkSigner@{
-          sign := \{_ x := Ed25519Signature "0xabcd1234"};
-        }};
+        identities := Map.empty
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

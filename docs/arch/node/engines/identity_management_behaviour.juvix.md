@@ -135,7 +135,7 @@ makeDecryptEnv
   : DecryptionEnv :=
   mkEngineEnv@{
     localState := mkDecryptionLocalState@{
-      decryptor := IdentityManagementLocalState.genDecryptor (EngineEnv.localState env) backend';
+      decryptor := genDecryptor backend';
       backend := backend'
     };
     mailboxCluster := Map.empty;
@@ -150,7 +150,7 @@ makeCommitmentEnv
   : CommitmentEnv :=
   mkEngineEnv@{
     localState := mkCommitmentLocalState@{
-      signer := IdentityManagementLocalState.genSigner (EngineEnv.localState env) backend';
+      signer := genSigner backend';
       backend := backend'
     };
     mailboxCluster := Map.empty;

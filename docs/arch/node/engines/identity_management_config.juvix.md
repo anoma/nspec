@@ -26,7 +26,7 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The Identity Management engine configuration contains static information for Identity Management engine instances.
 
 ## The Identity Management Configuration
 
