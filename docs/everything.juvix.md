@@ -78,15 +78,17 @@ import arch.node.engines.reads_for_environment;
 import arch.node.engines.reads_for_behaviour;
 import arch.node.engines.reads_for;
 
--- import arch.node.engines.signs_for_messages;
--- import arch.node.engines.signs_for_environment;
--- import arch.node.engines.signs_for_behaviour;
--- import arch.node.engines.signs_for;
+import arch.node.engines.signs_for_messages;
+import arch.node.engines.signs_for_config;
+import arch.node.engines.signs_for_environment;
+import arch.node.engines.signs_for_behaviour;
+import arch.node.engines.signs_for;
 
--- import arch.node.engines.verification_messages;
--- import arch.node.engines.verification_environment;
--- import arch.node.engines.verification_behaviour;
--- import arch.node.engines.verification;
+import arch.node.engines.verification_messages;
+import arch.node.engines.verification_config;
+import arch.node.engines.verification_environment;
+import arch.node.engines.verification_behaviour;
+import arch.node.engines.verification;
 
 {- Template for new engines -}
 import arch.node.engines.template;
