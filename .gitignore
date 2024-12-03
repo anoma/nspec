@@ -287,8 +287,7 @@ __pycache__/
 .DS_Store
 site/
 **/.juvix-build/
-.juvix-mkdocs/
-.hooks/
+.cache-juvix-mkdocs/
 .cache/
 **/html/
 

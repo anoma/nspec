@@ -2,10 +2,6 @@ html {
   overflow-y: scroll;
 }
 
-.md-grid {
-  max-width: 1240px;
-}
-
 .md-banner--warning {
   background-color: #838282;
   color: #f8f8f8;

@@ -17,9 +17,14 @@ tags:
     import prelude open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.commitment_config open public;
     import arch.node.engines.commitment_messages open public;
     import arch.node.engines.commitment_environment open public;
     import arch.node.engines.commitment_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open commitment_config_example;
     open commitment_environment_example;
     ```
 
@@ -39,6 +44,7 @@ messages to the instance and generate commitments by the corresponding identity.
 ## Components
 
 - [[Commitment Messages]]
+- [[Commitment Config]]
 - [[Commitment Environment]]
 - [[Commitment Behaviour]]
 
@@ -46,13 +52,16 @@ messages to the instance and generate commitments by the corresponding identity.
 
 <!-- --8<-- [start:CommitmentEngine] -->
 ```juvix
-CommitmentEngine : Type := Engine
-  CommitmentLocalState
-  CommitmentMailboxState
-  CommitmentTimerHandle
-  CommitmentMatchableArgument
-  CommitmentActionLabel
-  CommitmentPrecomputation;
+CommitmentEngine : Type :=
+  Engine
+    CommitmentCfg
+    CommitmentLocalState
+    CommitmentMailboxState
+    CommitmentTimerHandle
+    CommitmentActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:CommitmentEngine] -->
 
@@ -62,15 +71,20 @@ CommitmentEngine : Type := Engine
 ```juvix
 exampleCommitmentEngine : CommitmentEngine :=
   mkEngine@{
-    initEnv := commitmentEnvironment;
+    cfg := commitmentCfg;
+    env := commitmentEnv;
     behaviour := commitmentBehaviour;
   };
 ```
 <!-- --8<-- [end:exampleCommitmentEngine] -->
 
-where `commitmentEnvironment` is defined as follows:
+where `commitmentCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/commitment_environment.juvix.md:commitmentEnvironment"
+--8<-- "./docs/arch/node/engines/commitment_config.juvix.md:commitmentCfg"
+
+`commitmentEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/commitment_environment.juvix.md:commitmentEnv"
 
 and `commitmentBehaviour` is defined as follows:
 
