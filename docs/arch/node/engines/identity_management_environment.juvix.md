@@ -19,7 +19,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.engine_environment open;
     import arch.node.engines.identity_management_messages open;
-
+    import arch.node.types.anoma_message as Anoma open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     ```
 
@@ -29,9 +29,18 @@ tags:
 
 The Identity Management Engine's environment maintains the state necessary for managing identities, including information about connected identities, backends, and capabilities.
 
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    axiom genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext;
+    axiom genSigner : Backend -> Signer Backend Signable Commitment
+    ```
+
 ## Mailbox states
 
 The Identity Management Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
+
+### `IdentityManagementMailboxState`
 
 ```juvix
 syntax alias IdentityManagementMailboxState := Unit;
@@ -41,6 +50,8 @@ syntax alias IdentityManagementMailboxState := Unit;
 
 The local state of the Identity Management Engine includes information about the identities it manages.
 
+### `IdentityInfo`
+
 ```juvix
 type IdentityInfo := mkIdentityInfo@{
   backend : Backend;
@@ -48,49 +59,68 @@ type IdentityInfo := mkIdentityInfo@{
   commitmentEngine : Option EngineID;
   decryptionEngine : Option EngineID;
 };
+```
 
+???+ quote "Arguments"
+
+    `backend`:
+    : The backend associated with this identity.
+
+    `capabilities`:
+    : The capabilities available to this identity.
+
+    `commitmentEngine`:
+    : Optional reference to the commitment engine for this identity.
+
+    `decryptionEngine`:
+    : Optional reference to the decryption engine for this identity.
+
+### `IdentityManagementLocalState`
+
+```juvix
 type IdentityManagementLocalState := mkIdentityManagementLocalState {
   identities : Map EngineID IdentityInfo;
-  genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext;
-  genSigner : Backend -> Signer Backend Signable Commitment
 };
 ```
 
+???+ quote "Arguments"
+
+    `identities`:
+    : Map of engine IDs to their corresponding identity information.
+
 ## Timer Handle
+
+The Identity Management Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+
+### `IdentityManagementTimerHandle`
 
 ```juvix
 syntax alias IdentityManagementTimerHandle := Unit;
 ```
 
-The Identity Management Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Identity Management Environment
 
-## Environment summary
+### `IdentityManagementEnv`
 
 ```juvix
-IdentityManagementEnvironment : Type := EngineEnv
-  IdentityManagementLocalState
-  IdentityManagementMailboxState
-  IdentityManagementTimerHandle;
+IdentityManagementEnv : Type :=
+  EngineEnv
+    IdentityManagementLocalState
+    IdentityManagementMailboxState
+    IdentityManagementTimerHandle
+    Anoma.Msg;
 ```
 
-## Example of an `Identity Management` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:identityManagementEnv] -->
 ```juvix extract-module-statements
 module identity_management_environment_example;
 
-identityManagementEnvironmentExample : IdentityManagementEnvironment :=
+identityManagementEnv : IdentityManagementEnv :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "identity_management";
       localState := mkIdentityManagementLocalState@{
-        identities := Map.empty;
-        genDecryptor := \{_ := mkDecryptor@{
-          decrypt := \{_ x := some x};
-        }};
-        genSigner := \{_ := mkSigner@{
-          sign := \{_ x := Ed25519Signature "0xabcd1234"};
-        }};
+        identities := Map.empty
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
@@ -99,4 +129,4 @@ identityManagementEnvironmentExample : IdentityManagementEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:identityManagementEnv] -->

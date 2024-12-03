@@ -15,14 +15,16 @@ tags:
     import arch.node.engines.template_messages open using {TemplateMsg};
     import arch.node.engines.ticker_messages open using {TickerMsg};
 
---    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
---    import arch.node.engines.decryption_messages open using {DecryptionMsg};
---    import arch.node.engines.encryption_messages open using {EncryptionMsg};
---    import arch.node.engines.commitment_messages open using {CommitmentMsg};
---    import arch.node.engines.verification_messages open using {VerificationMsg};
---    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
---    import arch.node.engines.signs_for_messages open using {SignsForMsg};
---    import arch.node.engines.naming_messages open using {NamingMsg};
+    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
+    import arch.node.engines.decryption_messages open using {DecryptionMsg};
+    import arch.node.engines.encryption_messages open using {EncryptionMsg};
+    import arch.node.engines.commitment_messages open using {CommitmentMsg};
+    
+    import arch.node.engines.verification_messages open using {VerificationMsg};
+    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
+    import arch.node.engines.signs_for_messages open using {SignsForMsg};
+    import arch.node.engines.naming_messages open using {NamingMsg};
+        
     import arch.node.engines.local_key_value_storage_messages open using {LocalKVStorageMsg};
     import arch.node.engines.logging_messages open using {LoggingMsg};
     import arch.node.engines.wall_clock_messages open using {WallClockMsg};
@@ -44,19 +46,18 @@ has a corresponding message type `TickerMsg`.
 type Msg :=
   | MsgTemplate TemplateMsg
   | MsgTicker TickerMsg
-
---  | MsgIdentityManagement IdentityManagementMsg
---  | MsgDecryption DecryptionMsg
---  | MsgEncryption EncryptionMsg
---  | MsgCommitment CommitmentMsg
---  | MsgVerification VerificationMsg
---  | MsgReadsFor ReadsForMsg
---  | MsgSignsFor SignsForMsg
---  | MsgNaming NamingMsg
+  | MsgIdentityManagement IdentityManagementMsg
+  | MsgDecryption DecryptionMsg
+  | MsgEncryption EncryptionMsg
+  | MsgCommitment CommitmentMsg
+  | MsgVerification VerificationMsg
+  | MsgReadsFor ReadsForMsg
+  | MsgSignsFor SignsForMsg
+  | MsgNaming NamingMsg
   | MsgLocalKVStorage LocalKVStorageMsg
   | MsgLogging LoggingMsg
   | MsgWallClock WallClockMsg
-  | MsgLocalTSStorage LocalTSStorageMsg
+  | MsgLocalTSStorage LocalTSStorageMsg  
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

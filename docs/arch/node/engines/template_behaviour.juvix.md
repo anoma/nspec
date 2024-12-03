@@ -107,7 +107,7 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateAction : Type :=
       Action
-        TemplateCfg
+        TemplateLocalCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
@@ -124,7 +124,7 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateActionInput : Type :=
       ActionInput
-        TemplateCfg
+        TemplateLocalCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
@@ -154,7 +154,7 @@ TemplateActionArguments : Type := List TemplateActionArgument;
     ```juvix
     TemplateActionExec : Type :=
       ActionExec
-        TemplateCfg
+        TemplateLocalCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
@@ -305,7 +305,7 @@ doBothActionLabel : TemplateActionExec :=
     ```juvix
     TemplateGuard : Type :=
       Guard
-        TemplateCfg
+        TemplateLocalCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
@@ -322,7 +322,7 @@ doBothActionLabel : TemplateActionExec :=
     ```juvix
     TemplateGuardOutput : Type :=
       GuardOutput
-        TemplateCfg
+        TemplateLocalCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
@@ -339,7 +339,7 @@ doBothActionLabel : TemplateActionExec :=
     ```juvix
     TemplateGuardEval : Type :=
       GuardEval
-        TemplateCfg
+        TemplateLocalCfg
         TemplateLocalState
         TemplateMailboxState
         TemplateTimerHandle
@@ -361,7 +361,7 @@ Condition
 ```juvix
 justHiGuard
   (trigger : TemplateTimestampedTrigger)
-  (cfg : EngineCfg TemplateCfg)
+  (cfg : TemplateCfg)
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
   let
@@ -396,7 +396,7 @@ Condition
 ```juvix
 exampleReplyGuard
   (trigger : TemplateTimestampedTrigger)
-  (cfg : EngineCfg TemplateCfg)
+  (cfg : TemplateCfg)
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -420,7 +420,7 @@ exampleReplyGuard
 ```juvix
 TemplateBehaviour : Type :=
   EngineBehaviour
-    TemplateCfg
+    TemplateLocalCfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle

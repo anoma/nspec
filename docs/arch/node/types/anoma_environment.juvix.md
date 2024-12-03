@@ -12,15 +12,14 @@ search:
 
     import arch.node.engines.template_environment open;
     import arch.node.engines.ticker_environment open;
-
---    import arch.node.engines.identity_management_environment open;
---    import arch.node.engines.decryption_environment open;
---    import arch.node.engines.encryption_environment open;
---    import arch.node.engines.commitment_environment open;
---    import arch.node.engines.verification_environment open;
---    import arch.node.engines.reads_for_environment open;
---    import arch.node.engines.signs_for_environment open;
---    import arch.node.engines.naming_environment open;
+    import arch.node.engines.identity_management_environment open;
+    import arch.node.engines.decryption_environment open;
+    import arch.node.engines.encryption_environment open;
+    import arch.node.engines.commitment_environment open;
+    import arch.node.engines.verification_environment open;
+    import arch.node.engines.reads_for_environment open;
+    import arch.node.engines.signs_for_environment open;
+    import arch.node.engines.naming_environment open;
     import arch.node.engines.local_key_value_storage_environment open;
     import arch.node.engines.logging_environment open;
     import arch.node.engines.wall_clock_environment open;
@@ -46,14 +45,14 @@ type Env :=
   | EnvTemplate TemplateEnv
   | EnvTicker TickerEnv
 
---  | EnvIdentityManagement IdentityManagementEnvironment
---  | EnvDecryption DecryptionEnvironment
---  | EnvEncryption EncryptionEnvironment
---  | EnvCommitment CommitmentEnvironment
---  | EnvVerification VerificationEnvironment
---  | EnvReadsFor ReadsForEnvironment
---  | EnvSignsFor SignsForEnvironment
---  | EnvNaming NamingEnvironment
+  | EnvIdentityManagement IdentityManagementEnvironment
+  | EnvDecryption DecryptionEnv
+  | EnvEncryption EncryptionEnvironment
+  | EnvCommitment CommitmentEnv
+  | EnvVerification VerificationEnvironment
+  | EnvReadsFor ReadsForEnv
+  | EnvSignsFor SignsForEnvironment
+  | EnvNaming NamingEnv
   | EnvLocalKeyValueStorage LocalKVStorageEnv
   | EnvLogging LoggingEnv
   | EnvWallClock WallClockEnv

@@ -26,7 +26,20 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The [[Engine configuration|static configuration]] of the engine.
+
+## The Ticker Local Configuration
+
+### `TickerLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:TickerLocalCfg] -->
+```juvix
+type TickerLocalCfg :=
+  mkTickerLocalCfg;
+```
+<!-- --8<-- [end:TickerLocalCfg] -->
 
 ## The Ticker Configuration
 
@@ -34,11 +47,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:TickerCfg] -->
 ```juvix
-type TickerCfg :=
-  mkTickerCfg@{
-    example : Nat;
-    value : String;
-  }
+TickerCfg : Type :=
+  EngineCfg
+    TickerLocalCfg;
 ```
 <!-- --8<-- [end:TickerCfg] -->
 
@@ -48,14 +59,11 @@ type TickerCfg :=
 ```juvix extract-module-statements
 module ticker_config_example;
 
-  tickerCfg : EngineCfg TickerCfg :=
+  tickerCfg : TickerCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "ticker";
-      cfg := mkTickerCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkTickerLocalCfg;
     }
   ;
 end;

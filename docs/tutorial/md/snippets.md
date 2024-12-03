@@ -2,7 +2,8 @@
 icon: material/code-brackets
 search:
   exclude: false
-todos: False
+todos: false
+check_paths: false
 ---
 
 ## Code Snippets
