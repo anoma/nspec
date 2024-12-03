@@ -26,7 +26,23 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The [[Engine configuration|static configuration]] of the engine.
+
+## The Template Local Configuration
+
+### `TemplateLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:TemplateLocalCfg] -->
+```juvix
+type TemplateLocalCfg :=
+  mkTemplateLocalCfg@{
+    example : Nat;
+    value : String;
+  }
+```
+<!-- --8<-- [end:TemplateLocalCfg] -->
 
 ## The Template Configuration
 
@@ -34,11 +50,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:TemplateCfg] -->
 ```juvix
-type TemplateCfg :=
-  mkTemplateCfg@{
-    example : Nat;
-    value : String;
-  }
+TemplateCfg : Type :=
+  EngineCfg
+    TemplateLocalCfg;
 ```
 <!-- --8<-- [end:TemplateCfg] -->
 
@@ -48,11 +62,11 @@ type TemplateCfg :=
 ```juvix extract-module-statements
 module template_config_example;
 
-  templateCfg : EngineCfg TemplateCfg :=
+  templateCfg : TemplateCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "template";
-      cfg := mkTemplateCfg@{
+      cfg := mkTemplateLocalCfg@{
         example := 1;
         value := "hello world";
       };

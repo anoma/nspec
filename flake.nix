@@ -25,10 +25,16 @@
             mkdocs-juvix-plugin = super.mkdocs-juvix-plugin.overridePythonAttrs
               (
                 old: {
-                  buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools ];
+                  buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools super.poetry ];
                 }
               );
             mkdocs-get-deps = super.mkdocs-get-deps.overridePythonAttrs
+              (
+                old: {
+                  buildInputs = (old.buildInputs or [ ]) ++ [ super.hatchling ];
+                }
+              );
+            mkdocs-kroki-plugin = super.mkdocs-kroki-plugin.overridePythonAttrs
               (
                 old: {
                   buildInputs = (old.buildInputs or [ ]) ++ [ super.hatchling ];
@@ -44,6 +50,30 @@
               (
                 old: {
                   buildInputs = (old.buildInputs or [ ]) ++ [ super.hatchling ];
+                }
+              );
+            bs4 = super.bs4.overridePythonAttrs
+              (
+                old: {
+                  buildInputs = (old.buildInputs or [ ]) ++ [ super.hatchling ];
+                }
+              );
+            ncls = super.ncls.overridePythonAttrs
+              (
+                old: {
+                  buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools super.cython ];
+                }
+              );
+            rapidfuzz = super.rapidfuzz.overridePythonAttrs
+              (
+                old: {
+                  buildInputs = (old.buildInputs or [ ]) ++ [ super.scikit-build-core ];
+                }
+              );
+            super-collections = super.super-collections.overridePythonAttrs
+              (
+                old: {
+                  buildInputs = (old.buildInputs or [ ]) ++ [ super.setuptools ];
                 }
               );
             urllib3 = super.urllib3.overridePythonAttrs

@@ -45,7 +45,7 @@ receiving a `Count` message. The initial state initializes the counter.
 ## Components
 
 - [[Ticker Messages]]
-- [[Ticker Config]]
+- [[Ticker Configuration]]
 - [[Ticker Environment]]
 - [[Ticker Behaviour]]
 
@@ -59,7 +59,7 @@ receiving a `Count` message. The initial state initializes the counter.
 ```juvix
 TickerEngine : Type :=
   Engine
-    TickerCfg
+    TickerLocalCfg
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle

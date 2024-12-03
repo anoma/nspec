@@ -18,6 +18,7 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.engines.reads_for_messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Reads For Environment
@@ -26,9 +27,17 @@ tags:
 
 The Reads For Engine environment maintains the state necessary for managing `reads_for` relationships between identities, including storing evidence submitted by clients.
 
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    axiom verifyEvidence : ReadsForEvidence -> Bool;
+    ```
+
 ## Mailbox states
 
 The Reads For Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
+
+### `ReadsForMailboxState`
 
 ```juvix
 syntax alias ReadsForMailboxState := Unit;
@@ -38,43 +47,52 @@ syntax alias ReadsForMailboxState := Unit;
 
 The local state of the Reads For Engine includes the evidence for reads_for relationships.
 
+### `ReadsForLocalState`
+
 ```juvix
 type ReadsForLocalState := mkReadsForLocalState@{
   evidenceStore : Set ReadsForEvidence;
-  verifyEvidence : ReadsForEvidence -> Bool;
 };
 ```
 
+???+ quote "Arguments"
+
+    `evidenceStore`:
+    : The collection of validated `ReadsForEvidence` which has been submitted to the engine.
+
 ## Timer Handle
+
+The Reads For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+
+### `ReadsForTimerHandle`
 
 ```juvix
 syntax alias ReadsForTimerHandle := Unit;
 ```
 
-The Reads For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Reads For Environment
 
-## Environment summary
+### `ReadsForEnv`
 
 ```juvix
-ReadsForEnvironment : Type := EngineEnv
-  ReadsForLocalState
-  ReadsForMailboxState
-  ReadsForTimerHandle;
+ReadsForEnv : Type :=
+  EngineEnv
+    ReadsForLocalState
+    ReadsForMailboxState
+    ReadsForTimerHandle
+    Anoma.Msg;
 ```
 
-## Example of a `Reads For` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:readsForEnv] -->
 ```juvix extract-module-statements
 module reads_for_environment_example;
 
-readsForEnvironmentExample : ReadsForEnvironment :=
+readsForEnv : ReadsForEnv :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "reads_for";
       localState := mkReadsForLocalState@{
         evidenceStore := Set.empty;
-        verifyEvidence := \{ _ := true }
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
@@ -83,4 +101,4 @@ readsForEnvironmentExample : ReadsForEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:readsForEnv] -->

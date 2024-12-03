@@ -14,12 +14,12 @@ tags:
     ```juvix
     module arch.node.engines.commitment_environment;
     import prelude open;
-    import arch.system.identity.identity open using {Signer; mkSigner};
     import arch.node.engines.commitment_messages open;
     import arch.node.types.crypto open;
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Commitment Environment
@@ -42,24 +42,13 @@ syntax alias CommitmentMailboxState := Unit;
 
 ## Local state
 
-The local state of a Commitment Engine instance includes the identity's signing capabilities.
+The Commitment engine is statless.
 
 ### `CommitmentLocalState`
 
 ```juvix
-type CommitmentLocalState := mkCommitmentLocalState@{
-  signer : Signer Backend Signable Commitment;
-  backend : Backend;
-};
+syntax alias CommitmentLocalState := Unit;
 ```
-
-???+ quote "Arguments"
-
-    `signer`:
-    : The signer for the identity.
-
-    `backend`:
-    : The backend to use for signing.
 
 ## Timer Handle
 
@@ -74,19 +63,20 @@ syntax alias CommitmentTimerHandle := Unit;
 
 ## The Commitment Environment
 
-### `CommitmentEnvironment`
+### `CommitmentEnv`
 
 ```juvix
-CommitmentEnvironment : Type :=
+CommitmentEnv : Type :=
   EngineEnv
     CommitmentLocalState
     CommitmentMailboxState
-    CommitmentTimerHandle;
+    CommitmentTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
 
-<!-- --8<-- [start:commitmentEnvironment] -->
+<!-- --8<-- [start:commitmentEnv] -->
 ```juvix extract-module-statements
 module commitment_environment_example;
 
@@ -94,16 +84,9 @@ axiom dummyExternalIdentity : ExternalIdentity;
 axiom dummyIDBackend : Backend;
 axiom dummySigningKey : SigningKey;
 
-commitmentEnvironment : CommitmentEnvironment :=
+commitmentEnv : CommitmentEnv :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "commitment";
-      localState := mkCommitmentLocalState@{
-        signer := mkSigner@{
-          sign := \{_ x := Ed25519Signature "0xabcd1234"};
-        };
-        backend := BackendLocalMemory;
-      };
+      localState := unit;
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []
@@ -111,4 +94,4 @@ commitmentEnvironment : CommitmentEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:commitmentEnvironment] -->
+<!-- --8<-- [end:commitmentEnv] -->

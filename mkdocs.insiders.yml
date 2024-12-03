@@ -9,7 +9,15 @@ plugins:
   - social
   - tags
   - glightbox
-  - juvix
+  - juvix # Provided with mkdocs-juvix-plugin
+  - todos
+  - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
+      ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io'] #https://kroki.io/examples.html
+      FileTypes:
+        - png
+        - svg
+      FileTypeOverrides:
+        mermaid: png
   - bibtex:
       bib_dir: "docs/references"
   - git-revision-date-localized:
@@ -23,12 +31,6 @@ plugins:
         - index.md
       enabled: !ENV [CI, true]
       strict: true
-  - mike:
-      alias_type: copy
-      canonical_version: latest
-      version_selector: false
-      css_dir: docs/assets/css
-      javascript_dir: docs/assets/js
   - macros:
       module_name: macros
       j2_block_start_string: "{@@"
