@@ -19,7 +19,6 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import arch.system.identity.identity open hiding {ExternalIdentity};
     import arch.node.types.anoma_message as Anoma open;
     ```
 
@@ -43,9 +42,7 @@ syntax alias EncryptionMailboxState := Unit;
 
 ## Local state
 
-The local state of an `Encryption` Engine instance includes the identity's
-encryption capabilities, the address of an associated `ReadsFor` engine, and a
-specific backend. It also contains a map to a list of pending requests which
+The local state of an `Encryption` Engine instance contains a map to a list of pending requests which
 require `ReadsFor` information which is requested from the associated `ReadsFor`
 engine.
 
@@ -53,23 +50,11 @@ engine.
 
 ```juvix
 type EncryptionLocalState := mkEncryptionLocalState@{
-  encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
-  backend : Backend;
-  readsForEngineAddress : EngineID;
   pendingRequests : Map ExternalIdentity (List (Pair EngineID Plaintext));
 };
 ```
 
 ???+ quote "Arguments"
-
-    `encryptor`:
-    : Function to generate encryptor for a set of evidence and an identity.
-
-    `backend`:
-    : The backend to use for encryption.
-
-    `readsForEngineAddress`:
-    : The address of the associated Reads For engine.
 
     `pendingRequests`:
     : The backlog of encryption requests still in processing.
@@ -107,17 +92,6 @@ module encryption_environment_example;
 encryptionEnv : EncryptionEnv :=
     mkEngineEnv@{
       localState := mkEncryptionLocalState@{
-        encryptor := \{_ _ := mkEncryptor@{
-          encrypt := \{_ x := x};
-          encryptorHash := mkHASH@{
-            ordKey := mkOrdkey@{
-                compare := Ord.cmp
-            };
-            hash := \{x := "0x1234abcd"};
-          };
-        }};
-        backend := BackendLocalMemory;
-        readsForEngineAddress := mkPair none "Blah";
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;

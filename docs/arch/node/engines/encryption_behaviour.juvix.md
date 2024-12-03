@@ -178,8 +178,8 @@ encryptAction
                 msg := Anoma.MsgEncryption (MsgEncryptionResponse (
                   mkResponseEncrypt@{
                     ciphertext := Encryptor.encrypt
-                      (EncryptionLocalState.encryptor localState Set.empty externalIdentity)
-                      (EncryptionLocalState.backend localState)
+                      (EncryptionCfg.encryptor (EngineCfg.cfg cfg) Set.empty externalIdentity)
+                      (EncryptionCfg.backend (EngineCfg.cfg cfg))
                       data;
                     err := none
                   }))
@@ -206,7 +206,7 @@ encryptAction
                 | none := [
                     mkEngineMsg@{
                       sender := getEngineIDFromEngineCfg cfg;
-                      target := EncryptionLocalState.readsForEngineAddress localState;
+                      target := EncryptionCfg.readsForEngineAddress (EngineCfg.cfg cfg);
                       mailbox := some 0;
                       msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceRequest (
                         mkRequestQueryReadsForEvidence@{
@@ -275,8 +275,8 @@ handleReadsForResponseAction
                               msg := Anoma.MsgEncryption (MsgEncryptionResponse (
                                 mkResponseEncrypt@{
                                   ciphertext := Encryptor.encrypt
-                                    (EncryptionLocalState.encryptor localState evidence externalIdentity)
-                                    (EncryptionLocalState.backend localState)
+                                    (EncryptionCfg.encryptor (EngineCfg.cfg cfg) evidence externalIdentity)
+                                    (EncryptionCfg.backend (EngineCfg.cfg cfg))
                                     data;
                                   err := none
                                 }))
@@ -383,7 +383,7 @@ readsForResponseGuard
   | some emsg :=
     case EngineMsg.msg emsg of {
     | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse _) :=
-      case isEqual (Ord.cmp (EngineMsg.sender emsg) (EncryptionLocalState.readsForEngineAddress (EngineEnv.localState env))) of {
+      case isEqual (Ord.cmp (EngineMsg.sender emsg) (EncryptionCfg.readsForEngineAddress (EngineCfg.cfg cfg))) of {
       | true := some mkGuardOutput@{
           action := handleReadsForResponseActionLabel;
           args := []
