@@ -17,58 +17,64 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# `Verification` Messages
+# Verification Messages
 
 ## Message interface
+
+### `MsgVerificationRequest RequestVerification`
+
+```juvix
+type RequestVerification := mkRequestVerification {
+  data : Signable;
+  commitment : Commitment;
+  externalIdentity : ExternalIdentity;
+  useSignsFor : Bool
+};
+```
+
+A `RequestVerification` instructs the Verification Engine to verify a commitment (signature) from a particular external identity, possibly using known signs_for relationships.
+
+???+ quote "Arguments"
+    `data`:
+    : The data that was signed.
+
+    `commitment`:
+    : The commitment (signature) to verify.
+
+    `externalIdentity`:
+    : The external identity that supposedly made the commitment.
+
+    `useSignsFor`:
+    : Whether or not to use known `signs_for` relationships.
+
+### `MsgVerificationResponse ResponseVerification`
+
+```juvix
+type ResponseVerification := mkResponseVerification {
+  result : Bool;
+  err : Option String
+};
+```
+
+A `ResponseVerification` contains the result of verifying a commitment in response to a RequestVerification.
+
+???+ quote "Arguments"
+    `result`:
+    : True if the verification succeeded, False otherwise.
+
+    `err`:
+    : An error message if verification failed.
+
+### `VerificationMsg`
 
 <!-- --8<-- [start:VerificationMsg] -->
 ```juvix
 type VerificationMsg :=
-  | -- --8<-- [start:VerifyRequest]
-    VerifyRequest {
-      data : Signable;
-      commitment : Commitment;
-      externalIdentity : ExternalIdentity;
-      useSignsFor : Bool
-    }
-    -- --8<-- [end:VerifyRequest]
-  | -- --8<-- [start:VerifyResponse]
-    VerifyResponse {
-      result : Bool;
-      err : Option String
-    }
-    -- --8<-- [end:VerifyResponse]
+  | MsgVerificationRequest RequestVerification
+  | MsgVerificationResponse ResponseVerification
   ;
 ```
 <!-- --8<-- [end:VerificationMsg] -->
-
-### `VerifyRequest` message
-
-!!! quote "VerifyRequest"
-
-    ```
-    --8<-- "./verification_messages.juvix.md:VerifyRequest"
-    ```
-
-A `VerifyRequest` instructs the Verification Engine to verify a commitment (signature) from a particular external identity, possibly using known signs_for relationships.
-
-- `commitment`: The commitment (signature) to verify.
-- `data`: The data that was signed.
-- `externalIdentity`: The external identity that supposedly made the commitment.
-- `useSignsFor`: Whether or not to use known `signs_for` relationships.
-
-### `VerifyResponse` message
-
-!!! quote "VerifyResponse"
-
-    ```
-    --8<-- "./verification_messages.juvix.md:VerifyResponse"
-    ```
-
-A `VerifyResponse` contains the result of verifying a commitment in response to a VerifyRequest.
-
-- `result`: True if the verification succeeded, False otherwise.
-- `err`: An error message if verification failed.
 
 ## Message sequence diagrams
 
@@ -80,15 +86,15 @@ A `VerifyResponse` contains the result of verifying a commitment in response to 
 ```mermaid
 sequenceDiagram
     participant C as Client
-    participant EE as Encryption Engine
+    participant VE as Verification Engine
 
-    C->>EE: EncryptRequest(useReadsFor=false)
-    Note over EE: Encrypt data directly for external identity
-    EE-->>C: EncryptResponse
+    C->>VE: RequestVerification(useSignsFor=false)
+    Note over VE: Verify commitment directly for external identity
+    VE-->>C: ResponseVerification
 ```
 
 <figcaption markdown="span">
-Sequence diagram for encryption (no signs for).
+Sequence diagram for verification (no signs for).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-no-signs-for] -->
@@ -101,27 +107,24 @@ Sequence diagram for encryption (no signs for).
 ```mermaid
 sequenceDiagram
     participant C as Client
-    participant EE as Encryption Engine
-    participant RF as ReadsFor Engine
+    participant VE as Verification Engine
+    participant SF as SignsFor Engine
 
-    C->>EE: EncryptRequest(useReadsFor=true)
-    EE->>RF: QueryReadsForEvidenceRequest
-    Note over RF: Retrieve reads_for evidence
-    RF-->>EE: QueryReadsForEvidenceResponse
-    Note over EE: Encrypt data using ReadsFor evidence
-    EE-->>C: EncryptResponse
+    C->>VE: RequestVerification(useSignsFor=true)
+    VE->>SF: QuerySignsForEvidenceRequest
+    Note over SF: Retrieve signs_for evidence
+    SF-->>VE: QuerySignsForEvidenceResponse
+    Note over VE: Verify commitment using SignsFor evidence
+    VE-->>C: ResponseVerification
 ```
 
 <figcaption markdown="span">
-Sequence diagram for encryption (signs for).
+Sequence diagram for verification (signs for).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-signs-for] -->
 
 ## Engine Components
 
-- [[Verification Environment|`Verification` Engine Environment]]
-- [[Verification Dynamics|`Verification` Engine Dynamics]]
-
-## Useful links
-
+- [[Verification Environment]]
+- [[Verification Behaviour]]

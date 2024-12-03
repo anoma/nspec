@@ -15,11 +15,11 @@ tags:
     module arch.node.engines.verification_environment;
 
     import prelude open;
-    import arch.system.identity.identity open hiding {ExternalIdentity};
     import arch.node.types.messages open;
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.engines.verification_messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Verification Environment
@@ -32,62 +32,61 @@ The Verification Engine is stateless and does not maintain any internal state be
 
 The Verification Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
+### `VerificationMailboxState`
+
 ```juvix
 syntax alias VerificationMailboxState := Unit;
 ```
 
 ## Local state
 
-The local state of a Verification Engine instance includes the identity's verification capabilities, the address of an associated `SignsFor` engine, and a specific backend. It also contains a map to a list of pending requests which require `SignsFor` information which is requested from the associated `SignsFor` engine.
+The local state of a Verification Engine instance contains a map to a list of pending requests which require `SignsFor` information which is requested from the associated `SignsFor` engine.
+
+### `VerificationLocalState`
 
 ```juvix
 type VerificationLocalState := mkVerificationLocalState {
-  verifier : Set SignsForEvidence -> ExternalIdentity -> Verifier ByteString Backend Signable Commitment;
-  backend : Backend;
-  signsForEngineAddress : EngineID;
   pendingRequests : Map ExternalIdentity (List (Pair EngineID (Pair Signable Commitment)));
 };
 ```
 
+???+ quote "Arguments"
+
+    `pendingRequests`:
+    : The backlog of verification requests still in processing.
+
 ## Timer Handle
+
+The Verification Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+
+### `VerificationTimerHandle`
 
 ```juvix
 syntax alias VerificationTimerHandle := Unit;
 ```
 
-The Verification Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+## The Verification Environment
 
-## Environment summary
+### `VerificationEnv`
 
 ```juvix
-VerificationEnvironment : Type := EngineEnv
-  VerificationLocalState
-  VerificationMailboxState
-  VerificationTimerHandle;
+VerificationEnv : Type :=
+  EngineEnv
+    VerificationLocalState
+    VerificationMailboxState
+    VerificationTimerHandle
+    Anoma.Msg;
 ```
 
-## Example of a `Verification` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:verificationEnv] -->
 ```juvix extract-module-statements
 module verification_environment_example;
 
-verificationEnvironmentExample : VerificationEnvironment :=
+verificationEnv : VerificationEnv :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "verification";
       localState := mkVerificationLocalState@{
-        verifier := \{_ _ := mkVerifier@{
-          verify := \{_ _ _ := true};
-          verifierHash := mkHASH@{
-            ordKey := mkOrdkey@{
-                compare := Ord.cmp
-            };
-            hash := \{x := "0x1234abcd"};
-          };
-        }};
-        backend := BackendLocalMemory;
-        signsForEngineAddress := mkPair none (some "Blah");
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;
@@ -97,4 +96,4 @@ verificationEnvironmentExample : VerificationEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:verificationEnv] -->

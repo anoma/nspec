@@ -10,15 +10,16 @@ search:
     ```juvix
     module arch.node.types.anoma_config;
 
-{- Examples -}
-    -- import arch.node.engines.ticker_config open;
+    {- Examples -}
+    import arch.node.engines.template_config open;
+    import arch.node.engines.ticker_config open;
 
-{- Network -}
---    import arch.node.net.router_config open;
---    import arch.node.net.node_proxy_config open;
---    import arch.node.net.transport_config open;
---    import arch.node.net.topic_config open;
---    import arch.node.net.storage_config open;
+    {- Network -}
+    -- import arch.node.net.router_config open;
+    -- import arch.node.net.node_proxy_config open;
+    -- import arch.node.net.transport_config open;
+    -- import arch.node.net.topic_config open;
+    -- import arch.node.net.storage_config open;
     ```
 
 # Anoma Engine Configuration
@@ -36,15 +37,19 @@ of the engine `TickerEngine` is of type `TickerCfg`.
 <!-- --8<-- [start:anoma-config-type] -->
 ```juvix
 type Cfg :=
-{- Examples -}
+  {- Examples -}
   | CfgTemplate -- TemplateCfg
   | CfgTicker -- TickerCfg
 
-{- Network -}
---  | CfgRouter RouterCfg
---  | CfgNodeProxy NodeProxyCfg
---  | CfgTransport TransportCfg
---  | CfgTopic TopicCfg
---  | CfgStorage StorageCfg
+  {- Identity -}
+  | CfgCommitment -- TickerCfg
+  | CfgDecryption -- TickerCfg
+
+  {- Network -}
+  -- | CfgRouter RouterCfg
+  -- | CfgNodeProxy NodeProxyCfg
+  -- | CfgTransport TransportCfg
+  -- | CfgTopic TopicCfg
+  -- | CfgStorage StorageCfg
 ```
 <!-- --8<-- [end:anoma-config-type] -->

@@ -17,9 +17,9 @@ search:
 ??? note "Type definitions"
 
     ```juvix
-    type OrdKey (OrdKey : Type) :=
+    type OrdKey (OrdKeyType : Type) :=
       mkOrdkey {
-          compare : OrdKey -> OrdKey -> Ordering
+          compare : OrdKeyType -> OrdKeyType -> Ordering
       };
     ```
 
