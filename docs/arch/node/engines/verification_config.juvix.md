@@ -45,6 +45,17 @@ type VerificationCfg := mkVerificationCfg {
 ```
 <!-- --8<-- [end:VerificationCfg] -->
 
+???+ quote "Arguments"
+
+    `verifier`:
+    : Function to generate verifier for a set of evidence and an identity.
+
+    `backend`:
+    : The backend to use for verification.
+
+    `signsForEngineAddress`:
+    : The address of the associated Signs For engine.
+
 #### Instantiation
 
 <!-- --8<-- [start:verificationCfg] -->

@@ -61,9 +61,6 @@ type SignsForLocalState := mkSignsForLocalState@{
     `evidenceStore`:
     : The collection of validated `SignsForEvidence` which has been submitted to the engine.
 
-    `verifyEvidence`:
-    : Function to validate submitted `SignsForEvidence`.
-
 ## Timer Handle
 
 The Signs For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.

@@ -52,15 +52,6 @@ type VerificationLocalState := mkVerificationLocalState {
 
 ???+ quote "Arguments"
 
-    `verifier`:
-    : Function to generate verifier for a set of evidence and an identity.
-
-    `backend`:
-    : The backend to use for verification.
-
-    `signsForEngineAddress`:
-    : The address of the associated Signs For engine.
-
     `pendingRequests`:
     : The backlog of verification requests still in processing.
 
