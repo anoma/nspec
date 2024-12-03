@@ -18,7 +18,7 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import arch.system.identity.identity open using {Decryptor; mkDecryptor};
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Decryption Environment
@@ -34,56 +34,55 @@ necessary state for decryption operations.
 The Decryption Engine does not require complex mailbox states. We define the
 mailbox state as `Unit`.
 
+### `DecryptionMailboxState`
+
 ```juvix
 syntax alias DecryptionMailboxState := Unit;
 ```
 
 ## Local state
 
-The local state of a Decryption Engine instance includes the identity's
-decryption capabilities.
+The decryption engine is stateless.
+
+### `DecryptionLocalState`
 
 ```juvix
-type DecryptionLocalState := mkDecryptionLocalState@{
-  decryptor : Decryptor Backend Plaintext Ciphertext;
-  backend : Backend;
-};
+syntax alias DecryptionLocalState := Unit;
 ```
 
 ## Timer Handle
+
+The Decryption Engine does not require a timer handle type. Therefore, we define
+the timer handle type as `Unit`.
+
+### `DecryptionTimerHandle`
 
 ```juvix
 syntax alias DecryptionTimerHandle := Unit;
 ```
 
-The Decryption Engine does not require a timer handle type. Therefore, we define
-the timer handle type as `Unit`.
+## The Decryption Environment
 
-## Environment summary
+### `DecryptionEnv`
 
 ```juvix
-DecryptionEnvironment : Type := EngineEnv
-  DecryptionLocalState
-  DecryptionMailboxState
-  DecryptionTimerHandle;
+DecryptionEnv : Type :=
+  EngineEnv
+    DecryptionLocalState
+    DecryptionMailboxState
+    DecryptionTimerHandle
+    Anoma.Msg;
 ```
 
-## Example of a `Decryption` environment
+### Instantiation
 
-<!-- --8<-- [start:environment-example] -->
+<!-- --8<-- [start:decryptionEnv] -->
 ```juvix extract-module-statements
 module decryption_environment_example;
 
-decryptionEnvironmentExample : DecryptionEnvironment :=
+decryptionEnv : DecryptionEnv :=
     mkEngineEnv@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "decryption";
-      localState := mkDecryptionLocalState@{
-        decryptor := mkDecryptor@{
-          decrypt := \{_ x := some x};
-        };
-        backend := BackendLocalMemory;
-      };
+      localState := unit;
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []
@@ -91,4 +90,4 @@ decryptionEnvironmentExample : DecryptionEnvironment :=
   ;
 end;
 ```
-<!-- --8<-- [end:environment-example] -->
+<!-- --8<-- [end:decryptionEnv] -->

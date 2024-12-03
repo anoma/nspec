@@ -81,7 +81,7 @@ TickerActionArguments : Type := List TickerActionArgument;
     ```juvix
     TickerAction : Type :=
       Action
-        TickerCfg
+        TickerLocalCfg
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
@@ -96,7 +96,7 @@ TickerActionArguments : Type := List TickerActionArgument;
     ```juvix
     TickerActionInput : Type :=
       ActionInput
-        TickerCfg
+        TickerLocalCfg
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
@@ -122,7 +122,7 @@ TickerActionArguments : Type := List TickerActionArgument;
     ```juvix
     TickerActionExec : Type :=
       ActionExec
-        TickerCfg
+        TickerLocalCfg
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
@@ -244,7 +244,7 @@ countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
     ```juvix
     TickerGuard : Type :=
       Guard
-        TickerCfg
+        TickerLocalCfg
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
@@ -261,7 +261,7 @@ countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
     ```juvix
     TickerGuardOutput : Type :=
       GuardOutput
-        TickerCfg
+        TickerLocalCfg
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
@@ -278,7 +278,7 @@ countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
     ```juvix
     TickerGuardEval : Type :=
       GuardEval
-        TickerCfg
+        TickerLocalCfg
         TickerLocalState
         TickerMailboxState
         TickerTimerHandle
@@ -299,7 +299,7 @@ Condition
 ```juvix
 incrementGuard
   (trigger : TimestampedTrigger TickerTimerHandle Anoma.Msg)
-  (cfg : EngineCfg TickerCfg)
+  (cfg : TickerCfg)
   (env : TickerEnv)
   : Option TickerGuardOutput :=
   let
@@ -327,7 +327,7 @@ Condition
 ```juvix
 countReplyGuard
   (trigger : TimestampedTrigger TickerTimerHandle Anoma.Msg)
-  (cfg : EngineCfg TickerCfg)
+  (cfg : TickerCfg)
   (env : TickerEnv)
   : Option TickerGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -350,7 +350,7 @@ countReplyGuard
 ```juvix
 TickerBehaviour : Type :=
   EngineBehaviour
-    TickerCfg
+    TickerLocalCfg
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle
