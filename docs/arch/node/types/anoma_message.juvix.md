@@ -24,6 +24,11 @@ tags:
     import arch.node.engines.reads_for_messages open using {ReadsForMsg};
     import arch.node.engines.signs_for_messages open using {SignsForMsg};
     import arch.node.engines.naming_messages open using {NamingMsg};
+        
+    import arch.node.engines.local_key_value_storage_messages open using {LocalKVStorageMsg};
+    import arch.node.engines.logging_messages open using {LoggingMsg};
+    import arch.node.engines.wall_clock_messages open using {WallClockMsg};
+    import arch.node.engines.local_time_series_storage_messages open using {LocalTSStorageMsg};
     ```
 
 # Anoma Message
@@ -41,7 +46,6 @@ has a corresponding message type `TickerMsg`.
 type Msg :=
   | MsgTemplate TemplateMsg
   | MsgTicker TickerMsg
-
   | MsgIdentityManagement IdentityManagementMsg
   | MsgDecryption DecryptionMsg
   | MsgEncryption EncryptionMsg
@@ -50,6 +54,10 @@ type Msg :=
   | MsgReadsFor ReadsForMsg
   | MsgSignsFor SignsForMsg
   | MsgNaming NamingMsg
+  | MsgLocalKVStorage LocalKVStorageMsg
+  | MsgLogging LoggingMsg
+  | MsgWallClock WallClockMsg
+  | MsgLocalTSStorage LocalTSStorageMsg  
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

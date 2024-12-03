@@ -90,6 +90,30 @@ import arch.node.engines.verification_environment;
 import arch.node.engines.verification_behaviour;
 import arch.node.engines.verification;
 
+import arch.node.engines.local_key_value_storage_messages;
+import arch.node.engines.local_key_value_storage_config;
+import arch.node.engines.local_key_value_storage_environment;
+import arch.node.engines.local_key_value_storage_behaviour;
+import arch.node.engines.local_key_value_storage;
+
+import arch.node.engines.logging_messages;
+import arch.node.engines.logging_config;
+import arch.node.engines.logging_environment;
+import arch.node.engines.logging_behaviour;
+import arch.node.engines.logging;
+
+import arch.node.engines.wall_clock_messages;
+import arch.node.engines.wall_clock_config;
+import arch.node.engines.wall_clock_environment;
+import arch.node.engines.wall_clock_behaviour;
+import arch.node.engines.wall_clock;
+
+import arch.node.engines.local_time_series_storage_messages;
+import arch.node.engines.local_time_series_storage_config;
+import arch.node.engines.local_time_series_storage_environment;
+import arch.node.engines.local_time_series_storage_behaviour;
+import arch.node.engines.local_time_series_storage;
+
 {- Template for new engines -}
 import arch.node.engines.template;
 import arch.node.engines.template_messages;
