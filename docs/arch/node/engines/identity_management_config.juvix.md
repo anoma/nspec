@@ -34,11 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 <!-- --8<-- [start:IdentityManagementCfg] -->
 ```juvix
-type IdentityManagementCfg :=
-  mkIdentityManagementCfg@{
-    example : Nat;
-    value : String;
-  }
+type IdentityManagementCfg := mkIdentityManagementCfg
 ```
 <!-- --8<-- [end:IdentityManagementCfg] -->
 
@@ -52,10 +48,7 @@ module identity_management_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "identity management";
-      cfg := mkIdentityManagementCfg@{
-        example := 1;
-        value := "hello world";
-      };
+      cfg := mkIdentityManagementCfg
     }
   ;
 end;
