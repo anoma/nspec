@@ -22,9 +22,9 @@ In case of peer identities, it stores known addresses along with local routing a
 
 ### [[IdentityStore#identitystore]]
 
---8<-- "id_store/types/identity_store.md:purpose"
+--8<-- "./types/identity_store.md:purpose"
 
---8<-- "id_store/types/identity_store.md:type"
+--8<-- "./types/identity_store.md:type"
 
 ## Messages received
 
