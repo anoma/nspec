@@ -143,7 +143,7 @@ Not instantiated.
 ### Resource
 
 #### Hoon Encoding
-The Hoon `public-inputs` record with fields:
+The Hoon `resource` record with fields:
 - `label`
   - a UTF-8 Text
 - `logic`
