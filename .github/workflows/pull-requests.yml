@@ -14,7 +14,7 @@ env:
   POETRY_VERSION: 1.8.3
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
-  INSIDERS_VERSION: 9.5.37-insiders-4.53.13
+  INSIDERS_VERSION: 9.5.46-insiders-4.53.14
   JUVIX_VERSION: v0.6.8
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
@@ -105,11 +105,6 @@ jobs:
           poetry config virtualenvs.create true --local
           poetry config virtualenvs.in-project true --local
       - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
-      - name: Cache .venv
-        uses: actions/cache@v4.0.2
-        with:
-          path: ./.venv
-          key: venv-${{ env.cache_id }}
       - name: Cache .cache
         uses: actions/cache@v4.0.2
         with:
@@ -117,23 +112,24 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - name: Cache .hooks
+      - name: Cache .cache-juvix-mkdocs
         uses: actions/cache@v4.0.2
         with:
-          key: hooks-${{ env.cache_id }}
-          path: .hooks
+          key: .cache-juvix-mkdocs-${{ env.cache_id }}
+          path: .cache-juvix-mkdocs
           restore-keys: |
-            hooks-
+            .cache-juvix-mkdocs-
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
       - name: Install Python dependencies
         run: poetry install
       - name: Build MkDocs
+        id: mkdocs-basic
         run: |
           poetry run mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
           SITE_VERSION: (PR ${{ github.event.pull_request.number }})
       - name: The build failed comment
         if: failure()
@@ -146,23 +142,24 @@ jobs:
         id: main-commit
         run: echo "::set-output name=commit::$(git rev-parse --short main)"
       - name: Build MkDocs with material insiders version
-        id: material
+        id: mkdocs-insiders
         run: |
           pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
           poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/
           SITE_VERSION: (PR:${{ github.event.pull_request.number }} - Branch:${{env.BRANCH_NAME }} - Commit:${{ steps.commit.outputs.commit }} - Main:${{ steps.main-commit.outputs.commit }})
           COPYRIGHT: Powered by Mkdocs, Poetry ${{ env.POETRY_VERSION }}, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
-      - if: steps.material.outcome == 'failure'
+          REMOVE_CACHE: true
+      - if: steps.mkdocs-insiders.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
-      - if: steps.material.outcome == 'success'
+      - if: steps.mkdocs-insiders.outcome == 'success'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "Builds using material and material-insiders theme succeed. We are now deploying the preview"
         continue-on-error: true
-      - name: Deploy MkDocs
+      - name: Deploy MkDocs with insiders theme
         if: success()
         uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
@@ -173,12 +170,21 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
         continue-on-error: false
-      - id: comment-success
+      - id: comment-success-insiders
         if: success()
         continue-on-error: true
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
-          MSG: "Success! The preview of this PR will be available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
+          MSG: "Success! Preview available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
+      - id: typecheck-docs
+        run: |
+          juvix typecheck docs/everything.juvix.md
+        continue-on-error: true
+      - if: steps.typecheck-docs.outcome == 'failure'
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
+        env:
+          MSG: "The typecheck failed. Please check the logs. However, the preview is available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
       - name: Failed preview build comment
         if: failure()
         run: |
