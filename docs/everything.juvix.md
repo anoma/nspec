@@ -43,15 +43,17 @@ import arch.node.engines.ticker_messages;
 import arch.node.engines.ticker_environment;
 import arch.node.engines.ticker_behaviour;
 
--- import arch.node.engines.commitment_messages;
--- import arch.node.engines.commitment_environment;
--- import arch.node.engines.commitment_behaviour;
--- import arch.node.engines.commitment;
+import arch.node.engines.commitment_messages;
+import arch.node.engines.commitment_config;
+import arch.node.engines.commitment_environment;
+import arch.node.engines.commitment_behaviour;
+import arch.node.engines.commitment;
 
--- import arch.node.engines.decryption_messages;
--- import arch.node.engines.decryption_environment;
--- import arch.node.engines.decryption_behaviour;
--- import arch.node.engines.decryption;
+import arch.node.engines.decryption_messages;
+import arch.node.engines.decryption_config;
+import arch.node.engines.decryption_environment;
+import arch.node.engines.decryption_behaviour;
+import arch.node.engines.decryption;
 
 -- import arch.node.engines.encryption_messages;
 -- import arch.node.engines.encryption_environment;
