@@ -1,8 +1,8 @@
 site_name: !ENV [SITE_NAME, "Anoma Specification"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
-site_url: !ENV [SITE_URL, 'https://anoma.github.io/nspec/latest']
 site_dir: !ENV [SITE_DIR, site]
+site_url: !ENV [SITE_URL, 'https://specs.anoma.net/']
 site_version: !ENV [SITE_VERSION, "v0.1.1"]
 copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 use_directory_urls: false
@@ -71,7 +71,6 @@ nav:
                   - Applications: ./arch/system/state/resource_machine/applications.md
       - Node Architecture:
           - ./arch/node/index.md
-          - Modules: ./arch/node/modules/index.md
           - Basic Types:
               - ./arch/node/types/basics.juvix.md
               - Cryptographic Primitives: ./arch/node/types/crypto.juvix.md
@@ -503,24 +502,32 @@ theme:
     - search.highlight
     - search.suggest
     - search.sharing
-    - navigation.instant
-    - navigation.instant.prefetch
-    - navigation.instant.progress
-    - navigation.instant.preview
+    # - navigation.instant
+    # - navigation.instant.prefetch
+    # - navigation.instant.progress
+    # - navigation.instant.preview
     - navigation.tracking
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.prune
+    # - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.expand
+    # - navigation.prune
     - navigation.indexes
-    - navigation.top
-    # - navigation.path # breadcrumbs are sometimes too long
+    # - navigation.top
+    - navigation.path
     - toc.follow
     - toc.integrate
-    # - header.autohide
 plugins:
   - search
   - glightbox
-  - juvix
+  - juvix # Provided with mkdocs-juvix-plugin
+  - todos
+  - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
+      ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io']
+      FileTypes:
+        - svg
+        - png
+      FileTypeOverrides:
+        mermaid: svg
   - bibtex:
       bib_dir: "docs/references"
   - macros:
@@ -531,25 +538,18 @@ plugins:
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
 hooks:
-  - hooks/links.py
-  - hooks/images.py
-  - hooks/todos.py
-  - hooks/differ.py
-  - hooks/juvix_codeblock_footer.py
-watch:
-  - docs/assets
-  - overrides
+  - hooks/fix_changelog.py
 exclude_docs: |
-  /requirements.txt
+  **/.hooks/**
+  docs/.juvix-build/**
   **/art-template/**/*.md
   */**/.juvix-build/
   docs/indexes/*.txt
   docs/indexes/*.dot
   docs/images/*.dot.svg
 extra_css:
-  - assets/css/style.css
+  - assets/css/juvix-material-style.css
   - assets/css/juvix-highlighting.css
-  - assets/css/juvix_codeblock_footer.css
   - assets/css/juvix_codeblock_footer.css
 extra_javascript:
   - assets/js/extra.js
@@ -561,9 +561,6 @@ markdown_extensions:
   - mdx_truly_sane_lists:
       nested_indent: 2
       truly_sane: true
-  - pymdownx.snippets:
-      check_paths: true
-      url_download: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -599,9 +596,9 @@ markdown_extensions:
 validation:
   nav:
     omitted_files: ignore
-    not_found: warn
+    not_found: ignore
     absolute_links: ignore
   links:
-    not_found: warn
+    not_found: ignore
     absolute_links: ignore
-    unrecognized_links: warn
+    unrecognized_links: ignore

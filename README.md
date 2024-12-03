@@ -14,7 +14,7 @@ installed. You can install the Juvix plugin for VS Code
 from [the
 marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
 
-### Installing with Python
+### Installing
 
 1. Install prerequisites
 
