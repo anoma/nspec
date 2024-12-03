@@ -26,7 +26,7 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The Reads For engine configuration contains static information for Reads For engine instances.
 
 ## The Reads For Configuration
 

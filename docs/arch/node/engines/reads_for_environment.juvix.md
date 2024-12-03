@@ -27,6 +27,12 @@ tags:
 
 The Reads For Engine environment maintains the state necessary for managing `reads_for` relationships between identities, including storing evidence submitted by clients.
 
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    axiom verifyEvidence : ReadsForEvidence -> Bool;
+    ```
+
 ## Mailbox states
 
 The Reads For Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
@@ -46,7 +52,6 @@ The local state of the Reads For Engine includes the evidence for reads_for rela
 ```juvix
 type ReadsForLocalState := mkReadsForLocalState@{
   evidenceStore : Set ReadsForEvidence;
-  verifyEvidence : ReadsForEvidence -> Bool;
 };
 ```
 
@@ -54,9 +59,6 @@ type ReadsForLocalState := mkReadsForLocalState@{
 
     `evidenceStore`:
     : The collection of validated `ReadsForEvidence` which has been submitted to the engine.
-
-    `verifyEvidence`:
-    : Function to validate submitted `ReadsForEvidence`.
 
 ## Timer Handle
 
@@ -91,7 +93,6 @@ readsForEnv : ReadsForEnv :=
     mkEngineEnv@{
       localState := mkReadsForLocalState@{
         evidenceStore := Set.empty;
-        verifyEvidence := \{ _ := true }
       };
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

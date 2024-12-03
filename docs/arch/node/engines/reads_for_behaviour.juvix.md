@@ -216,7 +216,7 @@ submitEvidenceAction
     | some emsg :=
       case emsg of {
       | mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceRequest (mkRequestSubmitReadsForEvidence evidence))} :=
-        case ReadsForLocalState.verifyEvidence localState evidence of {
+        case verifyEvidence evidence of {
         | true :=
           case isElement \{a b := a && b} true (map \{e := isEqual (Ord.cmp e evidence)} (Set.toList (ReadsForLocalState.evidenceStore localState))) of {
           | true :=
