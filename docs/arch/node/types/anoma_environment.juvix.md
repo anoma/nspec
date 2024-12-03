@@ -15,10 +15,10 @@ search:
 
 --    import arch.node.engines.identity_management_environment open;
     import arch.node.engines.decryption_environment open;
---    import arch.node.engines.encryption_environment open;
+    import arch.node.engines.encryption_environment open;
     import arch.node.engines.commitment_environment open;
 --    import arch.node.engines.verification_environment open;
---    import arch.node.engines.reads_for_environment open;
+    import arch.node.engines.reads_for_environment open;
 --    import arch.node.engines.signs_for_environment open;
 --    import arch.node.engines.naming_environment open;
     ```
@@ -44,10 +44,10 @@ type Env :=
 
 --  | EnvIdentityManagement IdentityManagementEnvironment
   | EnvDecryption DecryptionEnv
---  | EnvEncryption EncryptionEnvironment
+  | EnvEncryption EncryptionEnvironment
   | EnvCommitment CommitmentEnv
 --  | EnvVerification VerificationEnvironment
---  | EnvReadsFor ReadsForEnvironment
+  | EnvReadsFor ReadsForEnv
 --  | EnvSignsFor SignsForEnvironment
 --  | EnvNaming NamingEnvironment
 ```

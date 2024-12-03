@@ -17,10 +17,11 @@ tags:
 
 --    import arch.node.engines.identity_management_messages open using {IdentityManagementMsg};
     import arch.node.engines.decryption_messages open using {DecryptionMsg};
---    import arch.node.engines.encryption_messages open using {EncryptionMsg};
+    import arch.node.engines.encryption_messages open using {EncryptionMsg};
     import arch.node.engines.commitment_messages open using {CommitmentMsg};
+
 --    import arch.node.engines.verification_messages open using {VerificationMsg};
---    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
+    import arch.node.engines.reads_for_messages open using {ReadsForMsg};
 --    import arch.node.engines.signs_for_messages open using {SignsForMsg};
 --    import arch.node.engines.naming_messages open using {NamingMsg};
     ```
@@ -43,10 +44,10 @@ type Msg :=
 
 --  | MsgIdentityManagement IdentityManagementMsg
   | MsgDecryption DecryptionMsg
---  | MsgEncryption EncryptionMsg
+  | MsgEncryption EncryptionMsg
   | MsgCommitment CommitmentMsg
 --  | MsgVerification VerificationMsg
---  | MsgReadsFor ReadsForMsg
+  | MsgReadsFor ReadsForMsg
 --  | MsgSignsFor SignsForMsg
 --  | MsgNaming NamingMsg
   ;
