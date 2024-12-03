@@ -57,8 +57,8 @@ maximumBy
  {A : Type}
  (f : A -> Nat)
  (lst : List A)
- : Option A := 
- let maxHelper := \{curr acc := 
+ : Option A :=
+ let maxHelper := \{curr acc :=
    case acc of {
      | none := some curr
      | some maxVal :=
@@ -85,7 +85,7 @@ findMostRecentWrite
           \{entry :=
             (fst entry) < timestamp &&
             case KeyAccess.writeStatus (snd entry) of {
-              | some writeStatus := 
+              | some writeStatus :=
                   not (WriteStatus.mayWrite writeStatus) &&
                   WriteStatus.data writeStatus /= none
               | none := false
@@ -134,7 +134,7 @@ addWriteAccess
   (writeStatus : WriteStatus)
   : DAGStructure :=
   let keyMap := case Map.lookup key (DAGStructure.keyAccesses dag) of {
-    | none := Map.empty 
+    | none := Map.empty
     | some m := m
   };
     existingAccess := case Map.lookup timestamp keyMap of {
@@ -204,7 +204,7 @@ replaceWriteAccess
 ```
 
 ```juvix
-generateReadMsg 
+generateReadMsg
   (sender : EngineID)
   (key : KVSKey)
   (timestamp : TxFingerprint)
@@ -235,10 +235,10 @@ processKeyAccess
   case KeyAccess.readStatus access of {
     | some readStatus :=
       case ReadStatus.isEager readStatus && not (ReadStatus.hasBeenRead readStatus) of {
-        | true := 
-          case timestamp < DAGStructure.heardAllWrites dag && 
+        | true :=
+          case timestamp < DAGStructure.heardAllWrites dag &&
                timestamp >= DAGStructure.heardAllReads dag of {
-            | true := 
+            | true :=
               case findMostRecentWrite dag key timestamp of {
                 | some data :=
                   let newReadStatus := readStatus@ReadStatus{
@@ -264,7 +264,7 @@ processKeyTimestamps
   (dag : DAGStructure)
   (key : KVSKey)
   (timestampMap : Map TxFingerprint KeyAccess)
-  : Pair DAGStructure (List (EngineMsg Msg)) := 
+  : Pair DAGStructure (List (EngineMsg Msg)) :=
   let processTimestamp := \{k v acc :=
     case acc of {
       | mkPair currDag msgs :=
@@ -415,12 +415,12 @@ acquireLockAction
           newEnv := env@EngineEnv{localState := newLocal};
       in some mkActionEffect@{
         env := newEnv;
-        msgs := 
+        msgs :=
           mkEngineMsg@{
             sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
             target := KVSAcquireLockMsg.curator lockMsg;
             mailbox := some 0;
-            msg := Anoma.MsgShard (ShardMsgKVSLockAcquired 
+            msg := Anoma.MsgShard (ShardMsgKVSLockAcquired
               mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})
           } :: snd propagationResult;
         timers := [];

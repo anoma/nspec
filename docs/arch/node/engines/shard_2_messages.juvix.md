@@ -89,7 +89,7 @@ type KVSWriteMsg : Type :=
     `datum`
     : The data to write, or None to indicate no write
 
-### `ShardMsgUpdateSeenAll UpdateSeenAllMsg` 
+### `ShardMsgUpdateSeenAll UpdateSeenAllMsg`
 
 Update about seen transactions from mempool.
 
