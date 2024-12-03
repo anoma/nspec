@@ -15,9 +15,18 @@ tags:
     ```juvix
     module arch.node.engines.shard_messages;
     import prelude open;
+    import arch.node.types.identities open;
     ```
 
 # Shard Messages
+
+    ```juvix
+    syntax alias TransactionExecutable := String;
+    syntax alias TransactionLabel := String;
+    syntax alias TxFingerprint := Nat;
+    syntax alias KVSKey := String;
+    syntax alias KVSDatum := String;
+    ```
 
 ## Message interface
 
@@ -107,7 +116,7 @@ Sent _from_ [[Mempool Worker]]
 type KVSReadRequest := mkKVSReadRequest {
   timestamp : TxFingerprint; -- we need the value at this logical timestamp
   key : KVSKey; -- the value corresponds to this key
-  actual : bool; -- `true` iff we actually want a response (as opposed to just releasing a lock)
+  actual : Bool; -- `true` iff we actually want a response (as opposed to just releasing a lock)
 };
 ```
 !!! todo
@@ -172,7 +181,7 @@ Otherwise, future [[KVSWrite]]s and/or [[UpdateSeenAll]]s will
 type KVSWrite := mkKVSWrite {
   timestamp : TxFingerprint; -- the logical time at which we are writing this data.
   key : KVSKey; -- the key used. With fancy hierarchical keys or suchlike, we could even specify a range of keys
-  datum : Maybe KVSDatum; -- the new data to be associated with the key. No datum should only be used in a "may_write," and means don't change this value
+  datum : Option KVSDatum; -- the new data to be associated with the key. No datum should only be used in a "may_write," and means don't change this value
 }
 ```
 !!! todo
@@ -238,7 +247,7 @@ Any garbage collection of old locking info is elided in V0.2.0 and earlier
 ```juvix
 type UpdateSeenAll := mkUpdateSeenAll {
   timestamp : TxFingerprint; -- represents a the position in the total order (in V0.2.0 and earlier)
-  write : bool; -- seen all read and seen all write can (and should) be separate
+  write : Bool; -- seen all read and seen all write can (and should) be separate
 }
 ```
 !!! todo
