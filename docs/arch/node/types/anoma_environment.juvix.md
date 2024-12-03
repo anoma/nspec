@@ -12,8 +12,7 @@ search:
 
     import arch.node.engines.template_environment open;
     import arch.node.engines.ticker_environment open;
-
---    import arch.node.engines.identity_management_environment open;
+    import arch.node.engines.identity_management_environment open;
     import arch.node.engines.decryption_environment open;
     import arch.node.engines.encryption_environment open;
     import arch.node.engines.commitment_environment open;
@@ -42,7 +41,7 @@ type Env :=
   | EnvTemplate TemplateEnv
   | EnvTicker TickerEnv
 
---  | EnvIdentityManagement IdentityManagementEnvironment
+  | EnvIdentityManagement IdentityManagementEnvironment
   | EnvDecryption DecryptionEnv
   | EnvEncryption EncryptionEnvironment
   | EnvCommitment CommitmentEnv
