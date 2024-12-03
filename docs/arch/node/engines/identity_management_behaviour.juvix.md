@@ -134,10 +134,7 @@ makeDecryptEnv
   (addr : EngineID)
   : DecryptionEnv :=
   mkEngineEnv@{
-    localState := mkDecryptionLocalState@{
-      decryptor := genDecryptor backend';
-      backend := backend'
-    };
+    localState := unit;
     mailboxCluster := Map.empty;
     acquaintances := Set.empty;
     timers := []
@@ -149,10 +146,7 @@ makeCommitmentEnv
   (addr : EngineID)
   : CommitmentEnv :=
   mkEngineEnv@{
-    localState := mkCommitmentLocalState@{
-      signer := genSigner backend';
-      backend := backend'
-    };
+    localState := unit;
     mailboxCluster := Map.empty;
     acquaintances := Set.empty;
     timers := []
