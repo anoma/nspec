@@ -19,6 +19,7 @@ tags:
     import arch.node.engines.decryption_messages open;
     import arch.node.types.engine open;
     import arch.node.types.messages open;
+    import arch.system.identity.identity open using {Decryptor; mkDecryptor};
     import arch.node.types.identities open;
     ```
 
@@ -26,15 +27,21 @@ tags:
 
 ## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+The decryption engine configuration contains static information for decryption engine instances.
 
 ## The Decryption Configuration
+
+The configuration of a Decryption Engine instance includes the identity's
+decryption capabilities.
 
 ### `DecryptionCfg`
 
 <!-- --8<-- [start:DecryptionCfg] -->
 ```juvix
-type DecryptionCfg := mkDecryptionCfg
+type DecryptionCfg := mkDecryptionCfg@{
+  decryptor : Decryptor Backend Plaintext Ciphertext;
+  backend : Backend;
+};
 ```
 <!-- --8<-- [end:DecryptionCfg] -->
 
@@ -48,7 +55,12 @@ module decryption_config_example;
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "decryption";
-      cfg := mkDecryptionCfg
+      cfg := mkDecryptionCfg@{
+        decryptor := mkDecryptor@{
+          decrypt := \{_ x := some x};
+        };
+        backend := BackendLocalMemory;
+      };
     }
   ;
 end;

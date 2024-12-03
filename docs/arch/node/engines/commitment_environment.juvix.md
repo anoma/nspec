@@ -42,7 +42,7 @@ syntax alias CommitmentMailboxState := Unit;
 
 ## Local state
 
-The local state of a Commitment Engine instance includes the identity's signing capabilities.
+The Commitment engine is statless.
 
 ### `CommitmentLocalState`
 

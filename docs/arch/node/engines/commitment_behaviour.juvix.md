@@ -157,7 +157,6 @@ commitAction
     env := ActionInput.env input;
     cfg := ActionInput.cfg input;
     tt := ActionInput.trigger input;
-    localState := EngineEnv.localState env
   in
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=

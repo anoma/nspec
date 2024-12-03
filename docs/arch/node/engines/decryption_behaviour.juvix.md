@@ -156,7 +156,6 @@ decryptAction
     env := ActionInput.env input;
     cfg := ActionInput.cfg input;
     tt := ActionInput.trigger input;
-    localState := EngineEnv.localState env
   in
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
@@ -165,8 +164,8 @@ decryptAction
         let
           decryptedData :=
             Decryptor.decrypt
-              (DecryptionLocalState.decryptor localState)
-              (DecryptionLocalState.backend localState)
+              (DecryptionCfg.decryptor (EngineCfg.cfg cfg))
+              (DecryptionCfg.backend (EngineCfg.cfg cfg))
               (RequestDecryption.data request);
           responseMsg := case decryptedData of {
             | none := mkResponseDecryption@{

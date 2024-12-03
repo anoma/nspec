@@ -18,7 +18,6 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import arch.system.identity.identity open using {Decryptor; mkDecryptor};
     import arch.node.types.anoma_message as Anoma open;
     ```
 
@@ -43,16 +42,12 @@ syntax alias DecryptionMailboxState := Unit;
 
 ## Local state
 
-The local state of a Decryption Engine instance includes the identity's
-decryption capabilities.
+The decryption engine is stateless.
 
 ### `DecryptionLocalState`
 
 ```juvix
-type DecryptionLocalState := mkDecryptionLocalState@{
-  decryptor : Decryptor Backend Plaintext Ciphertext;
-  backend : Backend;
-};
+syntax alias DecryptionLocalState := Unit;
 ```
 
 ???+ quote "Arguments"
@@ -95,12 +90,7 @@ module decryption_environment_example;
 
 decryptionEnv : DecryptionEnv :=
     mkEngineEnv@{
-      localState := mkDecryptionLocalState@{
-        decryptor := mkDecryptor@{
-          decrypt := \{_ x := some x};
-        };
-        backend := BackendLocalMemory;
-      };
+      localState := unit;
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []
