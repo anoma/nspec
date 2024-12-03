@@ -52,7 +52,7 @@ Brief summary of the purpose of the engine.
 ```juvix
 TemplateEngine : Type :=
   Engine
-    TemplateCfg
+    TemplateLocalCfg
     TemplateLocalState
     TemplateMailboxState
     TemplateTimerHandle

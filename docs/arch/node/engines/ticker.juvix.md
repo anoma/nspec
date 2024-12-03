@@ -59,7 +59,7 @@ receiving a `Count` message. The initial state initializes the counter.
 ```juvix
 TickerEngine : Type :=
   Engine
-    TickerCfg
+    TickerLocalCfg
     TickerLocalState
     TickerMailboxState
     TickerTimerHandle
