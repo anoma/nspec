@@ -20,4 +20,4 @@ A **resource** is a composite structure `Resource` that contains the following c
 |`nullifierKeyCommitment`|`NullifierKeyCommitment`|is a nullifier key commitment. Corresponds to the nullifier key $nk$ used to derive the resource nullifier (nullifiers are further described [here](./computable_components/nullifier.md))|
 |`randSeed`|`RandSeed`|randomness seed used to derive whatever randomness needed|
 
-To distinguish between the resource data structure consisting of the resource components and a resource as a unit of state identified by just one (or some) of the resource computed fields, we sometimes refer to the former as a *resource object*.
+To distinguish between the resource data structure consisting of the resource components and a resource as a unit of state identified by just one (or some) of the resource computed fields, we sometimes refer to the former as a *resource object*. Data which is referenced by the resource object - such as the preimage of `valueRef` - we refer to as *resource-linked data*.
