@@ -103,7 +103,7 @@ findMostRecentWrite
   };
 ```
 
--- add write lock
+-- add read lock
 ```juvix
 addReadAccess
   (dag : DAGStructure)
