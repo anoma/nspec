@@ -45,7 +45,7 @@ A proving system must have the following properties:
 
 For a statement `f`, `Verify(vk, x, proof) = True` implies that `f x w = True` and `Verify(vk, x, proof) = False` implies that `f x w = False`.
 
-Certain proving systems may also be **zero-Knowledge**, meaning that the produced proofs reveal no information other than their own validity.
+Certain proving systems may also be **zero-knowledge**, meaning that the produced proofs reveal no information other than their own validity.
 
 A proof $\pi$ for which $Verify(pr) = True$ is considered valid.
 
