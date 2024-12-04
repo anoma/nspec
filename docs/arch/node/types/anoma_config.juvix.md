@@ -10,7 +10,27 @@ search:
     ```juvix
     module arch.node.types.anoma_config;
 
-    -- import arch.node.engines.ticker_config open;
+    {- Examples -}
+
+    import arch.node.engines.template_config open;
+    import arch.node.engines.ticker_config open;
+
+    {- Identity -}
+
+    import arch.node.engines.identity_management_config open;
+    import arch.node.engines.decryption_config open;
+    import arch.node.engines.encryption_config open;
+    import arch.node.engines.commitment_config open;
+
+    import arch.node.engines.verification_config open;
+    import arch.node.engines.reads_for_config open;
+    import arch.node.engines.signs_for_config open;
+    import arch.node.engines.naming_config open;
+
+    import arch.node.engines.local_key_value_storage_config open;
+    import arch.node.engines.logging_config open;
+    import arch.node.engines.wall_clock_config open;
+    import arch.node.engines.local_time_series_storage_config open;
     ```
 
 # Anoma Engine Configuration
@@ -28,8 +48,26 @@ of the engine `TickerEngine` is of type `TickerCfg`.
 <!-- --8<-- [start:anoma-config-type] -->
 ```juvix
 type Cfg :=
-  | CfgTicker -- TickerCfg
-  | CfgCommitment -- TickerCfg
-  | CfgDecryption -- TickerCfg
+  {- Examples -}
+
+  | CfgTemplate TemplateCfg
+  | CfgTicker TickerCfg
+
+  {- Identity -}
+
+  | CfgIdentityManagement IdentityManagementCfg
+  | CfgDecryption DecryptionCfg
+  | CfgEncryption EncryptionCfg
+  | CfgCommitment CommitmentCfg
+
+  | CfgVerification VerificationCfg
+  | CfgReadsFor ReadsForCfg
+  | CfgSignsFor SignsForCfg
+  | CfgNaming NamingCfg
+
+  | CfgLocalKeyValueStorage LocalKVStorageCfg
+  | CfgLogging LoggingCfg
+  | CfgWallClock WallClockCfg
+  | CfgLocalTSeries LocalTSStorageCfg
 ```
 <!-- --8<-- [end:anoma-config-type] -->

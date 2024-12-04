@@ -15,13 +15,16 @@ hide:
 module everything;
 
 {- Prelude -}
+
 import prelude;
 
 {- System -}
+
 import arch.system.identity.index;
 import arch.system.identity.identity;
 
 {- Types -}
+
 -- import arch.node.types;
 
 import arch.node.types.basics;
@@ -39,10 +42,20 @@ import arch.node.types.engine_behaviour;
 import arch.node.types.engine;
 
 {- Engines -}
+
+{- Examples -}
+
+import arch.node.engines.template_messages;
+import arch.node.engines.template_environment;
+import arch.node.engines.template_behaviour;
+import arch.node.engines.template;
+
 import arch.node.engines.ticker_messages;
 import arch.node.engines.ticker_environment;
 import arch.node.engines.ticker_behaviour;
 import arch.node.engines.ticker;
+
+{- Identity -}
 
 import arch.node.engines.commitment_messages;
 import arch.node.engines.commitment_config;
@@ -115,10 +128,4 @@ import arch.node.engines.local_time_series_storage_config;
 import arch.node.engines.local_time_series_storage_environment;
 import arch.node.engines.local_time_series_storage_behaviour;
 import arch.node.engines.local_time_series_storage;
-
-{- Template for new engines -}
-import arch.node.engines.template;
-import arch.node.engines.template_messages;
-import arch.node.engines.template_environment;
-import arch.node.engines.template_behaviour;
 ```
