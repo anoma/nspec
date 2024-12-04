@@ -11,10 +11,29 @@ search:
     module arch.node.types.anoma_config;
 
     {- Examples -}
+
     import arch.node.engines.template_config open;
     import arch.node.engines.ticker_config open;
 
+    {- Identity -}
+
+    import arch.node.engines.identity_management_config open;
+    import arch.node.engines.decryption_config open;
+    import arch.node.engines.encryption_config open;
+    import arch.node.engines.commitment_config open;
+
+    import arch.node.engines.verification_config open;
+    import arch.node.engines.reads_for_config open;
+    import arch.node.engines.signs_for_config open;
+    import arch.node.engines.naming_config open;
+
+    import arch.node.engines.local_key_value_storage_config open;
+    import arch.node.engines.logging_config open;
+    import arch.node.engines.wall_clock_config open;
+    import arch.node.engines.local_time_series_storage_config open;
+
     {- Network -}
+
     -- import arch.node.net.router_config open;
     -- import arch.node.net.node_proxy_config open;
     -- import arch.node.net.transport_config open;
@@ -38,14 +57,29 @@ of the engine `TickerEngine` is of type `TickerCfg`.
 ```juvix
 type Cfg :=
   {- Examples -}
-  | CfgTemplate -- TemplateCfg
-  | CfgTicker -- TickerCfg
+
+  | CfgTemplate TemplateCfg
+  | CfgTicker TickerCfg
 
   {- Identity -}
-  | CfgCommitment -- TickerCfg
-  | CfgDecryption -- TickerCfg
+
+  | CfgIdentityManagement IdentityManagementCfg
+  | CfgDecryption DecryptionCfg
+  | CfgEncryption EncryptionCfg
+  | CfgCommitment CommitmentCfg
+
+  | CfgVerification VerificationCfg
+  | CfgReadsFor ReadsForCfg
+  | CfgSignsFor SignsForCfg
+  | CfgNaming NamingCfg
+
+  | CfgLocalKeyValueStorage LocalKVStorageCfg
+  | CfgLogging LoggingCfg
+  | CfgWallClock WallClockCfg
+  | CfgLocalTSeries LocalTSStorageCfg
 
   {- Network -}
+
   -- | CfgRouter RouterCfg
   -- | CfgNodeProxy NodeProxyCfg
   -- | CfgTransport TransportCfg
