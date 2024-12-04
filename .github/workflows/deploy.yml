@@ -3,7 +3,8 @@ name: deploy
   push:
     branches:
       - main
-      - v[0-9]+(\.[0-9]+)? # only major.minor versions
+      - v[0-9]+(\.[0-9]+)? # only major.minor 
+      - test-ci
 env:
   CI: true
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -12,7 +13,7 @@ env:
   POETRY_VERSION: 1.8.3
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
-  INSIDERS_VERSION: 9.5.46-insiders-4.53.14
+  INSIDERS_VERSION: 9.5.47-insiders-4.53.14
   JUVIX_VERSION: v0.6.8
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
@@ -104,7 +105,9 @@ jobs:
           SITE_DIR: ${{ env.BRANCH_NAME }}
           SITE_URL: https://specs.anoma.net/${{ env.BRANCH_NAME }}/
           SITE_VERSION: ${{ steps.version.outputs.version }}-${{ steps.commit.outputs.commit }}
-          COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
+          COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and
+          Juvix ${{ env.JUVIX_VERSION }}
+          
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
@@ -114,11 +117,59 @@ jobs:
           clean: false
           git-config-name: Anoma Research
           git-config-email: arts@heliax.dev
-      - uses: JamesIves/github-pages-deploy-action@v4.6.4
+  
+  update-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.0
         with:
-          folder: ${{ env.BRANCH_NAME }}
-          target-folder: ${{ env.BRANCH_NAME == 'main' && 'latest' || env.BRANCH_NAME }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          clean: false
-          git-config-name: Anoma Research
-          git-config-email: arts@heliax.dev
+          submodules: true
+          fetch-depth: 0
+      - run: |
+          git config --global user.name 'Anoma Research'
+          git config --global user.email 'arts@heliax.dev'
+      - name: Get the latest tag
+        id: get-latest-tag
+        run: |
+          LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+      - name: Check and update latest folder
+        run: |
+          # Ensure we are in the gh-pages branch
+          git fetch origin gh-pages
+          git checkout gh-pages
+
+          # Check if `lst` folder exists
+          if [ ! -d "lst" ]; then
+            echo "'lst' folder does not exist. Creating it."
+            mkdir lst
+          fi
+
+          # Check if the lst tag folder exists
+          if [ ! -d "$LATEST_TAG" ]; then
+            echo "Folder for tag $LATEST_TAG does not exist. Exiting."
+            exit 1
+          fi
+
+          # Check if the content of `lst` matches the lst tag
+          if ! diff -qr "$LATEST_TAG" "lst" > /dev/null; then
+            echo "Updating 'lst' folder with the content of $LATEST_TAG."
+            rm -rf lst
+            cp -r "$LATEST_TAG" lst
+          else
+            echo "'lst' folder is already up-to-date with $LATEST_TAG."
+          fi
+
+          # Stage, commit, and push changes
+          git add lst
+          git commit -m "Update 'lst' folder to $LATEST_TAG" || echo "No changes to commit."
+          git push origin gh-pages
+        env:
+          LATEST_TAG: ${{ env.LATEST_TAG }}
+
+
+
+
+
+

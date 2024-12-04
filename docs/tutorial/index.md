@@ -9,10 +9,10 @@ tags:
 
 # Tutorials and guidelines for writing Anoma Specification documentation
 
-The following tutorials and guidelines are available. If you want to contribute
-to this website in anyhow, ask for access to the
-**[anoma/nspec](http://github.com/anoma/nspec)** repository, and submit a pull
-request with your changes.
+The following tutorials and guidelines are intended for specs writers. If you
+want to contribute to this website, check the repository
+**[anoma/nspec](https://github.com/anoma/nspec)** and submit a pull request with
+your changes.
 
 - [[Prepare working environment]]
 - [[Use Git and GitHub]]

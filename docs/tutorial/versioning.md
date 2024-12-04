@@ -21,20 +21,21 @@ MAJOR.MINOR.PATCH
 
 - Major version (X.0.0): Incremented for backwards-incompatible changes, like:
 
-    - Breaking changes to core interfaces or types
-    - Removal of deprecated functionality
-    - Major architectural changes
+  - Breaking changes to core interfaces or types
+  - Removal of deprecated functionality
+  - Major architectural changes
 
-- Minor version (0.X.0): Incremented for backwards-compatible feature additions:
+- Minor version (`0.X.0`): Incremented for backwards-compatible feature additions:
 
-    - New engines, message types, or behaviours
-    - New functionality that doesn't break existing code
-    - Deprecation notices for future breaking changes
+  - New engines, message types, or behaviours
+  - New functionality that does not break existing code
+  - Deprecation notices for future breaking changes
 
-- Patch version (0.0.X): Incremented for backwards-compatible bug fixes:
+- Patch version (`0.0.X`): Incremented for backwards-compatible bug fixes:
 
-    - Documentation improvements
-    - Bug fixes that don't change interfaces
+  - Documentation improvements:
+
+    - Bug fixes that do not change interfaces
     - Minor code clean-up and refactoring
 
 ## Preparing a new version
