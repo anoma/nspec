@@ -7,7 +7,7 @@ search:
 
 # Transaction
 
-A transaction is a necessary and sufficient collection of fields required to apply a state update to the state.
+A transaction is a necessary and sufficient collection of fields required to validate and apply a state update to the state.
 It is a composite structure that contains the following components:
 
 |Component|Type|Description|
