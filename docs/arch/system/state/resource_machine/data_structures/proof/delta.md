@@ -5,7 +5,7 @@
 |Name|Type|Description|
 |-|-|-|
 |`delta`|`DeltaHash`|Transaction delta (computed from compliance unit deltas by adding them together)
-|`expectedBalance`|`Balance`| Balanced transactions have delta pre-image 0 for all involved kinds
+|`expectedBalance`|`Balance`| Balanced transactions have delta pre-image 0 for all involved kinds, for unbalanced transactions `expectedBalance` is a non-zero value
 
 ### Witness
 

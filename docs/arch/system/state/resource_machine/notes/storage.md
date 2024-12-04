@@ -5,6 +5,9 @@ search:
   boost: 2
 ---
 
+!!! warning
+    Will be updated soon
+
 # Stored data format
 
 The ARM state that needs to be stored includes resource objects, the commitment accumulator and the nullifier set.

@@ -14,10 +14,7 @@ An action is a composite structure of type `Action` that contains the following 
 !!! note
     `resourceLogicProofs` type: For function privacy, we assume that the produced logic proof is recursive, and the verifying key used to verify the proof is either universal and publicly known (in case we have a recursion) - then the verifying key for the inner proof is committed to in the `LogicRefHash` parameter - or it is contained directly in the `LogicRefHash` parameter. This part isn't properly generalised yet.
 
-!!! warning
-    The key for the proof map probably shouldn't be `BitString` but I couldn't figure out the universal enough key types that can be used as a way to find all associated inputs. Perhaps using literally the same key as for `applicationData` will make it straightforward enough
-
-Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's `created` or `consumed` correspondingly. A resource is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's `consumed` set. A resource is said to be *created in the action* for a valid action if its commitment is in the action's `created` set.
+Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's `created` or `consumed` correspondingly. A resource is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's `consumed` list. A resource is said to be *created in the action* for a valid action if its commitment is in the action's `created` list.
 
 !!! note
     Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.

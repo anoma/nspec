@@ -38,6 +38,9 @@ A proving system $PS$ consists of a pair of algorithms, $(Prove, Verify)$:
 - $Prove(pk, x, w): PS.ProvingKey \times PS.Instance \times PS.Witness \rightarrow PS.Proof$
 - $Verify(vk, x, \pi): PS.VerifyingKey \times PS.Instance \times PS.Proof \rightarrow Bool.
 
+!!! note
+    To verify a proof created for instance `x`, the same instance `x` must be used. For instances that contain elements of the same type, the order of the elements must be preserved.
+
 A proving system must have the following properties:
 
 - **Completeness**: it must be possible to make a proof for a statement which is true.
