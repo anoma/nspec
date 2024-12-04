@@ -6,7 +6,7 @@ search:
 ---
 
 # Applications
-The ARM applications are characterised by a set of resource logics and its read and write interfaces.
+The ARM applications are characterised by a set of resource logics and associated read and write interfaces.
 
 $Application = (AppLogic, AppReadInterface, AppWriteInterface)$, where
 
