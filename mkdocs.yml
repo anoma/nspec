@@ -167,7 +167,7 @@ nav:
                       - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
                       - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
                       - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
-  - Quick links: ./indexes/links.md
+  - Index of links: ./indexes/links.md
   - Juvix modules:
       - Prelude: ./prelude.juvix.md
       - Module Index: ./indexes/juvix_modules.md
@@ -218,8 +218,6 @@ extra:
       link: https://youtube.com/anoma
     - icon: material/email
       link: mailto:arts@heliax.dev
-  generator: false
-  version: 1.0
 theme:
   name: material
   logo: assets/logo.svg
