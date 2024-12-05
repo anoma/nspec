@@ -131,6 +131,7 @@ jobs:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
           SITE_VERSION: (PR ${{ github.event.pull_request.number }})
+          PROCESS_JUVIX: true
       - name: The build failed comment
         if: failure()
         run: |
@@ -152,6 +153,7 @@ jobs:
           SITE_VERSION: (PR:${{ github.event.pull_request.number }} - Branch:${{env.BRANCH_NAME }} - Commit:${{ steps.commit.outputs.commit }} - Main:${{ steps.main-commit.outputs.commit }})
           COPYRIGHT: Powered by Mkdocs, Poetry ${{ env.POETRY_VERSION }}, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
           REMOVE_CACHE: true
+          PROCESS_JUVIX: true
       - if: steps.mkdocs-insiders.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
