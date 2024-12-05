@@ -31,7 +31,7 @@ Ensuring the correctness of the transaction is achieved with the help of non-int
 3. to prove the transaction satisfies the user constraints, there are [resource logic proofs](./data_structures/proof/logic.md).
 
 
-![Proof contexts associated with data structures](./../../../images/proof_contexts.svg)
+![Proof contexts associated with data structures](proof_contexts.svg)
 
 
 ## The role of the ARM

@@ -1,3 +1,12 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
+# Compliance proof
+
 Compliance proofs are computed over [compliance units](./../compliance_unit.md).
 
 ## Compliance inputs
@@ -6,8 +15,8 @@ Compliance proofs are computed over [compliance units](./../compliance_unit.md).
 
 |Name|Type|Description|
 |-|-|-|
-|`consumed`|`List (NullifierRef, RootRef, LogicRefHash)`|Includes nullifiers' references of all of the consumed resources in the compliance unit, root references, and commitments to [`logicRef` resource components](./../resource/definition.md) (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
-|`created`|`List (CommitmentRef, LogicRefHash)`|Commitments' references of all of the created resources in the compliance unit|
+|`consumed`|`List (NullifierRef, RootRef, LogicRefHash)`|Includes nullifiers' references of all consumed resources in the compliance unit, root references, and commitments to [`logicRef` resource components](./../resource/definition.md) (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
+|`created`|`List (CommitmentRef, LogicRefHash)`|Commitments' references of all created resources in the compliance unit|
 |`unitDelta`|`DeltaHash`|Unit delta|
 
 #### Witness
@@ -23,6 +32,7 @@ Compliance proofs are computed over [compliance units](./../compliance_unit.md).
     2. opening of `logicRefHash`
 
 !!! note
+
     The instance and witness values are expected to correspond to each other: the first tag in the instance corresponds to the first resource object in the witness, and so on. Note that in the compliance proof, the tag is recomputed from the object to verify that the tag is correct
 
 ## Compliance constraints
