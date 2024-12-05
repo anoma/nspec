@@ -9,6 +9,56 @@ list_wikilinks: false
 
 # Change Log
 
+## v0.1.2
+
+Progress on translating the old specification to the new Juvix codebase, fixing
+typechecking errors. Removed unsupported documents from the codebase. Building
+specs no longer requires Juvix by default - use `PROCESS_JUVIX=true` flag with
+mkdocs to process Juvix Markdown.
+
+### FIXES
+
+- [Node architecture](node)
+  -  [**#235**](https://github.com/anoma/nspec/pull/235): Revisit [[Decryption Engine]]. Changes to the messages,
+    environment, and behaviour types to conform the recent template changes.
+  -  [**#236**](https://github.com/anoma/nspec/pull/236): Revisit [[Encryption Engine]] and [[Reads Engine]]. These are
+    bundled since they rely on eachother's messages. Changes to the messages, environment, and behavior types to conform
+    to the recent template changes
+  -  [**#262**](https://github.com/anoma/nspec/pull/262): Update[[Engine writing
+    conventions|writing conventions]], Fix [[Template Behaviour|template
+    behaviour]] diagrams and update Mkdocs Na
+  -  [**#263**](https://github.com/anoma/nspec/pull/263): To the [[Hardware
+    Component]] section, add [[Local Key Value Store Engine]] , [[Logging
+    Engine]] and [[Local Time Series Storage Engine]], [[Wall Clock Engine]].
+  -  [**#268**](https://github.com/anoma/nspec/pull/268): Add to [[Anoma Configuration]] section, the [[Identity Component]].
+  -  [**#269**](https://github.com/anoma/nspec/pull/269): Fix type error due to
+    not making configs when spawning engines in [[Identity Management Engine]].
+  -  [**#273**](https://github.com/anoma/nspec/pull/273): Replace X Machine by X
+    Component in the [[Node Architecture]] section.
+- [Python-related changes](python)
+  -  [**#271**](https://github.com/anoma/nspec/pull/271): update mkdocs juvix plugin v0.4.8
+  -  [**#272**](https://github.com/anoma/nspec/pull/272): Update mkdocs juvix plugin v0.4.9
+- [Repository maintenance and CI](.)
+  -  [**#195**](https://github.com/anoma/nspec/pull/195): Optimize documentation build process and upgrade dependencies
+  -  [**#262**](https://github.com/anoma/nspec/pull/262): Template fixes: diagrams, nav
+  -  [**#266**](https://github.com/anoma/nspec/pull/266): Remove old
+    documentation and update table of contents: Remove basic-abstractions,
+    scope, applications, implementations, and several other files that were
+    decided not to be included in this version of the specification.
+- [Tutorial and documentation](tutorial)
+  -  [**#257**](https://github.com/anoma/nspec/pull/257): Add description of our
+    [[Use Git and GitHub|Git workflow]] and new integration
+    branches strategy.
+  -  [**#265**](https://github.com/anoma/nspec/pull/265): Rename `TemplateCfg`
+    to `TemplateLocalCfg`, add `TemplateCfg` similar to `TemplateEnv`, apply
+    the same to `Ticker`.
+  -  [**#274**](https://github.com/anoma/nspec/pull/274): Update engine writing
+    conventions: [[Engine writing conventions|#update-the-table-of-contents]]
+    and Table of Contents.
+- [Juvix types and updates](types)
+  -  [**#267**](https://github.com/anoma/nspec/pull/267): Fix all the type
+    checking errors in engine definitions.
+
 ## v0.1.1
 
 Major revision of the engine definitions, the template, and the ticker engine.
@@ -65,7 +115,6 @@ Major revision of the engine definitions, the template, and the ticker engine.
     [#246](https://github.com/anoma/nspec/pull/246)), precomputation results are
     now passed directly as action arguments, and the `action` field has been
     replaced with action labels defined by label type.
-
   -  [**#249**](https://github.com/anoma/nspec/pull/249): Remove `name` field in Engine instances due to PR 242
   -  [**#255**](https://github.com/anoma/nspec/pull/255): Make ByteString `String` instead of `Nat`
   -  [**#258**](https://github.com/anoma/nspec/pull/258): Engine-related changes: add type parameter to parameterized the type of message and [rename `EngineConfig` to `EngineCfg`](https://github.com/anoma/nspec/pull/258/commits/e35d75f8a187155629fa1b0a5b72ea6983a49e2d)
@@ -97,7 +146,7 @@ project per version, with better documentation and descriptions of the changes.
     application architecture sections
   - [**#115**](https://github.com/anoma/nspec/pull/115): Refactor file and folder names: add
     snake_case convention
-- [General specification changes](spec)
+- [Specification and design](spec)
   - [**#192**](https://github.com/anoma/nspec/pull/192): Port identity engines to v2 template
 - [System and node architecture](sys)
   - [**#210**](https://github.com/anoma/nspec/pull/210): Fix engine message, environment and

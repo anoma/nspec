@@ -13,3 +13,4 @@ types = { name = "Juvix types and updates", path = "types" }
 apps = { name = "Application documentation", path = "apps" }
 tutorial = { name = "Tutorial and documentation", path = "tutorial" }
 python = { name = "Python-related changes", path = "python" }
+spec = { name = "General specification changes", path = "spec" }
