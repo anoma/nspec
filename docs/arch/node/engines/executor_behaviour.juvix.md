@@ -54,7 +54,7 @@ syntax alias ExecutorActionArguments := Unit;
     ExecutorAction : Type :=
       Action
         ExecutorCfg
-        ExecutorLocalState 
+        ExecutorLocalState
         ExecutorMailboxState
         ExecutorTimerHandle
         ExecutorActionArguments
@@ -64,9 +64,9 @@ syntax alias ExecutorActionArguments := Unit;
     ```
 
     ### ExecutorActionInput
-    
+
     ```juvix
-    ExecutorActionInput : Type := 
+    ExecutorActionInput : Type :=
       ActionInput
         ExecutorCfg
         ExecutorLocalState
@@ -120,7 +120,7 @@ processReadAction
   in case getMsgFromTimestampedTrigger trigger of {
     | some (MsgShard (ShardMsgKVSRead (mkKVSReadMsg@{key := key; data := value}))) :=
       let
-        envelope (target : EngineID) (msg : Anoma.Msg) : EngineMsg Anoma.Msg := 
+        envelope (target : EngineID) (msg : Anoma.Msg) : EngineMsg Anoma.Msg :=
           mkEngineMsg@{
             sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
             target := target;
@@ -146,7 +146,7 @@ processReadAction
         staleReadLocations := 
           Set.difference (ExecutorCfg.lazy_read_keys cfg) (Set.fromList (Map.keys reads));
         readStaleMsgs := map readMsg (Set.toList staleReadLocations);
-        staleWriteLocations := 
+        staleWriteLocations :=
           Set.difference (ExecutorCfg.may_write_keys cfg) (Set.fromList (Map.keys writes));
         writeStaleMsgs := map writeMsg (Set.toList staleWriteLocations);
         staleMsgs := readStaleMsgs ++ writeStaleMsgs;
@@ -157,11 +157,11 @@ processReadAction
           (ExecutorLocalState.program_state local)
           stepInput;
       in case stepResult of {
-        | error err := 
-            let 
+        | error err :=
+            let
               local := EngineEnv.localState env;
-              finishedMsg := 
-              envelope (ExecutorCfg.issuer cfg) 
+              finishedMsg :=
+              envelope (ExecutorCfg.issuer cfg)
                 (MsgExecutor (ExecutorMsgExecutorFinished mkExecutorFinishedMsg@{
                   success := false;
                   values_read := Map.toList reads;
@@ -169,14 +169,14 @@ processReadAction
               }));
             in some mkActionEffect@{
                 env := env;
-                msgs := finishedMsg :: staleMsgs;  
+                msgs := finishedMsg :: staleMsgs;
                 timers := [];
                 engines := []
               }
         | ok (mkPair program' outputs) :=
           let
             sendRead (key : KVSKey)
-                     (msgs : List (EngineMsg Anoma.Msg)) : 
+                     (msgs : List (EngineMsg Anoma.Msg)) :
                      List (EngineMsg Anoma.Msg) :=
               let msg :=
                 envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
@@ -189,9 +189,9 @@ processReadAction
                 | true := msg :: msgs
                 | false := msgs
               };
-            sendWrite (key : KVSKey) 
-                      (value : KVSDatum) 
-                      (msgs : List (EngineMsg Anoma.Msg)) : 
+            sendWrite (key : KVSKey)
+                      (value : KVSDatum)
+                      (msgs : List (EngineMsg Anoma.Msg)) :
                       List (EngineMsg Anoma.Msg) :=
               let msg :=
                 envelope (keyToShard key) 
@@ -212,7 +212,7 @@ processReadAction
                   msgs := snd acc;
               in case out of {
                 | left key := mkPair state (sendRead key msgs)
-                | right (mkPair key value) := 
+                | right (mkPair key value) :=
                     let newState := state@ExecutorLocalState{
                         completed_writes := Map.insert key value (ExecutorLocalState.completed_writes state)
                       };
@@ -230,11 +230,11 @@ processReadAction
                   timers := [];
                   engines := []
                 }
-            | true :=  
-              let 
-                finishedMsg := 
-                  envelope 
-                    (ExecutorCfg.issuer cfg) 
+            | true :=
+              let
+                finishedMsg :=
+                  envelope
+                    (ExecutorCfg.issuer cfg)
                     (MsgExecutor (ExecutorMsgExecutorFinished mkExecutorFinishedMsg@{
                       success := true;
                       values_read := Map.toList reads;
@@ -283,7 +283,7 @@ processReadActionLabel : ExecutorActionExec := Seq [ processReadAction ];
     ### `ExecutorGuardOutput`
 
     <!-- --8<-- [start:ExecutorGuardOutput] -->
-    ```juvix 
+    ```juvix
     ExecutorGuardOutput : Type :=
       GuardOutput
         ExecutorCfg

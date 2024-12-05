@@ -35,13 +35,16 @@ The executor environment maintains state needed during transaction execution inc
     ```
 
 ???+ quote "Functions"
-    
+
     `executeStep`:
     : Takes the executable code, current program state, and read key-value pair and returns either:
       - Error string on failure
       - New program state and list of either:
         - Left key for read requests
         - Right (key, value) for write requests
+
+    `keyToShard`:
+    : Maps a key to the EngineID of the shard responsible for it
 
 ## Mailbox states
 
@@ -69,10 +72,10 @@ type ExecutorLocalState := mkExecutorLocalState {
 
     `program_state`
     : Current state of the executing program
-    
+
     `completed_reads`
     : Map of keys to values that have been successfully read
-    
+
     `completed_writes`
     : Map of keys to values that have been successfully written
 
