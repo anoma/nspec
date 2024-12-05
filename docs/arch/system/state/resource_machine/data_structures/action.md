@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Action
 
 An action is a composite structure of type `Action` that contains the following components:
