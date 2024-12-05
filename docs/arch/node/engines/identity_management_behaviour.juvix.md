@@ -16,6 +16,8 @@ tags:
     module arch.node.engines.identity_management_behaviour;
 
     import prelude open;
+    import arch.node.engines.commitment_config open;
+    import arch.node.engines.decryption_config open;
     import arch.node.engines.commitment_environment open;
     import arch.node.engines.decryption_environment open;
     import arch.node.engines.identity_management_environment open;
@@ -128,30 +130,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 ### Helper Functions
 
 ```juvix
-makeDecryptEnv
-  (env : IdentityManagementEnv)
-  (backend' : Backend)
-  (addr : EngineID)
-  : DecryptionEnv :=
-  mkEngineEnv@{
-    localState := unit;
-    mailboxCluster := Map.empty;
-    acquaintances := Set.empty;
-    timers := []
-  };
-
-makeCommitmentEnv
-  (env : IdentityManagementEnv)
-  (backend' : Backend)
-  (addr : EngineID)
-  : CommitmentEnv :=
-  mkEngineEnv@{
-    localState := unit;
-    mailboxCluster := Map.empty;
-    acquaintances := Set.empty;
-    timers := []
-  };
-
 hasCommitCapability (capabilities : Capabilities) : Bool :=
   case capabilities of {
     | CapabilityCommit := true
@@ -173,7 +151,6 @@ isSubsetCapabilities
   (not (hasCommitCapability requested) || hasCommitCapability available)
   && (not (hasDecryptCapability requested) || hasDecryptCapability available);
 
-
 updateIdentityAndSpawnEngines
   (env : IdentityManagementEnv)
   (backend' : Backend)
@@ -181,11 +158,37 @@ updateIdentityAndSpawnEngines
   (identityInfo : IdentityInfo)
   (capabilities' : Capabilities)
   : Pair IdentityInfo (List (Pair Cfg Env)) :=
-  case capabilities' of {
+  let decryptionConfig : DecryptionCfg :=
+        mkDecryptionCfg@{
+          decryptor := genDecryptor backend';
+          backend := backend';
+        };
+      decryptionEnv : DecryptionEnv :=
+        mkEngineEnv@{
+          localState := unit;
+          mailboxCluster := Map.empty;
+          acquaintances := Set.empty;
+          timers := []
+        };
+      decryptionEng : Pair Cfg Env :=
+        mkPair (CfgDecryption decryptionConfig) (EnvDecryption decryptionEnv);
+      commitmentConfig : CommitmentCfg :=
+        mkCommitmentCfg@{
+          signer := genSigner backend';
+          backend := backend';
+        };
+      commitmentEnv : CommitmentEnv :=
+        mkEngineEnv@{
+          localState := unit;
+          mailboxCluster := Map.empty;
+          acquaintances := Set.empty;
+          timers := []
+        };
+      commitmentEng : Pair Cfg Env :=
+        mkPair (CfgCommitment commitmentConfig) (EnvCommitment commitmentEnv);
+  in case capabilities' of {
     | CapabilityCommitAndDecrypt :=
-        let commitmentEnv := makeCommitmentEnv env backend' whoAsked;
-            decryptionEnv := makeDecryptEnv env backend' whoAsked;
-            spawnedEngines := [mkPair CfgCommitment (EnvCommitment commitmentEnv); mkPair CfgDecryption (EnvDecryption decryptionEnv)];
+        let spawnedEngines := [decryptionEng; commitmentEng];
             commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
             decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
@@ -194,16 +197,14 @@ updateIdentityAndSpawnEngines
             };
         in mkPair updatedIdentityInfo1 spawnedEngines
     | CapabilityCommit :=
-        let commitmentEnv := makeCommitmentEnv env backend' whoAsked;
-            spawnedEngines := [mkPair CfgCommitment (EnvCommitment commitmentEnv)];
+        let spawnedEngines := [commitmentEng];
             commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
               commitmentEngine := some (mkPair none commitmentEngineName)
             };
         in mkPair updatedIdentityInfo1 spawnedEngines
     | CapabilityDecrypt :=
-        let decryptionEnv := makeDecryptEnv env backend' whoAsked;
-            spawnedEngines := [mkPair CfgDecryption (EnvDecryption decryptionEnv)];
+        let spawnedEngines := [decryptionEng];
             decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
             updatedIdentityInfo1 := identityInfo@IdentityInfo{
               decryptionEngine := some (mkPair none decryptionEngineName)
