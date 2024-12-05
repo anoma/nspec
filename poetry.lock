@@ -1052,33 +1052,35 @@ files = [
 
 [[package]]
 name = "mkdocs-juvix-plugin"
-version = "0.4.6"
+version = "0.4.7"
 description = "MkDocs documentation with support for Juvix Markdown files"
 optional = false
-python-versions = "<3.14,>=3.10"
-files = [
-    {file = "mkdocs_juvix_plugin-0.4.6-py3-none-any.whl", hash = "sha256:dd34f8678d5e2997c5b08fd355920c81cabb4f88e8f0011ab0796c8eb25be888"},
-    {file = "mkdocs_juvix_plugin-0.4.6.tar.gz", hash = "sha256:d81fd6b338f871913aaa81ef20dcf2aaace43c601f193808d3b7bb34073a261c"},
-]
+python-versions = ">=3.10,<3.14"
+files = []
+develop = true
 
 [package.dependencies]
-bs4 = ">=0.0.2,<0.0.3"
-click = ">=8.1.7,<9.0.0"
-fuzzywuzzy = ">=0.18.0,<0.19.0"
-graphviz = ">=0.20.3,<0.21.0"
-intervaltree = ">=3.1.0,<4.0.0"
-mkdocs = ">=1.6.1,<2.0.0"
-mkdocs-material = ">=9.5.46,<10.0.0"
-ncls = ">=0.0.68,<0.0.69"
-pymdown-extensions = ">=10.11.2,<11.0.0"
-python-dotenv = ">=1.0.1,<2.0.0"
-python-levenshtein = ">=0.26.0,<0.27.0"
-questionary = ">=2.0.1,<3.0.0"
-rich = ">=13.9.4,<14.0.0"
-semver = ">=3.0.2,<4.0.0"
-toml = ">=0.10.2,<0.11.0"
-tqdm = ">=4.67.1,<5.0.0"
-trio = ">=0.27.0,<0.28.0"
+bs4 = "^0.0.2"
+click = "^8.1.7"
+fuzzywuzzy = "^0.18.0"
+graphviz = "^0.20.3"
+intervaltree = "^3.1.0"
+mkdocs = "^1.6.1"
+mkdocs-material = "^9.5.46"
+ncls = "^0.0.68"
+pymdown-extensions = "^10.11.2"
+python-dotenv = "^1.0.1"
+python-levenshtein = "^0.26.0"
+questionary = "^2.0.1"
+rich = "^13.9.4"
+semver = "^3.0.2"
+toml = "^0.10.2"
+tqdm = "^4.67.1"
+trio = "^0.27.0"
+
+[package.source]
+type = "directory"
+url = "../juvix-mkdocs"
 
 [[package]]
 name = "mkdocs-kroki-plugin"
@@ -1138,13 +1140,13 @@ test = ["mkdocs-d2-plugin", "mkdocs-include-markdown-plugin", "mkdocs-macros-tes
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.46"
+version = "9.5.47"
 description = "Documentation that simply works"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_material-9.5.46-py3-none-any.whl", hash = "sha256:98f0a2039c62e551a68aad0791a8d41324ff90c03a6e6cea381a384b84908b83"},
-    {file = "mkdocs_material-9.5.46.tar.gz", hash = "sha256:ae2043f4238e572f9a40e0b577f50400d6fc31e2fef8ea141800aebf3bd273d7"},
+    {file = "mkdocs_material-9.5.47-py3-none-any.whl", hash = "sha256:53fb9c9624e7865da6ec807d116cd7be24b3cb36ab31b1d1d1a9af58c56009a2"},
+    {file = "mkdocs_material-9.5.47.tar.gz", hash = "sha256:fc3b7a8e00ad896660bd3a5cc12ca0cb28bdc2bcbe2a946b5714c23ac91b0ede"},
 ]
 
 [package.dependencies]
@@ -2043,13 +2045,13 @@ type = ["importlib_metadata (>=7.0.2)", "jaraco.develop (>=7.21)", "mypy (>=1.12
 
 [[package]]
 name = "six"
-version = "1.16.0"
+version = "1.17.0"
 description = "Python 2 and 3 compatibility utilities"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 files = [
-    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
-    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+    {file = "six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"},
+    {file = "six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"},
 ]
 
 [[package]]
@@ -2359,4 +2361,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.14"
-content-hash = "75ffa3e4480dee5509c08f8a03b8c3543e5458975815f2d21bdaa067bb3e5c2d"
+content-hash = "e63f0a2eea8d414c97935d5452f2db99fb0f2ca9cb3a8e43ec3cc58b87fd9841"
