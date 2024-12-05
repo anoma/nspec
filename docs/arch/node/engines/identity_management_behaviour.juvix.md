@@ -158,7 +158,7 @@ updateIdentityAndSpawnEngines
   (identityInfo : IdentityInfo)
   (capabilities' : Capabilities)
   : Pair IdentityInfo (List (Pair Cfg Env)) :=
-  let decryptionConfig : DecryptionCfg := 
+  let decryptionConfig : DecryptionCfg :=
         mkDecryptionCfg@{
           decryptor := genDecryptor backend';
           backend := backend';
@@ -170,9 +170,9 @@ updateIdentityAndSpawnEngines
           acquaintances := Set.empty;
           timers := []
         };
-      decryptionEng : Pair Cfg Env := 
+      decryptionEng : Pair Cfg Env :=
         mkPair (CfgDecryption decryptionConfig) (EnvDecryption decryptionEnv);
-      commitmentConfig : CommitmentCfg := 
+      commitmentConfig : CommitmentCfg :=
         mkCommitmentCfg@{
           signer := genSigner backend';
           backend := backend';
@@ -184,7 +184,7 @@ updateIdentityAndSpawnEngines
           acquaintances := Set.empty;
           timers := []
         };
-      commitmentEng : Pair Cfg Env := 
+      commitmentEng : Pair Cfg Env :=
         mkPair (CfgCommitment commitmentConfig) (EnvCommitment commitmentEnv);
   in case capabilities' of {
     | CapabilityCommitAndDecrypt :=
