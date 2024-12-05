@@ -74,7 +74,7 @@ nav:
                   - Anoma Message: ./arch/node/types/anoma_message.juvix.md
                   - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
-          - Hardware Abstraction Machine:
+          - Hardware Component:
               - Local Key Value Storage Engine:
                   - Local Key Value Storage Engine: ./arch/node/engines/local_key_value_storage.juvix.md
                   - Local Key Value Storage Messages: ./arch/node/engines/local_key_value_storage_messages.juvix.md
@@ -99,7 +99,7 @@ nav:
                   - Wall Clock Configuration: ./arch/node/engines/wall_clock_config.juvix.md
                   - Wall Clock Environment: ./arch/node/engines/wall_clock_environment.juvix.md
                   - Wall Clock Behaviour: ./arch/node/engines/wall_clock_behaviour.juvix.md
-          - Identity Machine:
+          - Identity Component:
               - Identity Management Engine:
                   - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
                   - Identity Management Messages: ./arch/node/engines/identity_management_messages.juvix.md
