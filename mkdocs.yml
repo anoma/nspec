@@ -75,107 +75,79 @@ nav:
                   - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
           - Hardware Abstraction Machine:
-              - ./arch/node/hardware/index.md
-              - Local Storage Engines:
-                  - ./arch/node/hardware/local_storage_engines/index.md
-                  - Local Key Value Storage Engine:
-                      - ./arch/node/hardware/local_storage_engines/local_key_value_storage_engine/index.md
-                      - Messages:
-                          - GetValueKVStoreRequest: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/get_value_kv_store_request.md
-                          - GetValueKVStoreResponse: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/get_value_kv_store_response.md
-                          - SetValueKVStoreRequest: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/set_value_kv_store_request.md
-                          - SetValueKVStoreResponse: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/set_value_kv_store_response.md
-                          - DeleteValueKVStoreRequest: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/delete_value_kv_store_request.md
-                          - DeleteValueKVStoreResponse: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/messages/delete_value_kv_store_response.md
-                          - ValueChangedKVStore: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/notifications/value_changed_kv_store.md
-                      - Types:
-                          - GetValueKVStoreRequestV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/get_value_kv_store_request_v1.md
-                          - GetValueKVStoreResponseV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/get_value_kv_store_response_v1.md
-                          - SetValueKVStoreRequestV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/set_value_kv_store_request_v1.md
-                          - SetValueKVStoreResponseV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/set_value_kv_store_response_v1.md
-                          - DeleteValueKVStoreRequestV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/delete_value_kv_store_request_v1.md
-                          - DeleteValueKVStoreResponseV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/delete_value_kv_store_response_v1.md
-                          - StorageKeyV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/storage_key_v1.md
-                          - StorageValueV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/storage_value_v1.md
-                          - SuccessOperationV1: ./arch/node/hardware/local_storage_engines/local_kv_storage_engine/types/success_operation_kv_store_v1.md
-                  - Local Time Series Storage Engine:
-                      - ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/index.md
-                      - Messages:
-                          - GetDataTimeSeriesDBRequest: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/get_data_time_series_db_request.md
-                          - GetDataTimeSeriesDBResponse: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/get_data_time_series_db_response.md
-                          - RecordDataTimeSeriesDBRequest: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/record_data_time_series_db_request.md
-                          - RecordDataTimeSeriesDBResponse: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/record_data_time_series_db_response.md
-                          - DeleteDataTimeSeriesDBRequest: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/delete_data_time_series_db_request.md
-                          - DeleteDataTimeSeriesDBResponse: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/messages/delete_data_time_series_db_response.md
-                      - Notifications:
-                          - DataChangedTimeSeriesDB: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/notifications/data_changed_time_series_db.md
-                      - Types:
-                          - GetDataTimeSeriesDBRequestV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/get_data_time_series_db_request_v1.md
-                          - GetDataTimeSeriesDBResponseV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/get_data_time_series_db_response_v1.md
-                          - RecordDataTimeSeriesDBRequestV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/record_data_time_series_db_request_v1.md
-                          - RecordDataTimeSeriesDBResponseV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/record_data_time_series_db_response_v1.md
-                          - DeleteDataTimeSeriesDBRequestV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/delete_data_time_series_db_request_v1.md
-                          - DeleteDataTimeSeriesDBResponseV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/delete_data_time_series_db_response_v1.md
-                          - TimeSeriesDBDataV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/time_series_db_data_v1.md
-                          - TimeSeriesDBQueryV1: ./arch/node/hardware/local_storage_engines/local_timeseries_storage_engine/types/time_series_db_query_v1.md
-                  - Local Wall Clock Engine:
-                      - ./arch/node/hardware/local_wall_clock_engine/index.md
-                      - Messages:
-                          - LocalWallClockGetTime: ./arch/node/hardware/local_wall_clock_engine/messages/local_wall_clock_get_time.md
-                          - LocalWallClockGetTimeResult: ./arch/node/hardware/local_wall_clock_engine/messages/local_wall_clock_get_time_result.md
-                      - Types:
-                          - LocalWallClockGetTimeV1: ./arch/node/hardware/local_wall_clock_engine/types/local_wall_clock_get_time_v1.md
-                          - LocalWallClockGetTimeResultV1: ./arch/node/hardware/local_wall_clock_engine/types/local_wall_clock_get_time_result_v1.md
-                          - EpochTimestampV1: ./arch/node/hardware/local_wall_clock_engine/types/epoch_timestamp_v1.md
-                  - Local Logging Engine:
-                      - ./arch/node/hardware/local_logging_engine/index.md
-                      - Messages:
-                          - LocalLoggingAppend: ./arch/node/hardware/local_logging_engine/messages/local_logging_append.md
-                      - Notifications: ./arch/node/hardware/local_logging_engine/notifications.md
-                      - Types:
-                          - LocalLoggingAppendV1: ./arch/node/hardware/local_logging_engine/types/local_logging_append_v1.md
-                          - AppendValueV1: ./arch/node/hardware/local_logging_engine/types/append_value_v1.md
-              - Identity Machine:
-                  - Identity Management Engine:
-                      - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
-                      - Identity Management Engine Messages: ./arch/node/engines/identity_management_messages.juvix.md
-                      - Identity Management Engine Environment: ./arch/node/engines/identity_management_environment.juvix.md
-                      - Identity Management Engine Behaviour: ./arch/node/engines/identity_management_behaviour.juvix.md
-                  - Encryption Engine:
-                      - Encryption Engine: ./arch/node/engines/encryption.juvix.md
-                      - Encryption Engine Messages: ./arch/node/engines/encryption_messages.juvix.md
-                      - Encryption Engine Environment: ./arch/node/engines/encryption_environment.juvix.md
-                      - Encryption Engine Behaviour: ./arch/node/engines/encryption_behaviour.juvix.md
-                  - Decryption Engine:
-                      - Decryption Engine: ./arch/node/engines/decryption.juvix.md
-                      - Decryption Engine Messages: ./arch/node/engines/decryption_messages.juvix.md
-                      - Decryption Engine Environment: ./arch/node/engines/decryption_environment.juvix.md
-                      - Decryption Engine Behaviour: ./arch/node/engines/decryption_behaviour.juvix.md
-                  - Commitment Engine:
-                      - Commitment Engine: ./arch/node/engines/commitment.juvix.md
-                      - Commitment Messages: ./arch/node/engines/commitment_messages.juvix.md
-                      - Commitment Environment: ./arch/node/engines/commitment_environment.juvix.md
-                      - Commitment Behaviour: ./arch/node/engines/commitment_behaviour.juvix.md
-                  - Verification Engine:
-                      - Verification Engine: ./arch/node/engines/verification.juvix.md
-                      - Verification Engine Messages: ./arch/node/engines/verification_messages.juvix.md
-                      - Verification Engine Environment: ./arch/node/engines/verification_environment.juvix.md
-                      - Verification Engine Behaviour: ./arch/node/engines/verification_behaviour.juvix.md
-                  - Reads For Engine:
-                      - Reads For Engine: ./arch/node/engines/reads_for.juvix.md
-                      - Reads For Engine Messages: ./arch/node/engines/reads_for_messages.juvix.md
-                      - Reads For Engine Environment: ./arch/node/engines/reads_for_environment.juvix.md
-                      - Reads For Engine Behaviour: ./arch/node/engines/reads_for_behaviour.juvix.md
-                  - Signs For Engine:
-                      - Signs For Engine: ./arch/node/engines/signs_for.juvix.md
-                      - Signs For Engine Messages: ./arch/node/engines/signs_for_messages.juvix.md
-                      - Signs For Engine Environment: ./arch/node/engines/signs_for_environment.juvix.md
-                      - Signs For Engine Behaviour: ./arch/node/engines/signs_for_behaviour.juvix.md
-                  - Naming Engine:
-                      - Naming Engine: ./arch/node/engines/naming.juvix.md
-                      - Naming Engine Messages: ./arch/node/engines/naming_messages.juvix.md
-                      - Naming Engine Environment: ./arch/node/engines/naming_environment.juvix.md
-                      - Naming Engine Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
+              - Local Key Value Storage Engine:
+                  - Local Key Value Storage Engine: ./arch/node/engines/local_key_value_storage.juvix.md
+                  - Local Key Value Storage Messages: ./arch/node/engines/local_key_value_storage_messages.juvix.md
+                  - Local Key Value Storage Configuration: ./arch/node/engines/local_key_value_storage_config.juvix.md
+                  - Local Key Value Storage Environment: ./arch/node/engines/local_key_value_storage_environment.juvix.md
+                  - Local Key Value Storage Behaviour: ./arch/node/engines/local_key_value_storage_behaviour.juvix.md
+              - Local Time Series Storage Engine:
+                  - Local Time Series Storage Engine: ./arch/node/engines/local_time_series_storage.juvix.md
+                  - Local Time Series Storage Messages: ./arch/node/engines/local_time_series_storage_messages.juvix.md
+                  - Local Time Series Storage Configuration: ./arch/node/engines/local_time_series_storage_config.juvix.md
+                  - Local Time Series Storage Environment: ./arch/node/engines/local_time_series_storage_environment.juvix.md
+                  - Local Time Series Storage Behaviour: ./arch/node/engines/local_time_series_storage_behaviour.juvix.md
+              - Logging Engine:
+                  - Logging Engine: ./arch/node/engines/logging.juvix.md
+                  - Logging Messages: ./arch/node/engines/logging_messages.juvix.md
+                  - Logging Configuration: ./arch/node/engines/logging_config.juvix.md
+                  - Logging Environment: ./arch/node/engines/logging_environment.juvix.md
+                  - Logging Behaviour: ./arch/node/engines/logging_behaviour.juvix.md
+              - Wall Clock Engine:
+                  - Wall Clock Engine: ./arch/node/engines/wall_clock.juvix.md
+                  - Wall Clock Messages: ./arch/node/engines/wall_clock_messages.juvix.md
+                  - Wall Clock Configuration: ./arch/node/engines/wall_clock_config.juvix.md
+                  - Wall Clock Environment: ./arch/node/engines/wall_clock_environment.juvix.md
+                  - Wall Clock Behaviour: ./arch/node/engines/wall_clock_behaviour.juvix.md
+          - Identity Machine:
+              - Identity Management Engine:
+                  - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
+                  - Identity Management Messages: ./arch/node/engines/identity_management_messages.juvix.md
+                  - Identity Management Configuration: ./arch/node/engines/identity_management_config.juvix.md
+                  - Identity Management Environment: ./arch/node/engines/identity_management_environment.juvix.md
+                  - Identity Management Behaviour: ./arch/node/engines/identity_management_behaviour.juvix.md
+              - Encryption Engine:
+                  - Encryption Engine: ./arch/node/engines/encryption.juvix.md
+                  - Encryption Messages: ./arch/node/engines/encryption_messages.juvix.md
+                  - Encryption Configuration: ./arch/node/engines/encryption_config.juvix.md
+                  - Encryption Environment: ./arch/node/engines/encryption_environment.juvix.md
+                  - Encryption Behaviour: ./arch/node/engines/encryption_behaviour.juvix.md
+              - Decryption Engine:
+                  - Decryption Engine: ./arch/node/engines/decryption.juvix.md
+                  - Decryption Messages: ./arch/node/engines/decryption_messages.juvix.md
+                  - Decryption Configuration: ./arch/node/engines/decryption_config.juvix.md
+                  - Decryption Environment: ./arch/node/engines/decryption_environment.juvix.md
+                  - Decryption Behaviour: ./arch/node/engines/decryption_behaviour.juvix.md
+              - Commitment Engine:
+                  - Commitment Engine: ./arch/node/engines/commitment.juvix.md
+                  - Commitment Messages: ./arch/node/engines/commitment_messages.juvix.md
+                  - Commitment Configuration: ./arch/node/engines/commitment_config.juvix.md
+                  - Commitment Environment: ./arch/node/engines/commitment_environment.juvix.md
+                  - Commitment Behaviour: ./arch/node/engines/commitment_behaviour.juvix.md
+              - Verification Engine:
+                  - Verification Engine: ./arch/node/engines/verification.juvix.md
+                  - Verification Messages: ./arch/node/engines/verification_messages.juvix.md
+                  - Verification Configuration: ./arch/node/engines/verification_config.juvix.md
+                  - Verification Environment: ./arch/node/engines/verification_environment.juvix.md
+                  - Verification Behaviour: ./arch/node/engines/verification_behaviour.juvix.md
+              - Reads For Engine:
+                  - Reads For Engine: ./arch/node/engines/reads_for.juvix.md
+                  - Reads For Messages: ./arch/node/engines/reads_for_messages.juvix.md
+                  - Reads For Configuration: ./arch/node/engines/reads_for_config.juvix.md
+                  - Reads For Environment: ./arch/node/engines/reads_for_environment.juvix.md
+                  - Reads For Behaviour: ./arch/node/engines/reads_for_behaviour.juvix.md
+              - Signs For Engine:
+                  - Signs For Engine: ./arch/node/engines/signs_for.juvix.md
+                  - Signs For Messages: ./arch/node/engines/signs_for_messages.juvix.md
+                  - Signs For Configuration: ./arch/node/engines/signs_for_config.juvix.md
+                  - Signs For Environment: ./arch/node/engines/signs_for_environment.juvix.md
+                  - Signs For Behaviour: ./arch/node/engines/signs_for_behaviour.juvix.md
+              - Naming Engine:
+                  - Naming Engine: ./arch/node/engines/naming.juvix.md
+                  - Naming Messages: ./arch/node/engines/naming_messages.juvix.md
+                  - Naming Configuration: ./arch/node/engines/naming_config.juvix.md
+                  - Naming Environment: ./arch/node/engines/naming_environment.juvix.md
+                  - Naming Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
   - Quick links: ./indexes/links.md
   - Juvix modules:
       - Prelude: ./prelude.juvix.md
