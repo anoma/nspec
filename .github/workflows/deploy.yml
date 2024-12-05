@@ -104,7 +104,9 @@ jobs:
           SITE_DIR: ${{ env.BRANCH_NAME }}
           SITE_URL: https://specs.anoma.net/${{ env.BRANCH_NAME }}/
           SITE_VERSION: ${{ steps.version.outputs.version }}-${{ steps.commit.outputs.commit }}
-          COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
+          COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and
+          Juvix ${{ env.JUVIX_VERSION }}
+          PROCESS_JUVIX: true
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
