@@ -6,13 +6,13 @@ search:
 ---
 
 # Applications
-The ARM applications are characterised by a set of resource logics and its read and write interfaces.
+The ARM applications are characterised by a set of resource logics and associated read and write interfaces.
 
 $Application = (AppLogic, AppReadInterface, AppWriteInterface)$, where
 
-- $AppLogic \subseteq \mathbb{F}_l$ is a set of resource logics.
-- $AppWriteInterface = \{tf: TransactionFunction\}$ is a set of functions that represents what kinds of state transitions the application offers.
-- $AppReadInterface = \{pf: ProjectionFunction\}$ is a set of functions that interprete the current state. Projection functions are defined as $ProjectionFunction: AppState \rightarrow T$, where $AppState = AppResources \times AppData$, with $AppResources$ containing all resources bound to the application’s logic and $AppData$ referring to the non-linear data the application might assume.
+1. $AppLogic \subseteq \mathbb{F}_l$ is a set of resource logics.
+2. $AppWriteInterface = \{tf: TransactionFunction\}$ is a set of functions that represents what kinds of state transitions the application offers.
+3. $AppReadInterface = \{pf: ProjectionFunction\}$ is a set of functions that interprete the current state. Projection functions are defined as $ProjectionFunction: AppState \rightarrow T$, where $AppState = AppResources \times AppData$, with $AppResources$ containing all resources bound to the application’s logic and $AppData$ referring to the non-linear data the application might assume.
 
 As any abstract state transition can be represented as a transaction consuming and creating resources of certain kinds (or a transaction function that evaluates to such a transaction), the transaction functions associated with the application represent the set of actions that the application can provide to its users. Each transaction function would require a subset of the application resource logics to approve the transaction in order to realise the desired action. The transaction function evaluated with the exact resources to be created and consumed forms a transaction.
 
@@ -28,10 +28,10 @@ Applications are composable. The composition of two (or more) applications would
 
 $App_12 = App_1 \circ App_2$:
 
-- $AppLogic_{12} = AppLogic_1 \cup AppLogic_2$
-- $AppWriteInterface_{12} = AppWriteInterface_1 \cup AppWriteInterface_2$
-- $AppReadInterface_{12} = AppReadInterface_1 \cup AppReadInterface_2$
-- $AppKinds_{12} = AppKinds_1 \cup AppKinds_2$
+1. $AppLogic_{12} = AppLogic_1 \cup AppLogic_2$
+2. $AppWriteInterface_{12} = AppWriteInterface_1 \cup AppWriteInterface_2$
+3. $AppReadInterface_{12} = AppReadInterface_1 \cup AppReadInterface_2$
+4. $AppKinds_{12} = AppKinds_1 \cup AppKinds_2$
 
 In this type of composition the order in which the applications are composed doesn't matter.
 

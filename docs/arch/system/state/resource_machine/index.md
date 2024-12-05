@@ -18,34 +18,30 @@ hide:
 
 **The Anoma Resource Machine (ARM)** is the part of the Anoma protocol that defines and enforces the rules for valid state updates that satisfy users' preferences. The new proposed state is then agreed on by the consensus participants. In that sense the role of the Anoma Resource Machine in the Anoma protocol is similar to the role of the Ethereum Virtual Machine in the Ethereum protocol.
 
-The atomic unit of the ARM state is called a **resource**. Resources are immutable, they can be created once and consumed once, which indicates that the system state has been updated.
+## Data structures
 
-## Resource model
+The atomic unit of the ARM state is called a [**resource**](./data_structures/resource/definition.md). Resources are immutable, they can be created once and consumed once. The system state is represented by the set of active resources: the resources that were created but not nullified.
 
-The ARM transaction model is neither the account nor UTXO model. Unlike the Bitcoin UTXO model, which sees UTXOs as currency units and is limited in expressivity, the resource model is generalised and provides flexibility — resource logics — programmable predicates associated with each resource — can be defined in a way to construct applications that operate in any desired transaction model, including the account and UTXO models.
+[**Transactions**](./data_structures/transaction.md) produced by the ARM represent the proposed state update. They consist of [**actions**](./data_structures/action.md), which group resources with the same execution context.
 
-For example, a token operating in the account model would be represented by a single resource containing a map $user: balance$ (unlike the UTXO model, where the token would be represented by a collection of resources of the token type, each of which would correspond to a portion of the token total supply and belong to some user owning this portion). Only one resource of that kind can exist at a time. When users want to perform a transfer, they consume the old balance table resource and produce a new balance table resource.
+Ensuring the correctness of the transaction is achieved with the help of non-interactive proofs attached to it:
 
-## Properties
-
-The Anoma Resource Machine has the following properties:
-
-- _Atomic state transitions of unspecified complexity_ — the number of resources created and consumed in every atomic state transition is not bounded by the system.
-- _Information flow control_ — the users of the system can decide how much of the information about their state to reveal and to whom. From the resource machine perspective, states with different visibility settings are treated equally (e.g., there is no difference between transparent — visible to anyone — and shielded — visible only to the parties holding the viewing keys — resources), but the amount of information revealed about the states differs. It is realised with the help of _shielded execution_, in which the state transition is only visible to the parties involved.
-- _Account abstraction_ — each resource is controlled by a **resource logic** — a custom predicate that encodes constraints on valid state transitions for that kind of resource and determines when a resource can be created or consumed. A valid state transition requires a resource logic validity proof for every resource created or consumed in the proposed state transition.
-- _Intent-centric architecture_ — the ARM provides means to express intents and ensures their correct and complete fulfilment and settlement.
+1. to prove the transaction is balanced correctly, there are [delta proofs](./data_structures/proof/delta.md). Balance is the criterion of a transaction's completeness.
+2. to prove the transaction complies with the ARM rules, there are [compliance proofs](./data_structures/proof/compliance.md). Actions are partitioned into [compliance units](./data_structures/compliance_unit.md) for easier proving.
+3. to prove the transaction satisfies the user constraints, there are [resource logic proofs](./data_structures/proof/logic.md).
 
 
+![Proof contexts associated with data structures](./../../../images/proof_contexts.svg)
+
+
+## The role of the ARM
+
+The ARM is used to create, compose, and verify transactions. It is stateless and run by every node that processes transactions. Anoma users submit their intents to the intent gossip network in the form of unbalanced ARM transactions with metadata, which are received and processed by solvers that output balanced ARM transactions. These transactions are then ordered and finally sent to the executor node, that verifies and executes the transactions in the determined order, updating the global state.
+
+## The specification
+
+This specification describes a common interface shared by all ARM instantiations. Depending on the primitive instantiation choices, the resulting ARM instantiation will have different properties. For example, using zk-SNARKs to create and verify the ARM proofs might result in a succinct or even shielded ARM instantiation. The ARM interface is designed to provide interoperability between different ARM instantiations.
 
 The design of the Anoma Resource Machine was significantly inspired by the [Zcash protocol](https://zips.z.cash/protocol/protocol.pdf).
-
-The rest of the document contains the definitions of the ARM building blocks and the necessary and sufficient requirements to build the Anoma Resource Machine.
-
-- [10.5281/zenodo.10498991](https://doi.org/10.5281/zenodo.10498991)
-- [ART Index](https://art.anoma.net/list#paper-10498991)
-
-## Notation
-
-For a function $h$, we denote the output finite field of $h$ as $\mathbb{F}_h$. If a function $h$ is used to derive a component $x$, we refer to the function as $h_x$, and the corresponding to $h$ finite field is denoted as $\mathbb{F}_{h_x}$, or, for simplicity, $\mathbb{F}_x$.
 
 - Keywords: anoma, blockchain technology, protocol design, resource machine
