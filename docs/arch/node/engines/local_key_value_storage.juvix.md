@@ -42,7 +42,7 @@ deleting key-value pairs while notifying interested parties of changes.
 ## Components
 
 - [[Local Key Value Storage Messages]]
-- [[Local Key Value Storage Config]]
+- [[Local Key Value Storage Configuration]]
 - [[Local Key Value Storage Environment]]
 - [[Local Key Value Storage Behaviour]]
 

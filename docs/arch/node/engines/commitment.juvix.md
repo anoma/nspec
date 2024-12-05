@@ -44,7 +44,7 @@ messages to the instance and generate commitments by the corresponding identity.
 ## Components
 
 - [[Commitment Messages]]
-- [[Commitment Config]]
+- [[Commitment Configuration]]
 - [[Commitment Environment]]
 - [[Commitment Behaviour]]
 

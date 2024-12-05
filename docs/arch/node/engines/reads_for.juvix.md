@@ -49,7 +49,7 @@ delegated or shared.
 ## Components
 
 - [[Reads For Messages]]
-- [[Reads For Config]]
+- [[Reads For Configuration]]
 - [[Reads For Environment]]
 - [[Reads For Behaviour]]
 

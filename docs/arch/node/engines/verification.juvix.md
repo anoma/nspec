@@ -45,7 +45,7 @@ implementation by the runtime.
 ## Components
 
 - [[Verification Messages]]
-- [[Verification Config]]
+- [[Verification Configuration]]
 - [[Verification Environment]]
 - [[Verification Behaviour]]
 
