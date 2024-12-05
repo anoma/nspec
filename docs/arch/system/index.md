@@ -14,6 +14,6 @@ some design choices and assumptions, like identifying the participating
 entities, their actions, and the hardware needed.
 
 - [[Identity Architecture]]
-- [[Network Architecture]]
-- [[Service Architecture]]
-- [[State Architecture]]
+- [[Resource Machine | State Architecture]]
+- [[Network Architecture]] (coming soon)
+- [[Service Architecture]] (coming soon)

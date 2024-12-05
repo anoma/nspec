@@ -10,14 +10,22 @@ search:
 The operational architecture specification concerns the state evolution of Anoma instances, broken into smaller steps: which messages are exchanged, how computation is performed on the level of function calls, and which intermediate states are reachable.
 The specification is organized into the following sections:
 
-- [[Hardware Machine]]
+- [[Hardware Component]]
 
-- [[Identity Machine]]
+- [[Identity Component]]
 
-- [[Networking Machine]]
+- [[Networking Component]] (coming soon)
 
-- [[Ordering Machine]]
+- [[Ordering Component]] (coming soon)
 
+<figure markdown>
 
 ![Message Diagram](transaction_flow.svg)
-occurrences
+
+
+<figcaption markdow
+
+Intent/ transaction candidate flowchart.
+
+</figcaption>
+</figure>
