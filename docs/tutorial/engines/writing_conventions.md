@@ -43,11 +43,11 @@ tags:
 ## File structure within the `engines` directory
 
 The files as listed above must be stored in the `engines` directory of the
-`arch/node` directory. For example, the `ticker` engine would
+`docs/arch/node` directory. For example, the `ticker` engine would
 have the following directory structure:
 
 ```plaintext
-arch/node/
+docs/arch/node/
 └── ...
 └── engines/
     ├── ...
@@ -141,4 +141,24 @@ module arch.node.types.anoma_environment;
 ...
 type Env :=
 +  | EnvTicker TickerEnv
+```
+
+### Update the Table of Contents
+
+Locate the navigation section in the `mkdocs.yml` file, `nav` section, and include
+the new engine
+
+```diff title="mkdocs.yml"
+...
+nav:
+  - Protocol Architecture:
+    - Node Architecture:
+       ...
+       - X Component:
++         - Ticker Engine:
++           - Ticker Engine: ./arch/node/engines/ticker.juvix.md
++           - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
++           - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
++           - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
++           - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
 ```
