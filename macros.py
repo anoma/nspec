@@ -1,12 +1,10 @@
 import json
-import logging
 import os
 from datetime import datetime
 from pathlib import Path
 
 from mkdocs.structure.nav import Link, Navigation, Section
 from mkdocs.structure.pages import Page
-from mkdocs_juvix.logger import log
 
 ROOT_DIR = Path(__file__).parent.absolute()
 DOCS_DIR = ROOT_DIR / "docs"
