@@ -99,6 +99,7 @@ nav:
                   - Wall Clock Configuration: ./arch/node/engines/wall_clock_config.juvix.md
                   - Wall Clock Environment: ./arch/node/engines/wall_clock_environment.juvix.md
                   - Wall Clock Behaviour: ./arch/node/engines/wall_clock_behaviour.juvix.md
+
           - Identity Component:
               - Identity Management Engine:
                   - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
@@ -148,6 +149,26 @@ nav:
                   - Naming Configuration: ./arch/node/engines/naming_config.juvix.md
                   - Naming Environment: ./arch/node/engines/naming_environment.juvix.md
                   - Naming Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
+          - Ordering Component:
+              - Mempool engines:
+                  - Worker Engine:
+                      - Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
+                      - Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
+                      - Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
+                      - Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
+              - Execution engines:
+                  - ./arch/node/ordering/execution/index.md
+                  - Shard:
+                      - Shard Engine: ./arch/node/engines/shard.juvix.md
+                      - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
+                      - Shard Environment: ./arch/node/engines/shard_environment.juvix.md
+                      - Shard Behaviour: ./arch/node/engines/shard_behaviour.juvix.md
+                  - Executor:
+                      - Executor Engine: ./arch/node/engines/executor.juvix.md
+                      - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
+                      - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
+                      - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
+
   - Quick links: ./indexes/links.md
   - Juvix modules:
       - Prelude: ./prelude.juvix.md
