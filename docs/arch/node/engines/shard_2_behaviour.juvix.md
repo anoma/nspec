@@ -193,15 +193,18 @@ replaceWriteAccess
     | some a :=
       case KeyAccess.writeStatus a of {
         | none := none -- Fail if no writeStatus exists/no write lock
-        | some ws :=
-          let data := case newData of {
-                        | none := WriteStatus.data ws -- Do not update and do not fail if nothing needs to be written.
-                        | some dat := some dat
-              };
-              updatedAccess := a@KeyAccess{ writeStatus := some ws@WriteStatus{ data := data } };
-              updatedKeyMap := Map.insert timestamp updatedAccess keyMap;
-              updatedKeyAccesses := Map.insert key updatedKeyMap (DAGStructure.keyAccesses dag);
-          in some dag@DAGStructure{ keyAccesses := updatedKeyAccesses }
+        | some ws := case isNone newData && not (WriteStatus.mayWrite ws) of {
+            | true := none -- null writes can only happen on mayWrites
+            | false :=
+                let data := case newData of {
+                              | none := WriteStatus.data ws -- Do not update and do not fail if nothing needs to be written.
+                              | some dat := some dat
+                    };
+                    updatedAccess := a@KeyAccess{ writeStatus := some ws@WriteStatus{ data := data } };
+                    updatedKeyMap := Map.insert timestamp updatedAccess keyMap;
+                    updatedKeyAccesses := Map.insert key updatedKeyMap (DAGStructure.keyAccesses dag);
+                in some dag@DAGStructure{ keyAccesses := updatedKeyAccesses }
+        }
       }
     | none := none -- Fail if no access exists for the timestamp
   };
