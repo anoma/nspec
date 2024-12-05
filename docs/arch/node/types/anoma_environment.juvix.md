@@ -10,16 +10,23 @@ search:
     ```juvix
     module arch.node.types.anoma_environment;
 
+    {- Examples -}
+
     import arch.node.engines.template_environment open;
     import arch.node.engines.ticker_environment open;
+
+    {- Identity -}
+
     import arch.node.engines.identity_management_environment open;
     import arch.node.engines.decryption_environment open;
     import arch.node.engines.encryption_environment open;
     import arch.node.engines.commitment_environment open;
+
     import arch.node.engines.verification_environment open;
     import arch.node.engines.reads_for_environment open;
     import arch.node.engines.signs_for_environment open;
     import arch.node.engines.naming_environment open;
+
     import arch.node.engines.local_key_value_storage_environment open;
     import arch.node.engines.logging_environment open;
     import arch.node.engines.wall_clock_environment open;
@@ -42,17 +49,23 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 <!-- --8<-- [start:anoma-environment-type] -->
 ```juvix
 type Env :=
+  {- Examples -}
+
   | EnvTemplate TemplateEnv
   | EnvTicker TickerEnv
+
+  {- Identity -}
 
   | EnvIdentityManagement IdentityManagementEnv
   | EnvDecryption DecryptionEnv
   | EnvEncryption EncryptionEnv
   | EnvCommitment CommitmentEnv
+
   | EnvVerification VerificationEnv
   | EnvReadsFor ReadsForEnv
   | EnvSignsFor SignsForEnv
   | EnvNaming NamingEnv
+
   | EnvLocalKeyValueStorage LocalKVStorageEnv
   | EnvLogging LoggingEnv
   | EnvWallClock WallClockEnv
