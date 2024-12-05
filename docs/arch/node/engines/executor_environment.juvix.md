@@ -3,10 +3,10 @@ icon: octicons/container-24
 search:
   exclude: false
 categories:
-- engine-behaviour
+- engine
+- node
 tags:
-- mempool
-- mempool-worker
+- executor-engine
 - engine-environment
 ---
 
@@ -15,22 +15,43 @@ tags:
     ```juvix
     module arch.node.engines.executor_environment;
     import prelude open;
-    import arch.node.engines.executor_messages open;
+    import arch.node.types.messages open;
+    import arch.node.types.identities open;
     import arch.node.types.engine_environment open;
+    import arch.node.engines.executor_messages open;
+    import arch.node.types.anoma_message as Anoma open;
     ```
 
 # Executor Environment
 
 ## Overview
-The local state each executor tracks the ``in progress'' transaction candidates post-ordering execution, along with read and write requests from the shards.
 
+The executor environment maintains state needed during transaction execution including completed reads/writes and program state.
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    axiom executeStep : Executable -> ProgramState -> Pair KVSKey KVSDatum -> Result String (Pair ProgramState (List (Either KVSKey (Pair KVSKey KVSDatum))));
+
+    -- Map a key to its shard
+    axiom keyToShard : KVSKey -> EngineID;
+    ```
+
+???+ quote "Functions"
+    
+    `executeStep`:
+    : Takes the executable code, current program state, and read key-value pair and returns either:
+      - Error string on failure
+      - New program state and list of either:
+        - Left key for read requests
+        - Right (key, value) for write requests
+    
+    `keyToShard`:
+    : Maps a key to the EngineID of the shard responsible for it
 
 ## Mailbox states
-!!! todo
-    Figure out what a mailbox state is, what makes it special, and if we're just using Unit.
 
-The Executor Engine does not require complex mailbox states.
-We define the mailbox state as `Unit`.
+The executor engine does not require complex mailbox states.
 
 ### `ExecutorMailboxState`
 
@@ -39,45 +60,40 @@ syntax alias ExecutorMailboxState := Unit;
 ```
 
 ## Local state
-Each executor  keeps track of:
 
-### `ExecutorLocalState`
+### `ProgramState`
+
 ```juvix
-type ExecutorLocalState := mkExecutorLocalState@{
-  executable : Maybe ExecuteTransaction; -- if we've received it, the message that tells us what we're executing
-  reads : Map KVSKey KVSDatum; -- reads from the label for which we've received results
-  writes: Map KVSKey KVSDatum; -- writes issued by execution
-  side_effects : IO (); -- other operations to be issued if the transaction ultimately succeeds.
+type ProgramState := mkProgramState {
+  data : ByteString;
+  halted : Bool
 };
 ```
-!!! todo
-    Include some kind of "current continuation", which is part of the state when we are waiting for optional reads to return.
 
-!!! todo
-    Include whatever is necessary to facilitate knowing which shards to look up for a read or write
+### `ExecutorLocalState`
 
-
+```juvix
+type ExecutorLocalState := mkExecutorLocalState {
+  program_state : ProgramState;
+  completed_reads : Map KVSKey KVSDatum;
+  completed_writes : Map KVSKey KVSDatum
+};
+```
 
 ???+ quote "Arguments"
 
-    `executable`:
-    : if we've received it, the message that tells us what we're executing
-
-    `reads`:
-    : reads from the label for which we've received results
-
-    `writes`:
-    : writes issued by execution
-
-    `side_effects`:
-    : other operations to be issued if the transaction ultimately succeeds. We may need to more tightly constrain what this can be (e.g. sending specific messages) than just "any IO."
+    `program_state`
+    : Current state of the executing program
+    
+    `completed_reads`
+    : Map of keys to values that have been successfully read
+    
+    `completed_writes`
+    : Map of keys to values that have been successfully written
 
 ## Timer Handle
-!!! todo
-    figure out what a Timer Handle is, and if an executor needs one.
 
-The Executor Engine does not require a timer handle type.
-Therefore, we define the timer handle type as `Unit`.
+The executor engine does not require timer handles.
 
 ### `ExecutorTimerHandle`
 
@@ -87,44 +103,37 @@ syntax alias ExecutorTimerHandle := Unit;
 
 ## The Executor Environment
 
-### `ExecutorEnvironment`
+### `ExecutorEnv`
 
 ```juvix
-ExecutorEnvironment : Type :=
-  EngineEnvironment
+ExecutorEnv : Type :=
+  EngineEnv
     ExecutorLocalState
     ExecutorMailboxState
-    ExecutorTimerHandle;
+    ExecutorTimerHandle
+    Anoma.Msg;
 ```
 
 ### Instantiation
-!!! todo
-    using the commitment engine template, create a (small) example executor
 
-<!-- --8<-- [start:executorEnvironment] -->
+<!-- --8<-- [start:executorEnv] -->
 ```juvix extract-module-statements
 module executor_environment_example;
 
-executorEnvironment : executorEnvironment :=
-    mkEngineEnvironment@{
-      name := "mempool-worker";
-      localState := mkExecutorLocalState@{
-        executable : None,
-        reads : emptyMap,
-        writes: emptyMap,
-        side_effects : noOp
+executorEnv : ExecutorEnv :=
+  mkEngineEnv@{
+    localState := mkExecutorLocalState@{
+      program_state := mkProgramState@{
+        data := "";
+        halted := false
       };
-      mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
-      timers := []
-    }
-  ;
+      completed_reads := Map.empty;
+      completed_writes := Map.empty
+    };
+    mailboxCluster := Map.empty;
+    acquaintances := Set.empty;
+    timers := []
+  };
 end;
 ```
-!!! todo
-    figure out how to make an emptyMap
-
-!!! todo
-    figure out how to make an IO noOp object
-
-<!-- --8<-- [end:executorEnvironment] -->
+<!-- --8<-- [end:executorEnv] -->

@@ -1,12 +1,12 @@
 ---
-icon: octicons/gear-16
+icon: material/message-draw
 search:
   exclude: false
 categories:
-- engine-behaviour
+- engine
+- node
 tags:
-- execution
-- executor
+- executor-engine
 - engine-messages
 ---
 
@@ -15,171 +15,73 @@ tags:
     ```juvix
     module arch.node.engines.executor_messages;
     import prelude open;
+    import arch.node.types.basics open;
     import arch.node.types.identities open;
     ```
 
 # Executor Messages
 
+These are the messages that the Executor engine can receive/respond to.
+
 ## Message interface
 
+### `ExecutorMsgExecutorFinished ExecutorFinishedMsg`
 
+Notification that execution is complete.
 
-??? quote "Auxiliary Juvix code"
-
-    ```juvix
-    syntax alias TransactionExecutable := String;
-    syntax alias TransactionLabel := String;
-    syntax alias TxFingerprint := String;
-    syntax alias KVSKey := Nat;
-    syntax alias KVSDatum := Nat;
-    ```
-
-### `ExecuteTransaction`
-
+<!-- --8<-- [start:ExecutorFinishedMsg] -->
 ```juvix
-type ExecuteTransaction := mkExecuteTransaction {
-  executable : TransactionExecutable; -- "code" to be executed post-ordering
-  label : TransactionLabel; -- information about keys that the transaction can rightfully access
-  timestamp : TxFingerprint; -- (partial) ordering information (sufficient for total order in  V0.2.0 and earlier)
-  curator : ExternalIdentity; -- the [[Worker Engine]] to be informed when execution completes (e.g. for logs)
-  issuer : ExternalIdentity; -- the ID of the sender of the [[TransactionRequest]]
-};
+type ExecutorFinishedMsg : Type :=
+  mkExecutorFinishedMsg {
+    success : Bool;
+    values_read : List (Pair KVSKey KVSDatum);
+    values_written : List (Pair KVSKey KVSDatum)
+  }
 ```
-
-The [[Mempool Engines|mempool engines]] instruct the [[Executor]] that a new
- [[TransactionCandidate]] has been recorded, its locks are being
- acquired, and will eventually need to be executed.
+<!-- --8<-- [end:ExecutorFinishedMsg] -->
 
 ???+ quote "Arguments"
-     `executable`:
-     : "code" to be executed post-ordering
 
-     `label`:
-     : information about keys that the transaction can rightfully access
+    `success`
+    : Whether execution completed successfully
 
-     `timestamp`:
-     : (partial) ordering information (sufficient for total order in  V0.2.0 and earlier)
+    `values_read`
+    : List of all key-value pairs that were read
 
-     `curator`:
-     : the [[Worker Engine]] to be informed when execution completes (e.g. for logs)
+    `values_written`
+    : List of all key-value pairs that were written
 
-     `issuer`:
-     : the ID of the sender of the [[TransactionRequest]]
+### `ExecutorMsg`
 
-
-
-Sent _from_ [[Mempool]]
-
-#### Effects
-
-This message is sent to an [[Executor]] that is already running.
-Concurrently, when the [[Worker Engine]] sends a [[KVSAcquireLock]] to
- [[Shard]]s, they can include *eager reads*, which will result in
- [[KVSRead]]s sent to this [[Executor]].
-
-The [[TxFingerprint|timestamp]] should match the
- [[TxFingerprint|timestamp]] of the [[TransactionCandidate]] for this
- [[Executor]].
-
-#### Triggers
-
-- {[[KVSReadRequest|KVSReadRequest]], [[KVSWrite]]}→[[Shard]]s:
-  In the course of evaluating the
-   *executor function*,
-   lazy reads are requested, and final writes are output.
-
-  - [[KVSReadRequest|KVSReadRequest]] to [[Shard]]
-  - [[KVSWrite]] to [[Shard]]
-
-#### Notes
-
-- Getting served read requests amounts to locks being granted by the shards.
-
-
-### `KVSRead`
+<!-- --8<-- [start:ExecutorMsg] -->
 ```juvix
-type KVSRead := mkKVSRead {
-  timestamp : TxFingerprint; -- the timestamp at which the datum was read
-  key : KVSKey; --  the key from which the datum is read
-  data : KVSDatum; -- the datum read
-}
+type ExecutorMsg :=
+  | ExecutorMsgExecutorFinished ExecutorFinishedMsg
+  ;
 ```
+<!-- --8<-- [end:ExecutorMsg] -->
 
-[[Executor]]s have to read data from keys to execute
- [[TransactionCandidate]]s.
-When a [[Shard]] has determined what the value read is at the
- appropriate [[TxFingerprint|timestamp]],
- it sends a [[KVSRead]] to the appropriate [[Executor]].
+## Sequence Diagrams
 
-???+ quote "Arguments"
-     `timestamp`:
-     : the timestamp at which the datum was read
-
-     `key`:
-     : the key from which the datum is read
-
-     `data`:
-     : the datum read
-
-
-#### Effects
-
-These read values are input for the [[TransactionExecutable]].
-Some may be lazy inputs, and some may never be used, but they're all
- inputs.
-If this lets us finish the [[TransactionExecutable]], it may trigger
- [[KVSWrite]]s (outputs of the executable), and shutting down the
- [[Executor]] entirely.
-
-#### Triggers
-
-- to [[Shard]]: [[KVSWrite]]
-  `for each` value the [[TransactionExecutable]] outputs to write
-  send a [[KVSWrite]] message to the appropriate [[Shard]]
-- to [[Shard]]: [[KVSReadRequest|KVSReadRequest]]
-  `for each` lazy read the [[TransactionExecutable]] now requires, and
-   each lazy read the [[TransactionExecutable]] hasn't read when it
-   terminates:
-  send a [[KVSReadRequest|KVSReadRequest]] message to the appropriate [[Shard]]
-- to [[Worker Engine]]: [[ExecutorFinished]]
-  `If` [[TransactionExecutable]] has terminated
-  `then` notify the `curator` specified in [[ExecuteTransaction]]
-  or [[ExecuteReadTransaction]]
-  that the transaction is done with an [[ExecutorFinished]].
-- to [[User]],[[Solver]]: [[ExecutionSummary]]
-  The issuer of the [[TransactionRequest|transaction request]]
-  is always provided with the [[ExecutionSummary]]
-
-
-!!! todo
-    Any remaining message types (read only transactions?)
-
-## Message sequence diagrams
-
-### Executor TransactionRequest Sequence
-!!! todo
-    Using the template from commitment messages, make a mermaid diagram with a typical  sequence.
+### Execution Flow
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
 
 ```mermaid
 sequenceDiagram
-    participant C as Client
-    participant CE as Commitment Engine
+    participant Executor
+    participant Shard
+    participant Worker
 
-    C->>CE: RequestCommitment(data)
-    Note over CE: Generate commitment using internal signer
-    CE-->>C: ResponseCommitment(commitment)
+    Executor->>Shard: KVSReadRequest
+    Shard->>Executor: KVSRead
+    Executor->>Shard: KVSWrite
+    Executor->>Worker: ExecutorFinished
 ```
 
 <figcaption markdown="span">
-Sequence diagram for commitment generation.
+Basic execution flow sequence showing interaction with shards and completion notification
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
-
-## Engine Components
-
-- [[Executor Environment]]
-- [[Executor Behaviour]]

@@ -25,18 +25,6 @@ These are the messages that the Shard engine can receive/respond to.
 
 ## Message interface
 
-??? quote "Auxiliary Juvix code"
-
-    ```juvix
-    syntax alias KVSKey := String;
-    syntax alias KVSDatum := String;
-    syntax alias TxFingerprint := Nat;
-    syntax alias ChainId := String;
-    syntax alias Height := Nat;
-    syntax alias NarwhalBlock := String;
-    syntax alias Learner := String;
-    ```
-
 ### `ShardMsgKVSReadRequest KVSReadRequestMsg`
 
 Read request from an executor.

@@ -56,6 +56,16 @@ DecryptionKey : Type := ByteString;
 SigningKey : Type := ByteString;
 ```
 
+### Ordering Aliases
+
+```juvix
+syntax alias KVSKey := String;
+syntax alias KVSDatum := String;
+syntax alias TxFingerprint := Nat;
+syntax alias Executable := ByteString;
+syntax alias NarwhalBlock := String;
+```
+
 ## Identity Types
 
 ### ExternalID

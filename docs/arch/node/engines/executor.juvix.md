@@ -5,8 +5,7 @@ search:
 categories:
 - engine
 tags:
-- execution
-- executor
+- executor-engine
 - engine-definition
 ---
 
@@ -18,13 +17,18 @@ tags:
     import prelude open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.executor_config open public;
     import arch.node.engines.executor_messages open public;
     import arch.node.engines.executor_environment open public;
     import arch.node.engines.executor_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open executor_config_example;
+    open executor_environment_example;
     ```
 
-# Executor
-
+# Executor Engine
 
 Conceptually, Executors  run the
  [executor function](./../ordering/execution/index.md#executor-function) in order to
@@ -34,47 +38,60 @@ Executors may be co-located with [[Shard|shards]], or with
  [[Worker Engine|mempool workers]].
 The [[Execution Engines]] might keep a pool of Executors,
  or spin a new one up with each [[TransactionCandidate]].
+
 ## Purpose
+
+The Executor Engine maintains executor capabilities for a specific identity
+and handles executor requests for that identity. Only the original caller and
+anyone to whom they pass the engine instance reference can send messages to the
+instance and decrypt data encrypted to the corresponding identity.
 
 ## Components
 
 - [[Executor Messages]]
+- [[Executor Config]]
 - [[Executor Environment]]
 - [[Executor Behaviour]]
 
 ## Type
-!!! todo
-    Add an element to the executor Engine (perhaps in the behaviour?) that specifises the transaction candidate (and its label) that we're executing.
-    I think currently these are specified in `ExecuteTransaction` message, but they don't need to be a message.
+
 <!-- --8<-- [start:ExecutorEngine] -->
 ```juvix
-ExecutorEngine : Type := Engine
-  ExecutorLocalState
-  ExecutorMailboxState
-  ExecutorTimerHandle
-  ExecutorMatchableArgument
-  ExecutorActionLabel
-  ExecutorPrecomputation;
+ExecutorEngine : Type :=
+  Engine
+    ExecutorCfg
+    ExecutorLocalState
+    ExecutorMailboxState
+    ExecutorTimerHandle
+    ExecutorActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:ExecutorEngine] -->
 
-### Example of an execution engine
+### Example of a executor engine
+
 
 <!-- --8<-- [start:exampleExecutorEngine] -->
 ```juvix
-exampleMempoolWorkerEngine : MempoolWorkerEngine := mkEngine@{
-    name := "executor";
-    initEnv := commitmentEnvironment;
+exampleExecutorEngine : ExecutorEngine :=
+  mkEngine@{
+    cfg := executorCfg;
+    env := executorEnv;
     behaviour := executorBehaviour;
   };
 ```
 <!-- --8<-- [end:exampleExecutorEngine] -->
 
-where `executorEnvironment` is defined as follows:
+where `executorCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/executor_environment.juvix.md:executorEnvironment"
+--8<-- "./docs/arch/node/engines/executor_config.juvix.md:executorCfg"
+
+`executorEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/executor_environment.juvix.md:executorEnv"
 
 and `executorBehaviour` is defined as follows:
 
-!!! todo
-    Figure out what it means to define behaviour and put it here
+--8<-- "./docs/arch/node/engines/executor_behaviour.juvix.md:executorBehaviour"
