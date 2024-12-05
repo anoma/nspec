@@ -288,6 +288,8 @@ __pycache__/
 site/
 **/.juvix-build/
 .cache-juvix-mkdocs/
+.cache-mkdocs-without-juvix-processing/
+.cache-mkdocs-with-juvix-processing/
 .cache/
 **/html/
 
