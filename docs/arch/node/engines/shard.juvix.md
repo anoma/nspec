@@ -18,14 +18,18 @@ tags:
     import prelude open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.shard_config open public;
     import arch.node.engines.shard_messages open public;
     import arch.node.engines.shard_environment open public;
     import arch.node.engines.shard_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open shard_config_example;
+    open shard_environment_example;
     ```
 
 # Shard
-
-
 
 ## Purpose
 
@@ -310,21 +314,10 @@ In the diagram above, transaction `f` is read-only.
 
 If client reads produce signed responses, then signed responses from a weak quorum of validators would form a *light client proof*.
 
-
-
-
-
-
-
-
-
-
-
-
-
 ## Components
 
 - [[Shard Messages]]
+- [[Shard Configuration]]
 - [[Shard Environment]]
 - [[Shard Behaviour]]
 
@@ -332,13 +325,16 @@ If client reads produce signed responses, then signed responses from a weak quor
 
 <!-- --8<-- [start:ShardEngine] -->
 ```juvix
-ShardEngine : Type := Engine
-  ShardLocalState
-  ShardMailboxState
-  ShardTimerHandle
-  ShardMatchableArgument
-  ShardActionLabel
-  ShardPrecomputation;
+ShardEngine : Type :=
+  Engine
+    ShardCfg
+    ShardLocalState
+    ShardMailboxState
+    ShardTimerHandle
+    ShardActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:ShardEngine] -->
 
@@ -346,19 +342,23 @@ ShardEngine : Type := Engine
 
 <!-- --8<-- [start:exampleShardEngine] -->
 ```juvix
-exampleShardEngine : ShardEngine := mkEngine@{
-    name := "shard";
-    initEnv := shardEnvironment;
+exampleShardEngine : ShardEngine :=
+  mkEngine@{
+    cfg := shardCfg;
+    env := shardEnv;
     behaviour := shardBehaviour;
   };
 ```
-<!-- --8<-- [end:exampleShardEngine] -->
+<!-- --8<-- [start:exampleShardEngine] -->
 
-where `shardEnvironment` is defined as follows:
+where `shardCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/shard_environment.juvix.md:shardEnvironment"
+--8<-- "./docs/arch/node/engines/shard_config.juvix.md:shardCfg"
+
+where `shardEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/shard_environment.juvix.md:shardEnv"
 
 and `shardBehaviour` is defined as follows:
 
-!!! todo
-    Figure out what it means to define behaviour and put it here
+--8<-- "./docs/arch/node/engines/shard_behaviour.juvix.md:shardBehaviour"

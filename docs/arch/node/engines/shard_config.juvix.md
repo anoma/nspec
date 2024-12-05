@@ -13,10 +13,10 @@ tags:
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.shard_2_config;
+    module arch.node.engines.shard_config;
 
     import prelude open;
-    import arch.node.engines.shard_2_messages open;
+    import arch.node.engines.shard_messages open;
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;

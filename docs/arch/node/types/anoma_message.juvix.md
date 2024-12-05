@@ -36,7 +36,7 @@ tags:
     import arch.node.engines.wall_clock_messages open using {WallClockMsg};
     import arch.node.engines.local_time_series_storage_messages open using {LocalTSStorageMsg};
 
-    import arch.node.engines.shard_2_messages open using {ShardMsg};
+    import arch.node.engines.shard_messages open using {ShardMsg};
     ```
 
 # Anoma Message
