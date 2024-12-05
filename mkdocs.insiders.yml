@@ -52,8 +52,6 @@ extra:
     - icon: material/email
       link: mailto:arts@heliax.dev
   generator: false
-  version:
-    provider: mike
   analytics:
     feedback:
       title: Was this page helpful?
