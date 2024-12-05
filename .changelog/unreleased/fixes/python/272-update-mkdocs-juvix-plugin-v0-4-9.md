@@ -1,0 +1,1 @@
+  -  [**#272**](https://github.com/anoma/nspec/pull/272): Update mkdocs juvix plugin v0.4.9
