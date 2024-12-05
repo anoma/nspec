@@ -183,7 +183,7 @@ replaceWriteAccess
   (dag : DAGStructure)
   (key : KVSKey)
   (timestamp : TxFingerprint)
-  (newWriteStatus : WriteStatus)
+  (newData : Option KVSDatum)
   : Option DAGStructure :=
   let keyMap := case Map.lookup key (DAGStructure.keyAccesses dag) of {
         | none := Map.empty
@@ -193,8 +193,8 @@ replaceWriteAccess
     | some a :=
       case KeyAccess.writeStatus a of {
         | none := none -- Fail if no writeStatus exists/no write lock
-        | some _ :=
-          let updatedAccess := a@KeyAccess{ writeStatus := some newWriteStatus };
+        | some ws :=
+          let updatedAccess := a@KeyAccess{ writeStatus := some ws@WriteStatus{ data := newData } };
               updatedKeyMap := Map.insert timestamp updatedAccess keyMap;
               updatedKeyAccesses := Map.insert key updatedKeyMap (DAGStructure.keyAccesses dag);
           in some dag@DAGStructure{ keyAccesses := updatedKeyAccesses }
@@ -457,11 +457,7 @@ processWriteAction
       let dag := ShardLocalState.dagStructure local;
           key := KVSWriteMsg.key writeMsg;
           timestamp := KVSWriteMsg.timestamp writeMsg;
-          writeStatus := mkWriteStatus@{
-            data := KVSWriteMsg.datum writeMsg;
-            mayWrite := false
-          };
-      in case replaceWriteAccess dag key timestamp writeStatus of {
+      in case replaceWriteAccess dag key timestamp (KVSWriteMsg.datum writeMsg) of {
         | some updatedDag :=
           let propagationResult := updateEagerReads (getEngineIDFromEngineCfg cfg) updatedDag;
               newLocal := local@ShardLocalState{ dagStructure := fst propagationResult };
