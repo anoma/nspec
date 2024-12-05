@@ -36,6 +36,7 @@ tags:
     import arch.node.engines.wall_clock_messages open using {WallClockMsg};
     import arch.node.engines.local_time_series_storage_messages open using {LocalTSStorageMsg};
 
+    import arch.node.engines.mempool_worker_messages open using {MempoolWorkerMsg};
     import arch.node.engines.executor_messages open using {ExecutorMsg};
     import arch.node.engines.shard_messages open using {ShardMsg};
     ```
@@ -75,6 +76,7 @@ type Msg :=
   | MsgWallClock WallClockMsg
   | MsgLocalTSStorage LocalTSStorageMsg
   
+  | MsgMempoolWorker MempoolWorkerMsg
   | MsgExecutor ExecutorMsg
   | MsgShard ShardMsg
   ;

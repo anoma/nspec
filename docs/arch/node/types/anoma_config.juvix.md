@@ -31,6 +31,10 @@ search:
     import arch.node.engines.logging_config open;
     import arch.node.engines.wall_clock_config open;
     import arch.node.engines.local_time_series_storage_config open;
+
+    import arch.node.engines.mempool_worker_config open;
+    import arch.node.engines.executor_config open;
+    import arch.node.engines.shard_config open;
     ```
 
 # Anoma Engine Configuration
@@ -65,9 +69,17 @@ type Cfg :=
   | CfgSignsFor SignsForCfg
   | CfgNaming NamingCfg
 
+  {- Hardware -}
+
   | CfgLocalKeyValueStorage LocalKVStorageCfg
   | CfgLogging LoggingCfg
   | CfgWallClock WallClockCfg
   | CfgLocalTSeries LocalTSStorageCfg
+
+  {- Ordering -}
+
+  | CfgMempoolWorker MempoolWorkerCfg
+  | CfgExecutor ExecutorCfg
+  | CfgShard ShardCfg
 ```
 <!-- --8<-- [end:anoma-config-type] -->

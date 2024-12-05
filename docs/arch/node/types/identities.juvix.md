@@ -56,16 +56,6 @@ DecryptionKey : Type := ByteString;
 SigningKey : Type := ByteString;
 ```
 
-### Ordering Aliases
-
-```juvix
-syntax alias KVSKey := String;
-syntax alias KVSDatum := String;
-syntax alias TxFingerprint := Nat;
-syntax alias Executable := ByteString;
-syntax alias NarwhalBlock := String;
-```
-
 ## Identity Types
 
 ### ExternalID
@@ -309,3 +299,37 @@ type IdentityNameEvidence := mkIdentityNameEvidence {
         cmp := IdentityNameEvidenceCmpDummy;
       };
     ```
+
+
+
+### Ordering Aliases
+
+```juvix
+syntax alias KVSKey := String;
+syntax alias ReadLabel := KVSKey;
+syntax alias WriteLabel := KVSKey;
+type TransactionLabel := mkTransactionLabel {
+  read : List ReadLabel;
+  write : List WriteLabel
+};
+syntax alias KVSDatum := String;
+syntax alias TxFingerprint := Nat;
+type ProgramState := mkProgramState {
+  data : ByteString;
+  halted : Bool
+};
+syntax alias Executable := ByteString;
+type TransactionCandidate := mkTransactionCandidate {
+  label : TransactionLabel;
+  executable : Executable
+};
+syntax alias NarwhalBlock := String;
+syntax alias BatchNumber := Nat;
+syntax alias WallClockTime := Nat;
+```
+
+Don't know a better place to put this.
+```juvix
+-- Map a key to its shard
+axiom keyToShard : KVSKey -> EngineID;
+```

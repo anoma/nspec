@@ -32,9 +32,6 @@ The executor environment maintains state needed during transaction execution inc
 
     ```juvix
     axiom executeStep : Executable -> ProgramState -> Pair KVSKey KVSDatum -> Result String (Pair ProgramState (List (Either KVSKey (Pair KVSKey KVSDatum))));
-
-    -- Map a key to its shard
-    axiom keyToShard : KVSKey -> EngineID;
     ```
 
 ???+ quote "Functions"
@@ -45,9 +42,6 @@ The executor environment maintains state needed during transaction execution inc
       - New program state and list of either:
         - Left key for read requests
         - Right (key, value) for write requests
-    
-    `keyToShard`:
-    : Maps a key to the EngineID of the shard responsible for it
 
 ## Mailbox states
 
@@ -60,15 +54,6 @@ syntax alias ExecutorMailboxState := Unit;
 ```
 
 ## Local state
-
-### `ProgramState`
-
-```juvix
-type ProgramState := mkProgramState {
-  data : ByteString;
-  halted : Bool
-};
-```
 
 ### `ExecutorLocalState`
 

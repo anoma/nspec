@@ -133,16 +133,16 @@ processReadAction
         -- Messages to notify shards of stale locks
         readMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
           envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
-              timestamp := ExecutorCfg.timestamp cfg;
-              key := key;
-              actual := false
-            })));
+            timestamp := ExecutorCfg.timestamp cfg;
+            key := key;
+            actual := false
+          })));
         writeMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
           envelope (keyToShard key) (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
-              timestamp := ExecutorCfg.timestamp cfg;
-              key := key;
-              datum := none
-            })));
+            timestamp := ExecutorCfg.timestamp cfg;
+            key := key;
+            datum := none
+          })));
         staleReadLocations := 
           Set.difference (ExecutorCfg.lazy_read_keys cfg) (Set.fromList (Map.keys reads));
         readStaleMsgs := map readMsg (Set.toList staleReadLocations);
@@ -179,11 +179,11 @@ processReadAction
                      (msgs : List (EngineMsg Anoma.Msg)) : 
                      List (EngineMsg Anoma.Msg) :=
               let msg :=
-                    envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
-                        timestamp := ExecutorCfg.timestamp cfg;
-                        key := key;
-                        actual := true
-                      })))
+                envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
+                    timestamp := ExecutorCfg.timestamp cfg;
+                    key := key;
+                    actual := true
+                  })))
               in case or (Set.isMember key (ExecutorCfg.lazy_read_keys cfg)) 
                          (Set.isMember key (ExecutorCfg.eager_read_keys cfg)) of {
                 | true := msg :: msgs
@@ -194,12 +194,12 @@ processReadAction
                       (msgs : List (EngineMsg Anoma.Msg)) : 
                       List (EngineMsg Anoma.Msg) :=
               let msg :=
-                    envelope (keyToShard key) 
-                      (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
-                        timestamp := ExecutorCfg.timestamp cfg;
-                        key := key;
-                        datum := some value
-                      })))
+                envelope (keyToShard key) 
+                  (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
+                    timestamp := ExecutorCfg.timestamp cfg;
+                    key := key;
+                    datum := some value
+                  })))
               in case or (Set.isMember key (ExecutorCfg.will_write_keys cfg)) 
                          (Set.isMember key (ExecutorCfg.may_write_keys cfg)) of {
                 | true := msg :: msgs
