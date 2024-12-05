@@ -99,7 +99,6 @@ nav:
                   - Wall Clock Configuration: ./arch/node/engines/wall_clock_config.juvix.md
                   - Wall Clock Environment: ./arch/node/engines/wall_clock_environment.juvix.md
                   - Wall Clock Behaviour: ./arch/node/engines/wall_clock_behaviour.juvix.md
-
           - Identity Component:
               - Identity Management Engine:
                   - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
@@ -168,7 +167,6 @@ nav:
                       - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
                       - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
                       - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
-
   - Quick links: ./indexes/links.md
   - Juvix modules:
       - Prelude: ./prelude.juvix.md

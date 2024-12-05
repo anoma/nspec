@@ -120,7 +120,7 @@ notifyShards
   (timestamp : TxFingerprint)
   (worker : EngineID)
   (executor : EngineID)
-  : List (EngineMsg Anoma.Msg) := 
+  : List (EngineMsg Anoma.Msg) :=
     let eager_keys := Set.fromList (TransactionLabel.read label);
         write_keys := Set.fromList (TransactionLabel.write label);
         lockRequest := mkKVSAcquireLockMsg@{
@@ -166,7 +166,7 @@ Engines to be spawned
 <!-- --8<-- [start:handleTransactionRequest] -->
 TODO: Generate environment!
 ```juvix
-handleTransactionRequest 
+handleTransactionRequest
   (input : MempoolWorkerActionInput)
   : Option MempoolWorkerActionEffect :=
   let
@@ -176,7 +176,7 @@ handleTransactionRequest
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionRequest request); sender := sender} := 
+      | mkEngineMsg@{msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionRequest request); sender := sender} :=
           let newGensym := MempoolWorkerLocalState.gensym local + 1;
               worker_id := getEngineIDFromEngineCfg cfg;
               node_id := EngineCfg.node cfg;
@@ -254,12 +254,12 @@ handleLockAcquired
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgShard (ShardMsgKVSLockAcquired lockMsg); sender := sender} := 
+      | mkEngineMsg@{msg := Anoma.MsgShard (ShardMsgKVSLockAcquired lockMsg); sender := sender} :=
           let timestamp := KVSLockAcquiredMsg.timestamp lockMsg;
               newLocks := lockMsg :: MempoolWorkerLocalState.locks_acquired local;
               newState := local@MempoolWorkerLocalState{
                 locks_acquired := newLocks;
-                seen_all_writes := 
+                seen_all_writes :=
                   case MempoolWorkerLocalState.seen_all_writes local < timestamp of {
                     | true := timestamp
                     | false := MempoolWorkerLocalState.seen_all_writes local
@@ -313,7 +313,7 @@ handleExecutorFinished
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgExecutor (ExecutorMsgExecutorFinished summary); sender := sender} := 
+      | mkEngineMsg@{msg := Anoma.MsgExecutor (ExecutorMsgExecutorFinished summary); sender := sender} :=
           case Map.lookup sender (MempoolWorkerLocalState.transactionEngines local) of {
             | some tr :=
               let newState := local@MempoolWorkerLocalState{
@@ -338,7 +338,7 @@ handleExecutorFinished
 ### Action Labels
 
 ```juvix
-handleTransactionRequestLabel : MempoolWorkerActionExec := 
+handleTransactionRequestLabel : MempoolWorkerActionExec :=
   Seq [ handleTransactionRequest ];
 
 handleLockAcquiredLabel : MempoolWorkerActionExec :=

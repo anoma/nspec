@@ -75,7 +75,7 @@ type Msg :=
   | MsgLogging LoggingMsg
   | MsgWallClock WallClockMsg
   | MsgLocalTSStorage LocalTSStorageMsg
-  
+
   | MsgMempoolWorker MempoolWorkerMsg
   | MsgExecutor ExecutorMsg
   | MsgShard ShardMsg

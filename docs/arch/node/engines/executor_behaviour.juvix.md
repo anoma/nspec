@@ -143,7 +143,7 @@ processReadAction
             key := key;
             datum := none
           })));
-        staleReadLocations := 
+        staleReadLocations :=
           Set.difference (ExecutorCfg.lazy_read_keys cfg) (Set.fromList (Map.keys reads));
         readStaleMsgs := map readMsg (Set.toList staleReadLocations);
         staleWriteLocations :=
@@ -184,7 +184,7 @@ processReadAction
                     key := key;
                     actual := true
                   })))
-              in case or (Set.isMember key (ExecutorCfg.lazy_read_keys cfg)) 
+              in case or (Set.isMember key (ExecutorCfg.lazy_read_keys cfg))
                          (Set.isMember key (ExecutorCfg.eager_read_keys cfg)) of {
                 | true := msg :: msgs
                 | false := msgs
@@ -194,13 +194,13 @@ processReadAction
                       (msgs : List (EngineMsg Anoma.Msg)) :
                       List (EngineMsg Anoma.Msg) :=
               let msg :=
-                envelope (keyToShard key) 
+                envelope (keyToShard key)
                   (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
                     timestamp := ExecutorCfg.timestamp cfg;
                     key := key;
                     datum := some value
                   })))
-              in case or (Set.isMember key (ExecutorCfg.will_write_keys cfg)) 
+              in case or (Set.isMember key (ExecutorCfg.will_write_keys cfg))
                          (Set.isMember key (ExecutorCfg.may_write_keys cfg)) of {
                 | true := msg :: msgs
                 | false := msgs

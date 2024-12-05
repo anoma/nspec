@@ -14,7 +14,7 @@ The specification is organized into the following sections:
 
 - [[Identity Component]]
 
-- [[Ordering Component]] 
+- [[Ordering Component]]
 
 
 - [[Networking Component]] (coming soon)

@@ -38,7 +38,7 @@ The local state of the Mempool Worker engine includes the following:
 <!-- --8<-- [start:MempoolWorkerLocalState] -->
 ```juvix
 type MempoolWorkerLocalState := mkMempoolWorkerLocalState {
-  batch_number : BatchNumber; 
+  batch_number : BatchNumber;
   transactions : Map TxFingerprint TransactionCandidate;
   transactionEngines : Map EngineID TxFingerprint;
   locks_acquired : List KVSLockAcquiredMsg;
