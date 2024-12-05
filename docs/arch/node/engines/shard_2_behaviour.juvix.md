@@ -86,8 +86,9 @@ findMostRecentWrite
             (fst entry) < timestamp &&
             case KeyAccess.writeStatus (snd entry) of {
               | some writeStatus :=
-                  not (WriteStatus.mayWrite writeStatus) &&
-                  WriteStatus.data writeStatus /= none
+                  -- Ignore empty maywrites.
+                  not (WriteStatus.mayWrite writeStatus &&
+                       isNone (WriteStatus.data writeStatus))
               | none := false
             }
           }
