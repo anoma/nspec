@@ -285,11 +285,11 @@ NodeProxyBehaviour : Type :=
 
 #### Instantiation
 
-<!-- --8<-- [start:nodeProxyBehaviour] -->
+<!-- --8<-- [start:exNodeProxyBehaviour] -->
 ```juvix
 module node_proxy_behaviour_example;
 
-nodeProxyBehaviour : NodeProxyBehaviour :=
+exNodeProxyBehaviour : NodeProxyBehaviour :=
   mkEngineBehaviour@{
     guards :=
       First [
@@ -299,7 +299,7 @@ nodeProxyBehaviour : NodeProxyBehaviour :=
 
 end;
 ```
-<!-- --8<-- [end:nodeProxyBehaviour] -->
+<!-- --8<-- [end:exNodeProxyBehaviour] -->
 
 ## Node Proxy Action Flowchart
 

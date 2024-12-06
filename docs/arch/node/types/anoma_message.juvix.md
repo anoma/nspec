@@ -40,7 +40,8 @@ tags:
 
     import arch.node.net.router_messages open;
     import arch.node.net.node_proxy_messages open;
-    import arch.node.net.transport_messages open;
+    import arch.node.net.transport_protocol_messages open;
+    import arch.node.net.transport_connection_messages open;
     import arch.node.net.pub_sub_topic_messages open;
     import arch.node.net.storage_messages open;
 
@@ -89,9 +90,9 @@ type Msg :=
   {- Network -}
 
   | MsgRouter (RouterMsg Msg)
-  | MsgNodeProxy NodeProxyMsg
+  | MsgNodeProxy (NodeProxyMsg Msg)
   | MsgTransportProtocol TransportProtocolMsg
-  | MsgTransportConnection TransportConectionMsg
+  | MsgTransportConnection TransportConnectionMsg
   | MsgPubSubTopic PubSubTopicMsg
   | MsgStorage StorageMsg
 

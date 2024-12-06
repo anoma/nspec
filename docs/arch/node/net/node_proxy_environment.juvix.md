@@ -76,11 +76,11 @@ NodeProxyEnv : Type :=
 
 #### Instantiation
 
-<!-- --8<-- [start:nodeProxyEnv] -->
+<!-- --8<-- [start:exNodeProxyEnv] -->
 ```juvix extract-module-statements
 module node_proxy_environment_example;
 
-nodeProxyEnv : NodeProxyEnv :=
+exNodeProxyEnv : NodeProxyEnv :=
   mkEngineEnv@{
     localState := mkNodeProxyLocalState;
     mailboxCluster := Map.empty;
@@ -90,4 +90,4 @@ nodeProxyEnv : NodeProxyEnv :=
 
 end;
 ```
-<!-- --8<-- [end:nodeProxyEnv] -->
+<!-- --8<-- [end:exNodeProxyEnv] -->
