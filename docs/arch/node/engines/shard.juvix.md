@@ -34,7 +34,7 @@ tags:
 ## Purpose
 
 The Shards together store and update the
- [state](../index.md#state) of the replicated state machine and
+ *state* of the replicated state machine and
   together are a component of the [[Execution Engines]].
 They provide [[Executor]]s with input data and update the state
  according to the results of [[Executor]]s' computations.
