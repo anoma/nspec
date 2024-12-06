@@ -52,9 +52,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 
 <!-- --8<-- [start:MempoolWorkerActionArgument] -->
 ```juvix
-type MempoolWorkerActionArgument :=
-  | NoArgument
-  ;
+syntax alias MempoolWorkerActionArgument := Unit;
 ```
 <!-- --8<-- [end:MempoolWorkerActionArgument] -->
 
@@ -118,14 +116,17 @@ Action processing a new transaction request.
 
 State update
 : - Increments gensym counter
-  - Adds transaction to transactions map with new fingerprint
+  - Adds transaction to transactions maps with new fingerprint
 
 Messages to be sent
-: - TransactionAck to requester
-  - KVSAcquireLock messages to relevant shards
+: - `TransactionAck` to requester
+  - `KVSAcquireLock` messages to relevant shards
 
 Engines to be spawned
-: - Creates new executor engine for the transaction
+: - Creates new [[Executor Engine]] for the transaction
+
+Timer updates
+: No timers are set or cancelled.
 
 <!-- --8<-- [start:handleTransactionRequest] -->
 ```juvix
@@ -140,17 +141,17 @@ handleTransactionRequest
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
       | mkEngineMsg@{msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionRequest request); sender := sender} :=
-          let newGensym := MempoolWorkerLocalState.gensym local + 1;
+          let fingerprint := MempoolWorkerLocalState.gensym local + 1;
               worker_id := getEngineIDFromEngineCfg cfg;
-              tx := TransactionRequest.tx request;
+              candidate := TransactionRequest.tx request;
               executor_name := nameGen "executor" (snd worker_id) worker_id;
               executor_id := mkPair none executor_name;
               executorCfg := Anoma.CfgExecutor mkExecutorCfg@{
-                  timestamp := newGensym;
-                  executable := TransactionCandidate.executable tx;
+                  timestamp := fingerprint;
+                  executable := TransactionCandidate.executable candidate;
                   lazy_read_keys := Set.empty;
-                  eager_read_keys := Set.fromList (TransactionLabel.read (TransactionCandidate.label tx));
-                  will_write_keys := Set.fromList (TransactionLabel.write (TransactionCandidate.label tx));
+                  eager_read_keys := Set.fromList (TransactionLabel.read (TransactionCandidate.label candidate));
+                  will_write_keys := Set.fromList (TransactionLabel.write (TransactionCandidate.label candidate));
                   may_write_keys := Set.empty;
                   worker := worker_id;
                   issuer := sender
@@ -169,13 +170,13 @@ handleTransactionRequest
                 timers := []
               };
               newState := local@MempoolWorkerLocalState{
-                gensym := newGensym;
-                transactions := Map.insert newGensym tx (MempoolWorkerLocalState.transactions local);
-                transactionEngines := Map.insert executor_id newGensym (MempoolWorkerLocalState.transactionEngines local)
+                gensym := fingerprint;
+                transactions := Map.insert fingerprint candidate (MempoolWorkerLocalState.transactions local);
+                transactionEngines := Map.insert executor_id fingerprint (MempoolWorkerLocalState.transactionEngines local)
               };
               newEnv := env@EngineEnv{localState := newState};
-              read_keys := Set.fromList (TransactionLabel.read (TransactionCandidate.label tx));
-              write_keys := Set.fromList (TransactionLabel.write (TransactionCandidate.label tx));
+              read_keys := Set.fromList (TransactionLabel.read (TransactionCandidate.label candidate));
+              write_keys := Set.fromList (TransactionLabel.write (TransactionCandidate.label candidate));
               shards := Set.toList (Set.map keyToShard (Set.union read_keys write_keys));
               shardMsgs := map
                 \{shard :=
@@ -188,7 +189,7 @@ handleTransactionRequest
                         may_write_keys := Set.empty;
                         worker := worker_id;
                         executor := executor_id;
-                        timestamp := newGensym
+                        timestamp := fingerprint
                       };
                   in mkEngineMsg@{
                     sender := worker_id;
@@ -203,11 +204,11 @@ handleTransactionRequest
                 mailbox := some 0;
                 msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionAck
                   (mkTransactionAck@{
-                    tx_hash := hash newGensym tx;
+                    tx_hash := hash fingerprint candidate;
                     batch_number := MempoolWorkerLocalState.batch_number local;
                     batch_start := 0;
                     worker_id := worker_id;
-                    signature := sign newGensym tx
+                    signature := sign fingerprint candidate
                   }))
               };
           in some mkActionEffect@{
@@ -236,6 +237,9 @@ Messages to be sent
 
 Engines to be spawned
 : None
+
+Timer updates
+: No timers are set or cancelled.
 
 <!-- --8<-- [start:handleLockAcquired] -->
 ```juvix
@@ -334,6 +338,9 @@ Messages to be sent
 
 Engines to be spawned
 : None
+
+Timer updates
+: No timers are set or cancelled.
 
 <!-- --8<-- [start:handleExecutorFinished] -->
 ```juvix
@@ -436,7 +443,7 @@ handleTransactionRequestGuard
     | some mkEngineMsg@{msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionRequest _)} :=
       some mkGuardOutput@{
         action := handleTransactionRequestLabel;
-        args := [NoArgument]
+        args := []
       }
     | _ := none
   };
@@ -464,7 +471,7 @@ handleLockAcquiredGuard
     | some mkEngineMsg@{msg := Anoma.MsgShard (ShardMsgKVSLockAcquired _)} :=
       some mkGuardOutput@{
         action := handleLockAcquiredLabel;
-        args := [NoArgument]
+        args := []
       }
     | _ := none
   };
@@ -487,7 +494,7 @@ handleExecutorFinishedGuard
     | some mkEngineMsg@{msg := Anoma.MsgExecutor (ExecutorMsgExecutorFinished _)} :=
       some mkGuardOutput@{
         action := handleExecutorFinishedLabel;
-        args := [NoArgument]
+        args := []
       }
     | _ := none
   };
@@ -528,9 +535,9 @@ mempoolWorkerBehaviour : MempoolWorkerBehaviour :=
 ```
 <!-- --8<-- [end:mempoolWorkerBehaviour] -->
 
-## Mempool Worker Action Flowcharts
+# Mempool Worker Action Flowcharts
 
-### Transaction Request Flow
+## `handleTransactionRequest` flowchart
 
 <figure markdown>
 
@@ -543,21 +550,22 @@ flowchart TD
   G(handleTransactionRequestGuard)
   A(handleTransactionRequest)
 
-  C --> G -- *handleTransactionRequestLabel* --> A --> E
-
   subgraph E[Effects]
-    EEnv[(Increment gensym<br/>Add to transactions)]
-    EMsg>TransactionAck to requester<br/>KVSAcquireLock to shards]
-    EEng[Spawn executor engine]
+    EState[(Update gensym and transactions)]
+    EMsg1>TransactionAck to requester]
+    EMsg2>KVSAcquireLock to shards]
+    EEng[(Create Executor Engine)]
   end
+
+  C --> G -- handleTransactionRequestLabel --> A --> E
 ```
 
 <figcaption markdown="span">
-Transaction request handling flow
+`handleTransactionRequest` flowchart
 </figcaption>
 </figure>
 
-### Lock Acquired Flow
+## `handleLockAcquired` flowchart
 
 <figure markdown>
 
@@ -570,20 +578,20 @@ flowchart TD
   G(handleLockAcquiredGuard)
   A(handleLockAcquired)
 
-  C --> G -- *handleLockAcquiredLabel* --> A --> E
-
   subgraph E[Effects]
-    EEnv[(Add to locks_acquired<br/>Update seen counters)]
+    EState[(Update locks_acquired & seen counters)]
     EMsg>UpdateSeenAll to shards]
   end
+
+  C --> G -- handleLockAcquiredLabel --> A --> E
 ```
 
 <figcaption markdown="span">
-Lock acquired handling flow
+`handleLockAcquired` flowchart
 </figcaption>
 </figure>
 
-### Executor Finished Flow
+## `handleExecutorFinished` flowchart
 
 <figure markdown>
 
@@ -596,14 +604,14 @@ flowchart TD
   G(handleExecutorFinishedGuard)
   A(handleExecutorFinished)
 
-  C --> G -- *handleExecutorFinishedLabel* --> A --> E
-
   subgraph E[Effects]
-    EEnv[(Add to execution_summaries)]
+    EState[(Update execution_summaries)]
   end
+
+  C --> G -- handleExecutorFinishedLabel --> A --> E
 ```
 
 <figcaption markdown="span">
-Executor finished handling flow
+`handleExecutorFinished` flowchart
 </figcaption>
 </figure>

@@ -22,7 +22,7 @@ tags:
 
 # Mempool Worker Messages
 
-These are the messages that the Mempool Worker engine can receive/respond to.
+These are the specific messages that the Mempool Worker engine can receive/respond to.
 
 ## Message interface
 
@@ -46,7 +46,7 @@ type TransactionRequest : Type :=
     : The transaction candidate to be ordered and executed.
 
     `resubmission`
-    : Optional reference to a previous occurrence of the same transaction candidate.
+    : Optional reference to a previous occurrence of the same transaction candidate (currently unused).
 
 ### `MempoolWorkerMsgTransactionAck TransactionAck`
 
@@ -68,19 +68,19 @@ type TransactionAck : Type :=
 ???+ quote "Arguments"
 
     `tx_hash`
-    : The hash of the acknowledged transaction candidate.
+    : The hash of the acknowledged transaction candidate (Currently unused).
 
     `batch_number`
-    : The batch number assigned to the transaction.
+    : The batch number assigned to the transaction (Currently unused).
 
     `batch_start`
-    : The wall clock time when the batch was opened.
+    : The wall clock time when the batch was opened (Currently unused).
 
     `worker_id`
     : The external identity of the worker engine that processed the transaction.
 
     `signature`
-    : The signature of the worker engine over the above fields.
+    : The signature of the worker engine over the above fields (Currently unused).
 
 ### `MempoolWorkerMsg`
 
