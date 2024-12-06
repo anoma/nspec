@@ -37,55 +37,77 @@ The *Network Subsystem* consists of the following engines.
 
 ### Spawn tree & message flow
 
+<figure markdown="span">
+
 ```mermaid
 flowchart TD
+
+N(Node)
 
 E1(Engine1)
 E2(Engine2)
 E3(Engine3)
 
-R(Router)
+subgraph Network Subsystem
+  R(Router)
 
-NP1(NodeProxy1)
-NP2(NodeProxy2)
-NP3(NodeProxy3)
+  subgraph NodeProxies
+    NP1(NProxy-1)
+    NP2(NProxy-2)
+    NP3(NProxy-3)
+  end
 
-T1(Topic1)
-T2(Topic2)
-T3(Topic3)
+  subgraph PubSub
+    T1(Topic-1)
+    T2(Topic-2)
+    T3(Topic-3)
+  end
 
-TP1(TransProto1)
-TP2(TransProto2)
-TP3(TransProto3)
-TC1(TransConn1)
-TC2(TransConn2)
-TC3(TransConn3)
+  subgraph Transport
+    TP1(TProto-1)
+    TP2(TProto-2)
+    TP3(TProto-3)
+
+    TC11(TConn-1-1)
+    TC12(TConn-1-2)
+    TC21(TConn-2-1)
+    TC31(TConn-3-1)
+    TC32(TConn-3-2)
+  end
+end
+
+NET(Network)
 
 %% Spawn tree
 
-R -.-> NP1
-R -.-> NP2
-R -.-> NP3
-
-T -.-> TP1
-T -.-> TP2
-T -.-> TP3
-
-TP1 -.-> TC1
-TP1 -.-> TC2
-
-TP2 -.-> TC3
-
-TP3 -.-> TC4
-TP3 -.-> TC5
+N -.-> R & TP1 & TP2 & TP3 & E1 & E2 & E3
+R -.-> NP1 & NP2 & NP3 & T1 & T2 & T3
+TP1 -.-> TC11 & TC12
+TP2 -.-> TC21
+TP3 -.-> TC31 & TC32
 
 %% Message flow
 
-E1 -- EngineMsg --> R -- EngineMsg --> E2
+%% Intra-node communacation between local engines
+E1 -- Send --> E2
 
-%% First message to open a connection
-A_E2 -- Send --> A_R -- Send --> A_NP1 -- Send --> A_TP1 -- Send --> A_TC1 -- network transport --> B_TC3
+%% First message via R to open a connection
+E2 -- NodeSend --> R -- Send --> NP2 -- Send --> TP2 -- Send --> TC21 --> NET
+E2 -- TopicForward --> R -- Forward --> T1
 
 %% Subsequent messages
-A_E2 -- Send --> A_NP1 -- Send --> A_TC1 -- network transport --> B_TC3
+E2 -- Send --> NP2
+E2 -- Forward --> T1
+
+T1 -- Send --> E3
+T1 -- Send --> NP1 -- Send --> TP1 -- Send --> TC12 --> NET
 ```
+<figcaption markdown="span">
+
+Spawn tree & message flow:
+- dotted: spawn
+- solid: message send
+
+</figcaption>
+
+</figure>

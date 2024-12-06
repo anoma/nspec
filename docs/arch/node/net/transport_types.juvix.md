@@ -76,7 +76,7 @@ type TLSAddress :=
 `cert_issuer`
 : TLS certificate issuer fingerprint
 
-## TransportAddress
+## `TransportAddress`
 
 ```juvix
 type TransportAddress :=
