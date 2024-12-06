@@ -272,10 +272,10 @@ findMaxConsecutiveLocked
   };
 
 getAllShards (transactions : Map TxFingerprint TransactionCandidate) : Set EngineID :=
-  let getAllKeysFromLabel (label : TransactionLabel) : List KVSKey := 
+  let getAllKeysFromLabel (label : TransactionLabel) : List KVSKey :=
         TransactionLabel.read label ++ TransactionLabel.write label;
-      allKeys := List.concatMap 
-        \{tx := getAllKeysFromLabel (TransactionCandidate.label tx)} 
+      allKeys := List.concatMap
+        \{tx := getAllKeysFromLabel (TransactionCandidate.label tx)}
         (Map.values transactions);
   in Set.fromList (map keyToShard allKeys);
 
