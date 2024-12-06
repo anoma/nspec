@@ -32,6 +32,17 @@ search:
     import arch.node.engines.wall_clock_environment open;
     import arch.node.engines.local_time_series_storage_environment open;
 
+    {- Network -}
+
+    import arch.node.net.router_environment open;
+    import arch.node.net.node_proxy_environment open;
+    import arch.node.net.transport_protocol_environment open;
+    import arch.node.net.transport_connection_environment open;
+    import arch.node.net.pub_sub_topic_environment open;
+    import arch.node.net.storage_environment open;
+
+    {- Ordering -}
+
     import arch.node.engines.mempool_worker_environment open;
     import arch.node.engines.executor_environment open;
     import arch.node.engines.shard_environment open;
@@ -76,6 +87,15 @@ type Env :=
   | EnvLogging LoggingEnv
   | EnvWallClock WallClockEnv
   | EnvLocalTSeries LocalTSStorageEnv
+
+  {- Network -}
+
+  | EnvRouter RouterEnv
+  | EnvNodeProxy NodeProxyEnv
+  | EnvTransportProtocol TransportProtocolEnv
+  | EnvTransportConnection TransportConnectionEnv
+  | EnvPubSubTopic PubSubTopicEnv
+  | EnvStorage StorageEnv
 
   {- Ordering -}
 

@@ -110,12 +110,36 @@ Cryptographic topic identity.
 syntax alias TopicID := ExternalID;
 ```
 
+### PublisherID
+
+Cryptographic identity of a publisher in a pub/sub topic.
+
+```juvix
+syntax alias PublisherID := ExternalID;
+```
+
 ### DomainID
 
 Cryptographic domain identity.
 
 ```juvix
 syntax alias DomainID := ExternalID;
+```
+
+### MemberID
+
+Cryptographic identity of a member in a domain.
+
+```juvix
+syntax alias MemberID := ExternalID;
+```
+
+### ChunkID
+
+Cryptographic content addressed hash digest of a data chunk.
+
+```juvix
+syntax alias ChunkID := Digest;
 ```
 
 ## Engine Related Types
@@ -299,8 +323,6 @@ type IdentityNameEvidence := mkIdentityNameEvidence {
         cmp := IdentityNameEvidenceCmpDummy;
       };
     ```
-
-
 
 ### Ordering Aliases
 
