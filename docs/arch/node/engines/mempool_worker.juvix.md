@@ -5,8 +5,7 @@ search:
 categories:
 - engine
 tags:
-- mempool
-- mempool-worker
+- mempool-worker-engine
 - engine-definition
 ---
 
@@ -18,12 +17,18 @@ tags:
     import prelude open;
     import arch.node.types.engine open;
 
+    import arch.node.engines.mempool_worker_config open public;
     import arch.node.engines.mempool_worker_messages open public;
     import arch.node.engines.mempool_worker_environment open public;
     import arch.node.engines.mempool_worker_behaviour open public;
+
+    import arch.node.types.anoma as Anoma open;
+
+    open mempool_worker_config_example;
+    open mempool_worker_environment_example;
     ```
 
-# Mempool Worker
+# Mempool Worker Engine
 
 ## Purpose
 
@@ -56,23 +61,28 @@ Workers also are in charge of collecting and curating logs of transaction
 execution. Success is equivalent to all reads and writes being successful and an
 [[ExecutorFinished]]-message from the [[Executor#executor|executor]] that was
 spawned to execute the message.
+
 ## Components
 
-- [[Worker Messages]]
-- [[Worker Environment]]
-- [[Worker Behaviour]]
+- [[Mempool Worker Messages]]
+- [[Mempool Worker Configuration]]
+- [[Mempool Worker Environment]]
+- [[Mempool Worker Behaviour]]
 
 ## Type
 
 <!-- --8<-- [start:MempoolWorkerEngine] -->
 ```juvix
-MempoolWorkerEngine : Type := Engine
-  MempoolWorkerLocalState
-  MempoolWorkerMailboxState
-  MempoolWorkerTimerHandle
-  MempoolWorkerMatchableArgument
-  MempoolWorkerActionLabel
-  MempoolWorkerPrecomputation;
+MempoolWorkerEngine : Type :=
+  Engine
+    MempoolWorkerCfg
+    MempoolWorkerLocalState
+    MempoolWorkerMailboxState
+    MempoolWorkerTimerHandle
+    MempoolWorkerActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:MempoolWorkerEngine] -->
 
@@ -80,19 +90,24 @@ MempoolWorkerEngine : Type := Engine
 
 <!-- --8<-- [start:exampleMempoolWorkerEngine] -->
 ```juvix
-exampleMempoolWorkerEngine : MempoolWorkerEngine := mkEngine@{
-    name := "mempool_worker";
-    initEnv := commitmentEnvironment;
+exampleMempoolWorkerEngine : MempoolWorkerEngine :=
+  mkEngine@{
+    cfg := mempoolWorkerCfg;
+    env := mempoolWorkerEnv;
     behaviour := mempoolWorkerBehaviour;
   };
 ```
-<!-- --8<-- [end:exampleMempoolWorkerEngine] -->
+<!-- --8<-- [start:exampleMempoolWorkerEngine] -->
 
-where `mempoolWorkerEnvironment` is defined as follows:
+where `mempoolWorkerCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/mempool_worker_environment.juvix.md:mempoolWorkerEnvironment"
+--8<-- "./docs/arch/node/engines/mempool_worker_config.juvix.md:mempoolWorkerCfg"
+
+where `mempoolWorkerEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/engines/mempool_worker_environment.juvix.md:mempoolWorkerEnv"
 
 and `mempoolWorkerBehaviour` is defined as follows:
 
-!!! todo
-    Figure out what it means to define behaviour and put it here
+--8<-- "./docs/arch/node/engines/mempool_worker_behaviour.juvix.md:mempoolWorkerBehaviour"
+
