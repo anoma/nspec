@@ -112,7 +112,7 @@ type KVSAcquireLockMsg : Type :=
     eager_read_keys : Set KVSKey;
     will_write_keys : Set KVSKey;
     may_write_keys : Set KVSKey;
-    curator : EngineID;
+    worker : EngineID;
     executor : EngineID;
     timestamp : TxFingerprint
   }
@@ -133,7 +133,7 @@ type KVSAcquireLockMsg : Type :=
     `may_write_keys`
     : Keys this transaction may write
 
-    `curator`
+    `worker`
     : The Worker Engine in charge of the transaction
 
     `executor`

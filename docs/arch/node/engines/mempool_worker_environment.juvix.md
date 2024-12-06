@@ -41,7 +41,7 @@ type MempoolWorkerLocalState := mkMempoolWorkerLocalState {
   batch_number : BatchNumber;
   transactions : Map TxFingerprint TransactionCandidate;
   transactionEngines : Map EngineID TxFingerprint;
-  locks_acquired : List KVSLockAcquiredMsg;
+  locks_acquired : List (Pair EngineID KVSLockAcquiredMsg);
   seen_all_writes : TxFingerprint;
   seen_all_reads : TxFingerprint;
   execution_summaries : Map TxFingerprint ExecutorFinishedMsg;

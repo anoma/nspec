@@ -20,7 +20,6 @@ import prelude;
 
 {- System -}
 
-import arch.system.identity.index;
 import arch.system.identity.identity;
 
 {- Types -}

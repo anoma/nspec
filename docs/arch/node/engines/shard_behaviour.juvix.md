@@ -369,7 +369,7 @@ State update
 : Update DAG with new read/write accesses.
 
 Messages to be sent
-: KVSLockAcquired message to curator.
+: KVSLockAcquired message to worker.
 
 <!-- --8<-- [start:acquireLockAction] -->
 ```juvix
@@ -426,7 +426,7 @@ acquireLockAction
         msgs :=
           mkEngineMsg@{
             sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-            target := KVSAcquireLockMsg.curator lockMsg;
+            target := KVSAcquireLockMsg.worker lockMsg;
             mailbox := some 0;
             msg := Anoma.MsgShard (ShardMsgKVSLockAcquired
               mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})

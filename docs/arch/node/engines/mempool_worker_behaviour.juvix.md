@@ -18,13 +18,14 @@ tags:
     import arch.node.engines.mempool_worker_messages open;
     import arch.node.engines.mempool_worker_config open;
     import arch.node.engines.mempool_worker_environment open;
-    import arch.node.engines.executor_messages open;
     import arch.node.engines.shard_messages open;
+    import arch.node.engines.executor_messages open;
     import arch.node.engines.executor_config open;
     import arch.node.engines.executor_environment open;
 
     import prelude open;
     import Stdlib.Data.Nat open;
+    import Stdlib.Data.List as List;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -41,8 +42,8 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 ??? quote "Auxiliary Juvix code"
 
     ```juvix
-    axiom sign : Signature;
-    axiom hash : Hash;
+    axiom sign : TxFingerprint -> TransactionCandidate -> Signature;
+    axiom hash : TxFingerprint -> TransactionCandidate -> Hash;
     ```
 
 ## Action arguments
@@ -111,43 +112,6 @@ MempoolWorkerActionArguments : Type := List MempoolWorkerActionArgument;
         Anoma.Env;
     ```
 
-### Helper functions
-
-```juvix
-notifyShards
-  (sender : EngineID)
-  (label : TransactionLabel)
-  (timestamp : TxFingerprint)
-  (worker : EngineID)
-  (executor : EngineID)
-  : List (EngineMsg Anoma.Msg) :=
-    let eager_keys := Set.fromList (TransactionLabel.read label);
-        write_keys := Set.fromList (TransactionLabel.write label);
-        lockRequest := mkKVSAcquireLockMsg@{
-          lazy_read_keys := Set.empty;
-          eager_read_keys := eager_keys;
-          will_write_keys := write_keys;
-          may_write_keys := Set.empty;
-          curator := worker;
-          executor := executor;
-          timestamp := timestamp
-        };
-        shards := Set.toList (Set.map keyToShard (Set.union eager_keys write_keys));
-    in map
-      \{shard :=
-        mkEngineMsg@{
-          sender := sender;
-          target := shard;
-          mailbox := some 0;
-          msg := Anoma.MsgShard (ShardMsgKVSAcquireLock lockRequest)
-        }} shards;
-
-incrementGensym (state : MempoolWorkerLocalState) : MempoolWorkerLocalState :=
-  state@MempoolWorkerLocalState{
-    gensym := MempoolWorkerLocalState.gensym state + 1
-  };
-```
-
 ### `handleTransactionRequest`
 
 Action processing a new transaction request.
@@ -164,7 +128,6 @@ Engines to be spawned
 : - Creates new executor engine for the transaction
 
 <!-- --8<-- [start:handleTransactionRequest] -->
-TODO: Generate environment!
 ```juvix
 handleTransactionRequest
   (input : MempoolWorkerActionInput)
@@ -179,11 +142,10 @@ handleTransactionRequest
       | mkEngineMsg@{msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionRequest request); sender := sender} :=
           let newGensym := MempoolWorkerLocalState.gensym local + 1;
               worker_id := getEngineIDFromEngineCfg cfg;
-              node_id := EngineCfg.node cfg;
               tx := TransactionRequest.tx request;
               executor_name := nameGen "executor" (snd worker_id) worker_id;
               executor_id := mkPair none executor_name;
-              executorCfg := CfgExecutor mkExecutorCfg@{
+              executorCfg := Anoma.CfgExecutor mkExecutorCfg@{
                   timestamp := newGensym;
                   executable := TransactionCandidate.executable tx;
                   lazy_read_keys := Set.empty;
@@ -193,25 +155,59 @@ handleTransactionRequest
                   worker := worker_id;
                   issuer := sender
                 };
-              executorEnv := (Anoma.EnvExecutor undef);
+              executorEnv := Anoma.EnvExecutor mkEngineEnv@{
+                localState := mkExecutorLocalState@{
+                  program_state := mkProgramState@{
+                    data := "";
+                    halted := false
+                  };
+                  completed_reads := Map.empty;
+                  completed_writes := Map.empty
+                };
+                mailboxCluster := Map.empty;
+                acquaintances := Set.empty;
+                timers := []
+              };
               newState := local@MempoolWorkerLocalState{
                 gensym := newGensym;
                 transactions := Map.insert newGensym tx (MempoolWorkerLocalState.transactions local);
                 transactionEngines := Map.insert executor_id newGensym (MempoolWorkerLocalState.transactionEngines local)
               };
               newEnv := env@EngineEnv{localState := newState};
-              shardMsgs := notifyShards worker_id (TransactionCandidate.label tx) newGensym worker_id executor_id;
+              read_keys := Set.fromList (TransactionLabel.read (TransactionCandidate.label tx));
+              write_keys := Set.fromList (TransactionLabel.write (TransactionCandidate.label tx));
+              shards := Set.toList (Set.map keyToShard (Set.union read_keys write_keys));
+              shardMsgs := map 
+                \{shard := 
+                  let shard_read_keys := Set.filter (\{key := snd (keyToShard key) == snd shard}) read_keys;
+                      shard_write_keys := Set.filter (\{key := snd (keyToShard key) == snd shard}) write_keys;
+                      lockRequest := mkKVSAcquireLockMsg@{
+                        lazy_read_keys := Set.empty;
+                        eager_read_keys := shard_read_keys;
+                        will_write_keys := shard_write_keys;
+                        may_write_keys := Set.empty;
+                        worker := worker_id;
+                        executor := executor_id;
+                        timestamp := newGensym
+                      };
+                  in mkEngineMsg@{
+                    sender := worker_id;
+                    target := shard;
+                    mailbox := some 0;
+                    msg := Anoma.MsgShard (ShardMsgKVSAcquireLock lockRequest)
+                  }}
+                shards;
               ackMsg := mkEngineMsg@{
                 sender := worker_id;
                 target := sender;
                 mailbox := some 0;
                 msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionAck
                   (mkTransactionAck@{
-                    tx_hash := hash;
+                    tx_hash := hash newGensym tx;
                     batch_number := MempoolWorkerLocalState.batch_number local;
-                    batch_start := 0; -- TODO: actual time
+                    batch_start := 0;
                     worker_id := worker_id;
-                    signature := sign
+                    signature := sign newGensym tx
                   }))
               };
           in some mkActionEffect@{
@@ -242,9 +238,32 @@ Engines to be spawned
 : None
 
 <!-- --8<-- [start:handleLockAcquired] -->
-TODO: Correct logic. This should onl update the seen_all_writes if the timestamp is the largest AND all previous are aquired.
-      what it should do is simply calculate the largest consecutive aquired timestamp.
 ```juvix
+allLocksAcquired 
+  (tx : TransactionCandidate) 
+  (txNum : TxFingerprint)
+  (locks : List (Pair EngineID KVSLockAcquiredMsg)) : Bool :=
+  let readShards := map keyToShard (TransactionLabel.read (TransactionCandidate.label tx));
+      writeShards := map keyToShard (TransactionLabel.write (TransactionCandidate.label tx));
+      neededShards := Set.fromList (readShards ++ writeShards);
+      lockingShards := Set.fromList (map fst (List.filter \{lock := KVSLockAcquiredMsg.timestamp (snd lock) == txNum} locks));
+  in Set.isSubset neededShards lockingShards;
+
+-- Find highest transaction such that it and all previous transactions have all their locks acquired.
+terminating
+findMaxConsecutiveLocked 
+  (transactions : Map TxFingerprint TransactionCandidate)
+  (locks : List (Pair EngineID KVSLockAcquiredMsg))
+  (current : TxFingerprint) 
+  (prev : TxFingerprint) : TxFingerprint :=
+  case Map.lookup current transactions of {
+    | none := prev
+    | some tx := case allLocksAcquired tx current locks of {
+      | true := findMaxConsecutiveLocked transactions locks (current + 1) current
+      | false := prev
+    }
+  };
+
 handleLockAcquired
   (input : MempoolWorkerActionInput)
   : Option MempoolWorkerActionEffect :=
@@ -255,33 +274,30 @@ handleLockAcquired
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
       | mkEngineMsg@{msg := Anoma.MsgShard (ShardMsgKVSLockAcquired lockMsg); sender := sender} :=
-          let timestamp := KVSLockAcquiredMsg.timestamp lockMsg;
-              newLocks := lockMsg :: MempoolWorkerLocalState.locks_acquired local;
-              newState := local@MempoolWorkerLocalState{
-                locks_acquired := newLocks;
-                seen_all_writes :=
-                  case MempoolWorkerLocalState.seen_all_writes local < timestamp of {
-                    | true := timestamp
-                    | false := MempoolWorkerLocalState.seen_all_writes local
-                  }
-              };
-              newEnv := env@EngineEnv{localState := newState};
-              updateMsg := mkEngineMsg@{
-                sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-                target := sender;
-                mailbox := some 0;
-                msg := Anoma.MsgShard (ShardMsgUpdateSeenAll
-                  (mkUpdateSeenAllMsg@{
-                    timestamp := timestamp;
-                    write := true
-                  }))
-              };
-          in some mkActionEffect@{
-            env := newEnv;
-            msgs := [updateMsg];
-            timers := [];
-            engines := []
-          }
+        let timestamp := KVSLockAcquiredMsg.timestamp lockMsg;
+            newLocks := (mkPair sender lockMsg) :: MempoolWorkerLocalState.locks_acquired local;
+            maxConsecutive := findMaxConsecutiveLocked (MempoolWorkerLocalState.transactions local) newLocks 1 0;
+            newState := local@MempoolWorkerLocalState{
+              locks_acquired := newLocks;
+              seen_all_writes := maxConsecutive
+            };
+            newEnv := env@EngineEnv{localState := newState};
+            updateMsg := mkEngineMsg@{
+              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+              target := sender;
+              mailbox := some 0;
+              msg := Anoma.MsgShard (ShardMsgUpdateSeenAll
+                (mkUpdateSeenAllMsg@{
+                  timestamp := maxConsecutive;
+                  write := true
+                }))
+            };
+        in some mkActionEffect@{
+          env := newEnv;
+          msgs := [updateMsg];
+          timers := [];
+          engines := []
+        }
       | _ := none
     }
     | _ := none
