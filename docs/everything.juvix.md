@@ -20,7 +20,6 @@ import prelude;
 
 {- System -}
 
-import arch.system.identity.index;
 import arch.system.identity.identity;
 
 {- Types -}
@@ -105,6 +104,8 @@ import arch.node.engines.verification_environment;
 import arch.node.engines.verification_behaviour;
 import arch.node.engines.verification;
 
+{- Hardware -}
+
 import arch.node.engines.local_key_value_storage_messages;
 import arch.node.engines.local_key_value_storage_config;
 import arch.node.engines.local_key_value_storage_environment;
@@ -128,4 +129,24 @@ import arch.node.engines.local_time_series_storage_config;
 import arch.node.engines.local_time_series_storage_environment;
 import arch.node.engines.local_time_series_storage_behaviour;
 import arch.node.engines.local_time_series_storage;
+
+{- Ordering -}
+
+import arch.node.engines.mempool_worker_messages;
+import arch.node.engines.mempool_worker_config;
+import arch.node.engines.mempool_worker_environment;
+import arch.node.engines.mempool_worker_behaviour;
+import arch.node.engines.mempool_worker;
+
+import arch.node.engines.executor_messages;
+import arch.node.engines.executor_config;
+import arch.node.engines.executor_environment;
+import arch.node.engines.executor_behaviour;
+import arch.node.engines.executor;
+
+import arch.node.engines.shard_messages;
+import arch.node.engines.shard_config;
+import arch.node.engines.shard_environment;
+import arch.node.engines.shard_behaviour;
+import arch.node.engines.shard;
 ```

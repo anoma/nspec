@@ -31,6 +31,10 @@ search:
     import arch.node.engines.logging_environment open;
     import arch.node.engines.wall_clock_environment open;
     import arch.node.engines.local_time_series_storage_environment open;
+
+    import arch.node.engines.mempool_worker_environment open;
+    import arch.node.engines.executor_environment open;
+    import arch.node.engines.shard_environment open;
     ```
 
 # Anoma Engine Environments
@@ -66,9 +70,17 @@ type Env :=
   | EnvSignsFor SignsForEnv
   | EnvNaming NamingEnv
 
+  {- Hardware -}
+
   | EnvLocalKeyValueStorage LocalKVStorageEnv
   | EnvLogging LoggingEnv
   | EnvWallClock WallClockEnv
   | EnvLocalTSeries LocalTSStorageEnv
+
+  {- Ordering -}
+
+  | EnvMempoolWorker MempoolWorkerEnv
+  | EnvExecutor ExecutorEnv
+  | EnvShard ShardEnv
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

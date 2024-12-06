@@ -127,6 +127,7 @@ type Cfg :=
 +  | CfgTicker TickerCfg
 ```
 
+
 ### Anoma Environment Index
 
 All environment types must be added to the `arch/node/types/anoma_environment.juvix.md` file.
