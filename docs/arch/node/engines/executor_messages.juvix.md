@@ -21,7 +21,7 @@ tags:
 
 # Executor Messages
 
-These are the messages that the Executor engine can receive/respond to.
+These are the specific messages that the Executor engine can receive/respond to.
 
 ## Message interface
 

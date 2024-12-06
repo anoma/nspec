@@ -34,17 +34,12 @@ The executor environment maintains state needed during transaction execution inc
     axiom executeStep : Executable -> ProgramState -> Pair KVSKey KVSDatum -> Result String (Pair ProgramState (List (Either KVSKey (Pair KVSKey KVSDatum))));
     ```
 
-???+ quote "Functions"
-
     `executeStep`:
     : Takes the executable code, current program state, and read key-value pair and returns either:
       - Error string on failure
       - New program state and list of either:
         - Left key for read requests
         - Right (key, value) for write requests
-
-    `keyToShard`:
-    : Maps a key to the EngineID of the shard responsible for it
 
 ## Mailbox states
 

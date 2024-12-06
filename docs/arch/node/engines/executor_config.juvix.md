@@ -54,7 +54,7 @@ type ExecutorCfg :=
     : The logical timestamp representing when this transaction executes in the ordering
 
     `executable`
-    : The transaction executable code
+    : The transaction's executable code
 
     `lazy_read_keys`
     : Keys that may be read during execution
@@ -72,7 +72,7 @@ type ExecutorCfg :=
     : ID of the worker engine to notify on completion
 
     `issuer`
-    : ID of the transaction sender
+    : ID of the transaction sender to notify on completion
 
 ## Instantiation
 

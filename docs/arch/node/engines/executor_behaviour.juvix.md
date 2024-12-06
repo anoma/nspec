@@ -108,6 +108,20 @@ syntax alias ExecutorActionArguments := Unit;
 
 Process a read response and execute the next program step.
 
+State update
+: Updates the program state with executed step results and tracks completed reads/writes
+
+Messages to be sent
+: - Read/Write messages to shards based on program outputs
+: - Notification messages for stale locks if program halts
+: - ExecutorFinished message if program halts
+
+Engines to be spawned
+: No engines are created by this action.
+
+Timer updates
+: No timers are set or cancelled.
+
 <!-- --8<-- [start:processReadAction] -->
 ```juvix
 processReadAction
@@ -118,7 +132,7 @@ processReadAction
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
   in case getMsgFromTimestampedTrigger trigger of {
-    | some (MsgShard (ShardMsgKVSRead (mkKVSReadMsg@{key := key; data := value}))) :=
+    | some (MsgShard (ShardMsgKVSRead (mkKVSReadMsg@{key := readKey; data := readValue}))) :=
       let
         envelope (target : EngineID) (msg : Anoma.Msg) : EngineMsg Anoma.Msg :=
           mkEngineMsg@{
@@ -130,14 +144,15 @@ processReadAction
         local := EngineEnv.localState env;
         reads := ExecutorLocalState.completed_reads local;
         writes := ExecutorLocalState.completed_writes local;
-        -- Messages to notify shards of stale locks
-        readMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
+
+        -- Precompute messages to notify shards of stale locks
+        staleReadMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
           envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
             key := key;
             actual := false
           })));
-        writeMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
+        staleWriteMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
           envelope (keyToShard key) (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
             key := key;
@@ -145,13 +160,13 @@ processReadAction
           })));
         staleReadLocations :=
           Set.difference (ExecutorCfg.lazy_read_keys cfg) (Set.fromList (Map.keys reads));
-        readStaleMsgs := map readMsg (Set.toList staleReadLocations);
+        readStaleMsgs := map staleReadMsg (Set.toList staleReadLocations);
         staleWriteLocations :=
           Set.difference (ExecutorCfg.may_write_keys cfg) (Set.fromList (Map.keys writes));
-        writeStaleMsgs := map writeMsg (Set.toList staleWriteLocations);
+        writeStaleMsgs := map staleWriteMsg (Set.toList staleWriteLocations);
         staleMsgs := readStaleMsgs ++ writeStaleMsgs;
 
-        stepInput := mkPair key value;
+        stepInput := mkPair readKey readValue;
         stepResult := executeStep
           (ExecutorCfg.executable cfg)
           (ExecutorLocalState.program_state local)
@@ -161,12 +176,12 @@ processReadAction
             let
               local := EngineEnv.localState env;
               finishedMsg :=
-              envelope (ExecutorCfg.issuer cfg)
-                (MsgExecutor (ExecutorMsgExecutorFinished mkExecutorFinishedMsg@{
-                  success := false;
-                  values_read := Map.toList reads;
-                  values_written := Map.toList writes
-              }));
+                envelope (ExecutorCfg.issuer cfg)
+                  (MsgExecutor (ExecutorMsgExecutorFinished mkExecutorFinishedMsg@{
+                    success := false;
+                    values_read := (mkPair readKey readValue) :: Map.toList reads;
+                    values_written := Map.toList writes
+                }));
             in some mkActionEffect@{
                 env := env;
                 msgs := finishedMsg :: staleMsgs;
@@ -175,7 +190,7 @@ processReadAction
               }
         | ok (mkPair program' outputs) :=
           let
-            sendRead (key : KVSKey)
+            accReads (key : KVSKey)
                      (msgs : List (EngineMsg Anoma.Msg)) :
                      List (EngineMsg Anoma.Msg) :=
               let msg :=
@@ -189,7 +204,7 @@ processReadAction
                 | true := msg :: msgs
                 | false := msgs
               };
-            sendWrite (key : KVSKey)
+            accWrites (key : KVSKey)
                       (value : KVSDatum)
                       (msgs : List (EngineMsg Anoma.Msg)) :
                       List (EngineMsg Anoma.Msg) :=
@@ -205,24 +220,26 @@ processReadAction
                 | true := msg :: msgs
                 | false := msgs
               };
-            processOutput (acc : Pair ExecutorLocalState (List (EngineMsg Anoma.Msg)))
-                          (out : Either KVSKey (Pair KVSKey KVSDatum)) :
+            sendHelper (acc : Pair ExecutorLocalState (List (EngineMsg Anoma.Msg)))
+                       (out : Either KVSKey (Pair KVSKey KVSDatum)) :
                 Pair ExecutorLocalState (List (EngineMsg Anoma.Msg)) :=
               let state := fst acc;
                   msgs := snd acc;
               in case out of {
-                | left key := mkPair state (sendRead key msgs)
+                | left key := mkPair state (accReads key msgs)
                 | right (mkPair key value) :=
                     let newState := state@ExecutorLocalState{
                         completed_writes := Map.insert key value (ExecutorLocalState.completed_writes state)
                       };
-                    in mkPair newState (sendWrite key value msgs)
+                    in mkPair newState (accWrites key value msgs)
               };
             initial := mkPair (local@ExecutorLocalState{program_state := program'}) [];
-            final := foldl processOutput initial outputs;
+            final := foldl sendHelper initial outputs;
             newLocalState := fst final;
             msgList := snd final;
-            newEnv := env@EngineEnv{localState := newLocalState};
+            newEnv := env@EngineEnv{localState := newLocalState@ExecutorLocalState{
+                        completed_reads := Map.insert readKey readValue (ExecutorLocalState.completed_reads newLocalState)
+                      }};
           in case ProgramState.halted program' of {
             | false := some mkActionEffect@{
                   env := newEnv;
