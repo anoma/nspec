@@ -233,13 +233,14 @@ processReadAction
                       };
                     in mkPair newState (accWrites key value msgs)
               };
-            initial := mkPair (local@ExecutorLocalState{program_state := program'}) [];
+            initial := mkPair (local@ExecutorLocalState{
+                        program_state := program';
+                        completed_reads := Map.insert readKey readValue (ExecutorLocalState.completed_reads local)
+                       }) [];
             final := foldl sendHelper initial outputs;
             newLocalState := fst final;
             msgList := snd final;
-            newEnv := env@EngineEnv{localState := newLocalState@ExecutorLocalState{
-                        completed_reads := Map.insert readKey readValue (ExecutorLocalState.completed_reads newLocalState)
-                      }};
+            newEnv := env@EngineEnv{localState := newLocalState};
           in case ProgramState.halted program' of {
             | false := some mkActionEffect@{
                   env := newEnv;

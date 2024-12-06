@@ -26,7 +26,9 @@ tags:
 
 ## Overview
 
-The shard environment maintains state about key-value pairs, tracking read and write accesses for each key across different transaction timestamps. It provides multi-version concurrent storage capabilities.
+The shard environment maintains state about key-value pairs, tracking read and write accesses
+for each key across different transaction timestamps. It provides multi-version concurrent storage
+capabilities.
 
 ## Mailbox states
 
@@ -80,10 +82,10 @@ type ShardLocalState := mkShardLocalState {
 ???+ quote "Arguments"
 
     `dagStructure`
-    : Structure tracking all key accesses across transactions, including read/write status and heardAllWrites point
+    : Structure tracking all key accesses across transactions, including read/write status and `heardAll` points
 
     `anchors`
-    : Sequence of consensus decisions (Not currently used)
+    : Sequence of consensus decisions (Currently unused)
 
 ## Timer handles
 

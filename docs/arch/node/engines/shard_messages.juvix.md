@@ -27,7 +27,7 @@ These are the messages that the Shard engine can receive/respond to.
 
 ### `ShardMsgKVSReadRequest KVSReadRequestMsg`
 
-Read request from an executor.
+Read request from an [[Executor Engine]].
 
 <!-- --8<-- [start:KVSReadRequestMsg] -->
 ```juvix
@@ -43,17 +43,17 @@ type KVSReadRequestMsg : Type :=
 ???+ quote "Arguments"
 
     `timestamp`
-    : The logical timestamp at which to read
+    : The logical timestamp identifying the transaction at which to read
 
     `key`
     : The key to read
 
     `actual`
-    : True if value is actually needed, false if just cleaning up lazy read
+    : True if value is actually needed, false if just cleaning up a lazy read
 
 ### `ShardMsgKVSWrite KVSWriteMsg`
 
-Write request from an executor.
+Write request from an [[Executor Engine]].
 
 <!-- --8<-- [start:KVSWriteMsg] -->
 ```juvix
@@ -69,17 +69,17 @@ type KVSWriteMsg : Type :=
 ???+ quote "Arguments"
 
     `timestamp`
-    : The timestamp identifying the transaction in which to write
+    : The logical timestamp identifying the transaction in which to write
 
     `key`
     : The key to write to
 
     `datum`
-    : The data to write, or None to indicate no write
+    : The data to write, or `none` to indicate no write
 
 ### `ShardMsgUpdateSeenAll UpdateSeenAllMsg`
 
-Update about seen transactions from mempool.
+Update about seen transactions from a [[Mempool Worker Engine]].
 
 <!-- --8<-- [start:UpdateSeenAllMsg] -->
 ```juvix
@@ -122,7 +122,7 @@ type KVSAcquireLockMsg : Type :=
 ???+ quote "Arguments"
 
     `lazy_read_keys`
-    : Keys this transaction may read (only send values read in response to KVSReadRequests)
+    : Keys this transaction may read (only send values read in response to `KVSReadRequest`s)
 
     `eager_read_keys`
     : Keys this transaction will read (send values read as soon as possible)

@@ -20,7 +20,7 @@ tags:
     import arch.node.engines.shard_environment open;
 
     import Stdlib.Data.Nat open;
-    import Stdlib.Data.List open;
+    import Stdlib.Data.List as List;
     import prelude open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
@@ -81,7 +81,7 @@ findMostRecentWrite
     | none := none
     | some timestampMap :=
       let validEntries :=
-        filter
+        List.filter
           \{entry :=
             (fst entry) < timestamp &&
             case KeyAccess.writeStatus (snd entry) of {
@@ -104,7 +104,7 @@ findMostRecentWrite
   };
 ```
 
--- add read lock
+-- add read without prior lock
 ```juvix
 addReadAccess
   (dag : DAGStructure)
@@ -126,7 +126,7 @@ addReadAccess
   in dag@DAGStructure{ keyAccesses := newKeyAccesses };
 ```
 
--- add write lock
+-- add write without prior lock
 ```juvix
 addWriteAccess
   (dag : DAGStructure)
@@ -233,7 +233,7 @@ generateReadMsg
 
 ```juvix
 -- Try to send a read message for a valid, pending eager read lock.
-processKeyAccess
+execEagerReadsAtTime
   (sender : EngineID)
   (dag : DAGStructure)
   (key : KVSKey)
@@ -267,7 +267,7 @@ processKeyAccess
 
 ```juvix
 -- Try to send a read messages for valid, pending eager read locks of a key.
-processKeyTimestamps
+execEagerReadsAtKey
   (sender : EngineID)
   (dag : DAGStructure)
   (key : KVSKey)
@@ -276,7 +276,7 @@ processKeyTimestamps
   let processTimestamp := \{k v acc :=
     case acc of {
       | mkPair currDag msgs :=
-        case processKeyAccess sender currDag key k v of {
+        case execEagerReadsAtTime sender currDag key k v of {
           | some processed := mkPair (fst processed) ((snd processed) :: msgs)
           | none := acc
         }
@@ -287,14 +287,14 @@ processKeyTimestamps
 
 ```juvix
 -- Try to send all read messages for valid, pending eager read locks.
-updateEagerReads
+execEagerReads
   (sender : EngineID)
   (dag : DAGStructure)
   : Pair DAGStructure (List (EngineMsg Msg)) :=
   let processKey := \{k v acc :=
     case acc of {
       | mkPair currDag msgs :=
-        let processed := processKeyTimestamps sender currDag k v;
+        let processed := execEagerReadsAtKey sender currDag k v;
         in mkPair (fst processed) (msgs ++ snd processed)
     }
   };
@@ -384,7 +384,7 @@ acquireLockAction
     | some mkEngineMsg@{
         msg := Anoma.MsgShard (ShardMsgKVSAcquireLock lockMsg)
       } :=
-      let addReadAccesses := \{key dag :=
+      let addEagerReadAccesses := \{key dag :=
             let readStatus := mkReadStatus@{
                   hasBeenRead := false;
                   isEager := true;
@@ -414,11 +414,11 @@ acquireLockAction
                 };
             in addWriteAccess dag key (KVSAcquireLockMsg.timestamp lockMsg) writeStatus
             };
-          dagWithReads := Set.foldr addReadAccesses (ShardLocalState.dagStructure local) (KVSAcquireLockMsg.eager_read_keys lockMsg);
-          dagWithLazyReads := Set.foldr addLazyReadAccesses dagWithReads (KVSAcquireLockMsg.lazy_read_keys lockMsg);
-          dagWithWillWrites := Set.foldr addWillWriteAccesses dagWithLazyReads (KVSAcquireLockMsg.will_write_keys lockMsg);
+          dagWithEagerReads := Set.foldr addEagerReadAccesses (ShardLocalState.dagStructure local) (KVSAcquireLockMsg.eager_read_keys lockMsg);
+          dagWithAllReads := Set.foldr addLazyReadAccesses dagWithEagerReads (KVSAcquireLockMsg.lazy_read_keys lockMsg);
+          dagWithWillWrites := Set.foldr addWillWriteAccesses dagWithAllReads (KVSAcquireLockMsg.will_write_keys lockMsg);
           dagWithAllWrites := Set.foldr addMayWriteAccesses dagWithWillWrites (KVSAcquireLockMsg.may_write_keys lockMsg);
-          propagationResult := updateEagerReads (getEngineIDFromEngineCfg cfg) dagWithAllWrites;
+          propagationResult := execEagerReads (getEngineIDFromEngineCfg cfg) dagWithAllWrites;
           newLocal := local@ShardLocalState{dagStructure := fst propagationResult};
           newEnv := env@EngineEnv{localState := newLocal};
       in some mkActionEffect@{
@@ -428,8 +428,7 @@ acquireLockAction
             sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
             target := KVSAcquireLockMsg.worker lockMsg;
             mailbox := some 0;
-            msg := Anoma.MsgShard (ShardMsgKVSLockAcquired
-              mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})
+            msg := Anoma.MsgShard (ShardMsgKVSLockAcquired mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})
           } :: snd propagationResult;
         timers := [];
         engines := []
@@ -467,7 +466,7 @@ processWriteAction
           timestamp := KVSWriteMsg.timestamp writeMsg;
       in case replaceWriteAccess dag key timestamp (KVSWriteMsg.datum writeMsg) of {
         | some updatedDag :=
-          let propagationResult := updateEagerReads (getEngineIDFromEngineCfg cfg) updatedDag;
+          let propagationResult := execEagerReads (getEngineIDFromEngineCfg cfg) updatedDag;
               newLocal := local@ShardLocalState{ dagStructure := fst propagationResult };
               newEnv := env@EngineEnv{ localState := newLocal };
               readMsgs := snd propagationResult;
@@ -594,7 +593,7 @@ updateSeenAllAction
               }
           };
           propagationResult := case UpdateSeenAllMsg.write updateMsg of {
-            | true := updateEagerReads (getEngineIDFromEngineCfg cfg) newDag
+            | true := execEagerReads (getEngineIDFromEngineCfg cfg) newDag
             | false := mkPair newDag []
           };
           newLocal := local@ShardLocalState{dagStructure := fst propagationResult};
