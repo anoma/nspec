@@ -177,8 +177,8 @@ handleTransactionRequest
               read_keys := Set.fromList (TransactionLabel.read (TransactionCandidate.label tx));
               write_keys := Set.fromList (TransactionLabel.write (TransactionCandidate.label tx));
               shards := Set.toList (Set.map keyToShard (Set.union read_keys write_keys));
-              shardMsgs := map 
-                \{shard := 
+              shardMsgs := map
+                \{shard :=
                   let shard_read_keys := Set.filter (\{key := snd (keyToShard key) == snd shard}) read_keys;
                       shard_write_keys := Set.filter (\{key := snd (keyToShard key) == snd shard}) write_keys;
                       lockRequest := mkKVSAcquireLockMsg@{
@@ -239,8 +239,8 @@ Engines to be spawned
 
 <!-- --8<-- [start:handleLockAcquired] -->
 ```juvix
-allLocksAcquired 
-  (tx : TransactionCandidate) 
+allLocksAcquired
+  (tx : TransactionCandidate)
   (txNum : TxFingerprint)
   (locks : List (Pair EngineID KVSLockAcquiredMsg)) : Bool :=
   let readShards := map keyToShard (TransactionLabel.read (TransactionCandidate.label tx));
@@ -251,10 +251,10 @@ allLocksAcquired
 
 -- Find highest transaction such that it and all previous transactions have all their locks acquired.
 terminating
-findMaxConsecutiveLocked 
+findMaxConsecutiveLocked
   (transactions : Map TxFingerprint TransactionCandidate)
   (locks : List (Pair EngineID KVSLockAcquiredMsg))
-  (current : TxFingerprint) 
+  (current : TxFingerprint)
   (prev : TxFingerprint) : TxFingerprint :=
   case Map.lookup current transactions of {
     | none := prev
