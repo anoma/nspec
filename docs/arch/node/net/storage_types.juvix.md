@@ -9,7 +9,7 @@ tags:
 - Network
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.storage_types;
@@ -37,7 +37,7 @@ to a pub/sub topic identified by the ACL owner's `ExternalID`.
 ```juvix
 type ACL := mkACL {
   members : Set ExternalID;
-  version: Nat;
+  version : Nat;
   sig : Commitment;
 }
 ```
@@ -51,7 +51,7 @@ type Chunk := mkChunk {
   children : List ChunkID;
   expiry : AbsTime;
   acl : Option ACL;
-  content : Bytes;
+  content : ByteString;
 };
 ```
 
@@ -74,7 +74,7 @@ The content of a `Chunk`.
 ```juvix
 type ChunkContent :=
   | InternalNode (List SecretKey)
-  | LeafNode Bytes
+  | LeafNode ByteString
   ;
 ```
 

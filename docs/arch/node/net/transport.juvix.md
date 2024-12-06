@@ -2,71 +2,87 @@
 icon: octicons/gear-24
 search:
   exclude: false
+categories:
+- engine
+- node
 tags:
-- engines
-- conventions
+- transport-engine
+- engine-definition
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.transport;
 
-    import prelude open;
     import arch.node.net.transport_messages open;
-    -- import arch.node.net.transport_environment open;
-    -- import arch.node.net.transport_behaviour open;
+    import arch.node.net.transport_config open;
+    import arch.node.net.transport_environment open;
+    import arch.node.net.transport_behaviour open;
+
+    import arch.node.types.basics open;
     import arch.node.types.engine open;
-    open template_environment_example;
+    import arch.node.types.anoma as Anoma open;
+
+    open transport_config_example;
+    open transport_environment_example;
     ```
 
 # Transport Engine
 
 ## Purpose
 
---8<-- [start:purpose]
-The *Transport* engine is responsible for accepting and initiating transport connections
+<!-- --8<-- [start:purpose] -->
+The *Transport* engine is responsible for establishing and accepting transport connections
 via one of the *Transport Protocol* engines,
 each of which responsible for a specific transport protocol, such as QUIC or TLS.
---8<-- [end:purpose]
+<!-- --8<-- [end:purpose] -->
 
 ## Engine Components
 
 - [[Transport Messages]]
+- [[Transport Config]]
 - [[Transport Environment]]
-- [[Transport Dynamics]]
+- [[Transport Behaviour]]
 
-## Useful links
-
-## Types
-
-### `TransportEngine`
+## Type
 
 <!-- --8<-- [start:TransportEngine] -->
 ```juvix
 TransportEngine : Type :=
   Engine
+    TransportLocalCfg
     TransportLocalState
     TransportMailboxState
     TransportTimerHandle
-    TransportMatchableArgument
-    TransportActionLabel
-    TransportPrecomputation;
+    TransportActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:TransportEngine] -->
 
-#### Example of a transport engine
+### Instantiation
 
-<!-- --8<-- [start:TransportEngine] -->
+<!-- --8<-- [start:transportEngine] -->
 ```juvix
-exampleTransportEngine : TransportEngine := mkEngine@{
-  name := "transport";
-  behaviour := transportBehaviour;
-  initEnv := transportEnvironmentExample;
-};
+transportEngine : TransportEngine :=
+  mkEngine@{
+    cfg := transportCfg;
+    env := transportEnv;
+    behaviour := transportBehaviour;
+  };
 ```
-<!-- --8<-- [end:TransportEngine] -->
+<!-- --8<-- [end:transportEngine] -->
 
-where `transportEnvironmentExample` is defined as follows:
+Where `transportCfg` is defined as follows:
 
---8 TODO <-- "./transport_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/net/transport_config.juvix.md:transportCfg"
+
+`transportEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/net/transport_environment.juvix.md:transportEnv"
+
+and `transportBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/net/transport_behaviour.juvix.md:transportBehaviour"

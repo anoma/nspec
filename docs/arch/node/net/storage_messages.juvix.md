@@ -1,23 +1,33 @@
-# Juvix imports
+---
+icon: material/message-draw
+search:
+  exclude: false
+categories:
+- engine
+- node
+tags:
+- template-engine
+- engine-messages
+---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.storage_messages;
 
     import arch.node.net.storage_types open;
+
     import arch.node.types.basics open;
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
-    -- import arch.node.types.messages open;
-    import prelude open;
+    import arch.node.types.messages open;
     ```
 
 # Storage Engine
 
 ## Types
 
-### `MsgStorageChunkGetRequest`
+### `StorageMsgChunkGetRequest`
 
 Request for a *chunk* of an *object*.
 
@@ -35,7 +45,7 @@ type ChunkGetRequest := mkChunkRequest {
 : Request children recursively:
   `False`: none, `True`: all, `Nat`: up to nth level.
 
-### `MsgStorageChunkGetReply`
+### `StorageMsgChunkGetReply`
 
 Reply to a `ChunkGetRequest`.
 
@@ -76,12 +86,12 @@ type ChunkGetReplyError :=
 ChunkGetReply : Type := Result ChunkGetReplyOk ChunkGetReplyError;
 ```
 
-### `MsgStorageChunkPutRequest`
+### `StorageMsgChunkPutRequest`
 
 Request to store a chunk.
 May be restricted to local engines.
 
-### `MsgStorageChunkPutReply`
+### `StorageMsgChunkPutReply`
 
 Reply to a `ChunkPutRequest`.
 
@@ -110,16 +120,16 @@ type ChunkPutReplyError :=
 ChunkPutReply : Type := Result ChunkPutReplyOk ChunkPutReplyError;
 ```
 
-### `MsgStorage`
+### `StorageMsg`
 
 All storage protocol messages.
 
 ```juvix
-type MsgStorage :=
-  | MsgStorageChunkGetRequest ChunkGetRequest
-  | MsgStorageChunkGetReply ChunkGetReply
-  | MsgStorageChunkPutRequest Chunk
-  | MsgStorageChunkPutReply ChunkPutReply
+type StorageMsg :=
+  | StorageMsgChunkGetRequest ChunkGetRequest
+  | StorageMsgChunkGetReply ChunkGetReply
+  | StorageMsgChunkPutRequest Chunk
+  | StorageMsgChunkPutReply ChunkPutReply
   ;
 ```
 

@@ -9,7 +9,7 @@ tags:
 - Network
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.transport_types;
@@ -17,30 +17,29 @@ tags:
     import arch.node.types.basics open;
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
-    import prelude open;
     ```
 
 # Transport types
 
-## IPv4Address
+## `IPv4Address`
 
 ```juvix
 syntax alias IPv4Address := Nat;
 ```
 
-## IPv6Address
+## `IPv6Address`
 
 ```juvix
 syntax alias IPv6Address := Nat;
 ```
 
-## IPAddress
+## `IPAddress`
 
 ```juvix
 IPAddress : Type := Either IPv4Address IPv6Address;
 ```
 
-## TransportProtocol
+## `TransportProtocol`
 
 Supported network transport protocols.
 
@@ -55,7 +54,9 @@ type TransportProtocol :=
   ;
 ```
 
-## TLSAddress
+## `TLSAddress`
+
+TLS or QUIC address.
 
 ```juvix
 type TLSAddress :=
@@ -85,7 +86,7 @@ type TransportAddress :=
   ;
 ```
 
-## TransportOrderingPrefs
+## `TransportOrderingPrefs`
 
 Transport ordering preferences for an outgoing message.
 
@@ -96,7 +97,7 @@ type TransportOrderingPrefs :=
   ;
 ```
 
-## TransportReliabilityPrefs
+## `TransportReliabilityPrefs`
 
 Transport reliability preferences for an outgoing message.
 
@@ -107,7 +108,7 @@ type TransportReliabilityPrefs :=
   ;
 ```
 
-## TransportSecurityPrefs
+## `TransportSecurityPrefs`
 
 Transport ordering preferences for an outgoing message.
 
@@ -117,7 +118,7 @@ type TransportSecurityPrefs :=
   ;
 ```
 
-## TransportPrefs
+## `TransportPrefs`
 
 Transport preferences for an outgoing message.
 
@@ -137,3 +138,39 @@ type TransportPrefs := mkTransportPrefs {
 
 `security`
 : Transport security preferences
+
+## `SerializedMsg`
+
+Serialized message.
+Contains an `EngineMsg`.
+
+<!-- --8<-- [start:SerializedMsg] -->
+```juvix
+type SerializedMsg :=
+  | BARE ByteString
+  ;
+```
+<!-- --8<-- [end:SerializedMsg] -->
+
+???+ quote "Arguments"
+
+    `SerializedMsgBARE`
+    : BARE
+
+## `EncryptedMsg`
+
+Serialized message encrypted with the specified algorithm.
+Contains a `SerializedMsg`.
+
+<!-- --8<-- [start:EncryptedMsg] -->
+```juvix
+type EncryptedMsg :=
+  | EncryptedMsgNull ByteString
+  ;
+```
+<!-- --8<-- [end:EncryptedMsg] -->
+
+???+ quote "Arguments"
+
+    `EncryptedMsgNull`
+    : No encryption. 

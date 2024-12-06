@@ -17,13 +17,17 @@ The *Network Subsystem* consists of the following engines.
 
 --8<-- "./node_proxy.juvix.md:purpose"
 
-### [[Transport]]
+### [[Transport Connection]]
 
---8<-- "./transport.juvix.md:purpose"
+--8<-- "./transport_connection.juvix.md:purpose"
 
-### [[Topic]]
+### [[Transport Protocol]]
 
---8<-- "./topic.juvix.md:purpose"
+<!--  --8<-- "./transport_protocol.juvix.md:purpose" -->
+
+### [[Pub/Sub Topic]]
+
+--8<-- "./pub_sub_topic.juvix.md:purpose"
 
 ### [[Storage]]
 
@@ -50,7 +54,6 @@ T1(Topic1)
 T2(Topic2)
 T3(Topic3)
 
-T(Transport)
 TP1(TransProto1)
 TP2(TransProto2)
 TP3(TransProto3)
@@ -81,8 +84,8 @@ TP3 -.-> TC5
 E1 -- EngineMsg --> R -- EngineMsg --> E2
 
 %% First message to open a connection
-A_E2 -- SendMsg --> A_R -- SendMsg --> A_NP1 -- SendMsg --> A_T -- SendMsg --> A_TP1 -- SendMsg --> A_TC1 -- NodeMsg --> B_TC3
+A_E2 -- Send --> A_R -- Send --> A_NP1 -- Send --> A_TP1 -- Send --> A_TC1 -- network transport --> B_TC3
 
 %% Subsequent messages
-A_E2 -- SendMsg --> A_NP1 -- SendMsg --> A_TC1 -- NodeMsg --> B_TC3
+A_E2 -- Send --> A_NP1 -- Send --> A_TC1 -- network transport --> B_TC3
 ```

@@ -10,16 +10,16 @@ tags:
 - engine-messages
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.transport_messages;
 
     import arch.node.net.transport_types open;
+
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import prelude open;
     ```
 
 # Transport Messages
@@ -28,31 +28,29 @@ These are the messages that the Transport engine can receive.
 
 ## Message interface
 
-### `MsgTransportSendMsg SendMsg
+### `TransportMsgSend`
 
---8<-- [start:SendMsg]
 Send a message to a remote node via the given transport address.
 
-The *Transport * engine forwards the `NodeMsg`
+The *Transport Protocol* engine forwards the given message
 to the *Transport Protocol* engine
 responsible for the protocol of the given transport address.
 
+<!-- --8<-- [start:TransportOutMsg] -->
 ```juvix
-type SendMsg := mkSendMsg {
+type TransportOutMsg := mkTransportOutMsg {
   addr : TransportAddress;
-  msg : NodeMsg;
+  msg : ByteString;
 }
 ```
---8<-- [end:SendMsg]
+<!-- --8<-- [end:TransporOutMsg] -->
 
 ### `MsgTransport`
 
-<!-- --8<-- [start:MsgTransport] -->
+<!-- --8<-- [start:TransportMsg] -->
 ```juvix
-type MsgTransport :=
-  | MsgTransportSendMsg TransportSendMsg
+type TransportMsg :=
+  | TransportMsgSend TransportOutMsg
   ;
 ```
-<!-- --8<-- [end:MsgTransport] -->
-
-## Sequence Diagrams
+<!-- --8<-- [end:TransportMsg] -->

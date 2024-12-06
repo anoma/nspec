@@ -2,29 +2,37 @@
 icon: octicons/gear-24
 search:
   exclude: false
+categories:
+- engine
+- node
 tags:
-- engines
-- conventions
+- storage-engine
+- engine-definition
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.storage;
 
-    import prelude open;
-    import arch.node.net.storage_messages open;
-    -- import arch.node.net.storage_environment open;
-    -- import arch.node.net.storage_behaviour open;
+    import arch.node.net.storage_messages open public;
+    import arch.node.net.storage_config open public;
+    import arch.node.net.storage_environment open public;
+    import arch.node.net.storage_behaviour open public;
+
+    import arch.node.types.basics open;
     import arch.node.types.engine open;
-    open template_environment_example;
+    import arch.node.types.anoma as Anoma open;
+
+    open storage_config_example;
+    open storage_environment_example;
+    open storage_behaviour_example;
     ```
 
 # Storage Engine
 
 ## Purpose
 
---8<-- [start:purpose]
 The *Storage* engine implements distributed object storage.
 Each stored *object* is encrypted using convergent encryption
 with a key derived from the hash of the content and a secret key,
@@ -41,45 +49,59 @@ and keep track of known commitments by other nodes.
 This allows nodes to respond to chunk requests
 with either the chunk itself if available locally,
 or with a `ChunkCommitment` by a node that stores the requested chunk.
---8<-- [end:purpose]
+Brief summary of the purpose of the engine.
 
-## Engine Components
+## Components
 
 - [[Storage Messages]]
+- [[Storage Configuration]]
 - [[Storage Environment]]
-- [[Storage Dynamics]]
+- [[Storage Behaviour]]
 
 ## Useful links
 
-## Types
+- Some
+- Useful
+- Links
 
-### `StorageEngine`
+## Type
 
 <!-- --8<-- [start:StorageEngine] -->
 ```juvix
 StorageEngine : Type :=
   Engine
+    StorageLocalCfg
     StorageLocalState
     StorageMailboxState
     StorageTimerHandle
-    StorageMatchableArgument
-    StorageActionLabel
-    StoragePrecomputation;
+    StorageActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:StorageEngine] -->
 
-#### Example of a Storage engine
+### Instantiation
 
-<!-- --8<-- [start:StorageEngine] -->
+<!-- --8<-- [start:exStorageEngine] -->
 ```juvix
-exampleStorageEngine : StorageEngine := mkEngine@{
-  name := "storage";
-  behaviour := storageBehaviour;
-  initEnv := storageEnvironmentExample;
-};
+exStorageEngine : StorageEngine :=
+  mkEngine@{
+    cfg := exStorageCfg;
+    env := exStorageEnv;
+    behaviour := exStorageBehaviour;
+  };
 ```
-<!-- --8<-- [end:StorageEngine] -->
+<!-- --8<-- [end:exStorageEngine] -->
 
-where `storageEnvironmentExample` is defined as follows:
+Where `exStorageCfg` is defined as follows:
 
---8 TODO <-- "./storage_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/net/storage_config.juvix.md:exStorageCfg"
+
+`exStorageEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/net/storage_environment.juvix.md:exStorageEnv"
+
+and `exStorageBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/net/storage_behaviour.juvix.md:exStorageBehaviour"

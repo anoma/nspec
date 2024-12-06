@@ -2,73 +2,89 @@
 icon: octicons/gear-24
 search:
   exclude: false
+categories:
+- engine
+- node
 tags:
-- engines
-- conventions
+- router-engine
+- engine-definition
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.router;
 
-    import prelude open;
     import arch.node.net.router_messages open;
-    -- import arch.node.net.router_environment open;
-    -- import arch.node.net.router_behaviour open;
+    import arch.node.net.router_config open;
+    import arch.node.net.router_environment open;
+    import arch.node.net.router_behaviour open;
+
+    import arch.node.types.basics open;
     import arch.node.types.engine open;
-    open template_environment_example;
+    import arch.node.types.anoma as Anoma open;
+
+    open router_config_example;
+    open router_environment_example;
+    open router_behaviour_example;
     ```
 
 # Router Engine
 
 ## Purpose
 
---8<-- [start:purpose]
+<!-- --8<-- [start:purpose] -->
 The *Router* engine is responsible for
-spawning a [[Node Proxy]] instances for each remote node,
-and a [[PubSub Topic]] instance for each pub/sub topic,
-then forwarding messages between these and local engine insntances.
-It also maintains a database of known `NodeAdvert` and `TopicAdvert` messages.
---8<-- [end:purpose]
+spawning a [[Node Proxy]] instance for each remote node,
+and a [[Pub/Sub Topic]] instance for each pub/sub topic.
+It maintains a database of known `NodeAdvert` and `TopicAdvert` messages.
+<!-- --8<-- [end:purpose] -->
 
 ## Engine Components
 
 - [[Router Messages]]
+- [[Router Configuration]]
 - [[Router Environment]]
-- [[Router Dynamics]]
+- [[Router Behaviour]]
 
-## Useful links
-
-## Types
-
-### `RouterEngine`
+## Type
 
 <!-- --8<-- [start:RouterEngine] -->
 ```juvix
 RouterEngine : Type :=
   Engine
+    RouterLocalCfg
     RouterLocalState
     RouterMailboxState
     RouterTimerHandle
-    RouterMatchableArgument
-    RouterActionLabel
-    RouterPrecomputation;
+    RouterActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:RouterEngine] -->
 
-#### Example of a Router engine
+### Instantiation
 
-<!-- --8<-- [start:RouterEngine] -->
+<!-- --8<-- [start:exRouterEngine] -->
 ```juvix
-exampleRouterEngine : RouterEngine := mkEngine@{
-  name := "router";
-  behaviour := routerBehaviour;
-  initEnv := routerEnvironmentExample;
-};
+exRouterEngine : RouterEngine :=
+  mkEngine@{
+    cfg := exRouterCfg;
+    env := exRouterEnv;
+    behaviour := exRouterBehaviour;
+  };
 ```
-<!-- --8<-- [end:RouterEngine] -->
+<!-- --8<-- [end:exRouterEngine] -->
 
-where `routerEnvironmentExample` is defined as follows:
+Where `exRouterCfg` is defined as follows:
 
---8 TODO <-- "./router_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/net/router_config.juvix.md:exRouterCfg"
+
+`exRouterEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/net/router_environment.juvix.md:exRouterEnv"
+
+and `exRouterBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/net/router_behaviour.juvix.md:exRouterBehaviour"

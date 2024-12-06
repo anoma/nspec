@@ -2,30 +2,39 @@
 icon: octicons/gear-24
 search:
   exclude: false
+categories:
+- engine
+- node
 tags:
-- engines
-- conventions
+- node-proxy-engine
+- engine-definition
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.node_proxy;
 
-    import prelude open;
     import arch.node.net.node_proxy_messages open;
-    -- import arch.node.net.node_proxy_environment open;
-    -- import arch.node.net.node_proxy_behaviour open;
+    import arch.node.net.node_proxy_config open;
+    import arch.node.net.node_proxy_environment open;
+    import arch.node.net.node_proxy_behaviour open;
+
+    import arch.node.types.basics open;
     import arch.node.types.engine open;
-    open template_environment_example;
+    import arch.node.types.anoma as Anoma open;
+
+    open node_proxy_config_example;
+    open node_proxy_environment_example;
+    open node_proxy_behaviour_example;
     ```
 
 # Node Proxy Engine
 
 ## Purpose
 
---8<-- [start:purpose]
-The *Node Proxy* engine is responsible for
+<!-- --8<-- [start:purpose] -->
+A *Node Proxy* engine is responsible for
 communication with one specific remote node.
 
 It performs transport selection,
@@ -42,45 +51,53 @@ Permanent connections are established when the *Node Proxy* is started,
 and automatically re-established when the connection is lost.
 
 The engine instance name corresponds to the remote `NodeID`.
---8<-- [end:purpose]
+<!-- --8<-- [end:purpose] -->
 
 ## Engine Components
 
 - [[Node Proxy Messages]]
+- [[Node Proxy Configuration]]
 - [[Node Proxy Environment]]
-- [[Node Proxy Dynamics]]
+- [[Node Proxy Behaviour]]
 
-## Useful links
-
-## Types
-
-### `NodeProxyEngine`
+## Type
 
 <!-- --8<-- [start:NodeProxyEngine] -->
 ```juvix
 NodeProxyEngine : Type :=
   Engine
+    NodeProxyLocalCfg
     NodeProxyLocalState
     NodeProxyMailboxState
     NodeProxyTimerHandle
-    NodeProxyMatchableArgument
-    NodeProxyActionLabel
-    NodeProxyPrecomputation;
+    NodeProxyActionArguments
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:NodeProxyEngine] -->
 
-#### Example of a Node Proxy engine
+### Instantiation
 
-<!-- --8<-- [start:NodeProxyEngine] -->
+<!-- --8<-- [start:exNodeProxyEngine] -->
 ```juvix
-exampleNodeProxyEngine : NodeProxyEngine := mkEngine@{
-  name := "<node_id>";
-  behaviour := nodeproxyBehaviour;
-  initEnv := nodeproxyEnvironmentExample;
-};
+exNodeProxyEngine : NodeProxyEngine :=
+  mkEngine@{
+    cfg := exNodeProxyCfg;
+    env := exNodeProxyEnv;
+    behaviour := exNodeProxyBehaviour;
+  };
 ```
-<!-- --8<-- [end:NodeProxyEngine] -->
+<!-- --8<-- [end:exNodeProxyEngine] -->
 
-where `nodeproxyEnvironmentExample` is defined as follows:
+Where `exNodeProxyCfg` is defined as follows:
 
---8 TODO <-- "./node_proxy_environment.juvix.md:environment-example"
+--8<-- "./docs/arch/node/net/node_proxy_config.juvix.md:exNodeProxyCfg"
+
+`exNodeProxyEnv` is defined as follows:
+
+--8<-- "./docs/arch/node/net/node_proxy_environment.juvix.md:exNodeProxyEnv"
+
+and `exNodeProxyBehaviour` is defined as follows:
+
+--8<-- "./docs/arch/node/net/node_proxy_behaviour.juvix.md:exNodeProxyBehaviour"

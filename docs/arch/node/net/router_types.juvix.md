@@ -1,14 +1,14 @@
 # Router Types
 
-??? quote "Juvix preamble"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.router_types;
 
     import arch.node.net.transport_types open;
+
     import arch.node.types.basics open;
     import arch.node.types.identities open;
-    import prelude open;
     ```
 
 ## `NodeAdvert`

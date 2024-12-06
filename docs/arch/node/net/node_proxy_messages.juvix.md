@@ -1,53 +1,80 @@
-??? quote "Juvix imports"
+---
+icon: material/message-draw
+search:
+  exclude: false
+categories:
+- engine
+- node
+tags:
+- node-proxy-engine
+- engine-messages
+---
+
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.net.node_proxy_messages;
 
     import arch.node.net.router_types open;
     import arch.node.net.transport_types open;
+
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import prelude open;
     ```
 
 # Node Proxy Messages
 
 ## Message interface
 
-### `MsgNodeProxySendMsg SendMsg`
+### `NodeProxyMsgSend`
 
---8<-- [start:SendMsg]
-Send an `EngineMsg` to a remote node
+Send an `EngineMsg` to the remote node
 with the given transport preferences
 and expiry time for send retries.
 
+Sender: any local engine.
+
+#### `NodeOutMsg`
+
+Outgoing message to a remote node.
+
+<!-- --8<-- [start:NodeOutMsg] -->
 ```juvix
-type SendMsg M := mkSendMsg {
-  tprefs : TransportPrefs;
+type NodeOutMsg M := mkNodeOutMsg {
+  prefs : TransportPrefs;
   expiry : Time;
   msg : EngineMsg M;
 };
 ```
---8<-- [end:EngineMsg]
+<!-- --8<-- [end:NodeOutMsg] -->
 
-### `MsgNodeProxyNodeMsg NodeMsg`
+### `NodeProxyMsgRecv`
 
---8<-- [start:NodeMsg]
+Receive a message from the remote node.
+
+#### `NodeMsg`
+
 A message sent between nodes.
 
+<!-- --8<-- [start:NodeMsg] -->
 ```juvix
-type NodeMsg M := mkNodeMsg {
+type NodeMsg := mkNodeMsg {
   seq : Nat;
-  msg : EngineMsg M;
+  msg : EncryptedMsg;
 };
 ```
---8<-- [end:NodeMsg]
+<!-- --8<-- [end:NodeMsg] -->
 
-`seq`
-Sequence number of the sender.
+???+ quote "Arguments"
 
-### `MsgNodeProxyConnectRequest NodeConnectRequest`
+    `seq`
+    Message sequence number of the sender.
+
+    `msg`
+    Encrypted `SerializedMsg` message that contains an `EngineMsg`.
+
+### `NodeProxyMsgConnectRequest ConnectRequest`
 
 Request a connection to a remote node.
 
@@ -63,8 +90,8 @@ and if necessary, send each other an updated `NodeAdvert`
 after the connection is established.
 
 ```juvix
-type NodeConnectRequest :=
-  mkNodeConnectRequest {
+type ConnectRequest :=
+  mkConnectRequest {
     proto_ver_min : Nat;
     proto_ver_max : Nat;
     src_node_id : NodeID;
@@ -92,17 +119,17 @@ type NodeConnectRequest :=
 `dst_node_advert_ver`
 : Latest known `NodeAdvert` version of the destination node.
 
-### `MsgNodeProxyConnectReply NodeConnectReply`
+### `NodeProxyMsgConnectReply`
 
-Reply to a `MsgNodeProxyConnectRequest`.
+Reply to a `NodeProxyMsgConnectRequest`.
 
-#### `MsgNodeProxyConnectReplyOk`
+#### `NodeProxyMsgConnectReplyOk`
 
 Accept a connection from a node.
 
 ```juvix
-type NodeConnectReplyOk :=
-  mkNodeConnectReplyOk {
+type ConnectReplyOk :=
+  mkConnectReplyOk {
     proto_ver : Nat;
     node_advert_ver : Pair Nat Nat;
   }
@@ -114,15 +141,15 @@ type NodeConnectReplyOk :=
 `node_advert_ver`
 : Latest local `NodeAdvert` version.
 
-#### `MsgNodeProxyConnectReplyError`
+#### `NodeProxyMsgConnectReplyError`
 
 Refuse a connection from a node.
 
 ```juvix
-type NodeConnectReplyError :=
-  | NodeConnectReplyErrorOverCapacity
-  | NodeConnectReplyErrorIncompatible
-  | NodeConnectReplyErrorDenied
+type ConnectReplyError :=
+  | ConnectReplyErrorOverCapacity
+  | ConnectReplyErrorIncompatible
+  | ConnectReplyErrorDenied
   ;
 ```
 
@@ -135,43 +162,43 @@ type NodeConnectReplyError :=
 `NodeConnectReplyErrorDenied`
 : Connection denied by local policy.
 
-#### `NodeConnectReply`
+#### `ConnectReply`
 
 ```juvix
-NodeConnectReply : Type := Result NodeConnectReplyOk NodeConnectReplyError;
+ConnectReply : Type := Result ConnectReplyOk ConnectReplyError;
 ```
 
-### `MsgNodeProxyNodeAdvert NodeAdvert`
+### `NodeProxyMsgNodeAdvert NodeAdvert`
 
 Node advertisement update from the remote node.
 The *Node Proxy* forwards this to the router.
 
 --8<-- "./router_types.juvix.md:NodeAdvert"
 
-### `MsgNodeProxyNodeAdvertReply`
+### `NodeProxyMsgNodeAdvertReply`
 
-### `MsgNodeProxySetPermanence ConnectionPermanence`
+### `NodeProxyMsgSetPermanence ConnectionPermanence`
 
 Set connection permanence to either ephemeral or permanent.
 
 ```juvix
-type ConnectionPermanence M :=
-  | MsgNodeProxyConnectionEphemeral
-  | MsgNodeProxyConnectionPermanent
+type ConnectionPermanence :=
+  | NodeProxyMsgConnectionEphemeral
+  | NodeProxyMsgConnectionPermanent
   ;
 ```
 
-## `MsgNodeProxy`
+## `NodeProxyMsg`
 
 All *Node Proxy* engine messages.
 
 ```juvix
-type MsgNodeProxy M :=
-  | MsgNodeProxySendMsg (SendMsg M)
-  | MsgNodeProxyNodeMsg (NodeMsg M)
-  | MsgNodeProxyConnectRequest NodeConnectRequest
-  | MsgNodeProxyConnectReply NodeConnectReply
-  | MsgNodeProxyNodeAdvert NodeAdvert
-  | MsgNodeProxySetPermanence ConnectionPermanence
+type NodeProxyMsg M :=
+  | NodeProxyMsgSend (NodeOutMsg M)
+  | NodeProxyMsgRecv NodeMsg
+  | NodeProxyMsgConnectRequest ConnectRequest
+  | NodeProxyMsgConnectReply ConnectReply
+  | NodeProxyMsgNodeAdvert NodeAdvert
+  | NodeProxyMsgSetPermanence ConnectionPermanence
   ;
 ```

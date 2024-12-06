@@ -41,7 +41,7 @@ tags:
     import arch.node.net.router_messages open;
     import arch.node.net.node_proxy_messages open;
     import arch.node.net.transport_messages open;
-    import arch.node.net.topic_messages open;
+    import arch.node.net.pub_sub_topic_messages open;
     import arch.node.net.storage_messages open;
     ```
 
@@ -82,11 +82,11 @@ type Msg :=
 
   {- Network -}
 
-  | MsgRouter RouterMsg
-  | MsgNodeProxy NodeProxyMsg
-  | MsgTransport TransportMsg
-  | MsgTopic TopicMsg
-  | MsgStorage StorageMsg
+  | MsgRouter (RouterMsg Msg)
+--  | MsgNodeProxy NodeProxyMsg
+--  | MsgTransport TransportMsg
+--  | MsgTopic TopicMsg
+--  | MsgStorage StorageMsg
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

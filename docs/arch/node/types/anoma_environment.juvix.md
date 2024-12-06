@@ -32,15 +32,16 @@ search:
     import arch.node.engines.wall_clock_environment open;
     import arch.node.engines.local_time_series_storage_environment open;
 
-    {- Network -)
+    {- Network -}
 
-    -- import arch.node.net.router_environment open;
-    -- import arch.node.net.node_proxy_environment open;
-    -- import arch.node.net.transport_environment open;
-    -- import arch.node.net.topic_environment open;
-    -- import arch.node.net.storage_environment open;
+    import arch.node.net.router_environment open;
+    import arch.node.net.node_proxy_environment open;
+    import arch.node.net.transport_protocol_environment open;
+    import arch.node.net.transport_connection_environment open;
+    import arch.node.net.pub_sub_topic_environment open;
+    import arch.node.net.storage_environment open;
     ```
-
+  
 # Anoma Engine Environments
 
 An _Anoma_ engine environment is a collection of all the necessary
@@ -81,10 +82,11 @@ type Env :=
 
   {- Network -}
 
-  -- | EnvRouter RouterEnv
-  -- | EnvNodeProxy NodeProxyEnv
-  -- | EnvTransport TransportEnv
-  -- | EnvTopic TopicEnv
-  -- | EnvStorage StorageEnv
+  | EnvRouter RouterEnv
+  | EnvNodeProxy NodeProxyEnv
+  | EnvTransportProtocol TransportProtocolEnv
+  | EnvTransportConnection TransportConnectionEnv
+  | EnvPubSubTopic PubSubTopicEnv
+  | EnvStorage StorageEnv
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

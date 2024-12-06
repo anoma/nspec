@@ -1,9 +1,19 @@
-# Juvix imports
+---
+icon: material/message-draw
+search:
+  exclude: false
+categories:
+- engine
+- node
+tags:
+- pub-sub-topic-engine
+- engine-messages
+---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
-    module arch.node.net.topic_messages;
+    module arch.node.net.pub_sub_topic_messages;
 
     import arch.node.net.router_types open;
     import arch.node.net.storage_types open;
@@ -12,63 +22,24 @@
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import prelude open;
     ```
 
-# Topic Messages
+# Pub/Sub Topic Messages
 
-## `MsgTopicMsg TopicMsg`
+These are the messages that the PubSubTopic engine can receive/respond to.
 
-A message published in a topic by a publisher.
+## Message interface
+
+## `PubSubTopicMsgForward TopicMsg`
+
+A message published in a topic by an authorized publisher,
+forwarded to the local node.
 
 ### `TopicMsgID`
 
 ```juvix
 syntax alias TopicMsgID := Digest;
 ```
-
-## `TopicMsgContent`
-
-Topic message content.
-
-### `TopicMsgAck`
-
-Acknowledgement of a `TopicMsg`
-with commitment to store it until the specified expiry date.
-
-```juvix
-type TopicMsgAck := mkTopicMsgAck {
-  expiry : AbsTime;
-}
-```
-
-`expiry`
-: Expiry date and time until the node commits to store the event.
-
-### `TopicMsgContent`
-
-```juvix
-type TopicMsgContent :=
-  | TopicMsgContentMsg Bytes -- Encrypted TopicMsg
-  | TopicMsgContentChunk (Pair Bytes Chunk)
-  | TopicMsgContentChunkRef (Pair Bytes ChunkCommitment)
-  | TopicMsgContentAck TopicMsgAck
-  ;
-```
-
-`TopicMsgContentMsg`
-: Encrypted `TopicMsg`.
-
-`TopicMsgContentChunk`
-: Chunk of an object.
-  Pair of an encrypted `SecretKey` and a `Chunk`.
-
-`TopicMsgContentChunkRef`
-: Reference to the root chunk of an object.
-  Pair of an encrypted `SecretKey` and a `ChunkCommitment`.
-
-`TopicMsgContentAck`
-: Acknowledgement of a `TopicMsg`.
 
 ### `TopicMsg`
 
@@ -101,7 +72,46 @@ type TopicMsg := mkTopicMsg {
 `sig`
 : Signature by `publisher` over the topic ID and the above fields.
 
-## `TopicSubRequest`
+### `TopicMsgContent`
+
+```juvix
+type TopicMsgContent :=
+  | TopicMsgContentMsg ByteString -- Encrypted TopicMsg
+  | TopicMsgContentChunk (Pair ByteString Chunk)
+  | TopicMsgContentChunkRef (Pair ByteString ChunkCommitment)
+  | TopicMsgContentAck TopicMsgAck
+  ;
+```
+
+`TopicMsgContentMsg`
+: Encrypted `TopicMsg`.
+
+`TopicMsgContentChunk`
+: Chunk of an object.
+  Pair of an encrypted `SecretKey` and a `Chunk`.
+
+`TopicMsgContentChunkRef`
+: Reference to the root chunk of an object.
+  Pair of an encrypted `SecretKey` and a `ChunkCommitment`.
+
+`TopicMsgContentAck`
+: Acknowledgement of a `TopicMsg`.
+
+### `TopicMsgAck`
+
+Acknowledgement of a `TopicMsg`
+with commitment to store it until the specified expiry date.
+
+```juvix
+type TopicMsgAck := mkTopicMsgAck {
+  expiry : AbsTime;
+}
+```
+
+`expiry`
+: Expiry date and time until the node commits to store the event.
+
+## `PubSubTopicSubRequest`
 
 Pub/sub topic subscription request by a local engine or a remote node.
 
@@ -111,7 +121,7 @@ type TopicSubRequest := mkTopicSubRequest {
 }
 ```
 
-## `TopicSubReply`
+## `PubSubTopicSubReply`
 
 Reply to a `TopicSubRequest`.
 
@@ -141,7 +151,7 @@ type TopicSubReplyError :=
 TopicSubReply : Type := Result TopicSubReplyOk TopicSubReplyError;
 ```
 
-## `TopicUnsubRequest`
+## `PubSubTopicUnsubRequest`
 
 Pub/sub topic unsubscription request by a local engine or a remote node.
 
@@ -151,7 +161,7 @@ type TopicUnsubRequest := mkTopicUnsubRequest {
 }
 ```
 
-## `TopicUnsubReply`
+## `PubSubTopicUnsubReply`
 
 Reply to a `TopicUnsubRequest`
 
@@ -180,18 +190,16 @@ type TopicUnsubReplyError :=
 TopicUnsubReply : Type := Result TopicUnsubReplyOk TopicUnsubReplyError;
 ```
 
-## `MsgTopic`
+## `PubSubTopicMsg`
 
 All pub/sub topic  messages.
 
 ```juvix
-type MsgTopic :=
-  | MsgTopicMsg TopicMsg
-  | MsgTopicSubRequest TopicSubRequest
-  | MsgTopicSubReply TopicSubReply
-  | MsgTopicUnsubRequest TopicUnsubRequest
-  | MsgTopicUnsubReply TopicUnsubReply
+type PubSubTopicMsg :=
+  | PubSubTopicMsgForward TopicMsg
+  | PubSubTopicMsgSubRequest TopicSubRequest
+  | PubSubTopicMsgSubReply TopicSubReply
+  | PubSubTopicMsgUnsubRequest TopicUnsubRequest
+  | PubSubTopicMsgUnsubReply TopicUnsubReply
   ;
 ```
-
-## Message sequence diagrams

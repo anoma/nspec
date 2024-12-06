@@ -34,11 +34,12 @@ search:
 
     {- Network -}
 
-    -- import arch.node.net.router_config open;
-    -- import arch.node.net.node_proxy_config open;
-    -- import arch.node.net.transport_config open;
-    -- import arch.node.net.topic_config open;
-    -- import arch.node.net.storage_config open;
+    import arch.node.net.router_config open;
+    import arch.node.net.node_proxy_config open;
+    import arch.node.net.transport_protocol_config open;
+    import arch.node.net.transport_connection_config open;
+    import arch.node.net.pub_sub_topic_config open;
+    import arch.node.net.storage_config open;
     ```
 
 # Anoma Engine Configuration
@@ -80,10 +81,11 @@ type Cfg :=
 
   {- Network -}
 
-  -- | CfgRouter RouterCfg
-  -- | CfgNodeProxy NodeProxyCfg
-  -- | CfgTransport TransportCfg
-  -- | CfgTopic TopicCfg
-  -- | CfgStorage StorageCfg
+  | CfgRouter RouterCfg
+  | CfgNodeProxy NodeProxyCfg
+  | CfgTransportProtocol TransportProtocolCfg
+  | CfgTransportConnection TransportConnectionCfg
+  | CfgPubSubTopic PubSubTopicCfg
+  | CfgStorage StorageCfg
 ```
 <!-- --8<-- [end:anoma-config-type] -->

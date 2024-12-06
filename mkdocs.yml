@@ -107,11 +107,42 @@ nav:
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
           - Network Subsystem:
               - ./arch/node/net/index.md
-              - Router: ./arch/node/net/router.juvix.md
-              - Node Proxy: ./arch/node/net/node_proxy.juvix.md
-              - Transport: ./arch/node/net/transport.juvix.md
-              - Topic: ./arch/node/net/topic.juvix.md
-              - Storage: ./arch/node/net/storage.juvix.md
+              - Router:
+                  - Router Engine: ./arch/node/net/router.juvix.md
+                  - Router Messages: ./arch/node/net/router_messages.juvix.md
+                  - Router Configuration: ./arch/node/net/router_config.juvix.md
+                  - Router Environment: ./arch/node/net/router_environment.juvix.md
+                  - Router Behaviour: ./arch/node/net/router_behaviour.juvix.md
+              - Node Proxy:
+                  - Node Proxy Engine: ./arch/node/net/node_proxy.juvix.md
+                  - Node Proxy Messages: ./arch/node/net/node_proxy_messages.juvix.md
+                  - Node Proxy Configuration: ./arch/node/net/node_proxy_config.juvix.md
+                  - Node Proxy Environment: ./arch/node/net/node_proxy_environment.juvix.md
+                  - Node Proxy Behaviour: ./arch/node/net/node_proxy_behaviour.juvix.md
+              - Transport Protocol:
+                  - Transport Protocol Engine: ./arch/node/net/transport_protocol.juvix.md
+                  - Transport Protocol Messages: ./arch/node/net/transport_protocol_messages.juvix.md
+                  - Transport Protocol Configuration: ./arch/node/net/transport_protocol_config.juvix.md
+                  - Transport Protocol Environment: ./arch/node/net/transport_protocol_environment.juvix.md
+                  - Transport Protocol Behaviour: ./arch/node/net/transport_protocol_behaviour.juvix.md
+              - Transport Connection:
+                  - Transport Connection Engine: ./arch/node/net/transport_connection.juvix.md
+                  - Transport Connection Messages: ./arch/node/net/transport_connection_messages.juvix.md
+                  - Transport Connection Configuration: ./arch/node/net/transport_connection_config.juvix.md
+                  - Transport Connection Environment: ./arch/node/net/transport_connection_environment.juvix.md
+                  - Transport Connection Behaviour: ./arch/node/net/transport_connection_behaviour.juvix.md
+              - Pub/Sub Topic:
+                  - Pub/Sub Topic Engine: ./arch/node/net/pub_sub_topic.juvix.md
+                  - Pub/Sub Topic Messages: ./arch/node/net/pub_sub_topic_messages.juvix.md
+                  - Pub/Sub Topic Configuration: ./arch/node/net/pub_sub_topic_config.juvix.md
+                  - Pub/Sub Topic Environment: ./arch/node/net/pub_sub_topic_environment.juvix.md
+                  - Pub/Sub Topic Behaviour: ./arch/node/net/pub_sub_topic_behaviour.juvix.md
+              - Storage:
+                  - Storage Engine: ./arch/node/net/storage.juvix.md
+                  - Storage Messages: ./arch/node/net/storage_messages.juvix.md
+                  - Storage Configuration: ./arch/node/net/storage_config.juvix.md
+                  - Storage Environment: ./arch/node/net/storage_environment.juvix.md
+                  - Storage Behaviour: ./arch/node/net/storage_behaviour.juvix.md
           - Hardware Abstraction Machine:
               - ./arch/node/hardware/index.md
               - Local Storage Engines:
