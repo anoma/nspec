@@ -31,7 +31,7 @@ tags:
 # Executor Engine
 
 Conceptually, Executors  run the
- [executor function](./../ordering/execution/index.md#executor-function) in order to
+ *executor function* in order to
  compute transaction outputs, including state updates
  (see [[Execution Engines|here]] for more on the executor function).
 Executors may be co-located with [[Shard|shards]], or with
