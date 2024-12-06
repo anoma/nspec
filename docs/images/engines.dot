@@ -16,10 +16,10 @@ digraph {
     # edge [color="#999999"
     Router [penwidth=2]
 
-    Ordering [label="Ordering Machine"; shape=rect; color="#aaaaaa"]
+    Ordering [label="Ordering Component"; shape=rect; color="#aaaaaa"]
     /*
     subgraph cluster_ordering {
-        label = "Ordering Machine"
+        label = "Ordering Component"
         node [shape=doubleoctagon]
 
         Consensus
@@ -29,7 +29,7 @@ digraph {
     */
 
     subgraph cluster_networking {
-        label = "Networking Machine"
+        label = "Networking Component"
 
         # inter-domain protocols
         subgraph cluster_inter_domain {

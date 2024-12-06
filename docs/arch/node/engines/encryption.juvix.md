@@ -49,7 +49,7 @@ efficiency.
 ## Components
 
 - [[Encryption Messages]]
-- [[Encryption Config]]
+- [[Encryption Configuration]]
 - [[Encryption Environment]]
 - [[Encryption Behaviour]]
 

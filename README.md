@@ -3,6 +3,10 @@
 
 ## Getting Started
 
+> **Note**
+> All you need to know to contribute to the documentation is in:
+> - https://specs.anoma.net/latest/tutorial/index.html
+
 We use Markdown with extensions according to the [Material for MkDocs reference](https://squidfunk.github.io/mkdocs-material/reference/).
 
 To set up the project for development and testing on your local machine, please follow these steps.
@@ -65,7 +69,3 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
     ```
 
 <!-- --8<-- [end:all]-- -->
-
-Find more information on how to write documentation in the project in:
-
-- https://specs.anoma.net/v2/tutorial/index.html

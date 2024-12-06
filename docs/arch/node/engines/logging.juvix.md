@@ -41,7 +41,7 @@ to ensure stability, security, and efficiency.
 ## Components
 
 - [[Logging Messages]]
-- [[Logging Config]]
+- [[Logging Configuration]]
 - [[Logging Environment]]
 - [[Logging Behaviour]]
 

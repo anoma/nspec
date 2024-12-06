@@ -44,7 +44,7 @@ instance and decrypt data encrypted to the corresponding identity.
 ## Components
 
 - [[Decryption Messages]]
-- [[Decryption Config]]
+- [[Decryption Configuration]]
 - [[Decryption Environment]]
 - [[Decryption Behaviour]]
 

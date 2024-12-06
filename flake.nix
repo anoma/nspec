@@ -107,7 +107,7 @@
           ];
 
           buildPhase = ''
-            make
+            mkdocs build
           '';
 
           installPhase = ''
