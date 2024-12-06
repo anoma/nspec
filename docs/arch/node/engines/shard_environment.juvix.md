@@ -83,7 +83,7 @@ type ShardLocalState := mkShardLocalState {
     : Structure tracking all key accesses across transactions, including read/write status and heardAllWrites point
 
     `anchors`
-    : Sequence of consensus decisions
+    : Sequence of consensus decisions (Not currently used)
 
 ## Timer handles
 

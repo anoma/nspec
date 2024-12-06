@@ -53,13 +53,16 @@ type MempoolWorkerLocalState := mkMempoolWorkerLocalState {
 ???+ quote "Arguments"
 
     `batch_number`:
-    : The current batch number.
+    : The current batch number. (Not currently used)
 
     `transactions`:
     : A map of transaction fingerprints to their corresponding transaction candidates.
 
+    `transactionEngines`:
+    : A map of engine ids for executors pointing to their transaction fingerprints to their corresponding transactions.
+
     `locks_acquired`:
-    : A list of relavant `KVSLockAcquiredMsg`s.
+    : A list of received `KVSLockAcquiredMsg`s, along with the ids of their shards.
 
     `seen_all_writes`:
     : The highest transaction fingerprint for which all writes have been seen by the shards.

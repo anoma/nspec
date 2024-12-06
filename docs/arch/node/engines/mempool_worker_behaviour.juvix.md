@@ -240,29 +240,40 @@ Engines to be spawned
 <!-- --8<-- [start:handleLockAcquired] -->
 ```juvix
 allLocksAcquired
+  (isWrite : Bool)
   (tx : TransactionCandidate)
   (txNum : TxFingerprint)
   (locks : List (Pair EngineID KVSLockAcquiredMsg)) : Bool :=
-  let readShards := map keyToShard (TransactionLabel.read (TransactionCandidate.label tx));
-      writeShards := map keyToShard (TransactionLabel.write (TransactionCandidate.label tx));
-      neededShards := Set.fromList (readShards ++ writeShards);
+  let keys := case isWrite of {
+        | true := TransactionLabel.write (TransactionCandidate.label tx)
+        | false := TransactionLabel.read (TransactionCandidate.label tx)
+      };
+      neededShards := Set.fromList (map keyToShard keys);
       lockingShards := Set.fromList (map fst (List.filter \{lock := KVSLockAcquiredMsg.timestamp (snd lock) == txNum} locks));
   in Set.isSubset neededShards lockingShards;
 
--- Find highest transaction such that it and all previous transactions have all their locks acquired.
 terminating
 findMaxConsecutiveLocked
+  (isWrite : Bool)
   (transactions : Map TxFingerprint TransactionCandidate)
   (locks : List (Pair EngineID KVSLockAcquiredMsg))
   (current : TxFingerprint)
   (prev : TxFingerprint) : TxFingerprint :=
   case Map.lookup current transactions of {
     | none := prev
-    | some tx := case allLocksAcquired tx current locks of {
-      | true := findMaxConsecutiveLocked transactions locks (current + 1) current
+    | some tx := case allLocksAcquired isWrite tx current locks of {
+      | true := findMaxConsecutiveLocked isWrite transactions locks (current + 1) current
       | false := prev
     }
   };
+
+getAllShards (transactions : Map TxFingerprint TransactionCandidate) : Set EngineID :=
+  let getAllKeysFromLabel (label : TransactionLabel) : List KVSKey := 
+        TransactionLabel.read label ++ TransactionLabel.write label;
+      allKeys := List.concatMap 
+        \{tx := getAllKeysFromLabel (TransactionCandidate.label tx)} 
+        (Map.values transactions);
+  in Set.fromList (map keyToShard allKeys);
 
 handleLockAcquired
   (input : MempoolWorkerActionInput)
@@ -276,25 +287,31 @@ handleLockAcquired
       | mkEngineMsg@{msg := Anoma.MsgShard (ShardMsgKVSLockAcquired lockMsg); sender := sender} :=
         let timestamp := KVSLockAcquiredMsg.timestamp lockMsg;
             newLocks := (mkPair sender lockMsg) :: MempoolWorkerLocalState.locks_acquired local;
-            maxConsecutive := findMaxConsecutiveLocked (MempoolWorkerLocalState.transactions local) newLocks 1 0;
+            maxConsecutiveWrite := findMaxConsecutiveLocked true (MempoolWorkerLocalState.transactions local) newLocks 1 0;
+            maxConsecutiveRead := findMaxConsecutiveLocked false (MempoolWorkerLocalState.transactions local) newLocks 1 0;
             newState := local@MempoolWorkerLocalState{
               locks_acquired := newLocks;
-              seen_all_writes := maxConsecutive
+              seen_all_writes := maxConsecutiveWrite;
+              seen_all_reads := maxConsecutiveRead
             };
             newEnv := env@EngineEnv{localState := newState};
-            updateMsg := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-              target := sender;
-              mailbox := some 0;
-              msg := Anoma.MsgShard (ShardMsgUpdateSeenAll
-                (mkUpdateSeenAllMsg@{
-                  timestamp := maxConsecutive;
-                  write := true
-                }))
-            };
+            allShards := getAllShards (MempoolWorkerLocalState.transactions local);
+            makeUpdateMsg (target : EngineID) (isWrite : Bool) (timestamp : TxFingerprint) : EngineMsg Anoma.Msg :=
+              mkEngineMsg@{
+                sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
+                target := target;
+                mailbox := some 0;
+                msg := Anoma.MsgShard (ShardMsgUpdateSeenAll
+                  (mkUpdateSeenAllMsg@{
+                    timestamp := timestamp;
+                    write := isWrite
+                  }))
+              };
+            writeMessages := map \{shard := makeUpdateMsg shard true maxConsecutiveWrite} (Set.toList allShards);
+            readMessages := map \{shard := makeUpdateMsg shard false maxConsecutiveRead} (Set.toList allShards);
         in some mkActionEffect@{
           env := newEnv;
-          msgs := [updateMsg];
+          msgs := writeMessages ++ readMessages;
           timers := [];
           engines := []
         }
