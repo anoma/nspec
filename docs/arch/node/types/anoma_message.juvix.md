@@ -43,6 +43,12 @@ tags:
     import arch.node.net.transport_messages open;
     import arch.node.net.pub_sub_topic_messages open;
     import arch.node.net.storage_messages open;
+
+    {- Ordering -}
+
+    import arch.node.engines.mempool_worker_messages open using {MempoolWorkerMsg};
+    import arch.node.engines.executor_messages open using {ExecutorMsg};
+    import arch.node.engines.shard_messages open using {ShardMsg};
     ```
 
 # Anoma Message
@@ -83,10 +89,17 @@ type Msg :=
   {- Network -}
 
   | MsgRouter (RouterMsg Msg)
---  | MsgNodeProxy NodeProxyMsg
---  | MsgTransport TransportMsg
---  | MsgTopic TopicMsg
---  | MsgStorage StorageMsg
+  | MsgNodeProxy NodeProxyMsg
+  | MsgTransportProtocol TransportProtocolMsg
+  | MsgTransportConnection TransportConectionMsg
+  | MsgPubSubTopic PubSubTopicMsg
+  | MsgStorage StorageMsg
+
+  {- Ordering -}
+
+  | MsgMempoolWorker MempoolWorkerMsg
+  | MsgExecutor ExecutorMsg
+  | MsgShard ShardMsg
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

@@ -40,6 +40,12 @@ search:
     import arch.node.net.transport_connection_environment open;
     import arch.node.net.pub_sub_topic_environment open;
     import arch.node.net.storage_environment open;
+
+    {- Ordering -}
+
+    import arch.node.engines.mempool_worker_environment open;
+    import arch.node.engines.executor_environment open;
+    import arch.node.engines.shard_environment open;
     ```
 
 # Anoma Engine Environments
@@ -75,6 +81,8 @@ type Env :=
   | EnvSignsFor SignsForEnv
   | EnvNaming NamingEnv
 
+  {- Hardware -}
+
   | EnvLocalKeyValueStorage LocalKVStorageEnv
   | EnvLogging LoggingEnv
   | EnvWallClock WallClockEnv
@@ -88,5 +96,11 @@ type Env :=
   | EnvTransportConnection TransportConnectionEnv
   | EnvPubSubTopic PubSubTopicEnv
   | EnvStorage StorageEnv
+
+  {- Ordering -}
+
+  | EnvMempoolWorker MempoolWorkerEnv
+  | EnvExecutor ExecutorEnv
+  | EnvShard ShardEnv
 ```
 <!-- --8<-- [end:anoma-environment-type] -->
