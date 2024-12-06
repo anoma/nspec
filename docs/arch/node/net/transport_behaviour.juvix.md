@@ -132,7 +132,7 @@ Timer updates
 : No timers are set or cancelled.
 
 <!-- --8<-- [start:exampleReplyAction] -->
-```juvix  
+```juvix
 exampleReplyAction
   (input : TransportActionInput)
   : Option TransportActionEffect :=

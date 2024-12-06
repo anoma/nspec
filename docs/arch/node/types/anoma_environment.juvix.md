@@ -41,7 +41,7 @@ search:
     import arch.node.net.pub_sub_topic_environment open;
     import arch.node.net.storage_environment open;
     ```
-  
+
 # Anoma Engine Environments
 
 An _Anoma_ engine environment is a collection of all the necessary

@@ -16,7 +16,7 @@ tags:
     module arch.node.net.storage_config;
 
     import arch.node.net.storage_messages open;
-    
+
     import arch.node.types.basics open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;

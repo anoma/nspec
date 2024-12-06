@@ -16,7 +16,7 @@ tags:
     module arch.node.net.pub_sub_topic_config;
 
     import arch.node.net.pub_sub_topic_messages open;
-    
+
     import arch.node.types.basics open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;

@@ -16,7 +16,7 @@ tags:
     module arch.node.net.transport_config;
 
     import arch.node.net.transport_messages open;
-    
+
     import arch.node.types.basics open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;

@@ -173,4 +173,4 @@ type EncryptedMsg :=
 ???+ quote "Arguments"
 
     `EncryptedMsgNull`
-    : No encryption. 
+    : No encryption.

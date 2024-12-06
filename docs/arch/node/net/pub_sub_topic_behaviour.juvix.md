@@ -22,7 +22,7 @@ tags:
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
-    import arch.node.types.engine open; 
+    import arch.node.types.engine open;
     import arch.node.types.anoma as Anoma open;
     ```
 
