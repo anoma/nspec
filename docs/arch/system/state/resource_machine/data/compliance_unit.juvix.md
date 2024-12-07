@@ -6,7 +6,7 @@ search:
 ---
 
 ```juvix
-module arch.system.state.resource_machine.data_structures.compliance_unit;
+module arch.system.state.resource_machine.data.compliance_unit;
 ```
 
 # Compliance proofs and compliance units

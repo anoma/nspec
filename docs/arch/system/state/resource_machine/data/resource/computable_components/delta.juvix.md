@@ -6,7 +6,7 @@ search:
 ---
 
 ```juvix
-module arch.system.state.resource_machine.data_structures.resource.computable_components.delta;
+module arch.system.state.resource_machine.data.resource.computable_components.delta;
 ```
 
 # Resource Delta

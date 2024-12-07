@@ -6,7 +6,7 @@ search:
 ---
 
 ```juvix
-module arch.system.state.resource_machine.data_structures.proof.logic;
+module arch.system.state.resource_machine.data.proof.logic;
 ```
 
 # Resource Logic

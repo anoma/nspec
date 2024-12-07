@@ -71,7 +71,7 @@ Executors are the final nodes that receive transaction functions after ordering
 and produce a state change. After receiving a transaction function, the executor
 runs it, outputting a transaction that describes a state update. The executor
 node validates the resulting transaction, by performing the checks described
-[here](./../data_structures/transaction.md#verify). In case the transaction is
+[here](./../data/transaction.md#verify). In case the transaction is
 valid, the executor applies the state changes: adds nullifiers to the nullifier
 set, commitments to the commitment tree, and possibly some other data to the
 storage.

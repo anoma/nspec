@@ -6,8 +6,8 @@ search:
 ---
 
 ```juvix
-module arch.system.state.resource_machine.data_structures.resource.computable_components.tag;
-import arch.system.state.resource_machine.data_structures.resource.definition
+module arch.system.state.resource_machine.data.resource.computable_components.tag;
+import arch.system.state.resource_machine.data.resource.definition
 open;
 ```
 

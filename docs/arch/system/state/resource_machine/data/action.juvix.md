@@ -6,7 +6,7 @@ search:
 ---
 
 ```juvix
-module arch.system.state.resource_machine.data_structures.action;
+module arch.system.state.resource_machine.data.action;
 ```
 
 # Action

@@ -6,7 +6,7 @@ search:
 ---
 
 ```juvix
-module arch.system.state.resource_machine.data_structures.proof.delta;
+module arch.system.state.resource_machine.data.proof.delta;
 ```
 
 ## Delta proof inputs and constraints

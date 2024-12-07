@@ -33,22 +33,22 @@ nav:
                       - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.md
                       - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.md
                   - Data structures:
-                      - ./arch/system/state/resource_machine/data_structures/index.md
+                      - ./arch/system/state/resource_machine/data/index.md
                       - Resource:
-                          - ./arch/system/state/resource_machine/data_structures/resource/definition.md
+                          - ./arch/system/state/resource_machine/data/resource/definition.md
                           - Computable components:
-                              - ./arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.md
-                              - Commitment: ./arch/system/state/resource_machine/data_structures/resource/computable_components/resource_commitment.md
-                              - Nullifier: ./arch/system/state/resource_machine/data_structures/resource/computable_components/nullifier.md
-                              - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.md
-                              - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.md
-                              - Tag: ./arch/system/state/resource_machine/data_structures/resource/computable_components/tag.md
-                      - Compliance unit: .//arch/system/state/resource_machine/data_structures/compliance_unit.md
+                              - ./arch/system/state/resource_machine/data/resource/computable_components/introduction.md
+                              - Commitment: ./arch/system/state/resource_machine/data/resource/computable_components/resource_commitment.md
+                              - Nullifier: ./arch/system/state/resource_machine/data/resource/computable_components/nullifier.md
+                              - Kind: ./arch/system/state/resource_machine/data/resource/computable_components/kind.md
+                              - Delta: ./arch/system/state/resource_machine/data/resource/computable_components/delta.md
+                              - Tag: ./arch/system/state/resource_machine/data/resource/computable_components/tag.md
+                      - Compliance unit: .//arch/system/state/resource_machine/data/compliance_unit.md
                       - Action:
-                          - ./arch/system/state/resource_machine/data_structures/action.md
-                          - Resource logic proofs: ./arch/system/state/resource_machine/data_structures/proof/logic.md
-                          - Compliance proofs: ./arch/system/state/resource_machine/data_structures/proof/compliance.md
-                      - Transaction: ./arch/system/state/resource_machine/data_structures/transaction.md
+                          - ./arch/system/state/resource_machine/data/action.md
+                          - Resource logic proofs: ./arch/system/state/resource_machine/data/proof/logic.md
+                          - Compliance proofs: ./arch/system/state/resource_machine/data/proof/compliance.md
+                      - Transaction: ./arch/system/state/resource_machine/data/transaction.md
                   - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.md
                   - Notes:
                       - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.md
