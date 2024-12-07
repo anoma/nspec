@@ -14,6 +14,8 @@ tags:
     import Stdlib.Trait open public;
     import Stdlib.Trait.Ord open using {Ordering; mkOrd; Equal; isEqual} public;
     import Stdlib.Trait.Eq open using {==} public;
+    import Stdlib.Debug.Fail open using {failwith};
+
     ```
 
 # Common Types - Juvix Base Prelude
@@ -297,13 +299,86 @@ uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
 ```
 
 
+### `disjointUnion`
+
+```juvix
+--- Computes the disjoint union of two ;Set;s.
+disjointUnion {T} {{Ord T}} (s1 s2 : Set T) : Result (Set T) (Set T) :=
+  case Set.intersection s1 s2 of
+    | Set.empty := ok (Set.union s1 s2)
+    | s := error s;
+```
+
+
 ## Undefined values
 
 The term `undef` is a placeholder for unspecified values.
 
+### `undef`
+
 ```juvix
 axiom undef : {A : Type} -> A;
+```
+
+### `TODO`
+
+```juvix
 axiom TODO : {A : Type} -> A;
+```
+
+### `UNUSED`
+
+```juvix
+--- A type describing the absence of a types.
+--- NOTE: This can be used in instantiated interfaces for type parameters that are not used.
+UNUSED : Type := Unit;
+```
+
+### `MISSING_DEFINITION`
+
+```juvix
+--- A type describing an unknown type that must be clarified.
+--- NOTE: This can be used in instantiated interfaces for type parameters that are not unknown.
+MISSING_DEFINITION : Type := Unit;
+```
+
+### `MISSING_SIZE`
+
+```juvix
+MISSING_SIZE : Nat := 0;
+```
+
+### `NOT_REQUIRED`
+
+```juvix
+--- A placeholder for an implementation that is not required for the private testnet.
+NOT_REQUIRED : {A : Type} → A :=
+  failwith "THIS IS NOT REQUIRED FOR THE PRIVATE TESTNET";
+```
+
+### `MISSING_JUVIX_IMPLEMENTATION`
+
+```juvix
+--- A placeholder for a missing Juvix implementation.
+MISSING_JUVIX_IMPLEMENTATION : {A : Type} → A :=
+  failwith "THIS MUST BE IMPLEMENT BY JUVIX";
+```
+
+### `MISSING_ANOMA_BUILTIN`
+
+```juvix
+--- A placeholder for a missing Anoma builtin.
+MISSING_ANOMA_BUILTIN : {A : Type} → A :=
+  failwith "THIS MUST BE PROVIDED AS AN ANOMA BUILTIN IN JUVIX";
+```
+
+### `ANOMA_BACKEND_IMPLEMENTATION`
+
+```juvix
+--- A placeholder for an implementation that must be implemented on by the Anoma instantiator in the backend, but is not supposed to be called from Juvix.
+ANOMA_BACKEND_IMPLEMENTATION : {A : Type} → A :=
+  failwith
+    "THIS BACKEND IMPLEMENTATION IS NOT SUPPOSED TO BE CALLED FROM JUVIX";
 ```
 
 For example,
