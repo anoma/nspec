@@ -10,41 +10,43 @@ module arch.system.state.resource_machine.data.action;
 import prelude open;
 ```
 
-# Action
+# `Action`
 
-An action is a composite structure of type `Action` that contains the following
-components:
+An *action* is a term of type `Action` defined as follows:
 
 ```juvix
 type Action :=
   mkAction@{
-    -- commitments : Set Resource.Commitment;
-    -- nullifiers : Set Resource.Nullifier;
-    -- proofRecords : Set ProofRecord;
-    -- appData : AppData;
+    -- created : List (TODO "Commitment");
+    -- consumed : List (TODO "Nullifier");
+    -- resourceLogicProofs : Map (TODO "Tag") (TODO "LogicRefHash, PS.Proof");
+    -- complianceUnits : Set (TODO "ComplianceUnit");
+    -- applicationData : Map (TODO "AppDataValueHash") (TODO "BitString, DeletionCriterion");
   };
 ```
 
-```juvix
--- Verifies an ;Action; by verifying all proofs in the ;ProofRecord; ;Set;.
-verifyAction (a : Action) : Bool := MISSING_ANOMA_BUILTIN;
-```
+???+ quote "Arguments"
 
-|Component|Type|Description| |-|-|-| |`created`|`List Commitment`|contains
-commitments of resources created in this action| |`consumed`|`List
-Nullifier`|contains nullifiers of resources consumed in this action|
-|`resourceLogicProofs`|`Map Tag (LogicRefHash, PS.Proof)`|contains a map of
-resource logic proofs associated with this action. The key is the `self`
-resource for which the proof is computed, the first parameter of the value opens
-to the required verifying key, the second one is the corresponding proof|
-|`complianceUnits`|`Set ComplianceUnit`|The set of transaction's [compliance
-units](./compliance_unit.md)| |`applicationData`|`Map AppDataValueHash
-(BitString, DeletionCriterion)`|contains a map of hashes and
-[openings](./../primitive_interfaces/fixed_size_type/hash.md#hash) of various
-data needed to verify resource logic proofs. The deletion criterion field is
-described [here](./../notes/storage.md#data-blob-storage). The openings are
-expected to be ordered.|
+    `created`
+    : contains commitments of resources created in this action
 
+    `consumed`
+    : contains nullifiers of resources consumed in this action
+
+    `resourceLogicProofs`
+    : contains a map of resource logic proofs associated with this action. The
+    key is the `self` resource for which the proof is computed, the first
+    parameter of the value opens to the required verifying key, the second one is
+    the corresponding proof
+
+    `complianceUnits`
+    : The set of transaction's compliance units
+
+    `applicationData`
+    : contains a map of hashes and [openings](./../primitive_interfaces/fixed_size_type/hash.md#hash) of various
+    data needed to verify resource logic proofs. The deletion criterion field is
+    described [here](./../notes/storage.md#data-blob-storage). The openings are
+    expected to be ordered
 
 !!! note `resourceLogicProofs` type: For function privacy, we assume that the
     produced logic proof is recursive, and the verifying key used to verify the
