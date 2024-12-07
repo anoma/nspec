@@ -7,12 +7,28 @@ search:
 
 ```juvix
 module arch.system.state.resource_machine.data.action;
+import prelude open;
 ```
 
 # Action
 
 An action is a composite structure of type `Action` that contains the following
 components:
+
+```juvix
+type Action :=
+  mkAction@{
+    -- commitments : Set Resource.Commitment;
+    -- nullifiers : Set Resource.Nullifier;
+    -- proofRecords : Set ProofRecord;
+    -- appData : AppData;
+  };
+```
+
+```juvix
+--- Verifies an ;Action; by verifying all proofs in the ;ProofRecord; ;Set;.
+verifyAction (a : Action) : Bool := MISSING_ANOMA_BUILTIN;
+```
 
 |Component|Type|Description| |-|-|-| |`created`|`List Commitment`|contains
 commitments of resources created in this action| |`consumed`|`List

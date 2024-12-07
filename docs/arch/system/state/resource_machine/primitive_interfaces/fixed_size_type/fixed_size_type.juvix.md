@@ -7,9 +7,19 @@ search:
 
 ```juvix
 module arch.system.state.resource_machine.primitive_interfaces.fixed_size_type.fixed_size_type;
+import prelude open;
 ```
 
 # Fixed Size Type
+
+```juvix
+type FixedSize T :=
+  mkFixedSize@{
+    -- bit_size : Nat;
+    -- new : Arg -> T;
+    -- equal : (T, T) Bool;
+  };
+```
 
 Fixed size type is a type, as the name suggests, of a fixed size. An example of
 such a type could be a prime field, unit32, or a string of a fixed size. An
