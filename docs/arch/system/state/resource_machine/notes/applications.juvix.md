@@ -10,6 +10,7 @@ module arch.system.state.resource_machine.notes.applications;
 ```
 
 # Applications
+
 The ARM applications are characterised by a set of resource logics and associated read and write interfaces.
 
 $Application = (AppLogic, AppReadInterface, AppWriteInterface)$, where

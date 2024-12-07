@@ -9,7 +9,7 @@ search:
 module arch.system.state.resource_machine.notes.function_formats.transaction_function;
 ```
 
-## Transaction function
+# Transaction function
 
 The system used to represent and interpret transaction functions must have a
 deterministic computation model; each operation should have a fixed cost of

@@ -11,6 +11,21 @@ module arch.system.state.resource_machine.data_structures.resource.definition;
 
 # Resource
 
+
+```juvix
+type Resource :=
+  mkResource@{
+    -- logicRef : LogicRef;
+    -- labelRef : LabelRef;
+    -- valueRef : ValueRef;
+    -- quantity : Quantity;
+    -- ephemeral : Bool;
+    -- nullifierKeyCommitment : NullifierKeyCommitment;
+    -- nonce : Nonce;
+    -- randSeed : RandSeed;
+  };
+```
+
 A **resource** is a composite structure `Resource` that contains the following components:
 
 |Component|Type|Description|
