@@ -21,7 +21,7 @@ stored in a public append-only structure called the resource *nullifier set*.
 This structure is external to the resource machine, but the resource machine can
 read from it and append to it.
 
-!!! note 
+!!! note
 
     Every time a resource is consumed, it has to be checked that the resource
     existed before (the resource's commitment is in the commitment tree) and has
