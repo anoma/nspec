@@ -26,7 +26,7 @@ type Action :=
 ```
 
 ```juvix
---- Verifies an ;Action; by verifying all proofs in the ;ProofRecord; ;Set;.
+-- Verifies an ;Action; by verifying all proofs in the ;ProofRecord; ;Set;.
 verifyAction (a : Action) : Bool := MISSING_ANOMA_BUILTIN;
 ```
 
