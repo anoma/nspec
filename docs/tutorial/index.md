@@ -13,17 +13,17 @@ tags:
 
 ### Principles
 
-Clarity 
+Clarity
 
 : Make every page clear and concise.
 Footnotes may be used to add context.
 Additional notes that exceed a paragraph may deserve to be put into a separate file
 (and [[Write Markdown|thus]] will appear in the navigation bar).
 
-Don't repeat yourself! 
+Don't repeat yourself!
 
 : Do not paste any copied material.
-Instead, include the material, e.g., via [[Include code snippets|snippeting]]. 
+Instead, include the material, e.g., via [[Include code snippets|snippeting]].
 The only exception is material for which there is no established method for inclusion;
 in this case,
 include the material inside a todo note `!!! todo "unrepeat this"`,
@@ -31,7 +31,7 @@ paired with a reference to its source.
 
 Consistency
 
-: Terms from the glossary must be used consistently throughout the specification. 
+: Terms from the glossary must be used consistently throughout the specification.
 Where applicable, adhere to naming schemes.
 
 
@@ -48,8 +48,8 @@ which should encompass at least the members of the Anoma engineering team.
 
 Internal and external linking
 
-: If you have a link for something, please use it. 
-Chances are that it improves accessibility and moreover 
+: If you have a link for something, please use it.
+Chances are that it improves accessibility and moreover
 it helps discover inconsistencies.
 
 Implementability
