@@ -2,6 +2,8 @@
 
 Arithmetic fixed size type is a type of fixed size that additionally supports addition and subtraction.
 
+<!--ᚦ«a quick note on commutativity would not hurt, IMHO»-->
+
 ``` mermaid
 
 classDiagram
@@ -29,3 +31,5 @@ classDiagram
 1. Resource component: `quantity`
 2. `DeltaHash`
 
+<!--ᚦ«links would be nice»-->
+<!--ᚦ«balance should probably also be on this list»-->
