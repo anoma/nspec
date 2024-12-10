@@ -39,6 +39,10 @@ Style
 
 : Conform to style guides, unless this would lead to inconsistency.
 
+Citations
+
+: Use [[Citing in Markdown|citations]] to refer to articles, books, and similar publications.
+
 ### Guidelines
 
 Accessibility
@@ -51,6 +55,9 @@ Internal and external linking
 : If you have a link for something, please use it.
 Chances are that it improves accessibility and moreover
 it helps discover inconsistencies.
+Use wikilinks for internal links and
+URL links (`[target](URL)`) only for external material
+(or if wikilinks do not work as expected).
 
 Implementability
 
