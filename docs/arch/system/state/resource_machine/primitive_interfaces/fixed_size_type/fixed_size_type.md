@@ -70,3 +70,5 @@ classDiagram
 
 <!--ᚦ«links missing»-->
 <!--ᚦ«other formatting seems to be intended »-->
+
+<!--ᚦ«This file should probably be named `index.md` »-->
