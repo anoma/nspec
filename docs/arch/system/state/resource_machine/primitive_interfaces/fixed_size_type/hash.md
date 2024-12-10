@@ -2,7 +2,13 @@
 
 Hash type is defined as a fixed size type that is *binding*, meaning that if the input value of type `Arg` changed, the output value would change as well.
 
+<!--ᚦ«add `binding` to glossary »-->
+<!--ᚦ«so, this is the usual assumption about cryptograhpic hashes?»-->
+
 In the context of hashes, we say `a` is an **opening** of a hash `h: Hash` if `h = hash(a)`.
+
+<!--ᚦ«add `opening` to glossary»-->
+<!--ᚦ«cross-link to pre-image»-->
 
 !!! warning
     TODO:
@@ -13,6 +19,8 @@ In the context of hashes, we say `a` is an **opening** of a hash `h: Hash` if `h
 ### LogicHash
 
 In the case of resource logic, the hash used to compute it should output the logic's verifying key and therefore is determined by the proving system used to compute resource logic proofs.
+
+<!--ᚦ«link to `resource logic` and vk and "everything" »-->
 
 ## Hash interface diagram
 
@@ -50,3 +58,6 @@ classDiagram
     3. `kind`
     4. `delta`
 3. Computing Merkle tree nodes and roots
+
+
+<!--ᚦ«formatting seems to be intended differently »-->
