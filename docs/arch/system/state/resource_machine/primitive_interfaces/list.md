@@ -1,6 +1,9 @@
 # List
 
-List is a structure that contains ordered elements of type `T`
+List is a structure that contains ordered elements of type `T`.
+
+<!--ᚦ«The list is not ordered though, right?»-->
+<!--ᚦ«Does T need to implement some kind of ordering trait?»-->
 
 ## The interface
 
@@ -13,6 +16,18 @@ For a list parametrised over the element type `T`:
 5. `delete(List, Nat) -> List` - removes an element at the given position from the list
 6. `contains(List, T) -> Bool` - checks if an element is in the list
 
+<!--ᚦ«`append` in Python adds to the end of the list: Where is the element added? Typically single elements are added at the head. »-->
+<!--ᚦ«Could we just use juvix Lists?»-->
+
 ## Used in
 1. Action (commitments, nullifiers)
 2. Compliance unit
+
+<!--ᚦ«These should be linked»-->
+
+<!--ᚦ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+global
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+«Could we just the juvix list datatype?»
+-->
