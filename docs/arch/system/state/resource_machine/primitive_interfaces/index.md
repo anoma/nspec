@@ -2,12 +2,25 @@
 
 This section defines the hierarchy of primitives used in resource machine design and describes interfaces for each primitive. Each primitive has an associated type, e.g. hash primitive has type `Hash`.
 
-The diagram below illustrates the primitive types required for resource machine. Green nodes correspond to the primitives for which only one instantiation is required, e.g., we only need to instantiate `DeltaHash` type once for a given RM implementation and use it everywhere where `DeltaHash` is expected. It is assumed for such types that there is a unique function used to derive elements of the type. The name of this function is derived from the type name, written in lower camel case, e.g., for `DeltaHash` the corresponding derivation function would be `deltaHash(..)`.
+<!-- ᚦ «What's an interface?» -->
+<!-- ᚦ «What's a primitive?» -->
 
+The diagram below illustrates the primitive types required for the resource machine. Green nodes correspond to the primitives for which only one instantiation is required, e.g., we only need to instantiate `DeltaHash` type once for a given RM implementation and use it everywhere where `DeltaHash` is expected. It is assumed for such types that there is a unique function used to derive elements of the type. The name of this function is derived from the type name, written in lower camel case, e.g., for `DeltaHash` the corresponding derivation function would be `deltaHash(..)`.
+
+<!-- ᚦ 
+«
+"the primitive types required for resource machine"
+→ 
+"the primitive types required for the resource machine"
+»
+-->
+<!-- ᚦ «The types that are not only used once, 
+do they have arbitrary numbers of instantitiations?» -->
+<!-- ᚦ «To  derive may deserve an explanation» -->
 
 ``` mermaid
 
-flowchart TB
+flowchart LR
     ProvingSystem
     Set
     List
@@ -83,3 +96,10 @@ flowchart TB
     style AppDataValueHash fill:#ddf2d1
 
 ```
+
+<!-- ᚦ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+on this page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+«many terms mentioned without explanation or links»
+-->
