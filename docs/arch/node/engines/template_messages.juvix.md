@@ -10,7 +10,7 @@ tags:
 - engine-messages
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.engines.template_messages;
@@ -22,15 +22,6 @@ tags:
 These are the messages that the Template engine can receive/respond to.
 
 ## Message interface
-
-??? quote "Auxiliary Juvix code"
-
-    ```juvix
-    syntax alias MethodOneArgOne := Nat;
-    syntax alias MethodOneArgTwo := Nat;
-    syntax alias MethodOneArgThree := Nat;
-    syntax alias MethodTwoArgOne := Nat;
-    ```
 
 ### `TemplateMsgJustHi`
 

@@ -1,5 +1,5 @@
 ---
-icon: octicons/gear-16
+icon: octicons/gear-24
 search:
   exclude: false
 categories:
@@ -10,21 +10,23 @@ tags:
 - engine-definition
 ---
 
-??? quote "Juvix preamble"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.engines.template;
 
-    import prelude open;
     import arch.node.engines.template_messages open public;
     import arch.node.engines.template_config open public;
     import arch.node.engines.template_environment open public;
     import arch.node.engines.template_behaviour open public;
-    import arch.node.types.engine open public;
+
+    import arch.node.types.basics open;
+    import arch.node.types.engine open;
     import arch.node.types.anoma as Anoma open;
 
     open template_config_example;
     open template_environment_example;
+    open template_behaviour_example;
     ```
 
 # Template Engine
@@ -63,27 +65,27 @@ TemplateEngine : Type :=
 ```
 <!-- --8<-- [end:TemplateEngine] -->
 
-### Example of a template engine
+### Instantiation
 
-<!-- --8<-- [start:exampleTemplateEngine] -->
+<!-- --8<-- [start:exTemplateEngine] -->
 ```juvix
-exampleTemplateEngine : TemplateEngine :=
+exTemplateEngine : TemplateEngine :=
   mkEngine@{
-    cfg := templateCfg;
-    env := templateEnv;
-    behaviour := templateBehaviour;
+    cfg := exTemplateCfg;
+    env := exTemplateEnv;
+    behaviour := exTemplateBehaviour;
   };
 ```
-<!-- --8<-- [end:exampleTemplateEngine] -->
+<!-- --8<-- [end:exTemplateEngine] -->
 
-where `templateCfg` is defined as follows:
+Where `exTemplateCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_config.juvix.md:templateCfg"
+--8<-- "./docs/arch/node/engines/template_config.juvix.md:exTemplateCfg"
 
-`templateEnv` is defined as follows:
+`exTemplateEnv` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_environment.juvix.md:templateEnv"
+--8<-- "./docs/arch/node/engines/template_environment.juvix.md:exTemplateEnv"
 
-and `templateBehaviour` is defined as follows:
+and `exTemplateBehaviour` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_behaviour.juvix.md:templateBehaviour"
+--8<-- "./docs/arch/node/engines/template_behaviour.juvix.md:exTemplateBehaviour"

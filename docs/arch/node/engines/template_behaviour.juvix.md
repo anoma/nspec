@@ -10,7 +10,7 @@ tags:
 - engine-behaviour
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
     module arch.node.engines.template_behaviour;
@@ -19,7 +19,6 @@ tags:
     import arch.node.engines.template_config open;
     import arch.node.engines.template_environment open;
 
-    import prelude open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -412,7 +411,7 @@ exampleReplyGuard
 ```
 <!-- --8<-- [end:exampleReplyGuard] -->
 
-## The Template behaviour
+## Engine behaviour
 
 ### `TemplateBehaviour`
 
@@ -433,18 +432,21 @@ TemplateBehaviour : Type :=
 
 #### Instantiation
 
-<!-- --8<-- [start:templateBehaviour] -->
+<!-- --8<-- [start:exTemplateBehaviour] -->
 ```juvix
-templateBehaviour : TemplateBehaviour :=
-  mkEngineBehaviour@{
-    guards :=
-      First [
-        justHiGuard;
-        exampleReplyGuard;
-      ];
-  };
+module template_behaviour_example;
+
+  exTemplateBehaviour : TemplateBehaviour :=
+    mkEngineBehaviour@{
+      guards :=
+        First [
+          justHiGuard;
+          exampleReplyGuard;
+        ];
+    };
+end;
 ```
-<!-- --8<-- [end:templateBehaviour] -->
+<!-- --8<-- [end:exTemplateBehaviour] -->
 
 ## Template Action Flowchart
 
