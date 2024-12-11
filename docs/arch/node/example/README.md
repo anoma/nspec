@@ -9,7 +9,7 @@ This engine template can be used as a quick start template for writing new engin
 To use it, copy the files and replace the engine name:
 
 ```bash
-for p in '' _config _environment _behaviour; do
+for p in '' _messages _config _environment _behaviour; do
   sed '
     s/template\([-_]\)\minimum/some\1example/g;
     s/Template\( \)\?Minimum/Some\1Example/g;
