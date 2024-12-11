@@ -15,3 +15,9 @@ Resources have four computable components:
 2. [`r.nullifier(nullifierKey)`](nullifier.md)
 3. [`r.kind()`](kind.md)
 4. [`r.delta()`](delta.md)
+
+<!--ᚦ«it would be nice to have the central equation for how each of those is computed on the same line»-->
+<!--ᚦ«Wikilinks are preferable»-->
+<!--ᚦ«this file should be called `index.md`»-->
+
+
