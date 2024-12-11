@@ -6,28 +6,28 @@ categories:
 - engine
 - node
 tags:
-- template_minimum-minimum-engine
+- template-engine
 - engine-messages
 ---
 
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template_minimum_messages;
+    module arch.node.example.template_messages;
     import prelude open;
     ```
 
-# TemplateMinimum Messages
+# Template Messages
 
-These are the messages that the TemplateMinimum engine can receive/respond to.
+These are the messages that the Template engine can receive/respond to.
 
 ## Message interface
 
-### `TemplateMinimumMsgJustHi`
+### `TemplateMsgJustHi`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateMinimumMsgExampleRequest ExampleRequest`
+### `TemplateMsgExampleRequest ExampleRequest`
 
 Example request.
 
@@ -49,7 +49,7 @@ type ExampleRequest : Type :=
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateMinimumMsgExampleReply ExampleReply`
+### `TemplateMsgExampleReply ExampleReply`
 
 Reply to an `ExampleRequest`.
 
@@ -100,17 +100,17 @@ ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
 ```
 <!-- --8<-- [end:ExampleReply] -->
 
-### `TemplateMinimumMsg`
+### `TemplateMsg`
 
-<!-- --8<-- [start:TemplateMinimumMsg] -->
+<!-- --8<-- [start:TemplateMsg] -->
 ```juvix
-type TemplateMinimumMsg :=
-  | TemplateMinimumMsgJustHi
-  | TemplateMinimumMsgExampleRequest ExampleRequest
-  | TemplateMinimumMsgExampleReply ExampleReply
+type TemplateMsg :=
+  | TemplateMsgJustHi
+  | TemplateMsgExampleRequest ExampleRequest
+  | TemplateMsgExampleReply ExampleReply
   ;
 ```
-<!-- --8<-- [end:TemplateMinimumMsg] -->
+<!-- --8<-- [end:TemplateMsg] -->
 
 ## Sequence Diagrams
 
@@ -124,14 +124,14 @@ Sed ut purus eget sapien. Nulla facilisi.
 
 ```mermaid
 sequenceDiagram
-    participant TemplateMinimumClient
-    participant TemplateMinimum
+    participant TemplateClient
+    participant Template
 
-    TemplateMinimumClient ->> TemplateMinimum: ExampleRequest
-    TemplateMinimum ->> TemplateMinimumClient: ExampleReplyOk
+    TemplateClient ->> Template: ExampleRequest
+    Template ->> TemplateClient: ExampleReplyOk
 
-    TemplateMinimumClient ->> TemplateMinimum: ExampleRequest
-    TemplateMinimum ->> TemplateMinimumClient: ExampleReplyErrorOne
+    TemplateClient ->> Template: ExampleRequest
+    Template ->> TemplateClient: ExampleReplyErrorOne
 ```
 
 <figcaption markdown="span">

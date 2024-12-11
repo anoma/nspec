@@ -15,11 +15,11 @@ tags:
 ??? quote "Juvix preamble"
 
     ```juvix
-    module arch.node.engines.ticker_environment;
+    module arch.node.example.ticker_environment;
 
     import prelude open;
     import arch.node.types.basics open;
-    import arch.node.engines.ticker_messages open;
+    import arch.node.example.ticker_messages open;
     import arch.node.types.engine_environment open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;

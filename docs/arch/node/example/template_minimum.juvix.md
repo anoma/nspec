@@ -13,12 +13,12 @@ tags:
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template_minimum;
+    module arch.node.example.template_minimum;
 
-    import arch.node.engines.template_minimum_messages open public;
-    import arch.node.engines.template_minimum_config open public;
-    import arch.node.engines.template_minimum_environment open public;
-    import arch.node.engines.template_minimum_behaviour open public;
+    import arch.node.example.template_minimum_messages open public;
+    import arch.node.example.template_minimum_config open public;
+    import arch.node.example.template_minimum_environment open public;
+    import arch.node.example.template_minimum_behaviour open public;
 
     import arch.node.types.basics open;
     import arch.node.types.engine open;
@@ -80,12 +80,12 @@ exTemplateMinimumEngine : TemplateMinimumEngine :=
 
 Where `exTemplateMinimumCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_minimum_config.juvix.md:exTemplateMinimumCfg"
+--8<-- "./docs/arch/node/example/template_minimum_config.juvix.md:exTemplateMinimumCfg"
 
 `exTemplateMinimumEnv` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_minimum_environment.juvix.md:exTemplateMinimumEnv"
+--8<-- "./docs/arch/node/example/template_minimum_environment.juvix.md:exTemplateMinimumEnv"
 
 and `exTemplateMinimumBehaviour` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_minimum_behaviour.juvix.md:exTemplateMinimumBehaviour"
+--8<-- "./docs/arch/node/example/template_minimum_behaviour.juvix.md:exTemplateMinimumBehaviour"

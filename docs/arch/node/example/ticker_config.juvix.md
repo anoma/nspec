@@ -13,10 +13,10 @@ tags:
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.ticker_config;
+    module arch.node.example.ticker_config;
 
     import prelude open;
-    import arch.node.engines.ticker_messages open;
+    import arch.node.example.ticker_messages open;
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;

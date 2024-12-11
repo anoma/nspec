@@ -13,11 +13,11 @@ tags:
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template_behaviour;
+    module arch.node.example.template_behaviour;
 
-    import arch.node.engines.template_messages open;
-    import arch.node.engines.template_config open;
-    import arch.node.engines.template_environment open;
+    import arch.node.example.template_messages open;
+    import arch.node.example.template_config open;
+    import arch.node.example.template_environment open;
 
     import arch.node.types.basics open;
     import arch.node.types.identities open;

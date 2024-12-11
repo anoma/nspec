@@ -12,8 +12,8 @@ search:
 
     {- Examples -}
 
-    import arch.node.engines.template_config open;
-    import arch.node.engines.ticker_config open;
+    import arch.node.example.template_config open;
+    import arch.node.example.ticker_config open;
 
     {- Identity -}
 

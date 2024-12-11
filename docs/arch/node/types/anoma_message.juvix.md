@@ -16,8 +16,8 @@ tags:
 
     {- Examples -}
 
-    import arch.node.engines.template_messages open using {TemplateMsg};
-    import arch.node.engines.ticker_messages open using {TickerMsg};
+    import arch.node.example.template_messages open using {TemplateMsg};
+    import arch.node.example.ticker_messages open using {TickerMsg};
 
     {- Identity -}
 

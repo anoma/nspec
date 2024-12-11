@@ -13,12 +13,12 @@ tags:
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template;
+    module arch.node.example.template;
 
-    import arch.node.engines.template_messages open public;
-    import arch.node.engines.template_config open public;
-    import arch.node.engines.template_environment open public;
-    import arch.node.engines.template_behaviour open public;
+    import arch.node.example.template_messages open public;
+    import arch.node.example.template_config open public;
+    import arch.node.example.template_environment open public;
+    import arch.node.example.template_behaviour open public;
 
     import arch.node.types.basics open;
     import arch.node.types.engine open;
@@ -80,12 +80,12 @@ exTemplateEngine : TemplateEngine :=
 
 Where `exTemplateCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_config.juvix.md:exTemplateCfg"
+--8<-- "./docs/arch/node/example/template_config.juvix.md:exTemplateCfg"
 
 `exTemplateEnv` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_environment.juvix.md:exTemplateEnv"
+--8<-- "./docs/arch/node/example/template_environment.juvix.md:exTemplateEnv"
 
 and `exTemplateBehaviour` is defined as follows:
 
---8<-- "./docs/arch/node/engines/template_behaviour.juvix.md:exTemplateBehaviour"
+--8<-- "./docs/arch/node/example/template_behaviour.juvix.md:exTemplateBehaviour"

@@ -13,9 +13,9 @@ tags:
 ??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template_config;
+    module arch.node.example.template_config;
 
-    import arch.node.engines.template_messages open;
+    import arch.node.example.template_messages open;
 
     import arch.node.types.basics open;
     import arch.node.types.engine open;
