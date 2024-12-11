@@ -16,7 +16,7 @@ tags:
     module arch.node.example.template_minimum_config;
 
     import arch.node.example.template_minimum_messages open;
-    
+
     import arch.node.types.basics open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;
