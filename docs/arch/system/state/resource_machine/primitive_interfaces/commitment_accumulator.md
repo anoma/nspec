@@ -30,10 +30,10 @@ For a Merkle tree:
 
 and the functions:
 
-1. `Add` adds the resource commitment to the tree, returning the path to the commitment
-2. `Witness` finds the resource commitment in the tree and returns the path to it
-3. `Verify` uses the resource commitment and the path to reconstruct the root. Returns `True` if the constructed value is equal to the provided value
-4. `Value` returns the tree root
+1. `add` adds the resource commitment to the tree, returning the path to the commitment
+2. `witness` finds the resource commitment in the tree and returns the path to it
+3. `verify` uses the resource commitment and the path to reconstruct the root. Returns `True` if the constructed value is equal to the provided value
+4. `value` returns the tree root
 
 
 !!! warning

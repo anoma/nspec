@@ -1,4 +1,4 @@
-## Delta proof inputs and constraints
+# Delta proof
 
 ### Instance
 

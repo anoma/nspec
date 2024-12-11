@@ -41,12 +41,16 @@ classDiagram
 
 # Used in
 1. Resource components:
-    1. `logicRef`
-    2. `labelRef`
-    3. `valueRef`
+
+  1. `logicRef`
+  2. `labelRef`
+  3. `valueRef`
+
 2. Resource computable components:
-    1. `commitment`
-    2. `nullifier`
-    3. `kind`
-    4. `delta`
+
+  1. `commitment`
+  2. `nullifier`
+  3. `kind`
+  4. `delta`
+  
 3. Computing Merkle tree nodes and roots

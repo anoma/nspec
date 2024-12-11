@@ -5,22 +5,6 @@ search:
   boost: 2
 ---
 
-!!! todo
-
-    This whole page needs to be reworked.
-
-    Questions:
-
-    - What should this type be now?
-    - Is everything just a provable VM?
-    - VM gives the semantics to interpret the function, which seems necessary.
-    - We have some type of assumptions $Assumption$
-    - $prove_n$ generates the proof of type $Proof_n$
-    - $assumptions_n$ returns the assumptions required for a proof
-    - $verify_n$ verifies a proof of type $Proof_n$
-
----
-
 # Proof
 
 
@@ -36,10 +20,12 @@ We define a set of structures required to define a proving system $PS$ as follow
 A proving system $PS$ consists of a pair of algorithms, $(Prove, Verify)$:
 
 - $Prove(pk, x, w): PS.ProvingKey \times PS.Instance \times PS.Witness \rightarrow PS.Proof$
-- $Verify(vk, x, \pi): PS.VerifyingKey \times PS.Instance \times PS.Proof \rightarrow Bool.
+- $Verify(vk, x, \pi): PS.VerifyingKey \times PS.Instance \times PS.Proof \rightarrow Bool$.
 
 !!! note
     To verify a proof created for instance `x`, the same instance `x` must be used. For instances that contain elements of the same type, the order of the elements must be preserved.
+
+### Properties
 
 A proving system must have the following properties:
 
@@ -52,7 +38,7 @@ Certain proving systems may also be **zero-knowledge**, meaning that the produce
 
 A proof $\pi$ for which $Verify(pr) = True$ is considered valid.
 
-For example, let's take three common instantiations:
+### Common proving scheme types
 
 - The _trivial_ scheme is one where computation is simply replicated. The
   trivial scheme is defined as `verify(predicate, x, _) = predicate x`. It has no extra security assumptions but is not succinct. In this case, all of the data is used for both proving and verifying and witness and proof has unit type `()`.
@@ -79,3 +65,6 @@ Assuming the proving system is used to verify that a predicate evaluated on its 
 !!! note
 
 In practice, the predicate and its arguments can be represented as a hash or commitment to the actual value. In the trivial scheme, they would have to be opened in order to verify them. In the trusted delegation case, they *don't have to* be opened if the signature is produced over the hashed values.
+
+!!! note
+  For application developers: writing applications that can work with all types of systems can be challenging since different proof types require different argument split between instance and witness (e.g., trivial scheme, unlike succinct PoK, expects no witness). The current solution is to write applications with succinct PoK types of proving systems in mind, which then can be translated to other proving systems by moving witness arguments to instance.

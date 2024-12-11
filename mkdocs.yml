@@ -19,36 +19,41 @@ nav:
                   - ./arch/system/state/resource_machine/index.md
                   - Primitive interfaces:
                       - ./arch/system/state/resource_machine/primitive_interfaces/index.md
-                      - Set: ./arch/system/state/resource_machine/primitive_interfaces/set.md
-                      - List: ./arch/system/state/resource_machine/primitive_interfaces/list.md
+                      - Set: 
+                          - Set interface: ./arch/system/state/resource_machine/primitive_interfaces/set.md
+                          - Ordered set: ./arch/system/state/resource_machine/primitive_interfaces/ordered_set.md
                       - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.md
                       - Fixed size type:
-                          - ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md
+                          - Interface: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md
                           - Arithmetic: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.md
                           - Hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/hash.md
                           - Delta hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.md
                       - Proving system:
-                          - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system.md
+                          - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
+                          - Definitions: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.md
                           - Delta proving system: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.md
                       - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.md
                       - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.md
                   - Data structures:
                       - ./arch/system/state/resource_machine/data_structures/index.md
                       - Resource:
-                          - ./arch/system/state/resource_machine/data_structures/resource/definition.md
+                          - ./arch/system/state/resource_machine/data_structures/resource/index.md
                           - Computable components:
                               - ./arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.md
                               - Commitment: ./arch/system/state/resource_machine/data_structures/resource/computable_components/resource_commitment.md
                               - Nullifier: ./arch/system/state/resource_machine/data_structures/resource/computable_components/nullifier.md
                               - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.md
                               - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.md
-                              - Tag: ./arch/system/state/resource_machine/data_structures/resource/computable_components/tag.md
-                      - Compliance unit: .//arch/system/state/resource_machine/data_structures/compliance_unit.md
+                      - Compliance unit: 
+                          - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.md
+                          - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.md
                       - Action:
-                          - ./arch/system/state/resource_machine/data_structures/action.md
-                          - Resource logic proofs: ./arch/system/state/resource_machine/data_structures/proof/logic.md
-                          - Compliance proofs: ./arch/system/state/resource_machine/data_structures/proof/compliance.md
-                      - Transaction: ./arch/system/state/resource_machine/data_structures/transaction.md
+                          - Action: ./arch/system/state/resource_machine/data_structures/action/action.md
+                          - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.md
+                      - Transaction: 
+                          - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.md
+                          - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.md
+
                   - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.md
                   - Notes:
                       - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.md

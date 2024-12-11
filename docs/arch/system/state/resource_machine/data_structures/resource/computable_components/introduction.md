@@ -15,3 +15,9 @@ Resources have four computable components:
 2. [`r.nullifier(nullifierKey)`](nullifier.md)
 3. [`r.kind()`](kind.md)
 4. [`r.delta()`](delta.md)
+
+### Resource tag
+
+The resource *tag* is used to identify a resource when checking constraints without referring to the resource's plaintext directly: `tag(Resource, Bool) -> Commitment or Nullifier`.
+
+For created resources: `r.tag(consumed=False) = r.commitment()`; for consumed resources: `r.tag(consumed=True) = r.nullifier(nullifierKey)`

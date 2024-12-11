@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Resource Kind
+# Kind
 
 For a resource `r`, its kind is computed as: `r.kind() = kindHash(r.labelRef, r.logicRef)`.
 
