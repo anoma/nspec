@@ -9,7 +9,7 @@ search:
 
 A **resource** is a composite structure `Resource` that contains the following components:
 
-<!--ᚦ«could it be represented by a record for each of the listed components? 
+<!--ᚦ«could it be represented by a record for each of the listed components?
 maybe add a note on the relation to computed components »-->
 
 |Component|Type|Description|

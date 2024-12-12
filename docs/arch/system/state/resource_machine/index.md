@@ -18,8 +18,8 @@ hide:
 
 **The Anoma Resource Machine (ARM)** is the part of the Anoma protocol that defines and enforces the rules for valid state updates that satisfy users' preferences. The new proposed state is then agreed on by the consensus participants. In that sense the role of the Anoma Resource Machine in the Anoma protocol is similar to the role of the Ethereum Virtual Machine in the Ethereum protocol.
 
-<!-- ᚦ One sentence per line style is preferable for the specs; ideally semantic linebreaks https://sembr.org/  --> 
-<!-- ᚦ link to EVM vs. RM (when it comes into existence) --> 
+<!-- ᚦ One sentence per line style is preferable for the specs; ideally semantic linebreaks https://sembr.org/  -->
+<!-- ᚦ link to EVM vs. RM (when it comes into existence) -->
 
 ## Data structures
 
@@ -48,8 +48,8 @@ Ensuring the correctness of the transaction is achieved with the help of non-int
 
 The ARM is used to create, compose, and verify transactions. It is stateless and run by every node that processes transactions. Anoma users submit their intents to the intent gossip network in the form of unbalanced ARM transactions with metadata, which are received and processed by solvers that output balanced ARM transactions. These transactions are then ordered and finally sent to the executor node, that verifies and executes the transactions in the determined order, updating the global state.
 
-<!-- ᚦ 
-"stateless and run by" 
+<!-- ᚦ
+"stateless and run by"
 → "stateless ʙᴜᴛ executed before every state change by" (aside: this is probably the trait shared with the EVM) -->
 <!-- ᚦ "unbalanced ARM transactions with metadata" : they can be balanced, right? are these transaction objects?" -->
 <!-- ᚦ "global state" do we have a more specific name? global state would in theory also encompass the p2p layer, which is not covered here (but only state as relevant to resources) -->
@@ -58,15 +58,15 @@ The ARM is used to create, compose, and verify transactions. It is stateless and
 
 This specification describes a common interface shared by all ARM instantiations. Depending on the primitive instantiation choices, the resulting ARM instantiation will have different properties. For example, using zk-SNARKs to create and verify the ARM proofs might result in a succinct or even shielded ARM instantiation. The ARM interface is designed to provide interoperability between different ARM instantiations.
 
-<!-- ᚦ 
-"common interface" ideally I'd like to have an https://en.wikipedia.org/wiki/Abstract_data_type 
-(abstract ≠ algebraic) --> 
-<!-- ᚦ 
-"different properties" 
-→ "additional properties" ? 
+<!-- ᚦ
+"common interface" ideally I'd like to have an https://en.wikipedia.org/wiki/Abstract_data_type
+(abstract ≠ algebraic) -->
+<!-- ᚦ
+"different properties"
+→ "additional properties" ?
 -->
-<!-- ᚦ 
-"The ARM interface is designed to provide interoperability" 
+<!-- ᚦ
+"The ARM interface is designed to provide interoperability"
 → "One purpose of the ARM interface is interoperability"
 -->
 
@@ -76,7 +76,7 @@ The design of the Anoma Resource Machine was significantly inspired by the [Zcas
 
 <!-- ᚦ the previous two non-empty lines can probably be removed from the specs; keywords go into the `tags:` of the page header -->
 
-<!-- 
+<!--
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Generalities
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

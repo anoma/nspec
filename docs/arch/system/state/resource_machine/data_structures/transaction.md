@@ -8,7 +8,7 @@ search:
 # Transaction
 
 A transaction is a necessary and sufficient collection of fields required to validate and apply a state update to the state.<!--ᚦ«
-We would like to have a footnote explaining that---as discussed at nauseam---there seems to be a clash between 
+We would like to have a footnote explaining that---as discussed at nauseam---there seems to be a clash between
 - transaction (as short hand for transaction object, i.e., object of the class/interface Transaction)
 - the usage of the term transaction in OLTPs
 https://en.wikipedia.org/wiki/Online_transaction_processing#Meaning_of_the_term_transaction,
@@ -32,7 +32,7 @@ It is a composite structure that contains the following components:
 -- it would be nice if we were consistent»-->
 <!--ᚦ«@CMTreeRoots:  Why not more general, e.g., a set of AccumulatorValue ?»-->
 <!--ᚦ«@comprise
-The sentence "A set of actions that comprise the transaction" sounds to me 
+The sentence "A set of actions that comprise the transaction" sounds to me
 as if there was nothing else but actions in a _transaction object_»-->
 <!--ᚦ«@DeltaHash.T -- by which we mean the type paramter that we happen to use for DeltaHash »-->
 <!--ᚦ«@deltaProof you call it a "Balance proof" later--what should we call it (mainly)?»-->
@@ -49,7 +49,7 @@ as if there was nothing else but actions in a _transaction object_»-->
 ## Interface
 
 1. `create(Set CMtree.Value, Set Actions) -> Transaction`<!--ᚦ«
-so create is not a transaction function, but it was one if we had the inputs 
+so create is not a transaction function, but it was one if we had the inputs
 as hard coded constants?»-->
 2. `compose(Transaction, Transaction) -> Transaction`
 3. `verify(Transaction) -> Bool`
@@ -91,7 +91,7 @@ Checks that do not require access to global structures:
 
 <!--ᚦ
 «"state change induced by the transaction" just so that we do not forget:
-at some point we have to make clear that `transaction` is a shorthand for `transaction object` 
+at some point we have to make clear that `transaction` is a shorthand for `transaction object`
 @"induced by" could the be "described by" (because the transaction object itself is not a doing anything) »-->
 <!--ᚦ«wikilinks preferable / we should support [[Page Name#Section Heading|Link Text]] (if we do not yet)»-->
 

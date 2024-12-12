@@ -15,7 +15,7 @@ For a resource `r`, `r.nullifier(nullifierKey) = nullifierHash(nullifierKey, r)`
 A resource can be consumed only once. Nullifiers of consumed resources are stored in a public append-only structure called the resource *nullifier set*. This structure is external to the resource machine, but the resource machine can read from it and append to it.
 <!--ᚦ«link to nullifier set»-->
 <!--ᚦ«How does consumption "directly" imply addition to the nullifier set?»-->
-<!--ᚦ«"but the resource machine can read from it and append to it." 
+<!--ᚦ«"but the resource machine can read from it and append to it."
 How does it append to it (and is stateless at the same time)?
 »-->
 

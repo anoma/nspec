@@ -54,7 +54,7 @@ A proving system $PS$ consists of a pair of algorithms, $(Prove, Verify)$:
 !!! note
     To verify a proof created for instance `x`, the same instance `x` must be used. For instances that contain elements of the same type, the order of the elements must be preserved.
 <!--ᚦ«So verifying a proof $\pi=\mathit{Prove}(\mathit{pk}, x, w)$
-by invoking $\mathit{Verify}(\mathit{vk}, y, \pi)$ and obtaining true is only possible if $x=y$? 
+by invoking $\mathit{Verify}(\mathit{vk}, y, \pi)$ and obtaining true is only possible if $x=y$?
 »-->
 <!--ᚦ«the `x` should probably be $x$ for consistency»-->
 
@@ -64,7 +64,7 @@ A proving system must have the following properties:
 <!--ᚦ«
 "a statement"
 →
-"every statement" of a certain type, I guess 
+"every statement" of a certain type, I guess
 »-->
 - **Soundness**: it must not be possible to make a proof for a statement which is false.
 

@@ -30,7 +30,7 @@ syntax is sth. like set comprehension with `for` as separator »-->
 
     For every data structure, the delta can also be computed directly from resource deltas that comprise it, the way it is done for compliance units.
     <!--ᚦ«... because addition is associative »-->
-    
+
 
 <!--ᚦ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

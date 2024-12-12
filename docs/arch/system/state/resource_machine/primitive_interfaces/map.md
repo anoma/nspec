@@ -11,7 +11,7 @@ Map is a structure that contains pairs (key: value), where key is of type `K` an
 5. `keys(Map) -> List K`
 
 <!--ᚦ«
-Is the order of the keys relevant? 
+Is the order of the keys relevant?
 Could it be `Set K` instead of `List K` in the lat point?
 »-->
 

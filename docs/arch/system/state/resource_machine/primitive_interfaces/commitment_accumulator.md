@@ -6,7 +6,7 @@ All resource commitments are stored in an append-only data structure called a **
 <!--ᚦ«Who is adding commitmens, when, how, why?»-->
 <!--ᚦ«
 @"cryptographic accumulator"
-preferably, use BibTeX references 
+preferably, use BibTeX references
 https://specs.anoma.net/latest/tutorial/md/citations.html?h=bibtex#citing-in-markdown
 »-->
 <!--ᚦ«explain `witness` and `accumulated value`»-->

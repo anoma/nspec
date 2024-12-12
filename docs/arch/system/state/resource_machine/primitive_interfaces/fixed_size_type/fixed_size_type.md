@@ -2,7 +2,7 @@
 
 Fixed size type is a type, as the name suggests, of a fixed size. An example of such a type could be a prime field, unit32, or a string of a fixed size. An example of a type of not fixed size would be a list<uint32>. All resource components and computable components are elements of a fixed size type.
 
-<!--ᚦ«So, here we are talking about a "concrete datatype" s.t. 
+<!--ᚦ«So, here we are talking about a "concrete datatype" s.t.
 each of its terms/elements is represented by a fixed length bit array/string?»-->
 <!--ᚦ«`resource component` and `computable component` should be linked. »-->
 
