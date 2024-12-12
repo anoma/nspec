@@ -31,6 +31,21 @@ search:
     import arch.node.engines.logging_config open;
     import arch.node.engines.wall_clock_config open;
     import arch.node.engines.local_time_series_storage_config open;
+
+    {- Network -}
+
+    import arch.node.net.router_config open;
+    import arch.node.net.node_proxy_config open;
+    import arch.node.net.transport_protocol_config open;
+    import arch.node.net.transport_connection_config open;
+    import arch.node.net.pub_sub_topic_config open;
+    import arch.node.net.storage_config open;
+
+    {- Ordering -}
+
+    import arch.node.engines.mempool_worker_config open;
+    import arch.node.engines.executor_config open;
+    import arch.node.engines.shard_config open;
     ```
 
 # Anoma Engine Configuration
@@ -65,9 +80,26 @@ type Cfg :=
   | CfgSignsFor SignsForCfg
   | CfgNaming NamingCfg
 
+  {- Hardware -}
+
   | CfgLocalKeyValueStorage LocalKVStorageCfg
   | CfgLogging LoggingCfg
   | CfgWallClock WallClockCfg
   | CfgLocalTSeries LocalTSStorageCfg
+
+  {- Network -}
+
+  | CfgRouter RouterCfg
+  | CfgNodeProxy NodeProxyCfg
+  | CfgTransportProtocol TransportProtocolCfg
+  | CfgTransportConnection TransportConnectionCfg
+  | CfgPubSubTopic PubSubTopicCfg
+  | CfgStorage StorageCfg
+
+  {- Ordering -}
+
+  | CfgMempoolWorker MempoolWorkerCfg
+  | CfgExecutor ExecutorCfg
+  | CfgShard ShardCfg
 ```
 <!-- --8<-- [end:anoma-config-type] -->

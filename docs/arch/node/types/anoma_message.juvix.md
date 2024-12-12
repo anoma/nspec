@@ -35,6 +35,21 @@ tags:
     import arch.node.engines.logging_messages open using {LoggingMsg};
     import arch.node.engines.wall_clock_messages open using {WallClockMsg};
     import arch.node.engines.local_time_series_storage_messages open using {LocalTSStorageMsg};
+
+    {- Network -}
+
+    import arch.node.net.router_messages open;
+    import arch.node.net.node_proxy_messages open;
+    import arch.node.net.transport_protocol_messages open;
+    import arch.node.net.transport_connection_messages open;
+    import arch.node.net.pub_sub_topic_messages open;
+    import arch.node.net.storage_messages open;
+
+    {- Ordering -}
+
+    import arch.node.engines.mempool_worker_messages open using {MempoolWorkerMsg};
+    import arch.node.engines.executor_messages open using {ExecutorMsg};
+    import arch.node.engines.shard_messages open using {ShardMsg};
     ```
 
 # Anoma Message
@@ -71,6 +86,21 @@ type Msg :=
   | MsgLogging LoggingMsg
   | MsgWallClock WallClockMsg
   | MsgLocalTSStorage LocalTSStorageMsg
+
+  {- Network -}
+
+  | MsgRouter (RouterMsg Msg)
+  | MsgNodeProxy (NodeProxyMsg Msg)
+  | MsgTransportProtocol TransportProtocolMsg
+  | MsgTransportConnection TransportConnectionMsg
+  | MsgPubSubTopic PubSubTopicMsg
+  | MsgStorage StorageMsg
+
+  {- Ordering -}
+
+  | MsgMempoolWorker MempoolWorkerMsg
+  | MsgExecutor ExecutorMsg
+  | MsgShard ShardMsg
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

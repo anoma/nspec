@@ -155,7 +155,64 @@ nav:
                   - Naming Configuration: ./arch/node/engines/naming_config.juvix.md
                   - Naming Environment: ./arch/node/engines/naming_environment.juvix.md
                   - Naming Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
-  - Quick links: ./indexes/links.md
+          - Network Subsystem:
+              - ./arch/node/net/index.md
+              - Router:
+                  - Router Engine: ./arch/node/net/router.juvix.md
+                  - Router Messages: ./arch/node/net/router_messages.juvix.md
+                  - Router Configuration: ./arch/node/net/router_config.juvix.md
+                  - Router Environment: ./arch/node/net/router_environment.juvix.md
+                  - Router Behaviour: ./arch/node/net/router_behaviour.juvix.md
+              - Node Proxy:
+                  - Node Proxy Engine: ./arch/node/net/node_proxy.juvix.md
+                  - Node Proxy Messages: ./arch/node/net/node_proxy_messages.juvix.md
+                  - Node Proxy Configuration: ./arch/node/net/node_proxy_config.juvix.md
+                  - Node Proxy Environment: ./arch/node/net/node_proxy_environment.juvix.md
+                  - Node Proxy Behaviour: ./arch/node/net/node_proxy_behaviour.juvix.md
+              - Transport Protocol:
+                  - Transport Protocol Engine: ./arch/node/net/transport_protocol.juvix.md
+                  - Transport Protocol Messages: ./arch/node/net/transport_protocol_messages.juvix.md
+                  - Transport Protocol Configuration: ./arch/node/net/transport_protocol_config.juvix.md
+                  - Transport Protocol Environment: ./arch/node/net/transport_protocol_environment.juvix.md
+                  - Transport Protocol Behaviour: ./arch/node/net/transport_protocol_behaviour.juvix.md
+              - Transport Connection:
+                  - Transport Connection Engine: ./arch/node/net/transport_connection.juvix.md
+                  - Transport Connection Messages: ./arch/node/net/transport_connection_messages.juvix.md
+                  - Transport Connection Configuration: ./arch/node/net/transport_connection_config.juvix.md
+                  - Transport Connection Environment: ./arch/node/net/transport_connection_environment.juvix.md
+                  - Transport Connection Behaviour: ./arch/node/net/transport_connection_behaviour.juvix.md
+              - Pub/Sub Topic:
+                  - Pub/Sub Topic Engine: ./arch/node/net/pub_sub_topic.juvix.md
+                  - Pub/Sub Topic Messages: ./arch/node/net/pub_sub_topic_messages.juvix.md
+                  - Pub/Sub Topic Configuration: ./arch/node/net/pub_sub_topic_config.juvix.md
+                  - Pub/Sub Topic Environment: ./arch/node/net/pub_sub_topic_environment.juvix.md
+                  - Pub/Sub Topic Behaviour: ./arch/node/net/pub_sub_topic_behaviour.juvix.md
+              - Storage:
+                  - Storage Engine: ./arch/node/net/storage.juvix.md
+                  - Storage Messages: ./arch/node/net/storage_messages.juvix.md
+                  - Storage Configuration: ./arch/node/net/storage_config.juvix.md
+                  - Storage Environment: ./arch/node/net/storage_environment.juvix.md
+                  - Storage Behaviour: ./arch/node/net/storage_behaviour.juvix.md
+          - Ordering Component:
+              - Mempool engines:
+                  - Worker Engine:
+                      - Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
+                      - Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
+                      - Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
+                      - Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
+              - Execution engines:
+                  - ./arch/node/ordering/execution/index.md
+                  - Shard:
+                      - Shard Engine: ./arch/node/engines/shard.juvix.md
+                      - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
+                      - Shard Environment: ./arch/node/engines/shard_environment.juvix.md
+                      - Shard Behaviour: ./arch/node/engines/shard_behaviour.juvix.md
+                  - Executor:
+                      - Executor Engine: ./arch/node/engines/executor.juvix.md
+                      - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
+                      - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
+                      - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
+  - Index of links: ./indexes/links.md
   - Juvix modules:
       - Prelude: ./prelude.juvix.md
       - Module Index: ./indexes/juvix_modules.md
@@ -206,8 +263,6 @@ extra:
       link: https://youtube.com/anoma
     - icon: material/email
       link: mailto:arts@heliax.dev
-  generator: false
-  version: 1.0
 theme:
   name: material
   logo: assets/logo.svg
