@@ -7,7 +7,7 @@ search:
 
 # Compliance proof
 
-Compliance proofs are created by `ComplianceProvingSystem` and computed over [compliance units](./../compliance_unit.md). Compliance proofs ensure that the provided state transition complies with the resource machine definitions.
+Compliance proofs are created by `ComplianceProvingSystem` and computed over compliance units. Compliance proofs ensure that the provided state transition complies with the resource machine definitions.
 
 ## Compliance inputs
 
@@ -15,7 +15,7 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over [co
 
 |Name|Type|Description|
 |-|-|-|
-|`consumed`|`List (NullifierRef, RootRef, LogicRefHash)`|Includes nullifiers' references of all consumed resources in the compliance unit, root references, and commitments to [`logicRef` resource components](./../resource/definition.md) (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
+|`consumed`|`List (NullifierRef, RootRef, LogicRefHash)`|Includes nullifiers' references of all consumed resources in the compliance unit, root references, and commitments to [[Resource | `logicRef` resource components]] (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
 |`created`|`List (CommitmentRef, LogicRefHash)`|Commitments' references of all created resources in the compliance unit|
 |`unitDelta`|`DeltaHash`|Unit delta|
 

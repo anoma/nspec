@@ -32,7 +32,7 @@ proof has an additional functionality required and is further described
 
 ### Resource logic proving system choice
 
-Resource logic proof is the most common proof type. Each [action](./../../data_structures/action.md) that modifies the state of `n` resources (creates or consumes) has at least `n` resource logic proofs attached to it. In principle, the predicate checked with each proof can be different for all `n` proofs. For that reason, the proving system of choice should support easy proof instantiation process for new predicates (e.g., a SNARK that requires a trusted setup ceremony initiated for every predicate is probably not the most efficient choice for this proving system).
+Resource logic proof is the most common proof type. Each [[Action | action]] that modifies the state of `n` resources (creates or consumes) has at least `n` resource logic proofs attached to it. In principle, the predicate checked with each proof can be different for all `n` proofs. For that reason, the proving system of choice should support easy proof instantiation process for new predicates (e.g., a SNARK that requires a trusted setup ceremony initiated for every predicate is probably not the most efficient choice for this proving system).
 
 ### Compliance proving system choice
 

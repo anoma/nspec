@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Proof
+# Proving system definition
 
 
 We define a set of structures required to define a proving system $PS$ as follows:

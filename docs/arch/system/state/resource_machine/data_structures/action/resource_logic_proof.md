@@ -8,7 +8,7 @@ When proving, resource logics take as input resources created and consumed in th
 
 #### Instance
 
-1. [`tag`](./../resource/computable_components/tag.md) — identifies the current resource being checked
+1. [[Computable components#Tag | Resource tag]] — identifies the current resource being checked
 2. `isConsumed` - a flag that tells the logic if the resource is consumed or created
 3. `action.consumed` (possibly excluding the tagged resource, if it is consumed)
 4. `action.created` (possibly excluding the tagged resource, if it is created)

@@ -42,7 +42,7 @@ Having two transactions `tx1` and `tx2`, their composition `compose(tx1, tx2)` i
 4. `tx.transactionDelta = tx1.transactionDelta + tx2.transactionDelta`
 
 !!! note
-    When composing transactions, action sets are simply united without [composing the actions themselves](./action.md#composition). For example, composing a transaction with two actions and another transaction with three actions will result in a transaction with five actions.
+    When composing transactions, action sets are simply united without composing the actions themselves. For example, composing a transaction with two actions and another transaction with three actions will result in a transaction with five actions.
 
 ## `verify`
 
@@ -50,7 +50,7 @@ A transaction is considered _valid_ if the following statements hold:
 
 Checks that do not require access to global structures:
 
-1. all actions in the transaction are valid, as defined per [action validity rules](./action.md#validity)
+1. all actions in the transaction are valid, as defined per [[Action#`verify` | action validity rules]]
 1. actions partition the state change induced by the transaction:
   1. there is no resource created more than once across actions
   2. there is no resource consumed more than once across actions

@@ -14,8 +14,8 @@ An action is a composite structure of type `Action` that contains the following 
 |`created`|`List Commitment`|contains commitments of resources created in this action|
 |`consumed`|`List Nullifier`|contains nullifiers of resources consumed in this action|
 |`resourceLogicProofs`|`Map Tag (LogicRefHash, PS.Proof)`|contains a map of resource logic proofs associated with this action. The key is the `self` resource for which the proof is computed, the first parameter of the value opens to the required verifying key, the second one is the corresponding proof|
-|`complianceUnits`|`Set ComplianceUnit`|The set of transaction's [compliance units](./compliance_unit.md)|
-|`applicationData`|`Map Tag (BitString, DeletionCriterion)`|maps tags to relevant application data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage). The openings are expected to be ordered.|
+|`complianceUnits`|`Set ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
+|`applicationData`|`Map Tag (BitString, DeletionCriterion)`|maps tags to relevant application data needed to verify resource logic proofs. The deletion criterion field is described [[Stored data format |here]]. The openings are expected to be ordered.|
 
 
 !!! note
@@ -33,7 +33,7 @@ Actions partition the state change induced by a transaction and limit the resour
 3. `verify(Action) -> Bool`
 
 ## Proofs
-For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [here](./proof/logic.md).
+For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [[Resource logic proof | here]].
 
 ## `create`
 
@@ -52,7 +52,7 @@ Validity of an action can only be determined for actions that are associated wit
 1. action input resources have valid resource logic proofs associated with them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
 2. action output resources have valid resource logic proofs associated with them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
 3. all compliance proofs are valid: `complianceUnit.verify() = True`
-4. transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
+4. transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to prove the existence of consumed resources in the compliance proofs.
 
 ## `delta`
 

@@ -15,7 +15,7 @@ The commitment accumulator has type `Accumulator` and is parametrised over the t
 4. `value(Accumulator) -> AccumulatedValue` returns the accumulator value.
 
 #### Merkle tree
-Currently, the commitment accumulator is assumed to be a Merkle tree `CMTree` of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are of type [`MerkleTreeNodeHash`](./fixed_size_type/hash.md).
+Currently, the commitment accumulator is assumed to be a Merkle tree `CMTree` of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are of type [[Hash | `MerkleTreeNodeHash`]].
 
 !!! note
     The type `MerkleTreeNodeHash` of the `CMTree` nodes and the type of the leafs `Commitment` are distinct types.

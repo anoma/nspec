@@ -2,4 +2,4 @@
 
 A transaction function `TransactionFunction` is a function that outputs a transaction: `transactionFunction() -> Transaction`.
 
-Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described  [here](./../../notes/function_formats/transaction_function.md).
+Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described in [[Transaction function format]].
