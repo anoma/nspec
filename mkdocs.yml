@@ -19,7 +19,7 @@ nav:
                   - ./arch/system/state/resource_machine/index.md
                   - Primitive interfaces:
                       - ./arch/system/state/resource_machine/primitive_interfaces/index.md
-                      - Set: 
+                      - Set:
                           - Set interface: ./arch/system/state/resource_machine/primitive_interfaces/set.md
                           - Ordered set: ./arch/system/state/resource_machine/primitive_interfaces/ordered_set.md
                       - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.md
@@ -44,18 +44,17 @@ nav:
                               - Nullifier: ./arch/system/state/resource_machine/data_structures/resource/computable_components/nullifier.md
                               - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.md
                               - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.md
-                      - Compliance unit: 
+                      - Compliance unit:
                           - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.md
                           - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.md
                       - Action:
                           - Action: ./arch/system/state/resource_machine/data_structures/action/index.md
                           - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.md
-                      - Transaction: 
+                      - Transaction:
                           - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.md
                           - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.md
                           - Transaction Function: ./arch/system/state/resource_machine/data_structures/transaction/transaction_function.md
-                          - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.md 
-
+                          - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.md
                   - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.md
                   - Notes:
                       - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.md
