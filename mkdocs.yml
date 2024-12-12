@@ -61,7 +61,7 @@ nav:
                       - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.md
                       - Stored data format: ./arch/system/state/resource_machine/notes/storage.md
                       - Function formats:
-                          - Transaction function: ./arch/system/state/resource_machine/notes/function_formats/transaction_function.md
+                          - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.md
                       - Applications: ./arch/system/state/resource_machine/notes/applications.md
       - Node Architecture:
           - ./arch/node/index.md

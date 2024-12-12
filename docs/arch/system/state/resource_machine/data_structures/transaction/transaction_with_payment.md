@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Transaction With Payment
 
 `TransactionWithPayment` is a data structure that allows paying for the desired state transitions.

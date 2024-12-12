@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Hash
 
 Hash type is defined as a fixed size type that is *binding*, meaning that if the input value of type `Arg` changed, the output value would change as well.
@@ -52,5 +59,5 @@ classDiagram
   2. `nullifier`
   3. `kind`
   4. `delta`
-  
+
 3. Computing Merkle tree nodes and roots

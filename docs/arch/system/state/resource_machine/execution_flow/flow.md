@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Intro
 
 This section describes the resource machine execution flow and how it is used by various actors.

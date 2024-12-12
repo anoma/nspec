@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Transaction Function
 
 A transaction function `TransactionFunction` is a function that outputs a transaction: `transactionFunction() -> Transaction`.

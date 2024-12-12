@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Transaction function VM
 
 Transaction function VM is used to interpret transaction functions.

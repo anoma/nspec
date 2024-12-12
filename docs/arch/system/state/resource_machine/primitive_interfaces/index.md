@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Primitive interfaces
 
 This section defines the hierarchy of primitives used in resource machine design and describes interfaces for each primitive. 

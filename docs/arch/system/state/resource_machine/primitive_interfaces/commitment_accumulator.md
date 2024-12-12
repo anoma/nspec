@@ -1,4 +1,11 @@
-### Commitment accumulator
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
+# Commitment accumulator
 
 All resource commitments are stored in an append-only data structure called a **commitment accumulator**. Every time a resource is created, its commitment is added to the commitment accumulator. The resource commitment accumulator is external to the resource machine, but the resource machine can read from it. A commitment accumulator is a [cryptographic accumulator](https://arxiv.org/abs/2103.04330) that allows to prove membership for elements accumulated in it, provided a witness and the accumulated value.
 
