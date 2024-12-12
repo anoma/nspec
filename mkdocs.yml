@@ -53,6 +53,8 @@ nav:
                       - Transaction: 
                           - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.md
                           - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.md
+                          - Transaction Function: ./arch/system/state/resource_machine/data_structures/transaction/transaction_function.md
+                          - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.md 
 
                   - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.md
                   - Notes:

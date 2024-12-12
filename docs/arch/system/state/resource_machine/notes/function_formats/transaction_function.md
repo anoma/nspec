@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-## Transaction function
+# Transaction function format
 The system used to represent and interpret transaction functions must have a deterministic computation model; each operation should have a fixed cost of space and time (for total cost computation). To support content addressing, it must have memory and support memory operations (specifically `read`, `write`, `allocate`).
 
 The system must support the following I/O operations:

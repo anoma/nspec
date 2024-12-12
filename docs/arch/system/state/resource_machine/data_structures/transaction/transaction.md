@@ -16,9 +16,6 @@ It is a composite structure that contains the following components:
 |`actions`|`Set Action`|A set of actions that comprise the transaction|
 |`deltaProof`|`DeltaProvingSystem.Proof`|Balance proof. It makes sure that `transactionDelta` is correctly derived from the actions' deltas and commits to the expected publicly known value, called a _balancing value_. There is just one delta proof per transaction|
 
-!!! warning
-    Given that we duplicate the roots in the compliance proving records now, do we still need the list of roots in the transaction?
-
 ## Interface
 
 1. `create(Set CMtree.Value, Set Actions) -> Transaction`

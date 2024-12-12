@@ -45,7 +45,7 @@ Each resource machine compliance proof must check the following:
   1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumedResourceTagSet`
   2. Consumed commitment integrity: `r.commitment() = cm`
   3. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
-  
+
 3. for each created resource `r`:
 
   1. Commitment integrity: `r.commitment() is in createdResourceTagSet`
