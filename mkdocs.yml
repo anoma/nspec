@@ -48,7 +48,7 @@ nav:
                           - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.md
                           - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.md
                       - Action:
-                          - Action: ./arch/system/state/resource_machine/data_structures/action/action.md
+                          - Action: ./arch/system/state/resource_machine/data_structures/action/index.md
                           - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.md
                       - Transaction: 
                           - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.md
