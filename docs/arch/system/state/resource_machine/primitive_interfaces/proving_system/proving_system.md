@@ -8,12 +8,19 @@ The resource machine differentiates between three kinds of proofs, each of which
 1. resource logic proofs
 2. compliance proofs
 3. delta proofs
+<!---ᚦ«preferable add links here to the subsections»-->
 
 ||Execution context|Constraints defined by|Are the constraints public by default?|Meaning
 |-|-|-|-|-|
 |Resource logic proof|[[Action]]|Application|No|Action is compliant with the application constraints|
 |Compliance proof|[[Compliance unit]]|RM instance|Yes|Action (partitioned into compliance units) is compliant with the RM rules|
 |Delta proof|[[Transaction]]|RM interface|Yes|Transaction is balanced|
+
+<!--ᚦ«@Execution context: do we have a definition? what is executed?»-->
+<!--ᚦ«It comes as a surprie tha the compliance proof is not about units 
+but about actions (in the Meaning column)»-->
+<!--ᚦ«I think I know what it means, but still am looking for a definition of
+"Transaction is balanced"»-->
 
 ## Proving system requirements
 
@@ -34,16 +41,18 @@ Resource logic proof is the most common proof type. Each [action](./../../data_s
 →
 $n$
 »-->
+<!--ᚦ«why _at least_ `n`? can it be more? 
+under which conditions may be explained in a footnote.»-->
 <!--ᚦ«@SNARK: link https://en.wikipedia.org/wiki/SNARK_(theorem_prover)»-->
-
 
 ### Compliance proving system choice
 
 Compliance constraints are fixed per RM instantiation, meaning that the predicate being checked is the same for each compliance unit, with only the instance and witness being different each time. For that reason, a proving system that prioritises efficiency for a single predicate over the ease of creating proofs for new predicates might be more suitable.
 
 <!--ᚦ«Why `constraints` not `rules`?»-->
-<!--ᚦ«RM instantiation: do we have a link?»-->
-<!--ᚦ«This paragraph is not clear to me.»-->
+<!--ᚦ«RM instantiation: do we have an example/link?»-->
+<!--ᚦ«This paragraph assumes the reader to be familiar with `proof.md`. 
+Could we move pre-requisites earlier in the TOC? (The answer may be `no`.)»-->
 
 ## Proving system hierarchy
 
