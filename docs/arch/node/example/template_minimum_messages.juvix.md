@@ -17,9 +17,9 @@ tags:
     import prelude open;
     ```
 
-# TemplateMinimum Messages
+# Template Minimum Messages
 
-These are the messages that the TemplateMinimum engine can receive/respond to.
+These are the messages that the *Template Minimum* engine can receive/respond to.
 
 ## Message interface
 

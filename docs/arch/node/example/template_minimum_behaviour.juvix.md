@@ -26,7 +26,7 @@ tags:
     import arch.node.types.anoma as Anoma open;
     ```
 
-# TemplateMinimum Behaviour
+# Template Minimum Behaviour
 
 ## Overview
 
