@@ -40,8 +40,8 @@ We define a set of structures required to define a proving system $PS$ as follow
 <!--ᚦ«ordered in which sense?»-->
 <!--ᚦ«do we have an (internal/external) link to examples of such witnesses?»-->
 - Proving key $pk: PS.ProvingKey$ contains the data required to produce a proof for a pair $(x, w)$. Specific to a particular statement (different statements `f` and `f'` imply different proving keys) being proven, but doesn't depend on the inputs.
-<!--ᚦ«So, the proving key determines the statement; 
-can there be several proving keys for the same statement? 
+<!--ᚦ«So, the proving key determines the statement;
+can there be several proving keys for the same statement?
 A (foot)note may be useful.
 »-->
 - Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the instance $x$, to verify a proof $\pi$. Specific to a particular statement being proven (different statements `f` and `f'` imply different verifying keys), but doesn't depend on the inputs.
