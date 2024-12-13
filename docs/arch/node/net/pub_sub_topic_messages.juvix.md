@@ -15,7 +15,7 @@ tags:
     ```juvix
     module arch.node.net.pub_sub_topic_messages;
 
-    import arch.node.net.router_types open;
+    import arch.node.net.registry_messages open;
     import arch.node.net.storage_types open;
 
     import arch.node.types.basics open;

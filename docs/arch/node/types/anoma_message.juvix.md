@@ -38,8 +38,8 @@ tags:
 
     {- Network -}
 
+    import arch.node.net.registry_messages open;
     import arch.node.net.router_messages open;
-    import arch.node.net.node_proxy_messages open;
     import arch.node.net.transport_protocol_messages open;
     import arch.node.net.transport_connection_messages open;
     import arch.node.net.pub_sub_topic_messages open;
@@ -89,8 +89,8 @@ type Msg :=
 
   {- Network -}
 
+  | MsgNetworkRegistry NetworkRegistryMsg
   | MsgRouter (RouterMsg Msg)
-  | MsgNodeProxy (NodeProxyMsg Msg)
   | MsgTransportProtocol TransportProtocolMsg
   | MsgTransportConnection TransportConnectionMsg
   | MsgPubSubTopic PubSubTopicMsg

@@ -16,7 +16,7 @@ tags:
     module arch.node.net.transport_protocol_messages;
 
     import arch.node.net.transport_types open;
-    import arch.node.net.node_proxy_messages open;
+    import arch.node.net.router_messages open;
 
     import arch.node.types.basics open;
     import arch.node.types.identities open;

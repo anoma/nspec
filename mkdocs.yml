@@ -150,18 +150,18 @@ nav:
                   - Naming Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
           - Network Subsystem:
               - ./arch/node/net/index.md
+              - Network Registry:
+                  - Network Registry Engine: ./arch/node/net/registry.juvix.md
+                  - Network Registry Messages: ./arch/node/net/registry_messages.juvix.md
+                  - Network Registry Configuration: ./arch/node/net/registry_config.juvix.md
+                  - Network Registry Environment: ./arch/node/net/registry_environment.juvix.md
+                  - Network Registry Behaviour: ./arch/node/net/registry_behaviour.juvix.md
               - Router:
                   - Router Engine: ./arch/node/net/router.juvix.md
                   - Router Messages: ./arch/node/net/router_messages.juvix.md
                   - Router Configuration: ./arch/node/net/router_config.juvix.md
                   - Router Environment: ./arch/node/net/router_environment.juvix.md
                   - Router Behaviour: ./arch/node/net/router_behaviour.juvix.md
-              - Node Proxy:
-                  - Node Proxy Engine: ./arch/node/net/node_proxy.juvix.md
-                  - Node Proxy Messages: ./arch/node/net/node_proxy_messages.juvix.md
-                  - Node Proxy Configuration: ./arch/node/net/node_proxy_config.juvix.md
-                  - Node Proxy Environment: ./arch/node/net/node_proxy_environment.juvix.md
-                  - Node Proxy Behaviour: ./arch/node/net/node_proxy_behaviour.juvix.md
               - Transport Protocol:
                   - Transport Protocol Engine: ./arch/node/net/transport_protocol.juvix.md
                   - Transport Protocol Messages: ./arch/node/net/transport_protocol_messages.juvix.md

@@ -62,7 +62,7 @@ module router_config_example;
 exRouterCfg : RouterCfg :=
   mkEngineCfg@{
     node := Curve25519PubKey "0xabcd1234";
-    name := "router";
+    name := "router-0xab12cd34";
     cfg := mkRouterLocalCfg;
   };
 

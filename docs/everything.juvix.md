@@ -132,16 +132,17 @@ import arch.node.engines.local_time_series_storage;
 
 {- Network -}
 
+import arch.node.net.registry_messages;
+import arch.node.net.registry_config;
+import arch.node.net.registry_environment;
+import arch.node.net.registry_behaviour;
+import arch.node.net.registry;
+
 import arch.node.net.router_messages;
 import arch.node.net.router_config;
 import arch.node.net.router_environment;
 import arch.node.net.router_behaviour;
-
-import arch.node.net.node_proxy_messages;
-import arch.node.net.node_proxy_config;
-import arch.node.net.node_proxy_environment;
-import arch.node.net.node_proxy_behaviour;
-import arch.node.net.node_proxy;
+import arch.node.net.router;
 
 import arch.node.net.transport_protocol_messages;
 import arch.node.net.transport_protocol_config;

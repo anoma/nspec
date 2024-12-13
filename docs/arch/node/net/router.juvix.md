@@ -35,10 +35,30 @@ tags:
 
 <!-- --8<-- [start:purpose] -->
 The *Router* engine is responsible for
-spawning a [[Node Proxy]] instance for each remote node,
-and a [[Pub/Sub Topic]] instance for each pub/sub topic.
-It maintains a database of known `NodeAdvert` and `TopicAdvert` messages.
+routing messages between local engines and remote nodes.
 <!-- --8<-- [end:purpose] -->
+
+## Operation
+
+The *Router* may operate in different modes
+depending on requirements and constraints of the implementation:
+
+Centralized
+: A single *Router* engine instance forwards messages to & from local engines.
+  It may integrate the functionality of *Pub/Sub Topic* engines as well.
+
+Decentralized
+: A separate *Router* engine instance is spawned for each destination node,
+  each of which forward messages for a single node only.
+  The engine instance name is derived from `NodeID` of the destination,
+  which allows local engines to forward outgoing messages
+  via the router engine instance responsible for the destination.
+
+Spawning of *Router* and *Pub/Sub Topic* engines may be implemented
+either manually when the first message is sent to the node or when the topic is subscribed,
+or automatically as soon as a `NodeAdvert` or `TopicAdvert` is known for the destination.
+
+In the following we assume decentralized operation with automatic spawning for simplicity.
 
 ## Engine Components
 

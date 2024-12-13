@@ -9,13 +9,13 @@ sending and receiving messages to and from remote nodes.
 
 The *Network Subsystem* consists of the following engines.
 
+### [[Network Registry]]
+
+--8<-- "./registry.juvix.md:purpose"
+
 ### [[Router]]
 
 --8<-- "./router.juvix.md:purpose"
-
-### [[Node Proxy]]
-
---8<-- "./node_proxy.juvix.md:purpose"
 
 ### [[Transport Connection]]
 
@@ -49,12 +49,12 @@ E2(Engine2)
 E3(Engine3)
 
 subgraph Network Subsystem
-  R(Router)
+  NR(Network Registry)
 
-  subgraph NodeProxies
-    NP1(NProxy-1)
-    NP2(NProxy-2)
-    NP3(NProxy-3)
+  subgraph Routers
+    R1(Router-1)
+    R2(Router-2)
+    R3(Router-3)
   end
 
   subgraph PubSub
@@ -80,27 +80,23 @@ NET(Network)
 
 %% Spawn tree
 
-N -.-> R & TP1 & TP2 & TP3 & E1 & E2 & E3
-R -.-> NP1 & NP2 & NP3 & T1 & T2 & T3
+N -.-> NR
+NR -.-> TP1 & TP2 & TP3 & E1 & E2 & E3
+NR -.-> R1 & R2 & R3 & T1 & T2 & T3
 TP1 -.-> TC11 & TC12
 TP2 -.-> TC21
 TP3 -.-> TC31 & TC32
 
 %% Message flow
 
-%% Intra-node communacation between local engines
+%%% Unicast
 E1 -- Send --> E2
+E2 -- Send --> R2 -- Send --> TP2 -- Send --> TC21  --> NET
 
-%% First message via R to open a connection
-E2 -- NodeSend --> R -- Send --> NP2 -- Send --> TP2 -- Send --> TC21 --> NET
-E2 -- TopicForward --> R -- Forward --> T1
-
-%% Subsequent messages
-E2 -- Send --> NP2
+%%% Multicast
 E2 -- Forward --> T1
-
 T1 -- Send --> E3
-T1 -- Send --> NP1 -- Send --> TP1 -- Send --> TC12 --> NET
+T1 -- Send --> R1 -- Send --> TP1 -- Send --> TC12 --> NET
 ```
 <figcaption markdown="span">
 
