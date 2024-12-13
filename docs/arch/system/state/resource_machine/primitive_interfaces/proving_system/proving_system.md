@@ -17,7 +17,7 @@ The resource machine differentiates between three kinds of proofs, each of which
 |Delta proof|[[Transaction]]|RM interface|Yes|Transaction is balanced|
 
 <!--ᚦ«@Execution context: do we have a definition? what is executed?»-->
-<!--ᚦ«It comes as a surprie tha the compliance proof is not about units 
+<!--ᚦ«It comes as a surprie tha the compliance proof is not about units
 but about actions (in the Meaning column)»-->
 <!--ᚦ«I think I know what it means, but still am looking for a definition of
 "Transaction is balanced"»-->
@@ -41,7 +41,7 @@ Resource logic proof is the most common proof type. Each [action](./../../data_s
 →
 $n$
 »-->
-<!--ᚦ«why _at least_ `n`? can it be more? 
+<!--ᚦ«why _at least_ `n`? can it be more?
 under which conditions may be explained in a footnote.»-->
 <!--ᚦ«@SNARK: link https://en.wikipedia.org/wiki/SNARK_(theorem_prover)»-->
 
@@ -51,7 +51,7 @@ Compliance constraints are fixed per RM instantiation, meaning that the predicat
 
 <!--ᚦ«Why `constraints` not `rules`?»-->
 <!--ᚦ«RM instantiation: do we have an example/link?»-->
-<!--ᚦ«This paragraph assumes the reader to be familiar with `proof.md`. 
+<!--ᚦ«This paragraph assumes the reader to be familiar with `proof.md`.
 Could we move pre-requisites earlier in the TOC? (The answer may be `no`.)»-->
 
 ## Proving system hierarchy
