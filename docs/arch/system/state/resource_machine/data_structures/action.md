@@ -20,7 +20,7 @@ An action is a composite structure of type `Action` that contains the following 
 
 <!--ᚦ
     «@resourceLogicProofs I think, a description similar to the [forums](https://research.anoma.net/t/clarifying-proof-structures/856) might be preferable: ¶
-    1. `resourceLogicProofs: Map Tag (PS.VerifyingKey, PS.Proof)` as the type in the table 
+    1. `resourceLogicProofs: Map Tag (PS.VerifyingKey, PS.Proof)` as the type in the table
     2. a (foot)note on `VerifyingKey=:LogicRefHash.T` for convenient implementation
     »
 -->
@@ -50,7 +50,7 @@ Actions partition the state change induced by a transaction and limit the resour
 <!--ᚦ«Can we move this paragraph to the top of the page?»-->
 <!--ᚦ«how is 'proof access' defined?»-->
 <!--ᚦ«"A resource is associated with exactly one action." at most one in general, but exactly one for which resources ? (probably the ones relevant to the enveloping transaction»-->
-<!--ᚦ«the opposite of "consume" is "produce"; 
+<!--ᚦ«the opposite of "consume" is "produce";
     the creation of the resource could then be used to describe the entering into the commitment accumulator / the merkle tree that is concretely used for the latter»-->
 
 !!! note
@@ -80,7 +80,7 @@ Each action refers to a set of resources to be consumed and a set of resources t
 1. *Resource logic proofs* are created by `ResourceLogicProvingSystem`. For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [here](./proof/logic.md).<!--ᚦ«
 "the amount of resources"
 → ? (because amount is synonym to quantity and was confusing me in another context)
-"the number/count of resources" 
+"the number/count of resources"
 »--><!--ᚦ«wikilinks preferred»-->
 2. *Resource machine [compliance proofs](./action.md#compliance-proofs-and-compliance-units)* are created by `ComplianceProvingSystem`. Compliance proofs ensure that the provided action complies with the resource machine definitions. Actions are partitioned into *compliance units*, and there is one compliance proof created for each compliance unit. Compliance proofs and compliance units are further described [here](./proof/compliance.md).
 <!--ᚦ«wikilinks preferred»-->
