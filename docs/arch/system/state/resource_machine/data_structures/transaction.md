@@ -10,21 +10,21 @@ search:
 A transaction is a necessary and sufficient collection of fields required to validate and apply a state update to the state.<!--ᚦ
     «We may want to have a footnote explaining that
     ---as discussed on several occasions---
-    there seems to be a clash between 
+    there seems to be a clash between
       - transaction (as short hand for transaction object,
         i.e., object of the class/interface `Transaction`)
       - the usage of the term `transaction` in OLTPs
         https://en.wikipedia.org/wiki/Online_transaction_processing#Meaning_of_the_term_transaction,
         where it roughly means "state update"»
 --><!--ᚦ
-    «If this clash is real, 
+    «If this clash is real,
     we may want to use sth. like "transaction object"
     whenever the need to disabiguate arises.»
 --><!--ᚦ
-    «Who is in charge of applying the state update (typically)? 
+    «Who is in charge of applying the state update (typically)?
     The controler, right?»
 --><!--ᚦ
-    «How is the state update applied? 
+    «How is the state update applied?
     This should be something involving updating
     nullifier set,
     commitment sets
@@ -38,7 +38,7 @@ It is a composite structure that contains the following components:
 |`actions`|`Set Action`|A set of actions that comprise the transaction|
 |`transactionDelta`|`DeltaHash.T`|Transaction delta. It is computed from delta parameters of actions in that transaction. It represents the total quantity change per resource kind induced by the transaction, which is also referred to as _transaction balance_|
 |`deltaProof`|`DeltaProvingSystem.Proof`|Balance proof. It makes sure that `transactionDelta` is correctly derived from the actions' deltas and commits to the expected publicly known value, called a _balancing value_. There is just one delta proof per transaction|
- 
+
 
 <!--ᚦ
     «@"delta parameters"
@@ -53,12 +53,12 @@ It is a composite structure that contains the following components:
     The sentence "A set of actions that comprise the transaction" sounds to me
     as if there was nothing else but actions in a _transaction object_»
 --><!--ᚦ
-    «@DeltaHash.T 
+    «@DeltaHash.T
     -- by which we mean the type paramter that we happen to use for DeltaHash»
 --><!--ᚦ
     «@deltaProof we call it a "Balance proof" later--what should we call it (mainly)?»
 --><!--ᚦ
-    «What is THE expected publicly known value, called a _balancing value_ 
+    «What is THE expected publicly known value, called a _balancing value_
     and/or where is it defined?»
 -->
 
@@ -74,7 +74,7 @@ It is a composite structure that contains the following components:
 ## Interface
 
 1. `create(Set CMtree.Value, Set Actions) -> Transaction`<!--ᚦ
-   «so create is not a transaction function, 
+   «so create is not a transaction function,
    but it was one if we had the inputs as hard coded constants?
    See also the type of `prog` in
    [partial evalutaion](https://en.wikipedia.org/wiki/Partial_evaluation)
@@ -127,7 +127,7 @@ Checks that do not require access to global structures:
     @"induced by" could the be "described by"
     (because the transaction object itself is not a doing anything)»
 --><!--ᚦ
-    «wikilinks preferable / 
+    «wikilinks preferable /
     we should support [[Page Name#Section Heading|Link Text]] (if we do not yet)»
 -->
 
@@ -141,7 +141,7 @@ Checks that require access to global `CMTree` and `NullifierSet`:
 
 <!--ᚦ
     «the case of
-    "Ephemeral resources do not get checked for existence when being consumed" 
+    "Ephemeral resources do not get checked for existence when being consumed"
     seems clear»
 --><!--ᚦ
     «the phrase "in prior transactions" should probably be spelled out

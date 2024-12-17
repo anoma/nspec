@@ -15,7 +15,7 @@ $Application = (AppLogic, AppReadInterface, AppWriteInterface)$, where
 3. $AppReadInterface = \{pf: ProjectionFunction\}$ is a set of functions that interprete the current state. Projection functions are defined as $ProjectionFunction: AppState \rightarrow T$, where $AppState = AppResources \times AppData$, with $AppResources$ containing all resources bound to the application’s logic and $AppData$ referring to the non-linear data the application might assume.
 
 <!--ᚦ
-    «@AppWriteInterface 
+    «@AppWriteInterface
     These can be understood as the counterpart of smart contract invocations,
     right?»
 -->
@@ -31,8 +31,8 @@ As any abstract state transition can be represented as a transaction consuming a
     «"forms a transaction."
     →"produces a transaction as output." to avoid amibutity
     We might really want to be more precise about
-    which data is read in which order, 
-    and which ones are to be supplied pre-ordering 
+    which data is read in which order,
+    and which ones are to be supplied pre-ordering
     and which are only available post-ordering.
     »
 -->
