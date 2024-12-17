@@ -14,19 +14,52 @@ $Application = (AppLogic, AppReadInterface, AppWriteInterface)$, where
 2. $AppWriteInterface = \{tf: TransactionFunction\}$ is a set of functions that represents what kinds of state transitions the application offers.
 3. $AppReadInterface = \{pf: ProjectionFunction\}$ is a set of functions that interprete the current state. Projection functions are defined as $ProjectionFunction: AppState \rightarrow T$, where $AppState = AppResources \times AppData$, with $AppResources$ containing all resources bound to the application’s logic and $AppData$ referring to the non-linear data the application might assume.
 
+<!--ᚦ
+    «@AppWriteInterface 
+    These can be understood as the counterpart of smart contract invocations,
+    right?»
+-->
+<!--ᚦ
+    «@non-liner undefined»
+--><!--ᚦ
+    «So, AppData is really completely unconstrained? Typical examples?»
+-->
+
 As any abstract state transition can be represented as a transaction consuming and creating resources of certain kinds (or a transaction function that evaluates to such a transaction), the transaction functions associated with the application represent the set of actions that the application can provide to its users. Each transaction function would require a subset of the application resource logics to approve the transaction in order to realise the desired action. The transaction function evaluated with the exact resources to be created and consumed forms a transaction.
 
+<!--ᚦ
+    «"forms a transaction."
+    →"produces a transaction as output." to avoid amibutity
+    We might really want to be more precise about
+    which data is read in which order, 
+    and which ones are to be supplied pre-ordering 
+    and which are only available post-ordering.
+    »
+-->
+<!--ᚦ
+    «what's and _abstract_ state transition?»
+-->
+
 The resources that are bound with the application resource logics are said to belong to the application and, along with some non-linear data the application might assume, constitute the application state. When the application does not have any resources that were created but not consumed yet, the application only exists virtually but not tangibly.
+<!--ᚦ
+    «Where do we introduce the `bound` terminology?»
+--><!--ᚦ
+    «that's a definition of belong, right?»
+-->
 
 The abstraction of an application is virtual - applications are not deployed or tracked in any sort of global registry, and the ARM is unaware of the existence of applications.
 
 We define $AppKinds \subseteq \mathbb{F}_{kind}$ as a union of all resource kinds that are involved in the transaction functions that comprise the application interface.
 
+<!--ᚦ
+    «How can it be computed? Is it a datum?»
+-->
+
 ## Composition
 
 Applications are composable. The composition of two (or more) applications would be a composition of the corresponding logics and interfaces.
 
-$App_12 = App_1 \circ App_2$:
+$App_{12} = App_1 \circ App_2$:
 
 1. $AppLogic_{12} = AppLogic_1 \cup AppLogic_2$
 2. $AppWriteInterface_{12} = AppWriteInterface_1 \cup AppWriteInterface_2$
@@ -34,6 +67,12 @@ $App_12 = App_1 \circ App_2$:
 4. $AppKinds_{12} = AppKinds_1 \cup AppKinds_2$
 
 In this type of composition the order in which the applications are composed doesn't matter.
+
+<!--ᚦ
+    «One could even use the union operator for the composition
+    $App_{12} = App_1 \cup App_2$:
+    »
+-->
 
 ### Application extension
 
@@ -54,6 +93,13 @@ a similar resource on the new controller.
 
 Applications do not have to exist within the bounds of a single controller, and can maintain a single virtual state while the application resources being distributed among multiple controllers, which forms a distributed application state. To make sure such a distributed state correctly represents the application state, state synchronisation between multiple controllers is required.
 
+<!--ᚦ
+    «@"virtual state"
+    Yet a different verion of state?»
+-->
+
 #### Controller state synchronisation
 
 Each controller would have their own commitment tree associated with it. Treated as subtrees of a larger Merkle tree, the controller commitment trees comprise a global commitment tree, where the leaves are the roots of the controller trees.
+
+<!--ᚦtags:nits,reviewed-->
