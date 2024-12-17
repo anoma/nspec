@@ -10,7 +10,7 @@ search:
 
 # Stored data format
 <!--ᚦ
-    «can we separate out the data types that are only relevant for 
+    «can we separate out the data types that are only relevant for
         post-ordering execution?»
 -->
 
