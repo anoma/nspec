@@ -29,11 +29,6 @@ type Noun :=
   | Atom : Nat -> Noun
   | Cell : Noun -> Noun -> Noun;
 
-type EvalResult A :=
-  | Success : A -> EvalResult A
-  | Crash : String -> EvalResult A
-  | OutOfGas : EvalResult A;
-
 type ScryOp :=
   | Direct
   | Index;
@@ -62,18 +57,18 @@ nounEq (n1 n2 : Noun) : Bool :=
 instance EqNoun : Eq Noun := mkEq@{ eq := nounEq };
 
 -- Implementation of storage read operations (scrying)
-scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : EvalResult Noun :=
+scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result String Noun :=
   case op of {
     | Direct := case Storage.readDirect stor addr of {
-      | some val := Success (convertToNoun val)
-      | none := Crash "Direct storage read failed"
+      | some val := ok (convertToNoun val)
+      | none := error "Direct storage read failed"
     }
     | Index := case Storage.readDirect stor addr of {
       | some indexFn := case Storage.readIndex stor indexFn of {
-        | some val := Success (convertToNoun val)
-        | none := Crash "Index computation failed"
+        | some val := ok (convertToNoun val)
+        | none := error "Index computation failed"
       }
-      | none := Crash "Index function not found"
+      | none := error "Index function not found"
     }
   };
 
@@ -110,10 +105,10 @@ getGasCost (cost : NockOp) : Nat :=
   };
 
 -- Helper function for gas consumption
-consume (op : NockOp) (gas : Nat) (cont : Nat -> EvalResult Noun) : EvalResult Noun :=
+consume (op : NockOp) (gas : Nat) (cont : Nat -> Result String Noun) : Result String Noun :=
   let gasCost := getGasCost op in
   case gasCost > gas of {
-    | true := OutOfGas
+    | true := error "Out of gas"
     | false := cont (sub gas gasCost)
   };
 
@@ -138,88 +133,79 @@ parseOp (n : Nat) : Option NockOp :=
 
 -- Helper for slash (/) operations
 terminating
-slash {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (subject : Noun) : EvalResult Noun := 
+slash {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (subject : Noun) : Result String Noun := 
   case n of {
     | Atom x := case x == 1 of {
-      | true := Success subject -- Rule: /[1 a] -> a
+      | true := ok subject -- Rule: /[1 a] -> a
       | false := case x == 2 of {
         | true := case subject of { -- Rule: /[2 a b] -> a
-          | Cell a _ := Success a
-          | _ := Crash "Cannot take slash of atom"
+          | Cell a _ := ok a
+          | _ := error "Cannot take slash of atom"
         }
         | false := case x == 3 of {
           | true := case subject of { -- Rule: /[3 a b] -> b
-            | Cell _ b := Success b
-            | _ := Crash "Cannot take slash of atom"
+            | Cell _ b := ok b
+            | _ := error "Cannot take slash of atom"
           }
           | false := case (mod x 2) == 0 of {
             | true := consume Slash gas (\{gas' := -- Rule: /[(a + a) b] -> /[2 /[a b]]
-                case slash stor gas' (Atom (div x 2)) subject of {
-                  | Success res := slash stor gas' (Atom 2) res
-                  | err := err
+                slash stor gas' (Atom (div x 2)) subject >>= \{res :=
+                slash stor gas' (Atom 2) res
                 }})
             | false := consume Slash gas (\{gas' := -- Rule: /[(a + a + 1) b] -> /[3 /[a b]]
-                case slash stor gas' (Atom (div x 2)) subject of {
-                  | Success res := slash stor gas' (Atom 3) res
-                  | err := err
+                slash stor gas' (Atom (div x 2)) subject >>= \{res :=
+                slash stor gas' (Atom 3) res
                 }})
           }
         }
       }
     }
-    | _ := Crash "Slash must be atom"
+    | _ := error "Slash must be atom"
   };
 
 -- Helper for pound (#) operations
 terminating
-pound {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (b : Noun) (c : Noun) : EvalResult Noun := 
+pound {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (b : Noun) (c : Noun) : Result String Noun := 
   case n of {
     | Atom x := case x == 1 of {
-      | true := Success b  -- Rule: #[1 a b] -> a
+      | true := ok b  -- Rule: #[1 a b] -> a
       | false := case mod x 2 == 0 of {
         | true := case c of { -- Rule: #[(a + a) b c] -> #[a [b /[(a + a + 1) c]] c]
           | Cell _ _ := 
-              case slash stor gas (Atom ((2 * div x 2) + 1)) c of {
-                | Success slashResult := 
-                    pound stor gas (Atom (div x 2)) (Cell b slashResult) c
-                | err := err
-              }
-          | _ := Crash "Invalid pound target"
+            slash stor gas (Atom ((2 * div x 2) + 1)) c >>= \{slashResult :=
+            pound stor gas (Atom (div x 2)) (Cell b slashResult) c
+            }
+          | _ := error "Invalid pound target"
         }
         | false := case c of { -- Rule: #[(a + a + 1) b c] -> #[a [/[(a + a) c] b] c]
           | Cell _ _ := 
-              case slash stor gas (Atom (2 * div x 2)) c of {
-                | Success slashResult := 
-                    pound stor gas (Atom (div x 2)) (Cell slashResult b) c
-                | err := err
-              }
-          | _ := Crash "Invalid pound target"
+            slash stor gas (Atom (2 * div x 2)) c >>= \{slashResult :=
+            pound stor gas (Atom (div x 2)) (Cell slashResult b) c
+            }
+          | _ := error "Invalid pound target"
         }
       }
     }
-    | _ := Crash "Pound must be atom"
+    | _ := error "Pound must be atom"
   };
 
 terminating
-evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject : Noun) (args : Noun) : EvalResult Noun :=
+evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject : Noun) (args : Noun) : Result String Noun :=
   case op of {
     -- *[a 0 b] -> /[b a]
     | Slash := slash stor gas args subject
     
     -- *[a 1 b] -> b
-    | Constant := Success args
+    | Constant := ok args
 
     -- *[a 2 b c] -> *[*[a b] *[a c]]
     | Apply := case args of {
       | Cell b c := 
-        case nock stor gas (Cell subject b) of {
-          | Success r1 := case nock stor gas (Cell subject c) of {
-            | Success r2 := nock stor gas (Cell r1 r2)
-            | err := err
-          }
-          | err := err
-        }
-      | _ := Crash "Invalid apply args"
+        nock stor gas (Cell subject b) >>= \{r1 :=
+        nock stor gas (Cell subject c) >>= \{r2 :=
+        nock stor gas (Cell r1 r2)
+        }}
+      | _ := error "Invalid apply args"
     }
     
     -- *[a 3 b] -> ?*[a b]
@@ -227,14 +213,13 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
     -- ?a -> 1
     | CellTest := case args of {
       | Cell b _ := 
-        case nock stor gas (Cell subject b) of {
-          | Success res := case res of {
-            | Cell _ _ := Success (Atom 0)
-            | _ := Success (Atom 1)
-          }
-          | err := err
+        nock stor gas (Cell subject b) >>= \{res :=
+        case res of {
+          | Cell _ _ := ok (Atom 0)
+          | _ := ok (Atom 1)
         }
-      | _ := Crash "Invalid cell test args"
+        }
+      | _ := error "Invalid cell test args"
     }
 
     -- *[a 4 b] -> +*[a b]
@@ -242,12 +227,13 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
     -- +a -> 1 + a
     | Increment := case args of {
       | Cell b _ := 
-        case nock stor gas (Cell subject b) of {
-          | Success (Atom n) := Success (Atom (suc n))
-          | Success x := Success x  -- +[a b] -> +[a b] case
-          | err := err
+        nock stor gas (Cell subject b) >>= \{res :=
+        case res of {
+          | (Atom n) := ok (Atom (suc n))
+          | x := ok x  -- +[a b] -> +[a b] case
         }
-      | _ := Crash "Invalid increment args"
+        }
+      | _ := error "Invalid increment args"
     }
 
     -- *[a 5 b c] -> =*[a b] *[a c]
@@ -255,142 +241,123 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
     -- =[a b] -> 1 
     | EqualOp := case args of {
       | Cell b c :=
-        case nock stor gas (Cell subject b) of {
-          | Success r1 := case nock stor gas (Cell subject c) of {
-            | Success r2 := Success (Atom (case nounEq r1 r2 of {
+        nock stor gas (Cell subject b) >>= \{r1 :=
+        nock stor gas (Cell subject c) >>= \{r2 :=
+        ok (Atom (case nounEq r1 r2 of {
               | true := 0
               | false := 1
             }))
-            | err := err
-          }
-          | err := err
-        }
-      | _ := Crash "Invalid equality args"
+        }}
+      | _ := error "Invalid equality args"
     }
 
     -- *[a 6 b c d] -> *[a *[[c d] 0 *[[2 3] 0 *[a 4 4 b]]]]
     | IfThenElse := case args of {
       | Cell b (Cell c d) :=
-        case nock stor gas (Cell subject (Cell (Atom 4) (Cell (Atom 4) b))) of {
-          | Success test := 
-            let ifExpr := Cell (Cell c d) (Cell (Atom 0) (Cell (Cell (Atom 2) (Atom 3)) (Cell (Atom 0) test))) in
-            nock stor gas (Cell subject ifExpr)
-          | err := err
+        nock stor gas (Cell subject (Cell (Atom 4) (Cell (Atom 4) b))) >>= \{test :=
+        let ifExpr := Cell (Cell c d) (Cell (Atom 0) (Cell (Cell (Atom 2) (Atom 3)) (Cell (Atom 0) test))) in
+        nock stor gas (Cell subject ifExpr)
         }
-      | _ := Crash "Invalid if-then-else args"
+      | _ := error "Invalid if-then-else args"
     }
 
     -- *[a 7 b c] -> *[*[a b] c]
     | Compose := case args of {
       | Cell b c := 
-        case nock stor gas (Cell subject b) of {
-          | Success r := nock stor gas (Cell r c)
-          | err := err
+        nock stor gas (Cell subject b) >>= \{r :=
+        nock stor gas (Cell r c)
         }
-      | _ := Crash "Invalid compose args"
+      | _ := error "Invalid compose args"
     }
 
     -- *[a 8 b c] -> *[[*[a b] a] c]
     | Extend := case args of {
       | Cell b c := 
-        case nock stor gas (Cell subject b) of {
-          | Success r := nock stor gas (Cell (Cell r subject) c)
-          | err := err
+        nock stor gas (Cell subject b) >>= \{r :=
+        nock stor gas (Cell (Cell r subject) c)
         }
-      | _ := Crash "Invalid extend args"
+      | _ := error "Invalid extend args"
     }
 
     -- *[a 9 b c] -> *[*[a c] 2 [0 1] 0 b]
     | Invoke := case args of {
       | Cell b c :=
-        case nock stor gas (Cell subject c) of {
-          | Success core := 
-            let formula := Cell (Atom 2) (Cell (Cell (Atom 0) (Atom 1)) (Cell (Atom 0) b)) in
-            nock stor gas (Cell core formula)
-          | err := err
+        nock stor gas (Cell subject c) >>= \{core :=
+        let formula := Cell (Atom 2) (Cell (Cell (Atom 0) (Atom 1)) (Cell (Atom 0) b)) in
+        nock stor gas (Cell core formula)
         }
-      | _ := Crash "Invalid invoke args"
+      | _ := error "Invalid invoke args"
     }
 
     -- *[a 10 [b c] d] -> #[b *[a c] *[a d]]
     | Pound := case args of {
       | Cell (Cell b c) d := 
-        case nock stor gas (Cell subject c) of {
-          | Success r1 := case nock stor gas (Cell subject d) of {
-            | Success r2 := pound stor gas b r1 r2
-            | err := err
-          }
-          | err := err
-        }
-      | _ := Crash "Invalid pound args"
+        nock stor gas (Cell subject c) >>= \{r1 :=
+        nock stor gas (Cell subject d) >>= \{r2 :=
+        pound stor gas b r1 r2
+        }}
+      | _ := error "Invalid pound args"
     }
 
     -- *[a 11 [b c] d] -> *[[*[a c] *[a d]] 0 3]
     -- *[a 11 b c] -> *[a c]
     | Match := case args of {
       | Cell (Cell b c) d := 
-        case nock stor gas (Cell subject c) of {
-          | Success r1 := case nock stor gas (Cell subject d) of {
-            | Success r2 := nock stor gas (Cell (Cell r1 r2) (Cell (Atom 0) (Atom 3)))
-            | err := err
-          }
-          | err := err
-        }
+        nock stor gas (Cell subject c) >>= \{r1 :=
+        nock stor gas (Cell subject d) >>= \{r2 :=
+        nock stor gas (Cell (Cell r1 r2) (Cell (Atom 0) (Atom 3)))
+        }}
       | Cell _ c := nock stor gas (Cell subject c)
-      | _ := Crash "Invalid pure pound args"
+      | _ := error "Invalid pure pound args"
     }
 
     -- *[a 12 b c d] -> result <- SCRY b c; *[a result d]
     | Scry := case args of {
       | Cell b (Cell c d) := 
         case nock stor gas b of {
-          | Success (Atom opcode) := 
+          | ok (Atom opcode) := 
             case nock stor gas c of {
-              | Success (Atom addr) := 
-                case scry stor (case opcode == 0 of {
+              | ok (Atom addr) := 
+                scry stor (case opcode == 0 of {
                   | true := Direct
                   | false := Index
-                }) addr of {
-                  | Success result := nock stor gas (Cell subject (Cell result d))
-                  | err := err
-                }
-              | _ := Crash "Scry address must be atom"
+                }) addr
+                >>= \{result := nock stor gas (Cell subject (Cell result d))}
+              | ok _ := error "Scry address must be atom"
+              | err := err
             }
-          | Success _ := Crash "Scry type must be atom"
+          | ok _ := error "Scry type must be atom"
           | err := err
         }
-      | _ := Crash "Invalid scry args"
+      | _ := error "Invalid scry args"
     }
   };
 
 -- Core Nockma evaluator 
 terminating
-nock {val : Type} (stor : Storage Nat val) (gas : Nat) (input : Noun) : EvalResult Noun := 
+nock {val : Type} (stor : Storage Nat val) (gas : Nat) (input : Noun) : Result String Noun := 
   case input of {
     -- Rule: *a -> *a
-    | Atom _ := Success input
+    | Atom _ := ok input
     
     | Cell subject b := case b of {
 
       | Cell first rest := case first of {
         -- Rule: *[a [b c] d] -> [*[a b c] *[a d]]
         | Cell b c := 
-          case nock stor gas (Cell subject (Cell b c)) of {
-            | Success r1 := case nock stor gas (Cell subject rest) of {
-              | Success r2 := Success (Cell r1 r2)
-              | err := err
-            }
-            | err := err
-          }
+          nock stor gas (Cell subject (Cell b c)) >>= \{r1 :=
+          nock stor gas (Cell subject rest) >>= \{r2 :=
+          ok (Cell r1 r2)
+          }}
 
         | Atom n := case parseOp n of {
           | some opcode := consume opcode gas (\{gas' := 
               evalOp stor gas' opcode subject rest
             })
-          | none := Crash "Invalid operation"
+          | none := error "Invalid operation"
         }
       }
-      | _ := Crash "Invalid Nock expression"
+      | _ := error "Invalid Nock expression"
     }
   };
 ```
@@ -430,9 +397,8 @@ NockmaVM : TransactionVM Noun Nat (Option Noun) Nat Noun Noun :=
     txFunc := NockmaTransactionFunction;
     eval := \{prog gas := 
       case nock (externalStorage {Nat} {Nat}) gas prog of {
-        | Success result := ok result
-        | Crash msg := error msg  
-        | OutOfGas := error "Out of gas"
+        | ok result := ok result
+        | error msg := error msg
       }
     };
   };
