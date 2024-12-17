@@ -8,7 +8,9 @@ search:
 # Action
 
 An action is a composite structure of type `Action` that contains the following components:
-<!--ᚦ«@"composite structure" can it be a juvix record?»-->
+<!--ᚦ
+    «@"composite structure" can it be a juvix record?»
+-->
 
 |Component|Type|Description|
 |-|-|-|
@@ -19,102 +21,163 @@ An action is a composite structure of type `Action` that contains the following 
 |`applicationData`|`Map AppDataValueHash (BitString, DeletionCriterion)`|contains a map of hashes and [openings](./../primitive_interfaces/fixed_size_type/hash.md#hash) of various data needed to verify resource logic proofs. The deletion criterion field is described [here](./../notes/storage.md#data-blob-storage). The openings are expected to be ordered.|
 
 <!--ᚦ
-    «@resourceLogicProofs I think, a description similar to the [forums](https://research.anoma.net/t/clarifying-proof-structures/856) might be preferable: ¶
+    «The lists should be repetition free, right?»
+--><!--ᚦ
+    «@resourceLogicProofs I think, 
+    a description similar to the [forums](https://research.anoma.net/t/clarifying-proof-structures/856) could be preferable: ¶
     1. `resourceLogicProofs: Map Tag (PS.VerifyingKey, PS.Proof)` as the type in the table
     2. a (foot)note on `VerifyingKey=:LogicRefHash.T` for convenient implementation
     »
--->
-<!--ᚦ
-    «more @resourceLogicProofs : this deserves some more space, it is maximally compact, but that makes it really hard to read
+--><!--ᚦ
+    «more @resourceLogicProofs : 
+        this deserves some more space, it is maximally compact,
+        but that makes it really hard to read
     »
+--><!--ᚦ
+    «"|contains"
+    →"|consisting of"?»
+--><!--ᚦ
+    «can we have a description of an example for a resourceLogicProof ?»
+--><!--ᚦ
+    «What is the `self` resource? It seems only used here w/o definition.
+    This need to be fixed as sth.
+    along the lines of _the_ resource associated with the proof. 
+»--><!--ᚦ
+    «We would like to have the type parameters of the Map in juvix, probably»
+--><!--ᚦ
+    «@"of transaction's [compliance units]..." 
+    should it be "action's [compliance units]"?»
+--><!--ᚦ
+    «How are the openings expected to be ordered?
+    In what sense are they ordered?»
 -->
-<!--ᚦ«
-"|contains"
-→
-"|consisting of"
-»-->
-<!--ᚦ«can we have an example for a resourceLogicProof ?»-->
-<!--ᚦ«What is the `self` resource? It seems only used here w/o definition.»-->
-<!--ᚦ«We would like to have the type parameters of the Map in juvix, probably»-->
-<!--ᚦ«@"of transaction's [compliance units]..." should it be "action's [compliance units]"»-->
-<!--ᚦ«How are the openings expected to be ordered? In what sense are they ordered?»-->
 
 !!! note
 
     `resourceLogicProofs` type: For function privacy, we assume that the produced logic proof is recursive, and the verifying key used to verify the proof is either universal and publicly known (in case we have a recursion) - then the verifying key for the inner proof is committed to in the `LogicRefHash` parameter - or it is contained directly in the `LogicRefHash` parameter. This part isn't properly generalised yet.
-    <!--ᚦ«link to function privacy is desirable»-->
-    <!--ᚦ«@"recursive proofs": link(s) please, internal / external »-->
+    <!--ᚦ
+    «link to function privacy is desirable»
+    --><!--ᚦ
+    «@"recursive proofs": link(s) please, internal / external »
+    -->
 
 Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's `created` or `consumed` correspondingly. A resource is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's `consumed` list. A resource is said to be *created in the action* for a valid action if its commitment is in the action's `created` list.
 
-<!--ᚦ«Can we move this paragraph to the top of the page?»-->
-<!--ᚦ«how is 'proof access' defined?»-->
-<!--ᚦ«"A resource is associated with exactly one action." at most one in general, but exactly one for which resources ? (probably the ones relevant to the enveloping transaction»-->
-<!--ᚦ«the opposite of "consume" is "produce";
-    the creation of the resource could then be used to describe the entering into the commitment accumulator / the merkle tree that is concretely used for the latter»-->
+<!--ᚦ
+    «Can we move this paragraph to the top of the page?»
+--><!--ᚦ
+    «how is 'proof access' defined?»
+--><!--ᚦ
+    «"A resource is associated with exactly one action." 
+    _at most_ one in general, 
+    but exactly one for which resources ? 
+    (probably the ones relevant to the enveloping transaction)»
+--><!--ᚦ
+    «the opposite of "consume" is "produce";
+    if we were to change this,
+    the term _resource creation_ 
+    would describe the action of addting to the commitment accumulator (merkle tree)»
+-->
 
 !!! note
 
     Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
-    <!--ᚦ«in general, transactions may be unbalanced, but then they are not executable, right?»-->
+    <!--ᚦ
+        «in general, transactions may be unbalanced, 
+        but then they are not executable, right?
+        [Btw, the definition of executable seems off.]»
+    -->
 
 ## Interface
 
 1. `create(Set (NullifierKey, Resource), Set Resource, ApplicationData) -> Action` - creates an action<!--ᚦ
-«@'Set (NullifierKey, Resource)': that's a set of  pairs in NullifierKey×Resource, right? »
+   «@'Set (NullifierKey, Resource)':
+   that's a set of elements in the Cartesian product NullifierKey×Resource,
+   right? »
 --><!--ᚦ
-«This type appears to be inconsistent with the description given below in `## create`»
+    «The signature of `create` here seems to be inconsistent with
+    the description given below in `## create`»
 -->
-2. `delta(Action) -> DeltaHash`<!--ᚦ«
-do we accidentally identify the type parameter T with the interface name here?
-In transaction.md we have `DeltaHash.T`.
-»-->
+2. `delta(Action) -> DeltaHash`<!--ᚦ
+   «do we accidentally identify the type parameter T with the interface name here?
+   In transaction.md we have `DeltaHash.T`.
+   In other words "DeltaHash"→"DeltaHash.T".»
+-->
 3. `verify(Action) -> Bool`
 
 ## Proofs
 
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
-<!--ᚦ«what is the referring mode—by which means do we refer—in "Each action refers to"? via hash»-->
-<!--ᚦ«what are the conditions for an action to be _correct_?»-->
+<!--ᚦ
+    «@"two proof types"→"two collections of proofs" 
+    with an optional "(of two different kinds)"»
+--><!--ᚦ
+    «what is the referring mode—by which means do we refer—in
+    "Each action refers to"? via their tag, right?
+    »
+--><!--ᚦ
+    «what are the conditions for an action to be _correct_?»
+-->
 
-1. *Resource logic proofs* are created by `ResourceLogicProvingSystem`. For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [here](./proof/logic.md).<!--ᚦ«
-"the amount of resources"
-→ ? (because amount is synonym to quantity and was confusing me in another context)
-"the number/count of resources"
-»--><!--ᚦ«wikilinks preferred»-->
+1. *Resource logic proofs* are created by `ResourceLogicProvingSystem`. For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [here](./proof/logic.md).<!--ᚦ
+   «"the amount of resources"
+   →"the number/count of resources"
+   (because amount is synonym to quantity in other contexts)»
+--><!--ᚦ
+    «wikilinks preferred»
+-->
 2. *Resource machine [compliance proofs](./action.md#compliance-proofs-and-compliance-units)* are created by `ComplianceProvingSystem`. Compliance proofs ensure that the provided action complies with the resource machine definitions. Actions are partitioned into *compliance units*, and there is one compliance proof created for each compliance unit. Compliance proofs and compliance units are further described [here](./proof/compliance.md).
-<!--ᚦ«wikilinks preferred»-->
+<!--ᚦ
+    «wikilinks preferred»
+--><!--ᚦ
+    «@"resource machine definitions" 
+    could we mention here the whole story in a (foot)note
+    about why we cannot (or do not want to) have arbitrary partitions?»
+-->
 
 ## `create`
 
 Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource, CMtreePath)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, an action is computed the following way:
 <!--ᚦ
-    «missing preliminary steps: make a list/set of resourced to be consumed/created»
+    «step zero: 
+    compute the corresponding lists of commitments and nullifiers
+    »
 -->
 
 1. Partition action into compliance units and compute a compliance proof for each unit. Put the information about the units in `action.complianceUnits`<!--ᚦ
-   «How do I "[p]artition action into compliance units and compute a compliance proof for each unit."»
-   --><!--ᚦ
-    «the action is only partially defined above; are we rather looking into a partition of (relevant) resources / resource kinds ?»
+   «How do I (as a prover) 
+   "[p]artition action into compliance units and compute a compliance proof for each unit."»
+--><!--ᚦ
+    «the concept of action seems only partially defined above;
+    are we rather looking into a partition of (relevant) resources / resource kinds
+    (as opposed to the action itself)?»
 -->
 2. For each resource, compute a resource logic proof. Associate each proof with the tag of the resource and the logic hash reference. Put the resulting map in `action.resourceLogicProofs`
 3. `action.consumed = r.nullifier(nullifierKey) for r in consumedResources`
 4. `action.created = r.commitment() for r in createdResources`
 5. `action.applicationData = applicationData`
 
+<!--ᚦ
+    «How do I obtain the relevant applicationData?»
+-->
+
 ## `verify`
 
 Validity of an action can only be determined for actions that are associated with a transaction. Assuming that an action is associated with a transaction, an action is considered valid if all of the following conditions hold:
+<!--ᚦ
+    «@"Validity of an action can only be determined for actions that are associated with a transaction" why?»
+-->
 
 1. action input resources have valid resource logic proofs associated with them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
 2. action output resources have valid resource logic proofs associated with them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
 3. all compliance proofs are valid: `complianceUnit.verify() = True`
 4. transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to [prove the existence of consumed resources](./action.md#input-existence-check) in the compliance proofs.
-<!--ᚦ«transaction are only defined later/ further down in the TOC»-->
+<!--ᚦ
+    «transaction are only defined further down in the TOC»
+-->
 
 ## `delta`
 
 `action.delta() -> DeltaHash` is a computable component used to compute `transactionDelta`. It is computed from `r.delta()` of the resources that comprise the action and defined as `action.delta() = sum(cu.delta() for cu in action.complianceUnits)`.
-
 
 <!--ᚦtags:annotated,non-trivial,improvable-->
