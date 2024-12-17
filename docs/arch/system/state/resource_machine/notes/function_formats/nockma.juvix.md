@@ -29,6 +29,21 @@ type Noun :=
   | Atom : Nat -> Noun
   | Cell : Noun -> Noun -> Noun;
 
+terminating
+nounEq (n1 n2 : Noun) : Bool :=
+  case mkPair n1 n2 of {
+    | mkPair (Atom x) (Atom y) := x == y
+    | mkPair (Cell a b) (Cell c d) := nounEq a c && nounEq b d
+    | _ := false
+  };
+
+instance EqNoun : Eq Noun := mkEq@{ eq := nounEq };
+
+-- Helper to convert storage values to Nouns 
+axiom convertToNoun : {val : Type} -> val -> Noun;
+-- Helper to convert Nouns to storage values 
+axiom convertFromNoun : {val : Type} -> Noun -> Option val;
+
 type ScryOp :=
   | Direct
   | Index;
@@ -39,22 +54,6 @@ type Storage addr val := mkStorage {
 };
 
 axiom externalStorage : {addr val : Type} -> Storage addr val;
-
--- Helper to convert storage values to Nouns 
-axiom convertToNoun : {val : Type} -> val -> Noun;
--- Helper to convert Nouns to storage values 
-axiom convertFromNoun : {val : Type} -> Noun -> Option val;
-
--- Helper function for checking noun equality
-terminating
-nounEq (n1 n2 : Noun) : Bool :=
-  case mkPair n1 n2 of {
-    | mkPair (Atom x) (Atom y) := x == y
-    | mkPair (Cell a b) (Cell c d) := nounEq a c && nounEq b d
-    | _ := false
-  };
-
-instance EqNoun : Eq Noun := mkEq@{ eq := nounEq };
 
 type NockOp :=
   | Slash -- /
@@ -70,6 +69,25 @@ type NockOp :=
   | Pound -- #
   | Match -- 11
   | Scry; -- 12
+
+opOr {A : Type} (n m : Option A) : Option A :=
+  case n of {
+    | none := m
+    | (some n) := some n
+  };
+
+parseOp (n : Nat) : Option NockOp := 
+  let test := \{m op := 
+    case (n == m) of {
+      | true := some op
+      | false := none
+    }} in
+  foldr opOr none
+    (zipWith test
+      [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
+      [Slash; Constant; Apply; CellTest; Increment;
+      EqualOp; IfThenElse; Compose; Extend; Invoke;
+      Pound; Match; Scry]);
 
 -- Monad to encompass gas consumption and error handling.
 type GasState A := mkGasState {
@@ -108,14 +126,6 @@ GasStateMonad : Monad GasState := mkMonad@{
 
 err {A : Type} (str : String) : GasState A := mkGasState \{_ := error str};
 
-consume (op : NockOp) : GasState Unit :=
-  mkGasState \{gas :=
-  let cost := getGasCost op in
-  case cost > gas of {
-    | true := error "Out of gas"
-    | false := ok (mkPair unit (sub gas cost))
-  }};
-
 -- Gas cost values for each operation type
 -- These are made up for demo purposes
 getGasCost (cost : NockOp) : Nat :=
@@ -133,24 +143,13 @@ getGasCost (cost : NockOp) : Nat :=
     | _ := 0
   };
 
-opOr {A : Type} (n m : Option A) : Option A :=
-  case n of {
-    | none := m
-    | (some n) := some n
-  };
-
-parseOp (n : Nat) : Option NockOp := 
-  let test := \{m op := 
-    case (n == m) of {
-      | true := some op
-      | false := none
-    }} in
-  foldr opOr none
-    (zipWith test
-      [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
-      [Slash; Constant; Apply; CellTest; Increment;
-      EqualOp; IfThenElse; Compose; Extend; Invoke;
-      Pound; Match; Scry]);
+consume (op : NockOp) : GasState Unit :=
+  mkGasState \{gas :=
+  let cost := getGasCost op in
+  case cost > gas of {
+    | true := error "Out of gas"
+    | false := ok (mkPair unit (sub gas cost))
+  }};
 
 -- Implementation of storage read operations (scrying)
 scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result String Noun :=
