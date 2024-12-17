@@ -30,6 +30,7 @@ nav:
                       - Proving system:
                           - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system.md
                           - Delta proving system: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.md
+                          - Proof: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proof.md
                       - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.md
                       - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.md
                   - Data structures:

@@ -9,6 +9,9 @@ search:
 
 A **resource** is a composite structure `Resource` that contains the following components:
 
+<!--ᚦ«could it be represented by a record for each of the listed components?
+maybe add a note on the relation to computed components »-->
+
 |Component|Type|Description|
 |-|-|-|
 |`logicRef`|`LogicHash`|[hash](./../../primitive_interfaces/fixed_size_type/hash.md) of the predicate associated with the resource (resource logic)|
@@ -20,4 +23,15 @@ A **resource** is a composite structure `Resource` that contains the following c
 |`nullifierKeyCommitment`|`NullifierKeyCommitment`|is a nullifier key commitment. Corresponds to the nullifier key $nk$ used to derive the resource nullifier (nullifiers are further described [here](./computable_components/nullifier.md))|
 |`randSeed`|`RandSeed`|randomness seed used to derive whatever randomness needed|
 
+<!--ᚦ«wikilinks are preferable»-->
+<!--ᚦ«link to ressource logic desireable»-->
+<!--ᚦ«can we have an (glossary) entry for fungability domain?»-->
+<!--ᚦ«link to balance check desireable»-->
+<!--ᚦ«it is puzzling that the data is fungible while valueRef is a hash? or what am I missing here?»-->
+<!--ᚦ«"is a number representing the quantity of the resource"» that is essentially the definition of `quantity of a resource`, right?-->
+<!--ᚦ«"is a flag that reflects the resource's ephemerality" (and `True` iff it is ephemeral) »-->
+<!--ᚦ«`NullifierKeyCommitment` is typically a hash of sth. right? »-->
+
 To distinguish between the resource data structure consisting of the resource components and a resource as a unit of state identified by just one (or some) of the resource computed fields, we sometimes refer to the former as a *resource object*. Data which is referenced by the resource object - such as the preimage of `valueRef` - we refer to as *resource-linked data*.
+
+<!--ᚦ«This file should probably be named `index.md`»-->
