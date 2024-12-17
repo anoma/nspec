@@ -12,6 +12,11 @@ This specification explicitly defines only the architecture-level inputs and con
 
 ## Proving
 
+<!--ᚦ
+    «This is do be done by a prover, right? What are the steps?»
+-->
+    
+
 When proving, resource logics take as input resources created and consumed in the action:
 
 #### Instance
@@ -20,6 +25,15 @@ When proving, resource logics take as input resources created and consumed in th
 2. `action.consumed` (possibly excluding the tagged resource, if it is consumed)
 3. `action.created` (possibly excluding the tagged resource, if it is created)
 4. `action.applicationData`
+
+<!--ᚦ
+    «@(possibly excluding the tagged resource, if it is consumed)
+    What is excluded why/when/under which conditions?
+    How does the instance look like?
+    I guess, some list of things, but I am not sure.
+    »
+-->
+    
 
 #### Witness
 
@@ -30,6 +44,10 @@ When proving, resource logics take as input resources created and consumed in th
     1. resource object
 3. Application inputs
 
+<!--ᚦ
+    «@"Application inputs" this is totally unrestricted apparently»
+-->
+
 !!! note
     The instance and witness values are expected to correspond to each other: the first tag in the instance corresponds to the first resource object in the witness (and corresponds to the resource being checked), and so on. Note that the tag has to be recomputed from the object to verify that it indeed corresponds to the tag (this condition is included in the constraints)
 
@@ -38,3 +56,7 @@ When proving, resource logics take as input resources created and consumed in th
 1. Created commitment integrity: `r.commitment() = cm`
 2. Consumed nullifier integrity: `r.nullifier(nullifierKey) = nf`
 3. Application constraints
+
+<!--ᚦ
+    «where do `cm` and `nf` come from? cm/nf ∈ action.consumed/action.created»
+-->
