@@ -15,7 +15,7 @@ This specification explicitly defines only the architecture-level inputs and con
 <!--ᚦ
     «This is do be done by a prover, right? What are the steps?»
 -->
-    
+
 
 When proving, resource logics take as input resources created and consumed in the action:
 
@@ -33,7 +33,7 @@ When proving, resource logics take as input resources created and consumed in th
     I guess, some list of things, but I am not sure.
     »
 -->
-    
+
 
 #### Witness
 

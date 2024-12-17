@@ -23,13 +23,13 @@ An action is a composite structure of type `Action` that contains the following 
 <!--ᚦ
     «The lists should be repetition free, right?»
 --><!--ᚦ
-    «@resourceLogicProofs I think, 
+    «@resourceLogicProofs I think,
     a description similar to the [forums](https://research.anoma.net/t/clarifying-proof-structures/856) could be preferable: ¶
     1. `resourceLogicProofs: Map Tag (PS.VerifyingKey, PS.Proof)` as the type in the table
     2. a (foot)note on `VerifyingKey=:LogicRefHash.T` for convenient implementation
     »
 --><!--ᚦ
-    «more @resourceLogicProofs : 
+    «more @resourceLogicProofs :
         this deserves some more space, it is maximally compact,
         but that makes it really hard to read
     »
@@ -41,11 +41,11 @@ An action is a composite structure of type `Action` that contains the following 
 --><!--ᚦ
     «What is the `self` resource? It seems only used here w/o definition.
     This need to be fixed as sth.
-    along the lines of _the_ resource associated with the proof. 
+    along the lines of _the_ resource associated with the proof.
 »--><!--ᚦ
     «We would like to have the type parameters of the Map in juvix, probably»
 --><!--ᚦ
-    «@"of transaction's [compliance units]..." 
+    «@"of transaction's [compliance units]..."
     should it be "action's [compliance units]"?»
 --><!--ᚦ
     «How are the openings expected to be ordered?
@@ -68,14 +68,14 @@ Actions partition the state change induced by a transaction and limit the resour
 --><!--ᚦ
     «how is 'proof access' defined?»
 --><!--ᚦ
-    «"A resource is associated with exactly one action." 
-    _at most_ one in general, 
-    but exactly one for which resources ? 
+    «"A resource is associated with exactly one action."
+    _at most_ one in general,
+    but exactly one for which resources ?
     (probably the ones relevant to the enveloping transaction)»
 --><!--ᚦ
     «the opposite of "consume" is "produce";
     if we were to change this,
-    the term _resource creation_ 
+    the term _resource creation_
     would describe the action of addting to the commitment accumulator (merkle tree)»
 -->
 
@@ -83,7 +83,7 @@ Actions partition the state change induced by a transaction and limit the resour
 
     Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
     <!--ᚦ
-        «in general, transactions may be unbalanced, 
+        «in general, transactions may be unbalanced,
         but then they are not executable, right?
         [Btw, the definition of executable seems off.]»
     -->
@@ -109,7 +109,7 @@ Actions partition the state change induced by a transaction and limit the resour
 
 Each action refers to a set of resources to be consumed and a set of resources to be created. Creation and consumption of a resource requires a set of proofs that attest to the correctness of the proposed action. There are two proof types associated with each action:
 <!--ᚦ
-    «@"two proof types"→"two collections of proofs" 
+    «@"two proof types"→"two collections of proofs"
     with an optional "(of two different kinds)"»
 --><!--ᚦ
     «what is the referring mode—by which means do we refer—in
@@ -130,7 +130,7 @@ Each action refers to a set of resources to be consumed and a set of resources t
 <!--ᚦ
     «wikilinks preferred»
 --><!--ᚦ
-    «@"resource machine definitions" 
+    «@"resource machine definitions"
     could we mention here the whole story in a (foot)note
     about why we cannot (or do not want to) have arbitrary partitions?»
 -->
@@ -139,13 +139,13 @@ Each action refers to a set of resources to be consumed and a set of resources t
 
 Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource, CMtreePath)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, an action is computed the following way:
 <!--ᚦ
-    «step zero: 
+    «step zero:
     compute the corresponding lists of commitments and nullifiers
     »
 -->
 
 1. Partition action into compliance units and compute a compliance proof for each unit. Put the information about the units in `action.complianceUnits`<!--ᚦ
-   «How do I (as a prover) 
+   «How do I (as a prover)
    "[p]artition action into compliance units and compute a compliance proof for each unit."»
 --><!--ᚦ
     «the concept of action seems only partially defined above;

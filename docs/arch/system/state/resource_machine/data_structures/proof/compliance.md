@@ -15,12 +15,12 @@ Compliance proofs are computed over [compliance units](./../compliance_unit.md).
     aech of which is either consumed or produced...I guess.
     This all should become clear already in this intro.»
 --><!--ᚦ
-    «@over ? 
+    «@over ?
     what depends on what?
-    it seems that compliance units make reference to 
+    it seems that compliance units make reference to
     compliance input data fields?»
 --><!--ᚦ
-    «add description along the lines: 
+    «add description along the lines:
     we want to create a proof using a witness and an instance»
 -->
 

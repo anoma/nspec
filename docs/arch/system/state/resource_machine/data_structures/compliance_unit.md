@@ -6,9 +6,9 @@
 --><!--ᚦ
     «"partitions the [action]"
     →"partitions the _set of_ SOMETHING (??? resource tags ??? ???) of an [action]"
-    this is probably related to the union of created and consumend 
+    this is probably related to the union of created and consumend
 »--><!--ᚦ
-    «Can we repeat that 
+    «Can we repeat that
         a consumed resource cannot be produced by an action in the same tx?»
 -->
 
@@ -44,7 +44,7 @@ The size of a compliance unit - the number of created and consumed resources in 
 
 <!--ᚦ
     «@"the number of created and consumed resources in each unit"
-    → "the number of resources in the unit, either created or consumed (never both)" 
+    → "the number of resources in the unit, either created or consumed (never both)"
     or similar.
 -->
 
@@ -53,7 +53,7 @@ The size of a compliance unit - the number of created and consumed resources in 
 Compliance unit delta is used to compute action and transaction deltas and is itself computed from resource deltas: `delta = sum(r.delta() for r in outputResources - sum(r.delta() for r in inputResources))`. Note that the delta is computed by the prover (who knows the resource objects of resources associated with the unit) and is a part of the instance. The compliance proof must ensure the correct computation of delta from the resource deltas available at the proving time.
 <!--ᚦ
     «@outputResources
-    this is not defined; 
+    this is not defined;
     it is probably `created(ComplianceUnit)`.
     I actually would prefere "output" or "produced" over created.»
 --><!--ᚦ
@@ -89,8 +89,8 @@ As a result, the properties of `DeltaHash` allow computing the total balance for
     «"DeltaHash"
     →"DeltaHash.T"
 --><!--ᚦ
-    «So, apparently, we are making reference to some (private and/or implicit???) 
-    [[Compliance inputs]]; 
+    «So, apparently, we are making reference to some (private and/or implicit???)
+    [[Compliance inputs]];
     this file further down in the TOC, so I was not even aware of it.
     »
 -->
