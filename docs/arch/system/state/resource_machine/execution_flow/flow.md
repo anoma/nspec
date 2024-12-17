@@ -23,13 +23,13 @@ It has read-only access to the external global state, which includes the content
 
 The resource machine must have the functionality to produce, compose, and evaluate transaction functions and transactions.
 <!--ᚦ
-    «We can link here the respective pages for 
+    «We can link here the respective pages for
     `produce, compose, and evaluate transaction functions and transactions`»
 -->
 
 Actors working with resource machine include users, solvers, and executor nodes.
 <!--ᚦ
-    «"Actors" 
+    «"Actors"
     →"Agents"»
 -->
 
@@ -61,7 +61,7 @@ Solvers are the parties that have the computational power. Solvers are the parti
 <!--ᚦ
     «@"output a transaction" to where?»
 --><!--ᚦ
-    «as an aside, 
+    «as an aside,
     heliax-TODO: add the roles from the solver ART to the specs ...»
 -->
 
@@ -70,7 +70,7 @@ Solvers are the parties that have the computational power. Solvers are the parti
 Executors are the final nodes that receive transaction functions after ordering and produce a state change. After receiving a transaction function, the executor runs it, outputting a transaction that describes a state update. The executor node validates the resulting transaction, by performing the checks described [here](./../data_structures/transaction.md#verify). In case the transaction is valid, the executor applies the state changes: adds nullifiers to the nullifier set, commitments to the commitment tree, and possibly some other data to the storage.
 
 <!--ᚦ
-    «@"outputting a transaction that describes a state update" 
+    «@"outputting a transaction that describes a state update"
     especially here, I would prefer `transaction object` over `
 --><!--ᚦ
     «add wiki links: executor »
@@ -81,13 +81,13 @@ Executors are the final nodes that receive transaction functions after ordering 
 *Pre-ordering execution* implies partial evaluation of the transaction function. In practice pre-ordering execution happens before the transactions are ordered by the ordering component external to the ARM.
 
 <!--ᚦ
-    «Can we re-use the terminology and formalization of programs from 
+    «Can we re-use the terminology and formalization of programs from
     the wikipedia page https://en.wikipedia.org/wiki/Partial_evaluation?»
 -->
 
 *Post-ordering execution* implies full evaluation of the transaction function. As the name suggests, post-ordering execution happens after the ordering component external to the ARM completed the ordering of transaction functions.
 <!--ᚦ
-    «We may want to explain that this is important because some of 
+    «We may want to explain that this is important because some of
     the inputs are only known after ordering has happened,
     e.g., the latest NFset, KVS storage, ...»
 -->
