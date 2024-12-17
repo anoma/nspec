@@ -12,7 +12,7 @@ Nockma Implementation:
 -- Operation codes for Nockma:
 -- 0: Slot (/): Address within noun
 -- 1: Constant: Returns operand unchanged  
--- 2: Evaluate (*): Core evaluation operation
+-- 2: Apply/Ap/S:
 -- 3: Cell test (?): Tests if noun is cell
 -- 4: Increment (+): Add 1 to atom
 -- 5: Equality test (=): Compare nouns
@@ -80,7 +80,7 @@ scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : EvalResu
 type NockOp :=
   | Slot -- /
   | Constant -- Returns operand unchanged 
-  | Eval  -- *
+  | Apply
   | CellTest -- ?
   | Increment -- +
   | EqualOp -- =
@@ -132,7 +132,7 @@ parseOp (n : Nat) : Option NockOp :=
   foldr opOr none
     (zipWith test
       [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
-      [Slot; Constant; Eval; CellTest; Increment;
+      [Slot; Constant; Apply; CellTest; Increment;
       EqualOp; IfThenElse; Compose; Extend; Invoke;
       Hint; PureHint; Scry]);
 
@@ -170,72 +170,88 @@ slot {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (subject : Nou
     | _ := Crash "Slot must be atom"
   };
 
--- Main evaluation function for operations
 terminating
 evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject : Noun) (args : Noun) : EvalResult Noun :=
   case op of {
-    | Eval := case args of {
-      | Cell firstArg rest := case firstArg of {
-        | Atom n := case n == 0 of {
-          | true := slot stor gas rest subject -- Rule: *[a 0 b] -> /[b a]
-          | false := case n == 1 of {
-            | true := Success rest -- Rule: *[a 1 b] -> b
-            | false := case n == 2 of {
-              | true := case rest of { -- Rule: *[a 2 b c] -> *[*[a b] *[a c]]
-                | Cell b c := 
-                  case nock stor gas (Cell subject b) of {
-                    | Success r1 := case nock stor gas (Cell subject c) of {
-                      | Success r2 := nock stor gas (Cell r1 r2)
-                      | err := err
-                    }
-                    | err := err
-                  }
-                | _ := Crash "Invalid eval 2 args"
-              }
-              | false := Crash "Unimplemented eval opcode"
-            }
+    -- *[a 0 b] -> /[b a]
+    | Slot := slot stor gas args subject
+    
+    -- *[a 1 b] -> b
+    | Constant := Success args
+
+    -- *[a 2 b c] -> *[*[a b] *[a c]]
+    | Apply := case args of {
+      | Cell b c := 
+        case nock stor gas (Cell subject b) of {
+          | Success r1 := case nock stor gas (Cell subject c) of {
+            | Success r2 := nock stor gas (Cell r1 r2)
+            | err := err
           }
+          | err := err
         }
-        | _ := Crash "First eval arg must be atom"
-      }
-      | _ := Crash "Invalid eval args"
+      | _ := Crash "Invalid apply args"
+    }
+    
+    -- *[a 3 b] -> ?*[a b]
+    -- ?[a b] -> 0
+    -- ?a -> 1
+    | CellTest := case args of {
+      | Cell b _ := 
+        case nock stor gas (Cell subject b) of {
+          | Success res := case res of {
+            | Cell _ _ := Success (Atom 0)
+            | _ := Success (Atom 1)
+          }
+          | err := err
+        }
+      | _ := Crash "Invalid cell test args"
     }
 
-    | CellTest := case args of { -- Rules: ?[a b] -> 0, ?a -> 1
-      | Cell _ _ := Success (Atom 0)
-      | _ := Success (Atom 1)
+    -- *[a 4 b] -> +*[a b]
+    -- +[a b] -> +[a b]
+    -- +a -> 1 + a
+    | Increment := case args of {
+      | Cell b _ := 
+        case nock stor gas (Cell subject b) of {
+          | Success (Atom n) := Success (Atom (suc n))
+          | Success x := Success x  -- +[a b] -> +[a b] case
+          | err := err
+        }
+      | _ := Crash "Invalid increment args"
     }
 
-    | Increment := case args of { -- Rule: +a -> 1 + a
-      | Atom n := Success (Atom (suc n))
-      | _ := Crash "Cannot increment non-atom"
-    }
-
-    | EqualOp := case args of { -- Rules: =[a a] -> 0, =[a b] -> 1
-      | Cell a b := Success (Atom (case nounEq a b of {
-          | true := 0
-          | false := 1
-        }))
+    -- *[a 5 b c] -> =*[a b] *[a c]
+    -- =[a a] -> 0
+    -- =[a b] -> 1 
+    | EqualOp := case args of {
+      | Cell b c :=
+        case nock stor gas (Cell subject b) of {
+          | Success r1 := case nock stor gas (Cell subject c) of {
+            | Success r2 := Success (Atom (case nounEq r1 r2 of {
+              | true := 0
+              | false := 1
+            }))
+            | err := err
+          }
+          | err := err
+        }
       | _ := Crash "Invalid equality args"
     }
 
-    | IfThenElse := case args of { -- Rule: *[a 6 b c d] -> *[a *[[c d] 0 *[[2 3] 0 *[a 4 4 b]]]]
-      | Cell b (Cell c d) := 
+    -- *[a 6 b c d] -> *[a *[[c d] 0 *[[2 3] 0 *[a 4 4 b]]]]
+    | IfThenElse := case args of {
+      | Cell b (Cell c d) :=
         case nock stor gas (Cell subject (Cell (Atom 4) (Cell (Atom 4) b))) of {
-          | Success cond := 
-              let ifExpr := Cell (Cell c d) (Cell (Atom 0) 
-                          (Cell (Cell (Atom 2) (Atom 3)) 
-                          (Cell (Atom 0) cond))) in
-              case nock stor gas (Cell subject ifExpr) of {
-                | Success branch := nock stor gas (Cell subject branch)
-                | err := err
-              }
+          | Success test := 
+            let ifExpr := Cell (Cell c d) (Cell (Atom 0) (Cell (Cell (Atom 2) (Atom 3)) (Cell (Atom 0) test))) in
+            nock stor gas (Cell subject ifExpr)
           | err := err
         }
       | _ := Crash "Invalid if-then-else args"
     }
 
-    | Compose := case args of { -- Rule: *[a 7 b c] -> *[*[a b] c]
+    -- *[a 7 b c] -> *[*[a b] c]
+    | Compose := case args of {
       | Cell b c := 
         case nock stor gas (Cell subject b) of {
           | Success r := nock stor gas (Cell r c)
@@ -244,7 +260,8 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
       | _ := Crash "Invalid compose args"
     }
 
-    | Extend := case args of { -- Rule: *[a 8 b c] -> *[[*[a b] a] c]
+    -- *[a 8 b c] -> *[[*[a b] a] c]
+    | Extend := case args of {
       | Cell b c := 
         case nock stor gas (Cell subject b) of {
           | Success r := nock stor gas (Cell (Cell r subject) c)
@@ -253,20 +270,20 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
       | _ := Crash "Invalid extend args"
     }
 
-    | Invoke := case args of { -- Rule: *[a 9 b c] -> *[*[a c] 2 [0 1] 0 b]
-      | Cell b c := 
+    -- *[a 9 b c] -> *[*[a c] 2 [0 1] 0 b]
+    | Invoke := case args of {
+      | Cell b c :=
         case nock stor gas (Cell subject c) of {
           | Success core := 
-              let formula := Cell (Atom 2) 
-                          (Cell (Cell (Atom 0) (Atom 1)) 
-                          (Cell (Atom 0) b)) in
-              nock stor gas (Cell core formula)
+            let formula := Cell (Atom 2) (Cell (Cell (Atom 0) (Atom 1)) (Cell (Atom 0) b)) in
+            nock stor gas (Cell core formula)
           | err := err
         }
       | _ := Crash "Invalid invoke args"
     }
 
-    | Hint := case args of { -- Rule: *[a 10 [b c] d] -> #[b *[a c] *[a d]]
+    -- *[a 10 [b c] d] -> #[b *[a c] *[a d]]
+    | Hint := case args of {
       | Cell (Cell b c) d := 
         case nock stor gas (Cell subject c) of {
           | Success r1 := case nock stor gas (Cell subject d) of {
@@ -278,7 +295,9 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
       | _ := Crash "Invalid hint args"
     }
 
-    | PureHint := case args of { -- Rules: *[a 11 [b c] d] -> *[[*[a c] *[a d]] 0 3], *[a 11 b c] -> *[a c]
+    -- *[a 11 [b c] d] -> *[[*[a c] *[a d]] 0 3]
+    -- *[a 11 b c] -> *[a c]
+    | PureHint := case args of {
       | Cell (Cell b c) d := 
         case nock stor gas (Cell subject c) of {
           | Success r1 := case nock stor gas (Cell subject d) of {
@@ -287,31 +306,31 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
           }
           | err := err
         }
-      | Cell b c := nock stor gas (Cell subject c)
+      | Cell _ c := nock stor gas (Cell subject c)
       | _ := Crash "Invalid pure hint args"
     }
 
-    | Scry := case args of { -- Rule: *[a 12 b c d] -> result <- SCRY b c; *[a result d]
+    -- *[a 12 b c d] -> result <- SCRY b c; *[a result d]
+    | Scry := case args of {
       | Cell b (Cell c d) := 
         case nock stor gas b of {
           | Success (Atom opcode) := 
-              case nock stor gas c of {
-                | Success (Atom addr) := case scry stor (case opcode == 0 of {
-                    | true := Direct
-                    | false := Index
-                  }) addr of {
+            case nock stor gas c of {
+              | Success (Atom addr) := 
+                case scry stor (case opcode == 0 of {
+                  | true := Direct
+                  | false := Index
+                }) addr of {
                   | Success result := nock stor gas (Cell subject (Cell result d))
                   | err := err
                 }
-                | _ := Crash "Scry address must be atom"
-              }
+              | _ := Crash "Scry address must be atom"
+            }
           | Success _ := Crash "Scry type must be atom"
           | err := err
         }
       | _ := Crash "Invalid scry args"
     }
-
-    | _ := Crash "Unimplemented operation"
   };
 
 -- Core Nockma evaluator 
@@ -321,9 +340,8 @@ nock {val : Type} (stor : Storage Nat val) (gas : Nat) (input : Noun) : EvalResu
     -- Rule: *a -> *a
     | Atom _ := Success input
     
-    -- Main evaluation cases
     | Cell subject b := case b of {
-      -- First handle the case Cell _ _ to avoid overlap
+
       | Cell first rest := case first of {
         -- Rule: *[a [b c] d] -> [*[a b c] *[a d]]
         | Cell b c := 
@@ -334,7 +352,7 @@ nock {val : Type} (stor : Storage Nat val) (gas : Nat) (input : Noun) : EvalResu
             }
             | err := err
           }
-        -- Handle operation cases
+
         | Atom n := case parseOp n of {
           | some opcode := consume opcode gas (\{gas' := 
               evalOp stor gas' opcode subject rest
@@ -350,7 +368,6 @@ nock {val : Type} (stor : Storage Nat val) (gas : Nat) (input : Noun) : EvalResu
 Nockma instances for transaction function functionality;
 
 ```juvix
--- TransactionFunction instance for Nockma
 instance
 NockmaTransactionFunction : TransactionFunction Noun Nat (Option Noun) Nat Noun Noun :=
   mkTransactionFunction@{
@@ -377,7 +394,6 @@ NockmaTransactionFunction : TransactionFunction Noun Nat (Option Noun) Nat Noun 
     };
   };
 
--- TransactionVM instance for Nockma 
 instance
 NockmaVM : TransactionVM Noun Nat (Option Noun) Nat Noun Noun :=
   mkTransactionVM@{
