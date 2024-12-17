@@ -71,7 +71,7 @@ type NockOp :=
   | Match -- 11
   | Scry; -- 12
 
--- Define the gas state monad with explicit constructor
+-- Monad to encompass gas consumption and error handling.
 type GasState A := mkGasState {
   runGasState : Nat -> Result String (Pair A Nat)
 };
