@@ -148,14 +148,18 @@ slash {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (subject : No
             | _ := error "Cannot take slash of atom"
           }
           | false := case (mod x 2) == 0 of {
-            | true := consume Slash gas (\{gas' := -- Rule: /[(a + a) b] -> /[2 /[a b]]
-                slash stor gas' (Atom (div x 2)) subject >>= \{res :=
-                slash stor gas' (Atom 2) res
-                }})
-            | false := consume Slash gas (\{gas' := -- Rule: /[(a + a + 1) b] -> /[3 /[a b]]
-                slash stor gas' (Atom (div x 2)) subject >>= \{res :=
-                slash stor gas' (Atom 3) res
-                }})
+            | true :=  -- Rule: /[(a + a) b] -> /[2 /[a b]]
+                consume Slash gas \{gas :=
+                slash stor gas (Atom (div x 2)) subject >>= \{res :=
+                consume Slash gas \{gas :=
+                slash stor gas (Atom 2) res
+                }}}
+            | false := -- Rule: /[(a + a + 1) b] -> /[3 /[a b]]
+                consume Slash gas \{gas :=
+                slash stor gas (Atom (div x 2)) subject >>= \{res :=
+                consume Slash gas \{gas :=
+                slash stor gas (Atom 3) res
+                }}}
           }
         }
       }
@@ -172,16 +176,20 @@ pound {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (b : Noun) (c
       | false := case mod x 2 == 0 of {
         | true := case c of { -- Rule: #[(a + a) b c] -> #[a [b /[(a + a + 1) c]] c]
           | Cell _ _ := 
+            consume Slash gas \{gas :=
             slash stor gas (Atom ((2 * div x 2) + 1)) c >>= \{slashResult :=
+            consume Pound gas \{gas :=
             pound stor gas (Atom (div x 2)) (Cell b slashResult) c
-            }
+            }}}
           | _ := error "Invalid pound target"
         }
         | false := case c of { -- Rule: #[(a + a + 1) b c] -> #[a [/[(a + a) c] b] c]
           | Cell _ _ := 
+            consume Slash gas \{gas :=
             slash stor gas (Atom (2 * div x 2)) c >>= \{slashResult :=
+            consume Pound gas \{gas :=
             pound stor gas (Atom (div x 2)) (Cell slashResult b) c
-            }
+            }}}
           | _ := error "Invalid pound target"
         }
       }
