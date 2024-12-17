@@ -375,13 +375,9 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
                           } in
                           -- Perform the scry operation and wrap result in GasState
                           mkGasState \{gas := 
-                            case scry stor scryType addrVal of {
-                              | ok scryResult := 
-                                  -- Continue evaluation with the scry result
-                                  GasState.runGasState 
-                                    (nock stor (Cell a (Cell scryResult d)))
-                                    gas
-                              | error e := error e
+                            scry stor scryType addrVal >>= \{scryResult :=
+                            -- Continue evaluation with the scry result
+                            GasState.runGasState (nock stor (Cell a (Cell scryResult d))) gas
                             }
                           }
                       | _ := err "Scry address must be atom"
