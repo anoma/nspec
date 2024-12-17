@@ -10,7 +10,7 @@ Nockma Implementation:
 
 ```juvix
 -- Operation codes for Nockma:
--- 0: Slot (/): Address within noun
+-- 0: Slash (/)
 -- 1: Constant: Returns operand unchanged  
 -- 2: Apply/Ap/S:
 -- 3: Cell test (?): Tests if noun is cell
@@ -20,8 +20,8 @@ Nockma Implementation:
 -- 7: Compose
 -- 8: Extend subject
 -- 9: Invoke (call function by arm name)
--- 10: Hint
--- 11: Pure hint
+-- 10: Pound (#)
+-- 11: Match: Case split on Cells vs Atoms
 -- 12: Scry (read storage)
 
 -- Basic Nock types
@@ -43,7 +43,7 @@ type Storage addr val := mkStorage {
   readIndex : val -> Option val
 };
 
-axiom emptyStorage : {addr val : Type} -> Storage addr val;
+axiom externalStorage : {addr val : Type} -> Storage addr val;
 
 -- Helper to convert storage values to Nouns 
 axiom convertToNoun : {val : Type} -> val -> Noun;
@@ -78,7 +78,7 @@ scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : EvalResu
   };
 
 type NockOp :=
-  | Slot -- /
+  | Slash -- /
   | Constant -- Returns operand unchanged 
   | Apply
   | CellTest -- ?
@@ -88,15 +88,15 @@ type NockOp :=
   | Compose -- 7 
   | Extend -- 8
   | Invoke -- 9
-  | Hint -- 10  
-  | PureHint -- 11
+  | Pound -- #
+  | Match -- 11
   | Scry; -- 12
 
 -- Gas cost values for each operation type
 -- These are made up for demo purposes
 getGasCost (cost : NockOp) : Nat :=
   case cost of {
-    | Slot := 1
+    | Slash := 1
     | CellTest := 1 
     | Increment := 1
     | EqualOp := 2
@@ -104,7 +104,7 @@ getGasCost (cost : NockOp) : Nat :=
     | Compose := 2
     | Extend := 2
     | Invoke := 3
-    | Hint := 1
+    | Pound := 1
     | Scry := 10
     | _ := 0
   };
@@ -132,49 +132,79 @@ parseOp (n : Nat) : Option NockOp :=
   foldr opOr none
     (zipWith test
       [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
-      [Slot; Constant; Apply; CellTest; Increment;
+      [Slash; Constant; Apply; CellTest; Increment;
       EqualOp; IfThenElse; Compose; Extend; Invoke;
-      Hint; PureHint; Scry]);
+      Pound; Match; Scry]);
 
--- Helper for slot (/) operations
+-- Helper for slash (/) operations
 terminating
-slot {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (subject : Noun) : EvalResult Noun := 
+slash {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (subject : Noun) : EvalResult Noun := 
   case n of {
     | Atom x := case x == 1 of {
       | true := Success subject -- Rule: /[1 a] -> a
       | false := case x == 2 of {
         | true := case subject of { -- Rule: /[2 a b] -> a
           | Cell a _ := Success a
-          | _ := Crash "Cannot take slot of atom"
+          | _ := Crash "Cannot take slash of atom"
         }
         | false := case x == 3 of {
           | true := case subject of { -- Rule: /[3 a b] -> b
             | Cell _ b := Success b
-            | _ := Crash "Cannot take slot of atom"
+            | _ := Crash "Cannot take slash of atom"
           }
           | false := case (mod x 2) == 0 of {
-            | true := consume Slot gas (\{gas' := -- Rule: /[(a + a) b] -> /[2 /[a b]]
-                case slot stor gas' (Atom (div x 2)) subject of {
-                  | Success res := slot stor gas' (Atom 2) res
+            | true := consume Slash gas (\{gas' := -- Rule: /[(a + a) b] -> /[2 /[a b]]
+                case slash stor gas' (Atom (div x 2)) subject of {
+                  | Success res := slash stor gas' (Atom 2) res
                   | err := err
                 }})
-            | false := consume Slot gas (\{gas' := -- Rule: /[(a + a + 1) b] -> /[3 /[a b]]
-                case slot stor gas' (Atom (div x 2)) subject of {
-                  | Success res := slot stor gas' (Atom 3) res
+            | false := consume Slash gas (\{gas' := -- Rule: /[(a + a + 1) b] -> /[3 /[a b]]
+                case slash stor gas' (Atom (div x 2)) subject of {
+                  | Success res := slash stor gas' (Atom 3) res
                   | err := err
                 }})
           }
         }
       }
     }
-    | _ := Crash "Slot must be atom"
+    | _ := Crash "Slash must be atom"
+  };
+
+-- Helper for pound (#) operations
+terminating
+pound {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (b : Noun) (c : Noun) : EvalResult Noun := 
+  case n of {
+    | Atom x := case x == 1 of {
+      | true := Success b  -- Rule: #[1 a b] -> a
+      | false := case mod x 2 == 0 of {
+        | true := case c of { -- Rule: #[(a + a) b c] -> #[a [b /[(a + a + 1) c]] c]
+          | Cell _ _ := 
+              case slash stor gas (Atom ((2 * div x 2) + 1)) c of {
+                | Success slotResult := 
+                    pound stor gas (Atom (div x 2)) (Cell b slotResult) c
+                | err := err
+              }
+          | _ := Crash "Invalid pound target"
+        }
+        | false := case c of { -- Rule: #[(a + a + 1) b c] -> #[a [/[(a + a) c] b] c]
+          | Cell _ _ := 
+              case slash stor gas (Atom (2 * div x 2)) c of {
+                | Success slotResult := 
+                    pound stor gas (Atom (div x 2)) (Cell slotResult b) c
+                | err := err
+              }
+          | _ := Crash "Invalid pound target"
+        }
+      }
+    }
+    | _ := Crash "Pound must be atom"
   };
 
 terminating
 evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject : Noun) (args : Noun) : EvalResult Noun :=
   case op of {
     -- *[a 0 b] -> /[b a]
-    | Slot := slot stor gas args subject
+    | Slash := slash stor gas args subject
     
     -- *[a 1 b] -> b
     | Constant := Success args
@@ -283,21 +313,21 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
     }
 
     -- *[a 10 [b c] d] -> #[b *[a c] *[a d]]
-    | Hint := case args of {
+    | Pound := case args of {
       | Cell (Cell b c) d := 
         case nock stor gas (Cell subject c) of {
           | Success r1 := case nock stor gas (Cell subject d) of {
-            | Success r2 := Success (Cell b (Cell r1 r2))
+            | Success r2 := pound stor gas b r1 r2
             | err := err
           }
           | err := err
         }
-      | _ := Crash "Invalid hint args"
+      | _ := Crash "Invalid pound args"
     }
 
     -- *[a 11 [b c] d] -> *[[*[a c] *[a d]] 0 3]
     -- *[a 11 b c] -> *[a c]
-    | PureHint := case args of {
+    | Match := case args of {
       | Cell (Cell b c) d := 
         case nock stor gas (Cell subject c) of {
           | Success r1 := case nock stor gas (Cell subject d) of {
@@ -307,7 +337,7 @@ evalOp {val : Type} (stor : Storage Nat val) (gas : Nat) (op : NockOp) (subject 
           | err := err
         }
       | Cell _ c := nock stor gas (Cell subject c)
-      | _ := Crash "Invalid pure hint args"
+      | _ := Crash "Invalid pure pound args"
     }
 
     -- *[a 12 b c d] -> result <- SCRY b c; *[a result d]
@@ -399,7 +429,7 @@ NockmaVM : TransactionVM Noun Nat (Option Noun) Nat Noun Noun :=
   mkTransactionVM@{
     txFunc := NockmaTransactionFunction;
     eval := \{prog gas := 
-      case nock (emptyStorage {Nat} {Nat}) gas prog of {
+      case nock (externalStorage {Nat} {Nat}) gas prog of {
         | Success result := ok result
         | Crash msg := error msg  
         | OutOfGas := error "Out of gas"
