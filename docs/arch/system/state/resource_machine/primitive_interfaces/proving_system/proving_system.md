@@ -85,6 +85,8 @@ classDiagram
     class DeltaProvingSystem
 
 ```
+<!--ᚦ«I wonder whether it makes sense to have the specific kind of hash for resource logics mentioned in the ResourceLogicProvingSystem»-->
+
 
 <!--ᚦ«This file should probably be named `index.md` »-->
-<!--ᚦtags:reviewed,overview-->
+<!--ᚦtags:reviewed,overview,nit-->
