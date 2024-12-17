@@ -180,8 +180,8 @@ pound {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (b : Noun) (c
         | true := case c of { -- Rule: #[(a + a) b c] -> #[a [b /[(a + a + 1) c]] c]
           | Cell _ _ := 
               case slash stor gas (Atom ((2 * div x 2) + 1)) c of {
-                | Success slotResult := 
-                    pound stor gas (Atom (div x 2)) (Cell b slotResult) c
+                | Success slashResult := 
+                    pound stor gas (Atom (div x 2)) (Cell b slashResult) c
                 | err := err
               }
           | _ := Crash "Invalid pound target"
@@ -189,8 +189,8 @@ pound {val : Type} (stor : Storage Nat val) (gas : Nat) (n : Noun) (b : Noun) (c
         | false := case c of { -- Rule: #[(a + a + 1) b c] -> #[a [/[(a + a) c] b] c]
           | Cell _ _ := 
               case slash stor gas (Atom (2 * div x 2)) c of {
-                | Success slotResult := 
-                    pound stor gas (Atom (div x 2)) (Cell slotResult b) c
+                | Success slashResult := 
+                    pound stor gas (Atom (div x 2)) (Cell slashResult b) c
                 | err := err
               }
           | _ := Crash "Invalid pound target"
