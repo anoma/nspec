@@ -17,7 +17,7 @@ search:
 |-|-|-|
 |`stateTransitionFunction`|`TransactionFunction`| The desired state update.|
 |`paymentTransaction`|`Transaction`|The payment transaction. It is unbalanced, contains consumed resources (gas payment sent) but not created (the receiver is not specified). Includes in a special application data field the hash of the transaction function and the gas limit.|
-|`gasLimit`|`Arithmetic`|The maximum amount of gas can be used for execution of the `StateTransition`|
+|`gasLimit`|`Arithmetic`|The maximum amount of gas that can be used for execution of the `StateTransition`|
 
 ### Execution
 
