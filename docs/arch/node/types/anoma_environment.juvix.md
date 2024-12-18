@@ -92,9 +92,9 @@ type Env :=
 
   | EnvNetworkRegistry NetworkRegistryEnv
   | EnvRouter RouterEnv
+  | EnvPubSubTopic PubSubTopicEnv
   | EnvTransportProtocol TransportProtocolEnv
   | EnvTransportConnection TransportConnectionEnv
-  | EnvPubSubTopic PubSubTopicEnv
   | EnvStorage StorageEnv
 
   {- Ordering -}

@@ -91,9 +91,9 @@ type Cfg :=
 
   | CfgNetworkRegistry NetworkRegistryCfg
   | CfgRouter RouterCfg
+  | CfgPubSubTopic PubSubTopicCfg
   | CfgTransportProtocol TransportProtocolCfg
   | CfgTransportConnection TransportConnectionCfg
-  | CfgPubSubTopic PubSubTopicCfg
   | CfgStorage StorageCfg
 
   {- Ordering -}

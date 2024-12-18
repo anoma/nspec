@@ -162,6 +162,12 @@ nav:
                   - Router Configuration: ./arch/node/net/router_config.juvix.md
                   - Router Environment: ./arch/node/net/router_environment.juvix.md
                   - Router Behaviour: ./arch/node/net/router_behaviour.juvix.md
+              - Pub/Sub Topic:
+                  - Pub/Sub Topic Engine: ./arch/node/net/pub_sub_topic.juvix.md
+                  - Pub/Sub Topic Messages: ./arch/node/net/pub_sub_topic_messages.juvix.md
+                  - Pub/Sub Topic Configuration: ./arch/node/net/pub_sub_topic_config.juvix.md
+                  - Pub/Sub Topic Environment: ./arch/node/net/pub_sub_topic_environment.juvix.md
+                  - Pub/Sub Topic Behaviour: ./arch/node/net/pub_sub_topic_behaviour.juvix.md
               - Transport Protocol:
                   - Transport Protocol Engine: ./arch/node/net/transport_protocol.juvix.md
                   - Transport Protocol Messages: ./arch/node/net/transport_protocol_messages.juvix.md
@@ -174,12 +180,6 @@ nav:
                   - Transport Connection Configuration: ./arch/node/net/transport_connection_config.juvix.md
                   - Transport Connection Environment: ./arch/node/net/transport_connection_environment.juvix.md
                   - Transport Connection Behaviour: ./arch/node/net/transport_connection_behaviour.juvix.md
-              - Pub/Sub Topic:
-                  - Pub/Sub Topic Engine: ./arch/node/net/pub_sub_topic.juvix.md
-                  - Pub/Sub Topic Messages: ./arch/node/net/pub_sub_topic_messages.juvix.md
-                  - Pub/Sub Topic Configuration: ./arch/node/net/pub_sub_topic_config.juvix.md
-                  - Pub/Sub Topic Environment: ./arch/node/net/pub_sub_topic_environment.juvix.md
-                  - Pub/Sub Topic Behaviour: ./arch/node/net/pub_sub_topic_behaviour.juvix.md
               - Storage:
                   - Storage Engine: ./arch/node/net/storage.juvix.md
                   - Storage Messages: ./arch/node/net/storage_messages.juvix.md

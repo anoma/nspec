@@ -91,9 +91,9 @@ type Msg :=
 
   | MsgNetworkRegistry NetworkRegistryMsg
   | MsgRouter (RouterMsg Msg)
+  | MsgPubSubTopic PubSubTopicMsg
   | MsgTransportProtocol TransportProtocolMsg
   | MsgTransportConnection TransportConnectionMsg
-  | MsgPubSubTopic PubSubTopicMsg
   | MsgStorage StorageMsg
 
   {- Ordering -}
