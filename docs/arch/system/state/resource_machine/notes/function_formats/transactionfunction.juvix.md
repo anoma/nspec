@@ -12,7 +12,7 @@ type TransactionFunction (prog addr val gas idx tx : Type) :=
     cost : prog -> gas;
   };
 
-trait 
+trait
 type TransactionVM (prog addr val gas idx tx : Type) :=
   mkTransactionVM@{
     {{txFunc}} : TransactionFunction prog addr val gas idx tx;
