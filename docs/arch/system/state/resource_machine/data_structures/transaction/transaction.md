@@ -65,4 +65,4 @@ A transaction is *executable* if it is valid and `transactionDelta` commits to t
 
 ## `delta`
 
-Transaction delta is computed from delta parameters of actions in that transaction. It represents the total quantity change per resource kind induced by the transaction, which is also referred to as _transaction balance_.
+Transaction delta is a hash of _transaction balance_ - the total quantity change per resource kind induced by the transaction. It isn't computed from the transaction balance directly by applying a hash function to it, but rather by using the homomoprhic properties of `deltaHash`: adding action deltas together results in transaction delta.

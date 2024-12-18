@@ -29,4 +29,4 @@ When executing a `TransactionFunctionWithPayment`, the executor takes the follow
 4. Verify `paymentTransaction`, including in a special application data field the hash of the transaction function and the gas limit.
 5. Execute `paymentTransaction` (apply the state changes).
 6. Evaluate `stateTransitionFunction`, limited by `gasLimit`.
-7. If `stateTransitionFunction` evaluation finishes within `gasLimit` (returning a transaction object), check that the transaction object is valid and balanced, and if so apply it to state (as previously in the RM).
+7. If `stateTransitionFunction` evaluation finishes within `gasLimit` (returning a transaction object), check that the transaction object is valid and balanced (gas is charged for these checks as well), and if so apply it to state (as previously in the RM).
