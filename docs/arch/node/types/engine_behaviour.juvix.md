@@ -40,11 +40,11 @@ function. The guard is a function that evaluates conditions in the engine
 environment to determine what action should be performed; for this, each guard
 creates an _action label,_ that then is "interpreted" by the action function.
 
-The guard function receives:
+The guard function receives three arguments:
 
-- the timestamped trigger that caused guard evaluation,
-- the environment of the engine instance, and
-- an optional time reference for the starting point of the evaluation of all guards.
+- the timestamped trigger that caused guard evaluation;
+- the unchanging engine configuration; and
+- the current environment of the engine instance.
 
 Given these inputs, the guard function computes an action label, which encodes
 
