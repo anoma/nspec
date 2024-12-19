@@ -29,6 +29,9 @@ type Noun :=
   | Atom : Nat -> Noun
   | Cell : Noun -> Noun -> Noun;
 
+-- Nock nouns are called terms in the Juvix IR https://github.com/anoma/juvix/blob/58d1f434bca3b3c07e9927d0152825c48764d4fb/src/Juvix/Compiler/Nockma/Language.hs#L47C6-L50
+syntax alias Term := Noun;
+
 terminating
 nounEq (n1 n2 : Noun) : Bool :=
   case mkPair n1 n2 of {
@@ -73,7 +76,7 @@ type NockOp :=
 opOr {A : Type} (n m : Option A) : Option A :=
   case n of {
     | none := m
-    | (some n) := some n
+    | _ := n
   };
 
 parseOp (n : Nat) : Option NockOp :=
