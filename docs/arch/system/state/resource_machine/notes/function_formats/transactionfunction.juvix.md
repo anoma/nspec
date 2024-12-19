@@ -3,7 +3,8 @@ module arch.system.state.resource_machine.notes.function_formats.transactionfunc
 import prelude open;
 ```
 
-```juvixmodule TransactionFunction;
+```juvix
+-- module TransactionFunction;
 trait
 type TransactionFunction (prog addr val gas idx tx : Type) :=
   mkTransactionFunction@{
