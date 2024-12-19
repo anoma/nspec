@@ -10,18 +10,18 @@ Nockma Implementation:
 
 ```juvix
 -- Operation codes for Nockma:
--- 0: Slash (/)
--- 1: Constant: Returns operand unchanged
+-- 0: At (@)
+-- 1: Quote: Returns operand unchanged
 -- 2: Apply/Ap/S:
--- 3: Cell test (?): Tests if noun is cell
--- 4: Increment (+): Add 1 to atom
+-- 3: isCell (?): Tests if noun is cell
+-- 4: Successor (+): Add 1 to atom
 -- 5: Equality test (=): Compare nouns
 -- 6: If-then-else
--- 7: Compose
--- 8: Extend subject
--- 9: Invoke (call function by arm name)
--- 10: Pound (#)
--- 11: Match: Case split on Cells vs Atoms
+-- 7: Sequence
+-- 8: Push
+-- 9: Call (a function by arm name)
+-- 10: Replace (#)
+-- 11: Hint: Case split on Cells vs Atoms
 -- 12: Scry (read storage)
 
 -- Basic Nock types
@@ -44,7 +44,7 @@ axiom convertToNoun : {val : Type} -> val -> Noun;
 -- Helper to convert Nouns to storage values
 axiom convertFromNoun : {val : Type} -> Noun -> Option val;
 
-type ScryOp :=
+type OpScryMode :=
   | Direct
   | Index;
 
@@ -56,19 +56,19 @@ type Storage addr val := mkStorage {
 axiom externalStorage : {addr val : Type} -> Storage addr val;
 
 type NockOp :=
-  | Slash -- /
-  | Constant -- Returns operand unchanged
-  | Apply
-  | CellTest -- ?
-  | Increment -- +
-  | EqualOp -- =
-  | IfThenElse -- 6
-  | Compose -- 7
-  | Extend -- 8
-  | Invoke -- 9
-  | Pound -- #
-  | Match -- 11
-  | Scry; -- 12
+  | OpAddress -- @
+  | OpQuote -- Returns operand unchanged
+  | OpApply
+  | OpIsCell -- ?
+  | OpInc -- +
+  | OpEq -- =
+  | OpIf -- 6
+  | OpSequence -- 7
+  | OpPush -- 8
+  | OpCall -- 9
+  | OpReplace -- #
+  | OpHint -- 11
+  | OpScry; -- 12
 
 opOr {A : Type} (n m : Option A) : Option A :=
   case n of {
@@ -85,9 +85,9 @@ parseOp (n : Nat) : Option NockOp :=
   foldr opOr none
     (zipWith test
       [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
-      [Slash; Constant; Apply; CellTest; Increment;
-      EqualOp; IfThenElse; Compose; Extend; Invoke;
-      Pound; Match; Scry]);
+      [OpAddress; OpQuote; OpApply; OpIsCell; OpInc;
+      OpEq; OpIf; OpSequence; OpPush; OpCall;
+      OpReplace; OpHint; OpScry]);
 
 -- Monad to encompass gas consumption and error handling.
 type GasState A := mkGasState {
@@ -130,16 +130,16 @@ err {A : Type} (str : String) : GasState A := mkGasState \{_ := error str};
 -- These are made up for demo purposes
 getGasCost (cost : NockOp) : Nat :=
   case cost of {
-    | Slash := 1
-    | CellTest := 1
-    | Increment := 1
-    | EqualOp := 2
-    | IfThenElse := 3
-    | Compose := 2
-    | Extend := 2
-    | Invoke := 3
-    | Pound := 1
-    | Scry := 10
+    | OpAddress := 1
+    | OpIsCell := 1
+    | OpInc := 1
+    | OpEq := 2
+    | OpIf := 3
+    | OpSequence := 2
+    | OpPush := 2
+    | OpCall := 3
+    | OpReplace := 1
+    | OpScry := 10
     | _ := 0
   };
 
@@ -152,8 +152,8 @@ consume (op : NockOp) : GasState Unit :=
   }};
 
 -- Implementation of storage read operations (scrying)
-scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result String Noun :=
-  case op of {
+scry {val : Type} (stor : Storage Nat val) (mode : OpScryMode) (addr : Nat) : Result String Noun :=
+  case mode of {
     | Direct := case Storage.readDirect stor addr of {
       | some val := ok (convertToNoun val)
       | none := error "Direct storage read failed"
@@ -167,95 +167,95 @@ scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result S
     }
   };
 
--- Helper for slash (/) operations
+-- Helper for At (@) operations
 terminating
-slash {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasState Noun :=
+at {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasState Noun :=
   case n of {
     | Atom x := case x == 1 of {
-      | true := pure subject -- Rule: /[1 a] -> a
+      | true := pure subject -- Rule: @[1 a] -> a
       | false := case x == 2 of {
-        | true := case subject of { -- Rule: /[2 a b] -> a
+        | true := case subject of { -- Rule: @[2 a b] -> a
           | Cell a _ := pure a
-          | _ := err "Cannot take slash of atom"
+          | _ := err "Cannot take at of atom"
         }
         | false := case x == 3 of {
-          | true := case subject of { -- Rule: /[3 a b] -> b
+          | true := case subject of { -- Rule: @[3 a b] -> b
             | Cell _ b := pure b
-            | _ := err "Cannot take slash of atom"
+            | _ := err "Cannot take at of atom"
           }
           | false := case (mod x 2) == 0 of {
-            | true :=  -- Rule: /[(a + a) b] -> /[2 /[a b]]
-                consume Slash >>= \{_ :=
-                slash stor (Atom (div x 2)) subject >>= \{res :=
-                consume Slash >>= \{_ :=
-                slash stor (Atom 2) res
+            | true :=  -- Rule: @[(a + a) b] -> @[2 @[a b]]
+                consume OpAddress >>= \{_ :=
+                at stor (Atom (div x 2)) subject >>= \{res :=
+                consume OpAddress >>= \{_ :=
+                at stor (Atom 2) res
                 }}}
-            | false := -- Rule: /[(a + a + 1) b] -> /[3 /[a b]]
-                consume Slash >>= \{_ :=
-                slash stor (Atom (div x 2)) subject >>= \{res :=
-                consume Slash >>= \{_ :=
-                slash stor (Atom 3) res
+            | false := -- Rule: @[(a + a + 1) b] -> @[3 @[a b]]
+                consume OpAddress >>= \{_ :=
+                at stor (Atom (div x 2)) subject >>= \{res :=
+                consume OpAddress >>= \{_ :=
+                at stor (Atom 3) res
                 }}}
           }
         }
       }
     }
-    | _ := err "Slash must be atom"
+    | _ := err "OpAddress must be atom"
   };
 
--- Helper for pound (#) operations
+-- Helper for replace (#) operations
 terminating
-pound {val : Type} (stor : Storage Nat val) (n : Noun) (b : Noun) (c : Noun) : GasState Noun :=
+replace {val : Type} (stor : Storage Nat val) (n : Noun) (b : Noun) (c : Noun) : GasState Noun :=
   case n of {
     | Atom x := case x == 1 of {
       | true := pure b  -- Rule: #[1 a b] -> a
       | false := case mod x 2 == 0 of {
-        | true := case c of { -- Rule: #[(a + a) b c] -> #[a [b /[(a + a + 1) c]] c]
+        | true := case c of { -- Rule: #[(a + a) b c] -> #[a [b @[(a + a + 1) c]] c]
           | Cell _ _ :=
-            consume Slash >>= \{_ :=
-            slash stor (Atom ((2 * div x 2) + 1)) c >>= \{slashResult :=
-            consume Pound >>= \{_ :=
-            pound stor (Atom (div x 2)) (Cell b slashResult) c
+            consume OpAddress >>= \{_ :=
+            at stor (Atom ((2 * div x 2) + 1)) c >>= \{atResult :=
+            consume OpReplace >>= \{_ :=
+            replace stor (Atom (div x 2)) (Cell b atResult) c
             }}}
-          | _ := err "Invalid pound target"
+          | _ := err "Invalid replace target"
         }
-        | false := case c of { -- Rule: #[(a + a + 1) b c] -> #[a [/[(a + a) c] b] c]
+        | false := case c of { -- Rule: #[(a + a + 1) b c] -> #[a [@[(a + a) c] b] c]
           | Cell _ _ :=
-            consume Slash >>= \{_ :=
-            slash stor (Atom (2 * div x 2)) c >>= \{slashResult :=
-            consume Pound >>= \{_ :=
-            pound stor (Atom (div x 2)) (Cell slashResult b) c
+            consume OpAddress >>= \{_ :=
+            at stor (Atom (2 * div x 2)) c >>= \{atResult :=
+            consume OpReplace >>= \{_ :=
+            replace stor (Atom (div x 2)) (Cell atResult b) c
             }}}
-          | _ := err "Invalid pound target"
+          | _ := err "Invalid replace target"
         }
       }
     }
-    | _ := err "Pound must be atom"
+    | _ := err "OpReplace must be atom"
   };
 
 terminating
 evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : Noun) : GasState Noun :=
   case op of {
-    -- *[a 0 b] -> /[b a]
-    | Slash := slash stor args a
+    -- *[a 0 b] -> @[b a]
+    | OpAddress := at stor args a
 
     -- *[a 1 b] -> b
-    | Constant := pure args
+    | OpQuote := pure args
 
     -- *[a 2 b c] -> *[*[a b] *[a c]]
-    | Apply := case args of {
+    | OpApply := case args of {
       | Cell b c :=
         nock stor (Cell a b) >>= \{r1 :=
         nock stor (Cell a c) >>= \{r2 :=
         nock stor (Cell r1 r2)
         }}
-      | _ := err "Invalid apply args"
+      | _ := err "Invalid OpApply args"
     }
 
     -- *[a 3 b] -> ?*[a b]
     -- ?[a b] -> 0
     -- ?a -> 1
-    | CellTest := case args of {
+    | OpIsCell := case args of {
       | Cell b _ :=
         nock stor (Cell a b) >>= \{res :=
         case res of {
@@ -263,13 +263,13 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
           | _ := pure (Atom 1)
         }
         }
-      | _ := err "Invalid cell test args"
+      | _ := err "Invalid OpIsCell args"
     }
 
     -- *[a 4 b] -> +*[a b]
     -- +[a b] -> +[a b]
     -- +a -> 1 + a
-    | Increment := case args of {
+    | OpInc := case args of {
       | Cell b _ :=
         nock stor (Cell a b) >>= \{res :=
         case res of {
@@ -277,13 +277,13 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
           | x := pure x  -- +[a b] -> +[a b] case
         }
         }
-      | _ := err "Invalid increment args"
+      | _ := err "Invalid OpInc args"
     }
 
     -- *[a 5 b c] -> =*[a b] *[a c]
     -- =[a a] -> 0
     -- =[a b] -> 1
-    | EqualOp := case args of {
+    | OpEq := case args of {
       | Cell b c :=
         nock stor (Cell a b) >>= \{r1 :=
         nock stor (Cell a c) >>= \{r2 :=
@@ -292,72 +292,72 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
               | false := 1
             }))
         }}
-      | _ := err "Invalid equality args"
+      | _ := err "Invalid OpEq args"
     }
 
     -- *[a 6 b c d] -> *[a *[[c d] 0 *[[2 3] 0 *[a 4 4 b]]]]
-    | IfThenElse := case args of {
+    | OpIf := case args of {
       | Cell b (Cell c d) :=
         nock stor (Cell a (Cell (Atom 4) (Cell (Atom 4) b))) >>= \{r1 :=
         nock stor (Cell (Cell (Atom 2) (Atom 3)) (Cell (Atom 0) r1)) >>= \{r2 :=
         nock stor (Cell (Cell c d) (Cell (Atom 0) r2)) >>= \{r3 :=
         nock stor (Cell a r3)
         }}}
-      | _ := err "Invalid if-then-else args"
+      | _ := err "Invalid OpIf args"
     }
 
     -- *[a 7 b c] -> *[*[a b] c]
-    | Compose := case args of {
+    | OpSequence := case args of {
       | Cell b c :=
         nock stor (Cell a b) >>= \{r :=
         nock stor (Cell r c)
         }
-      | _ := err "Invalid compose args"
+      | _ := err "Invalid OpSequence args"
     }
 
     -- *[a 8 b c] -> *[[*[a b] a] c]
-    | Extend := case args of {
+    | OpPush := case args of {
       | Cell b c :=
         nock stor (Cell a b) >>= \{r :=
         nock stor (Cell (Cell r a) c)
         }
-      | _ := err "Invalid extend args"
+      | _ := err "Invalid OpPush args"
     }
 
     -- *[a 9 b c] -> *[*[a c] 2 [0 1] 0 b]
-    | Invoke := case args of {
+    | OpCall := case args of {
       | Cell b c :=
         nock stor (Cell a c) >>= \{core :=
         let formula := Cell (Atom 2) (Cell (Cell (Atom 0) (Atom 1)) (Cell (Atom 0) b)) in
         nock stor (Cell core formula)
         }
-      | _ := err "Invalid invoke args"
+      | _ := err "Invalid OpCall args"
     }
 
     -- *[a 10 [b c] d] -> #[b *[a c] *[a d]]
-    | Pound := case args of {
+    | OpReplace := case args of {
       | Cell (Cell b c) d :=
         nock stor (Cell a c) >>= \{r1 :=
         nock stor (Cell a d) >>= \{r2 :=
-        pound stor b r1 r2
+        replace stor b r1 r2
         }}
-      | _ := err "Invalid pound args"
+      | _ := err "Invalid OpReplace args"
     }
 
     -- *[a 11 [b c] d] -> *[[*[a c] *[a d]] 0 3]
     -- *[a 11 b c] -> *[a c]
-    | Match := case args of {
+    | OpHint := case args of {
       | Cell (Cell b c) d :=
         nock stor (Cell a c) >>= \{r1 :=
         nock stor (Cell a d) >>= \{r2 :=
         nock stor (Cell (Cell r1 r2) (Cell (Atom 0) (Atom 3)))
         }}
       | Cell _ c := nock stor (Cell a c)
-      | _ := err "Invalid pure pound args"
+      | _ := err "Invalid pure OpReplace args"
     }
 
     -- *[a 12 b c d] -> result <- SCRY b c; *[a result d]
-    | Scry := case args of {
+    | OpScry := case args of {
       | Cell b (Cell c d) :=
           -- First evaluate b to get the opcode
           nock stor b >>= \{opcode :=
@@ -367,7 +367,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
                   nock stor c >>= \{addr :=
                     case addr of {
                       | Atom addrVal :=
-                          -- Convert opcode to ScryOp
+                          -- Convert opcode to OpScryMode
                           let scryType := case opval == 0 of {
                             | true := Direct
                             | false := Index
@@ -379,13 +379,13 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
                             GasState.runGasState (nock stor (Cell a (Cell scryResult d))) gas
                             }
                           }
-                      | _ := err "Scry address must be atom"
+                      | _ := err "OpScry address must be atom"
                     }
                   }
-              | _ := err "Scry type must be atom"
+              | _ := err "OpScry type must be atom"
             }
           }
-      | _ := err "Invalid scry args"
+      | _ := err "Invalid OpScry args"
     }
   };
 
