@@ -4,7 +4,7 @@ import prelude open;
 ```
 
 ```juvix
--- module TransactionFunction;
+-- mođule TransactionFunction; -- probably we should simply erase this line
 trait
 type TransactionFunction (prog addr val gas idx tx : Type) :=
   mkTransactionFunction@{
