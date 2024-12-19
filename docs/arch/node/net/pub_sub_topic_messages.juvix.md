@@ -26,7 +26,7 @@ tags:
 
 # Pub/Sub Topic Messages
 
-These are the messages that the PubSubTopic engine can receive/respond to.
+These are the messages that the *Pub/Sub Topic* engine can receive/respond to.
 
 ## Message interface
 

@@ -33,23 +33,25 @@ tags:
 
 ## Purpose
 
+<!-- --8<-- [start:purpose] -->
 The *Storage* engine implements distributed object storage.
 Each stored *object* is encrypted using convergent encryption
 with a key derived from the hash of the content and a secret key,
 then the ciphertext is split into equal-sized parts,
 and organized in a Merkle-tree.
 
-A `Chunk` is a Merkle-tree node that is stored by nodes,
-with an associated *access control list*
-that may limit access to the chunk
-to a list of nodes, e.g. publisher or subscribers of a [[Topic]].
+A `Chunk` is a Merkle-tree node that is stored by nodes in the network.
+An associated *access control list*
+may limit access to the chunk to a set of nodes,
+e.g. publisher or subscribers of a [[Topic]].
 
-Nodes may commit to store a `Chunk` via a `ChunkCommitment` sent to a pub/sub [[Topic]],
+Nodes may commit to store a `Chunk` via a `ChunkCommitment`
+sent to a pub/sub [[Topic]] or shared directly with certain nodes,
 and keep track of known commitments by other nodes.
 This allows nodes to respond to chunk requests
 with either the chunk itself if available locally,
 or with a `ChunkCommitment` by a node that stores the requested chunk.
-Brief summary of the purpose of the engine.
+<!-- --8<-- [end:purpose] -->
 
 ## Components
 
@@ -57,12 +59,6 @@ Brief summary of the purpose of the engine.
 - [[Storage Configuration]]
 - [[Storage Environment]]
 - [[Storage Behaviour]]
-
-## Useful links
-
-- Some
-- Useful
-- Links
 
 ## Type
 

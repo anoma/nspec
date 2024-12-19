@@ -36,7 +36,7 @@ tags:
 <!-- --8<-- [start:purpose] -->
 A *Pub/Sub Topic* engine is responsible
 for topic-based publish/subscribe (pub/sub) message dissemination
-for a specific pub/sub topic.
+for a single pub/sub topic.
 
 The protocol allows
 a set of authorized publishers to publish messages in the topic,

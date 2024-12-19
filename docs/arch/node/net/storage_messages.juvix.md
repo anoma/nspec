@@ -31,6 +31,8 @@ tags:
 
 Request for a *chunk* of an *object*.
 
+Source: any local engine or remote [[Storage]] engine.
+
 ```juvix
 type ChunkGetRequest := mkChunkRequest {
   chunk : ChunkID;

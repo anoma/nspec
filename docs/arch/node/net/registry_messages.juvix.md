@@ -29,7 +29,7 @@ These are the messages that the *Network Registry* engine can receive/respond to
 
 ### `NetworkRegistryMsgNodeAdvert`
 
-`NodeAdvert` update.
+A `NodeAdvert` update from another node.
 
 ## `NodeAdvert`
 
@@ -88,6 +88,8 @@ type TopicAdvert :=
 
 Get `NodeAdvert` for the given `NodeID`.
 
+Sender: any local engine.
+
 ### `NetworkRegistryMsgExampleReply`
 
 Reply to a `GetNodeAdvertRequest`.
@@ -123,6 +125,8 @@ GetNodeAdvertReply : Type := Result GetNodeAdvertReplyError GetNodeAdvertReplyOk
 ### `NetworkRegistryMsgGetTopicAdvertRequest`
 
 Get `TopicAdvert` for the given `TopicID`.
+
+Sender: any local engine.
 
 ### `NetworkRegistryMsgExampleReply ExampleReply`
 
@@ -198,4 +202,3 @@ Sequence Diagram: `ExampleRequest` & `ExampleReply`
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
-

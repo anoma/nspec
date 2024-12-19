@@ -39,6 +39,8 @@ Sender: any local engine.
 
 Outgoing message to a remote node.
 
+Sender: any local engine.
+
 <!-- --8<-- [start:NodeOutMsg] -->
 ```juvix
 type NodeOutMsg M := mkNodeOutMsg {
@@ -53,9 +55,13 @@ type NodeOutMsg M := mkNodeOutMsg {
 
 Receive a message from the remote node.
 
+Sender: local [[Transport Connection]] engine.
+
 #### `NodeMsg`
 
 A message sent between nodes.
+
+Sender: local [[Transport Connection]] engine.
 
 <!-- --8<-- [start:NodeMsg] -->
 ```juvix
@@ -88,6 +94,8 @@ Nodes let each other know about their own latest `NodeAdvert` version,
 and the version they know of from the other party,
 and if necessary, send each other an updated `NodeAdvert`
 after the connection is established.
+
+Sender: remote [[Router]] engine.
 
 ```juvix
 type ConnectRequest :=
@@ -171,7 +179,10 @@ ConnectReply : Type := Result ConnectReplyOk ConnectReplyError;
 ### `RouterMsgSetPermanence ConnectionPermanence`
 
 Set connection permanence of the destination node
-to either ephemeral or permanent
+to either ephemeral or permanent.
+
+Permanent connections are automatically reconnected
+on node start and when the connection is lost.
 
 ```juvix
 type ConnectionPermanence :=
