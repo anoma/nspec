@@ -103,7 +103,7 @@ along with the corresponding type for the messages, that is, `TickerMsg`.
 
 ```diff title="arch/node/types/anoma_message.juvix.md"
 ...
-module arch.ode.types.anoma_message;
+module arch.node.types.anoma_message;
 + import arch.node.engines.ticker_messages open;
 
 type Msg :=
@@ -163,3 +163,18 @@ nav:
 +           - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
 +           - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
 ```
+
+
+## Using the Template engine as a starting point
+
+The [[Template Engine]] can be used as a starting point for writing new engines.
+
+To use it, run the following command:
+
+```bash
+nspec new engine
+```
+
+This will prompt some questions and create a new engine with the name provided
+by the user and update the indexes along with the corresponding files, based on
+the minimal template.

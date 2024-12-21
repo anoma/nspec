@@ -46,6 +46,7 @@ search:
     import arch.node.engines.mempool_worker_environment open;
     import arch.node.engines.executor_environment open;
     import arch.node.engines.shard_environment open;
+    -- Add imports here
     ```
 
 # Anoma Engine Environments
@@ -102,5 +103,7 @@ type Env :=
   | EnvMempoolWorker MempoolWorkerEnv
   | EnvExecutor ExecutorEnv
   | EnvShard ShardEnv
+  -- Add more environments here
+  ;
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

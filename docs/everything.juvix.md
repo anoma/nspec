@@ -42,18 +42,6 @@ import arch.node.types.engine;
 
 {- Engines -}
 
-{- Examples -}
-
-import arch.node.example.template_messages;
-import arch.node.example.template_environment;
-import arch.node.example.template_behaviour;
-import arch.node.example.template;
-
-import arch.node.example.ticker_messages;
-import arch.node.example.ticker_environment;
-import arch.node.example.ticker_behaviour;
-import arch.node.example.ticker;
-
 {- Identity -}
 
 import arch.node.engines.commitment_messages;
@@ -186,4 +174,6 @@ import arch.node.engines.shard_config;
 import arch.node.engines.shard_environment;
 import arch.node.engines.shard_behaviour;
 import arch.node.engines.shard;
+
+-- Add more engines here
 ```
