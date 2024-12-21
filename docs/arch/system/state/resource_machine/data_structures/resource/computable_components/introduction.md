@@ -11,7 +11,13 @@ Resource computable components are the components that are not a resource compon
 
 Resources have four computable components:
 
-1. [`r.commitment()`](resource_commitment.md)
-2. [`r.nullifier(nullifierKey)`](nullifier.md)
-3. [`r.kind()`](kind.md)
-4. [`r.delta()`](delta.md)
+1. [[ Commitment | Resource Commitment]]
+2. [[Nullifier]]
+3. [[Kind]]
+4. [[Delta]]
+
+### Tag
+
+The resource *tag* is used to identify a resource when checking constraints without referring to the resource's plaintext directly: `tag(Resource, Bool) -> Commitment or Nullifier`.
+
+For created resources: `r.tag(consumed=False) = r.commitment()`; for consumed resources: `r.tag(consumed=True) = r.nullifier(nullifierKey)`

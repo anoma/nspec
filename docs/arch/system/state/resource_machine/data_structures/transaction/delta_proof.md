@@ -1,4 +1,11 @@
-## Delta proof inputs and constraints
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
+# Delta proof
 
 ### Instance
 

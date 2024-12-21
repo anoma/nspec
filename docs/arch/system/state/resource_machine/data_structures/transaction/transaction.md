@@ -14,17 +14,14 @@ It is a composite structure that contains the following components:
 |-|-|-|
 |`CMTreeRoots`|`Set CMtree.Value`|A set of valid commitment tree roots used to prove the existence of the resources being consumed in the transaction. This set is not a part of actions to avoid duplication of data|
 |`actions`|`Set Action`|A set of actions that comprise the transaction|
-|`transactionDelta`|`DeltaHash.T`|Transaction delta. It is computed from delta parameters of actions in that transaction. It represents the total quantity change per resource kind induced by the transaction, which is also referred to as _transaction balance_|
 |`deltaProof`|`DeltaProvingSystem.Proof`|Balance proof. It makes sure that `transactionDelta` is correctly derived from the actions' deltas and commits to the expected publicly known value, called a _balancing value_. There is just one delta proof per transaction|
-
-!!! warning
-    Given that we duplicate the roots in the compliance proving records now, do we still need the list of roots in the transaction?
 
 ## Interface
 
 1. `create(Set CMtree.Value, Set Actions) -> Transaction`
 2. `compose(Transaction, Transaction) -> Transaction`
 3. `verify(Transaction) -> Bool`
+4. `delta(Transaction) -> DeltaHash`
 
 ## `create`
 Given a set of roots and a set of actions, a transaction is formed as follows:
@@ -45,7 +42,7 @@ Having two transactions `tx1` and `tx2`, their composition `compose(tx1, tx2)` i
 4. `tx.transactionDelta = tx1.transactionDelta + tx2.transactionDelta`
 
 !!! note
-    When composing transactions, action sets are simply united without [composing the actions themselves](./action.md#composition). For example, composing a transaction with two actions and another transaction with three actions will result in a transaction with five actions.
+    When composing transactions, action sets are simply united without composing the actions themselves. For example, composing a transaction with two actions and another transaction with three actions will result in a transaction with five actions.
 
 ## `verify`
 
@@ -53,7 +50,7 @@ A transaction is considered _valid_ if the following statements hold:
 
 Checks that do not require access to global structures:
 
-1. all actions in the transaction are valid, as defined per [action validity rules](./action.md#validity)
+1. all actions in the transaction are valid, as defined per [[Action#`verify` | action validity rules]]
 1. actions partition the state change induced by the transaction:
   1. there is no resource created more than once across actions
   2. there is no resource consumed more than once across actions
@@ -65,3 +62,7 @@ Checks that require access to global `CMTree` and `NullifierSet`:
 2. each consumed resource wasn't consumed in prior transactions
 
 A transaction is *executable* if it is valid and `transactionDelta` commits to the expected balancing value.
+
+## `delta`
+
+Transaction delta is a hash of _transaction balance_ - the total quantity change per resource kind induced by the transaction. It isn't computed from the transaction balance directly by applying a hash function to it, but rather by using the homomoprhic properties of `deltaHash`: adding action deltas together results in transaction delta.

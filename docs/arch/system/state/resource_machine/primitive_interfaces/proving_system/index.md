@@ -1,7 +1,15 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Proving system
 
-!!! warning
-    TODO: add efficiency expectations (what to prioritise)
+!!! todo
+
+    add efficiency expectations (what to prioritise)
 
 The resource machine differentiates between three kinds of proofs, each of which can have a distinct [[Proof|proving system]] used to produce that sort of proofs:
 
@@ -15,6 +23,14 @@ The resource machine differentiates between three kinds of proofs, each of which
 |Compliance proof|[[Compliance unit]]|RM instance|Yes|Action (partitioned into compliance units) is compliant with the RM rules|
 |Delta proof|[[Transaction]]|RM interface|Yes|Transaction is balanced|
 
+Every proof has three types of inputs and constraints:
+
+1. *Architecture-level* inputs and constraints. This type of inputs and constraints allow to enforce certain resource machine properties and have to be present in each resource logic, no matter in the context of which instantiation and application the resource logic was produced. These contraints ensure basic resource machine properties.
+2. *Instantiation-level* inputs and constraints. These inputs and constraints must be present in every resource logic compatible with a concrete resource machine instantiation but might not be required by other instantiations. These constraints ensure additional resource machine properties desired by the instantiation.
+3. *Application-level* (custom) inputs and constraints that are present in every resource logic specified by a concrete application. These constraints define how the application works.
+
+This specification explicitly defines only the architecture-level inputs and constraints. Only application-level constraints are referred to as custom.
+
 ## Proving system requirements
 
 The first two kinds of proofs, resource logic proofs and compliance proofs,
@@ -24,7 +40,7 @@ proof has an additional functionality required and is further described
 
 ### Resource logic proving system choice
 
-Resource logic proof is the most common proof type. Each [action](./../../data_structures/action.md) that modifies the state of `n` resources (creates or consumes) has at least `n` resource logic proofs attached to it. In principle, the predicate checked with each proof can be different for all `n` proofs. For that reason, the proving system of choice should support easy proof instantiation process for new predicates (e.g., a SNARK that requires a trusted setup ceremony initiated for every predicate is probably not the most efficient choice for this proving system).
+Resource logic proof is the most common proof type. Each [[Action | action]] that modifies the state of `n` resources (creates or consumes) has at least `n` resource logic proofs attached to it. In principle, the predicate checked with each proof can be different for all `n` proofs. For that reason, the proving system of choice should support easy proof instantiation process for new predicates (e.g., a SNARK that requires a trusted setup ceremony initiated for every predicate is probably not the most efficient choice for this proving system).
 
 ### Compliance proving system choice
 

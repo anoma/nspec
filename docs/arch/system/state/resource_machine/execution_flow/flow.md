@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Intro
 
 This section describes the resource machine execution flow and how it is used by various actors.
@@ -11,12 +18,6 @@ It has read-only access to the external global state, which includes the content
 The resource machine must have the functionality to produce, compose, and evaluate transaction functions and transactions.
 
 Actors working with resource machine include users, solvers, and executor nodes.
-
-# Transaction function
-
-A transaction function is a function that outputs a transaction: `transactionFunction() -> Transaction`.
-
-Transaction functions take no input but can perform I/O operations to read information about global state either by reading data at the specified global storage address or by fetching data by index. The requirements for transaction functions are further described [here](./../notes/function_formats/transaction_function.md).
 
 
 ### Users

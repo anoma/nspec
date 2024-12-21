@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Delta Proving System
 
 Delta proving system is used to prove that the transaction delta is equal to a certain value. To support transaction composition that results in a new transaction being produced, the delta proving system must, in addition to the standard proving system interface, provide a *proof aggregation function*:
@@ -10,8 +17,6 @@ Delta proving system is used to prove that the transaction delta is equal to a c
 
 The aggregation function allows to aggregate proofs in a way that if $\pi_1$ proves that the first transaction's balance is $b_1$ and the second proof $\pi_2$ proves the second transaction's balance is $b_2$, then the proof $Aggregate(\pi_1, \pi_2)$ proves that the composed transaction's balance is $b_1 + b_2$.
 
-
-The diagram below describes the relationship between the [[Proof|basic_abstractions/proving/proof.md]] interface and the delta proving system interface.
 
 ``` mermaid
 ---

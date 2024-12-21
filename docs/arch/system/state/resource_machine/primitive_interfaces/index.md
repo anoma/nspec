@@ -1,26 +1,34 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Primitive interfaces
 
-This section defines the hierarchy of primitives used in resource machine design and describes interfaces for each primitive. Each primitive has an associated type, e.g. hash primitive has type `Hash`.
+This section defines the hierarchy of primitives used in resource machine design and describes interfaces for each primitive.
 
-The diagram below illustrates the primitive types required for resource machine. Green nodes correspond to the primitives for which only one instantiation is required, e.g., we only need to instantiate `DeltaHash` type once for a given RM implementation and use it everywhere where `DeltaHash` is expected. It is assumed for such types that there is a unique function used to derive elements of the type. The name of this function is derived from the type name, written in lower camel case, e.g., for `DeltaHash` the corresponding derivation function would be `deltaHash(..)`.
+The diagram below illustrates the primitive types required for resource machine. Red nodes correspond to primitive interfaces, green nodes correspond to instantiations of the interfaces. Each primitive instantiation has an associated type, e.g. delta hash instantiation of `Hash` interface has an associated type `DeltaHash`. Primitive instantiations' names are derived from the type name but written in lower camel case, e.g., for `DeltaHash` the corresponding function would be `deltaHash(..)`.
 
 
 ``` mermaid
 
 flowchart TB
     ProvingSystem
-    Set
-    List
-    Map
-    CommitmentAccumulator
-    NullifierSet
-    FixedSize
+    Set --> OrderedSet
+    Map --> MapInstance
+    CommitmentAccumulator --> CommitmentAccumulatorInstance
+    NullifierSet --> NullifierSetInstance
 
-    style Set fill:#ddf2d1
-    style List fill:#ddf2d1
-    style Map fill:#ddf2d1
-    style CommitmentAccumulator fill:#ddf2d1
-    style NullifierSet fill:#ddf2d1
+    OrderedSet --> OrderedSetInstance
+    Set --> SetInstance
+
+    style SetInstance fill:#ddf2d1
+    style OrderedSetInstance fill:#ddf2d1
+    style MapInstance fill:#ddf2d1
+    style CommitmentAccumulatorInstance fill:#ddf2d1
+    style NullifierSetInstance fill:#ddf2d1
 
 
     ProvingSystem --> ComplianceProvingSystem
@@ -30,7 +38,11 @@ flowchart TB
     style ComplianceProvingSystem fill:#ddf2d1
     style ResourceLogicProvingSystem fill:#ddf2d1
     style DeltaProvingSystem fill:#ddf2d1
+```
 
+``` mermaid
+
+flowchart TB
 
     FixedSize --> Arithmetic
     FixedSize --> Hash

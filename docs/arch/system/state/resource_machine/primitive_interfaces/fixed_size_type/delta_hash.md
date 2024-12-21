@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Delta hash
 
 Delta hash is an interface that implements both `Hash` type and `Arithmetic` type. It is also required to be additively homomorphic and kind-distinct:

@@ -7,7 +7,7 @@ search:
 
 # Compliance proof
 
-Compliance proofs are computed over [compliance units](./../compliance_unit.md).
+Compliance proofs are created by `ComplianceProvingSystem` and computed over compliance units. Compliance proofs ensure that the provided state transition complies with the resource machine definitions.
 
 ## Compliance inputs
 
@@ -15,21 +15,22 @@ Compliance proofs are computed over [compliance units](./../compliance_unit.md).
 
 |Name|Type|Description|
 |-|-|-|
-|`consumed`|`List (NullifierRef, RootRef, LogicRefHash)`|Includes nullifiers' references of all consumed resources in the compliance unit, root references, and commitments to [`logicRef` resource components](./../resource/definition.md) (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
+|`consumed`|`List (NullifierRef, RootRef, LogicRefHash)`|Includes nullifiers' references of all consumed resources in the compliance unit, root references, and commitments to [[Resource | `logicRef` resource components]] (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
 |`created`|`List (CommitmentRef, LogicRefHash)`|Commitments' references of all created resources in the compliance unit|
 |`unitDelta`|`DeltaHash`|Unit delta|
 
 #### Witness
 
 1. for consumed resources:
-    1. resource object
-    2. nullifier key
-    3. CMtree path
-    4. resource commitment
-    5. opening of `logicRefHash` (implicitly includes `logicRef` - already included as a part of the resource object - and other data used to derive `logicRefHash`, e.g., randomness)
+  1. resource object `r`
+  2. `nullifierKey`
+  3. `CMtree` path
+  4. resource commitment `cm`
+  5. opening of `logicRefHash` (implicitly includes `logicRef` - already included as a part of the resource object - and other data used to derive `logicRefHash`, e.g., randomness)
+
 2. for created resources:
-    1. resource object
-    2. opening of `logicRefHash`
+  1. resource object `r`
+  2. opening of `logicRefHash`
 
 !!! note
 
@@ -40,12 +41,15 @@ Each resource machine compliance proof must check the following:
 
 1. Merkle path validity (for *non-ephemeral* resources only): `CMTree::Verify(cm, path, root) = True` for each resource associated with a nullifier from the `consumedResourceTagSet`
 2. for each consumed resource `r`:
-    1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumedResourceTagSet`
-    2. Consumed commitment integrity: `r.commitment() = cm`
-    3. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
+
+  1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumedResourceTagSet`
+  2. Consumed commitment integrity: `r.commitment() = cm`
+  3. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
+
 3. for each created resource `r`:
-    1. Commitment integrity: `r.commitment() is in createdResourceTagSet`
-    2. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
+
+  1. Commitment integrity: `r.commitment() is in createdResourceTagSet`
+  2. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
 4. Delta integrity: `unitDelta = sum(r.delta() for r in consumed) - sum(r.delta() for r in created)`
 
 !!! note

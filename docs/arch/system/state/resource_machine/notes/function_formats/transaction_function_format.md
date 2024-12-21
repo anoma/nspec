@@ -5,13 +5,13 @@ search:
   boost: 2
 ---
 
-## Transaction function
+# Transaction function format
 The system used to represent and interpret transaction functions must have a deterministic computation model; each operation should have a fixed cost of space and time (for total cost computation). To support content addressing, it must have memory and support memory operations (specifically `read`, `write`, `allocate`).
 
 The system must support the following I/O operations:
 
-1. `READ_STORAGE`(`address`: $\mathbb{F}_{cm}$): read the global content-addressed storage at the specified address and return the value stored at the address. If the value is not found, the operation should return an error. Storage not accessible to the machine should be treated as non-existent.
-2. `DATA_BY_INDEX`(`index_function)`: read data from the storage (either resources or arbitrary data kept in the storage requested by the transaction function) at the execution time by the specified index function. If the index function output is invalid or uncomputable, or the data cannot be located, the operation should return an error. Typically, the index functions allowed will be very restricted, e.g. an index function returning current unspent resources of a particular kind.
+1. `readStorage`(`address`: `Commitment`): read the global content-addressed storage at the specified address and return the value stored at the address. If the value is not found, the operation should return an error. Storage not accessible to the machine should be treated as non-existent.
+2. `dataByIndex`(`indexFunction)`: read data from the storage (either resources or arbitrary data kept in the storage requested by the transaction function) at the execution time by the specified index function. If the index function output is invalid or uncomputable, or the data cannot be located, the operation should return an error. Typically, the index functions allowed will be very restricted, e.g. an index function returning current unspent resources of a particular kind.
 
 
 ## Gas model
