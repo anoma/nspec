@@ -11,7 +11,7 @@ Resource computable components are the components that are not a resource compon
 
 Resources have four computable components:
 
-1. [[Resource Commitment]]
+1. [[ Commitment | Resource Commitment]]
 2. [[Nullifier]]
 3. [[Kind]]
 4. [[Delta]]

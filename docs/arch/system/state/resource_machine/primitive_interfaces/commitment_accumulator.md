@@ -43,5 +43,6 @@ and the functions:
 4. `value` returns the tree root
 
 
-!!! warning
-    TODO shielded notes: To support the systems with stronger privacy requirements, the witness for such a proof must be a private input when proving membership.
+!!! todo
+
+    shielded notes: To support the systems with stronger privacy requirements, the witness for such a proof must be a private input when proving membership.

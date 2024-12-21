@@ -16,7 +16,7 @@ Note that transactions are partitioned into actions, actions are partitioned int
 
 1. For **compliance units**, delta is computed by using signed addition over the deltas of the resources that comprise the unit: `unit.delta() = sum(r.delta() for r in unit.consumedResources) - sum(r.delta() for r in unit.createdResources)`
 2. For **actions**, delta is computed by adding the deltas of the compliance units that comprise the action:
-`action.delta() = sum(unit.delta() for unit in action)`. To make sure the action's delta is computed correctly, validate the compliance unit delta and make sure the action's deltas are computed using compliance unit detlas values.
+`action.delta() = sum(unit.delta() for unit in action)`. To make sure the action's delta is computed correctly, validate the compliance unit delta and make sure the action's deltas are computed using compliance unit deltas values.
 3. For **transactions**, delta is computed by adding the deltas of the actions that comprise the transaction:
 `transaction.delta() = sum(action.delta() for unit in transaction)`. To make sure transaction's delta is computed correctly, make sure it is computed using the validated action deltas.
 

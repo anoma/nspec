@@ -7,8 +7,9 @@ search:
 
 # Proving system
 
-!!! warning
-    TODO: add efficiency expectations (what to prioritise)
+!!! todo
+
+    add efficiency expectations (what to prioritise)
 
 The resource machine differentiates between three kinds of proofs, each of which can have a distinct [[Proof|proving system]] used to produce that sort of proofs:
 

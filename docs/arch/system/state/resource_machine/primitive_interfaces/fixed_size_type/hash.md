@@ -11,8 +11,7 @@ Hash type is defined as a fixed size type that is *binding*, meaning that if the
 
 In the context of hashes, we say `a` is an **opening** of a hash `h: Hash` if `h = hash(a)`.
 
-!!! warning
-    TODO:
+!!! todo
 
     1. for shielded: cryptographic hash, hiding
     2. do we want a separate interface for the logic hash, given it is a verifier key? UPD in Taiga we had the verifier key hashed. Is it fixed size? If not, what was the reason for tripple hashing? vk + hash + function privacy commitment
