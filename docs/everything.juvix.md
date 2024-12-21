@@ -44,15 +44,15 @@ import arch.node.types.engine;
 
 {- Examples -}
 
-import arch.node.engines.template_messages;
-import arch.node.engines.template_environment;
-import arch.node.engines.template_behaviour;
-import arch.node.engines.template;
+import arch.node.example.template_messages;
+import arch.node.example.template_environment;
+import arch.node.example.template_behaviour;
+import arch.node.example.template;
 
-import arch.node.engines.ticker_messages;
-import arch.node.engines.ticker_environment;
-import arch.node.engines.ticker_behaviour;
-import arch.node.engines.ticker;
+import arch.node.example.ticker_messages;
+import arch.node.example.ticker_environment;
+import arch.node.example.ticker_behaviour;
+import arch.node.example.ticker;
 
 {- Identity -}
 

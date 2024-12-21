@@ -13,11 +13,11 @@ tags:
 ??? quote "Juvix imports"
 
     ```juvix
-    module arch.node.engines.ticker_behaviour;
+    module arch.node.example.ticker_behaviour;
 
-    import arch.node.engines.ticker_messages open;
-    import arch.node.engines.ticker_config open;
-    import arch.node.engines.ticker_environment open;
+    import arch.node.example.ticker_messages open;
+    import arch.node.example.ticker_config open;
+    import arch.node.example.ticker_environment open;
 
     import prelude open;
     import arch.node.types.basics open;

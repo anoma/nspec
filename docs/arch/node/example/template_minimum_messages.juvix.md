@@ -6,37 +6,28 @@ categories:
 - engine
 - node
 tags:
-- template-engine
+- template_minimum-minimum-engine
 - engine-messages
 ---
 
-??? quote "Juvix imports"
+??? note "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template_messages;
+    module arch.node.example.template_minimum_messages;
     import prelude open;
     ```
 
-# Template Messages
+# Template Minimum Messages
 
-These are the messages that the Template engine can receive/respond to.
+These are the messages that the *Template Minimum* engine can receive/respond to.
 
 ## Message interface
 
-??? quote "Auxiliary Juvix code"
-
-    ```juvix
-    syntax alias MethodOneArgOne := Nat;
-    syntax alias MethodOneArgTwo := Nat;
-    syntax alias MethodOneArgThree := Nat;
-    syntax alias MethodTwoArgOne := Nat;
-    ```
-
-### `TemplateMsgJustHi`
+### `TemplateMinimumMsgJustHi`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateMsgExampleRequest ExampleRequest`
+### `TemplateMinimumMsgExampleRequest ExampleRequest`
 
 Example request.
 
@@ -58,7 +49,7 @@ type ExampleRequest : Type :=
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-### `TemplateMsgExampleReply ExampleReply`
+### `TemplateMinimumMsgExampleReply ExampleReply`
 
 Reply to an `ExampleRequest`.
 
@@ -109,17 +100,17 @@ ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
 ```
 <!-- --8<-- [end:ExampleReply] -->
 
-### `TemplateMsg`
+### `TemplateMinimumMsg`
 
-<!-- --8<-- [start:TemplateMsg] -->
+<!-- --8<-- [start:TemplateMinimumMsg] -->
 ```juvix
-type TemplateMsg :=
-  | TemplateMsgJustHi
-  | TemplateMsgExampleRequest ExampleRequest
-  | TemplateMsgExampleReply ExampleReply
+type TemplateMinimumMsg :=
+  | TemplateMinimumMsgJustHi
+  | TemplateMinimumMsgExampleRequest ExampleRequest
+  | TemplateMinimumMsgExampleReply ExampleReply
   ;
 ```
-<!-- --8<-- [end:TemplateMsg] -->
+<!-- --8<-- [end:TemplateMinimumMsg] -->
 
 ## Sequence Diagrams
 
@@ -133,14 +124,14 @@ Sed ut purus eget sapien. Nulla facilisi.
 
 ```mermaid
 sequenceDiagram
-    participant TemplateClient
-    participant Template
+    participant TemplateMinimumClient
+    participant TemplateMinimum
 
-    TemplateClient ->> Template: ExampleRequest
-    Template ->> TemplateClient: ExampleReplyOk
+    TemplateMinimumClient ->> TemplateMinimum: ExampleRequest
+    TemplateMinimum ->> TemplateMinimumClient: ExampleReplyOk
 
-    TemplateClient ->> Template: ExampleRequest
-    Template ->> TemplateClient: ExampleReplyErrorOne
+    TemplateMinimumClient ->> TemplateMinimum: ExampleRequest
+    TemplateMinimum ->> TemplateMinimumClient: ExampleReplyErrorOne
 ```
 
 <figcaption markdown="span">

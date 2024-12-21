@@ -13,7 +13,7 @@ tags:
 ??? quote "Juvix imports"
 
     ```juvix
-    module arch.node.engines.ticker_messages;
+    module arch.node.example.ticker_messages;
     import prelude open;
     ```
 

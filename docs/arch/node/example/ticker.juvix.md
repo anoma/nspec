@@ -13,17 +13,17 @@ tags:
 ??? quote "Juvix preamble"
 
     ```juvix
-    module arch.node.engines.ticker;
+    module arch.node.example.ticker;
 
     import prelude open;
     import arch.node.types.engine_environment open;
     import arch.node.types.engine_behaviour open;
     import arch.node.types.engine open;
 
-    import arch.node.engines.ticker_config open public;
-    import arch.node.engines.ticker_messages open public;
-    import arch.node.engines.ticker_environment open public;
-    import arch.node.engines.ticker_behaviour open public;
+    import arch.node.example.ticker_config open public;
+    import arch.node.example.ticker_messages open public;
+    import arch.node.example.ticker_environment open public;
+    import arch.node.example.ticker_behaviour open public;
 
     import arch.node.types.anoma as Anoma open;
 
@@ -85,12 +85,12 @@ exampleTickerEngine : TickerEngine :=
 
 where `tickerCfg` is defined as follows:
 
---8<-- "./docs/arch/node/engines/ticker_config.juvix.md:tickerCfg"
+--8<-- "./docs/arch/node/example/ticker_config.juvix.md:tickerCfg"
 
 `tickerEnv` is defined as follows:
 
---8<-- "./docs/arch/node/engines/ticker_environment.juvix.md:tickerEnv"
+--8<-- "./docs/arch/node/example/ticker_environment.juvix.md:tickerEnv"
 
 and `tickerBehaviour` is defined as follows:
 
---8<-- "./docs/arch/node/engines/ticker_behaviour.juvix.md:tickerBehaviour"
+--8<-- "./docs/arch/node/example/ticker_behaviour.juvix.md:tickerBehaviour"
