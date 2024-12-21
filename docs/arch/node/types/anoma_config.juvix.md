@@ -1,7 +1,5 @@
 ---
 icon: material
-    import arch.node.engines.xxx_config open;
-/file-document-outline
 search:
   exclude: false
   boost: 2
@@ -116,6 +114,5 @@ type Cfg :=
   | CfgTemplateMinimum TemplateMinimumCfg
 
   -- Add more configurations here
-  ;
 ```
 <!-- --8<-- [end:anoma-config-type] -->

@@ -1,7 +1,5 @@
 ---
 icon: material
-    import arch.node.engines.xxx_environment open;
-/file-document-outline
 search:
   exclude: false
   boost: 2
