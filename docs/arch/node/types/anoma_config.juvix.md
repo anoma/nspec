@@ -10,11 +10,6 @@ search:
     ```juvix
     module arch.node.types.anoma_config;
 
-    {- Examples -}
-
-    import arch.node.example.template_config open;
-    import arch.node.example.ticker_config open;
-
     {- Identity -}
 
     import arch.node.engines.identity_management_config open;
@@ -46,6 +41,16 @@ search:
     import arch.node.engines.mempool_worker_config open;
     import arch.node.engines.executor_config open;
     import arch.node.engines.shard_config open;
+
+    {- Misc -}
+
+    import arch.node.engines.ticker_config open;
+
+    {- Templates -}
+
+    import tutorial.engines.template_config open;
+    import tutorial.engines.template_minimum_config open;
+
     -- Add imports here
     ```
 
@@ -64,10 +69,6 @@ of the engine `TickerEngine` is of type `TickerCfg`.
 <!-- --8<-- [start:anoma-config-type] -->
 ```juvix
 type Cfg :=
-  {- Examples -}
-
-  | CfgTemplate TemplateCfg
-  | CfgTicker TickerCfg
 
   {- Identity -}
 
@@ -102,6 +103,16 @@ type Cfg :=
   | CfgMempoolWorker MempoolWorkerCfg
   | CfgExecutor ExecutorCfg
   | CfgShard ShardCfg
+
+  {- Misc -}
+
+  | CfgTicker TickerCfg
+
+  {- Templates -}
+
+  | CfgTemplate TemplateCfg
+  | CfgTemplateMinimum TemplateMinimumCfg
+
   -- Add more configurations here
 ```
 <!-- --8<-- [end:anoma-config-type] -->
