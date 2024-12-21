@@ -10,11 +10,6 @@ search:
     ```juvix
     module arch.node.types.anoma_environment;
 
-    {- Examples -}
-
-    import arch.node.engines.template_environment open;
-    import arch.node.engines.ticker_environment open;
-
     {- Identity -}
 
     import arch.node.engines.identity_management_environment open;
@@ -46,6 +41,17 @@ search:
     import arch.node.engines.mempool_worker_environment open;
     import arch.node.engines.executor_environment open;
     import arch.node.engines.shard_environment open;
+
+    {- Misc -}
+
+    import arch.node.engines.ticker_environment open;
+
+    {- Templates -}
+
+    import tutorial.engines.template_environment open;
+    import tutorial.engines.template_minimum_environment open;
+
+    -- Add imports here
     ```
 
 # Anoma Engine Environments
@@ -64,10 +70,6 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 <!-- --8<-- [start:anoma-environment-type] -->
 ```juvix
 type Env :=
-  {- Examples -}
-
-  | EnvTemplate TemplateEnv
-  | EnvTicker TickerEnv
 
   {- Identity -}
 
@@ -102,5 +104,17 @@ type Env :=
   | EnvMempoolWorker MempoolWorkerEnv
   | EnvExecutor ExecutorEnv
   | EnvShard ShardEnv
+
+  {- Misc -}
+
+  | EnvTicker TickerEnv
+
+  {- Templates -}
+
+  | EnvTemplate TemplateEnv
+  | EnvTemplateMinimum TemplateMinimumEnv
+
+  -- Add more environments here
+  ;
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

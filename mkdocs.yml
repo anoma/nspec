@@ -237,11 +237,11 @@ nav:
           - Engine writing conventions: ./tutorial/engines/writing_conventions.md
           - Examples:
               - Template Engine:
-                  - Template Engine: ./arch/node/engines/template.juvix.md
-                  - Template Messages: ./arch/node/engines/template_messages.juvix.md
-                  - Template Configuration: ./arch/node/engines/template_config.juvix.md
-                  - Template Environment: ./arch/node/engines/template_environment.juvix.md
-                  - Template Behaviour: ./arch/node/engines/template_behaviour.juvix.md
+                  - Template Engine: ./tutorial/engines/template.juvix.md
+                  - Template Messages: ./tutorial/engines/template_messages.juvix.md
+                  - Template Configuration: ./tutorial/engines/template_config.juvix.md
+                  - Template Environment: ./tutorial/engines/template_environment.juvix.md
+                  - Template Behaviour: ./tutorial/engines/template_behaviour.juvix.md
               - Ticker Engine:
                   - Ticker Engine: ./arch/node/engines/ticker.juvix.md
                   - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
