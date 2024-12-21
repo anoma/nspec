@@ -47,9 +47,8 @@ tags:
 
     {- Ordering -}
 
-    import arch.node.engines.mempool_worker_messages open using {MempoolWorkerMsg};
-    import arch.node.engines.executor_messages open using {ExecutorMsg};
-    import arch.node.engines.shard_messages open using {ShardMsg};
+
+    -- Add imports here
     ```
 
 # Anoma Message
@@ -101,6 +100,7 @@ type Msg :=
   | MsgMempoolWorker MempoolWorkerMsg
   | MsgExecutor ExecutorMsg
   | MsgShard ShardMsg
+  -- Add more messages here
   ;
 ```
 <!-- --8<-- [end:anoma-messages-type] -->

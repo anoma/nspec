@@ -46,6 +46,7 @@ search:
     import arch.node.engines.mempool_worker_config open;
     import arch.node.engines.executor_config open;
     import arch.node.engines.shard_config open;
+    -- Add imports here
     ```
 
 # Anoma Engine Configuration
@@ -101,5 +102,6 @@ type Cfg :=
   | CfgMempoolWorker MempoolWorkerCfg
   | CfgExecutor ExecutorCfg
   | CfgShard ShardCfg
+  -- Add more configurations here
 ```
 <!-- --8<-- [end:anoma-config-type] -->
