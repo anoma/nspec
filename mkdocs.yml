@@ -2,7 +2,7 @@ site_name: !ENV [SITE_NAME, "Anoma Specification"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_dir: !ENV [SITE_DIR, site]
-site_url: !ENV [SITE_URL, 'https://specs.anoma.net/']
+site_url: !ENV [SITE_URL, 'https://specs.anoma.net/latest/']
 site_version: !ENV [SITE_VERSION, "v0.1.3"]
 copyright: !ENV [COPYRIGHT, "&copy; 2025 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 repo_url: https://github.com/anoma/nspec
