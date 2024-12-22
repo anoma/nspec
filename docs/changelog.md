@@ -9,6 +9,74 @@ list_wikilinks: false
 
 # Change Log
 
+## Unreleased
+
+### CHANGES
+
+- [Repository maintenance and CI](.)
+  -  [**#296**](https://github.com/anoma/nspec/pull/296): Add next/prev buttons, fix footer and change font
+- [Juvix types and updates](types)
+  -  [**#294**](https://github.com/anoma/nspec/pull/294): Bump up Juvix version
+    to v0.6.9 , reorder `MailboxID` alias, and update Stdlib to v0.9.0
+
+### FIX
+
+- [System and node architecture](sys)
+  -  [**#293**](https://github.com/anoma/nspec/pull/293): Fix typos and broken links realted to proving system
+
+## v0.1.3
+
+The major change in this release is the gas payment system introduced in
+[#286](https://github.com/anoma/nspec/pull/286), and the description of messages
+in the Networking subsystem introduced in
+[#294](https://github.com/anoma/nspec/pull/277).
+
+### CHANGES
+
+- [Repository maintenance and CI](.)
+  -  [**#296**](https://github.com/anoma/nspec/pull/296): Add next/prev buttons,
+    fix footer, change font, add buttons to view/edit source code, and links to
+    the GitHub repository.
+- [Juvix types and updates](types)
+  -  [**#294**](https://github.com/anoma/nspec/pull/294): Bump up Juvix version
+    to v0.6.9 , reorder `MailboxID` alias, and update Stdlib to v0.9.0
+
+### FEATURE
+
+- [Python-related changes](python)
+  -  [**#291**](https://github.com/anoma/nspec/pull/291): Add new command tool
+    `nspec` to create new engines based on the minimal version of the [[Template
+    Engine]] files.
+- [Repository maintenance and CI](.)
+- [System and node architecture](sys)
+  -  [**#286**](https://github.com/anoma/nspec/pull/286): Incorporated gas
+    payments description. Additionally, made several improvements such as
+    switching to wiki-style links, adding icons, clarifying proof inputs, fixing
+    rendering issues, and various other enhancements.
+- [Tutorial and documentation](tutorial)
+  -  [**#292**](https://github.com/anoma/nspec/pull/292): Move template/template_minimum engines to
+    docs/tutorial/engines folder. Update imports accordingly.
+
+### FIX
+
+- [Node architecture](node)
+  -  [**#290**](https://github.com/anoma/nspec/pull/290): Fix english
+    description for guards to match the Juvix types in [[Engine Behaviour]].
+- [Repository maintenance and CI](.)
+  -  [**#288**](https://github.com/anoma/nspec/pull/288): Improve primitive interfaces diagrams. Use LR mermaid option.
+- [System and node architecture](sys)
+  -  [**#293**](https://github.com/anoma/nspec/pull/293): Fix formatting issues,
+    typos, warnings, and broken links related to [[Proving system | Proving
+    system definitions]].
+
+### FIXES
+
+- [Tutorial and documentation](tutorial)
+  -  [**#280**](https://github.com/anoma/nspec/pull/280): Guides: Add hard and soft
+    requirements for writing pages in the Anoma Specification.
+  -  [**#284**](https://github.com/anoma/nspec/pull/284): Add minimal version of
+    the template (not visible in the website) and related refactors.
+
 ## v0.1.2
 
 Progress on translating the old specification to the new Juvix codebase, fixing
@@ -146,7 +214,7 @@ project per version, with better documentation and descriptions of the changes.
     application architecture sections
   - [**#115**](https://github.com/anoma/nspec/pull/115): Refactor file and folder names: add
     snake_case convention
-- [Specification and design](spec)
+- [General specification changes](spec)
   - [**#192**](https://github.com/anoma/nspec/pull/192): Port identity engines to v2 template
 - [System and node architecture](sys)
   - [**#210**](https://github.com/anoma/nspec/pull/210): Fix engine message, environment and

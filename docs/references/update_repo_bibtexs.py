@@ -1,4 +1,4 @@
-import requests
+import requests # type:ignore
 
 
 def get_public_repos(org_name):
