@@ -9,21 +9,6 @@ list_wikilinks: false
 
 # Change Log
 
-## Unreleased
-
-### CHANGES
-
-- [Repository maintenance and CI](.)
-  -  [**#296**](https://github.com/anoma/nspec/pull/296): Add next/prev buttons, fix footer and change font
-- [Juvix types and updates](types)
-  -  [**#294**](https://github.com/anoma/nspec/pull/294): Bump up Juvix version
-    to v0.6.9 , reorder `MailboxID` alias, and update Stdlib to v0.9.0
-
-### FIX
-
-- [System and node architecture](sys)
-  -  [**#293**](https://github.com/anoma/nspec/pull/293): Fix typos and broken links realted to proving system
-
 ## v0.1.3
 
 The major change in this release is the gas payment system introduced in
