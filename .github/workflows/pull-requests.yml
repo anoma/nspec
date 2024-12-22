@@ -149,8 +149,8 @@ jobs:
           poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/
-          SITE_VERSION: (PR:${{ github.event.pull_request.number }} - Branch:${{env.BRANCH_NAME }} - Commit:${{ steps.commit.outputs.commit }} - Main:${{ steps.main-commit.outputs.commit }})
+          SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
+          SITE_VERSION: (PR${{ github.event.pull_request.number }} - ${{env.BRANCH_NAME }}-${{ steps.commit.outputs.commit }})
           COPYRIGHT: Powered by Mkdocs, Poetry ${{ env.POETRY_VERSION }}, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
           REMOVE_CACHE: true
           PROCESS_JUVIX: true
@@ -177,7 +177,7 @@ jobs:
         continue-on-error: true
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
-          MSG: "Success! Preview available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
+          MSG: "Success! Preview available at https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/."
       - id: typecheck-docs
         run: |
           juvix typecheck docs/everything.juvix.md
@@ -186,7 +186,7 @@ jobs:
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
-          MSG: "The typecheck failed. Please check the logs. However, the preview is available at https://anoma.github.io/nspec/pr-${{ github.event.pull_request.number }}/."
+          MSG: "The typecheck failed. Please check the logs. However, the preview is available at https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/."
       - name: Failed preview build comment
         if: failure()
         run: |
