@@ -5,6 +5,10 @@ site_dir: !ENV [SITE_DIR, site]
 site_url: !ENV [SITE_URL, 'https://specs.anoma.net/']
 site_version: !ENV [SITE_VERSION, "v0.1.1"]
 copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
+
+repo_url: https://github.com/anoma/nspec
+repo_name: anoma/nspec
+edit_uri: edit/main/docs/
 use_directory_urls: false
 nav:
   - Home: index.md
@@ -269,6 +273,10 @@ theme:
   custom_dir: overrides
   language: en
   google_analytics: G-WJWZWB2TW5
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/lead-pencil
+    view: material/eye
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
@@ -293,13 +301,15 @@ theme:
         icon: material/brightness-4
         name: Switch to system preference
   font:
-    text: Open Sans
-    code: Fira Code
+    text: Inter
+    code: JetBrains Mono
   features:
     - announce.dismiss
     - content.code.annotate
     - content.code.copy
     - content.tooltips
+    - content.action.edit
+    - content.action.view
     - search.highlight
     - search.suggest
     - search.sharing
@@ -313,6 +323,7 @@ theme:
     # - navigation.expand
     # - navigation.prune
     - navigation.indexes
+    - navigation.footer
     # - navigation.top
     - navigation.path
     - toc.follow
