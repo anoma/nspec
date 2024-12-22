@@ -167,7 +167,11 @@ def version():
     # update the version in pyproject.toml
     pyproject_path = ROOT_PATH / "pyproject.toml"
     pyproject_content = pyproject_path.read_text()
-    pyproject_content = re.sub(r"version = \"[0-9]+\.[0-9]+\.[0-9]+\"", f"version = \"{version}\"", pyproject_content)
+    pyproject_content = re.sub(
+        r"version = \"[0-9]+\.[0-9]+\.[0-9]+\"",
+        f'version = "{version}"',
+        pyproject_content,
+    )
     pyproject_path.write_text(pyproject_content)
 
     # update the version in docs/Package.juvix
@@ -181,7 +185,6 @@ def version():
         package_content,
     )
     package_path.write_text(package_content)
-    
 
 
 if __name__ == "__main__":
