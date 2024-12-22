@@ -42,7 +42,7 @@ name evidence, and querying name evidence.
 ## Components
 
 - [[Naming Messages]]
-- [[Naming Config]]
+- [[Naming Configuration]]
 - [[Naming Environment]]
 - [[Naming Behaviour]]
 

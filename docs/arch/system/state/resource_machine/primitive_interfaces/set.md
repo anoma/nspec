@@ -1,4 +1,11 @@
-# Set primitive interface
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
+# Set
 
 A set is an unordered data structure that contains only distinct elements.
 
@@ -15,6 +22,35 @@ For a set parametrised over the element type `T`:
 7. `difference(Set, Set) -> Set` - computes the difference of two sets. Note that this operation is not commutative.
 8. `disjointUnion(Set, Set) -> Set` - computes the union of two sets. If the sets intersect, returns an error.
 9. `contains(Set, T) -> Bool` - checks if an element is in the set.
+
+```mermaid
+
+classDiagram
+
+    class ISet~T~ {
+         <<Interface>>
+         new() Set
+         new(List) Set
+         size(Set) Nat
+         insert(Set, T) Set
+         union(Set, Set) Set
+         intersection(Set, Set) Set
+         difference(Set, Set) Set
+         disjointUnion(Set, Set) Set
+         contains(Set, T) Bool
+    }
+
+    class IOrderedSet~T~ {
+         <<Interface>>
+    }
+
+    ISet <|-- IOrderedSet
+
+    ISet <-- Set
+
+    IOrderedSet <-- OrderedSet
+
+```
 
 ## Used in
 1. Transaction (roots, actions)

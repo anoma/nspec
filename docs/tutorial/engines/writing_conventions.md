@@ -43,11 +43,11 @@ tags:
 ## File structure within the `engines` directory
 
 The files as listed above must be stored in the `engines` directory of the
-`arch/node` directory. For example, the `ticker` engine would
+`docs/arch/node` directory. For example, the `ticker` engine would
 have the following directory structure:
 
 ```plaintext
-arch/node/
+docs/arch/node/
 └── ...
 └── engines/
     ├── ...
@@ -103,7 +103,7 @@ along with the corresponding type for the messages, that is, `TickerMsg`.
 
 ```diff title="arch/node/types/anoma_message.juvix.md"
 ...
-module arch.ode.types.anoma_message;
+module arch.node.types.anoma_message;
 + import arch.node.engines.ticker_messages open;
 
 type Msg :=
@@ -127,6 +127,7 @@ type Cfg :=
 +  | CfgTicker TickerCfg
 ```
 
+
 ### Anoma Environment Index
 
 All environment types must be added to the `arch/node/types/anoma_environment.juvix.md` file.
@@ -142,3 +143,38 @@ module arch.node.types.anoma_environment;
 type Env :=
 +  | EnvTicker TickerEnv
 ```
+
+### Update the Table of Contents
+
+Locate the navigation section in the `mkdocs.yml` file, `nav` section, and include
+the new engine
+
+```diff title="mkdocs.yml"
+...
+nav:
+  - Protocol Architecture:
+    - Node Architecture:
+       ...
+       - X Component:
++         - Ticker Engine:
++           - Ticker Engine: ./arch/node/engines/ticker.juvix.md
++           - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
++           - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
++           - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
++           - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
+```
+
+
+## Using the Template engine as a starting point
+
+The [[Template Engine]] can be used as a starting point for writing new engines.
+
+To use it, run the following command:
+
+```bash
+nspec new engine
+```
+
+This will prompt some questions and create a new engine with the name provided
+by the user and update the indexes along with the corresponding files, based on
+the minimal template.

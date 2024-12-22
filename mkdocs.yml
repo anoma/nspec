@@ -23,42 +23,48 @@ nav:
                   - ./arch/system/state/resource_machine/index.md
                   - Primitive interfaces:
                       - ./arch/system/state/resource_machine/primitive_interfaces/index.md
-                      - Set: ./arch/system/state/resource_machine/primitive_interfaces/set.md
-                      - List: ./arch/system/state/resource_machine/primitive_interfaces/list.md
+                      - Set:
+                          - Set interface: ./arch/system/state/resource_machine/primitive_interfaces/set.md
+                          - Ordered set: ./arch/system/state/resource_machine/primitive_interfaces/ordered_set.md
                       - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.md
                       - Fixed size type:
-                          - ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md
+                          - Interface: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md
                           - Arithmetic: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.md
                           - Hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/hash.md
                           - Delta hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.md
                       - Proving system:
-                          - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system.md
+                          - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
+                          - Definitions: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.md
                           - Delta proving system: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.md
                       - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.md
                       - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.md
                   - Data structures:
                       - ./arch/system/state/resource_machine/data_structures/index.md
                       - Resource:
-                          - ./arch/system/state/resource_machine/data_structures/resource/definition.md
+                          - ./arch/system/state/resource_machine/data_structures/resource/index.md
                           - Computable components:
                               - ./arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.md
                               - Commitment: ./arch/system/state/resource_machine/data_structures/resource/computable_components/resource_commitment.md
                               - Nullifier: ./arch/system/state/resource_machine/data_structures/resource/computable_components/nullifier.md
                               - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.md
                               - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.md
-                              - Tag: ./arch/system/state/resource_machine/data_structures/resource/computable_components/tag.md
-                      - Compliance unit: .//arch/system/state/resource_machine/data_structures/compliance_unit.md
+                      - Compliance unit:
+                          - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.md
+                          - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.md
                       - Action:
-                          - ./arch/system/state/resource_machine/data_structures/action.md
-                          - Resource logic proofs: ./arch/system/state/resource_machine/data_structures/proof/logic.md
-                          - Compliance proofs: ./arch/system/state/resource_machine/data_structures/proof/compliance.md
-                      - Transaction: ./arch/system/state/resource_machine/data_structures/transaction.md
+                          - Action: ./arch/system/state/resource_machine/data_structures/action/index.md
+                          - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.md
+                      - Transaction:
+                          - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.md
+                          - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.md
+                          - Transaction Function: ./arch/system/state/resource_machine/data_structures/transaction/transaction_function.md
+                          - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.md
                   - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.md
                   - Notes:
                       - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.md
                       - Stored data format: ./arch/system/state/resource_machine/notes/storage.md
                       - Function formats:
-                          - Transaction function: ./arch/system/state/resource_machine/notes/function_formats/transaction_function.md
+                          - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.md
                       - Applications: ./arch/system/state/resource_machine/notes/applications.md
       - Node Architecture:
           - ./arch/node/index.md
@@ -78,7 +84,7 @@ nav:
                   - Anoma Message: ./arch/node/types/anoma_message.juvix.md
                   - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
-          - Hardware Abstraction Machine:
+          - Hardware Component:
               - Local Key Value Storage Engine:
                   - Local Key Value Storage Engine: ./arch/node/engines/local_key_value_storage.juvix.md
                   - Local Key Value Storage Messages: ./arch/node/engines/local_key_value_storage_messages.juvix.md
@@ -103,7 +109,7 @@ nav:
                   - Wall Clock Configuration: ./arch/node/engines/wall_clock_config.juvix.md
                   - Wall Clock Environment: ./arch/node/engines/wall_clock_environment.juvix.md
                   - Wall Clock Behaviour: ./arch/node/engines/wall_clock_behaviour.juvix.md
-          - Identity Machine:
+          - Identity Component:
               - Identity Management Engine:
                   - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
                   - Identity Management Messages: ./arch/node/engines/identity_management_messages.juvix.md
@@ -152,7 +158,64 @@ nav:
                   - Naming Configuration: ./arch/node/engines/naming_config.juvix.md
                   - Naming Environment: ./arch/node/engines/naming_environment.juvix.md
                   - Naming Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
-  - Quick links: ./indexes/links.md
+          - Network Subsystem:
+              - ./arch/node/net/index.md
+              - Router:
+                  - Router Engine: ./arch/node/net/router.juvix.md
+                  - Router Messages: ./arch/node/net/router_messages.juvix.md
+                  - Router Configuration: ./arch/node/net/router_config.juvix.md
+                  - Router Environment: ./arch/node/net/router_environment.juvix.md
+                  - Router Behaviour: ./arch/node/net/router_behaviour.juvix.md
+              - Node Proxy:
+                  - Node Proxy Engine: ./arch/node/net/node_proxy.juvix.md
+                  - Node Proxy Messages: ./arch/node/net/node_proxy_messages.juvix.md
+                  - Node Proxy Configuration: ./arch/node/net/node_proxy_config.juvix.md
+                  - Node Proxy Environment: ./arch/node/net/node_proxy_environment.juvix.md
+                  - Node Proxy Behaviour: ./arch/node/net/node_proxy_behaviour.juvix.md
+              - Transport Protocol:
+                  - Transport Protocol Engine: ./arch/node/net/transport_protocol.juvix.md
+                  - Transport Protocol Messages: ./arch/node/net/transport_protocol_messages.juvix.md
+                  - Transport Protocol Configuration: ./arch/node/net/transport_protocol_config.juvix.md
+                  - Transport Protocol Environment: ./arch/node/net/transport_protocol_environment.juvix.md
+                  - Transport Protocol Behaviour: ./arch/node/net/transport_protocol_behaviour.juvix.md
+              - Transport Connection:
+                  - Transport Connection Engine: ./arch/node/net/transport_connection.juvix.md
+                  - Transport Connection Messages: ./arch/node/net/transport_connection_messages.juvix.md
+                  - Transport Connection Configuration: ./arch/node/net/transport_connection_config.juvix.md
+                  - Transport Connection Environment: ./arch/node/net/transport_connection_environment.juvix.md
+                  - Transport Connection Behaviour: ./arch/node/net/transport_connection_behaviour.juvix.md
+              - Pub/Sub Topic:
+                  - Pub/Sub Topic Engine: ./arch/node/net/pub_sub_topic.juvix.md
+                  - Pub/Sub Topic Messages: ./arch/node/net/pub_sub_topic_messages.juvix.md
+                  - Pub/Sub Topic Configuration: ./arch/node/net/pub_sub_topic_config.juvix.md
+                  - Pub/Sub Topic Environment: ./arch/node/net/pub_sub_topic_environment.juvix.md
+                  - Pub/Sub Topic Behaviour: ./arch/node/net/pub_sub_topic_behaviour.juvix.md
+              - Storage:
+                  - Storage Engine: ./arch/node/net/storage.juvix.md
+                  - Storage Messages: ./arch/node/net/storage_messages.juvix.md
+                  - Storage Configuration: ./arch/node/net/storage_config.juvix.md
+                  - Storage Environment: ./arch/node/net/storage_environment.juvix.md
+                  - Storage Behaviour: ./arch/node/net/storage_behaviour.juvix.md
+          - Ordering Component:
+              - Mempool engines:
+                  - Worker Engine:
+                      - Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
+                      - Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
+                      - Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
+                      - Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
+              - Execution engines:
+                  - ./arch/node/ordering/execution/index.md
+                  - Shard:
+                      - Shard Engine: ./arch/node/engines/shard.juvix.md
+                      - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
+                      - Shard Environment: ./arch/node/engines/shard_environment.juvix.md
+                      - Shard Behaviour: ./arch/node/engines/shard_behaviour.juvix.md
+                  - Executor:
+                      - Executor Engine: ./arch/node/engines/executor.juvix.md
+                      - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
+                      - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
+                      - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
+  - Index of links: ./indexes/links.md
   - Juvix modules:
       - Prelude: ./prelude.juvix.md
       - Module Index: ./indexes/juvix_modules.md
@@ -178,11 +241,11 @@ nav:
           - Engine writing conventions: ./tutorial/engines/writing_conventions.md
           - Examples:
               - Template Engine:
-                  - Template Engine: ./arch/node/engines/template.juvix.md
-                  - Template Messages: ./arch/node/engines/template_messages.juvix.md
-                  - Template Configuration: ./arch/node/engines/template_config.juvix.md
-                  - Template Environment: ./arch/node/engines/template_environment.juvix.md
-                  - Template Behaviour: ./arch/node/engines/template_behaviour.juvix.md
+                  - Template Engine: ./tutorial/engines/template.juvix.md
+                  - Template Messages: ./tutorial/engines/template_messages.juvix.md
+                  - Template Configuration: ./tutorial/engines/template_config.juvix.md
+                  - Template Environment: ./tutorial/engines/template_environment.juvix.md
+                  - Template Behaviour: ./tutorial/engines/template_behaviour.juvix.md
               - Ticker Engine:
                   - Ticker Engine: ./arch/node/engines/ticker.juvix.md
                   - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
@@ -203,8 +266,6 @@ extra:
       link: https://youtube.com/anoma
     - icon: material/email
       link: mailto:arts@heliax.dev
-  generator: false
-  version: 1.0
 theme:
   name: material
   logo: assets/logo.svg

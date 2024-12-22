@@ -110,12 +110,36 @@ Cryptographic topic identity.
 syntax alias TopicID := ExternalID;
 ```
 
+### PublisherID
+
+Cryptographic identity of a publisher in a pub/sub topic.
+
+```juvix
+syntax alias PublisherID := ExternalID;
+```
+
 ### DomainID
 
 Cryptographic domain identity.
 
 ```juvix
 syntax alias DomainID := ExternalID;
+```
+
+### MemberID
+
+Cryptographic identity of a member in a domain.
+
+```juvix
+syntax alias MemberID := ExternalID;
+```
+
+### ChunkID
+
+Cryptographic content addressed hash digest of a data chunk.
+
+```juvix
+syntax alias ChunkID := Digest;
 ```
 
 ## Engine Related Types
@@ -299,3 +323,35 @@ type IdentityNameEvidence := mkIdentityNameEvidence {
         cmp := IdentityNameEvidenceCmpDummy;
       };
     ```
+
+### Ordering Aliases
+
+```juvix
+syntax alias KVSKey := String;
+syntax alias ReadLabel := KVSKey;
+syntax alias WriteLabel := KVSKey;
+type TransactionLabel := mkTransactionLabel {
+  read : List ReadLabel;
+  write : List WriteLabel
+};
+syntax alias KVSDatum := String;
+syntax alias TxFingerprint := Nat;
+type ProgramState := mkProgramState {
+  data : ByteString;
+  halted : Bool
+};
+syntax alias Executable := ByteString;
+type TransactionCandidate := mkTransactionCandidate {
+  label : TransactionLabel;
+  executable : Executable
+};
+syntax alias NarwhalBlock := String;
+syntax alias BatchNumber := Nat;
+syntax alias WallClockTime := Nat;
+```
+
+Don't know a better place to put this.
+```juvix
+-- Map a key to its shard
+axiom keyToShard : KVSKey -> EngineID;
+```

@@ -21,6 +21,8 @@ tags:
 
 ### Public key
 
+Public key for public-key cryptography.
+
 ```juvix
 type PublicKey :=
   | Curve25519PubKey ByteString
@@ -35,6 +37,8 @@ PublicKeyOrd : Ord PublicKey :=
 
 ### Private key
 
+Private key for public-key cryptography.
+
 ```juvix
 type PrivateKey :=
   | Curve25519PrivKey ByteString
@@ -45,6 +49,16 @@ PrivateKeyOrd : Ord PrivateKey :=
   mkOrd@{
     cmp := \{_ _ := Equal};
   };
+```
+
+### Secret key
+
+Secret key for secret-key cryptography.
+
+```juvix
+type SecretKey :=
+  | ChaCha20Key
+  ;
 ```
 
 ### Signature

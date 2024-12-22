@@ -1,0 +1,1 @@
+  -  [**#262**](https://github.com/anoma/nspec/pull/262): Template fixes: diagrams, nav

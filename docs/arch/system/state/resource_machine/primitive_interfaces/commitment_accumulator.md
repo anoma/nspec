@@ -1,4 +1,11 @@
-### Commitment accumulator
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
+# Commitment accumulator
 
 All resource commitments are stored in an append-only data structure called a **commitment accumulator**. Every time a resource is created, its commitment is added to the commitment accumulator. The resource commitment accumulator is external to the resource machine, but the resource machine can read from it. A commitment accumulator is a [cryptographic accumulator](https://arxiv.org/abs/2103.04330) that allows to prove membership for elements accumulated in it, provided a witness and the accumulated value.
 
@@ -15,7 +22,7 @@ The commitment accumulator has type `Accumulator` and is parametrised over the t
 4. `value(Accumulator) -> AccumulatedValue` returns the accumulator value.
 
 #### Merkle tree
-Currently, the commitment accumulator is assumed to be a Merkle tree `CMTree` of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are of type [`MerkleTreeNodeHash`](./fixed_size_type/hash.md).
+Currently, the commitment accumulator is assumed to be a Merkle tree `CMTree` of depth $depth_{CMtree}$, where the leaves contain the resource commitments and the intermediate nodes' values are of type [[Hash | `MerkleTreeNodeHash`]].
 
 !!! note
     The type `MerkleTreeNodeHash` of the `CMTree` nodes and the type of the leafs `Commitment` are distinct types.
@@ -30,11 +37,12 @@ For a Merkle tree:
 
 and the functions:
 
-1. `Add` adds the resource commitment to the tree, returning the path to the commitment
-2. `Witness` finds the resource commitment in the tree and returns the path to it
-3. `Verify` uses the resource commitment and the path to reconstruct the root. Returns `True` if the constructed value is equal to the provided value
-4. `Value` returns the tree root
+1. `add` adds the resource commitment to the tree, returning the path to the commitment
+2. `witness` finds the resource commitment in the tree and returns the path to it
+3. `verify` uses the resource commitment and the path to reconstruct the root. Returns `True` if the constructed value is equal to the provided value
+4. `value` returns the tree root
 
 
-!!! warning
-    TODO shielded notes: To support the systems with stronger privacy requirements, the witness for such a proof must be a private input when proving membership.
+!!! todo
+
+    shielded notes: To support the systems with stronger privacy requirements, the witness for such a proof must be a private input when proving membership.

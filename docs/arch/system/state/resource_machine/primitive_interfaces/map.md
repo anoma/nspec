@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Map
 
 Map is a structure that contains pairs (key: value), where key is of type `K` and value is of type `V`.

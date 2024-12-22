@@ -41,7 +41,7 @@ It abstracts away the details of the underlying hardware and provides an interfa
 ## Components
 
 - [[Wall Clock Messages]]
-- [[Wall Clock Config]]
+- [[Wall Clock Configuration]]
 - [[Wall Clock Environment]]
 - [[Wall Clock Behaviour]]
 

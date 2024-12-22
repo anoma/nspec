@@ -5,7 +5,7 @@ search:
   boost: 2
 ---
 
-# Resource Nullifier
+# Nullifier
 
 A resource nullifier is a computed field, the publishing of which marks the resource associated with the nullifier as consumed.
 

@@ -50,7 +50,7 @@ data associated with the identity.
 ## Components
 
 - [[Identity Management Messages]]
-- [[Identity Management Config]]
+- [[Identity Management Configuration]]
 - [[Identity Management Environment]]
 - [[Identity Management Behaviour]]
 

@@ -1,3 +1,10 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Fixed Size Type
 
 Fixed size type is a type, as the name suggests, of a fixed size. An example of such a type could be a prime field, unit32, or a string of a fixed size. An example of a type of not fixed size would be a list<uint32>. All resource components and computable components are elements of a fixed size type.
@@ -6,7 +13,7 @@ The two child interfaces are *arithmetic fixed size type* - the fixed size type 
 
 ## Fixed size type hierarchy diagram
 
-``` mermaid
+```mermaid
 
 classDiagram
     class FixedSize~T, Arg~ {
@@ -49,7 +56,9 @@ classDiagram
 ## Used in (raw)
 
 1. Resource components:
-    1. `randSeed`
-    2. `nonce`
-    3. `nullifierKeyCommitment`
+
+  1. `randSeed`
+  2. `nonce`
+  3. `nullifierKeyCommitment`
+
 2. `nullifierKey`

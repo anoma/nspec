@@ -1,8 +1,15 @@
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
+
 # Arithmetic
 
 Arithmetic fixed size type is a type of fixed size that additionally supports addition and subtraction.
 
-``` mermaid
+```mermaid
 
 classDiagram
     class FixedSize~T, Arg~ {

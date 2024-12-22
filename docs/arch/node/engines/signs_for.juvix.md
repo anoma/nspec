@@ -44,7 +44,7 @@ scenarios where signature delegation or proxy signing is required.
 ## Components
 
 - [[Signs For Messages]]
-- [[Signs For Config]]
+- [[Signs For Configuration]]
 - [[Signs For Environment]]
 - [[Signs For Behaviour]]
 

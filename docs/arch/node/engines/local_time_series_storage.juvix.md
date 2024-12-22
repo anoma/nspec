@@ -43,7 +43,7 @@ new data, retrieving existing data, and deleting data when needed.
 ## Components
 
 - [[Local Time Series Storage Messages]]
-- [[Local Time Series Storage Config]]
+- [[Local Time Series Storage Configuration]]
 - [[Local Time Series Storage Environment]]
 - [[Local Time Series Storage Behaviour]]
 
