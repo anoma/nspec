@@ -16,7 +16,7 @@ The major change in this release is the gas payment system introduced in
 in the Networking subsystem introduced in
 [#294](https://github.com/anoma/nspec/pull/277).
 
-### CHANGES
+### Changes
 
 - **Repository maintenance and CI**
   -  [**#296**](https://github.com/anoma/nspec/pull/296): Add next/prev buttons,
@@ -26,7 +26,7 @@ in the Networking subsystem introduced in
   -  [**#294**](https://github.com/anoma/nspec/pull/294): Bump up Juvix version
     to v0.6.9 , reorder `MailboxID` alias, and update Stdlib to v0.9.0
 
-### FEATURE
+### Features
 
 - **Python-related changes**
   -  [**#291**](https://github.com/anoma/nspec/pull/291): Add new command tool
@@ -41,7 +41,7 @@ in the Networking subsystem introduced in
   -  [**#292**](https://github.com/anoma/nspec/pull/292): Move template/template_minimum engines to
     docs/tutorial/engines folder. Update imports accordingly.
 
-### FIXES
+### Fixes
 
 - **Node architecture**
   -  [**#290**](https://github.com/anoma/nspec/pull/290): Fix english
@@ -66,7 +66,7 @@ typechecking errors. Removed unsupported documents from the codebase. Building
 specs no longer requires Juvix by default - use `PROCESS_JUVIX=true` flag with
 mkdocs to process Juvix Markdown.
 
-### FIXES
+### Fixes
 
 - **Node architecture**
   -  [**#235**](https://github.com/anoma/nspec/pull/235): Revisit [[Decryption Engine]]. Changes to the messages,
@@ -113,7 +113,7 @@ mkdocs to process Juvix Markdown.
 
 Major revision of the engine definitions, the template, and the ticker engine.
 
-### FEATURES
+### Features
 
 - **Repository maintenance and CI**
   -  [**#217**](https://github.com/anoma/nspec/pull/217): Update template engine
@@ -121,7 +121,7 @@ Major revision of the engine definitions, the template, and the ticker engine.
     headlines, uncollapsed sections for type constructors arguments in template
     engine files, and auxiliary sections of Juvix code are always collapsed.
 
-### FIXES
+### Fixes
 
 - **Node architecture**
   -  [**#219**](https://github.com/anoma/nspec/pull/219): Revisit [[Commitment Engine]]. Changes to the messages, environment, and behaviour types to conform the recent template changes.
@@ -182,7 +182,7 @@ This version includes all the changes from the creation of this repository. From
 here on, we will keep a changelog of all the changes that are made to the
 project per version, with better documentation and descriptions of the changes.
 
-### BREAKING CHANGES
+### Breaking changes
 
 - **Node architecture**
   - [**#179**](https://github.com/anoma/nspec/pull/179): Reorganize node architecture
@@ -206,7 +206,7 @@ project per version, with better documentation and descriptions of the changes.
   - [**#115**](https://github.com/anoma/nspec/pull/115): Refactor file and folder names: add
     snake_case convention
 
-### BUG FIXES
+### Bug fixes
 
 - **Repository maintenance and CI**
   - [**#4**](https://github.com/anoma/nspec/pull/4): Fix mike
@@ -236,7 +236,7 @@ project per version, with better documentation and descriptions of the changes.
     the footer
   - [**#132**](https://github.com/anoma/nspec/pull/132): Fix minor issues with directories and filenames
 
-### FEATURES
+### Features
 
 - [Application documentation](apps)
   - [**#198**](https://github.com/anoma/nspec/pull/198): Add transparent RM implementation documentation
