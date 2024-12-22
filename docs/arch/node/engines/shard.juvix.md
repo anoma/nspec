@@ -69,7 +69,7 @@ This is [multi-version concurrent storage](
 
 ## State (of the shard)
 
-For each [[Worker Engine|Worker Engine]], the Shard maintains:
+For each [[Mempool Worker Engine]], the Shard maintains:
 
 -  A Timestamp, such that all
    _[[KVSAcquireLock|write lock requests]]_[^1] for
@@ -78,8 +78,8 @@ For each [[Worker Engine|Worker Engine]], the Shard maintains:
   Together, these timestamps represent [`heardAllWrites`](#heardallwrites).
 - Another Timestamp, before which
    the Shard will receive no further *read* requests from this
-   [[Worker Engine|Worker Engine]].
-  For [[WorkerEngine]], this cannot be *after* the corresponding
+   [[Mempool Worker Engine]].
+  For [[Mempool Worker Engine]], this cannot be *after* the corresponding
    *write* Timestamps.
   We will also maintain these from each Read Backend worker.
   Together, these represent `heardAllReads`.
