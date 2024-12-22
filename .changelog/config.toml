@@ -1,5 +1,5 @@
 project_url = "https://github.com/anoma/nspec"
-heading = "---\nicon: octicons/log-16\nsocial:\n  cards: false\nsearch:\n    exclude: false\nlist_wikilinks: false\n---\n\n# Change Log"
+heading = "---\nicon: octicons/log-24\nsocial:\n  cards: false\nsearch:\n    exclude: false\nlist_wikilinks: false\n---\n\n# Change Log"
 change_template = "change_template.md"
 wrap = 120 # better for MkDocs
 bullet = "-"
