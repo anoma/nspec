@@ -24,7 +24,9 @@ When proving, resource logics take as input resources created and consumed in th
 #### Witness
 
 1. for consumed resources: `OrderedSet (Resource, NullifierKey)`
+
 2. for created resources: `OrderedSet Resource`
+
 3. Application inputs
 
 !!! note

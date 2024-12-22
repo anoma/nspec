@@ -42,11 +42,12 @@ Forward a `TopicMsg` to the corresponding [[Pub/Sub Topic]].
 If the topic does not exist, the message is dropped.
 This happens when there are no subscribers.
 
---8<-- "./topic_messages.juvix.md:TopicMsg"
+--8<-- "./pub_sub_topic_messages.juvix.md:TopicMsg"
 
 ### `RouterMsgNodeConnectRequest`
 
 Request to establish a connection to a remote node.
+
 
 The *Router* spawns a new [[Node Proxy]] if it does not exist yet,
 and sets the connection permanence of the [[Node Proxy]]

@@ -13,7 +13,7 @@ The two child interfaces are *arithmetic fixed size type* - the fixed size type 
 
 ## Fixed size type hierarchy diagram
 
-``` mermaid
+```mermaid
 
 classDiagram
     class FixedSize~T, Arg~ {

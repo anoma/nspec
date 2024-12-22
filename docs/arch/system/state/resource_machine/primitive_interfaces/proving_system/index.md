@@ -11,7 +11,7 @@ search:
 
     add efficiency expectations (what to prioritise)
 
-The resource machine differentiates between three kinds of proofs, each of which can have a distinct [[Proof|proving system]] used to produce that sort of proofs:
+The resource machine differentiates between three kinds of proofs, each of which can have a distinct [[Proving system definitions|proving system]] used to produce that sort of proofs:
 
 1. resource logic proofs
 2. compliance proofs
@@ -34,7 +34,7 @@ This specification explicitly defines only the architecture-level inputs and con
 ## Proving system requirements
 
 The first two kinds of proofs, resource logic proofs and compliance proofs,
-follow the standard proving system interface defined [[Proof|here]]. The delta
+follow the standard proving system interface defined [[Proving system definitions|here]]. The delta
 proof has an additional functionality required and is further described
 [[Delta proving system|here]].
 
@@ -50,7 +50,7 @@ Compliance constraints are fixed per RM instantiation, meaning that the predicat
 
 The diagram below describes the relationships between the proving system and delta proof interfaces and their instantiations that correspond to the proving system for each proof type.
 
-``` mermaid
+```mermaid
 ---
 title: Proving System hierarchy
 ---
