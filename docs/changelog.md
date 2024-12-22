@@ -42,7 +42,7 @@ in the Networking subsystem introduced in
   -  [**#292**](https://github.com/anoma/nspec/pull/292): Move template/template_minimum engines to
     docs/tutorial/engines folder. Update imports accordingly.
 
-### FIX
+### FIXES
 
 - [Node architecture](node)
   -  [**#290**](https://github.com/anoma/nspec/pull/290): Fix english
@@ -53,8 +53,6 @@ in the Networking subsystem introduced in
   -  [**#293**](https://github.com/anoma/nspec/pull/293): Fix formatting issues,
     typos, warnings, and broken links related to [[Proving system | Proving
     system definitions]].
-
-### FIXES
 
 - [Tutorial and documentation](tutorial)
   -  [**#280**](https://github.com/anoma/nspec/pull/280): Guides: Add hard and soft
