@@ -4,8 +4,8 @@
 version: 2
 checksum: 84a555e3bad27684242f91977e3766356c310af3c811738a90393fbadda3308b
 dependencies:
-- git:
-    name: anoma_juvix-stdlib
-    ref: 0080b1183ab55e5180e69bfc3987e4cd6edbc230
-    url: https://github.com/anoma/juvix-stdlib
-  dependencies: []
+  - git:
+      name: anoma_juvix-stdlib
+      ref: 0080b1183ab55e5180e69bfc3987e4cd6edbc230
+      url: https://github.com/anoma/juvix-stdlib
+    dependencies: []
