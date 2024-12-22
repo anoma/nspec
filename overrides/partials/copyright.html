@@ -2,7 +2,8 @@
   {% if config.copyright %}
     <div class="md-copyright__highlight">
       {{ config.copyright }} - Last updated: {{ build_date_utc.strftime('%B %d,
-      %Y at %I:%M %p %Z') }} - Site url: {{ site_url }} - Version: {{ site_version }}
+      %Y at %I:%M %p %Z') }} {% if site_url %} - Site url: {{ site_url }} {% endif %}
+      {% if site_version %} - Version: {{ site_version }} {% endif %}
     </div>
   {% endif %}
    <br/>
