@@ -22,14 +22,21 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 #### Witness
 
 1. for consumed resources:
-  1. resource object `r`
-  2. `nullifierKey`
-  3. `CMtree` path
-  4. resource commitment `cm`
-  5. opening of `logicRefHash` (implicitly includes `logicRef` - already included as a part of the resource object - and other data used to derive `logicRefHash`, e.g., randomness)
+
+    1. resource object `r`
+
+    2. `nullifierKey`
+
+    3. `CMtree` path
+
+    4. resource commitment `cm`
+
+    5. opening of `logicRefHash` (implicitly includes `logicRef`, which is already part of the resource object, and other data used to derive `logicRefHash`, such as randomness)
 
 2. for created resources:
+
   1. resource object `r`
+
   2. opening of `logicRefHash`
 
 !!! note
