@@ -362,6 +362,7 @@ extra_css:
   - assets/css/juvix-material-style.css
   - assets/css/juvix-highlighting.css
   - assets/css/juvix_codeblock_footer.css
+  - assets/css/latte-light.css
 extra_javascript:
   - assets/js/extra.js
   - assets/js/highlight.js
