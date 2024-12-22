@@ -9,7 +9,7 @@ list_wikilinks: false
 
 # Change Log
 
-## v0.1.3
+## [v0.1.3](https://specs.anoma.net/v0.1.3/)
 
 The major change in this release is the gas payment system introduced in
 [#286](https://github.com/anoma/nspec/pull/286), and the description of messages
@@ -18,49 +18,48 @@ in the Networking subsystem introduced in
 
 ### CHANGES
 
-- [Repository maintenance and CI](.)
+- **Repository maintenance and CI**
   -  [**#296**](https://github.com/anoma/nspec/pull/296): Add next/prev buttons,
     fix footer, change font, add buttons to view/edit source code, and links to
     the GitHub repository.
-- [Juvix types and updates](types)
+- **Juvix types and updates**
   -  [**#294**](https://github.com/anoma/nspec/pull/294): Bump up Juvix version
     to v0.6.9 , reorder `MailboxID` alias, and update Stdlib to v0.9.0
 
 ### FEATURE
 
-- [Python-related changes](python)
+- **Python-related changes**
   -  [**#291**](https://github.com/anoma/nspec/pull/291): Add new command tool
     `nspec` to create new engines based on the minimal version of the [[Template
     Engine]] files.
-- [Repository maintenance and CI](.)
-- [System and node architecture](sys)
+- **Repository maintenance and CI**
   -  [**#286**](https://github.com/anoma/nspec/pull/286): Incorporated gas
     payments description. Additionally, made several improvements such as
     switching to wiki-style links, adding icons, clarifying proof inputs, fixing
     rendering issues, and various other enhancements.
-- [Tutorial and documentation](tutorial)
+- **Tutorial and documentation**
   -  [**#292**](https://github.com/anoma/nspec/pull/292): Move template/template_minimum engines to
     docs/tutorial/engines folder. Update imports accordingly.
 
 ### FIXES
 
-- [Node architecture](node)
+- **Node architecture**
   -  [**#290**](https://github.com/anoma/nspec/pull/290): Fix english
     description for guards to match the Juvix types in [[Engine Behaviour]].
-- [Repository maintenance and CI](.)
+- **Repository maintenance and CI**
   -  [**#288**](https://github.com/anoma/nspec/pull/288): Improve primitive interfaces diagrams. Use LR mermaid option.
-- [System and node architecture](sys)
+- **System architecture**
   -  [**#293**](https://github.com/anoma/nspec/pull/293): Fix formatting issues,
     typos, warnings, and broken links related to [[Proving system | Proving
     system definitions]].
 
-- [Tutorial and documentation](tutorial)
+- **Tutorial and documentation**
   -  [**#280**](https://github.com/anoma/nspec/pull/280): Guides: Add hard and soft
     requirements for writing pages in the Anoma Specification.
   -  [**#284**](https://github.com/anoma/nspec/pull/284): Add minimal version of
     the template (not visible in the website) and related refactors.
 
-## v0.1.2
+## [v0.1.2](https://specs.anoma.net/v0.1.2/)
 
 Progress on translating the old specification to the new Juvix codebase, fixing
 typechecking errors. Removed unsupported documents from the codebase. Building
@@ -69,7 +68,7 @@ mkdocs to process Juvix Markdown.
 
 ### FIXES
 
-- [Node architecture](node)
+- **Node architecture**
   -  [**#235**](https://github.com/anoma/nspec/pull/235): Revisit [[Decryption Engine]]. Changes to the messages,
     environment, and behaviour types to conform the recent template changes.
   -  [**#236**](https://github.com/anoma/nspec/pull/236): Revisit [[Encryption Engine]] and [[Reads Engine]]. These are
@@ -86,17 +85,17 @@ mkdocs to process Juvix Markdown.
     not making configs when spawning engines in [[Identity Management Engine]].
   -  [**#273**](https://github.com/anoma/nspec/pull/273): Replace X Machine by X
     Component in the [[Node Architecture]] section.
-- [Python-related changes](python)
+- **Python-related changes**
   -  [**#271**](https://github.com/anoma/nspec/pull/271): update mkdocs juvix plugin v0.4.8
   -  [**#272**](https://github.com/anoma/nspec/pull/272): Update mkdocs juvix plugin v0.4.9
-- [Repository maintenance and CI](.)
+- **Repository maintenance and CI**
   -  [**#195**](https://github.com/anoma/nspec/pull/195): Optimize documentation build process and upgrade dependencies
   -  [**#262**](https://github.com/anoma/nspec/pull/262): Template fixes: diagrams, nav
   -  [**#266**](https://github.com/anoma/nspec/pull/266): Remove old
     documentation and update table of contents: Remove basic-abstractions,
     scope, applications, implementations, and several other files that were
     decided not to be included in this version of the specification.
-- [Tutorial and documentation](tutorial)
+- **Tutorial and documentation**
   -  [**#257**](https://github.com/anoma/nspec/pull/257): Add description of our
     [[Use Git and GitHub|Git workflow]] and new integration
     branches strategy.
@@ -106,17 +105,17 @@ mkdocs to process Juvix Markdown.
   -  [**#274**](https://github.com/anoma/nspec/pull/274): Update engine writing
     conventions: [[Engine writing conventions|#update-the-table-of-contents]]
     and Table of Contents.
-- [Juvix types and updates](types)
+- **Juvix types and updates**
   -  [**#267**](https://github.com/anoma/nspec/pull/267): Fix all the type
     checking errors in engine definitions.
 
-## v0.1.1
+## [v0.1.1](https://specs.anoma.net/v0.1.1/)
 
 Major revision of the engine definitions, the template, and the ticker engine.
 
 ### FEATURES
 
-- [Repository maintenance and CI](.)
+- **Repository maintenance and CI**
   -  [**#217**](https://github.com/anoma/nspec/pull/217): Update template engine
     files to be more consistent, use backticks for Juvix terms/types in
     headlines, uncollapsed sections for type constructors arguments in template
@@ -124,7 +123,7 @@ Major revision of the engine definitions, the template, and the ticker engine.
 
 ### FIXES
 
-- [Node architecture](node)
+- **Node architecture**
   -  [**#219**](https://github.com/anoma/nspec/pull/219): Revisit [[Commitment Engine]]. Changes to the messages, environment, and behaviour types to conform the recent template changes.
   -  [**#253**](https://github.com/anoma/nspec/pull/253): Integration PR that
     combines multiple engine-related changes: [Engines: Use `ByteString` in
@@ -134,20 +133,25 @@ Major revision of the engine definitions, the template, and the ticker engine.
     [EngineID: make `EngineName` compulsory #256](https://github.com/anoma/nspec/pull/256), [Engines: Engine type revision #244](https://github.com/anoma/nspec/pull/244), [ `EngineMsg`: add type param #258](https://github.com/anoma/nspec/pull/258), [Engines: add `GuardEval` and `ActionExec` #260](https://github.com/anoma/nspec/pull/260), and [Engines: Behaviour template revision #226](https://github.com/anoma/nspec/pull/226).
   -  [**#256**](https://github.com/anoma/nspec/pull/256): Make `EngineName`
     compulsory in `EngineID`.
-- [Repository maintenance and CI](.)
-  -  [**#218**](https://github.com/anoma/nspec/pull/218): Rename `EngineMessage` type to `EngineMsg` and `mkEngineMessage` to `mkEngineMsg`.
-  -  [**#220**](https://github.com/anoma/nspec/pull/220): Fix the deployment of the latest version by deploying the website if the branch name is `main` or matches the semver pattern, and add information about the version and the commit hash to the title for reference.
+- **Repository maintenance and CI**
+  -  [**#218**](https://github.com/anoma/nspec/pull/218): Rename `EngineMessage`
+     type to `EngineMsg` and `mkEngineMessage` to `mkEngineMsg`.
+  -  [**#220**](https://github.com/anoma/nspec/pull/220): Fix the deployment of
+     the latest version by deploying the website if the branch name is `main` or
+     matches the semver pattern, and add information about the version and the
+     commit hash to the title for reference.
   -  [**#222**](https://github.com/anoma/nspec/pull/222): Remove SML codebase as
     not used any more and any other reference in the markdown files
-  -  [**#225**](https://github.com/anoma/nspec/pull/225): Fix navigation table for the identity component
+  -  [**#225**](https://github.com/anoma/nspec/pull/225): Fix navigation table
+     for the identity component
   -  [**#227**](https://github.com/anoma/nspec/pull/227): Update Juvix version in Nix flake due to breaking changes, and
     also the input packages while at it.
   -  [**#250**](https://github.com/anoma/nspec/pull/250): Update policy on Juvix typechecking. The whole codebase in a
     PR should typecheck before merging
-- [Tutorial and documentation](tutorial)
+- **Tutorial and documentation**
   -  [**#257**](https://github.com/anoma/nspec/pull/257): Refactor the Git strategy: introduce integration PRs for
     better overview of complex changes
-- [Juvix types and updates](types)
+- **Juvix types and updates**
   -  [**#221**](https://github.com/anoma/nspec/pull/221): Update the prelude to
     incorporate the latest changes in the `Stdlib`, including the addition of
     applicative and monad traits, and the integration of the `containers` library.
@@ -171,7 +175,7 @@ Major revision of the engine definitions, the template, and the ticker engine.
   -  [**#258**](https://github.com/anoma/nspec/pull/258): Engine-related changes: add type parameter to parameterized the type of message and [rename `EngineConfig` to `EngineCfg`](https://github.com/anoma/nspec/pull/258/commits/e35d75f8a187155629fa1b0a5b72ea6983a49e2d)
   -  [**#260**](https://github.com/anoma/nspec/pull/260): Revise engine behaviour type: add `GuardEval (Seq)` and `ActionExec (First & Any)`, `EngineCfg`: add `getEngineIDFromEngineCfg`. Partially addresses [#246](https://github.com/anoma/nspec/issues/246).
 
-## v0.1.0
+## [v0.1.0](https://specs.anoma.net/v0.1.0/)
 
 This is the first release of Anoma's Spec project, following the [[Versioning|semantic-versioning]] scheme.
 This version includes all the changes from the creation of this repository. From
@@ -180,10 +184,14 @@ project per version, with better documentation and descriptions of the changes.
 
 ### BREAKING CHANGES
 
-- [Node architecture](node)
+- **Node architecture**
   - [**#179**](https://github.com/anoma/nspec/pull/179): Reorganize node architecture
     documentation structure
-- [Repository maintenance and CI](.)
+  - [**#192**](https://github.com/anoma/nspec/pull/192): Port identity engines to v2 template
+- **System architecture**
+  - [**#210**](https://github.com/anoma/nspec/pull/210): Fix engine message, environment and
+    behavior layout
+- **Repository maintenance and CI**
   - [**#29**](https://github.com/anoma/nspec/pull/29): Remove unused libraries
   - [**#30**](https://github.com/anoma/nspec/pull/30): Remove juvix hook in pro of mkdos Juvix
     plugin
@@ -197,15 +205,10 @@ project per version, with better documentation and descriptions of the changes.
     application architecture sections
   - [**#115**](https://github.com/anoma/nspec/pull/115): Refactor file and folder names: add
     snake_case convention
-- [General specification changes](spec)
-  - [**#192**](https://github.com/anoma/nspec/pull/192): Port identity engines to v2 template
-- [System and node architecture](sys)
-  - [**#210**](https://github.com/anoma/nspec/pull/210): Fix engine message, environment and
-    behavior layout
 
 ### BUG FIXES
 
-- [Repository maintenance and CI](.)
+- **Repository maintenance and CI**
   - [**#4**](https://github.com/anoma/nspec/pull/4): Fix mike
   - [**#9**](https://github.com/anoma/nspec/pull/9): Add batch of fixes
   - [**#10**](https://github.com/anoma/nspec/pull/10): Fix Index: quick links and remove empty types
@@ -237,9 +240,9 @@ project per version, with better documentation and descriptions of the changes.
 
 - [Application documentation](apps)
   - [**#198**](https://github.com/anoma/nspec/pull/198): Add transparent RM implementation documentation
-- [Python-related changes](python)
+- **Python-related changes**
   - [**#133**](https://github.com/anoma/nspec/pull/133): Add support for multi-line wiki-style links
-- [Repository maintenance and CI](.)
+- **Repository maintenance and CI**
   - [**#2**](https://github.com/anoma/nspec/pull/2): Add better support for WikiLinks and other goodies
   - [**#3**](https://github.com/anoma/nspec/pull/3): Update README and run pre-commit
   - [**#5**](https://github.com/anoma/nspec/pull/5): Add Ubuntu dependencies to the CI
@@ -288,9 +291,9 @@ project per version, with better documentation and descriptions of the changes.
   - [**#135**](https://github.com/anoma/nspec/pull/135): Show PR number in the site name
   - [**#209**](https://github.com/anoma/nspec/pull/209): Add changelog management system
   -  [**#214**](https://github.com/anoma/nspec/pull/214): Add GitHub template for creating PRs
-- [Tutorial and documentation](tutorial)
+- **Tutorial and documentation**
   - [**#134**](https://github.com/anoma/nspec/pull/134): Refactor tutorial for wiki-style links
-- [Juvix types and updates](types)
+- **Juvix types and updates**
   - [**#128**](https://github.com/anoma/nspec/pull/128): Add new Juvix definitions from PR-84
   - [**#130**](https://github.com/anoma/nspec/pull/130): Translate SML Identity definitions to Juvix
 
