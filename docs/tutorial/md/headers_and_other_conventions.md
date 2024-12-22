@@ -19,11 +19,11 @@ todos: False
 
 - Use sentence case for headers. For example,
 
-  - use "How to use this Glossary" instead of "How to Use This Glossary", or,
+  - use "How to use this glossary" instead of "How to Use This Glossary", or,
   - use "Anoma protocol" instead of  "Anoma Protocol", or
   - use "On engine systems for the Anoma Specification" instead of "On Engine
     Systems For The Anoma Specification".
 
-- Always add a front matter as described in [[Write using Markdown plus Anoma extensions#front-matter|Write using Markdown]].
+- Always add a front matter as described in [[Write Markdown#front-matter|Write using Markdown]].
 
 - The (Juvix) Markdown filenames should follow the convention as described in [[File naming conventions]].
