@@ -5,6 +5,10 @@ search:
   boost: 2
 ---
 
+```juvix
+module arch.system.state.resource_machine.data_structures.transaction.transaction_function;
+```
+
 # Transaction Function
 
 A transaction function `TransactionFunction` is a function that outputs a transaction: `transactionFunction() -> Transaction`.

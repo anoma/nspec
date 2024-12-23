@@ -5,6 +5,10 @@ search:
   boost: 2
 ---
 
+```juvix
+module arch.system.state.resource_machine.data_structures.transaction.transaction_with_payment;
+```
+
 # Transaction With Payment
 
 `TransactionWithPayment` is a data structure that allows paying for the desired state transitions.

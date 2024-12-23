@@ -1,9 +1,14 @@
+
 ---
 icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
 ---
+
+```juvix
+module arch.system.state.resource_machine.data_structures.action.resource_logic_proof;
+```
 
 # Resource logic proof
 

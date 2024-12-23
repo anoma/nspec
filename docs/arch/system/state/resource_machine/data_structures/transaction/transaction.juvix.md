@@ -6,14 +6,13 @@ search:
 ---
 
 ```juvix
-module arch.system.state.resource_machine.data.transaction;
+module arch.system.state.resource_machine.data_structures.transaction.transaction;
 ```
 
 # Transaction
 
-A transaction is a necessary and sufficient collection of fields required to
-validate and apply a state update to the state. It is a composite structure that
-contains the following components:
+A transaction is a necessary and sufficient collection of fields required to validate and apply a state update to the state.
+It is a composite structure that contains the following components:
 
 |Component|Type|Description|
 |-|-|-|
@@ -24,9 +23,7 @@ contains the following components:
 ## Interface
 
 1. `create(Set CMtree.Value, Set Actions) -> Transaction`
-
 2. `compose(Transaction, Transaction) -> Transaction`
-
 3. `verify(Transaction) -> Bool`
 4. `delta(Transaction) -> DeltaHash`
 
@@ -34,11 +31,8 @@ contains the following components:
 Given a set of roots and a set of actions, a transaction is formed as follows:
 
 1. `tx.CMTreeRoots = CMTreeRoots`
-
 2. `tx.actions = actions`
-
 3. `tx.transactionDelta = sum(action.Delta() for action in actions)`
-
 4. `tx.deltaProof = DeltaProvingSystem(deltaProvingKey, deltaInstance, deltaWitness)`
 
 
@@ -47,11 +41,8 @@ Given a set of roots and a set of actions, a transaction is formed as follows:
 Having two transactions `tx1` and `tx2`, their composition `compose(tx1, tx2)` is defined as a transaction `tx`, where:
 
 1. `tx.CMTreeRoots = Set.union(tx1.CMTreeRoots, tx2.CMTreeRoots)`
-
 2. `tx.actions = Set.union(tx1.actions, tx2.actions)`
-
 3. `tx.deltaProof = DeltaProvingSystem.aggregate(tx1.deltaProof, tx2.deltaProof)`
-
 4. `tx.transactionDelta = tx1.transactionDelta + tx2.transactionDelta`
 
 !!! note

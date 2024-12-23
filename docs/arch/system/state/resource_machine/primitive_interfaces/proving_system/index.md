@@ -5,13 +5,10 @@ search:
   boost: 2
 ---
 
-<<<<<<<< HEAD:docs/arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system.juvix.md
 ```juvix
 module arch.system.state.resource_machine.primitive_interfaces.proving_system.proving_system;
 ```
 
-========
->>>>>>>> main:docs/arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
 # Proving system
 
 !!! todo
@@ -47,11 +44,7 @@ proof has an additional functionality required and is further described
 
 ### Resource logic proving system choice
 
-<<<<<<<< HEAD:docs/arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system.juvix.md
-Resource logic proof is the most common proof type. Each [action](./../../data/action.md) that modifies the state of `n` resources (creates or consumes) has at least `n` resource logic proofs attached to it. In principle, the predicate checked with each proof can be different for all `n` proofs. For that reason, the proving system of choice should support easy proof instantiation process for new predicates (e.g., a SNARK that requires a trusted setup ceremony initiated for every predicate is probably not the most efficient choice for this proving system).
-========
 Resource logic proof is the most common proof type. Each [[Action | action]] that modifies the state of `n` resources (creates or consumes) has at least `n` resource logic proofs attached to it. In principle, the predicate checked with each proof can be different for all `n` proofs. For that reason, the proving system of choice should support easy proof instantiation process for new predicates (e.g., a SNARK that requires a trusted setup ceremony initiated for every predicate is probably not the most efficient choice for this proving system).
->>>>>>>> main:docs/arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
 
 ### Compliance proving system choice
 
