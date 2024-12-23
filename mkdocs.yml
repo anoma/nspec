@@ -19,52 +19,52 @@ nav:
           - Identity Architecture: ./arch/system/identity/identity.juvix.md
           - State Architecture:
               - Resource Machine:
-                  - ./arch/system/state/resource_machine/index.md
+                  - ./arch/system/state/resource_machine/index.juvix.md
                   - Primitive interfaces:
-                      - ./arch/system/state/resource_machine/primitive_interfaces/index.md
+                      - ./arch/system/state/resource_machine/primitive_interfaces/index.juvix.md
                       - Set:
-                          - Set interface: ./arch/system/state/resource_machine/primitive_interfaces/set.md
-                          - Ordered set: ./arch/system/state/resource_machine/primitive_interfaces/ordered_set.md
-                      - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.md
+                          - Set interface: ./arch/system/state/resource_machine/primitive_interfaces/set.juvix.md
+                          - Ordered set: ./arch/system/state/resource_machine/primitive_interfaces/ordered_set.juvix.md
+                      - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.juvix.md
                       - Fixed size type:
-                          - Interface: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md
-                          - Arithmetic: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.md
-                          - Hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/hash.md
-                          - Delta hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.md
+                          - Interface: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.juvix.md
+                          - Arithmetic: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.juvix.md
+                          - Hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/hash.juvix.md
+                          - Delta hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.juvix.md
                       - Proving system:
                           - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
-                          - Definitions: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.md
-                          - Delta proving system: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.md
-                      - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.md
-                      - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.md
+                          - Definitions: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.juvix.md
+                          - Delta proving system: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.juvix.md
+                      - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.juvix.md
+                      - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.juvix.md
                   - Data structures:
-                      - ./arch/system/state/resource_machine/data/index.md
+                      - ./arch/system/state/resource_machine/data/index.juvix.md
                       - Resource:
-                          - ./arch/system/state/resource_machine/data_structures/resource/index.md
+                          - ./arch/system/state/resource_machine/data_structures/resource/index.juvix.md
                           - Computable components:
-                              - ./arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.md
-                              - Commitment: ./arch/system/state/resource_machine/data_structures/resource/computable_components/resource_commitment.md
-                              - Nullifier: ./arch/system/state/resource_machine/data_structures/resource/computable_components/nullifier.md
-                              - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.md
-                              - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.md
+                              - ./arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.juvix.md
+                              - Commitment: ./arch/system/state/resource_machine/data_structures/resource/computable_components/resource_commitment.juvix.md
+                              - Nullifier: ./arch/system/state/resource_machine/data_structures/resource/computable_components/nullifier.juvix.md
+                              - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.juvix.md
+                              - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.juvix.md
                       - Compliance unit:
-                          - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.md
-                          - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.md
+                          - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.juvix.md
+                          - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.juvix.md
                       - Action:
-                          - Action: ./arch/system/state/resource_machine/data_structures/action/index.md
-                          - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.md
+                          - Action: ./arch/system/state/resource_machine/data_structures/action/index.juvix.md
+                          - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.juvix.md
                       - Transaction:
-                          - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.md
-                          - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.md
-                          - Transaction Function: ./arch/system/state/resource_machine/data_structures/transaction/transaction_function.md
-                          - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.md
-                  - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.md
+                          - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.juvix.md
+                          - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.juvix.md
+                          - Transaction Function: ./arch/system/state/resource_machine/data_structures/transaction/transaction_function.juvix.md
+                          - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.juvix.md
+                  - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.juvix.md
                   - Notes:
-                      - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.md
-                      - Stored data format: ./arch/system/state/resource_machine/notes/storage.md
+                      - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.juvix.md
+                      - Stored data format: ./arch/system/state/resource_machine/notes/storage.juvix.md
                       - Function formats:
-                          - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.md
-                      - Applications: ./arch/system/state/resource_machine/notes/applications.md
+                          - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.juvix.md
+                      - Applications: ./arch/system/state/resource_machine/notes/applications.juvix.md
       - Node Architecture:
           - ./arch/node/index.md
           - Basic Types:
