@@ -10,7 +10,7 @@ tags:
 - engine-messages
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module arch.node.net.node_proxy_messages;

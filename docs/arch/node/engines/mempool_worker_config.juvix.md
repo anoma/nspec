@@ -11,7 +11,7 @@ tags:
 - engine-environment
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module arch.node.engines.mempool_worker_config;

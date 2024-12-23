@@ -10,7 +10,7 @@ tags:
 - engine-config
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_config;

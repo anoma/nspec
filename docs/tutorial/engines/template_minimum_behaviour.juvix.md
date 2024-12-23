@@ -10,7 +10,7 @@ tags:
 - engine-behaviour
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_minimum_behaviour;

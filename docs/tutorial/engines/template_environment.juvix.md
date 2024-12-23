@@ -10,7 +10,7 @@ tags:
 - engine-environment
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_environment;

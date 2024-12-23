@@ -10,7 +10,7 @@ tags:
 - engine-definition
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module tutorial.engines.template;
