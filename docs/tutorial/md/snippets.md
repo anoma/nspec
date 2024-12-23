@@ -4,6 +4,8 @@ search:
   exclude: false
 todos: false
 check_paths: false
+preprocess:
+  snippets: false
 ---
 
 ## Code Snippets

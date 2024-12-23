@@ -16,6 +16,25 @@ The major change in this release is the gas payment system introduced in
 in the Networking subsystem introduced in
 [#294](https://github.com/anoma/nspec/pull/277).
 
+
+### Fixes
+
+- **Node architecture**
+  -  [**#290**](https://github.com/anoma/nspec/pull/290): Fix english
+    description for guards to match the Juvix types in [[Engine Behaviour]].
+- **Repository maintenance and CI**
+  -  [**#288**](https://github.com/anoma/nspec/pull/288): Improve primitive interfaces diagrams. Use LR mermaid option.
+- **System architecture**
+  -  [**#293**](https://github.com/anoma/nspec/pull/293): Fix formatting issues,
+    typos, warnings, and broken links related to [[Proving system | Proving
+    system definitions]].
+
+- **Tutorial and documentation**
+  -  [**#280**](https://github.com/anoma/nspec/pull/280): Guides: Add hard and soft
+    requirements for writing pages in the Anoma Specification.
+  -  [**#284**](https://github.com/anoma/nspec/pull/284): Add minimal version of
+    the template (not visible in the website) and related refactors.
+
 ### Changes
 
 - **Repository maintenance and CI**
@@ -41,23 +60,6 @@ in the Networking subsystem introduced in
   -  [**#292**](https://github.com/anoma/nspec/pull/292): Move template/template_minimum engines to
     docs/tutorial/engines folder. Update imports accordingly.
 
-### Fixes
-
-- **Node architecture**
-  -  [**#290**](https://github.com/anoma/nspec/pull/290): Fix english
-    description for guards to match the Juvix types in [[Engine Behaviour]].
-- **Repository maintenance and CI**
-  -  [**#288**](https://github.com/anoma/nspec/pull/288): Improve primitive interfaces diagrams. Use LR mermaid option.
-- **System architecture**
-  -  [**#293**](https://github.com/anoma/nspec/pull/293): Fix formatting issues,
-    typos, warnings, and broken links related to [[Proving system | Proving
-    system definitions]].
-
-- **Tutorial and documentation**
-  -  [**#280**](https://github.com/anoma/nspec/pull/280): Guides: Add hard and soft
-    requirements for writing pages in the Anoma Specification.
-  -  [**#284**](https://github.com/anoma/nspec/pull/284): Add minimal version of
-    the template (not visible in the website) and related refactors.
 
 ## [v0.1.2](https://specs.anoma.net/v0.1.2/)
 
