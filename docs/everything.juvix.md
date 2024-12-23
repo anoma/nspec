@@ -28,8 +28,16 @@ import arch.system.state.resource_machine.data_structures.transaction.transactio
 import arch.system.state.resource_machine.data_structures.transaction.transaction;
 import arch.system.state.resource_machine.data_structures.transaction.transaction_function;
 import arch.system.state.resource_machine.data_structures.transaction.delta_proof;
+import arch.system.state.resource_machine.data_structures.compliance_unit.compliance_proof;
+import arch.system.state.resource_machine.data_structures.compliance_unit.compliance_unit;
 import arch.system.state.resource_machine.data_structures.action.resource_logic_proof;
 import arch.system.state.resource_machine.data_structures.action.index;
+import arch.system.state.resource_machine.data_structures.resource.computable_components.resource_commitment;
+import arch.system.state.resource_machine.data_structures.resource.computable_components.kind;
+import arch.system.state.resource_machine.data_structures.resource.computable_components.nullifier;
+import arch.system.state.resource_machine.data_structures.resource.computable_components.delta;
+import arch.system.state.resource_machine.data_structures.resource.computable_components.introduction;
+import arch.system.state.resource_machine.data_structures.resource.index;
 import arch.system.state.resource_machine.primitive_interfaces.transaction_function_vm;
 import arch.system.state.resource_machine.primitive_interfaces.set;
 import arch.system.state.resource_machine.primitive_interfaces.nullifier_set;
