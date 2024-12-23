@@ -7,6 +7,7 @@ search:
 
 ```juvix
 module arch.system.state.resource_machine.primitive_interfaces.proving_system.proving_system_types;
+import prelude open;
 ```
 
 # Proving system definition
@@ -20,14 +21,57 @@ We define a set of structures required to define a proving system $PS$ as follow
 - Proving key $pk: PS.ProvingKey$ contains the data required to produce a proof for a pair $(x, w)$. Specific to a particular statement (different statements `f` and `f'` imply different proving keys) being proven, but doesn't depend on the inputs.
 - Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the instance $x$, to verify a proof $\pi$. Specific to a particular statement being proven (different statements `f` and `f'` imply different verifying keys), but doesn't depend on the inputs.
 
+Besides a paramter `Statement`
+(that is left underspecified for the time being),
+we have the type parameters as listed above.
 
-A proving system $PS$ consists of a pair of algorithms, $(Prove, Verify)$:
+```juvix
+type ProvingSystemStructure
+     (Statement Proof Instance Witness ProvingKey VerifyingKey : Type) :=
+            mkProvingSystemStructure@{
+                 f : Statement;
+                 pi : Proof;
+                 x : Instance;
+                 w : Witness;
+                 pk : ProvingKey;
+                 vk : VerifyingKey;
+            }
+;
+```
+
+!!! todo "instances : ordered input data structure ???"
+
+    What does it mean for (the type of) instances to be ordered?
+
+!!! todo "witnesses : ordered input data structure ???"
+
+    What does it mean for (the type of) witnesses to be ordered?
+    
+A _proving system $PS$_ consists of a pair of algorithms, $(Prove, Verify)$:
 
 - $Prove(pk, x, w): PS.ProvingKey \times PS.Instance \times PS.Witness \rightarrow PS.Proof$
 - $Verify(vk, x, \pi): PS.VerifyingKey \times PS.Instance \times PS.Proof \rightarrow Bool$.
 
+Thus, the trait of a proving system has two methods.
+
+```juvix
+trait
+type record ProvingSystem
+     (Statement Proof Instance Witness ProvingKey VerifyingKey : Type) :=
+     mkProvingSystem@{
+         prove : ProvingKey -> Instance -> Witness -> Proof;
+         verify : VerifyingKey -> Instance -> Proof -> Bool;
+     }
+;
+```
+
 !!! note
     To verify a proof created for instance `x`, the same instance `x` must be used. For instances that contain elements of the same type, the order of the elements must be preserved.
+
+!!! todo "add «axioms» to the signature"
+
+    Ideally, we want to add the "axiom"
+    $verify(vk, y, prove(pk, x, w)) = true \Rightarrow x = y$.
 
 ### Properties
 
@@ -38,9 +82,22 @@ A proving system must have the following properties:
 
 For a statement `f`, `Verify(vk, x, proof) = True` implies that `f x w = True` and `Verify(vk, x, proof) = False` implies that `f x w = False`.
 
+!!! todo "completeness"
+
+    How to express that for all terms $f$ of type Statement such that $f x w = True$,
+    there exists a witness $w$, an instance $x$ (...)
+    such that $Verify(vk, x, prove(pk, x, w))$⁈
+    So,
+    the type `Statement` is
+    a (very special) subtype of $Instance \to Witness \to Bool$.
+
+!!! todo "soundness"
+
+    _mutatis mutandis_
+
 Certain proving systems may also be **zero-knowledge**, meaning that the produced proofs reveal no information other than their own validity.
 
-A proof $\pi$ for which $Verify(pr) = True$ is considered valid.
+A proof $\pi$ for which $Verify(pr) = True$ is considered _valid_.
 
 ### Common proving scheme types
 
