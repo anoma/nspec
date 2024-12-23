@@ -1,12 +1,21 @@
-```juvix
-module Nockma;
-import prelude open;
-import Stdlib.Data.Nat open;
-import Stdlib.Data.List open;
-import arch.system.state.resource_machine.notes.function_formats.transactionfunction open;
-```
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+---
 
-Nockma Implementation:
+??? quote "Juvix imports"
+
+    ```juvix
+    module arch.system.state.resource_machine.notes.function_formats.nockma;
+    import prelude open;
+    import Stdlib.Data.Nat open;
+    import Stdlib.Data.List open;
+    import arch.system.state.resource_machine.notes.function_formats.transactionfunction open;
+    ```
+
+# Nockma Implementation
 
 ```juvix
 -- Operation codes for Nockma:
