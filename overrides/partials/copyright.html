@@ -1,24 +1,18 @@
 <div class="md-copyright">
   {% if config.copyright %}
-  <div class="md-copyright__highlight">
-    {{ config.copyright }} - Last updated: {{ build_date_utc.strftime('%B %d, %Y at %I:%M %p %Z') }}
-  </div>
+    <div class="md-copyright__highlight">
+      {{ config.copyright }} - Last updated: {{ build_date_utc.strftime('%B %d,
+      %Y at %I:%M %p %Z') }} {% if config.site_url %} - Site url: {{ config.site_url }} {% endif %}
+      {% if config.site_version %} - Version: {{ config.site_version }} {% endif %}
+    </div>
   {% endif %}
-
-  <ul>
-    <li><a href="https://anoma.net/" target="_blank">Anoma Official Website</a> </li>
-    <li><a href="https://art.anoma.net" target="_blank">Anoma Research Topics (ART)</a></li>
-    <li><a href="https://anoma.net/blog" target="_blank">Anoma Blog</a></li>
-    <li><a href="https://anoma.net/talks" target="_blank">Anoma Talks</a></li>
-  </ul>
-  <ul>
-    <span class="md-copyright__highlight">Extra resources for Anoma
-      Specification collaborators</span>
-      {% set site_url = config.site_url.rstrip('/') %}
-      <li><a href="{{ site_url }}/indexes/links.html">Quick links</a></li>
-      <li><a href="{{ site_url }}/indexes/juvix_modules.html">Juvix modules</a></li>
-      <li><a href="{{ site_url }}/tutorial/index.html">Markdown tutorials for writing Anoma
-          Specification</a></li>
-      <li><a href="{{ site_url }}/tutorial/engines/index.html">On engines in Anoma</a></li>
-  </ul>
+   <br/>
+   <strong>Anoma Official Resources:</strong>
+   <small> <a href="https://anoma.net/" target="_blank">Website</a> | <a href="https://art.anoma.net" target="_blank">Research</a> | <a href="https://anoma.net/blog" target="_blank">Blog</a> | <a href="https://anoma.net/talks" target="_blank">Talks</a> </small>
+   <br/>
+   <strong>For Specification Authors:</strong>
+   <small> <a href="{{ config.site_url }}indexes/links.html">Quick links</a> | <a
+   href="{{ config.site_url }}indexes/juvix_modules.html">Juvix modules</a> | <a
+   href="{{ config.site_url }}tutorial/index.html">Guides</a> |
+    <a href="{{ config.site_url }}tutorial/engines/index.html">On engines in Anoma</a> </small>
 </div>

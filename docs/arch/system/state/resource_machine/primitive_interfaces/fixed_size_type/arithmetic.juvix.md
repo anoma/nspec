@@ -13,7 +13,7 @@ module arch.system.state.resource_machine.primitive_interfaces.fixed_size_type.a
 
 Arithmetic fixed size type is a type of fixed size that additionally supports addition and subtraction.
 
-``` mermaid
+```mermaid
 
 classDiagram
     class FixedSize~T, Arg~ {

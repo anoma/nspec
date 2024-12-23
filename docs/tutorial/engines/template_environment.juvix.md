@@ -10,13 +10,14 @@ tags:
 - engine-environment
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template_environment;
+    module tutorial.engines.template_environment;
 
-    import prelude open;
-    import arch.node.engines.template_messages open;
+    import tutorial.engines.template_messages open;
+
+    import arch.node.types.basics open;
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
@@ -29,7 +30,7 @@ tags:
 
 The [[dynamic environment|Engine environment]] of the engine.
 
-## Mailbox state types
+## Mailbox state
 
 ??? quote "Auxiliary Juvix code"
 
@@ -197,7 +198,7 @@ TemplateTimestampedTrigger : Type :=
 ```
 <!-- --8<-- [end:TemplateTimestampedTrigger] -->
 
-## The Template Environment
+## Engine Environment
 
 ### `TemplateEnv`
 
@@ -214,11 +215,11 @@ TemplateEnv : Type :=
 
 #### Instantiation
 
-<!-- --8<-- [start:templateEnv] -->
+<!-- --8<-- [start:exTemplateEnv] -->
 ```juvix extract-module-statements
 module template_environment_example;
 
-  templateEnv : TemplateEnv :=
+  exTemplateEnv : TemplateEnv :=
     mkEngineEnv@{
       localState := mkTemplateLocalState@{
         taskQueue := mkCustomData@{
@@ -228,8 +229,7 @@ module template_environment_example;
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []
-    }
-  ;
+    };
 end;
 ```
-<!-- --8<-- [end:templateEnv] -->
+<!-- --8<-- [end:exTemplateEnv] -->

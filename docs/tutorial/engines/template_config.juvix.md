@@ -7,18 +7,18 @@ categories:
 - node
 tags:
 - template-engine
-- engine-environment
+- engine-config
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
-    module arch.node.engines.template_config;
+    module tutorial.engines.template_config;
 
-    import prelude open;
-    import arch.node.engines.template_messages open;
+    import tutorial.engines.template_messages open;
+
+    import arch.node.types.basics open;
     import arch.node.types.engine open;
-    import arch.node.types.messages open;
     import arch.node.types.identities open;
     ```
 
@@ -28,7 +28,7 @@ tags:
 
 The [[Engine configuration|static configuration]] of the engine.
 
-## The Template Local Configuration
+## Local Configuration
 
 ### `TemplateLocalCfg`
 
@@ -40,11 +40,11 @@ type TemplateLocalCfg :=
   mkTemplateLocalCfg@{
     example : Nat;
     value : String;
-  }
+  };
 ```
 <!-- --8<-- [end:TemplateLocalCfg] -->
 
-## The Template Configuration
+## Engine Configuration
 
 ### `TemplateCfg`
 
@@ -58,11 +58,11 @@ TemplateCfg : Type :=
 
 ## Instantiation
 
-<!-- --8<-- [start:templateCfg] -->
+<!-- --8<-- [start:exTemplateCfg] -->
 ```juvix extract-module-statements
 module template_config_example;
 
-  templateCfg : TemplateCfg :=
+  exTemplateCfg : TemplateCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "template";
@@ -70,8 +70,7 @@ module template_config_example;
         example := 1;
         value := "hello world";
       };
-    }
-  ;
+    };
 end;
 ```
-<!-- --8<-- [end:templateCfg] -->
+<!-- --8<-- [end:exTemplateCfg] -->

@@ -11,7 +11,11 @@ DOCS_DIR = ROOT_DIR / "docs"
 
 REPORT_BROKEN_WIKILINKS = bool(os.environ.get("REPORT_BROKEN_WIKILINKS", False))
 
-CACHE_DIR: Path = ROOT_DIR.joinpath(".cache-juvix-mkdocs")
+PROCESS_JUVIX = bool(os.environ.get("PROCESS_JUVIX", False))
+
+CACHE_DIR: Path = ROOT_DIR.joinpath(".cache-mkdocs-without-juvix-processing")
+if PROCESS_JUVIX:
+    CACHE_DIR = ROOT_DIR.joinpath(".cache-mkdocs-with-juvix-processing")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 

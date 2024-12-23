@@ -1,5 +1,5 @@
 project_url = "https://github.com/anoma/nspec"
-heading = "---\nicon: octicons/log-16\nsocial:\n  cards: false\nsearch:\n    exclude: false\nlist_wikilinks: false\n---\n\n# Change Log"
+heading = "---\nicon: material/new-box\nsocial:\n  cards: false\nsearch:\n    exclude: false\nlist_wikilinks: false\n---\n\n# Change Log"
 change_template = "change_template.md"
 wrap = 120 # better for MkDocs
 bullet = "-"
@@ -8,9 +8,7 @@ general_entries_title = "General"
 [components.all]
 repo = { name = "Repository maintenance and CI", path = "." }
 node = { name = "Node architecture", path = "node" }
-sys = { name = "System and node architecture", path = "sys" }
+sys = { name = "System architecture", path = "sys" }
 types = { name = "Juvix types and updates", path = "types" }
-apps = { name = "Application documentation", path = "apps" }
 tutorial = { name = "Tutorial and documentation", path = "tutorial" }
 python = { name = "Python-related changes", path = "python" }
-spec = { name = "General specification changes", path = "spec" }

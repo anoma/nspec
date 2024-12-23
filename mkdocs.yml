@@ -2,9 +2,12 @@ site_name: !ENV [SITE_NAME, "Anoma Specification"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_dir: !ENV [SITE_DIR, site]
-site_url: !ENV [SITE_URL, 'https://specs.anoma.net/']
-site_version: !ENV [SITE_VERSION, "v0.1.1"]
-copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
+site_url: !ENV [SITE_URL, 'https://specs.anoma.net/latest/']
+site_version: !ENV [SITE_VERSION, "v0.1.3"]
+copyright: !ENV [COPYRIGHT, "&copy; 2025 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
+repo_url: https://github.com/anoma/nspec
+repo_name: anoma/nspec
+edit_uri: edit/main/docs/
 use_directory_urls: false
 nav:
   - Home: index.md
@@ -19,42 +22,48 @@ nav:
                   - ./arch/system/state/resource_machine/index.md
                   - Primitive interfaces:
                       - ./arch/system/state/resource_machine/primitive_interfaces/index.md
-                      - Set: ./arch/system/state/resource_machine/primitive_interfaces/set.md
-                      - List: ./arch/system/state/resource_machine/primitive_interfaces/list.md
+                      - Set:
+                          - Set interface: ./arch/system/state/resource_machine/primitive_interfaces/set.md
+                          - Ordered set: ./arch/system/state/resource_machine/primitive_interfaces/ordered_set.md
                       - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.md
                       - Fixed size type:
-                          - ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md
+                          - Interface: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.md
                           - Arithmetic: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.md
                           - Hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/hash.md
                           - Delta hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.md
                       - Proving system:
-                          - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system.md
+                          - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
+                          - Definitions: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.md
                           - Delta proving system: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.md
                       - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.md
                       - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.md
                   - Data structures:
                       - ./arch/system/state/resource_machine/data/index.md
                       - Resource:
-                          - ./arch/system/state/resource_machine/data/resource/definition.md
+                          - ./arch/system/state/resource_machine/data_structures/resource/index.md
                           - Computable components:
-                              - ./arch/system/state/resource_machine/data/resource/computable_components/introduction.md
-                              - Commitment: ./arch/system/state/resource_machine/data/resource/computable_components/resource_commitment.md
-                              - Nullifier: ./arch/system/state/resource_machine/data/resource/computable_components/nullifier.md
-                              - Kind: ./arch/system/state/resource_machine/data/resource/computable_components/kind.md
-                              - Delta: ./arch/system/state/resource_machine/data/resource/computable_components/delta.md
-                              - Tag: ./arch/system/state/resource_machine/data/resource/computable_components/tag.md
-                      - Compliance unit: .//arch/system/state/resource_machine/data/compliance_unit.md
+                              - ./arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.md
+                              - Commitment: ./arch/system/state/resource_machine/data_structures/resource/computable_components/resource_commitment.md
+                              - Nullifier: ./arch/system/state/resource_machine/data_structures/resource/computable_components/nullifier.md
+                              - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.md
+                              - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.md
+                      - Compliance unit:
+                          - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.md
+                          - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.md
                       - Action:
-                          - ./arch/system/state/resource_machine/data/action.md
-                          - Resource logic proofs: ./arch/system/state/resource_machine/data/proof/logic.md
-                          - Compliance proofs: ./arch/system/state/resource_machine/data/proof/compliance.md
-                      - Transaction: ./arch/system/state/resource_machine/data/transaction.md
+                          - Action: ./arch/system/state/resource_machine/data_structures/action/index.md
+                          - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.md
+                      - Transaction:
+                          - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.md
+                          - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.md
+                          - Transaction Function: ./arch/system/state/resource_machine/data_structures/transaction/transaction_function.md
+                          - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.md
                   - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.md
                   - Notes:
                       - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.md
                       - Stored data format: ./arch/system/state/resource_machine/notes/storage.md
                       - Function formats:
-                          - Transaction function: ./arch/system/state/resource_machine/notes/function_formats/transaction_function.md
+                          - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.md
                       - Applications: ./arch/system/state/resource_machine/notes/applications.md
       - Node Architecture:
           - ./arch/node/index.md
@@ -188,11 +197,11 @@ nav:
                   - Storage Behaviour: ./arch/node/net/storage_behaviour.juvix.md
           - Ordering Component:
               - Mempool engines:
-                  - Worker Engine:
-                      - Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
-                      - Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
-                      - Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
-                      - Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
+                  - Mempool Worker Engine:
+                      - Mempool Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
+                      - Mempool Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
+                      - Mempool Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
+                      - Mempool Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
               - Execution engines:
                   - ./arch/node/ordering/execution/index.md
                   - Shard:
@@ -231,11 +240,11 @@ nav:
           - Engine writing conventions: ./tutorial/engines/writing_conventions.md
           - Examples:
               - Template Engine:
-                  - Template Engine: ./arch/node/engines/template.juvix.md
-                  - Template Messages: ./arch/node/engines/template_messages.juvix.md
-                  - Template Configuration: ./arch/node/engines/template_config.juvix.md
-                  - Template Environment: ./arch/node/engines/template_environment.juvix.md
-                  - Template Behaviour: ./arch/node/engines/template_behaviour.juvix.md
+                  - Template Engine: ./tutorial/engines/template.juvix.md
+                  - Template Messages: ./tutorial/engines/template_messages.juvix.md
+                  - Template Configuration: ./tutorial/engines/template_config.juvix.md
+                  - Template Environment: ./tutorial/engines/template_environment.juvix.md
+                  - Template Behaviour: ./tutorial/engines/template_behaviour.juvix.md
               - Ticker Engine:
                   - Ticker Engine: ./arch/node/engines/ticker.juvix.md
                   - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
@@ -263,6 +272,10 @@ theme:
   custom_dir: overrides
   language: en
   google_analytics: G-WJWZWB2TW5
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/lead-pencil
+    view: material/eye
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
@@ -287,13 +300,15 @@ theme:
         icon: material/brightness-4
         name: Switch to system preference
   font:
-    text: Open Sans
-    code: Fira Code
+    text: Inter
+    code: JetBrains Mono
   features:
     - announce.dismiss
     - content.code.annotate
     - content.code.copy
     - content.tooltips
+    - content.action.edit
+    - content.action.view
     - search.highlight
     - search.suggest
     - search.sharing
@@ -307,6 +322,7 @@ theme:
     # - navigation.expand
     # - navigation.prune
     - navigation.indexes
+    - navigation.footer
     # - navigation.top
     - navigation.path
     - toc.follow
@@ -346,6 +362,7 @@ extra_css:
   - assets/css/juvix-material-style.css
   - assets/css/juvix-highlighting.css
   - assets/css/juvix_codeblock_footer.css
+  - assets/css/latte-light.css
 extra_javascript:
   - assets/js/extra.js
   - assets/js/highlight.js

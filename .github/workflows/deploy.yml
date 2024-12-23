@@ -3,7 +3,7 @@ name: deploy
   push:
     branches:
       - main
-      - v[0-9]+(\.[0-9]+)? # only major.minor versions
+      - v*.*.* # only major.minor.patch versions
 env:
   CI: true
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -12,7 +12,7 @@ env:
   POETRY_VERSION: 1.8.3
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
-  INSIDERS_VERSION: 9.5.46-insiders-4.53.14
+  INSIDERS_VERSION: 9.5.49-insiders-4.53.14
   JUVIX_VERSION: v0.6.8
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
@@ -103,9 +103,11 @@ jobs:
         env:
           SITE_DIR: ${{ env.BRANCH_NAME }}
           SITE_URL: https://specs.anoma.net/${{ env.BRANCH_NAME }}/
-          SITE_VERSION: ${{ steps.version.outputs.version }}-${{ steps.commit.outputs.commit }}
+          SITE_VERSION: ${{ steps.version.outputs.version }}
+          COMMIT: ${{ steps.commit.outputs.commit }}
           COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
           PROCESS_JUVIX: true
+          TIMELIMIT: 100
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
@@ -118,7 +120,7 @@ jobs:
       - uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
           folder: ${{ env.BRANCH_NAME }}
-          target-folder: ${{ env.BRANCH_NAME == 'main' && 'latest' || env.BRANCH_NAME }}
+          target-folder: ${{ env.BRANCH_NAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research

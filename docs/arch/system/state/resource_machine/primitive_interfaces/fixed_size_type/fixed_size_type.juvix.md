@@ -32,7 +32,7 @@ which the type derivation function `new(Arg)` is *binding*.
 
 ## Fixed size type hierarchy diagram
 
-``` mermaid
+```mermaid
 
 classDiagram
     class FixedSize~T, Arg~ {
@@ -75,7 +75,9 @@ classDiagram
 ## Used in (raw)
 
 1. Resource components:
-    1. `randSeed`
-    2. `nonce`
-    3. `nullifierKeyCommitment`
+
+  1. `randSeed`
+  2. `nonce`
+  3. `nullifierKeyCommitment`
+
 2. `nullifierKey`

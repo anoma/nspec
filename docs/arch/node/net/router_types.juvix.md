@@ -1,6 +1,6 @@
 # Router Types
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module arch.node.net.router_types;

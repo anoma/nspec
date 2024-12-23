@@ -21,5 +21,6 @@ Examples:
 - nock (transparent-only; transaction function)
 - (?) cairo, risc0 (circuits)
 
-!!! warning
-    TODO: are nock and cairo/risc0 on the same level? What exactly transaction functions look like in cairo/risk0 case? What about the relationship with proving systems?
+!!! todo
+
+    are nock and cairo/risc0 on the same level? What exactly transaction functions look like in cairo/risk0 case? What about the relationship with proving systems?

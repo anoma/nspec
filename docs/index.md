@@ -21,7 +21,7 @@ list_wikilinks: false
     - The Anoma Foundation, a Swiss foundation (Stiftung) established to support and coordinate the
     Anoma protocol, network, and the surrounding ecosystem.
 
-    For more information about the foundation, please visit https://anoma.foundation.
+    For more information about the foundation, please visit https://anoma.net/learn.
 
 Anoma is a distributed operating system for intent-centric
 applications[@goes2024anoma]. The Anoma protocol architecture supports
@@ -42,5 +42,3 @@ world which they care about.
 
 This site aims to describe the architecture required to implement the
 Anoma protocol and serves as a guide for Anoma researchers and implementors.
-
-<!-- The following todo would desapear on the online version. -->
