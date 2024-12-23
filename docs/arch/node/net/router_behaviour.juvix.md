@@ -136,7 +136,7 @@ Timer updates
 exampleReplyAction
   (input : RouterActionInput)
   : Option RouterActionEffect :=
-  TODO {-
+  TODO  {-
   let
     cfg := ActionInput.cfg input;
     env := ActionInput.env input;

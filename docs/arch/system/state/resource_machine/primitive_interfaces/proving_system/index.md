@@ -5,6 +5,10 @@ search:
   boost: 2
 ---
 
+```juvix
+module arch.system.state.resource_machine.primitive_interfaces.proving_system.proving_system;
+```
+
 # Proving system
 
 !!! todo

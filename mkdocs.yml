@@ -38,7 +38,7 @@ nav:
                       - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.md
                       - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.md
                   - Data structures:
-                      - ./arch/system/state/resource_machine/data_structures/index.md
+                      - ./arch/system/state/resource_machine/data/index.md
                       - Resource:
                           - ./arch/system/state/resource_machine/data_structures/resource/index.md
                           - Computable components:
