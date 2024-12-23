@@ -24,28 +24,85 @@ The following are frequent and basic abstractions used in the Anoma
 specification. Most of them are defined in the Juvix standard library and are
 used to define more complex types in the Anoma Specification.
 
-## Nat
+## Combinators
 
-The type `Nat` represents natural numbers (non-negative integers). Used for
-counting and indexing.
+Identity function
 
 ```juvix
-import Stdlib.Data.Nat as Nat
-  open using
-  { Nat;
-    zero;
-    suc;
-    natToString;
-    +;
-    *;
-    <=;
-  } public;
+id {A} (a : A) : A := a;
 ```
 
-For example,
+Constant function
 
 ```juvix
-ten : Nat := 10;
+const {A B} (a : A) : B -> A :=
+  \{_ := a};
+```
+
+Flip arguments to a function
+
+```juvix
+flip {A B C} (f : A -> B -> C) (b : B) (a : A) : C :=
+  f a b;
+```
+
+Function application
+
+```
+apply {A B} (f : A -> B) : A -> B := f;
+```
+
+Function composition
+
+```juvix
+compose {A B C} (f : B -> C) (g : A -> B) (x : A) : C := 
+  f (g x);
+```
+
+## Useful Type Classes
+
+Two-argument functor
+
+```juvix
+trait
+type Bifunctor (F : Type -> Type -> Type) :=
+  mkBifunctor@{
+    bimap : {A B C D : Type} -> (A -> C) -> (B -> D) -> F A B -> F C D
+  };
+```
+
+Product with associators
+
+```juvix
+trait
+type AssociativeProduct (F : Type -> Type -> Type) :=
+  mkAssociativeProduct@{
+    assocLeft : {A B C : Type} -> F A (F B C) -> F (F A B) C;
+    assocRight : {A B C : Type} -> F (F A B) C -> F A (F B C)
+  };
+```
+
+Product with commuters
+
+```juvix
+trait
+type CommutativeProduct (F : Type -> Type -> Type) :=
+  mkCommutativeProduct@{
+    swap : {A B : Type} -> F A B -> F B A;
+  };
+```
+
+Product with units
+
+```juvix
+trait
+type UnitalProduct (U : Type) (F : Type -> Type -> Type) :=
+  mkUnitalProduct@{
+    unitLeft : {A : Type} -> A -> F U A;
+    unUnitLeft : {A : Type} -> F U A -> A;
+    unitRight : {A : Type} -> A -> F A U;
+    unUnitRight : {A : Type} -> F A U -> A;
+  };
 ```
 
 ## Bool
@@ -63,7 +120,7 @@ import Stdlib.Data.Bool as Bool
     ||;
     not;
     or;
-    and
+    and;
   } public;
 ```
 
@@ -71,6 +128,165 @@ For example,
 
 ```juvix
 verdad : Bool := true;
+```
+
+Exlusive or
+
+```juvix
+xor (a b : Bool) : Bool := 
+  case a of {
+    | true := not b
+    | false := b
+  };
+```
+
+Not and
+
+```juvix
+nand (a b : Bool) : Bool := not (and a b);
+```
+
+Not or
+
+```juvix
+nor (a b : Bool) : Bool := not (or a b);
+```
+
+Boolean if
+
+```juvix
+ifb {A : Type} (a : Bool) (t f : A) : A :=
+  case a of {
+    | true := t
+    | false := f
+  };
+```
+
+## Nat
+
+The type `Nat` represents natural numbers (non-negative integers). Used for
+counting and indexing.
+
+```juvix
+import Stdlib.Data.Nat as Nat
+  open using
+  { Nat;
+    zero;
+    suc;
+    natToString;
+    +;
+    sub;
+    *;
+    div;
+    mod;
+    ==;
+    <=;
+    min;
+    max;
+  } public;
+```
+
+For example,
+
+```juvix
+ten : Nat := 10;
+```
+
+Predecessor function for natural numbers.
+
+```juvix
+pred (n : Nat) : Nat :=
+  case n of {
+    | zero := zero
+    | suc k := k
+  };
+```
+
+Convert boolean to a Bool to a Nat in the standard way of circuits.
+
+```juvix
+boolToNat (b : Bool) : Nat :=
+  case b of {
+    | false := 1
+    | true := 0
+  };
+```
+
+Check if a natural number is zero.
+
+```juvix
+isZero (n : Nat) : Bool :=
+  case n of {
+    | zero := true
+    | suc k := false
+  };
+```
+
+Parity checking functions
+
+```juvix
+isEven (n : Nat) : Bool := mod n 2 == 0
+```
+
+```juvix
+isOdd (n : Nat) : Bool := mod n 2 == 1
+```
+
+Fold over natural numbers.
+
+```juvix
+terminating
+foldNat {B : Type} (z : B) (f : Nat -> B -> B) (n : Nat) : B :=
+  case n of {
+    | zero := z
+    | suc k := f k (foldNat z f k)
+  };
+```
+
+Itteration of a function.
+
+```juvix
+iter {A : Type} (f : A -> A) (n : Nat) (x : A) : A :=
+  foldNat x \{_ y := f y} n;
+```
+
+Exponentiation
+
+```juvix
+exp (base : Nat) (exponent : Nat) : Nat :=
+  foldNat 1 \{_ product := base * product} exponent;
+```
+
+Factorial
+
+```juvix
+factorial : Nat -> Nat :=
+  foldNat 1 \{k r := suc k * r};
+```
+
+Greatest Common Divisor
+
+```juvix
+terminating
+gcd (a b : Nat) : Nat :=
+  case b of {
+    | zero := a
+    | suc _ := gcd b (mod a b)
+  };
+```
+
+Least Common Multiple
+
+```juvix
+lcm (a b : Nat) : Nat :=
+  case b of {
+    | zero := zero
+    | suc _ :=
+      case a of {
+        | zero := zero
+        | suc _ := div (a * b) (gcd a b)
+      }
+    };
 ```
 
 ## String
@@ -123,6 +339,26 @@ For example,
 unitValue : Unit := unit;
 ```
 
+Unique function to the unit. Universal property of terminal object.
+
+```juvix
+trivial {A : Type} : A -> Unit := const unit;
+```
+
+## Empty
+
+The type `Empty` represents a type with a single value. Often used when a function does not return any meaningful value.
+
+```juvix
+axiom Empty : Type;
+```
+
+Unique function from empty. Universal property of initial object.
+
+```juvix
+axiom explode {A : Type} : Empty -> A;
+```
+
 ## Pair A B
 
 The type `Pair A B` represents a tuple containing two elements of types `A` and `B`.
@@ -159,6 +395,77 @@ snd {A B} : Pair A B -> B
   | (mkPair _ b) := b;
 ```
 
+Swap components
+
+```juvix
+instance
+PairCommutativeProduct : CommutativeProduct Pair :=
+  mkCommutativeProduct@{
+    swap := \{p := mkPair (snd p) (fst p)}
+  };
+```
+
+Pair associations
+
+```juvix
+instance
+PairAssociativeProduct : AssociativeProduct Pair :=
+  mkAssociativeProduct@{
+    assocLeft := \{p :=
+      let pbc := snd p;
+      in mkPair (mkPair (fst p) (fst pbc)) (snd pbc)
+    };
+    assocRight := \{p :=
+      let pab := fst p;
+      in mkPair (fst pab) (mkPair (snd pab) (snd p))
+    }
+  };
+```
+
+Unit maps for pairs and units
+
+```juvix
+instance
+PairUnitalProduct : UnitalProduct Unit Pair :=
+  mkUnitalProduct@{
+    unitLeft := \{a := mkPair unit a};
+    unUnitLeft := snd;
+    unitRight := \{a := mkPair a unit};
+    unUnitRight := \{{A} := fst};
+  };
+```
+
+Map functions over pairs
+
+```juvix
+instance
+PairBifunctor : Bifunctor Pair :=
+  mkBifunctor@{
+    bimap := \{f g p := mkPair (f (fst p)) (g (snd p))};
+  };
+```
+
+Universal property of pairs
+
+```juvix
+fork {A B C : Type} (f : C -> A) (g : C -> B) (c : C) : Pair A B :=
+  mkPair (f c) (g c);
+```
+
+Curry a function
+
+```juvix
+curry {A B C : Type} (f : Pair A B -> C) (x : A) (y : B) : C :=
+  f (mkPair x y);
+```
+
+Uncurry a function
+
+```juvix
+uncurry {A B C : Type} (f : A -> B -> C) (p : Pair A B) : C :=
+  f (fst p) (snd p);
+```
+
 ## Result A B
 
 The `Result A B` type represents either a success with a value of `ok x` with `x` of type `A` or an error
@@ -168,7 +475,6 @@ with value `error e` with `e` of type `B`.
 import Stdlib.Data.Result.Base as Result;
 open Result using { Result; ok; error } public;
 ```
-
 
 ## Either A B
 
@@ -191,6 +497,141 @@ thisString : Either String Nat := left "Error!";
 thisNumber : Either String Nat := right 42;
 ```
 
+Check components of either.
+
+```juvix
+isLeft {A B : Type} (e : Either A B) : Bool := 
+  case e of {
+    | left _ := true
+    | right _ := false
+  };
+```
+
+```juvix
+isRight {A B : Type} (e : Either A B) : Bool := 
+  case e of {
+    | left _ := false
+    | right _ := true
+  };
+```
+
+Get left element (with default)
+
+```juvix
+fromLeft {A B : Type} (d : A) (e : Either A B) : A :=
+  case e of {
+    | left x := x
+    | right _ := d
+  };
+```
+
+Get right element (with default)
+
+```juvix
+fromRight {A B : Type} (d : B) (e : Either A B) : B :=
+  case e of {
+    | left _ := d
+    | right x := x
+  };
+```
+
+Swap elements
+
+```juvix
+swapEither : {A B : Type} -> Either A B -> Either B A :=
+  \{e :=
+    case e of {
+      | left x := right x
+      | right x := left x
+    }};
+
+instance
+EitherCommutativeProduct : CommutativeProduct Either :=
+  mkCommutativeProduct@{
+    swap := swapEither;
+  };
+```
+
+Map onto elements of either
+
+```juvix
+eitherBimap {A B C D : Type} (f : A -> C) (g : B -> D) (e : Either A B) : Either C D :=
+  case e of {
+    | left a := left (f a)
+    | right b := right (g b)
+  };
+
+instance
+EitherBifunctor : Bifunctor Either :=
+  mkBifunctor@{
+    bimap := eitherBimap
+  };
+```
+
+Unit maps for Either and Empty
+
+```juvix
+unUnitLeftEither {A : Type} (e : Either Empty A) : A :=
+  case e of {
+    | left x := explode x
+    | right x := x
+  };
+
+unUnitRightEither {A : Type} (e : Either A Empty) : A :=
+  case e of {
+    | left x := x
+    | right x := explode x
+  };
+
+instance
+EitherUnitalProduct : UnitalProduct Empty Either :=
+  mkUnitalProduct@{
+    unitLeft := right;
+    unUnitLeft := unUnitLeftEither;
+    unitRight := \{{A} := left};
+    unUnitRight := unUnitRightEither;
+  };
+```
+
+Universal property of coproduct
+
+```juvix
+fuse {A B C : Type} (f : A -> C) (g : B -> C) (e : Either A B) : C :=
+  case e of {
+    | left x := f x
+    | right x := g x
+  };
+```
+
+Assiosiation functions for either
+
+```juvix
+assocLeftEither {A B C : Type} (e : Either A (Either B C)) : Either (Either A B) C :=
+  case e of {
+    | left x := left (left x)
+    | right ebc :=
+      case ebc of {
+        | left y := left (right y)
+        | right z := right z
+      }
+  };
+assocRightEither {A B C : Type} (e : Either (Either A B) C) : Either A (Either B C) :=
+  case e of {
+    | left eab :=
+      case eab of {
+        | left x := left x
+        | right y := right (left y)
+      }
+    | right z := right (right z)
+  };
+
+EitherAssociativeProduct : AssociativeProduct Either :=
+  mkAssociativeProduct@{
+    assocLeft := assocLeftEither;
+    assocRight := assocRightEither;
+  };
+```
+
 ## List A
 
 The type `List A` represents a _sequence_ of elements of type `A`. Used for collections and ordered data.
@@ -203,6 +644,7 @@ import Stdlib.Data.List as List
   ::;
   isElement;
   ++;
+  reverse;
 } public;
 ```
 
@@ -212,6 +654,91 @@ For example,
 numbers : List Nat := 1 :: 2 :: 3 :: nil;
 -- alternative syntax:
 niceNumbers : List Nat := [1 ; 2 ; 3];
+```
+
+Prepend element to a list
+
+```juvix
+snoc {A : Type} (xs : List A) (x : A) : List A :=
+  xs ++ [x];
+```
+
+Check if all elements satisfy a predicate
+
+```juvix
+all : List Bool -> Bool :=
+  foldl (\{acc x := and acc x}) true;
+```
+
+```juvix
+allMap {A : Type} (p : A -> Bool) : List A -> Bool :=
+  compose all (map p);
+```
+
+Check if any element satisfies a predicate
+
+```juvix
+any : List Bool -> Bool :=
+  foldl (\{acc x := or acc x}) true;
+```
+
+```juvix
+anyMap {A : Type} (p : A -> Bool) : List A -> Bool :=
+  compose any (map p);
+```
+
+Zip two lists
+
+```juvix
+terminating
+zip {A B : Type} (xs : List A) (ys : List B) : List (Pair A B) :=
+  case xs of {
+    | nil := nil
+    | x :: xs' :=
+      case ys of {
+        | nil := nil
+        | y :: ys' := (mkPair x y) :: (zip xs' ys')
+      }
+  };
+```
+
+Zip with a function
+
+```juvix
+zipWith {A B C : Type} (f : A -> B -> C) (xs : List A) (ys : List B) : List C :=
+  map (uncurry f) (zip xs ys);
+```
+
+Unzip a list of pairs into two lists
+
+```juvix
+terminating
+unzip {A B : Type} (xs : List (Pair A B)) : Pair (List A) (List B) :=
+  case xs of {
+    | nil := mkPair nil nil
+    | p :: ps :=
+      let unzipped := unzip ps
+      in mkPair (fst p :: fst unzipped) (snd p :: snd unzipped)
+  };
+```
+
+Partition a list
+
+```juvix
+partition {A B : Type} (es : List (Either A B)) : Pair (List A) (List B) :=
+  foldr
+    (\{e acc :=
+      case e of {
+        | left a := mkPair (a :: (fst acc)) (snd acc)
+        | right b := mkPair (fst acc) (b :: (snd acc))
+      }})
+    (mkPair nil nil)
+    es;
+```
+
+```juvix
+partitionWith {A B C : Type} (f : C -> Either A B) (es : List C) : Pair (List A) (List B) :=
+  partition (map f es)
 ```
 
 ## Option A
