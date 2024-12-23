@@ -2,9 +2,9 @@ site_name: !ENV [SITE_NAME, "Anoma Specification"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
 site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_dir: !ENV [SITE_DIR, site]
-site_url: !ENV [SITE_URL, 'https://specs.anoma.net/']
+site_url: !ENV [SITE_URL, 'https://specs.anoma.net/latest/']
 site_version: !ENV [SITE_VERSION, "v0.1.3"]
-copyright: !ENV [COPYRIGHT, "&copy; 2024 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
+copyright: !ENV [COPYRIGHT, "&copy; 2025 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 repo_url: https://github.com/anoma/nspec
 repo_name: anoma/nspec
 edit_uri: edit/main/docs/
@@ -197,11 +197,11 @@ nav:
                   - Storage Behaviour: ./arch/node/net/storage_behaviour.juvix.md
           - Ordering Component:
               - Mempool engines:
-                  - Worker Engine:
-                      - Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
-                      - Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
-                      - Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
-                      - Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
+                  - Mempool Worker Engine:
+                      - Mempool Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
+                      - Mempool Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
+                      - Mempool Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
+                      - Mempool Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
               - Execution engines:
                   - ./arch/node/ordering/execution/index.md
                   - Shard:
@@ -362,6 +362,7 @@ extra_css:
   - assets/css/juvix-material-style.css
   - assets/css/juvix-highlighting.css
   - assets/css/juvix_codeblock_footer.css
+  - assets/css/latte-light.css
 extra_javascript:
   - assets/js/extra.js
   - assets/js/highlight.js

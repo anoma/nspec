@@ -80,12 +80,12 @@ exTemplateMinimumEngine : TemplateMinimumEngine :=
 
 Where `exTemplateMinimumCfg` is defined as follows:
 
---8<-- "./docs/arch/node/example/template_minimum_config.juvix.md:exTemplateMinimumCfg"
+--8<-- "./docs/tutorial/engines/template_minimum_config.juvix.md:exTemplateMinimumCfg"
 
 `exTemplateMinimumEnv` is defined as follows:
 
---8<-- "./docs/arch/node/example/template_minimum_environment.juvix.md:exTemplateMinimumEnv"
+--8<-- "./docs/tutorial/engines/template_minimum_environment.juvix.md:exTemplateMinimumEnv"
 
 and `exTemplateMinimumBehaviour` is defined as follows:
 
---8<-- "./docs/arch/node/example/template_minimum_behaviour.juvix.md:exTemplateMinimumBehaviour"
+--8<-- "./docs/tutorial/engines/template_minimum_behaviour.juvix.md:exTemplateMinimumBehaviour"

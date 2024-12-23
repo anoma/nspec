@@ -80,12 +80,12 @@ exTemplateEngine : TemplateEngine :=
 
 Where `exTemplateCfg` is defined as follows:
 
---8<-- "./docs/arch/node/example/template_config.juvix.md:exTemplateCfg"
+--8<-- "./docs/tutorial/engines/template_config.juvix.md:exTemplateCfg"
 
 `exTemplateEnv` is defined as follows:
 
---8<-- "./docs/arch/node/example/template_environment.juvix.md:exTemplateEnv"
+--8<-- "./docs/tutorial/engines/template_environment.juvix.md:exTemplateEnv"
 
 and `exTemplateBehaviour` is defined as follows:
 
---8<-- "./docs/arch/node/example/template_behaviour.juvix.md:exTemplateBehaviour"
+--8<-- "./docs/tutorial/engines/template_behaviour.juvix.md:exTemplateBehaviour"
