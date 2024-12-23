@@ -107,6 +107,7 @@ jobs:
           COMMIT: ${{ steps.commit.outputs.commit }}
           COPYRIGHT: Powered by Mkdocs, Material ${{ env.INSIDERS_VERSION }} and Juvix ${{ env.JUVIX_VERSION }}
           PROCESS_JUVIX: true
+          TIMELIMIT: 100
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
