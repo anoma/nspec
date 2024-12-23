@@ -46,7 +46,7 @@ type ProvingSystemStructure
 !!! todo "witnesses : ordered input data structure ???"
 
     What does it mean for (the type of) witnesses to be ordered?
-    
+
 A _proving system $PS$_ consists of a pair of algorithms, $(Prove, Verify)$:
 
 - $Prove(pk, x, w): PS.ProvingKey \times PS.Instance \times PS.Witness \rightarrow PS.Proof$
