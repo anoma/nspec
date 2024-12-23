@@ -1,5 +1,5 @@
 ---
-icon: octicons/log-16
+icon: material/new-box
 social:
   cards: false
 search:
