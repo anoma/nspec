@@ -500,13 +500,11 @@ Swap elements
 ```juvix
 instance
 EitherCommutativeProduct : CommutativeProduct Either :=
-  mkCommutativeProduct@{
-    swap := \{{A} {B} e :=
-      case e of {
-        | left x := right {B} {A} x
-        | right x := left x
-      }};
-  };
+mkCommutativeProduct@{
+  swap {A B} : Result A B -> Result B A
+      | (left x) := right {B} {A} x
+      | (right x) := left x
+};
 ```
 
 Map onto elements of either
