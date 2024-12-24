@@ -33,7 +33,7 @@ The aggregation function allows to aggregate proofs in a way that if $\pi_1$ pro
 ```juvix
 trait
 type record DeltaProvingSystem (Statement Proof Instance Witness ProvingKey VerifyingKey : Type) := mkA@{
-     provingSystem : ProvingSystem Statement Proof Instance Witness ProvingKey VerifyingKey; 
+     provingSystem : ProvingSystem Statement Proof Instance Witness ProvingKey VerifyingKey;
      };
 ```
 
