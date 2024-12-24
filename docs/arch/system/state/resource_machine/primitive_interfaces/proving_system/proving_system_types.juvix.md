@@ -64,7 +64,7 @@ the relevant proving system structure.
 
 ```juvix
 trait
-type record ProvingSystem
+type ProvingSystem
      (Statement Proof Instance Witness ProvingKey VerifyingKey : Type) :=
      mkProvingSystem@{
          structure : ProvingSystemStructure Statement Proof Instance Witness ProvingKey VerifyingKey;
