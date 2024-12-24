@@ -181,6 +181,7 @@ import Stdlib.Data.Nat as Nat
     mod;
     ==;
     <=;
+    >;
     min;
     max;
   } public;
@@ -632,115 +633,6 @@ EitherAssociativeProduct : AssociativeProduct Either :=
   };
 ```
 
-## List A
-
-The type `List A` represents a _sequence_ of elements of type `A`. Used for collections and ordered data.
-
-```juvix
-import Stdlib.Data.List as List
-  open using {
-  List;
-  nil;
-  ::;
-  isElement;
-  ++;
-  reverse;
-} public;
-```
-
-For example,
-
-```juvix
-numbers : List Nat := 1 :: 2 :: 3 :: nil;
--- alternative syntax:
-niceNumbers : List Nat := [1 ; 2 ; 3];
-```
-
-Prepend element to a list
-
-```juvix
-snoc {A : Type} (xs : List A) (x : A) : List A :=
-  xs ++ [x];
-```
-
-Check if all elements satisfy a predicate
-
-```juvix
-all : List Bool -> Bool :=
-  foldl (\{acc x := and acc x}) true;
-```
-
-```juvix
-allMap {A : Type} (p : A -> Bool) : List A -> Bool :=
-  compose all (map p);
-```
-
-Check if any element satisfies a predicate
-
-```juvix
-any : List Bool -> Bool :=
-  foldl (\{acc x := or acc x}) true;
-```
-
-```juvix
-anyMap {A : Type} (p : A -> Bool) : List A -> Bool :=
-  compose any (map p);
-```
-
-Zip two lists
-
-```juvix
-terminating
-zip {A B : Type} (xs : List A) (ys : List B) : List (Pair A B) :=
-  case xs of {
-    | nil := nil
-    | x :: xs' :=
-      case ys of {
-        | nil := nil
-        | y :: ys' := (mkPair x y) :: (zip xs' ys')
-      }
-  };
-```
-
-Zip with a function
-
-```juvix
-zipWith {A B C : Type} (f : A -> B -> C) (xs : List A) (ys : List B) : List C :=
-  map (uncurry f) (zip xs ys);
-```
-
-Unzip a list of pairs into two lists
-
-```juvix
-terminating
-unzip {A B : Type} (xs : List (Pair A B)) : Pair (List A) (List B) :=
-  case xs of {
-    | nil := mkPair nil nil
-    | p :: ps :=
-      let unzipped := unzip ps
-      in mkPair (fst p :: fst unzipped) (snd p :: snd unzipped)
-  };
-```
-
-Partition a list
-
-```juvix
-partition {A B : Type} (es : List (Either A B)) : Pair (List A) (List B) :=
-  foldr
-    (\{e acc :=
-      case e of {
-        | left a := mkPair (a :: (fst acc)) (snd acc)
-        | right b := mkPair (fst acc) (b :: (snd acc))
-      }})
-    (mkPair nil nil)
-    es;
-```
-
-```juvix
-partitionWith {A B C : Type} (f : C -> Either A B) (es : List C) : Pair (List A) (List B) :=
-  partition (map f es)
-```
-
 ## Option A
 
 The type `Option A` represents an optional value of type `A`. It can be either
@@ -787,6 +679,145 @@ syntax alias none := nothing;
     };
     ```
 
+Map over option with default
+
+```juvix
+option {A B : Type} (d : B) (f : A -> B) (o : Option A) : B :=
+  case o of {
+    | none := d
+    | some x := f x
+  };
+```
+
+Filter option according to predicate
+
+```juvix
+filterOption {A : Type} (p : A -> Bool) (opt : Option A) : Option A := 
+  case opt of {
+    | none := none
+    | some x :=
+      case p x of {
+        | true := some x
+        | false := none
+      }
+  };
+```
+
+## List A
+
+The type `List A` represents a _sequence_ of elements of type `A`. Used for collections and ordered data.
+
+```juvix
+import Stdlib.Data.List as List
+  open using {
+  List;
+  nil;
+  ::;
+  isElement;
+  head;
+  tail;
+  ++;
+  reverse;
+  any;
+  all;
+  zip;
+} public;
+```
+
+For example,
+
+```juvix
+numbers : List Nat := 1 :: 2 :: 3 :: nil;
+-- alternative syntax:
+niceNumbers : List Nat := [1 ; 2 ; 3];
+```
+
+Get last element of a list
+
+```juvix
+last {A : Type} (defaultValue : A) (lst : List A) : A :=
+  head defaultValue (reverse lst);
+```
+
+Prepend element to a list
+
+```juvix
+snoc {A : Type} (xs : List A) (x : A) : List A :=
+  xs ++ [x];
+```
+
+Zip with a function
+
+```juvix
+zipWith {A B C : Type} (f : A -> B -> C) (xs : List A) (ys : List B) : List C :=
+  map (uncurry f) (zip xs ys);
+```
+
+Unzip a list of pairs into two lists
+
+```juvix
+terminating
+unzip {A B : Type} (xs : List (Pair A B)) : Pair (List A) (List B) :=
+  case xs of {
+    | nil := mkPair nil nil
+    | p :: ps :=
+      let unzipped := unzip ps
+      in mkPair (fst p :: fst unzipped) (snd p :: snd unzipped)
+  };
+```
+
+Partition a list
+
+```juvix
+partition {A B : Type} (es : List (Either A B)) : Pair (List A) (List B) :=
+  foldr
+    (\{e acc :=
+      case e of {
+        | left a := mkPair (a :: (fst acc)) (snd acc)
+        | right b := mkPair (fst acc) (b :: (snd acc))
+      }})
+    (mkPair nil nil)
+    es;
+```
+
+```juvix
+partitionWith {A B C : Type} (f : C -> Either A B) (es : List C) : Pair (List A) (List B) :=
+  partition (map f es)
+```
+
+Collapse list of options
+
+```juvix
+catOptions {A : Type} : List (Option A) -> List A :=
+  foldr
+    (\{opt acc :=
+      case opt of {
+        | none := acc
+        | some x := x :: acc
+      }})
+    nil;
+```
+
+Get the maximal element of a list.
+
+```juvix
+maximumBy
+ {A : Type}
+ (f : A -> Nat)
+ (lst : List A)
+ : Option A :=
+ let maxHelper := \{curr acc :=
+   case acc of {
+     | none := some curr
+     | some maxVal :=
+       case f curr > f maxVal of {
+         | true := some curr
+         | false := some maxVal
+       }
+   }
+ };
+ in foldr maxHelper none lst;
+```
 
 ## Map K V
 

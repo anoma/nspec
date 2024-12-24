@@ -35,21 +35,6 @@ the target engine has only one mailbox, the mailbox identifier is redundant.
 
 The following types are used to represent these messages and mailboxes.
 
-### `EngineMsg`
-
-An *engine message* is a message between engines.
-It consists of a sender, a target, an optional *mailbox identifier*, and the message itself.
-
-```juvix
-type EngineMsg M :=
-  mkEngineMsg@{
-    sender : EngineID;
-    target : EngineID;
-    mailbox : Option MailboxID;
-    msg : M;
-  };
-```
-
 ### `EngineMsgID`
 
 An *engine message identifier*.
@@ -93,6 +78,21 @@ A *mailbox identifier* is a natural number used to index mailboxes.
 
 ```juvix
 syntax alias MailboxID := Nat;
+```
+
+### `EngineMsg`
+
+An *engine message* is a message between engines.
+It consists of a sender, a target, an optional *mailbox identifier*, and the message itself.
+
+```juvix
+type EngineMsg M :=
+  mkEngineMsg@{
+    sender : EngineID;
+    target : EngineID;
+    mailbox : Option MailboxID;
+    msg : M;
+  };
 ```
 
 ### `Timer H`
