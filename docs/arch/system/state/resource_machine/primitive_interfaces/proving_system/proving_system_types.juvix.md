@@ -110,7 +110,7 @@ For a statement `f`, `Verify(vk, x, proof) = True` implies that `f x w = True` a
 !!! todo "soundness"
 
     So, if we encode a statement `f: Statement`,
-    and a proof for its encoding as , using 
+    and a proof for its encoding as , using
 
 Certain proving systems may also be **zero-knowledge**, meaning that the produced proofs reveal no information other than their own validity.
 
