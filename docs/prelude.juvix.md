@@ -26,37 +26,8 @@ used to define more complex types in the Anoma Specification.
 
 ## Combinators
 
-Identity function
-
 ```juvix
-id {A} (a : A) : A := a;
-```
-
-Constant function
-
-```juvix
-const {A B} (a : A) : B -> A :=
-  \{_ := a};
-```
-
-Flip arguments to a function
-
-```juvix
-flip {A B C} (f : A -> B -> C) (b : B) (a : A) : C :=
-  f a b;
-```
-
-Function application
-
-```
-apply {A B} (f : A -> B) : A -> B := f;
-```
-
-Function composition
-
-```juvix
-compose {A B C} (f : B -> C) (g : A -> B) (x : A) : C := 
-  f (g x);
+import Stdlib.Function open
 ```
 
 ## Useful Type Classes
@@ -105,6 +76,19 @@ type UnitalProduct (U : Type) (F : Type -> Type -> Type) :=
   };
 ```
 
+Traversable type class
+
+```juvix
+trait
+type Traversable (T : Type -> Type) :=
+  mkTraversable@{
+    {{functorI}} : Functor T;
+    {{foldableI}} : Polymorphic.Foldable T;
+    sequence : {F : Type -> Type} -> {A : Type} -> {{Applicative F}} -> T (F A) -> F (T A);
+    traverse : {F : Type -> Type} -> {A B : Type} -> {{Applicative F}} -> (A -> F B) -> T A -> F (T B);
+  };
+```
+
 ## Bool
 
 The type `Bool` represents boolean values (`true` or `false`). Used for logical operations and conditions.
@@ -134,10 +118,10 @@ Exlusive or
 
 ```juvix
 xor (a b : Bool) : Bool := 
-  case a of {
-    | true := not b
-    | false := b
-  };
+  if
+    | a := not b
+    | else := b
+  ;
 ```
 
 Not and
@@ -156,10 +140,10 @@ Boolean if
 
 ```juvix
 ifb {A : Type} (a : Bool) (t f : A) : A :=
-  case a of {
-    | true := t
-    | false := f
-  };
+  if
+    | a := t
+    | else := f
+  ;
 ```
 
 ## Nat
@@ -182,6 +166,7 @@ import Stdlib.Data.Nat as Nat
     ==;
     <=;
     >;
+    <;
     min;
     max;
   } public;
@@ -207,10 +192,10 @@ Convert boolean to a Bool to a Nat in the standard way of circuits.
 
 ```juvix
 boolToNat (b : Bool) : Nat :=
-  case b of {
-    | false := 1
-    | true := 0
-  };
+  if
+    | b := 0
+    | else := 1
+  ;
 ```
 
 Check if a natural number is zero.
@@ -696,10 +681,9 @@ filterOption {A : Type} (p : A -> Bool) (opt : Option A) : Option A :=
   case opt of {
     | none := none
     | some x :=
-      case p x of {
-        | true := some x
-        | false := none
-      }
+      if
+        | p x := some x
+        | else := none
   };
 ```
 
@@ -716,6 +700,9 @@ import Stdlib.Data.List as List
   isElement;
   head;
   tail;
+  length;
+  take;
+  drop;
   ++;
   reverse;
   any;
@@ -732,6 +719,19 @@ numbers : List Nat := 1 :: 2 :: 3 :: nil;
 niceNumbers : List Nat := [1 ; 2 ; 3];
 ```
 
+Get the index of an element satisfying a predicate.
+
+```juvix
+findIndex {A} (predicate : A -> Bool) : List A -> Maybe Nat
+  | nil := nothing
+  | (x :: xs) := 
+    if
+      | predicate x := just zero
+      | else := case findIndex predicate xs of
+        | nothing := nothing
+        | just i := just (suc i);
+```
+
 Get last element of a list
 
 ```juvix
@@ -746,11 +746,22 @@ snoc {A : Type} (xs : List A) (x : A) : List A :=
   xs ++ [x];
 ```
 
-Zip with a function
+Split one layer of list
 
 ```juvix
-zipWith {A B C : Type} (f : A -> B -> C) (xs : List A) (ys : List B) : List C :=
-  map (uncurry f) (zip xs ys);
+uncons {A : Type} : List A -> Maybe (Pair A (List A))
+  | nil := none
+  | (x :: xs) := just (mkPair x xs)
+```
+
+Unfold a list, layerwise
+
+```juvix
+terminating
+unfold {A B} (step : B -> Maybe (Pair A B)) (seed : B) : List A :=
+  case step seed of
+    | nothing := nil
+    | just (x, seed') := x :: unfold step seed';
 ```
 
 Unzip a list of pairs into two lists
@@ -769,7 +780,7 @@ unzip {A B : Type} (xs : List (Pair A B)) : Pair (List A) (List B) :=
 Partition a list
 
 ```juvix
-partition {A B : Type} (es : List (Either A B)) : Pair (List A) (List B) :=
+partitionEither {A B : Type} (es : List (Either A B)) : Pair (List A) (List B) :=
   foldr
     (\{e acc :=
       case e of {
@@ -781,8 +792,8 @@ partition {A B : Type} (es : List (Either A B)) : Pair (List A) (List B) :=
 ```
 
 ```juvix
-partitionWith {A B C : Type} (f : C -> Either A B) (es : List C) : Pair (List A) (List B) :=
-  partition (map f es)
+partitionEitherWith {A B C : Type} (f : C -> Either A B) (es : List C) : Pair (List A) (List B) :=
+  partitionEither (map f es)
 ```
 
 Collapse list of options
@@ -810,13 +821,142 @@ maximumBy
    case acc of {
      | none := some curr
      | some maxVal :=
-       case f curr > f maxVal of {
-         | true := some curr
-         | false := some maxVal
-       }
+       if
+         | f curr > f maxVal := some curr
+         | else := some maxVal
    }
  };
  in foldr maxHelper none lst;
+```
+
+Traversable instance
+
+```juvix
+instance
+traversableListI : Traversable List :=
+  mkTraversable@{
+    sequence {F : Type -> Type} {A} {{appF : Applicative F}} (xs : List (F A)) : F (List A) :=
+      let
+        cons : F A -> F (List A) -> F (List A)
+          | x acc := liftA2 (::) x acc;
+      
+        go : List (F A) -> F (List A)
+          | nil := pure nil
+          | (x :: xs) := cons x (go xs);
+      in go xs;
+    
+    traverse {F : Type -> Type} {A B} {{appF : Applicative F}} (f : A -> F B) (xs : List A) : F (List B) :=
+      let
+        cons : A -> F (List B) -> F (List B)
+          | x acc := liftA2 (::) (f x) acc;
+      
+        go : List A -> F (List B)
+          | nil := pure nil
+          | (x :: xs) := cons x (go xs);
+      in go xs;
+  };
+```
+
+Collapse list of maybes, filtering out failures.
+
+```juvix
+catMaybes {A} : (listOfMaybes : List (Maybe A)) -> List A
+  | nil := nil
+  | (just h :: hs) := h :: catMaybes hs
+  | (nothing :: hs) := catMaybes hs;
+```
+
+Splits a list into chunks of size n. The last chunk may be smaller than n if the length of the list is not divisible by n.
+
+Example: chunksOf 2 [1;2;3;4;5] = [[1;2]; [3;4]; [5]]
+
+```juvix
+terminating
+chunksOf {A} : (chunkSize : Nat) -> (list : List A) -> List (List A)
+  | zero _ := nil
+  | _ nil := nil
+  | n xs := take n xs :: chunksOf n (drop n xs);
+```
+
+Returns all contiguous sublists of size n. If n is larger than the list length, returns empty list. If n is zero, returns empty list.
+
+Example: sliding 2 [1;2;3;4] = [[1;2]; [2;3]; [3;4]]
+
+```juvix
+sliding {A} : (windowSize : Nat) -> (list : List A) -> List (List A)
+  | zero _ := nil
+  | n xs :=
+    let
+      len : Nat := length xs;
+      terminating
+      go : List A -> List (List A)
+        | nil := nil
+        | ys :=
+          if
+            | length ys < n := nil
+            | else := take n ys :: go (tail ys);
+    in if
+      | n > len := nil
+      | else := go xs;
+```
+
+Takes a predicate and a list, and returns a tuple where:
+- First element is the longest prefix of the list that satisfies the predicate
+- Second element is the remainder of the list
+
+```juvix
+span {A} (p : A -> Bool) : List A -> Pair (List A) (List A)
+  | nil := nil, nil
+  | (x :: xs) :=
+    if
+      | p x :=
+        case span p xs of {
+          ys1, ys2 := mkPair (x :: ys1) ys2
+        }
+      | else := mkPair nil (x :: xs);
+```
+
+Groups consecutive elements in a list that satisfy a given equality predicate.
+
+Example: groupBy (==) [1;1;2;2;2;3;1;1] = [[1;1];[2;2;2];[3];[1;1]]
+
+```juvix
+terminating
+groupBy {A} (eq : A -> A -> Bool) : List A -> List (List A)
+  | nil := nil
+  | (x :: xs) :=
+    case span (eq x) xs of
+      ys1, ys2 := (x :: ys1) :: groupBy eq ys2;
+```
+
+```juvix
+group {A} {{Eq A}} : List A -> List (List A) := groupBy (==)
+```
+
+Returns a list with duplicates removed according to the given equivalence function, keeping the first occurrence of each element. Unlike regular ;nub;, this function allows specifying a custom equality predicate.
+Examples:
+  nubBy (\{x y := mod x 3 == mod y 3}) [1;2;3;4;5;6] = [1;2;3]
+  nub [1;1;2;2;3;3] = [1;2;3]
+
+```juvix
+nubBy {A} (eq : A -> A -> Bool) : List A -> List A :=
+  let
+    -- Checks if an element is already in the accumulator
+    elemBy (x : A) : List A -> Bool
+      | nil := false
+      | (y :: ys) := eq x y || elemBy x ys;
+
+    go : List A -> List A -> List A
+      | acc nil := reverse acc
+      | acc (x :: xs) := 
+        if
+          | elemBy x acc := go acc xs  
+          | else := go (x :: acc) xs;
+  in go nil;
+```
+
+```juvix
+nub {A} {{Eq A}} : List A -> List A := nubBy (==);
 ```
 
 ## Map K V
