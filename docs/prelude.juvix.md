@@ -811,21 +811,39 @@ catOptions {A : Type} : List (Option A) -> List A :=
 Get the maximal element of a list.
 
 ```juvix
-maximumBy
- {A : Type}
- (f : A -> Nat)
- (lst : List A)
- : Option A :=
- let maxHelper := \{curr acc :=
-   case acc of {
-     | none := some curr
-     | some maxVal :=
-       if
-         | f curr > f maxVal := some curr
-         | else := some maxVal
-   }
- };
- in foldr maxHelper none lst;
+maximumBy {A B} {{Ord B}}
+  (f : A -> B)
+  (lst : List A)
+  : Option A :=
+  let maxHelper := \{curr acc :=
+    case acc of {
+      | none := some curr  
+      | some maxVal :=
+        if
+          | f curr > f maxVal := some curr
+          | else := some maxVal
+    }
+  };
+  in foldr maxHelper none lst;
+```
+
+Get the minimal element of a list.
+
+```juvix
+minimalBy {A B} {{Ord B}}
+  (f : A -> B)
+  (lst : List A)
+  : Option A :=
+  let minHelper := \{curr acc :=
+    case acc of {
+      | none := some curr  
+      | some minVal :=
+        if
+          | f curr < f minVal := some curr
+          | else := some minVal
+    }
+  };
+  in foldr minHelper none lst;
 ```
 
 Traversable instance
