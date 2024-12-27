@@ -392,9 +392,8 @@ connectIdentityAction
                     engines := []
                   }
                 | some externalIdentityInfo :=
-                  let isSubset := isSubsetCapabilities capabilities' (IdentityInfo.capabilities externalIdentityInfo);
-                  in case isSubset of {
-                    | true :=
+                  if 
+                    | isSubsetCapabilities capabilities' (IdentityInfo.capabilities externalIdentityInfo) :=
                       let newIdentityInfo := copyEnginesForCapabilities env whoAsked externalIdentityInfo capabilities';
                           updatedIdentities := Map.insert whoAsked newIdentityInfo identities;
                           newLocalState := local@IdentityManagementLocalState{
@@ -419,7 +418,7 @@ connectIdentityAction
                         timers := [];
                         engines := []
                       }
-                    | false :=
+                    | else :=
                       some mkActionEffect@{
                         env := env;
                         msgs := [mkEngineMsg@{
@@ -435,7 +434,6 @@ connectIdentityAction
                         }];
                         timers := [];
                         engines := []
-                      }
                   }
               }
             | _ := none
