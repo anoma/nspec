@@ -32,6 +32,13 @@ import Stdlib.Function open
 
 ## Useful Type Classes
 
+Join function for monads
+
+```juvix
+join {M : Type -> Type} {A : Type} {{Monad M}} (mma : M (M A)) : M A :=
+  bind mma id;
+```
+
 Two-argument functor
 
 ```juvix
@@ -354,6 +361,12 @@ Useful for grouping related values together.
 import Stdlib.Data.Pair as Pair;
 open Pair using { Pair } public;
 open Pair using { , };
+
+import Stdlib.Data.Pair as Pair
+  open using
+  { ordProductI;
+    eqProductI
+  } public;
 ```
 
 ```juvix
@@ -436,20 +449,6 @@ Universal property of pairs
 ```juvix
 fork {A B C : Type} (f : C -> A) (g : C -> B) (c : C) : Pair A B :=
   mkPair (f c) (g c);
-```
-
-Curry a function
-
-```juvix
-curry {A B C : Type} (f : Pair A B -> C) (x : A) (y : B) : C :=
-  f (mkPair x y);
-```
-
-Uncurry a function
-
-```juvix
-uncurry {A B C : Type} (f : A -> B -> C) (p : Pair A B) : C :=
-  f (fst p) (snd p);
 ```
 
 ## Result A B
@@ -959,6 +958,117 @@ nubBy {A} (eq : A -> A -> Bool) : List A -> List A :=
 nub {A} {{Eq A}} : List A -> List A := nubBy (==);
 ```
 
+Generate all possible sublists of a list. Each element can either be included or not.
+
+```juvix
+powerlists {A} : List A -> List (List A)  
+  | nil := nil :: nil
+  | (x :: xs) := 
+    let
+      rest : List (List A) := powerlists xs;
+      withX : List (List A) := map ((::) x) rest;
+    in rest ++ withX;
+```
+
+## Set A
+
+The type `Set A` represents a collection of unique elements of type `A`. Used
+for sets of values.
+
+```juvix
+
+import Stdlib.Data.Set as Set public;
+open Set using {
+    Set;
+    difference;
+    union;
+    eqSetI;
+    ordSetI;
+    isSubset;
+  } public;
+```
+
+For example,
+
+```juvix
+uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
+```
+
+```juvix
+setMap {A B} {{Ord B}} (f : A -> B) (set : Set A) : Set B :=
+  Set.fromList (map f (Set.toList set));
+```
+
+Collapse a set of sets into a set
+
+```juvix
+setJoin {A} {{Ord A}} (sets : Set (Set A)) : Set A :=
+  for (acc := Set.empty) (innerSet in sets) {
+    Set.union acc innerSet
+  };
+```
+
+### `disjointUnion`
+
+```juvix
+--- Computes the disjoint union of two ;Set;s.
+disjointUnion {T} {{Ord T}} (s1 s2 : Set T) : Result (Set T) (Set T) :=
+  case Set.intersection s1 s2 of
+    | Set.empty := ok (Set.union s1 s2)
+    | s := error s;
+```
+
+Caclulate the symmetric difference of two sets.
+
+```juvix
+symmetricDifference {A} {{Ord A}} (set1 set2 : Set A) : Set A :=
+  let
+    in1not2 : Set A := difference set1 set2;
+    in2not1 : Set A := difference set2 set1;
+  in union in1not2 in2not1;
+```
+
+Generate the set of all cartesian products of a set.
+
+```juvix
+cartesianProduct 
+  {A B} 
+  {{Ord A}} {{Ord B}}
+  (set1 : Set A) 
+  (set2 : Set B) 
+  : Set (Pair A B) :=
+  let
+    -- For a fixed element from set1, create a set of all pairs with elements from set2
+    pairsForElement (a : A) : Set (Pair A B) :=
+      for (acc := Set.empty) (b in set2) {
+        Set.insert (mkPair a b) acc
+      };
+    
+    -- Create set of sets, each containing pairs for one element from set1
+    pairSets : Set (Set (Pair A B)) :=
+      for (acc := Set.empty) (a in set1) {
+        Set.insert (pairsForElement a) acc
+      };
+  in setJoin pairSets;
+```
+
+Generate the powerset (set of all subsets) of a set.
+
+```juvix
+powerset {A} {{Ord A}} (s : Set A) : Set (Set A) :=
+  let
+    elements := Set.toList s;
+    subLists := powerlists elements;
+  in Set.fromList (map Set.fromList subLists);
+```
+
+Checks if all elements of `set1` are in `set2`, and that the two sets are not the same.
+
+```juvix
+isProperSubset {A} {{Eq A}} {{Ord A}} (set1 set2 : Set A) : Bool :=
+  isSubset set1 set2 && not (set1 == set2)
+```
+
 ## Map K V
 
 The type `Map K V` represents a collection of key-value pairs, sometimes called
@@ -977,36 +1087,164 @@ For example,
 codeToken : Map Nat String := Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "ANM")];
 ```
 
-## Set A
 
-The type `Set A` represents a collection of unique elements of type `A`. Used
-for sets of values.
+Updates a value at a specific key using the update function and returns both the old value (if the key existed) and the updated map.
 
 ```juvix
-
-import Stdlib.Data.Set as Set public;
-open Set using {
-    Set;
-  } public;
+updateLookupWithKey
+  {Key Value}
+  {{Ord Key}}
+  (updateFn : Key -> Value -> Maybe Value)
+  (k : Key)
+  (map : Map Key Value)
+  : Pair (Maybe Value) (Map Key Value) :=
+  let
+    oldValue : Maybe Value := Map.lookup k map;
+    newMap : Map Key Value := 
+      case oldValue of {
+        | nothing := map
+        | just v := 
+          case updateFn k v of {
+            | nothing := Map.delete k map
+            | just newV := Map.insert k newV map
+          }
+      };
+  in oldValue, newMap;
 ```
 
-For example,
+Maps all keys in the Map to new keys using the provided function.
+If the mapping function is not injective (maps different keys to the same key), later entries in the map will overwrite earlier ones with the same new key.
 
 ```juvix
-uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
+mapKeys 
+  {Key1 Key2 Value} 
+  {{Ord Key2}} 
+  (fun : Key1 -> Key2)
+  (map : Map Key1 Value) 
+  : Map Key2 Value :=
+  Map.fromList
+    (for (acc := nil) ((k, v) in Map.toList map) {
+      (fun k, v) :: acc
+    });
 ```
 
-
-### `disjointUnion`
+Restrict a map to only contain keys from the given set.
 
 ```juvix
---- Computes the disjoint union of two ;Set;s.
-disjointUnion {T} {{Ord T}} (s1 s2 : Set T) : Result (Set T) (Set T) :=
-  case Set.intersection s1 s2 of
-    | Set.empty := ok (Set.union s1 s2)
-    | s := error s;
+restrictKeys {Key Value} {{Ord Key}} 
+  (map : Map Key Value) 
+  (validKeys : Set.Set Key) 
+  : Map Key Value :=
+  for (acc := Map.empty) (k, v in map) {
+    if
+      | Set.isMember k validKeys := Map.insert k v acc
+      | else := acc
+  };
 ```
 
+Remove all entries from a map whose keys appear in the given set.
+
+```juvix
+withoutKeys {Key Value} {{Ord Key}} 
+  (map : Map Key Value) 
+  (invalidKeys : Set.Set Key) 
+  : Map Key Value :=
+  for (acc := Map.empty) (k, v in map) {
+    if
+      | Set.isMember k invalidKeys := acc 
+      | else := Map.insert k v acc
+  };
+```
+
+Split a map according to a predicate on values.
+Returns a pair of maps, (matching, non-matching).
+
+```juvix
+mapPartition {Key Value} {{Ord Key}} 
+  (predicate : Value -> Bool) 
+  (map : Map Key Value) 
+  : Pair (Map Key Value) (Map Key Value) :=
+  for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
+    if
+      | predicate v := Map.insert k v matching, nonMatching
+      | else := matching, Map.insert k v nonMatching
+  };
+```
+
+Split a map according to a predicate that can examine both key and value.
+Returns a pair of maps, (matching, non-matching).
+
+```juvix
+partitionWithKey {Key Value} {{Ord Key}} 
+  (predicate : Key -> Value -> Bool) 
+  (map : Map Key Value) 
+  : Pair (Map Key Value) (Map Key Value) :=
+  for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
+    if
+      | predicate k v := Map.insert k v matching, nonMatching
+      | else := matching, Map.insert k v nonMatching
+  };
+```
+
+Apply a partial function to all values in the map, keeping only the entries where the function returns 'just'. 
+
+```juvix
+mapMaybe {Key Value1 Value2} {{Ord Key}}
+  (f : Value1 -> Maybe Value2)
+  (map : Map Key Value1)
+  : Map Key Value2 :=
+  for (acc := Map.empty) (k, v in map) {
+    case f v of {
+      | nothing := acc
+      | just v' := Map.insert k v' acc
+    }
+  };
+```
+
+Same as mapMaybe but allows the function to examine the key as well.
+
+```juvix
+mapMaybeWithKey {Key Value1 Value2} {{Ord Key}}
+  (f : Key -> Value1 -> Maybe Value2)
+  (map : Map Key Value1)
+  : Map Key Value2 :=
+  for (acc := Map.empty) (k, v in map) {
+    case f k v of {
+      | nothing := acc
+      | just v' := Map.insert k v' acc
+    }
+  };
+```
+
+Apply a function that returns Either to all values in the map.
+
+```juvix
+mapEither {Key Value Error Result} {{Ord Key}}
+  (f : Value -> Either Error Result)
+  (map : Map Key Value)
+  : Pair (Map Key Error) (Map Key Result) :=
+  for (lefts, rights := Map.empty, Map.empty) (k, v in map) {
+    case f v of {
+      | error e := Map.insert k e lefts, rights
+      | ok r := lefts, Map.insert k r rights
+    }
+  };
+```
+
+Same as mapEither but allows the function to examine the key as well.
+
+```juvix
+mapEitherWithKey {Key Value Error Result} {{Ord Key}}
+  (f : Key -> Value -> Either Error Result)
+  (map : Map Key Value)
+  : Pair (Map Key Error) (Map Key Result) :=
+  for (lefts, rights := Map.empty, Map.empty) (k, v in map) {
+    case f k v of {
+      | error e := Map.insert k e lefts, rights
+      | ok r := lefts, Map.insert k r rights
+    }
+  };
+```
 
 ## Undefined values
 
