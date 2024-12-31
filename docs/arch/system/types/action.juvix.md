@@ -30,7 +30,7 @@ type Action := mkAction {
 };
 ```
 
-??? quaote "Arguments"
+???+ quote "Arguments"
 
     `created`
     : contains commitments of resources created in this action
@@ -51,6 +51,20 @@ type Action := mkAction {
     : maps tags to relevant application data needed to verify resource logic
     proofs. The deletion criterion field is described [[Stored data format
     |here]]. The openings are expected to be ordered.
+
+??? quote "Auxiliary Juvix code: Instances"
+
+    ```juvix
+    deriving 
+    instance 
+    eqAction : Eq Action;
+    ```
+
+    ```juvix
+    deriving 
+    instance 
+    ordAction : Ord Action;
+    ```
 
 ## Purpose
 

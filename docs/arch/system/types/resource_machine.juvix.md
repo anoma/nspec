@@ -17,8 +17,7 @@ tags:
     ```juvix
     module arch.system.types.resource_machine;
     import prelude open;
-    import
-    arch.system.state.resource_machine.data_structures.transaction.transaction open;
+    import arch.system.types.transaction open;
     ```
 
 # Resource Machines
