@@ -205,7 +205,7 @@ Task (C B H A AM AC AE : Type) : Type :=
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
 type ActionExec (C S B H A AM AC AE : Type) :=
-  | Seq (List (Action C S B H A AM AC AE)) -- deprecated 
+  | Seq (List (Action C S B H A AM AC AE)) -- deprecated
   | Par (List (Task C B H A AM AC AE)) (Action C S B H A AM AC AE)
   ;
 ```
