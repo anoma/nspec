@@ -156,12 +156,57 @@ type ActionEffect (S B H AM AC AE : Type) :=
 ```
 <!-- --8<-- [end:ActionEffect] -->
 
+### `Task`
+
+Each action may involve several _tasks_
+that can be executed in parallel.
+To enable for the parallelism,
+tasks can only operate on mailboxes.
+
+<!-- --8<-- [start:TaskInput] -->
+```juvix
+type TaskInput (C B H A AM : Type) :=
+  mkTaskInput {
+    args : A;
+    cfg : EngineCfg C;
+    mailbox : Pair MailboxID (Mailbox B AM);
+    trigger : TimestampedTrigger H AM;
+  };
+```
+<!-- --8<-- [end:TaskInput] -->
+
+### `TaskEffect`
+
+A task affects only its mailbox state and not the whole environment.
+
+<!-- --8<-- [start:TaskEffect] -->
+```juvix
+type TaskEffect (B H AM AC AE : Type) :=
+  mkTaskEffect@{
+    mailbox : Mailbox B AM;
+    msgs : List (EngineMsg AM);
+    timers : List (Timer H);
+    engines : List (Pair AC AE);
+  };
+```
+<!-- --8<-- [end:TaskEffect] -->
+
+<!-- --8<-- [start:TaskFunction] -->
+```juvix
+{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
+Task (C B H A AM AC AE : Type) : Type :=
+  (input : TaskInput C B H A AM) ->
+  Option (TaskEffect B H AM AC AE);
+```
+<!-- --8<-- [end:TaskFunction] -->
+
 ### `ActionExec`
 
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
 type ActionExec (C S B H A AM AC AE : Type) :=
-  | Seq (List (Action C S B H A AM AC AE))
+  | Seq (List (Action C S B H A AM AC AE)) -- deprecated 
+  | Par (List (Task C B H A AM AC AE)) (Action C S B H A AM AC AE)
   ;
 ```
 <!-- --8<-- [end:ActionExec] -->
