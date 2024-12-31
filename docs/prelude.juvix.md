@@ -718,7 +718,7 @@ numbers : List Nat := 1 :: 2 :: 3 :: nil;
 niceNumbers : List Nat := [1 ; 2 ; 3];
 ```
 
-Get the index of an element satisfying a predicate.
+Get the first index of an element satisfying a predicate if such an index exists and nothing, otherwise.
 
 ```juvix
 findIndex {A} (predicate : A -> Bool) : List A -> Maybe Nat
