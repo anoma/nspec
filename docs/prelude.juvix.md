@@ -36,7 +36,7 @@ Join function for monads
 
 ```juvix
 join {M : Type -> Type} {A : Type} {{Monad M}} (mma : M (M A)) : M A :=
-  bind mma id;
+  bind mma id;  -- using the built-in `bind`
 ```
 
 Two-argument functor
