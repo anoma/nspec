@@ -139,7 +139,6 @@ The type `Bool` represents boolean values (`true` or `false`). Used for logical 
       { Bool;
         true;
         false;
-        ite; -- TODO: remove this, use if | ... | else ... instead
         &&;
         ||;
         not;
@@ -182,17 +181,6 @@ Not or
     nor (a b : Bool) : Bool := not (or a b);
     ```
 
-### `ifb`
-
-Boolean if/ternary case operator
-
-    ```juvix
-    ifb {A : Type} (a : Bool) (t f : A) : A :=
-      if
-        | a := t
-        | else := f
-      ;
-    ```
 
 ## Nat
 
@@ -823,17 +811,17 @@ For example,
 
 ### `findIndex`
 
-Get the first index of an element satisfying a predicate if such an index exists and nothing, otherwise.
+Get the first index of an element satisfying a predicate if such an index exists and none, otherwise.
 
     ```juvix
-    findIndex {A} (predicate : A -> Bool) : List A -> Maybe Nat
-      | nil := nothing
+    findIndex {A} (predicate : A -> Bool) : List A -> Option Nat
+      | nil := none
       | (x :: xs) := 
         if
-          | predicate x := just zero
+          | predicate x := some zero
           | else := case findIndex predicate xs of
-            | nothing := nothing
-            | just i := just (suc i);
+            | none := none
+            | some i := some (suc i);
     ```
 
 ### `last`
@@ -868,9 +856,9 @@ Prepend element to a list
 Split one layer of list
 
     ```juvix
-    uncons {A : Type} : List A -> Maybe (Pair A (List A))
+    uncons {A : Type} : List A -> Option (Pair A (List A))
       | nil := none
-      | (x :: xs) := just (mkPair x xs)
+      | (x :: xs) := some (mkPair x xs)
     ```
 
 ### `unsnoc`
@@ -878,9 +866,9 @@ Split one layer of list
 Split one layer of list from the end
 
     ```juvix
-    unsnoc {A : Type} : List A -> Maybe (Pair (List A) A)
+    unsnoc {A : Type} : List A -> Option (Pair (List A) A)
       | nil := none
-      | (x :: xs) := just (mkPair (most (x :: xs)) (last x xs))
+      | (x :: xs) := some (mkPair (most (x :: xs)) (last x xs))
     ```
 
 ### `unfold`
@@ -889,10 +877,10 @@ Unfold a list, layerwise
 
     ```juvix
     terminating
-    unfold {A B} (step : B -> Maybe (Pair A B)) (seed : B) : List A :=
+    unfold {A B} (step : B -> Option (Pair A B)) (seed : B) : List A :=
       case step seed of
-        | nothing := nil
-        | just (x, seed') := x :: unfold step seed';
+        | none := nil
+        | some (x, seed') := x :: unfold step seed';
     ```
 
 ### `unzip`
@@ -1016,17 +1004,6 @@ Traversable instance for lists
               | (x :: xs) := cons x (go xs);
           in go xs;
       };
-    ```
-
-### `catMaybes`
-
-Collapse list of maybes, filtering out failures.
-
-    ```juvix
-    catMaybes {A} : (listOfMaybes : List (Maybe A)) -> List A
-      | nil := nil
-      | (just h :: hs) := h :: catMaybes hs
-      | (nothing :: hs) := catMaybes hs;
     ```
 
 ### `chunksOf`
@@ -1283,19 +1260,19 @@ Updates a value at a specific key using the update function and returns both the
   updateLookupWithKey
     {Key Value}
     {{Ord Key}}
-    (updateFn : Key -> Value -> Maybe Value)
+    (updateFn : Key -> Value -> Option Value)
     (k : Key)
     (map : Map Key Value)
-    : Pair (Maybe Value) (Map Key Value) :=
+    : Pair (Option Value) (Map Key Value) :=
     let
-      oldValue : Maybe Value := Map.lookup k map;
+      oldValue : Option Value := Map.lookup k map;
       newMap : Map Key Value := 
         case oldValue of {
-          | nothing := map
-          | just v := 
+          | none := map
+          | some v := 
             case updateFn k v of {
-              | nothing := Map.delete k map
-              | just newV := Map.insert k newV map
+              | none := Map.delete k map
+              | some newV := Map.insert k newV map
             }
         };
     in oldValue, newMap;
@@ -1385,36 +1362,36 @@ Returns a pair of maps, (matching, non-matching).
         };
       ```
 
-### `mapMaybe`
+### `mapOption`
 
-Apply a partial function to all values in the map, keeping only the entries where the function returns 'just'. 
+Apply a partial function to all values in the map, keeping only the entries where the function returns 'some'. 
 
     ```juvix
-    mapMaybe {Key Value1 Value2} {{Ord Key}}
-      (f : Value1 -> Maybe Value2)
+    mapOption {Key Value1 Value2} {{Ord Key}}
+      (f : Value1 -> Option Value2)
       (map : Map Key Value1)
       : Map Key Value2 :=
       for (acc := Map.empty) (k, v in map) {
         case f v of {
-          | nothing := acc
-          | just v' := Map.insert k v' acc
+          | none := acc
+          | some v' := Map.insert k v' acc
         }
       };
     ```
 
-### `mapMaybeWithKey`
+### `mapOptionWithKey`
 
-Same as mapMaybe but allows the function to examine the key as well.
+Same as mapOption but allows the function to examine the key as well.
 
     ```juvix
-    mapMaybeWithKey {Key Value1 Value2} {{Ord Key}}
-      (f : Key -> Value1 -> Maybe Value2)
+    mapOptionWithKey {Key Value1 Value2} {{Ord Key}}
+      (f : Key -> Value1 -> Option Value2)
       (map : Map Key Value1)
       : Map Key Value2 :=
       for (acc := Map.empty) (k, v in map) {
         case f k v of {
-          | nothing := acc
-          | just v' := Map.insert k v' acc
+          | none := acc
+          | some v' := Map.insert k v' acc
         }
       };
     ```
