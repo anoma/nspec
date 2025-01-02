@@ -4,6 +4,11 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+tags:
+  - resource-logic-proof
+  - resource-machine
+  - security
+  - proof
 ---
 
 ??? quote "Juvix imports"

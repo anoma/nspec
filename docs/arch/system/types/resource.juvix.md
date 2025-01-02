@@ -11,22 +11,53 @@ search:
     module arch.system.types.resource;
     import prelude open;
     import arch.node.types.crypto open;
+    import arch.system.types.nullifierkey open;
     ```
 
 # Resource
 
-A **resource** is a composite structure `Resource` that contains the following components:
+A **resource** is of type `Resource`.
 
 ## `Resource`
 
+??? quote "Auxiliary Juvix code: Type synonyms"
+
+    For the time being, the following type synonyms are used:
+
+    ### `LogicHash`
+
+    ```juvix
+    syntax alias LogicHash := Digest;
+    ```
+
+    ### `LabelHash`
+
+    ```juvix
+    syntax alias LabelHash := Digest;
+    ```
+
+    ### `ValueHash`
+
+    ```juvix
+    syntax alias ValueHash := Digest;
+    ```
+
+    ### `Nonce`
+
+    ```juvix
+    syntax alias Nonce := Nat;
+    ```
+
 ```juvix
 type Resource := mkResource {
-  -- logicRef : LogicHash;
-  -- labelRef : LabelHash;
-  valueRef : Digest;
-  -- quantity : Quantity;
+  logicRef : LogicHash;
+  labelRef : LabelHash;
+  valueRef : ValueHash;
+  quantity : Nat;
   isEphemeral : Bool;
-  -- nonce : Nonce;
+  nonce : Nonce;
+  nullifierKey : NullifierKey;
+  randSeed : Nat;
 };
 ```
 
@@ -58,17 +89,11 @@ type Resource := mkResource {
     : guarantees the uniqueness of the resource computable components  
 
     `nullifierKeyCommitment`
-    : is a nullifier key commitment. Corresponds to the nullifier key $nk$ used to 
-    the resource nullifier (nullifiers are further described [[Nullifier|here]])
+    : is a nullifier key commitment. Corresponds to the nullifier key $nk$ used to
+    derive the resource nullifier (nullifiers are further described [[Nullifier|here]])
 
     `randSeed`
     : randomness seed used to derive whatever randomness needed
-
-To distinguish between the resource data structure consisting of the resource
-components and a resource as a unit of state identified by just one (or some) of
-the resource computed fields, we sometimes refer to the former as a *resource
-object*. Data which is referenced by the resource object - such as the preimage
-of `valueRef` - we refer to as *resource-linked data*.
 
 
 ??? quote "Auxiliary Juvix code"
@@ -84,3 +109,17 @@ of `valueRef` - we refer to as *resource-linked data*.
     instance
     ResourceOrd : Ord Resource;
     ```
+
+## Purpose
+
+A resource represents a uniquely identifiable asset in the system. Resources can
+be created, consumed, and transformed according to predefined logic rules. 
+
+## Properties
+
+Resources have the following key properties:
+
+- Uniqueness: Each resource instance is uniquely identified by its components
+- Fungibility: Resources sharing the same label are considered fungible
+- Nullification: Resources can be consumed only once using their [[Nullifier|nullifier key]]
+- Ephemerality: Ephemeral resources bypass existence checks when consumed
