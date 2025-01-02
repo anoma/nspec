@@ -45,14 +45,14 @@ type Transaction := mkTransaction {
 ???+ quote "Auxiliary Juvix code: Instances"
 
     ```juvix
-    deriving 
-    instance 
+    deriving
+    instance
     eqTrans : Eq Transaction;
     ```
 
     ```juvix
-    deriving 
-    instance 
+    deriving
+    instance
     ordTrans : Ord Transaction;
     ```
 

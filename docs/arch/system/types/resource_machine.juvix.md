@@ -28,7 +28,7 @@ A **resource machine** is a term of type `ResourceMachine`.
 
 ```juvix
 type ResourceMachine := mkResourceMachine {
-  createTransaction : 
+  createTransaction :
     -- CMTreeRoots : Set CMtree.Value;
     -- actions : Set Action;
     -- deltaProof : DeltaProvingSystem.Proof;

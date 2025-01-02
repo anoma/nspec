@@ -50,7 +50,7 @@ match-nullifier-key
 
 ### Nullifier must not exist in the [[Nullifier Set|nullifier set]]
 
-``` 
+```
 unique-nullifier-property
   (s : State) (r : Resource) (nk : NullifierKey) : Bool :=
   let nullifier := mkNullifier@{key := nk; resource := r};

@@ -18,13 +18,13 @@ nav:
           - ./arch/system/index.md
           - Identity Architecture: ./arch/system/identity/identity.juvix.md
           - State Architecture:
-              - Types: 
+              - Types:
                   - Resource: ./arch/system/types/resource.juvix.md
                   - Nullifier: ./arch/system/types/nullifier.juvix.md
                   - Nullifier key: ./arch/system/types/nullifierkey.juvix.md
                   - Nullifier properties: ./arch/system/types/nullifier_properties.juvix.md
                   - Resource machine: ./arch/system/types/resource_machine.juvix.md
-                  - Transaction : ./arch/system/types/transaction.juvix.md
+                  - Transaction: ./arch/system/types/transaction.juvix.md
                   - Action: ./arch/system/types/action.juvix.md
                   - Resource logic proof: ./arch/system/types/resource_logic_proof.juvix.md
                   - State: ./arch/system/types/state.juvix.md

@@ -86,7 +86,7 @@ type Resource := mkResource {
     do not get checked for existence when being consumed
 
     `nonce`
-    : guarantees the uniqueness of the resource computable components  
+    : guarantees the uniqueness of the resource computable components
 
     `nullifierKeyCommitment`
     : is a nullifier key commitment. Corresponds to the nullifier key $nk$ used to
@@ -113,7 +113,7 @@ type Resource := mkResource {
 ## Purpose
 
 A resource represents a uniquely identifiable asset in the system. Resources can
-be created, consumed, and transformed according to predefined logic rules. 
+be created, consumed, and transformed according to predefined logic rules.
 
 ## Properties
 

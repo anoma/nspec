@@ -38,7 +38,7 @@ type State := mkState {
     : a second commitment accumulator that maps finite field x timestamp pairs
     onto finite field elements
 
-    `nullifierSet` 
+    `nullifierSet`
     : a nullifier set that is a map from a finite field element to a finite
     field element
 

@@ -28,19 +28,19 @@ data.
 ```juvix
 type MTree A B :=
   | mkMTreeLeaf@{ value : A }
-  | mkMTreeNode@{ 
-      merge : B; 
-      left : MTree A B; 
+  | mkMTreeNode@{
+      merge : B;
+      left : MTree A B;
       right : MTree A B }
   ;
 ```
 
 ???+ quote "`MTree` constructors"
 
-    `mkMTreeLeaf` 
+    `mkMTreeLeaf`
     : A leaf node in the tree which stores some particular data.
 
-    `mkMTreeNode` 
+    `mkMTreeNode`
     : An internal node in the tree which stores the merge of the two sub-trees,
       and the two sub-trees themselves.
 ## `CTree`

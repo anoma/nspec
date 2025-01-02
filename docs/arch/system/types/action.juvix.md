@@ -21,7 +21,7 @@ tags:
 
 # Actions
 
-An **action** is a term of type `Action`. 
+An **action** is a term of type `Action`.
 
 ## `Action`
 
@@ -60,14 +60,14 @@ type Action := mkAction {
 ??? quote "Auxiliary Juvix code: Instances"
 
     ```juvix
-    deriving 
-    instance 
+    deriving
+    instance
     eqAction : Eq Action;
     ```
 
     ```juvix
-    deriving 
-    instance 
+    deriving
+    instance
     ordAction : Ord Action;
     ```
 
@@ -85,7 +85,7 @@ type Action := mkAction {
 
 <!--
 
-!!! note 
+!!! note
 
     `resourceLogicProofs` type: For function privacy, we assume that the
     produced logic proof is recursive, and the verifying key used to verify the
@@ -113,7 +113,7 @@ commitment is in the action's `created` list.
 
 ```juvix
 -- axiom
--- create 
+-- create
 --   (nfs : Set (NullifierKey, Resource))
 --   (created : Set Resource)
 --   (applicationData : ApplicationData) -> Action;

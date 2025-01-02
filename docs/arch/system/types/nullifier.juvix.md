@@ -68,7 +68,7 @@ set part of the [[State|state]].
   - A nullifier key matching the resource's nullifier key commitment.
 
   - The resource nullifier must not exist in the [[Nullifier Set|nullifier set]].
-  
+
 
 ## Properties
 
