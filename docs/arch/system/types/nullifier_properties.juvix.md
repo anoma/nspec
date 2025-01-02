@@ -32,6 +32,11 @@ tags:
     axiom nullifierHash : Nullifier -> Digest;
     ```
 
+!!! todo
+
+    How are we supposed to define the `computeNullifier` and `nullifierHash`
+    functions?
+
 The following properties must hold true to consider a nullifier valid:
 
 ### Nullifier key must match the resource's nullifier key commitment
