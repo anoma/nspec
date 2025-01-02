@@ -4,6 +4,10 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+tags:
+  - action
+  - transaction
+  - resource-machine
 ---
 
 ??? quote "Juvix imports"
@@ -12,6 +16,7 @@ search:
     module arch.system.types.action;
     import prelude open;
     import arch.system.types.nullifier open;
+    import arch.system.types.commitment open;
     ```
 
 # Actions
