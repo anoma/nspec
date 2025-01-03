@@ -21,33 +21,52 @@ tags:
 
 # Actions
 
-An **action** is a term of type `Action`.
+An *action* is a term of type `Action` that represent *atomic transactions* or
+*state changes*.
 
 ## Purpose
 
-Actions partition the [[State|state change]] induced by a transaction and limit
-the [[Resource logic proof|resource logic proofs]] evaluation context. Recall
-that proofs created in the context of an action have access only to the
-[[Resource|resources]] associated with the action.
+Actions are atomic units of [[State|state]] change within a
+[[Transaction|transaction]]. They serve the following main purposes.
 
+1. **State Change Organization**: Actions partition a transaction's overall
+state change into smaller, focused units. Each action clearly specifies which
+resources are being created and consumed by the associated [[Transaction|transaction]].
 
-A resource is said to be *associated with an action* if its
-[[Commitment|commitment]] or [[Nullifier|nullifier]] is present in the action's
-`created` or `consumed` correspondingly.
+2. **Proof Context Isolation**: Actions provide an isolated context for
+[[Resource logic proof|resource logic proofs]]. When evaluating proofs for a
+resource, only the resources associated with that action are accessible. This
+isolation helps manage complexity and ensures proper resource handling.
 
-A resource is associated with exactly one action. A resource is said to be
-*consumed in the action* for a valid action if its nullifier is present in the
-action's `consumed` list.
+### Resource Association
 
-A resource is said to be *created in the action* for a
-valid action if its commitment is in the action's `created` list.
+We also need to discuss how resources are associated with actions.
+
+A resource can be associated with an action in two ways:
+
+- Through its corresponding [[Commitment|commitment]] in the action's `created`
+field, indicating it is being created 
+
+- Through its corresponding [[Nullifier|nullifier]] in the action's `consumed`
+field, indicating it is being consumed
+
+Important properties of this resource association:
+
+- Resources listed in `consumed` are considered "consumed in the action".
+- Resources listed in `created` are considered "created in the action".
+- Each resource is associated with exactly one action in case it is created or
+consumed in the action.
+
+Now we can define the `Action` type.
 
 ## `Action`
 
+A *transaction action* or simply *action* is a term of type `Action`.
+
 ```juvix
 type Action A := mkAction {
-  created : List (Commitment A);
-  consumed : List Nullifier;
+  created : Set (Commitment A);
+  consumed : Set Nullifier;
   -- resourceLogicProofs : Map Tag (LogicRefHash, PS.Proof);
   -- complianceUnits : Set ComplianceUnit;
   -- applicationData : Map Tag (BitString, DeletionCriterion);
@@ -69,7 +88,7 @@ type Action A := mkAction {
     is the corresponding proof
 
     `complianceUnits`
-    : The set of transaction's [[Compliance unit | compliance units]]
+    : The set of transaction's [[Compliance unit| compliance units]]
 
     `applicationData`
     : maps tags to relevant application data needed to verify resource logic
@@ -93,9 +112,10 @@ type Action A := mkAction {
 
 ## Properties
 
-### An action is associated with only one resource
+### A resource can only be associated with one action when being consumed or
+created
 
-### Actions do not need to be balanced
+### Actions must provide proofs for all *resource transitions*
 
 <!--
 
