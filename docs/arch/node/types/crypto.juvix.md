@@ -111,6 +111,12 @@ type Digest :=
   ;
 ```
 
+### `hash`
+
+```juvix
+axiom hash {A} : A -> Digest;
+```
+
 ??? quote "Auxiliary Juvix code"
 
     ```juvix
