@@ -23,7 +23,8 @@ We define a set of structures required to define a proving system $PS$ as follow
 
 Besides a paramter `Statement`
 (that is left underspecified for the time being),
-we have the type parameters as listed above.
+we have a trait with the required structures for each of the "sorts".
+<!--ᚦ (in the sense of multi-sorted universal algebra https://arxiv.org/abs/2111.07936 better citation needed. -->
 
 ```juvix
 trait
@@ -39,19 +40,31 @@ type ProvingSystemStructure
                  functionalize : Statement -> Instance -> Witness -> Bool;
             }
 ;
-
-coercion instance
-proofEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq P :=
-  ProvingSystemStructure.proofEq {{p}};
-
-coercion instance
-instanceOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Ord I :=
-  ProvingSystemStructure.instanceOrd {{p}};
-
-
 ```
 
+??? info "Coercions to the enclosed traits"
 
+    ```juvix        
+    coercion instance
+    proofEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq P :=
+    ProvingSystemStructure.proofEq {{p}};
+    
+    coercion instance
+    instanceOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Ord I :=
+    ProvingSystemStructure.instanceOrd {{p}};
+    
+    coercion instance
+    witnessOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Ord W :=
+    ProvingSystemStructure.witnessOrd {{p}};
+    
+    coercion instance
+    pkEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq PK :=
+    ProvingSystemStructure.pkEq {{p}};
+    
+    coercion instance
+    vkEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq VK :=
+    ProvingSystemStructure.vkEq {{p}};
+    ```
 
 !!! todo "injectivity"
 
@@ -60,12 +73,12 @@ instanceOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Or
 !!! todo "instances : ordered input data structure"
 
     What does it mean for (the type of) instances to be ordered?
-    Is it really just the ordering on terms?
+    Is it really just the ordering on terms of the type as per `Ord`?
 
 !!! todo "witnesses : ordered input data structure"
 
     What does it mean for (the type of) witnesses to be ordered?
-    Is it really just the ordering on terms?
+    Is it really just the ordering on terms of the type as per `Ord`?
 
 A _proving system $PS$_ consists of a pair of algorithms, $(Prove, Verify)$:
 
