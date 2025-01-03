@@ -33,14 +33,14 @@ that proofs created in the context of an action have access only to the
 
 A resource is said to be *associated with an action* if its
 [[Commitment|commitment]] or [[Nullifier|nullifier]] is present in the action's
-`created` or `consumed` correspondingly. 
+`created` or `consumed` correspondingly.
 
 A resource is associated with exactly one action. A resource is said to be
 *consumed in the action* for a valid action if its nullifier is present in the
-action's `consumed` list. 
+action's `consumed` list.
 
 A resource is said to be *created in the action* for a
-valid action if its commitment is in the action's `created` list. 
+valid action if its commitment is in the action's `created` list.
 
 ## `Action`
 
@@ -79,14 +79,14 @@ type Action A := mkAction {
 ??? quote "Auxiliary Juvix code: Instances"
 
     ```juvix
-    deriving 
-    instance 
+    deriving
+    instance
     eqAction {A} {{Eq A}}: Eq (Action A);
     ```
 
     ```juvix
-    deriving 
-    instance 
+    deriving
+    instance
     ordAction {A} {{Ord A}}: Ord (Action A);
     ```
 

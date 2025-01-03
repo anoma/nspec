@@ -35,7 +35,7 @@ thisShouldWork : {A : Set} -> CommitmentTree A CTree
 CommitmentTree.hashRoot (thisShouldWork {A}) = treeHash
     where
         treeHash : {A : Set} -> CTree A -> Digest
-        treeHash (mkMTreeLeaf 
+        treeHash (mkMTreeLeaf
             record { committed = committed ; commitment = commitment }) = commitment
         treeHash (mkMTreeNode merge left right) = merge
 CommitmentTree.add (thisShouldWork {A}) = undef

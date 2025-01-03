@@ -71,7 +71,7 @@ We now define an instance of a `CommitmentTreeOps` for the `CTree` type.
 Trees of this type can be used as *default* cryptographic accumulators.
 
 The `CTree` type is defined as a specialised `MTree`, a general type of tree
-that can be used as a cryptographic accumulator. 
+that can be used as a cryptographic accumulator.
 
 ### `MTree`
 
@@ -148,11 +148,11 @@ CTreePath : Type := List PathDir;
 -- instance
 thisShouldWork {A}: CommitmentTreeOps A CTree Path :=
   mkCommitmentTreeOps@{
-    hashRoot {A} (tree : CTree A) : Digest := 
+    hashRoot {A} (tree : CTree A) : Digest :=
       case tree of {
         | (mkMTreeNode@{ merge := digest}) := digest
-        | (mkMTreeLeaf@{ value := 
-          (mkCommitment@{ commitment := hashCommitment }) }) := 
+        | (mkMTreeLeaf@{ value :=
+          (mkCommitment@{ commitment := hashCommitment }) }) :=
           hashCommitment
       };
     add := undef;
