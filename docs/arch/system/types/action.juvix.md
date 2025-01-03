@@ -45,7 +45,7 @@ We also need to discuss how resources are associated with actions.
 A resource can be associated with an action in two ways:
 
 - Through its corresponding [[Commitment|commitment]] in the action's `created`
-field, indicating it is being created 
+field, indicating it is being created
 
 - Through its corresponding [[Nullifier|nullifier]] in the action's `consumed`
 field, indicating it is being consumed
