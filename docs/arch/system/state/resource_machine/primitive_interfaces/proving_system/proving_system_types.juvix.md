@@ -26,6 +26,7 @@ Besides a paramter `Statement`
 we have the type parameters as listed above.
 
 ```juvix
+trait
 type ProvingSystemStructure
      (Statement Proof Instance Witness ProvingKey VerifyingKey : Type) :=
             mkProvingSystemStructure@{
@@ -38,7 +39,19 @@ type ProvingSystemStructure
                  functionalize : Statement -> Instance -> Witness -> Bool;
             }
 ;
+
+coercion instance
+proofEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq P :=
+  ProvingSystemStructure.proofEq {{p}};
+
+coercion instance
+instanceOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Ord I :=
+  ProvingSystemStructure.instanceOrd {{p}};
+
+
 ```
+
+
 
 !!! todo "injectivity"
 
