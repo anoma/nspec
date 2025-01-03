@@ -47,23 +47,23 @@ type ProvingSystemStructure
     ```juvix        
     coercion instance
     proofEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq P :=
-    ProvingSystemStructure.proofEq {{p}};
+      ProvingSystemStructure.proofEq {{p}};
     
     coercion instance
     instanceOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Ord I :=
-    ProvingSystemStructure.instanceOrd {{p}};
+      ProvingSystemStructure.instanceOrd {{p}};
     
     coercion instance
     witnessOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Ord W :=
-    ProvingSystemStructure.witnessOrd {{p}};
+      ProvingSystemStructure.witnessOrd {{p}};
     
     coercion instance
     pkEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq PK :=
-    ProvingSystemStructure.pkEq {{p}};
+      ProvingSystemStructure.pkEq {{p}};
     
     coercion instance
     vkEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq VK :=
-    ProvingSystemStructure.vkEq {{p}};
+      ProvingSystemStructure.vkEq {{p}};
     ```
 
 !!! todo "injectivity"
@@ -100,12 +100,20 @@ type ProvingSystem
 ;
 ```
 
+??? info "Coercion to the parent trait"
+
+    ```juvix
+    coercion instance
+    structureOf {S P I W PK VK} {{ps : ProvingSystem S P I W PK VK}} : ProvingSystemStructure S P I W PK VK :=
+      ProvingSystem.structure {{ps}};
+    ```
+
 !!! note
     To verify a proof created for instance `x`, the same instance `x` must be used. For instances that contain elements of the same type, the order of the elements must be preserved.
 
-!!! todo "clarify"
+!!! todo "clarify the note"
 
-    What does thes sentence
+    What does the sentence
     "For instances that contain elements of the same type,
     the order of the elements must be preserved."
     mean?
