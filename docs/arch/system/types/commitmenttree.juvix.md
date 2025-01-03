@@ -151,7 +151,7 @@ thisShouldWork {A}: CommitmentTreeOps A CTree CTreePath :=
     hashRoot {A} (tree : CTree A) : Digest :=
       case tree of {
         | (mkMTreeNode@{ merge := digest}) := digest
-        | (mkMTreeLeaf@{ value := 
+        | (mkMTreeLeaf@{ value :=
           (mkCommitment@{ commitment := c }) }) := c
       };
     add := undef;
