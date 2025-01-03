@@ -18,6 +18,14 @@ tags:
 
 # Commitment
 
+## Purpose
+
+Commitments are used to prove the existence of a value without revealing the
+value itself. In the context of the resource machine, they are used to prove the
+existence of resources. Precisely, commitments are meant to be stored in the
+state of the resource machine in a [[CommitmentTree|commitment tree]] to be
+queried by the resource machine.
+
 ## `Commitment`
 
 ```juvix
@@ -27,11 +35,6 @@ type Commitment A := mkCommitment@{
 };
 ```
 
-!!! todo
-
-    Determine if the type parameter is necessary, or it should be just
-    String/Bytestring or something else.
-
 ???+ quote "Arguments"
 
     `value`
@@ -40,13 +43,30 @@ type Commitment A := mkCommitment@{
     `hash`
     : The hash of the value.
 
-## Purpose
+???+ quote "Auxiliary Juvix code: Instances"
 
-Commitments are used to prove the existence of a value without revealing the
-value itself. In the context of the resource machine, they are used to prove the
-existence of resources. Precisely, commitments are meant to be stored in the
-state of the resource machine in a [[CommitmentTree|commitment tree]] to be
-queried by the resource machine.
+    ```juvix
+    deriving
+    instance
+    CommitmentEq {A} {{Eq A}} : Eq (Commitment A);
+    ```
+
+    ```juvix
+    deriving
+    instance
+    CommitmentOrd {A} {{Ord A}} : Ord (Commitment A);
+    ```
+
+### `makeCommitment`
+
+```juvix
+makeCommitment {A} (a : A) : Commitment A :=
+  mkCommitment@{
+    value := a;
+    hash := hash a;
+  };
+```
+
 
 ## Properties
 
@@ -54,14 +74,3 @@ queried by the resource machine.
 
     Add properties of the commitment.
 
-??? quote "Auxiliary Juvix code"
-
-    ```juvix
-    instance
-    Commitment-Eq {A} {{Eq A}} : Eq (Commitment A)
-      := mkEq@{
-        eq := \{c1 c2 :=
-          Commitment.hash c1 == Commitment.hash c2
-        }
-      };
-    ```
