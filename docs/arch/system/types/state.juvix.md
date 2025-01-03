@@ -14,9 +14,11 @@ tags:
     module arch.system.types.state;
     import prelude open;
     import arch.system.types.nullifier open;
+    import arch.system.types.commitmenttree open;
     ```
 
 # State
+
 
 ```juvix
 type State := mkState {

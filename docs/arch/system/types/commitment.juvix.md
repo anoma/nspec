@@ -30,17 +30,17 @@ queried by the resource machine.
 
 ```juvix
 type Commitment A := mkCommitment@{
-  value : A;
-  hash : Digest;
+  committed : A;
+  commitment : Digest;
 };
 ```
 
 ???+ quote "Arguments"
 
-    `value`
+    `committed`
     : The value that is committed to.
 
-    `hash`
+    `commitment`
     : The hash of the value.
 
 ???+ quote "Auxiliary Juvix code: Instances"
@@ -62,8 +62,8 @@ type Commitment A := mkCommitment@{
 ```juvix
 makeCommitment {A} (a : A) : Commitment A :=
   mkCommitment@{
-    value := a;
-    hash := hash a;
+    committed := a;
+    commitment := hash a;
   };
 ```
 
