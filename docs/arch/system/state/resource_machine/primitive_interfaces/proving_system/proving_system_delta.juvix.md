@@ -26,11 +26,18 @@ The aggregation function allows to aggregate proofs in a way that if $\pi_1$ pro
 ```juvix
 trait
 type DeltaProvingSystem (Statement Proof Instance Witness ProvingKey VerifyingKey : Type) := mkDeltaProvingSystem@{
-     provingSystem : ProvingSystem Statement Proof Instance Witness ProvingKey VerifyingKey; -- faking inheritance
+     provingSystem : ProvingSystem Statement Proof Instance Witness ProvingKey VerifyingKey;
      aggregate : Proof -> Proof;
      };
 ```
 
+??? note "Coercion to parent `provingSystemOf`"
+
+    ```juvix
+    coercion instance
+    provingSystemOf {S P I W PK VK} {{dps : DeltaProvingSystem S P I W PK VK}} : ProvingSystem S P I W PK VK :=
+      DeltaProvingSystem.provingSystem {{dps}};
+    ```
 
 ```mermaid
 ---
