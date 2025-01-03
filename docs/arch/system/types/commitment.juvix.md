@@ -20,11 +20,10 @@ tags:
 
 ## Purpose
 
-Commitments are used to prove the existence of a value without revealing the
-value itself. In the context of the resource machine, they are used to prove the
-existence of resources. Precisely, commitments are meant to be stored in the
-state of the resource machine in a [[CommitmentTree|commitment tree]] to be
-queried by the resource machine.
+Commitments prove the existence of a value without revealing it. In the resource
+machine, they prove the existence of resources. Commitments are stored in the
+resource machine's state within a [[CommitmentTree|commitment tree]] for
+querying.
 
 ## `Commitment`
 
