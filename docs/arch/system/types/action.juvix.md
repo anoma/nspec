@@ -23,11 +23,30 @@ tags:
 
 An **action** is a term of type `Action`.
 
+## Purpose
+
+Actions partition the [[State|state change]] induced by a transaction and limit
+the [[Resource logic proof|resource logic proofs]] evaluation context. Recall
+that proofs created in the context of an action have access only to the
+[[Resource|resources]] associated with the action.
+
+
+A resource is said to be *associated with an action* if its
+[[Commitment|commitment]] or [[Nullifier|nullifier]] is present in the action's
+`created` or `consumed` correspondingly. 
+
+A resource is associated with exactly one action. A resource is said to be
+*consumed in the action* for a valid action if its nullifier is present in the
+action's `consumed` list. 
+
+A resource is said to be *created in the action* for a
+valid action if its commitment is in the action's `created` list. 
+
 ## `Action`
 
 ```juvix
-type Action := mkAction {
-  -- created : List Commitment;
+type Action A := mkAction {
+  created : List (Commitment A);
   consumed : List Nullifier;
   -- resourceLogicProofs : Map Tag (LogicRefHash, PS.Proof);
   -- complianceUnits : Set ComplianceUnit;
@@ -60,28 +79,23 @@ type Action := mkAction {
 ??? quote "Auxiliary Juvix code: Instances"
 
     ```juvix
-    deriving
-    instance
-    eqAction : Eq Action;
+    deriving 
+    instance 
+    eqAction {A} {{Eq A}}: Eq (Action A);
     ```
 
     ```juvix
-    deriving
-    instance
-    ordAction : Ord Action;
+    deriving 
+    instance 
+    ordAction {A} {{Ord A}}: Ord (Action A);
     ```
 
-## Purpose
-
-!!! todo
-
-    Explain the purpose of actions.
 
 ## Properties
 
-!!! todo
+### An action is associated with only one resource
 
-    Explain the properties of actions.
+### Actions do not need to be balanced
 
 <!--
 
@@ -94,15 +108,6 @@ type Action := mkAction {
     `LogicRefHash` parameter - or it is contained directly in the `LogicRefHash`
     parameter. This part isn't properly generalised yet.
 
-Actions partition the state change induced by a transaction and limit the
-resource logics evaluation context: proofs created in the context of an action
-have access only to the resources associated with the action. A resource is said
-to be *associated with an action* if its commitment or nullifier is present in
-the action's `created` or `consumed` correspondingly. A resource is associated
-with exactly one action. A resource is said to be *consumed in the action* for a
-valid action if its nullifier is present in the action's `consumed` list. A
-resource is said to be *created in the action* for a valid action if its
-commitment is in the action's `created` list.
 
 !!! note
 
@@ -127,26 +132,52 @@ commitment is in the action's `created` list.
 
 
 ## Proofs
-For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [[Resource logic proof | here]].
+
+For each resource consumed or created in the action, it is required to provide a
+proof that the logic associated with that resource evaluates to `True` given the
+input parameters that describe the state transition induced by the action. The
+number of such proofs in an action equals to the amount of resources (both
+created and consumed) in that action, even if some resources have the same
+logics. Resource logic proofs are further described [[Resource logic proof |
+here]].
 
 ## `create`
 
-Given a set of input resource objects `consumedResources: Set (NullifierKey, Resource, CMtreePath)`, a set of output resource plaintexts `createdResources: Set Resource`, and `applicationData`, including a set of application inputs required by resource logics, an action is computed the following way:
+Given a set of input resource objects `consumedResources: Set (NullifierKey,
+Resource, CMtreePath)`, a set of output resource plaintexts `createdResources:
+Set Resource`, and `applicationData`, including a set of application inputs
+required by resource logics, an action is computed the following way:
 
-1. Partition action into compliance units and compute a compliance proof for each unit. Put the information about the units in `action.complianceUnits`
-2. For each resource, compute a resource logic proof. Associate each proof with the tag of the resource and the logic hash reference. Put the resulting map in `action.resourceLogicProofs`
+1. Partition action into compliance units and compute a compliance proof for
+each unit. Put the information about the units in `action.complianceUnits`
+
+2. For each resource, compute a resource logic proof. Associate each proof with
+the tag of the resource and the logic hash reference. Put the resulting map in
+`action.resourceLogicProofs`
+
 3. `action.consumed = r.nullifier(nullifierKey) for r in consumedResources`
+
 4. `action.created = r.commitment() for r in createdResources`
+
 5. `action.applicationData = applicationData`
 
 ## `verify`
 
-Validity of an action can only be determined for actions that are associated with a transaction. Assuming that an action is associated with a transaction, an action is considered valid if all of the following conditions hold:
+Validity of an action can only be determined for actions that are associated
+with a transaction. Assuming that an action is associated with a transaction, an
+action is considered valid if all of the following conditions hold:
 
-1. action input resources have valid resource logic proofs associated with them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
-2. action output resources have valid resource logic proofs associated with them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
+1. action input resources have valid resource logic proofs associated with them:
+`verify(RLVerifyingKey, RLInstance, RLproof) = True`
+
+2. action output resources have valid resource logic proofs associated with
+them: `verify(RLVerifyingKey, RLInstance, RLproof) = True`
+
 3. all compliance proofs are valid: `complianceUnit.verify() = True`
-4. transaction's $rts$ field contains correct `CMtree` roots (that were actual `CMtree` roots at some epochs) used to prove the existence of consumed resources in the compliance proofs.
+
+4. transaction's $rts$ field contains correct `CMtree` roots (that were actual
+`CMtree` roots at some epochs) used to prove the existence of consumed resources
+in the compliance proofs.
 
 ## `delta`
 
