@@ -44,23 +44,23 @@ type ProvingSystemStructure
 
 ??? info "Coercions to the enclosed traits"
 
-    ```juvix        
+    ```juvix
     coercion instance
     proofEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq P :=
       ProvingSystemStructure.proofEq {{p}};
-    
+
     coercion instance
     instanceOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Ord I :=
       ProvingSystemStructure.instanceOrd {{p}};
-    
+
     coercion instance
     witnessOrdOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Ord W :=
       ProvingSystemStructure.witnessOrd {{p}};
-    
+
     coercion instance
     pkEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq PK :=
       ProvingSystemStructure.pkEq {{p}};
-    
+
     coercion instance
     vkEqOf {S P I W PK VK} {{ p : ProvingSystemStructure S P I W PK VK}} : Eq VK :=
       ProvingSystemStructure.vkEq {{p}};
