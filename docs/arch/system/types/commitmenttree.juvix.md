@@ -146,14 +146,13 @@ CTreePath : Type := List PathDir;
 
 ```
 -- instance
-thisShouldWork {A}: CommitmentTreeOps A CTree Path :=
+thisShouldWork {A}: CommitmentTreeOps A CTree CTreePath :=
   mkCommitmentTreeOps@{
     hashRoot {A} (tree : CTree A) : Digest :=
       case tree of {
         | (mkMTreeNode@{ merge := digest}) := digest
-        | (mkMTreeLeaf@{ value :=
-          (mkCommitment@{ commitment := hashCommitment }) }) :=
-          hashCommitment
+        | (mkMTreeLeaf@{ value := 
+          (mkCommitment@{ commitment := c }) }) := c
       };
     add := undef;
     read := undef;
