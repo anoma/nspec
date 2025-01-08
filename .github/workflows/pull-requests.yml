@@ -15,7 +15,7 @@ env:
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
   INSIDERS_VERSION: 9.5.49-insiders-4.53.14
-  JUVIX_VERSION: v0.6.8
+  JUVIX_VERSION: v0.6.9
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   SHOW_TODOS_IN_MD: true
