@@ -43,7 +43,8 @@ The following properties must hold true to consider a nullifier valid:
 
 ```juvix
 match-nullifier-key
-  (r : Resource) (nk : NullifierKey) : Bool :=
+  (r : Resource) 
+  (nk : NullifierKey) : Bool :=
   let n := mkNullifier@{key := nk; resource := r} in
   (computeNullifier r nk) == (nullifierHash n)
 ```
@@ -52,7 +53,9 @@ match-nullifier-key
 
 ```
 unique-nullifier-property
-  (s : State) (r : Resource) (nk : NullifierKey) : Bool :=
+  (s : State) 
+  (r : Resource) 
+  (nk : NullifierKey) : Bool :=
   let nullifier := mkNullifier@{key := nk; resource := r};
       nullifierSet : Set Nullifier := State.nullifierSet s;
       cond (other : Nullifier) : Bool := (Set.isMember other nullifierSet) && (other == nullifier)

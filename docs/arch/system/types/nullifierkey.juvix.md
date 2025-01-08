@@ -28,7 +28,7 @@ unique for each resource.
 
 ```juvix
 type NullifierKey := mkNullifierKey {
-  key : SecretKey;
+  key : Digest; --TODO: What type I need to put here. Hash?
 };
 ```
 

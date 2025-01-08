@@ -142,8 +142,13 @@ A `CTreePath` is a sequence of `PathDir` values used to navigate through a `CTre
 CTreePath : Type := List PathDir;
 ```
 
-### A `CTree` is a commitment tree
+### `CommitmentTree`
 
+```juvix
+CommitmentTree (A : Type) : Type := CommitmentTreeOps A CTree PathDir;
+```
+
+<!--
 ```
 -- instance
 thisShouldWork {A}: CommitmentTreeOps A CTree CTreePath :=
@@ -159,3 +164,4 @@ thisShouldWork {A}: CommitmentTreeOps A CTree CTreePath :=
     verify := undef;
   };
 ```
+-->

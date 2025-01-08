@@ -69,7 +69,6 @@ set part of the [[State|state]].
 
   - The resource nullifier must not exist in the [[Nullifier Set|nullifier set]].
 
-
 ## Properties
 
 --8<-- "./nullifier_properties.juvix.md:properties"

@@ -19,14 +19,23 @@ tags:
 
 # State
 
+???+ quote "Auxiliary Juvix code"
+
+    ```juvix
+    axiom CommitmentAccumulator : Type;
+    ```
+
+    ```juvix
+    axiom DataBlobStorage : Type;
+    ```
 
 ```juvix
 type State := mkState {
-  -- commitmentAccumulator : CommitmentAccumulator;
+  commitmentAccumulator {A : Type} {{CommitmentTreeOps A CTree}} : A ;
   -- secondCommitmentAccumulator : CommitmentAccumulator;
   nullifierSet : Set Nullifier;
+  dataBlobStorage : DataBlobStorage;
   -- hierarchicalIndex : HierarchicalIndex;
-  -- dataBlobStorage : DataBlobStorage;
 };
 ```
 

@@ -27,6 +27,7 @@ A **resource machine** is a term of type `ResourceMachine`.
 ## `ResourceMachine`
 
 ```juvix
+trait
 type ResourceMachine := mkResourceMachine {
   createTransaction :
     -- CMTreeRoots : Set CMtree.Value;
