@@ -392,7 +392,7 @@ connectIdentityAction
                     engines := []
                   }
                 | some externalIdentityInfo :=
-                  if 
+                  if
                     | isSubsetCapabilities capabilities' (IdentityInfo.capabilities externalIdentityInfo) :=
                       let newIdentityInfo := copyEnginesForCapabilities env whoAsked externalIdentityInfo capabilities';
                           updatedIdentities := Map.insert whoAsked newIdentityInfo identities;

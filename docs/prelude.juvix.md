@@ -158,7 +158,7 @@ For example,
 Exlusive or
 
     ```juvix
-    xor (a b : Bool) : Bool := 
+    xor (a b : Bool) : Bool :=
       if
         | a := not b
         | else := b
@@ -552,7 +552,7 @@ For example,
 Check components of either.
 
     ```juvix
-    isLeft {A B : Type} (e : Either A B) : Bool := 
+    isLeft {A B : Type} (e : Either A B) : Bool :=
       case e of {
         | left _ := true
         | right _ := false
@@ -560,7 +560,7 @@ Check components of either.
     ```
 
     ```juvix
-    isRight {A B : Type} (e : Either A B) : Bool := 
+    isRight {A B : Type} (e : Either A B) : Bool :=
       case e of {
         | left _ := false
         | right _ := true
@@ -767,7 +767,7 @@ Map over option with default
 Filter option according to predicate
 
     ```juvix
-    filterOption {A : Type} (p : A -> Bool) (opt : Option A) : Option A := 
+    filterOption {A : Type} (p : A -> Bool) (opt : Option A) : Option A :=
       case opt of {
         | none := none
         | some x :=
@@ -816,7 +816,7 @@ Get the first index of an element satisfying a predicate if such an index exists
     ```juvix
     findIndex {A} (predicate : A -> Bool) : List A -> Option Nat
       | nil := none
-      | (x :: xs) := 
+      | (x :: xs) :=
         if
           | predicate x := some zero
           | else := case findIndex predicate xs of
@@ -945,7 +945,7 @@ Get the maximal element of a list.
       : Option A :=
       let maxHelper := \{curr acc :=
         case acc of {
-          | none := some curr  
+          | none := some curr
           | some maxVal :=
             if
               | f curr > f maxVal := some curr
@@ -966,7 +966,7 @@ Get the minimal element of a list.
       : Option A :=
       let minHelper := \{curr acc :=
         case acc of {
-          | none := some curr  
+          | none := some curr
           | some minVal :=
             if
               | f curr < f minVal := some curr
@@ -988,17 +988,17 @@ Traversable instance for lists
           let
             cons : F A -> F (List A) -> F (List A)
               | x acc := liftA2 (::) x acc;
-          
+
             go : List (F A) -> F (List A)
               | nil := pure nil
               | (x :: xs) := cons x (go xs);
           in go xs;
-        
+
         traverse {F : Type -> Type} {A B} {{appF : Applicative F}} (f : A -> F B) (xs : List A) : F (List B) :=
           let
             cons : A -> F (List B) -> F (List B)
               | x acc := liftA2 (::) (f x) acc;
-          
+
             go : List A -> F (List B)
               | nil := pure nil
               | (x :: xs) := cons x (go xs);
@@ -1101,9 +1101,9 @@ Examples:
 
         go : List A -> List A -> List A
           | acc nil := reverse acc
-          | acc (x :: xs) := 
+          | acc (x :: xs) :=
             if
-              | elemBy x acc := go acc xs  
+              | elemBy x acc := go acc xs
               | else := go (x :: acc) xs;
       in go nil;
     ```
@@ -1117,9 +1117,9 @@ Examples:
 Generate all possible sublists of a list. Each element can either be included or not.
 
     ```juvix
-    powerlists {A} : List A -> List (List A)  
+    powerlists {A} : List A -> List (List A)
       | nil := nil :: nil
-      | (x :: xs) := 
+      | (x :: xs) :=
         let
           rest : List (List A) := powerlists xs;
           withX : List (List A) := map ((::) x) rest;
@@ -1192,11 +1192,11 @@ Caclulate the symmetric difference of two sets.
 Generate the set of all cartesian products of a set.
 
     ```juvix
-    cartesianProduct 
-      {A B} 
+    cartesianProduct
+      {A B}
       {{Ord A}} {{Ord B}}
-      (set1 : Set A) 
-      (set2 : Set B) 
+      (set1 : Set A)
+      (set2 : Set B)
       : Set (Pair A B) :=
       let
         -- For a fixed element from set1, create a set of all pairs with elements from set2
@@ -1204,7 +1204,7 @@ Generate the set of all cartesian products of a set.
           for (acc := Set.empty) (b in set2) {
             Set.insert (mkPair a b) acc
           };
-        
+
         -- Create set of sets, each containing pairs for one element from set1
         pairSets : Set (Set (Pair A B)) :=
           for (acc := Set.empty) (a in set1) {
@@ -1266,10 +1266,10 @@ Updates a value at a specific key using the update function and returns both the
     : Pair (Option Value) (Map Key Value) :=
     let
       oldValue : Option Value := Map.lookup k map;
-      newMap : Map Key Value := 
+      newMap : Map Key Value :=
         case oldValue of {
           | none := map
-          | some v := 
+          | some v :=
             case updateFn k v of {
               | none := Map.delete k map
               | some newV := Map.insert k newV map
@@ -1284,11 +1284,11 @@ Maps all keys in the Map to new keys using the provided function.
 If the mapping function is not injective (maps different keys to the same key), later entries in the map will overwrite earlier ones with the same new key.
 
     ```juvix
-    mapKeys 
-      {Key1 Key2 Value} 
-      {{Ord Key2}} 
+    mapKeys
+      {Key1 Key2 Value}
+      {{Ord Key2}}
       (fun : Key1 -> Key2)
-      (map : Map Key1 Value) 
+      (map : Map Key1 Value)
       : Map Key2 Value :=
       Map.fromList
         (for (acc := nil) ((k, v) in Map.toList map) {
@@ -1301,9 +1301,9 @@ If the mapping function is not injective (maps different keys to the same key), 
 Restrict a map to only contain keys from the given set.
 
     ```juvix
-    restrictKeys {Key Value} {{Ord Key}} 
-      (map : Map Key Value) 
-      (validKeys : Set.Set Key) 
+    restrictKeys {Key Value} {{Ord Key}}
+      (map : Map Key Value)
+      (validKeys : Set.Set Key)
       : Map Key Value :=
       for (acc := Map.empty) (k, v in map) {
         if
@@ -1317,13 +1317,13 @@ Restrict a map to only contain keys from the given set.
 Remove all entries from a map whose keys appear in the given set.
 
     ```juvix
-    withoutKeys {Key Value} {{Ord Key}} 
-      (map : Map Key Value) 
-      (invalidKeys : Set.Set Key) 
+    withoutKeys {Key Value} {{Ord Key}}
+      (map : Map Key Value)
+      (invalidKeys : Set.Set Key)
       : Map Key Value :=
       for (acc := Map.empty) (k, v in map) {
         if
-          | Set.isMember k invalidKeys := acc 
+          | Set.isMember k invalidKeys := acc
           | else := Map.insert k v acc
       };
     ```
@@ -1334,9 +1334,9 @@ Split a map according to a predicate on values.
 Returns a pair of maps, (matching, non-matching).
 
     ```juvix
-    mapPartition {Key Value} {{Ord Key}} 
-      (predicate : Value -> Bool) 
-      (map : Map Key Value) 
+    mapPartition {Key Value} {{Ord Key}}
+      (predicate : Value -> Bool)
+      (map : Map Key Value)
       : Pair (Map Key Value) (Map Key Value) :=
       for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
         if
@@ -1351,9 +1351,9 @@ Split a map according to a predicate that can examine both key and value.
 Returns a pair of maps, (matching, non-matching).
 
       ```juvix
-      partitionWithKey {Key Value} {{Ord Key}} 
-        (predicate : Key -> Value -> Bool) 
-        (map : Map Key Value) 
+      partitionWithKey {Key Value} {{Ord Key}}
+        (predicate : Key -> Value -> Bool)
+        (map : Map Key Value)
         : Pair (Map Key Value) (Map Key Value) :=
         for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
           if
@@ -1364,7 +1364,7 @@ Returns a pair of maps, (matching, non-matching).
 
 ### `mapOption`
 
-Apply a partial function to all values in the map, keeping only the entries where the function returns 'some'. 
+Apply a partial function to all values in the map, keeping only the entries where the function returns 'some'.
 
     ```juvix
     mapOption {Key Value1 Value2} {{Ord Key}}
