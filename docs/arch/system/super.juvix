@@ -1,0 +1,187 @@
+module arch.system.super;
+
+import Stdlib.Data.Nat open;
+import Stdlib.Data.Int open;
+import Stdlib.Data.Bool open;
+import Stdlib.Data.String open;
+import Stdlib.Trait.Show open;
+
+trait
+type FixedSize T :=
+  mkFixedSize@{
+    bitSize : Nat;
+    new : {A : Type} -> A -> T;
+    equal : T -> T -> Bool;
+  };
+
+trait
+type Arithmetic T :=
+  mkArithmetic@{
+    fixedSizeI : FixedSize T;
+    add : T -> T -> T;
+    sub : T -> T -> T;
+  };
+
+trait
+type Hash T :=
+  mkHash@{
+    fixedSizeI : FixedSize T;
+    hash : {A : Type} -> A -> T;
+  };
+
+type RandSeed := mkRandSeed Nat;
+type Nonce := mkNonce Nat;
+type Quantity := mkQuantity Nat;
+type Balance := mkBalance Nat;
+type Kind := mkKind Nat;
+type DeltaHash := mkDeltaHash Nat;
+type Commitment := mkCommitment Nat;
+type ValueHash := mkValueHash Nat;
+type LabelHash := mkLabelHash Nat;
+type LogicHash := mkLogicHash Nat;
+
+instance
+randSeedFixedSizeI : FixedSize RandSeed :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkRandSeed 0};
+    equal := \{|(mkRandSeed n) (mkRandSeed m) := n == m};
+  };
+
+instance
+nonceFixedSizeI : FixedSize Nonce :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkNonce 0};
+    equal := \{|(mkNonce n) (mkNonce m) := n == m};
+  };
+
+instance
+quantityFixedSizeI : FixedSize Quantity :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkQuantity 0};
+    equal := \{|(mkQuantity n) (mkQuantity m) := n == m};
+  };
+
+instance
+balanceFixedSizeI : FixedSize Balance :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkBalance 0};
+    equal := \{|(mkBalance n) (mkBalance m) := n == m};
+  };
+
+instance
+kindFixedSizeI : FixedSize Kind :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkKind 0};
+    equal := \{|(mkKind n) (mkKind m) := n == m};
+  };
+
+instance
+deltaHashFixedSizeI : FixedSize DeltaHash :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkDeltaHash 0};
+    equal := \{| (mkDeltaHash n) (mkDeltaHash m) := n == m};
+  };
+
+instance
+commitmentFixedSizeI : FixedSize Commitment :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkCommitment 0};
+    equal := \{| (mkCommitment n) (mkCommitment m) := n == m};
+  };
+
+instance
+valueHashFixedSizeI : FixedSize ValueHash :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkValueHash 0};
+    equal := \{| (mkValueHash n) (mkValueHash m) := n == m};
+  };
+
+instance
+labelHashFixedSizeI : FixedSize LabelHash :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkLabelHash 0};
+    equal := \{| (mkLabelHash n) (mkLabelHash m) := n == m};
+  };
+
+instance
+logicHashFixedSizeI : FixedSize LogicHash :=
+  mkFixedSize@{
+    bitSize := 256;
+    new := \{_ := mkLogicHash 0};
+    equal := \{| (mkLogicHash n) (mkLogicHash m) := n == m};
+  };
+
+instance
+quantityArithmeticI : Arithmetic Quantity :=
+  mkArithmetic@{
+    fixedSizeI := quantityFixedSizeI;
+    add := \{| (mkQuantity n) (mkQuantity m) := mkQuantity (n + m)};
+    sub := \{| (mkQuantity n) (mkQuantity m) := mkQuantity (sub n m)};
+  };
+
+instance
+balanceArithmeticI : Arithmetic Balance :=
+  mkArithmetic@{
+    fixedSizeI := balanceFixedSizeI;
+    add := \{| (mkBalance n) (mkBalance m) := mkBalance (n + m)};
+    sub := \{| (mkBalance n) (mkBalance m) := mkBalance (sub n m)};
+  };
+
+instance
+deltaHashArithmeticI : Arithmetic DeltaHash :=
+  mkArithmetic@{
+    fixedSizeI := deltaHashFixedSizeI;
+    add := \{| (mkDeltaHash n) (mkDeltaHash m) := mkDeltaHash (n + m)};
+    sub := \{| (mkDeltaHash n) (mkDeltaHash m) := mkDeltaHash (sub n m)};
+  };
+
+instance
+kindHashI : Hash Kind :=
+  mkHash@{
+    fixedSizeI := kindFixedSizeI;
+    hash := \{_ := mkKind 0};
+  };
+
+instance
+deltaHashHashI : Hash DeltaHash :=
+  mkHash@{
+    fixedSizeI := deltaHashFixedSizeI;
+    hash := \{_ := mkDeltaHash 0};
+  };
+
+instance
+commitmentHashI : Hash Commitment :=
+  mkHash@{
+    fixedSizeI := commitmentFixedSizeI;
+    hash := \{_ := mkCommitment 0};
+  };
+
+instance
+valueHashHashI : Hash ValueHash :=
+  mkHash@{
+    fixedSizeI := valueHashFixedSizeI;
+    hash := \{_ := mkValueHash 0};
+  };
+
+instance
+labelHashHashI : Hash LabelHash :=
+  mkHash@{
+    fixedSizeI := labelHashFixedSizeI;
+    hash := \{_ := mkLabelHash 0};
+  };
+
+instance
+logicHashHashI : Hash LogicHash :=
+  mkHash@{
+    fixedSizeI := logicHashFixedSizeI;
+    hash := \{_ := mkLogicHash 0};
+  };
