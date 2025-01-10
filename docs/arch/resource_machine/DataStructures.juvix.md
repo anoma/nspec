@@ -26,12 +26,12 @@ The RM utilizes the following primary containers and their operations:
 - **Map**: For key-value associations, such as environment references or application data.
 - **List**: For ordered sequences, such as enumerating proofs or iterating over resources.
 
-The resource machine (RM) uses various containers—`Set`, `Map`, `List`—from the 
-prelude. However, certain interfaces like `ISet` or an ordered-set trait aren't 
-already present in the library, and the RM references them in older planning or 
+The resource machine (RM) uses various containers—`Set`, `Map`, `List`—from the
+prelude. However, certain interfaces like `ISet` or an ordered-set trait aren't
+already present in the library, and the RM references them in older planning or
 discussions. This file collects **everything** the RM needs regarding data structures.
 
-Above, we **re-import** the standard types/ops that the RM uses and also **provide** 
+Above, we **re-import** the standard types/ops that the RM uses and also **provide**
 traits that aren’t in the library. The RM requires specific traits to parameterize by
 different potential implementations of these containers.
 
@@ -88,7 +88,7 @@ axiom RandSeed : Type;
 
 ### FixedSize Trait
 
-The `FixedSize` trait ensures that certain types have a fixed bit 
+The `FixedSize` trait ensures that certain types have a fixed bit
 length, which is essential for resource integrity and security.
 
 ```juvix
@@ -179,7 +179,7 @@ arithmeticNat : Arithmetic Nat :=
 
 ### Hash Trait
 
-The `Hash` trait provides a standardized interface for hashing 
+The `Hash` trait provides a standardized interface for hashing
 operations within the RM. It implies `FixedSize` as we will always
 assume that's present when using an `Hash` instance.
 
@@ -265,7 +265,7 @@ iSetForStdSet {A : Type} {{Ord A}} : ISet (Set A) A :=
 
 ### IOrderedSet Trait
 
-`IOrderedSet` is intended to represent a list without repeated elements; 
+`IOrderedSet` is intended to represent a list without repeated elements;
 that is, a set equipped with a permutation. The interface is left mostly
 unspecified. Details are not given in the original RM specs, so this is
 a speculative interface.
@@ -299,14 +299,14 @@ setToListWithPerm {A} {{Ord A}} (indices : List Nat) (elements : Set.Set A) : Li
     -- First convert set to sorted list
     sorted : List A := Set.toList elements;
     -- Then map each index to the element at that position
-    access (index : Nat) : Option A := 
+    access (index : Nat) : Option A :=
       case splitAt index sorted of {
         | (mkPair _ (x :: _)) := some x
         | (mkPair _ _) := none
       }
   in catMaybes (map access indices);
 
-orderedSetToList {A} {{Ord A}} (s : OrderedSet A) : List A := 
+orderedSetToList {A} {{Ord A}} (s : OrderedSet A) : List A :=
   setToListWithPerm (OrderedSet.permutation s) (OrderedSet.elements s);
 
 -- Find position where x would go in sorted order
@@ -315,17 +315,17 @@ findPosition {A} {{Ord A}} (x : A) (elements : Set.Set A) : Nat :=
     sorted : List A := Set.toList elements;
     go : List A -> Nat
       | [] := 0
-      | (y :: ys) := 
+      | (y :: ys) :=
         if | (x <= y) := 0
            | else := suc (go ys);
   in go sorted;
 
-orderedSetFromList {A} {{Ord A}} : List A -> OrderedSet A := 
-  foldl 
+orderedSetFromList {A} {{Ord A}} : List A -> OrderedSet A :=
+  foldl
     (\{acc x := if | (Set.isMember x (OrderedSet.elements acc)) := acc
                    | else := let pos := findPosition x (OrderedSet.elements acc)
-                             in mkOrderedSet 
-                                  (Set.insert x (OrderedSet.elements acc)) 
+                             in mkOrderedSet
+                                  (Set.insert x (OrderedSet.elements acc))
                                   ((OrderedSet.permutation acc) ++ [pos])})
     (mkOrderedSet Set.empty []);
 
@@ -335,17 +335,17 @@ orderedSetInstance {A} {{Ord A}} : IOrderedSet (OrderedSet A) A :=
     iset := mkISet@{
       newSet := mkOrderedSet Set.empty [];
       size := \{s := Set.size (OrderedSet.elements s)};
-      insert := \{x s := 
+      insert := \{x s :=
         if | (Set.isMember x (OrderedSet.elements s)) := s
-           | else := mkOrderedSet 
+           | else := mkOrderedSet
                       (Set.insert x (OrderedSet.elements s))
                       ((OrderedSet.permutation s) ++ [Set.size (OrderedSet.elements s)])
       };
       union := \{s1 s2 := orderedSetFromList (orderedSetToList s1 ++ orderedSetToList s2)};
-      intersection := \{s1 s2 := 
+      intersection := \{s1 s2 :=
         orderedSetFromList (filter (\{x := Set.isMember x (OrderedSet.elements s2)}) (orderedSetToList s1))
       };
-      difference := \{s1 s2 := 
+      difference := \{s1 s2 :=
         orderedSetFromList (filter (\{x := not (Set.isMember x (OrderedSet.elements s2))}) (orderedSetToList s1))
       };
       contains := \{x s := Set.isMember x (OrderedSet.elements s)}
@@ -357,7 +357,7 @@ orderedSetInstance {A} {{Ord A}} : IOrderedSet (OrderedSet A) A :=
 
 ### IMap Trait
 
-The `IMap` trait defines the standard operations for map manipulation, 
+The `IMap` trait defines the standard operations for map manipulation,
 defining a standard interface for any Map implementation used by the RM.
 
 ```juvix
