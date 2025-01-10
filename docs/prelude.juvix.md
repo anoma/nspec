@@ -37,6 +37,7 @@ import Stdlib.Data.Nat as Nat
     suc;
     natToString;
     +;
+    sub;
     *;
     <=;
   } public;
@@ -203,6 +204,9 @@ import Stdlib.Data.List as List
   ::;
   isElement;
   ++;
+  splitAt;
+  catMaybes;
+  filter;
 } public;
 ```
 
@@ -285,7 +289,6 @@ The type `Set A` represents a collection of unique elements of type `A`. Used
 for sets of values.
 
 ```juvix
-
 import Stdlib.Data.Set as Set public;
 open Set using {
     Set;
