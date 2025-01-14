@@ -14,7 +14,7 @@ tags:
     module anomian;
     import arch.node.types.basics open public;
     import arch.node.types.identities open;
-    import arch.node.types.messages 
+    import arch.node.types.messages
       open hiding {EngineMsg; Mailbox};
     ```
 
@@ -279,7 +279,7 @@ where it runs.
 > **local engine**. Otherwise, the engine is an **external engine**.
 > With **engine identifiers** (of type `EngineID`), we can define *engine
 > messages*. These messages serve as events for engines, sent to them by some
-> other engine. 
+> other engine.
 
 --8<-- "./arch/node/types/identities.juvix.md:EngineID"
 
@@ -355,7 +355,7 @@ MailboxCluster (S M : Type) : Type := Map MailboxID (Mailbox S M);
 Why to bother with the mailbox cluster? One mailbox is enough, right?
 
 > While a single mailbox would suffice for basic functionality, multiple
-> mailboxes provide valuable message organisation capabilities. 
+> mailboxes provide valuable message organisation capabilities.
 
 That sounds pretty much like my email works. It is a cluster of mailboxes, and
 in principle, I have one big mailbox, but truly I can see it as having multiple
