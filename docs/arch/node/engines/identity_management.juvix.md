@@ -34,18 +34,53 @@ tags:
 
 # IdentityManagement Engine
 
-The Identity Management Engine is responsible for generating, connecting, and deleting
-identities using various backends. It provides a unified interface over different identity
-backends, including internal identities stored in local memory, identities stored in
-hardware devices, identities accessed via browser extensions, and identities stored on
-remote machines accessible over the network.
+The Identity Management Engine serves as the central coordinator for
+identity operations within Anoma, managing the entire lifecycle of
+identities across various storage systems (called "backends"). These
+provide a service that can create new identities, connect 
+to existing ones, and manage their cryptographic capabilities
+(commiting and decrypting), while abstracting away the complexity of
+different storage systems (like local memory, hardware devices,
+browser extensions, or remote machines).
 
-## Purpose
+Users can request new identity generation (via a 
+`MsgIdentityManagementGenerateIdentityRequest` message) or connection
+to existing identities (via a
+`MsgIdentityManagementConnectIdentityRequest` message), specifying
+their desired capabilities. The Capabilities system in Anoma allows
+fine-grained control over what operations an identity can perform. Each
+identity can have commitment (signing) capabilities, decryption
+capabilities, or both. When you create or connect to an identity, you
+specify exactly which capabilities you need (via a term of the
+`Capabilities` type), and the Identity Management Engine ensures you 
+only get access to those specific operations. `CapabilityCommit`
+allows an identity to sign data - useful when you need to prove
+authenticity or authorize actions but don't need to read encrypted
+messages. `CapabilityDecrypt` enables decryption of messages intended
+for that identity - essential when you need to receive encrypted
+communications but don't need to sign anything.
+`CapabilityCommitAndDecrypt` provides both abilities, letting an
+identity both sign data and decrypt messages.
 
-The Identity Management Engine manages identities across various backends. When an identity
-is generated or connected, it returns handles to the corresponding [[Commitment Engine]] and
-[[Decryption Engine]] instances. These handles can be used to generate commitments or decrypt
-data associated with the identity.
+When connecting to an existing identity, you can request a subset of
+that identity's capabilities but never more than it has. For example,
+if an identity was created with only `CapabilityCommit`, you can't
+request decryption capabilities when connecting to it. The Identity
+Management Engine enforces these restrictions and will return an error
+if you request capabilities that aren't available.
+
+Identity Management Engine handle the creation or connection process
+and returns references to the appropriate [[Commitment]] and
+[[Decryption]]  engines (via either a `ResponseGenerateIdentity` or
+`MsgIdentityManagementConnectIdentityRequest` message) that provide
+the requested capabilities. These engines are newly created in the
+case of identity creation. Which engines are spawned are determined
+by the requested capabilities.
+
+Identity Management Engines maintain a registry of active identities
+and their capabilities. When an identity is no longer needed, it can
+be cleanly removed (via a `MsgIdentityManagementDeleteIdentityRequest`
+message).
 
 ## Components
 

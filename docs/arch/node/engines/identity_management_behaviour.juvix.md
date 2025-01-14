@@ -430,7 +430,7 @@ connectIdentityAction
                             (mkConnectIdentityResponse@{
                               commitmentEngine := none;
                               decryptionEngine := none;
-                              err := some "Requested capabilities not available"
+                              err := some "Capabilities not available"
                             }))
                         }];
                         timers := [];
@@ -703,11 +703,34 @@ identityManagementBehaviour : IdentityManagementBehaviour :=
 
 ```mermaid
 flowchart TD
-  CM>IdentityManagementGenerateIdentityRequest]
-  A(generateIdentityAction)
-  RE>IdentityManagementGenerateIdentityResponse]
+    Start([Generate Request]) --> MsgReq[MsgIdentityManagementGenerateIdentityRequest<br/>backend: Backend<br/>params: IDParams<br/>capabilities: Capabilities]
+    
+    subgraph Guard["generateIdentityGuard"]
+        MsgReq --> ValidType{Is message type<br/>GenerateIdentityRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
 
-  CM --generateIdentityGuard--> A --generateIdentityActionLabel--> RE
+    ActionEntry --> Action
+
+    subgraph Action["generateIdentityAction"]
+        direction TB
+        Check{Identity already<br/>exists?}
+        Check -->|Yes| ErrExists[Create Error Response]
+        Check -->|No| Create[Create new identity info]
+        Create --> SpawnEngines{Which capabilities?}
+        SpawnEngines -->|Commit| SpawnCommit[Spawn Commitment Engine]
+        SpawnEngines -->|Decrypt| SpawnDecrypt[Spawn Decryption Engine]
+        SpawnEngines -->|Both| SpawnBoth[Spawn Both Engines]
+        SpawnCommit & SpawnDecrypt & SpawnBoth --> UpdateState[Update registry]
+    end
+
+    UpdateState --> Response[Success Response<br/>with engine IDs]
+    ErrExists --> ErrResponse[Error Response]
+    Response & ErrResponse --> Client([Return to Client])
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
@@ -717,17 +740,82 @@ flowchart TD
 </figcaption>
 </figure>
 
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgIdentityManagementGenerateIdentityRequest` containing:
+     - `backend`: Specifies backend to be used
+     - `params`: Cryptographic parameters
+     - `capabilities`: Which capabilities are needed (commit, decrypt, or both)
+   - The requesting identity must not already exist in the system
+
+2. **Guard Phase** (`generateIdentityGuard`)
+   - Validates incoming message structure and type
+   - Validation steps:
+     - Verifies message type is `MsgIdentityManagementGenerateIdentityRequest`
+     - If validation fails, request is rejected immediately
+     - On success, passes control to `generateIdentityActionLabel`
+
+3. **Action Phase** (`generateIdentityAction`)
+   - Processes valid generation requests through these steps:
+     - Checks if requesting identity already exists in registry
+     - Creates new identity info with specified backend and capabilities
+     - Spawns appropriate engine(s) based on requested capabilities
+     - Updates identity registry with new identity and engine references
+     - Constructs appropriate response based on result
+
+4. **Response Generation**
+   - **Successful Case**
+     - Creates `MsgIdentityManagementGenerateIdentityResponse` with:
+       - `commitmentEngine`: Engine ID if commit capability requested, None otherwise
+       - `decryptionEngine`: Engine ID if decrypt capability requested, None otherwise
+       - `externalIdentity`: ID of the newly created identity
+       - `err`: None
+   - **Error Case**
+     - Creates `MsgIdentityManagementGenerateIdentityResponse` with:
+       - `commitmentEngine`: None
+       - `decryptionEngine`: None
+       - `externalIdentity`: Requester's ID
+       - `err`: Some "Identity already exists"
+
+5. **Response Delivery**
+   - Response is sent back to the original requester
+   - Uses mailbox 0 (the standard mailbox for responses)
+
 ### `connectIdentityAction` flowchart
 
 <figure markdown>
 
 ```mermaid
 flowchart TD
-  CM>IdentityManagementConnectIdentityRequest]
-  A(connectIdentityAction)
-  RE>IdentityManagementConnectIdentityResponse]
+    Start([Connect Request]) --> MsgReq[MsgIdentityManagementConnectIdentityRequest<br/>externalIdentity: EngineID<br/>backend: Backend<br/>capabilities: Capabilities]
+    
+    subgraph Guard["connectIdentityGuard"]
+        MsgReq --> ValidType{Is message type<br/>ConnectIdentityRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
 
-  CM --connectIdentityGuard--> A --connectIdentityActionLabel--> RE
+    ActionEntry --> Action
+
+    subgraph Action["connectIdentityAction"]
+        direction TB
+        Check{Requesting Identity<br/>exists?}
+        Check -->|Yes| ErrExists[Create Error Response]
+        Check -->|No| FindExternal{External Identity<br/>exists?}
+        FindExternal -->|No| ErrNotFound[Error: Not Found]
+        FindExternal -->|Yes| CheckCaps{Requested capabilities<br/>subset of original?}
+        CheckCaps -->|No| ErrCaps[Error: Invalid Capabilities]
+        CheckCaps -->|Yes| CopyEngines[Copy Engine References]
+        CopyEngines --> UpdateState[Update registry]
+    end
+
+    UpdateState --> Response[Success Response<br/>with engine IDs]
+    ErrExists & ErrNotFound & ErrCaps --> ErrResponse[Error Response]
+    Response & ErrResponse --> Client([Return to Client])
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
@@ -737,17 +825,80 @@ flowchart TD
 </figcaption>
 </figure>
 
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgIdentityManagementConnectIdentityRequest` containing:
+     - `externalIdentity`: ID of the existing identity to connect to
+     - `backend`: Backend to use
+     - `capabilities`: Which subset of the original identity's capabilities are requested
+   - The requesting identity must not already exist in the system
+   - The external identity must exist and have at least the requested capabilities
+
+2. **Guard Phase** (`connectIdentityGuard`)
+   - Validates incoming message structure and type
+   - Validation steps:
+     - Verifies message type is `MsgIdentityManagementConnectIdentityRequest`
+     - If validation fails, request is rejected immediately
+     - On success, passes control to `connectIdentityActionLabel`
+
+3. **Action Phase** (`connectIdentityAction`)
+   - Processes valid connection requests through these steps:
+     - Verifies requesting identity doesn't already exist
+     - Checks if external identity exists in registry
+     - Validates requested capabilities are subset of original
+     - Copies relevant engine references based on capabilities
+     - Updates identity registry with new connected identity
+     - Constructs appropriate response based on result
+
+4. **Response Generation**
+   - **Successful Case**
+     - Creates `MsgIdentityManagementConnectIdentityResponse` with:
+       - `commitmentEngine`: Copied engine ID if commit capability requested, None otherwise
+       - `decryptionEngine`: Copied engine ID if decrypt capability requested, None otherwise
+       - `err`: None
+   - **Error Cases**
+     - Creates `MsgIdentityManagementConnectIdentityResponse` with:
+       - `commitmentEngine`: None
+       - `decryptionEngine`: None
+       - `err`: Some error message:
+         - "Identity already exists" if requesting identity exists
+         - "External identity not found" if target doesn't exist
+         - "Capabilities not available" if capability subset invalid
+
+5. **Response Delivery**
+   - Response is sent back to the original requester
+   - Uses mailbox 0 (the standard mailbox for responses)
+
 ### `deleteIdentityAction` flowchart
 
 <figure markdown>
 
 ```mermaid
 flowchart TD
-  CM>IdentityManagementDeleteIdentityRequest]
-  A(deleteIdentityAction)
-  RE>IdentityManagementDeleteIdentityResponse]
+    Start([Delete Request]) --> MsgReq[MsgIdentityManagementDeleteIdentityRequest<br/>externalIdentity: EngineID<br/>backend: Backend]
+    
+    subgraph Guard["deleteIdentityGuard"]
+        MsgReq --> ValidType{Is message type<br/>DeleteIdentityRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
 
-  CM --deleteIdentityGuard--> A --deleteIdentityActionLabel--> RE
+    ActionEntry --> Action
+
+    subgraph Action["deleteIdentityAction"]
+        direction TB
+        Check{Identity exists?}
+        Check -->|No| ErrNoExist[Create Error Response]
+        Check -->|Yes| Delete[Remove from registry]
+    end
+
+    Delete --> Response[Success Response]
+    ErrNoExist --> ErrResponse[Error Response]
+    Response & ErrResponse --> Client([Return to Client])
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
@@ -756,3 +907,44 @@ flowchart TD
 
 </figcaption>
 </figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgIdentityManagementDeleteIdentityRequest` containing:
+     - `externalIdentity`: ID of the identity to delete
+     - `backend`: Backend system where the identity exists
+   - The identity to be deleted must exist in the system
+
+2. **Guard Phase** (`deleteIdentityGuard`)
+   - Validates incoming message structure and type
+   - Validation steps:
+     - Verifies message type is `MsgIdentityManagementDeleteIdentityRequest`
+     - If validation fails, request is rejected immediately
+     - On success, passes control to `deleteIdentityActionLabel`
+
+3. **Action Phase** (`deleteIdentityAction`)
+   - Processes valid deletion requests through these steps:
+     - Verifies identity exists in registry
+     - Removes identity and associated engine references from registry
+     - Constructs appropriate response based on result
+
+4. **Response Generation**
+   - **Successful Case**
+     - Creates `MsgIdentityManagementDeleteIdentityResponse` with:
+       - `err`: None
+   - **Error Case**
+     - Creates `MsgIdentityManagementDeleteIdentityResponse` with:
+       - `err`: Some "Identity does not exist"
+
+5. **Response Delivery**
+   - Response is sent back to the original requester
+   - Uses mailbox 0 (the standard mailbox for responses)
+
+### Important Notes
+  - All spawned engines inherit the backend from the generation request
+  - Engine references are managed through the identity management engine's state
+  - Capabilities can only be restricted when connecting, never expanded
+  - The system maintains a mapping between identities and their associated engine references
+  - Each identity maintains its own separate set of engines
+  - State updates are atomic - either all parts succeed or none do
