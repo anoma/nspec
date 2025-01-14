@@ -334,7 +334,7 @@ A mailbox cluster consisting of two mailboxes and their state.
 
 !!! info "Mailboxes for eventual message delivery"
 
-    So, yes, the main purpose of mailboxe is where the elf delivers the messages.
+    So, yes, the main purpose of mailboxes is where the elf delivers the messages.
 
 ## Chapter 5: Context of execution
 
