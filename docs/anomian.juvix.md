@@ -19,8 +19,8 @@ tags:
 
 As in the Little Typer book, we explore some aspects of the Anoma model through
 a dialogue that presents the notions considered in the specification. There are
-two participants in this dialogue: the student, *Jordan*, and Anomian, the modeler.
-When Anomian speaks, it is in the form of a quote. Otherwise, it Jordan speaks.
+two participants in this dialogue: the student, *Jordan*, and Anomian, the modeller.
+When Anomian speaks, it is in the form of a quote. Otherwise, Jordan speaks.
 
 > Me, Anomian.
 
@@ -126,7 +126,7 @@ helloAnomian : AnomianMsg :=
 > cannot perform any actions. Therefore, we assume that every engine has at least
 > one message constructor in its message interface.
 
-# Chapter 2: Communication patterns
+## Chapter 2: Communication patterns
 
 > Now that we understand engines and their message interfaces, let's talk about
 > how they communicate with each other or better said, what patterns of communication
@@ -177,7 +177,7 @@ type EngineMsgKind :=
 </div>
 
 
-# Chapter 3: The engine-configuration
+## Chapter 3: The engine-configuration
 
 Anomian, you mentioned that engines have an internal state, a message interface,
 and specific communication patterns. Are there any other characteristics that
@@ -274,7 +274,7 @@ type EngineMsg M :=
 
 </div>
 
-# Chapter 4: Mailboxes for anyone
+## Chapter 4: Mailboxes for anyone
 
 Messages are sent to the engine's mailbox.
 
@@ -313,7 +313,7 @@ A mailbox cluster with two mailboxes and their state.
 > message is sent to an engine, the mailman takes the message and puts it in the
 > engine's mailbox. We can presume all messages are delivered, *eventually*.
 
-# Chapter 5: Engine environment
+## Chapter 5: Engine environment
 
 Nothing of what we have seen so far is actually useful. I mean, how do engines do
 real stuff?
@@ -377,7 +377,7 @@ end;
 anything, what an engine can produce is part of the model of engines, and it's
 fixed.
 
-What exactly can an engine do if its not just the same message passing we already know?
+What exactly can an engine do if it's not just the same message passing we already know?
 
 <div class="grid" markdown>
 
@@ -420,7 +420,7 @@ payment.
 > The essence of a **guard** is a predicate, a pre-condition, that must hold
 > true for the engine to take action. Guards are evaluated based on incoming
 > messages, the engine's environment, and the engine's configuration. Since
-> guards involves computation, engine's preserve thse computations as part of
+> guards involves computation, engine's preserve these computations as part of
 > the return type of the guard. Thus, if the underlying condition is not
 > satisfied, the guard returns nothing. We can represent this with the type
 > `Guard`.
@@ -441,7 +441,7 @@ isSatisfied {S M C R}
 ```
 </div>
 
-Wait! I see an issue. What if the engine has several guards and they are all satisfied?
+Wait! I see an issue. What if the engine has several guards, and they are all satisfied?
 
 <div class="grid" markdown>
 > If several guards are satisfied, engine provide an strategy defined as its
@@ -502,6 +502,7 @@ EngineBehaviour (S E M C R : Type) : Type :=
 ```juvix
 type Engine (S E M C R : Type) :=
   mkEngine@{
+    status : EngineStatus;
     cfg : EngineCfg C;
     state : EngineEnv S M;
     behavior : EngineBehaviour S E M C R;
