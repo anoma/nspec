@@ -194,14 +194,14 @@ type EngineMsgKind :=
 
 Anomian, you mentioned that engines have an internal state, a message interface,
 and specific communication patterns. Are there any other characteristics that
-define an engine like us? For instance, humans have attributes such as name,
+define an engine? And what about us, are we also engines? For instance, humans have attributes such as name,
 age, and parents. Do engines have similar attributes?
 
 <div class="grid" markdown>
 
 > Engines possess certain attributes. These attributes are stored in what we call
 > their **engine-configuration**, of type `EngineCfg`. This configuration is *immutable*
-> through the life of the engine. The configuration of an engine includes its **parent**
+> through the lifetime of the engine. The configuration of an engine includes its **parent**
 > that **spawns** it, its **name**, a virtual location where the engine runs named
 > `node`, and some specific information denoted by `cfg` of a given type `C`.
 
@@ -254,7 +254,7 @@ where it runs.
 <div class="grid" markdown>
 
 > We have not defined what a node is yet, formally. But we can think of it as a
-> virtual place where the engine lives and operates. This place could be known,
+> virtual place where the engine lives and operates. This place could be known to be in the same neighborhood,
 > in which case, we can refer to it as a **local engine**. Otherwise, the engine
 > is an **external engine**.
 
@@ -274,6 +274,8 @@ where it runs.
 > whether the message is a command, an event, or a response. We already defined
 > the kind of the message in the previous chapter as `EngineMsgKind`.
 
+<!--ᚦ «Do we really want to restrict ourselves to command event response, in general?» -->
+
 ```juvix
 type EngineMsg M :=
   mkEngineMsg@{
@@ -286,6 +288,11 @@ type EngineMsg M :=
 ```
 
 </div>
+
+!!! info "The social context of an engine"
+
+    Each engine is know in its neighborhood and may have connections to abroad.
+    It still communicates via messages though and stays fixed in the place.
 
 ## Chapter 4: Mailboxes for anyone
 
