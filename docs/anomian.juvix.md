@@ -17,24 +17,24 @@ tags:
     import arch.node.types.messages open hiding {EngineMsg};
     ```
 
-As in the Little Typer book, we explore some aspects of the Anoma model through
+As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book, we explore some aspects of the Anoma model through
 a dialogue that presents the notions considered in the specification. There are
-two participants in this dialogue: the student, *Jordan*, and Anomian, the modeller.
+two participants in this dialogue: the student, *Jordan*, and *Anomian*, the modeller.
 When Anomian speaks, it is in the form of a quote. Otherwise, Jordan speaks.
 
-> Me, Anomian.
+> Hi, I am Anomian.
 
-Again, the goal of this exercise is to understand what the Anoma system
-is about and *a model* of it. As a resource of information, we present a few
-Juvix code snippets that will help us understand the model, but these are not
-particularly essential. You can read only the quotes to get the main idea. The Jordan
+The goal of this dialogue is to illustrate what the Anoma system
+_is_ about hwo to *model* it. For the sake of concretness, we present a few
+Juvix code snippets that will help to clarify the model, but these are not
+essential.  The quotes alone should convey the main idea. The Jordan
 interactions are to confirm, ask questions, and recap the concepts.
 
 ## Chapter 1: The core players
 
 > At the core of the Anoma model, we find **engines**.
 
-So, what do you mean by an engine?
+So, what do you mean by an _engine_?
 
 <div class="grid" markdown>
 
