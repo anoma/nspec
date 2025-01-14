@@ -516,9 +516,9 @@ payment.
 <div class="grid" markdown>
 
 > The essence of a **guard** is a predicate, a pre-condition, that must hold
-> true for the engine to take action. 
+> true for the engine to take action.
 >
-> Guards are evaluated based on incoming messages, the engine's environment,  
+> Guards are evaluated based on incoming messages, the engine's environment,
 > and the engine's configuration. We can represent this with the type `Guard`.
 > Since guards involves computation, engine's preserve these computations as part
 > of the return type of the guard, that is `R` in the type `Guard`. Thus, if the
