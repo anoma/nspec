@@ -164,12 +164,16 @@ type CommunicationPattern Msg :=
 > asynchronously and without a response, broadcasting messages to multiple
 > engines.
 
+<!--ᚦ «Do we now plan to have a synchronous pattern?» -->
+
 <div class="grid" markdown>
 
-> We can consider three purposes for a message.  The first one is to request a
-> response, the second one is to respond to a request, and the third one is to
-> notify about something. We can represent these three cases with the `MsgPurpose`
-> type.
+> We can consider three purposes for a message.
+> 1. The first one is to request a response. 
+> 2. The second one is to respond to a request.
+> 3. The third one is to notify about something. We can represent these three cases with the `MsgPurpose` type.
+
+<!--ᚦ «MsgPurpose vs. EngineMsgKind: which one?» -->
 
 ```juvix
 type EngineMsgKind :=
@@ -180,6 +184,11 @@ type EngineMsgKind :=
 
 </div>
 
+
+!!! info "Summary of communication patterns"
+
+    We can have several communication patterns.
+    <!--ᚦ «Here I would like ideally compare to session types, choreographies, protocols etc.» -->
 
 ## Chapter 3: Engine configurations
 
