@@ -55,12 +55,12 @@ Dynamic entity? What is *dynamic* about it?
 > However, notice that this change of internal state is optional. We call those
 > engines that never change their state *static*.
 
-Huh, so, an engine has a state, and that state can change by reading
+Huh, so, an engine has its own state, and that state can change by reacting to
 messages that are sent to it. Easy.
 
 > It's like when we receive a letter from the tax office. Once we read
 > the letter and understand it, we know that we have to pay taxes and eventually
-> do so. That letter may change us, some money may be gone.
+> do so. That letter may "change" us, some money may be gone.
 
 But wait, who really sends those messages actually?
 
@@ -70,11 +70,11 @@ But wait, who really sends those messages actually?
 
 I see, and the messages can be in different languages, right? I mean I read
 English but not French. How are engines able to communicate with each other? Do
-the all speak the same language?
+they all speak the same language?
 
 > Each engine has its own **message interface**, that's the *language* they speak.
 > This message interface defines the format and content of the messages it can
-> comprehend, process, and generate.
+> comprehend and process.
 
 ```juvix
 syntax alias English := String;
@@ -84,7 +84,7 @@ syntax alias Spanish := String;
 
 <div class="grid" markdown>
 
-> If me, Anomian, speak English and French, my message interface would
+> If I, Anomian, speak English and French, my message interface would
 > look like this.
 
 ```juvix
@@ -125,6 +125,10 @@ helloAnomian : AnomianMsg :=
 > Second, if the message interface lacks any message constructors, the engine
 > cannot perform any actions. Therefore, we assume that every engine has at least
 > one message constructor in its message interface.
+
+!!! info "Message Interface"
+
+    Each engine has a message interface.
 
 ## Chapter 2: Communication patterns
 
