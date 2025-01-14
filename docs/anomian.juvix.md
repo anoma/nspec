@@ -177,7 +177,7 @@ type EngineMsgKind :=
 </div>
 
 
-## Chapter 3: The engine-configuration
+## Chapter 3: Engine configurations
 
 Anomian, you mentioned that engines have an internal state, a message interface,
 and specific communication patterns. Are there any other characteristics that
@@ -313,7 +313,7 @@ A mailbox cluster with two mailboxes and their state.
 > message is sent to an engine, the mailman takes the message and puts it in the
 > engine's mailbox. We can presume all messages are delivered, *eventually*.
 
-## Chapter 5: Engine environment
+## Chapter 5: Context of execution
 
 Nothing of what we have seen so far is actually useful. I mean, how do engines do
 real stuff?
@@ -350,7 +350,7 @@ type EngineEnv (S Msg : Type) :=
 > from the engine environments. This separation promotes modularity.
 
 
-## Chapter 6: Engine Behaviour
+## Chapter 6: What engines can do
 
 <div class="grid" markdown>
 
