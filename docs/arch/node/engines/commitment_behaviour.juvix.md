@@ -320,7 +320,7 @@ commitmentBehaviour : CommitmentBehaviour :=
 ```mermaid
 flowchart TD
     Start([Client Request]) --> MsgReq[MsgCommitmentRequest<br>data: Signable]
-    
+
     subgraph Guard["commitGuard (Message Validation)"]
         MsgReq --> ValidType{Is message type<br>CommitmentRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -339,10 +339,10 @@ flowchart TD
 
     GoodResp --> Response[MsgCommitmentResponse<br>commitment: Commitment<br>err: none]
     ErrResp --> ErrResponse[MsgCommitmentResponse<br>commitment: empty<br>err: Some error]
-    
+
     Response --> Client([Return to Client])
     ErrResponse --> Client
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```

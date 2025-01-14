@@ -30,22 +30,22 @@ tags:
 
 # Decryption Engine
 
-The Decryption Engine serves as a secure decryption service for a 
-specific identity within Anoma. It functions like a secure lockbox 
-that can decrypt messages (Ciphertext to Plaintext) intended for its 
-associated identity, while keeping the decryption keys secure and 
-unexposed. This enables secure communication where only the intended 
+The Decryption Engine serves as a secure decryption service for a
+specific identity within Anoma. It functions like a secure lockbox
+that can decrypt messages (Ciphertext to Plaintext) intended for its
+associated identity, while keeping the decryption keys secure and
+unexposed. This enables secure communication where only the intended
 recipient can read encrypted messages.
 
-When users submit encrypted data to the engine 
-(via a `MsgDecryptionRequest` message), it validates their 
-authorization and returns the decrypted content 
-(via a `MsgDecryptionResponse` message) if successful. 
+When users submit encrypted data to the engine
+(via a `MsgDecryptionRequest` message), it validates their
+authorization and returns the decrypted content
+(via a `MsgDecryptionResponse` message) if successful.
 
-In Anoma, Decryption Engines are only spawned by 
-[[Identity Management Engine]]s during identity creation or connection, 
-and only users with the engine reference can request decryption. This 
-ensures that encrypted data can only be decrypted by authorized 
+In Anoma, Decryption Engines are only spawned by
+[[Identity Management Engine]]s during identity creation or connection,
+and only users with the engine reference can request decryption. This
+ensures that encrypted data can only be decrypted by authorized
 parties while maintaining the security of the private decryption keys.
 
 ## Components

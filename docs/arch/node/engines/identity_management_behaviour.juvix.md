@@ -704,7 +704,7 @@ identityManagementBehaviour : IdentityManagementBehaviour :=
 ```mermaid
 flowchart TD
     Start([Generate Request]) --> MsgReq[MsgIdentityManagementGenerateIdentityRequest<br/>backend: Backend<br/>params: IDParams<br/>capabilities: Capabilities]
-    
+
     subgraph Guard["generateIdentityGuard"]
         MsgReq --> ValidType{Is message type<br/>GenerateIdentityRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -728,7 +728,7 @@ flowchart TD
     UpdateState --> Response[Success Response<br/>with engine IDs]
     ErrExists --> ErrResponse[Error Response]
     Response & ErrResponse --> Client([Return to Client])
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
@@ -789,7 +789,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Connect Request]) --> MsgReq[MsgIdentityManagementConnectIdentityRequest<br/>externalIdentity: EngineID<br/>backend: Backend<br/>capabilities: Capabilities]
-    
+
     subgraph Guard["connectIdentityGuard"]
         MsgReq --> ValidType{Is message type<br/>ConnectIdentityRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -813,7 +813,7 @@ flowchart TD
     UpdateState --> Response[Success Response<br/>with engine IDs]
     ErrExists & ErrNotFound & ErrCaps --> ErrResponse[Error Response]
     Response & ErrResponse --> Client([Return to Client])
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
@@ -877,7 +877,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Delete Request]) --> MsgReq[MsgIdentityManagementDeleteIdentityRequest<br/>externalIdentity: EngineID<br/>backend: Backend]
-    
+
     subgraph Guard["deleteIdentityGuard"]
         MsgReq --> ValidType{Is message type<br/>DeleteIdentityRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -896,7 +896,7 @@ flowchart TD
     Delete --> Response[Success Response]
     ErrNoExist --> ErrResponse[Error Response]
     Response & ErrResponse --> Client([Return to Client])
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```

@@ -326,7 +326,7 @@ decryptionBehaviour : DecryptionBehaviour :=
 ```mermaid
 flowchart TD
   Start([Client Request]) --> MsgReq[MsgDecryptionRequest<br/>data: Ciphertext]
-  
+
   subgraph Guard["decryptGuard (Message Validation)"]
       MsgReq --> ValidType{Is message type<br/>DecryptionRequest?}
       ValidType -->|No| Reject([Reject Request])
@@ -345,10 +345,10 @@ flowchart TD
 
   GoodResp --> Response[MsgDecryptionResponse<br/>commitment: Plaintext<br/>err: none]
   ErrResp --> ErrResponse[MsgDecryptionResponse<br/>commitment: empty<br/>err: Some error]
-  
+
   Response --> Client([Return to Client])
   ErrResponse --> Client
-  
+
   style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
   style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
