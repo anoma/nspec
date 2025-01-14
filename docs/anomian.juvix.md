@@ -290,7 +290,7 @@ type EngineMsg M :=
 
 !!! info "The social context of an engine"
 
-    Each engine is know in its neighborhood and may have connections to abroad.
+    Each engine is known in its neighbourhood and may have connections abroad.
     It still communicates via messages though and stays fixed in the place.
 
 ## Chapter 4: Mailboxes for anyone
