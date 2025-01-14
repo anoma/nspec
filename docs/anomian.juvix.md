@@ -84,7 +84,7 @@ syntax alias Spanish := String;
 
 !!! info "Babel"
 
-    The model defines all the languages spoken by engines. 
+    The model defines all the languages spoken by engines.
 
 <div class="grid" markdown>
 
