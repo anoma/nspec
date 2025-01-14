@@ -403,14 +403,14 @@ end;
 > The computational aspect of an engine is what we refer to as its **behaviour**,
 > and it is correct to think of it as a function that takes in a message and the
 > engine's environment. However, the return type of this function cannot be
-anything, what an engine can produce is part of the model of engines, and it's
+anything: the type what an engine can produce is part of the model of engines, and it is
 fixed.
 
 What exactly can an engine do if it's not just the same message passing we already know?
 
 <div class="grid" markdown>
 
-> We decompose the engine's behaviour into a set of **effects**. These effects
+> We decompose the engine's range of possible reactions into a set of **effects**. These effects
 > are the valid actions that the engine can perform. We can represent these
 > effects with the `Effect` type.
 
@@ -431,13 +431,13 @@ type Effect S E M :=
 </div>
 
 Based on the type for possible effects, the only new aspect for me about engines is
-that they can schedule actions to happen at a *later time*. We already knew that
+that they record the need for actions to happen at a *later time*. We already knew that
 engines have a parent, which makes sense by using the `SpawnEngine` effect.
 The rest remains the same as before.
 
-> Our actions are determined by certain conditions, some inherent from the
+> Our actions are restricted by certain pre-conditions, some inherent from the
 > environment. We only take action if the conditions are met. For engines, these
-> conditions are called **guards**.
+> conditions are expressed as **guards**.
 
 I got it. This mirrors our situation perfectly. Taking the tax office
 example: when I receive a notice to pay taxes, I first assess whether I have the
@@ -539,3 +539,10 @@ type Engine (S E M C R : Type) :=
 ```
 
 </div>
+
+!!! info "What engines do"
+
+    Engines react to incoming messages, taking into account their environment.
+    How they react is governed by guards of which the engine has several,
+    roughly one per relevant case. Cases may overlap, but often it is one case that
+    give the reaction. 
