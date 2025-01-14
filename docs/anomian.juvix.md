@@ -188,12 +188,7 @@ type CommunicationPattern :=
 > - The third one is to notify about something.
 >
 > We can represent these three cases with the `EngineMsgKind ` type.
-> Below, we'll use the following convention for an engine:
->
-> - `S` is the type of its internal state,
-> - `M` is the type of its message interface,
-> - `C` is the type of its configuration,
-> - `R` is the type of the return value for guards.
+
 
 ```juvix
 type EngineMsgKind :=
@@ -481,6 +476,12 @@ What exactly can an engine do if it's not just the same message passing we alrea
 > We decompose the engine's range of possible reactions into a set of **effects**. These effects
 > are the valid actions that the engine can perform. We can represent these
 > effects with the `Effect` type.
+>
+> To recall, we use the following convention for engine-related types:
+>
+> - `S` is the type of its internal state,
+> - `E` is the type of its environment,
+> - `M` is the type of its message interface.
 
 ```juvix
 axiom TimeTrigger : Type;
@@ -515,12 +516,14 @@ payment.
 <div class="grid" markdown>
 
 > The essence of a **guard** is a predicate, a pre-condition, that must hold
-> true for the engine to take action. Guards are evaluated based on incoming
-> messages, the engine's environment, and the engine's configuration. Since
-> guards involves computation, engine's preserve these computations as part of
-> the return type of the guard. Thus, if the underlying condition is not
-> satisfied, the guard returns nothing. We can represent this with the type
-> `Guard`.
+> true for the engine to take action. 
+>
+> Guards are evaluated based on incoming messages, the engine's environment,  
+> and the engine's configuration. We can represent this with the type `Guard`.
+> Since guards involves computation, engine's preserve these computations as part
+> of the return type of the guard, that is `R` in the type `Guard`. Thus, if the
+> underlying condition is not satisfied, the guard returns nothing. The `C` type
+> is the type for values in the engine's configuration.
 
 ```juvix
 Guard (S M C R : Type) : Type :=
