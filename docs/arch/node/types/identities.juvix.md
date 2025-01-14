@@ -62,9 +62,11 @@ SigningKey : Type := ByteString;
 
 A unique identifier, such as a public key, represented as a natural number.
 
+<!-- --8<-- [start:ExternalID] -->
 ```juvix
 syntax alias ExternalID := PublicKey;
 ```
+<!-- --8<-- [end:ExternalID] -->
 
 ### InternalID
 
@@ -164,9 +166,13 @@ syntax alias ExternalIdentity := EngineName;
 
 Engine instance identity combining node identity and engine name.
 
+<!-- --8<-- [start:EngineID] -->
 ```juvix
 EngineID : Type := Pair (Option NodeID) EngineName;
+```
+<!-- --8<-- [end:EngineID] -->
 
+```juvix
 isLocalEngineID (eid : EngineID) : Bool :=
   case eid of {
     | mkPair none _ := true

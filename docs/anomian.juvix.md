@@ -17,7 +17,6 @@ tags:
     import arch.node.types.messages open hiding {EngineMsg};
     ```
 
-
 As in the Little Typer book, we explore some aspects of the Anoma model through
 a dialogue that presents the notions considered in the specification. There are
 two participants in this dialogue: the student, *Jordan*, and Anomian, the modeler.
@@ -26,10 +25,10 @@ When Anomian speaks, it is in the form of a quote. Otherwise, it Jordan speaks.
 > Me, Anomian.
 
 Again, the goal of this exercise is to understand what the Anoma system
-is about and *a model* of it. We present a few Juvix code snippets that
-will help us understand the model, but these are not particularly important.
-You can read only the quotes to get the idea. The Jordan interactions are to
-confirm, ask questions, and recap the concepts.
+is about and *a model* of it. As a resource of information, we present a few
+Juvix code snippets that will help us understand the model, but these are not
+particularly essential. You can read only the quotes to get the main idea. The Jordan
+interactions are to confirm, ask questions, and recap the concepts.
 
 ## Chapter 1: The core players
 
@@ -115,7 +114,7 @@ type JordanMsgInterface : Type :=
 Got it. Here is a message for you, Anomian.
 
 ```juvix
-helloAnomian : AnomianMsg := 
+helloAnomian : AnomianMsg :=
   AnomianMsgEnglish@{msg := "Hello!"};
 ```
 
@@ -123,7 +122,7 @@ helloAnomian : AnomianMsg :=
 
 > It is important to remember two key points. First, for effective
 > communication, an engine must have a well-defined message interface.
-> Second, if the message interface lacks any message constructors, the engine 
+> Second, if the message interface lacks any message constructors, the engine
 > cannot perform any actions. Therefore, we assume that every engine has at least
 > one message constructor in its message interface.
 
@@ -169,7 +168,7 @@ type CommunicationPattern Msg :=
 > type.
 
 ```juvix
-type EngineMsgKind := 
+type EngineMsgKind :=
   | Request
   | Response
   | Notify;
@@ -209,7 +208,6 @@ type EngineCfg (C : Type) :=
 > engine is created, attributes such as the name of the engine cannot be
 > changed. If you want to change the name of an engine, you have to create a new
 > engine with the new name.
-
 
 But one thing, engines have a parent, do they always know who their parent
 is? I don't know who is my father, actually.
@@ -275,6 +273,7 @@ type EngineMsg M :=
 ```
 
 </div>
+
 # Chapter 4: Mailboxes for anyone
 
 Messages are sent to the engine's mailbox.
@@ -312,13 +311,12 @@ A mailbox cluster with two mailboxes and their state.
 > Before going any further, let us assume that the engine communication process
 > involves at least one *mailman* that delivers messages to the engines. When a
 > message is sent to an engine, the mailman takes the message and puts it in the
-> engine's mailbox. We can presume there are multiple mailmen to deal with a
-> overflow of messages, and all messages are delivered, *eventually*.
+> engine's mailbox. We can presume all messages are delivered, *eventually*.
 
 # Chapter 5: Engine environment
 
 Nothing of what we have seen so far is actually useful. I mean, how do engines do
-real stuff? 
+real stuff?
 
 So far, we've only discussed that engines have certain attributes: an
 identifier, a message interface, and a configuration that includes details like
@@ -347,6 +345,167 @@ type EngineEnv (S Msg : Type) :=
 
 </div>
 
-# Chapter 6: Engine execution
+> Note that engine environments do not encompass the engine's configuration,
+> although they could. Instead, engine configurations are accessible separately
+> from the engine environments. This separation promotes modularity.
 
 
+## Chapter 6: Engine Behaviour
+
+<div class="grid" markdown>
+
+How do engines actually compute? With their engine-environment in place, I
+imagine that engines run some sort of function that uses the engine-environment
+and a message from the mailbox. Something like the following type `Handler`, where
+`S` is the state of the engine and `M` is the message interface, and the return
+type is `ReturnSomething`, which can be whatever we want.
+
+```juvix
+module EngineBehaviourAttempt;
+axiom ReturnSomething : Type;
+
+Handler (M S : Type) : Type :=
+  M -> EngineEnv S M -> ReturnSomething;
+end;
+```
+
+</div>
+
+> The computational aspect of an engine is what we refer to as its **behaviour**,
+> and it is correct to think of it as a function that takes in a message and the
+> engine's environment. However, the return type of this function cannot be
+anything, what an engine can produce is part of the model of engines, and it's
+fixed.
+
+What exactly can an engine do if its not just the same message passing we already know?
+
+<div class="grid" markdown>
+
+> We decompose the engine's behaviour into a set of **effects**. These effects
+> are the valid actions that the engine can perform. We can represent these
+> effects with the `Effect` type.
+
+```juvix
+axiom TimeTrigger : Type;
+
+type Effect S E M :=
+  | SendMsg@{msg : EngineMsg M}
+  | UpdateState@{state : S}
+  | SpawnEngine@{engine : E}
+  | Chain@{effects : List (Effect S E M)}
+  | Schedule@{
+      trigger : TimeTrigger;
+      action : Effect S E M
+    };
+```
+
+</div>
+
+Based on the type for possible effects, the only new aspect for me about engines is
+that they can schedule actions to happen at a *later time*. We already knew that
+engines have a parent, which makes sense by using the `SpawnEngine` effect.
+The rest remains the same as before.
+
+> Our actions are determined by certain conditions, some inherent from the
+> environment. We only take action if the conditions are met. For engines, these
+> conditions are called **guards**.
+
+I got it. This mirrors our situation perfectly. Taking the tax office
+example: when I receive a notice to pay taxes, I first assess whether I have the
+funds available. If I do, I take action to pay; otherwise, I might postpone the
+payment.
+
+<div class="grid" markdown> 
+
+> The essence of a **guard** is a predicate, a pre-condition, that must hold
+> true for the engine to take action. Guards are evaluated based on incoming
+> messages, the engine's environment, and the engine's configuration. Since
+> guards involves computation, engine's preserve thse computations as part of
+> the return type of the guard. Thus, if the underlying condition is not
+> satisfied, the guard returns nothing. We can represent this with the type
+> `Guard`.
+
+```juvix
+Guard (S M C R : Type) : Type :=  
+  M -> EngineEnv S M -> EngineCfg C -> Option R;
+
+isSatisfied {S M C R} 
+  (guard : Guard S M C R) 
+  (msg : M) 
+  (env : EngineEnv S M) 
+  (cfg : EngineCfg C) : Bool :=
+  case guard msg env cfg of {
+    | none := false
+    | some _ := true
+  }
+```
+</div>
+
+Wait! I see an issue. What if the engine has several guards and they are all satisfied?
+
+<div class="grid" markdown>
+> If several guards are satisfied, engine provide an strategy defined as its
+> construction how to act. The model conceives the following options: choose the
+> first guard that is satisfied, choose the last guard that is satisfied, choose
+> one of them, and choose all of them. And recall, If no guard conditions are met,
+> the engine decides not to act.
+
+```juvix
+type GuardStrategy := 
+  | FirstGuard
+  | LastGuard
+  | OneGuard
+  | AllGuards;
+```
+
+</div>
+
+<div class="grid" markdown>
+
+> Take in mind that guards are fundamentally speaking, predicates. If the guards
+> give green light, the engine will act, by means of **actions**.
+
+```juvix
+type GuardEval S M C R := mkGuardEval@{
+  guards : List (Guard S M C R);
+  strategy : GuardStrategy;
+};
+```
+
+</div>
+
+Ah, I see! So the guards act as the rules the engine follows, and the actions
+are the procedures executed when those rules are satisfied, and with the
+possible outcomes of the guards.
+
+<div class="grid" markdown>
+
+> We can now define the engine's behaviour as a function that takes in a guard
+> evaluation and returns an effect.
+
+```juvix
+EngineBehaviour (S E M C R : Type) : Type :=
+  GuardEval S M C R -> Effect S E M;
+```
+
+</div>
+
+<div class="grid" markdown>
+
+> With the concept of an engine now complete, it is appropriate to define the
+> type `Engine`. An engine is characterised by its configuration, environment,
+> and behaviour. Recall that `S` is the state of the engine, `E` is the environment,
+> `M` is the message interface, `C` is the configuration, and `R` is the return
+> type for guards.
+
+
+```juvix
+type Engine (S E M C R : Type) :=
+  mkEngine@{
+    cfg : EngineCfg C;
+    state : EngineEnv S M;
+    behavior : EngineBehaviour S E M C R;
+  };
+```
+
+</div>
