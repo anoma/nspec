@@ -25,7 +25,7 @@ When Anomian speaks, it is in the form of a quote. Otherwise, Jordan speaks.
 > Hi, I am Anomian.
 
 The goal of this dialogue is to illustrate what the Anoma system
-_is_ about hwo to *model* it. For the sake of concretness, we present a few
+_is_ about how to *model* it. For the sake of concreteness, we present a few
 Juvix code snippets that will help to clarify the model, but these are not
 essential.  The quotes alone should convey the main idea. The Jordan
 interactions are to confirm, ask questions, and recap the concepts.
@@ -82,9 +82,10 @@ syntax alias French := String;
 syntax alias Spanish := String;
 ```
 
-!!! info "Babel"
+!!! info "The Babel of engines"
 
     The model defines all the languages spoken by engines.
+    Check out [[Anoma Message]] to see the full list.
 
 <div class="grid" markdown>
 
@@ -145,15 +146,15 @@ inform you that I'm alive. What else can I do?
 
 <div class="grid" markdown>
 > There are many patterns indeed, but we will focus on the most common ones.
-> The type `Msg` is the message interface of the engine.
+> The type `M` is the message interface of the engine.
 
 ```juvix
 syntax alias Timeout := Nat;
 
-type CommunicationPattern Msg :=
-  | FireAndForget@{msg : Msg}
-  | RequestResponse@{msg : Msg; timeout : Timeout}
-  | PubSub@{topic : TopicID; msg : Msg}
+type CommunicationPattern M :=
+  | FireAndForget@{msg : M}
+  | RequestResponse@{msg : M; timeout : Option Timeout}
+  | PubSub@{msg : M}
   ;
 ```
 
@@ -164,7 +165,7 @@ type CommunicationPattern Msg :=
 > any response like notifications on your phone. However, if you need a response
 > or result and can wait for it, we can use the `RequestResponse` pattern. That
 > is the pattern for synchronous communication. And finally, the
-> `PublishSubscribe` pattern (pub/sub for short) that allows us to communicate
+> `PubSub` pattern (pub/sub for short) that allows us to communicate
 > asynchronously and without a response, broadcasting messages to multiple
 > engines.
 
@@ -175,7 +176,9 @@ type CommunicationPattern Msg :=
 > We can consider three purposes for a message.
 > 1. The first one is to request a response.
 > 2. The second one is to respond to a request.
-> 3. The third one is to notify about something. We can represent these three cases with the `EngineMsgKind ` type.
+> 3. The third one is to notify about something.
+>
+> We can represent these three cases with the `EngineMsgKind ` type.
 
 
 ```juvix
@@ -307,7 +310,8 @@ Messages are sent to the engine's mailbox.
 > mailboxes. Each mailbox is a queue of messages and can also contain additional
 > data if needed. The following diagram illustrates this concept. Each mailbox
 > is intended to serve a specific purpose. For simplicity, we refer to the entire
-> cluster as a its mailboxes.
+> cluster as its mailboxes, sometimes just called *mailbox* if there is no
+> confusion.
 
 --8<-- "./arch/node/types/messages.juvix.md:MailboxCluster"
 
