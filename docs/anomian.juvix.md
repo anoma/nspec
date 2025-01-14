@@ -82,6 +82,10 @@ syntax alias French := String;
 syntax alias Spanish := String;
 ```
 
+!!! info "Babel"
+
+    The model defines all the languages spoken by engines. 
+
 <div class="grid" markdown>
 
 > If I, Anomian, speak English and French, my message interface would
