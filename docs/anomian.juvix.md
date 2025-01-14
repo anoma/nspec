@@ -39,7 +39,8 @@ So, what do you mean by an _engine_?
 <div class="grid" markdown>
 
 > Think of an engine as a *dynamic entity* that can do stuff, much like
-> us, and that has an **engine-status** that could be *running* or *dead*.
+> us, and that has an **engine-status** that could be *running*, *dead*, or
+> *suspended*.
 
 ```juvix
 type EngineStatus := Running | Dead | Suspended;
@@ -53,7 +54,7 @@ Dynamic entity? What is *dynamic* about it?
 > happened to us. For engines, these events are **engine-messages** and only through
 > these messages, their **state** may change. That's what makes them dynamic.
 > However, notice that this change of internal state is optional. We call those
-> engines that never change their state *static*.
+> engines that never change their state **static**.
 
 Huh, so, an engine has its own state, and that state can change by reacting to
 messages that are sent to it. Easy.
@@ -68,13 +69,17 @@ But wait, who really sends those messages actually?
 > For example, an engine could remind itself to do something by sending a message
 > to itself.
 
-I see, and the messages can be in different languages, right? I mean I read
-English but not French. How are engines able to communicate with each other? Do
+I see, and the messages can be in different languages, right? I read English
+but not French. How are engines able to communicate with each other? Do
 they all speak the same language?
 
 > Each engine has its own **message interface**, that's the *language* they speak.
 > This message interface defines the format and content of the messages it can
 > comprehend and process.
+
+> For example, let's say the engines in our model only speak English, French, and
+> Spanish. Then, we could find a list of languages like this, like in the *Tower
+> of Babel*.
 
 ```juvix
 syntax alias English := String;
@@ -82,10 +87,11 @@ syntax alias French := String;
 syntax alias Spanish := String;
 ```
 
-!!! info "The Babel of engines"
+!!! info "Babel"
 
     The model defines all the languages spoken by engines.
-    Check out [[Anoma Message]] to see the full list.
+    Check out the sum type `Msg` in [[Anoma Message]] to see the full list in
+    actual model.
 
 <div class="grid" markdown>
 
