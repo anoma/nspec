@@ -169,7 +169,7 @@ type CommunicationPattern Msg :=
 <div class="grid" markdown>
 
 > We can consider three purposes for a message.
-> 1. The first one is to request a response. 
+> 1. The first one is to request a response.
 > 2. The second one is to respond to a request.
 > 3. The third one is to notify about something. We can represent these three cases with the `MsgPurpose` type.
 
@@ -545,4 +545,4 @@ type Engine (S E M C R : Type) :=
     Engines react to incoming messages, taking into account their environment.
     How they react is governed by guards of which the engine has several,
     roughly one per relevant case. Cases may overlap, but often it is one case that
-    give the reaction. 
+    give the reaction.
