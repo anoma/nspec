@@ -27,9 +27,11 @@ When Anomian speaks, it is in the form of a quote. Otherwise, Jordan speaks.
 
 The goal of this dialogue is to illustrate what the Anoma system
 _is_ about how to *model* it. For the sake of concreteness, we present a few
-Juvix code snippets that will help to clarify the model, but these are not
-essential.  The quotes alone should convey the main idea. The Jordan
-interactions are to confirm, ask questions, and recap the concepts.
+[Juvix code snippets](https://docs.juvix.org/0.6.9/tutorials/essential.html)
+that will help to clarify the model, but these are not essential. Most of the
+code are [enumerations and inductive types](https://docs.juvix.org/0.6.9/tutorials/essential.html#enumerations-and-inductive-types).
+The quotes alone should convey the main idea. The Jordan interactions are to confirm, ask questions,
+and recap the concepts.
 
 ## Chapter 1: The core players
 
