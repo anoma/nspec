@@ -14,7 +14,8 @@ tags:
     module anomian;
     import arch.node.types.basics open public;
     import arch.node.types.identities open;
-    import arch.node.types.messages open hiding {EngineMsg};
+    import arch.node.types.messages 
+      open hiding {EngineMsg; Mailbox};
     ```
 
 As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book, we explore some aspects of the Anoma model through
@@ -151,16 +152,17 @@ I can send a message to you, Anomian, either to expect a response or simply to
 inform you that I'm alive. What else can I do?
 
 <div class="grid" markdown>
+
 > There are many patterns indeed, but we will focus on the most common ones.
 > The type `M` is the message interface of the engine.
 
 ```juvix
 syntax alias Timeout := Nat;
 
-type CommunicationPattern M :=
-  | FireAndForget@{msg : M}
-  | RequestResponse@{msg : M; timeout : Option Timeout}
-  | PubSub@{msg : M}
+type CommunicationPattern :=
+  | FireAndForget
+  | RequestResponse@{timeout : Option Timeout}
+  | PubSub
   ;
 ```
 
@@ -179,13 +181,19 @@ type CommunicationPattern M :=
 
 <div class="grid" markdown>
 
-> We can consider three purposes for a message.
-> 1. The first one is to request a response.
-> 2. The second one is to respond to a request.
-> 3. The third one is to notify about something.
+> We can consider three purposes for a message:
+>
+> - The first one is to request a response.
+> - The second one is to respond to a request.
+> - The third one is to notify about something.
 >
 > We can represent these three cases with the `EngineMsgKind ` type.
-
+> Below, we'll use the following convention for an engine:
+>
+> - `S` is the type of its internal state,
+> - `M` is the type of its message interface,
+> - `C` is the type of its configuration,
+> - `R` is the type of the return value for guards.
 
 ```juvix
 type EngineMsgKind :=
@@ -266,9 +274,12 @@ where it runs.
 <div class="grid" markdown>
 
 > We have not defined what a node is yet, formally. But we can think of it as a
-> virtual place where the engine lives and operates. This place could be known to be in the same neighborhood,
-> in which case, we can refer to it as a **local engine**. Otherwise, the engine
-> is an **external engine**.
+> virtual place where the engine lives and operates. This place could be known
+> to be in the same neighbourhood, in which case, we can refer to it as a
+> **local engine**. Otherwise, the engine is an **external engine**.
+> With **engine identifiers** (of type `EngineID`), we can define *engine
+> messages*. These messages serve as events for engines, sent to them by some
+> other engine. 
 
 --8<-- "./arch/node/types/identities.juvix.md:EngineID"
 
@@ -277,14 +288,12 @@ where it runs.
 
 <div class="grid" markdown>
 
-> With **engine identifiers** (of type `EngineID`), we can define *engine
-> messages*. These messages serve as events for engines, sent to them by some
-> other engine. An **engine-message** includes a *sender*, a *target*, an optional
-> *mailbox identifier*, and the *message content*. The mailbox identifier is used
-> to identify the mailbox of the target engine, the virtual place where the
-> message is delivered. Additionally, the message includes a *kind* that indicates
-> whether the message is a command, an event, or a response. We already defined
-> the kind of the message in the previous chapter as `EngineMsgKind`.
+> An **engine-message** consists of a *sender*, a *target*, an optional
+> *mailbox identifier*, the *communication pattern*, what kind of message it is,
+> and the message itself. The mailbox identifier is used to identify the
+> mailbox of the target engine, the virtual place where the message is delivered.
+> Recall that the *kind* indicates whether the message is a command, a response, or
+> an event, and the *pattern* indicates the expected behaviour pattern to respond.
 
 <!--ᚦ «Do we really want to restrict ourselves to command event response, in general?» -->
 
@@ -294,10 +303,14 @@ type EngineMsg M :=
     sender : EngineID;
     target : EngineID;
     mailbox : Option MailboxID;
+    pattern : CommunicationPattern;
     kind : EngineMsgKind;
     msg : M;
   };
 ```
+
+
+
 
 </div>
 
@@ -312,34 +325,76 @@ Messages are sent to the engine's mailbox.
 
 <div class="grid" markdown>
 
-> Engines have a sophisticated mailbox system, which is actually a cluster of
-> mailboxes. Each mailbox is a queue of messages and can also contain additional
-> data if needed. The following diagram illustrates this concept. Each mailbox
-> is intended to serve a specific purpose. For simplicity, we refer to the entire
-> cluster as its mailboxes, sometimes just called *mailbox* if there is no
-> confusion.
+> What is a mailbox? A **mailbox** consists of a queue of messages and can also
+> contain additional data if needed. The data could be the state of the mailbox,
+> think of it as having extra information about the mailbox like the number of
+> messages in it.
 
---8<-- "./arch/node/types/messages.juvix.md:MailboxCluster"
+```juvix
+type Mailbox S M := mkMailbox@{
+  messages : List (EngineMsg M);
+  mailboxState : Option S;
+};
+```
 
 </div>
+
+<div class="grid" markdown>
+
+> However, engines not only have a single mailbox, but a cluster of mailboxes.
+> That is, there is *at least one* mailbox per engine, but there can be more.
+> The type `MailboxCluster` for the cluster of mailboxes is really a mapping of
+> mailbox identifiers to the actual mailboxes.
+
+```juvix
+MailboxCluster (S M : Type) : Type := Map MailboxID (Mailbox S M);
+```
+
+</div>
+
+Why to bother with the mailbox cluster? One mailbox is enough, right?
+
+> While a single mailbox would suffice for basic functionality, multiple
+> mailboxes provide valuable message organisation capabilities. 
+
+That sounds pretty much like my email works. It is a cluster of mailboxes, and
+in principle, I have one big mailbox, but truly I can see it as having multiple
+mailboxes, one for each folder, such as promotions, important, spam, etc.
+
+<div class="grid" markdown>
+
+> The following diagram illustrates a mailbox cluster.
+> Each mailbox is intended to serve a specific purpose. For simplicity, we refer
+> to the entire cluster as the engine's mailbox if there is no confusion. In the
+> type `MailboxCluster`, we have a map of mailbox IDs to mailboxes.
 
 <figure markdown>
 
 ```mermaid
 graph LR
-    MailboxCluster["Jordan's Mailbox Cluster"] --> Mailbox1["Mailbox#1<br>'Please, English messages'"]
-    MailboxCluster --> Mailbox2["Mailbox #2<br>'Any thing else'"]
-    Mailbox1 --> Queue1("Queue of Messages")
-    Mailbox1 --> Data1("Mailbox state")
-    Mailbox2 --> Queue2("Queue of Messages")
-    Mailbox2 --> Data2("Mailbox state")
+    MailboxCluster["Jordan's Mailbox Cluster"] --> Mailbox1
+    MailboxCluster --> Mailbox2
+    MailboxCluster --> Mailbox3
+
+    subgraph Mailbox1["Mailbox#1 : 'Urgent'"]
+        Queue1("Queue of Messages")
+        Data1("Mailbox state")
+    end
+
+    subgraph Mailbox2["Mailbox #2 : 'Promotions'"]
+        Queue2("Queue of Messages")
+        Data2("Mailbox state")
+    end
+
+    subgraph Mailbox3["Mailbox #3 : 'Spam'"]
+        Queue3("Queue of Messages")
+        Data3("Mailbox state")
+    end
 ```
 
-<figcaption>
-A mailbox cluster consisting of two mailboxes and their state.
-</figcaption>
-
 </figure>
+
+</div>
 
 > Before going any further, let us assume that the engine communication process
 > involves at least one *mailelf* that delivers messages to the engines. When a
@@ -349,6 +404,7 @@ A mailbox cluster consisting of two mailboxes and their state.
 !!! info "Mailboxes for eventual message delivery"
 
     So, yes, the main purpose of mailboxes is where the elf delivers the messages.
+
 
 ## Chapter 5: Context of execution
 
@@ -370,7 +426,6 @@ actually run?
 
 ```juvix
 AddressBook : Type := Set EngineName;
-axiom MailboxCluster : Type -> Type -> Type;
 
 type EngineEnv (S Msg : Type) :=
   mkEngineEnv@{
@@ -469,11 +524,11 @@ payment.
 
 ```juvix
 Guard (S M C R : Type) : Type :=
-  M -> EngineEnv S M -> EngineCfg C -> Option R;
+  EngineMsg M -> EngineEnv S M -> EngineCfg C -> Option R;
 
 isSatisfied {S M C R}
   (guard : Guard S M C R)
-  (msg : M)
+  (msg : EngineMsg M)
   (env : EngineEnv S M)
   (cfg : EngineCfg C) : Bool :=
   case guard msg env cfg of {
@@ -486,11 +541,16 @@ isSatisfied {S M C R}
 Wait! I see an issue. What if the engine has several guards, and they are all satisfied?
 
 <div class="grid" markdown>
-> If several guards are satisfied, engine provide an strategy defined as its
-> construction how to act. The model conceives the following options: choose the
-> first guard that is satisfied, choose the last guard that is satisfied, choose
-> one of them, and choose all of them. And recall, If no guard conditions are met,
-> the engine decides not to act.
+
+> If several guards are satisfied, engine provide a strategy defined as its
+> construction how to act. The model conceives the following options.
+>
+> -  choose the first guard that is satisfied,
+> -  choose the last guard that is satisfied,
+> - choose one of them (randomly) if there are several satisfied guards,
+> - choose all of them if all guards are satisfied.
+>
+> And recall, If no guard conditions are met, the engine decides not to act.
 
 ```juvix
 type GuardStrategy :=
