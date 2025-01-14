@@ -415,7 +415,7 @@ example: when I receive a notice to pay taxes, I first assess whether I have the
 funds available. If I do, I take action to pay; otherwise, I might postpone the
 payment.
 
-<div class="grid" markdown> 
+<div class="grid" markdown>
 
 > The essence of a **guard** is a predicate, a pre-condition, that must hold
 > true for the engine to take action. Guards are evaluated based on incoming
@@ -426,13 +426,13 @@ payment.
 > `Guard`.
 
 ```juvix
-Guard (S M C R : Type) : Type :=  
+Guard (S M C R : Type) : Type :=
   M -> EngineEnv S M -> EngineCfg C -> Option R;
 
-isSatisfied {S M C R} 
-  (guard : Guard S M C R) 
-  (msg : M) 
-  (env : EngineEnv S M) 
+isSatisfied {S M C R}
+  (guard : Guard S M C R)
+  (msg : M)
+  (env : EngineEnv S M)
   (cfg : EngineCfg C) : Bool :=
   case guard msg env cfg of {
     | none := false
@@ -451,7 +451,7 @@ Wait! I see an issue. What if the engine has several guards, and they are all sa
 > the engine decides not to act.
 
 ```juvix
-type GuardStrategy := 
+type GuardStrategy :=
   | FirstGuard
   | LastGuard
   | OneGuard

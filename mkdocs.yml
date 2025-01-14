@@ -251,7 +251,7 @@ nav:
                   - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
                   - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
                   - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
-  - Anomian:  ./anomian.juvix.md
+  - Anomian: ./anomian.juvix.md
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
