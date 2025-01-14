@@ -17,24 +17,24 @@ tags:
     import arch.node.types.messages open hiding {EngineMsg};
     ```
 
-As in the Little Typer book, we explore some aspects of the Anoma model through
+As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book, we explore some aspects of the Anoma model through
 a dialogue that presents the notions considered in the specification. There are
-two participants in this dialogue: the student, *Jordan*, and Anomian, the modeller.
+two participants in this dialogue: the student, *Jordan*, and *Anomian*, the modeller.
 When Anomian speaks, it is in the form of a quote. Otherwise, Jordan speaks.
 
-> Me, Anomian.
+> Hi, I am Anomian.
 
-Again, the goal of this exercise is to understand what the Anoma system
-is about and *a model* of it. As a resource of information, we present a few
-Juvix code snippets that will help us understand the model, but these are not
-particularly essential. You can read only the quotes to get the main idea. The Jordan
+The goal of this dialogue is to illustrate what the Anoma system
+_is_ about hwo to *model* it. For the sake of concretness, we present a few
+Juvix code snippets that will help to clarify the model, but these are not
+essential.  The quotes alone should convey the main idea. The Jordan
 interactions are to confirm, ask questions, and recap the concepts.
 
 ## Chapter 1: The core players
 
 > At the core of the Anoma model, we find **engines**.
 
-So, what do you mean by an engine?
+So, what do you mean by an _engine_?
 
 <div class="grid" markdown>
 
@@ -55,12 +55,12 @@ Dynamic entity? What is *dynamic* about it?
 > However, notice that this change of internal state is optional. We call those
 > engines that never change their state *static*.
 
-Huh, so, an engine has a state, and that state can change by reading
+Huh, so, an engine has its own state, and that state can change by reacting to
 messages that are sent to it. Easy.
 
 > It's like when we receive a letter from the tax office. Once we read
 > the letter and understand it, we know that we have to pay taxes and eventually
-> do so. That letter may change us, some money may be gone.
+> do so. That letter may "change" us, some money may be gone.
 
 But wait, who really sends those messages actually?
 
@@ -70,11 +70,11 @@ But wait, who really sends those messages actually?
 
 I see, and the messages can be in different languages, right? I mean I read
 English but not French. How are engines able to communicate with each other? Do
-the all speak the same language?
+they all speak the same language?
 
 > Each engine has its own **message interface**, that's the *language* they speak.
 > This message interface defines the format and content of the messages it can
-> comprehend, process, and generate.
+> comprehend and process.
 
 ```juvix
 syntax alias English := String;
@@ -84,7 +84,7 @@ syntax alias Spanish := String;
 
 <div class="grid" markdown>
 
-> If me, Anomian, speak English and French, my message interface would
+> If I, Anomian, speak English and French, my message interface would
 > look like this.
 
 ```juvix
@@ -126,6 +126,10 @@ helloAnomian : AnomianMsg :=
 > cannot perform any actions. Therefore, we assume that every engine has at least
 > one message constructor in its message interface.
 
+!!! info "Message Interface"
+
+    Each engine has a message interface.
+
 ## Chapter 2: Communication patterns
 
 > Now that we understand engines and their message interfaces, let's talk about
@@ -160,12 +164,15 @@ type CommunicationPattern Msg :=
 > asynchronously and without a response, broadcasting messages to multiple
 > engines.
 
+<!--ᚦ «Do we now plan to have a synchronous pattern?» -->
+
 <div class="grid" markdown>
 
-> We can consider three purposes for a message.  The first one is to request a
-> response, the second one is to respond to a request, and the third one is to
-> notify about something. We can represent these three cases with the `MsgPurpose`
-> type.
+> We can consider three purposes for a message.
+> 1. The first one is to request a response.
+> 2. The second one is to respond to a request.
+> 3. The third one is to notify about something. We can represent these three cases with the `EngineMsgKind ` type.
+
 
 ```juvix
 type EngineMsgKind :=
@@ -177,18 +184,23 @@ type EngineMsgKind :=
 </div>
 
 
+!!! info "Summary of communication patterns"
+
+    We can have several communication patterns.
+    <!--ᚦ «Here I would like ideally compare to session types, choreographies, protocols etc.» -->
+
 ## Chapter 3: Engine configurations
 
 Anomian, you mentioned that engines have an internal state, a message interface,
 and specific communication patterns. Are there any other characteristics that
-define an engine like us? For instance, humans have attributes such as name,
+define an engine? And what about us, are we also engines? For instance, humans have attributes such as name,
 age, and parents. Do engines have similar attributes?
 
 <div class="grid" markdown>
 
 > Engines possess certain attributes. These attributes are stored in what we call
 > their **engine-configuration**, of type `EngineCfg`. This configuration is *immutable*
-> through the life of the engine. The configuration of an engine includes its **parent**
+> through the lifetime of the engine. The configuration of an engine includes its **parent**
 > that **spawns** it, its **name**, a virtual location where the engine runs named
 > `node`, and some specific information denoted by `cfg` of a given type `C`.
 
@@ -241,7 +253,7 @@ where it runs.
 <div class="grid" markdown>
 
 > We have not defined what a node is yet, formally. But we can think of it as a
-> virtual place where the engine lives and operates. This place could be known,
+> virtual place where the engine lives and operates. This place could be known to be in the same neighborhood,
 > in which case, we can refer to it as a **local engine**. Otherwise, the engine
 > is an **external engine**.
 
@@ -261,6 +273,8 @@ where it runs.
 > whether the message is a command, an event, or a response. We already defined
 > the kind of the message in the previous chapter as `EngineMsgKind`.
 
+<!--ᚦ «Do we really want to restrict ourselves to command event response, in general?» -->
+
 ```juvix
 type EngineMsg M :=
   mkEngineMsg@{
@@ -274,6 +288,11 @@ type EngineMsg M :=
 
 </div>
 
+!!! info "The social context of an engine"
+
+    Each engine is known in its neighbourhood and may have connections abroad.
+    It still communicates via messages though and stays fixed in the place.
+
 ## Chapter 4: Mailboxes for anyone
 
 Messages are sent to the engine's mailbox.
@@ -284,7 +303,7 @@ Messages are sent to the engine's mailbox.
 > mailboxes. Each mailbox is a queue of messages and can also contain additional
 > data if needed. The following diagram illustrates this concept. Each mailbox
 > is intended to serve a specific purpose. For simplicity, we refer to the entire
-> cluster as a mailbox.
+> cluster as a its mailboxes.
 
 --8<-- "./arch/node/types/messages.juvix.md:MailboxCluster"
 
@@ -303,15 +322,19 @@ graph LR
 ```
 
 <figcaption>
-A mailbox cluster with two mailboxes and their state.
+A mailbox cluster consisting of two mailboxes and their state.
 </figcaption>
 
 </figure>
 
 > Before going any further, let us assume that the engine communication process
-> involves at least one *mailman* that delivers messages to the engines. When a
-> message is sent to an engine, the mailman takes the message and puts it in the
+> involves at least one *mailelf* that delivers messages to the engines. When a
+> message is sent to an engine, the mailelf takes the message and puts it in the
 > engine's mailbox. We can presume all messages are delivered, *eventually*.
+
+!!! info "Mailboxes for eventual message delivery"
+
+    So, yes, the main purpose of mailboxes is where the elf delivers the messages.
 
 ## Chapter 5: Context of execution
 
@@ -328,7 +351,7 @@ actually run?
 > To understand how an engine runs, we need to acknowledge that engines operate
 > within an **context of execution** referred to as their **engine-environment**.
 > This environment, defined by the `EngineEnv` type, includes the engine's
-> internal state, its mailbox, and an address book of known engines it can
+> internal state, its mailboxes, and an address book of known engines it can
 > interact with, including itself.
 
 ```juvix
@@ -349,6 +372,11 @@ type EngineEnv (S Msg : Type) :=
 > although they could. Instead, engine configurations are accessible separately
 > from the engine environments. This separation promotes modularity.
 
+!!! info "Local data of engines"
+
+    Each engine has its own local data, some of which is fixed,
+    and some of which is dynamic. All these data together form the
+    execution context.
 
 ## Chapter 6: What engines can do
 
@@ -374,14 +402,14 @@ end;
 > The computational aspect of an engine is what we refer to as its **behaviour**,
 > and it is correct to think of it as a function that takes in a message and the
 > engine's environment. However, the return type of this function cannot be
-anything, what an engine can produce is part of the model of engines, and it's
+anything: the type what an engine can produce is part of the model of engines, and it is
 fixed.
 
 What exactly can an engine do if it's not just the same message passing we already know?
 
 <div class="grid" markdown>
 
-> We decompose the engine's behaviour into a set of **effects**. These effects
+> We decompose the engine's range of possible reactions into a set of **effects**. These effects
 > are the valid actions that the engine can perform. We can represent these
 > effects with the `Effect` type.
 
@@ -402,13 +430,13 @@ type Effect S E M :=
 </div>
 
 Based on the type for possible effects, the only new aspect for me about engines is
-that they can schedule actions to happen at a *later time*. We already knew that
+that they record the need for actions to happen at a *later time*. We already knew that
 engines have a parent, which makes sense by using the `SpawnEngine` effect.
 The rest remains the same as before.
 
-> Our actions are determined by certain conditions, some inherent from the
+> Our actions are restricted by certain pre-conditions, some inherent from the
 > environment. We only take action if the conditions are met. For engines, these
-> conditions are called **guards**.
+> conditions are expressed as **guards**.
 
 I got it. This mirrors our situation perfectly. Taking the tax office
 example: when I receive a notice to pay taxes, I first assess whether I have the
@@ -510,3 +538,10 @@ type Engine (S E M C R : Type) :=
 ```
 
 </div>
+
+!!! info "What engines do"
+
+    Engines react to incoming messages, taking into account their environment.
+    How they react is governed by guards of which the engine has several,
+    roughly one per relevant case. Cases may overlap, but often it is one case that
+    give the reaction.
