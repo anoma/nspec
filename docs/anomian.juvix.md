@@ -373,8 +373,11 @@ type EngineEnv (S Msg : Type) :=
 > although they could. Instead, engine configurations are accessible separately
 > from the engine environments. This separation promotes modularity.
 
+!!! info "Local data of engines"
 
-
+    Each engine has its own local data, some of which is fixed,
+    and some of which is dynamic. All these data together form the
+    execution context.
 
 ## Chapter 6: What engines can do
 
