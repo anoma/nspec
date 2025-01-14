@@ -171,9 +171,8 @@ type CommunicationPattern Msg :=
 > We can consider three purposes for a message.
 > 1. The first one is to request a response.
 > 2. The second one is to respond to a request.
-> 3. The third one is to notify about something. We can represent these three cases with the `MsgPurpose` type.
+> 3. The third one is to notify about something. We can represent these three cases with the `EngineMsgKind ` type.
 
-<!--ᚦ «MsgPurpose vs. EngineMsgKind: which one?» -->
 
 ```juvix
 type EngineMsgKind :=
