@@ -304,7 +304,7 @@ Messages are sent to the engine's mailbox.
 > mailboxes. Each mailbox is a queue of messages and can also contain additional
 > data if needed. The following diagram illustrates this concept. Each mailbox
 > is intended to serve a specific purpose. For simplicity, we refer to the entire
-> cluster as a mailbox.
+> cluster as a its mailboxes.
 
 --8<-- "./arch/node/types/messages.juvix.md:MailboxCluster"
 
@@ -323,15 +323,19 @@ graph LR
 ```
 
 <figcaption>
-A mailbox cluster with two mailboxes and their state.
+A mailbox cluster consisting of two mailboxes and their state.
 </figcaption>
 
 </figure>
 
 > Before going any further, let us assume that the engine communication process
-> involves at least one *mailman* that delivers messages to the engines. When a
-> message is sent to an engine, the mailman takes the message and puts it in the
+> involves at least one *mailelf* that delivers messages to the engines. When a
+> message is sent to an engine, the mailelf takes the message and puts it in the
 > engine's mailbox. We can presume all messages are delivered, *eventually*.
+
+!!! info "Mailboxes for eventual message delivery"
+
+    So, yes, the main purpose of mailboxe is where the elf delivers the messages.
 
 ## Chapter 5: Context of execution
 
@@ -348,7 +352,7 @@ actually run?
 > To understand how an engine runs, we need to acknowledge that engines operate
 > within an **context of execution** referred to as their **engine-environment**.
 > This environment, defined by the `EngineEnv` type, includes the engine's
-> internal state, its mailbox, and an address book of known engines it can
+> internal state, its mailboxes, and an address book of known engines it can
 > interact with, including itself.
 
 ```juvix
@@ -368,6 +372,8 @@ type EngineEnv (S Msg : Type) :=
 > Note that engine environments do not encompass the engine's configuration,
 > although they could. Instead, engine configurations are accessible separately
 > from the engine environments. This separation promotes modularity.
+
+
 
 
 ## Chapter 6: What engines can do
