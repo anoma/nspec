@@ -304,7 +304,7 @@ AnomianID : EngineID := mkPair (some localhost) "Anomian184";
 
 > An **engine-message** consists of a *sender*, a *target*, an optional
 > *mailbox identifier*, the *communication pattern*, what kind of message it is,
-> and the message itself.
+> and the message itself. 
 >
 > The mailbox identifier is used to identify the mailbox of the target engine,
 > the virtual place where the message is delivered. Recall that the *kind*
@@ -345,7 +345,7 @@ jordanToAnomian : EngineMsg MsgInterface :=
 
 </div>
 
-<div class="grid" markdown>
+<div class="grid" markdown> 
 
 > A reply engine-message is `anomianToJordan`.
 >
@@ -605,7 +605,7 @@ Wait! I see an issue. What if the engine has several guards, and they are all sa
 > If several guards are satisfied, engine provide a strategy defined as its
 > construction how to act. The model conceives the following options.
 >
-> -  choose the first guard that is satisfied,
+> -  Choose the first guard that is satisfied,
 > -  choose the last guard that is satisfied,
 > - choose one of them (randomly) if there are several satisfied guards,
 > - choose all of them if all guards are satisfied.
@@ -683,3 +683,65 @@ type Engine (S E M C R : Type) :=
 
 ## Chapter 7: We have engines, and now, what?
 
+> We are now beginning to define the system. Although there are still a few
+> aspects to address, we have made a good start. In the upcoming chapters, 
+> we assume the system will maintain the following invariants:
+
+- [x] Message delivery: All messages are eventually delivered
+- [x] Engine isolation: Each engine maintains independent state
+- [x] Type safety: All communication follows defined message interfaces
+- [x] Configuration immutability: Engine configurations cannot be modified after
+  creation
+
+!!! todo
+
+    - Trust level of the system
+    - What cryptographic primitives are needed?
+    - Something else?
+
+> A quick glossary of the terms we have seen so far.
+
+- **EngineStatus**: Represents the possible states an engine can be
+   in—`Running`, `Dead`, or `Suspended`.
+
+- **CommunicationPattern**: Enumerates the types of communication patterns
+   available, such as `FireAndForget`, `RequestResponse` with an optional
+   timeout, and `PubSub`.
+
+- **EngineMsgKind**: Categorizes messages into `Request`, `Response`, or
+   `Notify`.
+
+- **EngineID**: A composite identifier for engines, consisting of a `nodeId`
+  and a `name`.
+
+- **MessageInterface**: Defines the interface for messages specific to
+   different engines (`AnomianMsgInterface`, `JordanMsgInterface`) and
+   aggregates them into a general `MsgInterface`.
+
+- **EngineCfg**: An immutable configuration for an engine, including optional
+   parent information, engine name, node ID, and a generic configuration type
+   `c`.
+
+- **Mailbox and MailboxCluster**: Structure for message queues (`Mailbox`) and
+   a collection of mailboxes (`MailboxCluster`) indexed by `MailboxID`.
+
+- **EngineEnv**: The execution context of an engine, comprising its state,
+   mailbox cluster, and an address book of known engines.
+
+- **Guard and GuardStrategy**: Mechanisms to evaluate whether certain
+  conditions are met (`Guard`) and strategies to handle multiple satisfied
+  guards (`GuardStrategy`).
+
+- **Effect**: The possible outcomes or actions an engine can perform, such as
+  sending messages, updating state, spawning new engines, chaining effects, or
+  scheduling future actions.
+
+- **EngineBehaviour**: A function defining how an engine responds to evaluated
+  guards and decides on an effect.
+
+- **Engine**: The core representation of an engine, combining its status,
+  configuration, state, and behaviour.
+
+- **EngineMsg**: Structure of messages exchanged between engines, including
+  sender and target identifiers, mailbox, communication pattern, message kind,
+  and the message content itself.
