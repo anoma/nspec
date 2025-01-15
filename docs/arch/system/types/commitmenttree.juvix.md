@@ -131,7 +131,6 @@ as a `CTree` by specifying the direction to take at each node.
 type PathDir :=
   | PathDirLeft
   | PathDirRight
-  | PathDirHere;
 ```
 
 ### `CTreePath`
@@ -149,7 +148,7 @@ CommitmentTree (A : Type) : Type := CommitmentTreeOps A CTree PathDir;
 ```
 
 <!--
-```
+```juvix
 -- instance
 thisShouldWork {A}: CommitmentTreeOps A CTree CTreePath :=
   mkCommitmentTreeOps@{
