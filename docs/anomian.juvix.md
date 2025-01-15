@@ -15,7 +15,7 @@ tags:
     import arch.node.types.basics open public;
     import arch.node.types.identities open;
     import arch.node.types.messages
-      open hiding {EngineMsg; Mailbox};
+      open hiding {EngineMsg; mkEngineMsg; Mailbox};
     ```
 
 As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book, we explore some aspects of the Anoma model through
@@ -80,21 +80,18 @@ they all speak the same language?
 > This message interface defines the format and content of the messages it can
 > comprehend and process.
 
+<div class="grid" markdown>
+
 > For example, let's say the engines in our model only speak English, French, and
-> Spanish. Then, we could find a list of languages like this, like in the *Tower
-> of Babel*.
+> Spanish.
 
 ```juvix
-syntax alias English := String;
-syntax alias French := String;
-syntax alias Spanish := String;
+syntax alias EnglishPayload := String;
+syntax alias FrenchPayload := String;
+syntax alias SpanishPayload := String;
 ```
 
-!!! info "Babel"
-
-    The model defines all the languages spoken by engines.
-    Check out the sum type `Msg` in [[Anoma Message]] to see the full list in
-    actual model.
+</div>
 
 <div class="grid" markdown>
 
@@ -102,9 +99,9 @@ syntax alias Spanish := String;
 > look like this.
 
 ```juvix
-type AnomianMsg : Type :=
-  | AnomianMsgEnglish@{msg : English}
-  | AnomianMsgFrench@{msg : French}
+type AnomianMsgInterface : Type :=
+  | AnomianMsgEnglish@{msg : EnglishPayload}
+  | AnomianMsgFrench@{msg : FrenchPayload}
   ;
 ```
 
@@ -116,8 +113,8 @@ Hey, in my case, I speak English and Spanish. My message interface is the follow
 
 ```juvix
 type JordanMsgInterface : Type :=
-  | JordanMsgEnglish@{msg : English}
-  | JordanMsgSpanish@{msg : Spanish}
+  | JordanMsgEnglish@{msg : EnglishPayload}
+  | JordanMsgSpanish@{msg : SpanishPayload}
   ;
 ```
 
@@ -125,24 +122,36 @@ type JordanMsgInterface : Type :=
 
 <div class="grid" markdown>
 
-Got it. Here is a message for you, Anomian.
+Got it. Here is a message you can understand, Anomian.
 
 ```juvix
-helloAnomian : AnomianMsg :=
+helloAnomian : AnomianMsgInterface :=
   AnomianMsgEnglish@{msg := "Hello!"};
 ```
 
-</div>
 
-> It is important to remember two key points. First, for effective
-> communication, an engine must have a well-defined message interface.
-> Second, if the message interface lacks any message constructors, the engine
-> cannot perform any actions. Therefore, we assume that every engine has at least
-> one message constructor in its message interface.
+</div>
 
 !!! info "Message Interface"
 
-    Each engine has a message interface.
+    - Each engine has a message interface.
+
+    - By construction, it is safe to assume that every engine has at least one
+      message constructor in its message interface.
+
+
+> The model defines all the message interfaces defined by engines.
+
+```juvix
+type MsgInterface :=
+  | MsgAnomian AnomianMsgInterface
+  | MsgJordan JordanMsgInterface
+  ;
+```
+
+> To see the full list of message interfaces in the current model, check out the
+> sum type `Msg` in [[Anoma Message]].
+
 
 ## Chapter 2: Communication patterns
 
@@ -274,23 +283,33 @@ where it runs.
 > virtual place where the engine lives and operates. This place could be known
 > to be in the same neighbourhood, in which case, we can refer to it as a
 > **local engine**. Otherwise, the engine is an **external engine**.
-> With **engine identifiers** (of type `EngineID`), we can define *engine
-> messages*. These messages serve as events for engines, sent to them by some
-> other engine.
 
 --8<-- "./arch/node/types/identities.juvix.md:EngineID"
 
 </div>
 
+Okay, I guess that we can define our identifiers now.
+
+
+```juvix
+JordanID : EngineID := mkPair (some localhost) "Jordan9121";
+AnomianID : EngineID := mkPair (some localhost) "Anomian184";
+```
+
+> With **engine identifiers** (of type `EngineID`), we can define *engine
+> messages*. These messages serve as events for engines, sent to them by some
+> other engine.
 
 <div class="grid" markdown>
 
 > An **engine-message** consists of a *sender*, a *target*, an optional
 > *mailbox identifier*, the *communication pattern*, what kind of message it is,
-> and the message itself. The mailbox identifier is used to identify the
-> mailbox of the target engine, the virtual place where the message is delivered.
-> Recall that the *kind* indicates whether the message is a command, a response, or
-> an event, and the *pattern* indicates the expected behaviour pattern to respond.
+> and the message itself. 
+>
+> The mailbox identifier is used to identify the mailbox of the target engine,
+> the virtual place where the message is delivered. Recall that the *kind*
+> indicates whether the message is a command, a response, or an event, and the
+> *pattern* indicates the expected behaviour pattern to respond.
 
 <!--ᚦ «Do we really want to restrict ourselves to command event response, in general?» -->
 
@@ -306,11 +325,47 @@ type EngineMsg M :=
   };
 ```
 
+</div>
 
+<div class="grid" markdown>
 
+Hah! so let me craft a message for you, Anomian. Not sure how to send it though.
+
+```juvix
+jordanToAnomian : EngineMsg MsgInterface :=
+  mkEngineMsg@{
+    sender := JordanID;
+    target := AnomianID;
+    mailbox := some 1;
+    pattern := RequestResponse@{timeout := none};
+    kind := Request;
+    msg := MsgAnomian (AnomianMsgEnglish@{msg := "What is the meaning of life?"});
+  };
+```
 
 </div>
 
+<div class="grid" markdown> 
+
+> A reply engine-message is `anomianToJordan`.
+>
+> Notice that that the type parameter `MsgInterface` for `EngineMsg` is the same
+> as the one used in the request message, and not an engine-specific message
+> interface.
+
+```juvix
+anomianToJordan : EngineMsg MsgInterface :=
+  mkEngineMsg@{
+    sender := AnomianID;
+    target := JordanID;
+    mailbox := some 1;
+    pattern := RequestResponse@{timeout := none};
+    kind := Response;
+    msg := MsgJordan (JordanMsgEnglish@{msg := "The meaning of life is 42."});
+  };
+```
+
+</div>
 !!! info "The social context of an engine"
 
     Each engine is known in its neighbourhood and may have connections abroad.
@@ -624,3 +679,7 @@ type Engine (S E M C R : Type) :=
     How they react is governed by guards of which the engine has several,
     roughly one per relevant case. Cases may overlap, but often it is one case that
     give the reaction.
+
+
+## Chapter 7: We have engines, and now, what?
+
