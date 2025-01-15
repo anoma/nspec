@@ -304,7 +304,7 @@ AnomianID : EngineID := mkPair (some localhost) "Anomian184";
 
 > An **engine-message** consists of a *sender*, a *target*, an optional
 > *mailbox identifier*, the *communication pattern*, what kind of message it is,
-> and the message itself. 
+> and the message itself.
 >
 > The mailbox identifier is used to identify the mailbox of the target engine,
 > the virtual place where the message is delivered. Recall that the *kind*
@@ -345,7 +345,7 @@ jordanToAnomian : EngineMsg MsgInterface :=
 
 </div>
 
-<div class="grid" markdown> 
+<div class="grid" markdown>
 
 > A reply engine-message is `anomianToJordan`.
 >
