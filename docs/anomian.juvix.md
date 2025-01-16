@@ -417,15 +417,19 @@ Why to bother with the mailbox cluster? One mailbox is enough, right?
 
 > While a single mailbox would suffice for basic functionality, multiple
 > mailboxes provide valuable message organisation capabilities.
+<!--ᚦ
+        «mailboxes may lead to "threads" within engines,
+        very much like passive objects in the active objects approach (cf. SALSA)»
+-->      
 
 That sounds pretty much like my email works. It is a cluster of mailboxes, and
 in principle, I have one big mailbox, but truly I can see it as having multiple
-mailboxes, one for each folder, such as promotions, important, spam, etc.
+mailboxes, one for each folder, such as promotions, important, family, etc.
 
 <div class="grid" markdown>
 
-> The following diagram illustrates a mailbox cluster.
-> Each mailbox is intended to serve a specific purpose. For simplicity, we refer
+> Yes, the folder anology is great. The following diagram illustrates a mailbox cluster.
+> Each mailbox[^3] is intended to serve a specific purpose. For simplicity, we refer
 > to the entire cluster as the engine's mailbox if there is no confusion. In the
 > type `MailboxCluster`, we have a map of mailbox IDs to mailboxes.
 
@@ -447,7 +451,7 @@ graph LR
         Data2("Mailbox state")
     end
 
-    subgraph Mailbox3["Mailbox #3 : 'Spam'"]
+    subgraph Mailbox3["Mailbox #3 : 'Family'"]
         Queue3("Queue of Messages")
         Data3("Mailbox state")
     end
@@ -457,10 +461,12 @@ graph LR
 
 </div>
 
-> Before going any further, let us assume that the engine communication process
-> involves at least one *mailelf* that delivers messages to the engines. When a
-> message is sent to an engine, the mailelf takes the message and puts it in the
-> engine's mailbox. We can presume all messages are delivered, *eventually*.
+You have not answered yet how mail is actually sent. 
+
+> Well, imagine for a second that the communication process
+> is magically handled by one *mailelf* that delivers messages to the engines. When a
+> message is sent to an engine, the mailelf takes the message from the sender and puts it in the
+> engine's mailbox. In other words, for the moment, it suffices to assume that all messages are delivered *eventually*.
 
 !!! info "Mailboxes for eventual message delivery"
 
@@ -757,6 +763,9 @@ type Engine (S E M C R : Type) :=
 
 
 [^1]: The constructors are very much like _message tags_ in
-      the paper [Special Delivery: Programming with Mailbox Types](https://simonjf.com/writing/pat.pdf).
+      [the paper](https://simonjf.com/writing/pat.pdf)
+      [@special-delivery-mailbox-types-2023].
 
 [^2]: These engines roughly correspond to the _primeval_ actors of Clinger [@clinger1981].
+
+[^3]: See [@special-delivery-mailbox-types-2023] for the paradigmatic example.
