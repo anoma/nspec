@@ -256,9 +256,6 @@ type EngineCfg (C : Type) :=
 Tell me one thing about the parents of engines. Do they always know who their parent
 is? I don't know who is my father, actually.
 
-```juvix
-axiom localhost : NodeID;
-```
 
 <div class="grid" markdown>
 
@@ -268,6 +265,8 @@ axiom localhost : NodeID;
 > `creatorID` is the engine-identifier of the parent engine.
 
 ```juvix
+axiom localhost : NodeID;
+
 simpleConfig : EngineCfg Unit :=
   mkEngineCfg@{
     parent := none;
@@ -275,7 +274,6 @@ simpleConfig : EngineCfg Unit :=
     node := localhost;
     cfg := unit; -- no specific configuration
   };
-```
 
 </div>
 
