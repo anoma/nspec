@@ -528,7 +528,6 @@ axiom ReturnSomething : Type;
 
 Handler (M S : Type) : Type :=
   M -> EngineEnv S M -> ReturnSomething;
-end; -- the end of the submodule
 ```
 
 </div>
