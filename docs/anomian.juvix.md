@@ -12,10 +12,11 @@ tags:
 
 ## Preface
 
-As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book, we explore some aspects of the Anoma model through
-a dialogue that presents the notions considered in the specification. There are
-two participants in this dialogue: the student, *Jordan*, and *Anomian*, the modeller.
-When Anomian speaks, it is in the form of a quote. Otherwise, Jordan speaks.
+As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book, 
+we explore some aspects of the Anoma model through a dialogue that presents the
+notions considered in the specification. There are two participants in this
+dialogue: the student, *Jordan*, and *Anomian*, the modeller. When Anomian
+speaks, it is in the form of a quote. Otherwise, Jordan speaks.
 
 > Hi, I am Anomian.
 
@@ -276,6 +277,7 @@ simpleConfig : EngineCfg Unit :=
     node := localhost;
     cfg := unit; -- no specific configuration
   };
+```
 
 </div>
 
