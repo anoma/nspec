@@ -6,6 +6,8 @@ search:
 status: new
 tags:
   - story
+  - engine
+  - tutorial
 ---
 
 ## Preface
