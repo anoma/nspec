@@ -171,7 +171,6 @@ inform you that I'm alive. What else can I do?
 <div class="grid" markdown>
 
 > There are many patterns indeed, but let us start with the most common ones.
-> The type `M` is the message interface of the engine.
 
 ```juvix
 syntax alias Timeout := Nat;
