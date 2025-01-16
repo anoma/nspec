@@ -289,7 +289,7 @@ where it runs.
 > virtual place where the engine lives and operates. This place could be known
 > to be in the same neighbourhood, in which case, we can refer to it as a
 > **local engine**. Otherwise, the engine is an **external engine**.
-> _However, note that we have not yet **defined** what a node is!_ 
+> _However, note that we have not yet **defined** what a node is!_
 
 --8<-- "./arch/node/types/identities.juvix.md:EngineID"
 
@@ -336,7 +336,7 @@ type EngineMsg M :=
 
 <div class="grid" markdown>
 
-Hah! so let me craft a message for you, Anomian. 
+Hah! so let me craft a message for you, Anomian.
 
 ```juvix
 jordanToAnomian : EngineMsg MsgInterface :=
@@ -420,7 +420,7 @@ Why bother with the mailbox cluster? One mailbox is enough, right?
 <!--ᚦ
         «mailboxes may lead to "threads" within engines,
         very much like passive objects in the active objects approach (cf. SALSA)»
--->      
+-->
 
 That sounds like how my email works. It is a cluster of mailboxes, and
 in principle, I have one big mailbox, but truly I can see it as having multiple
@@ -461,7 +461,7 @@ graph LR
 
 </div>
 
-You have not answered yet how mail is actually sent. 
+You have not answered yet how mail is actually sent.
 
 > Well, imagine for a second that the communication process
 > is magically handled by one *mailelf* that delivers messages to the engines. When a
@@ -475,7 +475,7 @@ You have not answered yet how mail is actually sent.
 
 ## Chapter 5: Context of execution
 
-This is quite a fancy setup for sending messages, but how do engines "actually" get things done?! 
+This is quite a fancy setup for sending messages, but how do engines "actually" get things done?!
 
 I mean, we've discussed that engines have certain attributes: an
 identifier, a message interface, and a configuration that includes details like
