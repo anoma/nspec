@@ -523,7 +523,6 @@ and a message from the mailbox. Something like the following type `Handler`, whe
 type is `ReturnSomething`, which can be whatever we want.
 
 ```juvix
-module EngineBehaviourAttempt; -- btw, this is a submodule
 axiom ReturnSomething : Type;
 
 Handler (M S : Type) : Type :=
