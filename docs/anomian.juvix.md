@@ -356,7 +356,7 @@ jordanToAnomian : EngineMsg MsgInterface :=
 
 > A reply engine-message is `anomianToJordan`.
 >
-> Notice that that the type parameter `MsgInterface` for `EngineMsg` is the same
+> Notice that the type parameter `MsgInterface` for `EngineMsg` is the same
 > as the one used in the request message, and not an engine-specific message
 > interface.
 
@@ -413,7 +413,7 @@ MailboxCluster (S M : Type) : Type := Map MailboxID (Mailbox S M);
 
 </div>
 
-Why to bother with the mailbox cluster? One mailbox is enough, right?
+Why bother with the mailbox cluster? One mailbox is enough, right?
 
 > While a single mailbox would suffice for basic functionality, multiple
 > mailboxes provide valuable message organisation capabilities.
@@ -422,7 +422,7 @@ Why to bother with the mailbox cluster? One mailbox is enough, right?
         very much like passive objects in the active objects approach (cf. SALSA)»
 -->      
 
-That sounds pretty much like my email works. It is a cluster of mailboxes, and
+That sounds like how my email works. It is a cluster of mailboxes, and
 in principle, I have one big mailbox, but truly I can see it as having multiple
 mailboxes, one for each folder, such as promotions, important, family, etc.
 
@@ -590,7 +590,7 @@ payment.
 >
 > Guards are evaluated based on incoming messages, the engine's environment,
 > and the engine's configuration. We can represent this with the type `Guard`.
-> Since guards involves computation, engine's preserve these computations as part
+> Since guards involve computation, engine's preserve these computations as part
 > of the return type of the guard, that is `R` in the type `Guard`. Thus, if the
 > underlying condition is not satisfied, the guard returns nothing. The type parameter `C`
 > will be instantiated with the type for values in the engine's configuration.
@@ -615,8 +615,8 @@ Wait! I see an issue. What if the engine has several guards, and they are all sa
 
 <div class="grid" markdown>
 
-> If several guards are satisfied, engine provide a strategy defined as its
-> construction how to act. The model conceives the following options.
+> If several guards are satisfied, engines provide a strategy for how to act.
+> The model has the following options.
 >
 > - Choose the first guard that is satisfied,
 > - choose the last guard that is satisfied,
