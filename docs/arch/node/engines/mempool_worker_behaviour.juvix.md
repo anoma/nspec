@@ -43,7 +43,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 
     ```juvix
     axiom sign : TxFingerprint -> TransactionCandidate -> Signature;
-    axiom hash : TxFingerprint -> TransactionCandidate -> Hash;
+    axiom TChash : TxFingerprint -> TransactionCandidate -> Hash;
     ```
 
 ## Action arguments
@@ -204,7 +204,7 @@ handleTransactionRequest
                 mailbox := some 0;
                 msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionAck
                   (mkTransactionAck@{
-                    tx_hash := hash fingerprint candidate;
+                    tx_hash := TChash fingerprint candidate;
                     batch_number := MempoolWorkerLocalState.batch_number local;
                     batch_start := 0;
                     worker_id := worker_id;

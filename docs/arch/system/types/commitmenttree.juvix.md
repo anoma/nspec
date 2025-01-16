@@ -148,7 +148,7 @@ CommitmentTree (A : Type) : Type := CommitmentTreeOps A CTree PathDir;
 ```
 
 <!--
-```juvix
+```
 -- instance
 thisShouldWork {A}: CommitmentTreeOps A CTree CTreePath :=
   mkCommitmentTreeOps@{
