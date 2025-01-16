@@ -418,6 +418,7 @@ flowchart TD
 
     subgraph Action["processReadAction"]
         direction TB
+        ComputeStale["Compute stale locks:<br/>1. Find uncompleted reads<br/>2. Find uncompleted writes<br/>3. Create cleanup messages"]
         ExecStep[Execute program step<br/>with read data]
         ExecStep --> StepResult{Step<br/>Result?}
         StepResult -->|Error| ErrBranch[Create error response<br/>with read/write history]
@@ -425,9 +426,10 @@ flowchart TD
         SuccessBranch --> CheckHalt{Program<br/>Halted?}
         CheckHalt -->|Yes| FinishOk[Create success response<br/>with read/write history]
         CheckHalt -->|No| GenMsgs[Generate messages for<br/>new reads/writes]
-        ErrBranch --> ComputeStale["Compute stale locks:<br/>1. Find uncompleted reads<br/>2. Find uncompleted writes<br/>3. Create cleanup messages"]
-        FinishOk --> ComputeStale
     end
+
+    ErrBranch --> AddStaleErr[Add stale lock<br/>cleanup messages]
+    FinishOk --> AddStaleOk[Add stale lock<br/>cleanup messages]
 
     GenMsgs --> Parse[Parse step outputs]
     
@@ -458,8 +460,8 @@ flowchart TD
         CreateRead & CreateWrite --> CombineMsgs[Combine cleanup messages]
     end
 
-    CombineMsgs --> AddStaleErr[Add stale lock<br/>cleanup messages]
-    CombineMsgs --> AddStaleOk[Add stale lock<br/>cleanup messages]
+    CombineMsgs -.-> AddStaleErr
+    CombineMsgs -.-> AddStaleOk
 
     AddStaleErr --> NotifyFail[Send ExecutorFinished<br/>with error + cleanup messages]
     AddStaleOk --> NotifySuccess[Send ExecutorFinished<br/>with success + cleanup messages]
