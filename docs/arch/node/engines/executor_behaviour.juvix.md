@@ -430,42 +430,8 @@ flowchart TD
 
     ErrBranch --> AddStaleErr[Add stale lock<br/>cleanup messages]
     FinishOk --> AddStaleOk[Add stale lock<br/>cleanup messages]
-    
-    subgraph StaleComputation["Stale Lock Processing"]
-        ComputeStale --> FindReads[Find difference between<br/>lazy_read_keys and<br/>completed reads]
-        ComputeStale --> FindWrites[Find difference between<br/>may_write_keys and<br/>completed writes]
-        FindReads --> CreateRead[Create cleanup read<br/>messages with actual=false]
-        FindWrites --> CreateWrite[Create cleanup write<br/>messages with datum=none]
-        CreateRead & CreateWrite --> CombineMsgs[Combine cleanup messages]
-    end
 
-    CombineMsgs -.-> AddStaleErr
-    CombineMsgs -.-> AddStaleOk
-
-    AddStaleErr --> NotifyFail[Send ExecutorFinished<br/>with error + cleanup messages]
-    AddStaleOk --> NotifySuccess[Send ExecutorFinished<br/>with success + cleanup messages]
-    GenMsgs --> SendMsgs[Send generated<br/>read/write messages]
-    
-    NotifyFail & NotifySuccess & SendMsgs --> End([Complete])
-    
-    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
-    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
-    style StaleComputation fill:#fff0f7,stroke:#333,stroke-width:2px
-```
-
-<figcaption markdown="span">
-
-`processRead` flowchart showing read handling and execution steps
-
-</figcaption>
-</figure>
-
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-    Start([Program Step Outputs]) --> Parse[Parse step outputs]
+    GenMsgs --> Parse[Parse step outputs]
     
     subgraph ProcessOutputs["Process Step Outputs"]
         Parse --> CheckType{Output<br/>Type?}
@@ -486,14 +452,32 @@ flowchart TD
     SkipRead --> Collect
     SkipWrite --> Collect
     
-    Collect --> Return([Return message list])
+    subgraph StaleComputation["Stale Lock Processing"]
+        ComputeStale --> FindReads[Find difference between<br/>lazy_read_keys and<br/>completed reads]
+        ComputeStale --> FindWrites[Find difference between<br/>may_write_keys and<br/>completed writes]
+        FindReads --> CreateRead[Create cleanup read<br/>messages with actual=false]
+        FindWrites --> CreateWrite[Create cleanup write<br/>messages with datum=none]
+        CreateRead & CreateWrite --> CombineMsgs[Combine cleanup messages]
+    end
+
+    CombineMsgs -.-> AddStaleErr
+    CombineMsgs -.-> AddStaleOk
+
+    AddStaleErr --> NotifyFail[Send ExecutorFinished<br/>with error + cleanup messages]
+    AddStaleOk --> NotifySuccess[Send ExecutorFinished<br/>with success + cleanup messages]
+    Collect --> SendMsgs[Send generated<br/>read/write messages]
     
-    style ProcessOutputs fill:#fff7f0,stroke:#333,stroke-width:2px
+    NotifyFail & NotifySuccess & SendMsgs --> End([Complete])
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
+    style ProcessOutputs fill:#f0fff2,stroke:#333,stroke-width:2px
+    style StaleComputation fill:#fff0f7,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
 
-Detailed view of "Generate messages for new reads/writes"
+`processRead` flowchart showing read handling and execution steps
 
 </figcaption>
 </figure>
