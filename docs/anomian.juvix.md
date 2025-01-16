@@ -475,18 +475,16 @@ You have not answered yet how mail is actually sent.
 
 ## Chapter 5: Context of execution
 
-Nothing of what we have seen so far is actually useful. I mean, how do engines do
-real stuff?
+This is quite a fancy setup for sending messages, but how do engines "actually" get things done?! 
 
-So far, we've only discussed that engines have certain attributes: an
+I mean, we've discussed that engines have certain attributes: an
 identifier, a message interface, and a configuration that includes details like
-a parent, a name, and a virtual location where the engine *runs*. But how do they
-actually run?
+a parent, a name, and a virtual location where the engine *runs*. So, maybe a better question: how do engines actually run?
 
 <div class="grid" markdown>
 
 > To understand how an engine runs, we need to acknowledge that engines operate
-> within an **context of execution** referred to as their **engine-environment**.
+> within a **context of execution** referred to as their **engine-environment**.
 > This environment, defined by the `EngineEnv` type, includes the engine's
 > internal state, its mailboxes, and an address book of known engines it can
 > interact with, including itself.
@@ -508,11 +506,11 @@ type EngineEnv (S Msg : Type) :=
 > although they could. Instead, engine configurations are accessible separately
 > from the engine environments. This separation promotes modularity.
 
-!!! info "Local data of engines"
+!!! info "Local data of engines and the execution context"
 
     Each engine has its own local data, some of which is fixed,
-    and some of which is dynamic. All these data together form the
-    execution context.
+    and some of which is dynamic. All this data together forms the
+    _execution context_.
 
 ## Chapter 6: What engines can do
 
