@@ -8,15 +8,7 @@ tags:
   - story
 ---
 
-??? quote "Juvix imports"
-
-    ```juvix
-    module anomian;
-    import arch.node.types.basics open public;
-    import arch.node.types.identities open;
-    import arch.node.types.messages
-      open hiding {EngineMsg; mkEngineMsg; Mailbox};
-    ```
+## Preface
 
 As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book, we explore some aspects of the Anoma model through
 a dialogue that presents the notions considered in the specification. There are
@@ -32,6 +24,21 @@ that will help to clarify the model, but these are not essential. Most of the
 code are [enumerations and inductive types](https://docs.juvix.org/0.6.9/tutorials/essential.html#enumerations-and-inductive-types).
 The quotes alone should convey the main idea. The Jordan interactions are to confirm, ask questions,
 and recap the concepts.
+
+Last, but not least, we have not only code snippets,
+but we fully embrace [literate programming](https://www-cs-faculty.stanford.edu/~knuth/lp.html).
+This comes at the inconvenience of some lines of boiler plate here,
+but it can safely be skipped on a first reading.
+
+??? quote "Juvix imports"
+
+    ```juvix
+    module anomian;
+    import arch.node.types.basics open public;
+    import arch.node.types.identities open;
+    import arch.node.types.messages
+      open hiding {EngineMsg; mkEngineMsg; Mailbox};
+    ```
 
 ## Chapter 1: The core players
 
