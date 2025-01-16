@@ -516,19 +516,19 @@ type EngineEnv (S Msg : Type) :=
 
 <div class="grid" markdown>
 
-How do engines actually compute? With their engine-environment in place, I
+So, refining the question: how do engines actually compute? With their engine-environment in place, I
 imagine that engines run some sort of function that uses the engine-environment
 and a message from the mailbox. Something like the following type `Handler`, where
 `S` is the state of the engine and `M` is the message interface, and the return
 type is `ReturnSomething`, which can be whatever we want.
 
 ```juvix
-module EngineBehaviourAttempt;
+module EngineBehaviourAttempt; -- btw, this is a submodule
 axiom ReturnSomething : Type;
 
 Handler (M S : Type) : Type :=
   M -> EngineEnv S M -> ReturnSomething;
-end;
+end; -- the end of the submodule
 ```
 
 </div>
@@ -537,7 +537,7 @@ end;
 > and it is correct to think of it as a function that takes in a message and the
 > engine's environment. However, the return type of this function cannot be
 anything: the type what an engine can produce is part of the model of engines, and it is
-fixed.
+fixed for each engine.
 
 What exactly can an engine do if it's not just the same message passing we already know?
 
@@ -569,14 +569,14 @@ type Effect S E M :=
 
 </div>
 
-Based on the type for possible effects, the only new aspect for me about engines is
-that they record the need for actions to happen at a *later time*. We already knew that
-engines have a parent, which makes sense by using the `SpawnEngine` effect.
+Based on the type for possible effects,[^4] the only new aspect for me about engines is
+that they record the need for actions to happen at a *later time*. We already have covered that
+engines have a parent; the `SpawnEngine` effect is the other side of the same coin.
 The rest remains the same as before.
 
 > Our actions are restricted by certain pre-conditions, some inherent from the
 > environment. We only take action if the conditions are met. For engines, these
-> conditions are expressed as **guards**.
+> conditions are expressed as **guards**.[^5]
 
 I got it. This mirrors our situation perfectly. Taking the tax office
 example: when I receive a notice to pay taxes, I first assess whether I have the
@@ -592,8 +592,8 @@ payment.
 > and the engine's configuration. We can represent this with the type `Guard`.
 > Since guards involves computation, engine's preserve these computations as part
 > of the return type of the guard, that is `R` in the type `Guard`. Thus, if the
-> underlying condition is not satisfied, the guard returns nothing. The `C` type
-> is the type for values in the engine's configuration.
+> underlying condition is not satisfied, the guard returns nothing. The type parameter `C`
+> will be instantiated with the type for values in the engine's configuration.
 
 ```juvix
 Guard (S M C R : Type) : Type :=
@@ -618,9 +618,9 @@ Wait! I see an issue. What if the engine has several guards, and they are all sa
 > If several guards are satisfied, engine provide a strategy defined as its
 > construction how to act. The model conceives the following options.
 >
-> -  Choose the first guard that is satisfied,
-> -  choose the last guard that is satisfied,
-> - choose one of them (randomly) if there are several satisfied guards,
+> - Choose the first guard that is satisfied,
+> - choose the last guard that is satisfied,
+> - choose one of them (randomly/non-deterministically) if there are several satisfied guards,
 > - choose all of them if all guards are satisfied.
 >
 > And recall, If no guard conditions are met, the engine decides not to act.
@@ -633,11 +633,13 @@ type GuardStrategy :=
   | AllGuards;
 ```
 
+<!--ᚦ «Do we really want OneGuard? Is this maybe something else?» -->
+
 </div>
 
 <div class="grid" markdown>
 
-> Take in mind that guards are fundamentally speaking, predicates. If the guards
+> Keep in mind that guards are formally speaking, a predicate with additional information. If the guards
 > give green light, the engine will act, by means of **actions**.
 
 ```juvix
@@ -690,9 +692,8 @@ type Engine (S E M C R : Type) :=
 
     Engines react to incoming messages, taking into account their environment.
     How they react is governed by guards of which the engine has several,
-    roughly one per relevant case. Cases may overlap, but often it is one case that
-    give the reaction.
-
+    roughly one per relevant case. Cases may overlap, but often it is a unique case that
+    performs the reaction.
 
 ## Chapter 7: We have engines, and now, what?
 
@@ -767,3 +768,7 @@ type Engine (S E M C R : Type) :=
 [^2]: These engines roughly correspond to the _primeval_ actors of Clinger [@clinger1981].
 
 [^3]: See [@special-delivery-mailbox-types-2023] for the paradigmatic example.
+
+[^4]: Yes, we can do fancy monads for effects, but that's for a future version.
+
+[^5]: This is in analogy to Dijkstra's [Guarded Command Language](https://en.wikipedia.org/wiki/Guarded_Command_Language).
