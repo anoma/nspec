@@ -697,9 +697,12 @@ type Engine (S E M C R : Type) :=
 
 ## Chapter 7: We have engines, and now, what?
 
-> We are now beginning to define the system. Although there are still a few
-> aspects to address, we have made a good start. In the upcoming chapters,
-> we assume the system will maintain the following invariants:
+I think I am getting the hang of it. But what's next?
+
+> Yes, I think we have we have made a good start.
+> However, we have to fill in the blanks and put everything together in a single system.
+> In the upcoming chapters,
+> how the system looks like in more detail and how ensure the following properties:
 
 - [x] Message delivery: All messages are eventually delivered
 - [x] Engine isolation: Each engine maintains independent state
