@@ -705,12 +705,6 @@ I think I am getting the hang of it. But what's next?
 - [x] Configuration immutability: Engine configurations cannot be modified after
   creation
 
-!!! todo
-
-    - Trust level of the system
-    - What cryptographic primitives are needed?
-    - Something else?
-
 > A quick glossary of the terms we have seen so far.
 
 - **EngineStatus**: Represents the possible states an engine can be
