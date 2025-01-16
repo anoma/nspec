@@ -170,7 +170,7 @@ inform you that I'm alive. What else can I do?
 
 <div class="grid" markdown>
 
-> There are many patterns indeed, but we will focus on the most common ones.
+> There are many patterns indeed, but let us start with the most common ones.
 > The type `M` is the message interface of the engine.
 
 ```juvix
@@ -189,7 +189,7 @@ type CommunicationPattern :=
 > allows us to communicate asynchronously. One can send a message and not expect
 > any response like notifications on your phone. However, if you need a response
 > or result and can wait for it, we can use the `RequestResponse` pattern. That
-> is the pattern for synchronous communication. And finally, the
+> is the pattern that every synchronous communication uses implicitly. And finally, the
 > `PubSub` pattern (pub/sub for short) that allows us to communicate
 > asynchronously and without a response, broadcasting messages to multiple
 > engines.
@@ -204,7 +204,7 @@ type CommunicationPattern :=
 > - The second one is to respond to a request.
 > - The third one is to notify about something.
 >
-> We can represent these three cases with the `EngineMsgKind ` type.
+> We can represent these three cases with the `EngineMsgKind` type.
 
 
 ```juvix
