@@ -64,7 +64,7 @@ Dynamic entity? What is *dynamic* about it?
 > happened to us. For engines, a typical event is the reception of an **engine-message** and as a reaction to
 > message reception, their **state** may change. This ability to change their state is what makes them dynamic.
 > However, notice that this change of internal state is optional. We call those
-> engines that never change their state **static**.
+> engines that never change their state **state-less** engines.
 
 Huh, so, an engine has its own state, and that state can change by reacting to
 messages that are sent to it. Easy.
