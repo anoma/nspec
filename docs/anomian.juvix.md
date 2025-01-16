@@ -12,7 +12,7 @@ tags:
 
 ## Preface
 
-As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book, 
+As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book,
 we explore some aspects of the Anoma model through a dialogue that presents the
 notions considered in the specification. There are two participants in this
 dialogue: the student, *Jordan*, and *Anomian*, the modeller. When Anomian
