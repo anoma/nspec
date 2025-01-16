@@ -20,8 +20,8 @@ A **transaction** is a term of type `Transaction`.
 ## `Transaction`
 
 ```juvix
-type Transaction := mkTransaction {
-  actions : Set Action;
+type Transaction A := mkTransaction {
+  actions : Set (Action A);
   -- CMTreeRoots : Set CMtree.Value;
   -- deltaProof : DeltaProvingSystem.Proof;
 };
@@ -47,13 +47,13 @@ type Transaction := mkTransaction {
     ```juvix
     deriving
     instance
-    eqTrans : Eq Transaction;
+    eqTrans {A} {{Eq A}} : Eq (Transaction A);
     ```
 
     ```juvix
     deriving
     instance
-    ordTrans : Ord Transaction;
+    ordTrans {A} {{Ord A}} : Ord (Transaction A);
     ```
 
 ## Purpose

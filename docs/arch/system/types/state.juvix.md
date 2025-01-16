@@ -27,11 +27,17 @@ tags:
 
     ```juvix
     axiom DataBlobStorage : Type;
+    
+    axiom EqDataBlobStoragea : Eq DataBlobStorage;
+    instance EqDataBlobStorage : Eq DataBlobStorage := EqDataBlobStoragea;
+    
+    axiom OrdDataBlobStoragea : Ord DataBlobStorage;
+    instance OrdDataBlobStorage : Ord DataBlobStorage := OrdDataBlobStoragea;
     ```
 
 ```juvix
 type State := mkState {
-  commitmentAccumulator {A : Type} {{CommitmentTreeOps A CTree}} : A ;
+  -- commitmentAccumulator {A : Type} {{CommitmentTreeOps A CTree CTreePath}} : A ;
   -- secondCommitmentAccumulator : CommitmentAccumulator;
   nullifierSet : Set Nullifier;
   dataBlobStorage : DataBlobStorage;

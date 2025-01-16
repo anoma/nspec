@@ -28,14 +28,14 @@ A **resource machine** is a term of type `ResourceMachine`.
 
 ```juvix
 trait
-type ResourceMachine := mkResourceMachine {
+type ResourceMachine A := mkResourceMachine {
   createTransaction :
     -- CMTreeRoots : Set CMtree.Value;
     -- actions : Set Action;
     -- deltaProof : DeltaProvingSystem.Proof;
-    Unit -> Transaction; -- which is the mkTransaction function
-  composeTransactions : Transaction -> Transaction -> Transaction;
-  verifyTransaction : Transaction -> Bool;
+    Unit -> Transaction A; -- which is the mkTransaction function
+  composeTransactions : Transaction A -> Transaction A -> Transaction A;
+  verifyTransaction : Transaction A -> Bool;
   -- read nullifier set?
   -- append to nullifier set?
   -- read commitment tree?
