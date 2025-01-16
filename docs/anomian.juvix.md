@@ -40,9 +40,9 @@ but it can safely be skipped on a first reading.
       open hiding {EngineMsg; mkEngineMsg; Mailbox};
     ```
 
-## Chapter 1: The core players
+## Chapter 1: The core players of the game
 
-> At the core of the Anoma model, we find **engines**.
+> At the core of the Anoma model, we find **engines**. They do most of the heavy lifiting.
 
 So, what do you mean by an _engine_?
 
@@ -61,8 +61,8 @@ type EngineStatus := Running | Dead | Suspended;
 Dynamic entity? What is *dynamic* about it?
 
 > You and I are not the same person we were yesterday because some events
-> happened to us. For engines, these events are **engine-messages** and only through
-> these messages, their **state** may change. That's what makes them dynamic.
+> happened to us. For engines, a typical event is the reception of an **engine-message** and as a reaction to
+> message reception, their **state** may change. This ability to change their state is what makes them dynamic.
 > However, notice that this change of internal state is optional. We call those
 > engines that never change their state **static**.
 
@@ -83,7 +83,7 @@ I see, and the messages can be in different languages, right? I read English
 but not French. How are engines able to communicate with each other? Do
 they all speak the same language?
 
-> Each engine has its own **message interface**, that's the *language* they speak.
+> Each engine has its own **message interface**, indicating the *language(s)* they speak.
 > This message interface defines the format and content of the messages it can
 > comprehend and process.
 
@@ -144,8 +144,7 @@ helloAnomian : AnomianMsgInterface :=
     - Each engine has a message interface.
 
     - By construction, it is safe to assume that every engine has at least one
-      message constructor in its message interface.
-
+      message constructor[^1] in its message interface.
 
 > The model defines all the message interfaces defined by engines.
 
@@ -752,3 +751,7 @@ type Engine (S E M C R : Type) :=
 - **EngineMsg**: Structure of messages exchanged between engines, including
   sender and target identifiers, mailbox, communication pattern, message kind,
   and the message content itself.
+
+
+[^1]: The constructors are very much like _message tags_ in
+      the paper [Special Delivery: Programming with Mailbox Types](https://simonjf.com/writing/pat.pdf).
