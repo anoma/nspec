@@ -235,7 +235,7 @@ age, and parents. Do engines have similar attributes?
 > their **engine-configuration**, of type `EngineCfg`. This configuration is *immutable*
 > through the lifetime of the engine. The configuration of an engine includes its **parent**
 > that **spawns** it, its **name**, a virtual location where the engine runs named
-> `node`, and some specific information denoted by `cfg` of a given type `C`.
+> `node`, and some configuration parameters denoted by `cfg` of an engine-specific type that instantiates the type parameter `C`.
 
 ```juvix
 type EngineCfg (C : Type) :=
@@ -249,12 +249,12 @@ type EngineCfg (C : Type) :=
 
 </div>
 
-> As we say the configuration is immutable by design. This means that once an
+> As we say the engine configuration is immutable by design. This means that once an
 > engine is created, attributes such as the name of the engine cannot be
 > changed. If you want to change the name of an engine, you have to create a new
 > engine with the new name.
 
-But one thing, engines have a parent, do they always know who their parent
+Tell me one thing about the parents of engines. Do they always know who their parent
 is? I don't know who is my father, actually.
 
 ```juvix
@@ -263,7 +263,7 @@ axiom localhost : NodeID;
 
 <div class="grid" markdown>
 
-> Engines might not always know who their parent is. This missing information is
+> Engines might not always know who their parent is.[^2] The absence of this information is
 > stored in the engine's configuration with the `parent` field set to `none`.
 > If the parent is known, the `parent` field is set to `some creatorID`, where
 > `creatorID` is the engine-identifier of the parent engine.
@@ -285,16 +285,17 @@ where it runs.
 
 <div class="grid" markdown>
 
-> We have not defined what a node is yet, formally. But we can think of it as a
+> Roughly, a node is a
 > virtual place where the engine lives and operates. This place could be known
 > to be in the same neighbourhood, in which case, we can refer to it as a
 > **local engine**. Otherwise, the engine is an **external engine**.
+> _However, note that we have not yet **defined** what a node is!_ 
 
 --8<-- "./arch/node/types/identities.juvix.md:EngineID"
 
 </div>
 
-Okay, I guess that we can define our identifiers now.
+Okay, I guess that we can nevertheless start thinking about identifiers already.
 
 
 ```juvix
@@ -315,7 +316,7 @@ AnomianID : EngineID := mkPair (some localhost) "Anomian184";
 > The mailbox identifier is used to identify the mailbox of the target engine,
 > the virtual place where the message is delivered. Recall that the *kind*
 > indicates whether the message is a command, a response, or an event, and the
-> *pattern* indicates the expected behaviour pattern to respond.
+> *pattern* indicates the expected behaviour pattern for how the recipient should react.
 
 <!--ᚦ «Do we really want to restrict ourselves to command event response, in general?» -->
 
@@ -335,7 +336,7 @@ type EngineMsg M :=
 
 <div class="grid" markdown>
 
-Hah! so let me craft a message for you, Anomian. Not sure how to send it though.
+Hah! so let me craft a message for you, Anomian. 
 
 ```juvix
 jordanToAnomian : EngineMsg MsgInterface :=
@@ -376,6 +377,8 @@ anomianToJordan : EngineMsg MsgInterface :=
 
     Each engine is known in its neighbourhood and may have connections abroad.
     It still communicates via messages though and stays fixed in the place.
+
+But how can I send it? Do I have to go to the post office?
 
 ## Chapter 4: Mailboxes for anyone
 
@@ -755,3 +758,5 @@ type Engine (S E M C R : Type) :=
 
 [^1]: The constructors are very much like _message tags_ in
       the paper [Special Delivery: Programming with Mailbox Types](https://simonjf.com/writing/pat.pdf).
+
+[^2]: These engines roughly correspond to the _primeval_ actors of Clinger [@clinger1981].
