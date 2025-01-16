@@ -29,7 +29,7 @@ The goal of this dialogue is to illustrate what the Anoma system
 _is_ about how to *model* it. For the sake of concreteness, we present a few
 [Juvix code snippets](https://docs.juvix.org/0.6.9/tutorials/essential.html)
 that will help to clarify the model, but these are not essential. Most of the
-code are [enumerations and inductive types](https://docs.juvix.org/0.6.9/tutorials/essential.html#enumerations-and-inductive-types).
+code is [enumerations and inductive types](https://docs.juvix.org/0.6.9/tutorials/essential.html#enumerations-and-inductive-types).
 The quotes alone should convey the main idea. The Jordan interactions are to confirm, ask questions,
 and recap the concepts.
 
@@ -349,7 +349,7 @@ jordanToAnomian : EngineMsg MsgInterface :=
 
 > A reply engine-message is `anomianToJordan`.
 >
-> Notice that that the type parameter `MsgInterface` for `EngineMsg` is the same
+> Notice that the type parameter `MsgInterface` for `EngineMsg` is the same
 > as the one used in the request message, and not an engine-specific message
 > interface.
 
@@ -404,12 +404,12 @@ MailboxCluster (S M : Type) : Type := Map MailboxID (Mailbox S M);
 
 </div>
 
-Why to bother with the mailbox cluster? One mailbox is enough, right?
+Why bother with the mailbox cluster? One mailbox is enough, right?
 
 > While a single mailbox would suffice for basic functionality, multiple
 > mailboxes provide valuable message organisation capabilities.
 
-That sounds pretty much like my email works. It is a cluster of mailboxes, and
+That sounds like how my email works. It is a cluster of mailboxes, and
 in principle, I have one big mailbox, but truly I can see it as having multiple
 mailboxes, one for each folder, such as promotions, important, spam, etc.
 
@@ -471,7 +471,7 @@ actually run?
 <div class="grid" markdown>
 
 > To understand how an engine runs, we need to acknowledge that engines operate
-> within an **context of execution** referred to as their **engine-environment**.
+> within a **context of execution** referred to as their **engine-environment**.
 > This environment, defined by the `EngineEnv` type, includes the engine's
 > internal state, its mailboxes, and an address book of known engines it can
 > interact with, including itself.
@@ -577,7 +577,7 @@ payment.
 >
 > Guards are evaluated based on incoming messages, the engine's environment,
 > and the engine's configuration. We can represent this with the type `Guard`.
-> Since guards involves computation, engine's preserve these computations as part
+> Since guards involve computation, engine's preserve these computations as part
 > of the return type of the guard, that is `R` in the type `Guard`. Thus, if the
 > underlying condition is not satisfied, the guard returns nothing. The `C` type
 > is the type for values in the engine's configuration.
@@ -602,8 +602,8 @@ Wait! I see an issue. What if the engine has several guards, and they are all sa
 
 <div class="grid" markdown>
 
-> If several guards are satisfied, engine provide a strategy defined as its
-> construction how to act. The model conceives the following options.
+> If several guards are satisfied, engines provide a strategy for how to act.
+> The model has the following options.
 >
 > -  Choose the first guard that is satisfied,
 > -  choose the last guard that is satisfied,
@@ -624,7 +624,7 @@ type GuardStrategy :=
 
 <div class="grid" markdown>
 
-> Take in mind that guards are fundamentally speaking, predicates. If the guards
+> Keep in mind that guards are, fundamentally speaking, predicates. If the guards
 > give green light, the engine will act, by means of **actions**.
 
 ```juvix
