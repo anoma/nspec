@@ -27,10 +27,10 @@ tags:
 
     ```juvix
     axiom DataBlobStorage : Type;
-    
+
     axiom EqDataBlobStoragea : Eq DataBlobStorage;
     instance EqDataBlobStorage : Eq DataBlobStorage := EqDataBlobStoragea;
-    
+
     axiom OrdDataBlobStoragea : Ord DataBlobStorage;
     instance OrdDataBlobStorage : Ord DataBlobStorage := OrdDataBlobStoragea;
     ```

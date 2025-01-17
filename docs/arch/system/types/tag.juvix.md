@@ -12,7 +12,7 @@ tags:
 
     ```juvix
     module arch.system.types.tag;
-    
+
     import arch.system.types.commitment open;
     import arch.system.types.nullifier open;
     ```
