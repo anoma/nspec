@@ -37,6 +37,8 @@ import arch.system.types.action;
 import arch.system.types.transaction;
 import arch.system.types.state;
 
+import arch.system.state.resource_machine.prelude;
+
 import arch.system.types;
 
 -- import arch.system.state.resource_machine.data_structures.transaction.transaction_with_payment;
@@ -49,6 +51,7 @@ import arch.system.types;
 -- import arch.system.state.resource_machine.data_structures.action.index;
 -- import arch.system.state.resource_machine.data_structures.resource.computable_components.resource_commitment;
 -- import arch.system.state.resource_machine.data_structures.resource.computable_components.kind;
+-- import arch.system.state.resource_machine.data_structures.resource.computable_components.nullifier;
 -- import arch.system.state.resource_machine.data_structures.resource.computable_components.delta;
 -- import arch.system.state.resource_machine.data_structures.resource.computable_components.introduction;
 -- import arch.system.state.resource_machine.data_structures.resource.index;
