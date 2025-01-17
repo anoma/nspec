@@ -13,6 +13,13 @@ search:
 
 # Basic types in the system
 
+## Specific prelude for the RM
+
+```juvix
+import arch.system.state.resource_machine.prelude;
+```
+
+## Types in the RM
 
 ```juvix
 import arch.system.types.nullifier;
