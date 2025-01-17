@@ -85,9 +85,23 @@ syntax alias Balance := Nat;
 #### `Nonce`
 
 The RM specs reference a `Nonce` type which is left undefined.
+Let's define it as a some kind of `Nat` for now, as we later need to have a
+`Eq` instance for it.
 
 ```juvix
-axiom Nonce : Type;
+type Nonce := mkNonce@{
+  nonce : Nat;
+};
+```
+
+```juvix
+deriving
+instance
+eqNonce : Eq Nonce;
+
+deriving
+instance
+ordNonce : Ord Nonce;
 ```
 
 #### `RandSeed`

@@ -10,8 +10,8 @@ search:
     ```juvix
     module arch.system.types.resource;
     import prelude open;
-    import arch.node.types.crypto open;
     import arch.system.types.nullifierkey open;
+    import arch.system.state.resource_machine.prelude open;
     ```
 
 # Resource
@@ -19,34 +19,6 @@ search:
 A **resource** is of type `Resource`.
 
 ## `Resource`
-
-??? quote "Auxiliary Juvix code: Type synonyms"
-
-    For the time being, the following type synonyms are used:
-
-    ### `LogicHash`
-
-    ```juvix
-    syntax alias LogicHash := Digest;
-    ```
-
-    ### `LabelHash`
-
-    ```juvix
-    syntax alias LabelHash := Digest;
-    ```
-
-    ### `ValueHash`
-
-    ```juvix
-    syntax alias ValueHash := Digest;
-    ```
-
-    ### `Nonce`
-
-    ```juvix
-    syntax alias Nonce := Nat;
-    ```
 
 ```juvix
 type Resource := mkResource {
