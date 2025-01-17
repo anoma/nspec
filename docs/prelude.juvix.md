@@ -13,7 +13,7 @@ tags:
     module prelude;
     import Stdlib.Trait open public;
     import Stdlib.Trait.Ord open using {Ordering; mkOrd; Equal; isEqual} public;
-    import Stdlib.Trait.Eq open using {==} public;
+    import Stdlib.Trait.Eq open using {Eq; mkEq; ==} public;
     import Stdlib.Debug.Fail open using {failwith};
     import Stdlib.Data.Fixity open public;
     ```

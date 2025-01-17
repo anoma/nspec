@@ -1,0 +1,86 @@
+
+---
+icon: material/file-document-outline
+search:
+  exclude: false
+  boost: 2
+tags:
+  - state
+---
+
+??? quote "Juvix imports"
+
+    ```juvix
+    module arch.system.types.state;
+    import prelude open;
+    import arch.system.types.nullifier open;
+    import arch.system.types.commitmenttree open;
+    ```
+
+# State
+
+???+ quote "Auxiliary Juvix code"
+
+    ```juvix
+    axiom CommitmentAccumulator : Type;
+    ```
+
+    ```juvix
+    axiom DataBlobStorage : Type;
+
+    axiom EqDataBlobStoragea : Eq DataBlobStorage;
+    instance EqDataBlobStorage : Eq DataBlobStorage := EqDataBlobStoragea;
+
+    axiom OrdDataBlobStoragea : Ord DataBlobStorage;
+    instance OrdDataBlobStorage : Ord DataBlobStorage := OrdDataBlobStoragea;
+    ```
+
+```juvix
+type State := mkState {
+  -- commitmentAccumulator {A : Type} {{CommitmentTreeOps A CTree CTreePath}} : A ;
+  -- secondCommitmentAccumulator : CommitmentAccumulator;
+  nullifierSet : Set Nullifier;
+  dataBlobStorage : DataBlobStorage;
+  -- hierarchicalIndex : HierarchicalIndex;
+};
+```
+
+??? quote "Arguments"
+
+    `commitmentAccumulator`
+    : a commitment accumulator that maps timestamps (part of CMtree) onto finite
+    field elements
+
+    `secondCommitmentAccumulator`
+    : a second commitment accumulator that maps finite field x timestamp pairs
+    onto finite field elements
+
+    `nullifierSet`
+    : a nullifier set that is a map from a finite field element to a finite
+    field element
+
+    `hierarchicalIndex`
+    : a hierarchical index that is a chained hash set that maps tree paths to
+    finite field elements
+
+    `dataBlobStorage`
+    : a data blob storage that is a key-value store mapping finite field
+    elements to (variable length byte array, deletion criterion) pairs
+
+    `deletionCriteria`
+    : a deletion criterion.
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    stateEq : Eq State;
+    ```
+
+    ```juvix
+    deriving
+    instance
+    stateOrd : Ord State;
+    ```
+

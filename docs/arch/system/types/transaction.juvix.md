@@ -5,24 +5,73 @@ search:
   boost: 2
 ---
 
+??? quote "Juvix imports"
+
+    ```juvix
+    module arch.system.types.transaction;
+    import prelude open;
+    import arch.system.types.action open;
+    ```
+
+# Transactions
+
+A **transaction** is a term of type `Transaction`.
+
+## `Transaction`
+
 ```juvix
-module arch.system.state.resource_machine.data_structures.transaction.transaction;
+type Transaction A := mkTransaction {
+  actions : Set (Action A);
+  -- CMTreeRoots : Set CMtree.Value;
+  -- deltaProof : DeltaProvingSystem.Proof;
+};
 ```
 
-# Transaction
+???+ quote "Arguments"
 
-A transaction is a necessary and sufficient collection of fields required to validate and apply a state update to the state.
-It is a composite structure that contains the following components:
+    `CMTreeRoots`
+    : a set of valid commitment tree roots used to prove the existence of the
+    resources being consumed in the transaction. This set is not a part of
+    actions to avoid duplication of data
 
-|Component|Type|Description|
-|-|-|-|
-|`CMTreeRoots`|`Set CMtree.Value`|A set of valid commitment tree roots used to prove the existence of the resources being consumed in the transaction. This set is not a part of actions to avoid duplication of data|
-|`actions`|`Set Action`|A set of actions that comprise the transaction|
-|`deltaProof`|`DeltaProvingSystem.Proof`|Balance proof. It makes sure that `transactionDelta` is correctly derived from the actions' deltas and commits to the expected publicly known value, called a _balancing value_. There is just one delta proof per transaction|
+    `actions`
+    : a set of actions that comprise the transaction
+
+    `deltaProof`
+    : balance proof. It makes sure that `transactionDelta` is correctly derived
+    from the actions' deltas and commits to the expected publicly known value,
+    called a _balancing value_. There is just one delta proof per transaction
+
+???+ quote "Auxiliary Juvix code: Instances"
+
+    ```juvix
+    deriving
+    instance
+    eqTrans {A} {{Eq A}} : Eq (Transaction A);
+    ```
+
+    ```juvix
+    deriving
+    instance
+    ordTrans {A} {{Ord A}} : Ord (Transaction A);
+    ```
+
+## Purpose
+
+!!! todo
+
+    Explain the purpose of transactions.
+
+## Properties
+
+!!! todo
+
+    Explain the properties of transactions.
+
+<!--
 
 ## Interface
 
-1. `create(Set CMtree.Value, Set Actions) -> Transaction`
 2. `compose(Transaction, Transaction) -> Transaction`
 3. `verify(Transaction) -> Bool`
 4. `delta(Transaction) -> DeltaHash`
@@ -65,8 +114,15 @@ Checks that require access to global `CMTree` and `NullifierSet`:
 1. each created resource wasn't created in prior transactions
 2. each consumed resource wasn't consumed in prior transactions
 
-A transaction is *executable* if it is valid and `transactionDelta` commits to the expected balancing value.
+A transaction is *executable* if it is valid and `transactionDelta` commits to
+the expected balancing value.
 
 ## `delta`
 
-Transaction delta is a hash of _transaction balance_ - the total quantity change per resource kind induced by the transaction. It isn't computed from the transaction balance directly by applying a hash function to it, but rather by using the homomoprhic properties of `deltaHash`: adding action deltas together results in transaction delta.
+Transaction delta is a hash of _transaction balance_ - the total quantity change
+per resource kind induced by the transaction. It isn't computed from the
+transaction balance directly by applying a hash function to it, but rather by
+using the homomoprhic properties of `deltaHash`: adding action deltas together
+results in transaction delta.
+
+-->
