@@ -39,8 +39,8 @@ the current version of Anoma (V2), there is only a single Mempool Worker Engine
 instance, making it the central coordinator for all transaction processing.
 
 When users or solvers submit transactions (via `MempoolWorkerMsgTransactionRequest`),
-the Worker examines the transaction's label to understand what state it needs to
-access - which keys it will read from and write to. It assigns each transaction a
+the Worker examines the transaction's label to understand what state it may need to
+access - which keys it may read from and/or write to. It assigns each transaction a
 unique fingerprint (called a `timestamp`) that establishes its position in the
 execution order, and returns an acknowledgment (`MempoolWorkerMsgTransactionAck`)
 to the submitter. This acknowledgment includes a signature over the transaction
@@ -49,7 +49,7 @@ hash and metadata, providing proof of acceptance into the processing pipeline.
 The Worker's core responsibility is managing a sophisticated locking protocol that
 ensures transactions can execute safely and efficiently. For each transaction, it
 sends `KVSAcquireLock` messages to all Shards that manage keys the transaction
-needs to access. These lock specify which keys will definitely be read
+needs to access. These locks specify which keys will definitely be read
 (`eager_read_keys`), which might be read (`lazy_read_keys`), which will definitely
 be written (`will_write_keys`), and which might be written (`may_write_keys`).
 The Shards respond with `KVSLockAcquired` messages once they've recorded these
@@ -60,7 +60,7 @@ before which all Shards have processed all relevant lock requests. It maintains 
 such points: `seen_all_writes` for write locks and `seen_all_reads` for read locks.
 When Shards confirm lock acquisition, the Worker updates these points and
 broadcasts them to all Shards via `UpdateSeenAll` messages. This information is
-vital for the Shards to know when they can safely process read requests and handle
+vital for the Shards to know when they can safely process read requests and perform
 state updates, as it guarantees no earlier lock requests are still pending.
 
 For each transaction, the Worker spawns an Executor Engine (configured with the
@@ -70,13 +70,13 @@ via `ExecutorMsgExecutorFinished` messages containing summaries of what was read
 and written. The Worker collects these execution summaries, maintaining a record
 of transaction processing outcomes.
 
-The Mempool Worker's state tracks pending transactions and their Executors,
-maintains the mapping of transactions to their fingerprints,
+The Mempool Worker's state tracks pending transactions and their corresponding 
+Executors, maintains the mapping of transactions to their fingerprints,
 collects lock acquisition confirmations, tracks the seen-all barriers, and stores
 execution summaries. This state allows it to provide the ordering and
 coordination services needed for Anoma's parallel execution model, where multiple
 transactions can process simultaneously so long as their state access patterns
-don't conflict.
+don't conflict, ensuring (serializability)[https://en.wikipedia.org/wiki/Database_transaction_schedule#Serializable]..
 
 ## Purpose
 

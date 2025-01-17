@@ -135,7 +135,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 
 5. **Responses and Effects**
    - **Response Delivery**
-     - All messages are sent with mailbox 0 (the standard response mailbox)
+     - All messages are sent with mailbox 0 (default response mailbox)
      - Transaction acknowledgment is sent back to original requester
      - Lock requests are sent to all relevant shards
    - **Engines spawned**:

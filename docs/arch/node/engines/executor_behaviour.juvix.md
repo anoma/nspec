@@ -178,7 +178,7 @@ flowchart TD
    - All responses are sent back using:
      - Executor's ID as sender
      - Original requester as target
-     - Mailbox 0 (standard response mailbox)
+     - Mailbox 0 (default response mailbox)
    - Three possible response patterns:
      - Error case: ExecutorFinished (success=false) + stale cleanup
      - Success case: ExecutorFinished (success=true) + stale cleanup

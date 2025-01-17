@@ -176,7 +176,7 @@ flowchart TD
 3. **Action Phase** (`processWriteAction`)
    - Processes valid write requests through these steps:
      - Checks if write lock exists for the key at given timestamp
-     - Validates write against lock type (null writes only valid for mayWrite locks)
+     - Validates write against lock type (null writes only valid for `mayWrite` locks)
      - Updates DAG structure with new write data
      - Checks for eligible eager reads that can now proceed
      - Constructs appropriate read messages for any newly eligible reads
@@ -184,7 +184,7 @@ flowchart TD
 4. **Error Cases**
    - **No Lock Case**: Returns none if:
      - No write access exists for the timestamp
-     - Write access exists but no writeStatus (no write lock)
+     - Write access exists but no `writeStatus` (no write lock)
    - **Invalid Write Case**: Returns none if:
      - Attempting null write on definite write lock
      - Lock exists but write is invalid for lock type
