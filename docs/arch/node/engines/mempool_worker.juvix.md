@@ -70,7 +70,7 @@ via `ExecutorMsgExecutorFinished` messages containing summaries of what was read
 and written. The Worker collects these execution summaries, maintaining a record
 of transaction processing outcomes.
 
-The Mempool Worker's state tracks pending transactions and their corresponding 
+The Mempool Worker's state tracks pending transactions and their corresponding
 Executors, maintains the mapping of transactions to their fingerprints,
 collects lock acquisition confirmations, tracks the seen-all barriers, and stores
 execution summaries. This state allows it to provide the ordering and
