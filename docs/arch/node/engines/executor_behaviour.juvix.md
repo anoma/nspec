@@ -405,7 +405,7 @@ executorBehaviour : ExecutorBehaviour :=
 ```mermaid
 flowchart TD
     Start([Receive Message]) --> Msg[ShardMsgKVSRead<br/>key: KVSKey<br/>data: KVSDatum]
-    
+
     subgraph Guard["processReadGuard"]
         Msg --> CheckMsg{Is message<br/>ShardMsgKVSRead?}
         CheckMsg -->|No| Reject([Reject Message])
@@ -413,7 +413,7 @@ flowchart TD
         ValidTS -->|No| Reject
         ValidTS -->|Yes| ActionEntry[Enter Action Phase]
     end
-    
+
     ActionEntry --> Action
 
     subgraph Action["processReadAction"]
@@ -432,26 +432,26 @@ flowchart TD
     FinishOk --> AddStaleOk[Add stale lock<br/>cleanup messages]
 
     GenMsgs --> Parse[Parse step outputs]
-    
+
     subgraph ProcessOutputs["Process Step Outputs"]
         Parse --> CheckType{Output<br/>Type?}
         CheckType -->|Read Request| ReadBranch[Create KVSReadRequest<br/>if key in read sets]
         CheckType -->|Write Request| WriteBranch[Create KVSWrite<br/>if key in write sets]
-        
+
         ReadBranch --> ValidRead{Key in<br/>read sets?}
         ValidRead -->|Yes| AddRead[Add to read<br/>message list]
         ValidRead -->|No| SkipRead[Skip invalid<br/>read request]
-        
+
         WriteBranch --> ValidWrite{Key in<br/>write sets?}
         ValidWrite -->|Yes| AddWrite[Add to write<br/>message list]
         ValidWrite -->|No| SkipWrite[Skip invalid<br/>write request]
     end
-    
+
     AddRead --> Collect[Collect all<br/>generated messages]
     AddWrite --> Collect
     SkipRead --> Collect
     SkipWrite --> Collect
-    
+
     subgraph StaleComputation["Stale Lock Processing"]
         ComputeStale --> FindReads[Find difference between<br/>lazy_read_keys and<br/>completed reads]
         ComputeStale --> FindWrites[Find difference between<br/>may_write_keys and<br/>completed writes]
@@ -466,9 +466,9 @@ flowchart TD
     AddStaleErr --> NotifyFail[Send ExecutorFinished<br/>with error + cleanup messages]
     AddStaleOk --> NotifySuccess[Send ExecutorFinished<br/>with success + cleanup messages]
     Collect --> SendMsgs[Send generated<br/>read/write messages]
-    
+
     NotifyFail & NotifySuccess & SendMsgs --> End([Complete])
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
     style ProcessOutputs fill:#f0fff2,stroke:#333,stroke-width:2px

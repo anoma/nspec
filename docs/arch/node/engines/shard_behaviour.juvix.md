@@ -829,7 +829,7 @@ shardBehaviour : ShardBehaviour :=
 ```mermaid
 flowchart TD
     Start([Worker Request]) --> MsgReq[ShardMsgKVSAcquireLock<br/>keys, worker, executor, timestamp]
-    
+
     subgraph Guard["acquireLockGuard"]
         MsgReq --> ValidType{Is message type<br/>KVSAcquireLock?}
         ValidType -->|No| Reject([Reject Request])
@@ -854,7 +854,7 @@ flowchart TD
         LockAck[KVSLockAcquired to Worker]
         ReadMsgs[KVSRead messages to Executor<br/>for eligible eager reads]
     end
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
     style Msgs fill:#f0fff7,stroke:#333,stroke-width:2px
@@ -914,7 +914,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Executor Request]) --> MsgReq[ShardMsgKVSWrite<br/>key, timestamp, data]
-    
+
     subgraph Guard["processWriteGuard"]
         MsgReq --> ValidType{Is message type<br/>KVSWrite?}
         ValidType -->|No| Reject([Reject Request])
@@ -938,7 +938,7 @@ flowchart TD
     PrepReadMsgs --> SendReads[Send KVSRead messages<br/>to eligible executors]
     NoReads --> Complete([Complete])
     FailNoLock & FailInvalid --> Fail([Fail - No Response])
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
@@ -990,7 +990,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Executor Request]) --> MsgReq[ShardMsgKVSReadRequest<br/>key, timestamp, actual]
-    
+
     subgraph Guard["processReadRequestGuard"]
         MsgReq --> ValidType{Is message type<br/>KVSReadRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -1017,7 +1017,7 @@ flowchart TD
     PrepResponse --> SendRead[Send KVSRead message<br/>to executor]
     NoResponse --> Complete([Complete])
     FailTooEarly & FailNoLock & FailNoValue --> Fail([Fail - No Response])
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
@@ -1075,7 +1075,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Worker Request]) --> MsgReq[ShardMsgUpdateSeenAll<br/>timestamp, write]
-    
+
     subgraph Guard["updateSeenAllGuard"]
         MsgReq --> ValidType{Is message type<br/>UpdateSeenAll?}
         ValidType -->|No| Reject([Reject Request])
@@ -1097,7 +1097,7 @@ flowchart TD
 
     PrepReadMsgs --> SendReads[Send KVSRead messages<br/>to eligible executors]
     NoReads & NoNewReads --> Complete([Complete])
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```

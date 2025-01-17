@@ -39,11 +39,11 @@ instance is spawned to handle the execution of a single transaction in the form 
 a program which it is spawned with, making them ephemeral components that exist
 solely for the duration of their assigned transaction's lifecycle.
 
-At its core, an Executor Engine receives read responses from shards and uses these 
+At its core, an Executor Engine receives read responses from shards and uses these
 to step through the transaction program's execution. Each transaction program
-defines a sequence of operations that may read from or write to various keys in 
+defines a sequence of operations that may read from or write to various keys in
 the system's state. The Executor doesn't directly access this state - instead, it
-coordinates with Shard engines that manage actual state access. 
+coordinates with Shard engines that manage actual state access.
 
 The primary interface for the Executor Engine consists of three main message types
 that facilitate its operation. It receives `ShardMsgKVSRead` messages from Shards
