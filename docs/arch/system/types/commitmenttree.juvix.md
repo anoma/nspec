@@ -114,7 +114,7 @@ Let us now define the `treeHash` function which computes the hash of a `CTree`.
 ```juvix
 treeHash {A} (tree : CTree A) : Digest :=
   case tree of {
-    | (mkMTreeLeaf@{ value := c }) := Commitment.commitment c
+    | (mkMTreeLeaf@{ value := c }) := TODO -- Commitment.commitment c
     | (mkMTreeNode@{ merge := digest}) := digest
   }
 ```
