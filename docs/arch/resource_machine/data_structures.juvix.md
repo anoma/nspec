@@ -3,63 +3,53 @@ icon: material/database
 search:
   exclude: false
 categories:
-- resource machine
+- resource-machine
 tags:
-- data structures
+- data-structures
 ---
 
 ??? quote "Juvix imports"
-    ```juvix
-    module arch.resource_machine.DataStructures;
 
+    ```juvix
+    module arch.resource_machine.data_structures;
     import prelude open;
+    import arch.node.types.crypto open using {Digest};
     ```
 
 ## Overview
 
-This file centralizes the essential data structures and their associated
-traits that the Resource Machine (RM) relies on.
+This file defines the core data structures and traits (interfaces) used by the Resource Machine (RM).
 
-The RM utilizes the following primary containers and their operations:
+The RM uses three main container types:
 
-- **Set**: To store unique items like resource commitments and nullifiers.
-- **Map**: For key-value associations, such as environment references or application data.
-- **List**: For ordered sequences, such as enumerating proofs or iterating over resources.
+- `Set`: Stores unique items like resource commitments and nullifiers.
+- `Map`: Holds key-value pairs, such as environment references or application data.
+- `List`: Keeps ordered sequences, like proofs or resources.
 
-The resource machine (RM) uses various containers—`Set`, `Map`, `List`—from the
-prelude. However, certain interfaces like `ISet` or an ordered-set trait aren't
-already present in the library, and the RM references them in older planning or
-discussions. This file collects **everything** the RM needs regarding data structures.
+Additionally, the RM requires several traits for its data structures listed
+below.
 
-Above, we **re-import** the standard types/ops that the RM uses and also **provide**
-traits that aren’t in the library. The RM requires specific traits to parameterize by
-different potential implementations of these containers.
-
-- **FixedSize**: Ensures that certain types have a fixed bit length.
-- **Arithmetic**: Provides basic arithmetic operations, inheriting from `FixedSize`.
-- **Hash**: Defines hashing functionality, inheriting from `FixedSize`.
-- **ISet**: An interface defining standard set operations.
-- **IOrderedSet**: Extends `ISet` to maintain elements in a specific order.
-- **IMap**: An interface defining standard map operations.
+- `FixedSize`: Ensures that certain types have a fixed bit length.
+- `Arithmetic`: Provides basic arithmetic operations, inheriting from `FixedSize`.
+- `Hash`: Defines hashing functionality, inheriting from `FixedSize`.
+- `ISet`: An interface defining standard set operations.
+- `IOrderedSet`: Extends `ISet` to maintain elements in a specific order.
+- `IMap`: An interface defining standard map operations.
 
 ### Aliases
 
 #### Hash Aliases
 
-The RM frequently uses hashes for commitments and nullifiers. To standardize the hash type across the RM, we define a `Digest` alias.
-
-```juvix
-syntax alias Digest := ByteString;
-```
+The RM frequently uses hashes for commitments and nullifiers.
 
 There are a variety of hashes of unspecified character appearing in the RM which
-we declare here as aliases to `ByteString`.
+we declare here as aliases of `Digest`. 
 
 ```juvix
-syntax alias ValueHash := ByteString;
-syntax alias DeltaHash := ByteString;
-syntax alias LabelHash := ByteString;
-syntax alias LogicHash := ByteString;
+syntax alias ValueHash := Digest;
+syntax alias DeltaHash := Digest;
+syntax alias LabelHash := Digest;
+syntax alias LogicHash := Digest;
 ```
 
 #### Numeric Aliases
@@ -86,20 +76,20 @@ The RM specs reference a "RandSeed" type which is left undefined.
 axiom RandSeed : Type;
 ```
 
-### FixedSize Trait
+### `FixedSize` Trait
 
 The `FixedSize` trait ensures that certain types have a fixed bit
 length, which is essential for resource integrity and security.
 
 ```juvix
 trait
-type FixedSize (A : Type) :=
+type FixedSize A :=
   mkFixedSize@{
     bitSize : Nat;
   };
 ```
 
-#### Instance for Nat
+#### Instance for `Nat`
 
 An instance of `FixedSize` for natural numbers with a bit size of 256.
 
@@ -111,7 +101,7 @@ fixedSizeNat256 : FixedSize Nat :=
   };
 ```
 
-#### Instance for ByteString
+#### Instance for `ByteString`
 
 An instance of `FixedSize` for bytestrings with a bit size of 256.
 
@@ -123,7 +113,7 @@ fixedSizeByteString256 : FixedSize ByteString :=
   };
 ```
 
-#### Instance for Nonce
+#### Instance for `Nonce`
 
 An instance of `FixedSize` for nonces with a bit size of 256.
 
@@ -135,7 +125,7 @@ fixedSizeNonce256 : FixedSize Nonce :=
   };
 ```
 
-#### Instance for RandSeed
+#### Instance for `RandSeed`
 
 An instance of `FixedSize` for random seeds with a bit size of 256.
 
@@ -147,16 +137,14 @@ fixedSizeRandSeed256 : FixedSize RandSeed :=
   };
 ```
 
-### Arithmetic Trait
+### `Arithmetic` Trait
 
-The `Arithmetic` trait defines basic arithmetic operations required
-by the RM, such as addition and subtraction. It implies `FixedSize`
-as we will always assume that's present when using an `Arithmetic`
-instance.
+The `Arithmetic` trait defines addition and subtraction operations. It requires
+a `FixedSize` instance.
 
 ```juvix
 trait
-type Arithmetic (A : Type) :=
+type Arithmetic A :=
   mkArithmetic@{
     {{fixedSize}} : FixedSize A;
     add : A -> A -> A;
@@ -164,7 +152,7 @@ type Arithmetic (A : Type) :=
   };
 ```
 
-#### Instance for Nat
+#### `Arithmetic` instance for `Nat`
 
 An instance of `Arithmetic` for natural numbers.
 
@@ -177,7 +165,7 @@ arithmeticNat : Arithmetic Nat :=
   };
 ```
 
-### Hash Trait
+### `Hash` Trait
 
 The `Hash` trait provides a standardized interface for hashing
 operations within the RM. It implies `FixedSize` as we will always
@@ -185,14 +173,14 @@ assume that's present when using an `Hash` instance.
 
 ```juvix
 trait
-type Hash (H : Type) :=
+type Hash H :=
   mkHash@{
     {{fixedSize}} : FixedSize H;
     hash : H -> Digest;
   };
 ```
 
-#### Instance for Nat
+#### `Hash` instance for `Nat`
 
 Assuming `Nat` can be directly hashed, we provide an instance of `Hash` for it.
 
@@ -209,7 +197,7 @@ hashNat : Hash Nat :=
   };
 ```
 
-#### Instance for ByteString
+#### `Hash` instance for `ByteString`
 
 Assuming `ByteString` can be directly hashed, we provide an instance of `Hash` for it.
 
@@ -226,14 +214,15 @@ hashByteString : Hash ByteString :=
   };
 ```
 
-### ISet Trait
+### `ISet` Trait
 
 The `ISet` trait defines the essential operations for set manipulation,
-defining a standard interface for any Set implementation used by the RM.
+defining a standard interface for any `Set` implementation used by the RM.
+The type parameter `S` is the set type, and `A` is the element type.
 
 ```juvix
 trait
-type ISet (S : Type) (A : Type) :=
+type ISet S A :=
   mkISet@{
     newSet : S;
     size : S -> Nat;
@@ -245,13 +234,14 @@ type ISet (S : Type) (A : Type) :=
   };
 ```
 
-#### Instance for Prelude's Set
+#### `ISet` instance for Prelude's `Set`
 
 An instance of `ISet` for the standard `Set` type.
 
 ```juvix
 instance
-iSetForStdSet {A : Type} {{Ord A}} : ISet (Set A) A :=
+iSetForStdSet 
+  {A} {{Ord A}} : ISet (Set A) A :=
   mkISet@{
     newSet := Set.empty;
     size := Set.size;
@@ -263,7 +253,7 @@ iSetForStdSet {A : Type} {{Ord A}} : ISet (Set A) A :=
   };
 ```
 
-### IOrderedSet Trait
+### `IOrderedSet` Trait
 
 `IOrderedSet` is intended to represent a list without repeated elements;
 that is, a set equipped with a permutation. The interface is left mostly
@@ -272,7 +262,7 @@ a speculative interface.
 
 ```juvix
 trait
-type IOrderedSet (S : Type) (A : Type) :=
+type IOrderedSet S A :=
   mkIOrderedSet@{
     {{iset}} : ISet S A;
     -- Returns elements in order as a list
@@ -286,15 +276,21 @@ type IOrderedSet (S : Type) (A : Type) :=
 
 An ordered set as a regular set plus a list of indices defining the permutation.
 
+#### `OrderedSet`
 ```juvix
-type OrderedSet (A : Type) := mkOrderedSet {
+type OrderedSet A := mkOrderedSet {
   elements : Set A;
   permutation : List Nat -- List of indices
 };
 ```
 
+#### `setToListWithPerm`
+
 ```juvix
-setToListWithPerm {A} {{Ord A}} (indices : List Nat) (elements : Set.Set A) : List A :=
+setToListWithPerm 
+  {A} {{Ord A}} 
+  (indices : List Nat) 
+  (elements : Set.Set A) : List A :=
   let
     -- First convert set to sorted list
     sorted : List A := Set.toList elements;
@@ -304,13 +300,26 @@ setToListWithPerm {A} {{Ord A}} (indices : List Nat) (elements : Set.Set A) : Li
         | (mkPair _ (x :: _)) := some x
         | (mkPair _ _) := none
       }
-  in catMaybes (map access indices);
+  in catOptions (map access indices);
+```
 
-orderedSetToList {A} {{Ord A}} (s : OrderedSet A) : List A :=
+#### `orderedSetToList`
+
+```juvix
+orderedSetToList 
+  {A} {{Ord A}} 
+  (s : OrderedSet A) : List A :=
   setToListWithPerm (OrderedSet.permutation s) (OrderedSet.elements s);
+```
 
--- Find position where x would go in sorted order
-findPosition {A} {{Ord A}} (x : A) (elements : Set.Set A) : Nat :=
+#### `findPosition`
+
+Find position where `x` would go in sorted order
+
+```juvix
+findPosition
+  {A} {{Ord A}} 
+  (x : A) (elements : Set.Set A) : Nat :=
   let
     sorted : List A := Set.toList elements;
     go : List A -> Nat
@@ -319,19 +328,31 @@ findPosition {A} {{Ord A}} (x : A) (elements : Set.Set A) : Nat :=
         if | (x <= y) := 0
            | else := suc (go ys);
   in go sorted;
+```
 
-orderedSetFromList {A} {{Ord A}} : List A -> OrderedSet A :=
-  foldl
-    (\{acc x := if | (Set.isMember x (OrderedSet.elements acc)) := acc
-                   | else := let pos := findPosition x (OrderedSet.elements acc)
-                             in mkOrderedSet
-                                  (Set.insert x (OrderedSet.elements acc))
-                                  ((OrderedSet.permutation acc) ++ [pos])})
+#### `orderedSetFromList`
+
+```juvix
+orderedSetFromList 
+  {A} {{Ord A}} : List A -> OrderedSet A :=
+    foldl
+      (\{acc x := 
+        if | (Set.isMember x (OrderedSet.elements acc)) := acc
+           | else := let pos := findPosition x (OrderedSet.elements acc)
+                     in mkOrderedSet
+                          (Set.insert x (OrderedSet.elements acc))
+                          ((OrderedSet.permutation acc) ++ [pos])})
     (mkOrderedSet Set.empty []);
+```
 
+#### `IOrderedSet` instance for `OrderedSet`
+
+```juvix
 instance
-orderedSetInstance {A} {{Ord A}} : IOrderedSet (OrderedSet A) A :=
+orderedSetInstance 
+  {A} {{Ord A}} : IOrderedSet (OrderedSet A) A :=
   mkIOrderedSet@{
+    -- ISet instance
     iset := mkISet@{
       newSet := mkOrderedSet Set.empty [];
       size := \{s := Set.size (OrderedSet.elements s)};
@@ -341,28 +362,40 @@ orderedSetInstance {A} {{Ord A}} : IOrderedSet (OrderedSet A) A :=
                       (Set.insert x (OrderedSet.elements s))
                       ((OrderedSet.permutation s) ++ [Set.size (OrderedSet.elements s)])
       };
-      union := \{s1 s2 := orderedSetFromList (orderedSetToList s1 ++ orderedSetToList s2)};
+      -- Union
+      union := \{s1 s2 := orderedSetFromList (orderedSetToList s1 ++
+      orderedSetToList s2)};
+      
+      -- Intersection
       intersection := \{s1 s2 :=
         orderedSetFromList (filter (\{x := Set.isMember x (OrderedSet.elements s2)}) (orderedSetToList s1))
       };
+
+      -- Difference
       difference := \{s1 s2 :=
         orderedSetFromList (filter (\{x := not (Set.isMember x (OrderedSet.elements s2))}) (orderedSetToList s1))
       };
+
+      -- Contains
       contains := \{x s := Set.isMember x (OrderedSet.elements s)}
     };
+
+    -- toList
     toList := orderedSetToList;
+
+    -- fromList
     fromList := orderedSetFromList;
   };
 ```
 
-### IMap Trait
+### `IMap` Trait
 
 The `IMap` trait defines the standard operations for map manipulation,
 defining a standard interface for any Map implementation used by the RM.
 
 ```juvix
 trait
-type IMap (M : Type) (K : Type) (V : Type) :=
+type IMap M K V :=
   mkIMap@{
     emptyMap : M;
     insert : K -> V -> M -> M;
@@ -373,13 +406,14 @@ type IMap (M : Type) (K : Type) (V : Type) :=
   };
 ```
 
-#### Instance for Prelude's Map
+#### `IMap` instance for Prelude's `Map`
 
 An instance of `IMap` for the standard `Map` type.
 
 ```juvix
 instance
-iMapForStdMap {K : Type} {{Ord K}} {V : Type} : IMap (Map K V) K V :=
+iMapForStdMap
+  {K} {{Ord K}} {V : Type} : IMap (Map K V) K V :=
   mkIMap@{
     emptyMap := Map.empty;
     insert := \{k v m := Map.insert k v m};
