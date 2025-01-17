@@ -38,39 +38,61 @@ below.
 
 ### Aliases
 
-#### Hash Aliases
-
 The RM frequently uses hashes for commitments and nullifiers.
 
 There are a variety of hashes of unspecified character appearing in the RM which
 we declare here as aliases of `Digest`.
 
+#### `ValueHash`
+
 ```juvix
 syntax alias ValueHash := Digest;
+```
+
+#### `DeltaHash`
+
+```juvix
 syntax alias DeltaHash := Digest;
+```
+
+#### `LabelHash`
+
+```juvix
 syntax alias LabelHash := Digest;
+```
+
+#### `LogicHash`
+
+```juvix
 syntax alias LogicHash := Digest;
 ```
 
-#### Numeric Aliases
+#### `Quantity`
 
 There are two numeric types of unspecified character mentioned in the RM, which
 we declare here as aliases to `Nat`.
 
 ```juvix
 syntax alias Quantity := Nat;
+```
+
+#### `Balance`
+
+```juvix
 syntax alias Balance := Nat;
 ```
 
-#### Unspecified Types
+#### `Nonce`
 
-The RM specs reference a "Nonce" type which is left undefined.
+The RM specs reference a `Nonce` type which is left undefined.
 
 ```juvix
 axiom Nonce : Type;
 ```
 
-The RM specs reference a "RandSeed" type which is left undefined.
+#### `RandSeed`
+
+The RM specs reference a `RandSeed` type which is left undefined.
 
 ```juvix
 axiom RandSeed : Type;
@@ -89,7 +111,7 @@ type FixedSize A :=
   };
 ```
 
-#### Instance for `Nat`
+#### `FixedSize` instance for `Nat`
 
 An instance of `FixedSize` for natural numbers with a bit size of 256.
 
@@ -101,7 +123,7 @@ fixedSizeNat256 : FixedSize Nat :=
   };
 ```
 
-#### Instance for `ByteString`
+#### `FixedSize` instance for `ByteString`
 
 An instance of `FixedSize` for bytestrings with a bit size of 256.
 
@@ -113,7 +135,7 @@ fixedSizeByteString256 : FixedSize ByteString :=
   };
 ```
 
-#### Instance for `Nonce`
+#### `FixedSize` instance for `Nonce`
 
 An instance of `FixedSize` for nonces with a bit size of 256.
 
@@ -125,7 +147,7 @@ fixedSizeNonce256 : FixedSize Nonce :=
   };
 ```
 
-#### Instance for `RandSeed`
+#### `FixedSize` instance for `RandSeed`
 
 An instance of `FixedSize` for random seeds with a bit size of 256.
 
@@ -169,7 +191,7 @@ arithmeticNat : Arithmetic Nat :=
 
 The `Hash` trait provides a standardized interface for hashing
 operations within the RM. It implies `FixedSize` as we will always
-assume that's present when using an `Hash` instance.
+assume that's present when using a `Hash` instance.
 
 ```juvix
 trait
@@ -272,11 +294,10 @@ type IOrderedSet S A :=
   };
 ```
 
-### Instance for Set + Permutation
+### `OrderedSet`
 
 An ordered set as a regular set plus a list of indices defining the permutation.
 
-#### `OrderedSet`
 ```juvix
 type OrderedSet A := mkOrderedSet {
   elements : Set A;
