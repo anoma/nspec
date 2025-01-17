@@ -1068,10 +1068,10 @@ Traversable instance for lists
 instance
 traversableListI : Traversable List :=
   mkTraversable@{
-    sequence 
-      {F : Type -> Type} 
-      {A} 
-      {{appF : Applicative F}} 
+    sequence
+      {F : Type -> Type}
+      {A}
+      {{appF : Applicative F}}
       (xs : List (F A)) : F (List A) :=
       let
         cons : F A -> F (List A) -> F (List A)
@@ -1081,11 +1081,11 @@ traversableListI : Traversable List :=
           | nil := pure nil
           | (x :: xs) := cons x (go xs);
       in go xs;
-    
-    traverse 
-      {F : Type -> Type} 
-      {A B} 
-      {{appF : Applicative F}} 
+
+    traverse
+      {F : Type -> Type}
+      {A B}
+      {{appF : Applicative F}}
       (f : A -> F B) (xs : List A) : F (List B) :=
       let
         cons : A -> F (List B) -> F (List B)

@@ -43,7 +43,7 @@ below.
 The RM frequently uses hashes for commitments and nullifiers.
 
 There are a variety of hashes of unspecified character appearing in the RM which
-we declare here as aliases of `Digest`. 
+we declare here as aliases of `Digest`.
 
 ```juvix
 syntax alias ValueHash := Digest;
@@ -240,7 +240,7 @@ An instance of `ISet` for the standard `Set` type.
 
 ```juvix
 instance
-iSetForStdSet 
+iSetForStdSet
   {A} {{Ord A}} : ISet (Set A) A :=
   mkISet@{
     newSet := Set.empty;
@@ -287,9 +287,9 @@ type OrderedSet A := mkOrderedSet {
 #### `setToListWithPerm`
 
 ```juvix
-setToListWithPerm 
-  {A} {{Ord A}} 
-  (indices : List Nat) 
+setToListWithPerm
+  {A} {{Ord A}}
+  (indices : List Nat)
   (elements : Set.Set A) : List A :=
   let
     -- First convert set to sorted list
@@ -306,8 +306,8 @@ setToListWithPerm
 #### `orderedSetToList`
 
 ```juvix
-orderedSetToList 
-  {A} {{Ord A}} 
+orderedSetToList
+  {A} {{Ord A}}
   (s : OrderedSet A) : List A :=
   setToListWithPerm (OrderedSet.permutation s) (OrderedSet.elements s);
 ```
@@ -318,7 +318,7 @@ Find position where `x` would go in sorted order
 
 ```juvix
 findPosition
-  {A} {{Ord A}} 
+  {A} {{Ord A}}
   (x : A) (elements : Set.Set A) : Nat :=
   let
     sorted : List A := Set.toList elements;
@@ -333,10 +333,10 @@ findPosition
 #### `orderedSetFromList`
 
 ```juvix
-orderedSetFromList 
+orderedSetFromList
   {A} {{Ord A}} : List A -> OrderedSet A :=
     foldl
-      (\{acc x := 
+      (\{acc x :=
         if | (Set.isMember x (OrderedSet.elements acc)) := acc
            | else := let pos := findPosition x (OrderedSet.elements acc)
                      in mkOrderedSet
@@ -349,7 +349,7 @@ orderedSetFromList
 
 ```juvix
 instance
-orderedSetInstance 
+orderedSetInstance
   {A} {{Ord A}} : IOrderedSet (OrderedSet A) A :=
   mkIOrderedSet@{
     -- ISet instance
@@ -365,7 +365,7 @@ orderedSetInstance
       -- Union
       union := \{s1 s2 := orderedSetFromList (orderedSetToList s1 ++
       orderedSetToList s2)};
-      
+
       -- Intersection
       intersection := \{s1 s2 :=
         orderedSetFromList (filter (\{x := Set.isMember x (OrderedSet.elements s2)}) (orderedSetToList s1))
