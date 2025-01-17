@@ -22,15 +22,7 @@ nav:
                   - ./arch/system/state/resource_machine/index.juvix.md
                   - Primitive interfaces:
                       - ./arch/system/state/resource_machine/primitive_interfaces/index.juvix.md
-                      - Set:
-                          - Set interface: ./arch/system/state/resource_machine/primitive_interfaces/set.juvix.md
-                          - Ordered set: ./arch/system/state/resource_machine/primitive_interfaces/ordered_set.juvix.md
-                      - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.juvix.md
-                      - Fixed size type:
-                          - Interface: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.juvix.md
-                          - Arithmetic: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.juvix.md
-                          - Hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/hash.juvix.md
-                          - Delta hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.juvix.md
+                      - RM Prelude: ./arch/system/state/resource_machine/prelude.juvix.md
                       - Proving system:
                           - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
                           - Definitions: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.juvix.md
