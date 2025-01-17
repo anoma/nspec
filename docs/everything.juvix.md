@@ -53,6 +53,10 @@ import arch.system.state.resource_machine.primitive_interfaces.index;
 import arch.system.state.resource_machine.primitive_interfaces.ordered_set;
 import arch.system.state.resource_machine.primitive_interfaces.commitment_accumulator;
 import arch.system.state.resource_machine.notes.storage;
+import
+arch.system.state.resource_machine.notes.function_formats.transactionfunction;
+import
+arch.system.state.resource_machine.notes.function_formats.nockma;
 import arch.system.state.resource_machine.notes.function_formats.transaction_function_format;
 import arch.system.state.resource_machine.notes.applications;
 import arch.system.state.resource_machine.notes.roles_and_requirements;
