@@ -67,10 +67,10 @@ open Monad public;
 Join function for monads
 
 ```juvix
-join 
-  {M : Type -> Type} 
-  {A : Type} 
-  {{Monad M}} 
+join
+  {M : Type -> Type}
+  {A : Type}
+  {{Monad M}}
   (mma : M (M A)) : M A :=
   bind mma id;  -- using the built-in `bind`
 ```
@@ -179,7 +179,7 @@ verdad : Bool := true;
 Exlusive or
 
 ```juvix
-xor (a b : Bool) : Bool := 
+xor (a b : Bool) : Bool :=
   if
     | a := not b
     | else := b
@@ -533,10 +533,10 @@ PairBifunctor : Bifunctor Pair :=
 Universal property of pairs
 
 ```juvix
-fork 
-  {A B C : Type} 
-  (f : C -> A) 
-  (g : C -> B) 
+fork
+  {A B C : Type}
+  (f : C -> A)
+  (g : C -> B)
   (c : C) : Pair A B :=
   mkPair (f c) (g c);
 ```
@@ -577,7 +577,7 @@ thisNumber : Either String Nat := right 42;
 Check components of either.
 
 ```juvix
-isLeft {A B} (e : Either A B) : Bool := 
+isLeft {A B} (e : Either A B) : Bool :=
   case e of {
     | left _ := true
     | right _ := false
@@ -585,7 +585,7 @@ isLeft {A B} (e : Either A B) : Bool :=
 ```
 
 ```juvix
-isRight {A B} (e : Either A B) : Bool := 
+isRight {A B} (e : Either A B) : Bool :=
   case e of {
     | left _ := false
     | right _ := true
@@ -641,10 +641,10 @@ EitherCommutativeProduct : CommutativeProduct Either :=
 Map onto elements of either
 
 ```juvix
-eitherBimap 
-  {A B C D} 
-  (f : A -> C) 
-  (g : B -> D) 
+eitherBimap
+  {A B C D}
+  (f : A -> C)
+  (g : B -> D)
   (e : Either A B) : Either C D :=
   case e of {
     | (left a) := left (f a)
@@ -703,10 +703,10 @@ EitherUnitalProduct : UnitalProduct Empty Either :=
 Universal property of coproduct
 
 ```juvix
-fuse 
-  {A B C} 
-  (f : A -> C) 
-  (g : B -> C) 
+fuse
+  {A B C}
+  (f : A -> C)
+  (g : B -> C)
   (e : Either A B) : C :=
   case e of {
     | (left x) := f x
@@ -721,8 +721,8 @@ Association functions for either
 #### `assocLeftEither`
 
 ```juvix
-assocLeftEither 
-  {A B C} 
+assocLeftEither
+  {A B C}
   (e : Either A (Either B C)) : Either (Either A B) C :=
   case e of {
     | (left x) := left (left x)
@@ -737,9 +737,9 @@ assocLeftEither
 #### `assocRightEither`
 
 ```juvix
-assocRightEither 
-  {A B C} 
-  (e : Either (Either A B) C) 
+assocRightEither
+  {A B C}
+  (e : Either (Either A B) C)
   : Either A (Either B C) :=
   case e of {
     | (left eab) :=
@@ -808,7 +808,7 @@ isSome {A} (x : Option A) : Bool := not (isNone x);
 Extract the value from an `Option` term:
 
 ```juvix
-fromOption {A} (x : Option A) (default : A) : A := 
+fromOption {A} (x : Option A) (default : A) : A :=
   case x of {
   | none := default
   | some x := x
@@ -820,11 +820,11 @@ fromOption {A} (x : Option A) (default : A) : A :=
 Map over option with default
 
 ```juvix
-option 
-  {A B} 
-  (o : Option A) 
-  (default : B) 
-  (f : A -> B) 
+option
+  {A B}
+  (o : Option A)
+  (default : B)
+  (f : A -> B)
   : B :=
   case o of {
     | none := default
@@ -837,10 +837,10 @@ option
 Filter option according to predicate
 
 ```juvix
-filterOption 
-  {A} 
-  (p : A -> Bool) 
-  (opt : Option A) : Option A := 
+filterOption
+  {A}
+  (p : A -> Bool)
+  (opt : Option A) : Option A :=
   case opt of {
     | none := none
     | some x :=
@@ -889,7 +889,7 @@ Get the first index of an element satisfying a predicate if such an index exists
 ```juvix
 findIndex {A} (predicate : A -> Bool) : List A -> Option Nat
   | nil := none
-  | (x :: xs) := 
+  | (x :: xs) :=
     if
       | predicate x := some zero
       | else := case findIndex predicate xs of
@@ -950,8 +950,8 @@ Unfold a list, layerwise
 
 ```juvix
 terminating
-unfold {A B} 
-  (step : B -> Option (Pair A B)) 
+unfold {A B}
+  (step : B -> Option (Pair A B))
   (seed : B) : List A :=
   case step seed of
     | none := nil
@@ -964,7 +964,7 @@ Unzip a list of pairs into two lists
 
 ```juvix
 terminating
-unzip {A B} 
+unzip {A B}
   (xs : List (Pair A B)) : Pair (List A) (List B) :=
   case xs of {
     | nil := mkPair nil nil
@@ -979,7 +979,7 @@ unzip {A B}
 Partition a list
 
 ```juvix
-partitionEither 
+partitionEither
   {A B} (es : List (Either A B)) : Pair (List A) (List B) :=
   foldr
     (\{e acc :=
@@ -994,9 +994,9 @@ partitionEither
 #### `partitionEitherWith`
 
 ```juvix
-partitionEitherWith 
-  {A B C} 
-  (f : C -> Either A B) 
+partitionEitherWith
+  {A B C}
+  (f : C -> Either A B)
   (es : List C) : Pair (List A) (List B) :=
   partitionEither (map f es);
 ```
@@ -1027,7 +1027,7 @@ maximumBy {A B} {{Ord B}}
   : Option A :=
   let maxHelper := \{curr acc :=
     case acc of {
-      | none := some curr  
+      | none := some curr
       | some maxVal :=
         if
           | f curr > f maxVal := some curr
@@ -1048,7 +1048,7 @@ minimalBy {A B} {{Ord B}}
   : Option A :=
   let minHelper := \{curr acc :=
     case acc of {
-      | none := some curr  
+      | none := some curr
       | some minVal :=
         if
           | f curr < f minVal := some curr
@@ -1070,17 +1070,17 @@ traversableListI : Traversable List :=
       let
         cons : F A -> F (List A) -> F (List A)
           | x acc := liftA2 (::) x acc;
-      
+
         go : List (F A) -> F (List A)
           | nil := pure nil
           | (x :: xs) := cons x (go xs);
       in go xs;
-    
+
     traverse {F : Type -> Type} {A B} {{appF : Applicative F}} (f : A -> F B) (xs : List A) : F (List B) :=
       let
         cons : A -> F (List B) -> F (List B)
           | x acc := liftA2 (::) (f x) acc;
-      
+
         go : List A -> F (List B)
           | nil := pure nil
           | (x :: xs) := cons x (go xs);
@@ -1192,9 +1192,9 @@ nubBy {A} (eq : A -> A -> Bool) : List A -> List A :=
 
     go : List A -> List A -> List A
       | acc nil := reverse acc
-      | acc (x :: xs) := 
+      | acc (x :: xs) :=
         if
-          | elemBy x acc := go acc xs  
+          | elemBy x acc := go acc xs
           | else := go (x :: acc) xs;
   in go nil;
 ```
@@ -1209,9 +1209,9 @@ nub {A} {{Eq A}} : List A -> List A := nubBy (==);
 Generate all possible sublists of a list. Each element can either be included or not.
 
 ```juvix
-powerlists {A} : List A -> List (List A)  
+powerlists {A} : List A -> List (List A)
   | nil := nil :: nil
-  | (x :: xs) := 
+  | (x :: xs) :=
     let
       rest : List (List A) := powerlists xs;
       withX : List (List A) := map ((::) x) rest;
@@ -1274,7 +1274,7 @@ disjointUnion {T} {{Ord T}} (s1 s2 : Set T) : Result (Set T) (Set T) :=
 Caclulate the symmetric difference of two sets.
 
 ```juvix
-symmetricDifference 
+symmetricDifference
   {A} {{Ord A}} (s1 s2 : Set A) : Set A :=
   let
     in1not2 := difference s1 s2;
@@ -1287,11 +1287,11 @@ symmetricDifference
 Generate the set of all cartesian products of a set.
 
 ```juvix
-cartesianProduct 
-  {A B} 
+cartesianProduct
+  {A B}
   {{Ord A}} {{Ord B}}
-  (s1 : Set A) 
-  (s2 : Set B) 
+  (s1 : Set A)
+  (s2 : Set B)
   : Set (Pair A B) :=
   let
     -- For a fixed element from set1, create a set of all pairs with elements from s2
@@ -1299,7 +1299,7 @@ cartesianProduct
       for (acc := Set.empty) (b in s2) {
         Set.insert (mkPair a b) acc
       };
-    
+
     -- Create set of sets, each containing pairs for one element from s1
     pairSets : Set (Set (Pair A B)) :=
       for (acc := Set.empty) (a in s1) {
@@ -1362,10 +1362,10 @@ updateLookupWithKey
   : Pair (Option Value) (Map Key Value) :=
   let
     oldValue : Option Value := Map.lookup k map;
-    newMap : Map Key Value := 
+    newMap : Map Key Value :=
       case oldValue of {
         | none := map
-        | some v := 
+        | some v :=
           case updateFn k v of {
             | none := Map.delete k map
             | some newV := Map.insert k newV map
@@ -1381,11 +1381,11 @@ function is not injective (maps different keys to the same key), later entries
 in the map will overwrite earlier ones with the same new key.
 
 ```juvix
-mapKeys 
-  {Key1 Key2 Value} 
-  {{Ord Key2}} 
+mapKeys
+  {Key1 Key2 Value}
+  {{Ord Key2}}
   (fun : Key1 -> Key2)
-  (map : Map Key1 Value) 
+  (map : Map Key1 Value)
   : Map Key2 Value :=
   Map.fromList
     (for (acc := nil) ((k, v) in Map.toList map) {
@@ -1398,11 +1398,11 @@ mapKeys
 Restrict a map to only contain keys from the given set.
 
 ```juvix
-restrictKeys 
-  {Key Value} 
-  {{Ord Key}} 
-  (map : Map Key Value) 
-  (validKeys : Set.Set Key) 
+restrictKeys
+  {Key Value}
+  {{Ord Key}}
+  (map : Map Key Value)
+  (validKeys : Set.Set Key)
   : Map Key Value :=
   for (acc := Map.empty) (k, v in map) {
     if
@@ -1416,15 +1416,15 @@ restrictKeys
 Remove all entries from a map whose keys appear in the given set.
 
 ```juvix
-withoutKeys 
-  {Key Value} 
-  {{Ord Key}} 
-  (map : Map Key Value) 
-  (invalidKeys : Set.Set Key) 
+withoutKeys
+  {Key Value}
+  {{Ord Key}}
+  (map : Map Key Value)
+  (invalidKeys : Set.Set Key)
   : Map Key Value :=
   for (acc := Map.empty) (k, v in map) {
     if
-      | Set.isMember k invalidKeys := acc 
+      | Set.isMember k invalidKeys := acc
       | else := Map.insert k v acc
   };
 ```
@@ -1435,11 +1435,11 @@ Split a map according to a predicate on values.
 Returns a pair of maps, (matching, non-matching).
 
 ```juvix
-mapPartition 
-  {Key Value} 
-  {{Ord Key}} 
-  (predicate : Value -> Bool) 
-  (map : Map Key Value) 
+mapPartition
+  {Key Value}
+  {{Ord Key}}
+  (predicate : Value -> Bool)
+  (map : Map Key Value)
   : Pair (Map Key Value) (Map Key Value) :=
   for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
     if
@@ -1454,11 +1454,11 @@ Split a map according to a predicate that can examine both key and value.
 Returns a pair of maps, (matching, non-matching).
 
       ```juvix
-      partitionWithKey 
-        {Key Value} 
-        {{Ord Key}} 
-        (predicate : Key -> Value -> Bool) 
-        (map : Map Key Value) 
+      partitionWithKey
+        {Key Value}
+        {{Ord Key}}
+        (predicate : Key -> Value -> Bool)
+        (map : Map Key Value)
         : Pair (Map Key Value) (Map Key Value) :=
         for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
           if
@@ -1508,8 +1508,8 @@ mapOptionWithKey
 Apply a function that returns Either to all values in the map.
 
 ```juvix
-mapEither 
-  {Key Value Error Result} 
+mapEither
+  {Key Value Error Result}
   {{Ord Key}}
   (f : Value -> Either Error Result)
   (map : Map Key Value)
@@ -1527,8 +1527,8 @@ mapEither
 Same as mapEither but allows the function to examine the key as well.
 
 ```juvix
-mapEitherWithKey 
-  {Key Value Error Result} 
+mapEitherWithKey
+  {Key Value Error Result}
   {{Ord Key}}
   (f : Key -> Value -> Either Error Result)
   (map : Map Key Value)
