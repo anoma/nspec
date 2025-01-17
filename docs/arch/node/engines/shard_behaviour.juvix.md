@@ -828,19 +828,36 @@ shardBehaviour : ShardBehaviour :=
 
 ```mermaid
 flowchart TD
-  subgraph C[Conditions]
-    CMsg>ShardMsgKVSAcquireLock]
-  end
+    Start([Worker Request]) --> MsgReq[ShardMsgKVSAcquireLock<br/>keys, worker, executor, timestamp]
+    
+    subgraph Guard["acquireLockGuard"]
+        MsgReq --> ValidType{Is message type<br/>KVSAcquireLock?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
 
-  G(acquireLockGuard)
-  A(acquireLockAction)
+    ActionEntry --> Action
 
-  C --> G -- *acquireLockActionLabel* --> A --> E
+    subgraph Action["acquireLockAction"]
+        direction TB
+        AddReads[Add read accesses to DAG<br/>eager and lazy]
+        AddReads --> AddWrites[Add write accesses to DAG<br/>definite and potential]
+        AddWrites --> CheckEager{Any eager reads<br/>ready to execute?}
+        CheckEager -->|Yes| PrepReadMsgs[Create read messages<br/>for eligible keys]
+        CheckEager -->|No| SkipReads[Skip read messages]
+        PrepReadMsgs & SkipReads --> PrepareLockAck[Create lock acquired<br/>response]
+    end
 
-  subgraph E[Effects]
-    EEnv[(Update DAG with locks)]
-    EMsg>KVSLockAcquired]
-  end
+    PrepareLockAck --> Msgs[Send Messages]
+
+    subgraph Msgs["Messages Sent"]
+        LockAck[KVSLockAcquired to Worker]
+        ReadMsgs[KVSRead messages to Executor<br/>for eligible eager reads]
+    end
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
+    style Msgs fill:#f0fff7,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
@@ -848,25 +865,82 @@ flowchart TD
 </figcaption>
 </figure>
 
+#### Explanation
+
+1. **Initial Request**
+   - A Mempool Worker sends a `ShardMsgKVSAcquireLock` containing:
+     - `lazy_read_keys`: Keys that might be read during execution
+     - `eager_read_keys`: Keys that will definitely be read
+     - `will_write_keys`: Keys that will definitely be written
+     - `may_write_keys`: Keys that might be written
+     - `worker`: ID of the requesting worker engine
+     - `executor`: ID of the executor that will process this transaction
+     - `timestamp`: Logical timestamp for transaction ordering
+
+2. **Guard Phase** (`acquireLockGuard`)
+   - Verifies message type is `ShardMsgKVSAcquireLock`
+   - If validation fails, request is rejected immediately
+   - On success, passes control to `acquireLockActionLabel`
+
+3. **Action Phase** (`acquireLockAction`)
+   - Processes valid lock requests through these steps:
+     - Adds read accesses to DAG for both eager and lazy reads
+     - Adds write accesses to DAG for both definite and potential writes
+     - Checks for any eager reads that are immediately eligible for execution
+     - Creates read messages for eligible eager reads
+     - Prepares lock acquisition acknowledgment
+     - Records all lock information in DAG structure
+
+4. **Response Generation**
+   - **Always Sends**:
+     - `KVSLockAcquired` message back to worker containing:
+       - `timestamp`: Same timestamp as request
+   - **Conditionally Sends**:
+     - If eligible eager reads found:
+       - `KVSRead` messages to executor containing:
+         - `timestamp`: Transaction timestamp
+         - `key`: Key that was read
+         - `data`: Value at that timestamp
+
+5. **Response Delivery**
+   - Lock acknowledgment sent to original worker
+   - Any read messages sent to specified executor
+   - Uses mailbox 0 (the standard mailbox for responses)
+
 ### `processWrite` Flowchart
 
 <figure markdown>
 
 ```mermaid
 flowchart TD
-  subgraph C[Conditions]
-    CMsg>ShardMsgKVSWrite]
-  end
+    Start([Executor Request]) --> MsgReq[ShardMsgKVSWrite<br/>key, timestamp, data]
+    
+    subgraph Guard["processWriteGuard"]
+        MsgReq --> ValidType{Is message type<br/>KVSWrite?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
 
-  G(processWriteGuard)
-  A(processWriteAction)
+    ActionEntry --> Action
 
-  C --> G -- *processWriteActionLabel* --> A --> E
+    subgraph Action["processWriteAction"]
+        direction TB
+        CheckLock{Write lock<br/>exists for timestamp?}
+        CheckLock -->|No| FailNoLock[Fail - No Lock]
+        CheckLock -->|Yes| ValidateWrite{Valid write for<br/>lock type?}
+        ValidateWrite -->|No| FailInvalid[Fail - Invalid Write]
+        ValidateWrite -->|Yes| UpdateDAG[Update DAG with<br/>write data]
+        UpdateDAG --> CheckReads{Eager reads<br/>now eligible?}
+        CheckReads -->|Yes| PrepReadMsgs[Create read messages<br/>for eligible keys]
+        CheckReads -->|No| NoReads[No messages needed]
+    end
 
-  subgraph E[Effects]
-    EEnv[(Update DAG)]
-    EMsg>KVSRead messages]
-  end
+    PrepReadMsgs --> SendReads[Send KVSRead messages<br/>to eligible executors]
+    NoReads --> Complete([Complete])
+    FailNoLock & FailInvalid --> Fail([Fail - No Response])
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
@@ -874,25 +948,78 @@ flowchart TD
 </figcaption>
 </figure>
 
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `ShardMsgKVSWrite` containing:
+     - `key`: The state key to write to
+     - `timestamp`: The transaction's logical timestamp
+     - `datum`: The value to write (or None for null writes)
+   - This request comes from an Executor Engine that previously acquired write locks
+
+2. **Guard Phase** (`processWriteGuard`)
+   - Verifies message type is `ShardMsgKVSWrite`
+   - If validation fails, request is rejected immediately
+   - On success, passes control to `processWriteActionLabel`
+
+3. **Action Phase** (`processWriteAction`)
+   - Processes valid write requests through these steps:
+     - Checks if write lock exists for the key at given timestamp
+     - Validates write against lock type (null writes only valid for mayWrite locks)
+     - Updates DAG structure with new write data
+     - Checks for eligible eager reads that can now proceed
+     - Constructs appropriate read messages for any newly eligible reads
+
+4. **Error Cases**
+   - **No Lock Case**: Returns none if:
+     - No write access exists for the timestamp
+     - Write access exists but no writeStatus (no write lock)
+   - **Invalid Write Case**: Returns none if:
+     - Attempting null write on definite write lock
+     - Lock exists but write is invalid for lock type
+
+5. **Response Delivery**
+   - On success, sends `KVSRead` messages to Executors for any eligible eager reads
+   - The original write request does not receive a direct response
+   - All messages use mailbox 0 (the standard mailbox for responses)
+
 ### `processReadRequest` Flowchart
 
 <figure markdown>
 
 ```mermaid
 flowchart TD
-  subgraph C[Conditions]
-    CMsg>ShardMsgKVSReadRequest]
-  end
+    Start([Executor Request]) --> MsgReq[ShardMsgKVSReadRequest<br/>key, timestamp, actual]
+    
+    subgraph Guard["processReadRequestGuard"]
+        MsgReq --> ValidType{Is message type<br/>KVSReadRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
 
-  G(processReadRequestGuard)
-  A(processReadRequestAction)
+    ActionEntry --> Action
 
-  C --> G -- *processReadRequestActionLabel* --> A --> E
+    subgraph Action["processReadRequestAction"]
+        direction TB
+        CheckBarrier{timestamp >=<br/>heardAllReads?}
+        CheckBarrier -->|No| FailTooEarly[Fail - Too Early]
+        CheckBarrier -->|Yes| CheckLock{Read lock<br/>exists?}
+        CheckLock -->|No| FailNoLock[Fail - No Lock]
+        CheckLock -->|Yes| MarkRead[Mark read as completed<br/>in DAG]
+        MarkRead --> CheckActual{actual flag<br/>true?}
+        CheckActual -->|No| NoResponse[No response needed]
+        CheckActual -->|Yes| FindValue[Find most recent<br/>write before timestamp]
+        FindValue --> HasValue{Value found?}
+        HasValue -->|No| FailNoValue[Fail - No Value]
+        HasValue -->|Yes| PrepResponse[Create read response<br/>with found value]
+    end
 
-  subgraph E[Effects]
-    EEnv[(Update read status)]
-    EMsg>KVSRead message]
-  end
+    PrepResponse --> SendRead[Send KVSRead message<br/>to executor]
+    NoResponse --> Complete([Complete])
+    FailTooEarly & FailNoLock & FailNoValue --> Fail([Fail - No Response])
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
@@ -900,28 +1027,120 @@ flowchart TD
 </figcaption>
 </figure>
 
+#### Explanation
+
+1. **Initial Request**
+   - An executor sends a `ShardMsgKVSReadRequest` containing:
+     - `key`: The state key to read
+     - `timestamp`: The logical timestamp of the requesting transaction
+     - `actual`: Boolean flag indicating if this is a real read or just cleanup
+   - The key must be one that this shard is responsible for managing
+
+2. **Guard Phase** (`processReadRequestGuard`)
+   - Verifies message type is `ShardMsgKVSReadRequest`
+   - If validation fails, request is rejected immediately
+   - On success, passes control to `processReadRequestActionLabel`
+
+3. **Action Phase** (`processReadRequestAction`)
+   - Processes valid read requests through these steps:
+     - Checks if timestamp is at or after the `heardAllReads` barrier
+     - Verifies a read lock exists for this key at this timestamp
+     - Marks the read as completed in the DAG structure
+     - If `actual` flag is true, finds the most recent write value
+     - Constructs appropriate response based on result
+
+4. **Response Generation**
+   - **Successful Case (actual = true)**
+     - Creates `ShardMsgKVSRead` with:
+       - `timestamp`: Original request timestamp
+       - `key`: Original request key
+       - `data`: Found historical value
+   - **Successful Case (actual = false)**
+     - No response message generated
+     - Only updates internal state
+   - **Error Cases**
+     - No response sent if:
+       - Timestamp is before `heardAllReads`
+       - No valid read lock exists
+       - No historical value found
+
+5. **Response Delivery**
+   - Success response sent directly to requesting executor
+   - Uses mailbox 0 (the standard mailbox for responses)
+
 ### `updateSeenAll` Flowchart
 
 <figure markdown>
 
 ```mermaid
 flowchart TD
-  subgraph C[Conditions]
-    CMsg>ShardMsgUpdateSeenAll]
-  end
+    Start([Worker Request]) --> MsgReq[ShardMsgUpdateSeenAll<br/>timestamp, write]
+    
+    subgraph Guard["updateSeenAllGuard"]
+        MsgReq --> ValidType{Is message type<br/>UpdateSeenAll?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
 
-  G(updateSeenAllGuard)
-  A(updateSeenAllAction)
+    ActionEntry --> Action
 
-  C --> G -- *updateSeenAllActionLabel* --> A --> E
+    subgraph Action["updateSeenAllAction"]
+        direction TB
+        CheckType{What kind<br/>of barrier?}
+        CheckType -->|write| UpdateWrites[Update heardAllWrites<br/>barrier]
+        CheckType -->|read| UpdateReads[Update heardAllReads<br/>barrier]
+        UpdateWrites --> CheckEager{Eager reads<br/>now eligible?}
+        UpdateReads --> NoReads[No reads to process]
+        CheckEager -->|Yes| PrepReadMsgs[Create read messages<br/>for eligible keys]
+        CheckEager -->|No| NoNewReads[No new reads eligible]
+    end
 
-  subgraph E[Effects]
-    EEnv[(Update barriers)]
-    EMsg>KVSRead messages]
-  end
+    PrepReadMsgs --> SendReads[Send KVSRead messages<br/>to eligible executors]
+    NoReads & NoNewReads --> Complete([Complete])
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
 `updateSeenAll` flowchart
 </figcaption>
 </figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A worker sends a `ShardMsgUpdateSeenAll` containing:
+     - `timestamp`: The new barrier position in the transaction timeline
+     - `write`: Boolean flag indicating if this updates the write barrier or read barrier
+   - This represents a guarantee from the worker about transaction ordering
+
+2. **Guard Phase** (`updateSeenAllGuard`)
+   - Verifies message type is `ShardMsgUpdateSeenAll`
+   - If validation fails, request is rejected immediately
+   - On success, passes control to `updateSeenAllActionLabel`
+
+3. **Action Phase** (`updateSeenAllAction`)
+   - Processes valid update requests through these steps:
+     - Determines barrier type (write vs read) from message
+     - For write barriers:
+       - Updates `heardAllWrites` to new timestamp
+       - Checks for eager reads that can now execute
+       - Prepares read messages for eligible reads
+     - For read barriers:
+       - Updates `heardAllReads` to new timestamp
+       - No immediate read processing needed
+
+4. **Response Generation**
+   - For write barrier updates:
+     - If eligible eager reads found:
+       - Creates `KVSRead` messages for each eligible read
+       - Includes value and timestamp for each read
+     - If no eligible reads, completes with no messages
+   - For read barrier updates:
+     - Always completes with no messages
+     - Read barrier updates are used for garbage collection, not triggering reads
+
+5. **Message Delivery**
+   - Any generated read messages are sent to their respective executors
+   - No acknowledgment is sent back to the worker
