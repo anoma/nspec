@@ -629,6 +629,7 @@ type GuardStrategy :=
   | FirstGuard
   | LastGuard
   | OneGuard
+  | UniqueGuard -- checks that it is the only one that is triggered
   | AllGuards;
 ```
 
