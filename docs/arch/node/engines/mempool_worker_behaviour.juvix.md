@@ -504,7 +504,7 @@ allLocksAcquired
   in Set.isSubset neededShards lockingShards;
 
 -- Finds the highest transaction fingerprint N such that all transactions with fingerprints 1..N
--- have acquired all their necessary locks of the specified type (read or write). This represents 
+-- have acquired all their necessary locks of the specified type (read or write). This represents
 -- the "safe point" up to which shards can process transactions without worrying about missing locks.
 terminating
 findMaxConsecutiveLocked

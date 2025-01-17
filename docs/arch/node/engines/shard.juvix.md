@@ -47,7 +47,7 @@ the relationships between different transactions' access requests. The Shard
 receives lock acquisition requests (`ShardMsgKVSAcquireLock`) from Mempool Workers,
 which specify exactly how a transaction intends to interact with state through
 several categories: eager reads (keys that will definitely be read), lazy reads
-(keys that might be read), definite writes (keys that will be written), and 
+(keys that might be read), definite writes (keys that will be written), and
 potential writes (keys that might be written).
 
 When a transaction needs to read a value, it can happen in two ways. With eager
@@ -61,8 +61,8 @@ use.
 The Shard maintains ordering through two important timestamps: `heardAllWrites` and
 `heardAllReads`. These act like watermarks in the system - the Shard knows it won't
 receive any new write operations before `heardAllWrites` or any new read operations
-before `heardAllReads`. These watermarks, updated through `ShardMsgUpdateSeenAll` 
-messages from Mempool Workers, allow the Shard to make important decisions about when 
+before `heardAllReads`. These watermarks, updated through `ShardMsgUpdateSeenAll`
+messages from Mempool Workers, allow the Shard to make important decisions about when
 it's safe to execute reads and when it can clean up old state versions that are no
 longer needed.
 
