@@ -54,7 +54,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 
 ```mermaidflowchart TD
     Start([Client Request]) --> MsgReq[MempoolWorkerMsgTransactionRequest<br/>tx: TransactionCandidate]
-    
+
     subgraph Guard["transactionRequestGuard"]
         MsgReq --> ValidType{Is message type<br/>TransactionRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -78,7 +78,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
         MsgLock[KVSAcquireLock to shards<br/>with read/write keys]
         SpawnEng[Spawn Executor Engine]
     end
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
     style Msgs fill:#f7fff0,stroke:#333,stroke-width:2px
@@ -151,7 +151,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 ```mermaid
 flowchart TD
     Start([Shard Response]) --> MsgReq[ShardMsgKVSLockAcquired<br/>timestamp: TxFingerprint]
-    
+
     subgraph Guard["lockAcquiredGuard"]
         MsgReq --> ValidType{Is message type<br/>LockAcquired?}
         ValidType -->|No| Reject([Reject Request])
@@ -173,7 +173,7 @@ flowchart TD
         BcastWrite[UpdateSeenAll to shards<br/>for write barrier]
         BcastRead[UpdateSeenAll to shards<br/>for read barrier]
     end
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
     style Msgs fill:#f7fff0,stroke:#333,stroke-width:2px
@@ -225,7 +225,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Executor Response]) --> MsgReq[ExecutorMsgExecutorFinished<br/>success: Bool<br/>values_read: List KeyValue<br/>values_written: List KeyValue]
-    
+
     subgraph Guard["executorFinishedGuard"]
         MsgReq --> ValidType{Is message type<br/>ExecutorFinished?}
         ValidType -->|No| Reject([Reject Request])
@@ -247,7 +247,7 @@ flowchart TD
     subgraph Effects[Effects]
         State[Update execution summaries<br/>in local state]
     end
-    
+
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
     style Effects fill:#f7fff0,stroke:#333,stroke-width:2px
