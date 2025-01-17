@@ -24,6 +24,7 @@ import arch.system.identity.identity;
 
 {- Resource Machine -}
 
+import arch.system.state.resource_machine.prelude;
 import arch.system.state.resource_machine.data_structures.transaction.transaction_with_payment;
 import arch.system.state.resource_machine.data_structures.transaction.transaction;
 import arch.system.state.resource_machine.data_structures.transaction.transaction_function;

@@ -11,7 +11,7 @@ tags:
 ??? quote "Juvix imports"
 
     ```juvix
-    module arch.resource_machine.data_structures;
+    module arch.system.state.resource_machine.prelude;
     import prelude open;
     import arch.node.types.crypto open using {Digest};
     ```
