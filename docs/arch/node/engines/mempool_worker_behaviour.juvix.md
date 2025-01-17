@@ -46,6 +46,253 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
     axiom hash : TxFingerprint -> TransactionCandidate -> Hash;
     ```
 
+## Mempool Worker Action Flowcharts
+
+### `transactionRequestAction` flowchart
+
+<figure markdown>
+
+```mermaidflowchart TD
+    Start([Client Request]) --> MsgReq[MempoolWorkerMsgTransactionRequest<br/>tx: TransactionCandidate]
+    
+    subgraph Guard["transactionRequestGuard"]
+        MsgReq --> ValidType{Is message type<br/>TransactionRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["transactionRequestAction"]
+        direction TB
+        GenFP[Generate new fingerprint<br/>from gensym]
+        GenFP --> SpawnEx[Create Executor Config<br/>with access rights]
+        SpawnEx --> UpdateState[Update local state:<br/>- Increment gensym<br/>- Add to transactions map<br/>- Add to engine map]
+        UpdateState --> PrepLocks[Prepare lock requests<br/>for each shard]
+    end
+
+    PrepLocks --> Msgs
+
+    subgraph Msgs[Messages and Effects]
+        MsgAck[TransactionAck to client<br/>with fingerprint & signature]
+        MsgLock[KVSAcquireLock to shards<br/>with read/write keys]
+        SpawnEng[Spawn Executor Engine]
+    end
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
+    style Msgs fill:#f7fff0,stroke:#333,stroke-width:2px
+```
+
+<figcaption markdown="span">
+`transactionRequestAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MempoolWorkerMsgTransactionRequest` containing:
+     - `tx`: The transaction candidate to be ordered and executed
+     - `resubmission`: Optional reference to a previous occurrence (currently unused)
+   - The transaction candidate includes its program code and access patterns (what it will read/write)
+
+2. **Guard Phase** (`transactionRequestGuard`)
+   - Verifies message type is `MempoolWorkerMsgTransactionRequest`
+   - If validation fails, request is rejected
+   - On success, passes control to `transactionRequestActionLabel`
+
+3. **Action Phase** (`transactionRequestAction`)
+   - Generates new fingerprint by incrementing gensym counter
+   - Creates Executor configuration with:
+     - Timestamp set to new fingerprint
+     - Executable code from transaction
+     - Access rights from transaction label
+     - References to worker and transaction issuer
+   - Updates local state:
+     - Increments gensym counter
+     - Adds transaction to transactions map
+     - Records executor ID to fingerprint mapping
+   - Prepares lock requests for each affected shard by:
+     - Grouping keys by shard
+     - Creating appropriate lock request messages
+
+4. **Response Generation**
+   - **Messages sent**:
+     - To client: `MempoolWorkerMsgTransactionAck` containing:
+       - `tx_hash`: Hash of the transaction
+       - `batch_number`: Current batch number
+       - `worker_id`: This worker's ID
+       - `signature`: Worker's signature over above fields
+     - To shards: `KVSAcquireLock` messages for each affected shard containing:
+       - `lazy_read_keys`: Keys that might be read
+       - `eager_read_keys`: Keys that will definitely be read
+       - `will_write_keys`: Keys that will definitely be written
+       - `may_write_keys`: Keys that might be written
+       - `worker`: This worker's ID
+       - `executor`: ID of spawned executor
+       - `timestamp`: Generated fingerprint
+
+5. **Responses and Effects**
+   - **Response Delivery**
+     - All messages are sent with mailbox 0 (the standard response mailbox)
+     - Transaction acknowledgment is sent back to original requester
+     - Lock requests are sent to all relevant shards
+   - **Engines spawned**:
+     - Creates new Executor engine with generated configuration
+
+#### Important Notes:
+- The fingerprint generation via a gensym is a simple version of what could be a more complex process
+
+### `lockAcquiredAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Shard Response]) --> MsgReq[ShardMsgKVSLockAcquired<br/>timestamp: TxFingerprint]
+    
+    subgraph Guard["lockAcquiredGuard"]
+        MsgReq --> ValidType{Is message type<br/>LockAcquired?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["lockAcquiredAction"]
+        direction TB
+        AddLock[Add lock to acquired list]
+        AddLock --> CalcMax[Calculate max consecutive:<br/>- Writes locked<br/>- Reads locked]
+        CalcMax --> UpdateBarriers[Update seen_all barriers:<br/>- seen_all_writes<br/>- seen_all_reads]
+    end
+
+    UpdateBarriers --> Msgs
+
+    subgraph Msgs[Messages and Effects]
+        BcastWrite[UpdateSeenAll to shards<br/>for write barrier]
+        BcastRead[UpdateSeenAll to shards<br/>for read barrier]
+    end
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
+    style Msgs fill:#f7fff0,stroke:#333,stroke-width:2px
+```
+
+<figcaption markdown="span">
+`lockAcquiredAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Message**
+   - A Mempool Worker receives a `ShardMsgKVSLockAcquired` message from a Shard engine
+   - The message contains:
+     - `timestamp`: The TxFingerprint identifying which transaction's locks were acquired
+     - (Implicit) The sender of the message identifies which shard has confirmed the locks
+
+2. **Guard Phase** (`lockAcquiredGuard`)
+   - Verifies message type is `ShardMsgKVSLockAcquired`
+   - If validation fails, request is rejected
+   - On success, passes control to `lockAcquiredActionLabel`
+
+3. **Action Phase** (`lockAcquiredAction`)
+   - Adds the new lock to the `locks_acquired` list in state
+   - Calculates new maximum consecutive sequence points by analyzing the lock history:
+     - For writes: Finds highest fingerprint where all prior write locks are confirmed
+     - For reads: Finds highest fingerprint where all prior read locks are confirmed
+   - Updates internal barriers (`seen_all_writes` and `seen_all_reads`) based on calculations
+   - Constructs appropriate update messages for all shards
+
+4. **Response Generation**
+   - Constructs `ShardMsgUpdateSeenAll` messages for every shard, containing:
+     - For write barrier updates:
+       - `timestamp`: New seen_all_writes value
+       - `write`: true
+     - For read barrier updates:
+       - `timestamp`: New seen_all_reads value
+       - `write`: false
+
+5. **Message Delivery**
+   - Update messages are broadcast to all shards in the system
+   - Uses mailbox 0 (the standard mailbox for responses)
+
+### `executorFinishedAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Executor Response]) --> MsgReq[ExecutorMsgExecutorFinished<br/>success: Bool<br/>values_read: List KeyValue<br/>values_written: List KeyValue]
+    
+    subgraph Guard["executorFinishedGuard"]
+        MsgReq --> ValidType{Is message type<br/>ExecutorFinished?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["executorFinishedAction"]
+        direction TB
+        FindTx{Lookup transaction<br/>for executor}
+        FindTx -->|Not Found| NoAction[Do Nothing]
+        FindTx -->|Found| Store[Store execution summary<br/>in local state]
+    end
+
+    Store --> Effects
+    NoAction --> NoEffect([No Effect])
+
+    subgraph Effects[Effects]
+        State[Update execution summaries<br/>in local state]
+    end
+    
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
+    style Effects fill:#f7fff0,stroke:#333,stroke-width:2px
+```
+
+<figcaption markdown="span">
+`executorFinishedAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - An executor sends a `MsgExecutorFinished` containing:
+     - `success`: Boolean indicating if execution completed successfully
+     - `values_read`: List of all key-value pairs that were read during execution
+     - `values_written`: List of all key-value pairs that were written during execution
+   - This message represents the completion of a transaction's execution lifecycle
+
+2. **Guard Phase** (`executorFinishedGuard`)
+   - Verifies message type is `ExecutorMsgExecutorFinished`
+   - If validation fails, request is rejected immediately
+   - On success, passes control to `executorFinishedLabel`
+
+3. **Action Phase** (`executorFinishedAction`)
+   - Processes valid executor completion notifications through these steps:
+     - Looks up the transaction associated with the sending executor in the `transactionEngines` map
+     - If no transaction is found, the notification is ignored (this shouldn't happen in normal operation)
+     - If transaction is found, stores the execution summary in the `execution_summaries` map
+     - The summary is indexed by the transaction's fingerprint for later reference
+
+4. **Response Generation**
+   - **Successful Case**
+     - Updates local state with the new execution summary
+     - No response messages are generated
+   - **Error Case**
+     - If executor not found in mapping, quietly fails
+     - No error responses are sent
+
+5. **State Update**
+   - Updates the worker's local state:
+     - Adds new entry to `execution_summaries` map
+     - Maps transaction fingerprint to its execution results
+   - No messages are sent
+
 ## Action arguments
 
 ### `MempoolWorkerActionArgument`
@@ -538,249 +785,3 @@ mempoolWorkerBehaviour : MempoolWorkerBehaviour :=
 ```
 <!-- --8<-- [end:mempoolWorkerBehaviour] -->
 
-## Mempool Worker Action Flowcharts
-
-### `transactionRequestAction` flowchart
-
-<figure markdown>
-
-```mermaidflowchart TD
-    Start([Client Request]) --> MsgReq[MempoolWorkerMsgTransactionRequest<br/>tx: TransactionCandidate]
-    
-    subgraph Guard["transactionRequestGuard"]
-        MsgReq --> ValidType{Is message type<br/>TransactionRequest?}
-        ValidType -->|No| Reject([Reject Request])
-        ValidType -->|Yes| ActionEntry[Enter Action Phase]
-    end
-
-    ActionEntry --> Action
-
-    subgraph Action["transactionRequestAction"]
-        direction TB
-        GenFP[Generate new fingerprint<br/>from gensym]
-        GenFP --> SpawnEx[Create Executor Config<br/>with access rights]
-        SpawnEx --> UpdateState[Update local state:<br/>- Increment gensym<br/>- Add to transactions map<br/>- Add to engine map]
-        UpdateState --> PrepLocks[Prepare lock requests<br/>for each shard]
-    end
-
-    PrepLocks --> Msgs
-
-    subgraph Msgs[Messages and Effects]
-        MsgAck[TransactionAck to client<br/>with fingerprint & signature]
-        MsgLock[KVSAcquireLock to shards<br/>with read/write keys]
-        SpawnEng[Spawn Executor Engine]
-    end
-    
-    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
-    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
-    style Msgs fill:#f7fff0,stroke:#333,stroke-width:2px
-```
-
-<figcaption markdown="span">
-`transactionRequestAction` flowchart
-</figcaption>
-</figure>
-
-#### Explanation
-
-1. **Initial Request**
-   - A client sends a `MempoolWorkerMsgTransactionRequest` containing:
-     - `tx`: The transaction candidate to be ordered and executed
-     - `resubmission`: Optional reference to a previous occurrence (currently unused)
-   - The transaction candidate includes its program code and access patterns (what it will read/write)
-
-2. **Guard Phase** (`transactionRequestGuard`)
-   - Verifies message type is `MempoolWorkerMsgTransactionRequest`
-   - If validation fails, request is rejected
-   - On success, passes control to `transactionRequestActionLabel`
-
-3. **Action Phase** (`transactionRequestAction`)
-   - Generates new fingerprint by incrementing gensym counter
-   - Creates Executor configuration with:
-     - Timestamp set to new fingerprint
-     - Executable code from transaction
-     - Access rights from transaction label
-     - References to worker and transaction issuer
-   - Updates local state:
-     - Increments gensym counter
-     - Adds transaction to transactions map
-     - Records executor ID to fingerprint mapping
-   - Prepares lock requests for each affected shard by:
-     - Grouping keys by shard
-     - Creating appropriate lock request messages
-
-4. **Response Generation**
-   - **Messages sent**:
-     - To client: `MempoolWorkerMsgTransactionAck` containing:
-       - `tx_hash`: Hash of the transaction
-       - `batch_number`: Current batch number
-       - `worker_id`: This worker's ID
-       - `signature`: Worker's signature over above fields
-     - To shards: `KVSAcquireLock` messages for each affected shard containing:
-       - `lazy_read_keys`: Keys that might be read
-       - `eager_read_keys`: Keys that will definitely be read
-       - `will_write_keys`: Keys that will definitely be written
-       - `may_write_keys`: Keys that might be written
-       - `worker`: This worker's ID
-       - `executor`: ID of spawned executor
-       - `timestamp`: Generated fingerprint
-
-5. **Responses and Effects**
-   - **Response Delivery**
-     - All messages are sent with mailbox 0 (the standard response mailbox)
-     - Transaction acknowledgment is sent back to original requester
-     - Lock requests are sent to all relevant shards
-   - **Engines spawned**:
-     - Creates new Executor engine with generated configuration
-
-#### Important Notes:
-- The fingerprint generation via a gensym is a simple version of what could be a more complex process
-
-### `lockAcquiredAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-    Start([Shard Response]) --> MsgReq[ShardMsgKVSLockAcquired<br/>timestamp: TxFingerprint]
-    
-    subgraph Guard["lockAcquiredGuard"]
-        MsgReq --> ValidType{Is message type<br/>LockAcquired?}
-        ValidType -->|No| Reject([Reject Request])
-        ValidType -->|Yes| ActionEntry[Enter Action Phase]
-    end
-
-    ActionEntry --> Action
-
-    subgraph Action["lockAcquiredAction"]
-        direction TB
-        AddLock[Add lock to acquired list]
-        AddLock --> CalcMax[Calculate max consecutive:<br/>- Writes locked<br/>- Reads locked]
-        CalcMax --> UpdateBarriers[Update seen_all barriers:<br/>- seen_all_writes<br/>- seen_all_reads]
-    end
-
-    UpdateBarriers --> Msgs
-
-    subgraph Msgs[Messages and Effects]
-        BcastWrite[UpdateSeenAll to shards<br/>for write barrier]
-        BcastRead[UpdateSeenAll to shards<br/>for read barrier]
-    end
-    
-    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
-    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
-    style Msgs fill:#f7fff0,stroke:#333,stroke-width:2px
-```
-
-<figcaption markdown="span">
-`lockAcquiredAction` flowchart
-</figcaption>
-</figure>
-
-#### Explanation
-
-1. **Initial Message**
-   - A Mempool Worker receives a `ShardMsgKVSLockAcquired` message from a Shard engine
-   - The message contains:
-     - `timestamp`: The TxFingerprint identifying which transaction's locks were acquired
-     - (Implicit) The sender of the message identifies which shard has confirmed the locks
-
-2. **Guard Phase** (`lockAcquiredGuard`)
-   - Verifies message type is `ShardMsgKVSLockAcquired`
-   - If validation fails, request is rejected
-   - On success, passes control to `lockAcquiredActionLabel`
-
-3. **Action Phase** (`lockAcquiredAction`)
-   - Adds the new lock to the `locks_acquired` list in state
-   - Calculates new maximum consecutive sequence points by analyzing the lock history:
-     - For writes: Finds highest fingerprint where all prior write locks are confirmed
-     - For reads: Finds highest fingerprint where all prior read locks are confirmed
-   - Updates internal barriers (`seen_all_writes` and `seen_all_reads`) based on calculations
-   - Constructs appropriate update messages for all shards
-
-4. **Response Generation**
-   - Constructs `ShardMsgUpdateSeenAll` messages for every shard, containing:
-     - For write barrier updates:
-       - `timestamp`: New seen_all_writes value
-       - `write`: true
-     - For read barrier updates:
-       - `timestamp`: New seen_all_reads value
-       - `write`: false
-
-5. **Message Delivery**
-   - Update messages are broadcast to all shards in the system
-   - Uses mailbox 0 (the standard mailbox for responses)
-
-### `executorFinishedAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-    Start([Executor Response]) --> MsgReq[ExecutorMsgExecutorFinished<br/>success: Bool<br/>values_read: List KeyValue<br/>values_written: List KeyValue]
-    
-    subgraph Guard["executorFinishedGuard"]
-        MsgReq --> ValidType{Is message type<br/>ExecutorFinished?}
-        ValidType -->|No| Reject([Reject Request])
-        ValidType -->|Yes| ActionEntry[Enter Action Phase]
-    end
-
-    ActionEntry --> Action
-
-    subgraph Action["executorFinishedAction"]
-        direction TB
-        FindTx{Lookup transaction<br/>for executor}
-        FindTx -->|Not Found| NoAction[Do Nothing]
-        FindTx -->|Found| Store[Store execution summary<br/>in local state]
-    end
-
-    Store --> Effects
-    NoAction --> NoEffect([No Effect])
-
-    subgraph Effects[Effects]
-        State[Update execution summaries<br/>in local state]
-    end
-    
-    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
-    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
-    style Effects fill:#f7fff0,stroke:#333,stroke-width:2px
-```
-
-<figcaption markdown="span">
-`executorFinishedAction` flowchart
-</figcaption>
-</figure>
-
-#### Explanation
-
-1. **Initial Request**
-   - An executor sends a `MsgExecutorFinished` containing:
-     - `success`: Boolean indicating if execution completed successfully
-     - `values_read`: List of all key-value pairs that were read during execution
-     - `values_written`: List of all key-value pairs that were written during execution
-   - This message represents the completion of a transaction's execution lifecycle
-
-2. **Guard Phase** (`executorFinishedGuard`)
-   - Verifies message type is `ExecutorMsgExecutorFinished`
-   - If validation fails, request is rejected immediately
-   - On success, passes control to `executorFinishedLabel`
-
-3. **Action Phase** (`executorFinishedAction`)
-   - Processes valid executor completion notifications through these steps:
-     - Looks up the transaction associated with the sending executor in the `transactionEngines` map
-     - If no transaction is found, the notification is ignored (this shouldn't happen in normal operation)
-     - If transaction is found, stores the execution summary in the `execution_summaries` map
-     - The summary is indexed by the transaction's fingerprint for later reference
-
-4. **Response Generation**
-   - **Successful Case**
-     - Updates local state with the new execution summary
-     - No response messages are generated
-   - **Error Case**
-     - If executor not found in mapping, quietly fails
-     - No error responses are sent
-
-5. **State Update**
-   - Updates the worker's local state:
-     - Adds new entry to `execution_summaries` map
-     - Maps transaction fingerprint to its execution results
-   - No messages are sent
