@@ -633,7 +633,8 @@ ThresholdComposeFunctor
             OrdMap.foldl map \{(mkPair x y) := x + y} 0 (
               OrdMap.intersectWith map (
                 \{ | (mkPair (mkPair w v) x) :=
-                      ite (Verifier.verify underlyingVerifier v s x) w 0
+                      if | (Verifier.verify underlyingVerifier v s x) := w
+                         | else := 0
                 }
             ) (mkPair ws c)))
       )
@@ -759,7 +760,8 @@ ThresholdComposeSignsForFunctor
               (w * t1) <=
               ((OrdMap.foldl map
                 \{ (mkPair (mkPair x v1) s) :=
-                    ite (SignsFor.signsFor underlyingSignsFor e (mkPair v v1)) (x + s) s
+                    if | (SignsFor.signsFor underlyingSignsFor e (mkPair v v1)) := x + s
+                       | else := s
                 }
                 0 w1
                 ) * t0)
@@ -926,7 +928,8 @@ ThresholdComposeReadsForFunctor
               (w * t1) <=
               ((OrdMap.foldl map
                 \{ (mkPair (mkPair x v1) s) :=
-                    ite (ReadsFor.readsFor underlyingReadsFor e (mkPair v v1)) (x + s) s
+                    if | (ReadsFor.readsFor underlyingReadsFor e (mkPair v v1)) := x + s
+                       | else := s
                 }
                 0 w1
               ) * t0)
