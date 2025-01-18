@@ -117,7 +117,7 @@ spawned to execute the message.
 - [[Mempool Worker Environment]]
 - [[Mempool Worker Behaviour]]
 
-## Type
+## The type for a mempool worker engine
 
 <!-- --8<-- [start:MempoolWorkerEngine] -->
 ```juvix
@@ -147,15 +147,15 @@ exampleMempoolWorkerEngine : MempoolWorkerEngine :=
 ```
 <!-- --8<-- [start:exampleMempoolWorkerEngine] -->
 
-where `mempoolWorkerCfg` is defined as follows:
+where [[Mempool Worker Configuration#mempoolWorkerCfg|`mempoolWorkerCfg`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/mempool_worker_config.juvix.md:mempoolWorkerCfg"
 
-where `mempoolWorkerEnv` is defined as follows:
+where [[Mempool Worker Environment#mempoolWorkerEnv|`mempoolWorkerEnv`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/mempool_worker_environment.juvix.md:mempoolWorkerEnv"
 
-and `mempoolWorkerBehaviour` is defined as follows:
+and [[Mempool Worker Behaviour#mempoolWorkerBehaviour|`mempoolWorkerBehaviour`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/mempool_worker_behaviour.juvix.md:mempoolWorkerBehaviour"
 
