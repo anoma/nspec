@@ -378,25 +378,6 @@ ShardActionArguments : Type := List ShardActionArgument;
 ## Helper Functions
 
 ```juvix
-maximumBy
- {A : Type}
- (f : A -> Nat)
- (lst : List A)
- : Option A :=
- let maxHelper := \{curr acc :=
-   case acc of {
-     | none := some curr
-     | some maxVal :=
-       case f curr > f maxVal of {
-         | true := some curr
-         | false := some maxVal
-       }
-   }
- };
- in foldr maxHelper none lst;
-```
-
-```juvix
 findMostRecentWrite
   (dag : DAGStructure)
   (key : KVSKey)

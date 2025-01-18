@@ -32,7 +32,85 @@ tags:
 ## Overview
 
 The behavior of the Commitment Engine defines how it processes incoming
-commitment requests and produces the corresponding responses.
+commitment requests and produces the corresponding commitments/signatures.
+
+## Commitment Action Flowchart
+
+### `commitAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Client Request]) --> MsgReq[MsgCommitmentRequest<br>data: Signable]
+
+    subgraph Guard["commitGuard (Message Validation)"]
+        MsgReq --> ValidType{Is message type<br>CommitmentRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["commitAction (Processing)"]
+        direction TB
+        Sign[Generate signature<br>using backend signer]
+        Sign --> Success{Signature<br>Generated?}
+        Success -->|Yes| GoodResp[Create Response<br>with signature]
+        Success -->|No| ErrResp[Create Response<br>with error]
+    end
+
+    GoodResp --> Response[MsgCommitmentResponse<br>commitment: Commitment<br>err: none]
+    ErrResp --> ErrResponse[MsgCommitmentResponse<br>commitment: empty<br>err: Some error]
+
+    Response --> Client([Return to Client])
+    ErrResponse --> Client
+```
+
+<figcaption markdown="span">
+
+`commitAction` flowchart
+
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgCommitmentRequest` containing data (`Signable`) that needs to be signed.
+   - The data must be in a format that can be signed by the backend (e.g., a byte string, transaction data, etc.).
+
+2. **Guard Phase** (`commitGuard`)
+   - Validates that the incoming message is a proper commitment request.
+   - Checks occur in the following order:
+     - Verifies message type is `MsgCommitmentRequest`.
+     - If validation fails, request is rejected without entering the action phase.
+     - On success, passes control to `commitActionLabel`.
+
+3. **Action Phase** (`commitAction`)
+   - Processes valid commitment requests through these steps:
+     - Extracts the data to be signed from the request.
+     - Retrieves the signer from the engine's configuration.
+     - Attempts to generate a signature using the backend signer.
+     - Constructs an appropriate response message.
+
+4. **Response Generation**
+   - **Successful Case**
+     - Creates `MsgCommitmentResponse` with:
+       - `commitment`: The generated signature.
+       - `err`: None.
+   - **Error Case**
+     - In all error cases, returns `MsgCommitmentResponse` with:
+       - `commitment`: Empty.
+       - `err`: Some(error message).
+
+5. **Response Delivery**
+   - Response is sent back to the original requester.
+   - Uses mailbox 0 (default mailbox for responses).
+
+#### Important Notes:
+
+- The commitment engine is stateless - each request is handled independently.
 
 ## Action arguments
 
@@ -310,25 +388,3 @@ commitmentBehaviour : CommitmentBehaviour :=
   };
 ```
 <!-- --8<-- [end:commitmentBehaviour] -->
-
-## Commitment Action Flowchart
-
-### `commitAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>MsgCommitmentRequest]
-  A(commitAction)
-  RE>MsgCommitmentResponse signedData]
-  G(commitGuard)
-  CM --> G --*commitActionLabel*--> A --> RE
-```
-
-<figcaption markdown="span">
-
-`commitAction` flowchart
-
-</figcaption>
-</figure>
