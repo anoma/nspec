@@ -256,7 +256,7 @@ In order to know which write happens most recently before a given
  the timeline before the read.
 [[Mempool Engines|Mempool]] and [[Consensus Engine|consensus]] should
  communicate a lower bound on timestamps to the Shards, called
- ```.
+ `heardAllWrites`.
 The Shard is guaranteed to never receive another [[KVSAcquireLock]]
  with a write operation and
   Timestamp before  `heardAllWrites`.
@@ -286,7 +286,7 @@ but this simply means calculating the data they will write.
 Since that does not depend on state,
 this can of course be done at any time.
 
-#### heardAllReads
+### `heardAllReads`
 
 We want to allow Typhon to eventually garbage-collect old state.
 [[Mempool Engines|mempool]] and [[Consensus Engine|consensus]] should
@@ -395,14 +395,14 @@ exampleShardEngine : ShardEngine :=
 ```
 <!-- --8<-- [start:exampleShardEngine] -->
 
-where `shardCfg` is defined as follows:
+where [[Shard Configuration#shardCfg|`shardCfg`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/shard_config.juvix.md:shardCfg"
 
-where `shardEnv` is defined as follows:
+where [[Shard Environment#shardEnv|`shardEnv`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/shard_environment.juvix.md:shardEnv"
 
-and `shardBehaviour` is defined as follows:
+and [[Shard Behaviour#shardBehaviour|`shardBehaviour`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/shard_behaviour.juvix.md:shardBehaviour"
