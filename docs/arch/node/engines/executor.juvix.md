@@ -62,7 +62,7 @@ execution.
 - [[Executor Environment]]
 - [[Executor Behaviour]]
 
-## Type
+## The type for an executor engine
 
 <!-- --8<-- [start:ExecutorEngine] -->
 ```juvix
@@ -79,8 +79,7 @@ ExecutorEngine : Type :=
 ```
 <!-- --8<-- [end:ExecutorEngine] -->
 
-### Example of a executor engine
-
+### Example of an executor engine
 
 <!-- --8<-- [start:exampleExecutorEngine] -->
 ```juvix
@@ -93,14 +92,14 @@ exampleExecutorEngine : ExecutorEngine :=
 ```
 <!-- --8<-- [end:exampleExecutorEngine] -->
 
-where `executorCfg` is defined as follows:
+where [[Executor Configuration#executorCfg|`executorCfg`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/executor_config.juvix.md:executorCfg"
 
-`executorEnv` is defined as follows:
+[[Executor Environment#executorEnv|`executorEnv`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/executor_environment.juvix.md:executorEnv"
 
-and `executorBehaviour` is defined as follows:
+and [[Executor Behaviour#executorBehaviour|`executorBehaviour`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/executor_behaviour.juvix.md:executorBehaviour"
