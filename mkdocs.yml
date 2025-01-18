@@ -326,7 +326,7 @@ theme:
     # - navigation.top
     - navigation.path
     - toc.follow
-    - toc.integrate
+    # - toc.integrate
 plugins:
   - search
   - glightbox
@@ -386,6 +386,8 @@ markdown_extensions:
   - md_in_html
   - toc:
       permalink: true
+      permalink_title: Anchor link to this section for reference
+      toc_depth: 3
   - pymdownx.details
   - pymdownx.magiclink
   - pymdownx.emoji:

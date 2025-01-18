@@ -21,7 +21,36 @@ tags:
 
 ## Message interface
 
-### `MsgDecryptionRequest RequestDecryption`
+--8<-- "./decryption_messages.juvix.md:DecryptionMsg"
+
+### Message sequence diagrams
+
+<!-- --8<-- [start:message-sequence-diagram] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant DE as Decryption Engine
+
+    C->>DE: RequestDecryption(encryptedData)
+    Note over DE: Attempt to decrypt data
+    alt Decryption Successful
+        DE-->>C: ResponseDecryption(decryptedData, err=none)
+    else Decryption Failed
+        DE-->>C: ResponseDecryption(emptyByteString, err="Decryption Failed")
+    end
+```
+
+<figcaption markdown="span">
+Sequence diagram for decryption.
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram] -->
+
+## Message types
+
+### `RequestDecryption`
 
 ```juvix
 type RequestDecryption := mkRequestDecryption {
@@ -35,7 +64,7 @@ A `RequestDecryption` instructs a decryption engine instance to decrypt data.
     `data`:
     : The encrypted ciphertext to decrypt.
 
-### `MsgDecryptionResponse ResponseDecryption`
+### `ResponseDecryption`
 
 ```juvix
 type ResponseDecryption := mkResponseDecryption {
@@ -66,32 +95,6 @@ type DecryptionMsg :=
 ```
 <!-- --8<-- [end:DecryptionMsg] -->
 
-## Message sequence diagrams
-
-### Decryption Sequence
-
-<!-- --8<-- [start:message-sequence-diagram] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant DE as Decryption Engine
-
-    C->>DE: RequestDecryption(encryptedData)
-    Note over DE: Attempt to decrypt data
-    alt Decryption Successful
-        DE-->>C: ResponseDecryption(decryptedData, err=none)
-    else Decryption Failed
-        DE-->>C: ResponseDecryption(emptyByteString, err="Decryption Failed")
-    end
-```
-
-<figcaption markdown="span">
-Sequence diagram for decryption.
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
 
 ## Engine Components
 
