@@ -106,11 +106,6 @@ flowchart TD
     Collect --> SendMsgs[Send generated<br/>read/write messages]
 
     NotifyFail & NotifySuccess & SendMsgs --> End([Complete])
-
-    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
-    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
-    style ProcessOutputs fill:#f0fff2,stroke:#333,stroke-width:2px
-    style StaleComputation fill:#fff0f7,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
@@ -124,65 +119,65 @@ flowchart TD
 
 1. **Initial Request Processing**
    - A client sends a `ShardMsgKVSRead` message containing:
-     - `key`: The state key that was read
-     - `data`: The actual data value for that key
-     - A timestamp that identifies this execution context
+     - `key`: The state key that was read.
+     - `data`: The actual data value for that key.
+     - A timestamp that identifies this execution context.
    - The message first passes through the guard phase which:
-     - Validates the message is a `ShardMsgKVSRead`
-     - Ensures the timestamp matches this executor's configured timestamp
-     - Rejects messages that fail either check
-     - Routes valid messages to the action phase
+     - Validates the message is a `ShardMsgKVSRead`.
+     - Ensures the timestamp matches this executor's configured timestamp.
+     - Rejects messages that fail either check.
+     - Routes valid messages to the action phase.
 
 2. **Program Execution**
    - The action phase begins by executing the next program step:
-     - Takes the current program state as context
-     - Provides the newly read key-value pair as input
-     - Produces either an error or a new program state with outputs
+     - Takes the current program state as context.
+     - Provides the newly read key-value pair as input.
+     - Produces either an error or a new program state with outputs.
    - On error:
-     - Creates response detailing why execution failed
-     - Includes lists of all completed reads and writes
-     - Triggers stale lock cleanup before responding
+     - Creates response detailing why execution failed.
+     - Includes lists of all completed reads and writes.
+     - Triggers stale lock cleanup before responding.
    - On success:
-     - Updates internal program state with execution results
-     - Records the completed read in its tracking
-     - Determines if program has halted or continues
+     - Updates internal program state with execution results.
+     - Records the completed read in its tracking.
+     - Determines if program has halted or continues.
 
 3. **Continuation Flow**
    - If program hasn't halted:
-     - Processes program outputs to generate new messages
+     - Processes program outputs to generate new messages.
      - For read requests:
-       - Validates key is in allowed read sets (lazy or eager)
-       - Creates `KVSReadRequest` messages for valid reads
+       - Validates key is in allowed read sets (lazy or eager).
+       - Creates `KVSReadRequest` messages for valid reads.
      - For write operations:
-       - Validates key is in allowed write sets (will or may)
+       - Validates key is in allowed write sets (will or may).
        - Creates `KVSWrite` messages for valid writes
-     - Sends all generated messages to appropriate shards
-     - Awaits next read response to continue execution
+     - Sends all generated messages to appropriate shards.
+     - Awaits next read response to continue execution.
 
 4. **Completion Flow**
    - When program halts (either naturally or from error):
      - Computes stale lock information:
-       - Finds difference between lazy_read_keys and actual reads
-       - Finds difference between may_write_keys and actual writes
+       - Finds difference between lazy_read_keys and actual reads.
+       - Finds difference between may_write_keys and actual writes.
      - Generates cleanup messages:
-       - `KVSReadRequest` with actual=false for unused reads
-       - `KVSWrite` with datum=none for unused writes
+       - `KVSReadRequest` with actual=false for unused reads.
+       - `KVSWrite` with datum=none for unused writes.
      - Creates `ExecutorFinished` message containing:
        - Success/failure status
        - Complete list of values read
        - Complete list of values written
-     - Sends cleanup messages and finished notification
-     - Terminates executor instance
+     - Sends cleanup messages and finished notification.
+     - Terminates executor instance.
 
 5. **Response Delivery**
    - All responses are sent back using:
-     - Executor's ID as sender
-     - Original requester as target
-     - Mailbox 0 (default response mailbox)
+     - Executor's ID as sender.
+     - Original requester as target.
+     - Mailbox 0 (default response mailbox).
    - Three possible response patterns:
-     - Error case: ExecutorFinished (success=false) + stale cleanup
-     - Success case: ExecutorFinished (success=true) + stale cleanup
-     - Continuation case: New read/write messages
+     - Error case: ExecutorFinished (success=false) + stale cleanup.
+     - Success case: ExecutorFinished (success=true) + stale cleanup.
+     - Continuation case: New read/write messages.
 
 ## Action arguments
 
