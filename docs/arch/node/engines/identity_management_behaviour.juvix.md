@@ -74,9 +74,6 @@ flowchart TD
     UpdateState --> Response[Success Response<br/>with engine IDs]
     ErrExists --> ErrResponse[Error Response]
     Response & ErrResponse --> Client([Return to Client])
-
-    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
-    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">
@@ -159,9 +156,6 @@ flowchart TD
     UpdateState --> Response[Success Response<br/>with engine IDs]
     ErrExists & ErrNotFound & ErrCaps --> ErrResponse[Error Response]
     Response & ErrResponse --> Client([Return to Client])
-
-    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
-    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
 ```
 
 <figcaption markdown="span">

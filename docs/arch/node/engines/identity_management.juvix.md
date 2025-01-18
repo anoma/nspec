@@ -36,18 +36,17 @@ tags:
 
 The Identity Management Engine serves as the central coordinator for
 identity operations within Anoma, managing the entire lifecycle of
-identities across various storage systems (called "backends"). These
-provide a service that can create new identities, connect
-to existing ones, and manage their cryptographic capabilities
-(commiting and decrypting), while abstracting away the complexity of
-different storage systems (like local memory, hardware devices,
-browser extensions, or remote machines).
+identities across various storage systems (called "backends"). These backends
+provide a service such as creating new identities, connecting to existing ones,
+and managing their cryptographic capabilities (commiting and decrypting), while
+abstracting away the complexity of different storage systems (e.g., local memory,
+hardware devices, browser extensions, and remote machines).
 
 Users can request new identity generation (via a
 `MsgIdentityManagementGenerateIdentityRequest` message) or connection
 to existing identities (via a
 `MsgIdentityManagementConnectIdentityRequest` message), specifying
-their desired capabilities. The Capabilities system in Anoma allows
+their desired capabilities. The Capabilities system in Anoma provides
 fine-grained control over what operations an identity can perform. Each
 identity can have commitment (signing) capabilities, decryption
 capabilities, or both. When you create or connect to an identity, you
@@ -64,12 +63,12 @@ identity both sign data and decrypt messages.
 
 When connecting to an existing identity, you can request a subset of
 that identity's capabilities but never more than it has. For example,
-if an identity was created with only `CapabilityCommit`, you can't
+if an identity was created with only `CapabilityCommit`, you cannot
 request decryption capabilities when connecting to it. The Identity
 Management Engine enforces these restrictions and will return an error
-if you request capabilities that aren't available.
+if you request capabilities that are not available.
 
-Identity Management Engine handle the creation or connection process
+The Identity Management Engine handles the creation or connection process
 and returns references to the appropriate [[Commitment]] and
 [[Decryption]]  engines (via either a `ResponseGenerateIdentity` or
 `MsgIdentityManagementConnectIdentityRequest` message) that provide
