@@ -32,21 +32,23 @@ tags:
 
 The Decryption Engine serves as a secure decryption service for a
 specific identity within Anoma. It functions like a secure lockbox
-that can decrypt messages (Ciphertext to Plaintext) intended for its
+that can decrypt messages (ciphertext to plaintext) intended for its
 associated identity, while keeping the decryption keys secure and
 unexposed. This enables secure communication where only the intended
 recipient can read encrypted messages.
 
 When users submit encrypted data to the engine
 (via a `MsgDecryptionRequest` message), it validates their
-authorization and returns the decrypted content
-(via a `MsgDecryptionResponse` message) if successful.
+authorisation and returns the decrypted content
+(via a `MsgDecryptionResponse` message) if the decryption is
+successful.
 
 In Anoma, Decryption Engines are only spawned by
-[[Identity Management Engine]]s during identity creation or connection,
-and only users with the engine reference can request decryption. This
-ensures that encrypted data can only be decrypted by authorized
-parties while maintaining the security of the private decryption keys.
+[[Identity Management Engine|Identity Management Engines]] during identity
+creation or connection. Only users with the engine reference can request
+decryption. This ensures that encrypted data can only be decrypted by
+authorised parties while maintaining the security of the private
+decryption keys.
 
 ## Components
 
@@ -55,7 +57,7 @@ parties while maintaining the security of the private decryption keys.
 - [[Decryption Environment]]
 - [[Decryption Behaviour]]
 
-## Type
+## The type for a decryption engine
 
 <!-- --8<-- [start:DecryptionEngine] -->
 ```juvix
@@ -86,14 +88,14 @@ exampleDecryptionEngine : DecryptionEngine :=
 ```
 <!-- --8<-- [end:exampleDecryptionEngine] -->
 
-where `decryptionCfg` is defined as follows:
+where [[Decryption Configuration#decryptionCfg|`decryptionCfg`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/decryption_config.juvix.md:decryptionCfg"
 
-`decryptionEnv` is defined as follows:
+[[Decryption Environment#decryptionEnv|`decryptionEnv`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/decryption_environment.juvix.md:decryptionEnv"
 
-and `decryptionBehaviour` is defined as follows:
+and [[Decryption Behaviour#decryptionBehaviour|`decryptionBehaviour`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/decryption_behaviour.juvix.md:decryptionBehaviour"

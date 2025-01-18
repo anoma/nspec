@@ -79,40 +79,40 @@ flowchart TD
 #### Explanation
 
 1. **Initial Request**
-   - A client sends a `MsgDecryptionRequest` containing encrypted data (`Ciphertext`)
-   - The ciphertext must be encrypted for the identity associated with this decryption engine
-   - Any metadata needed for decryption should be included in the ciphertext structure
+   - A client sends a `MsgDecryptionRequest` containing encrypted data (`Ciphertext`).
+   - The ciphertext must be encrypted for the identity associated with this decryption engine.
+   - Any metadata needed for decryption should be included in the ciphertext structure.
 
 2. **Guard Phase** (`decryptGuard`)
-   - Validates incoming message structure and type
+   - Validates incoming message structure and type.
    - Validation steps:
-     - Verifies message type is `MsgDecryptionRequest`
-     - If validation fails, request is rejected immediately
-     - On success, passes control to `decryptActionLabel`
+     - Verifies message type is `MsgDecryptionRequest`.
+     - If validation fails, request is rejected immediately.
+     - On success, passes control to `decryptActionLabel`.
 
 3. **Action Phase** (`decryptAction`)
    - Processes valid decryption requests through these steps:
-     - Extracts the ciphertext from the request
-     - Retrieves the decryptor from the engine's configuration
-     - Attempts to decrypt using the backend decryptor
-     - Constructs appropriate response based on result
+     - Extracts the ciphertext from the request.
+     - Retrieves the decryptor from the engine's configuration.
+     - Attempts to decrypt using the backend decryptor.
+     - Constructs appropriate response based on result.
 
 4. **Response Generation**
    - **Successful Case**
      - Creates `MsgDecryptionResponse` with:
-       - `data`: The decrypted plaintext
-       - `err`: None
+       - `data`: The decrypted plaintext.
+       - `err`: None.
    - **Error Case**
      - In all error cases, returns `MsgDecryptionResponse` with:
-       - `data`: emptyByteString (zero-length byte string)
-       - `err`: Some "Decryption Failed"
+       - `data`: emptyByteString (zero-length byte string).
+       - `err`: Some "Decryption Failed".
 
 5. **Response Delivery**
-   - Response is sent back to the original requester
-   - Uses mailbox 0 (default mailbox for responses)
+   - Response is sent back to the original requester.
+   - Uses mailbox 0 (default mailbox for responses).
 
 #### Important Notes:
-- The commitment engine is stateless - each request is handled independently
+- The commitment engine is stateless - each request is handled .
 
 ## Action arguments
 
