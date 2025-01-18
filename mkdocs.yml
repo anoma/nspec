@@ -207,8 +207,7 @@ nav:
                   - ./arch/node/ordering/execution/index.md
                   - Shard:
                       - Shard Engine: ./arch/node/engines/shard.juvix.md
-                      - Shard Messages:
-                          - ./arch/node/engines/shard_messages.juvix.md
+                      - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
                       - Shard Configuration: ./arch/node/engines/shard_config.juvix.md
                       - Shard Environment: ./arch/node/engines/shard_environment.juvix.md
                       - Shard Behaviour: ./arch/node/engines/shard_behaviour.juvix.md
