@@ -31,7 +31,88 @@ tags:
 ## Overview
 
 The behavior of the Decryption Engine defines how it processes incoming
-decryption requests and produces the corresponding responses.
+decryption requests and produces the corresponding decrypted outputs.
+
+## Decryption Action Flowchart
+
+### `decryptAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  Start([Client Request]) --> MsgReq[MsgDecryptionRequest<br/>data: Ciphertext]
+
+  subgraph Guard["decryptGuard (Message Validation)"]
+      MsgReq --> ValidType{Is message type<br/>DecryptionRequest?}
+      ValidType -->|No| Reject([Reject Request])
+      ValidType -->|Yes| ActionEntry[Enter Action Phase]
+  end
+
+  ActionEntry --> Action
+
+  subgraph Action["decryptAction (Processing)"]
+      direction TB
+      Decrypt[Attempt decryption<br/>using backend decryptor]
+      Decrypt --> Success{Decryption<br/>Successful?}
+      Success -->|Yes| GoodResp[Create Response<br/>with plaintext]
+      Success -->|No| ErrResp[Create Response<br/>with error]
+  end
+
+  GoodResp --> Response[MsgDecryptionResponse<br/>commitment: Plaintext<br/>err: none]
+  ErrResp --> ErrResponse[MsgDecryptionResponse<br/>commitment: empty<br/>err: Some error]
+
+  Response --> Client([Return to Client])
+  ErrResponse --> Client
+
+  style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+  style Action fill:#fff7f0,stroke:#333,stroke-width:2px
+```
+
+<figcaption markdown="span">
+
+`decryptAction` flowchart
+
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgDecryptionRequest` containing encrypted data (`Ciphertext`).
+   - The ciphertext must be encrypted for the identity associated with this decryption engine.
+   - Any metadata needed for decryption should be included in the ciphertext structure.
+
+2. **Guard Phase** (`decryptGuard`)
+   - Validates incoming message structure and type.
+   - Validation steps:
+     - Verifies message type is `MsgDecryptionRequest`.
+     - If validation fails, request is rejected immediately.
+     - On success, passes control to `decryptActionLabel`.
+
+3. **Action Phase** (`decryptAction`)
+   - Processes valid decryption requests through these steps:
+     - Extracts the ciphertext from the request.
+     - Retrieves the decryptor from the engine's configuration.
+     - Attempts to decrypt using the backend decryptor.
+     - Constructs appropriate response based on result.
+
+4. **Response Generation**
+   - **Successful Case**
+     - Creates `MsgDecryptionResponse` with:
+       - `data`: The decrypted plaintext.
+       - `err`: None.
+   - **Error Case**
+     - In all error cases, returns `MsgDecryptionResponse` with:
+       - `data`: emptyByteString (zero-length byte string).
+       - `err`: Some "Decryption Failed".
+
+5. **Response Delivery**
+   - Response is sent back to the original requester.
+   - Uses mailbox 0 (default mailbox for responses).
+
+#### Important Notes:
+- The commitment engine is stateless - each request is handled .
 
 ## Action arguments
 
@@ -316,32 +397,3 @@ decryptionBehaviour : DecryptionBehaviour :=
   };
 ```
 <!-- --8<-- [end:decryptionBehaviour] -->
-
-## Decryption Action Flowchart
-
-### `decryptAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C[Conditions]
-    CMsg>MsgDecryptionRequest]
-  end
-
-  G(decryptGuard)
-  A(decryptAction)
-
-  C --> G -- *decryptActionLabel* --> A --> E
-
-  subgraph E[Effects]
-    EMsg>MsgDecryptionResponse<br/>decryptedData]
-  end
-```
-
-<figcaption markdown="span">
-
-`decryptAction` flowchart
-
-</figcaption>
-</figure>
