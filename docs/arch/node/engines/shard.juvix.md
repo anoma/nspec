@@ -249,14 +249,14 @@ a shard can send read information to an executor when
 it knows precisely which write happens most recently before the read,
 and that write has executed.
 
-### heardAllWrites
+### `heardAllWrites`
 
 In order to know which write happens most recently before a given
  read, the Shard must know that no further writes will be added to
  the timeline before the read.
 [[Mempool Engines|Mempool]] and [[Consensus Engine|consensus]] should
  communicate a lower bound on timestamps to the Shards, called
- `heardAllWrites`.
+ ```.
 The Shard is guaranteed to never receive another [[KVSAcquireLock]]
  with a write operation and
   Timestamp before  `heardAllWrites`.

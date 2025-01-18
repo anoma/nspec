@@ -25,7 +25,42 @@ These are the messages that the Shard engine can receive/respond to.
 
 ## Message interface
 
-### `ShardMsgKVSReadRequest KVSReadRequestMsg`
+--8<-- "./shard_messages.juvix.md:ShardMsg"
+
+## Message sequence diagrams
+
+### Transaction Lock and Read Flow
+
+<!-- --8<-- [start:message-sequence-diagram] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant WorkerEngine
+    participant Shard
+    participant Executor
+    participant Mempool
+    participant Consensus
+
+    WorkerEngine->>Shard: KVSAcquireLock
+    Shard->>WorkerEngine: KVSLockAcquired
+    Executor->>Shard: KVSReadRequest
+    Mempool->>Shard: UpdateSeenAll
+    Consensus->>Shard: AnchorChosen
+    Shard->>Executor: KVSRead
+    Executor->>Shard: KVSWrite
+```
+
+<figcaption markdown="span">
+Sequence Diagram: Transaction Lock and Read Flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram] -->
+
+
+## Message types
+
+### `KVSReadRequestMsg`
 
 Read request from an [[Executor Engine]].
 
@@ -51,7 +86,7 @@ type KVSReadRequestMsg : Type :=
     `actual`
     : True if value is actually needed, false if just cleaning up a lazy read
 
-### `ShardMsgKVSWrite KVSWriteMsg`
+### `KVSWriteMsg`
 
 Write request from an [[Executor Engine]].
 
@@ -77,7 +112,7 @@ type KVSWriteMsg : Type :=
     `datum`
     : The data to write, or `none` to indicate no write
 
-### `ShardMsgUpdateSeenAll UpdateSeenAllMsg`
+### `UpdateSeenAllMsg`
 
 Update about seen transactions from a [[Mempool Worker Engine]].
 
@@ -100,7 +135,7 @@ type UpdateSeenAllMsg : Type :=
     : Whether it is the `SeenAllReads` or `SeenAllWrites` to update.
 
 
-### `ShardMsgKVSAcquireLock KVSAcquireLockMsg`
+### `KVSAcquireLockMsg`
 
 Request to acquire locks for transaction execution.
 
@@ -142,7 +177,7 @@ type KVSAcquireLockMsg : Type :=
     `timestamp`
     : Specifies the transaction affiliated with these locks
 
-### `ShardMsgKVSLockAcquired KVSLockAcquiredMsg`
+### `KVSLockAcquiredMsg`
 
 Confirmation that locks were acquired.
 
@@ -160,7 +195,7 @@ type KVSLockAcquiredMsg : Type :=
     `timestamp`
     : The timestamp of the transaction which was locked.
 
-### `ShardMsgKVSRead KVSReadMsg`
+### `KVSReadMsg`
 
 Value read response to executor.
 
@@ -200,33 +235,3 @@ type ShardMsg :=
   ;
 ```
 <!-- --8<-- [end:ShardMsg] -->
-
-## Sequence Diagrams
-
-### Transaction Lock and Read Flow
-
-<!-- --8<-- [start:message-sequence-diagram] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant WorkerEngine
-    participant Shard
-    participant Executor
-    participant Mempool
-    participant Consensus
-
-    WorkerEngine->>Shard: KVSAcquireLock
-    Shard->>WorkerEngine: KVSLockAcquired
-    Executor->>Shard: KVSReadRequest
-    Mempool->>Shard: UpdateSeenAll
-    Consensus->>Shard: AnchorChosen
-    Shard->>Executor: KVSRead
-    Executor->>Shard: KVSWrite
-```
-
-<figcaption markdown="span">
-Sequence Diagram: Transaction Lock and Read Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
