@@ -21,7 +21,32 @@ tags:
 
 ## Message interface
 
-### `MsgCommitmentRequest RequestCommitment`
+--8<-- "./commitment_messages.juvix.md:CommitmentMsg"
+
+### Message sequence diagrams
+
+<!-- --8<-- [start:message-sequence-diagram] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant CE as Commitment Engine
+
+    C->>CE: RequestCommitment(data)
+    Note over CE: Generate commitment using internal signer
+    CE-->>C: ResponseCommitment(commitment)
+```
+
+<figcaption markdown="span">
+Sequence diagram for commitment generation.
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram] -->
+
+## Message types
+
+### `RequestCommitment`
 
 ```juvix
 type RequestCommitment := mkRequestCommitment {
@@ -36,7 +61,7 @@ commitment (signature) over the provided data.
     `data`:
     : The data to sign.
 
-### `MsgCommitmentResponse ResponseCommitment`
+### `ResponseCommitment`
 
 ```juvix
 type ResponseCommitment := mkResponseCommitment {
@@ -66,29 +91,6 @@ type CommitmentMsg :=
   ;
 ```
 <!-- --8<-- [end:CommitmentMsg] -->
-
-## Message sequence diagrams
-
-### Commitment Generation Sequence
-
-<!-- --8<-- [start:message-sequence-diagram] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant CE as Commitment Engine
-
-    C->>CE: RequestCommitment(data)
-    Note over CE: Generate commitment using internal signer
-    CE-->>C: ResponseCommitment(commitment)
-```
-
-<figcaption markdown="span">
-Sequence diagram for commitment generation.
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram] -->
 
 ## Engine Components
 
