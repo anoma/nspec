@@ -312,39 +312,39 @@ flowchart TD
 
 1. **Initial Request**
    - A worker sends a `ShardMsgUpdateSeenAll` containing:
-     - `timestamp`: The new barrier position in the transaction timeline
-     - `write`: Boolean flag indicating if this updates the write barrier or read barrier
-   - This represents a guarantee from the worker about transaction ordering
+     - `timestamp`: The new barrier position in the transaction timeline.
+     - `write`: Boolean flag indicating if this updates the write barrier or read barrier.
+   - This represents a guarantee from the worker about transaction ordering.
 
 2. **Guard Phase** (`updateSeenAllGuard`)
-   - Verifies message type is `ShardMsgUpdateSeenAll`
-   - If validation fails, request is rejected immediately
-   - On success, passes control to `updateSeenAllActionLabel`
+   - Verifies message type is `ShardMsgUpdateSeenAll`.
+   - If validation fails, request is rejected immediately.
+   - On success, passes control to `updateSeenAllActionLabel`.
 
 3. **Action Phase** (`updateSeenAllAction`)
    - Processes valid update requests through these steps:
-     - Determines barrier type (write vs read) from message
+     - Determines barrier type (write vs read) from message.
      - For write barriers:
-       - Updates `heardAllWrites` to new timestamp
-       - Checks for eager reads that can now execute
-       - Prepares read messages for eligible reads
+       - Updates `heardAllWrites` to new timestamp.
+       - Checks for eager reads that can now execute.
+       - Prepares read messages for eligible reads.
      - For read barriers:
-       - Updates `heardAllReads` to new timestamp
-       - No immediate read processing needed
+       - Updates `heardAllReads` to new timestamp.
+       - No immediate read processing needed.
 
 4. **Response Generation**
    - For write barrier updates:
      - If eligible eager reads found:
-       - Creates `KVSRead` messages for each eligible read
-       - Includes value and timestamp for each read
-     - If no eligible reads, completes with no messages
+       - Creates `KVSRead` messages for each eligible read.
+       - Includes value and timestamp for each read.
+     - If no eligible reads, completes with no messages.
    - For read barrier updates:
-     - Always completes with no messages
-     - Read barrier updates are used for garbage collection, not triggering reads
+     - Always completes with no messages.
+     - Read barrier updates are used for garbage collection, not triggering reads.
 
 5. **Message Delivery**
-   - Any generated read messages are sent to their respective executors
-   - No acknowledgment is sent back to the worker
+   - Any generated read messages are sent to their respective executors.
+   - No acknowledgment is sent back to the worker.
 
 ## Action arguments
 
