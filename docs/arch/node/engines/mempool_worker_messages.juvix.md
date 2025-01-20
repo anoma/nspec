@@ -26,7 +26,40 @@ These are the specific messages that the Mempool Worker engine can receive/respo
 
 ## Message interface
 
-### `MempoolWorkerMsgTransactionRequest TransactionRequest`
+--8<-- "./mempool_worker_messages.juvix.md:MempoolWorkerMsg"
+
+## Message sequence diagrams
+
+### Transaction Request Flow
+
+<!-- --8<-- [start:message-sequence-diagram-transaction-request] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant MempoolWorker
+    participant Shard
+    participant Executor
+
+    User->>MempoolWorker: MempoolWorkerMsgTransactionRequest
+    MempoolWorker->>User: MempoolWorkerMsgTransactionAck
+    MempoolWorker->>Shard: KVSAcquireLock
+    Shard->>MempoolWorker: KVSLockAcquired
+    MempoolWorker->>Executor: ExecutorPIDAssigned
+    Executor->>MempoolWorker: ExecutorFinished
+```
+
+<figcaption markdown="span">
+Sequence Diagram: Transaction Request Flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-transaction-request] -->
+
+
+## Message types
+
+### `TransactionRequest`
 
 A request from a user or solver to order and execute a transaction candidate.
 
@@ -48,7 +81,7 @@ type TransactionRequest : Type :=
     `resubmission`
     : Optional reference to a previous occurrence of the same transaction candidate (currently unused).
 
-### `MempoolWorkerMsgTransactionAck TransactionAck`
+### `TransactionAck`
 
 Acknowledgment sent to the user or solver that a transaction request has been accepted.
 
@@ -92,31 +125,3 @@ type MempoolWorkerMsg :=
   ;
 ```
 <!-- --8<-- [end:MempoolWorkerMsg] -->
-
-## Sequence Diagrams
-
-### Transaction Request Flow
-
-<!-- --8<-- [start:message-sequence-diagram-transaction-request] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant MempoolWorker
-    participant Shard
-    participant Executor
-
-    User->>MempoolWorker: MempoolWorkerMsgTransactionRequest
-    MempoolWorker->>User: MempoolWorkerMsgTransactionAck
-    MempoolWorker->>Shard: KVSAcquireLock
-    Shard->>MempoolWorker: KVSLockAcquired
-    MempoolWorker->>Executor: ExecutorPIDAssigned
-    Executor->>MempoolWorker: ExecutorFinished
-```
-
-<figcaption markdown="span">
-Sequence Diagram: Transaction Request Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-transaction-request] -->

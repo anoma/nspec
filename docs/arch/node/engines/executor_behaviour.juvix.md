@@ -34,6 +34,151 @@ tags:
 
 The executor behaviour defines how it processes incoming read responses and performs state transitions to execute the transaction program.
 
+## Executor Action Flowcharts
+
+### `processRead` Flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Receive Message]) --> Msg[ShardMsgKVSRead<br/>key: KVSKey<br/>data: KVSDatum]
+
+    subgraph Guard["processReadGuard"]
+        Msg --> CheckMsg{Is message<br/>ShardMsgKVSRead?}
+        CheckMsg -->|No| Reject([Reject Message])
+        CheckMsg -->|Yes| ValidTS{Matching<br/>timestamp?}
+        ValidTS -->|No| Reject
+        ValidTS -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["processReadAction"]
+        direction TB
+        ComputeStale["Compute stale locks:<br/>1. Find uncompleted reads<br/>2. Find uncompleted writes<br/>3. Create cleanup messages"]
+        ExecStep[Execute program step<br/>with read data]
+        ExecStep --> StepResult{Step<br/>Result?}
+        StepResult -->|Error| ErrBranch[Create error response<br/>with read/write history]
+        StepResult -->|Success| SuccessBranch[Update program state<br/>Track completed read]
+        SuccessBranch --> CheckHalt{Program<br/>Halted?}
+        CheckHalt -->|Yes| FinishOk[Create success response<br/>with read/write history]
+        CheckHalt -->|No| GenMsgs[Generate messages for<br/>new reads/writes]
+    end
+
+    ErrBranch --> AddStaleErr[Add stale lock<br/>cleanup messages]
+    FinishOk --> AddStaleOk[Add stale lock<br/>cleanup messages]
+
+    GenMsgs --> Parse[Parse step outputs]
+
+    subgraph ProcessOutputs["Process Step Outputs"]
+        Parse --> CheckType{Output<br/>Type?}
+        CheckType -->|Read Request| ReadBranch[Create KVSReadRequest<br/>if key in read sets]
+        CheckType -->|Write Request| WriteBranch[Create KVSWrite<br/>if key in write sets]
+
+        ReadBranch --> ValidRead{Key in<br/>read sets?}
+        ValidRead -->|Yes| AddRead[Add to read<br/>message list]
+        ValidRead -->|No| SkipRead[Skip invalid<br/>read request]
+
+        WriteBranch --> ValidWrite{Key in<br/>write sets?}
+        ValidWrite -->|Yes| AddWrite[Add to write<br/>message list]
+        ValidWrite -->|No| SkipWrite[Skip invalid<br/>write request]
+    end
+
+    AddRead --> Collect[Collect all<br/>generated messages]
+    AddWrite --> Collect
+    SkipRead --> Collect
+    SkipWrite --> Collect
+
+    subgraph StaleComputation["Stale Lock Processing"]
+        ComputeStale --> FindReads[Find difference between<br/>lazy_read_keys and<br/>completed reads]
+        ComputeStale --> FindWrites[Find difference between<br/>may_write_keys and<br/>completed writes]
+        FindReads --> CreateRead[Create cleanup read<br/>messages with actual=false]
+        FindWrites --> CreateWrite[Create cleanup write<br/>messages with datum=none]
+        CreateRead & CreateWrite --> CombineMsgs[Combine cleanup messages]
+    end
+
+    CombineMsgs -.-> AddStaleErr
+    CombineMsgs -.-> AddStaleOk
+
+    AddStaleErr --> NotifyFail[Send ExecutorFinished<br/>with error + cleanup messages]
+    AddStaleOk --> NotifySuccess[Send ExecutorFinished<br/>with success + cleanup messages]
+    Collect --> SendMsgs[Send generated<br/>read/write messages]
+
+    NotifyFail & NotifySuccess & SendMsgs --> End([Complete])
+```
+
+<figcaption markdown="span">
+
+`processRead` flowchart showing read handling and execution steps
+
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request Processing**
+   - A client sends a `ShardMsgKVSRead` message containing:
+     - `key`: The state key that was read.
+     - `data`: The actual data value for that key.
+     - A timestamp that identifies this execution context.
+   - The message first passes through the guard phase which:
+     - Validates the message is a `ShardMsgKVSRead`.
+     - Ensures the timestamp matches this executor's configured timestamp.
+     - Rejects messages that fail either check.
+     - Routes valid messages to the action phase.
+
+2. **Program Execution**
+   - The action phase begins by executing the next program step:
+     - Takes the current program state as context.
+     - Provides the newly read key-value pair as input.
+     - Produces either an error or a new program state with outputs.
+   - On error:
+     - Creates response detailing why execution failed.
+     - Includes lists of all completed reads and writes.
+     - Triggers stale lock cleanup before responding.
+   - On success:
+     - Updates internal program state with execution results.
+     - Records the completed read in its tracking.
+     - Determines if program has halted or continues.
+
+3. **Continuation Flow**
+   - If program hasn't halted:
+     - Processes program outputs to generate new messages.
+     - For read requests:
+       - Validates key is in allowed read sets (lazy or eager).
+       - Creates `KVSReadRequest` messages for valid reads.
+     - For write operations:
+       - Validates key is in allowed write sets (will or may).
+       - Creates `KVSWrite` messages for valid writes
+     - Sends all generated messages to appropriate shards.
+     - Awaits next read response to continue execution.
+
+4. **Completion Flow**
+   - When program halts (either naturally or from error):
+     - Computes stale lock information:
+       - Finds difference between lazy_read_keys and actual reads.
+       - Finds difference between may_write_keys and actual writes.
+     - Generates cleanup messages:
+       - `KVSReadRequest` with actual=false for unused reads.
+       - `KVSWrite` with datum=none for unused writes.
+     - Creates `ExecutorFinished` message containing:
+       - Success/failure status
+       - Complete list of values read
+       - Complete list of values written
+     - Sends cleanup messages and finished notification.
+     - Terminates executor instance.
+
+5. **Response Delivery**
+   - All responses are sent back using:
+     - Executor's ID as sender.
+     - Original requester as target.
+     - Mailbox 0 (default response mailbox).
+   - Three possible response patterns:
+     - Error case: ExecutorFinished (success=false) + stale cleanup.
+     - Success case: ExecutorFinished (success=true) + stale cleanup.
+     - Continuation case: New read/write messages.
+
 ## Action arguments
 
 ### `ExecutorActionArguments`
@@ -146,6 +291,8 @@ processReadAction
         writes := ExecutorLocalState.completed_writes local;
 
         -- Precompute messages to notify shards of stale locks
+        -- These inform the shards that they can release pending locks in the
+        -- case that the executor halts.
         staleReadMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
           envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
@@ -393,35 +540,3 @@ executorBehaviour : ExecutorBehaviour :=
   };
 ```
 <!-- --8<-- [end:executorBehaviour] -->
-
-## Executor Action Flowcharts
-
-### `processRead` Flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C[Conditions]
-    CMsg>ShardMsgKVSRead]
-  end
-
-  G(processReadGuard)
-  A(processReadAction)
-
-  C --> G -- *processReadActionLabel* --> A --> E
-
-  subgraph E[Effects]
-    EEnv[(Update program state and tracked reads/writes)]
-    EStep[(Execute step)]
-    EMsg>Write messages to shards]
-    EFin>ExecutorFinished if halted]
-  end
-```
-
-<figcaption markdown="span">
-
-`processRead` flowchart showing read handling and execution steps
-
-</figcaption>
-</figure>
