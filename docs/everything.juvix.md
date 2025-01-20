@@ -17,6 +17,7 @@ module everything;
 {- Prelude -}
 
 import prelude;
+import anomian;
 
 {- System -}
 
