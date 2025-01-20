@@ -200,6 +200,7 @@ nav:
                   - Mempool Worker Engine:
                       - Mempool Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
                       - Mempool Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
+                      - Mempool Worker Configuration: ./arch/node/engines/mempool_worker_config.juvix.md
                       - Mempool Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
                       - Mempool Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
               - Execution engines:
@@ -207,11 +208,13 @@ nav:
                   - Shard:
                       - Shard Engine: ./arch/node/engines/shard.juvix.md
                       - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
+                      - Shard Configuration: ./arch/node/engines/shard_config.juvix.md
                       - Shard Environment: ./arch/node/engines/shard_environment.juvix.md
                       - Shard Behaviour: ./arch/node/engines/shard_behaviour.juvix.md
                   - Executor:
                       - Executor Engine: ./arch/node/engines/executor.juvix.md
                       - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
+                      - Executor Configuration: ./arch/node/engines/executor_config.juvix.md
                       - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
                       - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
   - Index of links: ./indexes/links.md
@@ -251,6 +254,7 @@ nav:
                   - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
                   - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
                   - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
+  - Anomian: ./anomian.juvix.md
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
