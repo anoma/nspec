@@ -25,6 +25,8 @@ tags:
 
 ## Message sequence diagrams
 
+---
+
 ### Resolving a name
 
 <!-- --8<-- [start:message-sequence-diagram-name-resolution] -->
@@ -45,6 +47,8 @@ Resolving a name
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-name-resolution] -->
+
+---
 
 ### Submitting name evidence
 
@@ -67,6 +71,8 @@ Submitting name evidence
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
 
+---
+
 ### Querying name evidence
 
 <!-- --8<-- [start:message-sequence-diagram-query] -->
@@ -88,7 +94,11 @@ Querying name evidence for an identity.
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query] -->
 
+---
+
 ## Message types
+
+---
 
 ### `RequestResolveName`
 
@@ -104,6 +114,8 @@ associated with a given `IdentityName`.
 ???+ quote "Arguments"
     `identityName`:
     : The name to resolve.
+
+---
 
 ### `ResponseResolveName`
 
@@ -124,6 +136,8 @@ A `ResponseResolveName` is returned in response to a `RequestResolveName`.
     `err`:
     : An error message if the resolution failed.
 
+---
+
 ### `RequestSubmitNameEvidence`
 
 ```juvix
@@ -140,6 +154,8 @@ of IdentityNameEvidence.
     `evidence`:
     : The evidence supporting the association between an IdentityName and an ExternalIdentity.
 
+---
+
 ### `ResponseSubmitNameEvidence`
 
 ```juvix
@@ -153,6 +169,8 @@ A `ResponseSubmitNameEvidence` is sent in response to a `RequestSubmitNameEviden
 ???+ quote "Arguments"
     `err`:
     : An error message if the submission failed.
+
+---
 
 ### `RequestQueryNameEvidence`
 
@@ -169,6 +187,8 @@ A `RequestQueryNameEvidence` instructs the Naming Engine to return any known
 ???+ quote "Arguments"
     `externalIdentity`:
     : The identity for which to retrieve evidence.
+
+---
 
 ### `ResponseQueryNameEvidence`
 
@@ -192,6 +212,8 @@ A `ResponseQueryNameEvidence` provides the requested evidence.
     `err`:
     : An error message if the query failed.
 
+---
+
 ### `NamingMsg`
 
 <!-- --8<-- [start:NamingMsg] -->
@@ -206,6 +228,8 @@ type NamingMsg :=
   ;
 ```
 <!-- --8<-- [end:NamingMsg] -->
+
+---
 
 ## Engine Components
 

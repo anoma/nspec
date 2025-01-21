@@ -27,6 +27,8 @@ These are the messages that the *Template Minimum* engine can receive/respond to
 
 ## Message sequence diagrams
 
+---
+
 ### `ExampleRequest` and `ExampleReply`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -55,9 +57,13 @@ Sequence Diagram: `ExampleRequest` & `ExampleReply`
 
 ## Message types
 
+---
+
 ### `TemplateMinimumMsgJustHi`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+---
 
 ### `ExampleRequest`
 
@@ -81,6 +87,8 @@ type ExampleRequest : Type :=
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+---
+
 #### `ExampleReply`
 
 ???+ quote "Auxiliary types"
@@ -93,6 +101,7 @@ type ExampleRequest : Type :=
     };
     ```
 
+    ---
     ### `ReplyError`
 
     ```juvix
@@ -107,6 +116,8 @@ ExampleReply : Type := Result ReplyError ReplyPayload;
 ```
 <!-- --8<-- [end:ExampleReply] -->
 
+---
+
 ### `TemplateMinimumMsg`
 
 <!-- --8<-- [start:TemplateMinimumMsg] -->
@@ -118,6 +129,8 @@ type TemplateMinimumMsg :=
   ;
 ```
 <!-- --8<-- [end:TemplateMinimumMsg] -->
+
+---
 
 ## Engine Components
 

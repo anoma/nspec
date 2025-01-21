@@ -25,6 +25,8 @@ tags:
 
 ## Message sequence diagram
 
+---
+
 ### Requesting a counter value
 
 <!-- --8<-- [start:message-sequence-diagram] -->
@@ -51,17 +53,25 @@ A client interacts with the `Ticker` engine, which increments and responds with 
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
+---
+
 ## Message types
+
+---
 
 ### `TickerMsgIncrement`
 
 A `TickerMsgIncrement` message instructs the engine to increase the counter.
 This message doesn't require any arguments.
 
+---
+
 ### `TickerMsgCountRequest`
 
 A `TickerMsgCountRequest` message requests the engine to send the current counter value back to
 the requester. This message doesn't require any arguments.
+
+---
 
 ### `CountReply`
 
@@ -74,6 +84,8 @@ type CountReply : Type :=
   }
 ```
 
+---
+
 ### `TickerMsg`
 
 <!-- --8<-- [start:TickerMsg] -->
@@ -84,6 +96,8 @@ type TickerMsg :=
   | TickerMsgCountReply CountReply
 ```
 <!-- --8<-- [end:TickerMsg] -->
+
+---
 
 ## Engine Components
 

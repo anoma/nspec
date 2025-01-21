@@ -25,7 +25,10 @@ These are the messages that the Template engine can receive/respond to.
 
 --8<-- "./template_messages.juvix.md:TemplateMsg"
 
+
 ## Message sequence diagrams
+
+---
 
 ### `ExampleRequest` and `ExampleReply`
 
@@ -53,11 +56,17 @@ Sequence Diagram: `ExampleRequest` & `ExampleReply`
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
 
+---
+
 ## Message types
+
+---
 
 ### `TemplateMsgJustHi`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+---
 
 ### `ExampleRequest`
 
@@ -80,6 +89,8 @@ type ExampleRequest : Type :=
 
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+---
 
 ### `ExampleReply`
 
@@ -104,6 +115,8 @@ Reply to an `ExampleRequest`.
 
         `argOne`
         : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+    ---
 
     #### `ExampleReplyError`
 
@@ -130,6 +143,8 @@ ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
 ```
 <!-- --8<-- [end:ExampleReply] -->
 
+---
+
 ### `TemplateMsg`
 
 <!-- --8<-- [start:TemplateMsg] -->
@@ -141,6 +156,8 @@ type TemplateMsg :=
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->
+
+---
 
 ## Engine Components
 

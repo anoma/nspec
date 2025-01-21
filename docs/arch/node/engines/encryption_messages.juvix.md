@@ -73,6 +73,8 @@ Sequence diagram for encryption (with `reads_for` evidence).
 
 ## Message types
 
+---
+
 ### `RequestEncrypt`
 
 ```juvix
@@ -97,6 +99,8 @@ particular external identity, possibly using known `reads_for` relationships.
     `useReadsFor`:
     : Whether to use known `reads_for` relationships or not.
 
+---
+
 ### `ResponseEncrypt`
 
 ```juvix
@@ -117,6 +121,8 @@ response to a `RequestEncrypt`.
     `err`:
     : An error message if encryption failed.
 
+---
+
 ### `EncryptionMsg`
 
 <!-- --8<-- [start:EncryptionMsg] -->
@@ -127,6 +133,8 @@ type EncryptionMsg :=
   ;
 ```
 <!-- --8<-- [end:EncryptionMsg] -->
+
+---
 
 ## Engine Components
 

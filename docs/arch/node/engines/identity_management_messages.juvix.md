@@ -25,6 +25,8 @@ tags:
 
 ## Message sequence diagrams
 
+---
+
 ### Generating an identity
 
 <!-- --8<-- [start:message-sequence-diagram-generate] -->
@@ -50,6 +52,8 @@ Generating an identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-generate] -->
 
+---
+
 ### Connecting to an existing identity
 
 <!-- --8<-- [start:message-sequence-diagram-connect] -->
@@ -73,6 +77,8 @@ Connecting to an existing identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-connect] -->
 
+---
+
 ### Deleting an identity
 
 <!-- --8<-- [start:message-sequence-diagram-delete] -->
@@ -94,6 +100,8 @@ Deleting an identity
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-delete] -->
+
+---
 
 ## Message types
 
@@ -120,6 +128,8 @@ a new identity using the specified backend, parameters, and capabilities.
 
     `capabilities`:
     : Capabilities to request (e.g., commitment, decryption, or both).
+
+---
 
 ### `ResponseGenerateIdentity`
 
@@ -150,6 +160,8 @@ failure occurred.
     `err`:
     : An error message if identity generation failed.
 
+---
+
 ### `RequestConnectIdentity`
 
 ```juvix
@@ -173,6 +185,8 @@ to an existing identity using the specified backend.
 
     `capabilities`:
     : Capabilities to request (e.g., commitment, decryption, or both).
+
+---
 
 ### `ResponseConnectIdentity`
 
@@ -199,6 +213,8 @@ occurred.
     `err`:
     : An error message if identity connection failed.
 
+---
+
 ### `RequestDeleteIdentity`
 
 ```juvix
@@ -219,6 +235,8 @@ existing identity using the specified backend.
     `backend`:
     : The backend to use for deletion.
 
+---
+
 ### `ResponseDeleteIdentity`
 
 ```juvix
@@ -235,6 +253,8 @@ identity.
     `err`:
     : An error message if identity deletion failed.
 
+---
+
 ### `IdentityManagementMsg`
 
 <!-- --8<-- [start:IdentityManagementMsg] -->
@@ -249,6 +269,8 @@ type IdentityManagementMsg :=
   ;
 ```
 <!-- --8<-- [end:IdentityManagementMsg] -->
+
+---
 
 ## Engine Components
 

@@ -29,6 +29,8 @@ These are the messages that the Shard engine can receive/respond to.
 
 ## Message sequence diagrams
 
+---
+
 ### Transaction lock and read flow
 
 <!-- --8<-- [start:message-sequence-diagram] -->
@@ -57,7 +59,11 @@ Sequence Diagram: Transaction Lock and Read Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
+---
+
 ## Message types
+
+---
 
 ### `KVSReadRequestMsg`
 
@@ -85,6 +91,8 @@ type KVSReadRequestMsg : Type :=
     `actual`
     : True if value is actually needed, false if just cleaning up a lazy read
 
+---
+
 ### `KVSWriteMsg`
 
 Write request from an [[Executor Engine]].
@@ -111,6 +119,8 @@ type KVSWriteMsg : Type :=
     `datum`
     : The data to write, or `none` to indicate no write
 
+---
+
 ### `UpdateSeenAllMsg`
 
 Update about seen transactions from a [[Mempool Worker Engine]].
@@ -133,6 +143,7 @@ type UpdateSeenAllMsg : Type :=
     `write`
     : Whether it is the `SeenAllReads` or `SeenAllWrites` to update.
 
+---
 
 ### `KVSAcquireLockMsg`
 
@@ -176,6 +187,8 @@ type KVSAcquireLockMsg : Type :=
     `timestamp`
     : Specifies the transaction affiliated with these locks
 
+---
+
 ### `KVSLockAcquiredMsg`
 
 Confirmation that locks were acquired.
@@ -193,6 +206,8 @@ type KVSLockAcquiredMsg : Type :=
 
     `timestamp`
     : The timestamp of the transaction which was locked.
+
+---
 
 ### `KVSReadMsg`
 
@@ -220,6 +235,8 @@ type KVSReadMsg : Type :=
     `data`
     : The the data read.
 
+---
+
 ### `ShardMsg`
 
 <!-- --8<-- [start:ShardMsg] -->
@@ -234,6 +251,8 @@ type ShardMsg :=
   ;
 ```
 <!-- --8<-- [end:ShardMsg] -->
+
+---
 
 ## Engine Components
 

@@ -25,6 +25,8 @@ tags:
 
 ## Message sequence diagrams
 
+---
+
 ### Submitting `reads_for` evidence
 
 <!-- --8<-- [start:message-sequence-diagram-submit] -->
@@ -45,6 +47,8 @@ Submitting `reads_for` evidence
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
+
+---
 
 ### Querying a `reads_for` relationship
 
@@ -67,7 +71,9 @@ Querying a reads_for relationship
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-relationship] -->
 
-  ### Querying `reads_for` evidence
+---
+
+### Querying `reads_for` evidence
 
 <!-- --8<-- [start:message-sequence-diagram-query-evidence] -->
 <figure markdown="span">
@@ -88,7 +94,11 @@ Querying reads_for evidence for an identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
 
+---
+
 ## Message types
+
+---
 
 ### `RequestReadsFor`
 
@@ -110,6 +120,8 @@ A request to query whether `externalIdentityA` can read data encrypted to
     `externalIdentityB`:
     : The identity being read for.
 
+---
+
 ### `ResponseReadsFor`
 
 ```juvix
@@ -129,6 +141,8 @@ Response indicating whether the `reads_for` relationship exists.
     `err`:
     : An error message if the query failed.
 
+---
+
 ### `RequestSubmitReadsForEvidence`
 
 ```juvix
@@ -143,6 +157,8 @@ Request to submit evidence of a `reads_for` relationship.
 
     `evidence`:
     : The evidence supporting the `reads_for` relationship.
+
+---
 
 ### `ResponseSubmitReadsForEvidence`
 
@@ -159,6 +175,8 @@ Response acknowledging the submission of evidence.
     `err`:
     : An error message if the submission failed.
 
+---
+
 ### `RequestQueryReadsForEvidence`
 
 ```juvix
@@ -173,6 +191,8 @@ Request to query all `reads_for` evidence related to an identity.
 
     `externalIdentity`:
     : The identity for which to retrieve evidence.
+
+---
 
 ### `ResponseQueryReadsForEvidence`
 
@@ -197,6 +217,8 @@ Response providing the requested evidence.
     `err`:
     : An error message if the query failed.
 
+---
+
 ### `ReadsForMsg`
 
 <!-- --8<-- [start:ReadsForMsg] -->
@@ -210,7 +232,9 @@ type ReadsForMsg :=
   | MsgQueryReadsForEvidenceResponse ResponseQueryReadsForEvidence
   ;
 ```
-<!-- --8<-- [start:ReadsForMsg] -->
+<!-- --8<-- [end:ReadsForMsg] -->
+
+---
 
 ## Engine Components
 

@@ -25,6 +25,8 @@ tags:
 
 ## Message sequence diagrams
 
+---
+
 ### Submitting `signs_for` evidence
 
 <!-- --8<-- [start:message-sequence-diagram-submit] -->
@@ -45,6 +47,8 @@ Submitting evidence of a signs_for relationship
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
+
+---
 
 ### Querying `signs_for` relationship
 
@@ -67,6 +71,8 @@ Querying whether a specific signs_for relationship exists
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-relation] -->
 
+---
+
 ### Retrieving `signs_for` evidence
 
 <!-- --8<-- [start:message-sequence-diagram-query-evidence] -->
@@ -88,7 +94,11 @@ Retrieving all signs_for evidence related to a particular identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
 
+--- 
+
 ## Message types
+
+---
 
 ### `RequestSignsFor`
 
@@ -110,6 +120,8 @@ A `RequestSignsFor` queries whether `externalIdentityA` can sign on behalf of
     `externalIdentityB`:
     : The identity on whose behalf the signature is made.
 
+---
+
 ### `MsgSignsForResponse ResponseSignsFor`
 
 ```juvix
@@ -129,6 +141,8 @@ A `ResponseSignsFor` indicates whether the `signs_for` relationship exists.
     `err`:
     : An error message if the query failed.
 
+---
+
 ### `RequestSubmitSignsForEvidence`
 
 ```juvix
@@ -143,6 +157,8 @@ A `RequestSubmitSignsForEvidence` submits evidence of a `signs_for` relationship
 
     `evidence`:
     : The evidence supporting the `signs_for` relationship.
+
+---
 
 ### `ResponseSubmitSignsForEvidence`
 
@@ -159,6 +175,8 @@ A `ResponseSubmitSignsForEvidence` acknowledges the submission of evidence.
     `err`:
     : An error message if the submission failed.
 
+---
+
 ### `RequestQuerySignsForEvidence`
 
 ```juvix
@@ -173,6 +191,8 @@ A `RequestQuerySignsForEvidence` queries all `signs_for` evidence related to an 
 
     `externalIdentity`:
     : The identity for which to retrieve evidence.
+
+---
 
 ### `ResponseQuerySignsForEvidence`
 
@@ -197,6 +217,8 @@ A `ResponseQuerySignsForEvidence` provides the requested evidence.
     `err`:
     : An error message if the query failed.
 
+---
+
 ### `SignsForMsg`
 
 <!-- --8<-- [start:SignsForMsg] -->
@@ -211,6 +233,8 @@ type SignsForMsg :=
   ;
 ```
 <!-- --8<-- [end:SignsForMsg] -->
+
+---
 
 ## Engine Components
 

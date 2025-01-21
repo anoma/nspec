@@ -23,7 +23,10 @@ tags:
 
 --8<-- "./commitment_messages.juvix.md:CommitmentMsg"
 
+
 ## Message sequence diagrams
+
+---
 
 ### Request sequence
 
@@ -47,6 +50,8 @@ Sequence diagram for commitment generation.
 <!-- --8<-- [end:message-sequence-diagram] -->
 
 ## Message types
+
+---
 
 ### `RequestCommitment`
 

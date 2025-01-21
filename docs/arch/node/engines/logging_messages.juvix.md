@@ -23,9 +23,11 @@ These are the messages that the Logging engine can receive/respond to.
 
 ## Message interface
 
---8<-- "./logging_messages.juvix:LoggingMsg"
+--8<-- "./logging_messages.juvix.md:LoggingMsg"
 
 ## Message sequence diagrams
+
+---
 
 ### Appending a log entry
 
@@ -47,7 +49,11 @@ A local engine sends a log entry to be appended to the logbook
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
+---
+
 ## Message types
+
+---
 
 ### `AppendValue`
 
@@ -64,6 +70,8 @@ type AppendValue := mkAppendValue {
     `value`:
     : The value in string format to be added to the logbook.
 
+---
+
 ### `LoggingMsg`
 
 <!-- --8<-- [start:LoggingMsg] -->
@@ -72,6 +80,8 @@ type LoggingMsg :=
   | LoggingMsgAppend AppendValue;
 ```
 <!-- --8<-- [end:LoggingMsg] -->
+
+---
 
 ## Engine Components
 

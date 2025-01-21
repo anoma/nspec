@@ -29,6 +29,8 @@ These are the specific messages that the Executor engine can receive/respond to.
 
 ## Message sequence diagram
 
+---
+
 ### Execution flow
 
 <!-- --8<-- [start:message-sequence-diagram] -->
@@ -51,7 +53,11 @@ Basic execution flow sequence showing interaction with shards and completion not
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
+---
+
 ## Message types
+
+---
 
 ### `ExecutorFinishedMsg`
 
@@ -68,6 +74,8 @@ type ExecutorFinishedMsg : Type :=
 ```
 <!-- --8<-- [end:ExecutorFinishedMsg] -->
 
+---
+
 ???+ quote "Arguments"
 
     `success`
@@ -79,6 +87,8 @@ type ExecutorFinishedMsg : Type :=
     `values_written`
     : List of all key-value pairs that were written
 
+---
+
 ### `ExecutorMsg`
 
 <!-- --8<-- [start:ExecutorMsg] -->
@@ -88,6 +98,8 @@ type ExecutorMsg :=
   ;
 ```
 <!-- --8<-- [end:ExecutorMsg] -->
+
+---
 
 ## Engine Components
 
