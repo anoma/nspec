@@ -17,9 +17,9 @@ actor-like entity encapsulating the [[Engine Environment|engine environment]] an
 [[Engine Behaviour|behaviour]] of a computational process. In Anoma, every
 engine instance is of a specific type. Engines of the same type share the same
 [[Engine Behaviour|behaviour]]. However, two engines instances of the same type may have different
-[[Engine Environment|execution context]], 
+[[Engine Environment|execution context]],
 which in turn may lead to a different message reaction pattern.
-We often simply write engine, 
+We often simply write engine,
 whenever the context makes clear that we refer to a term of an engine type.
 
 ## Engine components
