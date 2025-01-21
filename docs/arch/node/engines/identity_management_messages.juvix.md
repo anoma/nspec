@@ -23,10 +23,9 @@ tags:
 
 --8<-- "./identity_management_messages.juvix:IdentityManagementMsg"
 
-
 ## Message sequence diagrams
 
-### Generating an Identity
+### Generating an identity
 
 <!-- --8<-- [start:message-sequence-diagram-generate] -->
 <figure markdown="span">
@@ -51,7 +50,7 @@ Generating an identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-generate] -->
 
-### Connecting to an Existing Identity
+### Connecting to an existing identity
 
 <!-- --8<-- [start:message-sequence-diagram-connect] -->
 <figure markdown="span">
@@ -74,7 +73,7 @@ Connecting to an existing identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-connect] -->
 
-### Deleting an Identity
+### Deleting an identity
 
 <!-- --8<-- [start:message-sequence-diagram-delete] -->
 <figure markdown="span">

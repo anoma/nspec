@@ -140,6 +140,7 @@ type RequestSubmitSignsForEvidence := mkRequestSubmitSignsForEvidence {
 A `RequestSubmitSignsForEvidence` submits evidence of a `signs_for` relationship.
 
 ???+ quote "Arguments"
+
     `evidence`:
     : The evidence supporting the `signs_for` relationship.
 
@@ -154,6 +155,7 @@ type ResponseSubmitSignsForEvidence := mkResponseSubmitSignsForEvidence {
 A `ResponseSubmitSignsForEvidence` acknowledges the submission of evidence.
 
 ???+ quote "Arguments"
+
     `err`:
     : An error message if the submission failed.
 
@@ -168,6 +170,7 @@ type RequestQuerySignsForEvidence := mkRequestQuerySignsForEvidence {
 A `RequestQuerySignsForEvidence` queries all `signs_for` evidence related to an identity.
 
 ???+ quote "Arguments"
+
     `externalIdentity`:
     : The identity for which to retrieve evidence.
 

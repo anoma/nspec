@@ -23,7 +23,7 @@ tags:
 
 --8<-- "./reads_for_messages.juvix:ReadsForMsg"
 
-## Message Sequence Diagrams
+## Message sequence diagrams
 
 ### Submitting `reads_for` evidence
 
@@ -46,7 +46,7 @@ Submitting `reads_for` evidence
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
 
-### Querying reads_for relationship
+### Querying a `reads_for` relationship
 
 <!-- --8<-- [start:message-sequence-diagram-query-relationship] -->
 <figure markdown="span">
@@ -67,7 +67,7 @@ Querying a reads_for relationship
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-relationship] -->
 
-### Querying `reads_for` evidence
+  ### Querying `reads_for` evidence
 
 <!-- --8<-- [start:message-sequence-diagram-query-evidence] -->
 <figure markdown="span">
@@ -87,7 +87,6 @@ Querying reads_for evidence for an identity
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
-
 
 ## Message types
 
@@ -120,12 +119,12 @@ type ResponseReadsFor := mkResponseReadsFor {
 };
 ```
 
-Response indicating whether the reads_for relationship exists.
+Response indicating whether the `reads_for` relationship exists.
 
 ???+ quote "Arguments"
 
     `readsFor`:
-    : True if externalIdentityA can read for externalIdentityB, False otherwise.
+    : True if `externalIdentityA` can read for `externalIdentityB`, False otherwise.
 
     `err`:
     : An error message if the query failed.
@@ -168,7 +167,7 @@ type RequestQueryReadsForEvidence := mkRequestQueryReadsForEvidence {
 };
 ```
 
-Request to query all reads_for evidence related to an identity.
+Request to query all `reads_for` evidence related to an identity.
 
 ???+ quote "Arguments"
 
@@ -193,7 +192,7 @@ Response providing the requested evidence.
     : The identity for which evidence was requested.
 
     `evidence`:
-    : A set of ReadsForEvidence related to the identity.
+    : A set of `ReadsForEvidence` related to the identity.
 
     `err`:
     : An error message if the query failed.
@@ -215,6 +214,6 @@ type ReadsForMsg :=
 
 ## Engine Components
 
-- [[Reads For Configuration]]
-- [[Reads For Environment]]
-- [[Reads For Behaviour]]
+- [[ReadsFor Configuration]]
+- [[ReadsFor Environment]]
+- [[ReadsFor Behaviour]]

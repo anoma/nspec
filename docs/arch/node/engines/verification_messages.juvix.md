@@ -41,7 +41,7 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-Sequence diagram for verification (no signs for).
+Sequence diagram for verification (no `signs_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-no-signs-for] -->
@@ -66,7 +66,7 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-Sequence diagram for verification (signs for).
+Sequence diagram for verification (with `signs_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-signs-for] -->
@@ -85,8 +85,8 @@ type RequestVerification := mkRequestVerification {
 ```
 
 A `RequestVerification` instructs the Verification Engine to verify a commitment
-(signature) from a particular external identity, possibly using known `signs_for`
-relationships.
+(signature) from a particular external identity, possibly using known
+`signs_for` relationships.
 
 ???+ quote "Arguments"
 

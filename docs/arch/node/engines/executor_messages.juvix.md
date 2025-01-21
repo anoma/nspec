@@ -27,14 +27,14 @@ These are the specific messages that the Executor engine can receive/respond to.
 
 --8<-- "./executor_messages.juvix:ExecutorMsg"
 
+## Message sequence diagram
 
-### Execution Flow
+### Execution flow
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
 
 ```mermaid
-sequenceDiagram
     participant Executor
     participant Shard
     participant Worker

@@ -25,7 +25,7 @@ These are the messages that the Local Time Series Storage engine can receive/res
 
 --8<-- "./local_time_series_storage_messages.juvix:LocalTSStorageMsg"
 
-## Sequence Diagrams
+## Message sequence diagrams
 
 ### `GetDataTSStorageDBRequest` and `GetDataTSStorageDBResponse`
 
@@ -42,7 +42,7 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-Sequence Diagram: Get Data Flow
+Sequence diagram: Get data flow
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Get] -->
@@ -62,7 +62,7 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-Sequence Diagram: Record Data Flow
+Sequence diagram: Record data flow
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Record] -->
@@ -82,7 +82,7 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-Sequence Diagram: Delete Data Flow
+Sequence diagram: Delete data flow
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Delete] -->
@@ -144,6 +144,7 @@ type RecordDataTSStorageDBRequest := mkRecordDataTSStorageDBRequest {
 ???+ quote "Arguments"
 
     `query`
+    
     : The query that expresses the addition of the time series data into the DB.
 
 ### `RecordDataTSStorageDBResponse`

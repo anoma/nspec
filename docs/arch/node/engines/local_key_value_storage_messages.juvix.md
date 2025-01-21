@@ -25,7 +25,7 @@ These are the messages that the Local Key-Value Storage engine can receive/respo
 
 --8<-- "./local_key_value_storage_messages.juvix:LocalKVStorageMsg"
 
-## Sequence Diagrams
+## Message sequence diagrams
 
 ### Get value request/response flow
 
@@ -67,7 +67,7 @@ Set Value Request/Response Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-set] -->
 
-### Delete Value Request/Response Flow
+### Delete value request/response flow
 
 <!-- --8<-- [start:message-sequence-diagram-delete] -->
 <figure markdown>

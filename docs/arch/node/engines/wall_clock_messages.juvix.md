@@ -40,7 +40,7 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-Sequence Diagram: Wall Clock Time Request & Response
+Sequence diagram: Wall Clock time request & response
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-gettime] -->

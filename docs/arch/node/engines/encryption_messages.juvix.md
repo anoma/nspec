@@ -66,7 +66,7 @@ sequenceDiagram
 ```
 
 <figcaption markdown="span">
-Sequence diagram for encryption (reads for).
+Sequence diagram for encryption (with `reads_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-reads-for] -->
@@ -84,9 +84,10 @@ type RequestEncrypt := mkRequestEncrypt {
 ```
 
 A `RequestEncrypt` instructs the Encryption Engine to encrypt data to a
-particular external identity, possibly using known reads_for relationships.
+particular external identity, possibly using known `reads_for` relationships.
 
 ???+ quote "Arguments"
+
     `data`:
     : The data to encrypt.
 
@@ -109,6 +110,7 @@ A `ResponseEncrypt` contains the data encrypted by the Encryption Engine in
 response to a `RequestEncrypt`.
 
 ???+ quote "Arguments"
+
     `ciphertext`:
     : The encrypted data.
 
