@@ -46,6 +46,12 @@ known `reads_for` relationships. It is a stateless function, and calls to it do
 not need to be ordered. The runtime should implement this intelligently for
 efficiency.
 
+!!! todo "Stateless function as engine"
+
+    > stateless function
+
+    We have all this to refactor in v0.2.x
+
 ## Components
 
 - [[Encryption Messages]]

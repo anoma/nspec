@@ -78,10 +78,15 @@ coordination services needed for Anoma's parallel execution model, where multipl
 transactions can process simultaneously so long as their state access patterns
 don't conflict, ensuring [serializability](https://en.wikipedia.org/wiki/Database_transaction_schedule#Serializable).
 
+!!! todo
+
+    If we adhere to the template,
+    we should squash this opening prose with the purpose.
+
 ## Purpose
 
 Workers are one of the [[Mempool Engines#mempool-engines|mempool engines]]
-and, in V2, they are _the_ only one and there is only a single worker.
+and, in V0.2, they are _the_ only one and there is only a single worker.
 
 The worker receives transaction requests from users and
 [[Solver#solver|solvers]] and batches these transaction requests, assigning a
