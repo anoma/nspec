@@ -21,11 +21,11 @@ tags:
     import arch.node.types.anoma_message as Anoma open;
     ```
 
-# Reads For Environment
+# ReadFor Environment
 
 ## Overview
 
-The Reads For Engine environment maintains the state necessary for managing `reads_for` relationships between identities, including storing evidence submitted by clients.
+The ReadFor Engine environment maintains the state necessary for managing `reads_for` relationships between identities, including storing evidence submitted by clients.
 
 ??? quote "Auxiliary Juvix code"
 
@@ -35,7 +35,7 @@ The Reads For Engine environment maintains the state necessary for managing `rea
 
 ## Mailbox states
 
-The Reads For Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
+The ReadFor Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
 ### `ReadsForMailboxState`
 
@@ -45,7 +45,7 @@ syntax alias ReadsForMailboxState := Unit;
 
 ## Local state
 
-The local state of the Reads For Engine includes the evidence for reads_for relationships.
+The local state of the ReadFor Engine includes the evidence for reads_for relationships.
 
 ### `ReadsForLocalState`
 
@@ -62,7 +62,7 @@ type ReadsForLocalState := mkReadsForLocalState@{
 
 ## Timer Handle
 
-The Reads For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+The ReadFor Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
 ### `ReadsForTimerHandle`
 
@@ -70,7 +70,7 @@ The Reads For Engine does not require a timer handle type. Therefore, we define 
 syntax alias ReadsForTimerHandle := Unit;
 ```
 
-## The Reads For Environment
+## The ReadFor Environment
 
 ### `ReadsForEnv`
 

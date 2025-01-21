@@ -21,7 +21,7 @@ tags:
 
 ## Message interface
 
---8<-- "./encryption_messages.juvix:EncryptionMsg"
+--8<-- "./encryption_messages.juvix.md:EncryptionMsg"
 
 ## Message sequence diagrams
 

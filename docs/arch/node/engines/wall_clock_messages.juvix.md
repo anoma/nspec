@@ -23,7 +23,7 @@ These are the messages that the Wall Clock engine can receive/respond to.
 
 ## Message interface
 
---8<-- "./wall_clock_messages.juvix:WallClockMsg"
+--8<-- "./wall_clock_messages.juvix.md:WallClockMsg"
 
 ### Wall Clock request and response
 

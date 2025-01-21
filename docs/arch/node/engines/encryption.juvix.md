@@ -36,7 +36,7 @@ tags:
 
 The Encryption engine is responsible for encrypting data to external identities,
 possibly using known `reads_for` relationships. It automatically utilizes
-"reads_for" relationship information from the [[Reads For Engine]] along with caller
+"reads_for" relationship information from the [[ReadFor Engine]] along with caller
 preference information to choose which identity to encrypt to.
 
 ## Purpose

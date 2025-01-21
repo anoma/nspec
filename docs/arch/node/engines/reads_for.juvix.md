@@ -32,15 +32,15 @@ tags:
     open reads_for_environment_example;
     ```
 
-# Reads For Engine
+# ReadFor Engine
 
-The Reads For Engine manages `reads_for` relationships between identities. A
+The ReadFor Engine manages `reads_for` relationships between identities. A
 `reads_for` relationship indicates that one identity can read data encrypted
 for another identity.
 
 ## Purpose
 
-The Reads For Engine maintains and manages the state of `reads_for`
+The ReadFor Engine maintains and manages the state of `reads_for`
 relationships between identities. It handles queries about these relationships,
 allows submission of new evidence, and provides information about existing
 relationships. This is useful in scenarios where data access needs to be
@@ -48,10 +48,10 @@ delegated or shared.
 
 ## Components
 
-- [[Reads For Messages]]
-- [[Reads For Configuration]]
-- [[Reads For Environment]]
-- [[Reads For Behaviour]]
+- [[ReadFor Messages]]
+- [[ReadFor Configuration]]
+- [[ReadFor Environment]]
+- [[ReadFor Behaviour]]
 
 ## Type
 

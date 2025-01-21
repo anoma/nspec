@@ -21,7 +21,7 @@ tags:
 
 ## Message interface
 
---8<-- "./naming_messages.juvix:NamingMsg"
+--8<-- "./naming_messages.juvix.md:NamingMsg"
 
 ## Message sequence diagrams
 

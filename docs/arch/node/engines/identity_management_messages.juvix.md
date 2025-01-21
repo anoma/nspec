@@ -21,7 +21,7 @@ tags:
 
 ## Message interface
 
---8<-- "./identity_management_messages.juvix:IdentityManagementMsg"
+--8<-- "./identity_management_messages.juvix.md:IdentityManagementMsg"
 
 ## Message sequence diagrams
 

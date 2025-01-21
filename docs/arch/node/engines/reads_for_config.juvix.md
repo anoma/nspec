@@ -22,13 +22,13 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# Reads For Configuration
+# ReadFor Configuration
 
 ## Overview
 
-The Reads For engine configuration contains static information for Reads For engine instances.
+The ReadFor engine configuration contains static information for ReadFor engine instances.
 
-## The Reads For Configuration
+## The ReadFor Configuration
 
 ### `ReadsForCfg`
 

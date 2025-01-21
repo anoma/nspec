@@ -21,7 +21,7 @@ tags:
 
 ## Message interface
 
---8<-- "./signs_for_messages.juvix:SignsForMsg"
+--8<-- "./signs_for_messages.juvix.md:SignsForMsg"
 
 ## Message sequence diagrams
 

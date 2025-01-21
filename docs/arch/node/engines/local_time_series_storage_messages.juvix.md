@@ -23,7 +23,7 @@ These are the messages that the Local Time Series Storage engine can receive/res
 
 ## Message interface
 
---8<-- "./local_time_series_storage_messages.juvix:LocalTSStorageMsg"
+--8<-- "./local_time_series_storage_messages.juvix.md:LocalTSStorageMsg"
 
 ## Message sequence diagrams
 

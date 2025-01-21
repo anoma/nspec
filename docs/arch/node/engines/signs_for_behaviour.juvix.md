@@ -25,11 +25,11 @@ tags:
     import arch.node.types.anoma as Anoma open;
     ```
 
-# Signs For Behaviour
+# SignsFor Behaviour
 
 ## Overview
 
-The behavior of the Signs For Engine defines how it processes incoming messages and updates
+The behavior of the SignsFor Engine defines how it processes incoming messages and updates
 its state accordingly.
 
 ## Action arguments
@@ -486,7 +486,7 @@ queryEvidenceGuard
 ```
 <!-- --8<-- [end:queryEvidenceGuard] -->
 
-## The Signs For Behaviour
+## The SignsFor Behaviour
 
 ### `SignsForBehaviour`
 
@@ -520,7 +520,7 @@ signsForBehaviour : SignsForBehaviour :=
 ```
 <!-- --8<-- [end:signsForBehaviour] -->
 
-## Signs For Action Flowcharts
+## SignsFor Action Flowcharts
 
 ### `signsForQueryAction` flowchart
 

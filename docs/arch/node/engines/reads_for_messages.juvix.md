@@ -21,7 +21,7 @@ tags:
 
 ## Message interface
 
---8<-- "./reads_for_messages.juvix:ReadsForMsg"
+--8<-- "./reads_for_messages.juvix.md:ReadsForMsg"
 
 ## Message sequence diagrams
 

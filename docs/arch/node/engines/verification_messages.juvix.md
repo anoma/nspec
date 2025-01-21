@@ -21,7 +21,7 @@ tags:
 
 ## Message interface
 
---8<-- "./verification_messages.juvix:VerificationMsg"
+--8<-- "./verification_messages.juvix.md:VerificationMsg"
 
 ## Message sequence diagrams
 

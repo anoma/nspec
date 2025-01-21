@@ -25,7 +25,7 @@ These are the specific messages that the Executor engine can receive/respond to.
 
 ## Message interface
 
---8<-- "./executor_messages.juvix:ExecutorMsg"
+--8<-- "./executor_messages.juvix.md:ExecutorMsg"
 
 ## Message sequence diagram
 

@@ -21,7 +21,7 @@ tags:
 
 ## Message interface
 
---8<-- "./ticker_messages.juvix:TickerMsg"
+--8<-- "./ticker_messages.juvix.md:TickerMsg"
 
 ## Message sequence diagram
 

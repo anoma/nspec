@@ -23,7 +23,7 @@ These are the messages that the Local Key-Value Storage engine can receive/respo
 
 ## Message interface
 
---8<-- "./local_key_value_storage_messages.juvix:LocalKVStorageMsg"
+--8<-- "./local_key_value_storage_messages.juvix.md:LocalKVStorageMsg"
 
 ## Message sequence diagrams
 
