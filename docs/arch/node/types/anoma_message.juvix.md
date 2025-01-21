@@ -60,11 +60,15 @@ tags:
 
 # Anoma Message
 
-The _Anoma_ message type contains all admissible messages that can be sent
-between nodes in the network. An Anoma message is of the type `Msg`. Each
+The _Anoma_ message type `Msg` contains all admissible messages that can be sent
+between nodes in the network. Each
 constructor of the type `Msg` corresponds to a specific type of message comming
 from a specific engine. For example, the engine `TickerEngine` has a
 corresponding message type `TickerMsg`.
+
+<!--ᚦ
+    «Can we call this constructor 'message tag'?»
+-->
 
 <!-- --8<-- [start:Msg] -->
 ```juvix
@@ -115,3 +119,6 @@ type Msg :=
   ;
 ```
 <!-- --8<-- [end:Msg] -->
+<!--ᚦ
+        «Can we have also some code annotations visible in the markdown output?»
+ -->
