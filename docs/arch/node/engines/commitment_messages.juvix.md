@@ -23,7 +23,9 @@ tags:
 
 --8<-- "./commitment_messages.juvix.md:CommitmentMsg"
 
-### Message sequence diagrams
+## Message sequence diagrams
+
+### Request sequence
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
@@ -58,6 +60,7 @@ A `RequestCommitment` instructs a commitment engine instance to produce a
 commitment (signature) over the provided data.
 
 ???+ quote "Arguments"
+
     `data`:
     : The data to sign.
 
@@ -94,5 +97,6 @@ type CommitmentMsg :=
 
 ## Engine Components
 
+- [[Commitment Configuration]]
 - [[Commitment Environment]]
 - [[Commitment Behaviour]]

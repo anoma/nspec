@@ -25,7 +25,35 @@ These are the specific messages that the Executor engine can receive/respond to.
 
 ## Message interface
 
-### `ExecutorMsgExecutorFinished ExecutorFinishedMsg`
+--8<-- "./executor_messages.juvix:ExecutorMsg"
+
+
+### Execution Flow
+
+<!-- --8<-- [start:message-sequence-diagram] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Executor
+    participant Shard
+    participant Worker
+
+    Executor->>Shard: KVSReadRequest
+    Shard->>Executor: KVSRead
+    Executor->>Shard: KVSWrite
+    Executor->>Worker: ExecutorFinished
+```
+
+<figcaption markdown="span">
+Basic execution flow sequence showing interaction with shards and completion notification
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram] -->
+
+## Message types
+
+### `ExecutorFinishedMsg`
 
 Notification that execution is complete.
 
@@ -61,27 +89,3 @@ type ExecutorMsg :=
 ```
 <!-- --8<-- [end:ExecutorMsg] -->
 
-## Sequence Diagrams
-
-### Execution Flow
-
-<!-- --8<-- [start:message-sequence-diagram] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Executor
-    participant Shard
-    participant Worker
-
-    Executor->>Shard: KVSReadRequest
-    Shard->>Executor: KVSRead
-    Executor->>Shard: KVSWrite
-    Executor->>Worker: ExecutorFinished
-```
-
-<figcaption markdown="span">
-Basic execution flow sequence showing interaction with shards and completion notification
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram] -->

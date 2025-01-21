@@ -23,7 +23,9 @@ tags:
 
 --8<-- "./decryption_messages.juvix.md:DecryptionMsg"
 
-### Message sequence diagrams
+## Message sequence diagrams
+
+### Request sequence
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
@@ -98,5 +100,6 @@ type DecryptionMsg :=
 
 ## Engine Components
 
+- [[Decryption Configuration]]
 - [[Decryption Environment]]
 - [[Decryption Behaviour]]
