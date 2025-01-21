@@ -17,11 +17,81 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# Reads For Messages
+# ReadsFor Messages
 
 ## Message interface
 
-### `MsgReadsForRequest RequestReadsFor`
+--8<-- "./reads_for_messages.juvix:ReadsForMsg"
+
+## Message Sequence Diagrams
+
+### Submitting `reads_for` evidence
+
+<!-- --8<-- [start:message-sequence-diagram-submit] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ReadsForEngine
+
+    Client->>ReadsForEngine: RequestSubmitReadsForEvidence
+    Note over ReadsForEngine: Verify and store evidence
+    ReadsForEngine->>Client: ResponseSubmitReadsForEvidence
+```
+
+<figcaption markdown="span">
+Submitting `reads_for` evidence
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-submit] -->
+
+### Querying reads_for relationship
+
+<!-- --8<-- [start:message-sequence-diagram-query-relationship] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ReadsForEngine
+
+    Client->>ReadsForEngine: RequestReadsFor (A reads for B?)
+    Note over ReadsForEngine: Check stored evidence
+    ReadsForEngine->>Client: ResponseReadsFor
+```
+
+<figcaption markdown="span">
+Querying a reads_for relationship
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-query-relationship] -->
+
+### Querying `reads_for` evidence
+
+<!-- --8<-- [start:message-sequence-diagram-query-evidence] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ReadsForEngine
+
+    Client->>ReadsForEngine: RequestQueryReadsForEvidence (for X)
+    Note over ReadsForEngine: Retrieve relevant evidence
+    ReadsForEngine->>Client: ResponseQueryReadsForEvidence
+```
+
+<figcaption markdown="span">
+Querying reads_for evidence for an identity
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
+
+
+## Message types
+
+### `RequestReadsFor`
 
 ```juvix
 type RequestReadsFor := mkRequestReadsFor {
@@ -30,7 +100,8 @@ type RequestReadsFor := mkRequestReadsFor {
 };
 ```
 
-A request to query whether `externalIdentityA` can read data encrypted to `externalIdentityB`.
+A request to query whether `externalIdentityA` can read data encrypted to
+`externalIdentityB`.
 
 ???+ quote "Arguments"
 
@@ -40,7 +111,7 @@ A request to query whether `externalIdentityA` can read data encrypted to `exter
     `externalIdentityB`:
     : The identity being read for.
 
-### `MsgReadsForResponse ResponseReadsFor`
+### `ResponseReadsFor`
 
 ```juvix
 type ResponseReadsFor := mkResponseReadsFor {
@@ -59,7 +130,7 @@ Response indicating whether the reads_for relationship exists.
     `err`:
     : An error message if the query failed.
 
-### `MsgSubmitReadsForEvidenceRequest RequestSubmitReadsForEvidence`
+### `RequestSubmitReadsForEvidence`
 
 ```juvix
 type RequestSubmitReadsForEvidence := mkRequestSubmitReadsForEvidence {
@@ -74,7 +145,7 @@ Request to submit evidence of a `reads_for` relationship.
     `evidence`:
     : The evidence supporting the `reads_for` relationship.
 
-### `MsgSubmitReadsForEvidenceResponse ResponseSubmitReadsForEvidence`
+### `ResponseSubmitReadsForEvidence`
 
 ```juvix
 type ResponseSubmitReadsForEvidence := mkResponseSubmitReadsForEvidence {
@@ -89,7 +160,7 @@ Response acknowledging the submission of evidence.
     `err`:
     : An error message if the submission failed.
 
-### `MsgQueryReadsForEvidenceRequest RequestQueryReadsForEvidence`
+### `RequestQueryReadsForEvidence`
 
 ```juvix
 type RequestQueryReadsForEvidence := mkRequestQueryReadsForEvidence {
@@ -104,7 +175,7 @@ Request to query all reads_for evidence related to an identity.
     `externalIdentity`:
     : The identity for which to retrieve evidence.
 
-### `MsgQueryReadsForEvidenceResponse ResponseQueryReadsForEvidence`
+### `ResponseQueryReadsForEvidence`
 
 ```juvix
 type ResponseQueryReadsForEvidence := mkResponseQueryReadsForEvidence {
@@ -142,72 +213,8 @@ type ReadsForMsg :=
 ```
 <!-- --8<-- [start:ReadsForMsg] -->
 
-## Message Sequence Diagrams
-
-### Submitting Reads For Evidence
-
-<!-- --8<-- [start:message-sequence-diagram-submit] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant ReadsForEngine
-
-    Client->>ReadsForEngine: RequestSubmitReadsForEvidence
-    Note over ReadsForEngine: Verify and store evidence
-    ReadsForEngine->>Client: ResponseSubmitReadsForEvidence
-```
-
-<figcaption markdown="span">
-Submitting `reads_for` evidence
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-submit] -->
-
-### Querying Reads For Relationship
-
-<!-- --8<-- [start:message-sequence-diagram-query-relationship] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant ReadsForEngine
-
-    Client->>ReadsForEngine: RequestReadsFor (A reads for B?)
-    Note over ReadsForEngine: Check stored evidence
-    ReadsForEngine->>Client: ResponseReadsFor
-```
-
-<figcaption markdown="span">
-Querying a reads_for relationship
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-query-relationship] -->
-
-### Querying Reads For Evidence
-
-<!-- --8<-- [start:message-sequence-diagram-query-evidence] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant ReadsForEngine
-
-    Client->>ReadsForEngine: RequestQueryReadsForEvidence (for X)
-    Note over ReadsForEngine: Retrieve relevant evidence
-    ReadsForEngine->>Client: ResponseQueryReadsForEvidence
-```
-
-<figcaption markdown="span">
-Querying reads_for evidence for an identity
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
-
 ## Engine Components
 
+- [[Reads For Configuration]]
 - [[Reads For Environment]]
 - [[Reads For Behaviour]]

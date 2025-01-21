@@ -29,7 +29,7 @@ These are the messages that the Shard engine can receive/respond to.
 
 ## Message sequence diagrams
 
-### Transaction Lock and Read Flow
+### Transaction lock and read flow
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
@@ -56,7 +56,6 @@ Sequence Diagram: Transaction Lock and Read Flow
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
-
 
 ## Message types
 
@@ -235,3 +234,9 @@ type ShardMsg :=
   ;
 ```
 <!-- --8<-- [end:ShardMsg] -->
+
+## Engine Components
+
+- [[Shard Configuration]]
+- [[Shard Environment]]
+- [[Shard Behaviour]]
