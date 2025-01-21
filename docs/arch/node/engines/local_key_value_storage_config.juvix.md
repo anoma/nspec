@@ -38,7 +38,7 @@ type LocalKVStorageCfg := mkLocalKVStorageCfg;
 ```
 <!-- --8<-- [end:LocalKVStorageCfg] -->
 
-## Instantiation
+#### Instantiation
 
 <!-- --8<-- [start:localKVStorageCfg] -->
 ```juvix extract-module-statements
