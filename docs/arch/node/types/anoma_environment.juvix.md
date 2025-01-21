@@ -118,3 +118,8 @@ type Env :=
   ;
 ```
 <!-- --8<-- [end:anoma-environment-type] -->
+
+<!--ᚦ
+        «What do we need this summary type for?»
+        (for spawning requests, right?)
+-->
