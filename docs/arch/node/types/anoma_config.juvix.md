@@ -65,6 +65,9 @@ This means that each Anoma engine instance has a constant configuration of type 
 
 For example, a configuration for an engine instance
 of the engine `TickerEngine` is of type `TickerCfg`.
+<!--ᚦ
+        «What do we need this summary type for?»
+-->
 
 <!-- --8<-- [start:anoma-config-type] -->
 ```juvix
