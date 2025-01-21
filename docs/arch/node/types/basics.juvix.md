@@ -19,17 +19,22 @@ tags:
 
 This document describes the basic types and functions used in the node
 architecture prelude. For a more general prelude, please refer to
-[[Juvix Base Prelude]]. (1)
+[[Prelude]]. (1)
 { .annotate }
 
-1. :woman_raising_hand: If you are unfamiliar with Juvix,
+1. :raising_hand: If you are unfamiliar with Juvix,
 please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorials/learn.html).
 
 ## Basic types
 
 ### Hash
 
-Natural numbers are used (for now) to represent hash values, bytes sizes, and other non-negative integers.
+Natural numbers are used to represent byte sizes,
+non-negative integers, and also
+hash values (at least in v0.2).
+<!--ᚦ
+     «Should this not rather be ByteString?»
+-->
 
 ```juvix
 syntax alias Hash := Nat;
@@ -39,6 +44,9 @@ syntax alias Hash := Nat;
 
 Relative time.
 In seconds from now.
+<!--ᚦ
+    «What is the smallest unit of time we have?»
+-->
 
 ```juvix
 syntax alias RelTime := Nat;

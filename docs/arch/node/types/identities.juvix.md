@@ -60,7 +60,7 @@ SigningKey : Type := ByteString;
 
 ### ExternalID
 
-A unique identifier, such as a public key, represented as a natural number.
+A unique identifier, such as a public key; for simplicity, just a public key (in v0.2).
 
 <!-- --8<-- [start:ExternalID] -->
 ```juvix
@@ -70,7 +70,8 @@ syntax alias ExternalID := PublicKey;
 
 ### InternalID
 
-A unique identifier, such as a private key, used internally within the network.
+A unique identifier, such as a private key, used internally within the network;
+for simplicity, just a private key (in v0.2).
 
 ```juvix
 syntax alias InternalID := PrivateKey;
@@ -93,6 +94,10 @@ syntax alias Commitment := Signature;
 
 axiom emptyCommitment : Commitment;
 ```
+
+<!--ᚦ
+        «What do we need the empty commitment for?»
+-->
 
 ## Network Identifiers
 
@@ -148,7 +153,8 @@ syntax alias ChunkID := Digest;
 
 ### EngineName
 
-Engine instance name as an opaque string.
+Engine instance name as a string that is _opaque,_
+i.e., the odds of guessing it are negligible.
 
 ```juvix
 syntax alias EngineName := String;
@@ -158,13 +164,18 @@ syntax alias EngineName := String;
 
 An alias for engine name.
 
+<!--ᚦ
+        «This is a bad clash with ExternalID»
+-->
+
 ```juvix
 syntax alias ExternalIdentity := EngineName;
 ```
 
 ### EngineID
 
-Engine instance identity combining node identity and engine name.
+Engine instance identity is a pair of an optional node identity and an engine name;
+the node identity can be omitted if the engine is only locally known.
 
 <!-- --8<-- [start:EngineID] -->
 ```juvix
@@ -184,12 +195,19 @@ isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 
 ### Engine Helper Functions
 
+<!--ᚦ
+        «Should this not apply some kind of garbling for opacity?»
+-->
+
 ```juvix
 nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
   name ++str "_" ++str str ++str "_" ++str (snd addr);
 ```
 
 ## String Comparison
+<!--ᚦ
+        «No such thing in StdLib?»
+-->
 ```juvix
 axiom stringCmp : String -> String -> Ordering;
 
@@ -300,8 +318,8 @@ type SignsForEvidence := mkSignsForEvidence {
 
     instance
     SignsForOrd : Ord SignsForEvidence :=
-      mkOrd@{
-    cmp := SignsForCmpDummy;
+    mkOrd@{
+      cmp := SignsForCmpDummy;
     };
     ```
 
@@ -356,8 +374,16 @@ syntax alias BatchNumber := Nat;
 syntax alias WallClockTime := Nat;
 ```
 
-Don't know a better place to put this.
+!!! todo
+
+    Don't know a better place to put this.
+
+This is assumed to be globally fixed (in v0.2).
 ```juvix
 -- Map a key to its shard
 axiom keyToShard : KVSKey -> EngineID;
 ```
+
+!!! todo
+
+    How do we actually want to do this?
