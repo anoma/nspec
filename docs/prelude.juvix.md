@@ -454,7 +454,16 @@ For example,
 
 ```juvix
 pair : Pair Nat Bool := mkPair 42 true;
+commaPair : Pair Nat Bool := (42, true);
 ```
+
+!!! warning
+
+    The following is not valid juvix v0.6.9: the comma must be followed by a space.
+
+    ```
+    notAnyPair : Pair Nat Bool := (42,true);
+    ```
 
 ### `fst` and `snd`
 
