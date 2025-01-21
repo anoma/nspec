@@ -7,7 +7,32 @@ search:
 
 # Introduction
 ​
-The operational architecture specification concerns the state evolution of Anoma instances, broken into smaller steps: which messages are exchanged, how computation is performed on the level of function calls, and which intermediate states are reachable.
+The node architecture specification concerns the state evolution of Anoma instances,
+broken into smaller steps[^1] on the level of [[Engine|engines]] in nodes:
+which messages are sent and received,
+which computation is performed as reaction to message receptions, and
+which local state changes ensue as a result.
+
+How message passing works is introduced in the [[Anomian]],
+based on illustrative examples.
+On a higher level,
+we have a static pattern that connects to engine types with a message
+if messages of the respective can be sent between them.
+An illustration of the pattern of communication between participants<!--
+-->—how they may send messages to each other—<!--
+-->is given in the following figure.
+
+<figure markdown>
+
+![Message Diagram](transaction_flow.svg)
+
+<figcaption markdow
+
+Intent/ transaction candidate flowchart.
+
+</figcaption>
+</figure>
+
 The specification is organized into the following sections:
 
 - [[Hardware Component]]
@@ -16,18 +41,6 @@ The specification is organized into the following sections:
 
 - [[Ordering Component]]
 
-
 - [[Networking Component]] (coming soon)
 
-
-<figure markdown>
-
-![Message Diagram](transaction_flow.svg)
-
-
-<figcaption markdow
-
-Intent/ transaction candidate flowchart.
-
-</figcaption>
-</figure>
+[^1]: The technical term is _isolated turn principle_ [@taxonomy-of-actor-models-2016].
