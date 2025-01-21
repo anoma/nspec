@@ -472,11 +472,22 @@ Projections
 ```juvix
 fst {A B} : Pair A B -> A
   | (mkPair a _) := a;
+
+syntax operator _1 postfix;
+syntax alias _1 := fst;
+
+uvw : Nat := pair _1;
 ```
 
 ```juvix
 snd {A B} : Pair A B -> B
   | (mkPair _ b) := b;
+
+syntax fixity postfix := unary {assoc := left};
+syntax operator _2 postfix;
+syntax alias _2 := snd;
+
+xyz : Bool := pair _2;
 ```
 
 ### `PairCommutativeProduct`
