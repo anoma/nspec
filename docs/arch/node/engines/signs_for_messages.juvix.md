@@ -94,7 +94,7 @@ Retrieving all signs_for evidence related to a particular identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
 
---- 
+---
 
 ## Message types
 
