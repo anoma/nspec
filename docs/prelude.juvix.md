@@ -473,6 +473,7 @@ Projections
 fst {A B} : Pair A B -> A
   | (mkPair a _) := a;
 
+syntax fixity postfix := unary {assoc := left};
 syntax operator _1 postfix;
 syntax alias _1 := fst;
 
@@ -483,7 +484,6 @@ uvw : Nat := pair _1;
 snd {A B} : Pair A B -> B
   | (mkPair _ b) := b;
 
-syntax fixity postfix := unary {assoc := left};
 syntax operator _2 postfix;
 syntax alias _2 := snd;
 
