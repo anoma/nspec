@@ -60,7 +60,7 @@ messages, creating new engine instances, and updating timers.
 
 ### `Action`
 
-The input of the action function is parameterised by the types for:
+The input of the action function is parameterized by the types for:
 
 - `C`: engine configuration,
 - `S`: local state,
@@ -102,6 +102,9 @@ are triggered.
     _precondition_ to run an action. The corresponding predicate is activated by a
     trigger and evaluated within the context of the engine's environment. It then
     returns a boolean when the predicate is satisfied, specifically of type
+    <!--ᚦ
+        «why haskell now?»
+    -->
 
     ```haskell
     Trigger H AM -> EngineEnv S B H AM -> Bool;
@@ -158,6 +161,17 @@ type ActionEffect (S B H AM AC AE : Type) :=
 
 ### `ActionExec`
 
+!!! todo
+
+    `ActionExec` needs a thorough overhaul:
+
+    - proper Mondad instead of the list
+    - other features, in particular
+      - concurrency
+      - one "thread" for each mailbox
+
+It is allowed to have several actions executed.
+
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
 type ActionExec (C S B H A AM AC AE : Type) :=
@@ -166,7 +180,16 @@ type ActionExec (C S B H A AM AC AE : Type) :=
 ```
 <!-- --8<-- [end:ActionExec] -->
 
+!!! warning
+
+    The structure of how several actions (think "tasks") are to be performed
+    in sequence or parallel,
+    will likely change in future versions.
+
 ### `Guard`
+
+A guard is first and foremost a pre-condition for an action,
+which checks whether the associated action or action sequence is to be performed.
 
 <!-- --8<-- [start:Guard] -->
 ```juvix
@@ -196,6 +219,10 @@ type GuardOutput (C S B H A AM AC AE : Type) :=
 
 ### `GuardEval`
 
+<!--ᚦ
+    «So, this is what we have for the moment / v0.2?»
+-->
+
 <!-- --8<-- [start:GuardEval] -->
 ```juvix
 type GuardEval (C S B H A AM AC AE : Type) :=
@@ -206,14 +233,13 @@ type GuardEval (C S B H A AM AC AE : Type) :=
 <!-- --8<-- [end:GuardEval] -->
 
 The `GuardEval` type defines the criteria for evaluating actions associated with
-guards inside the given list. The evaluation strategies are as follows:
+guards inside the list of guards. The evaluation strategies are as follows:
 
 - With `First`, we say that the first guard in the provided list that holds,
 i.e., yields a result, upon sequential evaluation is selected, its associated
-action is performed, and the evaluation stops.
+list of actions is performed, and the computation returns the effects.
 - With `Any`, we say that any guard in the provided list that holds upon
-sequential evaluation is selected, their associated actions are performed, and
-the evaluation stops.
+sequential evaluation is selected, and processed in the same way as if it was the first.
 
 ## The type for engine behaviours
 
@@ -221,9 +247,7 @@ The `EngineBehaviour` type encapsulates the concept of behaviours within Anoma.
 Each engine is associated with a specific term of type `EngineBehaviour` that
 defines its core dynamics and operational characteristics. The behaviour
 determines how the engine processes inputs, manages state, and interacts with
-other components. As defined, it clears up that engines are essentially a
-collection of guarded state-transition functions. Using the terminology
-introduced earlier, an `EngineBehaviour` is a set of guards and an action function.
+other components.
 
 <!-- --8<-- [start:EngineBehaviour] -->
 ```juvix
@@ -233,3 +257,15 @@ type EngineBehaviour (C S B H A AM AC AE : Type) :=
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
+
+!!! note "Summary of behaviour"
+
+    Roughly,
+    engines are a collection of guarded state-transition functions.
+    The presentation in terms of a set of guards
+    is in the spirit of Dijkstra's guarded command language,
+    where the commands are replaced by actions.
+    Effectively,
+    the whole behaviour amounts to a function
+    that determines how the received timestamped trigger is to be handled,
+    expressed as a set of action effects.
