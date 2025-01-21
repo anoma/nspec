@@ -144,7 +144,7 @@ type RecordDataTSStorageDBRequest := mkRecordDataTSStorageDBRequest {
 ???+ quote "Arguments"
 
     `query`
-    
+
     : The query that expresses the addition of the time series data into the DB.
 
 ### `RecordDataTSStorageDBResponse`
