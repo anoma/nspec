@@ -196,6 +196,7 @@ nav:
                   - Storage Environment: ./arch/node/net/storage_environment.juvix.md
                   - Storage Behaviour: ./arch/node/net/storage_behaviour.juvix.md
           - Ordering Component:
+              - ./arch/node/ordering/index.md
               - Mempool engines:
                   - Mempool Worker Engine:
                       - Mempool Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
