@@ -900,6 +900,8 @@ For example,
 numbers : List Nat := 1 :: 2 :: 3 :: nil;
 -- alternative syntax:
 niceNumbers : List Nat := [1 ; 2 ; 3];
+-- concatenation
+moreNumbers : List Nat := niceNumbers ++ numbers;
 ```
 
 ### `findIndex`
