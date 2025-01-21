@@ -86,7 +86,7 @@ type ExampleRequest : Type :=
 ???+ quote "Auxiliary types"
 
     ### `ReplyPayload`
-  
+
     ```juvix
     type ReplyPayload := mkReplyPayload {
       payload : String;
