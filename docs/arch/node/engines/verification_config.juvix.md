@@ -54,7 +54,7 @@ type VerificationCfg := mkVerificationCfg {
     : The backend to use for verification.
 
     `signsForEngineAddress`:
-    : The address of the associated Signs For engine.
+    : The address of the associated SignsFor engine.
 
 #### Instantiation
 

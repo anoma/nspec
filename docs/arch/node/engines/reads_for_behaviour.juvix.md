@@ -25,11 +25,11 @@ tags:
     import arch.node.types.anoma as Anoma open;
     ```
 
-# Reads For Behaviour
+# ReadFor Behaviour
 
 ## Overview
 
-The behavior of the Reads For Engine defines how it processes
+The behavior of the ReadFor Engine defines how it processes
 incoming messages and updates its state accordingly.
 
 ## Action arguments
@@ -468,7 +468,7 @@ queryEvidenceGuard
 ```
 <!-- --8<-- [end:queryEvidenceGuard] -->
 
-## The Reads For Behaviour
+## The ReadFor Behaviour
 
 ### `ReadsForBehaviour`
 
@@ -503,7 +503,7 @@ readsForBehaviour : ReadsForBehaviour :=
 ```
 <!-- --8<-- [end:readsForBehaviour] -->
 
-## Reads For Action Flowcharts
+## ReadFor Action Flowcharts
 
 ### `readsForQueryAction` flowchart
 

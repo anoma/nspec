@@ -139,18 +139,18 @@ nav:
                   - Verification Configuration: ./arch/node/engines/verification_config.juvix.md
                   - Verification Environment: ./arch/node/engines/verification_environment.juvix.md
                   - Verification Behaviour: ./arch/node/engines/verification_behaviour.juvix.md
-              - Reads For Engine:
-                  - Reads For Engine: ./arch/node/engines/reads_for.juvix.md
-                  - Reads For Messages: ./arch/node/engines/reads_for_messages.juvix.md
-                  - Reads For Configuration: ./arch/node/engines/reads_for_config.juvix.md
-                  - Reads For Environment: ./arch/node/engines/reads_for_environment.juvix.md
-                  - Reads For Behaviour: ./arch/node/engines/reads_for_behaviour.juvix.md
-              - Signs For Engine:
-                  - Signs For Engine: ./arch/node/engines/signs_for.juvix.md
-                  - Signs For Messages: ./arch/node/engines/signs_for_messages.juvix.md
-                  - Signs For Configuration: ./arch/node/engines/signs_for_config.juvix.md
-                  - Signs For Environment: ./arch/node/engines/signs_for_environment.juvix.md
-                  - Signs For Behaviour: ./arch/node/engines/signs_for_behaviour.juvix.md
+              - ReadsFor Engine:
+                  - ReadsFor Engine: ./arch/node/engines/reads_for.juvix.md
+                  - ReadsFor Messages: ./arch/node/engines/reads_for_messages.juvix.md
+                  - ReadsFor Configuration: ./arch/node/engines/reads_for_config.juvix.md
+                  - ReadsFor Environment: ./arch/node/engines/reads_for_environment.juvix.md
+                  - ReadsFor Behaviour: ./arch/node/engines/reads_for_behaviour.juvix.md
+              - SignsFor Engine:
+                  - SignsFor Engine: ./arch/node/engines/signs_for.juvix.md
+                  - SignsFor Messages: ./arch/node/engines/signs_for_messages.juvix.md
+                  - SignsFor Configuration: ./arch/node/engines/signs_for_config.juvix.md
+                  - SignsFor Environment: ./arch/node/engines/signs_for_environment.juvix.md
+                  - SignsFor Behaviour: ./arch/node/engines/signs_for_behaviour.juvix.md
               - Naming Engine:
                   - Naming Engine: ./arch/node/engines/naming.juvix.md
                   - Naming Messages: ./arch/node/engines/naming_messages.juvix.md

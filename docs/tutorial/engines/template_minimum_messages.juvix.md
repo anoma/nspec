@@ -23,98 +23,13 @@ These are the messages that the *Template Minimum* engine can receive/respond to
 
 ## Message interface
 
-### `TemplateMinimumMsgJustHi`
+--8<-- "./template_minimum_messages.juvix.md:TemplateMinimumMsg"
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+## Message sequence diagrams
 
-### `TemplateMinimumMsgExampleRequest ExampleRequest`
+---
 
-Example request.
-
-<!-- --8<-- [start:ExampleRequest] -->
-```juvix
-type ExampleRequest : Type :=
-  mkExampleRequest {
-    argOne : Nat;
-    argTwo : Nat;
-  }
-```
-<!-- --8<-- [end:ExampleRequest] -->
-
-???+ quote "Arguments"
-
-    `argOne`
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-    `argTwo`
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-### `TemplateMinimumMsgExampleReply ExampleReply`
-
-Reply to an `ExampleRequest`.
-
-#### `ExampleReplyOk`
-
-Example OK reply.
-
-<!-- --8<-- [start:ExampleReplyOk] -->
-```juvix
-type ExampleReplyOk : Type :=
-  mkExampleReplyOk {
-    argOne : Nat;
-  }
-```
-<!-- --8<-- [end:ExampleReplyOk] -->
-
-???+ quote "Arguments"
-
-    `argOne`
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-#### `ExampleReplyError`
-
-Example error reply.
-
-<!-- --8<-- [start:ExampleReplyError] -->
-```juvix
-type ExampleReplyError : Type :=
-  | ExampleErrorOne
-  | ExampleErrorTwo
-  ;
-```
-<!-- --8<-- [end:ExampleReplyError] -->
-
-???+ quote "Error types"
-
-    `ExampleErrorOne`
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-    `ExampleErrorTwo`
-    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-#### `ExampleReply`
-
-<!-- --8<-- [start:ExampleReply] -->
-```juvix
-ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
-```
-<!-- --8<-- [end:ExampleReply] -->
-
-### `TemplateMinimumMsg`
-
-<!-- --8<-- [start:TemplateMinimumMsg] -->
-```juvix
-type TemplateMinimumMsg :=
-  | TemplateMinimumMsgJustHi
-  | TemplateMinimumMsgExampleRequest ExampleRequest
-  | TemplateMinimumMsgExampleReply ExampleReply
-  ;
-```
-<!-- --8<-- [end:TemplateMinimumMsg] -->
-
-## Sequence Diagrams
-
-### `ExampleRequest` & `ExampleReply`
+### `ExampleRequest` and `ExampleReply`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Sed ut purus eget sapien. Nulla facilisi.
@@ -140,3 +55,85 @@ Sequence Diagram: `ExampleRequest` & `ExampleReply`
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
 
+## Message types
+
+---
+
+### `TemplateMinimumMsgJustHi`
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+---
+
+### `ExampleRequest`
+
+Example request.
+
+<!-- --8<-- [start:ExampleRequest] -->
+```juvix
+type ExampleRequest : Type :=
+  mkExampleRequest {
+    argOne : Nat;
+    argTwo : Nat;
+  }
+```
+<!-- --8<-- [end:ExampleRequest] -->
+
+???+ quote "Arguments"
+
+    `argOne`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+    `argTwo`
+    : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+---
+
+#### `ExampleReply`
+
+???+ quote "Auxiliary types"
+
+    ### `ReplyPayload`
+
+    ```juvix
+    type ReplyPayload := mkReplyPayload {
+      payload : String;
+    };
+    ```
+
+    ---
+    ### `ReplyError`
+
+    ```juvix
+    type ReplyError := mkReplyError {
+      error : String;
+    };
+    ```
+
+<!-- --8<-- [start:ExampleReply] -->
+```juvix
+ExampleReply : Type := Result ReplyError ReplyPayload;
+```
+<!-- --8<-- [end:ExampleReply] -->
+
+---
+
+### `TemplateMinimumMsg`
+
+<!-- --8<-- [start:TemplateMinimumMsg] -->
+```juvix
+type TemplateMinimumMsg :=
+  | TemplateMinimumMsgJustHi
+  | TemplateMinimumMsgExampleRequest ExampleRequest
+  | TemplateMinimumMsgExampleReply ExampleReply
+  ;
+```
+<!-- --8<-- [end:TemplateMinimumMsg] -->
+
+---
+
+## Engine Components
+
+- [[Template Minimum Configuration]]
+- [[Template Minimum Environment]]
+- [[Template Minimum Behaviour]]

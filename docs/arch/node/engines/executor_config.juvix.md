@@ -51,7 +51,8 @@ type ExecutorCfg :=
 ???+ quote "Arguments"
 
     `timestamp`
-    : The logical timestamp representing when this transaction executes in the ordering
+    : The logical timestamp representing when this transaction executes in the
+    ordering
 
     `executable`
     : The transaction's executable code

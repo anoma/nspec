@@ -23,6 +23,80 @@ These are the messages that the Local Time Series Storage engine can receive/res
 
 ## Message interface
 
+--8<-- "./local_time_series_storage_messages.juvix.md:LocalTSStorageMsg"
+
+## Message sequence diagrams
+
+---
+
+### `GetDataTSStorageDBRequest` and `GetDataTSStorageDBResponse`
+
+<!-- --8<-- [start:message-sequence-diagram-Get] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant AnyEngine
+    participant LocalTSStorageDB
+
+    AnyEngine ->> LocalTSStorageDB: GetDataTSStorageDBRequest
+    LocalTSStorageDB ->> AnyEngine: GetDataTSStorageDBResponse
+```
+
+<figcaption markdown="span">
+Sequence diagram: Get data flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-Get] -->
+
+---
+
+### `RecordDataTSStorageDBRequest` and `RecordDataTSStorageDBResponse`
+
+<!-- --8<-- [start:message-sequence-diagram-Record] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant AnyEngine
+    participant LocalTSStorageDB
+
+    AnyEngine ->> LocalTSStorageDB: RecordDataTSStorageDBRequest
+    LocalTSStorageDB ->> AnyEngine: RecordDataTSStorageDBResponse
+```
+
+<figcaption markdown="span">
+Sequence diagram: Record data flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-Record] -->
+
+---
+
+### `DeleteDataTSStorageDBRequest` and `DeleteDataTSStorageDBResponse`
+
+<!-- --8<-- [start:message-sequence-diagram-Delete] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant AnyEngine
+    participant LocalTSStorageDB
+
+    AnyEngine ->> LocalTSStorageDB: DeleteDataTSStorageDBRequest
+    LocalTSStorageDB ->> AnyEngine: DeleteDataTSStorageDBResponse
+```
+
+<figcaption markdown="span">
+Sequence diagram: Delete data flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-Delete] -->
+
+---
+
+## Message types
+
 ??? quote "Auxiliary Juvix code"
 
     ```juvix
@@ -30,6 +104,8 @@ These are the messages that the Local Time Series Storage engine can receive/res
     syntax alias TSStorageDBData := String;
     syntax alias EpochTimestamp := Nat;
     ```
+
+---
 
 ### `GetDataTSStorageDBRequest`
 
@@ -45,6 +121,8 @@ type GetDataTSStorageDBRequest := mkGetDataTSStorageDBRequest {
 
     `query`
     : The query to find the requested time series data in the DB.
+
+---
 
 ### `GetDataTSStorageDBResponse`
 
@@ -65,6 +143,8 @@ type GetDataTSStorageDBResponse := mkGetDataTSStorageDBResponse {
     `data`
     : The requested time series data.
 
+---
+
 ### `RecordDataTSStorageDBRequest`
 
 <!-- --8<-- [start:RecordDataTSStorageDBRequest] -->
@@ -78,7 +158,10 @@ type RecordDataTSStorageDBRequest := mkRecordDataTSStorageDBRequest {
 ???+ quote "Arguments"
 
     `query`
+
     : The query that expresses the addition of the time series data into the DB.
+
+---
 
 ### `RecordDataTSStorageDBResponse`
 
@@ -99,6 +182,8 @@ type RecordDataTSStorageDBResponse := mkRecordDataTSStorageDBResponse {
     `success`
     : The success of the operation, indicating if the data was stored successfully or not.
 
+---
+
 ### `DeleteDataTSStorageDBRequest`
 
 <!-- --8<-- [start:DeleteDataTSStorageDBRequest] -->
@@ -113,6 +198,8 @@ type DeleteDataTSStorageDBRequest := mkDeleteDataTSStorageDBRequest {
 
     `query`
     : The query that expresses the deletion of the time series data from the DB.
+
+---
 
 ### `DeleteDataTSStorageDBResponse`
 
@@ -132,6 +219,8 @@ type DeleteDataTSStorageDBResponse := mkDeleteDataTSStorageDBResponse {
 
     `success`
     : The success of the operation, indicating if the data was deleted successfully or not.
+
+---
 
 ### `DataChangedTSStorageDB`
 
@@ -156,6 +245,8 @@ type DataChangedTSStorageDB := mkDataChangedTSStorageDB {
     `timestamp`
     : The wall clock time of the moment the data was changed.
 
+---
+
 ### `LocalTSStorageMsg`
 
 <!-- --8<-- [start:LocalTSStorageMsg] -->
@@ -172,64 +263,10 @@ type LocalTSStorageMsg :=
 ```
 <!-- --8<-- [end:LocalTSStorageMsg] -->
 
-## Sequence Diagrams
+---
 
-### `GetDataTSStorageDBRequest` & `GetDataTSStorageDBResponse`
+## Engine Components
 
-<!-- --8<-- [start:message-sequence-diagram-Get] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant AnyEngine
-    participant LocalTSStorageDB
-
-    AnyEngine ->> LocalTSStorageDB: GetDataTSStorageDBRequest
-    LocalTSStorageDB ->> AnyEngine: GetDataTSStorageDBResponse
-```
-
-<figcaption markdown="span">
-Sequence Diagram: Get Data Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-Get] -->
-
-### `RecordDataTSStorageDBRequest` & `RecordDataTSStorageDBResponse`
-
-<!-- --8<-- [start:message-sequence-diagram-Record] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant AnyEngine
-    participant LocalTSStorageDB
-
-    AnyEngine ->> LocalTSStorageDB: RecordDataTSStorageDBRequest
-    LocalTSStorageDB ->> AnyEngine: RecordDataTSStorageDBResponse
-```
-
-<figcaption markdown="span">
-Sequence Diagram: Record Data Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-Record] -->
-
-### `DeleteDataTSStorageDBRequest` & `DeleteDataTSStorageDBResponse`
-
-<!-- --8<-- [start:message-sequence-diagram-Delete] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant AnyEngine
-    participant LocalTSStorageDB
-
-    AnyEngine ->> LocalTSStorageDB: DeleteDataTSStorageDBRequest
-    LocalTSStorageDB ->> AnyEngine: DeleteDataTSStorageDBResponse
-```
-
-<figcaption markdown="span">
-Sequence Diagram: Delete Data Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-Delete] -->
+- [[Local Time Series Storage Configuration]]
+- [[Local Time Series Storage Environment]]
+- [[Local Time Series Storage Behaviour]]

@@ -32,7 +32,7 @@ tags:
 
 The Verification Engine is responsible for verifying commitments (signatures) made by
 external identities. It automatically uses "signs_for" relationship information from
-the [[Signs For Engine]] along with caller preference information to determine how
+the [[SignsFor Engine]] along with caller preference information to determine how
 to verify a commitment.
 
 ## Purpose

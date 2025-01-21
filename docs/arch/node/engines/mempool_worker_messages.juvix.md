@@ -30,7 +30,9 @@ These are the specific messages that the Mempool Worker engine can receive/respo
 
 ## Message sequence diagrams
 
-### Transaction Request Flow
+---
+
+### Transaction request flow
 
 <!-- --8<-- [start:message-sequence-diagram-transaction-request] -->
 <figure markdown="span">
@@ -56,8 +58,11 @@ Sequence Diagram: Transaction Request Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-transaction-request] -->
 
+---
 
 ## Message types
+
+---
 
 ### `TransactionRequest`
 
@@ -79,11 +84,15 @@ type TransactionRequest : Type :=
     : The transaction candidate to be ordered and executed.
 
     `resubmission`
-    : Optional reference to a previous occurrence of the same transaction candidate (currently unused).
+    : Optional reference to a previous occurrence of the same transaction
+    candidate (currently unused).
+
+---
 
 ### `TransactionAck`
 
-Acknowledgment sent to the user or solver that a transaction request has been accepted.
+Acknowledgment sent to the user or solver that a transaction request has been
+accepted.
 
 <!-- --8<-- [start:TransactionAck] -->
 ```juvix
@@ -115,6 +124,8 @@ type TransactionAck : Type :=
     `signature`
     : The signature of the worker engine over the above fields (Currently unused).
 
+---
+
 ### `MempoolWorkerMsg`
 
 <!-- --8<-- [start:MempoolWorkerMsg] -->
@@ -125,3 +136,11 @@ type MempoolWorkerMsg :=
   ;
 ```
 <!-- --8<-- [end:MempoolWorkerMsg] -->
+
+---
+
+## Engine Components
+
+- [[Mempool Worker Configuration]]
+- [[Mempool Worker Environment]]
+- [[Mempool Worker Behaviour]]

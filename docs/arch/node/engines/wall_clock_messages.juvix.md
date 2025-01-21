@@ -21,7 +21,38 @@ tags:
 
 These are the messages that the Wall Clock engine can receive/respond to.
 
-## Message Interface
+## Message interface
+
+--8<-- "./wall_clock_messages.juvix.md:WallClockMsg"
+
+
+## Message sequence diagrams
+
+---
+
+### Wall Clock request and response
+
+<!-- --8<-- [start:message-sequence-diagram-gettime] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant WallClockClient
+    participant WallClock
+
+    WallClockClient ->> WallClock: WallClockGetTime
+    WallClock ->> WallClockClient: WallClockGetTimeResult
+```
+
+<figcaption markdown="span">
+Sequence diagram: Wall Clock time request & response
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-gettime] -->
+
+---
+
+## Message types
 
 ??? quote "Auxiliary Juvix code"
 
@@ -31,13 +62,15 @@ These are the messages that the Wall Clock engine can receive/respond to.
     syntax alias EpochTimestamp := Nat;
     ```
 
+---
+
 ### `WallClockGetTime`
 
 A `WallClockGetTime` message tracks and manages time within the
 local computing environment. This message doesn't require any
 arguments.
 
-### `WallClockGetTimeResult TimeResult`
+### `TimeResult`
 
 Response to a `WallClockGetTime` request.
 
@@ -55,6 +88,8 @@ type TimeResult : Type :=
     `epochTime`
     : The current time in epoch format (seconds/milliseconds since epoch)
 
+---
+
 ### `WallClockMsg`
 
 <!-- --8<-- [start:WallClockMsg] -->
@@ -66,24 +101,10 @@ type WallClockMsg :=
 ```
 <!-- --8<-- [end:WallClockMsg] -->
 
-## Message Flow
+---
 
-### Wall Clock Request & Response
+## Engine Components
 
-<!-- --8<-- [start:message-sequence-diagram-gettime] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant WallClockClient
-    participant WallClock
-
-    WallClockClient ->> WallClock: WallClockGetTime
-    WallClock ->> WallClockClient: WallClockGetTimeResult
-```
-
-<figcaption markdown="span">
-Sequence Diagram: Wall Clock Time Request & Response
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-gettime] -->
+- [[Wall Clock Configuration]]
+- [[Wall Clock Environment]]
+- [[Wall Clock Behaviour]]

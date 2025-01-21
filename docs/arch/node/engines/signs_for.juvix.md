@@ -28,25 +28,25 @@ tags:
     open signs_for_environment_example;
     ```
 
-# Signs For Engine
+# SignsFor Engine
 
-The Signs For Engine manages signs for relationships between identities.
+The SignsFor Engine manages signs for relationships between identities.
 A "signs for" relationship indicates that one identity can produce signatures
 (commitments) on behalf of another identity.
 
 ## Purpose
 
-The Signs For Engine maintains and manages the state of sings for relationships between
+The SignsFor Engine maintains and manages the state of sings for relationships between
 identities. It handles queries about these relationships, allows submission of new
 evidence, and provides information about existing relationships. This is useful in
 scenarios where signature delegation or proxy signing is required.
 
 ## Components
 
-- [[Signs For Messages]]
-- [[Signs For Configuration]]
-- [[Signs For Environment]]
-- [[Signs For Behaviour]]
+- [[SignsFor Messages]]
+- [[SignsFor Configuration]]
+- [[SignsFor Environment]]
+- [[SignsFor Behaviour]]
 
 ## Type
 
