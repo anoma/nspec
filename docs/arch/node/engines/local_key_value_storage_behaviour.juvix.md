@@ -183,7 +183,7 @@ State update
 
 Messages to be sent
 : A `SetValueKVStoreReply` message indicating success/failure.
-: Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
+: Several `LocalKVStorageMsgValueChanged` messages to interested engines.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -247,6 +247,12 @@ setValueAction
   };
 ```
 <!-- --8<-- [end:setValueAction] -->
+
+!!! todo
+
+    talk about 'advanceTime' and how we can relate
+    the time stamp of the trigger to the newTime
+    in a more satisfying/clean way.
 
 ### `deleteValueAction`
 
