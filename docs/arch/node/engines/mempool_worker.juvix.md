@@ -76,7 +76,7 @@ collects lock acquisition confirmations, tracks the seen-all barriers, and store
 execution summaries. This state allows it to provide the ordering and
 coordination services needed for Anoma's parallel execution model, where multiple
 transactions can process simultaneously so long as their state access patterns
-don't conflict, ensuring (serializability)[https://en.wikipedia.org/wiki/Database_transaction_schedule#Serializable]..
+don't conflict, ensuring [serializability](https://en.wikipedia.org/wiki/Database_transaction_schedule#Serializable).
 
 ## Purpose
 
