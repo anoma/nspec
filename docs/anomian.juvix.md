@@ -56,7 +56,7 @@ So, what do you mean by an _engine_?
 > us, and that has an **engine-status** that could be *running*, *dead*, or
 > *suspended*.
 
-!!! todo 
+!!! todo
 
     - Explain that if the engine is dead, next time the system steps, engines marked
       as dead are removed from the system, similarly as a garbage collector
