@@ -204,7 +204,6 @@ nav:
                       - Mempool Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
                       - Mempool Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
               - Execution engines:
-                  - ./arch/node/ordering/execution/index.md
                   - Shard:
                       - Shard Engine: ./arch/node/engines/shard.juvix.md
                       - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
