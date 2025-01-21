@@ -40,6 +40,14 @@ The Local Time Series Storage Engine manages local storage and
 retrieval of time series data. It provides functions for recording
 new data, retrieving existing data, and deleting data when needed.
 
+!!! todo
+
+    look into synchronous interaction for storage in future versions:
+
+    > It provides functions
+
+    That's technically not correct, though intuitively true.
+
 ## Components
 
 - [[Local Time Series Storage Messages]]
