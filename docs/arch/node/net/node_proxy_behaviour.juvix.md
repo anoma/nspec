@@ -117,7 +117,7 @@ NodeProxyActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `NodeProxyMsgExampleResponse`.
+Respond with a `NodeProxyMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -321,7 +321,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>NodeProxyMsgExampleResponse<br/>argOne]
+    EMsg>NodeProxyMsgExampleReply<br/>argOne]
   end
 ```
 

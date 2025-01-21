@@ -138,7 +138,7 @@ State update
 : No change to the local state.
 
 Messages to be sent
-: A `ResponseResolveName` message is sent to the requester, containing matching external identities.
+: A `ReplyResolveName` message is sent to the requester, containing matching external identities.
 
 Engines to be spawned
 : No engines are spawned by this action.
@@ -168,7 +168,7 @@ resolveNameAction
         identities := Set.fromList (map \{evidence :=
           IdentityNameEvidence.externalIdentity evidence
         } (Set.toList matchingEvidence));
-        responseMsg := mkResponseResolveName@{
+        responseMsg := mkReplyResolveName@{
           externalIdentities := identities;
           err := none
         }
@@ -179,7 +179,7 @@ resolveNameAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingResolveNameResponse responseMsg)
+              msg := Anoma.MsgNaming (MsgNamingResolveNameReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -237,7 +237,7 @@ submitNameEvidenceAction
             }
           | false := env
         };
-        responseMsg := mkResponseSubmitNameEvidence@{
+        responseMsg := mkReplySubmitNameEvidence@{
           err := case isValid of {
             | false := some "Invalid evidence"
             | true := case alreadyExists of {
@@ -253,7 +253,7 @@ submitNameEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceResponse responseMsg)
+              msg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -272,7 +272,7 @@ State update
 : No change to the local state.
 
 Messages to be sent
-: A `ResponseQueryNameEvidence` message is sent to the requester, containing relevant evidence.
+: A `ReplyQueryNameEvidence` message is sent to the requester, containing relevant evidence.
 
 Engines to be spawned
 : No engines are spawned by this action.
@@ -299,7 +299,7 @@ queryNameEvidenceAction
         relevantEvidence := AVLTree.filter \{evidence :=
           isEqual (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) extId)
         } (NamingLocalState.evidenceStore localState);
-        responseMsg := mkResponseQueryNameEvidence@{
+        responseMsg := mkReplyQueryNameEvidence@{
           externalIdentity := extId;
           evidence := relevantEvidence;
           err := none
@@ -311,7 +311,7 @@ queryNameEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceResponse responseMsg)
+              msg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -514,7 +514,7 @@ namingBehaviour : NamingBehaviour :=
 flowchart TD
   MSG>MsgNamingResolveNameRequest]
   A(resolveNameAction)
-  RES>MsgNamingResolveNameResponse<br/>externalIdentities]
+  RES>MsgNamingResolveNameReply<br/>externalIdentities]
 
   MSG --resolveNameGuard--> A --resolveNameActionLabel--> RES
 ```
@@ -534,7 +534,7 @@ flowchart TD
   A(submitNameEvidenceAction)
   subgraph E[Effects]
     ES[(State update if valid<br>evidenceStore += evidence)]
-    EM>MsgNamingSubmitNameEvidenceResponse<br/>error?]
+    EM>MsgNamingSubmitNameEvidenceReply<br/>error?]
   end
 
   MSG --submitNameEvidenceGuard--> A --submitNameEvidenceActionLabel--> E
@@ -553,7 +553,7 @@ flowchart TD
 flowchart TD
   MSG>MsgNamingQueryNameEvidenceRequest]
   A(queryNameEvidenceAction)
-  RES>MsgNamingQueryNameEvidenceResponse<br/>evidence]
+  RES>MsgNamingQueryNameEvidenceReply<br/>evidence]
 
   MSG --queryNameEvidenceGuard--> A --queryNameEvidenceActionLabel--> RES
 ```

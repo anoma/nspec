@@ -215,7 +215,7 @@ justHiAction
 
 #### `exampleReplyAction`
 
-Respond with a `TemplateMsgExampleResponse`.
+Respond with a `TemplateMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -495,7 +495,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>TemplateMsgExampleResponse<br/>argOne]
+    EMsg>TemplateMsgExampleReply<br/>argOne]
   end
 ```
 

@@ -117,7 +117,7 @@ TransportActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `TransportMsgExampleResponse`.
+Respond with a `TransportMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -317,7 +317,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>TransportMsgExampleResponse<br/>argOne]
+    EMsg>TransportMsgExampleReply<br/>argOne]
   end
 ```
 

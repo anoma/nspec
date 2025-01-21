@@ -117,7 +117,7 @@ StorageActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `StorageMsgExampleResponse`.
+Respond with a `StorageMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -321,7 +321,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>StorageMsgExampleResponse<br/>argOne]
+    EMsg>StorageMsgExampleReply<br/>argOne]
   end
 ```
 

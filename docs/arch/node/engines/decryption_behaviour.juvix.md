@@ -55,15 +55,15 @@ flowchart TD
       direction TB
       Decrypt[Attempt decryption<br/>using backend decryptor]
       Decrypt --> Success{Decryption<br/>Successful?}
-      Success -->|Yes| GoodResp[Create Response<br/>with plaintext]
-      Success -->|No| ErrResp[Create Response<br/>with error]
+      Success -->|Yes| GoodResp[Create Reply<br/>with plaintext]
+      Success -->|No| ErrResp[Create Reply<br/>with error]
   end
 
-  GoodResp --> Response[MsgDecryptionResponse<br/>commitment: Plaintext<br/>err: none]
-  ErrResp --> ErrResponse[MsgDecryptionResponse<br/>commitment: empty<br/>err: Some error]
+  GoodResp --> Reply[MsgDecryptionReply<br/>commitment: Plaintext<br/>err: none]
+  ErrResp --> ErrReply[MsgDecryptionReply<br/>commitment: empty<br/>err: Some error]
 
-  Response --> Client([Return to Client])
-  ErrResponse --> Client
+  Reply --> Client([Return to Client])
+  ErrReply --> Client
 
   style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
   style Action fill:#fff7f0,stroke:#333,stroke-width:2px
@@ -97,18 +97,18 @@ flowchart TD
      - Attempts to decrypt using the backend decryptor.
      - Constructs appropriate response based on result.
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Successful Case**
-     - Creates `MsgDecryptionResponse` with:
+     - Creates `MsgDecryptionReply` with:
        - `data`: The decrypted plaintext.
        - `err`: None.
    - **Error Case**
-     - In all error cases, returns `MsgDecryptionResponse` with:
+     - In all error cases, returns `MsgDecryptionReply` with:
        - `data`: emptyByteString (zero-length byte string).
        - `err`: Some "Decryption Failed".
 
-5. **Response Delivery**
-   - Response is sent back to the original requester.
+5. **Reply Delivery**
+   - Reply is sent back to the original requester.
    - Uses mailbox 0 (default mailbox for responses).
 
 #### Important Notes:
@@ -220,7 +220,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `ResponseDecryption` message is sent back to the requester.
+: A `ReplyDecryption` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -249,11 +249,11 @@ decryptAction
               (DecryptionCfg.backend (EngineCfg.cfg cfg))
               (RequestDecryption.data request);
           responseMsg := case decryptedData of {
-            | none := mkResponseDecryption@{
+            | none := mkReplyDecryption@{
                 data := emptyByteString;
                 err := some "Decryption Failed"
               }
-            | some plaintext := mkResponseDecryption@{
+            | some plaintext := mkReplyDecryption@{
                 data := plaintext;
                 err := none
               }
@@ -265,7 +265,7 @@ decryptAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgDecryption (MsgDecryptionResponse responseMsg)
+              msg := Anoma.MsgDecryption (MsgDecryptionReply responseMsg)
             }
           ];
           timers := [];

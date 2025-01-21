@@ -117,7 +117,7 @@ PubSubTopicActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `PubSubTopicMsgExampleResponse`.
+Respond with a `PubSubTopicMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -321,7 +321,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>PubSubTopicMsgExampleResponse<br/>argOne]
+    EMsg>PubSubTopicMsgExampleReply<br/>argOne]
   end
 ```
 

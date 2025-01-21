@@ -72,7 +72,7 @@ arguments.
 
 ### `TimeResult`
 
-Response to a `WallClockGetTime` request.
+Reply to a `WallClockGetTime` request.
 
 <!-- --8<-- [start:TimeResult] -->
 ```juvix

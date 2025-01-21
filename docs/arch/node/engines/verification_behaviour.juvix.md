@@ -141,7 +141,7 @@ State update
 : If `useSignsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged.
 
 Messages to be sent
-: If `useSignsFor` is false, a `ResponseVerification` message is sent back to the requester. If `useSignsFor` is true and it's the first request for this identity, a `QuerySignsForEvidenceRequest` is sent to the SignsFor Engine.
+: If `useSignsFor` is false, a `ReplyVerification` message is sent back to the requester. If `useSignsFor` is true and it's the first request for this identity, a `QuerySignsForEvidenceRequest` is sent to the SignsFor Engine.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -171,7 +171,7 @@ verifyAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := EngineMsg.sender emsg;
                     mailbox := some 0;
-                    msg := Anoma.MsgVerification (MsgVerificationResponse (mkResponseVerification
+                    msg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
                       (Verifier.verify
                         (VerificationCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
                         (VerificationCfg.backend (EngineCfg.cfg cfg))
@@ -219,7 +219,7 @@ verifyAction
   };
 ```
 
-#### `handleSignsForResponseAction`
+#### `handleSignsForReplyAction`
 
 Process a signs-for response and handle pending requests.
 
@@ -227,7 +227,7 @@ State update
 : The state is updated to remove the processed pending requests for the given external identity.
 
 Messages to be sent
-: `ResponseVerification` messages are sent to all requesters who were waiting for this SignsFor evidence.
+: `ReplyVerification` messages are sent to all requesters who were waiting for this SignsFor evidence.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -236,7 +236,7 @@ Timer updates
 : No timers are set or cancelled.
 
 ```juvix
-handleSignsForResponseAction
+handleSignsForReplyAction
   (input : VerificationActionInput)
   : Option VerificationActionEffect :=
   let
@@ -247,7 +247,7 @@ handleSignsForResponseAction
   in case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-        | mkEngineMsg@{msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse (mkResponseQuerySignsForEvidence externalIdentity evidence err))} :=
+        | mkEngineMsg@{msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply (mkReplyQuerySignsForEvidence externalIdentity evidence err))} :=
           case Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState) of {
             | some reqs :=
               let
@@ -269,7 +269,7 @@ handleSignsForResponseAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := whoAsked;
                     mailbox := some 0;
-                    msg := Anoma.MsgVerification (MsgVerificationResponse (mkResponseVerification
+                    msg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
                       (Verifier.verify
                         (VerificationCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
                         (VerificationCfg.backend (EngineCfg.cfg cfg))
@@ -300,10 +300,10 @@ handleSignsForResponseAction
 verifyActionLabel : VerificationActionExec := Seq [ verifyAction ];
 ```
 
-### `handleSignsForResponseActionLabel`
+### `handleSignsForReplyActionLabel`
 
 ```juvix
-handleSignsForResponseActionLabel : VerificationActionExec := Seq [ handleSignsForResponseAction ];
+handleSignsForReplyActionLabel : VerificationActionExec := Seq [ handleSignsForReplyAction ];
 ```
 
 ## Guards
@@ -386,14 +386,14 @@ verifyGuard
 ```
 <!-- --8<-- [end:verifyGuard] -->
 
-#### `signsForResponseGuard`
+#### `signsForReplyGuard`
 
 Condition
 : Message is a signs-for response from the SignsFor engine.
 
-<!-- --8<-- [start:signsForResponseGuard] -->
+<!-- --8<-- [start:signsForReplyGuard] -->
 ```juvix
-signsForResponseGuard
+signsForReplyGuard
   (tt : TimestampedTrigger VerificationTimerHandle Anoma.Msg)
   (cfg : EngineCfg VerificationCfg)
   (env : VerificationEnv)
@@ -402,12 +402,12 @@ signsForResponseGuard
     | some emsg :=
       case emsg of {
         | mkEngineMsg@{
-            msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse _);
+            msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply _);
             sender := sender
           } :=
           case isEqual (Ord.cmp sender (VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
             | true := some mkGuardOutput@{
-              action := handleSignsForResponseActionLabel;
+              action := handleSignsForReplyActionLabel;
               args := []
             }
             | false := none
@@ -417,7 +417,7 @@ signsForResponseGuard
     | none := none
   };
 ```
-<!-- --8<-- [end:signsForResponseGuard] -->
+<!-- --8<-- [end:signsForReplyGuard] -->
 
 ## The Verification Behaviour
 
@@ -446,7 +446,7 @@ verificationBehaviour : VerificationBehaviour :=
   mkEngineBehaviour@{
     guards := First [
       verifyGuard;
-      signsForResponseGuard
+      signsForReplyGuard
     ]
   };
 ```
@@ -463,7 +463,7 @@ flowchart TD
   CM>MsgVerificationRequest]
   SC{useSignsFor?}
   ES[(Update pending requests)]
-  MSG1>Response to requester]
+  MSG1>Reply to requester]
   MSG2>Request to SignsFor Engine]
 
   CM --verifyGuard--> SC
@@ -477,20 +477,20 @@ flowchart TD
 </figcaption>
 </figure>
 
-### `handleSignsForResponseAction` flowchart
+### `handleSignsForReplyAction` flowchart
 
 <figure markdown>
 
 ```mermaid
 flowchart TD
-  CM>MsgQuerySignsForEvidenceResponse]
+  CM>MsgQuerySignsForEvidenceReply]
   ES[(Remove pending requests)]
-  MSG>Responses to requesters]
+  MSG>Replys to requesters]
 
-  CM --signsForResponseGuard--> ES --> MSG
+  CM --signsForReplyGuard--> ES --> MSG
 ```
 
 <figcaption markdown="span">
-`handleSignsForResponseAction` flowchart
+`handleSignsForReplyAction` flowchart
 </figcaption>
 </figure>
