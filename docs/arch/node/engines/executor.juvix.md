@@ -66,16 +66,16 @@ execution.
 
 <!-- --8<-- [start:ExecutorEngine] -->
 ```juvix
-ExecutorEngine : Type :=
+ExecutorEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
-    ExecutorCfg
-    ExecutorLocalState
+    (ExecutorCfg KVSKey Executable)
+    (ExecutorLocalState KVSKey KVSDatum ProgramState)
     ExecutorMailboxState
     ExecutorTimerHandle
     ExecutorActionArguments
-    Anoma.Msg
-    Anoma.Cfg
-    Anoma.Env;
+    (Anoma.PreMsg KVSKey KVSDatum Executable)
+    (Anoma.PreCfg KVSKey KVSDatum Executable)
+    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ExecutorEngine] -->
 
@@ -83,7 +83,7 @@ ExecutorEngine : Type :=
 
 <!-- --8<-- [start:exampleExecutorEngine] -->
 ```juvix
-exampleExecutorEngine : ExecutorEngine :=
+exampleExecutorEngine : ExecutorEngine String String ByteString String :=
   mkEngine@{
     cfg := executorCfg;
     env := executorEnv;

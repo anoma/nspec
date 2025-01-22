@@ -369,16 +369,16 @@ If client reads produce signed responses, then signed responses from a weak quor
 
 <!-- --8<-- [start:ShardEngine] -->
 ```juvix
-ShardEngine : Type :=
+ShardEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
     ShardCfg
-    ShardLocalState
+    (ShardLocalState KVSKey KVSDatum)
     ShardMailboxState
     ShardTimerHandle
     ShardActionArguments
-    Anoma.Msg
-    Anoma.Cfg
-    Anoma.Env;
+    (Anoma.PreMsg KVSKey KVSDatum Executable)
+    (Anoma.PreCfg KVSKey KVSDatum Executable)
+    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ShardEngine] -->
 
@@ -386,7 +386,7 @@ ShardEngine : Type :=
 
 <!-- --8<-- [start:exampleShardEngine] -->
 ```juvix
-exampleShardEngine : ShardEngine :=
+exampleShardEngine : ShardEngine String String ByteString String :=
   mkEngine@{
     cfg := shardCfg;
     env := shardEnv;

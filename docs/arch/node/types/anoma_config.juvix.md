@@ -10,6 +10,8 @@ search:
     ```juvix
     module arch.node.types.anoma_config;
 
+    import prelude open;
+
     {- Identity -}
 
     import arch.node.engines.identity_management_config open;
@@ -68,7 +70,7 @@ of the engine `TickerEngine` is of type `TickerCfg`.
 
 <!-- --8<-- [start:anoma-config-type] -->
 ```juvix
-type Cfg :=
+type PreCfg (KVSKey KVSDatum Executable : Type)  :=
 
   {- Identity -}
 
@@ -101,7 +103,7 @@ type Cfg :=
   {- Ordering -}
 
   | CfgMempoolWorker MempoolWorkerCfg
-  | CfgExecutor ExecutorCfg
+  | CfgExecutor (ExecutorCfg KVSKey Executable)
   | CfgShard ShardCfg
 
   {- Misc -}
@@ -114,5 +116,8 @@ type Cfg :=
   | CfgTemplateMinimum TemplateMinimumCfg
 
   -- Add more configurations here
+  ;
+
+Cfg : Type := PreCfg String String ByteString;
 ```
 <!-- --8<-- [end:anoma-config-type] -->

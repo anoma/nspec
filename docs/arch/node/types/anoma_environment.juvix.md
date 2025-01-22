@@ -10,6 +10,8 @@ search:
     ```juvix
     module arch.node.types.anoma_environment;
 
+    import prelude open;
+
     {- Identity -}
 
     import arch.node.engines.identity_management_environment open;
@@ -69,7 +71,7 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 
 <!-- --8<-- [start:anoma-environment-type] -->
 ```juvix
-type Env :=
+type PreEnv (KVSKey KVSDatum Executable ProgramState : Type) :=
 
   {- Identity -}
 
@@ -101,9 +103,9 @@ type Env :=
 
   {- Ordering -}
 
-  | EnvMempoolWorker MempoolWorkerEnv
-  | EnvExecutor ExecutorEnv
-  | EnvShard ShardEnv
+  | EnvMempoolWorker (MempoolWorkerEnv KVSKey KVSDatum Executable)
+  | EnvExecutor (ExecutorEnv KVSKey KVSDatum ProgramState)
+  | EnvShard (ShardEnv KVSKey KVSDatum)
 
   {- Misc -}
 
@@ -116,5 +118,7 @@ type Env :=
 
   -- Add more environments here
   ;
+
+Env : Type := PreEnv String String ByteString String;
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

@@ -31,7 +31,13 @@ The executor environment maintains state needed during transaction execution inc
 ??? quote "Auxiliary Juvix code"
 
     ```juvix
-    axiom executeStep : Executable -> ProgramState -> Pair KVSKey KVSDatum -> Result String (Pair ProgramState (List (Either KVSKey (Pair KVSKey KVSDatum))));
+    trait
+    type Runnable (KVSKey KVSDatum Executable ProgramState : Type) :=
+      mkRunnable@{
+        executeStep : Executable -> ProgramState -> Pair KVSKey KVSDatum -> Result String (Pair ProgramState (List (Either KVSKey (Pair KVSKey KVSDatum))));
+        halted : ProgramState -> Bool;
+        startingState : ProgramState;
+      };
     ```
 
     `executeStep`:
@@ -56,7 +62,7 @@ syntax alias ExecutorMailboxState := Unit;
 ### `ExecutorLocalState`
 
 ```juvix
-type ExecutorLocalState := mkExecutorLocalState {
+type ExecutorLocalState (KVSKey KVSDatum ProgramState : Type) := mkExecutorLocalState {
   program_state : ProgramState;
   completed_reads : Map KVSKey KVSDatum;
   completed_writes : Map KVSKey KVSDatum
@@ -89,9 +95,9 @@ syntax alias ExecutorTimerHandle := Unit;
 ### `ExecutorEnv`
 
 ```juvix
-ExecutorEnv : Type :=
+ExecutorEnv (KVSKey KVSDatum ProgramState : Type) : Type :=
   EngineEnv
-    ExecutorLocalState
+    (ExecutorLocalState KVSKey KVSDatum ProgramState)
     ExecutorMailboxState
     ExecutorTimerHandle
     Anoma.Msg;
@@ -103,13 +109,10 @@ ExecutorEnv : Type :=
 ```juvix extract-module-statements
 module executor_environment_example;
 
-executorEnv : ExecutorEnv :=
+executorEnv {KVSKey KVSDatum : Type} : ExecutorEnv KVSKey KVSDatum String :=
   mkEngineEnv@{
     localState := mkExecutorLocalState@{
-      program_state := mkProgramState@{
-        data := "";
-        halted := false
-      };
+      program_state := "";
       completed_reads := Map.empty;
       completed_writes := Map.empty
     };
