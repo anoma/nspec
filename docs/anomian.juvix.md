@@ -316,8 +316,6 @@ AnomianID : EngineID := mkPair (some localhost) "Anomian184";
 > indicates whether the message is a command, a response, or an event, and the
 > *pattern* indicates the expected behaviour pattern for how the recipient should react.
 
-<!--ᚦ «Do we really want to restrict ourselves to command event response, in general?» -->
-
 ```juvix
 type EngineMsg M :=
   mkEngineMsg@{
