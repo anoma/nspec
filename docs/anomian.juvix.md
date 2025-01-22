@@ -220,7 +220,6 @@ type EngineMsgKind :=
 !!! info "Summary of communication patterns"
 
     We can have several communication patterns.
-    <!--ᚦ «Here I would like ideally compare to session types, choreographies, protocols etc.» -->
 
 ## Chapter 3: Engine configurations
 
