@@ -29,12 +29,12 @@ search:
 
     {- Network -}
 
-    import arch.node.net.router_config open;
-    import arch.node.net.node_proxy_config open;
-    import arch.node.net.transport_protocol_config open;
-    import arch.node.net.transport_connection_config open;
-    import arch.node.net.pub_sub_topic_config open;
-    import arch.node.net.storage_config open;
+    import arch.node.engines.net_registry_config open;
+    import arch.node.engines.router_config open;
+    import arch.node.engines.transport_protocol_config open;
+    import arch.node.engines.transport_connection_config open;
+    import arch.node.engines.pub_sub_topic_config open;
+    import arch.node.engines.storage_config open;
 
     {- Ordering -}
 

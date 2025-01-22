@@ -33,12 +33,12 @@ tags:
 
     {- Network -}
 
-    import arch.node.net.router_messages open;
-    import arch.node.net.node_proxy_messages open;
-    import arch.node.net.transport_protocol_messages open;
-    import arch.node.net.transport_connection_messages open;
-    import arch.node.net.pub_sub_topic_messages open;
-    import arch.node.net.storage_messages open;
+    import arch.node.engines.net_registry_messages open;
+    import arch.node.engines.router_messages open;
+    import arch.node.engines.transport_protocol_messages open;
+    import arch.node.engines.transport_connection_messages open;
+    import arch.node.engines.pub_sub_topic_messages open;
+    import arch.node.engines.storage_messages open;
 
     {- Ordering -}
 
