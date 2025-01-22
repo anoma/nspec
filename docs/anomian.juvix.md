@@ -196,8 +196,6 @@ type CommunicationPattern :=
 > asynchronously and without a response, broadcasting messages to multiple
 > engines.
 
-<!--ᚦ «Do we now plan to have a synchronous pattern?» -->
-
 <div class="grid" markdown>
 
 > We can consider three purposes for a message:
