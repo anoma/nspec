@@ -413,10 +413,6 @@ Why bother with the mailbox cluster? One mailbox is enough, right?
 
 > While a single mailbox would suffice for basic functionality, multiple
 > mailboxes provide valuable message organisation capabilities.
-<!--ᚦ
-        «mailboxes may lead to "threads" within engines,
-        very much like passive objects in the active objects approach (cf. SALSA)»
--->
 
 That sounds like how my email works. It is a cluster of mailboxes, and
 in principle, I have one big mailbox, but truly I can see it as having multiple
