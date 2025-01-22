@@ -19,11 +19,11 @@ split into two subsections:
 
 
 !!! todo "overview"
-    
+
     - Function definitions
     - Type definitions
     - What else?
-    
+
 
 - [[Node Architecture]] describes how a node is internally
   composed of various engines and how precisely each engine works.
