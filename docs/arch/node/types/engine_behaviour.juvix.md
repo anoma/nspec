@@ -18,6 +18,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.engine_config open;
     import arch.node.types.engine_environment open;
+    import Stdlib.Data.Maybe open;
     ```
 
 # Engine behaviour
@@ -156,12 +157,34 @@ type ActionEffect (S B H AM AC AE : Type) :=
 ```
 <!-- --8<-- [end:ActionEffect] -->
 
+### `Interaction`
+
+
+```juvix
+type LocalInteraction (O C V T : Type) :=
+  | Done@{
+      result : V; -- result of the interaction
+      delay : T; -- produced by the engine runtime
+    }
+  | Input@{
+      read : Map C (LocalInteraction O C V T); -- the user makes a choice ...
+      timeout : Maybe (Pair T (LocalInteraction O C V T)); -- ... we continue after timeout
+    }
+  | Random@{
+      variate : Map O (LocalInteraction O C V T); -- let a TRNG decide ...
+      timeout : Maybe (Pair T (LocalInteraction O C V T)); -- ... unless it takes too long
+    };
+-- this should rather be another place, but for starters, it is here
+```
+
+
 ### `ActionExec`
 
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
 type ActionExec (C S B H A AM AC AE : Type) :=
   | Seq (List (Action C S B H A AM AC AE))
+  | Interact (LocalInteraction Nat Nat S Nat) (ActionExec C S B H A AM AC AE)
   ;
 ```
 <!-- --8<-- [end:ActionExec] -->
