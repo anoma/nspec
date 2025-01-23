@@ -205,10 +205,9 @@ nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
 ```
 
 ## String Comparison
-<!--ᚦ
-        «No such thing in StdLib?»
--->
+
 ```juvix
+-- axiom needed, because feature not planned right now
 axiom stringCmp : String -> String -> Ordering;
 
 instance
