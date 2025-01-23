@@ -624,8 +624,6 @@ type GuardStrategy :=
   | AllGuards;
 ```
 
-<!--ᚦ «Do we really want OneGuard? Is this maybe something else?» -->
-
 </div>
 
 <div class="grid" markdown>
