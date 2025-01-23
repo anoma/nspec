@@ -31,60 +31,107 @@ tags:
 
 # Shard
 
-The Shard Engine functions as a specialized multi-version concurrent database that
-manages state access for Anoma's distributed execution system. Think of each Shard
-as a guardian of a specific subset of the system's key-value pairs, maintaining not
-just the current values, but a complete timeline of how those values change through
-different transactions. This timeline-based approach allows multiple transactions
-to read and write state concurrently while maintaining consistency, similar to how
-Git allows multiple developers to work with different versions of code.
+## Generalities
 
-At the heart of the Shard Engine is a sophisticated locking system that coordinates
-state access between transactions. Rather than using simple read/write locks, it
-employs a more nuanced approach using a DAG (Directed Acyclic Graph) structure.
-This structure tracks both the values stored at each key and, crucially,
-the relationships between different transactions' access requests. The Shard
-receives lock acquisition requests (`ShardMsgKVSAcquireLock`) from Mempool Workers,
-which specify exactly how a transaction intends to interact with state through
-several categories: eager reads (keys that will definitely be read), lazy reads
-(keys that might be read), definite writes (keys that will be written), and
-potential writes (keys that might be written).
+The [[Shard Engine|shard engines]]
+manage access to storage[^1] in Anoma's distributed execution system,
+which is organized as a
+[key-value database](https://en.wikipedia.org/wiki/Key%E2%80%93value_database).
+A shard in Anoma is (part of) a
+[database management_system](https://en.wikipedia.org/wiki/Database#Database_management_system) with
+[multi-version concurrency control (MVCC)](https://en.wikipedia.org/wiki/Multiversion_concurrency_control).
+As usual,
+we can think of a Shard
+as a guardian of a specific subset of the key-value pairs of the database;
+this is essentially the definition of a [shard](https://en.wikipedia.org/wiki/Shard_(database_architecture)).
+Moreover,
+it maintains not only the _current_ values "now",
+but a portion of the history of how transaction executions have changed values over time—the
+main idea of [MVCC](https://en.wikipedia.org/wiki/Multiversion_concurrency_control).
+The benefit of this timeline-based approach is that
+multiple transactions can read and write state _concurrently_ while
+maintaining [consistency](https://en.wikipedia.org/wiki/Consistency_model).
+This is similar to how Git allows multiple developers to work with
+different versions of code where
+deltas are the rough counterparts of transaction execution effects.
 
-When a transaction needs to read a value, it can happen in two ways. With eager
-reads, the Shard automatically sends the value (`ShardMsgKVSRead`) as soon as it's
-known to be the correct version for that transaction's timestamp. With lazy reads,
-the transaction must explicitly request the value (`ShardMsgKVSReadRequest`). This
-dual approach allows for optimization - transactions can get values they definitely
-need right away while avoiding unnecessary data transfer for values they might not
-use.
+The corner stone of the [[Shard Engine|engines]] is
+a non-trivial locking protocol that coordinates
+state access of several, possibly concurrent transaction executions;
+this protocol also involves Mempool Workers and Executor Engines.
+The main idea is to replace simple read/write locks for each key
+by a [directed acyclic graph (DAG)](https://en.wikipedia.org/wiki/Directed_acyclic_graph)
+that does not only store the data that is associated with each key,
+but also the relationships between different _access requests_
+of different transaction executions.
 
-The Shard maintains ordering through two important timestamps: `heardAllWrites` and
-`heardAllReads`. These act like watermarks in the system - the Shard knows it won't
-receive any new write operations before `heardAllWrites` or any new read operations
-before `heardAllReads`. These watermarks, updated through `ShardMsgUpdateSeenAll`
-messages from Mempool Workers, allow the Shard to make important decisions about when
-it's safe to execute reads and when it can clean up old state versions that are no
-longer needed.
+In broad strokes,
+the protocol proceeds as follows:
+each Shard receives lock acquisition requests (`ShardMsgKVSAcquireLock`) from Mempool Workers,
+which specify exactly how a transaction execution may interact with state (according to the transaction label) through
+one of the following categories:
+
+- eager reads (keys that will definitely be read),
+- lazy reads (keys that might be read),
+- definite writes (keys that will be written), and
+- potential writes (keys that might be written).
+
+Reading a value in the context of transaction execution can happen in two ways:
+in case of _eager_ reads,
+the Shard unconditionally sends the value (`ShardMsgKVSRead`) of a key as soon as
+the value is known to be the correct version
+relative to the timestamp of the relevant transaction(s);
+in case of _lazy_ reads,
+the transaction execution involves an explicitly request of the value of a key
+(via a `ShardMsgKVSReadRequest`).
+The distinction between eager and lazy reads allows to save bandwidth and time
+because we can avoid unnecessary data transfer for values if they are not required, 
+although they are in the set of read keys of the label of the relevant transaction
+(as we are adhering to principles of pessimistic concurrency control).
+
+!!! todo "explain the following (even) better"
+
+    - what does ordering mean
+
+    - need to explain the naming `heardAllWrites` and `heardAllReads` 
+
+      - who has heard
+      - what do we hear about
+      - what is the timestamp anyway (again)
+    
+The Shard maintains ordering through two important timestamps:
+`heardAllWrites` and `heardAllReads`.
+These act like watermarks in the system—the
+Shard knows it won't receive any new write operations before `heardAllWrites` or
+any new read operations before `heardAllReads`.
+These watermarks are
+updated through `ShardMsgUpdateSeenAll` messages from Mempool Workers and
+allow the Shard to make important decisions about when it is safe to execute reads and
+when it can _clean up_ old versions of key values that are no longer needed.
 
 The interface of the Shard Engine revolves around these key message types:
-`KVSAcquireLock` for securing access rights, `KVSReadRequest` for requesting
-values, `KVSWrite` for updating values, and `UpdateSeenAll` for maintaining order.
+
+- `KVSAcquireLock` for securing access rights,
+- `KVSReadRequest` for requesting values,
+- `KVSWrite` for updating values, and
+- `UpdateSeenAll` for maintaining order.
+
 Each write operation (`ShardMsgKVSWrite`) adds a new version to a key's timeline,
-while read operations need to carefully select the correct version based on
-transaction timestamps. When locks are successfully acquired, the Shard responds
-with `KVSLockAcquired` messages, allowing the Mempool Worker to track transaction
-progress.
+while read operations need to select
+the correct version based on transaction timestamps.
+When locks are successfully acquired,
+the Shard responds with `KVSLockAcquired` messages,
+allowing the Mempool Worker to track transaction execution progress.
 
 ## Purpose
 
 The Shards together store and update the
- *state* of the replicated state machine and
-  together are a component of the [[Execution Engines]].
+*state* of the replicated state machine and
+together are a component of the [[Execution Engines]].
 They provide [[Executor]]s with input data and update the state
- according to the results of [[Executor]]s' computations.
-
- Different shards may be on different physical machines.
- <!--
+according to the results of [[Executor]]s' computations.
+Different shards may be on different physical machines.<!--
+--------------------------------------------------------------------------------
    Redistributing state between shards is called *Re-Sharding*.
    Each Shard is specific to exactly one learner.
    However,
@@ -93,16 +140,16 @@ They provide [[Executor]]s with input data and update the state
    the work of multiple shards with different learners
    so long as those shards are identical, and
    fork that process if and when the learners diverge.
+--------------------------------------------------------------------------------
 -->
 
-
 Each shard is responsible for a set of [[KVSKey]]s
-and these sets are disjoint for different shards.
-For each of the keys that a shard is responsible for, the shard maintains a
- (partially-ordered) timeline of Timestamps of
- [[TransactionCandidate|transaction candidates]] that may read or write to keys.
-Shards also keep a history of data written by each
- [[TransactionCandidate]] to each key.
+and these sets are disjoint for any pair of different shards.
+For each of the keys that a shard is responsible for,
+the shard maintains a
+(partially-ordered) timeline of Timestamps of
+[[TransactionCandidate|transaction candidates]] that may read or write to keys.
+Shards also keep a history of values written by each [[TransactionCandidate]] to each key.
 This is [multi-version concurrent storage](
     https://en.wikipedia.org/wiki/Multiversion_concurrency_control).
 
@@ -111,20 +158,20 @@ This is [multi-version concurrent storage](
     https://rust-lang.GitHub.io/mdBook/format/mdbook.html#including-portions-of-a-file
 -->
 
-## State (of the shard)
+## State (of a single shard)
 
 For each [[Mempool Worker Engine]], the Shard maintains:
 
--  A Timestamp, such that all
-   _[[KVSAcquireLock|write lock requests]]_[^1] for
-   transaction candidates with earlier timestamps that this worker curates
-   have already been received.
+- A Timestamp, such that all
+  _[[KVSAcquireLock|write lock requests]]_ for
+  transaction candidates with earlier timestamps that this worker curates
+  have already been received.
   Together, these timestamps represent [`heardAllWrites`](#heardallwrites).
 - Another Timestamp, before which
-   the Shard will receive no further *read* requests from this
-   [[Mempool Worker Engine]].
+  the Shard will receive no further *read* requests from this
+  [[Mempool Worker Engine]].
   For [[Mempool Worker Engine]], this cannot be *after* the corresponding
-   *write* Timestamps.
+  *write* Timestamps.
   We will also maintain these from each Read Backend worker.
   Together, these represent `heardAllReads`.
 
@@ -406,3 +453,6 @@ where [[Shard Environment#shardEnv|`shardEnv`]] is defined as follows:
 and [[Shard Behaviour#shardBehaviour|`shardBehaviour`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/shard_behaviour.juvix.md:shardBehaviour"
+
+[^1]: State is more specifically controler state,
+      typically maintaned "inside" a replicated state machine.
