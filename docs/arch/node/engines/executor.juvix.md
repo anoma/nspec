@@ -65,8 +65,8 @@ execution.
 ## The type for an executor engine
 
 The executor engine is designed to be "agnostic" to choices of virtual machines and data formats,
-assuming only that the _executable_ will run step by step (possibly involving program state updates) and 
-interaction with replicated state machine state is via a key value storage interface.  
+assuming only that the _executable_ will run step by step (possibly involving program state updates) and
+interaction with replicated state machine state is via a key value storage interface.
 <!-- --8<-- [start:ExecutorEngine] -->
 ```juvix
 ExecutorEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
