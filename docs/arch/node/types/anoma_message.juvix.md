@@ -66,10 +66,6 @@ constructor of the type `Msg` corresponds to a specific type of message comming
 from a specific engine. For example, the engine `TickerEngine` has a
 corresponding message type `TickerMsg`.
 
-<!--ᚦ
-    «Can we call this constructor 'message tag'?»
--->
-
 <!-- --8<-- [start:Msg] -->
 ```juvix
 type Msg :=
@@ -119,6 +115,3 @@ type Msg :=
   ;
 ```
 <!-- --8<-- [end:Msg] -->
-<!--ᚦ
-        «Can we have also some code annotations visible in the markdown output?»
- -->
