@@ -347,6 +347,18 @@ For example,
 hello : String := "Hello, World!";
 ```
 
+### String Comparison
+
+```juvix
+axiom stringCmp : String -> String -> Ordering;
+
+instance
+StringOrd : Ord String :=
+  mkOrd@{
+    cmp := stringCmp;
+  };
+```
+
 ## ByteString
 
 ```juvix
