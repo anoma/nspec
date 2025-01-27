@@ -10,7 +10,7 @@ tags:
 - engine-behaviour
 ---
 
-??? note "Juvix imports"
+??? quote "Juvix imports"
 
     ```juvix
     module arch.node.engines.pub_sub_topic_behaviour;
