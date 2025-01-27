@@ -127,29 +127,6 @@ type UnitalProduct (U : Type) (F : Type -> Type -> Type) :=
   };
 ```
 
-### `Traversable`
-
-Traversable type class.
-
-```juvix
-trait
-type Traversable (T : Type -> Type) :=
-  mkTraversable@{
-    {{functorI}} : Functor T;
-    {{foldableI}} : Polymorphic.Foldable T;
-    sequence :
-      {F : Type -> Type} ->
-      {A : Type} ->
-      {{Applicative F}} ->
-      T (F A) -> F (T A);
-    traverse :
-      {F : Type -> Type} ->
-      {A B : Type} ->
-      {{Applicative F}} ->
-      (A -> F B) -> T A -> F (T B);
-  };
-```
-
 ## Bool
 
 The type `Bool` represents boolean values (`true` or `false`). Used for logical operations and conditions.
@@ -446,8 +423,8 @@ import Stdlib.Data.Pair as Pair
 ```juvix
 -- necessary for Isabelle-translation
 import Stdlib.Data.Fixity open;
-syntax operator mkPair none;
 syntax alias mkPair := ,;
+syntax operator mkPair none;
 ```
 
 For example,
@@ -1058,36 +1035,6 @@ minimalBy {A B} {{Ord B}}
   in foldr minHelper none lst;
 ```
 
-### `traversableListI`
-
-Traversable instance for lists
-
-```juvix
-instance
-traversableListI : Traversable List :=
-  mkTraversable@{
-    sequence {F : Type -> Type} {A} {{appF : Applicative F}} (xs : List (F A)) : F (List A) :=
-      let
-        cons : F A -> F (List A) -> F (List A)
-          | x acc := liftA2 (::) x acc;
-
-        go : List (F A) -> F (List A)
-          | nil := pure nil
-          | (x :: xs) := cons x (go xs);
-      in go xs;
-
-    traverse {F : Type -> Type} {A B} {{appF : Applicative F}} (f : A -> F B) (xs : List A) : F (List B) :=
-      let
-        cons : A -> F (List B) -> F (List B)
-          | x acc := liftA2 (::) (f x) acc;
-
-        go : List A -> F (List B)
-          | nil := pure nil
-          | (x :: xs) := cons x (go xs);
-      in go xs;
-  };
-```
-
 ### `chunksOf`
 
 Splits a list into chunks of size `n`. The last chunk may be smaller than `n` if the
@@ -1560,8 +1507,5 @@ axiom TODO : {A : Type} -> A;
 ## `AVLTree`
 
 ```juvix
-import Stdlib.Data.Set.AVL as AVLTree public;
-open AVLTree using {
-    AVLTree;
-} public;
+import Stdlib.Data.Set as AVLTree public;
 ```

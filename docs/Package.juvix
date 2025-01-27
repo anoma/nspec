@@ -8,7 +8,6 @@ package : Package :=
     name := "nspec";
     version := mkVersion 0 1 3;
     dependencies :=
-      [github "anoma" "juvix-stdlib" "v0.9.0"]
+      [github "anoma" "juvix-stdlib" "f73c9330b34019b2f6cf5033521eeb4764835dfb"]
   };
 -- --8<-- [end:package]
-
