@@ -46,7 +46,7 @@ Published messages are disseminated to all subscribers.
 The engine instance name corresponds to the `TopicID`.
 <!-- --8<-- [end:purpose] -->
 
-## Components
+## Engine components
 
 - [[Pub/Sub Topic Messages]]
 - [[Pub/Sub Topic Configuration]]

@@ -41,7 +41,7 @@ For each known node and topic it spawns a [[Router Engine]]
 or a [[Pub/Sub Topic Engine]] instance, respectively.
 <!-- --8<-- [end:purpose] -->
 
-## Components
+## Engine components
 
 - [[Network Registry Messages]]
 - [[Network Registry Configuration]]

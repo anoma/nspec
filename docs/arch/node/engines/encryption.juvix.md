@@ -46,7 +46,7 @@ known `reads_for` relationships. It is a stateless function, and calls to it do
 not need to be ordered. The runtime should implement this intelligently for
 efficiency.
 
-## Components
+## Engine components
 
 - [[Encryption Messages]]
 - [[Encryption Configuration]]

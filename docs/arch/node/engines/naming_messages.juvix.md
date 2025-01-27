@@ -231,7 +231,7 @@ type NamingMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Naming Configuration]]
 - [[Naming Environment]]

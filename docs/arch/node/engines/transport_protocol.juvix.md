@@ -38,7 +38,7 @@ A *Transport Protocol* engine is responsible for accepting and initiating transp
 for one specific transport protocol, such as QUIC or TLS.
 <!-- --8<-- [end:purpose] -->
 
-## Engine Components
+## Engine components
 
 - [[Transport Protocol Messages]]
 - [[Transport Protocol Configuration]]

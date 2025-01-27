@@ -83,7 +83,7 @@ type LoggingMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Logging Configuration]]
 - [[Logging Environment]]

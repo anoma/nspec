@@ -132,7 +132,7 @@ type VerificationMsg :=
 ```
 <!-- --8<-- [end:VerificationMsg] -->
 
-## Engine Components
+## Engine components
 
 - [[Verification Configuration]]
 - [[Verification Environment]]

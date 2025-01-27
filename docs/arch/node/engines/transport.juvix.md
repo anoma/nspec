@@ -38,7 +38,7 @@ via one of the *Transport Protocol* engines,
 each of which responsible for a specific transport protocol, such as QUIC or TLS.
 <!-- --8<-- [end:purpose] -->
 
-## Engine Components
+## Engine components
 
 - [[Transport Messages]]
 - [[Transport Config]]

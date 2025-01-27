@@ -159,7 +159,7 @@ type TemplateMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Template Configuration]]
 - [[Template Environment]]

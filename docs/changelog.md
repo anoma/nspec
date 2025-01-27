@@ -80,13 +80,13 @@ mkdocs to process Juvix Markdown.
     conventions|writing conventions]], Fix [[Template Behaviour|template
     behaviour]] diagrams and update Mkdocs Na
   -  [**#263**](https://github.com/anoma/nspec/pull/263): To the [[Hardware
-    Component]] section, add [[Local Key Value Store Engine]] , [[Logging
+    Subsystem]] section, add [[Local Key Value Store Engine]] , [[Logging
     Engine]] and [[Local Time Series Storage Engine]], [[Wall Clock Engine]].
-  -  [**#268**](https://github.com/anoma/nspec/pull/268): Add to [[Anoma Configuration]] section, the [[Identity Component]].
+  -  [**#268**](https://github.com/anoma/nspec/pull/268): Add to [[Anoma Configuration]] section, the [[Identity Subsystem]].
   -  [**#269**](https://github.com/anoma/nspec/pull/269): Fix type error due to
     not making configs when spawning engines in [[Identity Management Engine]].
   -  [**#273**](https://github.com/anoma/nspec/pull/273): Replace X Machine by X
-    Component in the [[Node Architecture]] section.
+    Subsystem in the [[Node Architecture]] section.
 - **Python-related changes**
   -  [**#271**](https://github.com/anoma/nspec/pull/271): update mkdocs juvix plugin v0.4.8
   -  [**#272**](https://github.com/anoma/nspec/pull/272): Update mkdocs juvix plugin v0.4.9

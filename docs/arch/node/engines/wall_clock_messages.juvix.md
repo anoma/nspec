@@ -103,7 +103,7 @@ type WallClockMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Wall Clock Configuration]]
 - [[Wall Clock Environment]]

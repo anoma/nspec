@@ -236,7 +236,7 @@ type SignsForMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[SignsFor Configuration]]
 - [[SignsFor Environment]]

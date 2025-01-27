@@ -53,7 +53,7 @@ with either the chunk itself if available locally,
 or with a `ChunkCommitment` by a node that stores the requested chunk.
 <!-- --8<-- [end:purpose] -->
 
-## Components
+## Engine components
 
 - [[Storage Messages]]
 - [[Storage Configuration]]

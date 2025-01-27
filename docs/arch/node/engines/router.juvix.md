@@ -60,7 +60,7 @@ or automatically as soon as a `NodeAdvert` or `TopicAdvert` is known for the des
 
 In the following we assume decentralized operation with automatic spawning for simplicity.
 
-## Engine Components
+## Engine components
 
 - [[Router Messages]]
 - [[Router Configuration]]

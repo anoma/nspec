@@ -38,7 +38,7 @@ tags:
 The Wall Clock Engine provides a mechanism for tracking and managing time locally on the physical machine that the Anoma node is running.
 It abstracts away the details of the underlying hardware and provides an interface for getting real-time clock functionality.
 
-## Components
+## Engine components
 
 - [[Wall Clock Messages]]
 - [[Wall Clock Configuration]]

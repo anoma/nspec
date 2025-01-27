@@ -254,7 +254,7 @@ type ShardMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Shard Configuration]]
 - [[Shard Environment]]

@@ -50,7 +50,7 @@ decryption. This ensures that encrypted data can only be decrypted by
 authorised parties while maintaining the security of the private
 decryption keys.
 
-## Components
+## Engine components
 
 - [[Decryption Messages]]
 - [[Decryption Configuration]]
