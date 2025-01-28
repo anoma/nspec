@@ -15,7 +15,7 @@ tags:
     module arch.node.types.storage;
 
     import prelude open;
-    
+
     import arch.node.types.basics open;
     import arch.node.types.crypto open;
     import arch.node.types.identities open;
