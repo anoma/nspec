@@ -12,7 +12,7 @@ tags:
     ```juvix
     module arch.node.types.anoma_message;
 
-    import prelude;
+    import prelude open;
 
     {- Identity -}
 
@@ -68,7 +68,8 @@ corresponding message type `TickerMsg`.
 
 <!-- --8<-- [start:Msg] -->
 ```juvix
-type Msg :=
+
+type PreMsg KVSKey KVSDatum Executable :=
 
   {- Identity -}
 
@@ -89,7 +90,7 @@ type Msg :=
 
   {- Network -}
 
-  | MsgRouter (RouterMsg Msg)
+  | MsgRouter (RouterMsg (PreMsg KVSKey KVSDatum Executable))
   | MsgTransportProtocol TransportProtocolMsg
   | MsgTransportConnection TransportConnectionMsg
   | MsgPubSubTopic PubSubTopicMsg
@@ -97,9 +98,9 @@ type Msg :=
 
   {- Ordering -}
 
-  | MsgMempoolWorker MempoolWorkerMsg
-  | MsgExecutor ExecutorMsg
-  | MsgShard ShardMsg
+  | MsgMempoolWorker (MempoolWorkerMsg KVSKey Executable)
+  | MsgExecutor (ExecutorMsg KVSKey KVSDatum)
+  | MsgShard (ShardMsg KVSKey KVSDatum)
 
   {- Misc -}
 
@@ -112,5 +113,7 @@ type Msg :=
 
   -- Add more messages here
   ;
+
+Msg : Type := PreMsg String String ByteString;
 ```
 <!-- --8<-- [end:Msg] -->
