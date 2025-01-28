@@ -78,7 +78,7 @@ A `RequestDecryption` instructs a decryption engine instance to decrypt data.
 ### `ReplyDecryption`
 
 ```juvix
-type ReplyDecryption := 
+type ReplyDecryption :=
   mkReplyDecryption@{
     data : Plaintext;
     err : Option String
