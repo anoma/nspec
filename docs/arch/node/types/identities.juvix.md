@@ -333,7 +333,7 @@ syntax alias TxFingerprint := Nat;
 ```
 
 ```juvix
-type TransactionCandidate ReadLabel WriteLabel Executable := 
+type TransactionCandidate ReadLabel WriteLabel Executable :=
   mkTransactionCandidate@{
     label : TransactionLabel ReadLabel WriteLabel;
     executable : Executable

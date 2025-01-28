@@ -51,8 +51,8 @@ type MessageFrom := mkMessageFrom@{
 
     `whoAsked`:
     : The engine ID of the requester.
-    
-    `mailbox`:
+
+`mailbox`:
     : The mailbox ID where the response message should be sent.
 
 ### `WallClockActionArgument`
