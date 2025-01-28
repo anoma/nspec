@@ -51,7 +51,7 @@ type MessageFrom := mkMessageFrom@{
 
     `whoAsked`:
     : The engine ID of the requester.
-    
+
     `mailbox`:
     : The mailbox ID where the response message should be sent.
 

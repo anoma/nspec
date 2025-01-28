@@ -156,7 +156,7 @@ An internal_identity includes:
 Properties are inherited from `Signer` and `Decryptor`.
 
 ```juvix
-type InternalIdentity 
+type InternalIdentity
     SignerType
     Signable
     Commitment
