@@ -59,10 +59,6 @@ type EncryptionLocalState := mkEncryptionLocalState@{
     `pendingRequests`:
     : The backlog of encryption requests still in processing.
 
-<!--ᚦ
-        «why do we have a backlog if it is a pure function?»
-        -->
-
 ## Timer Handle
 
 The Encryption Engine does not require a timer handle type. Therefore, we define
