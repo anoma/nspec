@@ -109,7 +109,7 @@ syntax alias SpanishPayload := String;
 > look like this.
 
 ```juvix
-type AnomianMsgInterface : Type :=
+type AnomianMsgInterface :=
   | AnomianMsgEnglish@{msg : EnglishPayload}
   | AnomianMsgFrench@{msg : FrenchPayload}
   ;
@@ -122,7 +122,7 @@ type AnomianMsgInterface : Type :=
 Hey, in my case, I speak English and Spanish. My message interface is the following.
 
 ```juvix
-type JordanMsgInterface : Type :=
+type JordanMsgInterface :=
   | JordanMsgEnglish@{msg : EnglishPayload}
   | JordanMsgSpanish@{msg : SpanishPayload}
   ;
@@ -240,7 +240,7 @@ age, and parents. Do engines have similar attributes?
 > `node`, and some configuration parameters denoted by `cfg` of an engine-specific type that instantiates the type parameter `C`.
 
 ```juvix
-type EngineCfg (C : Type) :=
+type EngineCfg C :=
   mkEngineCfg@{
     parent : Option EngineID;
     name : EngineName;
@@ -493,7 +493,7 @@ a parent, a name, and a virtual location where the engine *runs*. So, maybe a be
 ```juvix
 AddressBook : Type := Set EngineName;
 
-type EngineEnv (S Msg : Type) :=
+type EngineEnv S Msg :=
   mkEngineEnv@{
     state : S;
     mailbox : MailboxCluster S Msg;
@@ -598,7 +598,8 @@ payment.
 Guard (S M C R : Type) : Type :=
   EngineMsg M -> EngineEnv S M -> EngineCfg C -> Option R;
 
-isSatisfied {S M C R}
+isSatisfied
+  {S M C R}
   (guard : Guard S M C R)
   (msg : EngineMsg M)
   (env : EngineEnv S M)

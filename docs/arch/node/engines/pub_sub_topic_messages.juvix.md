@@ -53,7 +53,7 @@ forwarded to the local node.
 
 
 ```juvix
-type TopicMsg := mkTopicMsg {
+type TopicMsg := mkTopicMsg@{
   publisher : PublisherID;
   seq : Nat;
   deps : List TopicMsgID;
@@ -119,7 +119,7 @@ Acknowledgement of a `TopicMsg` with commitment to store it until the specified
 expiry date.
 
 ```juvix
-type TopicMsgAck := mkTopicMsgAck {
+type TopicMsgAck := mkTopicMsgAck@{
   expiry : AbsTime;
 }
 ```
@@ -136,7 +136,7 @@ type TopicMsgAck := mkTopicMsgAck {
 Pub/sub topic subscription request by a local engine or a remote node.
 
 ```juvix
-type TopicSubRequest := mkTopicSubRequest {
+type TopicSubRequest := mkTopicSubRequest@{
   topic : TopicID;
 }
 ```
@@ -179,7 +179,7 @@ TopicSubReply : Type := Result TopicSubReplyOk TopicSubReplyError;
 Pub/sub topic unsubscription request by a local engine or a remote node.
 
 ```juvix
-type TopicUnsubRequest := mkTopicUnsubRequest {
+type TopicUnsubRequest := mkTopicUnsubRequest@{
   topic : TopicID;
 }
 ```

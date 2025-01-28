@@ -103,7 +103,7 @@ Querying reads_for evidence for an identity
 ### `RequestReadsFor`
 
 ```juvix
-type RequestReadsFor := mkRequestReadsFor {
+type RequestReadsFor := mkRequestReadsFor@{
   externalIdentityA : ExternalIdentity;
   externalIdentityB : ExternalIdentity
 };
@@ -125,7 +125,7 @@ A request to query whether `externalIdentityA` can read data encrypted to
 ### `ReplyReadsFor`
 
 ```juvix
-type ReplyReadsFor := mkReplyReadsFor {
+type ReplyReadsFor := mkReplyReadsFor@{
   readsFor : Bool;
   err : Option String
 };
@@ -146,7 +146,7 @@ Reply indicating whether the `reads_for` relationship exists.
 ### `RequestSubmitReadsForEvidence`
 
 ```juvix
-type RequestSubmitReadsForEvidence := mkRequestSubmitReadsForEvidence {
+type RequestSubmitReadsForEvidence := mkRequestSubmitReadsForEvidence@{
   evidence : ReadsForEvidence
 };
 ```
@@ -163,7 +163,7 @@ Request to submit evidence of a `reads_for` relationship.
 ### `ReplySubmitReadsForEvidence`
 
 ```juvix
-type ReplySubmitReadsForEvidence := mkReplySubmitReadsForEvidence {
+type ReplySubmitReadsForEvidence := mkReplySubmitReadsForEvidence@{
   err : Option String
 };
 ```
@@ -180,7 +180,7 @@ Reply acknowledging the submission of evidence.
 ### `RequestQueryReadsForEvidence`
 
 ```juvix
-type RequestQueryReadsForEvidence := mkRequestQueryReadsForEvidence {
+type RequestQueryReadsForEvidence := mkRequestQueryReadsForEvidence@{
   externalIdentity : ExternalIdentity
 };
 ```
@@ -197,7 +197,7 @@ Request to query all `reads_for` evidence related to an identity.
 ### `ReplyQueryReadsForEvidence`
 
 ```juvix
-type ReplyQueryReadsForEvidence := mkReplyQueryReadsForEvidence {
+type ReplyQueryReadsForEvidence := mkReplyQueryReadsForEvidence@{
   externalIdentity : ExternalIdentity;
   evidence : Set ReadsForEvidence;
   err : Option String

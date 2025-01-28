@@ -84,7 +84,7 @@ Sequence diagram for verification (with `signs_for` evidence).
 ### `RequestVerification`
 
 ```juvix
-type RequestVerification := mkRequestVerification {
+type RequestVerification := mkRequestVerification@{
   data : Signable;
   commitment : Commitment;
   externalIdentity : ExternalIdentity;
@@ -115,7 +115,7 @@ A `RequestVerification` instructs the Verification Engine to verify a commitment
 ### `ReplyVerification`
 
 ```juvix
-type ReplyVerification := mkReplyVerification {
+type ReplyVerification := mkReplyVerification@{
   result : Bool;
   err : Option String
 };
@@ -125,6 +125,7 @@ A `ReplyVerification` contains the result of verifying a commitment in
 response to a `RequestVerification`.
 
 ???+ quote "Arguments"
+
     `result`:
     : True if the verification succeeded, False otherwise.
 
