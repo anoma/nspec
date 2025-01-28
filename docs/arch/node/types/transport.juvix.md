@@ -67,14 +67,16 @@ type TLSAddress :=
   };
 ```
 
-`ip`
-: IP address
+???+ quote "Arguments"
 
-`port`
-: Port number
+    `ip`
+    : IP address
 
-`cert_issuer`
-: TLS certificate issuer fingerprint
+    `port`
+    : Port number
+
+    `cert_issuer`
+    : TLS certificate issuer fingerprint
 
 ## `TransportAddress`
 
@@ -130,14 +132,16 @@ type TransportPrefs := mkTransportPrefs {
 };
 ```
 
-`ordering`
-:	Transport ordering preferences
+???+ quote "Arguments"
 
-`reliability`
-:	Transport reliability preferences
+    `ordering`
+    :	Transport ordering preferences
 
-`security`
-: Transport security preferences
+    `reliability`
+    :	Transport reliability preferences
+
+    `security`
+    : Transport security preferences
 
 ## `SerializedMsg`
 
