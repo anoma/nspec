@@ -44,9 +44,6 @@ syntax alias Hash := Nat;
 
 Relative time.
 In seconds from now.
-<!--ᚦ
-    «What is the smallest unit of time we have?»
--->
 
 ```juvix
 syntax alias RelTime := Nat;
