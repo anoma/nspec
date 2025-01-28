@@ -23,7 +23,8 @@ tags:
 
 # Network Registry Messages
 
-These are the messages that the *Network Registry* engine can receive/respond to.
+These are the messages that the *Network Registry* engine can receive/respond
+to.
 
 ## Message interface
 

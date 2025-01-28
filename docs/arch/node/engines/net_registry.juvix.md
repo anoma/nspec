@@ -33,13 +33,11 @@ tags:
 
 ## Purpose
 
-<!-- --8<-- [start:purpose] -->
 The single *Network Registry* engine instance
 maintains a database of `NodeAdvert` and `TopicAdvert` messages
 that arrive from the network on each node.
 For each known node and topic it spawns a [[Router Engine]]
 or a [[Pub/Sub Topic Engine]] instance, respectively.
-<!-- --8<-- [end:purpose] -->
 
 ## Engine components
 
@@ -48,7 +46,7 @@ or a [[Pub/Sub Topic Engine]] instance, respectively.
 - [[Network Registry Environment]]
 - [[Network Registry Behaviour]]
 
-## Type
+## The type for a network registry engine
 
 <!-- --8<-- [start:NetworkRegistryEngine] -->
 ```juvix
@@ -65,7 +63,7 @@ NetworkRegistryEngine : Type :=
 ```
 <!-- --8<-- [end:NetworkRegistryEngine] -->
 
-### Instantiation
+### Example instantiation
 
 <!-- --8<-- [start:exNetworkRegistryEngine] -->
 ```juvix
@@ -78,14 +76,15 @@ exNetworkRegistryEngine : NetworkRegistryEngine :=
 ```
 <!-- --8<-- [end:exNetworkRegistryEngine] -->
 
-Where `exNetworkRegistryCfg` is defined as follows:
+Where [[Network Registry Configuration#exNetworkRegistryCfg|exNetworkRegistryCfg]] is defined as follows:
 
 --8<-- "./net_registry_config.juvix.md:exNetworkRegistryCfg"
 
-`exNetworkRegistryEnv` is defined as follows:
+[[Network Registry Environment#exNetworkRegistryEnv|exNetworkRegistryEnv]] is defined as follows:
 
 --8<-- "./net_registry_environment.juvix.md:exNetworkRegistryEnv"
 
-and `exNetworkRegistryBehaviour` is defined as follows:
+and [[Network Registry Behaviour#exNetworkRegistryBehaviour|exNetworkRegistryBehaviour]] is defined as follows:
 
 --8<-- "./net_registry_behaviour.juvix.md:exNetworkRegistryBehaviour"
+
