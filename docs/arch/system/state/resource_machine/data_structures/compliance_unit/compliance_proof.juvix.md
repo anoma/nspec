@@ -19,8 +19,8 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
 |Name|Type|Description|
 |-|-|-|
-|`consumed`|`List (NullifierRef, RootRef, LogicRefHash)`|Includes nullifiers' references of all consumed resources in the compliance unit, root references, and commitments to [[Resource | `logicRef` resource components]] (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
-|`created`|`List (CommitmentRef, LogicRefHash)`|Commitments' references of all created resources in the compliance unit|
+|`consumed`|`OrderedSet (NullifierRef, RootRef, LogicRef)`|Includes nullifiers' references of all consumed resources in the compliance unit, root references, and commitments to [[Resource | `logicRef` resource components]] (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
+|`created`|`OrderedSet (CommitmentRef, LogicRef)`|Commitments' references of all created resources in the compliance unit|
 |`unitDelta`|`DeltaHash`|Unit delta|
 
 #### Witness
@@ -71,5 +71,8 @@ Each resource machine compliance proof must check the following:
 
 !!! note
     [2.1, 3.1]: To ensure correct computation of a commitment/nullifier, they have to be recomputed from the raw parameters (resource object and possibly `nullifierKey`) and compared to what is provided in the public tag set.
+
+!!! note
+    To support function privacy, the compliance proof must also verify the logic verifying key integrity: given `logicRefHash` as public input and `logicRef` as private input, verify that `logicRefHash = hash(logicRef)`
 
 Compliance proofs must be composition-independent: composing two actions, the compliance proof sets can be simply united to provide a valid composed action compliance proof set.
