@@ -146,7 +146,7 @@ type VerificationMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Verification Configuration]]
 - [[Verification Environment]]

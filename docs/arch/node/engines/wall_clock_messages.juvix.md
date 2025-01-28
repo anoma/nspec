@@ -76,8 +76,8 @@ Reply to a `WallClockGetTime` request.
 
 <!-- --8<-- [start:TimeResult] -->
 ```juvix
-type TimeResult : Type :=
-  mkTimeResult {
+type TimeResult :=
+  mkTimeResult@{
     epochTime : EpochTimestamp;
   }
 ```
@@ -103,7 +103,7 @@ type WallClockMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Wall Clock Configuration]]
 - [[Wall Clock Environment]]

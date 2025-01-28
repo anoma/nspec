@@ -265,7 +265,7 @@ type LocalTSStorageMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Local Time Series Storage Configuration]]
 - [[Local Time Series Storage Environment]]

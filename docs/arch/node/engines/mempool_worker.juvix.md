@@ -33,7 +33,7 @@ tags:
 The Mempool Worker Engine serves as a transaction coordinator in Anoma, managing
 the critical process of ordering transactions and orchestrating their execution.
 Think of it as a traffic controller that not only assigns each transaction a unique
-position in line (via a timestamp called a TxFingerprint), but also ensures all the
+position in line (via a timestamp called a *TxFingerprint*), but also ensures all the
 necessary resources (state access) are locked and ready before execution begins. In
 the current version of Anoma (V2), there is only a single Mempool Worker Engine
 instance, making it the central coordinator for all transaction processing.
@@ -115,7 +115,7 @@ execution. Success is equivalent to all reads and writes being successful and an
 [[ExecutorFinished]]-message from the [[Executor#executor|executor]] that was
 spawned to execute the message.
 
-## Components
+## Engine components
 
 - [[Mempool Worker Messages]]
 - [[Mempool Worker Configuration]]
@@ -126,16 +126,16 @@ spawned to execute the message.
 
 <!-- --8<-- [start:MempoolWorkerEngine] -->
 ```juvix
-MempoolWorkerEngine : Type :=
+MempoolWorkerEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
     MempoolWorkerCfg
-    MempoolWorkerLocalState
+    (MempoolWorkerLocalState KVSKey KVSDatum Executable)
     MempoolWorkerMailboxState
     MempoolWorkerTimerHandle
     MempoolWorkerActionArguments
-    Anoma.Msg
-    Anoma.Cfg
-    Anoma.Env;
+    (Anoma.PreMsg KVSKey KVSDatum Executable)
+    (Anoma.PreCfg KVSKey KVSDatum Executable)
+    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:MempoolWorkerEngine] -->
 
@@ -143,7 +143,7 @@ MempoolWorkerEngine : Type :=
 
 <!-- --8<-- [start:exampleMempoolWorkerEngine] -->
 ```juvix
-exampleMempoolWorkerEngine : MempoolWorkerEngine :=
+exampleMempoolWorkerEngine : MempoolWorkerEngine String String ByteString String :=
   mkEngine@{
     cfg := mempoolWorkerCfg;
     env := mempoolWorkerEnv;

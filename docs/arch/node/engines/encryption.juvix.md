@@ -52,7 +52,7 @@ efficiency.
 
     We have all this to refactor in v0.2.x
 
-## Components
+## Engine components
 
 - [[Encryption Messages]]
 - [[Encryption Configuration]]

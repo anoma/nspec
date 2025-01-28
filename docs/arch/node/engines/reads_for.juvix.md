@@ -46,7 +46,7 @@ allows submission of new evidence, and provides information about existing
 relationships. This is useful in scenarios where data access needs to be
 delegated or shared.
 
-## Components
+## Engine components
 
 - [[ReadFor Messages]]
 - [[ReadFor Configuration]]

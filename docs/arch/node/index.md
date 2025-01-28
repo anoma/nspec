@@ -22,6 +22,8 @@ An illustration of the pattern of communication between participants<!--
 -->—how they may send messages to each other—<!--
 -->is given in the following figure.
 
+
+<!--TODO: Can we make this diagram in korki so we can edit it easily? -->
 <figure markdown>
 
 ![Message Diagram](transaction_flow.svg)

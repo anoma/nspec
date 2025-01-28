@@ -103,7 +103,7 @@ Retrieving all signs_for evidence related to a particular identity
 ### `RequestSignsFor`
 
 ```juvix
-type RequestSignsFor := mkRequestSignsFor {
+type RequestSignsFor := mkRequestSignsFor@{
   externalIdentityA : ExternalIdentity;
   externalIdentityB : ExternalIdentity
 };
@@ -125,7 +125,7 @@ A `RequestSignsFor` queries whether `externalIdentityA` can sign on behalf of
 ### `MsgSignsForReply ReplySignsFor`
 
 ```juvix
-type ReplySignsFor := mkReplySignsFor {
+type ReplySignsFor := mkReplySignsFor@{
   signsFor : Bool;
   err : Option String
 };
@@ -146,7 +146,7 @@ A `ReplySignsFor` indicates whether the `signs_for` relationship exists.
 ### `RequestSubmitSignsForEvidence`
 
 ```juvix
-type RequestSubmitSignsForEvidence := mkRequestSubmitSignsForEvidence {
+type RequestSubmitSignsForEvidence := mkRequestSubmitSignsForEvidence@{
   evidence : SignsForEvidence
 };
 ```
@@ -163,7 +163,7 @@ A `RequestSubmitSignsForEvidence` submits evidence of a `signs_for` relationship
 ### `ReplySubmitSignsForEvidence`
 
 ```juvix
-type ReplySubmitSignsForEvidence := mkReplySubmitSignsForEvidence {
+type ReplySubmitSignsForEvidence := mkReplySubmitSignsForEvidence@{
   err : Option String
 };
 ```
@@ -180,7 +180,7 @@ A `ReplySubmitSignsForEvidence` acknowledges the submission of evidence.
 ### `RequestQuerySignsForEvidence`
 
 ```juvix
-type RequestQuerySignsForEvidence := mkRequestQuerySignsForEvidence {
+type RequestQuerySignsForEvidence := mkRequestQuerySignsForEvidence@{
   externalIdentity : ExternalIdentity
 };
 ```
@@ -197,7 +197,7 @@ A `RequestQuerySignsForEvidence` queries all `signs_for` evidence related to an 
 ### `ReplyQuerySignsForEvidence`
 
 ```juvix
-type ReplyQuerySignsForEvidence := mkReplyQuerySignsForEvidence {
+type ReplyQuerySignsForEvidence := mkReplyQuerySignsForEvidence@{
   externalIdentity : ExternalIdentity;
   evidence : Set SignsForEvidence;
   err : Option String
@@ -236,7 +236,7 @@ type SignsForMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[SignsFor Configuration]]
 - [[SignsFor Environment]]

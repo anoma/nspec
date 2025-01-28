@@ -48,7 +48,7 @@ new data, retrieving existing data, and deleting data when needed.
 
     That's technically not correct, though intuitively true.
 
-## Components
+## Engine components
 
 - [[Local Time Series Storage Messages]]
 - [[Local Time Series Storage Configuration]]

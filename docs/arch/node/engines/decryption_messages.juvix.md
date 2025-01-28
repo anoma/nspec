@@ -61,7 +61,7 @@ Sequence diagram for decryption.
 ### `RequestDecryption`
 
 ```juvix
-type RequestDecryption := mkRequestDecryption {
+type RequestDecryption := mkRequestDecryption@{
   data : Ciphertext
 };
 ```
@@ -69,6 +69,7 @@ type RequestDecryption := mkRequestDecryption {
 A `RequestDecryption` instructs a decryption engine instance to decrypt data.
 
 ???+ quote "Arguments"
+
     `data`:
     : The encrypted ciphertext to decrypt.
 
@@ -77,9 +78,10 @@ A `RequestDecryption` instructs a decryption engine instance to decrypt data.
 ### `ReplyDecryption`
 
 ```juvix
-type ReplyDecryption := mkReplyDecryption {
-  data : Plaintext;
-  err : Option String
+type ReplyDecryption := 
+  mkReplyDecryption@{
+    data : Plaintext;
+    err : Option String
 };
 ```
 
@@ -109,7 +111,7 @@ type DecryptionMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Decryption Configuration]]
 - [[Decryption Environment]]

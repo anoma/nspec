@@ -41,7 +41,7 @@ identities. It handles queries about these relationships, allows submission of n
 evidence, and provides information about existing relationships. This is useful in
 scenarios where signature delegation or proxy signing is required.
 
-## Components
+## Engine components
 
 - [[SignsFor Messages]]
 - [[SignsFor Configuration]]

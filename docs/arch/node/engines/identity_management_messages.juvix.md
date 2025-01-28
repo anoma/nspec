@@ -108,7 +108,7 @@ Deleting an identity
 ### `RequestGenerateIdentity`
 
 ```juvix
-type RequestGenerateIdentity := mkRequestGenerateIdentity {
+type RequestGenerateIdentity := mkRequestGenerateIdentity@{
   backend : Backend;
   params : IDParams;
   capabilities : Capabilities
@@ -134,7 +134,7 @@ a new identity using the specified backend, parameters, and capabilities.
 ### `ReplyGenerateIdentity`
 
 ```juvix
-type ReplyGenerateIdentity := mkReplyGenerateIdentity {
+type ReplyGenerateIdentity := mkReplyGenerateIdentity@{
   commitmentEngine : Option EngineID;
   decryptionEngine : Option EngineID;
   externalIdentity : EngineID;
@@ -165,7 +165,7 @@ failure occurred.
 ### `RequestConnectIdentity`
 
 ```juvix
-type RequestConnectIdentity := mkRequestConnectIdentity {
+type RequestConnectIdentity := mkRequestConnectIdentity@{
   externalIdentity : EngineID;
   backend : Backend;
   capabilities : Capabilities
@@ -191,7 +191,7 @@ to an existing identity using the specified backend.
 ### `ReplyConnectIdentity`
 
 ```juvix
-type ReplyConnectIdentity := mkConnectIdentityReply {
+type ReplyConnectIdentity := mkReplyConnectIdentity@{
   commitmentEngine : Option EngineID;
   decryptionEngine : Option EngineID;
   err : Option String
@@ -218,7 +218,7 @@ occurred.
 ### `RequestDeleteIdentity`
 
 ```juvix
-type RequestDeleteIdentity := mkRequestDeleteIdentity {
+type RequestDeleteIdentity := mkRequestDeleteIdentity@{
   externalIdentity : EngineID;
   backend : Backend
 };
@@ -240,7 +240,7 @@ existing identity using the specified backend.
 ### `ReplyDeleteIdentity`
 
 ```juvix
-type ReplyDeleteIdentity := mkReplyDeleteIdentity {
+type ReplyDeleteIdentity := mkReplyDeleteIdentitsy@{
   err : Option String
 };
 ```
@@ -272,7 +272,7 @@ type IdentityManagementMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Identity Management Configuration]]
 - [[Identity Management Environment]]

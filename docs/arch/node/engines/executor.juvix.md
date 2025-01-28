@@ -55,7 +55,7 @@ an `ExecutorMsgExecutorFinished` message to both the Worker that spawned it and 
 transaction's issuer, containing a summary of all reads and writes performed during
 execution.
 
-## Components
+## Engine components
 
 - [[Executor Messages]]
 - [[Executor Configuration]]
@@ -64,18 +64,21 @@ execution.
 
 ## The type for an executor engine
 
+The executor engine is designed to be "agnostic" to choices of virtual machines and data formats,
+assuming only that the _executable_ will run step by step (possibly involving program state updates) and
+interaction with replicated state machine state is via a key value storage interface.
 <!-- --8<-- [start:ExecutorEngine] -->
 ```juvix
-ExecutorEngine : Type :=
+ExecutorEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
-    ExecutorCfg
-    ExecutorLocalState
+    (ExecutorCfg KVSKey Executable)
+    (ExecutorLocalState KVSKey KVSDatum ProgramState)
     ExecutorMailboxState
     ExecutorTimerHandle
     ExecutorActionArguments
-    Anoma.Msg
-    Anoma.Cfg
-    Anoma.Env;
+    (Anoma.PreMsg KVSKey KVSDatum Executable)
+    (Anoma.PreCfg KVSKey KVSDatum Executable)
+    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ExecutorEngine] -->
 
@@ -83,7 +86,7 @@ ExecutorEngine : Type :=
 
 <!-- --8<-- [start:exampleExecutorEngine] -->
 ```juvix
-exampleExecutorEngine : ExecutorEngine :=
+exampleExecutorEngine : ExecutorEngine String String ByteString String :=
   mkEngine@{
     cfg := executorCfg;
     env := executorEnv;

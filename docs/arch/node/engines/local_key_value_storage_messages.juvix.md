@@ -243,7 +243,7 @@ type LocalKVStorageMsg :=
 ```
 <!-- --8<-- [end:LocalKVStorageMsg] -->
 
-## Engine Components
+## Engine components
 
 - [[Local Key Value Storage Configuration]]
 - [[Local Key Value Storage Environment]]

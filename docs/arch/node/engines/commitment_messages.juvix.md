@@ -100,7 +100,7 @@ type CommitmentMsg :=
 ```
 <!-- --8<-- [end:CommitmentMsg] -->
 
-## Engine Components
+## Engine components
 
 - [[Commitment Configuration]]
 - [[Commitment Environment]]
