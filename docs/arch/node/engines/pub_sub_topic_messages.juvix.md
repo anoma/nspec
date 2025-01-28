@@ -106,7 +106,8 @@ type TopicMsgContent :=
     : Chunk of an object. Pair of an encrypted `SecretKey` and a `Chunk`.
 
     `TopicMsgContentChunkRef`
-    : Reference to the root chunk of an object. Pair of an encrypted `SecretKey` and a `ChunkCommitment`.
+    : Reference to the root chunk of an object. Pair of an encrypted `SecretKey`
+    and a `ChunkCommitment`.
 
     `TopicMsgContentAck`
     : Acknowledgement of a `TopicMsg`.
@@ -222,6 +223,7 @@ TopicUnsubReply : Type := Result TopicUnsubReplyOk TopicUnsubReplyError;
 
 All pub/sub topic  messages.
 
+<!-- --8<-- [start:PubSubTopicMsg] -->
 ```juvix
 type PubSubTopicMsg :=
   | PubSubTopicMsgForward TopicMsg
@@ -231,7 +233,7 @@ type PubSubTopicMsg :=
   | PubSubTopicMsgUnsubReply TopicUnsubReply
   ;
 ```
-
+<!-- --8<-- [end:PubSubTopicMsg] -->
 ---
 
 ## Engine components

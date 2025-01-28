@@ -15,8 +15,8 @@ tags:
     ```juvix
     module arch.node.engines.router_messages;
 
-    import arch.node.engines.registry_messages open;
-    import arch.node.engines.transport_types open;
+    import arch.node.engines.net_registry_messages open;
+    import arch.node.types.transport open;
 
     import arch.node.types.basics open;
     import arch.node.types.identities open;
@@ -27,19 +27,28 @@ tags:
 
 ## Message interface
 
+--8<-- "./router_messages.juvix.md:RouterMsg"
+
+<!-- TODO: Add message sequence diagrams -->
+
+## Message types
+
+--- 
+
 ### `RouterMsgSend`
 
-Send an `EngineMsg` to the remote node
-with the given transport preferences
-and expiry time for send retries.
+Send an `EngineMsg` to the remote node with the given transport preferences and
+expiry time for send retries.
 
-Sender: any local engine.
+Expected sender: any local engine.
+
+---
 
 #### `NodeOutMsg`
 
 Outgoing message to a remote node.
 
-Sender: any local engine.
+Expected sender: any local engine.
 
 <!-- --8<-- [start:NodeOutMsg] -->
 ```juvix
@@ -51,11 +60,15 @@ type NodeOutMsg M := mkNodeOutMsg {
 ```
 <!-- --8<-- [end:NodeOutMsg] -->
 
+---
+
 ### `RouterMsgRecv`
 
 Receive a message from the remote node.
 
-Sender: local [[Transport Connection]] engine.
+Expected sender: local [[Transport Connection]] engine.
+
+---
 
 #### `NodeMsg`
 
@@ -75,27 +88,27 @@ type NodeMsg := mkNodeMsg {
 ???+ quote "Arguments"
 
     `seq`
-    Message sequence number of the sender.
+    : Message sequence number of the sender.
 
     `msg`
-    Encrypted `SerializedMsg` message that contains an `EngineMsg`.
+    : Encrypted `SerializedMsg` message that contains an `EngineMsg`.
 
-### `RouterMsgConnectRequest ConnectRequest`
+---
+
+
+### `ConnectRequest`
 
 Request a connection to a remote node.
 
-The responder may accept or deny the request.
-As part of the connection establishment,
-first a protocol version negotiation takes place.
-the highest common supported protocol version is chosen,
-or else the connection fails.
+The responder may accept or deny the request. As part of the connection
+establishment, first a protocol version negotiation takes place. the highest
+common supported protocol version is chosen, or else the connection fails.
 
-Nodes let each other know about their own latest `NodeAdvert` version,
-and the version they know of from the other party,
-and if necessary, send each other an updated `NodeAdvert`
-after the connection is established.
+Nodes let each other know about their own latest `NodeAdvert` version, and the
+version they know of from the other party, and if necessary, send each other an
+updated `NodeAdvert` after the connection is established.
 
-Sender: remote [[Router]] engine.
+Expected sender: remote [[Router]] engine.
 
 ```juvix
 type ConnectRequest :=
@@ -109,29 +122,35 @@ type ConnectRequest :=
   }
 ```
 
-`proto_ver_min`
-: Min. supported protocol version range.
+???+ quote "Arguments"
 
-`proto_ver_max`
-: Max. supported protocol version range.
+    `proto_ver_min`
+    : Min. supported protocol version range.
 
-`src_node_id`
-: Source node ID.
+    `proto_ver_max`
+    : Max. supported protocol version range.
 
-`dst_node_id`
-: Destination node ID.
+    `src_node_id`
+    : Source node ID.
 
-`src_node_advert_ver`
-: Latest `NodeAdvert` version of the source node.
+    `dst_node_id`
+    : Destination node ID.
 
-`dst_node_advert_ver`
-: Latest known `NodeAdvert` version of the destination node.
+    `src_node_advert_ver`
+    : Latest `NodeAdvert` version of the source node.
 
-### `RouterMsgConnectReply`
+    `dst_node_advert_ver`
+    : Latest known `NodeAdvert` version of the destination node.
 
-Reply to a `RouterMsgConnectRequest`.
+---
 
-#### `RouterMsgConnectReplyOk`
+### `ConnectReply`
+
+Reply to a `ConnectRequest`.
+
+---
+
+#### `ConnectReplyOk`
 
 Accept a connection from a node.
 
@@ -139,17 +158,21 @@ Accept a connection from a node.
 type ConnectReplyOk :=
   mkConnectReplyOk {
     proto_ver : Nat;
-    node_advert_ver : Pair Nat Nat;
+    node_advert_ver : Pair Nat Nat; 
   }
 ```
 
-`proto_ver`
-: Protocol version to use.
+???+ quote "Arguments"
 
-`node_advert_ver`
-: Latest local `NodeAdvert` version.
+    `proto_ver`
+    : Protocol version to use.
 
-#### `RouterMsgConnectReplyError`
+    `node_advert_ver`
+    : Latest local `NodeAdvert` version.
+
+---
+
+#### `ConnectReplyError`
 
 Refuse a connection from a node.
 
@@ -161,14 +184,18 @@ type ConnectReplyError :=
   ;
 ```
 
-`NodeConnectReplyErrorOverCapacity`
-: Node over capacity. Temporary failure.
+???+ quote "ConnectReplyError constructors"
 
-`NodeConnectReplyErrorIncompatible`
-: Incompatible protocol versions.
+    `NodeConnectReplyErrorOverCapacity`
+    : Node over capacity. Temporary failure.
 
-`NodeConnectReplyErrorDenied`
-: Connection denied by local policy.
+    `NodeConnectReplyErrorIncompatible`
+    : Incompatible protocol versions.
+
+  `NodeConnectReplyErrorDenied`
+  : Connection denied by local policy.
+
+---
 
 #### `ConnectReply`
 
@@ -176,7 +203,9 @@ type ConnectReplyError :=
 ConnectReply : Type := Result ConnectReplyOk ConnectReplyError;
 ```
 
-### `RouterMsgSetPermanence ConnectionPermanence`
+---
+
+### `SetPermanence`
 
 Set connection permanence of the destination node
 to either ephemeral or permanent.
@@ -191,10 +220,13 @@ type ConnectionPermanence :=
   ;
 ```
 
-## `RouterMsg`
+---
+
+### `RouterMsg`
 
 All *Router* engine messages.
 
+<!-- --8<-- [start:RouterMsg] -->
 ```juvix
 type RouterMsg M :=
   | RouterNodeAdvert NodeAdvert
@@ -205,3 +237,10 @@ type RouterMsg M :=
   | RouterMsgSetPermanence ConnectionPermanence
   ;
 ```
+<!-- --8<-- [end:RouterMsg] -->
+
+## Engine components
+
+- [[Router Configuration]]
+- [[Router Environment]]
+- [[Router Behaviour]]
