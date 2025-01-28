@@ -569,7 +569,7 @@ already know?
 <div class="grid" markdown>
 
 > We decompose the engine's range of possible reactions into a set of
-> **effects**. These effects are the valid actions that the engine can perform.
+> **effects**. These effects _describe_ the valid actions that the engine can perform.
 > We can represent these effects with the `Effect` type.
 >
 > To recall, we use the following convention for engine-related types:
@@ -579,7 +579,7 @@ already know?
 > - `M` is the type of its message interface.
 
 ```juvix
-axiom TimeTrigger : Type;
+syntax alias TimeTrigger := Nat;
 
 type Effect S E M :=
   | SendMsg@{msg : EngineMsg M}
