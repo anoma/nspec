@@ -105,7 +105,7 @@ type ChunkGetReplyOk :=
     `ChunkGetReplyOkContent`
     : Reply with chunk content.
 
-    `ChunkGetReplyOkCommitment` 
+    `ChunkGetReplyOkCommitment`
     : Reply with a set of known storage commitments.
     Each such commitment contains a `NodeID` that stores the chunk until the time specified.
     To retrieve the chunk, the requestor should issue another `ChunkGetRequest` to one of these nodes,
