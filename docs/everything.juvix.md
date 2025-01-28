@@ -77,6 +77,11 @@ import arch.node.types.engine_environment;
 import arch.node.types.engine_behaviour;
 import arch.node.types.engine;
 
+import arch.node.types.transport;
+import arch.node.types.storage;
+import arch.node.types.router;
+
+
 {- Engines -}
 
 {- Identity -}
@@ -167,6 +172,7 @@ import arch.node.engines.router_messages;
 import arch.node.engines.router_config;
 import arch.node.engines.router_environment;
 import arch.node.engines.router_behaviour;
+import arch.node.engines.router;
 
 import arch.node.engines.transport_protocol_messages;
 import arch.node.engines.transport_protocol_config;
