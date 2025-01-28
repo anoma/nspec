@@ -27,6 +27,8 @@ tags:
 
 ---
 
+---
+
 ### Verification sequence (without `signs_for` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-no-signs-for] -->
@@ -144,11 +146,10 @@ type VerificationMsg :=
 ```
 <!-- --8<-- [end:VerificationMsg] -->
 
----
-
-## Engine Components
+## Engine components
 
 - [[Verification Configuration]]
 - [[Verification Environment]]
 - [[Verification Behaviour]]
+
 

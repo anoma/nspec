@@ -139,7 +139,7 @@ type MempoolWorkerMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Mempool Worker Configuration]]
 - [[Mempool Worker Environment]]

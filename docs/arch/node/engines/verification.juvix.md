@@ -42,7 +42,7 @@ It can use "signs_for" relationship information and caller preferences to determ
 to verify a commitment. This engine is designed to be stateless, allowing for efficient
 implementation by the runtime.
 
-## Components
+## Engine components
 
 - [[Verification Messages]]
 - [[Verification Configuration]]

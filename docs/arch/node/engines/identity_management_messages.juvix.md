@@ -272,7 +272,7 @@ type IdentityManagementMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Identity Management Configuration]]
 - [[Identity Management Environment]]

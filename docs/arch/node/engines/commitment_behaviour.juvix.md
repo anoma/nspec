@@ -31,7 +31,7 @@ tags:
 
 ## Overview
 
-The behavior of the Commitment Engine defines how it processes incoming
+The behaviour of the Commitment Engine defines how it processes incoming
 commitment requests and produces the corresponding commitments/signatures.
 
 ## Commitment Action Flowchart

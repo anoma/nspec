@@ -99,7 +99,7 @@ type TickerMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Ticker Configuration]]
 - [[Ticker Environment]]

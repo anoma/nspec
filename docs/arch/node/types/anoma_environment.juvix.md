@@ -29,12 +29,12 @@ search:
 
     {- Network -}
 
-    import arch.node.net.router_environment open;
-    import arch.node.net.node_proxy_environment open;
-    import arch.node.net.transport_protocol_environment open;
-    import arch.node.net.transport_connection_environment open;
-    import arch.node.net.pub_sub_topic_environment open;
-    import arch.node.net.storage_environment open;
+    import arch.node.engines.net_registry_environment open;
+    import arch.node.engines.router_environment open;
+    import arch.node.engines.transport_protocol_environment open;
+    import arch.node.engines.transport_connection_environment open;
+    import arch.node.engines.pub_sub_topic_environment open;
+    import arch.node.engines.storage_environment open;
 
     {- Ordering -}
 
@@ -93,7 +93,6 @@ type Env :=
   {- Network -}
 
   | EnvRouter RouterEnv
-  | EnvNodeProxy NodeProxyEnv
   | EnvTransportProtocol TransportProtocolEnv
   | EnvTransportConnection TransportConnectionEnv
   | EnvPubSubTopic PubSubTopicEnv
