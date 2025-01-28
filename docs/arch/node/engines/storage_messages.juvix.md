@@ -31,12 +31,7 @@ tags:
 
 ## Message sequence diagrams
 
----
-
-
-## Message sequence diagrams
-
-### Storage
+### Storage message sequence diagram
 
 <!-- --8<-- [start:message-sequence-diagram] -->
 <figure markdown="span">
@@ -80,48 +75,50 @@ type ChunkGetRequest := mkChunkRequest {
       - `True`: all,
       - `Nat`: up to nth level.
 
+---
+
 ### `ChunkGetReply`
 
 Reply to a `ChunkGetRequest`.
 
----
+???+ quote "Auxiliary type"
 
-#### `ChunkGetReplyOk`
+    #### `ChunkGetReplyOk`
 
-Chunk found.
+    Chunk found.
 
-When available, the chunk contents are returned,
-otherwise a list of commitments by nodes that store the chunk.
+    When available, the chunk contents are returned,
+    otherwise a list of commitments by nodes that store the chunk.
 
-```juvix
-type ChunkGetReplyOk :=
-  | ChunkGetReplyOkContent Chunk
-  | ChunkGetReplyOkCommitment (Set ChunkCommitment)
-  ;
-```
+    ```juvix
+    type ChunkGetReplyOk :=
+      | ChunkGetReplyOkContent Chunk
+      | ChunkGetReplyOkCommitment (Set ChunkCommitment)
+      ;
+    ```
 
-???+ quote "`ChunkGetReplyOk` constructors"
+    ???+ quote "`ChunkGetReplyOk` constructors"
 
-    `ChunkGetReplyOkContent`
-    : Reply with chunk content.
+        `ChunkGetReplyOkContent`
+        : Reply with chunk content.
 
-    `ChunkGetReplyOkCommitment`
-    : Reply with a set of known storage commitments.
-    Each such commitment contains a `NodeID` that stores the chunk until the time specified.
-    To retrieve the chunk, the requestor should issue another `ChunkGetRequest` to one of these nodes,
-    trying them in the order of most recently successfully contacted.
+        `ChunkGetReplyOkCommitment`
+        : Reply with a set of known storage commitments.
+        Each such commitment contains a `NodeID` that stores the chunk until the time specified.
+        To retrieve the chunk, the requestor should issue another `ChunkGetRequest` to one of these nodes,
+        trying them in the order of most recently successfully contacted.
 
----
+    ---
 
-#### `ChunkGetReplyError`
+    #### `ChunkGetReplyError`
 
-Chunk not found.
+    Chunk not found.
 
-```juvix
-type ChunkGetReplyError :=
-  | ChunkGetReplyErrorNotFound
-  ;
-```
+    ```juvix
+    type ChunkGetReplyError :=
+      | ChunkGetReplyErrorNotFound
+      ;
+    ```
 
 ```juvix
 ChunkGetReply : Type := Result ChunkGetReplyOk ChunkGetReplyError;
@@ -134,36 +131,40 @@ ChunkGetReply : Type := Result ChunkGetReplyOk ChunkGetReplyError;
 Request to store a chunk.
 May be restricted to local engines.
 
----
+???+ quote "Auxiliary type"
 
-### `ChunkPutReply`
+    #### `ChunkPutRequestOk`
 
-Reply to a `ChunkPutRequest`.
+    Request to store a chunk.
 
----
+    ```juvix
+    type ChunkPutRequestOk :=
+      | ChunkPutRequestOkSuccess
+      ;
+    ```
 
-#### `ChunkPutReplyOk`
+    #### `ChunkPutReplyOk`
 
-Chunk stored successfully or already exists.
+    Chunk stored successfully or already exists.
 
-```juvix
-type ChunkPutReplyOk :=
-  | ChunkPutReplyOkStored
-  | ChunkPutReplyOkExists
-  ;
-```
+    ```juvix
+    type ChunkPutReplyOk :=
+      | ChunkPutReplyOkStored
+      | ChunkPutReplyOkExists
+      ;
+    ```
 
----
+    ---
 
-#### `ChunkPutReplyError`
+    #### `ChunkPutReplyError`
 
-Failed to store chunk.
+    Failed to store chunk.
 
-```juvix
-type ChunkPutReplyError :=
-  | ChunkPutReplyErrorFailed
-  ;
-```
+    ```juvix
+    type ChunkPutReplyError :=
+      | ChunkPutReplyErrorFailed
+      ;
+    ```
 
 ```juvix
 ChunkPutReply : Type := Result ChunkPutReplyOk ChunkPutReplyError;

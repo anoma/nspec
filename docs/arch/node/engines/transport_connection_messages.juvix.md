@@ -29,7 +29,14 @@ These are the messages that the *Transport Connection* engine can receive.
 
 ## Message interface
 
-### `TransportConnectionMsgSend`
+--8<-- "./transport_connection_messages.juvix.md:TransportConnectionMsg"
+
+<!-- TODO: add sequence diagram -->
+
+## Message types
+
+---
+### `TransportConnectionOutMsg`
 
 Send a message to the remote node via the established connection.
 
@@ -42,6 +49,16 @@ type TransportConnectionOutMsg := mkTransportConnectionOutMsg {
 ```
 <!-- --8<-- [end:TransportConnectionOutMsg] -->
 
+???+ quote "Arguments"
+
+    `expiry`:
+    : Time after which the message expires.
+
+    `msg`:
+    : The message to send.
+
+---
+
 ### `TransportConnectionMsg`
 
 <!-- --8<-- [start:TransportConnectionMsg] -->
@@ -51,3 +68,9 @@ type TransportConnectionMsg :=
   ;
 ```
 <!-- --8<-- [end:TransportConnectionMsg] -->
+
+## Engine components
+
+- [[Transport Connection Configuration]]
+- [[Transport Connection Environment]]
+- [[Transport Connection Behaviour]]
