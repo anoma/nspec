@@ -95,10 +95,6 @@ syntax alias Commitment := Signature;
 axiom emptyCommitment : Commitment;
 ```
 
-<!--ᚦ
-        «What do we need the empty commitment for?»
--->
-
 ## Network Identifiers
 
 ### NodeID

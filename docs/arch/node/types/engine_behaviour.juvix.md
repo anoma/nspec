@@ -102,9 +102,6 @@ are triggered.
     _precondition_ to run an action. The corresponding predicate is activated by a
     trigger and evaluated within the context of the engine's environment. It then
     returns a boolean when the predicate is satisfied, specifically of type
-    <!--ᚦ
-        «why haskell now?»
-    -->
 
     ```haskell
     Trigger H AM -> EngineEnv S B H AM -> Bool;
@@ -218,10 +215,6 @@ type GuardOutput (C S B H A AM AC AE : Type) :=
 <!-- --8<-- [end:GuardOutput] -->
 
 ### `GuardEval`
-
-<!--ᚦ
-    «So, this is what we have for the moment / v0.2?»
--->
 
 <!-- --8<-- [start:GuardEval] -->
 ```juvix
