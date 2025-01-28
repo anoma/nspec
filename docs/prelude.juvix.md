@@ -69,7 +69,7 @@ Join function for monads
 ```juvix
 join
   {M : Type -> Type}
-  {A : Type}
+  {A}
   {{Monad M}}
   (mma : M (M A)) : M A :=
   bind mma id;  -- using the built-in `bind`
@@ -83,7 +83,7 @@ Two-argument functor
 trait
 type Bifunctor (F : Type -> Type -> Type) :=
   mkBifunctor@{
-    bimap : {A B C D : Type} -> (A -> C) -> (B -> D) -> F A B -> F C D
+    bimap {A B C D} :  (A -> C) -> (B -> D) -> F A B -> F C D
   };
 ```
 
@@ -95,8 +95,8 @@ Product with associators
 trait
 type AssociativeProduct (F : Type -> Type -> Type) :=
   mkAssociativeProduct@{
-    assocLeft : {A B C : Type} -> F A (F B C) -> F (F A B) C;
-    assocRight : {A B C : Type} -> F (F A B) C -> F A (F B C)
+    assocLeft {A B C} : F A (F B C) -> F (F A B) C;
+    assocRight {A B C} : F (F A B) C -> F A (F B C)
   };
 ```
 
@@ -108,7 +108,7 @@ Product with commuters
 trait
 type CommutativeProduct (F : Type -> Type -> Type) :=
   mkCommutativeProduct@{
-    swap : {A B : Type} -> F A B -> F B A;
+    swap {A B} : F A B -> F B A;
   };
 ```
 
@@ -118,7 +118,7 @@ Product with units
 
 ```juvix
 trait
-type UnitalProduct (U : Type) (F : Type -> Type -> Type) :=
+type UnitalProduct U (F : Type -> Type -> Type) :=
   mkUnitalProduct@{
     unitLeft {A} : A -> F U A;
     unUnitLeft {A} : F U A -> A;
