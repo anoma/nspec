@@ -15,7 +15,7 @@ tags:
     ```juvix
     module arch.node.engines.transport_protocol_messages;
 
-    import arch.node.engines.transport_types open;
+    import arch.node.types.transport open;
     import arch.node.engines.router_messages open;
 
     import arch.node.types.basics open;
@@ -29,13 +29,18 @@ These are the messages that the *Transport Protocol* engine can receive.
 
 ## Message interface
 
-### `TransportProtocolMsgSend`
+--8<-- "./transport_protocol_messages.juvix.md:TransportProtocolMsg"
+
+## Message types
+
+---
+
+### `TransportOutMsg`
 
 Send a message to a remote node via the given transport address.
 
-The *Transport Protocol* engine
-spawns a new *Transport Connection* engine instance for the connection
-if it does not exist yet,
+The *Transport Protocol* engine spawns a new *Transport Connection* engine
+instance for the connection if it does not exist yet,
 and forwards the given message to it.
 
 <!-- --8<-- [start:TransportOutMsg] -->
@@ -54,8 +59,16 @@ type TransportOutMsg := mkTransportOutMsg {
     `addr`
     : Transport address.
 
+    `prefs`
+    : Transport preferences.
+
+    `expiry`
+    : Expiry time for send retries.
+
     `msg`
     : Node message.
+
+---
 
 ### `TransportProtocolMsg`
 
@@ -66,3 +79,9 @@ type TransportProtocolMsg :=
   ;
 ```
 <!-- --8<-- [end:TransportProtocolMsg] -->
+
+## Engine components
+
+- [[Transport Protocol Configuration]]
+- [[Transport Protocol Environment]]
+- [[Transport Protocol Behaviour]]
