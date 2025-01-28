@@ -56,15 +56,15 @@ flowchart TD
         direction TB
         Sign[Generate signature<br>using backend signer]
         Sign --> Success{Signature<br>Generated?}
-        Success -->|Yes| GoodResp[Create Response<br>with signature]
-        Success -->|No| ErrResp[Create Response<br>with error]
+        Success -->|Yes| GoodResp[Create Reply<br>with signature]
+        Success -->|No| ErrResp[Create Reply<br>with error]
     end
 
-    GoodResp --> Response[MsgCommitmentResponse<br>commitment: Commitment<br>err: none]
-    ErrResp --> ErrResponse[MsgCommitmentResponse<br>commitment: empty<br>err: Some error]
+    GoodResp --> Reply[MsgCommitmentReply<br>commitment: Commitment<br>err: none]
+    ErrResp --> ErrReply[MsgCommitmentReply<br>commitment: empty<br>err: Some error]
 
-    Response --> Client([Return to Client])
-    ErrResponse --> Client
+    Reply --> Client([Return to Client])
+    ErrReply --> Client
 ```
 
 <figcaption markdown="span">
@@ -94,18 +94,18 @@ flowchart TD
      - Attempts to generate a signature using the backend signer.
      - Constructs an appropriate response message.
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Successful Case**
-     - Creates `MsgCommitmentResponse` with:
+     - Creates `MsgCommitmentReply` with:
        - `commitment`: The generated signature.
        - `err`: None.
    - **Error Case**
-     - In all error cases, returns `MsgCommitmentResponse` with:
+     - In all error cases, returns `MsgCommitmentReply` with:
        - `commitment`: Empty.
        - `err`: Some(error message).
 
-5. **Response Delivery**
-   - Response is sent back to the original requester.
+5. **Reply Delivery**
+   - Reply is sent back to the original requester.
    - Uses mailbox 0 (default mailbox for responses).
 
 #### Important Notes:
@@ -218,7 +218,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `ResponseCommitment` message is sent back to the requester.
+: A `ReplyCommitment` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -245,7 +245,7 @@ commitAction
             (CommitmentCfg.signer (EngineCfg.cfg cfg))
             (CommitmentCfg.backend (EngineCfg.cfg cfg))
             (RequestCommitment.data request);
-          responseMsg := mkResponseCommitment@{
+          responseMsg := mkReplyCommitment@{
             commitment := signedData;
             err := none
           }
@@ -256,7 +256,7 @@ commitAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgCommitment (MsgCommitmentResponse responseMsg)
+              msg := Anoma.MsgCommitment (MsgCommitmentReply responseMsg)
             }
           ];
           timers := [];

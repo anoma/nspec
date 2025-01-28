@@ -149,7 +149,7 @@ RouterActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `RouterMsgExampleResponse`.
+Respond with a `RouterMsgExampleReply`.
 
 State update
 : The state remains unchanged.

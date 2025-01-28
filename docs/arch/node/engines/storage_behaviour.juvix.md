@@ -149,7 +149,7 @@ StorageActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `StorageMsgExampleResponse`.
+Respond with a `StorageMsgExampleReply`.
 
 State update
 : The state remains unchanged.

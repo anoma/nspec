@@ -149,7 +149,7 @@ TransportActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `TransportMsgExampleResponse`.
+Respond with a `TransportMsgExampleReply`.
 
 State update
 : The state remains unchanged.

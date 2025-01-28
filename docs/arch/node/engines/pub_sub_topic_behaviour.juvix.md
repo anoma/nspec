@@ -36,9 +36,6 @@ Using the action labels, we describe the effects of the actions.
 
 ## Pub/Sub Topic Action Flowchart
 
-
-## Action Flowchart
-
 ### `exampleReply` Flowchart
 
 <figure markdown>
@@ -151,7 +148,7 @@ PubSubTopicActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `PubSubTopicMsgExampleResponse`.
+Respond with a `PubSubTopicMsgExampleReply`.
 
 State update
 : The state remains unchanged.

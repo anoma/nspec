@@ -141,7 +141,7 @@ State update
 Otherwise, the state remains unchanged.
 
 Messages to be sent
-: If `useReadsFor` is false, a `ResponseEncrypt` message is sent back to
+: If `useReadsFor` is false, a `ReplyEncrypt` message is sent back to
 the requester. If `useReadsFor` is true and it's the first request for
 this identity, a `QueryReadsForEvidenceRequest` is sent to the ReadsFor
 Engine.
@@ -175,8 +175,8 @@ encryptAction
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.MsgEncryption (MsgEncryptionResponse (
-                  mkResponseEncrypt@{
+                msg := Anoma.MsgEncryption (MsgEncryptionReply (
+                  mkReplyEncrypt@{
                     ciphertext := Encryptor.encrypt
                       (EncryptionCfg.encryptor (EngineCfg.cfg cfg) Set.empty externalIdentity)
                       (EncryptionCfg.backend (EngineCfg.cfg cfg))
@@ -225,7 +225,7 @@ encryptAction
     };
 ```
 
-### `handleReadsForResponseAction`
+### `handleReadsForReplyAction`
 
 Process reads-for evidence response.
 
@@ -233,7 +233,7 @@ State update
 : The state is updated to remove processed pending requests.
 
 Messages to be sent
-: `ResponseEncrypt` messages are sent to all requesters who were waiting
+: `ReplyEncrypt` messages are sent to all requesters who were waiting
 for this ReadsFor evidence.
 
 Engines to be spawned
@@ -243,7 +243,7 @@ Timer updates
 : No timers are set or cancelled.
 
 ```juvix
-handleReadsForResponseAction
+handleReadsForReplyAction
   (input : EncryptionActionInput)
   : Option EncryptionActionEffect :=
   let
@@ -255,7 +255,7 @@ handleReadsForResponseAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case EngineMsg.msg emsg of {
-      | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse (mkResponseQueryReadsForEvidence externalIdentity evidence err)) :=
+      | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceReply (mkReplyQueryReadsForEvidence externalIdentity evidence err)) :=
         case Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState) of {
         | some reqs :=
           let newLocalState := localState@EncryptionLocalState{
@@ -272,8 +272,8 @@ handleReadsForResponseAction
                               sender := getEngineIDFromEngineCfg cfg;
                               target := whoAsked;
                               mailbox := some 0;
-                              msg := Anoma.MsgEncryption (MsgEncryptionResponse (
-                                mkResponseEncrypt@{
+                              msg := Anoma.MsgEncryption (MsgEncryptionReply (
+                                mkReplyEncrypt@{
                                   ciphertext := Encryptor.encrypt
                                     (EncryptionCfg.encryptor (EngineCfg.cfg cfg) evidence externalIdentity)
                                     (EncryptionCfg.backend (EngineCfg.cfg cfg))
@@ -301,10 +301,10 @@ handleReadsForResponseAction
 encryptActionLabel : EncryptionActionExec := Seq [ encryptAction ];
 ```
 
-### `handleReadsForResponseActionLabel`
+### `handleReadsForReplyActionLabel`
 
 ```juvix
-handleReadsForResponseActionLabel : EncryptionActionExec := Seq [ handleReadsForResponseAction ];
+handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForReplyAction ];
 ```
 
 ## Guards
@@ -370,11 +370,11 @@ encryptGuard
 ```
 <!-- --8<-- [end:encryptGuard] -->
 
-### `readsForResponseGuard`
+### `readsForReplyGuard`
 
-<!-- --8<-- [start:readsForResponseGuard] -->
+<!-- --8<-- [start:readsForReplyGuard] -->
 ```juvix
-readsForResponseGuard
+readsForReplyGuard
   (tt : TimestampedTrigger EncryptionTimerHandle Anoma.Msg)
   (cfg : EngineCfg EncryptionCfg)
   (env : EncryptionEnv)
@@ -382,10 +382,10 @@ readsForResponseGuard
   case getEngineMsgFromTimestampedTrigger tt of {
   | some emsg :=
     case EngineMsg.msg emsg of {
-    | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse _) :=
+    | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceReply _) :=
       case isEqual (Ord.cmp (EngineMsg.sender emsg) (EncryptionCfg.readsForEngineAddress (EngineCfg.cfg cfg))) of {
       | true := some mkGuardOutput@{
-          action := handleReadsForResponseActionLabel;
+          action := handleReadsForReplyActionLabel;
           args := []
         }
       | false := none
@@ -395,7 +395,7 @@ readsForResponseGuard
   | _ := none
   };
 ```
-<!-- --8<-- [end:readsForResponseGuard] -->
+<!-- --8<-- [end:readsForReplyGuard] -->
 
 ## The Encryption Behaviour
 
@@ -425,7 +425,7 @@ encryptionBehaviour : EncryptionBehaviour :=
     guards :=
       First [
         encryptGuard;
-        readsForResponseGuard
+        readsForReplyGuard
       ];
   };
 ```
@@ -460,20 +460,20 @@ flowchart TD
 </figcaption>
 </figure>
 
-### `handleReadsForResponseAction` flowchart
+### `handleReadsForReplyAction` flowchart
 
 <figure markdown>
 
 ```mermaid
 flowchart TD
   subgraph C [Conditions]
-    CMsg[MsgQueryReadsForEvidenceResponse]
+    CMsg[MsgQueryReadsForEvidenceReply]
   end
 
-  G[readsForResponseGuard]
-  A[handleReadsForResponseAction]
+  G[readsForReplyGuard]
+  A[handleReadsForReplyAction]
 
-  C --> G -->|handleReadsForResponseActionLabel| A --> E
+  C --> G -->|handleReadsForReplyActionLabel| A --> E
 
   subgraph E [Effects]
     direction TB
@@ -483,6 +483,6 @@ flowchart TD
 ```
 
 <figcaption markdown="span">
-`handleReadsForResponseAction` flowchart
+`handleReadsForReplyAction` flowchart
 </figcaption>
 </figure>

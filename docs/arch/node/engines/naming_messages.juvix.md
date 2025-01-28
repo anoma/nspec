@@ -39,7 +39,7 @@ sequenceDiagram
 
     Client->>NamingEngine: RequestResolveName (name)
     Note over NamingEngine: Check stored evidence
-    NamingEngine->>Client: ResponseResolveName
+    NamingEngine->>Client: ReplyResolveName
 ```
 
 <figcaption markdown="span">
@@ -62,7 +62,7 @@ sequenceDiagram
 
     Client->>NamingEngine: RequestSubmitNameEvidence
     Note over NamingEngine: Verify and store evidence
-    NamingEngine->>Client: ResponseSubmitNameEvidence
+    NamingEngine->>Client: ReplySubmitNameEvidence
 ```
 
 <figcaption markdown="span">
@@ -85,7 +85,7 @@ sequenceDiagram
 
     Client->>NamingEngine: RequestQueryNameEvidence (for ExternalIdentity)
     Note over NamingEngine: Retrieve relevant evidence
-    NamingEngine->>Client: ResponseQueryNameEvidence
+    NamingEngine->>Client: ReplyQueryNameEvidence
 ```
 
 <figcaption markdown="span">
@@ -117,16 +117,16 @@ associated with a given `IdentityName`.
 
 ---
 
-### `ResponseResolveName`
+### `ReplyResolveName`
 
 ```juvix
-type ResponseResolveName := mkResponseResolveName {
+type ReplyResolveName := mkReplyResolveName {
   externalIdentities : Set ExternalIdentity;
   err : Option String
 };
 ```
 
-A `ResponseResolveName` is returned in response to a `RequestResolveName`.
+A `ReplyResolveName` is returned in response to a `RequestResolveName`.
 
 ???+ quote "Arguments"
 
@@ -156,15 +156,15 @@ of IdentityNameEvidence.
 
 ---
 
-### `ResponseSubmitNameEvidence`
+### `ReplySubmitNameEvidence`
 
 ```juvix
-type ResponseSubmitNameEvidence := mkResponseSubmitNameEvidence {
+type ReplySubmitNameEvidence := mkReplySubmitNameEvidence {
   err : Option String
 };
 ```
 
-A `ResponseSubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`.
+A `ReplySubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`.
 
 ???+ quote "Arguments"
     `err`:
@@ -190,17 +190,17 @@ A `RequestQueryNameEvidence` instructs the Naming Engine to return any known
 
 ---
 
-### `ResponseQueryNameEvidence`
+### `ReplyQueryNameEvidence`
 
 ```juvix
-type ResponseQueryNameEvidence := mkResponseQueryNameEvidence {
+type ReplyQueryNameEvidence := mkReplyQueryNameEvidence {
   externalIdentity : ExternalIdentity;
   evidence : Set IdentityNameEvidence;
   err : Option String
 };
 ```
 
-A `ResponseQueryNameEvidence` provides the requested evidence.
+A `ReplyQueryNameEvidence` provides the requested evidence.
 
 ???+ quote "Arguments"
     `externalIdentity`:
@@ -220,11 +220,11 @@ A `ResponseQueryNameEvidence` provides the requested evidence.
 ```juvix
 type NamingMsg :=
   | MsgNamingResolveNameRequest RequestResolveName
-  | MsgNamingResolveNameResponse ResponseResolveName
+  | MsgNamingResolveNameReply ReplyResolveName
   | MsgNamingSubmitNameEvidenceRequest RequestSubmitNameEvidence
-  | MsgNamingSubmitNameEvidenceResponse ResponseSubmitNameEvidence
+  | MsgNamingSubmitNameEvidenceReply ReplySubmitNameEvidence
   | MsgNamingQueryNameEvidenceRequest RequestQueryNameEvidence
-  | MsgNamingQueryNameEvidenceResponse ResponseQueryNameEvidence
+  | MsgNamingQueryNameEvidenceReply ReplyQueryNameEvidence
   ;
 ```
 <!-- --8<-- [end:NamingMsg] -->

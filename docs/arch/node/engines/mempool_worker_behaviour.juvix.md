@@ -117,7 +117,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
      - Grouping keys by shard.
      - Creating appropriate lock request messages.
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Messages sent**:
      - To client: `MempoolWorkerMsgTransactionAck` containing:
        - `tx_hash`: Hash of the transaction
@@ -133,8 +133,8 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
        - `executor`: ID of spawned executor
        - `timestamp`: Generated fingerprint
 
-5. **Responses and Effects**
-   - **Response Delivery**
+5. **Replys and Effects**
+   - **Reply Delivery**
      - All messages are sent with mailbox 0 (default response mailbox).
      - Transaction acknowledgment is sent back to original requester.
      - Lock requests are sent to all relevant shards.
@@ -151,7 +151,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 
 ```mermaid
 flowchart TD
-    Start([Shard Response]) --> MsgReq[ShardMsgKVSLockAcquired<br/>timestamp: TxFingerprint]
+    Start([Shard Reply]) --> MsgReq[ShardMsgKVSLockAcquired<br/>timestamp: TxFingerprint]
 
     subgraph Guard["lockAcquiredGuard"]
         MsgReq --> ValidType{Is message type<br/>LockAcquired?}
@@ -202,7 +202,7 @@ flowchart TD
    - Updates internal barriers (`seen_all_writes` and `seen_all_reads`) based on calculations.
    - Constructs appropriate update messages for all shards.
 
-4. **Response Generation**
+4. **Reply Generation**
    - Constructs `ShardMsgUpdateSeenAll` messages for every shard, containing:
      - For write barrier updates:
        - `timestamp`: New `seen_all_writes` value.
@@ -221,7 +221,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Start([Executor Response]) --> MsgReq[ExecutorMsgExecutorFinished<br/>success: Bool<br/>values_read: List KeyValue<br/>values_written: List KeyValue]
+    Start([Executor Reply]) --> MsgReq[ExecutorMsgExecutorFinished<br/>success: Bool<br/>values_read: List KeyValue<br/>values_written: List KeyValue]
 
     subgraph Guard["executorFinishedGuard"]
         MsgReq --> ValidType{Is message type<br/>ExecutorFinished?}
@@ -272,7 +272,7 @@ flowchart TD
      - If transaction is found, stores the execution summary in the `execution_summaries` map.
      - The summary is indexed by the transaction's fingerprint for later reference.
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Successful Case**
      - Updates local state with the new execution summary.
      - No response messages are generated.

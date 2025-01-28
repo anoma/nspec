@@ -150,7 +150,7 @@ TransportConnectionActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `TransportConnectionMsgExampleResponse`.
+Respond with a `TransportConnectionMsgExampleReply`.
 
 State update
 : The state remains unchanged.

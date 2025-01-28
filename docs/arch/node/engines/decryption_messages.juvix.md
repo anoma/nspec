@@ -40,9 +40,9 @@ sequenceDiagram
     C->>DE: RequestDecryption(encryptedData)
     Note over DE: Attempt to decrypt data
     alt Decryption Successful
-        DE-->>C: ResponseDecryption(decryptedData, err=none)
+        DE-->>C: ReplyDecryption(decryptedData, err=none)
     else Decryption Failed
-        DE-->>C: ResponseDecryption(emptyByteString, err="Decryption Failed")
+        DE-->>C: ReplyDecryption(emptyByteString, err="Decryption Failed")
     end
 ```
 
@@ -74,16 +74,16 @@ A `RequestDecryption` instructs a decryption engine instance to decrypt data.
 
 ---
 
-### `ResponseDecryption`
+### `ReplyDecryption`
 
 ```juvix
-type ResponseDecryption := mkResponseDecryption {
+type ReplyDecryption := mkReplyDecryption {
   data : Plaintext;
   err : Option String
 };
 ```
 
-A `ResponseDecryption` contains the data decrypted by a decryption engine instance
+A `ReplyDecryption` contains the data decrypted by a decryption engine instance
 in response to a `RequestDecryption`.
 
 ???+ quote "Arguments"
@@ -102,7 +102,7 @@ in response to a `RequestDecryption`.
 ```juvix
 type DecryptionMsg :=
   | MsgDecryptionRequest RequestDecryption
-  | MsgDecryptionResponse ResponseDecryption
+  | MsgDecryptionReply ReplyDecryption
   ;
 ```
 <!-- --8<-- [end:DecryptionMsg] -->

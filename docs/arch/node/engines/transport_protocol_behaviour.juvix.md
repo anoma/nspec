@@ -148,7 +148,7 @@ TransportProtocolActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `TransportProtocolMsgExampleResponse`.
+Respond with a `TransportProtocolMsgExampleReply`.
 
 State update
 : The state remains unchanged.

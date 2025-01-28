@@ -117,7 +117,7 @@ TemplateMinimumActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `TemplateMinimumMsgExampleResponse`.
+Respond with a `TemplateMinimumMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -319,7 +319,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>TemplateMinimumMsgExampleResponse<br/>argOne]
+    EMsg>TemplateMinimumMsgExampleReply<br/>argOne]
   end
 ```
 
