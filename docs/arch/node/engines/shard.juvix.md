@@ -85,7 +85,7 @@ in case of _lazy_ reads,
 the transaction execution involves an explicitly request of the value of a key
 (via a `ShardMsgKVSReadRequest`).
 The distinction between eager and lazy reads allows to save bandwidth and time
-because we can avoid unnecessary data transfer for values if they are not required, 
+because we can avoid unnecessary data transfer for values if they are not required,
 although they are in the set of read keys of the label of the relevant transaction
 (as we are adhering to principles of pessimistic concurrency control).
 
@@ -93,12 +93,12 @@ although they are in the set of read keys of the label of the relevant transacti
 
     - what does ordering mean
 
-    - need to explain the naming `heardAllWrites` and `heardAllReads` 
+    - need to explain the naming `heardAllWrites` and `heardAllReads`
 
       - who has heard
       - what do we hear about
       - what is the timestamp anyway (again)
-    
+
 The Shard maintains ordering through two important timestamps:
 `heardAllWrites` and `heardAllReads`.
 These act like watermarks in the system—the
