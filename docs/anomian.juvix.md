@@ -119,7 +119,7 @@ syntax alias SpanishPayload := String;
 > look like this.
 
 ```juvix
-type AnomianMsgInterface : Type :=
+type AnomianMsgInterface :=
   | AnomianMsgEnglish@{msg : EnglishPayload}
   | AnomianMsgFrench@{msg : FrenchPayload}
   ;
@@ -132,7 +132,7 @@ type AnomianMsgInterface : Type :=
 Hey, in my case, I speak English and Spanish. My message interface is the following.
 
 ```juvix
-type JordanMsgInterface : Type :=
+type JordanMsgInterface :=
   | JordanMsgEnglish@{msg : EnglishPayload}
   | JordanMsgSpanish@{msg : SpanishPayload}
   ;
@@ -253,7 +253,7 @@ attributes?
 > parameter `C`.
 
 ```juvix
-type EngineCfg (C : Type) :=
+type EngineCfg C :=
   mkEngineCfg@{
     parent : Option EngineID;
     name : EngineName;
@@ -517,7 +517,7 @@ question: how do engines actually run?
 ```juvix
 AddressBook : Type := Set EngineName;
 
-type EngineEnv (S Msg : Type) :=
+type EngineEnv S Msg :=
   mkEngineEnv@{
     state : S;
     mailbox : MailboxCluster S Msg;
@@ -625,7 +625,8 @@ payment.
 Guard (S M C R : Type) : Type :=
   EngineMsg M -> EngineEnv S M -> EngineCfg C -> Option R;
 
-isSatisfied {S M C R}
+isSatisfied
+  {S M C R}
   (guard : Guard S M C R)
   (msg : EngineMsg M)
   (env : EngineEnv S M)

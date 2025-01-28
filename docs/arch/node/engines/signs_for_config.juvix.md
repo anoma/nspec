@@ -34,7 +34,7 @@ The SignsFor engine configuration contains static information for SignsFor engin
 
 <!-- --8<-- [start:SignsForCfg] -->
 ```juvix
-type SignsForCfg := mkSignsForCfg
+type SignsForCfg := mkSignsForCfg;
 ```
 <!-- --8<-- [end:SignsForCfg] -->
 

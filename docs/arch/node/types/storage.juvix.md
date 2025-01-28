@@ -23,6 +23,8 @@ tags:
 
 # Storage Types
 
+---
+
 ## `ACL`
 
 Access control list stored in a [[Storage]] object.
@@ -34,21 +36,33 @@ and a signature by the ACL owner.
 The ACL may be updated by sending an updated version
 to a pub/sub topic identified by the ACL owner's `ExternalID`.
 
-
 ```juvix
-type ACL := mkACL {
+type ACL := mkACL@{
   members : Set ExternalID;
   version : Nat;
   sig : Commitment;
 }
 ```
 
+???+ quote "Arguments"
+
+    `members`
+    : Set of `ExternalID`s that are members of the ACL.
+
+    `version`
+    : Version of the ACL.
+
+    `sig`
+    : Signature of the ACL by the ACL owner.
+
+---
+
 ## `Chunk`
 
 A chunk of a storage object.
 
 ```juvix
-type Chunk := mkChunk {
+type Chunk := mkChunk@{
   children : List ChunkID;
   expiry : AbsTime;
   acl : Option ACL;
@@ -56,18 +70,21 @@ type Chunk := mkChunk {
 };
 ```
 
-`children`
-: List of chunk IDs of children in the Merkle tree.
+???+ quote "Arguments"
 
-`expiry`
-: Expiration time after which the chunk must be deleted by each node storing it.
+    `children`
+    : List of chunk IDs of children in the Merkle tree.
 
-`content`
-: Encrypted `ChunkContent`.
+    `expiry`
+    : Expiration time after which the chunk must be deleted by each node storing it.
 
-`acl`
-: Nodes that are allowed to request the chunk.
+    `content`
+    : Encrypted `ChunkContent`.
 
+    `acl`
+    : Nodes that are allowed to request the chunk.
+
+---
 ## `ChunkContent`
 
 The content of a `Chunk`.
@@ -79,11 +96,15 @@ type ChunkContent :=
   ;
 ```
 
-`InternalNode`
-: An internal node of the Merkle tree. Contains decryption keys of its children.
+???+ quote "`ChunkContent` constructors"
 
-`LeafNode`
-: A leaf node of the Merkle tree. Contains a data chunk.
+    `InternalNode`
+    : An internal node of the Merkle tree. Contains decryption keys of its children.
+
+    `LeafNode`
+    : A leaf node of the Merkle tree. Contains a data chunk.
+
+---
 
 ## `ChunkCommitment`
 
@@ -102,14 +123,16 @@ type ChunkCommitment := mkChunkCommitment {
 };
 ```
 
-`id`
-: `ChunkID` to commit to.
+???+ quote "Arguments"
 
-`node`
-: `NodeID` where the `Chunk` can be found.
+    `id`
+    : `ChunkID` to commit to.
 
-`expiry`
-: Expiration time, until `node` guarantees storage.
+    `node`
+    : `NodeID` where the `Chunk` can be found.
 
-`sig`
-: Cryptographic signature of the above fields by `node`.
+    `expiry`
+    : Expiration time, until `node` guarantees storage.
+
+    `sig`
+    : Cryptographic signature of the above fields by `node`.

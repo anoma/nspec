@@ -71,11 +71,10 @@ Example request.
 
 <!-- --8<-- [start:ExampleRequest] -->
 ```juvix
-type ExampleRequest : Type :=
-  mkExampleRequest {
-    argOne : Nat;
-    argTwo : Nat;
-  }
+type ExampleRequest := mkExampleRequest@{
+  argOne : Nat;
+  argTwo : Nat;
+}
 ```
 <!-- --8<-- [end:ExampleRequest] -->
 
@@ -96,16 +95,17 @@ type ExampleRequest : Type :=
     ### `ReplyPayload`
 
     ```juvix
-    type ReplyPayload := mkReplyPayload {
+    type ReplyPayload := mkReplyPayload@{
       payload : String;
     };
     ```
 
     ---
+
     ### `ReplyError`
 
     ```juvix
-    type ReplyError := mkReplyError {
+    type ReplyError := mkReplyError@{
       error : String;
     };
     ```

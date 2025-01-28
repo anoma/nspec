@@ -66,7 +66,7 @@ Time : Type := Either RelTime AbsTime;
 Semantic version number (major.minor.patch).
 
 ```juvix
-type Version : Type :=
+type Version :=
   mkVersion@{
     major : Nat;
     minor : Nat;
