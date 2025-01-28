@@ -43,15 +43,14 @@ These are the messages that the *Pub/Sub Topic* engine can receive/respond to.
 A message published in a topic by an authorized publisher,
 forwarded to the local node.
 
-#### `TopicMsgID`
+???+ quote "Auxiliary type" 
 
-```juvix
-syntax alias TopicMsgID := Digest;
-```
+    #### `TopicMsgID`
 
----
+    ```juvix
+    syntax alias TopicMsgID := Digest;
+    ```
 
-### `TopicMsg`
 
 ```juvix
 type TopicMsg := mkTopicMsg {
@@ -116,8 +115,8 @@ type TopicMsgContent :=
 
 ### `TopicMsgAck`
 
-Acknowledgement of a `TopicMsg`
-with commitment to store it until the specified expiry date.
+Acknowledgement of a `TopicMsg` with commitment to store it until the specified
+expiry date.
 
 ```juvix
 type TopicMsgAck := mkTopicMsgAck {
@@ -148,32 +147,31 @@ type TopicSubRequest := mkTopicSubRequest {
 
 Reply to a `TopicSubRequest`.
 
-#### `TopicSubReplyOk`
+???+ quote "Auxiliary type"
 
-Subscription successful.
+    #### `TopicSubReplyOk`
 
-```juvix
-type TopicSubReplyOk :=
-  | TopicSubReplyOkSuccess
-  ;
-```
+    Subscription successful.
 
-### `TopicSubReplyError`
+    ```juvix
+    type TopicSubReplyOk :=
+      | TopicSubReplyOkSuccess
+      ;
+    ```
 
-Subscription failed.
+    #### `TopicSubReplyError`
 
-```juvix
-type TopicSubReplyError :=
-  | TopicSubReplyErrorDenied
-  ;
-```
+    Subscription failed.
 
-### `TopicSubReply`
+    ```juvix
+    type TopicSubReplyError :=
+      | TopicSubReplyErrorDenied
+      ;
+    ```
 
 ```juvix
 TopicSubReply : Type := Result TopicSubReplyOk TopicSubReplyError;
 ```
-
 ---
 
 ### `TopicUnsubRequest`
@@ -188,30 +186,29 @@ type TopicUnsubRequest := mkTopicUnsubRequest {
 
 ---
 
-### `TopicUnsubReplyOk`
+### `TopicUnsubReply`
 
 Unsubscription successful.
 
-```juvix
-type TopicUnsubReplyOk :=
-  | TopicUnsubReplyOkSuccess
-```
+???+ quote "Auxiliary type"
 
----
+    #### `TopicUnsubReplyOk`
 
-### `TopicUnsubReplyError`
+    ```juvix
+    type TopicUnsubReplyOk :=
+      | TopicUnsubReplyOkSuccess
+      ;
+    ```
 
-Unsubscription failed.
+    #### `TopicUnsubReplyError`
 
-```juvix
-type TopicUnsubReplyError :=
-  | TopicUnsubReplyErrorNotSubscribed
-  ;
-```
+    Unsubscription failed.
 
----
-
-### `TopicUnsubReply`
+    ```juvix
+    type TopicUnsubReplyError :=
+      | TopicUnsubReplyErrorNotSubscribed
+      ;
+    ```
 
 ```juvix
 TopicUnsubReply : Type := Result TopicUnsubReplyOk TopicUnsubReplyError;
