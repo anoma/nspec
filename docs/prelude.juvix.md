@@ -202,7 +202,6 @@ Not or
 nor (a b : Bool) : Bool := not (or a b);
 ```
 
-
 ## Nat
 
 The type `Nat` represents natural numbers (non-negative integers). Used for
@@ -289,7 +288,7 @@ Fold over natural numbers.
 
 ```juvix
 terminating
-foldNat {B : Type} (z : B) (f : Nat -> B -> B) (n : Nat) : B :=
+foldNat {B} (z : B) (f : Nat -> B -> B) (n : Nat) : B :=
   case n of {
     | zero := z
     | suc k := f k (foldNat z f k)
@@ -301,7 +300,7 @@ foldNat {B : Type} (z : B) (f : Nat -> B -> B) (n : Nat) : B :=
 Iteration of a function.
 
 ```juvix
-iter {A : Type} (f : A -> A) (n : Nat) (x : A) : A :=
+iter {A} (f : A -> A) (n : Nat) (x : A) : A :=
   foldNat x \{_ y := f y} n;
 ```
 
@@ -353,7 +352,8 @@ lcm (a b : Nat) : Nat :=
 
 ## String
 
-The type `String` represents sequences of characters. Used for text and communication.
+The type `String` represents sequences of characters. Used for text and
+communication.
 
 ```juvix
 import Stdlib.Data.String
@@ -396,7 +396,8 @@ emptyByteString : ByteString := "";
 
 ## Unit
 
-The type `Unit` represents a type with a single value. Often used when a function does not return any meaningful value.
+The type `Unit` represents a type with a single value. Often used when a
+function does not return any meaningful value.
 
 ```juvix
 import Stdlib.Data.Unit
@@ -418,7 +419,7 @@ unitValue : Unit := unit;
 Unique function to the unit. Universal property of terminal object.
 
 ```juvix
-trivial {A : Type} : A -> Unit := const unit;
+trivial {A} : A -> Unit := const unit;
 ```
 
 ## Empty
@@ -435,7 +436,7 @@ axiom Empty : Type;
 Unique function from empty. Universal property of initial object.
 
 ```juvix
-axiom explode {A : Type} : Empty -> A;
+axiom explode {A} : Empty -> A;
 ```
 
 ## Pair A B
@@ -456,7 +457,6 @@ import Stdlib.Data.Pair as Pair
 ```
 
 ```juvix
--- necessary for Isabelle-translation
 import Stdlib.Data.Fixity open;
 syntax operator mkPair none;
 syntax alias mkPair := ,;
@@ -546,7 +546,7 @@ Universal property of pairs
 
 ```juvix
 fork
-  {A B C : Type}
+  {A B C}
   (f : C -> A)
   (g : C -> B)
   (c : C) : Pair A B :=
@@ -679,7 +679,7 @@ Unit maps for Either and Empty
 #### `unUnitLeftEither`
 
 ```juvix
-unUnitLeftEither {A : Type} (e : Either Empty A) : A :=
+unUnitLeftEither {A} (e : Either Empty A) : A :=
   case e of {
     | left x := explode x
     | right x := x
@@ -688,7 +688,7 @@ unUnitLeftEither {A : Type} (e : Either Empty A) : A :=
 
 #### `unUnitRightEither`
 ```juvix
-unUnitRightEither {A : Type} (e : Either A Empty) : A :=
+unUnitRightEither {A} (e : Either A Empty) : A :=
   case e of {
     | left x := x
     | (right x) := explode x
@@ -1560,13 +1560,13 @@ The term `undef` is a placeholder for unspecified values.
 ### `undef`
 
 ```juvix
-axiom undef : {A : Type} -> A;
+axiom undef {A} : A;
 ```
 
 ### `TODO`
 
 ```juvix
-axiom TODO : {A : Type} -> A;
+axiom TODO {A} : A;
 ```
 
 ## `AVLTree`
