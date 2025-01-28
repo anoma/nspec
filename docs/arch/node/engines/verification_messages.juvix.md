@@ -27,6 +27,8 @@ tags:
 
 ---
 
+---
+
 ### Verification sequence (without `signs_for` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-no-signs-for] -->
@@ -140,6 +142,7 @@ response to a `RequestVerification`.
 type VerificationMsg :=
   | MsgVerificationRequest RequestVerification
   | MsgVerificationReply ReplyVerification
+  | MsgVerificationReply ReplyVerification
   ;
 ```
 <!-- --8<-- [end:VerificationMsg] -->
@@ -149,4 +152,5 @@ type VerificationMsg :=
 - [[Verification Configuration]]
 - [[Verification Environment]]
 - [[Verification Behaviour]]
+
 

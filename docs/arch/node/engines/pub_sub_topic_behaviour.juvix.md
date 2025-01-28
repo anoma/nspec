@@ -149,6 +149,7 @@ PubSubTopicActionArguments : Type := Unit;
 #### `exampleReplyAction`
 
 Respond with a `PubSubTopicMsgExampleReply`.
+Respond with a `PubSubTopicMsgExampleReply`.
 
 State update
 : The state remains unchanged.
