@@ -142,7 +142,6 @@ response to a `RequestVerification`.
 type VerificationMsg :=
   | MsgVerificationRequest RequestVerification
   | MsgVerificationReply ReplyVerification
-  | MsgVerificationReply ReplyVerification
   ;
 ```
 <!-- --8<-- [end:VerificationMsg] -->
