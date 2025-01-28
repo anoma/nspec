@@ -28,9 +28,50 @@ to.
 
 ## Message interface
 
+--8<-- "./net_registry_messages.juvix.md:NetworkRegistryMsg"
+
+## Message sequence diagrams
+
+---
+
+
+### `ExampleRequest` & `ExampleReply`
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Sed ut purus eget sapien. Nulla facilisi.
+
+<!-- --8<-- [start:message-sequence-diagram-ExampleRequest] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant NetworkRegistryClient
+    participant NetworkRegistry
+
+    NetworkRegistryClient ->> NetworkRegistry: ExampleRequest
+    NetworkRegistry ->> NetworkRegistryClient: ExampleReplyOk
+
+    NetworkRegistryClient ->> NetworkRegistry: ExampleRequest
+    NetworkRegistry ->> NetworkRegistryClient: ExampleReplyErrorOne
+```
+
+<figcaption markdown="span">
+Sequence Diagram: `ExampleRequest` & `ExampleReply`
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
+
+---
+
+## Message types
+
+---
+
 ### `NetworkRegistryMsgNodeAdvert`
 
 A `NodeAdvert` update from another node.
+
+---
 
 ## `NodeAdvert`
 
@@ -63,6 +104,8 @@ type NodeAdvert :=
 `sig`
 : Signature by `id`.
 
+---
+
 ### `NetworkRegistryMsgTopicAdvert`
 
 ## `TopicAdvert`
@@ -85,11 +128,15 @@ type TopicAdvert :=
   };
 ```
 
+---
+
 ### `NetworkRegistryMsgGetNodeAdvertRequest`
 
 Get `NodeAdvert` for the given `NodeID`.
 
 Sender: any local engine.
+
+---
 
 ### `NetworkRegistryMsgExampleReply`
 
@@ -129,6 +176,8 @@ Get `TopicAdvert` for the given `TopicID`.
 
 Sender: any local engine.
 
+---
+
 ### `NetworkRegistryMsgExampleReply ExampleReply`
 
 Reply to a `GetTopicAdvertRequest`.
@@ -161,6 +210,8 @@ GetTopicAdvertReply : Type := Result GetTopicAdvertReplyError GetTopicAdvertRepl
 ```
 <!-- --8<-- [end:GetTopicAdvertReply] -->
 
+---
+
 ### `NetworkRegistryMsg`
 
 <!-- --8<-- [start:NetworkRegistryMsg] -->
@@ -176,30 +227,8 @@ type NetworkRegistryMsg :=
 ```
 <!-- --8<-- [end:NetworkRegistryMsg] -->
 
-## Sequence Diagrams
+## Engine components
 
-### `ExampleRequest` & `ExampleReply`
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Sed ut purus eget sapien. Nulla facilisi.
-
-<!-- --8<-- [start:message-sequence-diagram-ExampleRequest] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant NetworkRegistryClient
-    participant NetworkRegistry
-
-    NetworkRegistryClient ->> NetworkRegistry: ExampleRequest
-    NetworkRegistry ->> NetworkRegistryClient: ExampleReplyOk
-
-    NetworkRegistryClient ->> NetworkRegistry: ExampleRequest
-    NetworkRegistry ->> NetworkRegistryClient: ExampleReplyErrorOne
-```
-
-<figcaption markdown="span">
-Sequence Diagram: `ExampleRequest` & `ExampleReply`
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
+- [[Network Registry Configuration]]
+- [[Network Registry Environment]]
+- [[Network Registry Behaviour]]
