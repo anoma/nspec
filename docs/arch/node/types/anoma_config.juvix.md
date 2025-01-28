@@ -92,7 +92,6 @@ type Cfg :=
   {- Network -}
 
   | CfgRouter RouterCfg
-  -- | CfgNodeProxy NodeProxyCfg -- TODO: Add this back in
   | CfgTransportProtocol TransportProtocolCfg
   | CfgTransportConnection TransportConnectionCfg
   | CfgPubSubTopic PubSubTopicCfg

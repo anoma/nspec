@@ -90,7 +90,6 @@ type Msg :=
   {- Network -}
 
   | MsgRouter (RouterMsg Msg)
-  -- | MsgNodeProxy (NodeProxyMsg Msg) -- TODO: Add this back in
   | MsgTransportProtocol TransportProtocolMsg
   | MsgTransportConnection TransportConnectionMsg
   | MsgPubSubTopic PubSubTopicMsg
