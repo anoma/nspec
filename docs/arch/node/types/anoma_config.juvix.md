@@ -67,10 +67,7 @@ configuration of type `Config`, initialised at creation.
 
 For example, a configuration for an engine instance
 of the engine `TickerEngine` is of type `TickerCfg`.
-<!--ᚦ
-        «What do we need this summary type for?»
-        (for spawning requests, right?)
--->
+
 For example, a configuration for an engine instance of the engine `TickerEngine`
 is of type `TickerCfg`.
 
