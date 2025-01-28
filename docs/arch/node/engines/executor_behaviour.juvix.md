@@ -196,57 +196,57 @@ syntax alias ExecutorActionArguments := Unit;
     ### ExecutorAction
 
     ```juvix
-    ExecutorAction : Type :=
+    ExecutorAction (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Action
-        ExecutorCfg
-        ExecutorLocalState
+        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
         ExecutorActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
     ### ExecutorActionInput
 
     ```juvix
-    ExecutorActionInput : Type :=
+    ExecutorActionInput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionInput
-        ExecutorCfg
-        ExecutorLocalState
+        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
         ExecutorActionArguments
-        Anoma.Msg;
+        (Anoma.PreMsg KVSKey KVSDatum Executable);
     ```
 
     ### ExecutorActionEffect
 
     ```juvix
-    ExecutorActionEffect : Type :=
+    ExecutorActionEffect (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionEffect
-        ExecutorLocalState
+        (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
     ### ExecutorActionExec
 
     ```juvix
-    ExecutorActionExec : Type :=
+    ExecutorActionExec (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionExec
-        ExecutorCfg
-        ExecutorLocalState
+        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
         ExecutorActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
 ### `processReadAction`
@@ -270,8 +270,11 @@ Timer updates
 <!-- --8<-- [start:processReadAction] -->
 ```juvix
 processReadAction
-  (input : ExecutorActionInput)
-  : Option ExecutorActionEffect :=
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  {{rinst : Runnable KVSKey KVSDatum Executable ProgramState}}
+  (input : ExecutorActionInput KVSKey KVSDatum Executable ProgramState)
+  : Option (ExecutorActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let
     cfg := EngineCfg.cfg (ActionInput.cfg input);
     env := ActionInput.env input;
@@ -279,7 +282,7 @@ processReadAction
   in case getMsgFromTimestampedTrigger trigger of {
     | some (MsgShard (ShardMsgKVSRead (mkKVSReadMsg@{key := readKey; data := readValue}))) :=
       let
-        envelope (target : EngineID) (msg : Anoma.Msg) : EngineMsg Anoma.Msg :=
+        envelope (target : EngineID) (msg : Anoma.PreMsg KVSKey KVSDatum Executable) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
           mkEngineMsg@{
             sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
             target := target;
@@ -293,13 +296,13 @@ processReadAction
         -- Precompute messages to notify shards of stale locks
         -- These inform the shards that they can release pending locks in the
         -- case that the executor halts.
-        staleReadMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
+        staleReadMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
           envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
             key := key;
             actual := false
           })));
-        staleWriteMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
+        staleWriteMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
           envelope (keyToShard key) (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
             key := key;
@@ -314,7 +317,7 @@ processReadAction
         staleMsgs := readStaleMsgs ++ writeStaleMsgs;
 
         stepInput := mkPair readKey readValue;
-        stepResult := executeStep
+        stepResult := Runnable.executeStep
           (ExecutorCfg.executable cfg)
           (ExecutorLocalState.program_state local)
           stepInput;
@@ -338,8 +341,8 @@ processReadAction
         | ok (mkPair program' outputs) :=
           let
             accReads (key : KVSKey)
-                     (msgs : List (EngineMsg Anoma.Msg)) :
-                     List (EngineMsg Anoma.Msg) :=
+                     (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
+                     List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
                 envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
                     timestamp := ExecutorCfg.timestamp cfg;
@@ -353,8 +356,8 @@ processReadAction
               };
             accWrites (key : KVSKey)
                       (value : KVSDatum)
-                      (msgs : List (EngineMsg Anoma.Msg)) :
-                      List (EngineMsg Anoma.Msg) :=
+                      (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
+                      List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
                 envelope (keyToShard key)
                   (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
@@ -367,9 +370,9 @@ processReadAction
                 | true := msg :: msgs
                 | false := msgs
               };
-            sendHelper (acc : Pair ExecutorLocalState (List (EngineMsg Anoma.Msg)))
+            sendHelper (acc : Pair (ExecutorLocalState KVSKey KVSDatum ProgramState) (List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))))
                        (out : Either KVSKey (Pair KVSKey KVSDatum)) :
-                Pair ExecutorLocalState (List (EngineMsg Anoma.Msg)) :=
+                Pair (ExecutorLocalState KVSKey KVSDatum ProgramState) (List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :=
               let state := fst acc;
                   msgs := snd acc;
               in case out of {
@@ -388,7 +391,7 @@ processReadAction
             newLocalState := fst final;
             msgList := snd final;
             newEnv := env@EngineEnv{localState := newLocalState};
-          in case ProgramState.halted program' of {
+          in case Runnable.halted {{rinst}} program' of {
             | false := some mkActionEffect@{
                   env := newEnv;
                   msgs := msgList;
@@ -421,7 +424,11 @@ processReadAction
 ### Action Labels
 
 ```juvix
-processReadActionLabel : ExecutorActionExec := Seq [ processReadAction ];
+processReadActionLabel
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  {{Runnable KVSKey KVSDatum Executable ProgramState}}
+  : ExecutorActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadAction ];
 ```
 
 ## Guards
@@ -432,16 +439,16 @@ processReadActionLabel : ExecutorActionExec := Seq [ processReadAction ];
 
     <!-- --8<-- [start:ExecutorGuard] -->
     ```juvix
-    ExecutorGuard : Type :=
+    ExecutorGuard (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Guard
-        ExecutorCfg
-        ExecutorLocalState
+        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
         ExecutorActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
     <!-- --8<-- [end:ExecutorGuard] -->
 
@@ -449,16 +456,16 @@ processReadActionLabel : ExecutorActionExec := Seq [ processReadAction ];
 
     <!-- --8<-- [start:ExecutorGuardOutput] -->
     ```juvix
-    ExecutorGuardOutput : Type :=
+    ExecutorGuardOutput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardOutput
-        ExecutorCfg
-        ExecutorLocalState
+        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
         ExecutorActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
     <!-- --8<-- [end:ExecutorGuardOutput] -->
 
@@ -466,16 +473,16 @@ processReadActionLabel : ExecutorActionExec := Seq [ processReadAction ];
 
     <!-- --8<-- [start:ExecutorGuardEval] -->
     ```juvix
-    ExecutorGuardEval : Type :=
+    ExecutorGuardEval (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardEval
-        ExecutorCfg
-        ExecutorLocalState
+        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
         ExecutorActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
     <!-- --8<-- [end:ExecutorGuardEval] -->
 
@@ -486,10 +493,13 @@ Guard for processing read responses.
 <!-- --8<-- [start:processReadGuard] -->
 ```juvix
 processReadGuard
-  (trigger : TimestampedTrigger ExecutorTimerHandle Anoma.Msg)
-  (cfg : EngineCfg ExecutorCfg)
-  (env : ExecutorEnv)
-  : Option ExecutorGuardOutput :=
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  {{Runnable KVSKey KVSDatum Executable ProgramState}}
+  (trigger : TimestampedTrigger ExecutorTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
+  (cfg : EngineCfg (ExecutorCfg KVSKey Executable))
+  (env : ExecutorEnv KVSKey KVSDatum ProgramState)
+  : Option (ExecutorGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
   | some mkEngineMsg@{msg := MsgShard (ShardMsgKVSRead (mkKVSReadMsg@{
       timestamp := timestamp;
@@ -515,16 +525,16 @@ processReadGuard
 
 <!-- --8<-- [start:ExecutorBehaviour] -->
 ```juvix
-ExecutorBehaviour : Type :=
+ExecutorBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   EngineBehaviour
-    ExecutorCfg
-    ExecutorLocalState
+    (ExecutorCfg KVSKey Executable)
+    (ExecutorLocalState KVSKey KVSDatum ProgramState)
     ExecutorMailboxState
     ExecutorTimerHandle
     ExecutorActionArguments
-    Anoma.Msg
-    Anoma.Cfg
-    Anoma.Env;
+    (Anoma.PreMsg KVSKey KVSDatum Executable)
+    (Anoma.PreCfg KVSKey KVSDatum Executable)
+    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ExecutorBehaviour] -->
 
@@ -532,7 +542,14 @@ ExecutorBehaviour : Type :=
 
 <!-- --8<-- [start:executorBehaviour] -->
 ```juvix
-executorBehaviour : ExecutorBehaviour :=
+instance dummyRunnable : Runnable String String ByteString String :=
+  mkRunnable@{
+    executeStep := \{_ _ _ := error "Not implemented"};
+    halted := \{_ := false};
+    startingState := ""
+  };
+
+executorBehaviour : ExecutorBehaviour String String ByteString String :=
   mkEngineBehaviour@{
     guards := First [
       processReadGuard
