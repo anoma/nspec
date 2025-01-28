@@ -29,7 +29,11 @@ tags:
 
 --8<-- "./storage_messages.juvix.md:StorageMsg"
 
+---
+
 ## Message sequence diagrams
+
+---
 
 ### Storage message sequence diagram
 
@@ -45,6 +49,8 @@ Chunk request & response.
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
+
+---
 
 ## Message types
 
@@ -128,8 +134,7 @@ ChunkGetReply : Type := Result ChunkGetReplyOk ChunkGetReplyError;
 
 ### `ChunkPutRequest`
 
-Request to store a chunk.
-May be restricted to local engines.
+Request to store a chunk. May be restricted to local engines.
 
 ???+ quote "Auxiliary type"
 
@@ -186,6 +191,8 @@ type StorageMsg :=
   ;
 ```
 <!-- --8<-- [end:StorageMsg] -->
+
+---
 
 ## Engine components
 

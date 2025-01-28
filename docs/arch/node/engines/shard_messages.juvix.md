@@ -23,9 +23,13 @@ tags:
 
 These are the messages that the Shard engine can receive/respond to.
 
+---
+
 ## Message interface
 
 --8<-- "./shard_messages.juvix.md:ShardMsg"
+
+---
 
 ## Message sequence diagrams
 

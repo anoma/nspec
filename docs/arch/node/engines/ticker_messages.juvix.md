@@ -23,6 +23,8 @@ tags:
 
 --8<-- "./ticker_messages.juvix.md:TickerMsg"
 
+---
+
 ## Message sequence diagram
 
 ---
@@ -83,6 +85,11 @@ type CountReply : Type :=
     counter : Nat;
   }
 ```
+
+???+ quote "Arguments"
+
+    `counter`
+    : The counter value.
 
 ---
 

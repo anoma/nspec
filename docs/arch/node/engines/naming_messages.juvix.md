@@ -23,6 +23,8 @@ tags:
 
 --8<-- "./naming_messages.juvix.md:NamingMsg"
 
+---
+
 ## Message sequence diagrams
 
 ---
@@ -131,7 +133,7 @@ A `ReplyResolveName` is returned in response to a `RequestResolveName`.
 ???+ quote "Arguments"
 
     `externalIdentities`:
-    : A set of ExternalIdentitys associated with the IdentityName.
+    : A set of `ExternalIdentity`s associated with the `IdentityName`.
 
     `err`:
     : An error message if the resolution failed.
@@ -147,12 +149,12 @@ type RequestSubmitNameEvidence := mkRequestSubmitNameEvidence {
 ```
 
 A `RequestSubmitNameEvidence` instructs the Naming Engine to store a new piece
-of IdentityNameEvidence.
+of `IdentityNameEvidence`.
 
 ???+ quote "Arguments"
 
     `evidence`:
-    : The evidence supporting the association between an IdentityName and an ExternalIdentity.
+    : The evidence supporting the association between an `IdentityName` and an `ExternalIdentity`.
 
 ---
 
@@ -203,6 +205,7 @@ type ReplyQueryNameEvidence := mkReplyQueryNameEvidence {
 A `ReplyQueryNameEvidence` provides the requested evidence.
 
 ???+ quote "Arguments"
+
     `externalIdentity`:
     : The `ExternalIdentity` associated with the returned evidence.
 

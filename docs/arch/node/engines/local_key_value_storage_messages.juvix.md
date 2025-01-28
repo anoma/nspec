@@ -214,6 +214,8 @@ type DeleteValueKVStoreReply := mkDeleteValueKVStoreReply {
 ```
 <!-- --8<-- [end:DeleteValueKVStoreReply] -->
 
+---
+
 ### `ValueChangedKVStore`
 
 Notification that a value has changed.
@@ -227,6 +229,8 @@ type ValueChangedKVStore := mkValueChangedKVStore {
 };
 ```
 <!-- --8<-- [end:ValueChangedKVStore] -->
+
+---
 
 ### `LocalKVStorageMsg`
 
@@ -242,6 +246,8 @@ type LocalKVStorageMsg :=
   | LocalKVStorageMsgValueChanged ValueChangedKVStore;
 ```
 <!-- --8<-- [end:LocalKVStorageMsg] -->
+
+---
 
 ## Engine components
 

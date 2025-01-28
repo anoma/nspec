@@ -25,6 +25,8 @@ These are the messages that the Logging engine can receive/respond to.
 
 --8<-- "./logging_messages.juvix.md:LoggingMsg"
 
+---
+
 ## Message sequence diagrams
 
 ---
