@@ -33,7 +33,7 @@ tags:
 
 ## Message types
 
---- 
+---
 
 ### `RouterMsgSend`
 
@@ -158,7 +158,7 @@ Accept a connection from a node.
 type ConnectReplyOk :=
   mkConnectReplyOk {
     proto_ver : Nat;
-    node_advert_ver : Pair Nat Nat; 
+    node_advert_ver : Pair Nat Nat;
   }
 ```
 

@@ -64,7 +64,7 @@ type TopicMsg := mkTopicMsg {
 }
 ```
 
-???+ quote "Arguments"    
+???+ quote "Arguments"
 
     `publisher`
     : Publisher identity.
