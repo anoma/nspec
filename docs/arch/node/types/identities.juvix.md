@@ -187,10 +187,6 @@ isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 
 ### Engine Helper Functions
 
-<!--ᚦ
-        «Should this not apply some kind of garbling for opacity?»
--->
-
 ```juvix
 nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
   name ++str "_" ++str str ++str "_" ++str (snd addr);
