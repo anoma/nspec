@@ -46,8 +46,8 @@ type TransportConnectionLocalState := mkTransportConnectionLocalState;
 TransportConnectionTimerHandle : Type := Unit;
 ```
 
-The [[TransportConnection Engine Overview|TransportConnection]] does not require a timer handle type.
-Therefore, we define the timer handle type as `Unit`.
+The [[TransportConnection Engine Overview|TransportConnection]] does not require
+a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
 ## Timestamped Trigger
 

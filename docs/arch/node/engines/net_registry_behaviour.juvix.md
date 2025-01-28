@@ -34,6 +34,38 @@ A *Network Registry* engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
 
+## Network Registry Action Flowchart
+
+### `exampleReply` Flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>NetworkRegistryMsgExampleRequest<br/>from local engine]
+    CEnv[(exampleValue < 10)]
+  end
+
+  G(exampleReplyGuard)
+  A(exampleReplyAction)
+
+  C --> G -- *exampleReplyActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(exampleValue := exampleValue + 1)]
+    EMsg>NetworkRegistryMsgExampleResponse<br/>argOne]
+  end
+```
+
+<figcaption markdown="span">
+
+`exampleReply` flowchart
+
+</figcaption>
+</figure>
+
+
 ## Action arguments
 
 The action arguments are set by a guard
@@ -299,34 +331,3 @@ module registry_behaviour_example;
 end;
 ```
 <!-- --8<-- [end:exNetworkRegistryBehaviour] -->
-
-## Action Flowchart
-
-### `exampleReply` Flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C[Conditions]
-    CMsg>NetworkRegistryMsgExampleRequest<br/>from local engine]
-    CEnv[(exampleValue < 10)]
-  end
-
-  G(exampleReplyGuard)
-  A(exampleReplyAction)
-
-  C --> G -- *exampleReplyActionLabel* --> A --> E
-
-  subgraph E[Effects]
-    EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>NetworkRegistryMsgExampleResponse<br/>argOne]
-  end
-```
-
-<figcaption markdown="span">
-
-`exampleReply` flowchart
-
-</figcaption>
-</figure>

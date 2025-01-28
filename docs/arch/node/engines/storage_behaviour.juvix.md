@@ -34,6 +34,38 @@ A *Storage* engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
 
+## Storage Action Flowchart
+
+### `exampleReply` Flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>StorageMsgExampleRequest<br/>from local engine]
+    CEnv[(exampleValue < 10)]
+  end
+
+  G(exampleReplyGuard)
+  A(exampleReplyAction)
+
+  C --> G -- *exampleReplyActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(exampleValue := exampleValue + 1)]
+    EMsg>StorageMsgExampleResponse<br/>argOne]
+  end
+```
+
+<figcaption markdown="span">
+
+`exampleReply` flowchart
+
+</figcaption>
+</figure>
+
+
 ## Action arguments
 
 The action arguments are set by a guard
@@ -300,34 +332,3 @@ exStorageBehaviour : StorageBehaviour :=
 end;
 ```
 <!-- --8<-- [end:exStorageBehaviour] -->
-
-## Action Flowchart
-
-### `exampleReply` Flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C[Conditions]
-    CMsg>StorageMsgExampleRequest<br/>from local engine]
-    CEnv[(exampleValue < 10)]
-  end
-
-  G(exampleReplyGuard)
-  A(exampleReplyAction)
-
-  C --> G -- *exampleReplyActionLabel* --> A --> E
-
-  subgraph E[Effects]
-    EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>StorageMsgExampleResponse<br/>argOne]
-  end
-```
-
-<figcaption markdown="span">
-
-`exampleReply` flowchart
-
-</figcaption>
-</figure>

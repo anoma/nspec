@@ -26,13 +26,47 @@ tags:
     import arch.node.types.anoma as Anoma open;
     ```
 
-# PubSubTopic Behaviour
+# Pub/Sub Topic Behaviour
 
 ## Overview
 
 A *Pub/Sub Topic* engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
+
+## Pub/Sub Topic Action Flowchart
+
+
+## Action Flowchart
+
+### `exampleReply` Flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C[Conditions]
+    CMsg>PubSubTopicMsgExampleRequest<br/>from local engine]
+    CEnv[(exampleValue < 10)]
+  end
+
+  G(exampleReplyGuard)
+  A(exampleReplyAction)
+
+  C --> G -- *exampleReplyActionLabel* --> A --> E
+
+  subgraph E[Effects]
+    EEnv[(exampleValue := exampleValue + 1)]
+    EMsg>PubSubTopicMsgExampleResponse<br/>argOne]
+  end
+```
+
+<figcaption markdown="span">
+
+`exampleReply` flowchart
+
+</figcaption>
+</figure>
 
 ## Action arguments
 
@@ -300,34 +334,3 @@ exPubSubTopicBehaviour : PubSubTopicBehaviour :=
 end;
 ```
 <!-- --8<-- [end:exPubSubTopicBehaviour] -->
-
-## Action Flowchart
-
-### `exampleReply` Flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C[Conditions]
-    CMsg>PubSubTopicMsgExampleRequest<br/>from local engine]
-    CEnv[(exampleValue < 10)]
-  end
-
-  G(exampleReplyGuard)
-  A(exampleReplyAction)
-
-  C --> G -- *exampleReplyActionLabel* --> A --> E
-
-  subgraph E[Effects]
-    EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>PubSubTopicMsgExampleResponse<br/>argOne]
-  end
-```
-
-<figcaption markdown="span">
-
-`exampleReply` flowchart
-
-</figcaption>
-</figure>
