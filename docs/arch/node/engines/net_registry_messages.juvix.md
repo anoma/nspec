@@ -89,32 +89,31 @@ type NodeAdvert :=
   };
 ```
 
-`id`
-: Node identity.
+???+ quote "Arguments"
 
-`addrs`
-: Transport addresses with preferences expressed as weights.
+    `id`
+    : Node identity.
 
-`version`
-: Version number (incremented at every change).
+    `addrs`
+    : Transport addresses with preferences expressed as weights.
 
-`created`
-: Time of creation.
+    `version`
+    : Version number (incremented at every change).
 
-`sig`
-: Signature by `id`.
+    `created`
+    : Time of creation.
+
+    `sig`
+    : Signature by `id`.
 
 ---
 
-### `NetworkRegistryMsgTopicAdvert`
+### `TopicAdvert`
 
-## `TopicAdvert`
-
-A *topic advertisement* is signed by the topic creator,
-and contains the topic's cryptographic identity
-and the `NodeID` of a set of relay nodes
-that can be used to subscribe to the topic.
-These may be publishers, subscribers, or dedicated relay nodes for the topic.
+A *topic advertisement* is signed by the topic creator, and contains the topic's
+cryptographic identity and the `NodeID` of a set of relay nodes that can be used
+to subscribe to the topic. These may be publishers, subscribers, or dedicated
+relay nodes for the topic.
 
 ```juvix
 type TopicAdvert :=
@@ -130,7 +129,7 @@ type TopicAdvert :=
 
 ---
 
-### `NetworkRegistryMsgGetNodeAdvertRequest`
+### `GetNodeAdvertRequest`
 
 Get `NodeAdvert` for the given `NodeID`.
 
@@ -138,9 +137,11 @@ Sender: any local engine.
 
 ---
 
-### `NetworkRegistryMsgExampleReply`
+### `GetNodeAdvertReply`
 
 Reply to a `GetNodeAdvertRequest`.
+
+---
 
 #### `GetNodeAdvertReplyOk`
 
@@ -170,7 +171,9 @@ GetNodeAdvertReply : Type := Result GetNodeAdvertReplyError GetNodeAdvertReplyOk
 ```
 <!-- --8<-- [end:GetNodeAdvertReply] -->
 
-### `NetworkRegistryMsgGetTopicAdvertRequest`
+---
+
+### `GetTopicAdvertRequest`
 
 Get `TopicAdvert` for the given `TopicID`.
 
@@ -178,7 +181,7 @@ Sender: any local engine.
 
 ---
 
-### `NetworkRegistryMsgExampleReply ExampleReply`
+### `GetTopicAdvertReply`
 
 Reply to a `GetTopicAdvertRequest`.
 
