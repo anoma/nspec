@@ -43,7 +43,7 @@ These are the messages that the *Pub/Sub Topic* engine can receive/respond to.
 A message published in a topic by an authorized publisher,
 forwarded to the local node.
 
-???+ quote "Auxiliary type" 
+???+ quote "Auxiliary type"
 
     #### `TopicMsgID`
 
