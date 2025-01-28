@@ -132,7 +132,7 @@ type TemplateMinimumMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Template Minimum Configuration]]
 - [[Template Minimum Environment]]

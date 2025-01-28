@@ -3,35 +3,36 @@
 ## Purpose
 
 The *Network Subsystem* is responsible for
-sending and receiving messages to and from remote nodes.
+sending and receiving messages to and from remote nodes,
+and offers distributed pub/sub and storage protocols.
 
 ## Overview
 
 The *Network Subsystem* consists of the following engines.
 
+### [[Network Registry]]
+
+--8<-- "../engines/net_registry.juvix.md:purpose"
+
 ### [[Router]]
 
---8<-- "./router.juvix.md:purpose"
-
-### [[Node Proxy]]
-
---8<-- "./node_proxy.juvix.md:purpose"
+--8<-- "../engines/router.juvix.md:purpose"
 
 ### [[Transport Connection]]
 
---8<-- "./transport_connection.juvix.md:purpose"
+--8<-- "../engines/transport_connection.juvix.md:purpose"
 
 ### [[Transport Protocol]]
 
-<!--  --8<-- "./transport_protocol.juvix.md:purpose" -->
+--8<-- "../engines/transport_protocol.juvix.md:purpose"
 
 ### [[Pub/Sub Topic]]
 
---8<-- "./pub_sub_topic.juvix.md:purpose"
+--8<-- "../engines/pub_sub_topic.juvix.md:purpose"
 
 ### [[Storage]]
 
---8<-- "./storage.juvix.md:purpose"
+--8<-- "../engines/storage.juvix.md:purpose"
 
 ## Diagrams
 

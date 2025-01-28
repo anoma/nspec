@@ -39,7 +39,7 @@ The Local Key-Value Storage Engine provides local storage and retrieval of
 data in a key-value format. It supports storing, retrieving and
 deleting key-value pairs while notifying interested parties of changes.
 
-## Components
+## Engine components
 
 - [[Local Key Value Storage Messages]]
 - [[Local Key Value Storage Configuration]]

@@ -136,7 +136,7 @@ type EncryptionMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Encryption Configuration]]
 - [[Encryption Environment]]

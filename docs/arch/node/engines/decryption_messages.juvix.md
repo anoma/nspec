@@ -109,7 +109,7 @@ type DecryptionMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Decryption Configuration]]
 - [[Decryption Environment]]

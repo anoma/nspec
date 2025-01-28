@@ -101,7 +101,7 @@ type ExecutorMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Executor Configuration]]
 - [[Executor Environment]]
