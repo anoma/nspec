@@ -33,7 +33,7 @@ tags:
 The Mempool Worker Engine serves as a transaction coordinator in Anoma, managing
 the critical process of ordering transactions and orchestrating their execution.
 Think of it as a traffic controller that not only assigns each transaction a unique
-position in line (via a timestamp called a TxFingerprint), but also ensures all the
+position in line (via a timestamp called a *TxFingerprint*), but also ensures all the
 necessary resources (state access) are locked and ready before execution begins. In
 the current version of Anoma (V2), there is only a single Mempool Worker Engine
 instance, making it the central coordinator for all transaction processing.

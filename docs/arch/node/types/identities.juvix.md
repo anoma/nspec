@@ -322,12 +322,12 @@ type IdentityNameEvidence := mkIdentityNameEvidence {
 ### Ordering Aliases
 
 ```juvix
-type TransactionLabel (ReadLabel WriteLabel : Type) := mkTransactionLabel {
+type TransactionLabel ReadLabel WriteLabel := mkTransactionLabel {
   read : List ReadLabel;
   write : List WriteLabel
 };
 syntax alias TxFingerprint := Nat;
-type TransactionCandidate (ReadLabel WriteLabel Executable : Type) := mkTransactionCandidate {
+type TransactionCandidate ReadLabel WriteLabel Executable := mkTransactionCandidate {
   label : TransactionLabel ReadLabel WriteLabel;
   executable : Executable
 };
@@ -339,5 +339,5 @@ syntax alias WallClockTime := Nat;
 Don't know a better place to put this.
 ```juvix
 -- Map a key to its shard
-axiom keyToShard {KVSKey : Type} : KVSKey -> EngineID;
+axiom keyToShard {KVSKey} : KVSKey -> EngineID;
 ```

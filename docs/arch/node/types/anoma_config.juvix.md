@@ -70,7 +70,7 @@ is of type `TickerCfg`.
 
 <!-- --8<-- [start:anoma-config-type] -->
 ```juvix
-type PreCfg (KVSKey KVSDatum Executable : Type)  :=
+type PreCfg KVSKey KVSDatum Executable :=
 
   {- Identity -}
 

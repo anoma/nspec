@@ -50,17 +50,17 @@ The shard engine does not require complex mailbox states. Therefore, we define t
       executor : EngineID
     };
 
-    type WriteStatus (KVSDatum : Type) : Type := mkWriteStatus {
+    type WriteStatus KVSDatum := mkWriteStatus @{
       data : Option KVSDatum;
       mayWrite : Bool
     };
 
-    type KeyAccess (KVSDatum : Type) := mkKeyAccess {
+    type KeyAccess KVSDatum := mkKeyAccess @{
       readStatus : Option ReadStatus;
       writeStatus : Option (WriteStatus KVSDatum)
     };
 
-    type DAGStructure (KVSKey KVSDatum : Type) := mkDAGStructure {
+    type DAGStructure KVSKey KVSDatum := mkDAGStructure @{
       keyAccesses : Map KVSKey (Map TxFingerprint (KeyAccess KVSDatum));
       heardAllReads : TxFingerprint;
       heardAllWrites : TxFingerprint
@@ -72,8 +72,8 @@ The shard engine does not require complex mailbox states. Therefore, we define t
 
 <!-- --8<-- [start:ShardLocalState] -->
 ```juvix
-type ShardLocalState (KVSKey KVSDatum : Type) := mkShardLocalState {
-  dagStructure : (DAGStructure KVSKey KVSDatum);
+type ShardLocalState KVSKey KVSDatum := mkShardLocalState @{
+  dagStructure : DAGStructure KVSKey KVSDatum;
   anchors : List NarwhalBlock
 };
 ```

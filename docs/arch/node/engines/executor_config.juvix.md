@@ -34,7 +34,7 @@ The executor configuration contains static information needed for execution: the
 
 <!-- --8<-- [start:ExecutorCfg] -->
 ```juvix
-type ExecutorCfg (KVSKey Executable : Type) :=
+type ExecutorCfg KVSKey Executable :=
   mkExecutorCfg@{
     timestamp : TxFingerprint;
     executable : Executable;

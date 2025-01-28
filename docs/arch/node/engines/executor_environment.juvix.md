@@ -32,7 +32,7 @@ The executor environment maintains state needed during transaction execution inc
 
     ```juvix
     trait
-    type Runnable (KVSKey KVSDatum Executable ProgramState : Type) :=
+    type Runnable KVSKey KVSDatum Executable ProgramState :=
       mkRunnable@{
         executeStep : Executable -> ProgramState -> Pair KVSKey KVSDatum -> Result String (Pair ProgramState (List (Either KVSKey (Pair KVSKey KVSDatum))));
         halted : ProgramState -> Bool;
@@ -62,11 +62,12 @@ syntax alias ExecutorMailboxState := Unit;
 ### `ExecutorLocalState`
 
 ```juvix
-type ExecutorLocalState (KVSKey KVSDatum ProgramState : Type) := mkExecutorLocalState {
-  program_state : ProgramState;
-  completed_reads : Map KVSKey KVSDatum;
-  completed_writes : Map KVSKey KVSDatum
-};
+type ExecutorLocalState KVSKey KVSDatum ProgramState :=
+  mkExecutorLocalState@{
+    program_state : ProgramState;
+    completed_reads : Map KVSKey KVSDatum;
+    completed_writes : Map KVSKey KVSDatum
+  };
 ```
 
 ???+ quote "Arguments"
@@ -109,7 +110,7 @@ ExecutorEnv (KVSKey KVSDatum ProgramState : Type) : Type :=
 ```juvix extract-module-statements
 module executor_environment_example;
 
-executorEnv {KVSKey KVSDatum : Type} : ExecutorEnv KVSKey KVSDatum String :=
+executorEnv {KVSKey KVSDatum} : ExecutorEnv KVSKey KVSDatum String :=
   mkEngineEnv@{
     localState := mkExecutorLocalState@{
       program_state := "";

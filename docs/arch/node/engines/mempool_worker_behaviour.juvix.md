@@ -42,8 +42,8 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 ??? quote "Auxiliary Juvix code"
 
     ```juvix
-    axiom sign {KVSKey Executable : Type} : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Signature;
-    axiom hash {KVSKey Executable : Type} : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Hash;
+    axiom sign {KVSKey Executable} : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Signature;
+    axiom hash {KVSKey Executable} : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Hash;
     ```
 
 ## Mempool Worker Action Flowcharts
@@ -370,7 +370,8 @@ Timer updates
 
 <!-- --8<-- [start:transactionRequestAction] -->
 ```juvix
-transactionRequestAction {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+transactionRequestAction 
+  {KVSKey KVSDatum Executable ProgramState} {{Ord KVSKey}}
   {{rinst : Runnable KVSKey KVSDatum Executable ProgramState}}
   (input : MempoolWorkerActionInput KVSKey KVSDatum Executable)
   : Option (MempoolWorkerActionEffect KVSKey KVSDatum Executable ProgramState) :=
@@ -502,7 +503,8 @@ allLocksAcquired {KVSKey Executable : Type}
 --- have acquired all their necessary locks of the specified type (read or write). This represents
 --- the "safe point" up to which shards can process transactions without worrying about missing locks.
 terminating
-findMaxConsecutiveLocked {KVSKey Executable : Type}
+findMaxConsecutiveLocked 
+  {KVSKey Executable}
   (isWrite : Bool)
   (transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable))
   (locks : List (Pair EngineID KVSLockAcquiredMsg))
@@ -520,7 +522,8 @@ findMaxConsecutiveLocked {KVSKey Executable : Type}
 
 <!-- --8<-- [start:getAllShards] -->
 ```juvix
-getAllShards {KVSKey Executable : Type}
+getAllShards 
+  {KVSKey Executable}
   (transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable)) : Set EngineID :=
   let getAllKeysFromLabel (label : TransactionLabel KVSKey KVSKey) : List KVSKey :=
         TransactionLabel.read label ++ TransactionLabel.write label;
@@ -533,7 +536,8 @@ getAllShards {KVSKey Executable : Type}
 
 <!-- --8<-- [start:lockAcquiredAction] -->
 ```juvix
-lockAcquiredAction {KVSKey KVSDatum Executable ProgramState : Type}
+lockAcquiredAction
+  {KVSKey KVSDatum Executable ProgramState}
   (input : MempoolWorkerActionInput KVSKey KVSDatum Executable)
   : Option (MempoolWorkerActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let
@@ -598,7 +602,8 @@ Timer updates
 
 <!-- --8<-- [start:executorFinishedAction] -->
 ```juvix
-executorFinishedAction {KVSKey KVSDatum Executable ProgramState : Type}
+executorFinishedAction 
+  {KVSKey KVSDatum Executable ProgramState}
   (input : MempoolWorkerActionInput KVSKey KVSDatum Executable)
   : Option (MempoolWorkerActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let
@@ -632,13 +637,19 @@ executorFinishedAction {KVSKey KVSDatum Executable ProgramState : Type}
 ### Action Labels
 
 ```juvix
-transactionRequestActionLabel {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}} {{Runnable KVSKey KVSDatum Executable ProgramState}} : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
+transactionRequestActionLabel 
+  {KVSKey KVSDatum Executable ProgramState} {{Ord KVSKey}} {{Runnable KVSKey KVSDatum Executable ProgramState}}
+  : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
   Seq [ transactionRequestAction ];
 
-lockAcquiredActionLabel {KVSKey KVSDatum Executable ProgramState : Type} : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
+lockAcquiredActionLabel 
+  {KVSKey KVSDatum Executable ProgramState}
+  : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
   Seq [ lockAcquiredAction ];
 
-executorFinishedActionLabel {KVSKey KVSDatum Executable ProgramState : Type} : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
+executorFinishedActionLabel 
+  {KVSKey KVSDatum Executable ProgramState}
+  : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
   Seq [ executorFinishedAction ];
 ```
 
@@ -688,7 +699,8 @@ Condition
 
 <!-- --8<-- [start:transactionRequestGuard] -->
 ```juvix
-transactionRequestGuard {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+transactionRequestGuard 
+  {KVSKey KVSDatum Executable ProgramState} {{Ord KVSKey}}
   {{Runnable KVSKey KVSDatum Executable ProgramState}}
   (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg MempoolWorkerCfg)
@@ -717,7 +729,8 @@ Condition
 
 <!-- --8<-- [start:lockAcquiredGuard] -->
 ```juvix
-lockAcquiredGuard {KVSKey KVSDatum Executable ProgramState : Type}
+lockAcquiredGuard 
+  {KVSKey KVSDatum Executable ProgramState}
   (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg MempoolWorkerCfg)
   (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
@@ -740,7 +753,8 @@ Condition
 
 <!-- --8<-- [start:executorFinishedGuard] -->
 ```juvix
-executorFinishedGuard {KVSKey KVSDatum Executable ProgramState : Type}
+executorFinishedGuard 
+  {KVSKey KVSDatum Executable ProgramState}
   (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg MempoolWorkerCfg)
   (env : MempoolWorkerEnv KVSKey KVSDatum Executable)

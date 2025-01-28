@@ -71,8 +71,8 @@ Read request from an [[Executor Engine]].
 
 <!-- --8<-- [start:KVSReadRequestMsg] -->
 ```juvix
-type KVSReadRequestMsg (KVSKey : Type) : Type :=
-  mkKVSReadRequestMsg {
+type KVSReadRequestMsg KVSKey :=
+  mkKVSReadRequestMsg@{
     timestamp : TxFingerprint;
     key : KVSKey;
     actual : Bool
@@ -99,8 +99,8 @@ Write request from an [[Executor Engine]].
 
 <!-- --8<-- [start:KVSWriteMsg] -->
 ```juvix
-type KVSWriteMsg (KVSKey KVSDatum : Type) : Type :=
-  mkKVSWriteMsg {
+type KVSWriteMsg KVSKey KVSDatum :=
+  mkKVSWriteMsg@{
     timestamp : TxFingerprint;
     key : KVSKey;
     datum : Option KVSDatum
@@ -127,8 +127,8 @@ Update about seen transactions from a [[Mempool Worker Engine]].
 
 <!-- --8<-- [start:UpdateSeenAllMsg] -->
 ```juvix
-type UpdateSeenAllMsg : Type :=
-  mkUpdateSeenAllMsg {
+type UpdateSeenAllMsg :=
+  mkUpdateSeenAllMsg@{
     timestamp : TxFingerprint;
     write : Bool
   }
@@ -151,8 +151,8 @@ Request to acquire locks for transaction execution.
 
 <!-- --8<-- [start:KVSAcquireLockMsg] -->
 ```juvix
-type KVSAcquireLockMsg (KVSKey : Type) : Type :=
-  mkKVSAcquireLockMsg {
+type KVSAcquireLockMsg KVSKey :=
+  mkKVSAcquireLockMsg@{
     lazy_read_keys : Set KVSKey;
     eager_read_keys : Set KVSKey;
     will_write_keys : Set KVSKey;
@@ -195,8 +195,8 @@ Confirmation that locks were acquired.
 
 <!-- --8<-- [start:KVSLockAcquiredMsg] -->
 ```juvix
-type KVSLockAcquiredMsg : Type :=
-  mkKVSLockAcquiredMsg {
+type KVSLockAcquiredMsg :=
+  mkKVSLockAcquiredMsg@{
     timestamp : TxFingerprint
   }
 ```
@@ -215,8 +215,8 @@ Value read response to executor.
 
 <!-- --8<-- [start:KVSReadMsg] -->
 ```juvix
-type KVSReadMsg (KVSKey KVSDatum : Type) : Type :=
-  mkKVSReadMsg {
+type KVSReadMsg KVSKey KVSDatum :=
+  mkKVSReadMsg@{
     timestamp : TxFingerprint;
     key : KVSKey;
     data : KVSDatum
@@ -241,13 +241,13 @@ type KVSReadMsg (KVSKey KVSDatum : Type) : Type :=
 
 <!-- --8<-- [start:ShardMsg] -->
 ```juvix
-type ShardMsg (KVSKey KVSDatum : Type) :=
+type ShardMsg KVSKey KVSDatum :=
   | ShardMsgKVSReadRequest (KVSReadRequestMsg KVSKey)
   | ShardMsgKVSWrite (KVSWriteMsg KVSKey KVSDatum)
   | ShardMsgKVSAcquireLock (KVSAcquireLockMsg KVSKey)
-  | ShardMsgKVSLockAcquired KVSLockAcquiredMsg
+  | ShardMsgKVSLockAcquired (KVSLockAcquiredMsg)
   | ShardMsgKVSRead (KVSReadMsg KVSKey KVSDatum)
-  | ShardMsgUpdateSeenAll UpdateSeenAllMsg
+  | ShardMsgUpdateSeenAll (UpdateSeenAllMsg)
   ;
 ```
 <!-- --8<-- [end:ShardMsg] -->

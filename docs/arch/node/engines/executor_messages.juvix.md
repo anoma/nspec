@@ -65,7 +65,7 @@ Notification that execution is complete.
 
 <!-- --8<-- [start:ExecutorFinishedMsg] -->
 ```juvix
-type ExecutorFinishedMsg (KVSKey KVSDatum : Type) : Type :=
+type ExecutorFinishedMsg KVSKey KVSDatum :=
   mkExecutorFinishedMsg {
     success : Bool;
     values_read : List (Pair KVSKey KVSDatum);
@@ -93,7 +93,7 @@ type ExecutorFinishedMsg (KVSKey KVSDatum : Type) : Type :=
 
 <!-- --8<-- [start:ExecutorMsg] -->
 ```juvix
-type ExecutorMsg (KVSKey KVSDatum : Type) :=
+type ExecutorMsg KVSKey KVSDatum :=
   | ExecutorMsgExecutorFinished (ExecutorFinishedMsg KVSKey KVSDatum)
   ;
 ```

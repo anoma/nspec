@@ -68,7 +68,8 @@ corresponding message type `TickerMsg`.
 
 <!-- --8<-- [start:Msg] -->
 ```juvix
-type PreMsg (KVSKey KVSDatum Executable : Type) :=
+
+type PreMsg KVSKey KVSDatum Executable :=
 
   {- Identity -}
 
@@ -89,7 +90,7 @@ type PreMsg (KVSKey KVSDatum Executable : Type) :=
 
   {- Network -}
 
-  | MsgRouter (RouterMsg Msg)
+  | MsgRouter (RouterMsg (PreMsg KVSKey KVSDatum Executable))
   | MsgTransportProtocol TransportProtocolMsg
   | MsgTransportConnection TransportConnectionMsg
   | MsgPubSubTopic PubSubTopicMsg

@@ -27,8 +27,6 @@ tags:
 
 ---
 
----
-
 ### Verification sequence (without `signs_for` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-no-signs-for] -->

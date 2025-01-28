@@ -71,7 +71,7 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 
 <!-- --8<-- [start:anoma-environment-type] -->
 ```juvix
-type PreEnv (KVSKey KVSDatum Executable ProgramState : Type) :=
+type PreEnv KVSKey KVSDatum Executable ProgramState :=
 
   {- Identity -}
 

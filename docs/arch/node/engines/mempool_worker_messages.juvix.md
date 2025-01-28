@@ -66,11 +66,11 @@ Sequence Diagram: Transaction Request Flow
 
 ### `TransactionRequest`
 
-A request from a user or solver to order and execute a transaction candidate.
+A request from a user or solver to order and execute a *transaction candidate*.
 
 <!-- --8<-- [start:TransactionRequest] -->
 ```juvix
-type TransactionRequest (KVSKey Executable : Type) : Type :=
+type TransactionRequest KVSKey Executable :=
   mkTransactionRequest {
     tx : TransactionCandidate KVSKey KVSKey Executable;
     resubmission : Option TxFingerprint
@@ -96,8 +96,8 @@ accepted.
 
 <!-- --8<-- [start:TransactionAck] -->
 ```juvix
-type TransactionAck : Type :=
-  mkTransactionAck {
+type TransactionAck :=
+  mkTransactionAck @{
     tx_hash : Hash;
     batch_number : BatchNumber;
     batch_start : WallClockTime;
@@ -130,7 +130,7 @@ type TransactionAck : Type :=
 
 <!-- --8<-- [start:MempoolWorkerMsg] -->
 ```juvix
-type MempoolWorkerMsg (KVSKey Executable : Type) :=
+type MempoolWorkerMsg KVSKey Executable :=
   | MempoolWorkerMsgTransactionRequest (TransactionRequest KVSKey Executable)
   | MempoolWorkerMsgTransactionAck TransactionAck
   ;

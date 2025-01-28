@@ -368,7 +368,8 @@ ShardActionArguments : Type := List ShardActionArgument;
 ## Helper Functions
 
 ```juvix
-findMostRecentWrite {KVSKey KVSDatum : Type} {{Ord KVSKey}}
+findMostRecentWrite 
+  {KVSKey KVSDatum} {{Ord KVSKey}}
   (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
@@ -402,7 +403,8 @@ findMostRecentWrite {KVSKey KVSDatum : Type} {{Ord KVSKey}}
 
 -- add read without prior lock
 ```juvix
-addReadAccess {KVSKey KVSDatum : Type} {{Ord KVSKey}}
+addReadAccess 
+  {KVSKey KVSDatum} {{Ord KVSKey}}
   (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
@@ -424,7 +426,8 @@ addReadAccess {KVSKey KVSDatum : Type} {{Ord KVSKey}}
 
 -- add write without prior lock
 ```juvix
-addWriteAccess {KVSKey KVSDatum : Type} {{Ord KVSKey}}
+addWriteAccess 
+  {KVSKey KVSDatum} {{Ord KVSKey}}
   (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
