@@ -76,15 +76,15 @@ exNetworkRegistryEngine : NetworkRegistryEngine :=
 ```
 <!-- --8<-- [end:exNetworkRegistryEngine] -->
 
-Where [[Network Registry Configuration#exNetworkRegistryCfg|exNetworkRegistryCfg]] is defined as follows:
+Where [[Network Registry Configuration#exNetworkRegistryCfg|`exNetworkRegistryCfg`]] is defined as follows:
 
 --8<-- "./net_registry_config.juvix.md:exNetworkRegistryCfg"
 
-[[Network Registry Environment#exNetworkRegistryEnv|exNetworkRegistryEnv]] is defined as follows:
+[[Network Registry Environment#exNetworkRegistryEnv|`exNetworkRegistryEnv`]] is defined as follows:
 
 --8<-- "./net_registry_environment.juvix.md:exNetworkRegistryEnv"
 
-and [[Network Registry Behaviour#exNetworkRegistryBehaviour|exNetworkRegistryBehaviour]] is defined as follows:
+and [[Network Registry Behaviour#exNetworkRegistryBehaviour|`exNetworkRegistryBehaviour`]] is defined as follows:
 
 --8<-- "./net_registry_behaviour.juvix.md:exNetworkRegistryBehaviour"
 
