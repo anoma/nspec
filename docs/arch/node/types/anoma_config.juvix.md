@@ -10,6 +10,8 @@ search:
     ```juvix
     module arch.node.types.anoma_config;
 
+    import prelude open;
+
     {- Identity -}
 
     import arch.node.engines.identity_management_config open;
@@ -29,12 +31,12 @@ search:
 
     {- Network -}
 
-    import arch.node.net.router_config open;
-    import arch.node.net.node_proxy_config open;
-    import arch.node.net.transport_protocol_config open;
-    import arch.node.net.transport_connection_config open;
-    import arch.node.net.pub_sub_topic_config open;
-    import arch.node.net.storage_config open;
+    import arch.node.engines.net_registry_config open;
+    import arch.node.engines.router_config open;
+    import arch.node.engines.transport_protocol_config open;
+    import arch.node.engines.transport_connection_config open;
+    import arch.node.engines.pub_sub_topic_config open;
+    import arch.node.engines.storage_config open;
 
     {- Ordering -}
 
@@ -56,19 +58,19 @@ search:
 
 # Anoma Engine Configuration
 
-An _Anoma_ engine configuration contains static, read-only configuration for an engine.
-See [[Engine Configuration]] for more information.
+An _Anoma_ engine configuration contains static, read-only configuration for an
+engine. See [[Engine Configuration]] for more information.
 
-Below is the definition of the type `Config`,
-which represents an Anoma engine configuration.
-This means that each Anoma engine instance has a constant configuration of type `Config`, initialised at creation.
+Below is the definition of the type `Config`, which represents an Anoma engine
+configuration. This means that each Anoma engine instance has a constant
+configuration of type `Config`, initialised at creation.
 
-For example, a configuration for an engine instance
-of the engine `TickerEngine` is of type `TickerCfg`.
+For example, a configuration for an engine instance of the engine `TickerEngine`
+is of type `TickerCfg`.
 
 <!-- --8<-- [start:anoma-config-type] -->
 ```juvix
-type Cfg :=
+type PreCfg KVSKey KVSDatum Executable :=
 
   {- Identity -}
 
@@ -92,7 +94,6 @@ type Cfg :=
   {- Network -}
 
   | CfgRouter RouterCfg
-  | CfgNodeProxy NodeProxyCfg
   | CfgTransportProtocol TransportProtocolCfg
   | CfgTransportConnection TransportConnectionCfg
   | CfgPubSubTopic PubSubTopicCfg
@@ -101,7 +102,7 @@ type Cfg :=
   {- Ordering -}
 
   | CfgMempoolWorker MempoolWorkerCfg
-  | CfgExecutor ExecutorCfg
+  | CfgExecutor (ExecutorCfg KVSKey Executable)
   | CfgShard ShardCfg
 
   {- Misc -}
@@ -114,5 +115,8 @@ type Cfg :=
   | CfgTemplateMinimum TemplateMinimumCfg
 
   -- Add more configurations here
+  ;
+
+Cfg : Type := PreCfg String String ByteString;
 ```
 <!-- --8<-- [end:anoma-config-type] -->

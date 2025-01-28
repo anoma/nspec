@@ -39,7 +39,7 @@ The Naming Engine tracks which `IdentityName`s correspond with which `ExternalId
 using `IdentityNameEvidence`. It provides functionality for resolving names, submitting
 name evidence, and querying name evidence.
 
-## Components
+## Engine components
 
 - [[Naming Messages]]
 - [[Naming Configuration]]

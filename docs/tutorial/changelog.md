@@ -38,7 +38,7 @@ Use one of these sections when adding entries:
 - `fixes` - For bug fixes (**FIXED**)
 - `deprecations` - For soon-to-be removed features (**REMOVED**)
 
-#### Available Components
+#### Available Subsystems
 
 Use one of the following components for your entry:
 - `node`: For changes to the node architecture

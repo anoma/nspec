@@ -40,7 +40,7 @@ The Local Time Series Storage Engine manages local storage and
 retrieval of time series data. It provides functions for recording
 new data, retrieving existing data, and deleting data when needed.
 
-## Components
+## Engine components
 
 - [[Local Time Series Storage Messages]]
 - [[Local Time Series Storage Configuration]]

@@ -21,121 +21,13 @@ tags:
 
 ## Message interface
 
-### `MsgNamingResolveNameRequest RequestResolveName`
-
-```juvix
-type RequestResolveName := mkRequestResolveName {
-  identityName : IdentityName
-};
-```
-
-A `RequestResolveName` asks the Naming Engine which `ExternalIdentity`s are associated with a given `IdentityName`.
-
-???+ quote "Arguments"
-    `identityName`:
-    : The name to resolve.
-
-### `MsgNamingResolveNameResponse ResponseResolveName`
-
-```juvix
-type ResponseResolveName := mkResponseResolveName {
-  externalIdentities : Set ExternalIdentity;
-  err : Option String
-};
-```
-
-A `ResponseResolveName` is returned in response to a `RequestResolveName`.
-
-???+ quote "Arguments"
-    `externalIdentities`:
-    : A set of ExternalIdentitys associated with the IdentityName.
-
-    `err`:
-    : An error message if the resolution failed.
-
-### `MsgNamingSubmitNameEvidenceRequest RequestSubmitNameEvidence`
-
-```juvix
-type RequestSubmitNameEvidence := mkRequestSubmitNameEvidence {
-  evidence : IdentityNameEvidence
-};
-```
-
-A `RequestSubmitNameEvidence` instructs the Naming Engine to store a new piece of IdentityNameEvidence.
-
-???+ quote "Arguments"
-    `evidence`:
-    : The evidence supporting the association between an IdentityName and an ExternalIdentity.
-
-### `MsgNamingSubmitNameEvidenceResponse ResponseSubmitNameEvidence`
-
-```juvix
-type ResponseSubmitNameEvidence := mkResponseSubmitNameEvidence {
-  err : Option String
-};
-```
-
-A `ResponseSubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`.
-
-???+ quote "Arguments"
-    `err`:
-    : An error message if the submission failed.
-
-### `MsgNamingQueryNameEvidenceRequest RequestQueryNameEvidence`
-
-```juvix
-type RequestQueryNameEvidence := mkRequestQueryNameEvidence {
-  externalIdentity : ExternalIdentity
-};
-```
-
-A `RequestQueryNameEvidence` instructs the Naming Engine to return any known IdentityNames
-and IdentityNameEvidence associated with a specific ExternalIdentity.
-
-???+ quote "Arguments"
-    `externalIdentity`:
-    : The identity for which to retrieve evidence.
-
-### `MsgNamingQueryNameEvidenceResponse ResponseQueryNameEvidence`
-
-```juvix
-type ResponseQueryNameEvidence := mkResponseQueryNameEvidence {
-  externalIdentity : ExternalIdentity;
-  evidence : Set IdentityNameEvidence;
-  err : Option String
-};
-```
-
-A `ResponseQueryNameEvidence` provides the requested evidence.
-
-???+ quote "Arguments"
-    `externalIdentity`:
-    : The `ExternalIdentity` associated with the returned evidence.
-
-    `evidence`:
-    : A set of `IdentityNameEvidence` related to the identity.
-
-    `err`:
-    : An error message if the query failed.
-
-### `NamingMsg`
-
-<!-- --8<-- [start:NamingMsg] -->
-```juvix
-type NamingMsg :=
-  | MsgNamingResolveNameRequest RequestResolveName
-  | MsgNamingResolveNameResponse ResponseResolveName
-  | MsgNamingSubmitNameEvidenceRequest RequestSubmitNameEvidence
-  | MsgNamingSubmitNameEvidenceResponse ResponseSubmitNameEvidence
-  | MsgNamingQueryNameEvidenceRequest RequestQueryNameEvidence
-  | MsgNamingQueryNameEvidenceResponse ResponseQueryNameEvidence
-  ;
-```
-<!-- --8<-- [end:NamingMsg] -->
+--8<-- "./naming_messages.juvix.md:NamingMsg"
 
 ## Message sequence diagrams
 
-### Resolving a Name
+---
+
+### Resolving a name
 
 <!-- --8<-- [start:message-sequence-diagram-name-resolution] -->
 <figure markdown="span">
@@ -147,7 +39,7 @@ sequenceDiagram
 
     Client->>NamingEngine: RequestResolveName (name)
     Note over NamingEngine: Check stored evidence
-    NamingEngine->>Client: ResponseResolveName
+    NamingEngine->>Client: ReplyResolveName
 ```
 
 <figcaption markdown="span">
@@ -156,7 +48,9 @@ Resolving a name
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-name-resolution] -->
 
-### Submitting Name Evidence
+---
+
+### Submitting name evidence
 
 <!-- --8<-- [start:message-sequence-diagram-submit] -->
 <figure markdown="span">
@@ -168,7 +62,7 @@ sequenceDiagram
 
     Client->>NamingEngine: RequestSubmitNameEvidence
     Note over NamingEngine: Verify and store evidence
-    NamingEngine->>Client: ResponseSubmitNameEvidence
+    NamingEngine->>Client: ReplySubmitNameEvidence
 ```
 
 <figcaption markdown="span">
@@ -177,7 +71,9 @@ Submitting name evidence
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
 
-### Querying Name Evidence
+---
+
+### Querying name evidence
 
 <!-- --8<-- [start:message-sequence-diagram-query] -->
 <figure markdown="span">
@@ -189,7 +85,7 @@ sequenceDiagram
 
     Client->>NamingEngine: RequestQueryNameEvidence (for ExternalIdentity)
     Note over NamingEngine: Retrieve relevant evidence
-    NamingEngine->>Client: ResponseQueryNameEvidence
+    NamingEngine->>Client: ReplyQueryNameEvidence
 ```
 
 <figcaption markdown="span">
@@ -198,7 +94,145 @@ Querying name evidence for an identity.
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query] -->
 
-## Engine Components
+---
 
+## Message types
+
+---
+
+### `RequestResolveName`
+
+```juvix
+type RequestResolveName := mkRequestResolveName {
+  identityName : IdentityName
+};
+```
+
+A `RequestResolveName` asks the Naming Engine which `ExternalIdentity`s are
+associated with a given `IdentityName`.
+
+???+ quote "Arguments"
+    `identityName`:
+    : The name to resolve.
+
+---
+
+### `ReplyResolveName`
+
+```juvix
+type ReplyResolveName := mkReplyResolveName {
+  externalIdentities : Set ExternalIdentity;
+  err : Option String
+};
+```
+
+A `ReplyResolveName` is returned in response to a `RequestResolveName`.
+
+???+ quote "Arguments"
+
+    `externalIdentities`:
+    : A set of ExternalIdentitys associated with the IdentityName.
+
+    `err`:
+    : An error message if the resolution failed.
+
+---
+
+### `RequestSubmitNameEvidence`
+
+```juvix
+type RequestSubmitNameEvidence := mkRequestSubmitNameEvidence {
+  evidence : IdentityNameEvidence
+};
+```
+
+A `RequestSubmitNameEvidence` instructs the Naming Engine to store a new piece
+of IdentityNameEvidence.
+
+???+ quote "Arguments"
+
+    `evidence`:
+    : The evidence supporting the association between an IdentityName and an ExternalIdentity.
+
+---
+
+### `ReplySubmitNameEvidence`
+
+```juvix
+type ReplySubmitNameEvidence := mkReplySubmitNameEvidence {
+  err : Option String
+};
+```
+
+A `ReplySubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`.
+
+???+ quote "Arguments"
+    `err`:
+    : An error message if the submission failed.
+
+---
+
+### `RequestQueryNameEvidence`
+
+```juvix
+type RequestQueryNameEvidence := mkRequestQueryNameEvidence {
+  externalIdentity : ExternalIdentity
+};
+```
+
+A `RequestQueryNameEvidence` instructs the Naming Engine to return any known
+`IdentityName`s and `IdentityNameEvidence` associated with a specific
+`ExternalIdentity`.
+
+???+ quote "Arguments"
+    `externalIdentity`:
+    : The identity for which to retrieve evidence.
+
+---
+
+### `ReplyQueryNameEvidence`
+
+```juvix
+type ReplyQueryNameEvidence := mkReplyQueryNameEvidence {
+  externalIdentity : ExternalIdentity;
+  evidence : Set IdentityNameEvidence;
+  err : Option String
+};
+```
+
+A `ReplyQueryNameEvidence` provides the requested evidence.
+
+???+ quote "Arguments"
+    `externalIdentity`:
+    : The `ExternalIdentity` associated with the returned evidence.
+
+    `evidence`:
+    : A set of `IdentityNameEvidence` related to the identity.
+
+    `err`:
+    : An error message if the query failed.
+
+---
+
+### `NamingMsg`
+
+<!-- --8<-- [start:NamingMsg] -->
+```juvix
+type NamingMsg :=
+  | MsgNamingResolveNameRequest RequestResolveName
+  | MsgNamingResolveNameReply ReplyResolveName
+  | MsgNamingSubmitNameEvidenceRequest RequestSubmitNameEvidence
+  | MsgNamingSubmitNameEvidenceReply ReplySubmitNameEvidence
+  | MsgNamingQueryNameEvidenceRequest RequestQueryNameEvidence
+  | MsgNamingQueryNameEvidenceReply ReplyQueryNameEvidence
+  ;
+```
+<!-- --8<-- [end:NamingMsg] -->
+
+---
+
+## Engine components
+
+- [[Naming Configuration]]
 - [[Naming Environment]]
 - [[Naming Behaviour]]

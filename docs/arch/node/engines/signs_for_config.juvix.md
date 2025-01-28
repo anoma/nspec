@@ -22,13 +22,13 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# Signs For Configuration
+# SignsFor Configuration
 
 ## Overview
 
-The Signs For engine configuration contains static information for Signs For engine instances.
+The SignsFor engine configuration contains static information for SignsFor engine instances.
 
-## The Signs For Configuration
+## The SignsFor Configuration
 
 ### `SignsForCfg`
 

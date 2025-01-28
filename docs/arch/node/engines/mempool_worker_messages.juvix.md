@@ -26,15 +26,53 @@ These are the specific messages that the Mempool Worker engine can receive/respo
 
 ## Message interface
 
-### `MempoolWorkerMsgTransactionRequest TransactionRequest`
+--8<-- "./mempool_worker_messages.juvix.md:MempoolWorkerMsg"
 
-A request from a user or solver to order and execute a transaction candidate.
+## Message sequence diagrams
+
+---
+
+### Transaction request flow
+
+<!-- --8<-- [start:message-sequence-diagram-transaction-request] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant MempoolWorker
+    participant Shard
+    participant Executor
+
+    User->>MempoolWorker: MempoolWorkerMsgTransactionRequest
+    MempoolWorker->>User: MempoolWorkerMsgTransactionAck
+    MempoolWorker->>Shard: KVSAcquireLock
+    Shard->>MempoolWorker: KVSLockAcquired
+    MempoolWorker->>Executor: ExecutorPIDAssigned
+    Executor->>MempoolWorker: ExecutorFinished
+```
+
+<figcaption markdown="span">
+Sequence Diagram: Transaction Request Flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-transaction-request] -->
+
+---
+
+## Message types
+
+---
+
+### `TransactionRequest`
+
+A request from a user or solver to order and execute a *transaction candidate*.
 
 <!-- --8<-- [start:TransactionRequest] -->
 ```juvix
-type TransactionRequest : Type :=
+type TransactionRequest KVSKey Executable :=
   mkTransactionRequest {
-    tx : TransactionCandidate;
+    tx : TransactionCandidate KVSKey KVSKey Executable;
     resubmission : Option TxFingerprint
   }
 ```
@@ -46,16 +84,20 @@ type TransactionRequest : Type :=
     : The transaction candidate to be ordered and executed.
 
     `resubmission`
-    : Optional reference to a previous occurrence of the same transaction candidate (currently unused).
+    : Optional reference to a previous occurrence of the same transaction
+    candidate (currently unused).
 
-### `MempoolWorkerMsgTransactionAck TransactionAck`
+---
 
-Acknowledgment sent to the user or solver that a transaction request has been accepted.
+### `TransactionAck`
+
+Acknowledgment sent to the user or solver that a transaction request has been
+accepted.
 
 <!-- --8<-- [start:TransactionAck] -->
 ```juvix
-type TransactionAck : Type :=
-  mkTransactionAck {
+type TransactionAck :=
+  mkTransactionAck @{
     tx_hash : Hash;
     batch_number : BatchNumber;
     batch_start : WallClockTime;
@@ -82,41 +124,23 @@ type TransactionAck : Type :=
     `signature`
     : The signature of the worker engine over the above fields (Currently unused).
 
+---
+
 ### `MempoolWorkerMsg`
 
 <!-- --8<-- [start:MempoolWorkerMsg] -->
 ```juvix
-type MempoolWorkerMsg :=
-  | MempoolWorkerMsgTransactionRequest TransactionRequest
+type MempoolWorkerMsg KVSKey Executable :=
+  | MempoolWorkerMsgTransactionRequest (TransactionRequest KVSKey Executable)
   | MempoolWorkerMsgTransactionAck TransactionAck
   ;
 ```
 <!-- --8<-- [end:MempoolWorkerMsg] -->
 
-## Sequence Diagrams
+---
 
-### Transaction Request Flow
+## Engine components
 
-<!-- --8<-- [start:message-sequence-diagram-transaction-request] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant MempoolWorker
-    participant Shard
-    participant Executor
-
-    User->>MempoolWorker: MempoolWorkerMsgTransactionRequest
-    MempoolWorker->>User: MempoolWorkerMsgTransactionAck
-    MempoolWorker->>Shard: KVSAcquireLock
-    Shard->>MempoolWorker: KVSLockAcquired
-    MempoolWorker->>Executor: ExecutorPIDAssigned
-    Executor->>MempoolWorker: ExecutorFinished
-```
-
-<figcaption markdown="span">
-Sequence Diagram: Transaction Request Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-transaction-request] -->
+- [[Mempool Worker Configuration]]
+- [[Mempool Worker Environment]]
+- [[Mempool Worker Behaviour]]
