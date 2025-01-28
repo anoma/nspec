@@ -32,9 +32,6 @@ please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorial
 Natural numbers are used to represent byte sizes,
 non-negative integers, and also
 hash values (at least in v0.2).
-<!--ᚦ
-     «Should this not rather be ByteString?»
--->
 
 ```juvix
 syntax alias Hash := Nat;
