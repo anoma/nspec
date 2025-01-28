@@ -131,7 +131,7 @@ together are a component of the [[Execution Engines]].
 They provide [[Executor]]s with input data and update the state
 according to the results of [[Executor]]s' computations.
 Different shards may be on different physical machines.<!--
---------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    Redistributing state between shards is called *Re-Sharding*.
    Each Shard is specific to exactly one learner.
    However,
@@ -140,7 +140,7 @@ Different shards may be on different physical machines.<!--
    the work of multiple shards with different learners
    so long as those shards are identical, and
    fork that process if and when the learners diverge.
---------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 -->
 
 Each shard is responsible for a set of [[KVSKey]]s
@@ -158,13 +158,13 @@ This is [multi-version concurrent storage](
     https://rust-lang.GitHub.io/mdBook/format/mdbook.html#including-portions-of-a-file
 -->
 
-## State (of a single shard)
+## State (of a single shard engine)
 
-For each [[Mempool Worker Engine]], the Shard maintains:
+For each [[Mempool Worker Engine]] $w$, the Shard maintains:
 
 - A Timestamp, such that all
   _[[KVSAcquireLock|write lock requests]]_ for
-  transaction candidates with earlier timestamps that this worker curates
+  transaction candidates with earlier timestamps that worker $w$ curates
   have already been received.
   Together, these timestamps represent [`heardAllWrites`](#heardallwrites).
 - Another Timestamp, before which
