@@ -15,7 +15,7 @@ tags:
     ```juvix
     module arch.node.engines.pub_sub_topic_messages;
 
-    import arch.node.engines.registry_messages open;
+    import arch.node.engines.net_registry_messages open;
     import arch.node.types.storage open;
 
     import arch.node.types.basics open;
@@ -30,16 +30,26 @@ These are the messages that the *Pub/Sub Topic* engine can receive/respond to.
 
 ## Message interface
 
-## `PubSubTopicMsgForward TopicMsg`
+--8<-- "./pub_sub_topic_messages.juvix.md:PubSubTopicMsg"
+
+<!-- TODO: add message sequence diagrams -->
+
+## Message types
+
+---
+
+### `TopicMsg`
 
 A message published in a topic by an authorized publisher,
 forwarded to the local node.
 
-### `TopicMsgID`
+#### `TopicMsgID`
 
 ```juvix
 syntax alias TopicMsgID := Digest;
 ```
+
+---
 
 ### `TopicMsg`
 
@@ -54,48 +64,54 @@ type TopicMsg := mkTopicMsg {
 }
 ```
 
-`publisher`
-: Publisher identity.
+???+ quote "Arguments"    
 
-`seq`
-: Per-publisher sequence number.
+    `publisher`
+    : Publisher identity.
 
-`deps`
-: Earlier messages this message depends on.
+    `seq`
+    : Per-publisher sequence number.
 
-`seen`
-: Independent messages recently seen.
+    `deps`
+    : Earlier messages this message depends on.
 
-`msg`:
-: Encrypted `TopicMsg`.
+    `seen`
+    : Independent messages recently seen.
 
-`sig`
-: Signature by `publisher` over the topic ID and the above fields.
+    `content`:
+    : Encrypted `TopicMsg`.
+
+    `sig`
+    : Signature by `publisher` over the topic ID and the above fields.
+
+---
 
 ### `TopicMsgContent`
 
 ```juvix
 type TopicMsgContent :=
-  | TopicMsgContentMsg ByteString -- Encrypted TopicMsg
+  | TopicMsgContentMsg ByteString
   | TopicMsgContentChunk (Pair ByteString Chunk)
   | TopicMsgContentChunkRef (Pair ByteString ChunkCommitment)
   | TopicMsgContentAck TopicMsgAck
   ;
 ```
 
-`TopicMsgContentMsg`
-: Encrypted `TopicMsg`.
+???+ quote "TopicMsgContent constructors"
 
-`TopicMsgContentChunk`
-: Chunk of an object.
-  Pair of an encrypted `SecretKey` and a `Chunk`.
+    `TopicMsgContentMsg`
+    : Encrypted `TopicMsg`.
 
-`TopicMsgContentChunkRef`
-: Reference to the root chunk of an object.
-  Pair of an encrypted `SecretKey` and a `ChunkCommitment`.
+    `TopicMsgContentChunk`
+    : Chunk of an object. Pair of an encrypted `SecretKey` and a `Chunk`.
 
-`TopicMsgContentAck`
-: Acknowledgement of a `TopicMsg`.
+    `TopicMsgContentChunkRef`
+    : Reference to the root chunk of an object. Pair of an encrypted `SecretKey` and a `ChunkCommitment`.
+
+    `TopicMsgContentAck`
+    : Acknowledgement of a `TopicMsg`.
+
+---
 
 ### `TopicMsgAck`
 
@@ -108,10 +124,14 @@ type TopicMsgAck := mkTopicMsgAck {
 }
 ```
 
-`expiry`
-: Expiry date and time until the node commits to store the event.
+???+ quote "Arguments"
 
-## `PubSubTopicSubRequest`
+    `expiry`
+    : Expiry date and time until the node commits to store the event.
+
+---
+
+### `TopicSubRequest`
 
 Pub/sub topic subscription request by a local engine or a remote node.
 
@@ -121,11 +141,13 @@ type TopicSubRequest := mkTopicSubRequest {
 }
 ```
 
-## `PubSubTopicSubReply`
+---
+
+### `TopicSubReply`
 
 Reply to a `TopicSubRequest`.
 
-### `TopicSubReplyOk`
+#### `TopicSubReplyOk`
 
 Subscription successful.
 
@@ -151,7 +173,9 @@ type TopicSubReplyError :=
 TopicSubReply : Type := Result TopicSubReplyOk TopicSubReplyError;
 ```
 
-## `PubSubTopicUnsubRequest`
+---
+
+### `TopicUnsubRequest`
 
 Pub/sub topic unsubscription request by a local engine or a remote node.
 
@@ -161,9 +185,7 @@ type TopicUnsubRequest := mkTopicUnsubRequest {
 }
 ```
 
-## `PubSubTopicUnsubReply`
-
-Reply to a `TopicUnsubRequest`
+---
 
 ### `TopicUnsubReplyOk`
 
@@ -173,6 +195,8 @@ Unsubscription successful.
 type TopicUnsubReplyOk :=
   | TopicUnsubReplyOkSuccess
 ```
+
+---
 
 ### `TopicUnsubReplyError`
 
@@ -184,13 +208,17 @@ type TopicUnsubReplyError :=
   ;
 ```
 
+---
+
 ### `TopicUnsubReply`
 
 ```juvix
 TopicUnsubReply : Type := Result TopicUnsubReplyOk TopicUnsubReplyError;
 ```
 
-## `PubSubTopicMsg`
+---
+
+### `PubSubTopicMsg`
 
 All pub/sub topic  messages.
 
@@ -203,3 +231,11 @@ type PubSubTopicMsg :=
   | PubSubTopicMsgUnsubReply TopicUnsubReply
   ;
 ```
+
+---
+
+## Engine components
+
+- [[Pub/Sub Topic Configuration]]
+- [[Pub/Sub Topic Environment]]
+- [[Pub/Sub Topic Behaviour]]
