@@ -482,7 +482,8 @@ Timer updates
 
 <!-- --8<-- [start:allLocksAcquired] -->
 ```juvix
-allLocksAcquired {KVSKey Executable : Type}
+allLocksAcquired 
+  {KVSKey Executable}
   (isWrite : Bool)
   (tx : TransactionCandidate KVSKey KVSKey Executable)
   (txNum : TxFingerprint)

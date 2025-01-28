@@ -449,7 +449,9 @@ addWriteAccess
 
 -- Replaces if read lock exists
 ```juvix
-replaceReadAccess {KVSKey KVSDatum : Type}  {{Ord KVSKey}}
+replaceReadAccess 
+  {KVSKey KVSDatum}
+  {{Ord KVSKey}}
   (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
@@ -479,7 +481,9 @@ replaceReadAccess {KVSKey KVSDatum : Type}  {{Ord KVSKey}}
 
 -- Replaces if write lock exists
 ```juvix
-replaceWriteAccess {KVSKey KVSDatum : Type} {{Ord KVSKey}}
+replaceWriteAccess 
+  {KVSKey KVSDatum}
+  {{Ord KVSKey}}
   (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
@@ -511,7 +515,8 @@ replaceWriteAccess {KVSKey KVSDatum : Type} {{Ord KVSKey}}
 ```
 
 ```juvix
-generateReadMsg {KVSKey KVSDatum Executable : Type}
+generateReadMsg 
+  {KVSKey KVSDatum Executable}
   (sender : EngineID)
   (key : KVSKey)
   (timestamp : TxFingerprint)
@@ -532,7 +537,9 @@ generateReadMsg {KVSKey KVSDatum Executable : Type}
 
 ```juvix
 -- Try to send a read message for a valid, pending eager read lock.
-execEagerReadsAtTime {KVSKey KVSDatum Executable : Type} {{Ord KVSKey}}
+execEagerReadsAtTime 
+  {KVSKey KVSDatum Executable}
+  {{Ord KVSKey}}
   (sender : EngineID)
   (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
@@ -566,7 +573,9 @@ execEagerReadsAtTime {KVSKey KVSDatum Executable : Type} {{Ord KVSKey}}
 
 ```juvix
 -- Try to send a read messages for valid, pending eager read locks of a key.
-execEagerReadsAtKey {KVSKey KVSDatum Executable : Type} {{Ord KVSKey}}
+execEagerReadsAtKey 
+  {KVSKey KVSDatum Executable}
+  {{Ord KVSKey}}
   (sender : EngineID)
   (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
@@ -586,7 +595,9 @@ execEagerReadsAtKey {KVSKey KVSDatum Executable : Type} {{Ord KVSKey}}
 
 ```juvix
 -- Try to send all read messages for valid, pending eager read locks.
-execEagerReads {KVSKey KVSDatum Executable : Type} {{Ord KVSKey}}
+execEagerReads
+  {KVSKey KVSDatum Executable}
+  {{Ord KVSKey}}
   (sender : EngineID)
   (dag : DAGStructure KVSKey KVSDatum)
   : Pair (DAGStructure KVSKey KVSDatum) (List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :=
@@ -672,7 +683,9 @@ Messages to be sent
 
 <!-- --8<-- [start:acquireLockAction] -->
 ```juvix
-acquireLockAction {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+acquireLockAction 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
   (input : ShardActionInput KVSKey KVSDatum Executable)
   : Option (ShardActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let cfg := ActionInput.cfg input;
@@ -749,7 +762,9 @@ Messages to be sent
 
 <!-- --8<-- [start:processWriteAction] -->
 ```juvix
-processWriteAction {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+processWriteAction 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
   (input : ShardActionInput KVSKey KVSDatum Executable)
   : Option (ShardActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let cfg := ActionInput.cfg input;
@@ -795,7 +810,9 @@ Messages to be sent
 
 <!-- --8<-- [start:processReadRequestAction] -->
 ```juvix
-processReadRequestAction {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+processReadRequestAction 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
   (input : ShardActionInput KVSKey KVSDatum Executable)
   : Option (ShardActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let cfg := ActionInput.cfg input;
@@ -871,7 +888,9 @@ Messages to be sent
 
 <!-- --8<-- [start:updateSeenAllAction] -->
 ```juvix
-updateSeenAllAction {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+updateSeenAllAction 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
   (input : ShardActionInput KVSKey KVSDatum Executable)
   : Option (ShardActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let cfg := ActionInput.cfg input;
@@ -914,25 +933,37 @@ updateSeenAllAction {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKe
 ### `acquireLockActionLabel`
 
 ```juvix
-acquireLockActionLabel {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}} : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ acquireLockAction ];
+acquireLockActionLabel 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ acquireLockAction ];
 ```
 
 ### `processWriteActionLabel`
 
 ```juvix
-processWriteActionLabel {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}} : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processWriteAction ];
+processWriteActionLabel 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processWriteAction ];
 ```
 
 ### `processReadRequestActionLabel`
 
 ```juvix
-processReadRequestActionLabel {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}} : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadRequestAction ];
+processReadRequestActionLabel 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadRequestAction ];
 ```
 
 ### `updateSeenAllActionLabel`
 
 ```juvix
-updateSeenAllActionLabel {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}} : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ updateSeenAllAction ];
+updateSeenAllActionLabel 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ updateSeenAllAction ];
 ```
 
 ## Guards
@@ -991,7 +1022,9 @@ Condition
 
 <!-- --8<-- [start:acquireLockGuard] -->
 ```juvix
-acquireLockGuard {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+acquireLockGuard 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
   (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg ShardCfg)
   (env : ShardEnv KVSKey KVSDatum)
@@ -1016,7 +1049,9 @@ Condition
 
 <!-- --8<-- [start:processWriteGuard] -->
 ```juvix
-processWriteGuard {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+processWriteGuard 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
   (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg ShardCfg)
   (env : ShardEnv KVSKey KVSDatum)
@@ -1041,7 +1076,9 @@ Condition
 
 <!-- --8<-- [start:processReadRequestGuard] -->
 ```juvix
-processReadRequestGuard {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+processReadRequestGuard 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
   (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg ShardCfg)
   (env : ShardEnv KVSKey KVSDatum)
@@ -1066,7 +1103,9 @@ Condition
 
 <!-- --8<-- [start:updateSeenAllGuard] -->
 ```juvix
-updateSeenAllGuard {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+updateSeenAllGuard 
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
   (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg ShardCfg)
   (env : ShardEnv KVSKey KVSDatum)

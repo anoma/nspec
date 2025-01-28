@@ -269,7 +269,9 @@ Timer updates
 
 <!-- --8<-- [start:processReadAction] -->
 ```juvix
-processReadAction {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+processReadAction 
+  {KVSKey KVSDatum Executable ProgramState} 
+  {{Ord KVSKey}}
   {{rinst : Runnable KVSKey KVSDatum Executable ProgramState}}
   (input : ExecutorActionInput KVSKey KVSDatum Executable ProgramState)
   : Option (ExecutorActionEffect KVSKey KVSDatum Executable ProgramState) :=
@@ -422,7 +424,11 @@ processReadAction {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}
 ### Action Labels
 
 ```juvix
-processReadActionLabel {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}} {{Runnable KVSKey KVSDatum Executable ProgramState}} : ExecutorActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadAction ];
+processReadActionLabel 
+  {KVSKey KVSDatum Executable ProgramState} 
+  {{Ord KVSKey}} 
+  {{Runnable KVSKey KVSDatum Executable ProgramState}} 
+  : ExecutorActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadAction ];
 ```
 
 ## Guards
@@ -486,7 +492,9 @@ Guard for processing read responses.
 
 <!-- --8<-- [start:processReadGuard] -->
 ```juvix
-processReadGuard {KVSKey KVSDatum Executable ProgramState : Type} {{Ord KVSKey}}
+processReadGuard 
+  {KVSKey KVSDatum Executable ProgramState} 
+  {{Ord KVSKey}}
   {{Runnable KVSKey KVSDatum Executable ProgramState}}
   (trigger : TimestampedTrigger ExecutorTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg (ExecutorCfg KVSKey Executable))
