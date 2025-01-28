@@ -70,7 +70,7 @@ if you request capabilities that are not available.
 
 The Identity Management Engine handles the creation or connection process
 and returns references to the appropriate [[Commitment]] and
-[[Decryption]]  engines (via either a `ResponseGenerateIdentity` or
+[[Decryption]]  engines (via either a `ReplyGenerateIdentity` or
 `MsgIdentityManagementConnectIdentityRequest` message) that provide
 the requested capabilities. These engines are newly created in the
 case of identity creation. Which engines are spawned are determined

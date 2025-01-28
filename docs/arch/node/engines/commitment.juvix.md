@@ -37,7 +37,7 @@ while keeping the signing keys secure and unexposed.
 
 When users request a signature through the engine (via a `MsgCommitmentRequest`
 message), it validates their authorisation and returns a cryptographic signature
-(via a `MsgCommitmentResponse` message) that proves the identity authorised that
+(via a `MsgCommitmentReply` message) that proves the identity authorised that
 specific data.
 
 In Anoma, Commitment Engines are only spawned by [[Identity Management

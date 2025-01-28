@@ -58,7 +58,7 @@ execution.
 ## Components
 
 - [[Executor Messages]]
-- [[Executor Config]]
+- [[Executor Configuration]]
 - [[Executor Environment]]
 - [[Executor Behaviour]]
 

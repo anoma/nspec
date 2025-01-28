@@ -117,7 +117,7 @@ RouterActionArguments : Type := Unit;
 
 #### `exampleReplyAction`
 
-Respond with a `RouterMsgExampleResponse`.
+Respond with a `RouterMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -321,7 +321,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>RouterMsgExampleResponse<br/>argOne]
+    EMsg>RouterMsgExampleReply<br/>argOne]
   end
 ```
 

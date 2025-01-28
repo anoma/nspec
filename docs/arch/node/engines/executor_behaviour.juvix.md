@@ -169,7 +169,7 @@ flowchart TD
      - Sends cleanup messages and finished notification.
      - Terminates executor instance.
 
-5. **Response Delivery**
+5. **Reply Delivery**
    - All responses are sent back using:
      - Executor's ID as sender.
      - Original requester as target.
