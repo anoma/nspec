@@ -41,10 +41,6 @@ type RouterLocalCfg :=
 ```
 <!-- --8<-- [end:RouterLocalCfg] -->
 
-<!--ᚦ
-        «Should this RouterLocalCfg be rather an axiom? or is it really no state (Unit)»
--->
-
 ## The Router Configuration
 
 ### `RouterCfg`
