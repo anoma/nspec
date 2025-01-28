@@ -33,11 +33,10 @@ tags:
 
 ## Purpose
 
-The single *Network Registry* engine instance
-maintains a database of `NodeAdvert` and `TopicAdvert` messages
-that arrive from the network on each node.
-For each known node and topic it spawns a [[Router Engine]]
-or a [[Pub/Sub Topic Engine]] instance, respectively.
+The single *Network Registry* engine instance maintains a database of
+`NodeAdvert` and `TopicAdvert` messages that arrive from the network on each
+node. For each known node and topic it spawns a [[Router Engine]] or a [[Pub/Sub
+Topic Engine]] instance, respectively.
 
 ## Engine components
 

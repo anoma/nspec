@@ -32,11 +32,9 @@ tags:
 
 ## Purpose
 
-<!-- --8<-- [start:purpose] -->
 The *Transport* engine is responsible for establishing and accepting transport connections
 via one of the *Transport Protocol* engines,
 each of which responsible for a specific transport protocol, such as QUIC or TLS.
-<!-- --8<-- [end:purpose] -->
 
 ## Engine components
 
@@ -45,7 +43,7 @@ each of which responsible for a specific transport protocol, such as QUIC or TLS
 - [[Transport Environment]]
 - [[Transport Behaviour]]
 
-## Type
+## The type for a transport engine
 
 <!-- --8<-- [start:TransportEngine] -->
 ```juvix
@@ -75,14 +73,14 @@ transportEngine : TransportEngine :=
 ```
 <!-- --8<-- [end:transportEngine] -->
 
-Where `transportCfg` is defined as follows:
+Where [[Transport Configuration#transportCfg|`transportCfg`]] is defined as follows:
 
 --8<-- "./transport_config.juvix.md:transportCfg"
 
-`transportEnv` is defined as follows:
+[[Transport Environment#transportEnv|`transportEnv`]] is defined as follows:
 
 --8<-- "./transport_environment.juvix.md:transportEnv"
 
-and `transportBehaviour` is defined as follows:
+and [[Transport Behaviour#transportBehaviour|`transportBehaviour`]] is defined as follows:
 
 --8<-- "./transport_behaviour.juvix.md:transportBehaviour"

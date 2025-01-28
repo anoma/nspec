@@ -33,10 +33,8 @@ tags:
 
 ## Purpose
 
-<!-- --8<-- [start:purpose] -->
-A *Transport Protocol* engine is responsible for accepting and initiating transport connections
-for one specific transport protocol, such as QUIC or TLS.
-<!-- --8<-- [end:purpose] -->
+A *Transport Protocol* engine is responsible for accepting and initiating
+transport connections for one specific transport protocol, such as QUIC or TLS.
 
 ## Engine components
 
@@ -45,7 +43,7 @@ for one specific transport protocol, such as QUIC or TLS.
 - [[Transport Connection Environment]]
 - [[Transport Connection Behaviour]]
 
-## Type
+## The type for a transport connection engine
 
 <!-- --8<-- [start:TransportConnectionEngine] -->
 ```juvix
@@ -62,7 +60,7 @@ TransportConnectionEngine : Type :=
 ```
 <!-- --8<-- [end:TransportConnectionEngine] -->
 
-### Instantiation
+### Example of a transport connection engine
 
 <!-- --8<-- [start:exTransportConnectionEngine] -->
 ```juvix
@@ -75,14 +73,14 @@ exTransportConnectionEngine : TransportConnectionEngine :=
 ```
 <!-- --8<-- [end:exTransportConnectionEngine] -->
 
-Where `exTransportConnectionCfg` is defined as follows:
+Where [[Transport Connection Configuration#exTransportConnectionCfg|`exTransportConnectionCfg`]] is defined as follows:
 
 --8<-- "./transport_connection_config.juvix.md:exTransportConnectionCfg"
 
-`exTransportConnectionEnv` is defined as follows:
+[[Transport Connection Environment#exTransportConnectionEnv|`exTransportConnectionEnv`]] is defined as follows:
 
 --8<-- "./transport_connection_environment.juvix.md:exTransportConnectionEnv"
 
-and `exTransportConnectionBehaviour` is defined as follows:
+and [[Transport Connection Behaviour#exTransportConnectionBehaviour|`exTransportConnectionBehaviour`]] is defined as follows:
 
 --8<-- "./transport_connection_behaviour.juvix.md:exTransportConnectionBehaviour"

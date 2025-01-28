@@ -33,18 +33,14 @@ tags:
 
 ## Purpose
 
-<!-- --8<-- [start:purpose] -->
-A *Pub/Sub Topic* engine is responsible
-for topic-based publish/subscribe (pub/sub) message dissemination
-for a single pub/sub topic.
+A *Pub/Sub Topic* engine is responsible for topic-based publish/subscribe
+(pub/sub) message dissemination for a single pub/sub topic.
 
-The protocol allows
-a set of authorized publishers to publish messages in the topic,
-as well as local and remote engines to subscribe to it.
-Published messages are disseminated to all subscribers.
+The protocol allows a set of authorized publishers to publish messages in the
+topic, as well as local and remote engines to subscribe to it. Published
+messages are disseminated to all subscribers.
 
 The engine instance name corresponds to the `TopicID`.
-<!-- --8<-- [end:purpose] -->
 
 ## Engine components
 
@@ -83,14 +79,14 @@ exPubSubTopicEngine : PubSubTopicEngine :=
 ```
 <!-- --8<-- [end:exPubSubTopicEngine] -->
 
-Where `exPubSubTopicCfg` is defined as follows:
+Where [[Pub/Sub Topic Configuration#exPubSubTopicCfg|`exPubSubTopicCfg`]] is defined as follows:
 
 --8<-- "./pub_sub_topic_config.juvix.md:exPubSubTopicCfg"
 
-`exPubSubTopicEnv` is defined as follows:
+[[Pub/Sub Topic Environment#exPubSubTopicEnv|`exPubSubTopicEnv`]] is defined as follows:
 
 --8<-- "./pub_sub_topic_environment.juvix.md:exPubSubTopicEnv"
 
-and `exPubSubTopicBehaviour` is defined as follows:
+and [[Pub/Sub Topic Behaviour#exPubSubTopicBehaviour|`exPubSubTopicBehaviour`]] is defined as follows:
 
 --8<-- "./pub_sub_topic_behaviour.juvix.md:exPubSubTopicBehaviour"

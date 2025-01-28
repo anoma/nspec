@@ -33,7 +33,6 @@ tags:
 
 ## Purpose
 
-<!-- --8<-- [start:purpose] -->
 The *Storage* engine implements distributed object storage.
 Each stored *object* is encrypted using convergent encryption
 with a key derived from the hash of the content and a secret key,
@@ -51,7 +50,6 @@ and keep track of known commitments by other nodes.
 This allows nodes to respond to chunk requests
 with either the chunk itself if available locally,
 or with a `ChunkCommitment` by a node that stores the requested chunk.
-<!-- --8<-- [end:purpose] -->
 
 ## Engine components
 
@@ -60,7 +58,7 @@ or with a `ChunkCommitment` by a node that stores the requested chunk.
 - [[Storage Environment]]
 - [[Storage Behaviour]]
 
-## Type
+## The type for a storage engine
 
 <!-- --8<-- [start:StorageEngine] -->
 ```juvix
@@ -77,7 +75,7 @@ StorageEngine : Type :=
 ```
 <!-- --8<-- [end:StorageEngine] -->
 
-### Instantiation
+### Example of a storage engine
 
 <!-- --8<-- [start:exStorageEngine] -->
 ```juvix
@@ -90,14 +88,14 @@ exStorageEngine : StorageEngine :=
 ```
 <!-- --8<-- [end:exStorageEngine] -->
 
-Where `exStorageCfg` is defined as follows:
+Where [[Storage Configuration#exStorageCfg|`exStorageCfg`]] is defined as follows:
 
 --8<-- "./storage_config.juvix.md:exStorageCfg"
 
-`exStorageEnv` is defined as follows:
+[[Storage Environment#exStorageEnv|`exStorageEnv`]] is defined as follows:
 
 --8<-- "./storage_environment.juvix.md:exStorageEnv"
 
-and `exStorageBehaviour` is defined as follows:
+and [[Storage Behaviour#exStorageBehaviour|`exStorageBehaviour`]] is defined as follows:
 
 --8<-- "./storage_behaviour.juvix.md:exStorageBehaviour"

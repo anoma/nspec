@@ -40,8 +40,8 @@ routing messages between local engines and remote nodes.
 
 ## Operation
 
-The *Router* may operate in different modes
-depending on requirements and constraints of the implementation:
+The *Router* may operate in different modes depending on requirements and
+constraints of the implementation:
 
 Centralized
 : A single *Router* engine instance forwards messages to & from local engines.
@@ -67,7 +67,7 @@ In the following we assume decentralized operation with automatic spawning for s
 - [[Router Environment]]
 - [[Router Behaviour]]
 
-## Type
+## The type for a router engine
 
 <!-- --8<-- [start:RouterEngine] -->
 ```juvix
@@ -84,7 +84,7 @@ RouterEngine : Type :=
 ```
 <!-- --8<-- [end:RouterEngine] -->
 
-### Instantiation
+### Example of a router engine
 
 <!-- --8<-- [start:exRouterEngine] -->
 ```juvix
@@ -97,14 +97,14 @@ exRouterEngine : RouterEngine :=
 ```
 <!-- --8<-- [end:exRouterEngine] -->
 
-Where `exRouterCfg` is defined as follows:
+Where [[Router Configuration#exRouterCfg|`exRouterCfg`]] is defined as follows:
 
 --8<-- "./router_config.juvix.md:exRouterCfg"
 
-`exRouterEnv` is defined as follows:
+[[Router Environment#exRouterEnv|`exRouterEnv`]] is defined as follows:
 
 --8<-- "./router_environment.juvix.md:exRouterEnv"
 
-and `exRouterBehaviour` is defined as follows:
+and [[Router Behaviour#exRouterBehaviour|`exRouterBehaviour`]] is defined as follows:
 
 --8<-- "./router_behaviour.juvix.md:exRouterBehaviour"
