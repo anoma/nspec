@@ -160,10 +160,6 @@ syntax alias EngineName := String;
 
 An alias for engine name.
 
-<!--ᚦ
-        «This is a bad clash with ExternalID»
--->
-
 ```juvix
 syntax alias ExternalIdentity := EngineName;
 ```
