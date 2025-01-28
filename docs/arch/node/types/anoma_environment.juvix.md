@@ -93,7 +93,7 @@ type Env :=
   {- Network -}
 
   | EnvRouter RouterEnv
-  | EnvNodeProxy NodeProxyEnv
+  -- | EnvNodeProxy NodeProxyEnv -- TODO: Add this back in
   | EnvTransportProtocol TransportProtocolEnv
   | EnvTransportConnection TransportConnectionEnv
   | EnvPubSubTopic PubSubTopicEnv

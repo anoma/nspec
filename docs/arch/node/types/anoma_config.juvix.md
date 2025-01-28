@@ -56,15 +56,15 @@ search:
 
 # Anoma Engine Configuration
 
-An _Anoma_ engine configuration contains static, read-only configuration for an engine.
-See [[Engine Configuration]] for more information.
+An _Anoma_ engine configuration contains static, read-only configuration for an
+engine. See [[Engine Configuration]] for more information.
 
-Below is the definition of the type `Config`,
-which represents an Anoma engine configuration.
-This means that each Anoma engine instance has a constant configuration of type `Config`, initialised at creation.
+Below is the definition of the type `Config`, which represents an Anoma engine
+configuration. This means that each Anoma engine instance has a constant
+configuration of type `Config`, initialised at creation.
 
-For example, a configuration for an engine instance
-of the engine `TickerEngine` is of type `TickerCfg`.
+For example, a configuration for an engine instance of the engine `TickerEngine`
+is of type `TickerCfg`.
 
 <!-- --8<-- [start:anoma-config-type] -->
 ```juvix
@@ -92,7 +92,7 @@ type Cfg :=
   {- Network -}
 
   | CfgRouter RouterCfg
-  | CfgNodeProxy NodeProxyCfg
+  -- | CfgNodeProxy NodeProxyCfg -- TODO: Add this back in
   | CfgTransportProtocol TransportProtocolCfg
   | CfgTransportConnection TransportConnectionCfg
   | CfgPubSubTopic PubSubTopicCfg
