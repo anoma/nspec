@@ -358,7 +358,7 @@ In the diagram above, transaction `f` is read-only.
 
 If client reads produce signed responses, then signed responses from a weak quorum of validators would form a *light client proof*.
 
-## Components
+## Engine components
 
 - [[Shard Messages]]
 - [[Shard Configuration]]

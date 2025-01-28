@@ -254,7 +254,7 @@ type ShardMsg (KVSKey KVSDatum : Type) :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Shard Configuration]]
 - [[Shard Environment]]

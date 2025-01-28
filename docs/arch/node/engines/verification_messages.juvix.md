@@ -25,6 +25,10 @@ tags:
 
 ## Message sequence diagrams
 
+---
+
+---
+
 ### Verification sequence (without `signs_for` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-no-signs-for] -->
@@ -37,7 +41,7 @@ sequenceDiagram
 
     C->>VE: RequestVerification(useSignsFor=false)
     Note over VE: Verify commitment directly for external identity
-    VE-->>C: ResponseVerification
+    VE-->>C: ReplyVerification
 ```
 
 <figcaption markdown="span">
@@ -45,6 +49,8 @@ Sequence diagram for verification (no `signs_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-no-signs-for] -->
+
+---
 
 ### Verification sequence (with `signs_for` evidence)
 
@@ -60,9 +66,9 @@ sequenceDiagram
     C->>VE: RequestVerification(useSignsFor=true)
     VE->>SF: QuerySignsForEvidenceRequest
     Note over SF: Retrieve signs_for evidence
-    SF-->>VE: QuerySignsForEvidenceResponse
+    SF-->>VE: QuerySignsForEvidenceReply
     Note over VE: Verify commitment using SignsFor evidence
-    VE-->>C: ResponseVerification
+    VE-->>C: ReplyVerification
 ```
 
 <figcaption markdown="span">
@@ -71,7 +77,11 @@ Sequence diagram for verification (with `signs_for` evidence).
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-signs-for] -->
 
+---
+
 ## Message types
+
+---
 
 ### `RequestVerification`
 
@@ -102,16 +112,18 @@ A `RequestVerification` instructs the Verification Engine to verify a commitment
     `useSignsFor`:
     : Whether or not to use known `signs_for` relationships.
 
-### `ResponseVerification`
+---
+
+### `ReplyVerification`
 
 ```juvix
-type ResponseVerification := mkResponseVerification {
+type ReplyVerification := mkReplyVerification {
   result : Bool;
   err : Option String
 };
 ```
 
-A `ResponseVerification` contains the result of verifying a commitment in
+A `ReplyVerification` contains the result of verifying a commitment in
 response to a `RequestVerification`.
 
 ???+ quote "Arguments"
@@ -121,19 +133,23 @@ response to a `RequestVerification`.
     `err`:
     : An error message if verification failed.
 
+---
+
 ### `VerificationMsg`
 
 <!-- --8<-- [start:VerificationMsg] -->
 ```juvix
 type VerificationMsg :=
   | MsgVerificationRequest RequestVerification
-  | MsgVerificationResponse ResponseVerification
+  | MsgVerificationReply ReplyVerification
   ;
 ```
 <!-- --8<-- [end:VerificationMsg] -->
 
-## Engine Components
+## Engine components
 
 - [[Verification Configuration]]
 - [[Verification Environment]]
 - [[Verification Behaviour]]
+
+

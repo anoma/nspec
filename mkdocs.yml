@@ -83,7 +83,7 @@ nav:
                   - Anoma Message: ./arch/node/types/anoma_message.juvix.md
                   - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
-          - Hardware Component:
+          - Hardware Subsystem:
               - Local Key Value Storage Engine:
                   - Local Key Value Storage Engine: ./arch/node/engines/local_key_value_storage.juvix.md
                   - Local Key Value Storage Messages: ./arch/node/engines/local_key_value_storage_messages.juvix.md
@@ -108,7 +108,7 @@ nav:
                   - Wall Clock Configuration: ./arch/node/engines/wall_clock_config.juvix.md
                   - Wall Clock Environment: ./arch/node/engines/wall_clock_environment.juvix.md
                   - Wall Clock Behaviour: ./arch/node/engines/wall_clock_behaviour.juvix.md
-          - Identity Component:
+          - Identity Subsystem:
               - Identity Management Engine:
                   - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
                   - Identity Management Messages: ./arch/node/engines/identity_management_messages.juvix.md
@@ -159,43 +159,43 @@ nav:
                   - Naming Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
           - Network Subsystem:
               - ./arch/node/net/index.md
+              - Network Registry:
+                  - Network Registry Engine: ./arch/node/engines/net_registry.juvix.md
+                  - Network Registry Messages: ./arch/node/engines/net_registry_messages.juvix.md
+                  - Network Registry Configuration: ./arch/node/engines/net_registry_config.juvix.md
+                  - Network Registry Environment: ./arch/node/engines/net_registry_environment.juvix.md
+                  - Network Registry Behaviour: ./arch/node/engines/net_registry_behaviour.juvix.md
               - Router:
-                  - Router Engine: ./arch/node/net/router.juvix.md
-                  - Router Messages: ./arch/node/net/router_messages.juvix.md
-                  - Router Configuration: ./arch/node/net/router_config.juvix.md
-                  - Router Environment: ./arch/node/net/router_environment.juvix.md
-                  - Router Behaviour: ./arch/node/net/router_behaviour.juvix.md
-              - Node Proxy:
-                  - Node Proxy Engine: ./arch/node/net/node_proxy.juvix.md
-                  - Node Proxy Messages: ./arch/node/net/node_proxy_messages.juvix.md
-                  - Node Proxy Configuration: ./arch/node/net/node_proxy_config.juvix.md
-                  - Node Proxy Environment: ./arch/node/net/node_proxy_environment.juvix.md
-                  - Node Proxy Behaviour: ./arch/node/net/node_proxy_behaviour.juvix.md
+                  - Router Engine: ./arch/node/engines/router.juvix.md
+                  - Router Messages: ./arch/node/engines/router_messages.juvix.md
+                  - Router Configuration: ./arch/node/engines/router_config.juvix.md
+                  - Router Environment: ./arch/node/engines/router_environment.juvix.md
+                  - Router Behaviour: ./arch/node/engines/router_behaviour.juvix.md
               - Transport Protocol:
-                  - Transport Protocol Engine: ./arch/node/net/transport_protocol.juvix.md
-                  - Transport Protocol Messages: ./arch/node/net/transport_protocol_messages.juvix.md
-                  - Transport Protocol Configuration: ./arch/node/net/transport_protocol_config.juvix.md
-                  - Transport Protocol Environment: ./arch/node/net/transport_protocol_environment.juvix.md
-                  - Transport Protocol Behaviour: ./arch/node/net/transport_protocol_behaviour.juvix.md
+                  - Transport Protocol Engine: ./arch/node/engines/transport_protocol.juvix.md
+                  - Transport Protocol Messages: ./arch/node/engines/transport_protocol_messages.juvix.md
+                  - Transport Protocol Configuration: ./arch/node/engines/transport_protocol_config.juvix.md
+                  - Transport Protocol Environment: ./arch/node/engines/transport_protocol_environment.juvix.md
+                  - Transport Protocol Behaviour: ./arch/node/engines/transport_protocol_behaviour.juvix.md
               - Transport Connection:
-                  - Transport Connection Engine: ./arch/node/net/transport_connection.juvix.md
-                  - Transport Connection Messages: ./arch/node/net/transport_connection_messages.juvix.md
-                  - Transport Connection Configuration: ./arch/node/net/transport_connection_config.juvix.md
-                  - Transport Connection Environment: ./arch/node/net/transport_connection_environment.juvix.md
-                  - Transport Connection Behaviour: ./arch/node/net/transport_connection_behaviour.juvix.md
+                  - Transport Connection Engine: ./arch/node/engines/transport_connection.juvix.md
+                  - Transport Connection Messages: ./arch/node/engines/transport_connection_messages.juvix.md
+                  - Transport Connection Configuration: ./arch/node/engines/transport_connection_config.juvix.md
+                  - Transport Connection Environment: ./arch/node/engines/transport_connection_environment.juvix.md
+                  - Transport Connection Behaviour: ./arch/node/engines/transport_connection_behaviour.juvix.md
               - Pub/Sub Topic:
-                  - Pub/Sub Topic Engine: ./arch/node/net/pub_sub_topic.juvix.md
-                  - Pub/Sub Topic Messages: ./arch/node/net/pub_sub_topic_messages.juvix.md
-                  - Pub/Sub Topic Configuration: ./arch/node/net/pub_sub_topic_config.juvix.md
-                  - Pub/Sub Topic Environment: ./arch/node/net/pub_sub_topic_environment.juvix.md
-                  - Pub/Sub Topic Behaviour: ./arch/node/net/pub_sub_topic_behaviour.juvix.md
+                  - Pub/Sub Topic Engine: ./arch/node/engines/pub_sub_topic.juvix.md
+                  - Pub/Sub Topic Messages: ./arch/node/engines/pub_sub_topic_messages.juvix.md
+                  - Pub/Sub Topic Configuration: ./arch/node/engines/pub_sub_topic_config.juvix.md
+                  - Pub/Sub Topic Environment: ./arch/node/engines/pub_sub_topic_environment.juvix.md
+                  - Pub/Sub Topic Behaviour: ./arch/node/engines/pub_sub_topic_behaviour.juvix.md
               - Storage:
-                  - Storage Engine: ./arch/node/net/storage.juvix.md
-                  - Storage Messages: ./arch/node/net/storage_messages.juvix.md
-                  - Storage Configuration: ./arch/node/net/storage_config.juvix.md
-                  - Storage Environment: ./arch/node/net/storage_environment.juvix.md
-                  - Storage Behaviour: ./arch/node/net/storage_behaviour.juvix.md
-          - Ordering Component:
+                  - Storage Engine: ./arch/node/engines/storage.juvix.md
+                  - Storage Messages: ./arch/node/engines/storage_messages.juvix.md
+                  - Storage Configuration: ./arch/node/engines/storage_config.juvix.md
+                  - Storage Environment: ./arch/node/engines/storage_environment.juvix.md
+                  - Storage Behaviour: ./arch/node/engines/storage_behaviour.juvix.md
+          - Ordering Subsystem:
               - Mempool engines:
                   - Mempool Worker Engine:
                       - Mempool Worker Engine: ./arch/node/engines/mempool_worker.juvix.md

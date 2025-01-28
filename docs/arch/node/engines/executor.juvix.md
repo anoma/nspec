@@ -55,10 +55,10 @@ an `ExecutorMsgExecutorFinished` message to both the Worker that spawned it and 
 transaction's issuer, containing a summary of all reads and writes performed during
 execution.
 
-## Components
+## Engine components
 
 - [[Executor Messages]]
-- [[Executor Config]]
+- [[Executor Configuration]]
 - [[Executor Environment]]
 - [[Executor Behaviour]]
 

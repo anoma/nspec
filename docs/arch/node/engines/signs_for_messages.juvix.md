@@ -39,7 +39,7 @@ sequenceDiagram
 
     Client->>SignsForEngine: RequestSubmitSignsForEvidence
     Note over SignsForEngine: Process and store evidence
-    SignsForEngine->>Client: ResponseSubmitSignsForEvidence
+    SignsForEngine->>Client: ReplySubmitSignsForEvidence
 ```
 
 <figcaption markdown="span">
@@ -62,7 +62,7 @@ sequenceDiagram
 
     Client->>SignsForEngine: RequestSignsFor (X signs for Y?)
     Note over SignsForEngine: Check stored evidence
-    SignsForEngine->>Client: ResponseSignsFor
+    SignsForEngine->>Client: ReplySignsFor
 ```
 
 <figcaption markdown="span">
@@ -85,7 +85,7 @@ sequenceDiagram
 
     Client->>SignsForEngine: RequestQuerySignsForEvidence (for X)
     Note over SignsForEngine: Retrieve relevant evidence
-    SignsForEngine->>Client: ResponseQuerySignsForEvidence
+    SignsForEngine->>Client: ReplyQuerySignsForEvidence
 ```
 
 <figcaption markdown="span">
@@ -122,16 +122,16 @@ A `RequestSignsFor` queries whether `externalIdentityA` can sign on behalf of
 
 ---
 
-### `MsgSignsForResponse ResponseSignsFor`
+### `MsgSignsForReply ReplySignsFor`
 
 ```juvix
-type ResponseSignsFor := mkResponseSignsFor {
+type ReplySignsFor := mkReplySignsFor {
   signsFor : Bool;
   err : Option String
 };
 ```
 
-A `ResponseSignsFor` indicates whether the `signs_for` relationship exists.
+A `ReplySignsFor` indicates whether the `signs_for` relationship exists.
 
 ???+ quote "Arguments"
 
@@ -160,15 +160,15 @@ A `RequestSubmitSignsForEvidence` submits evidence of a `signs_for` relationship
 
 ---
 
-### `ResponseSubmitSignsForEvidence`
+### `ReplySubmitSignsForEvidence`
 
 ```juvix
-type ResponseSubmitSignsForEvidence := mkResponseSubmitSignsForEvidence {
+type ReplySubmitSignsForEvidence := mkReplySubmitSignsForEvidence {
   err : Option String
 };
 ```
 
-A `ResponseSubmitSignsForEvidence` acknowledges the submission of evidence.
+A `ReplySubmitSignsForEvidence` acknowledges the submission of evidence.
 
 ???+ quote "Arguments"
 
@@ -194,17 +194,17 @@ A `RequestQuerySignsForEvidence` queries all `signs_for` evidence related to an 
 
 ---
 
-### `ResponseQuerySignsForEvidence`
+### `ReplyQuerySignsForEvidence`
 
 ```juvix
-type ResponseQuerySignsForEvidence := mkResponseQuerySignsForEvidence {
+type ReplyQuerySignsForEvidence := mkReplyQuerySignsForEvidence {
   externalIdentity : ExternalIdentity;
   evidence : Set SignsForEvidence;
   err : Option String
 };
 ```
 
-A `ResponseQuerySignsForEvidence` provides the requested evidence.
+A `ReplyQuerySignsForEvidence` provides the requested evidence.
 
 ???+ quote "Arguments"
 
@@ -225,18 +225,18 @@ A `ResponseQuerySignsForEvidence` provides the requested evidence.
 ```juvix
 type SignsForMsg :=
   | MsgSignsForRequest RequestSignsFor
-  | MsgSignsForResponse ResponseSignsFor
+  | MsgSignsForReply ReplySignsFor
   | MsgSubmitSignsForEvidenceRequest RequestSubmitSignsForEvidence
-  | MsgSubmitSignsForEvidenceResponse ResponseSubmitSignsForEvidence
+  | MsgSubmitSignsForEvidenceReply ReplySubmitSignsForEvidence
   | MsgQuerySignsForEvidenceRequest RequestQuerySignsForEvidence
-  | MsgQuerySignsForEvidenceResponse ResponseQuerySignsForEvidence
+  | MsgQuerySignsForEvidenceReply ReplyQuerySignsForEvidence
   ;
 ```
 <!-- --8<-- [end:SignsForMsg] -->
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[SignsFor Configuration]]
 - [[SignsFor Environment]]

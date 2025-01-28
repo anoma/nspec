@@ -37,7 +37,7 @@ sequenceDiagram
 
     C->>EE: RequestEncrypt (useReadsFor: false)
     Note over EE: Encrypt commitment
-    EE-->>C: ResponseEncrypt
+    EE-->>C: ReplyEncrypt
 ```
 
 <figcaption markdown="span">
@@ -60,9 +60,9 @@ sequenceDiagram
     C->>EE: RequestEncrypt (useReadsFor: true)
     EE->>RE: QueryReadsForEvidenceRequest
     Note over RE: Retrieve evidence
-    RE-->>EE: QueryReadsForEvidenceResponse
+    RE-->>EE: QueryReadsForEvidenceReply
     Note over EE: Encrypt commitment using ReadsFor evidence
-    EE-->>C: ResponseEncrypt
+    EE-->>C: ReplyEncrypt
 ```
 
 <figcaption markdown="span">
@@ -101,16 +101,16 @@ particular external identity, possibly using known `reads_for` relationships.
 
 ---
 
-### `ResponseEncrypt`
+### `ReplyEncrypt`
 
 ```juvix
-type ResponseEncrypt := mkResponseEncrypt {
+type ReplyEncrypt := mkReplyEncrypt {
   ciphertext : Ciphertext;
   err : Option String
 };
 ```
 
-A `ResponseEncrypt` contains the data encrypted by the Encryption Engine in
+A `ReplyEncrypt` contains the data encrypted by the Encryption Engine in
 response to a `RequestEncrypt`.
 
 ???+ quote "Arguments"
@@ -129,14 +129,14 @@ response to a `RequestEncrypt`.
 ```juvix
 type EncryptionMsg :=
   | MsgEncryptionRequest RequestEncrypt
-  | MsgEncryptionResponse ResponseEncrypt
+  | MsgEncryptionReply ReplyEncrypt
   ;
 ```
 <!-- --8<-- [end:EncryptionMsg] -->
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Encryption Configuration]]
 - [[Encryption Environment]]

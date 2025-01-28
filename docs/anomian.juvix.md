@@ -180,7 +180,7 @@ syntax alias Timeout := Nat;
 
 type CommunicationPattern :=
   | FireAndForget
-  | RequestResponse@{timeout : Option Timeout}
+  | RequestReply@{timeout : Option Timeout}
   | PubSub
   ;
 ```
@@ -190,7 +190,7 @@ type CommunicationPattern :=
 > We can consider three patterns of communication. The pattern `FireAndForget`
 > allows us to communicate asynchronously. One can send a message and not expect
 > any response like notifications on your phone. However, if you need a response
-> or result and can wait for it, we can use the `RequestResponse` pattern. That
+> or result and can wait for it, we can use the `RequestReply` pattern. That
 > is the pattern that every synchronous communication uses implicitly. And finally, the
 > `PubSub` pattern (pub/sub for short) that allows us to communicate
 > asynchronously and without a response, broadcasting messages to multiple
@@ -212,7 +212,7 @@ type CommunicationPattern :=
 ```juvix
 type EngineMsgKind :=
   | Request
-  | Response
+  | Reply
   | Notify;
 ```
 
@@ -345,7 +345,7 @@ jordanToAnomian : EngineMsg MsgInterface :=
     sender := JordanID;
     target := AnomianID;
     mailbox := some 1;
-    pattern := RequestResponse@{timeout := none};
+    pattern := RequestReply@{timeout := none};
     kind := Request;
     msg := MsgAnomian (AnomianMsgEnglish@{msg := "What is the meaning of life?"});
   };
@@ -367,8 +367,8 @@ anomianToJordan : EngineMsg MsgInterface :=
     sender := AnomianID;
     target := JordanID;
     mailbox := some 1;
-    pattern := RequestResponse@{timeout := none};
-    kind := Response;
+    pattern := RequestReply@{timeout := none};
+    kind := Reply;
     msg := MsgJordan (JordanMsgEnglish@{msg := "The meaning of life is 42."});
   };
 ```
@@ -716,10 +716,10 @@ I think I am getting the hang of it. But what's next?
    in—`Running`, `Dead`, or `Suspended`.
 
 - **CommunicationPattern**: Enumerates the types of communication patterns
-   available, such as `FireAndForget`, `RequestResponse` with an optional
+   available, such as `FireAndForget`, `RequestReply` with an optional
    timeout, and `PubSub`.
 
-- **EngineMsgKind**: Categorizes messages into `Request`, `Response`, or
+- **EngineMsgKind**: Categorizes messages into `Request`, `Reply`, or
    `Notify`.
 
 - **EngineID**: A composite identifier for engines, consisting of a `nodeId`

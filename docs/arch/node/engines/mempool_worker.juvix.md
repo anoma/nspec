@@ -110,7 +110,7 @@ execution. Success is equivalent to all reads and writes being successful and an
 [[ExecutorFinished]]-message from the [[Executor#executor|executor]] that was
 spawned to execute the message.
 
-## Components
+## Engine components
 
 - [[Mempool Worker Messages]]
 - [[Mempool Worker Configuration]]

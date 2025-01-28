@@ -101,7 +101,7 @@ type ExecutorMsg (KVSKey KVSDatum : Type) :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Executor Configuration]]
 - [[Executor Environment]]

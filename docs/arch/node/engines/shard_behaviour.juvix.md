@@ -98,7 +98,7 @@ flowchart TD
      - Prepares lock acquisition acknowledgment.
      - Records all lock information in DAG structure.
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Always Sends**:
      - `KVSLockAcquired` message back to worker containing:
        - `timestamp`: Same timestamp as request.
@@ -109,7 +109,7 @@ flowchart TD
          - `key`: Key that was read.
          - `data`: Value at that timestamp.
 
-5. **Response Delivery**
+5. **Reply Delivery**
    - Lock acknowledgment sent to original worker.
    - Any read messages sent to specified executor.
    - Uses mailbox 0 (the standard mailbox for responses).
@@ -144,7 +144,7 @@ flowchart TD
 
     PrepReadMsgs --> SendReads[Send KVSRead messages<br/>to eligible executors]
     NoReads --> Complete([Complete])
-    FailNoLock & FailInvalid --> Fail([Fail - No Response])
+    FailNoLock & FailInvalid --> Fail([Fail - No Reply])
 ```
 
 <figcaption markdown="span">
@@ -182,7 +182,7 @@ flowchart TD
      - Attempting null write on definite write lock.
      - Lock exists but write is invalid for lock type.
 
-5. **Response Delivery**
+5. **Reply Delivery**
    - On success, sends `KVSRead` messages to Executors for any eligible eager reads.
    - The original write request does not receive a direct response.
    - All messages use mailbox 0 (the standard mailbox for responses).
@@ -211,16 +211,16 @@ flowchart TD
         CheckLock -->|No| FailNoLock[Fail - No Lock]
         CheckLock -->|Yes| MarkRead[Mark read as completed<br/>in DAG]
         MarkRead --> CheckActual{actual flag<br/>true?}
-        CheckActual -->|No| NoResponse[No response needed]
+        CheckActual -->|No| NoReply[No response needed]
         CheckActual -->|Yes| FindValue[Find most recent<br/>write before timestamp]
         FindValue --> HasValue{Value found?}
         HasValue -->|No| FailNoValue[Fail - No Value]
-        HasValue -->|Yes| PrepResponse[Create read response<br/>with found value]
+        HasValue -->|Yes| PrepReply[Create read response<br/>with found value]
     end
 
-    PrepResponse --> SendRead[Send KVSRead message<br/>to executor]
-    NoResponse --> Complete([Complete])
-    FailTooEarly & FailNoLock & FailNoValue --> Fail([Fail - No Response])
+    PrepReply --> SendRead[Send KVSRead message<br/>to executor]
+    NoReply --> Complete([Complete])
+    FailTooEarly & FailNoLock & FailNoValue --> Fail([Fail - No Reply])
 
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
@@ -253,7 +253,7 @@ flowchart TD
      - If `actual` flag is true, finds the most recent write value.
      - Constructs appropriate response based on result.
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Successful Case (actual = true)**
      - Creates `ShardMsgKVSRead` with:
        - `timestamp`: Original request timestamp.
@@ -268,7 +268,7 @@ flowchart TD
        - No valid read lock exists.
        - No historical value found.
 
-5. **Response Delivery**
+5. **Reply Delivery**
    - Success response sent directly to requesting executor.
    - Uses mailbox 0 (the standard mailbox for responses).
 
@@ -332,7 +332,7 @@ flowchart TD
        - Updates `heardAllReads` to new timestamp.
        - No immediate read processing needed.
 
-4. **Response Generation**
+4. **Reply Generation**
    - For write barrier updates:
      - If eligible eager reads found:
        - Creates `KVSRead` messages for each eligible read.

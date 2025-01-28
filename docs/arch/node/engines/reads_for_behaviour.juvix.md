@@ -138,7 +138,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `ResponseReadsFor` message is sent back to the requester.
+: A `ReplyReadsFor` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -165,7 +165,7 @@ readsForQueryAction
               isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) identityA) &&
               isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) identityB)
             } (Set.toList (ReadsForLocalState.evidenceStore localState)));
-          responseMsg := mkResponseReadsFor@{
+          responseMsg := mkReplyReadsFor@{
             readsFor := hasEvidence;
             err := none
           }
@@ -175,7 +175,7 @@ readsForQueryAction
             sender := getEngineIDFromEngineCfg cfg;
             target := EngineMsg.sender emsg;
             mailbox := some 0;
-            msg := Anoma.MsgReadsFor (MsgReadsForResponse responseMsg)
+            msg := Anoma.MsgReadsFor (MsgReadsForReply responseMsg)
           }];
           timers := [];
           engines := []
@@ -194,7 +194,7 @@ State update
 : If the evidence is valid and doesn't exist, it's added to the evidence store.
 
 Messages to be sent
-: A `ResponseSubmitReadsForEvidence` message is sent back to the requester.
+: A `ReplySubmitReadsForEvidence` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -226,7 +226,7 @@ submitEvidenceAction
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceResponse (mkResponseSubmitReadsForEvidence (some "Evidence already exists.")))
+                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence (some "Evidence already exists.")))
               }];
               timers := [];
               engines := []
@@ -242,7 +242,7 @@ submitEvidenceAction
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceResponse (mkResponseSubmitReadsForEvidence none))
+                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence none))
               }];
               timers := [];
               engines := []
@@ -255,7 +255,7 @@ submitEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceResponse (mkResponseSubmitReadsForEvidence (some "Invalid evidence provided.")))
+              msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence (some "Invalid evidence provided.")))
             }];
             timers := [];
             engines := []
@@ -275,7 +275,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `ResponseQueryReadsForEvidence` message is sent back to the requester.
+: A `ReplyQueryReadsForEvidence` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -302,7 +302,7 @@ queryEvidenceAction
               isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) identity) ||
               isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) identity)
             } (ReadsForLocalState.evidenceStore localState);
-          responseMsg := mkResponseQueryReadsForEvidence@{
+          responseMsg := mkReplyQueryReadsForEvidence@{
               externalIdentity := identity;
               evidence := relevantEvidence;
               err := none
@@ -313,7 +313,7 @@ queryEvidenceAction
             sender := getEngineIDFromEngineCfg cfg;
             target := EngineMsg.sender emsg;
             mailbox := some 0;
-            msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse responseMsg)
+            msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceReply responseMsg)
           }];
           timers := [];
           engines := []
@@ -521,7 +521,7 @@ flowchart TD
   C --> G -- *readsForQueryActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EMsg>ResponseReadsFor<br/>readsFor]
+    EMsg>ReplyReadsFor<br/>readsFor]
   end
 ```
 
@@ -550,7 +550,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(evidenceStore update)]
-    EMsg>ResponseSubmitReadsForEvidence<br/>error]
+    EMsg>ReplySubmitReadsForEvidence<br/>error]
   end
 ```
 
@@ -578,7 +578,7 @@ flowchart TD
   C --> G -- *queryEvidenceActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EMsg>ResponseQueryReadsForEvidence<br/>evidence list]
+    EMsg>ReplyQueryReadsForEvidence<br/>evidence list]
   end
 ```
 

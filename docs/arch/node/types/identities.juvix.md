@@ -189,17 +189,6 @@ nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
   name ++str "_" ++str str ++str "_" ++str (snd addr);
 ```
 
-## String Comparison
-```juvix
-axiom stringCmp : String -> String -> Ordering;
-
-instance
-StringOrd : Ord String :=
-  mkOrd@{
-    cmp := stringCmp;
-  };
-```
-
 ## Identity Parameters and Capabilities
 
 ### IDParams
