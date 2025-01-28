@@ -39,7 +39,7 @@ sequenceDiagram
 
     Client->>ReadsForEngine: RequestSubmitReadsForEvidence
     Note over ReadsForEngine: Verify and store evidence
-    ReadsForEngine->>Client: ResponseSubmitReadsForEvidence
+    ReadsForEngine->>Client: ReplySubmitReadsForEvidence
 ```
 
 <figcaption markdown="span">
@@ -62,7 +62,7 @@ sequenceDiagram
 
     Client->>ReadsForEngine: RequestReadsFor (A reads for B?)
     Note over ReadsForEngine: Check stored evidence
-    ReadsForEngine->>Client: ResponseReadsFor
+    ReadsForEngine->>Client: ReplyReadsFor
 ```
 
 <figcaption markdown="span">
@@ -85,7 +85,7 @@ sequenceDiagram
 
     Client->>ReadsForEngine: RequestQueryReadsForEvidence (for X)
     Note over ReadsForEngine: Retrieve relevant evidence
-    ReadsForEngine->>Client: ResponseQueryReadsForEvidence
+    ReadsForEngine->>Client: ReplyQueryReadsForEvidence
 ```
 
 <figcaption markdown="span">
@@ -122,16 +122,16 @@ A request to query whether `externalIdentityA` can read data encrypted to
 
 ---
 
-### `ResponseReadsFor`
+### `ReplyReadsFor`
 
 ```juvix
-type ResponseReadsFor := mkResponseReadsFor {
+type ReplyReadsFor := mkReplyReadsFor {
   readsFor : Bool;
   err : Option String
 };
 ```
 
-Response indicating whether the `reads_for` relationship exists.
+Reply indicating whether the `reads_for` relationship exists.
 
 ???+ quote "Arguments"
 
@@ -160,15 +160,15 @@ Request to submit evidence of a `reads_for` relationship.
 
 ---
 
-### `ResponseSubmitReadsForEvidence`
+### `ReplySubmitReadsForEvidence`
 
 ```juvix
-type ResponseSubmitReadsForEvidence := mkResponseSubmitReadsForEvidence {
+type ReplySubmitReadsForEvidence := mkReplySubmitReadsForEvidence {
   err : Option String
 };
 ```
 
-Response acknowledging the submission of evidence.
+Reply acknowledging the submission of evidence.
 
 ???+ quote "Arguments"
 
@@ -194,17 +194,17 @@ Request to query all `reads_for` evidence related to an identity.
 
 ---
 
-### `ResponseQueryReadsForEvidence`
+### `ReplyQueryReadsForEvidence`
 
 ```juvix
-type ResponseQueryReadsForEvidence := mkResponseQueryReadsForEvidence {
+type ReplyQueryReadsForEvidence := mkReplyQueryReadsForEvidence {
   externalIdentity : ExternalIdentity;
   evidence : Set ReadsForEvidence;
   err : Option String
 };
 ```
 
-Response providing the requested evidence.
+Reply providing the requested evidence.
 
 ???+ quote "Arguments"
 
@@ -225,18 +225,18 @@ Response providing the requested evidence.
 ```juvix
 type ReadsForMsg :=
   | MsgReadsForRequest RequestReadsFor
-  | MsgReadsForResponse ResponseReadsFor
+  | MsgReadsForReply ReplyReadsFor
   | MsgSubmitReadsForEvidenceRequest RequestSubmitReadsForEvidence
-  | MsgSubmitReadsForEvidenceResponse ResponseSubmitReadsForEvidence
+  | MsgSubmitReadsForEvidenceReply ReplySubmitReadsForEvidence
   | MsgQueryReadsForEvidenceRequest RequestQueryReadsForEvidence
-  | MsgQueryReadsForEvidenceResponse ResponseQueryReadsForEvidence
+  | MsgQueryReadsForEvidenceReply ReplyQueryReadsForEvidence
   ;
 ```
 <!-- --8<-- [end:ReadsForMsg] -->
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[ReadsFor Configuration]]
 - [[ReadsFor Environment]]

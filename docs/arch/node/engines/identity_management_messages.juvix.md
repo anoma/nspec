@@ -43,7 +43,7 @@ sequenceDiagram
     Note over IdentityManagementEngine: Create new identity
     IdentityManagementEngine->>CommitmentEngine: Spawn (if requested)
     IdentityManagementEngine->>DecryptionEngine: Spawn (if requested)
-    IdentityManagementEngine->>Client: ResponseGenerateIdentity
+    IdentityManagementEngine->>Client: ReplyGenerateIdentity
 ```
 
 <figcaption markdown="span">
@@ -68,7 +68,7 @@ sequenceDiagram
     Note over IdentityManagementEngine: Check external identity
     Note over IdentityManagementEngine: Verify capabilities
     Note over IdentityManagementEngine: Copy engine references
-    IdentityManagementEngine->>Client: ResponseConnectIdentity
+    IdentityManagementEngine->>Client: ReplyConnectIdentity
 ```
 
 <figcaption markdown="span">
@@ -92,7 +92,7 @@ sequenceDiagram
     Client->>IdentityManagementEngine: RequestDeleteIdentity
     Note over IdentityManagementEngine: Check if identity exists
     Note over IdentityManagementEngine: Delete identity if exists
-    IdentityManagementEngine->>Client: ResponseDeleteIdentity
+    IdentityManagementEngine->>Client: ReplyDeleteIdentity
 ```
 
 <figcaption markdown="span">
@@ -131,10 +131,10 @@ a new identity using the specified backend, parameters, and capabilities.
 
 ---
 
-### `ResponseGenerateIdentity`
+### `ReplyGenerateIdentity`
 
 ```juvix
-type ResponseGenerateIdentity := mkResponseGenerateIdentity {
+type ReplyGenerateIdentity := mkReplyGenerateIdentity {
   commitmentEngine : Option EngineID;
   decryptionEngine : Option EngineID;
   externalIdentity : EngineID;
@@ -142,7 +142,7 @@ type ResponseGenerateIdentity := mkResponseGenerateIdentity {
 };
 ```
 
-A `ResponseGenerateIdentity` provides the handles to the decryption and
+A `ReplyGenerateIdentity` provides the handles to the decryption and
 commitment engine instances for the newly generated identity, or an error if a
 failure occurred.
 
@@ -188,17 +188,17 @@ to an existing identity using the specified backend.
 
 ---
 
-### `ResponseConnectIdentity`
+### `ReplyConnectIdentity`
 
 ```juvix
-type ResponseConnectIdentity := mkConnectIdentityResponse {
+type ReplyConnectIdentity := mkConnectIdentityReply {
   commitmentEngine : Option EngineID;
   decryptionEngine : Option EngineID;
   err : Option String
 };
 ```
 
-A `ResponseConnectIdentity` provides the handles to the decryption and
+A `ReplyConnectIdentity` provides the handles to the decryption and
 commitment engine instances for the connected identity, or an error if a failure
 occurred.
 
@@ -237,15 +237,15 @@ existing identity using the specified backend.
 
 ---
 
-### `ResponseDeleteIdentity`
+### `ReplyDeleteIdentity`
 
 ```juvix
-type ResponseDeleteIdentity := mkResponseDeleteIdentity {
+type ReplyDeleteIdentity := mkReplyDeleteIdentity {
   err : Option String
 };
 ```
 
-A `ResponseDeleteIdentity` provides the response from an attempt to delete an
+A `ReplyDeleteIdentity` provides the response from an attempt to delete an
 identity.
 
 ???+ quote "Arguments"
@@ -261,18 +261,18 @@ identity.
 ```juvix
 type IdentityManagementMsg :=
   | MsgIdentityManagementGenerateIdentityRequest RequestGenerateIdentity
-  | MsgIdentityManagementGenerateIdentityResponse ResponseGenerateIdentity
+  | MsgIdentityManagementGenerateIdentityReply ReplyGenerateIdentity
   | MsgIdentityManagementConnectIdentityRequest RequestConnectIdentity
-  | MsgIdentityManagementConnectIdentityResponse ResponseConnectIdentity
+  | MsgIdentityManagementConnectIdentityReply ReplyConnectIdentity
   | MsgIdentityManagementDeleteIdentityRequest RequestDeleteIdentity
-  | MsgIdentityManagementDeleteIdentityResponse ResponseDeleteIdentity
+  | MsgIdentityManagementDeleteIdentityReply ReplyDeleteIdentity
   ;
 ```
 <!-- --8<-- [end:IdentityManagementMsg] -->
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Identity Management Configuration]]
 - [[Identity Management Environment]]

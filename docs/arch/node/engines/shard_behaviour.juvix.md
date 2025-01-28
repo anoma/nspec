@@ -98,7 +98,7 @@ flowchart TD
      - Prepares lock acquisition acknowledgment.
      - Records all lock information in DAG structure.
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Always Sends**:
      - `KVSLockAcquired` message back to worker containing:
        - `timestamp`: Same timestamp as request.
@@ -109,7 +109,7 @@ flowchart TD
          - `key`: Key that was read.
          - `data`: Value at that timestamp.
 
-5. **Response Delivery**
+5. **Reply Delivery**
    - Lock acknowledgment sent to original worker.
    - Any read messages sent to specified executor.
    - Uses mailbox 0 (the standard mailbox for responses).
@@ -144,7 +144,7 @@ flowchart TD
 
     PrepReadMsgs --> SendReads[Send KVSRead messages<br/>to eligible executors]
     NoReads --> Complete([Complete])
-    FailNoLock & FailInvalid --> Fail([Fail - No Response])
+    FailNoLock & FailInvalid --> Fail([Fail - No Reply])
 ```
 
 <figcaption markdown="span">
@@ -182,7 +182,7 @@ flowchart TD
      - Attempting null write on definite write lock.
      - Lock exists but write is invalid for lock type.
 
-5. **Response Delivery**
+5. **Reply Delivery**
    - On success, sends `KVSRead` messages to Executors for any eligible eager reads.
    - The original write request does not receive a direct response.
    - All messages use mailbox 0 (the standard mailbox for responses).
@@ -211,16 +211,16 @@ flowchart TD
         CheckLock -->|No| FailNoLock[Fail - No Lock]
         CheckLock -->|Yes| MarkRead[Mark read as completed<br/>in DAG]
         MarkRead --> CheckActual{actual flag<br/>true?}
-        CheckActual -->|No| NoResponse[No response needed]
+        CheckActual -->|No| NoReply[No response needed]
         CheckActual -->|Yes| FindValue[Find most recent<br/>write before timestamp]
         FindValue --> HasValue{Value found?}
         HasValue -->|No| FailNoValue[Fail - No Value]
-        HasValue -->|Yes| PrepResponse[Create read response<br/>with found value]
+        HasValue -->|Yes| PrepReply[Create read response<br/>with found value]
     end
 
-    PrepResponse --> SendRead[Send KVSRead message<br/>to executor]
-    NoResponse --> Complete([Complete])
-    FailTooEarly & FailNoLock & FailNoValue --> Fail([Fail - No Response])
+    PrepReply --> SendRead[Send KVSRead message<br/>to executor]
+    NoReply --> Complete([Complete])
+    FailTooEarly & FailNoLock & FailNoValue --> Fail([Fail - No Reply])
 
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
@@ -253,7 +253,7 @@ flowchart TD
      - If `actual` flag is true, finds the most recent write value.
      - Constructs appropriate response based on result.
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Successful Case (actual = true)**
      - Creates `ShardMsgKVSRead` with:
        - `timestamp`: Original request timestamp.
@@ -268,7 +268,7 @@ flowchart TD
        - No valid read lock exists.
        - No historical value found.
 
-5. **Response Delivery**
+5. **Reply Delivery**
    - Success response sent directly to requesting executor.
    - Uses mailbox 0 (the standard mailbox for responses).
 
@@ -332,7 +332,7 @@ flowchart TD
        - Updates `heardAllReads` to new timestamp.
        - No immediate read processing needed.
 
-4. **Response Generation**
+4. **Reply Generation**
    - For write barrier updates:
      - If eligible eager reads found:
        - Creates `KVSRead` messages for each eligible read.
@@ -369,7 +369,8 @@ ShardActionArguments : Type := List ShardActionArgument;
 
 ```juvix
 findMostRecentWrite
-  (dag : DAGStructure)
+  {KVSKey KVSDatum} {{Ord KVSKey}}
+  (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
   : Option KVSDatum :=
@@ -403,11 +404,12 @@ findMostRecentWrite
 -- add read without prior lock
 ```juvix
 addReadAccess
-  (dag : DAGStructure)
+  {KVSKey KVSDatum} {{Ord KVSKey}}
+  (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
   (readStatus : ReadStatus)
-  : DAGStructure :=
+  : DAGStructure KVSKey KVSDatum :=
   let keyMap := case Map.lookup key (DAGStructure.keyAccesses dag) of {
     | none := Map.empty
     | some m := m
@@ -425,11 +427,12 @@ addReadAccess
 -- add write without prior lock
 ```juvix
 addWriteAccess
-  (dag : DAGStructure)
+  {KVSKey KVSDatum} {{Ord KVSKey}}
+  (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
-  (writeStatus : WriteStatus)
-  : DAGStructure :=
+  (writeStatus : WriteStatus KVSDatum)
+  : DAGStructure KVSKey KVSDatum :=
   let keyMap := case Map.lookup key (DAGStructure.keyAccesses dag) of {
     | none := Map.empty
     | some m := m
@@ -447,10 +450,12 @@ addWriteAccess
 -- Replaces if read lock exists
 ```juvix
 replaceReadAccess
-  (dag : DAGStructure)
+  {KVSKey KVSDatum}
+  {{Ord KVSKey}}
+  (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
-  : Option DAGStructure :=
+  : Option (DAGStructure KVSKey KVSDatum) :=
   let keyMap := case Map.lookup key (DAGStructure.keyAccesses dag) of {
         | none := Map.empty
         | some m := m
@@ -477,11 +482,13 @@ replaceReadAccess
 -- Replaces if write lock exists
 ```juvix
 replaceWriteAccess
-  (dag : DAGStructure)
+  {KVSKey KVSDatum}
+  {{Ord KVSKey}}
+  (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
   (newData : Option KVSDatum)
-  : Option DAGStructure :=
+  : Option (DAGStructure KVSKey KVSDatum) :=
   let keyMap := case Map.lookup key (DAGStructure.keyAccesses dag) of {
         | none := Map.empty
         | some m := m
@@ -509,12 +516,13 @@ replaceWriteAccess
 
 ```juvix
 generateReadMsg
+  {KVSKey KVSDatum Executable}
   (sender : EngineID)
   (key : KVSKey)
   (timestamp : TxFingerprint)
   (data : KVSDatum)
   (executor : EngineID)
-  : EngineMsg Msg :=
+  : EngineMsg (PreMsg KVSKey KVSDatum Executable) :=
   mkEngineMsg@{
     sender := sender;
     target := executor;
@@ -530,12 +538,14 @@ generateReadMsg
 ```juvix
 -- Try to send a read message for a valid, pending eager read lock.
 execEagerReadsAtTime
+  {KVSKey KVSDatum Executable}
+  {{Ord KVSKey}}
   (sender : EngineID)
-  (dag : DAGStructure)
+  (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
   (timestamp : TxFingerprint)
-  (access : KeyAccess)
-  : Option (Pair DAGStructure (EngineMsg Msg)) :=
+  (access : KeyAccess KVSDatum)
+  : Option (Pair (DAGStructure KVSKey KVSDatum) (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :=
   case KeyAccess.readStatus access of {
     | some readStatus :=
       case ReadStatus.isEager readStatus && not (ReadStatus.hasBeenRead readStatus) of {
@@ -564,11 +574,13 @@ execEagerReadsAtTime
 ```juvix
 -- Try to send a read messages for valid, pending eager read locks of a key.
 execEagerReadsAtKey
+  {KVSKey KVSDatum Executable}
+  {{Ord KVSKey}}
   (sender : EngineID)
-  (dag : DAGStructure)
+  (dag : DAGStructure KVSKey KVSDatum)
   (key : KVSKey)
-  (timestampMap : Map TxFingerprint KeyAccess)
-  : Pair DAGStructure (List (EngineMsg Msg)) :=
+  (timestampMap : Map TxFingerprint (KeyAccess KVSDatum))
+  : Pair (DAGStructure KVSKey KVSDatum) (List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :=
   let processTimestamp := \{k v acc :=
     case acc of {
       | mkPair currDag msgs :=
@@ -584,9 +596,11 @@ execEagerReadsAtKey
 ```juvix
 -- Try to send all read messages for valid, pending eager read locks.
 execEagerReads
+  {KVSKey KVSDatum Executable}
+  {{Ord KVSKey}}
   (sender : EngineID)
-  (dag : DAGStructure)
-  : Pair DAGStructure (List (EngineMsg Msg)) :=
+  (dag : DAGStructure KVSKey KVSDatum)
+  : Pair (DAGStructure KVSKey KVSDatum) (List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :=
   let processKey := \{k v acc :=
     case acc of {
       | mkPair currDag msgs :=
@@ -604,57 +618,57 @@ execEagerReads
     ### `ShardAction`
 
     ```juvix
-    ShardAction : Type :=
+    ShardAction (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Action
         ShardCfg
-        ShardLocalState
+        (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
         ShardActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
     ### `ShardActionInput`
 
     ```juvix
-    ShardActionInput : Type :=
+    ShardActionInput (KVSKey KVSDatum Executable : Type) : Type :=
       ActionInput
         ShardCfg
-        ShardLocalState
+        (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
         ShardActionArguments
-        Anoma.Msg;
+        (Anoma.PreMsg KVSKey KVSDatum Executable);
     ```
 
     ### `ShardActionEffect`
 
     ```juvix
-    ShardActionEffect : Type :=
+    ShardActionEffect (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionEffect
-        ShardLocalState
+        (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
     ### `ShardActionExec`
 
     ```juvix
-    ShardActionExec : Type :=
+    ShardActionExec (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionExec
         ShardCfg
-        ShardLocalState
+        (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
         ShardActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
 ### `acquireLockAction`
@@ -670,8 +684,10 @@ Messages to be sent
 <!-- --8<-- [start:acquireLockAction] -->
 ```juvix
 acquireLockAction
-  (input : ShardActionInput)
-  : Option ShardActionEffect :=
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  (input : ShardActionInput KVSKey KVSDatum Executable)
+  : Option (ShardActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let cfg := ActionInput.cfg input;
       env := ActionInput.env input;
       local := EngineEnv.localState env;
@@ -747,8 +763,10 @@ Messages to be sent
 <!-- --8<-- [start:processWriteAction] -->
 ```juvix
 processWriteAction
-  (input : ShardActionInput)
-  : Option ShardActionEffect :=
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  (input : ShardActionInput KVSKey KVSDatum Executable)
+  : Option (ShardActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let cfg := ActionInput.cfg input;
       env := ActionInput.env input;
       local := EngineEnv.localState env;
@@ -793,8 +811,10 @@ Messages to be sent
 <!-- --8<-- [start:processReadRequestAction] -->
 ```juvix
 processReadRequestAction
-  (input : ShardActionInput)
-  : Option ShardActionEffect :=
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  (input : ShardActionInput KVSKey KVSDatum Executable)
+  : Option (ShardActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let cfg := ActionInput.cfg input;
       env := ActionInput.env input;
       local := EngineEnv.localState env;
@@ -869,8 +889,10 @@ Messages to be sent
 <!-- --8<-- [start:updateSeenAllAction] -->
 ```juvix
 updateSeenAllAction
-  (input : ShardActionInput)
-  : Option ShardActionEffect :=
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  (input : ShardActionInput KVSKey KVSDatum Executable)
+  : Option (ShardActionEffect KVSKey KVSDatum Executable ProgramState) :=
   let cfg := ActionInput.cfg input;
       env := ActionInput.env input;
       local := EngineEnv.localState env;
@@ -911,25 +933,37 @@ updateSeenAllAction
 ### `acquireLockActionLabel`
 
 ```juvix
-acquireLockActionLabel : ShardActionExec := Seq [ acquireLockAction ];
+acquireLockActionLabel
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ acquireLockAction ];
 ```
 
 ### `processWriteActionLabel`
 
 ```juvix
-processWriteActionLabel : ShardActionExec := Seq [ processWriteAction ];
+processWriteActionLabel
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processWriteAction ];
 ```
 
 ### `processReadRequestActionLabel`
 
 ```juvix
-processReadRequestActionLabel : ShardActionExec := Seq [ processReadRequestAction ];
+processReadRequestActionLabel
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadRequestAction ];
 ```
 
 ### `updateSeenAllActionLabel`
 
 ```juvix
-updateSeenAllActionLabel : ShardActionExec := Seq [ updateSeenAllAction ];
+updateSeenAllActionLabel
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ updateSeenAllAction ];
 ```
 
 ## Guards
@@ -939,46 +973,46 @@ updateSeenAllActionLabel : ShardActionExec := Seq [ updateSeenAllAction ];
     ### `ShardGuard`
 
     ```juvix
-    ShardGuard : Type :=
+    ShardGuard (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Guard
         ShardCfg
-        ShardLocalState
+        (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
         ShardActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
     ### `ShardGuardOutput`
 
     ```juvix
-    ShardGuardOutput : Type :=
+    ShardGuardOutput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardOutput
         ShardCfg
-        ShardLocalState
+        (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
         ShardActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
     ### `ShardGuardEval`
 
     ```juvix
-    ShardGuardEval : Type :=
+    ShardGuardEval (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardEval
         ShardCfg
-        ShardLocalState
+        (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
         ShardActionArguments
-        Anoma.Msg
-        Anoma.Cfg
-        Anoma.Env;
+        (Anoma.PreMsg KVSKey KVSDatum Executable)
+        (Anoma.PreCfg KVSKey KVSDatum Executable)
+        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
 ### `acquireLockGuard`
@@ -989,10 +1023,12 @@ Condition
 <!-- --8<-- [start:acquireLockGuard] -->
 ```juvix
 acquireLockGuard
-  (trigger : TimestampedTrigger ShardTimerHandle Anoma.Msg)
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg ShardCfg)
-  (env : ShardEnv)
-  : Option ShardGuardOutput :=
+  (env : ShardEnv KVSKey KVSDatum)
+  : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgShard (ShardMsgKVSAcquireLock _)
@@ -1014,10 +1050,12 @@ Condition
 <!-- --8<-- [start:processWriteGuard] -->
 ```juvix
 processWriteGuard
-  (trigger : TimestampedTrigger ShardTimerHandle Anoma.Msg)
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg ShardCfg)
-  (env : ShardEnv)
-  : Option ShardGuardOutput :=
+  (env : ShardEnv KVSKey KVSDatum)
+  : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgShard (ShardMsgKVSWrite _)
@@ -1039,10 +1077,12 @@ Condition
 <!-- --8<-- [start:processReadRequestGuard] -->
 ```juvix
 processReadRequestGuard
-  (trigger : TimestampedTrigger ShardTimerHandle Anoma.Msg)
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg ShardCfg)
-  (env : ShardEnv)
-  : Option ShardGuardOutput :=
+  (env : ShardEnv KVSKey KVSDatum)
+  : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgShard (ShardMsgKVSReadRequest _)
@@ -1064,10 +1104,12 @@ Condition
 <!-- --8<-- [start:updateSeenAllGuard] -->
 ```juvix
 updateSeenAllGuard
-  (trigger : TimestampedTrigger ShardTimerHandle Anoma.Msg)
+  {KVSKey KVSDatum Executable ProgramState}
+  {{Ord KVSKey}}
+  (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
   (cfg : EngineCfg ShardCfg)
-  (env : ShardEnv)
-  : Option ShardGuardOutput :=
+  (env : ShardEnv KVSKey KVSDatum)
+  : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some mkEngineMsg@{
         msg := Anoma.MsgShard (ShardMsgUpdateSeenAll _)
@@ -1087,16 +1129,16 @@ updateSeenAllGuard
 
 <!-- --8<-- [start:ShardBehaviour] -->
 ```juvix
-ShardBehaviour : Type :=
+ShardBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   EngineBehaviour
     ShardCfg
-    ShardLocalState
+    (ShardLocalState KVSKey KVSDatum)
     ShardMailboxState
     ShardTimerHandle
     ShardActionArguments
-    Anoma.Msg
-    Anoma.Cfg
-    Anoma.Env;
+    (Anoma.PreMsg KVSKey KVSDatum Executable)
+    (Anoma.PreCfg KVSKey KVSDatum Executable)
+    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ShardBehaviour] -->
 
@@ -1104,7 +1146,7 @@ ShardBehaviour : Type :=
 
 <!-- --8<-- [start:shardBehaviour] -->
 ```juvix
-shardBehaviour : ShardBehaviour :=
+shardBehaviour : ShardBehaviour String String ByteString String :=
   mkEngineBehaviour@{
     guards := First [
       acquireLockGuard;

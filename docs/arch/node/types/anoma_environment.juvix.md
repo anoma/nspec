@@ -10,6 +10,8 @@ search:
     ```juvix
     module arch.node.types.anoma_environment;
 
+    import prelude open;
+
     {- Identity -}
 
     import arch.node.engines.identity_management_environment open;
@@ -29,12 +31,12 @@ search:
 
     {- Network -}
 
-    import arch.node.net.router_environment open;
-    import arch.node.net.node_proxy_environment open;
-    import arch.node.net.transport_protocol_environment open;
-    import arch.node.net.transport_connection_environment open;
-    import arch.node.net.pub_sub_topic_environment open;
-    import arch.node.net.storage_environment open;
+    import arch.node.engines.net_registry_environment open;
+    import arch.node.engines.router_environment open;
+    import arch.node.engines.transport_protocol_environment open;
+    import arch.node.engines.transport_connection_environment open;
+    import arch.node.engines.pub_sub_topic_environment open;
+    import arch.node.engines.storage_environment open;
 
     {- Ordering -}
 
@@ -69,7 +71,7 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 
 <!-- --8<-- [start:anoma-environment-type] -->
 ```juvix
-type Env :=
+type PreEnv KVSKey KVSDatum Executable ProgramState :=
 
   {- Identity -}
 
@@ -93,7 +95,6 @@ type Env :=
   {- Network -}
 
   | EnvRouter RouterEnv
-  | EnvNodeProxy NodeProxyEnv
   | EnvTransportProtocol TransportProtocolEnv
   | EnvTransportConnection TransportConnectionEnv
   | EnvPubSubTopic PubSubTopicEnv
@@ -101,9 +102,9 @@ type Env :=
 
   {- Ordering -}
 
-  | EnvMempoolWorker MempoolWorkerEnv
-  | EnvExecutor ExecutorEnv
-  | EnvShard ShardEnv
+  | EnvMempoolWorker (MempoolWorkerEnv KVSKey KVSDatum Executable)
+  | EnvExecutor (ExecutorEnv KVSKey KVSDatum ProgramState)
+  | EnvShard (ShardEnv KVSKey KVSDatum)
 
   {- Misc -}
 
@@ -116,5 +117,7 @@ type Env :=
 
   -- Add more environments here
   ;
+
+Env : Type := PreEnv String String ByteString String;
 ```
 <!-- --8<-- [end:anoma-environment-type] -->

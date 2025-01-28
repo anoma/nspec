@@ -40,7 +40,7 @@ recipient can read encrypted messages.
 When users submit encrypted data to the engine
 (via a `MsgDecryptionRequest` message), it validates their
 authorisation and returns the decrypted content
-(via a `MsgDecryptionResponse` message) if the decryption is
+(via a `MsgDecryptionReply` message) if the decryption is
 successful.
 
 In Anoma, Decryption Engines are only spawned by
@@ -50,7 +50,7 @@ decryption. This ensures that encrypted data can only be decrypted by
 authorised parties while maintaining the security of the private
 decryption keys.
 
-## Components
+## Engine components
 
 - [[Decryption Messages]]
 - [[Decryption Configuration]]

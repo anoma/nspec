@@ -62,7 +62,7 @@ flowchart TD
     subgraph Action["generateIdentityAction"]
         direction TB
         Check{Identity already<br/>exists?}
-        Check -->|Yes| ErrExists[Create Error Response]
+        Check -->|Yes| ErrExists[Create Error Reply]
         Check -->|No| Create[Create new identity info]
         Create --> SpawnEngines{Which capabilities?}
         SpawnEngines -->|Commit| SpawnCommit[Spawn Commitment Engine]
@@ -71,9 +71,9 @@ flowchart TD
         SpawnCommit & SpawnDecrypt & SpawnBoth --> UpdateState[Update registry]
     end
 
-    UpdateState --> Response[Success Response<br/>with engine IDs]
-    ErrExists --> ErrResponse[Error Response]
-    Response & ErrResponse --> Client([Return to Client])
+    UpdateState --> Reply[Success Reply<br/>with engine IDs]
+    ErrExists --> ErrReply[Error Reply]
+    Reply & ErrReply --> Client([Return to Client])
 ```
 
 <figcaption markdown="span">
@@ -107,22 +107,22 @@ flowchart TD
      - Updates identity registry with new identity and engine references
      - Constructs appropriate response based on result
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Successful Case**
-     - Creates `MsgIdentityManagementGenerateIdentityResponse` with:
+     - Creates `MsgIdentityManagementGenerateIdentityReply` with:
        - `commitmentEngine`: Engine ID if commit capability requested, None otherwise
        - `decryptionEngine`: Engine ID if decrypt capability requested, None otherwise
        - `externalIdentity`: ID of the newly created identity
        - `err`: None
    - **Error Case**
-     - Creates `MsgIdentityManagementGenerateIdentityResponse` with:
+     - Creates `MsgIdentityManagementGenerateIdentityReply` with:
        - `commitmentEngine`: None
        - `decryptionEngine`: None
        - `externalIdentity`: Requester's ID
        - `err`: Some "Identity already exists"
 
-5. **Response Delivery**
-   - Response is sent back to the original requester
+5. **Reply Delivery**
+   - Reply is sent back to the original requester
    - Uses mailbox 0 (default mailbox for responses)
 
 ### `connectIdentityAction` flowchart
@@ -144,7 +144,7 @@ flowchart TD
     subgraph Action["connectIdentityAction"]
         direction TB
         Check{Requesting Identity<br/>exists?}
-        Check -->|Yes| ErrExists[Create Error Response]
+        Check -->|Yes| ErrExists[Create Error Reply]
         Check -->|No| FindExternal{External Identity<br/>exists?}
         FindExternal -->|No| ErrNotFound[Error: Not Found]
         FindExternal -->|Yes| CheckCaps{Requested capabilities<br/>subset of original?}
@@ -153,9 +153,9 @@ flowchart TD
         CopyEngines --> UpdateState[Update registry]
     end
 
-    UpdateState --> Response[Success Response<br/>with engine IDs]
-    ErrExists & ErrNotFound & ErrCaps --> ErrResponse[Error Response]
-    Response & ErrResponse --> Client([Return to Client])
+    UpdateState --> Reply[Success Reply<br/>with engine IDs]
+    ErrExists & ErrNotFound & ErrCaps --> ErrReply[Error Reply]
+    Reply & ErrReply --> Client([Return to Client])
 ```
 
 <figcaption markdown="span">
@@ -191,14 +191,14 @@ flowchart TD
      - Updates identity registry with new connected identity
      - Constructs appropriate response based on result
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Successful Case**
-     - Creates `MsgIdentityManagementConnectIdentityResponse` with:
+     - Creates `MsgIdentityManagementConnectIdentityReply` with:
        - `commitmentEngine`: Copied engine ID if commit capability requested, None otherwise
        - `decryptionEngine`: Copied engine ID if decrypt capability requested, None otherwise
        - `err`: None
    - **Error Cases**
-     - Creates `MsgIdentityManagementConnectIdentityResponse` with:
+     - Creates `MsgIdentityManagementConnectIdentityReply` with:
        - `commitmentEngine`: None
        - `decryptionEngine`: None
        - `err`: Some error message:
@@ -206,8 +206,8 @@ flowchart TD
          - "External identity not found" if target doesn't exist
          - "Capabilities not available" if capability subset invalid
 
-5. **Response Delivery**
-   - Response is sent back to the original requester
+5. **Reply Delivery**
+   - Reply is sent back to the original requester
    - Uses mailbox 0 (default mailbox for responses)
 
 ### `deleteIdentityAction` flowchart
@@ -229,13 +229,13 @@ flowchart TD
     subgraph Action["deleteIdentityAction"]
         direction TB
         Check{Identity exists?}
-        Check -->|No| ErrNoExist[Create Error Response]
+        Check -->|No| ErrNoExist[Create Error Reply]
         Check -->|Yes| Delete[Remove from registry]
     end
 
-    Delete --> Response[Success Response]
-    ErrNoExist --> ErrResponse[Error Response]
-    Response & ErrResponse --> Client([Return to Client])
+    Delete --> Reply[Success Reply]
+    ErrNoExist --> ErrReply[Error Reply]
+    Reply & ErrReply --> Client([Return to Client])
 
     style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
     style Action fill:#fff7f0,stroke:#333,stroke-width:2px
@@ -269,16 +269,16 @@ flowchart TD
      - Removes identity and associated engine references from registry
      - Constructs appropriate response based on result
 
-4. **Response Generation**
+4. **Reply Generation**
    - **Successful Case**
-     - Creates `MsgIdentityManagementDeleteIdentityResponse` with:
+     - Creates `MsgIdentityManagementDeleteIdentityReply` with:
        - `err`: None
    - **Error Case**
-     - Creates `MsgIdentityManagementDeleteIdentityResponse` with:
+     - Creates `MsgIdentityManagementDeleteIdentityReply` with:
        - `err`: Some "Identity does not exist"
 
-5. **Response Delivery**
-   - Response is sent back to the original requester
+5. **Reply Delivery**
+   - Reply is sent back to the original requester
    - Uses mailbox 0 (default mailbox for responses)
 
 #### Important Notes
@@ -491,7 +491,7 @@ State update
 : A new identity is created and added to the identities map if it doesn't exist.
 
 Messages to be sent
-: A GenerateIdentityResponse message containing the new identity info or error.
+: A GenerateIdentityReply message containing the new identity info or error.
 
 Engines to be spawned
 : Commitment and/or Decryption engines based on capabilities.
@@ -520,8 +520,8 @@ generateIdentityAction
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityResponse
-                (mkResponseGenerateIdentity@{
+              msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityReply
+                (mkReplyGenerateIdentity@{
                   commitmentEngine := none;
                   decryptionEngine := none;
                   externalIdentity := whoAsked;
@@ -556,8 +556,8 @@ generateIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityResponse
-                    (mkResponseGenerateIdentity@{
+                  msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityReply
+                    (mkReplyGenerateIdentity@{
                       commitmentEngine := IdentityInfo.commitmentEngine updatedIdentityInfo;
                       decryptionEngine := IdentityInfo.decryptionEngine updatedIdentityInfo;
                       externalIdentity := whoAsked;
@@ -581,7 +581,7 @@ State update
 : A new identity is created with copied capabilities if valid.
 
 Messages to be sent
-: A ConnectIdentityResponse message with confirmation or error.
+: A ConnectIdentityReply message with confirmation or error.
 
 Engines to be spawned
 : No new engines are spawned.
@@ -610,8 +610,8 @@ connectIdentityAction
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
-                (mkConnectIdentityResponse@{
+              msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                (mkConnectIdentityReply@{
                   commitmentEngine := none;
                   decryptionEngine := none;
                   err := some "Identity already exists"
@@ -631,8 +631,8 @@ connectIdentityAction
                       sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                       target := whoAsked;
                       mailbox := some 0;
-                      msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
-                        (mkConnectIdentityResponse@{
+                      msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                        (mkConnectIdentityReply@{
                           commitmentEngine := none;
                           decryptionEngine := none;
                           err := some "External identity not found"
@@ -658,8 +658,8 @@ connectIdentityAction
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
-                            (mkConnectIdentityResponse@{
+                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                            (mkConnectIdentityReply@{
                               commitmentEngine := IdentityInfo.commitmentEngine newIdentityInfo;
                               decryptionEngine := IdentityInfo.decryptionEngine newIdentityInfo;
                               err := none
@@ -675,8 +675,8 @@ connectIdentityAction
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
-                            (mkConnectIdentityResponse@{
+                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                            (mkConnectIdentityReply@{
                               commitmentEngine := none;
                               decryptionEngine := none;
                               err := some "Capabilities not available"
@@ -700,7 +700,7 @@ State update
 : Removes the specified identity if it exists.
 
 Messages to be sent
-: A DeleteIdentityResponse message with confirmation or error.
+: A DeleteIdentityReply message with confirmation or error.
 
 Engines to be spawned
 : No engines are spawned.
@@ -731,8 +731,8 @@ deleteIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityResponse
-                    (mkResponseDeleteIdentity@{
+                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
+                    (mkReplyDeleteIdentity@{
                       err := some "Identity does not exist"
                     }))
                 }];
@@ -753,8 +753,8 @@ deleteIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityResponse
-                    (mkResponseDeleteIdentity@{
+                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
+                    (mkReplyDeleteIdentity@{
                       err := none
                     }))
                 }];

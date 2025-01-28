@@ -29,7 +29,7 @@ These are the messages that the Local Time Series Storage engine can receive/res
 
 ---
 
-### `GetDataTSStorageDBRequest` and `GetDataTSStorageDBResponse`
+### `GetDataTSStorageDBRequest` and `GetDataTSStorageDBReply`
 
 <!-- --8<-- [start:message-sequence-diagram-Get] -->
 <figure markdown="span">
@@ -40,7 +40,7 @@ sequenceDiagram
     participant LocalTSStorageDB
 
     AnyEngine ->> LocalTSStorageDB: GetDataTSStorageDBRequest
-    LocalTSStorageDB ->> AnyEngine: GetDataTSStorageDBResponse
+    LocalTSStorageDB ->> AnyEngine: GetDataTSStorageDBReply
 ```
 
 <figcaption markdown="span">
@@ -51,7 +51,7 @@ Sequence diagram: Get data flow
 
 ---
 
-### `RecordDataTSStorageDBRequest` and `RecordDataTSStorageDBResponse`
+### `RecordDataTSStorageDBRequest` and `RecordDataTSStorageDBReply`
 
 <!-- --8<-- [start:message-sequence-diagram-Record] -->
 <figure markdown="span">
@@ -62,7 +62,7 @@ sequenceDiagram
     participant LocalTSStorageDB
 
     AnyEngine ->> LocalTSStorageDB: RecordDataTSStorageDBRequest
-    LocalTSStorageDB ->> AnyEngine: RecordDataTSStorageDBResponse
+    LocalTSStorageDB ->> AnyEngine: RecordDataTSStorageDBReply
 ```
 
 <figcaption markdown="span">
@@ -73,7 +73,7 @@ Sequence diagram: Record data flow
 
 ---
 
-### `DeleteDataTSStorageDBRequest` and `DeleteDataTSStorageDBResponse`
+### `DeleteDataTSStorageDBRequest` and `DeleteDataTSStorageDBReply`
 
 <!-- --8<-- [start:message-sequence-diagram-Delete] -->
 <figure markdown="span">
@@ -84,7 +84,7 @@ sequenceDiagram
     participant LocalTSStorageDB
 
     AnyEngine ->> LocalTSStorageDB: DeleteDataTSStorageDBRequest
-    LocalTSStorageDB ->> AnyEngine: DeleteDataTSStorageDBResponse
+    LocalTSStorageDB ->> AnyEngine: DeleteDataTSStorageDBReply
 ```
 
 <figcaption markdown="span">
@@ -124,16 +124,16 @@ type GetDataTSStorageDBRequest := mkGetDataTSStorageDBRequest {
 
 ---
 
-### `GetDataTSStorageDBResponse`
+### `GetDataTSStorageDBReply`
 
-<!-- --8<-- [start:GetDataTSStorageDBResponse] -->
+<!-- --8<-- [start:GetDataTSStorageDBReply] -->
 ```juvix
-type GetDataTSStorageDBResponse := mkGetDataTSStorageDBResponse {
+type GetDataTSStorageDBReply := mkGetDataTSStorageDBReply {
   query : TSStorageDBQuery;
   data : TSStorageDBData
 };
 ```
-<!-- --8<-- [end:GetDataTSStorageDBResponse] -->
+<!-- --8<-- [end:GetDataTSStorageDBReply] -->
 
 ???+ quote "Arguments"
 
@@ -163,16 +163,16 @@ type RecordDataTSStorageDBRequest := mkRecordDataTSStorageDBRequest {
 
 ---
 
-### `RecordDataTSStorageDBResponse`
+### `RecordDataTSStorageDBReply`
 
-<!-- --8<-- [start:RecordDataTSStorageDBResponse] -->
+<!-- --8<-- [start:RecordDataTSStorageDBReply] -->
 ```juvix
-type RecordDataTSStorageDBResponse := mkRecordDataTSStorageDBResponse {
+type RecordDataTSStorageDBReply := mkRecordDataTSStorageDBReply {
   query : TSStorageDBQuery;
   success : Bool
 };
 ```
-<!-- --8<-- [end:RecordDataTSStorageDBResponse] -->
+<!-- --8<-- [end:RecordDataTSStorageDBReply] -->
 
 ???+ quote "Arguments"
 
@@ -201,16 +201,16 @@ type DeleteDataTSStorageDBRequest := mkDeleteDataTSStorageDBRequest {
 
 ---
 
-### `DeleteDataTSStorageDBResponse`
+### `DeleteDataTSStorageDBReply`
 
-<!-- --8<-- [start:DeleteDataTSStorageDBResponse] -->
+<!-- --8<-- [start:DeleteDataTSStorageDBReply] -->
 ```juvix
-type DeleteDataTSStorageDBResponse := mkDeleteDataTSStorageDBResponse {
+type DeleteDataTSStorageDBReply := mkDeleteDataTSStorageDBReply {
   query : TSStorageDBQuery;
   success : Bool
 };
 ```
-<!-- --8<-- [end:DeleteDataTSStorageDBResponse] -->
+<!-- --8<-- [end:DeleteDataTSStorageDBReply] -->
 
 ???+ quote "Arguments"
 
@@ -253,11 +253,11 @@ type DataChangedTSStorageDB := mkDataChangedTSStorageDB {
 ```juvix
 type LocalTSStorageMsg :=
   | LocalTSStorageMsgGetRequest GetDataTSStorageDBRequest
-  | LocalTSStorageMsgGetResponse GetDataTSStorageDBResponse
+  | LocalTSStorageMsgGetReply GetDataTSStorageDBReply
   | LocalTSStorageMsgRecordRequest RecordDataTSStorageDBRequest
-  | LocalTSStorageMsgRecordResponse RecordDataTSStorageDBResponse
+  | LocalTSStorageMsgRecordReply RecordDataTSStorageDBReply
   | LocalTSStorageMsgDeleteRequest DeleteDataTSStorageDBRequest
-  | LocalTSStorageMsgDeleteResponse DeleteDataTSStorageDBResponse
+  | LocalTSStorageMsgDeleteReply DeleteDataTSStorageDBReply
   | LocalTSStorageMsgDataChanged DataChangedTSStorageDB
   ;
 ```
@@ -265,7 +265,7 @@ type LocalTSStorageMsg :=
 
 ---
 
-## Engine Components
+## Engine components
 
 - [[Local Time Series Storage Configuration]]
 - [[Local Time Series Storage Environment]]

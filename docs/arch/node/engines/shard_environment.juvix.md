@@ -50,18 +50,18 @@ The shard engine does not require complex mailbox states. Therefore, we define t
       executor : EngineID
     };
 
-    type WriteStatus : Type := mkWriteStatus {
+    type WriteStatus KVSDatum := mkWriteStatus @{
       data : Option KVSDatum;
       mayWrite : Bool
     };
 
-    type KeyAccess := mkKeyAccess {
+    type KeyAccess KVSDatum := mkKeyAccess @{
       readStatus : Option ReadStatus;
-      writeStatus : Option WriteStatus
+      writeStatus : Option (WriteStatus KVSDatum)
     };
 
-    type DAGStructure := mkDAGStructure {
-      keyAccesses : Map KVSKey (Map TxFingerprint KeyAccess);
+    type DAGStructure KVSKey KVSDatum := mkDAGStructure @{
+      keyAccesses : Map KVSKey (Map TxFingerprint (KeyAccess KVSDatum));
       heardAllReads : TxFingerprint;
       heardAllWrites : TxFingerprint
     };
@@ -72,8 +72,8 @@ The shard engine does not require complex mailbox states. Therefore, we define t
 
 <!-- --8<-- [start:ShardLocalState] -->
 ```juvix
-type ShardLocalState := mkShardLocalState {
-  dagStructure : DAGStructure;
+type ShardLocalState KVSKey KVSDatum := mkShardLocalState @{
+  dagStructure : DAGStructure KVSKey KVSDatum;
   anchors : List NarwhalBlock
 };
 ```
@@ -101,9 +101,9 @@ The shard engine does not require timers. Therefore, we define the timer handle 
 
 <!-- --8<-- [start:ShardEnv] -->
 ```juvix
-ShardEnv : Type :=
+ShardEnv (KVSKey KVSDatum : Type) : Type :=
   EngineEnv
-    ShardLocalState
+    (ShardLocalState KVSKey KVSDatum)
     ShardMailboxState
     ShardTimerHandle
     Anoma.Msg;
@@ -116,7 +116,7 @@ ShardEnv : Type :=
 ```juvix extract-module-statements
 module shard_environment_example;
 
-  shardEnv : ShardEnv :=
+  shardEnv : ShardEnv String String :=
     mkEngineEnv@{
       localState := mkShardLocalState@{
         dagStructure := mkDAGStructure@{

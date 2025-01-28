@@ -189,17 +189,6 @@ nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
   name ++str "_" ++str str ++str "_" ++str (snd addr);
 ```
 
-## String Comparison
-```juvix
-axiom stringCmp : String -> String -> Ordering;
-
-instance
-StringOrd : Ord String :=
-  mkOrd@{
-    cmp := stringCmp;
-  };
-```
-
 ## Identity Parameters and Capabilities
 
 ### IDParams
@@ -333,22 +322,13 @@ type IdentityNameEvidence := mkIdentityNameEvidence {
 ### Ordering Aliases
 
 ```juvix
-syntax alias KVSKey := String;
-syntax alias ReadLabel := KVSKey;
-syntax alias WriteLabel := KVSKey;
-type TransactionLabel := mkTransactionLabel {
+type TransactionLabel ReadLabel WriteLabel := mkTransactionLabel {
   read : List ReadLabel;
   write : List WriteLabel
 };
-syntax alias KVSDatum := String;
 syntax alias TxFingerprint := Nat;
-type ProgramState := mkProgramState {
-  data : ByteString;
-  halted : Bool
-};
-syntax alias Executable := ByteString;
-type TransactionCandidate := mkTransactionCandidate {
-  label : TransactionLabel;
+type TransactionCandidate ReadLabel WriteLabel Executable := mkTransactionCandidate {
+  label : TransactionLabel ReadLabel WriteLabel;
   executable : Executable
 };
 syntax alias NarwhalBlock := String;
@@ -359,5 +339,5 @@ syntax alias WallClockTime := Nat;
 Don't know a better place to put this.
 ```juvix
 -- Map a key to its shard
-axiom keyToShard : KVSKey -> EngineID;
+axiom keyToShard {KVSKey} : KVSKey -> EngineID;
 ```

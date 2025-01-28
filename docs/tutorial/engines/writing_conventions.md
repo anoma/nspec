@@ -155,7 +155,7 @@ nav:
   - Protocol Architecture:
     - Node Architecture:
        ...
-       - X Component:
+       - X Subsystem:
 +         - Ticker Engine:
 +           - Ticker Engine: ./arch/node/engines/ticker.juvix.md
 +           - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
