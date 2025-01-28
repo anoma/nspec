@@ -15,9 +15,9 @@ tags:
     ```juvix
     module arch.node.engines.transport_connection_messages;
 
-    import arch.node.engines.transport_types open;
     import arch.node.engines.router_messages open;
 
+    import arch.node.types.transport open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
