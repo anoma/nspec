@@ -37,7 +37,7 @@ incoming messages and updates its state accordingly.
 ### `ReadsForActionArgumentReplyTo ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
@@ -46,11 +46,13 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: is the address of the engine that sent the message.
+???+ quote "Argument description  "
 
-`mailbox`:
-: is the mailbox ID where the response should be sent.
+    `whoAsked`:
+    : is the address of the engine that sent the message.
+
+    `mailbox`:
+    : is the mailbox ID where the response should be sent.
 
 ### `ReadsForActionArgument`
 

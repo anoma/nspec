@@ -157,7 +157,7 @@ Error getting `NodeAdvert`.
 
 <!-- --8<-- [start:GetNodeAdvertReplyError] -->
 ```juvix
-type GetNodeAdvertReplyError : Type :=
+type GetNodeAdvertReplyError :=
   | GetNodeAdvertReplyErrorNotFound
   ;
 ```
@@ -199,7 +199,7 @@ Error getting `TopicAdvert`.
 
 <!-- --8<-- [start:GetTopicAdvertReplyError] -->
 ```juvix
-type GetTopicAdvertReplyError : Type :=
+type GetTopicAdvertReplyError :=
   | GetTopicAdvertReplyErrorNotFound
   ;
 ```

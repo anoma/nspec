@@ -42,7 +42,7 @@ These same letters will be used in the rest of the document to represent these
 types.
 
 ```juvix
-type EngineEnv (S B H AM : Type) :=
+type EngineEnv S B H AM :=
   mkEngineEnv@{
     localState : S;
     mailboxCluster : Map MailboxID (Mailbox B AM);

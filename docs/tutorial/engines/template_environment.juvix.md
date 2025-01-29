@@ -44,7 +44,7 @@ The [[dynamic environment|Engine environment]] of the engine.
 
 <!-- --8<-- [start:FirstKindMailboxState] -->
 ```juvix
-type FirstKindMailboxState := mkFirstKindMailboxState {
+type FirstKindMailboxState := mkFirstKindMailboxState@{
   fieldOne : MailboxOneOne
 };
 ```
@@ -63,7 +63,7 @@ This is one family of mailbox states without much complexity.
 
 <!-- --8<-- [start:SecondKindMailboxState] -->
 ```juvix
-type SecondKindMailboxState := mkSecondKindMailboxState {
+type SecondKindMailboxState := mkSecondKindMailboxState@{
   fieldOne : MailboxTwoOne;
   fieldTwo : MailboxTwoTwo
 };
@@ -115,9 +115,9 @@ type TemplateMailboxState :=
 <!-- --8<-- [start:TemplateLocalState] -->
 ```juvix
 type TemplateLocalState :=
-  mkTemplateLocalState {
+  mkTemplateLocalState@{
     taskQueue : CustomData
-};
+  };
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
 
@@ -141,7 +141,7 @@ type TemplateLocalState :=
 
 <!-- --8<-- [start:FirstOptionTimerHandle] -->
 ```juvix
-type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
+type FirstOptionTimerHandle := mkFirstOptionTimerHandle@{
   argOne : ArgOne
 };
 ```
@@ -160,7 +160,7 @@ an example of this case.
 
 <!-- --8<-- [start:SecondOptionTimerHandle] -->
 ```juvix
-type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
+type SecondOptionTimerHandle := mkSecondOptionTimerHandle@{
   argOne : String;
   argTwo : Bool
 };
