@@ -16,15 +16,15 @@ An action is a composite structure of type `Action` that contains the following 
 
 |Component|Type|Description|
 |-|-|-|
-|`created`|`List Commitment`|contains commitments of resources created in this action|
-|`consumed`|`List Nullifier`|contains nullifiers of resources consumed in this action|
-|`resourceLogicProofs`|`Map Tag (LogicRefHash, PS.Proof)`|contains a map of resource logic proofs associated with this action. The key is the `self` resource for which the proof is computed, the first parameter of the value opens to the required verifying key, the second one is the corresponding proof|
+|`created`|`OrderedSet Commitment`|contains commitments of resources created in this action|
+|`consumed`|`OrderedSet Nullifier`|contains nullifiers of resources consumed in this action|
+|`resourceLogicProofs`|`Map Tag (LogicRef, PS.Proof)`|contains a map of resource logic proofs associated with this action. The key is the `self` resource for which the proof is computed, the first parameter of the value opens to the required verifying key, the second one is the corresponding proof|
 |`complianceUnits`|`Set ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
-|`applicationData`|`Map Tag (BitString, DeletionCriterion)`|maps tags to relevant application data needed to verify resource logic proofs. The deletion criterion field is described [[Stored data format |here]]. The openings are expected to be ordered.|
+|`applicationData`|`Map Tag OrderedSet (BitString, DeletionCriterion)`|maps tags to relevant application data needed to verify resource logic proofs. The deletion criterion field is described [[Stored data format |here]]. The openings are expected to be ordered.|
 
 
 !!! note
-    `resourceLogicProofs` type: For function privacy, we assume that the produced logic proof is recursive, and the verifying key used to verify the proof is either universal and publicly known (in case we have a recursion) - then the verifying key for the inner proof is committed to in the `LogicRefHash` parameter - or it is contained directly in the `LogicRefHash` parameter. This part isn't properly generalised yet.
+    For function privacy in the shielded contenxt, instead of a logic proof we verify a proof of a logic proof validity - a recursive proof. `LogicRefHash` type corresponds to the RL VK commitment while verifying key in `resourceLogicProofs` refers to the key to be used for verification (i.e., verifier circuit verifying key as opposed to a resource logic verifying key). RL VK commitment should be included somewhere else, e.g., `applicationData[tag]`, and the compliance instance must reference it in `refInstance` as it is also a compliance proof instance.
 
 Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's `created` or `consumed` correspondingly. A resource is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's `consumed` list. A resource is said to be *created in the action* for a valid action if its commitment is in the action's `created` list.
 
