@@ -57,7 +57,20 @@ type EngineEnv S B H AM :=
 ```
 <!-- --8<-- [end:EngineEnv] -->
 
-```
+???+ "Arguments"
+
+    `localState`
+    : the local state,
+
+    `mailboxCluster`
+    : the mailbox cluster,
+
+    `acquaintances`
+    : the set of acquainted engine instances, and
+
+    `timers`
+    : the list of timers.
+
 
 ??? info "On the mailbox cluster"
 

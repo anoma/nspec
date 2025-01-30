@@ -123,13 +123,6 @@ are triggered.
 
 ### `ActionInput`
 
-The `ActionInput` contains:
-
-- the action arguments,
-- the engine configuration,
-- the engine environment, and
-- the timestamped trigger that caused the guard evaluation.
-
 <!-- --8<-- [start:ActionInput] -->
 ```juvix
 type ActionInput C S B H A AM :=
@@ -141,6 +134,20 @@ type ActionInput C S B H A AM :=
   };
 ```
 <!-- --8<-- [end:ActionInput] -->
+
+???+ "Arguments"
+
+    `args`
+    : the action arguments,
+
+    `cfg`
+    : the engine configuration,
+
+    `env`
+    : the engine environment, and
+
+    `trigger`
+    : the timestamped trigger that caused the guard evaluation.
 
 ---
 
@@ -165,6 +172,20 @@ type ActionEffect S B H AM AC AE :=
   };
 ```
 <!-- --8<-- [end:ActionEffect] -->
+
+???+ "Arguments"
+
+    `env`
+    : the engine environment,
+
+    `msgs`
+    : the messages to be sent to other engine instances,
+
+    `timers`
+    : the timers to be set, discarded, or superseded, and
+
+    `engines`
+    : the new engine instances to be created.
 
 ---
 
@@ -210,6 +231,14 @@ type GuardOutput C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:GuardOutput] -->
 
+???+ "Arguments"
+
+    `action`
+    : the action sequence to be executed,
+
+    `args`
+    : the action arguments.
+
 ---
 
 ### `GuardEval`
@@ -254,3 +283,9 @@ type EngineBehaviour C S B H A AM AC AE :=
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
+
+???+ "Arguments"
+
+    `guards`
+    : the guards to be evaluated.
+

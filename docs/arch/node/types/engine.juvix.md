@@ -56,27 +56,41 @@ type Engine C S B H A AM AC AE :=
   };
 ```
 <!-- --8<-- [end:Engine] -->
-!!! note "Engine type parameters"
 
-    In the related types to `Engine` such as `EngineBehaviour`, we try to follow
-    the following convention:
+???+ "Arguments"
 
-    - the type parameters are ordered such that they form a subsequence of the
-      type parameters sequence in the `Engine` type, and
-    - the first type parameter of `EngineBehaviour` is always `C`, the type for
-      the read-only engine configuration.
+    `cfg`
+    : the engine configuration,
 
-!!! example "Voting Engine"
+    `env`
+    : the engine environment, and
 
-    As an example, we could define an engine type for a voting system:
+    `behaviour`
+    : the engine behaviour.
 
-    - `S` could be a record with fields like `votes`, `voters`, and `results`.
-    - The engine-specific message type might be a coproduct of `Vote` and `Result`.
-    - The behaviour of this engine may include guarded actions such as:
+---
 
-      - `storeVote` to store a vote in the local state,
-      - `computeResult` to compute the result of the election, and
-      - `announceResult` to send the result to some other engine instances.
+### On the type parameters
 
-    With each different election or kind of voters, we obtain a new engine instance,
-    while the underlining voting system, the voting engine family, remains the same.
+In the related types to `Engine` such as `EngineBehaviour`, we try to follow
+the following convention:
+
+- the type parameters are ordered such that they form a subsequence of the
+  type parameters sequence in the `Engine` type, and
+- the first type parameter of `EngineBehaviour` is always `C`, the type for
+  the read-only engine configuration.
+
+### Example: Voting Engine
+
+As an example, we could define an engine type for a voting system:
+
+- `S` could be a record with fields like `votes`, `voters`, and `results`.
+- The engine-specific message type might be a coproduct of `Vote` and `Result`.
+- The behaviour of this engine may include guarded actions such as:
+
+  - `storeVote` to store a vote in the local state,
+  - `computeResult` to compute the result of the election, and
+  - `announceResult` to send the result to some other engine instances.
+
+With each different election or kind of voters, we obtain a new engine instance,
+while the underlining voting system, the voting engine family, remains the same.

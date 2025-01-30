@@ -3,6 +3,13 @@ icon: material/graph
 search:
   exclude: false
   boost: 2
+tags:
+  - node-architecture
+  - subsystem
+  - hardware
+  - identity
+  - ordering
+  - network
 ---
 
 # Introduction
@@ -16,7 +23,7 @@ The specification is organized into the following sections:
 
 - [[Ordering Subsystem]]
 
-- [[Networking Subsystem]] (coming soon)
+- [[Networking Subsystem]]
 
 
 <figure markdown>
@@ -26,7 +33,7 @@ The specification is organized into the following sections:
 
 <figcaption markdow
 
-Intent/ transaction candidate flowchart.
+Intent/transaction candidate flowchart.
 
 </figcaption>
 </figure>
