@@ -20,17 +20,18 @@ speaks, it is in the form of a quote. Otherwise, Jordan speaks.
 
 > Hi, I am Anomian.
 
-The goal of this dialogue is to illustrate what the Anoma system
-_is_ about and how to *model* it. For the sake of concreteness, we present a few
-[Juvix code snippets](https://docs.juvix.org/0.6.9/tutorials/essential.html)
-that are intended to clarify the model and help resolve potnetial ambiguities. Most of the
-data types are [enumerations and inductive types](https://docs.juvix.org/0.6.9/tutorials/essential.html#enumerations-and-inductive-types).
-The quotes alone should convey the main idea. The Jordan interjections are to confirm, ask questions,
-and reiterate the concepts.
+The goal of this dialogue is to illustrate what the Anoma system _is_ about and
+how to *model* it. For the sake of concreteness, we present a few [Juvix code
+snippets](https://docs.juvix.org/0.6.9/tutorials/essential.html) that are
+intended to clarify the model and help resolve potential ambiguities. Most of
+the data types are [enumerations and inductive
+types](https://docs.juvix.org/0.6.9/tutorials/essential.html#enumerations-and-inductive-types).
+The quotes alone should convey the main idea. The Jordan interjections are to
+confirm, ask questions, and reiterate the concepts.
 
 Last, but not least, we have not only code snippets,
 but we fully embrace [literate programming](https://www-cs-faculty.stanford.edu/~knuth/lp.html).
-This comes at the inconvenience of some lines of boiler plate here,
+This comes at the inconvenience of some lines of boilerplate here,
 but it can safely be skipped on a first reading.
 
 ??? quote "Juvix imports"
@@ -45,7 +46,7 @@ but it can safely be skipped on a first reading.
 
 ## Chapter 1: The core players of the game
 
-> At the core of the Anoma model, we find **engines**. They do most of the heavy lifiting.
+> At the core of the Anoma model, we find **engines**. They do most of the heavy lifting.
 
 So, what do you mean by an _engine_?
 
@@ -54,6 +55,14 @@ So, what do you mean by an _engine_?
 > Think of an engine as a *dynamic entity* that can do stuff, much like
 > us, and that has an **engine-status** that could be *running*, *dead*, or
 > *suspended*.
+
+!!! todo
+
+    - Explain that if the engine is dead, next time the system steps, engines marked
+      as dead are removed from the system, similarly as a garbage collector
+      would do.
+    - Explain that the engine-status is not a property of the engine, but rather
+      a property of the engine-instance.
 
 ```juvix
 type EngineStatus := Running | Dead | Suspended;
@@ -64,10 +73,11 @@ type EngineStatus := Running | Dead | Suspended;
 Dynamic entity? What is *dynamic* about it?
 
 > You and I are not the same person we were yesterday because some events
-> happened to us. For engines, a typical event is the reception of an **engine-message** and as a reaction to
-> message reception, their **state** may change. This ability to change their state is what makes them dynamic.
+> happened to us. For engines, a typical event is the reception of an
+> **engine-message** and as a reaction to message reception, their **state** may
+> change. This ability to change their state is what makes them dynamic.
 > However, notice that this change of internal state is optional. We call those
-> engines that never change their state **state-less** engines.
+> engines that never change their state **stateless** engines.
 
 Huh, so, an engine has its own state, and that state can change by reacting to
 messages that are sent to it. Easy.
@@ -190,9 +200,9 @@ type CommunicationPattern :=
 > We can consider three patterns of communication. The pattern `FireAndForget`
 > allows us to communicate asynchronously. One can send a message and not expect
 > any response like notifications on your phone. However, if you need a response
-> or result and can wait for it, we can use the `RequestReply` pattern. That
-> is the pattern that every synchronous communication uses implicitly. And finally, the
-> `PubSub` pattern (pub/sub for short) that allows us to communicate
+> or result and can wait for it, we can use the `RequestReply` pattern. That is
+> the pattern that every synchronous communication uses implicitly. And finally,
+> the `PubSub` pattern (pub/sub for short) that allows us to communicate
 > asynchronously and without a response, broadcasting messages to multiple
 > engines.
 
@@ -202,8 +212,8 @@ type CommunicationPattern :=
 
 > We can consider three purposes for a message:
 >
-> - The first one is to request a response.
-> - The second one is to respond to a request.
+> - The first one is to request a reply.
+> - The second one is to reply to a request.
 > - The third one is to notify about something.
 >
 > We can represent these three cases with the `EngineMsgKind` type.
@@ -228,16 +238,19 @@ type EngineMsgKind :=
 
 Anomian, you mentioned that engines have an internal state, a message interface,
 and specific communication patterns. Are there any other characteristics that
-define an engine? And what about us, are we also engines? For instance, humans have attributes such as name,
-age, and parents. Do engines have similar attributes?
+define an engine? And what about us, are we also engines? For instance, humans
+have attributes such as name, age, and parents. Do engines have similar
+attributes?
 
 <div class="grid" markdown>
 
-> Engines possess certain attributes. These attributes are stored in what we call
-> their **engine-configuration**, of type `EngineCfg`. This configuration is *immutable*
-> through the lifetime of the engine. The configuration of an engine includes its **parent**
-> that **spawns** it, its **name**, a virtual location where the engine runs named
-> `node`, and some configuration parameters denoted by `cfg` of an engine-specific type that instantiates the type parameter `C`.
+> Engines possess certain attributes. These attributes are stored in what we
+> call their **engine-configuration**, of type `EngineCfg`. This configuration
+> is *immutable* through the lifetime of the engine. The configuration of an
+> engine includes its **parent** that **spawns** it, its **name**, a virtual
+> location where the engine runs named `node`, and some configuration parameters
+> denoted by `cfg` of an engine-specific type that instantiates the type
+> parameter `C`.
 
 ```juvix
 type EngineCfg C :=
@@ -251,13 +264,13 @@ type EngineCfg C :=
 
 </div>
 
-> As we say the engine configuration is immutable by design. This means that once an
-> engine is created, attributes such as the name of the engine cannot be
+> As we say the engine configuration is immutable by design. This means that
+> once an engine is created, attributes such as the name of the engine cannot be
 > changed. If you want to change the name of an engine, you have to create a new
 > engine with the new name.
 
-Tell me one thing about the parents of engines. Do they always know who their parent
-is? I don't know who is my father, actually.
+Tell me one thing about the parents of engines. Do they always know who their
+parent is? I don't know who is my father, actually.
 
 
 <div class="grid" markdown>
@@ -310,14 +323,15 @@ AnomianID : EngineID := mkPair (some localhost) "Anomian184";
 
 <div class="grid" markdown>
 
-> An **engine-message** consists of a *sender*, a *target*, an optional
-> *mailbox identifier*, the *communication pattern*, what kind of message it is,
-> and the message itself.
+> An **engine-message** consists of a *sender*, a *target*, an optional *mailbox
+> identifier*, the *communication pattern*, what kind of message it is, and the
+> message itself.
 >
 > The mailbox identifier is used to identify the mailbox of the target engine,
 > the virtual place where the message is delivered. Recall that the *kind*
 > indicates whether the message is a command, a response, or an event, and the
-> *pattern* indicates the expected behaviour pattern for how the recipient should react.
+> *pattern* indicates the expected behaviour pattern for how the recipient
+> should react.
 
 <!--ᚦ «Do we really want to restrict ourselves to command event response, in general?» -->
 
@@ -337,7 +351,7 @@ type EngineMsg M :=
 
 <div class="grid" markdown>
 
-Hah! so let me craft a message for you, Anomian.
+Hah! So let me craft a message for you, Anomian.
 
 ```juvix
 jordanToAnomian : EngineMsg MsgInterface :=
@@ -367,11 +381,17 @@ anomianToJordan : EngineMsg MsgInterface :=
     sender := AnomianID;
     target := JordanID;
     mailbox := some 1;
-    pattern := RequestReply@{timeout := none};
+    pattern := FireAndForget;
     kind := Reply;
     msg := MsgJordan (JordanMsgEnglish@{msg := "The meaning of life is 42."});
   };
 ```
+
+!!! todo
+
+    Reevaluate if the message kind is actually needed. Replies may be
+    indistinguishable from notifications, following a fire-and-forget pattern to
+    reply.
 
 </div>
 !!! info "The social context of an engine"
@@ -394,7 +414,7 @@ Messages are sent to the engine's mailbox.
 
 ```juvix
 type Mailbox S M := mkMailbox@{
-  messages : List (EngineMsg M);
+  messages : List (EngineMsg M); -- TODO: Should be a queue?
   mailboxState : Option S;
 };
 ```
@@ -423,16 +443,17 @@ Why bother with the mailbox cluster? One mailbox is enough, right?
         very much like passive objects in the active objects approach (cf. SALSA)»
 -->
 
-That sounds like how my email works. It is a cluster of mailboxes, and
-in principle, I have one big mailbox, but truly I can see it as having multiple
+That sounds like how my email works. It is a cluster of mailboxes, and in
+principle, I have one big mailbox, but truly I can see it as having multiple
 mailboxes, one for each folder, such as promotions, important, family, etc.
 
 <div class="grid" markdown>
 
-> Yes, the folder anology is great. The following diagram illustrates a mailbox cluster.
-> Each mailbox[^3] is intended to serve a specific purpose. For simplicity, we refer
-> to the entire cluster as the engine's mailbox if there is no confusion. In the
-> type `MailboxCluster`, we have a map of mailbox IDs to mailboxes.
+> Yes, the folder analogy is great. The following diagram illustrates a mailbox
+> cluster. Each mailbox[^3] is intended to serve a specific purpose. For
+> simplicity, we refer to the entire cluster as the engine's mailbox if there is
+> no confusion. In the type `MailboxCluster`, we have a map of mailbox IDs to
+> mailboxes.
 
 <figure markdown>
 
@@ -464,10 +485,11 @@ graph LR
 
 You have not answered yet how mail is actually sent.
 
-> Well, imagine for a second that the communication process
-> is magically handled by one *mailelf* that delivers messages to the engines. When a
-> message is sent to an engine, the mailelf takes the message from the sender and puts it in the
-> engine's mailbox. In other words, for the moment, it suffices to assume that all messages are delivered *eventually*.
+> Well, imagine for a second that the communication process is magically handled
+> by one *mailelf* that delivers messages to the engines. When a message is sent
+> to an engine, the mailelf takes the message from the sender and puts it in the
+> engine's mailbox. In other words, for the moment, it suffices to assume that
+> all messages are delivered *eventually*.
 
 !!! info "Mailboxes for eventual message delivery"
 
@@ -476,11 +498,13 @@ You have not answered yet how mail is actually sent.
 
 ## Chapter 5: Context of execution
 
-This is quite a fancy setup for sending messages, but how do engines "actually" get things done?!
+This is quite a fancy setup for sending messages, but how do engines "actually"
+get things done?!
 
-I mean, we've discussed that engines have certain attributes: an
-identifier, a message interface, and a configuration that includes details like
-a parent, a name, and a virtual location where the engine *runs*. So, maybe a better question: how do engines actually run?
+I mean, we've discussed that engines have certain attributes: an identifier, a
+message interface, and a configuration that includes details like a parent, a
+name, and a virtual location where the engine *runs*. So, maybe a better
+question: how do engines actually run?
 
 <div class="grid" markdown>
 
@@ -517,11 +541,12 @@ type EngineEnv S Msg :=
 
 <div class="grid" markdown>
 
-So, refining the question: how do engines actually compute? With their engine-environment in place, I
-imagine that engines run some sort of function that uses the engine-environment
-and a message from the mailbox. Something like the following type `Handler`, where
-`S` is the state of the engine and `M` is the message interface, and the return
-type is `ReturnSomething`, which can be whatever we want.
+So, refining the question: how do engines actually compute? With their
+engine-environment in place, I imagine that engines run some sort of function
+that uses the engine-environment and a message from the mailbox. Something like
+the following type `Handler`, where `S` is the state of the engine and `M` is
+the message interface, and the return type is `ReturnSomething`, which can be
+whatever we want.
 
 ```juvix
 axiom ReturnSomething : Type;
@@ -532,19 +557,20 @@ Handler (M S : Type) : Type :=
 
 </div>
 
-> The computational aspect of an engine is what we refer to as its **behaviour**,
-> and it is correct to think of it as a function that takes in a message and the
-> engine's environment. However, the return type of this function cannot be
-anything: the type what an engine can produce is part of the model of engines, and it is
-fixed for each engine.
+> The computational aspect of an engine is what we refer to as its
+> **behaviour**, and it is correct to think of it as a function that takes in a
+> message and the engine's environment. However, the return type of this
+> function cannot be anything: the type what an engine can produce is part of the
+> model of engines, and it is fixed for each engine.
 
-What exactly can an engine do if it's not just the same message passing we already know?
+What exactly can an engine do if it's not just the same message passing we
+already know?
 
 <div class="grid" markdown>
 
-> We decompose the engine's range of possible reactions into a set of **effects**. These effects
-> are the valid actions that the engine can perform. We can represent these
-> effects with the `Effect` type.
+> We decompose the engine's range of possible reactions into a set of
+> **effects**. These effects _describe_ the valid actions that the engine can perform.
+> We can represent these effects with the `Effect` type.
 >
 > To recall, we use the following convention for engine-related types:
 >
@@ -553,7 +579,7 @@ What exactly can an engine do if it's not just the same message passing we alrea
 > - `M` is the type of its message interface.
 
 ```juvix
-axiom TimeTrigger : Type;
+syntax alias TimeTrigger := Nat;
 
 type Effect S E M :=
   | SendMsg@{msg : EngineMsg M}
@@ -587,12 +613,13 @@ payment.
 > The essence of a **guard** is a predicate, a pre-condition, that must hold
 > true for the engine to take action.
 >
-> Guards are evaluated based on incoming messages, the engine's environment,
-> and the engine's configuration. We can represent this with the type `Guard`.
-> Since guards involve computation, engine's preserve these computations as part
-> of the return type of the guard, that is `R` in the type `Guard`. Thus, if the
-> underlying condition is not satisfied, the guard returns nothing. The type parameter `C`
-> will be instantiated with the type for values in the engine's configuration.
+> Guards are evaluated based on incoming messages, the engine's environment, and
+> the engine's configuration. We can represent this with the type `Guard`. Since
+> guards involve computation, engine's preserve these computations as part of
+> the return type of the guard, that is `R` in the type `Guard`. Thus, if the
+> underlying condition is not satisfied, the guard returns nothing. The type
+> parameter `C` will be instantiated with the type for values in the engine's
+> configuration.
 
 ```juvix
 Guard (S M C R : Type) : Type :=
@@ -620,7 +647,9 @@ Wait! I see an issue. What if the engine has several guards, and they are all sa
 >
 > - Choose the first guard that is satisfied,
 > - choose the last guard that is satisfied,
-> - choose one of them (randomly/non-deterministically) if there are several satisfied guards,
+> - choose one of them (randomly/non-deterministically) if there are several
+>   satisfied guards,
+> - check that it is the only one that is triggered, and
 > - choose all of them if all guards are satisfied.
 >
 > And recall, If no guard conditions are met, the engine decides not to act.
@@ -640,8 +669,9 @@ type GuardStrategy :=
 
 <div class="grid" markdown>
 
-> Keep in mind that guards are formally speaking, a predicate with additional information. If the guards
-> give green light, the engine will act, by means of **actions**.
+> Keep in mind that guards are formally speaking, a predicate with additional
+> information. If the guards give green light, the engine will act, by means
+> of **actions**.
 
 ```juvix
 type GuardEval S M C R := mkGuardEval@{
@@ -700,10 +730,10 @@ type Engine (S E M C R : Type) :=
 
 I think I am getting the hang of it. But what's next?
 
-> Yes, I think we have we have made a good start.
-> However, we have to fill in the blanks and put everything together in a single system.
-> In the upcoming chapters,
-> how the system looks like in more detail and how ensure the following properties:
+> Yes, I think we have made a good start. However, we have to fill in the
+> blanks and put everything together in a single system. In the upcoming
+> chapters, how the system looks like in more detail and how ensure the
+> following properties for engine-to-engine communication:
 
 - [x] Message delivery: All messages are eventually delivered
 - [x] Engine isolation: Each engine maintains independent state
