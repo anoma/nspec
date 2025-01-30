@@ -30,17 +30,26 @@ tags:
 
 # Verification Engine
 
-The Verification Engine is responsible for verifying commitments (signatures) made by
-external identities. It automatically uses "signs_for" relationship information from
-the [[SignsFor Engine]] along with caller preference information to determine how
-to verify a commitment.
+The Verification Engine provides signature verification services within Anoma. It can check
+cryptographic signatures/commitments (a `Commitment`) against data (a `Signable`) in two modes: direct
+verification against a specified identity, or verification that takes into account "signs_for"
+relationships through integration with a [[SignsFor Engine]] (specified via 
+`signsForEngineAddress` in its configuration) which allows some identities to sign on
+behalf of other identities. One may compare the verification service to how a notary might verify not
+just a signature, but also check if the signer had proper authority to sign on behalf of another party.
 
-## Purpose
+When users submit a verification request (via a `MsgVerificationRequest` message), they provide the
+data, the commitment/signature to verify, the supposed external identity that made the commitment,
+and whether to use signs-for relationships (via the `useSignsFor` flag). If signs-for checking is
+disabled, the engine directly verifies the signature using the configured verifier. If signs-for
+checking is enabled, the engine first queries the SignsFor Engine for evidence of signing
+relationships, then uses this additional context during verification. The engine returns a boolean
+result (via a `MsgVerificationReply` message) indicating whether the signature is valid.
 
-The Verification Engine verifies commitments (signatures) made by external identities.
-It can use "signs_for" relationship information and caller preferences to determine how
-to verify a commitment. This engine is designed to be stateless, allowing for efficient
-implementation by the runtime.
+The verification process is atomic - each request either succeeds with a clear yes/no answer or fails
+with an error message. The engine's state only keeps track of pending requests when signs-for relationships need to be checked.
+Requests are added to a queue associated with the request, and this queue is cleared once information
+is provided by the SignsFor Engine.
 
 ## Engine components
 
