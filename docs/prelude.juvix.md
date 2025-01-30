@@ -3,8 +3,9 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Juvix-Types
-- Juvix-Prelude
+  - node-architecture
+  - prelude
+  - index
 ---
 
 ??? quote "Juvix imports"

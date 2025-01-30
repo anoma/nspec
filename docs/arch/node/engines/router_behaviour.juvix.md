@@ -2,12 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- router-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - router
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

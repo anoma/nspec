@@ -2,12 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- reads for
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - reads-for
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

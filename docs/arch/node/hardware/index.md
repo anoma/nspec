@@ -4,8 +4,9 @@ search:
   exclude: false
 tags:
   - node-architecture
+  - hardware-subsystem
   - subsystem
-  - hardware
+  - index
 
 ---
 

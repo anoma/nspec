@@ -2,12 +2,9 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template_minimum-minimum-engine
-- engine-messages
+  - tutorial
+  - example
 ---
 
 ??? quote "Juvix imports"

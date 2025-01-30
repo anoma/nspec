@@ -4,8 +4,9 @@ search:
   exclude: false
 tags:
   - node-architecture
+  - network-subsystem
   - subsystem
-  - network
+  - index
 ---
 
 # Network Subsystem

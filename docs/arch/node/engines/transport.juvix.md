@@ -2,12 +2,12 @@
 icon: octicons/gear-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- transport-engine
-- engine-definition
+  - node-architecture
+  - network-subsystem
+  - engine
+  - transport
+  - engine-definition
 ---
 
 ??? quote "Juvix imports"

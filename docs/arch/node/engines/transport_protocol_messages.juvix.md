@@ -2,12 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- transport-protocol-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - transport
+  - message-types
 ---
 
 ??? quote "Juvix imports"

@@ -3,10 +3,11 @@ icon: octicons/gear-16
 search:
   exclude: false
 tags:
-- node-architecture
-- types
-- engine
-- concept
+  - node-architecture
+  - types
+  - engine
+  - concept
+  - prelude
 ---
 
 ??? quote "Juvix imports"

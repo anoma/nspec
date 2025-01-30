@@ -3,11 +3,11 @@ icon: octicons/gear-16
 search:
   exclude: false
 tags:
-- node-architecture
-- identity
-- engine
-- decryption
-- behaviour
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - decryption
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

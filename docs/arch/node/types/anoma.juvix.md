@@ -5,6 +5,7 @@ search:
 tags:
   - node-architecture
   - types
+  - prelude
 ---
 
 ??? quote "Juvix imports"

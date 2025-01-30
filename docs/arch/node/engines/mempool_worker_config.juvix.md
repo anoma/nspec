@@ -4,7 +4,7 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - ordering
+  - ordering-subsystem
   - engine
   - mempool-worker
   - configuration

@@ -1,8 +1,9 @@
 ---
 icon: octicons/versions-16
 tags:
-  - GitHub
-  - Git
+  - tutorial
+  - git
+  - versioning
 ---
 
 # Versioning

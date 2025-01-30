@@ -2,12 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- shard-engine
-- engine-messages
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - shard
+  - message-types
 ---
 
 ??? quote "Juvix imports"

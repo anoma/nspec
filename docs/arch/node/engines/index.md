@@ -66,7 +66,7 @@ includes:
 All required types and functions to define these engines can be found in the
 module [[Engine Types|engine]]. To understand how we have structured the
 definitions of engine types, see [[Engines in Anoma|Tutorials on Writing
-Engine Families]] and [[Anomian]]
+Engine Families]] and [[Anomian]].
 
 ### [[Anoma Message|Anoma engine messages]]
 

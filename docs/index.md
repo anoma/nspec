@@ -5,6 +5,8 @@ social:
   cards: false
 hide:
   - toc
+tags:
+  - index
 search:
     exclude: true
 list_wikilinks: false

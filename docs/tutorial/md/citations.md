@@ -3,8 +3,8 @@ icon: simple/latex
 search:
   exclude: false
 tags:
-  - references
-  - bibtex
+  - tutorial
+  - citations
 todos: False
 ---
 

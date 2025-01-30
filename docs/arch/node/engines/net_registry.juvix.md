@@ -4,7 +4,7 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - network
+  - network-subsystem
   - engine
   - registry
   - engine-definition

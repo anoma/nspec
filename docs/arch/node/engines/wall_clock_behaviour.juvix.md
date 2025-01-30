@@ -2,12 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - wall-clock-engine
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

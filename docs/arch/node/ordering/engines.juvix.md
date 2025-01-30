@@ -5,9 +5,10 @@ search:
   boost: 2
 tags:
   - node-architecture
-  - ordering
+  - ordering-subsystem
   - subsystem
   - engine
+  - index
 ---
 
 # Engines in the Ordering Subsystem

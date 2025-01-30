@@ -2,12 +2,9 @@
 icon: octicons/gear-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-engine
-- engine-definition
+  - node-architecture
+  - example
 ---
 
 ??? quote "Juvix imports"

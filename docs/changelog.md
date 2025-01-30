@@ -4,6 +4,8 @@ social:
   cards: false
 search:
     exclude: false
+tags:
+  - changelog
 list_wikilinks: false
 ---
 

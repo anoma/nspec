@@ -5,11 +5,12 @@ search:
   boost: 2
 tags:
   - node-architecture
-  - subsystem
-  - hardware
-  - identity
-  - ordering
-  - network
+  - subsystem-subsystem
+  - hardware-subsystem
+  - identity-subsystem
+  - ordering-subsystem
+  - network-subsystem
+  - index
 ---
 
 # Node Architecture

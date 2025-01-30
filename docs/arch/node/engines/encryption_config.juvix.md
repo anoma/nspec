@@ -3,11 +3,11 @@ icon: octicons/container-24
 search:
   exclude: false
 tags:
-- node-architecture
-- identity
-- engine
-- encryption
-- configuration
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - encryption
+  - configuration
 ---
 
 ??? quote "Juvix imports"

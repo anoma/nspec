@@ -3,12 +3,13 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- node-architecture
-- types
-- engine
-- config
-- configuration
-- concept
+  - node-architecture
+  - types
+  - engine
+  - config
+  - configuration
+  - concept
+  - prelude
 ---
 
 ??? quote "Juvix imports"

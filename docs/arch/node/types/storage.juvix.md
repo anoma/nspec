@@ -6,7 +6,9 @@ search:
 tags:
   - node-architecture
   - types
+  - network-subsystem
   - storage
+  - prelude
 ---
 
 ??? quote "Juvix imports"

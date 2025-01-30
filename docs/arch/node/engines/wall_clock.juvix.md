@@ -2,12 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-definition
+  - node-architecture
+  - network-subsystem
+  - engine
+  - wall-clock-engine
+  - engine-definition
 ---
 
 ??? quote "Juvix preamble"

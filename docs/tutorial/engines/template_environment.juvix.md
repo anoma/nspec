@@ -2,12 +2,9 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-engine
-- engine-environment
+  - tutorial
+  - example
 ---
 
 ??? quote "Juvix imports"

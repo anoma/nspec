@@ -5,9 +5,9 @@ search:
   boost: 2
 tags:
   - node-architecture
-  - identity
+  - identity-subsystem
   - subsystem
-  - engine
+  - index
 ---
 
 # Engines in the Identity Subsystem

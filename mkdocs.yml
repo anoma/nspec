@@ -233,23 +233,10 @@ nav:
   - Tutorials for contributors:
       - ./tutorial/index.md
       - Prepare working environment: ./tutorial/install/index.md
-      - Use Git and GitHub: ./tutorial/branch.md
-      - Updating the changelog: ./tutorial/changelog.md
-      - Versioning: ./tutorial/versioning.md
-      - File naming conventions: ./tutorial/file_naming.md
-      - Write Markdown: ./tutorial/md/index.md
-      - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
-      - Use Wiki style links: ./tutorial/md/links.md
-      - Include images in Markdown: ./tutorial/md/images.md
-      - Include code snippets: ./tutorial/md/snippets.md
-      - Add Juvix code for specification: ./tutorial/juvix.md
-      - Add pending tasks with Todos admonition: ./tutorial/md/todos.md
-      - Add literature references: ./tutorial/md/citations.md
-      - Add diffs for versioning: ./tutorial/differ/index.md
-      - Run pre commit checks: ./tutorial/commit_checks.md
       - Engines in Anoma:
           - ./tutorial/engines/index.md
           - Engine writing conventions: ./tutorial/engines/writing_conventions.md
+          - Anomian: ./anomian.juvix.md
           - Examples:
               - Template Engine:
                   - Template Engine: ./tutorial/engines/template.juvix.md
@@ -263,7 +250,19 @@ nav:
                   - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
                   - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
                   - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
-  - Anomian: ./anomian.juvix.md
+      - Add Juvix code for specification: ./tutorial/juvix.md
+      - Write Markdown: ./tutorial/md/index.md
+      - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
+      - Use Wiki style links: ./tutorial/md/links.md
+      - Include images in Markdown: ./tutorial/md/images.md
+      - Include code snippets: ./tutorial/md/snippets.md
+      - Add pending tasks with Todos admonition: ./tutorial/md/todos.md
+      - Add literature references: ./tutorial/md/citations.md
+      - Use Git and GitHub: ./tutorial/branch.md
+      - File naming conventions: ./tutorial/file_naming.md
+      - Run pre commit checks: ./tutorial/commit_checks.md
+      - Updating the changelog: ./tutorial/changelog.md
+      - Versioning: ./tutorial/versioning.md
 extra:
   social:
     - icon: fontawesome/brands/x-twitter

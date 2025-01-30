@@ -3,12 +3,14 @@ icon: material/chat-question
 search:
   exclude: false
   boost: 2
-status: new
 tags:
-  - story
-  - engine
+  - node-architecture
+  - system-architecture
   - tutorial
+  - engine
 ---
+
+# Anomian
 
 ## Preface
 

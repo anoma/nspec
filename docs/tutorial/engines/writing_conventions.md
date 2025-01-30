@@ -3,13 +3,13 @@ icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- engines
-- conventions
+  - tutorial
+  - conventions
 ---
 
 # Engine Writing Conventions
 
-## Naming
+## Naming standards
 
 <div class="annotate" markdown>
 

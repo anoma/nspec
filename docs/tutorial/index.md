@@ -3,8 +3,7 @@ icon: material/format-textbox
 search:
   exclude: false
 tags:
-    - guidelines
-    - documentation
+  - tutorial
 ---
 
 # Tutorials and guidelines for writing Anoma Specification documentation

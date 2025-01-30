@@ -3,9 +3,8 @@ icon: octicons/link-16
 search:
   exclude: false
 tags:
-  - wikilinks
-  - images
-  - snippets
+  - tutorial
+  - conventions
 todos: False
 ---
 

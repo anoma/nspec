@@ -2,12 +2,9 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-minimum-engine
-- engine-behaviour
+  - tutorial
+  - example
 ---
 
 ??? quote "Juvix imports"

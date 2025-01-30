@@ -2,12 +2,12 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-environment
+  - node-architecture
+  - network-subsystem
+  - engine
+  - wall-clock-engine
+  - configuration
 ---
 
 ??? quote "Juvix imports"

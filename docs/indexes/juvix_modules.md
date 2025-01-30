@@ -2,6 +2,11 @@
 icon: material/keyboard
 search:
   exclude: false
+tags:
+  - node-architecture
+  - index
+  - types
+  - juvix
 ---
 
 # Modules in Juvix

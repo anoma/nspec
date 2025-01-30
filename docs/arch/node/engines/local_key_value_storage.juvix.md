@@ -4,10 +4,10 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - hardware
+  - hardware-subsystem
   - engine
   - local-key-value-storage
-  - engine-defintion
+  - engine-definition
 ---
 
 ??? quote "Juvix imports"

@@ -4,7 +4,7 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - hardware
+  - hardware-subsystem
   - engine
   - local-time-series-storage
   - configuration

@@ -2,12 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- shard-engine
-- engine-behaviour
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - shard
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

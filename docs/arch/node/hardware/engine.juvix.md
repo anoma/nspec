@@ -5,7 +5,7 @@ search:
   boost: 2
 tags:
   - node-architecture
-  - hardware
+  - hardware-subsystem
   - subsystem
   - engine
 ---

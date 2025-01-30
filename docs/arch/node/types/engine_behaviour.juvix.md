@@ -3,11 +3,12 @@ icon: material/animation-play
 search:
   exclude: false
 tags:
-- node-architecture
-- types
-- engine
-- behaviour
-- concept
+  - node-architecture
+  - types
+  - engine
+  - behaviour
+  - concept
+  - prelude
 ---
 
 ??? quote "Juvix imports"

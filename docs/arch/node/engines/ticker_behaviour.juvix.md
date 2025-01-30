@@ -2,12 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- ticker-engine
-- engine-behaviour
+  - node-architecture
+  - example
+  - engine
+  - ticker
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

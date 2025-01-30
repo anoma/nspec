@@ -2,12 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- ticker-engine
-- engine-definition
+  - node-architecture
+  - example
+  - engine
+  - ticker
+  - engine-definition
 ---
 
 ??? quote "Juvix preamble"

@@ -2,6 +2,8 @@
 icon: material/link
 search:
   exclude: false
+tags:
+  - index
 ---
 
 # Quick Links

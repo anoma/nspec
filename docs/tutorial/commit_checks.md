@@ -3,8 +3,9 @@ icon: material/check-all
 search:
   exclude: false
   boost: 3
-categories:
+tags:
   - tutorial
+  - git
 ---
 
 # Run pre-commit checks

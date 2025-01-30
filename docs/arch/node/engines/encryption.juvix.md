@@ -4,9 +4,10 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - identity
-  - encryption
+  - identity-subsystem
   - engine
+  - encryption
+  - engine-definition
 ---
 
 ??? quote "Juvix imports"

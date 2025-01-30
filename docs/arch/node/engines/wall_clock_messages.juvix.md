@@ -2,12 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - wall-clock-engine
+  - message-types
 ---
 
 ??? quote "Juvix imports"

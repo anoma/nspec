@@ -4,10 +4,10 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - identity
+  - identity-subsystem
   - engine
   - naming
-  - messages
+  - message-types
 ---
 
 ??? quote "Juvix imports"
