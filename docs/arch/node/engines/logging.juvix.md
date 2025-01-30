@@ -2,11 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- logging-engine
-- engine-definition
+  - node-architecture
+  - hardware
+  - engine
+  - logging
+  - engine-definition
 ---
 
 ??? quote "Juvix imports"

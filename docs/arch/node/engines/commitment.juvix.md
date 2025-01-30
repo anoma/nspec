@@ -2,10 +2,11 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- commitment-engine
+- node-architecture
+- identity
+- engine
+- commitment
 - engine-definition
 ---
 

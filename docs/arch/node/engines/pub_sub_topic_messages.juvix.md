@@ -2,12 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- pub-sub-topic-engine
-- engine-messages
+  - node-architecture
+  - network
+  - engine
+  - pub-sub-topic
+  - message-types
 ---
 
 ??? quote "Juvix imports"

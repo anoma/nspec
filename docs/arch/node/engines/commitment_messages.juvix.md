@@ -2,11 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- commitment
-- engine-messages
+  - node-architecture
+  - identity
+  - engine
+  - commitment
+  - message-types
 ---
 
 ??? quote "Juvix imports"

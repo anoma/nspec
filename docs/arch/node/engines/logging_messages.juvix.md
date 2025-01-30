@@ -2,12 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- logging-engine
-- engine-messages
+  - node-architecture
+  - hardware
+  - engine
+  - logging
+  - message-types
 ---
 
 ??? quote "Juvix imports"

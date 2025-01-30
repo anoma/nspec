@@ -2,12 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- executor-engine
-- engine-behaviour
+  - node-architecture
+  - ordering
+  - engine
+  - executor
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

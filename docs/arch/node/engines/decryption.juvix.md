@@ -2,10 +2,11 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- decryption-engine
+- node-architecture
+- identity
+- engine
+- decryption
 - engine-definition
 ---
 

@@ -2,12 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-messages
+  - node-architecture
+  - hardware
+  - engine
+  - local-key-value-storage
+  - message-types
 ---
 
 ??? quote "Juvix imports"

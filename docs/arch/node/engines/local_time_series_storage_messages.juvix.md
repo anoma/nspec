@@ -2,12 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-time-series-storage-engine
-- engine-messages
+  - node-architecture
+  - hardware
+  - engine
+  - local-time-series-storage
+  - message-types
 ---
 
 ??? quote "Juvix imports"

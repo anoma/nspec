@@ -2,12 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-ts-storage-engine
-- engine-definition
+  - node-architecture
+  - hardware
+  - engine
+  - local-time-series-storage
+  - engine-definition
 ---
 
 ??? quote "Juvix imports"

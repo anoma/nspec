@@ -2,11 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- mempool-worker-engine
-- engine-definition
+  - node-architecture
+  - ordering
+  - engine
+  - mempool-worker
+  - engine-definition
 ---
 
 ??? quote "Juvix imports"

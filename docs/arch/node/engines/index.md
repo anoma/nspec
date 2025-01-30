@@ -1,10 +1,12 @@
 ---
 icon: octicons/gear-16
 search:
-exclude: false
+  exclude: false
 tags:
+  - node-architecture
   - engine
-  - Juvix
+  - type
+  - concept
 list_wikilinks: false
 ---
 

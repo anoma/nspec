@@ -8,6 +8,7 @@ tags:
 - engine
 - config
 - configuration
+- concept
 ---
 
 ??? quote "Juvix imports"

@@ -2,12 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- mempool-worker-engine
-- engine-behaviour
+  - node-architecture
+  - ordering
+  - engine
+  - mempool-worker
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

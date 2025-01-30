@@ -2,11 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- identity-management-engine
-- engine-definition
+  - node-architecture
+  - identity
+  - engine
+  - identity-management
+  - engine-definition
 ---
 
 ??? quote "Juvix imports"

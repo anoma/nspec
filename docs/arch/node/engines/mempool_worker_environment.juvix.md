@@ -2,12 +2,12 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- mempool
-- mempool-worker
-- engine-environment
+  - node-architecture
+  - ordering
+  - engine
+  - mempool-worker
+  - environment
 ---
 
 ??? quote "Juvix imports"

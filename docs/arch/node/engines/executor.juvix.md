@@ -2,11 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- executor-engine
-- engine-definition
+  - node-architecture
+  - ordering
+  - engine
+  - executor
+  - engine-definition
 ---
 
 ??? quote "Juvix imports"

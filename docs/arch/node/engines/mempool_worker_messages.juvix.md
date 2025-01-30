@@ -2,13 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- mempool
-- mempool-worker
-- engine-messages
+  - node-architecture
+  - ordering
+  - engine
+  - mempool-worker
+  - message-types
 ---
 
 ??? quote "Juvix imports"

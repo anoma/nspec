@@ -2,12 +2,12 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-ts-storage-engine
-- engine-environment
+  - node-architecture
+  - hardware
+  - engine
+  - local-time-series-storage
+  - configuration
 ---
 
 ??? quote "Juvix imports"

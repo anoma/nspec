@@ -2,12 +2,11 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- registry-engine
-- engine-environment
+  - node-architecture
+  - network
+  - registry
+  - environment
 ---
 
 ??? quote "Juvix imports"

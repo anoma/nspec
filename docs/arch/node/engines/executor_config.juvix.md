@@ -2,12 +2,12 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- executor-engine
-- engine-environment
+  - node-architecture
+  - ordering
+  - engine
+  - executor
+  - configuration
 ---
 
 ??? quote "Juvix imports"

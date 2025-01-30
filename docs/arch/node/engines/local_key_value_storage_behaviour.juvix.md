@@ -2,12 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-behaviour
+  - node-architecture
+  - hardware
+  - engine
+  - local-key-value-storage
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

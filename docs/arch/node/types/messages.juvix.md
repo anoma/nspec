@@ -6,7 +6,7 @@ search:
 tags:
   - node-architecture
   - types
-  - messages
+  - message-types
   - mailboxes
 ---
 

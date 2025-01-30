@@ -2,11 +2,12 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- local-key-value-storage-engine
-- engine-definition
+  - node-architecture
+  - hardware
+  - engine
+  - local-key-value-storage
+  - engine-defintion
 ---
 
 ??? quote "Juvix imports"

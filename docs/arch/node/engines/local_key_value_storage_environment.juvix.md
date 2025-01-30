@@ -2,12 +2,12 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-environment
+  - node-architecture
+  - hardware
+  - engine
+  - local-key-value-storage
+  - environment
 ---
 
 ??? quote "Juvix imports"
