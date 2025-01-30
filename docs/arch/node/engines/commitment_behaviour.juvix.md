@@ -29,10 +29,14 @@ tags:
 
 # Commitment Behaviour
 
+---
+
 ## Overview
 
 The behaviour of the Commitment Engine defines how it processes incoming
 commitment requests and produces the corresponding commitments/signatures.
+
+---
 
 ## Commitment Action Flowchart
 
@@ -74,6 +78,8 @@ flowchart TD
 </figcaption>
 </figure>
 
+---
+
 #### Explanation
 
 1. **Initial Request**
@@ -112,7 +118,11 @@ flowchart TD
 
 - The commitment engine is stateless - each request is handled independently.
 
+---
+
 ## Action arguments
+
+---
 
 ### `CommitmentActionArgumentReplyTo ReplyTo`
 
@@ -132,6 +142,8 @@ response message should be sent.
 `mailbox`:
 : is the mailbox ID where the response message should be sent.
 
+---
+
 ### `CommitmentActionArgument`
 
 <!-- --8<-- [start:CommitmentActionArgument] -->
@@ -142,17 +154,21 @@ type CommitmentActionArgument :=
 ```
 <!-- --8<-- [end:CommitmentActionArgument] -->
 
+---
+
 ### `CommitmentActionArguments`
 
-<!-- --8<-- [start:commitment-action-arguments] -->
 ```juvix
 CommitmentActionArguments : Type := List CommitmentActionArgument;
 ```
-<!-- --8<-- [end:commitment-action-arguments] -->
+
+---
 
 ## Actions
 
 ??? quote "Auxiliary Juvix code"
+
+    ---
 
     ### `CommitmentAction`
 
@@ -169,6 +185,8 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         Anoma.Env;
     ```
 
+    ---
+
     ### `CommitmentActionInput`
 
     ```juvix
@@ -181,6 +199,8 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         CommitmentActionArguments
         Anoma.Msg;
     ```
+
+    ---
 
     ### `CommitmentActionEffect`
 
@@ -209,6 +229,8 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+
+---
 
 #### `commitAction`
 
@@ -269,7 +291,11 @@ commitAction
 ```
 <!-- --8<-- [end:commitAction] -->
 
+---
+
 ## Action Labels
+
+---
 
 ### `commitActionLabel`
 
@@ -277,9 +303,13 @@ commitAction
 commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
 ```
 
+---
+
 ## Guards
 
 ??? quote "Auxiliary Juvix code"
+
+    ---
 
     ### `CommitmentGuard`
 
@@ -297,6 +327,8 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
         Anoma.Env;
     ```
     <!-- --8<-- [end:CommitmentGuard] -->
+
+    ---
 
     ### `CommitmentGuardOutput`
 
@@ -332,6 +364,8 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
     ```
     <!-- --8<-- [end:CommitmentGuardEval] -->
 
+---
+
 ### `commitGuard`
 
 Condition
@@ -356,7 +390,11 @@ commitGuard
 ```
 <!-- --8<-- [end:commitGuard] -->
 
+---
+
 ## The Commitment behaviour
+
+---
 
 ### `CommitmentBehaviour`
 
@@ -374,6 +412,8 @@ CommitmentBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:CommitmentBehaviour] -->
+
+---
 
 #### Instantiation
 

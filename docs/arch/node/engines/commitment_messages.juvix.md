@@ -23,6 +23,7 @@ tags:
 
 --8<-- "./commitment_messages.juvix.md:CommitmentMsg"
 
+---
 
 ## Message sequence diagrams
 
@@ -69,6 +70,8 @@ commitment (signature) over the provided data.
     `data`:
     : The data to sign.
 
+---
+
 ### `ReplyCommitment`
 
 ```juvix
@@ -89,6 +92,8 @@ commitment engine instance in response to a `RequestCommitment`.
     `err`:
     : An error message if commitment generation failed.
 
+---
+
 ### `CommitmentMsg`
 
 <!-- --8<-- [start:CommitmentMsg] -->
@@ -99,6 +104,8 @@ type CommitmentMsg :=
   ;
 ```
 <!-- --8<-- [end:CommitmentMsg] -->
+
+---
 
 ## Engine components
 

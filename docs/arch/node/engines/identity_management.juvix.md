@@ -34,6 +34,8 @@ tags:
 
 # IdentityManagement Engine
 
+---
+
 The Identity Management Engine serves as the central coordinator for
 identity operations within Anoma, managing the entire lifecycle of
 identities across various storage systems (called "backends"). These backends
@@ -41,6 +43,8 @@ provide a service such as creating new identities, connecting to existing ones,
 and managing their cryptographic capabilities (commiting and decrypting), while
 abstracting away the complexity of different storage systems (e.g., local memory,
 hardware devices, browser extensions, and remote machines).
+
+---
 
 Users can request new identity generation (via a
 `MsgIdentityManagementGenerateIdentityRequest` message) or connection
@@ -81,12 +85,16 @@ and their capabilities. When an identity is no longer needed, it can
 be cleanly removed (via a `MsgIdentityManagementDeleteIdentityRequest`
 message).
 
+---
+
 ## Engine components
 
 - [[Identity Management Messages]]
 - [[Identity Management Configuration]]
 - [[Identity Management Environment]]
 - [[Identity Management Behaviour]]
+
+---
 
 ## Type
 

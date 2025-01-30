@@ -24,15 +24,22 @@ tags:
 
 # Commitment Environment
 
+---
+
 ## Overview
 
 The Commitment Engine environment maintains the state necessary for generating
 commitments (signatures) for a specific identity. It includes the identity's
 signing capabilities and any necessary signing keys or handles.
 
+---
+
 ## Mailbox states
 
-The Commitment Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
+The Commitment Engine does not require complex mailbox states. We define the
+mailbox state as `Unit`.
+
+---
 
 ### `CommitmentMailboxState`
 
@@ -40,9 +47,13 @@ The Commitment Engine does not require complex mailbox states. We define the mai
 syntax alias CommitmentMailboxState := Unit;
 ```
 
+---
+
 ## Local state
 
 The Commitment engine is statless.
+
+---
 
 ### `CommitmentLocalState`
 
@@ -50,10 +61,14 @@ The Commitment engine is statless.
 syntax alias CommitmentLocalState := Unit;
 ```
 
+---
+
 ## Timer Handle
 
 The Commitment Engine does not require a timer handle type. Therefore, we define
 the timer handle type as `Unit`.
+
+---
 
 ### `CommitmentTimerHandle`
 
@@ -62,6 +77,8 @@ syntax alias CommitmentTimerHandle := Unit;
 ```
 
 ## The Commitment Environment
+
+---
 
 ### `CommitmentEnv`
 
@@ -73,6 +90,8 @@ CommitmentEnv : Type :=
     CommitmentTimerHandle
     Anoma.Msg;
 ```
+
+---
 
 ### Instantiation
 

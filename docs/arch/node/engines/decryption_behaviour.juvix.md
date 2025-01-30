@@ -28,12 +28,18 @@ tags:
 
 # Decryption Behaviour
 
+---
+
 ## Overview
 
 The behavior of the Decryption Engine defines how it processes incoming
 decryption requests and produces the corresponding decrypted outputs.
 
+---
+
 ## Decryption Action Flowchart
+
+---
 
 ### `decryptAction` flowchart
 
@@ -76,6 +82,8 @@ flowchart TD
 </figcaption>
 </figure>
 
+---
+
 #### Explanation
 
 1. **Initial Request**
@@ -111,15 +119,22 @@ flowchart TD
    - Reply is sent back to the original requester.
    - Uses mailbox 0 (default mailbox for responses).
 
-#### Important Notes:
-- The commitment engine is stateless - each request is handled .
+---
+
+!!! note
+
+    The commitment engine is stateless - each request is handled .
+
+---
 
 ## Action arguments
 
-### `DecryptionActionArgumentReplyTo ReplyTo`
+---
+
+### `ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID;
 };
@@ -128,11 +143,15 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: is the address of the engine that sent the message.
+???+ quote "Arguments"
 
-`mailbox`:
-: is the mailbox ID where the response message should be sent.
+    `whoAsked`:
+    : is the address of the engine that sent the message.
+
+    `mailbox`:
+    : is the mailbox ID where the response message should be sent.
+
+---
 
 ### `DecryptionActionArgument`
 
@@ -144,6 +163,8 @@ type DecryptionActionArgument :=
 ```
 <!-- --8<-- [end:DecryptionActionArgument] -->
 
+---
+
 ### `DecryptionActionArguments`
 
 <!-- --8<-- [start:decryption-action-arguments] -->
@@ -152,9 +173,13 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
 ```
 <!-- --8<-- [end:decryption-action-arguments] -->
 
+---
+
 ## Actions
 
 ??? quote "Auxiliary Juvix code"
+
+    ---
 
     ### `DecryptionAction`
 
@@ -171,6 +196,8 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Env;
     ```
 
+    ---
+
     ### `DecryptionActionInput`
 
     ```juvix
@@ -184,6 +211,8 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Msg;
     ```
 
+    ---
+
     ### `DecryptionActionEffect`
 
     ```juvix
@@ -196,6 +225,8 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+
+    ---
 
     ### `DecryptionActionExec`
 
@@ -212,7 +243,9 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Env;
     ```
 
-#### `decryptAction`
+---
+
+### `decryptAction`
 
 Process a decryption request.
 

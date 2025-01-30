@@ -25,13 +25,19 @@ tags:
 
 # Commitment Configuration
 
+---
+
 ## Overview
 
 The commitment engine configuration contains static information for commitment engine instances.
 
+---
+
 ## The Commitment Configuration
 
 The configuration of a Commitment Engine instance includes the identity's signing capabilities.
+
+---
 
 ### `CommitmentCfg`
 
@@ -51,6 +57,8 @@ type CommitmentCfg := mkCommitmentCfg@{
 
     `backend`:
     : The backend to use for signing.
+
+---
 
 #### Instantiation
 
