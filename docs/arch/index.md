@@ -16,7 +16,7 @@ components: the [[System Architecture|system architecture]] and the [[Node
 Architecture|node architecture]].
 
 ## [[System Architecture]]
-   
+
 Defines the high-level structure and behaviour of the distributed network,
 including:
 
@@ -25,7 +25,7 @@ including:
 - System-wide properties and guarantees
 
 ## [[Node Architecture]]
-   
+
 Details the internal composition of individual nodes:
 
 - [[Engine|Engine-based modular architecture]]

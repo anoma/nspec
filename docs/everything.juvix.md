@@ -328,7 +328,7 @@ import arch.node.engines.storage;
 
 ### Mempool Worker
 
-```juvix  
+```juvix
 import arch.node.engines.mempool_worker_messages;
 import arch.node.engines.mempool_worker_config;
 import arch.node.engines.mempool_worker_environment;

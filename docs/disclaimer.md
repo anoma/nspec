@@ -73,7 +73,7 @@ protocol; therefore, proofs or proof-like structures are not meant to be
 included. Formal verification is another project.
 
 Most constructs in this documentation are intended to have formal descriptions,
-usage statements, constraints, or properties. Therefore, although we do not 
+usage statements, constraints, or properties. Therefore, although we do not
 include a proof rigorous specification, this website suggests what should be
 verified.
 
@@ -107,7 +107,7 @@ Throughout this documentation, you will find code snippets written in
 
     - Support for HTML-like documentation with features like clickable
       references for easy code navigation.
-      
+
 - The implementation of Anoma, separated from the specification, is written in
     Elixir, another programming language that follows the same principles of
     functional programming that Juvix does.

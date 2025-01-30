@@ -47,7 +47,7 @@ sequenceDiagram
     participant Worker
 
     Executor->>Shard: KVSReadRequest
-    Shard->>Executor: KVSRead 
+    Shard->>Executor: KVSRead
     Executor->>Shard: KVSWrite
     Executor->>Worker: ExecutorFinished
 ```
