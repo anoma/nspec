@@ -6,7 +6,6 @@ search:
     exclude: false
 tags:
   - changelog
-list_wikilinks: false
 ---
 
 # Change Log

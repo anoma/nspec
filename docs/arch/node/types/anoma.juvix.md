@@ -4,8 +4,8 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - types
   - prelude
+  - index
 ---
 
 ??? quote "Juvix imports"

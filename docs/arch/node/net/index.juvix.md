@@ -2,12 +2,17 @@
 icon: material/network
 search:
   exclude: false
+  boost: 2
 tags:
   - node-architecture
   - network-subsystem
-  - subsystem
   - index
 ---
+
+
+```juvix
+module arch.node.net.index;
+```
 
 # Network Subsystem
 

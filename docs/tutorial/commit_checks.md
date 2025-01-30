@@ -5,7 +5,7 @@ search:
   boost: 3
 tags:
   - tutorial
-  - git
+  - conventions
 ---
 
 # Run pre-commit checks

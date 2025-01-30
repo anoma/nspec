@@ -13,6 +13,10 @@ nav:
   - Home: index.md
   - Changelog: ./changelog.md
   - Disclaimer: ./disclaimer.md
+  - List of tags: ./indexes/tags.md
+  - List of Juvix modules: ./indexes/juvix_modules.md
+  - List of links: ./indexes/links.md
+  - List of engines: ./indexes/engines.md
   - Protocol Architecture:
       - ./arch/index.md
       - System Architecture:
@@ -226,10 +230,6 @@ nav:
                       - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
                       - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
   - Juvix prelude: ./prelude.juvix.md
-  - Index:
-      - Tags: ./indexes/tags.md
-      - Juvix modules: ./indexes/juvix_modules.md
-      - Links: ./indexes/links.md
   - Tutorials for contributors:
       - ./tutorial/index.md
       - Prepare working environment: ./tutorial/install/index.md

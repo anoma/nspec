@@ -7,7 +7,7 @@ tags:
   - network-subsystem
   - engine
   - pub-sub-topic
-  - behavior
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

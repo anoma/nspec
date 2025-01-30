@@ -7,7 +7,7 @@ tags:
   - network-subsystem
   - engine
   - registry
-  - behavior
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

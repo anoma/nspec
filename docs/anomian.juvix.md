@@ -4,8 +4,6 @@ search:
   exclude: false
   boost: 2
 tags:
-  - node-architecture
-  - system-architecture
   - tutorial
   - engine
 ---

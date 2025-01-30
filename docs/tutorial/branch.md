@@ -1,8 +1,8 @@
 ---
 icon: material/git
 tags:
-  - GitHub
-  - Git
+  - tutorial
+  - conventions
 ---
 
 # Git branching strategy
@@ -28,7 +28,7 @@ For patching older versions, branch off from the specific version branch.
 Published versions follow the pattern `vX`, where `X` is the version number.
 For example, say the latest version is `v0.1.0`.
 
-Name your branch by prefixing your name and an patch topic, like
+Name your branch by prefixing your name and a patch topic, like
 `your-name/patch-topic`.
 
 ```bash
@@ -159,7 +159,8 @@ We also need to create an integration branch,
 which becomes the base branch for all the interdependent PRs,
 and a corresponding integration PR to be merged into the `main` branch.
 
-On GitHub, make sure to include the list of auxiliary PRs as part of the description of the integration PR.
+On GitHub, make sure to include the list of auxiliary PRs as part of the
+description of the integration PR.
 
 This way the topic branches need not be able to build the whole codebase, while
 the integration branch must be able to build it once all the topic branches are
@@ -240,11 +241,13 @@ git branch some-branch origin/main
 ### Create a Worktree for the branch
 
 Either inside the repo starting with a dot (to avoid build issues):
+
 ```bash
 git worktree add /path/to/repo/.tree/some-branch some-branch
 ```
 
 Or outside the repo:
+
 ```bash
 git worktree add /path/to/repo-some-branch some-branch
 ```

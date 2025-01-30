@@ -9,7 +9,6 @@ tags:
   - index
 search:
     exclude: true
-list_wikilinks: false
 ---
 
 # Anoma Protocol Specification

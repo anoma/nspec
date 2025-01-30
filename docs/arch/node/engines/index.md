@@ -4,10 +4,9 @@ search:
   exclude: false
 tags:
   - node-architecture
+  - concept
   - engine
   - type
-  - concept
-list_wikilinks: false
 ---
 
 # Engines
@@ -70,14 +69,18 @@ Engine Families]] and [[Anomian]].
 
 ### [[Anoma Message|Anoma engine messages]]
 
---8<-- "./docs/arch/node/types/anoma_message.juvix.md:anoma-messages-type"
+--8<-- "./anoma_message.juvix.md:Msg"
+
+### [[Anoma Configuration|Anoma engine configurations]]
+
+--8<-- "./anoma_config.juvix.md:Cfg"
 
 ### [[Anoma Environment|Anoma engine environments]]
 
---8<-- "./docs/arch/node/types/anoma_environment.juvix.md:anoma-environment-type"
+--8<-- "./anoma_environment.juvix.md:Env"
 
 ## Useful Links
 
-- [[Anomian|Anomian]]
+- [[Anomian]]
 - [[Engines in Anoma|Tutorials on Writing Engine Families]]
 - [[Ticker Engine|Example Engine]]

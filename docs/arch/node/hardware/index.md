@@ -5,10 +5,14 @@ search:
 tags:
   - node-architecture
   - hardware-subsystem
-  - subsystem
   - index
-
 ---
+
+???+ quote "Juvix imports"
+
+    ```juvix
+    module arch.node.hardware.index;
+    ```
 
 # Hardware Subsystem
 

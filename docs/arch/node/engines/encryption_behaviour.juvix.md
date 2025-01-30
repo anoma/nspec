@@ -7,7 +7,7 @@ tags:
   - identity-subsystem
   - engine
   - encryption
-  - behavior
+  - behaviour
 ---
 
 ??? quote "Juvix imports"

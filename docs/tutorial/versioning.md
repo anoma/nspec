@@ -2,7 +2,7 @@
 icon: octicons/versions-16
 tags:
   - tutorial
-  - git
+  - conventions
   - versioning
 ---
 

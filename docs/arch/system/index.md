@@ -3,7 +3,6 @@ icon: material/pillar
 search:
   exclude: false
   boost: 2
-list_wikilinks: false
 ---
 
 # Introduction

@@ -74,7 +74,7 @@ configuration of type `Config`, initialised at creation.
 For example, a configuration for an engine instance of the engine `TickerEngine`
 is of type `TickerCfg`.
 
-<!-- --8<-- [start:anoma-config-type] -->
+<!-- --8<-- [start:Cfg] -->
 ```juvix
 type PreCfg KVSKey KVSDatum Executable :=
 

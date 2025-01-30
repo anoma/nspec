@@ -24,7 +24,7 @@ tags:
 ## {@ letter @}
 {@@ for entry in juvix_modules @@}
 
-- [{@ entry['module_name'] @}]({@ entry['url'] @})
+- [{@ entry['qualified_module_name'] @}]({@ entry['url'] @})
 
 {@@ endfor @@}
 {@@ endfor @@}

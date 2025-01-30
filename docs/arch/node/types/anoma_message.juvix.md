@@ -71,7 +71,6 @@ corresponding message type `TickerMsg`.
 
 <!-- --8<-- [start:Msg] -->
 ```juvix
-
 type PreMsg KVSKey KVSDatum Executable :=
 
   {- Identity -}
