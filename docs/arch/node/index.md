@@ -12,7 +12,7 @@ tags:
   - network
 ---
 
-# Introduction
+# Node Architecture
 ​
 The operational architecture specification concerns the state evolution of Anoma instances, broken into smaller steps: which messages are exchanged, how computation is performed on the level of function calls, and which intermediate states are reachable.
 The specification is organized into the following sections:
@@ -23,7 +23,7 @@ The specification is organized into the following sections:
 
 - [[Ordering Subsystem]]
 
-- [[Networking Subsystem]]
+- [[Network Subsystem]]
 
 
 <figure markdown>
