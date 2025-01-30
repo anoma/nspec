@@ -40,7 +40,7 @@ requests and produces the corresponding responses.
 ### `ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
@@ -49,11 +49,13 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: The engine ID of the requester.
+???+ quote "Argument description"
 
-`mailbox`:
-: The mailbox ID where the response should be sent.
+    `whoAsked`:
+    : The engine ID of the requester.
+
+    `mailbox`:
+    : The mailbox ID where the response should be sent.
 
 ### `VerificationActionArgument`
 

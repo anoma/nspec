@@ -45,7 +45,7 @@ The local state of a Verification Engine instance contains a map to a list of pe
 ### `VerificationLocalState`
 
 ```juvix
-type VerificationLocalState := mkVerificationLocalState {
+type VerificationLocalState := mkVerificationLocalState@{
   pendingRequests : Map ExternalIdentity (List (Pair EngineID (Pair Signable Commitment)));
 };
 ```

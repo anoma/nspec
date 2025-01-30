@@ -1,5 +1,5 @@
 ---
-icon: material/new-box
+icon: material/book-open-variant
 social:
   cards: false
 search:
