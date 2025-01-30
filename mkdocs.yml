@@ -11,7 +11,10 @@ edit_uri: edit/main/docs/
 use_directory_urls: false
 nav:
   - Home: index.md
+  - ":material-file-document-check-outline: Latest version": https://specs.anoma.net/latest/
+  - ":material-file-document-edit-outline: Development version": https://specs.anoma.net/main/
   - Changelog: ./changelog.md
+  - Disclaimer: ./disclaimer.md
   - Protocol Architecture:
       - ./arch/index.md
       - System Architecture:
@@ -217,10 +220,11 @@ nav:
                       - Executor Configuration: ./arch/node/engines/executor_config.juvix.md
                       - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
                       - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
-  - Index of links: ./indexes/links.md
-  - Juvix modules:
-      - Prelude: ./prelude.juvix.md
-      - Module Index: ./indexes/juvix_modules.md
+  - Juvix prelude: ./prelude.juvix.md
+  - Index:
+      - Tags: ./indexes/tags.md
+      - Juvix modules: ./indexes/juvix_modules.md
+      - Links: ./indexes/links.md
   - Tutorials for contributors:
       - ./tutorial/index.md
       - Prepare working environment: ./tutorial/install/index.md
@@ -327,7 +331,6 @@ theme:
     # - navigation.prune
     - navigation.indexes
     - navigation.footer
-    # - navigation.top
     - navigation.path
     - toc.follow
     # - toc.integrate
@@ -343,6 +346,11 @@ plugins:
         - png
       FileTypeOverrides:
         mermaid: svg
+  - tags:
+      tags_file: tags.md
+      tags_slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - bibtex:
       bib_dir: "docs/references"
   - macros:
