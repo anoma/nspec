@@ -4,24 +4,24 @@ search:
   exclude: false
   boost: 2
 tags:
-- protocol-architecture
+- system-architecture
+- node-architecture
 ---
 
 # Protocol Architecture
 
-The Anoma architecture is the blueprint that defines the structure and behaviour of
-the Anoma system. It consists of two main components that work together to
-create a robust distributed system, the [[System Architecture|system architecture]]
-and the [[Node Architecture|node architecture]].
+The Anoma architecture is the blueprint that defines the structure and behaviour
+of the components that make up the Anoma protocol. There are two high-level
+components: the [[System Architecture|system architecture]] and the [[Node
+Architecture|node architecture]].
 
 ## [[System Architecture]]
    
 Defines the high-level structure and behaviour of the distributed network,
 including:
 
-- Network topology and communication patterns
 - Distributed state management <!-- and consensus -->
-- Core data types and data flow
+- Core data types and data flow for Network operations
 - System-wide properties and guarantees
 
 ## [[Node Architecture]]

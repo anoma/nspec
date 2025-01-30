@@ -3,8 +3,9 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Anoma-Message
-- Juvix
+  - node-architecture
+  - types
+  - message-types
 ---
 
 ??? quote "Juvix imports"

@@ -2,8 +2,6 @@
 icon: material/keyboard
 search:
   exclude: false
-hide:
-  - navigation
 ---
 
 # Modules in Juvix

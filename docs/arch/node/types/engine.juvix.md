@@ -3,9 +3,9 @@ icon: octicons/gear-16
 search:
   exclude: false
 tags:
-- engine-behaviour
-- engine-type
-- juvix
+- node-architecture
+- types
+- engine
 ---
 
 ??? quote "Juvix imports"
@@ -46,6 +46,7 @@ Each engine, not its type, is associated with:
   the engine-specific local state, the mailbox cluster, the acquaintances, and the timers,
 - as well as a specific [[Engine Behaviour|behaviour]].
 
+<!-- --8<-- [start:Engine] -->
 ```juvix
 type Engine C S B H A AM AC AE :=
   mkEngine@{
@@ -54,7 +55,7 @@ type Engine C S B H A AM AC AE :=
     behaviour : EngineBehaviour C S B H A AM AC AE;
   };
 ```
-
+<!-- --8<-- [end:Engine] -->
 !!! note "Engine type parameters"
 
     In the related types to `Engine` such as `EngineBehaviour`, we try to follow

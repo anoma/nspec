@@ -1,3 +1,13 @@
+---
+icon: material/network
+search:
+  exclude: false
+tags:
+  - node-architecture
+  - subsystem
+  - network
+---
+
 # Network Subsystem
 
 ## Purpose

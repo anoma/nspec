@@ -4,9 +4,10 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix
-- Types
-- Network
+  - node-architecture
+  - types
+  - network
+  - router
 ---
 
 
@@ -24,6 +25,7 @@ tags:
 
 # Router Types
 
+---
 
 ## `NodeAdvert`
 
@@ -41,28 +43,31 @@ type NodeAdvert :=
   };
 ```
 
-`id`
-: Node identity.
+???+ "Arguments"
 
-`addrs`
-: Transport addresses with preferences expressed as weights.
+    `id`
+    : Node identity.
 
-`version`
-: Version number (incremented at every change).
+    `addrs`
+    : Transport addresses with preferences expressed as weights.
 
-`created`
-: Time of creation.
+    `version`
+    : Version number (incremented at every change).
 
-`sig`
-: Signature by `id`.
+    `created`
+    : Time of creation.
+
+    `sig`
+    : Signature by `id`.
+
+---
 
 ## `TopicAdvert`
 
-A *topic advertisement* signed by the topic creator
-contains the topic's cryptographic identity,
-and the `NodeID` of a set of relay nodes
-that can be used to subscribe to the topic.
-These may be publishers, subscribers, or dedicated relay nodes for the topic.
+A *topic advertisement* signed by the topic creator contains the topic's
+cryptographic identity, and the `NodeID` of a set of relay nodes that can be
+used to subscribe to the topic. These may be publishers, subscribers, or
+dedicated relay nodes for the topic.
 
 ```juvix
 type TopicAdvert :=
@@ -75,3 +80,23 @@ type TopicAdvert :=
     sig : Commitment;
   };
 ```
+
+???+ "Arguments"
+
+    `id`
+    : Topic identity.
+
+    `relays`
+    : List of relay nodes.
+
+    `tags`
+    : List of tags.
+
+    `version`
+    : Version number (incremented at every change).
+
+    `created`
+    : Time of creation.
+
+    `sig`
+    : Signature by `id`.

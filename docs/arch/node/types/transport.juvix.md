@@ -4,9 +4,10 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix
-- Types
-- Network
+  - node-architecture
+  - types
+  - network
+  - transport
 ---
 
 ??? quote "Juvix imports"
@@ -21,11 +22,15 @@ tags:
 
 # Transport types
 
+---
+
 ## `IPv4Address`
 
 ```juvix
 syntax alias IPv4Address := Nat;
 ```
+
+---
 
 ## `IPv6Address`
 
@@ -33,11 +38,15 @@ syntax alias IPv4Address := Nat;
 syntax alias IPv6Address := Nat;
 ```
 
+---
+
 ## `IPAddress`
 
 ```juvix
 IPAddress : Type := Either IPv4Address IPv6Address;
 ```
+
+---
 
 ## `TransportProtocol`
 
@@ -54,6 +63,8 @@ type TransportProtocol :=
   ;
 ```
 
+---
+
 ## `TLSAddress`
 
 TLS or QUIC address.
@@ -67,6 +78,7 @@ type TLSAddress :=
   };
 ```
 
+
 ???+ quote "Arguments"
 
     `ip`
@@ -78,6 +90,8 @@ type TLSAddress :=
     `cert_issuer`
     : TLS certificate issuer fingerprint
 
+---
+
 ## `TransportAddress`
 
 ```juvix
@@ -87,6 +101,8 @@ type TransportAddress :=
   | IPAddr IPAddress
   ;
 ```
+
+---
 
 ## `TransportOrderingPrefs`
 
@@ -99,6 +115,8 @@ type TransportOrderingPrefs :=
   ;
 ```
 
+---
+
 ## `TransportReliabilityPrefs`
 
 Transport reliability preferences for an outgoing message.
@@ -110,6 +128,8 @@ type TransportReliabilityPrefs :=
   ;
 ```
 
+---
+
 ## `TransportSecurityPrefs`
 
 Transport ordering preferences for an outgoing message.
@@ -119,6 +139,8 @@ type TransportSecurityPrefs :=
   | TransportDirect
   ;
 ```
+
+---
 
 ## `TransportPrefs`
 
@@ -143,6 +165,8 @@ type TransportPrefs := mkTransportPrefs {
     `security`
     : Transport security preferences
 
+---
+
 ## `SerializedMsg`
 
 Serialized message.
@@ -160,6 +184,8 @@ type SerializedMsg :=
 
     `SerializedMsgBARE`
     : BARE
+
+---
 
 ## `EncryptedMsg`
 

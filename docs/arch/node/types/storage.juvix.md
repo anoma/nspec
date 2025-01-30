@@ -4,9 +4,9 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix
-- Types
-- Network
+  - node-architecture
+  - types
+  - storage
 ---
 
 ??? quote "Juvix imports"
@@ -85,6 +85,7 @@ type Chunk := mkChunk@{
     : Nodes that are allowed to request the chunk.
 
 ---
+
 ## `ChunkContent`
 
 The content of a `Chunk`.
@@ -136,3 +137,5 @@ type ChunkCommitment := mkChunkCommitment {
 
     `sig`
     : Cryptographic signature of the above fields by `node`.
+
+---

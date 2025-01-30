@@ -3,6 +3,10 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+tags:
+  - node-architecture
+  - types
+  - configuration
 ---
 
 ??? quote "Juvix imports"

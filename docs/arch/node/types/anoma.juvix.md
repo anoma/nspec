@@ -3,8 +3,8 @@ icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- Anoma
-- Juvix
+  - node-architecture
+  - types
 ---
 
 ??? quote "Juvix imports"
@@ -16,3 +16,9 @@ tags:
     import arch.node.types.anoma_config open public;
     import arch.node.types.anoma_environment open public;
     ```
+
+# Wrapper types for Anoma
+
+- [[Anoma Message]]
+- [[Anoma Configuration]]
+- [[Anoma Environment]]

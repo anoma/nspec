@@ -3,9 +3,10 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Engine
-- Environment
-- Juvix
+- node-architecture
+- types
+- engine
+- environment
 ---
 
 ??? quote "Juvix imports"
@@ -18,7 +19,10 @@ tags:
     import arch.node.types.messages open;
     ```
 
+
 # Engine environment
+
+---
 
 ## Engine environment type
 
@@ -41,6 +45,7 @@ which is parameterised by four types, which represent:
 These same letters will be used in the rest of the document to represent these
 types.
 
+<!-- --8<-- [start:EngineEnv] -->
 ```juvix
 type EngineEnv S B H AM :=
   mkEngineEnv@{
@@ -49,6 +54,9 @@ type EngineEnv S B H AM :=
     acquaintances : Set EngineName;
     timers : List (Timer H);
   };
+```
+<!-- --8<-- [end:EngineEnv] -->
+
 ```
 
 ??? info "On the mailbox cluster"

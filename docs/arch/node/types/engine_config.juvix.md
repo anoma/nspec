@@ -3,10 +3,11 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Engine
-- Config
-- Configuration
-- Juvix
+- node-architecture
+- types
+- engine
+- config
+- configuration
 ---
 
 ??? quote "Juvix imports"
@@ -19,7 +20,10 @@ tags:
     import arch.node.types.messages open;
     ```
 
+
 # Engine configuration
+
+---
 
 ## Engine configuration type
 
@@ -43,6 +47,8 @@ type EngineCfg C :=
   };
 ```
 
+---
+
 ### `getEngineIDFromEngineCfg`
 
 - Get the local `EngineID` from an `EngineCfg`:
@@ -51,3 +57,5 @@ type EngineCfg C :=
 getEngineIDFromEngineCfg {C} (cfg : EngineCfg C) : EngineID :=
   mkPair (some (EngineCfg.node cfg)) (EngineCfg.name cfg);
 ```
+
+---

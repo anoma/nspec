@@ -3,9 +3,10 @@ icon: material/animation-play
 search:
   exclude: false
 tags:
-- Engine
-- Behaviour
-- Juvix
+- node-architecture
+- types
+- engine
+- behaviour
 ---
 
 ??? quote "Juvix imports"
@@ -26,6 +27,8 @@ Each engine processes only one message at a time. The behaviour of an engine is
 specified by a finite set of _guards_ and an _action function,_ which both
 determine how engine instances react to received messages or timer
 notifications.
+
+---
 
 ## Guards
 
@@ -56,7 +59,11 @@ The action function then computes the effects of the action label;
 besides changes to the engine environment, an action effect comprises sending
 messages, creating new engine instances, and updating timers.
 
+---
+
 ## Actions
+
+---
 
 ### `Action`
 
@@ -76,7 +83,6 @@ and returns the `ActionEffect`.
 
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
-{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Action (C S B H A AM AC AE : Type) : Type :=
   (input : ActionInput C S B H A AM) ->
   Option (ActionEffect S B H AM AC AE);
@@ -113,6 +119,8 @@ are triggered.
     be passed to the action function. Then, if the guard is not satisfied, no data
     is returned.
 
+---
+
 ### `ActionInput`
 
 The `ActionInput` contains:
@@ -133,6 +141,8 @@ type ActionInput C S B H A AM :=
   };
 ```
 <!-- --8<-- [end:ActionInput] -->
+
+---
 
 ### `ActionEffect`
 
@@ -156,6 +166,8 @@ type ActionEffect S B H AM AC AE :=
 ```
 <!-- --8<-- [end:ActionEffect] -->
 
+---
+
 ### `ActionExec`
 
 <!-- --8<-- [start:ActionExec] -->
@@ -165,6 +177,8 @@ type ActionExec C S B H A AM AC AE :=
   ;
 ```
 <!-- --8<-- [end:ActionExec] -->
+
+---
 
 ### `Guard`
 
@@ -178,6 +192,8 @@ Guard (C S B H A AM AC AE : Type) : Type :=
   Option (GuardOutput C S B H A AM AC AE);
 ```
 <!-- --8<-- [end:Guard] -->
+
+---
 
 ### `GuardOutput`
 
@@ -193,6 +209,8 @@ type GuardOutput C S B H A AM AC AE :=
   };
 ```
 <!-- --8<-- [end:GuardOutput] -->
+
+---
 
 ### `GuardEval`
 
@@ -211,9 +229,12 @@ guards inside the given list. The evaluation strategies are as follows:
 - With `First`, we say that the first guard in the provided list that holds,
 i.e., yields a result, upon sequential evaluation is selected, its associated
 action is performed, and the evaluation stops.
+
 - With `Any`, we say that any guard in the provided list that holds upon
 sequential evaluation is selected, their associated actions are performed, and
 the evaluation stops.
+
+---
 
 ## The type for engine behaviours
 

@@ -4,10 +4,9 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix-types
-- Types
-- Cryptography
-- Crypto
+- node-architecture
+- types
+- crypto
 ---
 
 ??? quote "Juvix imports"
@@ -17,9 +16,11 @@ tags:
     import prelude open;
     ```
 
-## Cryptographic primitives
+# Cryptographic primitives
 
-### Public key
+---
+
+### `PublicKey`
 
 Public key for public-key cryptography.
 
@@ -35,7 +36,9 @@ PublicKeyOrd : Ord PublicKey :=
   };
 ```
 
-### Private key
+---
+
+### `PrivateKey`
 
 Private key for public-key cryptography.
 
@@ -51,7 +54,9 @@ PrivateKeyOrd : Ord PrivateKey :=
   };
 ```
 
-### Secret key
+---
+
+### `SecretKey`
 
 Secret key for secret-key cryptography.
 
@@ -61,7 +66,9 @@ type SecretKey :=
   ;
 ```
 
-### Signature
+---
+
+### `Signature`
 
 Cryptographic signature.
 
@@ -70,7 +77,9 @@ type Signature :=
   | Ed25519Signature ByteString
 ```
 
-### Digest
+---
+
+### `Digest`
 
 Message digest.
 Output of a cryptographic hash function.

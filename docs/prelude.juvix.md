@@ -23,6 +23,8 @@ tags:
 The following are frequent and basic abstractions used in the Anoma
 specification.
 
+---
+
 ## Combinators
 
 ```juvix
@@ -40,13 +42,19 @@ import Stdlib.Function open
   }
 ```
 
+---
+
 ## Useful Type Classes
+
+---
 
 ### `Functor`
 
 ```juvix
 import Stdlib.Trait.Functor.Polymorphic as Functor;
 ```
+
+---
 
 ### `Applicative`
 
@@ -55,12 +63,16 @@ import Stdlib.Trait.Applicative open using {Applicative; mkApplicative} public;
 open Applicative public;
 ```
 
+---
+
 ### `Monad`
 
 ```juvix
 import Stdlib.Trait.Monad open using {Monad; mkMonad} public;
 open Monad public;
 ```
+
+---
 
 #### `join`
 
@@ -75,6 +87,8 @@ join
   bind mma id;  -- using the built-in `bind`
 ```
 
+---
+
 ### `Bifunctor`
 
 Two-argument functor
@@ -86,6 +100,8 @@ type Bifunctor (F : Type -> Type -> Type) :=
     bimap {A B C D} :  (A -> C) -> (B -> D) -> F A B -> F C D
   };
 ```
+
+---
 
 ### `AssociativeProduct`
 
@@ -100,6 +116,8 @@ type AssociativeProduct (F : Type -> Type -> Type) :=
   };
 ```
 
+---
+
 ### `CommutativeProduct`
 
 Product with commuters
@@ -111,6 +129,8 @@ type CommutativeProduct (F : Type -> Type -> Type) :=
     swap {A B} : F A B -> F B A;
   };
 ```
+
+---
 
 ### `UnitalProduct`
 
@@ -126,6 +146,8 @@ type UnitalProduct U (F : Type -> Type -> Type) :=
     unUnitRight {A} : F A U -> A;
   };
 ```
+
+---
 
 ### `Traversable`
 
@@ -149,6 +171,8 @@ type Traversable (T : Type -> Type) :=
       (A -> F B) -> T A -> F (T B);
   };
 ```
+
+---
 
 ## Bool
 
@@ -174,6 +198,8 @@ For example,
 verdad : Bool := true;
 ```
 
+---
+
 ### `xor`
 
 Exlusive or
@@ -186,6 +212,8 @@ xor (a b : Bool) : Bool :=
   ;
 ```
 
+---
+
 ### `nand`
 
 Not and
@@ -193,6 +221,8 @@ Not and
 ```juvix
 nand (a b : Bool) : Bool := not (and a b);
 ```
+
+---
 
 ### `nor`
 
@@ -202,7 +232,9 @@ Not or
 nor (a b : Bool) : Bool := not (or a b);
 ```
 
-## Nat
+---
+
+## `Nat`
 
 The type `Nat` represents natural numbers (non-negative integers). Used for
 counting and indexing.
@@ -234,6 +266,8 @@ For example,
 ten : Nat := 10;
 ```
 
+---
+
 ### `pred`
 
 Predecessor function for natural numbers.
@@ -245,6 +279,8 @@ pred (n : Nat) : Nat :=
     | suc k := k
   };
 ```
+
+---
 
 ### `boolToNat`
 
@@ -258,6 +294,8 @@ boolToNat (b : Bool) : Nat :=
   ;
 ```
 
+---
+
 ### `isZero`
 
 Check if a natural number is zero.
@@ -270,6 +308,8 @@ isZero (n : Nat) : Bool :=
   };
 ```
 
+---
+
 ### `isEven` and `isOdd`
 
 Parity checking functions
@@ -281,6 +321,8 @@ isEven (n : Nat) : Bool := mod n 2 == 0;
 ```juvix
 isOdd (n : Nat) : Bool := not (isEven n);
 ```
+
+---
 
 ### `foldNat`
 
@@ -295,6 +337,8 @@ foldNat {B} (z : B) (f : Nat -> B -> B) (n : Nat) : B :=
   };
 ```
 
+---
+
 ### `iter`
 
 Iteration of a function.
@@ -303,6 +347,8 @@ Iteration of a function.
 iter {A} (f : A -> A) (n : Nat) (x : A) : A :=
   foldNat x \{_ y := f y} n;
 ```
+
+---
 
 ### `exp`
 
@@ -313,6 +359,8 @@ exp (base : Nat) (exponent : Nat) : Nat :=
   iter \{product := base * product} exponent 1;
 ```
 
+---
+
 ### `factorial`
 
 The factorial function.
@@ -320,6 +368,8 @@ The factorial function.
 ```juvix
 factorial : Nat -> Nat := foldNat 1 \{k r := suc k * r};
 ```
+
+---
 
 ### `gcd`
 
@@ -333,6 +383,8 @@ gcd (a b : Nat) : Nat :=
     | suc _ := gcd b (mod a b)
   };
 ```
+
+---
 
 ### `lcm`
 
@@ -350,7 +402,9 @@ lcm (a b : Nat) : Nat :=
     };
 ```
 
-## String
+---
+
+## `String`
 
 The type `String` represents sequences of characters. Used for text and
 communication.
@@ -370,7 +424,9 @@ For example,
 hello : String := "Hello, World!";
 ```
 
-### String Comparison
+---
+
+### Comparison instance for `String`
 
 ```juvix
 axiom stringCmp : String -> String -> Ordering;
@@ -382,7 +438,9 @@ StringOrd : Ord String :=
   };
 ```
 
-## ByteString
+---
+
+## `ByteString`
 
 ```juvix
 ByteString : Type := String;
@@ -394,7 +452,9 @@ A basic type for representing binary data.
 emptyByteString : ByteString := "";
 ```
 
-## Unit
+---
+
+## `Unit`
 
 The type `Unit` represents a type with a single value. Often used when a
 function does not return any meaningful value.
@@ -414,6 +474,8 @@ For example,
 unitValue : Unit := unit;
 ```
 
+---
+
 ### `trivial`
 
 Unique function to the unit. Universal property of terminal object.
@@ -422,7 +484,9 @@ Unique function to the unit. Universal property of terminal object.
 trivial {A} : A -> Unit := const unit;
 ```
 
-## Empty
+---
+
+## `Empty`
 
 The type `Empty` represents a type with a single value. Often used when a
 function does not return any meaningful value.
@@ -430,6 +494,8 @@ function does not return any meaningful value.
 ```juvix
 axiom Empty : Type;
 ```
+
+---
 
 ### `explode`
 
@@ -439,7 +505,9 @@ Unique function from empty. Universal property of initial object.
 axiom explode {A} : Empty -> A;
 ```
 
-## Pair A B
+---
+
+## `Pair A B`
 
 The type `Pair A B` represents a tuple containing two elements of types `A` and
 `B`. Useful for grouping related values together.
@@ -468,6 +536,8 @@ For example,
 pair : Pair Nat Bool := mkPair 42 true;
 ```
 
+---
+
 ### `fst` and `snd`
 
 Projections
@@ -482,6 +552,8 @@ snd {A B} : Pair A B -> B
   | (mkPair _ b) := b;
 ```
 
+---
+
 ### `PairCommutativeProduct`
 
 Swap components
@@ -493,6 +565,8 @@ PairCommutativeProduct : CommutativeProduct Pair :=
     swap := \{p := mkPair (snd p) (fst p)}
   };
 ```
+
+---
 
 ### `PairAssociativeProduct`
 
@@ -513,6 +587,8 @@ PairAssociativeProduct : AssociativeProduct Pair :=
   };
 ```
 
+---
+
 ### `PairUnitalProduct`
 
 Unit maps for pairs and units
@@ -528,6 +604,8 @@ PairUnitalProduct : UnitalProduct Unit Pair :=
   };
 ```
 
+---
+
 ### `PairBifunctor`
 
 Map functions over pairs
@@ -539,6 +617,8 @@ PairBifunctor : Bifunctor Pair :=
     bimap := \{f g p := mkPair (f (fst p)) (g (snd p))};
   };
 ```
+
+---
 
 ### `fork`
 
@@ -553,7 +633,9 @@ fork
   mkPair (f c) (g c);
 ```
 
-## Result A B
+---
+
+## `Result A B`
 
 The `Result A B` type represents either a success with a value of `ok x` with
 `x` of type `A` or an error with value `error e` with `e` of type `B`.
@@ -563,7 +645,9 @@ import Stdlib.Data.Result.Base as Result;
 open Result using { Result; ok; error } public;
 ```
 
-## Either A B
+---
+
+## `Either A B`
 
 The type `Either A B`, or sum type of `A` and `B`, represents a value of type
 `A` or `B`. It is equivalent to `Result A B`, however, the meaning of the values
@@ -583,6 +667,8 @@ For example,
 thisString : Either String Nat := left "Error!";
 thisNumber : Either String Nat := right 42;
 ```
+
+---
 
 ### `isLeft` and `isRight`
 
@@ -604,6 +690,8 @@ isRight {A B} (e : Either A B) : Bool :=
   };
 ```
 
+---
+
 ### `fromLeft`
 
 Get left element (with default)
@@ -616,6 +704,8 @@ fromLeft {A B} (e : Either A B) (d : A) : A :=
   };
 ```
 
+---
+
 ### `fromRight`
 
 Get right element (with default)
@@ -627,6 +717,8 @@ fromRight {A B} (e : Either A B) (d : B) : B :=
     | (right x) := x
   };
 ```
+
+---
 
 ### `EitherCommutativeProduct`
 
@@ -647,6 +739,8 @@ EitherCommutativeProduct : CommutativeProduct Either :=
     swap := swapEither;
   };
 ```
+
+---
 
 ### `EitherBifunctor`
 
@@ -672,9 +766,13 @@ EitherBifunctor : Bifunctor Either :=
   };
 ```
 
+---
+
 ### `EitherUnitalProduct`
 
 Unit maps for Either and Empty
+
+---
 
 #### `unUnitLeftEither`
 
@@ -686,6 +784,8 @@ unUnitLeftEither {A} (e : Either Empty A) : A :=
   };
 ```
 
+---
+
 #### `unUnitRightEither`
 ```juvix
 unUnitRightEither {A} (e : Either A Empty) : A :=
@@ -694,6 +794,8 @@ unUnitRightEither {A} (e : Either A Empty) : A :=
     | (right x) := explode x
   };
 ```
+
+---
 
 #### `EitherUnitalProduct`
 
@@ -709,6 +811,8 @@ EitherUnitalProduct : UnitalProduct Empty Either :=
     unUnitRight := unUnitRightEither;
   };
 ```
+
+---
 
 ### `fuse`
 
@@ -726,9 +830,13 @@ fuse
   };
 ```
 
+---
+
 ### `EitherAssociativeProduct`
 
 Association functions for either
+
+---
 
 #### `assocLeftEither`
 
@@ -745,6 +853,8 @@ assocLeftEither
       }
   };
 ```
+
+---
 
 #### `assocRightEither`
 
@@ -763,6 +873,8 @@ assocRightEither
   };
 ```
 
+---
+
 #### `EitherAssociativeProduct`
 
 ```juvix
@@ -773,6 +885,8 @@ EitherAssociativeProduct : AssociativeProduct Either :=
     assocRight := assocRightEither;
   };
 ```
+
+---
 
 ## `Option A`
 
@@ -795,6 +909,8 @@ syntax alias some := just;
 syntax alias none := nothing;
 ```
 
+---
+
 ### `isNone`
 
 Check if an optional value is `none`:
@@ -807,6 +923,8 @@ isNone {A} (x : Option A) : Bool
   }
 ```
 
+---
+
 ### `isSome`
 
 Check if an optional value is `some`:
@@ -814,6 +932,8 @@ Check if an optional value is `some`:
 ```juvix
 isSome {A} (x : Option A) : Bool := not (isNone x);
 ```
+
+---
 
 ### `fromOption`
 
@@ -826,6 +946,8 @@ fromOption {A} (x : Option A) (default : A) : A :=
   | some x := x
 };
 ```
+
+---
 
 ### `option`
 
@@ -843,6 +965,8 @@ option
     | some x := f x
   };
 ```
+
+---
 
 ### `filterOption`
 
@@ -862,7 +986,9 @@ filterOption
   };
 ```
 
-## List A
+---
+
+## `List A`
 
 The type `List A` represents a _sequence_ of elements of type `A`. Used for collections and ordered data.
 
@@ -894,6 +1020,8 @@ numbers : List Nat := 1 :: 2 :: 3 :: nil;
 niceNumbers : List Nat := [1 ; 2 ; 3];
 ```
 
+---
+
 ### `findIndex`
 
 Get the first index of an element satisfying a predicate if such an index exists and none, otherwise.
@@ -909,6 +1037,8 @@ findIndex {A} (predicate : A -> Bool) : List A -> Option Nat
         | some i := some (suc i);
 ```
 
+---
+
 ### `last`
 
 Get last element of a list
@@ -917,6 +1047,8 @@ Get last element of a list
 last {A} (lst : List A) (default : A) : A :=
   head default (reverse lst);
 ```
+
+---
 
 ### `most`
 
@@ -927,6 +1059,8 @@ most {A} (lst : List A) : List A :=
   tail (reverse lst);
 ```
 
+---
+
 ### `snoc`
 
 Prepend element to a list
@@ -935,6 +1069,8 @@ Prepend element to a list
 snoc {A} (xs : List A) (x : A) : List A :=
   xs ++ [x];
 ```
+
+---
 
 ### `uncons`
 
@@ -946,6 +1082,8 @@ uncons {A} : List A -> Option (Pair A (List A))
   | (x :: xs) := some (mkPair x xs)
 ```
 
+---
+
 ### `unsnoc`
 
 Split one layer of list from the end
@@ -955,6 +1093,8 @@ unsnoc {A} : List A -> Option (Pair (List A) A)
   | nil := none
   | (x :: xs) := some (mkPair (most (x :: xs)) (last xs x))
 ```
+
+---
 
 ### `unfold`
 
@@ -969,6 +1109,8 @@ unfold {A B}
     | none := nil
     | some (x, seed') := x :: unfold step seed';
 ```
+
+---
 
 ### `unzip`
 
@@ -985,6 +1127,8 @@ unzip {A B}
       in mkPair (fst p :: fst unzipped) (snd p :: snd unzipped)
   };
 ```
+
+---
 
 #### `partitionEither`
 
@@ -1003,6 +1147,8 @@ partitionEither
     es;
 ```
 
+---
+
 #### `partitionEitherWith`
 
 ```juvix
@@ -1012,6 +1158,8 @@ partitionEitherWith
   (es : List C) : Pair (List A) (List B) :=
   partitionEither (map f es);
 ```
+
+---
 
 ### `catOptions`
 
@@ -1027,6 +1175,8 @@ catOptions {A} : List (Option A) -> List A :=
       }})
     nil;
 ```
+
+---
 
 ### `maximumBy`
 
@@ -1049,6 +1199,8 @@ maximumBy {A B} {{Ord B}}
   in foldr maxHelper none lst;
 ```
 
+---
+
 ### `minimumBy`
 
 Get the minimal element of a list.
@@ -1069,6 +1221,8 @@ minimalBy {A B} {{Ord B}}
   };
   in foldr minHelper none lst;
 ```
+
+---
 
 ### `traversableListI`
 
@@ -1100,6 +1254,8 @@ traversableListI : Traversable List :=
   };
 ```
 
+---
+
 ### `chunksOf`
 
 Splits a list into chunks of size `n`. The last chunk may be smaller than `n` if the
@@ -1116,6 +1272,8 @@ chunksOf {A} : (chunkSize : Nat) -> (list : List A) -> List (List A)
   | _ nil := nil
   | n xs := take n xs :: chunksOf n (drop n xs);
 ```
+
+---
 
 ### `sliding`
 
@@ -1143,6 +1301,8 @@ sliding {A} : (windowSize : Nat) -> (list : List A) -> List (List A)
       | else := go xs;
 ```
 
+---
+
 ### `span`
 
 Takes a predicate and a list, and returns a tuple where:
@@ -1161,6 +1321,8 @@ span {A} (p : A -> Bool) : List A -> Pair (List A) (List A)
         in mkPair (x :: ys1) ys2
       | else := mkPair nil (x :: xs);
 ```
+
+---
 
 ### `groupBy` and `group`
 
@@ -1182,6 +1344,8 @@ groupBy {A} (eq : A -> A -> Bool) : List A -> List (List A)
 ```juvix
 group {A} {{Eq A}} : List A -> List (List A) := groupBy (==)
 ```
+
+---
 
 #### `nubBy`
 
@@ -1211,10 +1375,14 @@ nubBy {A} (eq : A -> A -> Bool) : List A -> List A :=
   in go nil;
 ```
 
+---
+
 #### `nub`
 ```juvix
 nub {A} {{Eq A}} : List A -> List A := nubBy (==);
 ```
+
+---
 
 ### `powerlists`
 
@@ -1229,6 +1397,8 @@ powerlists {A} : List A -> List (List A)
       withX : List (List A) := map ((::) x) rest;
     in rest ++ withX;
 ```
+
+---
 
 ## `Set A`
 
@@ -1253,12 +1423,16 @@ For example,
 uniqueNumbers : Set Nat := Set.fromList [1 ; 2 ; 2 ; 2; 3];
 ```
 
+---
+
 #### `setMap`
 
 ```juvix
 setMap {A B} {{Ord B}} (f : A -> B) (set : Set A) : Set B :=
   Set.fromList (map f (Set.toList set));
 ```
+
+---
 
 #### `setJoin`
 
@@ -1271,6 +1445,8 @@ setJoin {A} {{Ord A}} (sets : Set (Set A)) : Set A :=
   };
 ```
 
+---
+
 #### `disjointUnion`
 
 ```juvix
@@ -1280,6 +1456,8 @@ disjointUnion {T} {{Ord T}} (s1 s2 : Set T) : Result (Set T) (Set T) :=
     | Set.empty := ok (Set.union s1 s2)
     | s := error s;
 ```
+
+---
 
 #### `symmetricDifference`
 
@@ -1293,6 +1471,8 @@ symmetricDifference
     in2not1 := difference s2 s1;
   in union in1not2 in2not1;
 ```
+
+---
 
 ### `cartesianProduct`
 
@@ -1320,6 +1500,8 @@ cartesianProduct
   in setJoin pairSets;
 ```
 
+---
+
 ### `powerset`
 
 Generate the powerset (set of all subsets) of a set.
@@ -1332,6 +1514,8 @@ powerset {A} {{Ord A}} (s : Set A) : Set (Set A) :=
   in Set.fromList (map Set.fromList subLists);
 ```
 
+---
+
 ### `isProperSubset`
 
 Checks if all elements of `set1` are in `set2`, and that the two sets are not the same.
@@ -1340,6 +1524,8 @@ Checks if all elements of `set1` are in `set2`, and that the two sets are not th
 isProperSubset {A} {{Eq A}} {{Ord A}} (set1 set2 : Set A) : Bool :=
   isSubset set1 set2 && not (set1 == set2)
 ```
+
+---
 
 ## `Map K V`
 
@@ -1358,6 +1544,8 @@ For example,
 ```juvix
 codeToken : Map Nat String := Map.fromList [ (1 , "BTC") ; (2 , "ETH") ; (3, "ANM")];
 ```
+
+---
 
 ### `updateLookupWithKey`
 
@@ -1386,6 +1574,8 @@ updateLookupWithKey
   in oldValue, newMap;
 ```
 
+---
+
 ### `mapKeys`
 
 Maps all keys in the Map to new keys using the provided function. If the mapping
@@ -1405,6 +1595,8 @@ mapKeys
     });
 ```
 
+---
+
 ### `restrictKeys`
 
 Restrict a map to only contain keys from the given set.
@@ -1423,6 +1615,8 @@ restrictKeys
   };
 ```
 
+---
+
 ### `withoutKeys`
 
 Remove all entries from a map whose keys appear in the given set.
@@ -1440,6 +1634,8 @@ withoutKeys
       | else := Map.insert k v acc
   };
 ```
+
+---
 
 ### `mapPartition`
 
@@ -1460,6 +1656,8 @@ mapPartition
   };
 ```
 
+---
+
 ### `partitionWithKey`
 
 Split a map according to a predicate that can examine both key and value.
@@ -1479,6 +1677,8 @@ Returns a pair of maps, (matching, non-matching).
         };
       ```
 
+---
+
 ### `mapOption`
 
 Apply a partial function to all values in the map, keeping only the entries where the function returns 'some'.
@@ -1497,6 +1697,8 @@ mapOption
   };
 ```
 
+---
+
 ### `mapOptionWithKey`
 
 Same as mapOption but allows the function to examine the key as well.
@@ -1514,6 +1716,8 @@ mapOptionWithKey
     }
   };
 ```
+
+---
 
 ### `mapEither`
 
@@ -1534,6 +1738,8 @@ mapEither
   };
 ```
 
+---
+
 ### `mapEitherWithKey`
 
 Same as mapEither but allows the function to examine the key as well.
@@ -1553,9 +1759,13 @@ mapEitherWithKey
   };
 ```
 
+---
+
 ## Undefined values
 
 The term `undef` is a placeholder for unspecified values.
+
+---
 
 ### `undef`
 
@@ -1563,11 +1773,15 @@ The term `undef` is a placeholder for unspecified values.
 axiom undef {A} : A;
 ```
 
+---
+
 ### `TODO`
 
 ```juvix
 axiom TODO {A} : A;
 ```
+
+---
 
 ## `AVLTree`
 

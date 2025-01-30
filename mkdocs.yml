@@ -11,8 +11,6 @@ edit_uri: edit/main/docs/
 use_directory_urls: false
 nav:
   - Home: index.md
-  - ":material-file-document-check-outline: Latest version": https://specs.anoma.net/latest/
-  - ":material-file-document-edit-outline: Development version": https://specs.anoma.net/main/
   - Changelog: ./changelog.md
   - Disclaimer: ./disclaimer.md
   - Protocol Architecture:
@@ -87,6 +85,7 @@ nav:
                   - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
                   - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
           - Hardware Subsystem:
+              - ./arch/node/hardware/index.md
               - Local Key Value Storage Engine:
                   - Local Key Value Storage Engine: ./arch/node/engines/local_key_value_storage.juvix.md
                   - Local Key Value Storage Messages: ./arch/node/engines/local_key_value_storage_messages.juvix.md
@@ -325,8 +324,6 @@ theme:
     # - navigation.instant.progress
     # - navigation.instant.preview
     - navigation.tracking
-    # - navigation.tabs
-    # - navigation.tabs.sticky
     # - navigation.expand
     # - navigation.prune
     - navigation.indexes
@@ -347,7 +344,7 @@ plugins:
       FileTypeOverrides:
         mermaid: svg
   - tags:
-      tags_file: tags.md
+      tags_file: indexes/tags.md
       tags_slugify: !!python/object/apply:pymdownx.slugs.slugify
         kwds:
           case: lower

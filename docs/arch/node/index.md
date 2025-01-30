@@ -16,7 +16,6 @@ The specification is organized into the following sections:
 
 - [[Ordering Subsystem]]
 
-
 - [[Networking Subsystem]] (coming soon)
 
 
