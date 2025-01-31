@@ -6,11 +6,10 @@ tags:
   - node-architecture
   - types
   - engine
-  - concept
   - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.engine;
@@ -59,7 +58,7 @@ type Engine C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:Engine] -->
 
-???+ "Arguments"
+???+ quote "Arguments"
 
     `cfg`
     : the engine configuration,

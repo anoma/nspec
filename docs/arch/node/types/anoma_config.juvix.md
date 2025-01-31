@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+icon: material/id-card
 search:
   exclude: false
   boost: 2
@@ -11,7 +11,7 @@ tags:
   - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.anoma_config;

@@ -7,7 +7,7 @@ tags:
   - example
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_config;

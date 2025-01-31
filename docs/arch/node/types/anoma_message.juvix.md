@@ -1,5 +1,5 @@
 ---
-icon: material/file-document-outline
+icon: material/message-text
 search:
   exclude: false
 tags:
@@ -10,7 +10,7 @@ tags:
   - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.anoma_message;

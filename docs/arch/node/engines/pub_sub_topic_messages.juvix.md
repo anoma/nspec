@@ -10,7 +10,7 @@ tags:
   - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.pub_sub_topic_messages;
@@ -43,7 +43,7 @@ These are the messages that the *Pub/Sub Topic* engine can receive/respond to.
 A message published in a topic by an authorized publisher,
 forwarded to the local node.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `TopicMsgID`
 
@@ -147,7 +147,7 @@ type TopicSubRequest := mkTopicSubRequest@{
 
 Reply to a `TopicSubRequest`.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `TopicSubReplyOk`
 
@@ -190,7 +190,7 @@ type TopicUnsubRequest := mkTopicUnsubRequest@{
 
 Unsubscription successful.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `TopicUnsubReplyOk`
 

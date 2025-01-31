@@ -1,5 +1,5 @@
 ---
-icon: material/graph
+icon: material/devices
 search:
   exclude: false
   boost: 2

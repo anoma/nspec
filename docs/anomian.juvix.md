@@ -34,7 +34,7 @@ but we fully embrace [literate programming](https://www-cs-faculty.stanford.edu/
 This comes at the inconvenience of some lines of boilerplate here,
 but it can safely be skipped on a first reading.
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module anomian;

@@ -10,7 +10,7 @@ tags:
   - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.storage_messages;
@@ -87,7 +87,7 @@ type ChunkGetRequest := mkChunkRequest {
 
 Reply to a `ChunkGetRequest`.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `ChunkGetReplyOk`
 
@@ -136,7 +136,7 @@ ChunkGetReply : Type := Result ChunkGetReplyOk ChunkGetReplyError;
 
 Request to store a chunk. May be restricted to local engines.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `ChunkPutRequestOk`
 

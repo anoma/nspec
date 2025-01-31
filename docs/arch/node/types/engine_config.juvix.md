@@ -6,13 +6,11 @@ tags:
   - node-architecture
   - types
   - engine
-  - config
   - configuration
-  - concept
   - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.engine_config;

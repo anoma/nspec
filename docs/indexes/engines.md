@@ -1,10 +1,13 @@
 ---
-icon: material/tag
+icon: octicons/gear-16
 search:
   exclude: false
 tags:
+  - engine
   - index
 ---
+
+<!-- INFO: this page is meant to render online as it requires material-insiders -->
 
 # List of engines
 

@@ -8,7 +8,7 @@ tags:
   - index
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module prelude;

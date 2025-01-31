@@ -7,11 +7,10 @@ tags:
   - types
   - engine
   - behaviour
-  - concept
   - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.engine_behaviour;
@@ -137,7 +136,7 @@ type ActionInput C S B H A AM :=
 ```
 <!-- --8<-- [end:ActionInput] -->
 
-???+ "Arguments"
+???+ quote "Arguments"
 
     `args`
     : the action arguments,
@@ -175,7 +174,7 @@ type ActionEffect S B H AM AC AE :=
 ```
 <!-- --8<-- [end:ActionEffect] -->
 
-???+ "Arguments"
+???+ quote "Arguments"
 
     `env`
     : the engine environment,
@@ -233,7 +232,7 @@ type GuardOutput C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:GuardOutput] -->
 
-???+ "Arguments"
+???+ quote "Arguments"
 
     `action`
     : the action sequence to be executed,
@@ -286,7 +285,7 @@ type EngineBehaviour C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
 
-???+ "Arguments"
+???+ quote "Arguments"
 
     `guards`
     : the guards to be evaluated.

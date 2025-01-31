@@ -8,7 +8,7 @@ tags:
   - identity
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.system.identity.identity;

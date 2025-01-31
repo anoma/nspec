@@ -10,7 +10,7 @@ tags:
   - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.commitment_messages;

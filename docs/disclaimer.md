@@ -16,9 +16,9 @@ It is important to understand what this documentation is and what it is not.
 
 - The documentation is versioned, so refer to the specific version when
     discussing this documentation. Where is the version? Latest is not the
-    version, we use semver. Find the version in website title or the footer of the page.
+    version, we use semver. Find the version in website title or in the footer of any page.
 
-- This documentation is written in English, natural language in combination with
+- This documentation is written in natural language in combination with
     mathematical notation and Juvix code snippets (read more about it
     [below](#use-of-juvix)).
 
@@ -26,9 +26,9 @@ It is important to understand what this documentation is and what it is not.
 
 ### Purpose and scope
 
-Anoma specs outline the [[Protocol Architecture|protocol architecture]],
-providing a blueprint for the protocol and its components. It does **not
-include**:
+Anoma specs outline the [[Protocol Architecture|protocol architecture]].
+In other words, it provides a blueprint for the protocol and its components.
+It does **not** include:
 
 - The operating system Anoma says it will be, as this is not yet fully sketched.
 - The implementation, which is currently under development.
@@ -42,7 +42,7 @@ purpose of [any formal specification](#formal-specification-approach).
 
 ---
 
-### Development and Evolution
+### Development and evolution
 
 Some aspects of the Anoma system related to the protocol are not yet specified
 and will be added as they are developed. This is due to the ongoing evolution of

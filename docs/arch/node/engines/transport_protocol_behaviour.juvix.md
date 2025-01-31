@@ -7,10 +7,10 @@ tags:
   - network-subsystem
   - engine
   - transport
-  - engine-behaviour
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.transport_protocol_behaviour;

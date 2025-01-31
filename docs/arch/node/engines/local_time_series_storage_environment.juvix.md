@@ -4,13 +4,13 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - hardware
+  - hardware-subsystem
   - engine
   - local-time-series-storage
   - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_time_series_storage_environment;

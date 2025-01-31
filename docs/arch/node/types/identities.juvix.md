@@ -6,12 +6,10 @@ search:
 tags:
   - node-architecture
   - types
-  - network
-  - identity
   - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.identities;

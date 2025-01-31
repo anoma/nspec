@@ -3,13 +3,13 @@ icon: material/keyboard
 search:
   exclude: false
 tags:
-  - node-architecture
   - index
-  - types
   - juvix
 ---
 
-# Modules in Juvix
+# Modules
+
+All the Juvix modules for the Anoma Specification are listed below.
 
 ## Juvix Package version
 

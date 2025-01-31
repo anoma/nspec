@@ -1,5 +1,5 @@
 ---
-icon: material/graph
+icon: material/order-alphabetical-ascending
 search:
   exclude: false
   boost: 2
@@ -9,12 +9,20 @@ tags:
   - index
 ---
 
-???+ quote "Juvix imports"
+???+ code "Juvix imports"
 
   ```juvix
-  module arch.node.ordering.index;
+  module arch.node.subsystems.ordering;
+  import arch.node.engines.executor open;
+  import arch.node.engines.mempool_worker open;
   ```
 
 # Ordering Subsystem
 
+---
+
+## Purpose
+
 The *Ordering Subsystem* is responsible for ordering transactions in the node.
+
+---

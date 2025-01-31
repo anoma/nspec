@@ -12,7 +12,7 @@ tags:
 ---
 
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.router;
@@ -44,7 +44,7 @@ type NodeAdvert :=
   };
 ```
 
-???+ "Arguments"
+???+ quote "Arguments"
 
     `id`
     : Node identity.
@@ -82,7 +82,7 @@ type TopicAdvert :=
   };
 ```
 
-???+ "Arguments"
+???+ quote "Arguments"
 
     `id`
     : Topic identity.

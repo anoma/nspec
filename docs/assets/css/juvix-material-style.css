@@ -1,6 +1,6 @@
-html {
+/* html {
   overflow-y: scroll;
-}
+} */
 
 .md-banner--warning {
   background-color: #838282;
@@ -11,8 +11,8 @@ html {
   --md-juvix-inductive: #40a02b;
   --md-juvix-constructor: #8839ef;
   --md-juvix-function: #fe640b;
-  --md-juvix-axiom: #d20f39;
-  --md-juvix-string: #e64553;
+  --md-juvix-axiom: #e60c3b;
+  --md-juvix-string: #e6606b;
   --md-juvix-keyword: #04a5e5;
   --md-juvix-delimiter: #5c5f77;
   --md-juvix-var: #179299;
@@ -107,7 +107,7 @@ a.version-link {
 [data-md-color-scheme=slate][data-md-color-primary=blue-grey],
 [data-md-color-scheme=slate][data-md-color-primary=grey],
 [data-md-color-scheme=slate][data-md-color-primary=white] {
-  --md-typeset-a-color: #ff1947;
+  --md-typeset-a-color: #fa335b;
   --md-juvix-inductive: #a6da95;
   --md-juvix-constructor: #c6a0f6;
   --md-juvix-function: #eed49f;
@@ -124,10 +124,11 @@ a.version-link {
   --md-juvix-codeblock-footer: #535354;
 }
 
+/* 
 .md-typeset pre {
   margin: 0;
   padding: 0;
-}
+} */
 
 .md-typeset .tabbed-set {
   margin: 0;

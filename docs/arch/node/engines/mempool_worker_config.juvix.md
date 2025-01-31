@@ -10,7 +10,7 @@ tags:
   - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.mempool_worker_config;

@@ -10,7 +10,7 @@ tags:
   - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_key_value_storage_environment;

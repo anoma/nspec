@@ -5,7 +5,11 @@ plugins:
   - offline:
       enabled: !ENV [OFFLINE, false]
   - search:
-      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+      lang: en
+      pipeline:
+        - stemmer
+        - stopWordFilter
+        - trimmer
   - social
   - tags:
       tags_file: tags.md

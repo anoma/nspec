@@ -3,14 +3,14 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- node-architecture
-- types
-- engine
-- environment
-- concept
+  - node-architecture
+  - types
+  - engine
+  - environment
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.engine_environment;
@@ -58,7 +58,7 @@ type EngineEnv S B H AM :=
 ```
 <!-- --8<-- [end:EngineEnv] -->
 
-???+ "Arguments"
+???+ quote "Arguments"
 
     `localState`
     : the local state,

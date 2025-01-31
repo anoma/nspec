@@ -9,7 +9,7 @@ tags:
   - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.net_registry_environment;

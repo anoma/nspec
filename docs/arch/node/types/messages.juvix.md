@@ -8,6 +8,7 @@ tags:
   - types
   - message-types
   - mailboxes
+  - prelude
 ---
 
 ??? quote "Juvix imports"

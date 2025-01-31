@@ -6,5 +6,6 @@ tags:
   - index
 ---
 
-# Tags
+# List of tags
 
+<!-- material/tags { exclude: [changelog, git, conventions, tutorial, index, , juvix] } -->

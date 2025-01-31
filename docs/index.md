@@ -5,6 +5,7 @@ social:
   cards: false
 hide:
   - toc
+  - tags
 tags:
   - index
 search:
