@@ -4,7 +4,7 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - network-subsystem
+  - hardware-subsystem
   - engine
   - wall-clock-engine
   - environment

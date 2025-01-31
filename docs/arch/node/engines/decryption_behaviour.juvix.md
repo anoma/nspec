@@ -313,11 +313,15 @@ decryptAction
 
 ## Action Labels
 
+---
+
 ### `decryptActionLabel`
 
 ```juvix
 decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
 ```
+
+---
 
 ## Guards
 
@@ -356,6 +360,8 @@ decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
         Anoma.Env;
     ```
     <!-- --8<-- [end:DecryptionGuardOutput] -->
+
+    ---
 
     ### `DecryptionGuardEval`
 
@@ -400,6 +406,8 @@ decryptGuard
 
 ## The Decryption Behavior
 
+---
+
 ### `DecryptionBehaviour`
 
 <!-- --8<-- [start:DecryptionBehaviour] -->
@@ -416,6 +424,8 @@ DecryptionBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:DecryptionBehaviour] -->
+
+---
 
 ### Instantiation
 

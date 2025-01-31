@@ -5,7 +5,6 @@ search:
   boost: 2
 tags:
   - node-architecture
-  - types
   - prelude
   - index
 ---

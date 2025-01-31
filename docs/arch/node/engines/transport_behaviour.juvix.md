@@ -28,13 +28,19 @@ tags:
 
 # Transport Behaviour
 
+---
+
 ## Overview
 
 A transport engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
 
+---
+
 ## Transport Action Flowchart
+
+---
 
 ### `exampleReply` Flowchart
 
@@ -66,10 +72,14 @@ flowchart TD
 </figure>
 
 
+---
+
 ## Action arguments
 
 The action arguments are set by a guard
 and passed to the action function as part of the `GuardOutput`.
+
+---
 
 ### `TransportActionArguments`
 
@@ -78,6 +88,8 @@ and passed to the action function as part of the `GuardOutput`.
 TransportActionArguments : Type := Unit;
 ```
 <!-- --8<-- [end:TransportActionArguments] -->
+
+---
 
 ## Actions
 
@@ -147,6 +159,8 @@ TransportActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:TransportActionExec] -->
 
+---
+
 #### `exampleReplyAction`
 
 Respond with a `TransportMsgExampleReply`.
@@ -205,13 +219,19 @@ exampleReplyAction
 ```
 <!-- --8<-- [end:exampleReplyAction] -->
 
+---
+
 ## Action Labels
+
+---
 
 ### `exampleReplyActionLabel`
 
 ```juvix
 exampleReplyActionLabel : TransportActionExec := Seq [ exampleReplyAction ];
 ```
+
+---
 
 ## Guards
 
@@ -268,6 +288,8 @@ exampleReplyActionLabel : TransportActionExec := Seq [ exampleReplyAction ];
     ```
     <!-- --8<-- [end:TransportGuardEval] -->
 
+---
+
 ### `exampleReplyGuard`
 
 Guard description (optional).
@@ -296,7 +318,11 @@ exampleReplyGuard
 ```
 <!-- --8<-- [end:exampleReplyGuard] -->
 
+---
+
 ## The Transport behaviour
+
+---
 
 ### `TransportBehaviour`
 
@@ -314,6 +340,8 @@ TransportBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:TransportBehaviour] -->
+
+---
 
 #### Instantiation
 

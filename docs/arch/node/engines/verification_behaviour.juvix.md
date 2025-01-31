@@ -4,7 +4,7 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - network-subsystem
+  - identity-subsystem
   - engine
   - verification
   - behaviour
@@ -30,12 +30,18 @@ tags:
 
 # Verification Behaviour
 
+---
+
 ## Overview
 
 The behavior of the Verification Engine defines how it processes incoming verification
 requests and produces the corresponding responses.
 
+---
+
 ## Action arguments
+
+---
 
 ### `ReplyTo`
 
@@ -57,6 +63,8 @@ response message should be sent.
     `mailbox`:
     : The mailbox ID where the response should be sent.
 
+---
+
 ### `VerificationActionArgument`
 
 <!-- --8<-- [start:VerificationActionArgument] -->
@@ -67,6 +75,8 @@ type VerificationActionArgument :=
 ```
 <!-- --8<-- [end:VerificationActionArgument] -->
 
+---
+
 ### `VerificationActionArguments`
 
 <!-- --8<-- [start:verification-action-arguments] -->
@@ -74,6 +84,8 @@ type VerificationActionArgument :=
 VerificationActionArguments : Type := List VerificationActionArgument;
 ```
 <!-- --8<-- [end:verification-action-arguments] -->
+
+---
 
 ## Actions
 
@@ -134,6 +146,8 @@ VerificationActionArguments : Type := List VerificationActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+
+---
 
 #### `verifyAction`
 
@@ -221,6 +235,8 @@ verifyAction
   };
 ```
 
+---
+
 #### `handleSignsForReplyAction`
 
 Process a signs-for response and handle pending requests.
@@ -294,7 +310,11 @@ handleSignsForReplyAction
   };
 ```
 
+---
+
 ## Action Labels
+
+---
 
 ### `verifyActionLabel`
 
@@ -302,11 +322,15 @@ handleSignsForReplyAction
 verifyActionLabel : VerificationActionExec := Seq [ verifyAction ];
 ```
 
+---
+
 ### `handleSignsForReplyActionLabel`
 
 ```juvix
 handleSignsForReplyActionLabel : VerificationActionExec := Seq [ handleSignsForReplyAction ];
 ```
+
+---
 
 ## Guards
 
@@ -363,6 +387,8 @@ handleSignsForReplyActionLabel : VerificationActionExec := Seq [ handleSignsForR
     ```
     <!-- --8<-- [end:VerificationGuardEval] -->
 
+---
+
 #### `verifyGuard`
 
 Condition
@@ -387,6 +413,8 @@ verifyGuard
   };
 ```
 <!-- --8<-- [end:verifyGuard] -->
+
+---
 
 #### `signsForReplyGuard`
 
@@ -421,7 +449,11 @@ signsForReplyGuard
 ```
 <!-- --8<-- [end:signsForReplyGuard] -->
 
+---
+
 ## The Verification Behaviour
+
+---
 
 ### `VerificationBehaviour`
 
@@ -440,6 +472,8 @@ VerificationBehaviour : Type :=
 ```
 <!-- --8<-- [end:VerificationBehaviour] -->
 
+---
+
 ### Instantiation
 
 <!-- --8<-- [start:verificationBehaviour] -->
@@ -454,7 +488,11 @@ verificationBehaviour : VerificationBehaviour :=
 ```
 <!-- --8<-- [end:verificationBehaviour] -->
 
+---
+
 ## Verification Action Flowchart
+
+---
 
 ### `verifyAction` flowchart
 
@@ -478,6 +516,8 @@ flowchart TD
 `verifyAction` flowchart
 </figcaption>
 </figure>
+
+---
 
 ### `handleSignsForReplyAction` flowchart
 

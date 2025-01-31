@@ -42,6 +42,8 @@ encryption requests and produces the corresponding responses.
 
 ## Encryption Action Flowchart
 
+---
+
 ### `encryptAction` flowchart
 
 <figure markdown>

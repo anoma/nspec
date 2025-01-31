@@ -29,12 +29,18 @@ tags:
 
 # Ticker Behaviour
 
+---
+
 ## Overview
 
 The Ticker engine maintains a counter as local state and allows two actions:
 incrementing the counter and sending the current counter value.
 
+---
+
 ## Action arguments
+
+---
 
 ### `TickerActionArgumentReplyTo ReplyTo`
 
@@ -56,6 +62,8 @@ response message should be sent.
     `mailbox`:
     : is the mailbox ID where the response message should be sent.
 
+---
+
 ### `TickerActionArgument`
 
 <!-- --8<-- [start:TickerActionArgument] -->
@@ -66,6 +74,8 @@ type TickerActionArgument :=
 ```
 <!-- --8<-- [end:TickerActionArgument] -->
 
+---
+
 ### `TickerActionArguments`
 
 <!-- --8<-- [start:ticker-action-arguments] -->
@@ -73,6 +83,8 @@ type TickerActionArgument :=
 TickerActionArguments : Type := List TickerActionArgument;
 ```
 <!-- --8<-- [end:ticker-action-arguments] -->
+
+---
 
 ## Actions
 
@@ -135,6 +147,8 @@ TickerActionArguments : Type := List TickerActionArgument;
     ```
 
 
+---
+
 #### `incrementAction`
 
 Increment the counter.
@@ -170,6 +184,8 @@ incrementAction
     }
 ```
 
+
+---
 
 #### `countReplyAction`
 
@@ -222,7 +238,11 @@ countReplyAction
     };
 ```
 <!-- --8<-- [end:countReplyAction] -->
+---
+
 ## Action Labels
+
+---
 
 ### `incrementActionLabel`
 
@@ -230,11 +250,15 @@ countReplyAction
 incrementActionLabel : TickerActionExec :=  Seq [ incrementAction ];
 ```
 
+---
+
 ### `countReplyActionLabel`
 
 ```juvix
 countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
 ```
+
+---
 
 ## Guards
 
@@ -292,6 +316,8 @@ countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
     <!-- --8<-- [end:TickerGuardEval] -->
 
 
+---
+
 #### `incrementGuard`
 
 Condition
@@ -320,6 +346,8 @@ incrementGuard
 ```
 <!-- --8<-- [end:incrementGuard] -->
 
+---
+
 #### `countReplyGuard`
 
 Condition
@@ -344,7 +372,11 @@ countReplyGuard
 ```
 <!-- --8<-- [end:countReplyGuard] -->
 
+---
+
 ## The Ticker behaviour
+
+---
 
 ### `TickerBehaviour`
 
@@ -363,6 +395,8 @@ TickerBehaviour : Type :=
 ```
 <!-- --8<-- [end:TickerBehaviour] -->
 
+---
+
 #### Instantiation
 
 <!-- --8<-- [start:tickerBehaviour] -->
@@ -378,7 +412,11 @@ tickerBehaviour : TickerBehaviour :=
 ```
 <!-- --8<-- [end:tickerBehaviour] -->
 
+---
+
 ## Ticker Action Flowchart
+
+---
 
 ### `incrementAction` flowchart
 
@@ -408,6 +446,8 @@ flowchart TD
 </figcaption>
 </figure>
 
+
+---
 
 ### `countReplyAction` flowchart
 

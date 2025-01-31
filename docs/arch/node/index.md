@@ -4,12 +4,6 @@ search:
   exclude: false
   boost: 2
 tags:
-  - node-architecture
-  - subsystem-subsystem
-  - hardware-subsystem
-  - identity-subsystem
-  - ordering-subsystem
-  - network-subsystem
   - index
 ---
 
@@ -26,6 +20,9 @@ The specification is organized into the following sections:
 
 - [[Network Subsystem]]
 
+---
+
+## Message Flow
 
 <figure markdown>
 
@@ -38,3 +35,5 @@ Intent/transaction candidate flowchart.
 
 </figcaption>
 </figure>
+
+---

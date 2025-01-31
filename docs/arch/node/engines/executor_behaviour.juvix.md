@@ -34,7 +34,8 @@ tags:
 
 ## Overview
 
-The executor behaviour defines how it processes incoming read responses and performs state transitions to execute the transaction program.
+The executor behaviour defines how it processes incoming read responses and
+performs state transitions to execute the transaction program.
 
 ---
 

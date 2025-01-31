@@ -26,7 +26,11 @@ tags:
     import arch.node.types.anoma as Anoma open;
     ```
 
+---
+
 # Transport Protocol Behaviour
+
+---
 
 ## Overview
 
@@ -34,7 +38,11 @@ A *Transport Protocol* engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
 
+---
+
 ## Transport Protocol Action Flowchart
+
+---
 
 ### `exampleReply` Flowchart
 
@@ -65,10 +73,14 @@ flowchart TD
 </figcaption>
 </figure>
 
+---
+
 ## Action arguments
 
 The action arguments are set by a guard
 and passed to the action function as part of the `GuardOutput`.
+
+---
 
 ### `TransportProtocolActionArguments`
 
@@ -77,6 +89,8 @@ and passed to the action function as part of the `GuardOutput`.
 TransportProtocolActionArguments : Type := Unit;
 ```
 <!-- --8<-- [end:TransportProtocolActionArguments] -->
+
+---
 
 ## Actions
 
@@ -146,6 +160,8 @@ TransportProtocolActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:TransportProtocolActionExec] -->
 
+---
+
 #### `exampleReplyAction`
 
 Respond with a `TransportProtocolMsgExampleReply`.
@@ -204,13 +220,19 @@ exampleReplyAction
 ```
 <!-- --8<-- [end:exampleReplyAction] -->
 
+---
+
 ## Action Labels
+
+---
 
 ### `exampleReplyActionLabel`
 
 ```juvix
 exampleReplyActionLabel : TransportProtocolActionExec := Seq [ exampleReplyAction ];
 ```
+
+---
 
 ## Guards
 
@@ -267,6 +289,8 @@ exampleReplyActionLabel : TransportProtocolActionExec := Seq [ exampleReplyActio
     ```
     <!-- --8<-- [end:TransportProtocolGuardEval] -->
 
+---
+
 ### `exampleReplyGuard`
 
 Guard description (optional).
@@ -295,7 +319,11 @@ exampleReplyGuard
 ```
 <!-- --8<-- [end:exampleReplyGuard] -->
 
+---
+
 ## The Transport Protocol behaviour
+
+---
 
 ### `TransportProtocolBehaviour`
 
@@ -313,6 +341,8 @@ TransportProtocolBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:TransportProtocolBehaviour] -->
+
+---
 
 #### Instantiation
 

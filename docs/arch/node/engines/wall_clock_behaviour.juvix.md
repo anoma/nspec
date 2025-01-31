@@ -4,7 +4,7 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - network-subsystem
+  - hardware-subsystem
   - engine
   - wall-clock-engine
   - behaviour
@@ -29,14 +29,20 @@ tags:
 
 # Wall Clock Behaviour
 
+---
+
 ## Overview
 
 The behavior of the Wall Clock Engine defines how it processes get time requests
 and produces time results using the current wall clock time.
 
+---
+
 ## Action arguments
 
-### `WallClockActionArgumentFrom MessageFrom`
+---
+
+### `MessageFrom`
 
 <!-- --8<-- [start:MessageFrom] -->
 ```juvix
@@ -52,8 +58,10 @@ type MessageFrom := mkMessageFrom@{
     `whoAsked`:
     : The engine ID of the requester.
 
-`mailbox`:
+    `mailbox`:
     : The mailbox ID where the response message should be sent.
+
+---
 
 ### `WallClockActionArgument`
 
@@ -64,6 +72,8 @@ type WallClockActionArgument :=
 ```
 <!-- --8<-- [end:WallClockActionArgument] -->
 
+---
+
 ### `WallClockActionArguments`
 
 <!-- --8<-- [start:wall-clock-action-arguments] -->
@@ -71,6 +81,8 @@ type WallClockActionArgument :=
 WallClockActionArguments : Type := List WallClockActionArgument;
 ```
 <!-- --8<-- [end:wall-clock-action-arguments] -->
+
+---
 
 ## Actions
 
@@ -108,7 +120,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```
     <!-- --8<-- [end:WallClockActionInput] -->
 
-    ### WallClockActionEffect
+    ### `WallClockActionEffect`
 
     <!-- --8<-- [start:WallClockActionEffect] -->
     ```juvix
@@ -123,7 +135,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```
     <!-- --8<-- [end:WallClockActionEffect] -->
 
-    ### WallClockActionExec
+    ### `WallClockActionExec`
 
     <!-- --8<-- [start:WallClockActionExec] -->
     ```juvix
@@ -139,6 +151,8 @@ WallClockActionArguments : Type := List WallClockActionArgument;
         Anoma.Env;
     ```
     <!-- --8<-- [end:WallClockActionExec] -->
+
+---
 
 ### `getTimeAction`
 
@@ -197,13 +211,19 @@ getTimeAction
 ```
 <!-- --8<-- [end:getTimeAction] -->
 
+---
+
 ## Action Labels
+
+---
 
 ### `getTimeActionLabel`
 
 ```juvix
 getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
 ```
+
+---
 
 ## Guards
 
@@ -260,6 +280,8 @@ getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
     ```
     <!-- --8<-- [end:WallClockGuardEval] -->
 
+---
+
 ### `getTimeGuard`
 
 Condition
@@ -284,7 +306,11 @@ getTimeGuard
 ```
 <!-- --8<-- [end:getTimeGuard] -->
 
+---
+
 ## The Wall Clock behaviour
+
+---
 
 ### `WallClockBehaviour`
 
@@ -303,6 +329,8 @@ WallClockBehaviour : Type :=
 ```
 <!-- --8<-- [end:WallClockBehaviour] -->
 
+---
+
 #### Instantiation
 
 <!-- --8<-- [start:wallClockBehaviour] -->
@@ -316,7 +344,11 @@ wallClockBehaviour : WallClockBehaviour :=
 ```
 <!-- --8<-- [end:wallClockBehaviour] -->
 
+---
+
 ## Wall Clock Action Flowchart
+
+---
 
 ### `getTime` Flowchart
 

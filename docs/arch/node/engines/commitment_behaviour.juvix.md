@@ -40,6 +40,8 @@ commitment requests and produces the corresponding commitments/signatures.
 
 ## Commitment Action Flowchart
 
+---
+
 ### `commitAction` flowchart
 
 <figure markdown>

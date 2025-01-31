@@ -26,7 +26,11 @@ tags:
     import arch.node.types.anoma as Anoma open;
     ```
 
+---
+
 # Router Behaviour
+
+---
 
 ## Overview
 
@@ -34,7 +38,11 @@ A router engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
 
+---
+
 ## Router Action Flowchart
+
+---
 
 ### `exampleReply` Flowchart
 
@@ -66,10 +74,14 @@ flowchart TD
 </figure>
 
 
+---
+
 ## Action arguments
 
 The action arguments are set by a guard
 and passed to the action function as part of the `GuardOutput`.
+
+---
 
 ### `RouterActionArguments`
 
@@ -79,9 +91,13 @@ RouterActionArguments : Type := Unit;
 ```
 <!-- --8<-- [end:RouterActionArguments] -->
 
+---
+
 ## Actions
 
 ??? code "Auxiliary Juvix code"
+
+    ---
 
     ### `RouterAction`
 
@@ -100,6 +116,8 @@ RouterActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:RouterAction] -->
 
+    ---
+
     ### `RouterActionInput`
 
     <!-- --8<-- [start:RouterActionInput] -->
@@ -115,6 +133,8 @@ RouterActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:RouterActionInput] -->
 
+    ---
+
     ### `RouterActionEffect`
 
     <!-- --8<-- [start:RouterActionEffect] -->
@@ -129,6 +149,8 @@ RouterActionArguments : Type := Unit;
         Anoma.Env;
     ```
     <!-- --8<-- [end:RouterActionEffect] -->
+
+    ---
 
     ### `RouterActionExec`
 
@@ -146,6 +168,8 @@ RouterActionArguments : Type := Unit;
         Anoma.Env;
     ```
     <!-- --8<-- [end:RouterActionExec] -->
+
+---
 
 #### `exampleReplyAction`
 
@@ -205,13 +229,19 @@ exampleReplyAction
 ```
 <!-- --8<-- [end:exampleReplyAction] -->
 
+---
+
 ## Action Labels
+
+---
 
 ### `exampleReplyActionLabel`
 
 ```juvix
 exampleReplyActionLabel : RouterActionExec := Seq [ exampleReplyAction ];
 ```
+
+---
 
 ## Guards
 
@@ -268,6 +298,8 @@ exampleReplyActionLabel : RouterActionExec := Seq [ exampleReplyAction ];
     ```
     <!-- --8<-- [end:RouterGuardEval] -->
 
+---
+
 ### `exampleReplyGuard`
 
 Guard description (optional).
@@ -296,7 +328,11 @@ exampleReplyGuard
 ```
 <!-- --8<-- [end:exampleReplyGuard] -->
 
+---
+
 ## The Router behaviour
+
+---
 
 ### `RouterBehaviour`
 
@@ -314,6 +350,8 @@ RouterBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:RouterBehaviour] -->
+
+---
 
 #### Instantiation
 
