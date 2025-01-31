@@ -27,19 +27,27 @@ tags:
     import arch.node.types.messages open;
     ```
 
+---
+
 # Encryption Behaviour
+
+---
 
 ## Overview
 
 The behavior of the Encryption Engine defines how it processes incoming
 encryption requests and produces the corresponding responses.
 
+---
+
 ## Action arguments
+
+---
 
 ### `EncryptionActionArgumentReplyTo ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
@@ -48,11 +56,15 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: is the address of the engine that sent the message.
+???+ code "Arguments"
 
-`mailbox`:
-: is the mailbox ID where the response message should be sent.
+    `whoAsked`:
+    : is the address of the engine that sent the message.
+
+    `mailbox`:
+    : is the mailbox ID where the response message should be sent.
+
+---
 
 ### `EncryptionActionArgument`
 
@@ -64,6 +76,8 @@ type EncryptionActionArgument :=
 ```
 <!-- --8<-- [end:EncryptionActionArgument] -->
 
+---
+
 ### `EncryptionActionArguments`
 
 <!-- --8<-- [start:encryption-action-arguments] -->
@@ -72,9 +86,13 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
 ```
 <!-- --8<-- [end:encryption-action-arguments] -->
 
+---
+
 ## Actions
 
 ??? code "Auxiliary Juvix code"
+
+    ---
 
     ### `EncryptionAction`
 
@@ -91,6 +109,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Env;
     ```
 
+    ---
+
     ### `EncryptionActionInput`
 
     ```juvix
@@ -104,6 +124,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Msg;
     ```
 
+    ---
+
     ### `EncryptionActionEffect`
 
     ```juvix
@@ -116,6 +138,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+
+    ---
 
     ### `EncryptionActionExec`
 
@@ -131,6 +155,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+
+---
 
 ### `encryptAction`
 
@@ -225,6 +251,8 @@ encryptAction
     };
 ```
 
+---
+
 ### `handleReadsForReplyAction`
 
 Process reads-for evidence response.
@@ -293,7 +321,11 @@ handleReadsForReplyAction
     };
 ```
 
+---
+
 ## Action Labels
+
+---
 
 ### `encryptActionLabel`
 
@@ -301,15 +333,21 @@ handleReadsForReplyAction
 encryptActionLabel : EncryptionActionExec := Seq [ encryptAction ];
 ```
 
+---
+
 ### `handleReadsForReplyActionLabel`
 
 ```juvix
 handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForReplyAction ];
 ```
 
+---
+
 ## Guards
 
 ??? code "Auxiliary Juvix code"
+
+    ---
 
     ### `EncryptionGuard`
 
@@ -328,6 +366,8 @@ handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForRep
     ```
     <!-- --8<-- [end:EncryptionGuard] -->
 
+    ---
+
     ### `EncryptionGuardOutput`
 
     <!-- --8<-- [start:EncryptionGuardOutput] -->
@@ -344,6 +384,8 @@ handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForRep
         Anoma.Env;
     ```
     <!-- --8<-- [end:EncryptionGuardOutput] -->
+
+---
 
 ### `encryptGuard`
 
@@ -369,6 +411,8 @@ encryptGuard
   };
 ```
 <!-- --8<-- [end:encryptGuard] -->
+
+---
 
 ### `readsForReplyGuard`
 
@@ -397,7 +441,11 @@ readsForReplyGuard
 ```
 <!-- --8<-- [end:readsForReplyGuard] -->
 
+---
+
 ## The Encryption Behaviour
+
+---
 
 ### `EncryptionBehaviour`
 
@@ -416,6 +464,8 @@ EncryptionBehaviour : Type :=
 ```
 <!-- --8<-- [end:EncryptionBehaviour] -->
 
+---
+
 ### Instantiation
 
 <!-- --8<-- [start:encryptionBehaviour] -->
@@ -430,6 +480,8 @@ encryptionBehaviour : EncryptionBehaviour :=
   };
 ```
 <!-- --8<-- [end:encryptionBehaviour] -->
+
+---
 
 ## Encryption Action Flowcharts
 

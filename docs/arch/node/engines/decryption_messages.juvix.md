@@ -18,11 +18,17 @@ tags:
     import arch.node.types.identities open;
     ```
 
+---
+
 # Decryption Messages
+
+---
 
 ## Message interface
 
 --8<-- "./decryption_messages.juvix.md:DecryptionMsg"
+
+---
 
 ## Message sequence diagrams
 
