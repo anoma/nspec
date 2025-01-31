@@ -55,7 +55,7 @@ type EncryptionLocalState := mkEncryptionLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `pendingRequests`:
     : The backlog of encryption requests still in processing.

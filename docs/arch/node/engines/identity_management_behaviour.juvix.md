@@ -319,7 +319,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### IdentityManagementAction
 
@@ -781,7 +781,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `IdentityManagementGuard`
 

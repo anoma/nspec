@@ -30,7 +30,7 @@ tags:
 
 The Identity Management Engine's environment maintains the state necessary for managing identities, including information about connected identities, backends, and capabilities.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     axiom genDecryptor : Backend -> Decryptor Backend Plaintext Ciphertext;
@@ -62,7 +62,7 @@ type IdentityInfo := mkIdentityInfo@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `backend`:
     : The backend associated with this identity.
@@ -84,7 +84,7 @@ type IdentityManagementLocalState := mkIdentityManagementLocalState {
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `identities`:
     : Map of engine IDs to their corresponding identity information.

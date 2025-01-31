@@ -114,7 +114,7 @@ type RequestResolveName := mkRequestResolveName {
 A `RequestResolveName` asks the Naming Engine which `ExternalIdentity`s are
 associated with a given `IdentityName`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `identityName`:
     : The name to resolve.
 
@@ -131,7 +131,7 @@ type ReplyResolveName := mkReplyResolveName {
 
 A `ReplyResolveName` is returned in response to a `RequestResolveName`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentities`:
     : A set of `ExternalIdentity`s associated with the `IdentityName`.
@@ -152,7 +152,7 @@ type RequestSubmitNameEvidence := mkRequestSubmitNameEvidence {
 A `RequestSubmitNameEvidence` instructs the Naming Engine to store a new piece
 of `IdentityNameEvidence`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidence`:
     : The evidence supporting the association between an `IdentityName` and an `ExternalIdentity`.
@@ -169,7 +169,7 @@ type ReplySubmitNameEvidence := mkReplySubmitNameEvidence {
 
 A `ReplySubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `err`:
     : An error message if the submission failed.
 
@@ -187,7 +187,7 @@ A `RequestQueryNameEvidence` instructs the Naming Engine to return any known
 `IdentityName`s and `IdentityNameEvidence` associated with a specific
 `ExternalIdentity`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `externalIdentity`:
     : The identity for which to retrieve evidence.
 
@@ -205,7 +205,7 @@ type ReplyQueryNameEvidence := mkReplyQueryNameEvidence {
 
 A `ReplyQueryNameEvidence` provides the requested evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The `ExternalIdentity` associated with the returned evidence.

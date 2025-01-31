@@ -54,7 +54,7 @@ Sequence diagram: Wall Clock time request & response
 
 ## Message types
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias StorageKey := String;
@@ -83,7 +83,7 @@ type TimeResult :=
 ```
 <!-- --8<-- [end:TimeResult] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `epochTime`
     : The current time in epoch format (seconds/milliseconds since epoch)

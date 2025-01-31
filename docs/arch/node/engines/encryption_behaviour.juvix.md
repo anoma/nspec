@@ -74,7 +74,7 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `EncryptionAction`
 
@@ -309,7 +309,7 @@ handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForRep
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `EncryptionGuard`
 

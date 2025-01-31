@@ -37,7 +37,7 @@ syntax alias LocalTSStorageMailboxState := Unit;
 
 ## Local state
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias Database := String; -- Abstract DB type
@@ -60,7 +60,7 @@ type LocalTSStorageLocalState :=
 ```
 <!-- --8<-- [end:LocalTSStorageLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `db`
     : The database storing the time series data.

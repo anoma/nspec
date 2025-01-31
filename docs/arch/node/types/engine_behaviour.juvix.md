@@ -136,7 +136,7 @@ type ActionInput C S B H A AM :=
 ```
 <!-- --8<-- [end:ActionInput] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `args`
     : the action arguments,
@@ -174,7 +174,7 @@ type ActionEffect S B H AM AC AE :=
 ```
 <!-- --8<-- [end:ActionEffect] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `env`
     : the engine environment,
@@ -232,7 +232,7 @@ type GuardOutput C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:GuardOutput] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `action`
     : the action sequence to be executed,
@@ -285,7 +285,7 @@ type EngineBehaviour C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `guards`
     : the guards to be evaluated.

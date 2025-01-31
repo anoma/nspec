@@ -58,7 +58,7 @@ type Engine C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:Engine] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `cfg`
     : the engine configuration,

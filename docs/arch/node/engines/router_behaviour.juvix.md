@@ -81,7 +81,7 @@ RouterActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `RouterAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : RouterActionExec := Seq [ exampleReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `RouterGuard`
 

@@ -77,7 +77,7 @@ type TransactionRequest KVSKey Executable :=
 ```
 <!-- --8<-- [end:TransactionRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `tx`
     : The transaction candidate to be ordered and executed.
@@ -106,7 +106,7 @@ type TransactionAck :=
 ```
 <!-- --8<-- [end:TransactionAck] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `tx_hash`
     : The hash of the acknowledged transaction candidate (Currently unused).

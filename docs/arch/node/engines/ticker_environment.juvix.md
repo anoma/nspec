@@ -12,7 +12,7 @@ tags:
 
 # Ticker Environment
 
-??? quote "Juvix preamble"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.ticker_environment;
@@ -46,7 +46,7 @@ type TickerLocalState := mkTickerLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `counter`:
     : The counter value.

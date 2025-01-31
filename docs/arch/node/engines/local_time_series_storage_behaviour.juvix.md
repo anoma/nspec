@@ -53,7 +53,7 @@ LocalTSStorageActionArguments : Type := List LocalTSStorageActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalTSStorageAction`
 
@@ -384,7 +384,7 @@ deleteDataActionLabel : LocalTSStorageActionExec := Seq [ deleteDataAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalTSStorageGuard`
 

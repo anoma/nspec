@@ -45,7 +45,7 @@ type DecryptionCfg := mkDecryptionCfg@{
 ```
 <!-- --8<-- [end:DecryptionCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `decryptor`:
     : The decryptor for the decrypting.

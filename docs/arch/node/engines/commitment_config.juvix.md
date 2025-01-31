@@ -50,7 +50,7 @@ type CommitmentCfg := mkCommitmentCfg@{
 ```
 <!-- --8<-- [end:CommitmentCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `signer`:
     : The signer for the identity.

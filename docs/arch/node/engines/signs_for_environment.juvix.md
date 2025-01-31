@@ -29,7 +29,7 @@ tags:
 
 The SignsFor Engine environment maintains the state necessary for managing `signs_for` relationships between identities, including storing evidence submitted by clients.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     axiom verifyEvidence : SignsForEvidence -> Bool;
@@ -57,7 +57,7 @@ type SignsForLocalState := mkSignsForLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidenceStore`:
     : The collection of validated `SignsForEvidence` which has been submitted to the engine.

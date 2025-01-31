@@ -48,7 +48,7 @@ type ReplyTo := mkReplyTo@{
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-???+ quote "Argument description"
+???+ code "Arguments"
 
     `whoAsked`:
     : is the address of the engine that sent the message.
@@ -76,7 +76,7 @@ TickerActionArguments : Type := List TickerActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ## `TickerAction`
 
@@ -238,7 +238,7 @@ countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TickerGuard`
 

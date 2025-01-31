@@ -81,7 +81,7 @@ StorageActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `StorageAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : StorageActionExec := Seq [ exampleReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `StorageGuard`
 

@@ -53,7 +53,7 @@ type LoggingLocalState :=
 ```
 <!-- --8<-- [end:LoggingLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `logbook`
     : List of log entries stored as strings.

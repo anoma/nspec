@@ -48,7 +48,7 @@ type ExecutorCfg KVSKey Executable :=
 ```
 <!-- --8<-- [end:ExecutorCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The logical timestamp representing when this transaction executes in the

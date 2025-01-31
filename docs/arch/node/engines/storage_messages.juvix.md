@@ -69,7 +69,7 @@ type ChunkGetRequest := mkChunkRequest {
 }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `chunk`
     : Chunk ID
@@ -103,7 +103,7 @@ Reply to a `ChunkGetRequest`.
       ;
     ```
 
-    ???+ quote "`ChunkGetReplyOk` constructors"
+    ???+ code "`ChunkGetReplyOk` constructors"
 
         `ChunkGetReplyOkContent`
         : Reply with chunk content.

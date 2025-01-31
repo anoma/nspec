@@ -46,7 +46,7 @@ type ReplyTo := mkReplyTo@{
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-???+ quote "Argument description  "
+???+ code "Argument description  "
 
     `whoAsked`:
     : is the address of the engine that sent the message.
@@ -74,7 +74,7 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### ReadsForAction
 
@@ -348,7 +348,7 @@ queryEvidenceActionLabel : ReadsForActionExec := Seq [ queryEvidenceAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `ReadsForGuard`
 

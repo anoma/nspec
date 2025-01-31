@@ -97,7 +97,7 @@ Sequence diagram: Delete data flow
 
 ## Message types
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias TSStorageDBQuery := String;
@@ -117,7 +117,7 @@ type GetDataTSStorageDBRequest := mkGetDataTSStorageDBRequest {
 ```
 <!-- --8<-- [end:GetDataTSStorageDBRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query to find the requested time series data in the DB.
@@ -135,7 +135,7 @@ type GetDataTSStorageDBReply := mkGetDataTSStorageDBReply {
 ```
 <!-- --8<-- [end:GetDataTSStorageDBReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query to find the requested time series data in the DB.
@@ -155,7 +155,7 @@ type RecordDataTSStorageDBRequest := mkRecordDataTSStorageDBRequest {
 ```
 <!-- --8<-- [end:RecordDataTSStorageDBRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
 
@@ -174,7 +174,7 @@ type RecordDataTSStorageDBReply := mkRecordDataTSStorageDBReply {
 ```
 <!-- --8<-- [end:RecordDataTSStorageDBReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query that expresses the recording of the time series data into the DB.
@@ -194,7 +194,7 @@ type DeleteDataTSStorageDBRequest := mkDeleteDataTSStorageDBRequest {
 ```
 <!-- --8<-- [end:DeleteDataTSStorageDBRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query that expresses the deletion of the time series data from the DB.
@@ -212,7 +212,7 @@ type DeleteDataTSStorageDBReply := mkDeleteDataTSStorageDBReply {
 ```
 <!-- --8<-- [end:DeleteDataTSStorageDBReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query that expresses the deletion of the time series data from the DB.
@@ -234,7 +234,7 @@ type DataChangedTSStorageDB := mkDataChangedTSStorageDB {
 ```
 <!-- --8<-- [end:DataChangedTSStorageDB] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query that expresses the change of the time series DB.

@@ -53,7 +53,7 @@ LoggingActionArguments : Type := List LoggingActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LoggingAction`
 
@@ -175,7 +175,7 @@ appendLogActionLabel : LoggingActionExec := Seq [ appendLogAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     LoggingGuard : Type :=

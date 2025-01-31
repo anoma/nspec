@@ -69,7 +69,7 @@ type RequestDecryption := mkRequestDecryption {
 
 A `RequestDecryption` instructs a decryption engine instance to decrypt data.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `data`:
     : The encrypted ciphertext to decrypt.
 
@@ -87,7 +87,7 @@ type ReplyDecryption := mkReplyDecryption {
 A `ReplyDecryption` contains the data decrypted by a decryption engine instance
 in response to a `RequestDecryption`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : The decrypted data.

@@ -81,7 +81,7 @@ TransportActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TransportAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : TransportActionExec := Seq [ exampleReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TransportGuard`
 

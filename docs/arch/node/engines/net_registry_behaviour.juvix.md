@@ -81,7 +81,7 @@ NetworkRegistryActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `NetworkRegistryAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : NetworkRegistryActionExec := Seq [ exampleReplyAction 
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `NetworkRegistryGuard`
 

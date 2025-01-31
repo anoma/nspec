@@ -191,7 +191,7 @@ syntax alias ExecutorActionArguments := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### ExecutorAction
 
@@ -433,7 +433,7 @@ processReadActionLabel
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `ExecutorGuard`
 

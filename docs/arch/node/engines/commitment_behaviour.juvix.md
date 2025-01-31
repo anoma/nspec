@@ -166,7 +166,7 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ---
 
@@ -307,7 +307,7 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ---
 

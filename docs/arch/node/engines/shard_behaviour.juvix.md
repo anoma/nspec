@@ -613,7 +613,7 @@ execEagerReads
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `ShardAction`
 
@@ -968,7 +968,7 @@ updateSeenAllActionLabel
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `ShardGuard`
 

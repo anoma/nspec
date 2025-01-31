@@ -72,7 +72,7 @@ NamingActionArguments : Type := List NamingActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### NamingAction
 
@@ -344,7 +344,7 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `NamingGuard`
 

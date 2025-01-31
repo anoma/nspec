@@ -85,7 +85,7 @@ type NodeMsg := mkNodeMsg@{
 ```
 <!-- --8<-- [end:NodeMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `seq`
     : Message sequence number of the sender.
@@ -121,7 +121,7 @@ type ConnectRequest :=
   }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `proto_ver_min`
     : Min. supported protocol version range.
@@ -161,7 +161,7 @@ type ConnectReplyOk :=
   }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `proto_ver`
     : Protocol version to use.
@@ -183,7 +183,7 @@ type ConnectReplyError :=
   ;
 ```
 
-???+ quote "ConnectReplyError constructors"
+???+ code "ConnectReplyError constructors"
 
     `NodeConnectReplyErrorOverCapacity`
     : Node over capacity. Temporary failure.

@@ -80,7 +80,7 @@ type TLSAddress :=
 ```
 
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `ip`
     : IP address
@@ -155,7 +155,7 @@ type TransportPrefs := mkTransportPrefs {
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `ordering`
     :	Transport ordering preferences
@@ -181,7 +181,7 @@ type SerializedMsg :=
 ```
 <!-- --8<-- [end:SerializedMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `SerializedMsgBARE`
     : BARE
@@ -201,7 +201,7 @@ type EncryptedMsg :=
 ```
 <!-- --8<-- [end:EncryptedMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `EncryptedMsgNull`
     : No encryption.

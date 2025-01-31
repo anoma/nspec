@@ -89,7 +89,7 @@ type RequestEncrypt := mkRequestEncrypt {
 A `RequestEncrypt` instructs the Encryption Engine to encrypt data to a
 particular external identity, possibly using known `reads_for` relationships.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : The data to encrypt.
@@ -114,7 +114,7 @@ type ReplyEncrypt := mkReplyEncrypt {
 A `ReplyEncrypt` contains the data encrypted by the Encryption Engine in
 response to a `RequestEncrypt`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `ciphertext`:
     : The encrypted data.

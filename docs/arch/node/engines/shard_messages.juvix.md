@@ -84,7 +84,7 @@ type KVSReadRequestMsg KVSKey :=
 ```
 <!-- --8<-- [end:KVSReadRequestMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The logical timestamp identifying the transaction at which to read
@@ -112,7 +112,7 @@ type KVSWriteMsg KVSKey KVSDatum :=
 ```
 <!-- --8<-- [end:KVSWriteMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The logical timestamp identifying the transaction in which to write
@@ -139,7 +139,7 @@ type UpdateSeenAllMsg :=
 ```
 <!-- --8<-- [end:UpdateSeenAllMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The logical timestamp at which to push the SeenAll value.
@@ -168,7 +168,7 @@ type KVSAcquireLockMsg KVSKey :=
 ```
 <!-- --8<-- [end:KVSAcquireLockMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `lazy_read_keys`
     : Keys this transaction may read (only send values read in response to `KVSReadRequest`s)
@@ -206,7 +206,7 @@ type KVSLockAcquiredMsg :=
 ```
 <!-- --8<-- [end:KVSLockAcquiredMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The timestamp of the transaction which was locked.
@@ -228,7 +228,7 @@ type KVSReadMsg KVSKey KVSDatum :=
 ```
 <!-- --8<-- [end:KVSReadMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The timestamp of the transaction which was read.

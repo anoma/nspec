@@ -44,7 +44,7 @@ type NodeAdvert :=
   };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `id`
     : Node identity.
@@ -82,7 +82,7 @@ type TopicAdvert :=
   };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `id`
     : Topic identity.

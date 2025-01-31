@@ -63,7 +63,7 @@ type TopicMsg := mkTopicMsg@{
 }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `publisher`
     : Publisher identity.
@@ -96,7 +96,7 @@ type TopicMsgContent :=
   ;
 ```
 
-???+ quote "TopicMsgContent constructors"
+???+ code "TopicMsgContent constructors"
 
     `TopicMsgContentMsg`
     : Encrypted `TopicMsg`.
@@ -124,7 +124,7 @@ type TopicMsgAck := mkTopicMsgAck@{
 }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `expiry`
     : Expiry date and time until the node commits to store the event.

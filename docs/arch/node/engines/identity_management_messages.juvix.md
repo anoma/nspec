@@ -119,7 +119,7 @@ type RequestGenerateIdentity := mkRequestGenerateIdentity {
 A `RequestGenerateIdentity` instructs the Identity Management Engine to generate
 a new identity using the specified backend, parameters, and capabilities.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `backend`:
     : The backend to use for identity generation.
@@ -147,7 +147,7 @@ A `ReplyGenerateIdentity` provides the handles to the decryption and
 commitment engine instances for the newly generated identity, or an error if a
 failure occurred.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `commitmentEngine`:
     : Reference to the newly instantiated commitment engine.
@@ -176,7 +176,7 @@ type RequestConnectIdentity := mkRequestConnectIdentity {
 A `RequestConnectIdentity` instructs the Identity Management Engine to connect
 to an existing identity using the specified backend.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The external identity to connect.
@@ -203,7 +203,7 @@ A `ReplyConnectIdentity` provides the handles to the decryption and
 commitment engine instances for the connected identity, or an error if a failure
 occurred.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `commitmentEngine`:
     : Reference to the newly connected commitment engine.
@@ -228,7 +228,7 @@ type RequestDeleteIdentity := mkRequestDeleteIdentity {
 A `RequestDeleteIdentity` instructs the Identity Management Engine to delete an
 existing identity using the specified backend.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The external identity to delete.
@@ -249,7 +249,7 @@ type ReplyDeleteIdentity := mkReplyDeleteIdentity {
 A `ReplyDeleteIdentity` provides the response from an attempt to delete an
 identity.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `err`:
     : An error message if identity deletion failed.

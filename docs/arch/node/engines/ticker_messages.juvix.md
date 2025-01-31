@@ -86,7 +86,7 @@ type CountReply : Type :=
   }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `counter`
     : The counter value.

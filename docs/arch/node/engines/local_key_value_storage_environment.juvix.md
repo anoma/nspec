@@ -30,7 +30,7 @@ tags:
 The Local Key-Value Storage Engine provides local storage and
 retrieval of data in a key-value format.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     axiom getNotificationTargets : StorageKey -> List EngineID;
@@ -60,7 +60,7 @@ type LocalKVStorageLocalState := mkLocalKVStorageLocalState {
 ```
 <!-- --8<-- [end:LocalKVStorageLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `storage`
     : The key-value store mapping keys to values.

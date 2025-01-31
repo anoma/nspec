@@ -46,7 +46,7 @@ TemplateMinimumActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TemplateMinimumAction`
 
@@ -180,7 +180,7 @@ exampleReplyActionLabel : TemplateMinimumActionExec := Seq [ exampleReplyAction 
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TemplateMinimumGuard`
 

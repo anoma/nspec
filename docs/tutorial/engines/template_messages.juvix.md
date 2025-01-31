@@ -78,7 +78,7 @@ type ExampleRequest := mkExampleRequest@{
 ```
 <!-- --8<-- [end:ExampleRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `argOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -92,7 +92,7 @@ type ExampleRequest := mkExampleRequest@{
 
 Reply to an `ExampleRequest`.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     #### `ExampleReplyOk`
 
@@ -106,7 +106,7 @@ Reply to an `ExampleRequest`.
     ```
     <!-- --8<-- [end:ExampleReplyOk] -->
 
-    ???+ quote "Arguments"
+    ???+ code "Arguments"
 
         `argOne`
         : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -124,7 +124,7 @@ Reply to an `ExampleRequest`.
       ;
     ```
 
-    ???+ quote "Error types"
+    ???+ code "Error types"
 
         `ExampleErrorOne`
         : Lorem ipsum dolor sit amet, consectetur adipiscing elit.

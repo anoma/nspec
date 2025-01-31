@@ -46,7 +46,7 @@ type ACL := mkACL@{
 }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `members`
     : Set of `ExternalID`s that are members of the ACL.
@@ -72,7 +72,7 @@ type Chunk := mkChunk@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `children`
     : List of chunk IDs of children in the Merkle tree.
@@ -99,7 +99,7 @@ type ChunkContent :=
   ;
 ```
 
-???+ quote "`ChunkContent` constructors"
+???+ code "`ChunkContent` constructors"
 
     `InternalNode`
     : An internal node of the Merkle tree. Contains decryption keys of its children.
@@ -126,7 +126,7 @@ type ChunkCommitment := mkChunkCommitment {
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `id`
     : `ChunkID` to commit to.

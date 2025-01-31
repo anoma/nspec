@@ -29,7 +29,7 @@ The [[dynamic environment|Engine environment]] of the engine.
 
 ## Mailbox state
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias MailboxOneOne := Nat;
@@ -49,7 +49,7 @@ type FirstKindMailboxState := mkFirstKindMailboxState@{
 
 This is one family of mailbox states without much complexity.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `fieldOne`
 
@@ -69,7 +69,7 @@ type SecondKindMailboxState := mkSecondKindMailboxState@{
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `fieldOne`
 
@@ -91,7 +91,7 @@ type TemplateMailboxState :=
 
 ## Local state
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -101,7 +101,7 @@ type TemplateMailboxState :=
     ```
     <!-- --8<-- [end:CustomData] -->
 
-    ???+ quote "Arguments"
+    ???+ code "Arguments"
 
         `word`
 
@@ -118,7 +118,7 @@ type TemplateLocalState :=
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `taskQueue`
 
@@ -126,7 +126,7 @@ type TemplateLocalState :=
 
 ## Timer handles
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     <!-- --8<-- [start:ArgOne] -->
     ```juvix
@@ -147,7 +147,7 @@ type FirstOptionTimerHandle := mkFirstOptionTimerHandle@{
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
 an example of this case.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `argOne`
 
@@ -164,7 +164,7 @@ type SecondOptionTimerHandle := mkSecondOptionTimerHandle@{
 ```
 <!-- --8<-- [end:SecondOptionTimerHandle] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `argOne`
 

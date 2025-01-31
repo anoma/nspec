@@ -97,7 +97,7 @@ Delete Value Request/Reply Flow
 
 ## Message types
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias StorageKey := String;
@@ -119,7 +119,7 @@ type GetValueKVStoreRequest := mkGetValueKVStoreRequest {
 ```
 <!-- --8<-- [end:GetValueKVStoreRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that maps to the requested value in the KV-store.
@@ -139,7 +139,7 @@ type GetValueKVStoreReply := mkGetValueKVStoreReply {
 ```
 <!-- --8<-- [end:GetValueKVStoreReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that maps to the requested value in the KV-store.
@@ -162,7 +162,7 @@ type SetValueKVStoreRequest := mkSetValueKVStoreRequest {
 ```
 <!-- --8<-- [end:SetValueKVStoreRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that identifies the data in the KV-store.

@@ -58,7 +58,7 @@ type EngineEnv S B H AM :=
 ```
 <!-- --8<-- [end:EngineEnv] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `localState`
     : the local state,

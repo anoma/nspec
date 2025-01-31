@@ -80,7 +80,7 @@ PubSubTopicActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `PubSubTopicAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : PubSubTopicActionExec := Seq [ exampleReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `PubSubTopicGuard`
 

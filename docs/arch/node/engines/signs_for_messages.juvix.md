@@ -113,7 +113,7 @@ type RequestSignsFor := mkRequestSignsFor {
 A `RequestSignsFor` queries whether `externalIdentityA` can sign on behalf of
 `externalIdentityB`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentityA`:
     : The identity attempting to sign.
@@ -134,7 +134,7 @@ type ReplySignsFor := mkReplySignsFor {
 
 A `ReplySignsFor` indicates whether the `signs_for` relationship exists.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `signsFor`:
     : True if `externalIdentityA` can sign for `externalIdentityB`, False otherwise.
@@ -154,7 +154,7 @@ type RequestSubmitSignsForEvidence := mkRequestSubmitSignsForEvidence {
 
 A `RequestSubmitSignsForEvidence` submits evidence of a `signs_for` relationship.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidence`:
     : The evidence supporting the `signs_for` relationship.
@@ -171,7 +171,7 @@ type ReplySubmitSignsForEvidence := mkReplySubmitSignsForEvidence {
 
 A `ReplySubmitSignsForEvidence` acknowledges the submission of evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `err`:
     : An error message if the submission failed.
@@ -188,7 +188,7 @@ type RequestQuerySignsForEvidence := mkRequestQuerySignsForEvidence {
 
 A `RequestQuerySignsForEvidence` queries all `signs_for` evidence related to an identity.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The identity for which to retrieve evidence.
@@ -207,7 +207,7 @@ type ReplyQuerySignsForEvidence := mkReplyQuerySignsForEvidence {
 
 A `ReplyQuerySignsForEvidence` provides the requested evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The identity for which to retrieve evidence.

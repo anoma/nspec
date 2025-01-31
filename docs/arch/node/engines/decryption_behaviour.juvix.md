@@ -143,7 +143,7 @@ type ReplyTo := mkReplyTo@{
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `whoAsked`:
     : is the address of the engine that sent the message.
@@ -177,7 +177,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ---
 
@@ -321,7 +321,7 @@ decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `DecryptionGuard`
 

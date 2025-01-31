@@ -45,7 +45,7 @@ type VerificationCfg := mkVerificationCfg@{
 ```
 <!-- --8<-- [end:VerificationCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `verifier`:
     : Function to generate verifier for a set of evidence and an identity.

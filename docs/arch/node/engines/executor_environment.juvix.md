@@ -30,7 +30,7 @@ tags:
 
 The executor environment maintains state needed during transaction execution including completed reads/writes and program state.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     trait
@@ -72,7 +72,7 @@ type ExecutorLocalState KVSKey KVSDatum ProgramState :=
   };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `program_state`
     : Current state of the executing program

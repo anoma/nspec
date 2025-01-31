@@ -47,7 +47,7 @@ type EncryptionCfg := mkEncryptionCfg {
 ```
 <!-- --8<-- [end:EncryptionCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `encryptor`:
     : Function to generate encryptor for a set of evidence and an identity.

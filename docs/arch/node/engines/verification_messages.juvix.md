@@ -97,7 +97,7 @@ A `RequestVerification` instructs the Verification Engine to verify a commitment
 (signature) from a particular external identity, possibly using known
 `signs_for` relationships.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : The data that was signed.
@@ -125,7 +125,7 @@ type ReplyVerification := mkReplyVerification@{
 A `ReplyVerification` contains the result of verifying a commitment in
 response to a `RequestVerification`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `result`:
     : True if the verification succeeded, False otherwise.

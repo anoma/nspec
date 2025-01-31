@@ -10,7 +10,7 @@ tags:
   - engine-definition
 ---
 
-??? quote "Juvix preamble"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.ticker;

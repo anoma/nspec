@@ -54,7 +54,7 @@ type TransportOutMsg := mkTransportOutMsg@{
 ```
 <!-- --8<-- [end:TransportOutMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `addr`
     : Transport address.

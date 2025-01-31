@@ -113,7 +113,7 @@ type RequestReadsFor := mkRequestReadsFor@{
 A request to query whether `externalIdentityA` can read data encrypted to
 `externalIdentityB`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentityA`:
     : The identity doing the reading.
@@ -134,7 +134,7 @@ type ReplyReadsFor := mkReplyReadsFor@{
 
 Reply indicating whether the `reads_for` relationship exists.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `readsFor`:
     : True if `externalIdentityA` can read for `externalIdentityB`, False otherwise.
@@ -154,7 +154,7 @@ type RequestSubmitReadsForEvidence := mkRequestSubmitReadsForEvidence@{
 
 Request to submit evidence of a `reads_for` relationship.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidence`:
     : The evidence supporting the `reads_for` relationship.
@@ -171,7 +171,7 @@ type ReplySubmitReadsForEvidence := mkReplySubmitReadsForEvidence@{
 
 Reply acknowledging the submission of evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `err`:
     : An error message if the submission failed.
@@ -188,7 +188,7 @@ type RequestQueryReadsForEvidence := mkRequestQueryReadsForEvidence@{
 
 Request to query all `reads_for` evidence related to an identity.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The identity for which to retrieve evidence.
@@ -207,7 +207,7 @@ type ReplyQueryReadsForEvidence := mkReplyQueryReadsForEvidence@{
 
 Reply providing the requested evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The identity for which evidence was requested.

@@ -51,7 +51,7 @@ type VerificationLocalState := mkVerificationLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `pendingRequests`:
     : The backlog of verification requests still in processing.

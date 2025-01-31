@@ -67,7 +67,7 @@ type AppendValue := mkAppendValue {
 ```
 <!-- --8<-- [end:AppendValue] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `value`:
     : The value in string format to be added to the logbook.

@@ -28,7 +28,7 @@ tags:
 
 The Naming Engine maintains the state necessary for managing associations between `IdentityName`s and `ExternalIdentity`s, including storing evidence submitted by clients.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     axiom verifyEvidence : IdentityNameEvidence -> Bool;
@@ -56,7 +56,7 @@ type NamingLocalState := mkNamingLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidenceStore`:
     : The pool of evidence which the engine uses for identity verification.

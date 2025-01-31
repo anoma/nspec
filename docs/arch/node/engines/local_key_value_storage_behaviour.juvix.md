@@ -55,7 +55,7 @@ LocalKVStorageActionArguments : Type := List LocalKVStorageActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalKVStorageAction`
 
@@ -343,7 +343,7 @@ deleteValueActionLabel : LocalKVStorageActionExec := Seq [ deleteValueAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalKVStorageGuard`
 

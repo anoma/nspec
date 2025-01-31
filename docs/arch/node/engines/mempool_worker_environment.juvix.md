@@ -50,7 +50,7 @@ type MempoolWorkerLocalState KVSKey KVSDatum Executable := mkMempoolWorkerLocalS
 ```
 <!-- --8<-- [end:MempoolWorkerLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `batch_number`:
     : The current batch number. (Currently unused)

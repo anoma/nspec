@@ -72,7 +72,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### SignsForAction
 
@@ -361,7 +361,7 @@ queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `SignsForGuard`
 

@@ -79,7 +79,7 @@ type ExecutorFinishedMsg KVSKey KVSDatum :=
 ```
 <!-- --8<-- [end:ExecutorFinishedMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `success`
     : Whether execution completed successfully

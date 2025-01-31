@@ -47,7 +47,7 @@ type MessageFrom := mkMessageFrom@{
 ```
 <!-- --8<-- [end:MessageFrom] -->
 
-???+ quote "Argument description"
+???+ code "Arguments"
 
     `whoAsked`:
     : The engine ID of the requester.
@@ -74,7 +74,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### WallClockAction
 
@@ -207,7 +207,7 @@ getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `WallClockGuard`
 

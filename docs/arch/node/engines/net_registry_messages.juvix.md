@@ -89,7 +89,7 @@ type NodeAdvert :=
   };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `id`
     : Node identity.

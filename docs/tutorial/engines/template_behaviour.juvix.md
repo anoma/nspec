@@ -40,7 +40,7 @@ Using the action labels, we describe the effects of the actions.
 The action arguments are set by a guard
 and passed to the action function as part of the `GuardOutput`.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     <!-- --8<-- [start:Val] -->
     ```juvix
@@ -58,7 +58,7 @@ type FirstArgument := mkFirstArgument@{
 ```
 <!-- --8<-- [end:FirstArgument] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : is the value of the action argument.
@@ -73,7 +73,7 @@ type SecondArgument := mkSecondArgument@{
 ```
 <!-- --8<-- [end:SecondArgument] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : is the value of the action argument.
@@ -99,7 +99,7 @@ TemplateActionArguments : Type := List TemplateActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TemplateAction`
 
@@ -297,7 +297,7 @@ doBothActionLabel : TemplateActionExec :=
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TemplateGuard`
 

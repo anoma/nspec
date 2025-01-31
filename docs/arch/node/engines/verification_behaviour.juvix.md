@@ -49,7 +49,7 @@ type ReplyTo := mkReplyTo@{
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-???+ quote "Argument description"
+???+ code "Arguments"
 
     `whoAsked`:
     : The engine ID of the requester.
@@ -77,7 +77,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `VerificationAction`
 
@@ -310,7 +310,7 @@ handleSignsForReplyActionLabel : VerificationActionExec := Seq [ handleSignsForR
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `VerificationGuard`
 

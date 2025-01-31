@@ -75,7 +75,7 @@ type ExampleRequest := mkExampleRequest@{
 ```
 <!-- --8<-- [end:ExampleRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `argOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.

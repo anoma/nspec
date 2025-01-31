@@ -49,7 +49,7 @@ type TransportConnectionOutMsg := mkTransportConnectionOutMsg {
 ```
 <!-- --8<-- [end:TransportConnectionOutMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `expiry`:
     : Time after which the message expires.

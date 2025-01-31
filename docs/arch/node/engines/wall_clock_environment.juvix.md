@@ -46,7 +46,7 @@ type WallClockLocalState := mkWallClockLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `currentTime`
     : The current epoch time value
