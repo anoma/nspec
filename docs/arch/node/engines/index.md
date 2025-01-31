@@ -16,7 +16,7 @@ The Anoma Specification revolves around the concept of an [[Engine|engine]], an
 actor-like entity encapsulating the [[Engine Environment|engine environment]] and
 [[Engine Behaviour|behaviour]] of a computational process. In Anoma, every
 engine instance is of a specific type. Engines of the same type share the same
-[[Engine Behaviour|behaviour]]. However, two engines instances of the same type may have different
+[[Engine Behaviour|behaviour]]. However, two engine instances of the same type may have different
 [[Engine Environment|execution context]],
 which in turn may lead to a different message reaction pattern.
 We often simply write engine,
