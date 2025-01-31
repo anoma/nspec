@@ -20,7 +20,7 @@ Make every page clear and concise. Footnotes may be used to add context.
 Additional notes that exceed a paragraph may deserve to be put into a separate
 file (and [[Write Markdown|thus]] will appear in the navigation bar).
 
---- 
+---
 
 ### Don't repeat yourself!
 
