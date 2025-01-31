@@ -22,10 +22,12 @@ tags:
 
 # The type for engines
 
-An **engine** is a computational unit with a specific name and [[Engine Behaviour|behaviour]],
-plus an initial [[Engine Environment|environment]],
-which comprises the specific state, the mailbox cluster,
-the acquaintances, and the timers.
+!!! definition "Engine"
+
+    An **engine** is a computational unit with a specific name and [[Engine Behaviour|behaviour]],
+    plus an initial [[Engine Environment|environment]],
+    which comprises the specific state, the mailbox cluster,
+    the acquaintances, and the timers.
 
 We refer to the type of engines as `Engine`,
 instantiated with the following type parameters:
@@ -80,6 +82,8 @@ the following convention:
   type parameters sequence in the `Engine` type, and
 - the first type parameter of `EngineBehaviour` is always `C`, the type for
   the read-only engine configuration.
+
+---
 
 ### Example: Voting Engine
 

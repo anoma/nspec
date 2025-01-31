@@ -14,16 +14,37 @@ tags:
 
 ## Overview
 
-The Anoma Specification revolves around the concept of an [[Engine|engine]], an
+The model of Anoma revolves around the concept of an [[Engine|engine]], an
 actor-like entity encapsulating the [[Engine Environment|engine environment]] and
 [[Engine Behaviour|behaviour]] of a computational process. In Anoma, every
 engine is of a specific type. Engines of the same type share the same
 [[Engine Behaviour|behaviour]]. However, two engines of the same type may have different
 [[Engine Environment|execution context]].
 
+## The type of an engine
+
+The type of engines is defined in the [[Engine|engine]] module.
+We show the type definition here for convenience.
+
+--8<-- "./docs/arch/node/types/engine.juvix.md:Engine"
+
 ---
 
 ## Engine components
+
+---
+
+### [[Engine Configuration|*Configuration*]]
+
+The configuration of an engine. It consists of:
+
+- a parent engine,
+- a name,
+- a node ID, and
+- a generic configuration type `c`.
+
+The complete definition of an engine configuration can be found in the
+[[Engine Configuration|Juvix engine configuration definition]].
 
 ---
 
@@ -43,8 +64,8 @@ The complete definition of an engine environment can be found in the
 
 ### [[Engine Behaviour|*Behaviour*]]
 
-The function that describes all possible ways in which engines can act. This
-includes:
+The function that describes all possible ways in which engines react to
+messages. This includes:
 
 - modifying their environment,
 - sending messages to other engines,
@@ -53,23 +74,6 @@ includes:
 
 The complete definition of an engine behaviour can be found in the
 [[Engine Behaviour|Juvix engine behaviour definition]].
-
----
-
-### [[Engine Behaviour#Guard|*Guards*]]
-
-The finite set of guard functions that describe the conditions under which
-the local state of the engine's instance should change by invoking the action
-function.
-
----
-
-## Last words
-
-All required types and functions to define these engines can be found in the
-module [[Engine|engine]]. To understand how we have structured the
-definitions of engine types, see [[Anomian]] and [[Engines in Anoma|Tutorials on Writing
-Engine Families]].
 
 ---
 

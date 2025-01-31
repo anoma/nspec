@@ -10,6 +10,8 @@ tags:
 
 # Anomian
 
+---
+
 ## Preface
 
 As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book,
@@ -44,6 +46,8 @@ but it can safely be skipped on a first reading.
       open hiding {EngineMsg; mkEngineMsg; Mailbox};
     ```
 
+---
+
 ## Chapter 1: The core players of the game
 
 > At the core of the Anoma model, we find **engines**. They do most of the heavy lifting.
@@ -56,6 +60,13 @@ So, what do you mean by an _engine_?
 > us, and that has an **engine-status** that could be *running*, *dead*, or
 > *suspended*.
 
+```juvix
+type EngineStatus := Running | Dead | Suspended;
+```
+
+</div>
+
+
 !!! todo
 
     - Explain that if the engine is dead, next time the system steps, engines marked
@@ -64,11 +75,6 @@ So, what do you mean by an _engine_?
     - Explain that the engine-status is not a property of the engine, but rather
       a property of the engine-instance.
 
-```juvix
-type EngineStatus := Running | Dead | Suspended;
-```
-
-</div>
 
 Dynamic entity? What is *dynamic* about it?
 
@@ -171,6 +177,7 @@ type MsgInterface :=
 > To see the full list of message interfaces in the current model, check out the
 > sum type `Msg` in [[Anoma Message]].
 
+---
 
 ## Chapter 2: Communication patterns
 
@@ -234,6 +241,8 @@ type EngineMsgKind :=
     We can have several communication patterns.
     <!--ᚦ «Here I would like ideally compare to session types, choreographies, protocols etc.» -->
 
+---
+
 ## Chapter 3: Engine configurations
 
 Anomian, you mentioned that engines have an internal state, a message interface,
@@ -271,7 +280,6 @@ type EngineCfg C :=
 
 Tell me one thing about the parents of engines. Do they always know who their
 parent is? I don't know who is my father, actually.
-
 
 <div class="grid" markdown>
 
@@ -401,6 +409,8 @@ anomianToJordan : EngineMsg MsgInterface :=
 
 But how can I send it? Do I have to go to the post office?
 
+---
+
 ## Chapter 4: Mailboxes for anyone
 
 Messages are sent to the engine's mailbox.
@@ -495,6 +505,7 @@ You have not answered yet how mail is actually sent.
 
     So, yes, the main purpose of mailboxes is where the elf delivers the messages.
 
+---
 
 ## Chapter 5: Context of execution
 
@@ -536,6 +547,8 @@ type EngineEnv S Msg :=
     Each engine has its own local data, some of which is fixed,
     and some of which is dynamic. All this data together forms the
     _execution context_.
+
+---
 
 ## Chapter 6: What engines can do
 
@@ -726,6 +739,8 @@ type Engine (S E M C R : Type) :=
     roughly one per relevant case. Cases may overlap, but often it is a unique case that
     performs the reaction.
 
+---
+
 ## Chapter 7: We have engines, and now, what?
 
 I think I am getting the hang of it. But what's next?
@@ -788,6 +803,7 @@ I think I am getting the hang of it. But what's next?
   sender and target identifiers, mailbox, communication pattern, message kind,
   and the message content itself.
 
+---
 
 [^1]: The constructors are very much like _message tags_ in
       [the paper](https://simonjf.com/writing/pat.pdf)
