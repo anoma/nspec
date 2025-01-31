@@ -40,11 +40,69 @@ encryption requests and produces the corresponding responses.
 
 ---
 
+## Encryption Action Flowchart
+
+### `encryptAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C [Conditions]
+    CMsg[MsgEncryptionRequest]
+  end
+
+  G[encryptGuard]
+  A[encryptAction]
+
+  C --> G -->|encryptActionLabel| A --> E
+
+  subgraph E [Effects]
+    direction TB
+    E1[(Update pending requests)]
+    E2[Send encrypted response]
+  end
+```
+
+<figcaption markdown="span">
+`encryptAction` flowchart
+</figcaption>
+</figure>
+
+### `handleReadsForReplyAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C [Conditions]
+    CMsg[MsgQueryReadsForEvidenceReply]
+  end
+
+  G[readsForReplyGuard]
+  A[handleReadsForReplyAction]
+
+  C --> G -->|handleReadsForReplyActionLabel| A --> E
+
+  subgraph E [Effects]
+    direction TB
+    E1[(Remove pending requests)]
+    E2[Send encrypted responses]
+  end
+```
+
+<figcaption markdown="span">
+`handleReadsForReplyAction` flowchart
+</figcaption>
+</figure>
+
+---
+
 ## Action arguments
 
 ---
 
-### `EncryptionActionArgumentReplyTo ReplyTo`
+### `ReplyTo`
 
 ```juvix
 type ReplyTo := mkReplyTo@{
@@ -255,7 +313,7 @@ encryptAction
 
 ### `handleReadsForReplyAction`
 
-Process reads-for evidence response.
+Process `reads-for` evidence response.
 
 State update
 : The state is updated to remove processed pending requests.
@@ -482,59 +540,3 @@ encryptionBehaviour : EncryptionBehaviour :=
 <!-- --8<-- [end:encryptionBehaviour] -->
 
 ---
-
-## Encryption Action Flowcharts
-
-### `encryptAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C [Conditions]
-    CMsg[MsgEncryptionRequest]
-  end
-
-  G[encryptGuard]
-  A[encryptAction]
-
-  C --> G -->|encryptActionLabel| A --> E
-
-  subgraph E [Effects]
-    direction TB
-    E1[(Update pending requests)]
-    E2[Send encrypted response]
-  end
-```
-
-<figcaption markdown="span">
-`encryptAction` flowchart
-</figcaption>
-</figure>
-
-### `handleReadsForReplyAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C [Conditions]
-    CMsg[MsgQueryReadsForEvidenceReply]
-  end
-
-  G[readsForReplyGuard]
-  A[handleReadsForReplyAction]
-
-  C --> G -->|handleReadsForReplyActionLabel| A --> E
-
-  subgraph E [Effects]
-    direction TB
-    E1[(Remove pending requests)]
-    E2[Send encrypted responses]
-  end
-```
-
-<figcaption markdown="span">
-`handleReadsForReplyAction` flowchart
-</figcaption>
-</figure>

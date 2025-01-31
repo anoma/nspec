@@ -12,7 +12,7 @@ plugins:
         - trimmer
   - social
   - tags:
-      tags_file: tags.md
+      tags_file: ./indexes/tags.md
       tags_slugify: !!python/object/apply:pymdownx.slugs.slugify
         kwds:
           case: lower
