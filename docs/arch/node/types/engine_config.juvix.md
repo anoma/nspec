@@ -35,7 +35,7 @@ which is parametrized by:
 - `C`: represents the engine-specific configuration, which corresponds to the `Cfg` type.
 
 ```juvix
-type EngineCfg (C : Type) :=
+type EngineCfg C :=
   mkEngineCfg@{
     node : NodeID;
     name : EngineName;

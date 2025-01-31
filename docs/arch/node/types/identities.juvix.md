@@ -267,7 +267,7 @@ type IdentityName :=
 Evidence of read permissions between identities.
 
 ```juvix
-type ReadsForEvidence := mkReadsForEvidence {
+type ReadsForEvidence := mkReadsForEvidence@{
   fromIdentity : ExternalIdentity;
   toIdentity : ExternalIdentity;
   proof : ByteString;
@@ -315,7 +315,7 @@ type SignsForEvidence := mkSignsForEvidence {
 Evidence linking identity names to external identities.
 
 ```juvix
-type IdentityNameEvidence := mkIdentityNameEvidence {
+type IdentityNameEvidence := mkIdentityNameEvidence@{
   identityName : IdentityName;
   externalIdentity : ExternalIdentity;
   proof : ByteString;
@@ -338,15 +338,25 @@ type IdentityNameEvidence := mkIdentityNameEvidence {
 ### Ordering Aliases
 
 ```juvix
-type TransactionLabel ReadLabel WriteLabel := mkTransactionLabel {
+type TransactionLabel ReadLabel WriteLabel := mkTransactionLabel@{
   read : List ReadLabel;
   write : List WriteLabel
 };
+```
+
+```juvix
 syntax alias TxFingerprint := Nat;
-type TransactionCandidate ReadLabel WriteLabel Executable := mkTransactionCandidate {
-  label : TransactionLabel ReadLabel WriteLabel;
-  executable : Executable
-};
+```
+
+```juvix
+type TransactionCandidate ReadLabel WriteLabel Executable :=
+  mkTransactionCandidate@{
+    label : TransactionLabel ReadLabel WriteLabel;
+    executable : Executable
+  };
+```
+
+```juvix
 syntax alias NarwhalBlock := String;
 syntax alias BatchNumber := Nat;
 syntax alias WallClockTime := Nat;
@@ -356,7 +366,8 @@ syntax alias WallClockTime := Nat;
 
     Don't know a better place to put this.
 
-This is assumed to be globally fixed (in v0.2).
+=======
+
 ```juvix
 -- Map a key to its shard
 axiom keyToShard {KVSKey} : KVSKey -> EngineID;

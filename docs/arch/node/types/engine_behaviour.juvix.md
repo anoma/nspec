@@ -124,8 +124,8 @@ The `ActionInput` contains:
 
 <!-- --8<-- [start:ActionInput] -->
 ```juvix
-type ActionInput (C S B H A AM : Type) :=
-  mkActionInput {
+type ActionInput C S B H A AM :=
+  mkActionInput@{
     args : A;
     cfg : EngineCfg C;
     env : EngineEnv S B H AM;
@@ -146,7 +146,7 @@ action. The action can perform any of the following:
 
 <!-- --8<-- [start:ActionEffect] -->
 ```juvix
-type ActionEffect (S B H AM AC AE : Type) :=
+type ActionEffect S B H AM AC AE :=
   mkActionEffect@{
     env : EngineEnv S B H AM;
     msgs : List (EngineMsg AM);
@@ -171,7 +171,7 @@ It is allowed to have several actions executed.
 
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
-type ActionExec (C S B H A AM AC AE : Type) :=
+type ActionExec C S B H A AM AC AE :=
   | Seq (List (Action C S B H A AM AC AE))
   ;
 ```
@@ -206,7 +206,7 @@ performed, and action arguments.
 
 <!-- --8<-- [start:GuardOutput] -->
 ```juvix
-type GuardOutput (C S B H A AM AC AE : Type) :=
+type GuardOutput C S B H A AM AC AE :=
   mkGuardOutput@{
     action : ActionExec C S B H A AM AC AE;
     args : A;
@@ -218,7 +218,7 @@ type GuardOutput (C S B H A AM AC AE : Type) :=
 
 <!-- --8<-- [start:GuardEval] -->
 ```juvix
-type GuardEval (C S B H A AM AC AE : Type) :=
+type GuardEval C S B H A AM AC AE :=
   | First (List (Guard C S B H A AM AC AE))
   | Any (List (Guard C S B H A AM AC AE))
   ;
@@ -244,7 +244,7 @@ other components.
 
 <!-- --8<-- [start:EngineBehaviour] -->
 ```juvix
-type EngineBehaviour (C S B H A AM AC AE : Type) :=
+type EngineBehaviour C S B H A AM AC AE :=
   mkEngineBehaviour@{
     guards : GuardEval C S B H A AM AC AE;
   };

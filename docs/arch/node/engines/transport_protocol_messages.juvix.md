@@ -45,7 +45,7 @@ and forwards the given message to it.
 
 <!-- --8<-- [start:TransportOutMsg] -->
 ```juvix
-type TransportOutMsg := mkTransportOutMsg {
+type TransportOutMsg := mkTransportOutMsg@{
   addr : TransportAddress;
   prefs : TransportPrefs;
   expiry : Time;

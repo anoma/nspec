@@ -74,11 +74,10 @@ Example request.
 
 <!-- --8<-- [start:ExampleRequest] -->
 ```juvix
-type ExampleRequest : Type :=
-  mkExampleRequest {
-    argOne : Nat;
-    argTwo : Nat;
-  }
+type ExampleRequest := mkExampleRequest@{
+  argOne : Nat;
+  argTwo : Nat;
+}
 ```
 <!-- --8<-- [end:ExampleRequest] -->
 
@@ -104,10 +103,9 @@ Reply to an `ExampleRequest`.
 
     <!-- --8<-- [start:ExampleReplyOk] -->
     ```juvix
-    type ExampleReplyOk : Type :=
-      mkExampleReplyOk {
-        argOne : Nat;
-      }
+    type ExampleReplyOk := mkExampleReplyOk@{
+      argOne : Nat;
+    }
     ```
     <!-- --8<-- [end:ExampleReplyOk] -->
 
@@ -123,11 +121,11 @@ Reply to an `ExampleRequest`.
     Example error reply.
 
     ```juvix
-      type ExampleReplyError : Type :=
-        | ExampleErrorOne
-        | ExampleErrorTwo
-        ;
-      ```
+    type ExampleReplyError :=
+      | ExampleErrorOne
+      | ExampleErrorTwo
+      ;
+    ```
 
     ???+ quote "Error types"
 
