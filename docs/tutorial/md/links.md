@@ -18,22 +18,95 @@ possible.
 
 ## Basic Syntax
 
-The basic syntax for a wiki link is:
+For a simple link, we only need
 
-```
-[[page]]
-```
+- a pair of opening brackets `[‍[`;
+- a page title, e.g., `page title with spaces`; and
+- a pair of closing brackets `]‍]`.
 
-Where:
+In short, the basic syntax for a wiki link is:
 
-- `page` is the title of the target page
+=== "Markdown pattern description"
+
+    ```markdown
+    [‍[page title with spaces]‍]
+    ```
+
+=== "Markdown example"
+
+    ```markdown
+    [‍[Support for Wiki Links‍]]
+    ```
+
+=== "Example Preview"
+    
+    [[Support for Wiki Links]]
+
 
 ## Full Syntax
 
-The full syntax for a wiki link is:
-```markdown title="Wiki Link Syntax"
-  [[hintpath/to:page#anchor|Custom caption]]
-```
+### test
+
+=== "Example Preview"
+    
+    [[Support for Wiki Links#full-syntax]]
+
+=== "Example Preview two"
+    
+    [[Support for Wiki Links#Full-Syntax]]
+
+=== "Example Preview three"
+    
+    [[Support for Wiki Links#full syntax]]
+
+=== "Example Preview four"
+    
+    [[Support for Wiki Links#Full Syntax]]
+
+
+
+### real
+
+
+The full syntax for a wiki link allows to give extra information,
+e.g., an _anchor_ to a sub-section, and a custom caption
+to adapt to the encompassing prose.
+
+=== "Markdown pattern description"
+
+    ```markdown title="Wiki Link: Full Syntax"
+    [‍[hintpath/to:page title with spaces#lowercase-anchor-using-hyphens|Custom caption]‍]
+    ```
+
+=== "maybe Working preview"
+
+    ```markdown
+    [[Support for Wiki Links‍#full-syntax|foo bar fizz]]
+    ```
+
+=== "Example preview"
+
+    ```markdown
+    [[docs/tutorial/md:Support for Wiki Links‍#full-syntax|foo bar fizz]]
+    ```
+
+=== "Example preview two"
+
+    ```markdown
+    [[./docs/tutorial/md:Support for Wiki Links‍#full-syntax|foo bar fizz]]
+    ```
+
+=== "Example preview three"
+
+    ```markdown
+    [[./docs/tutorial/md/:Support for Wiki Links‍#full-syntax|foo bar fizz]]
+    ```
+
+=== "Example preview three"
+
+    ```markdown
+    [[./docs/tutorial/md/to:Support for Wiki Links‍#full-syntax|foo bar fizz]]
+    ```
 
 When resolving a wiki link, the system follows these rules:
 
@@ -51,7 +124,7 @@ specified in the `nav` attribute of the `mkdocs.yml` file. For example,
 provides the following wiki link:
 
 ```markdown
-[[MyRef X]]
+[‍[MyRef X]‍]
 ```
 
 
@@ -60,13 +133,13 @@ provides the following wiki link:
 (**Optional**) You can use path hints to specify the location of the file. The syntax is:
 
 ```markdown title="Path Hints"
-[[hintpath/to:page]]
+[‍[hintpath/to:page title with spaces]‍]
 ```
 
 Where:
 
 - `hintpath/to` is the path (or prefix) to the file
-- `page` is the title of the target page
+- `page title with spaces` is the title of the target page
 
 ### Anchors
 
@@ -75,13 +148,13 @@ page does not have an anchor, the link would render as the caption provided,
 and you'll find a warning in the build process.
 
 ```markdown title="Anchors"
-[[page#anchor]]
+[‍[page title with spaces#lowercase-anchor-using-hyphens]‍]
 ```
 
 Where:
 
-- `page` is the title of the target page
-- `anchor` is a specific section within the page
+- `page title with spaces` is the title of the target page
+- `lowercase-anchor-using-hyphens` is a specific section within the page
 
 
 ### Custom captions
@@ -89,20 +162,20 @@ Where:
 (**Optional**) Provide custom text to display for the link instead of the page title.
 
 ```markdown title="Custom Captions"
-[[page#anchor|Custom caption]]
+[‍[page title with spaces#lowercase-anchor-using-hyphens|Custom caption]‍]
 ```
 
 Where:
 
-- `page` is the title of the target page
-- `anchor` is a specific section within the page
+- `page title with spaces` is the title of the target page
+- `lowercase-anchor-using-hyphens` is a specific section within the page
 
 Captions can include icons, for example:
 
 === "Markdown"
 
     ```markdown
-    [[Home | :material-link: this is a caption with an icon ]]
+    [‍[Home | :material-link: this is a caption with an icon ]‍]
     ```
 
 === "Preview"
