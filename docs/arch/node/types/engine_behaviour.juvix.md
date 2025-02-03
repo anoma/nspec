@@ -158,6 +158,24 @@ type ActionEffect S B H AM AC AE :=
 
 ### `ActionExec`
 
+!!! todo "cf. monadic effect descriptions >=v0.2"
+
+    As brainstormed *today*,
+    engine IDs could naturally be genrately freshly,
+    by use of monads;
+    as we are talking about monads,
+    `ActionExec` would deseve a thorough overhaul:
+
+    - proper monadic "task execution" instead of the list of actions,
+      of which there may be only one as a reaction
+      to a trigger (leading to an event with duration)
+    - related, other features, in particular
+      - concurrency of several tasks
+      - cf. one "thread" for each mailbox
+    - message send, engiene spawn, and timer updates, could also be monadic
+
+It is allowed to have several actions executed.[^1]
+
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
 type ActionExec C S B H A AM AC AE :=
@@ -233,3 +251,5 @@ type EngineBehaviour C S B H A AM AC AE :=
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
+
+[^1]: This is likely to change in future versions.
