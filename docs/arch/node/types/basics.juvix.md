@@ -22,7 +22,7 @@ architecture prelude. For a more general prelude, please refer to
 [[Juvix Base Prelude]]. (1)
 { .annotate }
 
-1. :woman_raising_hand: If you are unfamiliar with Juvix,
+1. :raising_hand: If you are unfamiliar with Juvix,
 please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorials/learn.html).
 
 ## Basic types
