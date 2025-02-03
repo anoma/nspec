@@ -60,7 +60,7 @@ messages, creating new engine instances, and updating timers.
 
 ### `Action`
 
-The input of the action function is parameterised by the types for:
+The input of the action function is parameterized by the types for:
 
 - `C`: engine configuration,
 - `S`: local state,
