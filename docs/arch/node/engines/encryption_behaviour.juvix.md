@@ -31,18 +31,12 @@ tags:
 
 # Encryption Behaviour
 
----
-
 ## Overview
 
 The behavior of the Encryption Engine defines how it processes incoming
 encryption requests and produces the corresponding responses.
 
----
-
 ## Encryption Action Flowchart
-
----
 
 ### `encryptAction` flowchart
 
@@ -98,11 +92,7 @@ flowchart TD
 </figcaption>
 </figure>
 
----
-
 ## Action arguments
-
----
 
 ### `ReplyTo`
 
@@ -124,8 +114,6 @@ response message should be sent.
     `mailbox`:
     : is the mailbox ID where the response message should be sent.
 
----
-
 ### `EncryptionActionArgument`
 
 <!-- --8<-- [start:EncryptionActionArgument] -->
@@ -136,8 +124,6 @@ type EncryptionActionArgument :=
 ```
 <!-- --8<-- [end:EncryptionActionArgument] -->
 
----
-
 ### `EncryptionActionArguments`
 
 <!-- --8<-- [start:encryption-action-arguments] -->
@@ -145,8 +131,6 @@ type EncryptionActionArgument :=
 EncryptionActionArguments : Type := List EncryptionActionArgument;
 ```
 <!-- --8<-- [end:encryption-action-arguments] -->
-
----
 
 ## Actions
 
@@ -215,8 +199,6 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
-
----
 
 ### `encryptAction`
 
@@ -311,8 +293,6 @@ encryptAction
     };
 ```
 
----
-
 ### `handleReadsForReplyAction`
 
 Process `reads-for` evidence response.
@@ -381,11 +361,7 @@ handleReadsForReplyAction
     };
 ```
 
----
-
 ## Action Labels
-
----
 
 ### `encryptActionLabel`
 
@@ -393,15 +369,11 @@ handleReadsForReplyAction
 encryptActionLabel : EncryptionActionExec := Seq [ encryptAction ];
 ```
 
----
-
 ### `handleReadsForReplyActionLabel`
 
 ```juvix
 handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForReplyAction ];
 ```
-
----
 
 ## Guards
 
@@ -445,8 +417,6 @@ handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForRep
     ```
     <!-- --8<-- [end:EncryptionGuardOutput] -->
 
----
-
 ### `encryptGuard`
 
 Condition
@@ -471,8 +441,6 @@ encryptGuard
   };
 ```
 <!-- --8<-- [end:encryptGuard] -->
-
----
 
 ### `readsForReplyGuard`
 
@@ -501,11 +469,7 @@ readsForReplyGuard
 ```
 <!-- --8<-- [end:readsForReplyGuard] -->
 
----
-
 ## The Encryption Behaviour
-
----
 
 ### `EncryptionBehaviour`
 
@@ -523,8 +487,6 @@ EncryptionBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:EncryptionBehaviour] -->
-
----
 
 ### Instantiation
 

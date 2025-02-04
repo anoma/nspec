@@ -8,8 +8,6 @@ This documentation website is a work-in-progress [**formal specification**](#for
 Anoma protocol. We refer to this documentation as the "Anoma specs".
 It is important to understand what this documentation is and what it is not.
 
----
-
 ### General information
 
 - Everything in this documentation is subject to change.
@@ -21,8 +19,6 @@ It is important to understand what this documentation is and what it is not.
 - This documentation is written in natural language in combination with
     mathematical notation and Juvix code snippets (read more about it
     [below](#use-of-juvix)).
-
----
 
 ### Purpose and scope
 
@@ -40,16 +36,12 @@ should be implemented. Implementation details are left to the discretion of the
 [Anoma engineering team](https://github.com/anoma/anoma). This is related to the
 purpose of [any formal specification](#formal-specification-approach).
 
----
-
 ### Development and evolution
 
 Some aspects of the Anoma system related to the protocol are not yet specified
 and will be added as they are developed. This is due to the ongoing evolution of
 Anoma's concept and its requirements. Follow the [research
 forum](https://research.anoma.net/) for more information.
-
----
 
 ## Formal specification approach
 
@@ -63,8 +55,6 @@ We adhere to the principles of formal specification:
 
     We aim to list and address the functional requirements first, followed by the non-functional requirements.
 
----
-
 ### Formal specification is not formal verification
 
 We want to verify the protocol and demonstrate its correctness at some point.
@@ -76,8 +66,6 @@ Most constructs in this documentation are intended to have formal descriptions,
 usage statements, constraints, or properties. Therefore, although we do not
 include a proof rigorous specification, this website suggests what should be
 verified.
-
----
 
 ## Use of Juvix
 
@@ -111,8 +99,6 @@ Throughout this documentation, you will find code snippets written in
 - The implementation of Anoma, separated from the specification, is written in
     Elixir, another programming language that follows the same principles of
     functional programming that Juvix does.
-
----
 
 ## Intended audience
 

@@ -24,11 +24,7 @@ tags:
 
 --8<-- "./naming_messages.juvix.md:NamingMsg"
 
----
-
 ## Message sequence diagrams
-
----
 
 ### Resolving a name
 
@@ -51,8 +47,6 @@ Resolving a name
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-name-resolution] -->
 
----
-
 ### Submitting name evidence
 
 <!-- --8<-- [start:message-sequence-diagram-submit] -->
@@ -73,8 +67,6 @@ Submitting name evidence
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
-
----
 
 ### Querying name evidence
 
@@ -97,11 +89,7 @@ Querying name evidence for an identity.
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query] -->
 
----
-
 ## Message types
-
----
 
 ### `RequestResolveName`
 
@@ -117,8 +105,6 @@ associated with a given `IdentityName`.
 ???+ code "Arguments"
     `identityName`:
     : The name to resolve.
-
----
 
 ### `ReplyResolveName`
 
@@ -139,8 +125,6 @@ A `ReplyResolveName` is returned in response to a `RequestResolveName`.
     `err`:
     : An error message if the resolution failed.
 
----
-
 ### `RequestSubmitNameEvidence`
 
 ```juvix
@@ -157,8 +141,6 @@ of `IdentityNameEvidence`.
     `evidence`:
     : The evidence supporting the association between an `IdentityName` and an `ExternalIdentity`.
 
----
-
 ### `ReplySubmitNameEvidence`
 
 ```juvix
@@ -172,8 +154,6 @@ A `ReplySubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`
 ???+ code "Arguments"
     `err`:
     : An error message if the submission failed.
-
----
 
 ### `RequestQueryNameEvidence`
 
@@ -190,8 +170,6 @@ A `RequestQueryNameEvidence` instructs the Naming Engine to return any known
 ???+ code "Arguments"
     `externalIdentity`:
     : The identity for which to retrieve evidence.
-
----
 
 ### `ReplyQueryNameEvidence`
 
@@ -216,8 +194,6 @@ A `ReplyQueryNameEvidence` provides the requested evidence.
     `err`:
     : An error message if the query failed.
 
----
-
 ### `NamingMsg`
 
 <!-- --8<-- [start:NamingMsg] -->
@@ -232,8 +208,6 @@ type NamingMsg :=
   ;
 ```
 <!-- --8<-- [end:NamingMsg] -->
-
----
 
 ## Engine components
 

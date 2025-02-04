@@ -30,18 +30,12 @@ tags:
 
 # Executor Behaviour
 
----
-
 ## Overview
 
 The executor behaviour defines how it processes incoming read responses and
 performs state transitions to execute the transaction program.
 
----
-
 ## Executor Action Flowcharts
-
----
 
 ### `processRead` Flowchart
 
@@ -122,8 +116,6 @@ flowchart TD
 </figcaption>
 </figure>
 
----
-
 #### Explanation
 
 1. **Initial Request Processing**
@@ -188,11 +180,7 @@ flowchart TD
      - Success case: ExecutorFinished (success=true) + stale cleanup.
      - Continuation case: New read/write messages.
 
----
-
 ## Action arguments
-
----
 
 ### `ExecutorActionArguments`
 
@@ -201,8 +189,6 @@ flowchart TD
 syntax alias ExecutorActionArguments := Unit;
 ```
 <!-- --8<-- [end:executor-action-arguments] -->
-
----
 
 ## Actions
 
@@ -271,8 +257,6 @@ syntax alias ExecutorActionArguments := Unit;
         (Anoma.PreCfg KVSKey KVSDatum Executable)
         (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
-
----
 
 ### `processReadAction`
 
@@ -446,8 +430,6 @@ processReadAction
 ```
 <!-- --8<-- [end:processReadAction] -->
 
----
-
 ### Action Labels
 
 ```juvix
@@ -457,8 +439,6 @@ processReadActionLabel
   {{Runnable KVSKey KVSDatum Executable ProgramState}}
   : ExecutorActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadAction ];
 ```
-
----
 
 ## Guards
 
@@ -519,8 +499,6 @@ processReadActionLabel
     ```
     <!-- --8<-- [end:ExecutorGuardEval] -->
 
----
-
 ### `processReadGuard`
 
 Guard for processing read responses.
@@ -554,11 +532,7 @@ processReadGuard
 ```
 <!-- --8<-- [end:processReadGuard] -->
 
----
-
 ## The Executor Behaviour
-
----
 
 ### `ExecutorBehaviour`
 
@@ -576,8 +550,6 @@ ExecutorBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
     (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ExecutorBehaviour] -->
-
----
 
 ### Instantiation
 

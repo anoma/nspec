@@ -28,19 +28,13 @@ tags:
 
 # Storage Behaviour
 
----
-
 ## Overview
 
 A *Storage* engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
 
----
-
 ## Storage Action Flowchart
-
----
 
 ### `exampleReply` Flowchart
 
@@ -72,14 +66,10 @@ flowchart TD
 </figure>
 
 
----
-
 ## Action arguments
 
 The action arguments are set by a guard
 and passed to the action function as part of the `GuardOutput`.
-
----
 
 ### `StorageActionArguments`
 
@@ -88,8 +78,6 @@ and passed to the action function as part of the `GuardOutput`.
 StorageActionArguments : Type := Unit;
 ```
 <!-- --8<-- [end:StorageActionArguments] -->
-
----
 
 ## Actions
 
@@ -159,8 +147,6 @@ StorageActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:StorageActionExec] -->
 
----
-
 #### `exampleReplyAction`
 
 Respond with a `StorageMsgExampleReply`.
@@ -219,19 +205,13 @@ exampleReplyAction
 ```
 <!-- --8<-- [end:exampleReplyAction] -->
 
----
-
 ## Action Labels
-
----
 
 ### `exampleReplyActionLabel`
 
 ```juvix
 exampleReplyActionLabel : StorageActionExec := Seq [ exampleReplyAction ];
 ```
-
----
 
 ## Guards
 
@@ -288,8 +268,6 @@ exampleReplyActionLabel : StorageActionExec := Seq [ exampleReplyAction ];
     ```
     <!-- --8<-- [end:StorageGuardEval] -->
 
----
-
 ### `exampleReplyGuard`
 
 Guard description (optional).
@@ -318,11 +296,7 @@ exampleReplyGuard
 ```
 <!-- --8<-- [end:exampleReplyGuard] -->
 
----
-
 ## Engine behaviour
-
----
 
 ### `StorageBehaviour`
 
@@ -340,8 +314,6 @@ StorageBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:StorageBehaviour] -->
-
----
 
 #### Instantiation
 

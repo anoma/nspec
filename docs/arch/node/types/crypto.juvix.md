@@ -19,8 +19,6 @@ tags:
 
 # Cryptographic primitives
 
----
-
 ### `PublicKey`
 
 Public key for public-key cryptography.
@@ -36,8 +34,6 @@ PublicKeyOrd : Ord PublicKey :=
     cmp := \{_ _ := Equal};
   };
 ```
-
----
 
 ### `PrivateKey`
 
@@ -55,8 +51,6 @@ PrivateKeyOrd : Ord PrivateKey :=
   };
 ```
 
----
-
 ### `SecretKey`
 
 Secret key for secret-key cryptography.
@@ -67,8 +61,6 @@ type SecretKey :=
   ;
 ```
 
----
-
 ### `Signature`
 
 Cryptographic signature.
@@ -77,8 +69,6 @@ Cryptographic signature.
 type Signature :=
   | Ed25519Signature ByteString
 ```
-
----
 
 ### `Digest`
 

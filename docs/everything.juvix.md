@@ -15,8 +15,6 @@ tags:
 module everything;
 ```
 
----
-
 ## Prelude
 
 ```juvix
@@ -29,15 +27,11 @@ import prelude;
 import anomian;
 ```
 
----
-
 ## System
 
 ```juvix
 import arch.system.identity.identity;
 ```
-
----
 
 ### Resource Machine
 
@@ -77,8 +71,6 @@ import arch.system.state.resource_machine.index;
 import arch.system.state.resource_machine.execution_flow.flow;
 ```
 
----
-
 ## Types
 
 ```juvix
@@ -103,15 +95,9 @@ import arch.node.types.storage;
 import arch.node.types.router;
 ```
 
----
-
 ## Engines
 
----
-
 ### Identity
-
----
 
 ### Commitment
 
@@ -123,8 +109,6 @@ import arch.node.engines.commitment_behaviour;
 import arch.node.engines.commitment;
 ```
 
----
-
 ### Decryption
 
 ```juvix
@@ -134,8 +118,6 @@ import arch.node.engines.decryption_environment;
 import arch.node.engines.decryption_behaviour;
 import arch.node.engines.decryption;
 ```
-
----
 
 ### Encryption
 
@@ -147,8 +129,6 @@ import arch.node.engines.encryption_behaviour;
 import arch.node.engines.encryption;
 ```
 
----
-
 ### Identity Management
 
 ```juvix
@@ -158,8 +138,6 @@ import arch.node.engines.identity_management_environment;
 import arch.node.engines.identity_management_behaviour;
 import arch.node.engines.identity_management;
 ```
-
----
 
 ### Naming
 
@@ -171,8 +149,6 @@ import arch.node.engines.naming_behaviour;
 import arch.node.engines.naming;
 ```
 
----
-
 ### Reads For
 
 ```juvix
@@ -182,8 +158,6 @@ import arch.node.engines.reads_for_environment;
 import arch.node.engines.reads_for_behaviour;
 import arch.node.engines.reads_for;
 ```
-
----
 
 ### Signs For
 
@@ -195,8 +169,6 @@ import arch.node.engines.signs_for_behaviour;
 import arch.node.engines.signs_for;
 ```
 
----
-
 ### Verification
 
 ```juvix
@@ -206,8 +178,6 @@ import arch.node.engines.verification_environment;
 import arch.node.engines.verification_behaviour;
 import arch.node.engines.verification;
 ```
-
----
 
 ## Hardware
 
@@ -219,8 +189,6 @@ import arch.node.engines.local_key_value_storage_behaviour;
 import arch.node.engines.local_key_value_storage;
 ```
 
----
-
 ### Logging
 
 ```juvix
@@ -230,8 +198,6 @@ import arch.node.engines.logging_environment;
 import arch.node.engines.logging_behaviour;
 import arch.node.engines.logging;
 ```
-
----
 
 ### Wall Clock
 
@@ -243,8 +209,6 @@ import arch.node.engines.wall_clock_behaviour;
 import arch.node.engines.wall_clock;
 ```
 
----
-
 ### Local Time Series Storage
 
 ```juvix
@@ -254,8 +218,6 @@ import arch.node.engines.local_time_series_storage_environment;
 import arch.node.engines.local_time_series_storage_behaviour;
 import arch.node.engines.local_time_series_storage;
 ```
-
----
 
 ### Network-Registry
 
@@ -267,8 +229,6 @@ import arch.node.engines.net_registry_behaviour;
 import arch.node.engines.net_registry;
 ```
 
----
-
 ### Router
 
 ```juvix
@@ -278,8 +238,6 @@ import arch.node.engines.router_environment;
 import arch.node.engines.router_behaviour;
 import arch.node.engines.router;
 ```
-
----
 
 ### Transport Protocol
 
@@ -291,8 +249,6 @@ import arch.node.engines.transport_protocol_behaviour;
 import arch.node.engines.transport_protocol;
 ```
 
----
-
 ### Transport Connection
 
 ```juvix
@@ -302,8 +258,6 @@ import arch.node.engines.transport_connection_environment;
 import arch.node.engines.transport_connection_behaviour;
 import arch.node.engines.transport_connection;
 ```
-
----
 
 ### Pub Sub Topic
 
@@ -315,8 +269,6 @@ import arch.node.engines.pub_sub_topic_behaviour;
 import arch.node.engines.pub_sub_topic;
 ```
 
----
-
 ### Storage
 
 ```juvix
@@ -326,8 +278,6 @@ import arch.node.engines.storage_environment;
 import arch.node.engines.storage_behaviour;
 import arch.node.engines.storage;
 ```
-
----
 
 ### Mempool Worker
 
@@ -339,8 +289,6 @@ import arch.node.engines.mempool_worker_behaviour;
 import arch.node.engines.mempool_worker;
 ```
 
----
-
 ### Executor
 
 ```juvix
@@ -350,8 +298,6 @@ import arch.node.engines.executor_environment;
 import arch.node.engines.executor_behaviour;
 import arch.node.engines.executor;
 ```
-
----
 
 ### Shard
 
@@ -369,8 +315,6 @@ import arch.node.engines.shard;
 -- Add more engines here
 ```
 
----
-
 ### Misc
 
 ```juvix
@@ -380,8 +324,6 @@ import arch.node.engines.ticker_environment;
 import arch.node.engines.ticker_behaviour;
 import arch.node.engines.ticker;
 ```
-
----
 
 ## Tutorial Templates
 

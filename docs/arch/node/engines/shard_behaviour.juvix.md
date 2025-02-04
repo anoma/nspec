@@ -31,11 +31,7 @@ tags:
 
 # Shard Behaviour
 
----
-
 ## Shard Action Flowchart
-
----
 
 ### `acquireLock` Flowchart
 
@@ -75,8 +71,6 @@ flowchart TD
 `acquireLock` flowchart
 </figcaption>
 </figure>
-
----
 
 #### Explanation
 
@@ -120,8 +114,6 @@ flowchart TD
    - Any read messages sent to specified executor.
    - Uses mailbox 0 (the standard mailbox for responses).
 
----
-
 ### `processWrite` Flowchart
 
 <figure markdown>
@@ -160,8 +152,6 @@ flowchart TD
 </figcaption>
 </figure>
 
----
-
 #### Explanation
 
 1. **Initial Request**
@@ -196,8 +186,6 @@ flowchart TD
    - On success, sends `KVSRead` messages to Executors for any eligible eager reads.
    - The original write request does not receive a direct response.
    - All messages use mailbox 0 (the standard mailbox for responses).
-
----
 
 ### `processReadRequest` Flowchart
 
@@ -243,8 +231,6 @@ flowchart TD
 </figcaption>
 </figure>
 
----
-
 #### Explanation
 
 1. **Initial Request**
@@ -286,8 +272,6 @@ flowchart TD
    - Success response sent directly to requesting executor.
    - Uses mailbox 0 (the standard mailbox for responses).
 
----
-
 ### `updateSeenAll` Flowchart
 
 <figure markdown>
@@ -323,8 +307,6 @@ flowchart TD
 `updateSeenAll` flowchart
 </figcaption>
 </figure>
-
----
 
 #### Explanation
 
@@ -364,11 +346,7 @@ flowchart TD
    - Any generated read messages are sent to their respective executors.
    - No acknowledgment is sent back to the worker.
 
----
-
 ## Action arguments
-
----
 
 ### `ShardActionArgument`
 
@@ -379,8 +357,6 @@ type ShardActionArgument :=
 ```
 <!-- --8<-- [end:ShardActionArgument] -->
 
----
-
 ### `ShardActionArguments`
 
 <!-- --8<-- [start:shard-action-arguments] -->
@@ -388,8 +364,6 @@ type ShardActionArgument :=
 ShardActionArguments : Type := List ShardActionArgument;
 ```
 <!-- --8<-- [end:shard-action-arguments] -->
-
----
 
 ## Helper Functions
 
@@ -637,8 +611,6 @@ execEagerReads
   in Map.foldr processKey (mkPair dag []) (DAGStructure.keyAccesses dag);
 ```
 
----
-
 ## Actions
 
 ??? code "Auxiliary Juvix code"
@@ -698,8 +670,6 @@ execEagerReads
         (Anoma.PreCfg KVSKey KVSDatum Executable)
         (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
-
----
 
 ### `acquireLockAction`
 
@@ -780,8 +750,6 @@ acquireLockAction
 ```
 <!-- --8<-- [end:acquireLockAction] -->
 
----
-
 ### `processWriteAction`
 
 Process write request and potentially trigger eager reads.
@@ -829,8 +797,6 @@ processWriteAction
 
 ```
 <!-- --8<-- [end:processWriteAction] -->
-
----
 
 ### `processReadRequestAction`
 
@@ -910,8 +876,6 @@ processReadRequestAction
 ```
 <!-- --8<-- [end:processReadRequestAction] -->
 
----
-
 ### `updateSeenAllAction`
 
 Process seen-all update and potentially trigger eager reads.
@@ -964,11 +928,7 @@ updateSeenAllAction
 ```
 <!-- --8<-- [end:updateSeenAllAction] -->
 
----
-
 ## Action Labels
-
----
 
 ### `acquireLockActionLabel`
 
@@ -979,8 +939,6 @@ acquireLockActionLabel
   : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ acquireLockAction ];
 ```
 
----
-
 ### `processWriteActionLabel`
 
 ```juvix
@@ -989,8 +947,6 @@ processWriteActionLabel
   {{Ord KVSKey}}
   : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processWriteAction ];
 ```
-
----
 
 ### `processReadRequestActionLabel`
 
@@ -1001,8 +957,6 @@ processReadRequestActionLabel
   : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadRequestAction ];
 ```
 
----
-
 ### `updateSeenAllActionLabel`
 
 ```juvix
@@ -1011,8 +965,6 @@ updateSeenAllActionLabel
   {{Ord KVSKey}}
   : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ updateSeenAllAction ];
 ```
-
----
 
 ## Guards
 
@@ -1063,8 +1015,6 @@ updateSeenAllActionLabel
         (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
----
-
 ### `acquireLockGuard`
 
 Condition
@@ -1091,8 +1041,6 @@ acquireLockGuard
   };
 ```
 <!-- --8<-- [end:acquireLockGuard] -->
-
----
 
 ### `processWriteGuard`
 
@@ -1121,8 +1069,6 @@ processWriteGuard
 ```
 <!-- --8<-- [end:processWriteGuard] -->
 
----
-
 ### `processReadRequestGuard`
 
 Condition
@@ -1149,8 +1095,6 @@ processReadRequestGuard
   };
 ```
 <!-- --8<-- [end:processReadRequestGuard] -->
-
----
 
 ### `updateSeenAllGuard`
 
@@ -1179,11 +1123,7 @@ updateSeenAllGuard
 ```
 <!-- --8<-- [end:updateSeenAllGuard] -->
 
----
-
 ## The Shard Behaviour
-
----
 
 ### `ShardBehaviour`
 
@@ -1201,8 +1141,6 @@ ShardBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
     (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ShardBehaviour] -->
-
----
 
 #### Instantiation
 

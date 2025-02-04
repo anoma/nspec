@@ -27,8 +27,6 @@ These are the messages that the Local Key-Value Storage engine can receive/respo
 
 ## Message sequence diagrams
 
----
-
 ### Get value request/response flow
 
 <!-- --8<-- [start:message-sequence-diagram-get] -->
@@ -48,8 +46,6 @@ Get Value Request/Reply Flow
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-get] -->
-
----
 
 ### Set value request/response flow
 
@@ -71,8 +67,6 @@ Set Value Request/Reply Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-set] -->
 
----
-
 ### Delete value request/response flow
 
 <!-- --8<-- [start:message-sequence-diagram-delete] -->
@@ -93,8 +87,6 @@ Delete Value Request/Reply Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-delete] -->
 
----
-
 ## Message types
 
 ??? code "Auxiliary Juvix code"
@@ -104,8 +96,6 @@ Delete Value Request/Reply Flow
     syntax alias StorageValue := String;
     syntax alias EpochTimestamp := Nat;
     ```
-
----
 
 ### `GetValueKVStoreRequest`
 
@@ -123,8 +113,6 @@ type GetValueKVStoreRequest := mkGetValueKVStoreRequest {
 
     `key`
     : The key that maps to the requested value in the KV-store.
-
----
 
 ### `GetValueKVStoreReply`
 
@@ -147,8 +135,6 @@ type GetValueKVStoreReply := mkGetValueKVStoreReply {
     `value`
     : The requested value from the KV-store.
 
----
-
 ### `SetValueKVStoreRequest`
 
 Request to set a value in storage.
@@ -170,8 +156,6 @@ type SetValueKVStoreRequest := mkSetValueKVStoreRequest {
     `value`
     : The value to store in the KV-store.
 
----
-
 ### `SetValueKVStoreReply`
 
 Reply indicating success/failure of set operation.
@@ -185,8 +169,6 @@ type SetValueKVStoreReply := mkSetValueKVStoreReply {
 ```
 <!-- --8<-- [end:SetValueKVStoreReply] -->
 
----
-
 ### `DeleteValueKVStoreRequest`
 
 Request to delete a value from storage.
@@ -198,8 +180,6 @@ type DeleteValueKVStoreRequest := mkDeleteValueKVStoreRequest {
 };
 ```
 <!-- --8<-- [end:DeleteValueKVStoreRequest] -->
-
----
 
 ### `DeleteValueKVStoreReply`
 
@@ -213,8 +193,6 @@ type DeleteValueKVStoreReply := mkDeleteValueKVStoreReply {
 };
 ```
 <!-- --8<-- [end:DeleteValueKVStoreReply] -->
-
----
 
 ### `ValueChangedKVStore`
 
@@ -230,8 +208,6 @@ type ValueChangedKVStore := mkValueChangedKVStore {
 ```
 <!-- --8<-- [end:ValueChangedKVStore] -->
 
----
-
 ### `LocalKVStorageMsg`
 
 <!-- --8<-- [start:LocalKVStorageMsg] -->
@@ -246,8 +222,6 @@ type LocalKVStorageMsg :=
   | LocalKVStorageMsgValueChanged ValueChangedKVStore;
 ```
 <!-- --8<-- [end:LocalKVStorageMsg] -->
-
----
 
 ## Engine components
 

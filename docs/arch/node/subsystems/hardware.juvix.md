@@ -20,13 +20,11 @@ tags:
 
 # Hardware Subsystem
 
----
 
 ## Purpose
 
 The *Hardware Subsystem* is responsible for managing the hardware resources of the node.
 
----
 
 ## Overview
 
@@ -36,4 +34,3 @@ The *Hardware Subsystem* consists of the following engines.
 
     Add engines here.
 
----

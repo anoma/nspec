@@ -28,18 +28,12 @@ tags:
 
 # Decryption Behaviour
 
----
-
 ## Overview
 
 The behavior of the Decryption Engine defines how it processes incoming
 decryption requests and produces the corresponding decrypted outputs.
 
----
-
 ## Decryption Action Flowchart
-
----
 
 ### `decryptAction` flowchart
 
@@ -82,8 +76,6 @@ flowchart TD
 </figcaption>
 </figure>
 
----
-
 #### Explanation
 
 1. **Initial Request**
@@ -125,11 +117,7 @@ flowchart TD
 
     The commitment engine is stateless - each request is handled .
 
----
-
 ## Action arguments
-
----
 
 ### `ReplyTo`
 
@@ -151,8 +139,6 @@ response message should be sent.
     `mailbox`:
     : is the mailbox ID where the response message should be sent.
 
----
-
 ### `DecryptionActionArgument`
 
 <!-- --8<-- [start:DecryptionActionArgument] -->
@@ -163,8 +149,6 @@ type DecryptionActionArgument :=
 ```
 <!-- --8<-- [end:DecryptionActionArgument] -->
 
----
-
 ### `DecryptionActionArguments`
 
 <!-- --8<-- [start:decryption-action-arguments] -->
@@ -172,8 +156,6 @@ type DecryptionActionArgument :=
 DecryptionActionArguments : Type := List DecryptionActionArgument;
 ```
 <!-- --8<-- [end:decryption-action-arguments] -->
-
----
 
 ## Actions
 
@@ -243,8 +225,6 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Env;
     ```
 
----
-
 ### `decryptAction`
 
 Process a decryption request.
@@ -313,15 +293,11 @@ decryptAction
 
 ## Action Labels
 
----
-
 ### `decryptActionLabel`
 
 ```juvix
 decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
 ```
-
----
 
 ## Guards
 
@@ -406,8 +382,6 @@ decryptGuard
 
 ## The Decryption Behavior
 
----
-
 ### `DecryptionBehaviour`
 
 <!-- --8<-- [start:DecryptionBehaviour] -->
@@ -424,8 +398,6 @@ DecryptionBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:DecryptionBehaviour] -->
-
----
 
 ### Instantiation
 

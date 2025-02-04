@@ -27,8 +27,6 @@ These are the messages that the Local Time Series Storage engine can receive/res
 
 ## Message sequence diagrams
 
----
-
 ### `GetDataTSStorageDBRequest` and `GetDataTSStorageDBReply`
 
 <!-- --8<-- [start:message-sequence-diagram-Get] -->
@@ -48,8 +46,6 @@ Sequence diagram: Get data flow
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Get] -->
-
----
 
 ### `RecordDataTSStorageDBRequest` and `RecordDataTSStorageDBReply`
 
@@ -71,8 +67,6 @@ Sequence diagram: Record data flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Record] -->
 
----
-
 ### `DeleteDataTSStorageDBRequest` and `DeleteDataTSStorageDBReply`
 
 <!-- --8<-- [start:message-sequence-diagram-Delete] -->
@@ -93,8 +87,6 @@ Sequence diagram: Delete data flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Delete] -->
 
----
-
 ## Message types
 
 ??? code "Auxiliary Juvix code"
@@ -104,8 +96,6 @@ Sequence diagram: Delete data flow
     syntax alias TSStorageDBData := String;
     syntax alias EpochTimestamp := Nat;
     ```
-
----
 
 ### `GetDataTSStorageDBRequest`
 
@@ -121,8 +111,6 @@ type GetDataTSStorageDBRequest := mkGetDataTSStorageDBRequest {
 
     `query`
     : The query to find the requested time series data in the DB.
-
----
 
 ### `GetDataTSStorageDBReply`
 
@@ -143,8 +131,6 @@ type GetDataTSStorageDBReply := mkGetDataTSStorageDBReply {
     `data`
     : The requested time series data.
 
----
-
 ### `RecordDataTSStorageDBRequest`
 
 <!-- --8<-- [start:RecordDataTSStorageDBRequest] -->
@@ -160,8 +146,6 @@ type RecordDataTSStorageDBRequest := mkRecordDataTSStorageDBRequest {
     `query`
 
     : The query that expresses the addition of the time series data into the DB.
-
----
 
 ### `RecordDataTSStorageDBReply`
 
@@ -182,8 +166,6 @@ type RecordDataTSStorageDBReply := mkRecordDataTSStorageDBReply {
     `success`
     : The success of the operation, indicating if the data was stored successfully or not.
 
----
-
 ### `DeleteDataTSStorageDBRequest`
 
 <!-- --8<-- [start:DeleteDataTSStorageDBRequest] -->
@@ -198,8 +180,6 @@ type DeleteDataTSStorageDBRequest := mkDeleteDataTSStorageDBRequest {
 
     `query`
     : The query that expresses the deletion of the time series data from the DB.
-
----
 
 ### `DeleteDataTSStorageDBReply`
 
@@ -219,8 +199,6 @@ type DeleteDataTSStorageDBReply := mkDeleteDataTSStorageDBReply {
 
     `success`
     : The success of the operation, indicating if the data was deleted successfully or not.
-
----
 
 ### `DataChangedTSStorageDB`
 
@@ -245,8 +223,6 @@ type DataChangedTSStorageDB := mkDataChangedTSStorageDB {
     `timestamp`
     : The wall clock time of the moment the data was changed.
 
----
-
 ### `LocalTSStorageMsg`
 
 <!-- --8<-- [start:LocalTSStorageMsg] -->
@@ -262,8 +238,6 @@ type LocalTSStorageMsg :=
   ;
 ```
 <!-- --8<-- [end:LocalTSStorageMsg] -->
-
----
 
 ## Engine components
 

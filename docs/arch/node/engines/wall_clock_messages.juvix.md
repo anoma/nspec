@@ -28,7 +28,6 @@ These are the messages that the Wall Clock engine can receive/respond to.
 
 ## Message sequence diagrams
 
----
 
 ### Wall Clock request and response
 
@@ -50,8 +49,6 @@ Sequence diagram: Wall Clock time request & response
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-gettime] -->
 
----
-
 ## Message types
 
 ??? code "Auxiliary Juvix code"
@@ -61,8 +58,6 @@ Sequence diagram: Wall Clock time request & response
     syntax alias StorageValue := String;
     syntax alias EpochTimestamp := Nat;
     ```
-
----
 
 ### `WallClockGetTime`
 
@@ -88,8 +83,6 @@ type TimeResult :=
     `epochTime`
     : The current time in epoch format (seconds/milliseconds since epoch)
 
----
-
 ### `WallClockMsg`
 
 <!-- --8<-- [start:WallClockMsg] -->
@@ -100,8 +93,6 @@ type WallClockMsg :=
   ;
 ```
 <!-- --8<-- [end:WallClockMsg] -->
-
----
 
 ## Engine components
 

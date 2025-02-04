@@ -29,18 +29,12 @@ tags:
 
 # Commitment Behaviour
 
----
-
 ## Overview
 
 The behaviour of the Commitment Engine defines how it processes incoming
 commitment requests and produces the corresponding commitments/signatures.
 
----
-
 ## Commitment Action Flowchart
-
----
 
 ### `commitAction` flowchart
 
@@ -80,8 +74,6 @@ flowchart TD
 </figcaption>
 </figure>
 
----
-
 #### Explanation
 
 1. **Initial Request**
@@ -120,11 +112,7 @@ flowchart TD
 
 - The commitment engine is stateless - each request is handled independently.
 
----
-
 ## Action arguments
-
----
 
 ### `CommitmentActionArgumentReplyTo ReplyTo`
 
@@ -144,8 +132,6 @@ response message should be sent.
 `mailbox`:
 : is the mailbox ID where the response message should be sent.
 
----
-
 ### `CommitmentActionArgument`
 
 <!-- --8<-- [start:CommitmentActionArgument] -->
@@ -156,15 +142,11 @@ type CommitmentActionArgument :=
 ```
 <!-- --8<-- [end:CommitmentActionArgument] -->
 
----
-
 ### `CommitmentActionArguments`
 
 ```juvix
 CommitmentActionArguments : Type := List CommitmentActionArgument;
 ```
-
----
 
 ## Actions
 
@@ -232,8 +214,6 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         Anoma.Env;
     ```
 
----
-
 #### `commitAction`
 
 Generate a commitment (signature) for the given request.
@@ -293,19 +273,13 @@ commitAction
 ```
 <!-- --8<-- [end:commitAction] -->
 
----
-
 ## Action Labels
-
----
 
 ### `commitActionLabel`
 
 ```juvix
 commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
 ```
-
----
 
 ## Guards
 
@@ -366,8 +340,6 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
     ```
     <!-- --8<-- [end:CommitmentGuardEval] -->
 
----
-
 ### `commitGuard`
 
 Condition
@@ -392,11 +364,7 @@ commitGuard
 ```
 <!-- --8<-- [end:commitGuard] -->
 
----
-
 ## The Commitment behaviour
-
----
 
 ### `CommitmentBehaviour`
 
@@ -414,8 +382,6 @@ CommitmentBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:CommitmentBehaviour] -->
-
----
 
 #### Instantiation
 

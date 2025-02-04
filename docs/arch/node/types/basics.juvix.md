@@ -26,11 +26,7 @@ architecture prelude. For a more general prelude, please refer to
 1. :woman_raising_hand: If you are unfamiliar with Juvix,
 please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorials/learn.html).
 
----
-
 ## Basic types
-
----
 
 ### `Hash`
 
@@ -41,8 +37,6 @@ other non-negative integers.
 syntax alias Hash := Nat;
 ```
 
----
-
 ### `RelTime`
 
 Relative time.
@@ -51,8 +45,6 @@ In seconds from now.
 ```juvix
 syntax alias RelTime := Nat;
 ```
-
----
 
 ### `AbsTime`
 
@@ -63,8 +55,6 @@ In minutes since epoch (2024-01-01 00:00).
 syntax alias AbsTime := Nat;
 ```
 
----
-
 ### `Time`
 
 Either absolute or relative time.
@@ -72,8 +62,6 @@ Either absolute or relative time.
 ```juvix
 Time : Type := Either RelTime AbsTime;
 ```
-
----
 
 ### `Version`
 

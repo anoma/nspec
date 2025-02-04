@@ -29,8 +29,6 @@ specified by a finite set of _guards_ and an _action function,_ which both
 determine how engine instances react to received messages or timer
 notifications.
 
----
-
 ## Guards
 
 Guards are terms of type `Guard`, which is a function type, where the _trigger_
@@ -60,11 +58,7 @@ The action function then computes the effects of the action label;
 besides changes to the engine environment, an action effect comprises sending
 messages, creating new engine instances, and updating timers.
 
----
-
 ## Actions
-
----
 
 ### `Action`
 
@@ -120,8 +114,6 @@ are triggered.
     be passed to the action function. Then, if the guard is not satisfied, no data
     is returned.
 
----
-
 ### `ActionInput`
 
 <!-- --8<-- [start:ActionInput] -->
@@ -149,8 +141,6 @@ type ActionInput C S B H A AM :=
 
     `trigger`
     : the timestamped trigger that caused the guard evaluation.
-
----
 
 ### `ActionEffect`
 
@@ -188,8 +178,6 @@ type ActionEffect S B H AM AC AE :=
     `engines`
     : the new engine instances to be created.
 
----
-
 ### `ActionExec`
 
 <!-- --8<-- [start:ActionExec] -->
@@ -199,8 +187,6 @@ type ActionExec C S B H A AM AC AE :=
   ;
 ```
 <!-- --8<-- [end:ActionExec] -->
-
----
 
 ### `Guard`
 
@@ -214,8 +200,6 @@ Guard (C S B H A AM AC AE : Type) : Type :=
   Option (GuardOutput C S B H A AM AC AE);
 ```
 <!-- --8<-- [end:Guard] -->
-
----
 
 ### `GuardOutput`
 
@@ -240,8 +224,6 @@ type GuardOutput C S B H A AM AC AE :=
     `args`
     : the action arguments.
 
----
-
 ### `GuardEval`
 
 <!-- --8<-- [start:GuardEval] -->
@@ -263,8 +245,6 @@ action is performed, and the evaluation stops.
 - With `Any`, we say that any guard in the provided list that holds upon
 sequential evaluation is selected, their associated actions are performed, and
 the evaluation stops.
-
----
 
 ## The type for engine behaviours
 

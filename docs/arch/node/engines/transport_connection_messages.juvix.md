@@ -57,8 +57,6 @@ type TransportConnectionOutMsg := mkTransportConnectionOutMsg {
     `msg`:
     : The message to send.
 
----
-
 ### `TransportConnectionMsg`
 
 <!-- --8<-- [start:TransportConnectionMsg] -->

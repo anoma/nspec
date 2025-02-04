@@ -22,11 +22,7 @@ tags:
 
 Types in this section are used to represent identities within the network.
 
----
-
 ## Basic Types
-
----
 
 ### `Signable`
 
@@ -36,8 +32,6 @@ A type representing data that can be cryptographically signed.
 Signable : Type := ByteString;
 ```
 
----
-
 ### `Plaintext`
 
 Raw unencrypted data.
@@ -45,8 +39,6 @@ Raw unencrypted data.
 ```juvix
 Plaintext : Type := ByteString;
 ```
-
----
 
 ### `Ciphertext`
 
@@ -56,15 +48,11 @@ Encrypted data.
 Ciphertext : Type := ByteString;
 ```
 
----
-
 ### `DecryptionKey`
 
 ```juvix
 DecryptionKey : Type := ByteString;
 ```
-
----
 
 ### `SigningKey`
 
@@ -72,11 +60,7 @@ DecryptionKey : Type := ByteString;
 SigningKey : Type := ByteString;
 ```
 
----
-
 ## Identity Types
-
----
 
 ### `ExternalID`
 
@@ -88,8 +72,6 @@ syntax alias ExternalID := PublicKey;
 ```
 <!-- --8<-- [end:ExternalID] -->
 
----
-
 ### `InternalID`
 
 A unique identifier, such as a private key, used internally within the network.
@@ -97,8 +79,6 @@ A unique identifier, such as a private key, used internally within the network.
 ```juvix
 syntax alias InternalID := PrivateKey;
 ```
-
----
 
 ### `Identity`
 
@@ -108,8 +88,6 @@ A pair combining an `ExternalID` and an `InternalID`.
 Identity : Type := Pair ExternalID InternalID;
 ```
 
----
-
 ### `Commitment`
 
 A cryptographic signature or commitment.
@@ -117,8 +95,6 @@ A cryptographic signature or commitment.
 ```juvix
 syntax alias Commitment := Signature;
 ```
-
----
 
 ### `emptyCommitment`
 
@@ -128,11 +104,7 @@ An empty commitment.
 axiom emptyCommitment : Commitment;
 ```
 
----
-
 ## Network Identifiers
-
----
 
 ### `NodeID`
 
@@ -142,8 +114,6 @@ Cryptographic node identity.
 syntax alias NodeID := ExternalID;
 ```
 
----
-
 ### `TopicID`
 
 Cryptographic topic identity.
@@ -151,8 +121,6 @@ Cryptographic topic identity.
 ```juvix
 syntax alias TopicID := ExternalID;
 ```
-
----
 
 ### `PublisherID`
 
@@ -162,8 +130,6 @@ Cryptographic identity of a publisher in a pub/sub topic.
 syntax alias PublisherID := ExternalID;
 ```
 
----
-
 ### `DomainID`
 
 Cryptographic domain identity.
@@ -171,8 +137,6 @@ Cryptographic domain identity.
 ```juvix
 syntax alias DomainID := ExternalID;
 ```
-
----
 
 ### `MemberID`
 
@@ -182,8 +146,6 @@ Cryptographic identity of a member in a domain.
 syntax alias MemberID := ExternalID;
 ```
 
----
-
 ### `ChunkID`
 
 Cryptographic content addressed hash digest of a data chunk.
@@ -192,11 +154,7 @@ Cryptographic content addressed hash digest of a data chunk.
 syntax alias ChunkID := Digest;
 ```
 
----
-
 ## Engine Related Types
-
----
 
 ### `EngineName`
 
@@ -206,8 +164,6 @@ Engine instance name as an opaque string.
 syntax alias EngineName := String;
 ```
 
----
-
 ### `ExternalIdentity`
 
 An alias for engine name.
@@ -215,8 +171,6 @@ An alias for engine name.
 ```juvix
 syntax alias ExternalIdentity := EngineName;
 ```
-
----
 
 ### `EngineID`
 
@@ -228,8 +182,6 @@ EngineID : Type := Pair (Option NodeID) EngineName;
 ```
 <!-- --8<-- [end:EngineID] -->
 
----
-
 ### `isLocalEngineID`
 
 ```juvix
@@ -240,15 +192,11 @@ isLocalEngineID (eid : EngineID) : Bool :=
 };
 ```
 
----
-
 ### `isRemoteEngineID`
 
 ```juvix
 isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 ```
-
----
 
 ### `nameGen`
 
@@ -257,11 +205,7 @@ nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
   name ++str "_" ++str str ++str "_" ++str (snd addr);
 ```
 
----
-
 ## Identity Parameters and Capabilities
-
----
 
 ### `IDParams`
 
@@ -274,8 +218,6 @@ type IDParams :=
   | BLS;
 ```
 
----
-
 ### `Backend`
 
 Backend connection types.
@@ -286,8 +228,6 @@ type Backend :=
   | BackendLocalConnection { subtype : String }
   | BackendRemoteConnection { externalIdentity : ExternalIdentity };
 ```
-
----
 
 ### `Capabilities`
 
@@ -300,11 +240,7 @@ type Capabilities :=
   | CapabilityCommitAndDecrypt;
 ```
 
----
-
 ## Identity Evidence Types
-
----
 
 ### `IdentityName`
 
@@ -330,8 +266,6 @@ type IdentityName :=
         cmp := IdentityNameCmpDummy;
       };
     ```
-
----
 
 ### `ReadsForEvidence`
 
@@ -359,8 +293,6 @@ type ReadsForEvidence := mkReadsForEvidence@{
     };
     ```
 
----
-
 ### `SignsForEvidence`
 
 Evidence of signing permissions between identities.
@@ -386,8 +318,6 @@ type SignsForEvidence := mkSignsForEvidence {
     cmp := SignsForCmpDummy;
     };
     ```
-
----
 
 ### `IdentityNameEvidence`
 
@@ -416,8 +346,6 @@ type IdentityNameEvidence := mkIdentityNameEvidence@{
       };
     ```
 
----
-
 ### Ordering Aliases
 
 ```juvix
@@ -427,15 +355,11 @@ type TransactionLabel ReadLabel WriteLabel := mkTransactionLabel@{
 };
 ```
 
----
-
 ### `TxFingerprint`
 
 ```juvix
 syntax alias TxFingerprint := Nat;
 ```
-
----
 
 ### `TransactionCandidate`
 
@@ -447,15 +371,11 @@ type TransactionCandidate ReadLabel WriteLabel Executable :=
   };
 ```
 
----
-
 ### `NarwhalBlock`
 
 ```juvix
 syntax alias NarwhalBlock := String;
 ```
-
----
 
 ### `BatchNumber`
 
@@ -463,15 +383,11 @@ syntax alias NarwhalBlock := String;
 syntax alias BatchNumber := Nat;
 ```
 
----
-
 ### `WallClockTime`
 
 ```juvix
 syntax alias WallClockTime := Nat;
 ```
-
----
 
 ### `keyToShard`
 

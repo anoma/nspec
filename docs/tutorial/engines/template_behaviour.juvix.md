@@ -25,15 +25,11 @@ tags:
 
 # Template Behaviour
 
----
-
 ## Overview
 
 A template engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
-
----
 
 ## Action arguments
 

@@ -23,8 +23,6 @@ tags:
 
 # Engine environment
 
----
-
 ## Engine environment type
 
 The engine environment contains the following dynamic information for engine instances:

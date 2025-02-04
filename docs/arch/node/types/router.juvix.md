@@ -26,8 +26,6 @@ tags:
 
 # Router Types
 
----
-
 ## `NodeAdvert`
 
 A self-signed *node advertisement* contains the node's
@@ -60,8 +58,6 @@ type NodeAdvert :=
 
     `sig`
     : Signature by `id`.
-
----
 
 ## `TopicAdvert`
 

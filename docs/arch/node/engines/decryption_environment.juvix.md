@@ -25,22 +25,16 @@ tags:
 
 # Decryption Environment
 
----
-
 ## Overview
 
 Each Decryption Engine instance is associated with a specific identity and
 handles decryption requests for that identity. The environment maintains the
 necessary state for decryption operations.
 
----
-
 ## Mailbox states
 
 The Decryption Engine does not require complex mailbox states. We define the
 mailbox state as `Unit`.
-
----
 
 ### `DecryptionMailboxState`
 
@@ -48,13 +42,9 @@ mailbox state as `Unit`.
 syntax alias DecryptionMailboxState := Unit;
 ```
 
----
-
 ## Local state
 
 The decryption engine is stateless.
-
----
 
 ### `DecryptionLocalState`
 
@@ -62,14 +52,10 @@ The decryption engine is stateless.
 syntax alias DecryptionLocalState := Unit;
 ```
 
----
-
 ## Timer Handle
 
 The Decryption Engine does not require a timer handle type. Therefore, we define
 the timer handle type as `Unit`.
-
----
 
 ### `DecryptionTimerHandle`
 
@@ -77,11 +63,7 @@ the timer handle type as `Unit`.
 syntax alias DecryptionTimerHandle := Unit;
 ```
 
----
-
 ## The Decryption Environment
-
----
 
 ### `DecryptionEnv`
 
@@ -93,8 +75,6 @@ DecryptionEnv : Type :=
     DecryptionTimerHandle
     Anoma.Msg;
 ```
-
----
 
 ### Instantiation
 

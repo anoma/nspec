@@ -23,17 +23,11 @@ tags:
 
 These are the messages that the Shard engine can receive/respond to.
 
----
-
 ## Message interface
 
 --8<-- "./shard_messages.juvix.md:ShardMsg"
 
----
-
 ## Message sequence diagrams
-
----
 
 ### Transaction lock and read flow
 
@@ -63,11 +57,7 @@ Sequence Diagram: Transaction Lock and Read Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
----
-
 ## Message types
-
----
 
 ### `KVSReadRequestMsg`
 
@@ -95,8 +85,6 @@ type KVSReadRequestMsg KVSKey :=
     `actual`
     : True if value is actually needed, false if just cleaning up a lazy read
 
----
-
 ### `KVSWriteMsg`
 
 Write request from an [[Executor Engine]].
@@ -123,8 +111,6 @@ type KVSWriteMsg KVSKey KVSDatum :=
     `datum`
     : The data to write, or `none` to indicate no write
 
----
-
 ### `UpdateSeenAllMsg`
 
 Update about seen transactions from a [[Mempool Worker Engine]].
@@ -146,8 +132,6 @@ type UpdateSeenAllMsg :=
 
     `write`
     : Whether it is the `SeenAllReads` or `SeenAllWrites` to update.
-
----
 
 ### `KVSAcquireLockMsg`
 
@@ -191,8 +175,6 @@ type KVSAcquireLockMsg KVSKey :=
     `timestamp`
     : Specifies the transaction affiliated with these locks
 
----
-
 ### `KVSLockAcquiredMsg`
 
 Confirmation that locks were acquired.
@@ -210,8 +192,6 @@ type KVSLockAcquiredMsg :=
 
     `timestamp`
     : The timestamp of the transaction which was locked.
-
----
 
 ### `KVSReadMsg`
 
@@ -239,8 +219,6 @@ type KVSReadMsg KVSKey KVSDatum :=
     `data`
     : The the data read.
 
----
-
 ### `ShardMsg`
 
 <!-- --8<-- [start:ShardMsg] -->
@@ -255,8 +233,6 @@ type ShardMsg KVSKey KVSDatum :=
   ;
 ```
 <!-- --8<-- [end:ShardMsg] -->
-
----
 
 ## Engine components
 

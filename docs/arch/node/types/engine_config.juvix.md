@@ -23,8 +23,6 @@ tags:
 
 # Engine configuration
 
----
-
 ## Engine configuration type
 
 The engine configuration contains the following static information for engine instances:
@@ -46,8 +44,6 @@ type EngineCfg C :=
     cfg : C;
   };
 ```
-
----
 
 ### `getEngineIDFromEngineCfg`
 

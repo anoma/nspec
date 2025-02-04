@@ -23,17 +23,11 @@ tags:
 
 These are the specific messages that the Executor engine can receive/respond to.
 
----
-
 ## Message interface
 
 --8<-- "./executor_messages.juvix.md:ExecutorMsg"
 
----
-
 ## Message sequence diagram
-
----
 
 ### Execution flow
 
@@ -58,11 +52,7 @@ Basic execution flow sequence showing interaction with shards and completion not
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
----
-
 ## Message types
-
----
 
 ### `ExecutorFinishedMsg`
 
@@ -90,8 +80,6 @@ type ExecutorFinishedMsg KVSKey KVSDatum :=
     `values_written`
     : List of all key-value pairs that were written
 
----
-
 ### `ExecutorMsg`
 
 <!-- --8<-- [start:ExecutorMsg] -->
@@ -101,8 +89,6 @@ type ExecutorMsg KVSKey KVSDatum :=
   ;
 ```
 <!-- --8<-- [end:ExecutorMsg] -->
-
----
 
 ## Engine components
 

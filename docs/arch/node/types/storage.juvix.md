@@ -25,8 +25,6 @@ tags:
 
 # Storage Types
 
----
-
 ## `ACL`
 
 Access control list stored in a [[Storage]] object.
@@ -57,8 +55,6 @@ type ACL := mkACL@{
     `sig`
     : Signature of the ACL by the ACL owner.
 
----
-
 ## `Chunk`
 
 A chunk of a storage object.
@@ -86,8 +82,6 @@ type Chunk := mkChunk@{
     `acl`
     : Nodes that are allowed to request the chunk.
 
----
-
 ## `ChunkContent`
 
 The content of a `Chunk`.
@@ -106,8 +100,6 @@ type ChunkContent :=
 
     `LeafNode`
     : A leaf node of the Merkle tree. Contains a data chunk.
-
----
 
 ## `ChunkCommitment`
 

@@ -22,17 +22,11 @@ tags:
 
 # Decryption Messages
 
----
-
 ## Message interface
 
 --8<-- "./decryption_messages.juvix.md:DecryptionMsg"
 
----
-
 ## Message sequence diagrams
-
----
 
 ### Request sequence
 
@@ -59,11 +53,7 @@ Sequence diagram for decryption.
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
----
-
 ## Message types
-
----
 
 ### `RequestDecryption`
 
@@ -78,8 +68,6 @@ A `RequestDecryption` instructs a decryption engine instance to decrypt data.
 ???+ code "Arguments"
     `data`:
     : The encrypted ciphertext to decrypt.
-
----
 
 ### `ReplyDecryption`
 
@@ -101,8 +89,6 @@ in response to a `RequestDecryption`.
     `err`:
     : An error message if decryption failed.
 
----
-
 ### `DecryptionMsg`
 
 <!-- --8<-- [start:DecryptionMsg] -->
@@ -113,8 +99,6 @@ type DecryptionMsg :=
   ;
 ```
 <!-- --8<-- [end:DecryptionMsg] -->
-
----
 
 ## Engine components
 

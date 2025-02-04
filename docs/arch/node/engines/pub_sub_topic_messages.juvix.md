@@ -36,8 +36,6 @@ These are the messages that the *Pub/Sub Topic* engine can receive/respond to.
 
 ## Message types
 
----
-
 ### `TopicMsg`
 
 A message published in a topic by an authorized publisher,
@@ -83,8 +81,6 @@ type TopicMsg := mkTopicMsg@{
     `sig`
     : Signature by `publisher` over the topic ID and the above fields.
 
----
-
 ### `TopicMsgContent`
 
 ```juvix
@@ -111,8 +107,6 @@ type TopicMsgContent :=
     `TopicMsgContentAck`
     : Acknowledgement of a `TopicMsg`.
 
----
-
 ### `TopicMsgAck`
 
 Acknowledgement of a `TopicMsg` with commitment to store it until the specified
@@ -129,8 +123,6 @@ type TopicMsgAck := mkTopicMsgAck@{
     `expiry`
     : Expiry date and time until the node commits to store the event.
 
----
-
 ### `TopicSubRequest`
 
 Pub/sub topic subscription request by a local engine or a remote node.
@@ -140,8 +132,6 @@ type TopicSubRequest := mkTopicSubRequest@{
   topic : TopicID;
 }
 ```
-
----
 
 ### `TopicSubReply`
 
@@ -184,8 +174,6 @@ type TopicUnsubRequest := mkTopicUnsubRequest@{
 }
 ```
 
----
-
 ### `TopicUnsubReply`
 
 Unsubscription successful.
@@ -213,8 +201,6 @@ Unsubscription successful.
 ```juvix
 TopicUnsubReply : Type := Result TopicUnsubReplyOk TopicUnsubReplyError;
 ```
-
----
 
 ### `PubSubTopicMsg`
 

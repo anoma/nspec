@@ -29,8 +29,6 @@ These are the specific messages that the Mempool Worker engine can receive/respo
 
 ## Message sequence diagrams
 
----
-
 ### Transaction request flow
 
 <!-- --8<-- [start:message-sequence-diagram-transaction-request] -->
@@ -57,11 +55,7 @@ Sequence Diagram: Transaction Request Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-transaction-request] -->
 
----
-
 ## Message types
-
----
 
 ### `TransactionRequest`
 
@@ -85,8 +79,6 @@ type TransactionRequest KVSKey Executable :=
     `resubmission`
     : Optional reference to a previous occurrence of the same transaction
     candidate (currently unused).
-
----
 
 ### `TransactionAck`
 
@@ -123,8 +115,6 @@ type TransactionAck :=
     `signature`
     : The signature of the worker engine over the above fields (Currently unused).
 
----
-
 ### `MempoolWorkerMsg`
 
 <!-- --8<-- [start:MempoolWorkerMsg] -->
@@ -135,8 +125,6 @@ type MempoolWorkerMsg KVSKey Executable :=
   ;
 ```
 <!-- --8<-- [end:MempoolWorkerMsg] -->
-
----
 
 ## Engine components
 

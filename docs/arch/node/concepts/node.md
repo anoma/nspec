@@ -10,8 +10,6 @@ tags:
 
 # The concept of a node
 
----
-
 ## Overview
 
 A **node** is any Anoma-powered device. It can be a desktop computer, a

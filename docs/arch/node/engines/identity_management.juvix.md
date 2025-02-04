@@ -86,16 +86,12 @@ and their capabilities. When an identity is no longer needed, it can
 be cleanly removed (via a `MsgIdentityManagementDeleteIdentityRequest`
 message).
 
----
-
 ## Engine components
 
 - [[Identity Management Messages]]
 - [[Identity Management Configuration]]
 - [[Identity Management Environment]]
 - [[Identity Management Behaviour]]
-
----
 
 ## Type
 

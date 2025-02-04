@@ -10,8 +10,6 @@ tags:
 
 # Anomian
 
----
-
 ## Preface
 
 As in the [Little Typer](https://ieeexplore.ieee.org/servlet/opac?bknumber=8681597) book,
@@ -45,8 +43,6 @@ but it can safely be skipped on a first reading.
     import arch.node.types.messages
       open hiding {EngineMsg; mkEngineMsg; Mailbox};
     ```
-
----
 
 ## Chapter 1: The core players of the game
 
@@ -177,8 +173,6 @@ type MsgInterface :=
 > To see the full list of message interfaces in the current model, check out the
 > sum type `Msg` in [[Anoma Message]].
 
----
-
 ## Chapter 2: Communication patterns
 
 > Now that we understand engines and their message interfaces, let's talk about
@@ -240,8 +234,6 @@ type EngineMsgKind :=
 
     We can have several communication patterns.
     <!--ᚦ «Here I would like ideally compare to session types, choreographies, protocols etc.» -->
-
----
 
 ## Chapter 3: Engine configurations
 
@@ -409,8 +401,6 @@ anomianToJordan : EngineMsg MsgInterface :=
 
 But how can I send it? Do I have to go to the post office?
 
----
-
 ## Chapter 4: Mailboxes for anyone
 
 Messages are sent to the engine's mailbox.
@@ -505,8 +495,6 @@ You have not answered yet how mail is actually sent.
 
     So, yes, the main purpose of mailboxes is where the elf delivers the messages.
 
----
-
 ## Chapter 5: Context of execution
 
 This is quite a fancy setup for sending messages, but how do engines "actually"
@@ -547,8 +535,6 @@ type EngineEnv S Msg :=
     Each engine has its own local data, some of which is fixed,
     and some of which is dynamic. All this data together forms the
     _execution context_.
-
----
 
 ## Chapter 6: What engines can do
 
@@ -738,8 +724,6 @@ type Engine (S E M C R : Type) :=
     How they react is governed by guards of which the engine has several,
     roughly one per relevant case. Cases may overlap, but often it is a unique case that
     performs the reaction.
-
----
 
 ## Chapter 7: We have engines, and now, what?
 

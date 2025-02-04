@@ -29,18 +29,13 @@ tags:
 
 # Wall Clock Behaviour
 
----
 
 ## Overview
 
 The behavior of the Wall Clock Engine defines how it processes get time requests
 and produces time results using the current wall clock time.
 
----
-
 ## Action arguments
-
----
 
 ### `MessageFrom`
 
@@ -61,8 +56,6 @@ type MessageFrom := mkMessageFrom@{
     `mailbox`:
     : The mailbox ID where the response message should be sent.
 
----
-
 ### `WallClockActionArgument`
 
 <!-- --8<-- [start:WallClockActionArgument] -->
@@ -72,8 +65,6 @@ type WallClockActionArgument :=
 ```
 <!-- --8<-- [end:WallClockActionArgument] -->
 
----
-
 ### `WallClockActionArguments`
 
 <!-- --8<-- [start:wall-clock-action-arguments] -->
@@ -82,7 +73,6 @@ WallClockActionArguments : Type := List WallClockActionArgument;
 ```
 <!-- --8<-- [end:wall-clock-action-arguments] -->
 
----
 
 ## Actions
 
@@ -152,8 +142,6 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```
     <!-- --8<-- [end:WallClockActionExec] -->
 
----
-
 ### `getTimeAction`
 
 Return the current wall clock time.
@@ -211,19 +199,13 @@ getTimeAction
 ```
 <!-- --8<-- [end:getTimeAction] -->
 
----
-
 ## Action Labels
-
----
 
 ### `getTimeActionLabel`
 
 ```juvix
 getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
 ```
-
----
 
 ## Guards
 
@@ -280,8 +262,6 @@ getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
     ```
     <!-- --8<-- [end:WallClockGuardEval] -->
 
----
-
 ### `getTimeGuard`
 
 Condition
@@ -306,11 +286,7 @@ getTimeGuard
 ```
 <!-- --8<-- [end:getTimeGuard] -->
 
----
-
 ## The Wall Clock behaviour
-
----
 
 ### `WallClockBehaviour`
 
@@ -329,8 +305,6 @@ WallClockBehaviour : Type :=
 ```
 <!-- --8<-- [end:WallClockBehaviour] -->
 
----
-
 #### Instantiation
 
 <!-- --8<-- [start:wallClockBehaviour] -->
@@ -344,11 +318,8 @@ wallClockBehaviour : WallClockBehaviour :=
 ```
 <!-- --8<-- [end:wallClockBehaviour] -->
 
----
 
 ## Wall Clock Action Flowchart
-
----
 
 ### `getTime` Flowchart
 

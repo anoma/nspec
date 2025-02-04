@@ -33,16 +33,12 @@ tags:
 
 ## Message types
 
----
-
 ### `RouterMsgSend`
 
 Send an `EngineMsg` to the remote node with the given transport preferences and
 expiry time for send retries.
 
 Expected sender: any local engine.
-
----
 
 #### `NodeOutMsg`
 
@@ -60,15 +56,11 @@ type NodeOutMsg M := mkNodeOutMsg@{
 ```
 <!-- --8<-- [end:NodeOutMsg] -->
 
----
-
 ### `RouterMsgRecv`
 
 Receive a message from the remote node.
 
 Expected sender: local [[Transport Connection]] engine.
-
----
 
 #### `NodeMsg`
 
@@ -92,8 +84,6 @@ type NodeMsg := mkNodeMsg@{
 
     `msg`
     : Encrypted `SerializedMsg` message that contains an `EngineMsg`.
-
----
 
 ### `ConnectRequest`
 
@@ -141,13 +131,9 @@ type ConnectRequest :=
     `dst_node_advert_ver`
     : Latest known `NodeAdvert` version of the destination node.
 
----
-
 ### `ConnectReply`
 
 Reply to a `ConnectRequest`.
-
----
 
 #### `ConnectReplyOk`
 
@@ -168,8 +154,6 @@ type ConnectReplyOk :=
 
     `node_advert_ver`
     : Latest local `NodeAdvert` version.
-
----
 
 #### `ConnectReplyError`
 
@@ -194,15 +178,11 @@ type ConnectReplyError :=
   `NodeConnectReplyErrorDenied`
   : Connection denied by local policy.
 
----
-
 #### `ConnectReply`
 
 ```juvix
 ConnectReply : Type := Result ConnectReplyOk ConnectReplyError;
 ```
-
----
 
 ### `SetPermanence`
 
@@ -218,8 +198,6 @@ type ConnectionPermanence :=
   | RouterMsgConnectionPermanent
   ;
 ```
-
----
 
 ### `RouterMsg`
 

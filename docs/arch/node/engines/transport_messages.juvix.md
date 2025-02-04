@@ -32,8 +32,6 @@ These are the messages that the Transport engine can receive.
 
 ## Message types
 
----
-
 ### `TransportOutMsg`
 
 Send a message to a remote node via the given transport address.

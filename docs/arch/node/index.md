@@ -20,8 +20,6 @@ The specification is organized into the following sections:
 
 - [[Network Subsystem]]
 
----
-
 ## Message Flow
 
 <figure markdown>

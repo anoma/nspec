@@ -71,8 +71,6 @@ type Engine C S B H A AM AC AE :=
     `behaviour`
     : the engine behaviour.
 
----
-
 ### On the type parameters
 
 In the related types to `Engine` such as `EngineBehaviour`, we try to follow
@@ -82,8 +80,6 @@ the following convention:
   type parameters sequence in the `Engine` type, and
 - the first type parameter of `EngineBehaviour` is always `C`, the type for
   the read-only engine configuration.
-
----
 
 ### Example: Voting Engine
 

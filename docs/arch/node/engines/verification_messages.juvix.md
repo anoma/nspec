@@ -26,8 +26,6 @@ tags:
 
 ## Message sequence diagrams
 
----
-
 ### Verification sequence (without `signs_for` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-no-signs-for] -->
@@ -48,8 +46,6 @@ Sequence diagram for verification (no `signs_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-no-signs-for] -->
-
----
 
 ### Verification sequence (with `signs_for` evidence)
 
@@ -76,11 +72,7 @@ Sequence diagram for verification (with `signs_for` evidence).
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-signs-for] -->
 
----
-
 ## Message types
-
----
 
 ### `RequestVerification`
 
@@ -111,8 +103,6 @@ A `RequestVerification` instructs the Verification Engine to verify a commitment
     `useSignsFor`:
     : Whether or not to use known `signs_for` relationships.
 
----
-
 ### `ReplyVerification`
 
 ```juvix
@@ -132,8 +122,6 @@ response to a `RequestVerification`.
 
     `err`:
     : An error message if verification failed.
-
----
 
 ### `VerificationMsg`
 

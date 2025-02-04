@@ -24,8 +24,6 @@ tags:
 
 # Messages and mailboxes
 
----
-
 ## Types
 
 A message is a piece of data dispatched from one engine, termed the _sender_, to
@@ -38,8 +36,6 @@ the target engine has only one mailbox, the mailbox identifier is redundant.
 
 The following types are used to represent these messages and mailboxes.
 
----
-
 ### `EngineMsgID`
 
 An *engine message identifier*.
@@ -48,8 +44,6 @@ The cryptographic hash of the corresponding `EngineMsg`.
 ```juvix
 syntax alias EngineMsgID := Digest;
 ```
-
----
 
 ### `Mailbox S`
 
@@ -72,8 +66,6 @@ type Mailbox S M := mkMailbox@{
 };
 ```
 
----
-
 ### `MailboxID`
 
 A *mailbox identifier* is a natural number used to index mailboxes.
@@ -88,8 +80,6 @@ A *mailbox identifier* is a natural number used to index mailboxes.
 ```juvix
 syntax alias MailboxID := Nat;
 ```
-
----
 
 ### `EngineMsg`
 
@@ -106,8 +96,6 @@ type EngineMsg M :=
   };
 ```
 
----
-
 ### `Timer H`
 
 ```juvix
@@ -117,8 +105,6 @@ type Timer H := mkTimer@{
 };
 ```
 
----
-
 ### `Trigger H`
 
 ```juvix
@@ -126,8 +112,6 @@ type Trigger H M :=
   | MessageArrived { msg : EngineMsg M; }
   | Elapsed { timers : List (Timer H) };
 ```
-
----
 
 ### `getEngineMsgFromTrigger`
 
@@ -141,8 +125,6 @@ getEngineMsgFromTrigger {H M} (tr : Trigger H M) : Option (EngineMsg M)
   };
 ```
 
----
-
 ### `getMsgFromTrigger`
 
 Extract the `Msg` from a trigger in case it has one:
@@ -155,8 +137,6 @@ getMsgFromTrigger {H M} (tr : Trigger H M) : Option M
   };
 ```
 
----
-
 ### `getSenderFromTrigger`
 
 ```juvix
@@ -166,8 +146,6 @@ getSenderFromTrigger {H M} (tr : Trigger H M) : Option EngineID
   | Elapsed@{} := none
   };
 ```
-
----
 
 ### `getTargetFromTrigger`
 
@@ -179,8 +157,6 @@ getTargetFromTrigger {H M} (tr : Trigger H M) : Option EngineID
   };
 ```
 
----
-
 ### `TimestampedTrigger H`
 
 ```juvix
@@ -191,16 +167,12 @@ type TimestampedTrigger H M :=
   };
 ```
 
----
-
 ### `getEngineMsgFromTimestampedTrigger`
 
 ```juvix
 getEngineMsgFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option (EngineMsg M)
   := getEngineMsgFromTrigger (TimestampedTrigger.trigger tr);
 ```
-
----
 
 ### `getMsgFromTimestampedTrigger`
 
@@ -209,16 +181,12 @@ getMsgFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option M
   := getMsgFromTrigger (TimestampedTrigger.trigger tr);
 ```
 
----
-
 ### `getSenderFromTimestampedTrigger`
 
 ```juvix
 getSenderFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
   := getSenderFromTrigger (TimestampedTrigger.trigger tr);
 ```
-
----
 
 ### `getTargetFromTimestampedTrigger`
 

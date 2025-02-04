@@ -51,16 +51,12 @@ decryption. This ensures that encrypted data can only be decrypted by
 authorised parties while maintaining the security of the private
 decryption keys.
 
----
-
 ## Engine components
 
 - [[Decryption Messages]]
 - [[Decryption Configuration]]
 - [[Decryption Environment]]
 - [[Decryption Behaviour]]
-
----
 
 ## The type for a decryption engine
 
@@ -78,8 +74,6 @@ DecryptionEngine : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:DecryptionEngine] -->
-
----
 
 ### Example of a decryption engine
 

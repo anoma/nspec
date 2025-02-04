@@ -10,8 +10,6 @@ tags:
 
 # The concept of an engine
 
----
-
 ## Overview
 
 The model of Anoma revolves around the concept of an [[Engine|engine]], an
@@ -28,11 +26,7 @@ We show the type definition here for convenience.
 
 --8<-- "./docs/arch/node/types/engine.juvix.md:Engine"
 
----
-
 ## Engine components
-
----
 
 ### [[Engine Configuration|*Configuration*]]
 
@@ -46,8 +40,6 @@ The configuration of an engine. It consists of:
 The complete definition of an engine configuration can be found in the
 [[Engine Configuration|Juvix engine configuration definition]].
 
----
-
 ### [[Engine Environment|*Environment*]]
 
 The execution context of an engine. It consists of:
@@ -59,8 +51,6 @@ The execution context of an engine. It consists of:
 
 The complete definition of an engine environment can be found in the
 [[Engine Environment|Juvix engine environment definition]].
-
----
 
 ### [[Engine Behaviour|*Behaviour*]]
 
@@ -74,8 +64,6 @@ messages. This includes:
 
 The complete definition of an engine behaviour can be found in the
 [[Engine Behaviour|Juvix engine behaviour definition]].
-
----
 
 ## Useful Links
 

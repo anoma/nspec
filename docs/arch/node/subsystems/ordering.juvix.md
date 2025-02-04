@@ -19,8 +19,6 @@ tags:
 
 # Ordering Subsystem
 
----
-
 ## Purpose
 
 The *Ordering Subsystem* is responsible for ordering transactions in the node.

@@ -20,17 +20,11 @@ tags:
 
 # Commitment Messages
 
----
-
 ## Message interface
 
 --8<-- "./commitment_messages.juvix.md:CommitmentMsg"
 
----
-
 ## Message sequence diagrams
-
----
 
 ### Request sequence
 
@@ -55,8 +49,6 @@ Sequence diagram for commitment generation.
 
 ## Message types
 
----
-
 ### `RequestCommitment`
 
 ```juvix
@@ -72,8 +64,6 @@ commitment (signature) over the provided data.
 
     `data`:
     : The data to sign.
-
----
 
 ### `ReplyCommitment`
 
@@ -95,8 +85,6 @@ commitment engine instance in response to a `RequestCommitment`.
     `err`:
     : An error message if commitment generation failed.
 
----
-
 ### `CommitmentMsg`
 
 <!-- --8<-- [start:CommitmentMsg] -->
@@ -107,8 +95,6 @@ type CommitmentMsg :=
   ;
 ```
 <!-- --8<-- [end:CommitmentMsg] -->
-
----
 
 ## Engine components
 

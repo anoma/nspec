@@ -33,8 +33,6 @@ These are the messages that the *Transport Protocol* engine can receive.
 
 ## Message types
 
----
-
 ### `TransportOutMsg`
 
 Send a message to a remote node via the given transport address.
@@ -67,8 +65,6 @@ type TransportOutMsg := mkTransportOutMsg@{
 
     `msg`
     : Node message.
-
----
 
 ### `TransportProtocolMsg`
 

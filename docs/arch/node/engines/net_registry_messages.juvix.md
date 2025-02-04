@@ -61,17 +61,11 @@ Sequence Diagram: `ExampleRequest` & `ExampleReply`
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
 
----
-
 ## Message types
-
----
 
 ### `NetworkRegistryMsgNodeAdvert`
 
 A `NodeAdvert` update from another node.
-
----
 
 ## `NodeAdvert`
 
@@ -106,8 +100,6 @@ type NodeAdvert :=
     `sig`
     : Signature by `id`.
 
----
-
 ### `TopicAdvert`
 
 A *topic advertisement* is signed by the topic creator, and contains the topic's
@@ -127,21 +119,15 @@ type TopicAdvert :=
   };
 ```
 
----
-
 ### `GetNodeAdvertRequest`
 
 Get `NodeAdvert` for the given `NodeID`.
 
 Sender: any local engine.
 
----
-
 ### `GetNodeAdvertReply`
 
 Reply to a `GetNodeAdvertRequest`.
-
----
 
 #### `GetNodeAdvertReplyOk`
 
@@ -171,15 +157,11 @@ GetNodeAdvertReply : Type := Result GetNodeAdvertReplyError GetNodeAdvertReplyOk
 ```
 <!-- --8<-- [end:GetNodeAdvertReply] -->
 
----
-
 ### `GetTopicAdvertRequest`
 
 Get `TopicAdvert` for the given `TopicID`.
 
 Sender: any local engine.
-
----
 
 ### `GetTopicAdvertReply`
 
@@ -212,8 +194,6 @@ type GetTopicAdvertReplyError :=
 GetTopicAdvertReply : Type := Result GetTopicAdvertReplyError GetTopicAdvertReplyOk;
 ```
 <!-- --8<-- [end:GetTopicAdvertReply] -->
-
----
 
 ### `NetworkRegistryMsg`
 

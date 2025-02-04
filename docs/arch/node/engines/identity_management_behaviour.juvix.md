@@ -43,11 +43,7 @@ these functions along with maintaining a database which may be modified through
 the creation, connection, and deletion of identities associated with specific
 capabilities.
 
----
-
 ## Identity Management Action Flowcharts
-
----
 
 ### `generateIdentityAction` flowchart
 
@@ -88,8 +84,6 @@ flowchart TD
 
 </figcaption>
 </figure>
-
----
 
 #### Explanation
 
@@ -133,8 +127,6 @@ flowchart TD
    - Reply is sent back to the original requester
    - Uses mailbox 0 (default mailbox for responses)
 
----
-
 ### `connectIdentityAction` flowchart
 
 <figure markdown>
@@ -174,8 +166,6 @@ flowchart TD
 
 </figcaption>
 </figure>
-
----
 
 #### Explanation
 
@@ -222,8 +212,6 @@ flowchart TD
    - Reply is sent back to the original requester
    - Uses mailbox 0 (default mailbox for responses)
 
----
-
 ### `deleteIdentityAction` flowchart
 
 <figure markdown>
@@ -262,8 +250,6 @@ flowchart TD
 </figcaption>
 </figure>
 
----
-
 #### Explanation
 
 1. **Initial Request**
@@ -297,8 +283,6 @@ flowchart TD
    - Reply is sent back to the original requester
    - Uses mailbox 0 (default mailbox for responses)
 
----
-
 #### Important Notes
   - All spawned engines inherit the backend from the generation request
   - Engine references are managed through the identity management engine's state
@@ -307,11 +291,7 @@ flowchart TD
   - Each identity maintains its own separate set of engines
   - State updates are atomic - either all parts succeed or none do
 
----
-
 ## Action arguments
-
----
 
 ### `MessageFrom`
 
@@ -322,8 +302,6 @@ type MessageFrom := mkMessageFrom {
 };
 ```
 
----
-
 ### `IdentityManagementActionArgument`
 
 <!-- --8<-- [start:IdentityManagementActionArgument] -->
@@ -333,8 +311,6 @@ type IdentityManagementActionArgument :=
 ```
 <!-- --8<-- [end:IdentityManagementActionArgument] -->
 
----
-
 ### `IdentityManagementActionArguments`
 
 <!-- --8<-- [start:identity-management-action-arguments] -->
@@ -342,8 +318,6 @@ type IdentityManagementActionArgument :=
 IdentityManagementActionArguments : Type := List IdentityManagementActionArgument;
 ```
 <!-- --8<-- [end:identity-management-action-arguments] -->
-
----
 
 ## Actions
 
@@ -633,8 +607,6 @@ generateIdentityAction
 ```
 <!-- --8<-- [end:generateIdentityAction] -->
 
----
-
 ### `connectIdentityAction`
 
 State update
@@ -754,8 +726,6 @@ connectIdentityAction
 ```
 <!-- --8<-- [end:connectIdentityAction] -->
 
----
-
 ### `deleteIdentityAction`
 
 State update
@@ -831,11 +801,7 @@ deleteIdentityAction
 ```
 <!-- --8<-- [end:deleteIdentityAction] -->
 
----
-
 ### Action Labels
-
----
 
 #### `generateIdentityActionLabel`
 
@@ -843,23 +809,17 @@ deleteIdentityAction
 generateIdentityActionLabel : IdentityManagementActionExec := Seq [ generateIdentityAction ];
 ```
 
----
-
 #### `connectIdentityActionLabel`
 
 ```juvix
 connectIdentityActionLabel : IdentityManagementActionExec := Seq [ connectIdentityAction ];
 ```
 
----
-
 #### `deleteIdentityActionLabel`
 
 ```juvix
 deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentityAction ];
 ```
-
----
 
 ## Guards
 
@@ -922,8 +882,6 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
     ```
     <!-- --8<-- [end:IdentityManagementGuardEval] -->
 
----
-
 ### `generateIdentityGuard`
 
 Condition
@@ -948,8 +906,6 @@ generateIdentityGuard
   };
 ```
 <!-- --8<-- [end:generateIdentityGuard] -->
-
----
 
 ### `connectIdentityGuard`
 
@@ -1005,8 +961,6 @@ deleteIdentityGuard
 
 ## The Identity Management Behaviour
 
----
-
 ### `IdentityManagementBehaviour`
 
 <!-- --8<-- [start:IdentityManagementBehaviour] -->
@@ -1023,8 +977,6 @@ IdentityManagementBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:IdentityManagementBehaviour] -->
-
----
 
 ### Instantiation
 
