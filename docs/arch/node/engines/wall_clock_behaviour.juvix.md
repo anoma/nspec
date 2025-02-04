@@ -40,12 +40,20 @@ and produces time results using the current wall clock time.
 
 <!-- --8<-- [start:MessageFrom] -->
 ```juvix
-type MessageFrom := mkMessageFrom {
+type MessageFrom := mkMessageFrom@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
 ```
 <!-- --8<-- [end:MessageFrom] -->
+
+???+ quote "Argument description"
+
+    `whoAsked`:
+    : The engine ID of the requester.
+
+    `mailbox`:
+    : The mailbox ID where the response message should be sent.
 
 ### `WallClockActionArgument`
 

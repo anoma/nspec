@@ -52,7 +52,7 @@ Expected sender: any local engine.
 
 <!-- --8<-- [start:NodeOutMsg] -->
 ```juvix
-type NodeOutMsg M := mkNodeOutMsg {
+type NodeOutMsg M := mkNodeOutMsg@{
   prefs : TransportPrefs;
   expiry : Time;
   msg : EngineMsg M;
@@ -78,7 +78,7 @@ Sender: local [[Transport Connection]] engine.
 
 <!-- --8<-- [start:NodeMsg] -->
 ```juvix
-type NodeMsg := mkNodeMsg {
+type NodeMsg := mkNodeMsg@{
   seq : Nat;
   msg : EncryptedMsg;
 };
@@ -94,7 +94,6 @@ type NodeMsg := mkNodeMsg {
     : Encrypted `SerializedMsg` message that contains an `EngineMsg`.
 
 ---
-
 
 ### `ConnectRequest`
 
@@ -112,7 +111,7 @@ Expected sender: remote [[Router]] engine.
 
 ```juvix
 type ConnectRequest :=
-  mkConnectRequest {
+  mkConnectRequest@{
     proto_ver_min : Nat;
     proto_ver_max : Nat;
     src_node_id : NodeID;
@@ -156,7 +155,7 @@ Accept a connection from a node.
 
 ```juvix
 type ConnectReplyOk :=
-  mkConnectReplyOk {
+  mkConnectReplyOk@{
     proto_ver : Nat;
     node_advert_ver : Pair Nat Nat;
   }

@@ -27,7 +27,8 @@ tags:
 
 ## Overview
 
-The logging environment maintains the state necessary for recording logs locally on the physical machine.
+The logging environment maintains the state necessary for recording logs locally
+on the physical machine.
 
 ## Mailbox state types
 
@@ -46,9 +47,9 @@ The logging engine does not require complex mailbox states.
 <!-- --8<-- [start:LoggingLocalState] -->
 ```juvix
 type LoggingLocalState :=
-  mkLoggingLocalState {
+  mkLoggingLocalState@{
     logbook : List String
-};
+  };
 ```
 <!-- --8<-- [end:LoggingLocalState] -->
 
