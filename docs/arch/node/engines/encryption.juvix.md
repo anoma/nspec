@@ -57,9 +57,14 @@ check for any relevant reads-for relationships, then encrypts the data in a way 
 relationships. This mode enables scenarios where data should be accessible not just to the direct
 recipient, but also to other identities with approved access rights.
 
-The engine is spawned by the system when encryption services are needed and operates statelessly
-except when handling reads-for queries. For reads-for cases, it maintains a temporary queue of
-pending encryption requests while waiting for relationship evidence.
+??? info "On spawning"
+
+    The engine is spawned by the system
+    when encryption services are needed and operates statelessly
+    except when handling reads-for queries.
+    For reads-for cases,
+    it maintains a temporary queue of pending encryption requests
+    while waiting for relationship evidence.
 
 ## Engine components
 
