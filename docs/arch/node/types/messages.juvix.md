@@ -159,24 +159,24 @@ getMsgFromTrigger {H M} (tr : Trigger H M) : Option M
 
 ### `getSenderFromTrigger`
 
-    ```juvix
-    getSenderFromTrigger {H M} (tr : Trigger H M) : Option EngineID
-      := case tr of {
-      | MessageArrived@{msg} := some (EngineMsg.sender msg)
-      | Elapsed@{} := none
-      };
+```juvix
+getSenderFromTrigger {H M} (tr : Trigger H M) : Option EngineID
+  := case tr of {
+  | MessageArrived@{msg} := some (EngineMsg.sender msg)
+  | Elapsed@{} := none
+  };
 ```
 
 ---
 
 ### `getTargetFromTrigger`
 
-    ```juvix
-    getTargetFromTrigger {H M} (tr : Trigger H M) : Option EngineID
-      := case tr of {
-      | MessageArrived@{msg} := some (EngineMsg.target msg)
-      | Elapsed@{} := none
-      };
+```juvix
+getTargetFromTrigger {H M} (tr : Trigger H M) : Option EngineID
+  := case tr of {
+  | MessageArrived@{msg} := some (EngineMsg.target msg)
+  | Elapsed@{} := none
+  };
 ```
 
 ---

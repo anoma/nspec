@@ -4,7 +4,7 @@ search:
   exclude: false
 tags:
   - node-architecture
-  - hardware-subsystem
+  - network-subsystem
   - engine
   - storage
   - configuration
