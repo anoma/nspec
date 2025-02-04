@@ -186,6 +186,21 @@ type ActionExec C S B H A AM AC AE :=
 
 ### `Guard`
 
+A guard implements—first and foremost—a pre-condition for an action,
+which checks whether the associated action or action sequence is to be performed.
+
+??? note "Relation to other notions of guards"
+
+    Guards generalize guards as used in Erlang.
+    In future versions,
+    simplified forms of guards
+    and a DSL may come so that
+    we do not always have to write in the most general style.
+
+If the pre-condition of a guard is satisfied,
+the guard produces an output that is part of the input of actions;
+otherwise, it returns nothing.
+
 <!-- --8<-- [start:Guard] -->
 ```juvix
 {-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
