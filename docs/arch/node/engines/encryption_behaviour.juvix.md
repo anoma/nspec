@@ -44,7 +44,7 @@ encryption requests and produces the corresponding responses.
 flowchart TD
     Start([Client Request]) --> MsgReq[MsgEncryptionRequest<br/>data: Plaintext<br/>externalIdentity: ExternalIdentity<br/>useReadsFor: Bool]
 
-    subgraph Guard["encryptGuard (Message Validation)"]
+    subgraph Guard["encryptGuard"]
         MsgReq --> ValidType{Is message type<br/>EncryptionRequest?}
         ValidType -->|No| Reject([Reject Request])
         ValidType -->|Yes| ActionEntry[Enter Action Phase]
@@ -110,7 +110,7 @@ flowchart TD
        - Awaits existing query's reply
      - No immediate response is sent to client
 
-4. **Important State Changes**
+4. **State Changes**
    - Direct Path: No state changes
    - ReadsFor Path: Updates `pendingRequests` map in local state
      - Key: `externalIdentity`
@@ -191,10 +191,11 @@ flowchart TD
    - Each response is sent back to its original requester
    - Uses mailbox  0 (the default) for all responses
 
-#### Important Notes:
-- All pending requests for an identity are processed in a single batch when evidence arrives
-- The same evidence is used for all pending requests for that identity
-- If no pending requests exist for the identity when evidence arrives, the evidence is discarded
+!!! warning "Important Notes"
+
+    - All pending requests for an identity are processed in a single batch when evidence arrives
+    - The same evidence is used for all pending requests for that identity
+    - If no pending requests exist for the identity when evidence arrives, the evidence is discarded
 
 ## Action arguments
 

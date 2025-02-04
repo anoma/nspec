@@ -101,9 +101,10 @@ flowchart TD
    - Response is sent back to the original requester
    - Response is sent to mailbox 0.
 
-### Important Notes:
-- The resolution process is read-only - it never modifies the evidence store
-- Multiple external identities may be associated with a single name
+!!! warning "Important Notes"
+
+    - The resolution process is read-only - it never modifies the evidence store
+    - Multiple external identities may be associated with a single name
 
 ### `submitNameEvidenceAction` flowchart
 
@@ -184,9 +185,10 @@ flowchart TD
    - Response is sent back to the original requester
    - Response is sent to mailbox 0.
 
-### Important Notes:
-- The engine maintains an append-only evidence store, never removing or modifying existing evidence. The evidence store is the only mutable state in this flow and all state changes are performed only after complete validation.
-- Evidence uniqueness is checked using exact matching
+!!! warning "Important Notes"
+
+    - The engine maintains an append-only evidence store, never removing or modifying existing evidence. The evidence store is the only mutable state in this flow and all state changes are performed only after complete validation.
+    - Evidence uniqueness is checked using exact matching
 
 ### `queryNameEvidenceAction` flowchart
 
@@ -250,9 +252,10 @@ flowchart TD
    - Response is sent back to the original requester
    - Uses mailbox ID 0
 
-### Important Notes:
-- The query operation is read-only - it doesn't modify the evidence store
-- Multiple pieces of evidence may exist for the same external identity
+!!! warning "Important Notes"
+
+    - The query operation is read-only - it doesn't modify the evidence store
+    - Multiple pieces of evidence may exist for the same external identity
 
 ## Action arguments
 

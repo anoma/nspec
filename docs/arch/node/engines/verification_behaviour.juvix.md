@@ -207,10 +207,11 @@ Let me provide a detailed explanation of the SignsFor Reply flow chart, followin
    - All responses are sent back to their original requesters
    - Each response uses mailbox ID 0
 
-#### Important Notes:
-- The engine processes all pending requests for an identity at once when evidence arrives
-- The state is cleaned up (pending requests removed) regardless of verification results
-- Each original requester gets their own individual response
+!!! warning "Important Notes"
+
+    - The engine processes all pending requests for an identity at once when evidence arrives
+    - The state is cleaned up (pending requests removed) regardless of verification results
+    - Each original requester gets their own individual response
 
 ## Action arguments
 
