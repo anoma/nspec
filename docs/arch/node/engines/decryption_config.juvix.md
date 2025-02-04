@@ -25,14 +25,20 @@ tags:
 
 # Decryption Configuration
 
+---
+
 ## Overview
 
 The decryption engine configuration contains static information for decryption engine instances.
+
+---
 
 ## The Decryption Configuration
 
 The configuration of a Decryption Engine instance includes the identity's
 decryption capabilities.
+
+---
 
 ### `DecryptionCfg`
 
@@ -53,7 +59,9 @@ type DecryptionCfg := mkDecryptionCfg@{
     `backend`:
     : The backend to use for decryption.
 
-#### Instantiation
+---
+
+### Instantiation
 
 <!-- --8<-- [start:decryptionCfg] -->
 ```juvix extract-module-statements

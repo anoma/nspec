@@ -2,6 +2,11 @@
     max-width: 100%;
   }
 
+h1, h2, h3, h4, h5, h6 {
+  border-top: 1px solid lightgray;
+  padding-top: 0.5rem;
+}
+
 /* Admonition for Juvix code blocks */
 
 :root {

@@ -20,6 +20,8 @@ tags:
 
 # Commitment Messages
 
+---
+
 ## Message interface
 
 --8<-- "./commitment_messages.juvix.md:CommitmentMsg"

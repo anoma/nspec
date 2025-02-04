@@ -27,12 +27,18 @@ tags:
 
 # SignsFor Behaviour
 
+---
+
 ## Overview
 
 The behavior of the SignsFor Engine defines how it processes incoming messages and updates
 its state accordingly.
 
+---
+
 ## Action arguments
+
+---
 
 ### `SignsForActionArgumentReplyTo ReplyTo`
 
@@ -52,6 +58,8 @@ response message should be sent.
 `mailbox`:
 : The mailbox ID where the response should be sent.
 
+---
+
 ### `SignsForActionArgument`
 
 <!-- --8<-- [start:SignsForActionArgument] -->
@@ -62,6 +70,8 @@ type SignsForActionArgument :=
 ```
 <!-- --8<-- [end:SignsForActionArgument] -->
 
+---
+
 ### `SignsForActionArguments`
 
 <!-- --8<-- [start:signs-for-action-arguments] -->
@@ -69,6 +79,8 @@ type SignsForActionArgument :=
 SignsForActionArguments : Type := List SignsForActionArgument;
 ```
 <!-- --8<-- [end:signs-for-action-arguments] -->
+
+---
 
 ## Actions
 
@@ -130,6 +142,8 @@ SignsForActionArguments : Type := List SignsForActionArgument;
         Anoma.Env;
     ```
 
+---
+
 ### `signsForQueryAction`
 
 Respond to a signs_for query.
@@ -184,6 +198,8 @@ signsForQueryAction
     | _ := none
     }
 ```
+
+---
 
 ### `submitEvidenceAction`
 
@@ -283,6 +299,8 @@ submitEvidenceAction
     }
 ```
 
+---
+
 ### `queryEvidenceAction`
 
 Query signs_for evidence for a specific identity.
@@ -339,7 +357,11 @@ queryEvidenceAction
     }
 ```
 
+---
+
 ## Action Labels
+
+---
 
 ### `signsForQueryActionLabel`
 
@@ -347,17 +369,23 @@ queryEvidenceAction
 signsForQueryActionLabel : SignsForActionExec := Seq [ signsForQueryAction ];
 ```
 
+---
+
 ### `submitEvidenceActionLabel`
 
 ```juvix
 submitEvidenceActionLabel : SignsForActionExec := Seq [ submitEvidenceAction ];
 ```
 
+---
+
 ### `queryEvidenceActionLabel`
 
 ```juvix
 queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
 ```
+
+---
 
 ## Guards
 
@@ -414,6 +442,8 @@ queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
     ```
     <!-- --8<-- [end:SignsForGuardEval] -->
 
+---
+
 ### `signsForQueryGuard`
 
 Condition
@@ -437,6 +467,8 @@ signsForQueryGuard
     };
 ```
 <!-- --8<-- [end:signsForQueryGuard] -->
+
+---
 
 ### `submitEvidenceGuard`
 
@@ -462,6 +494,8 @@ submitEvidenceGuard
 ```
 <!-- --8<-- [end:submitEvidenceGuard] -->
 
+---
+
 ### `queryEvidenceGuard`
 
 Condition
@@ -486,7 +520,11 @@ queryEvidenceGuard
 ```
 <!-- --8<-- [end:queryEvidenceGuard] -->
 
+---
+
 ## The SignsFor Behaviour
+
+---
 
 ### `SignsForBehaviour`
 
@@ -505,6 +543,8 @@ SignsForBehaviour : Type :=
 ```
 <!-- --8<-- [end:SignsForBehaviour] -->
 
+---
+
 ### Instantiation
 
 <!-- --8<-- [start:signsForBehaviour] -->
@@ -520,7 +560,11 @@ signsForBehaviour : SignsForBehaviour :=
 ```
 <!-- --8<-- [end:signsForBehaviour] -->
 
+---
+
 ## SignsFor Action Flowcharts
+
+---
 
 ### `signsForQueryAction` flowchart
 
@@ -547,6 +591,8 @@ signsForQueryAction flowchart
 </figcaption>
 </figure>
 
+---
+
 ### `submitEvidenceAction` flowchart
 
 <figure markdown>
@@ -572,6 +618,8 @@ flowchart TD
 submitEvidenceAction flowchart
 </figcaption>
 </figure>
+
+---
 
 ### `queryEvidenceAction` flowchart
 

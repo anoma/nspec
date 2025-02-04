@@ -26,7 +26,11 @@ tags:
     import arch.node.types.anoma as Anoma open;
     ```
 
+---
+
 # Transport Connection Behaviour
+
+---
 
 ## Overview
 
@@ -34,8 +38,12 @@ A *Transport Connection* engine acts in the ways described on this page.
 The action labels correspond to the actions that can be performed by the engine.
 Using the action labels, we describe the effects of the actions.
 
+---
+
 ## Transport Connection Action Flowchart
 
+
+---
 
 ### `exampleReply` Flowchart
 
@@ -67,10 +75,14 @@ flowchart TD
 </figure>
 
 
+---
+
 ## Action arguments
 
 The action arguments are set by a guard
 and passed to the action function as part of the `GuardOutput`.
+
+---
 
 ### `TransportConnectionActionArguments`
 
@@ -79,6 +91,8 @@ and passed to the action function as part of the `GuardOutput`.
 TransportConnectionActionArguments : Type := Unit;
 ```
 <!-- --8<-- [end:TransportConnectionActionArguments] -->
+
+---
 
 ## Actions
 
@@ -148,6 +162,8 @@ TransportConnectionActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:TransportConnectionActionExec] -->
 
+---
+
 #### `exampleReplyAction`
 
 Respond with a `TransportConnectionMsgExampleReply`.
@@ -206,13 +222,19 @@ exampleReplyAction
 ```
 <!-- --8<-- [end:exampleReplyAction] -->
 
+---
+
 ## Action Labels
+
+---
 
 ### `exampleReplyActionLabel`
 
 ```juvix
 exampleReplyActionLabel : TransportConnectionActionExec := Seq [ exampleReplyAction ];
 ```
+
+---
 
 ## Guards
 
@@ -269,6 +291,8 @@ exampleReplyActionLabel : TransportConnectionActionExec := Seq [ exampleReplyAct
     ```
     <!-- --8<-- [end:TransportConnectionGuardEval] -->
 
+---
+
 ### `exampleReplyGuard`
 
 Guard description (optional).
@@ -297,7 +321,11 @@ exampleReplyGuard
 ```
 <!-- --8<-- [end:exampleReplyGuard] -->
 
+---
+
 ## The Transport Connection behaviour
+
+---
 
 ### `TransportConnectionBehaviour`
 
@@ -315,6 +343,8 @@ TransportConnectionBehaviour : Type :=
     Anoma.Env;
 ```
 <!-- --8<-- [end:TransportConnectionBehaviour] -->
+
+---
 
 #### Instantiation
 
