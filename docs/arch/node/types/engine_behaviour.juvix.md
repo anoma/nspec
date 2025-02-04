@@ -267,4 +267,22 @@ type EngineBehaviour C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
 
+!!! note "Summary of behaviour"
+
+    Roughly,
+    engines are a collection of guarded state-transition functions,
+    using terminology of
+    [Moore](https://en.wikipedia.org/wiki/Moore_machine) or
+    [Mealy](https://en.wikipedia.org/wiki/Moore_machine) machines.
+    The presentation in terms of a set of guards
+    is in the spirit of Dijkstra's
+    [guarded command language](https://en.wikipedia.org/wiki/Guarded_Command_Language),
+    where the commands are replaced by actions.
+    Effectively,
+    the data of engine behaviour indirectly describes a function
+    that determines how the received timestamped trigger is to be handled,
+    expressed as a set of action effects.[^2]
+
 [^1]: This is likely to change in future versions.
+
+[^2]: In future versions, this may be done using `do notation` (as provided by monads).
