@@ -35,7 +35,7 @@ the critical process of ordering transactions and orchestrating their execution.
 Think of it as a traffic controller that not only assigns each transaction a unique
 position in line (via a timestamp called a *TxFingerprint*), but also ensures all the
 necessary resources (state access) are locked and ready before execution begins. In
-the current version of Anoma (V2), there is only a single Mempool Worker Engine
+the current version of Anoma (up to v0.2), there is only a single Mempool Worker Engine
 instance, making it the central coordinator for all transaction processing.
 
 When users or solvers submit transactions (via `MempoolWorkerMsgTransactionRequest`),
@@ -81,7 +81,7 @@ don't conflict, ensuring [serializability](https://en.wikipedia.org/wiki/Databas
 ## Purpose
 
 Workers are one of the [[Mempool Engines#mempool-engines|mempool engines]]
-and, in V2, they are _the_ only one and there is only a single worker.
+and, up to v0.2, they are _the_ only one and there is only a single worker.
 
 The worker receives transaction requests from users and
 [[Solver#solver|solvers]] and batches these transaction requests, assigning a
