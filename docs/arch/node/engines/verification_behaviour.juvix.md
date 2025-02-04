@@ -94,21 +94,23 @@ flowchart TD
 3. **Action Phase** (`verifyAction`)
    - Processing branches based on the `useSignsFor` flag:
 
-   **Direct Verification Path** (useSignsFor = false)
-   - Directly verifies the commitment using the configured verifier
-   - Creates `MsgVerificationReply` with:
-     - `result`: Boolean indicating if verification succeeded
-     - `err`: None (or Some error message if verification failed)
-   - Sends response immediately back to requester
+   - **Direct Verification Path** (useSignsFor = false)
 
-   **SignsFor Path** (useSignsFor = true)
-   - Checks if there are existing pending requests for this identity
-   - If this is the first request:
-     - Stores request in pending requests map
-     - Sends `MsgQuerySignsForEvidenceRequest` to SignsFor Engine
-   - If there are existing requests:
-     - Only stores new request in pending requests map
-   - No immediate response is sent to client
+     - Directly verifies the commitment using the configured verifier
+     - Creates `MsgVerificationReply` with:
+       - `result`: Boolean indicating if verification succeeded
+       - `err`: None (or Some error message if verification failed)
+     - Sends response immediately back to requester
+
+   - **SignsFor Path** (useSignsFor = true)
+
+     - Checks if there are existing pending requests for this identity
+     - If this is the first request:
+       - Stores request in pending requests map
+       - Sends `MsgQuerySignsForEvidenceRequest` to SignsFor Engine
+     - If there are existing requests:
+       - Only stores new request in pending requests map
+     - No immediate response is sent to client
 
 4. **State Management**
    - For direct verification: No state changes
@@ -120,9 +122,10 @@ flowchart TD
        - The commitment to verify
      - Maintains these until signs-for evidence is received
 
-#### Important Notes
-   - Multiple requests for the same identity are batched to avoid duplicate signs-for queries
-   - The engine ensures exactly one signs-for query per identity is in flight at any time
+!!! warning "Important Notes"
+
+    - Multiple requests for the same identity are batched to avoid duplicate signs-for queries
+    - The engine ensures exactly one signs-for query per identity is in flight at any time
 
 ### `signsForReplyAction` flowchart
 
