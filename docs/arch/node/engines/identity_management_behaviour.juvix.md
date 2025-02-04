@@ -281,13 +281,14 @@ flowchart TD
    - Reply is sent back to the original requester
    - Uses mailbox 0 (default mailbox for responses)
 
-#### Important Notes
-  - All spawned engines inherit the backend from the generation request
-  - Engine references are managed through the identity management engine's state
-  - Capabilities can only be restricted when connecting, never expanded
-  - The system maintains a mapping between identities and their associated engine references
-  - Each identity maintains its own separate set of engines
-  - State updates are atomic - either all parts succeed or none do
+!!! warning "Important Notes"
+
+    - All spawned engines inherit the backend from the generation request
+    - Engine references are managed through the identity management engine's state
+    - Capabilities can only be restricted when connecting, never expanded
+    - The system maintains a mapping between identities and their associated engine references
+    - Each identity maintains its own separate set of engines
+    - State updates are atomic - either all parts succeed or none do
 
 ## Action arguments
 
