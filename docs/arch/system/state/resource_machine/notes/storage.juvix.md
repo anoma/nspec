@@ -46,7 +46,7 @@ The interface of the tree enables efficient querying of all children of a specif
 
 Data blob storage stores data without preserving any specific structure. The data is represented as a variable length byte array and comes with a deletion criterion that determines for how long the data will be stored. The deletion criterion, in principle, is an arbitrary predicate, which in practice currently is assumed to be instantiated by one of the following options:
 
-1. delete after $transaction$
+1. delete immediately
 2. delete after $block$
 3. delete after $timestamp$
 4. delete after $sig$ over $data$
