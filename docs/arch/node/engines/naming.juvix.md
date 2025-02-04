@@ -30,14 +30,28 @@ tags:
 
 # Naming Engine
 
-The Naming Engine is responsible for tracking naming information. It supports name
-resolution, submitting name evidence, and querying name evidence.
+The Naming Engine serves as the identity resolution system within Anoma, managing human-readable
+names (`IdentityName`) and their associations with cryptographic identities (`ExternalIdentity`).
+It can be compared to a decentralized DNS system that maintains verifiable connections between
+user-friendly names and their corresponding cryptographic identities, while requiring evidence to
+support these connections. The engine maintains an internal evidence store that tracks all verified
+name-identity associations.
 
-## Purpose
+When users want to map names to identities, they interact with the engine in three main ways:
 
-The Naming Engine tracks which `IdentityName`s correspond with which `ExternalIdentity`s
-using `IdentityNameEvidence`. It provides functionality for resolving names, submitting
-name evidence, and querying name evidence.
+1. Name Resolution (`MsgNamingResolveNameRequest`): Users provide a human-readable name and receive
+back any associated cryptographic identities (`ExternalIdentity`). This is like looking up who owns
+a domain name, but with cryptographic verification.
+
+2. Evidence Submission (`MsgNamingSubmitNameEvidenceRequest`): Users can submit evidence
+(`IdentityNameEvidence`) that proves the connection between a name and an identity. The engine
+verifies this evidence before storing it in its evidence store (`evidenceStore`). This is similar to
+domain name registration, but requiring cryptographic proof of the right to associate a name with an
+identity.
+
+3. Evidence Querying (`MsgNamingQueryNameEvidenceRequest`): Users can look up all the evidence
+associated with a particular cryptographic identity. This lets them verify the validity of
+name-to-identity mappings and understand the history of name claims.
 
 ## Engine components
 

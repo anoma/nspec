@@ -32,6 +32,228 @@ tags:
 The behavior of the Naming Engine defines how it processes incoming messages and
 updates its state accordingly.
 
+## Naming Action Flowcharts
+
+### `resolveNameAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Client Request]) --> MsgReq[MsgNamingResolveNameRequest<br/>identityName: IdentityName]
+    
+    subgraph Guard["resolveNameGuard"]
+        MsgReq --> ValidType{Is message type<br/>ResolveNameRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["resolveNameAction"]
+        direction TB
+        Filter[Filter evidenceStore for<br/>matching identity name]
+        Filter --> Extract[Extract external identities<br/>from matching evidence]
+        Extract --> CreateResp[Create response with<br/>external identities]
+    end
+
+    CreateResp --> Response[MsgNamingResolveNameReply<br/>externalIdentities: Set ExternalIdentity<br/>err: none]
+    Response --> Client([Return to Client])
+```
+
+<figcaption markdown="span">
+`resolveNameAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgNamingResolveNameRequest` containing an identity name (`IdentityName`)
+   - The identity name is typically a human-readable identifier that the client wants to resolve to cryptographic identities
+
+2. **Guard Phase** (`resolveNameGuard`)
+   - Validates that the incoming message is a proper name resolution request
+   - Checks occur in the following order:
+     - Verifies message type is `MsgNamingResolveNameRequest`
+     - If validation fails, request is rejected without entering the action phase
+     - On success, passes control to `resolveNameActionLabel`
+
+3. **Action Phase** (`resolveNameAction`)
+   - Processes valid name resolution requests through these steps:
+     - Retrieves the identity name from the request
+     - Scans the evidence store (`evidenceStore`) for any evidence matching this name
+     - Extracts all external identities from matching evidence records
+     - Constructs an appropriate response message
+
+4. **Response Generation**
+   - **Successful Case**
+     - Creates `MsgNamingResolveNameReply` with:
+       - `externalIdentities`: Set of all external identities associated with the name
+       - `err`: None
+   - **Empty Result Case**
+     - Still returns `MsgNamingResolveNameReply` with:
+       - `externalIdentities`: Empty set
+       - `err`: None
+     - Note: An empty result is not considered an error - it simply means no evidence exists for this name
+
+5. **Response Delivery**
+   - Response is sent back to the original requester
+   - Response is sent to mailbox 0.
+
+### Important Notes:
+- The resolution process is read-only - it never modifies the evidence store
+- Multiple external identities may be associated with a single name
+
+### `submitNameEvidenceAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Submit Request]) --> MsgReq[MsgNamingSubmitNameEvidenceRequest<br/>evidence: IdentityNameEvidence]
+    
+    subgraph Guard["submitNameEvidenceGuard"]
+        MsgReq --> ValidType{Is message type<br/>SubmitNameEvidenceRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["submitNameEvidenceAction"]
+        direction TB
+        Valid{Evidence<br/>valid?}
+        Valid -->|No| ErrInvalid[Create error response:<br/>'Invalid evidence']
+        Valid -->|Yes| Exists{Evidence<br/>exists?}
+        Exists -->|Yes| ErrExists[Create error response:<br/>'Evidence already exists']
+        Exists -->|No| Store[Add to evidenceStore]
+        Store --> Success[Create success response]
+    end
+
+    Success --> Response[MsgNamingSubmitNameEvidenceReply<br/>err: none]
+    ErrInvalid & ErrExists --> ErrResponse[MsgNamingSubmitNameEvidenceReply<br/>err: Some error]
+    ErrResponse & Response --> Client([Return to Client])
+```
+
+<figcaption markdown="span">
+`submitNameEvidenceAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgNamingSubmitNameEvidenceRequest` containing:
+     - `evidence`: An `IdentityNameEvidence` that proves the connection between an `IdentityName` and an `ExternalIdentity`
+     - An `IdentityNameEvidence` contains:
+       - `identityName`: The human-readable name being associated with an identity
+       - `externalIdentity`: The cryptographic identity being associated with the name
+       - `evidence`: The cryptographic evidence supporting this association
+     - The evidence must be in a format that can be cryptographically verified
+
+2. **Guard Phase** (`submitNameEvidenceGuard`)
+   - Validates that the incoming message is a proper evidence submission request
+   - Checks occur in the following order:
+     - Verifies message type is `MsgNamingSubmitNameEvidenceRequest`
+     - If validation fails, request is rejected without entering the action phase
+     - On success, passes control to `submitNameEvidenceActionLabel`
+
+3. **Action Phase** (`submitNameEvidenceAction`)
+   - Processes valid evidence submissions through these steps:
+     - Validates the cryptographic evidence using `verifyEvidence`
+     - Checks for duplicate evidence in the store
+     - Updates the evidence store if appropriate
+     - Constructs an appropriate response message
+
+4. **Response Generation**
+   - **Successful Case**
+     - Evidence is valid and new:
+       - Adds evidence to the `evidenceStore`
+       - Creates `MsgNamingSubmitNameEvidenceReply` with:
+         - `err`: None
+   - **Error Cases**
+     - Invalid evidence:
+       - Returns error "Invalid evidence"
+     - Duplicate evidence:
+       - Returns error "Evidence already exists"
+     - In all error cases, returns `MsgNamingSubmitNameEvidenceReply` with:
+       - `err`: Some(error message)
+
+5. **Response Delivery**
+   - Response is sent back to the original requester
+   - Response is sent to mailbox 0.
+
+### Important Notes:
+- The engine maintains an append-only evidence store, never removing or modifying existing evidence. The evidence store is the only mutable state in this flow and all state changes are performed only after complete validation.
+- Evidence uniqueness is checked using exact matching
+
+### `queryNameEvidenceAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Query Request]) --> MsgReq[MsgNamingQueryNameEvidenceRequest<br/>externalIdentity: ExternalIdentity]
+    
+    subgraph Guard["queryNameEvidenceGuard"]
+        MsgReq --> ValidType{Is message type<br/>QueryNameEvidenceRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["queryNameEvidenceAction"]
+        direction TB
+        Filter[Filter evidenceStore for<br/>matching external identity]
+        Filter --> CreateResp[Create response with<br/>relevant evidence]
+    end
+
+    CreateResp --> Response[MsgNamingQueryNameEvidenceReply<br/>externalIdentity: ExternalIdentity<br/>evidence: Set IdentityNameEvidence<br/>err: none]
+    Response --> Client([Return to Client])
+```
+
+<figcaption markdown="span">
+`queryNameEvidenceAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgNamingQueryNameEvidenceRequest` containing an external identity (`ExternalIdentity`)
+   - The external identity refers to the cryptographic identity for which all associated naming evidence should be retrieved
+
+2. **Guard Phase** (`queryNameEvidenceGuard`)
+   - Validates that the incoming message is a proper query request
+   - Checks occur in the following order:
+     - Verifies message type is `MsgNamingQueryNameEvidenceRequest`
+     - If validation fails, request is rejected without entering the action phase
+     - On success, passes control to `queryNameEvidenceActionLabel`
+
+3. **Action Phase** (`queryNameEvidenceAction`)
+   - Processes valid query requests through these steps:
+     - Extracts the external identity from the request
+     - Filters the evidence store to find all evidence entries matching this identity
+     - Constructs an appropriate response message with the collected evidence
+
+4. **Response Generation**
+   - **Successful Case**
+     - Creates `MsgNamingQueryNameEvidenceReply` with:
+       - `externalIdentity`: The originally queried identity
+       - `evidence`: Set of all matching `IdentityNameEvidence`
+       - `err`: None
+   - There are currently no implemented error cases.
+
+5. **Response Delivery**
+   - Response is sent back to the original requester
+   - Uses mailbox ID 0
+
+### Important Notes:
+- The query operation is read-only - it doesn't modify the evidence store
+- Multiple pieces of evidence may exist for the same external identity
+
 ## Action arguments
 
 ### `NamingActionArgumentReplyTo ReplyTo`
@@ -503,62 +725,3 @@ namingBehaviour : NamingBehaviour :=
   };
 ```
 <!-- --8<-- [end:namingBehaviour] -->
-
-## Naming Action Flowcharts
-
-### `resolveNameAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  MSG>MsgNamingResolveNameRequest]
-  A(resolveNameAction)
-  RES>MsgNamingResolveNameReply<br/>externalIdentities]
-
-  MSG --resolveNameGuard--> A --resolveNameActionLabel--> RES
-```
-
-<figcaption markdown="span">
-`resolveNameAction` flowchart
-</figcaption>
-</figure>
-
-### `submitNameEvidenceAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  MSG>MsgNamingSubmitNameEvidenceRequest]
-  A(submitNameEvidenceAction)
-  subgraph E[Effects]
-    ES[(State update if valid<br>evidenceStore += evidence)]
-    EM>MsgNamingSubmitNameEvidenceReply<br/>error?]
-  end
-
-  MSG --submitNameEvidenceGuard--> A --submitNameEvidenceActionLabel--> E
-```
-
-<figcaption markdown="span">
-`submitNameEvidenceAction` flowchart
-</figcaption>
-</figure>
-
-### `queryNameEvidenceAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  MSG>MsgNamingQueryNameEvidenceRequest]
-  A(queryNameEvidenceAction)
-  RES>MsgNamingQueryNameEvidenceReply<br/>evidence]
-
-  MSG --queryNameEvidenceGuard--> A --queryNameEvidenceActionLabel--> RES
-```
-
-<figcaption markdown="span">
-`queryNameEvidenceAction` flowchart
-</figcaption>
-</figure>
