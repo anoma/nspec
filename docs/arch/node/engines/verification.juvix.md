@@ -33,7 +33,7 @@ tags:
 The Verification Engine provides signature verification services within Anoma. It can check
 cryptographic signatures/commitments (a `Commitment`) against data (a `Signable`) in two modes: direct
 verification against a specified identity, or verification that takes into account "signs_for"
-relationships through integration with a [[SignsFor Engine]] (specified via 
+relationships through integration with a [[SignsFor Engine]] (specified via
 `signsForEngineAddress` in its configuration) which allows some identities to sign on
 behalf of other identities. One may compare the verification service to how a notary might verify not
 just a signature, but also check if the signer had proper authority to sign on behalf of another party.

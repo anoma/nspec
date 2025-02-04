@@ -41,7 +41,7 @@ updates its state accordingly.
 ```mermaid
 flowchart TD
     Start([Client Request]) --> MsgReq[MsgNamingResolveNameRequest<br/>identityName: IdentityName]
-    
+
     subgraph Guard["resolveNameGuard"]
         MsgReq --> ValidType{Is message type<br/>ResolveNameRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -112,7 +112,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Submit Request]) --> MsgReq[MsgNamingSubmitNameEvidenceRequest<br/>evidence: IdentityNameEvidence]
-    
+
     subgraph Guard["submitNameEvidenceGuard"]
         MsgReq --> ValidType{Is message type<br/>SubmitNameEvidenceRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -195,7 +195,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Query Request]) --> MsgReq[MsgNamingQueryNameEvidenceRequest<br/>externalIdentity: ExternalIdentity]
-    
+
     subgraph Guard["queryNameEvidenceGuard"]
         MsgReq --> ValidType{Is message type<br/>QueryNameEvidenceRequest?}
         ValidType -->|No| Reject([Reject Request])

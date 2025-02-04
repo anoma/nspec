@@ -43,7 +43,7 @@ encryption requests and produces the corresponding responses.
 ```mermaid
 flowchart TD
     Start([Client Request]) --> MsgReq[MsgEncryptionRequest<br/>data: Plaintext<br/>externalIdentity: ExternalIdentity<br/>useReadsFor: Bool]
-    
+
     subgraph Guard["encryptGuard (Message Validation)"]
         MsgReq --> ValidType{Is message type<br/>EncryptionRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -79,7 +79,7 @@ flowchart TD
      - `data`: The plaintext that needs to be encrypted
      - `externalIdentity`: The target identity to encrypt for
      - `useReadsFor`: Boolean flag indicating whether to use reads-for relationships
-   
+
 2. **Guard Phase** (`encryptGuard`)
    - Validates that the incoming message is a proper encryption request
    - Checks occur in the following order:
@@ -89,7 +89,7 @@ flowchart TD
 
 3. **Action Phase** (`encryptAction`)
    - First decision point: Check `useReadsFor` flag
-   
+
    - **Direct Path** (`useReadsFor: false`):
      - Gets encryptor from engine's configuration
      - Encrypts data directly for the target identity using empty evidence set
@@ -97,7 +97,7 @@ flowchart TD
        - `ciphertext`: The encrypted data
        - `err`: None
      - Returns response immediately to client
-   
+
    - **ReadsFor Path** (`useReadsFor: true`):
      - Checks if there are existing pending requests for this identity
      - If this is the first request:

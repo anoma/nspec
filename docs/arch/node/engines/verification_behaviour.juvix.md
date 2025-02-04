@@ -44,7 +44,7 @@ requests and produces the corresponding responses.
 ```mermaid
 flowchart TD
     Start([Client Request]) --> MsgReq[MsgVerificationRequest<br/>data: Signable<br/>commitment: Commitment<br/>externalIdentity: ExternalIdentity<br/>useSignsFor: Bool]
-    
+
     subgraph Guard["verifyGuard"]
         MsgReq --> ValidType{Is message type<br/>VerificationRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -58,10 +58,10 @@ flowchart TD
         SignsFor{useSignsFor<br/>flag?}
         SignsFor -->|No| DirectVerify[Verify using configured<br/>verifier]
         SignsFor -->|Yes| CheckPending{Existing requests<br/>for this identity?}
-        
+
         CheckPending -->|Yes| StorePending[Add to pending<br/>request list only]
         CheckPending -->|No| SendAndStore[Send SignsFor request<br/>and store in pending]
-        
+
         DirectVerify --> Response1[Prepare immediate response]
     end
 
@@ -131,7 +131,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Client Request]) --> MsgReq[MsgVerificationRequest<br/>data: Signable<br/>commitment: Commitment<br/>externalIdentity: ExternalIdentity<br/>useSignsFor: Bool]
-    
+
     subgraph Guard["verifyGuard"]
         MsgReq --> ValidType{Is message type<br/>VerificationRequest?}
         ValidType -->|No| Reject([Reject Request])
@@ -145,10 +145,10 @@ flowchart TD
         SignsFor{useSignsFor<br/>flag?}
         SignsFor -->|No| DirectVerify[Verify using configured<br/>verifier]
         SignsFor -->|Yes| CheckPending{Existing requests<br/>for this identity?}
-        
+
         CheckPending -->|Yes| StorePending[Add to pending<br/>request list]
         CheckPending -->|No| RequestSF[Send SignsFor<br/>evidence request]
-        
+
         StorePending & RequestSF --> UpdateState[Update state with<br/>pending request]
         DirectVerify --> Response1[Prepare immediate response]
         UpdateState --> Response2[Prepare pending response]
@@ -156,7 +156,7 @@ flowchart TD
 
     Response1 --> MsgResp1[MsgVerificationReply<br/>result: Bool<br/>err: none]
     Response2 --> MsgResp2[MsgQuerySignsForEvidenceRequest<br/>to SignsFor Engine]
-    
+
     MsgResp1 & MsgResp2 --> Client([Return to Client])
 ```
 
