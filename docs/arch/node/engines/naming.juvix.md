@@ -39,17 +39,23 @@ name-identity associations.
 
 When users want to map names to identities, they interact with the engine in three main ways:
 
-1. Name Resolution (`MsgNamingResolveNameRequest`): Users provide a human-readable name and receive
+Name Resolution (`MsgNamingResolveNameRequest`)
+
+: Users provide a human-readable name and receive
 back any associated cryptographic identities (`ExternalIdentity`). This is like looking up who owns
 a domain name, but with cryptographic verification.
 
-2. Evidence Submission (`MsgNamingSubmitNameEvidenceRequest`): Users can submit evidence
+Evidence Submission (`MsgNamingSubmitNameEvidenceRequest`)
+
+: Users can submit evidence
 (`IdentityNameEvidence`) that proves the connection between a name and an identity. The engine
 verifies this evidence before storing it in its evidence store (`evidenceStore`). This is similar to
 domain name registration, but requiring cryptographic proof of the right to associate a name with an
 identity.
 
-3. Evidence Querying (`MsgNamingQueryNameEvidenceRequest`): Users can look up all the evidence
+Evidence Querying (`MsgNamingQueryNameEvidenceRequest`)
+
+: Users can look up all the evidence
 associated with a particular cryptographic identity. This lets them verify the validity of
 name-to-identity mappings and understand the history of name claims.
 

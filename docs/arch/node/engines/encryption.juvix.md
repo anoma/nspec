@@ -44,18 +44,27 @@ When users request encryption (via a `MsgEncryptionRequest` message), they provi
 (a `Plaintext`), the target identity (an `ExternalIdentity`), and whether to consider reads-for
 relationships (`useReadsFor`). The engine has two main operating modes:
 
-1. Direct encryption (`useReadsFor: false`): The engine immediately encrypts the data for the
+Direct encryption (`useReadsFor: false`)
+
+: The engine immediately encrypts the data for the
 specified identity and returns the encrypted result (via s `MsgEncryptionReply` containing a
 `Ciphertext`).
 
-2. ReadsFor-aware encryption (`useReadsFor: true`): The engine first queries a [[ReadsFor Engine]] to
+ReadsFor-aware encryption (`useReadsFor: true`)
+
+: The engine first queries a [[ReadsFor Engine]] to
 check for any relevant reads-for relationships, then encrypts the data in a way that respects these
 relationships. This mode enables scenarios where data should be accessible not just to the direct
 recipient, but also to other identities with approved access rights.
 
-The engine is spawned by the system when encryption services are needed and operates statelessly
-except when handling reads-for queries. For reads-for cases, it maintains a temporary queue of
-pending encryption requests while waiting for relationship evidence.
+??? info "On spawning"
+
+    The engine is spawned by the system
+    when encryption services are needed and operates statelessly
+    except when handling reads-for queries.
+    For reads-for cases,
+    it maintains a temporary queue of pending encryption requests
+    while waiting for relationship evidence.
 
 ## Engine components
 
