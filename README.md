@@ -53,7 +53,7 @@ marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mo
     ```
 
     Take into account that this web server will automatically reload the website
-    when you make any changes to the files, and it is not especially fast.
+    when you make any changes to the files, and it is slow.
 
 
 ### Development shell with Nix
