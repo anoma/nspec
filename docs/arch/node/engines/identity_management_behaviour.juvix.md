@@ -8,11 +8,6 @@ tags:
   - engine
   - identity-management
   - behaviour
-  - node-architecture
-  - identity-subsystem
-  - engine
-  - identity-management
-  - behaviour
 ---
 
 ??? code "Juvix imports"
@@ -329,7 +324,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 
 ??? code "Auxiliary Juvix code"
 
-
     ### `IdentityManagementAction`
 
     ```juvix
@@ -371,7 +365,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-    ### `IdentityManagementActionExec`
+    ### IdentityManagementActionExec
 
     ```juvix
     IdentityManagementActionExec : Type :=

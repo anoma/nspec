@@ -360,6 +360,7 @@ type TransactionLabel ReadLabel WriteLabel := mkTransactionLabel@{
 ```juvix
 syntax alias TxFingerprint := Nat;
 ```
+
 ### `TransactionCandidate`
 
 ```juvix
@@ -387,6 +388,7 @@ syntax alias BatchNumber := Nat;
 ```juvix
 syntax alias WallClockTime := Nat;
 ```
+
 ### `keyToShard`
 
 Up to v0.2,
