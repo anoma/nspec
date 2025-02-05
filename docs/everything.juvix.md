@@ -309,8 +309,6 @@ import arch.node.engines.shard_behaviour;
 import arch.node.engines.shard;
 ```
 
----
-
 ```juvix
 -- Add more engines here
 ```

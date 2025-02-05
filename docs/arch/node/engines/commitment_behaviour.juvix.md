@@ -152,7 +152,6 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
 
 ??? code "Auxiliary Juvix code"
 
-    ---
 
     ### `CommitmentAction`
 
@@ -169,7 +168,7 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         Anoma.Env;
     ```
 
-    ---
+
 
     ### `CommitmentActionInput`
 
@@ -184,7 +183,7 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         Anoma.Msg;
     ```
 
-    ---
+
 
     ### `CommitmentActionEffect`
 
@@ -285,7 +284,7 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
 
 ??? code "Auxiliary Juvix code"
 
-    ---
+
 
     ### `CommitmentGuard`
 
@@ -304,7 +303,7 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
     ```
     <!-- --8<-- [end:CommitmentGuard] -->
 
-    ---
+
 
     ### `CommitmentGuardOutput`
 

@@ -788,8 +788,6 @@ I think I am getting the hang of it. But what's next?
   sender and target identifiers, mailbox, communication pattern, message kind,
   and the message content itself.
 
----
-
 [^1]: The constructors are very much like _message tags_ in
       [the paper](https://simonjf.com/writing/pat.pdf)
       [@special-delivery-mailbox-types-2023].

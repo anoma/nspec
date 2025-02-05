@@ -49,7 +49,7 @@ compute $kind$ and $q$.
 trait
 type KindDistinct T :=
   mkKindDistinct@{
-    --- Adds two types implementing the ;KindDistinct; trait.
+ Adds two types implementing the ;KindDistinct; trait.
     add : (v1 v2 : T) -> T;
   };
 ```

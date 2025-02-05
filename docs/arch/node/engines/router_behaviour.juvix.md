@@ -85,7 +85,7 @@ RouterActionArguments : Type := Unit;
 
 ??? code "Auxiliary Juvix code"
 
-    ---
+
 
     ### `RouterAction`
 
@@ -104,7 +104,7 @@ RouterActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:RouterAction] -->
 
-    ---
+
 
     ### `RouterActionInput`
 
@@ -121,7 +121,7 @@ RouterActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:RouterActionInput] -->
 
-    ---
+
 
     ### `RouterActionEffect`
 
@@ -138,7 +138,7 @@ RouterActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:RouterActionEffect] -->
 
-    ---
+
 
     ### `RouterActionExec`
 

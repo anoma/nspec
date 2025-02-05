@@ -161,7 +161,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
 
 ??? code "Auxiliary Juvix code"
 
-    ---
+
 
     ### `DecryptionAction`
 
@@ -178,7 +178,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Env;
     ```
 
-    ---
+
 
     ### `DecryptionActionInput`
 
@@ -193,7 +193,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Msg;
     ```
 
-    ---
+
 
     ### `DecryptionActionEffect`
 
@@ -208,7 +208,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Env;
     ```
 
-    ---
+
 
     ### `DecryptionActionExec`
 
@@ -337,7 +337,7 @@ decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
     ```
     <!-- --8<-- [end:DecryptionGuardOutput] -->
 
-    ---
+
 
     ### `DecryptionGuardEval`
 

@@ -89,7 +89,7 @@ type ExampleRequest := mkExampleRequest@{
     };
     ```
 
-    ---
+
 
     ### `ReplyError`
 

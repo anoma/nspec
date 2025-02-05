@@ -101,7 +101,7 @@ Reply to an `ExampleRequest`.
         `argOne`
         : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-    ---
+
 
     #### `ExampleReplyError`
 

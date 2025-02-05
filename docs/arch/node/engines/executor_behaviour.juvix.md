@@ -194,7 +194,7 @@ syntax alias ExecutorActionArguments := Unit;
 
 ??? code "Auxiliary Juvix code"
 
-    ---
+
 
     ### `ExecutorAction`
 
@@ -211,7 +211,7 @@ syntax alias ExecutorActionArguments := Unit;
         (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
-    ---
+
 
     ### `ExecutorActionInput`
 
@@ -226,7 +226,7 @@ syntax alias ExecutorActionArguments := Unit;
         (Anoma.PreMsg KVSKey KVSDatum Executable);
     ```
 
-    ---
+
 
     ### `ExecutorActionEffect`
 
@@ -241,7 +241,7 @@ syntax alias ExecutorActionArguments := Unit;
         (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
-    ---
+
 
     ### `ExecutorActionExec`
 
@@ -461,7 +461,7 @@ processReadActionLabel
     ```
     <!-- --8<-- [end:ExecutorGuard] -->
 
-    ---
+
 
     ### `ExecutorGuardOutput`
 
@@ -480,7 +480,7 @@ processReadActionLabel
     ```
     <!-- --8<-- [end:ExecutorGuardOutput] -->
 
-    ---
+
 
     ### `ExecutorGuardEval`
 

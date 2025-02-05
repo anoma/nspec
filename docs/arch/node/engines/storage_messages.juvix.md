@@ -104,7 +104,7 @@ Reply to a `ChunkGetRequest`.
         To retrieve the chunk, the requestor should issue another `ChunkGetRequest` to one of these nodes,
         trying them in the order of most recently successfully contacted.
 
-    ---
+
 
     #### `ChunkGetReplyError`
 
@@ -147,7 +147,7 @@ Request to store a chunk. May be restricted to local engines.
       ;
     ```
 
-    ---
+
 
     #### `ChunkPutReplyError`
 

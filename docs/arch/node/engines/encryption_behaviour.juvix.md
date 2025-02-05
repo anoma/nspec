@@ -136,7 +136,7 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
 
 ??? code "Auxiliary Juvix code"
 
-    ---
+
 
     ### `EncryptionAction`
 
@@ -153,7 +153,7 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Env;
     ```
 
-    ---
+
 
     ### `EncryptionActionInput`
 
@@ -168,7 +168,7 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Msg;
     ```
 
-    ---
+
 
     ### `EncryptionActionEffect`
 
@@ -183,7 +183,7 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Env;
     ```
 
-    ---
+
 
     ### `EncryptionActionExec`
 
@@ -379,7 +379,7 @@ handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForRep
 
 ??? code "Auxiliary Juvix code"
 
-    ---
+
 
     ### `EncryptionGuard`
 
@@ -398,7 +398,7 @@ handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForRep
     ```
     <!-- --8<-- [end:EncryptionGuard] -->
 
-    ---
+
 
     ### `EncryptionGuardOutput`
 

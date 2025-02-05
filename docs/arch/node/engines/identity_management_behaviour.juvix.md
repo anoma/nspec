@@ -323,7 +323,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 
 ??? code "Auxiliary Juvix code"
 
-    ---
+
 
     ### IdentityManagementAction
 
@@ -340,7 +340,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-    ---
+
 
     ### IdentityManagementActionInput
 
@@ -355,7 +355,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Msg;
     ```
 
-    ---
+
 
     ### IdentityManagementActionEffect
 
@@ -370,7 +370,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-    ---
+
 
     ### IdentityManagementActionExec
 
@@ -387,7 +387,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-    ---
+
 
     ### `hasCommitCapability`
 
@@ -400,7 +400,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       };
     ```
 
-    ---
+
 
     ### `hasDecryptCapability`
 
@@ -413,7 +413,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       };
     ```
 
-    ---
+
 
     ### `isSubsetCapabilities`
 
@@ -487,7 +487,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       };
     ```
 
-    ---
+
 
     ### `copyEnginesForCapabilities`
 
@@ -515,7 +515,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       in newIdentityInfo;
     ```
 
-    ---
+
 
 ### `generateIdentityAction`
 
@@ -825,7 +825,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
 
 ??? code "Auxiliary Juvix code"
 
-    ---
+
 
     ### `IdentityManagementGuard`
 
@@ -844,7 +844,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
     ```
     <!-- --8<-- [end:IdentityManagementGuard] -->
 
-    ---
+
 
     ### `IdentityManagementGuardOutput`
 
@@ -863,7 +863,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
     ```
     <!-- --8<-- [end:IdentityManagementGuardOutput] -->
 
-    ---
+
 
     ### `IdentityManagementGuardEval`
 
