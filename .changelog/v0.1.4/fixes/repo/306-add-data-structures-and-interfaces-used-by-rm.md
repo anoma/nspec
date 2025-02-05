@@ -1,0 +1,1 @@
+  -  [**#306**](https://github.com/anoma/nspec/pull/306): Add data structures and interfaces used by RM

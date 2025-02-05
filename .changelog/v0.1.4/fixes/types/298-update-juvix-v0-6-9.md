@@ -1,0 +1,1 @@
+  -  [**#298**](https://github.com/anoma/nspec/pull/298): Update juvix v0.6.9
