@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- verification
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - verification
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.verification_behaviour;
@@ -40,7 +40,7 @@ requests and produces the corresponding responses.
 ### `ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
@@ -49,11 +49,13 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: The engine ID of the requester.
+???+ code "Arguments"
 
-`mailbox`:
-: The mailbox ID where the response should be sent.
+    `whoAsked`:
+    : The engine ID of the requester.
+
+    `mailbox`:
+    : The mailbox ID where the response should be sent.
 
 ### `VerificationActionArgument`
 
@@ -75,7 +77,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `VerificationAction`
 
@@ -308,7 +310,7 @@ handleSignsForReplyActionLabel : VerificationActionExec := Seq [ handleSignsForR
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `VerificationGuard`
 

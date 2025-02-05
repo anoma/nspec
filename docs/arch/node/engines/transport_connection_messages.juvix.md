@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- transport-connection-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - transport
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.transport_connection_messages;
@@ -49,15 +49,13 @@ type TransportConnectionOutMsg := mkTransportConnectionOutMsg {
 ```
 <!-- --8<-- [end:TransportConnectionOutMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `expiry`:
     : Time after which the message expires.
 
     `msg`:
     : The message to send.
-
----
 
 ### `TransportConnectionMsg`
 

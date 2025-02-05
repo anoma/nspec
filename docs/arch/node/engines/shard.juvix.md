@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- shard
-- execution
-- engine-definition
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - shard
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.shard;

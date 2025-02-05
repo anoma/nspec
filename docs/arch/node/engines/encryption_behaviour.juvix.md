@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- encryption
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - encryption
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.encryption_behaviour;
@@ -27,6 +27,8 @@ tags:
     import arch.node.types.messages open;
     ```
 
+---
+
 # Encryption Behaviour
 
 ## Overview
@@ -34,12 +36,68 @@ tags:
 The behavior of the Encryption Engine defines how it processes incoming
 encryption requests and produces the corresponding responses.
 
+## Encryption Action Flowchart
+
+### `encryptAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C [Conditions]
+    CMsg[MsgEncryptionRequest]
+  end
+
+  G[encryptGuard]
+  A[encryptAction]
+
+  C --> G -->|encryptActionLabel| A --> E
+
+  subgraph E [Effects]
+    direction TB
+    E1[(Update pending requests)]
+    E2[Send encrypted response]
+  end
+```
+
+<figcaption markdown="span">
+`encryptAction` flowchart
+</figcaption>
+</figure>
+
+### `handleReadsForReplyAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+  subgraph C [Conditions]
+    CMsg[MsgQueryReadsForEvidenceReply]
+  end
+
+  G[readsForReplyGuard]
+  A[handleReadsForReplyAction]
+
+  C --> G -->|handleReadsForReplyActionLabel| A --> E
+
+  subgraph E [Effects]
+    direction TB
+    E1[(Remove pending requests)]
+    E2[Send encrypted responses]
+  end
+```
+
+<figcaption markdown="span">
+`handleReadsForReplyAction` flowchart
+</figcaption>
+</figure>
+
 ## Action arguments
 
-### `EncryptionActionArgumentReplyTo ReplyTo`
+### `ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
@@ -48,11 +106,13 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: is the address of the engine that sent the message.
+???+ code "Arguments"
 
-`mailbox`:
-: is the mailbox ID where the response message should be sent.
+    `whoAsked`:
+    : is the address of the engine that sent the message.
+
+    `mailbox`:
+    : is the mailbox ID where the response message should be sent.
 
 ### `EncryptionActionArgument`
 
@@ -74,7 +134,9 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `EncryptionAction`
 
@@ -91,6 +153,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Env;
     ```
 
+
+
     ### `EncryptionActionInput`
 
     ```juvix
@@ -104,6 +168,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Msg;
     ```
 
+
+
     ### `EncryptionActionEffect`
 
     ```juvix
@@ -116,6 +182,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+
+
 
     ### `EncryptionActionExec`
 
@@ -227,7 +295,7 @@ encryptAction
 
 ### `handleReadsForReplyAction`
 
-Process reads-for evidence response.
+Process `reads-for` evidence response.
 
 State update
 : The state is updated to remove processed pending requests.
@@ -309,7 +377,9 @@ handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForRep
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `EncryptionGuard`
 
@@ -327,6 +397,8 @@ handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForRep
         Anoma.Env;
     ```
     <!-- --8<-- [end:EncryptionGuard] -->
+
+
 
     ### `EncryptionGuardOutput`
 
@@ -431,58 +503,4 @@ encryptionBehaviour : EncryptionBehaviour :=
 ```
 <!-- --8<-- [end:encryptionBehaviour] -->
 
-## Encryption Action Flowcharts
-
-### `encryptAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C [Conditions]
-    CMsg[MsgEncryptionRequest]
-  end
-
-  G[encryptGuard]
-  A[encryptAction]
-
-  C --> G -->|encryptActionLabel| A --> E
-
-  subgraph E [Effects]
-    direction TB
-    E1[(Update pending requests)]
-    E2[Send encrypted response]
-  end
-```
-
-<figcaption markdown="span">
-`encryptAction` flowchart
-</figcaption>
-</figure>
-
-### `handleReadsForReplyAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C [Conditions]
-    CMsg[MsgQueryReadsForEvidenceReply]
-  end
-
-  G[readsForReplyGuard]
-  A[handleReadsForReplyAction]
-
-  C --> G -->|handleReadsForReplyActionLabel| A --> E
-
-  subgraph E [Effects]
-    direction TB
-    E1[(Remove pending requests)]
-    E2[Send encrypted responses]
-  end
-```
-
-<figcaption markdown="span">
-`handleReadsForReplyAction` flowchart
-</figcaption>
-</figure>
+---

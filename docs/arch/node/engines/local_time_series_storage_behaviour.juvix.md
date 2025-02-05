@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-ts-storage-engine
-- engine-behaviour
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-time-series-storage
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_time_series_storage_behaviour;
@@ -53,7 +53,7 @@ LocalTSStorageActionArguments : Type := List LocalTSStorageActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalTSStorageAction`
 
@@ -384,7 +384,7 @@ deleteDataActionLabel : LocalTSStorageActionExec := Seq [ deleteDataAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalTSStorageGuard`
 

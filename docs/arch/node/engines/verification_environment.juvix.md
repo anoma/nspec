@@ -2,14 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- verification
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - verification
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.verification_environment;
@@ -45,12 +46,12 @@ The local state of a Verification Engine instance contains a map to a list of pe
 ### `VerificationLocalState`
 
 ```juvix
-type VerificationLocalState := mkVerificationLocalState {
+type VerificationLocalState := mkVerificationLocalState@{
   pendingRequests : Map ExternalIdentity (List (Pair EngineID (Pair Signable Commitment)));
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `pendingRequests`:
     : The backlog of verification requests still in processing.

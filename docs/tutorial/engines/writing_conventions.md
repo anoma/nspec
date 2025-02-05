@@ -3,36 +3,38 @@ icon: octicons/project-template-24
 search:
   exclude: false
 tags:
-- engines
-- conventions
+  - tutorial
+  - conventions
 ---
 
 # Engine Writing Conventions
 
-## Naming
+## Naming standards
 
 <div class="annotate" markdown>
 
-- **Engine files and folders**: Named in lowercase using `snake_case` format. See [[File naming conventions]].
+- **Engine files and folders**: Named in lowercase using `snake_case` format.
+  See [[File naming conventions]].
 
-- **File extension**: Files must be written in Juvix Markdown when applicable, that is, the file
-  must end with the extension `.juvix.md`. See [[Add Juvix code for specification|Juvix Markdown and include Juvix code blocks]].
+- **File extension**: Files must be written in Juvix Markdown when applicable,
+  that is, the file must end with the extension `.juvix.md`. See [[Add Juvix
+  code for specification|Juvix Markdown and include Juvix code blocks]].
 
-- **File naming prefix**: The engine's name is used as a prefix for all
-  files related to the engine in use. For example, the [[Ticker Engine]]
-  would have the following files, all prefixed with `ticker`:
+- **File naming prefix**: The engine's name is used as a prefix for all files
+  related to the engine in use. For example, the [[Ticker Engine]] would have
+  the following files, all prefixed with `ticker`:
 
-  - `ticker.juvix.md`
-  - `ticker_messages.juvix.md`
-  - `ticker_config.juvix.md`
-  - `ticker_environment.juvix.md`
-  - `ticker_behaviour.juvix.md`
+  - `ticker_messages.juvix.md` where the message interface is defined.
+  - `ticker_config.juvix.md` where the type for the configuration is defined.
+  - `ticker_environment.juvix.md` where the type for the environment is defined.
+  - `ticker_behaviour.juvix.md` where the behaviour is defined (guards and actions).
+  - `ticker.juvix.md` where the engine is defined, importing all the other files.
 
 </div>
 
 !!! warning
 
-    Juvix Markdownm files have always need to define the corresponding module at the
+    Juvix Markdown files have always need to define the corresponding module at the
     first Juvix code block. See the [[Add Juvix code for specification#Juvix-Markdown-file-structure|Juvix Markdown and include Juvix code blocks's tutorial]]. For example if the file is
     `ticker.juvix.md`, it must have the following code block:
 
@@ -51,11 +53,11 @@ docs/arch/node/
 └── ...
 └── engines/
     ├── ...
-    ├── ticker.juvix.md
     ├── ticker_messages.juvix.md
     ├── ticker_config.juvix.md
     ├── ticker_environment.juvix.md
-    └── ticker_behaviour.juvix.md
+    ├── ticker_behaviour.juvix.md
+    └── ticker.juvix.md
 ```
 
 The `ticker.juvix.md` file then would contain a brief overview and list of all
@@ -71,6 +73,22 @@ file where the imports are declared:
 + import arch.node.engines.ticker open;
 ```
 
+## Front matter
+
+The front matter of the related files to an engine must contain tags. Please
+check other engine files for examples. Most of the cases, the front matter has
+the following tags:
+
+```markdown
+tags:
+  - node-architecture
+  - x-subsystem
+  - engine
+  - name-of-the-engine
+  - message-types|configuration|environment|behaviour|engine-definition
+```
+
+Tags are used to categorise the pages in the documentation.
 
 ## Update indexes
 
@@ -80,17 +98,21 @@ As part of defining an engine type, you must update a few files that act as inde
 
 Add import statements of all the modules related to the new engine to the
 `docs/everything.juvix.md` file. The new lines must be added in the "Engines"
-section. That is, if the engine is the `ticker`, we expect the following lines:
+section. That is, if the engine is the `ticker`, we expect the following lines,
+assuming the engine is part of the `X` subsystem:
 
 ```diff title="docs/everything.juvix.md"
 module everything;
 ...
-{- Engines -}
-+ import arch.node.engines.ticker;
+# Engines
+
+## X Subsystem
+
 + import arch.node.engines.ticker_messages;
 + import arch.node.engines.ticker_config;
 + import arch.node.engines.ticker_environment;
 + import arch.node.engines.ticker_behaviour;
++ import arch.node.engines.ticker;
 ```
 
 
@@ -106,7 +128,7 @@ along with the corresponding type for the messages, that is, `TickerMsg`.
 module arch.node.types.anoma_message;
 + import arch.node.engines.ticker_messages open;
 
-type Msg :=
+type PreMsg KVSKey KVSDatum Executable :=
 +  | MsgTicker TickerMsg
 ```
 
@@ -123,7 +145,7 @@ module arch.node.types.anoma_config;
 ...
 + import arch.node.engines.ticker_config open;
 ...
-type Cfg :=
+type PreCfg KVSKey KVSDatum Executable :=
 +  | CfgTicker TickerCfg
 ```
 
@@ -140,11 +162,11 @@ module arch.node.types.anoma_environment;
 ...
 + import arch.node.engines.ticker_environment open;
 ...
-type Env :=
+type PreEnv KVSKey KVSDatum Executable :=
 +  | EnvTicker TickerEnv
 ```
 
-### Update the Table of Contents
+### Update the "Table of Contents"
 
 Locate the navigation section in the `mkdocs.yml` file, `nav` section, and include
 the new engine

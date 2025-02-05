@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- executor-engine
-- engine-definition
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - executor
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.executor;

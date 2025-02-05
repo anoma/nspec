@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-behaviour
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-key-value-storage
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_key_value_storage_behaviour;
@@ -55,7 +55,7 @@ LocalKVStorageActionArguments : Type := List LocalKVStorageActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalKVStorageAction`
 
@@ -343,7 +343,7 @@ deleteValueActionLabel : LocalKVStorageActionExec := Seq [ deleteValueAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalKVStorageGuard`
 

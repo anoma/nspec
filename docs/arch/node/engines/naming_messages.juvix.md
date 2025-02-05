@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- naming
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - naming
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.naming_messages;
@@ -24,8 +25,6 @@ tags:
 --8<-- "./naming_messages.juvix.md:NamingMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Resolving a name
 
@@ -48,8 +47,6 @@ Resolving a name
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-name-resolution] -->
 
----
-
 ### Submitting name evidence
 
 <!-- --8<-- [start:message-sequence-diagram-submit] -->
@@ -70,8 +67,6 @@ Submitting name evidence
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
-
----
 
 ### Querying name evidence
 
@@ -94,11 +89,7 @@ Querying name evidence for an identity.
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query] -->
 
----
-
 ## Message types
-
----
 
 ### `RequestResolveName`
 
@@ -111,11 +102,9 @@ type RequestResolveName := mkRequestResolveName {
 A `RequestResolveName` asks the Naming Engine which `ExternalIdentity`s are
 associated with a given `IdentityName`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `identityName`:
     : The name to resolve.
-
----
 
 ### `ReplyResolveName`
 
@@ -128,15 +117,13 @@ type ReplyResolveName := mkReplyResolveName {
 
 A `ReplyResolveName` is returned in response to a `RequestResolveName`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentities`:
-    : A set of ExternalIdentitys associated with the IdentityName.
+    : A set of `ExternalIdentity`s associated with the `IdentityName`.
 
     `err`:
     : An error message if the resolution failed.
-
----
 
 ### `RequestSubmitNameEvidence`
 
@@ -147,14 +134,12 @@ type RequestSubmitNameEvidence := mkRequestSubmitNameEvidence {
 ```
 
 A `RequestSubmitNameEvidence` instructs the Naming Engine to store a new piece
-of IdentityNameEvidence.
+of `IdentityNameEvidence`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidence`:
-    : The evidence supporting the association between an IdentityName and an ExternalIdentity.
-
----
+    : The evidence supporting the association between an `IdentityName` and an `ExternalIdentity`.
 
 ### `ReplySubmitNameEvidence`
 
@@ -166,11 +151,9 @@ type ReplySubmitNameEvidence := mkReplySubmitNameEvidence {
 
 A `ReplySubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `err`:
     : An error message if the submission failed.
-
----
 
 ### `RequestQueryNameEvidence`
 
@@ -184,11 +167,9 @@ A `RequestQueryNameEvidence` instructs the Naming Engine to return any known
 `IdentityName`s and `IdentityNameEvidence` associated with a specific
 `ExternalIdentity`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `externalIdentity`:
     : The identity for which to retrieve evidence.
-
----
 
 ### `ReplyQueryNameEvidence`
 
@@ -202,7 +183,8 @@ type ReplyQueryNameEvidence := mkReplyQueryNameEvidence {
 
 A `ReplyQueryNameEvidence` provides the requested evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
+
     `externalIdentity`:
     : The `ExternalIdentity` associated with the returned evidence.
 
@@ -211,8 +193,6 @@ A `ReplyQueryNameEvidence` provides the requested evidence.
 
     `err`:
     : An error message if the query failed.
-
----
 
 ### `NamingMsg`
 
@@ -228,8 +208,6 @@ type NamingMsg :=
   ;
 ```
 <!-- --8<-- [end:NamingMsg] -->
-
----
 
 ## Engine components
 

@@ -2,15 +2,14 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- registry-engine
-- engine-environment
+  - node-architecture
+  - network-subsystem
+  - registry
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.net_registry_environment;

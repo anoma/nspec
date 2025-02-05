@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-messages
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - wall-clock-engine
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.wall_clock_messages;
@@ -28,7 +28,6 @@ These are the messages that the Wall Clock engine can receive/respond to.
 
 ## Message sequence diagrams
 
----
 
 ### Wall Clock request and response
 
@@ -50,19 +49,15 @@ Sequence diagram: Wall Clock time request & response
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-gettime] -->
 
----
-
 ## Message types
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias StorageKey := String;
     syntax alias StorageValue := String;
     syntax alias EpochTimestamp := Nat;
     ```
-
----
 
 ### `WallClockGetTime`
 
@@ -83,12 +78,10 @@ type TimeResult :=
 ```
 <!-- --8<-- [end:TimeResult] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `epochTime`
     : The current time in epoch format (seconds/milliseconds since epoch)
-
----
 
 ### `WallClockMsg`
 
@@ -100,8 +93,6 @@ type WallClockMsg :=
   ;
 ```
 <!-- --8<-- [end:WallClockMsg] -->
-
----
 
 ## Engine components
 

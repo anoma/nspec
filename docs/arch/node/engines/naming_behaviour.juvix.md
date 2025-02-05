@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- naming
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - naming
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.naming_behaviour;
@@ -72,7 +72,7 @@ NamingActionArguments : Type := List NamingActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### NamingAction
 
@@ -344,7 +344,7 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `NamingGuard`
 

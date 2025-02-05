@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- identity_management
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - identity-management
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.identity_management_behaviour;
@@ -30,8 +30,10 @@ tags:
     import arch.node.types.messages open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     ```
+---
 
 # Identity Management Behaviour
+---
 
 ## Overview
 
@@ -319,7 +321,9 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### IdentityManagementAction
 
@@ -336,6 +340,8 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
+
+
     ### IdentityManagementActionInput
 
     ```juvix
@@ -349,6 +355,8 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Msg;
     ```
 
+
+
     ### IdentityManagementActionEffect
 
     ```juvix
@@ -361,6 +369,8 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Cfg
         Anoma.Env;
     ```
+
+
 
     ### IdentityManagementActionExec
 
@@ -377,113 +387,135 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-### Helper Functions
 
-```juvix
-hasCommitCapability (capabilities : Capabilities) : Bool :=
-  case capabilities of {
-    | CapabilityCommit := true
-    | CapabilityCommitAndDecrypt := true
-    | _ := false
-  };
 
-hasDecryptCapability (capabilities : Capabilities) : Bool :=
-  case capabilities of {
-    | CapabilityDecrypt := true
-    | CapabilityCommitAndDecrypt := true
-    | _ := false
-  };
+    ### `hasCommitCapability`
 
-isSubsetCapabilities
-  (requested : Capabilities)
-  (available : Capabilities)
-  : Bool :=
-  (not (hasCommitCapability requested) || hasCommitCapability available)
-  && (not (hasDecryptCapability requested) || hasDecryptCapability available);
-
-updateIdentityAndSpawnEngines
-  (env : IdentityManagementEnv)
-  (backend' : Backend)
-  (whoAsked : EngineID)
-  (identityInfo : IdentityInfo)
-  (capabilities' : Capabilities)
-  : Pair IdentityInfo (List (Pair Cfg Env)) :=
-  let decryptionConfig : DecryptionCfg :=
-        mkDecryptionCfg@{
-          decryptor := genDecryptor backend';
-          backend := backend';
-        };
-      decryptionEnv : DecryptionEnv :=
-        mkEngineEnv@{
-          localState := unit;
-          mailboxCluster := Map.empty;
-          acquaintances := Set.empty;
-          timers := []
-        };
-      decryptionEng : Pair Cfg Env :=
-        mkPair (CfgDecryption decryptionConfig) (EnvDecryption decryptionEnv);
-      commitmentConfig : CommitmentCfg :=
-        mkCommitmentCfg@{
-          signer := genSigner backend';
-          backend := backend';
-        };
-      commitmentEnv : CommitmentEnv :=
-        mkEngineEnv@{
-          localState := unit;
-          mailboxCluster := Map.empty;
-          acquaintances := Set.empty;
-          timers := []
-        };
-      commitmentEng : Pair Cfg Env :=
-        mkPair (CfgCommitment commitmentConfig) (EnvCommitment commitmentEnv);
-  in case capabilities' of {
-    | CapabilityCommitAndDecrypt :=
-        let spawnedEngines := [decryptionEng; commitmentEng];
-            commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
-            decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
-            updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              commitmentEngine := some (mkPair none commitmentEngineName);
-              decryptionEngine := some (mkPair none decryptionEngineName)
-            };
-        in mkPair updatedIdentityInfo1 spawnedEngines
-    | CapabilityCommit :=
-        let spawnedEngines := [commitmentEng];
-            commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
-            updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              commitmentEngine := some (mkPair none commitmentEngineName)
-            };
-        in mkPair updatedIdentityInfo1 spawnedEngines
-    | CapabilityDecrypt :=
-        let spawnedEngines := [decryptionEng];
-            decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
-            updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              decryptionEngine := some (mkPair none decryptionEngineName)
-            };
-        in mkPair updatedIdentityInfo1 spawnedEngines
-  };
-
-copyEnginesForCapabilities
-  (env : IdentityManagementEnv)
-  (whoAsked : EngineID)
-  (externalIdentityInfo : IdentityInfo)
-  (requestedCapabilities : Capabilities)
-  : IdentityInfo :=
-  let newIdentityInfo := mkIdentityInfo@{
-        backend := IdentityInfo.backend externalIdentityInfo;
-        capabilities := requestedCapabilities;
-        commitmentEngine :=
-          case hasCommitCapability requestedCapabilities of {
-            | true := IdentityInfo.commitmentEngine externalIdentityInfo
-            | false := none
-          };
-        decryptionEngine :=
-          case hasDecryptCapability requestedCapabilities of {
-            | true := IdentityInfo.decryptionEngine externalIdentityInfo
-            | false := none
-          }
+    ```juvix
+    hasCommitCapability (capabilities : Capabilities) : Bool :=
+      case capabilities of {
+        | CapabilityCommit := true
+        | CapabilityCommitAndDecrypt := true
+        | _ := false
       };
-  in newIdentityInfo;
-```
+    ```
+
+
+
+    ### `hasDecryptCapability`
+
+    ```juvix
+    hasDecryptCapability (capabilities : Capabilities) : Bool :=
+      case capabilities of {
+        | CapabilityDecrypt := true
+        | CapabilityCommitAndDecrypt := true
+        | _ := false
+      };
+    ```
+
+
+
+    ### `isSubsetCapabilities`
+
+    ```juvix
+    isSubsetCapabilities
+      (requested : Capabilities)
+      (available : Capabilities)
+      : Bool :=
+      (not (hasCommitCapability requested) || hasCommitCapability available)
+      && (not (hasDecryptCapability requested) || hasDecryptCapability available);
+
+    updateIdentityAndSpawnEngines
+      (env : IdentityManagementEnv)
+      (backend' : Backend)
+      (whoAsked : EngineID)
+      (identityInfo : IdentityInfo)
+      (capabilities' : Capabilities)
+      : Pair IdentityInfo (List (Pair Cfg Env)) :=
+      let decryptionConfig : DecryptionCfg :=
+            mkDecryptionCfg@{
+              decryptor := genDecryptor backend';
+              backend := backend';
+            };
+          decryptionEnv : DecryptionEnv :=
+            mkEngineEnv@{
+              localState := unit;
+              mailboxCluster := Map.empty;
+              acquaintances := Set.empty;
+              timers := []
+            };
+          decryptionEng : Pair Cfg Env :=
+            mkPair (CfgDecryption decryptionConfig) (EnvDecryption decryptionEnv);
+          commitmentConfig : CommitmentCfg :=
+            mkCommitmentCfg@{
+              signer := genSigner backend';
+              backend := backend';
+            };
+          commitmentEnv : CommitmentEnv :=
+            mkEngineEnv@{
+              localState := unit;
+              mailboxCluster := Map.empty;
+              acquaintances := Set.empty;
+              timers := []
+            };
+          commitmentEng : Pair Cfg Env :=
+            mkPair (CfgCommitment commitmentConfig) (EnvCommitment commitmentEnv);
+      in case capabilities' of {
+        | CapabilityCommitAndDecrypt :=
+            let spawnedEngines := [decryptionEng; commitmentEng];
+                commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
+                decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
+                updatedIdentityInfo1 := identityInfo@IdentityInfo{
+                  commitmentEngine := some (mkPair none commitmentEngineName);
+                  decryptionEngine := some (mkPair none decryptionEngineName)
+                };
+            in mkPair updatedIdentityInfo1 spawnedEngines
+        | CapabilityCommit :=
+            let spawnedEngines := [commitmentEng];
+                commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
+                updatedIdentityInfo1 := identityInfo@IdentityInfo{
+                  commitmentEngine := some (mkPair none commitmentEngineName)
+                };
+            in mkPair updatedIdentityInfo1 spawnedEngines
+        | CapabilityDecrypt :=
+            let spawnedEngines := [decryptionEng];
+                decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
+                updatedIdentityInfo1 := identityInfo@IdentityInfo{
+                  decryptionEngine := some (mkPair none decryptionEngineName)
+                };
+            in mkPair updatedIdentityInfo1 spawnedEngines
+      };
+    ```
+
+
+
+    ### `copyEnginesForCapabilities`
+
+    ```juvix
+    copyEnginesForCapabilities
+      (env : IdentityManagementEnv)
+      (whoAsked : EngineID)
+      (externalIdentityInfo : IdentityInfo)
+      (requestedCapabilities : Capabilities)
+      : IdentityInfo :=
+      let newIdentityInfo := mkIdentityInfo@{
+            backend := IdentityInfo.backend externalIdentityInfo;
+            capabilities := requestedCapabilities;
+            commitmentEngine :=
+              case hasCommitCapability requestedCapabilities of {
+                | true := IdentityInfo.commitmentEngine externalIdentityInfo
+                | false := none
+              };
+            decryptionEngine :=
+              case hasDecryptCapability requestedCapabilities of {
+                | true := IdentityInfo.decryptionEngine externalIdentityInfo
+                | false := none
+              }
+          };
+      in newIdentityInfo;
+    ```
+
+
 
 ### `generateIdentityAction`
 
@@ -771,17 +803,29 @@ deleteIdentityAction
 
 ### Action Labels
 
+#### `generateIdentityActionLabel`
+
 ```juvix
 generateIdentityActionLabel : IdentityManagementActionExec := Seq [ generateIdentityAction ];
+```
 
+#### `connectIdentityActionLabel`
+
+```juvix
 connectIdentityActionLabel : IdentityManagementActionExec := Seq [ connectIdentityAction ];
+```
 
+#### `deleteIdentityActionLabel`
+
+```juvix
 deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentityAction ];
 ```
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `IdentityManagementGuard`
 
@@ -800,6 +844,8 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
     ```
     <!-- --8<-- [end:IdentityManagementGuard] -->
 
+
+
     ### `IdentityManagementGuardOutput`
 
     <!-- --8<-- [start:IdentityManagementGuardOutput] -->
@@ -816,6 +862,8 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
         Anoma.Env;
     ```
     <!-- --8<-- [end:IdentityManagementGuardOutput] -->
+
+
 
     ### `IdentityManagementGuardEval`
 
@@ -862,7 +910,7 @@ generateIdentityGuard
 ### `connectIdentityGuard`
 
 Condition
-: Message type is MsgIdentityManagementConnectIdentityRequest.
+: Message type is `MsgIdentityManagementConnectIdentityRequest`.
 
 <!-- --8<-- [start:connectIdentityGuard] -->
 ```juvix
@@ -883,11 +931,12 @@ connectIdentityGuard
   };
 ```
 <!-- --8<-- [end:connectIdentityGuard] -->
+---
 
 ### `deleteIdentityGuard`
 
 Condition
-: Message type is MsgIdentityManagementDeleteIdentityRequest.
+: Message type is `MsgIdentityManagementDeleteIdentityRequest`.
 
 <!-- --8<-- [start:deleteIdentityGuard] -->
 ```juvix
@@ -908,6 +957,7 @@ deleteIdentityGuard
   };
 ```
 <!-- --8<-- [end:deleteIdentityGuard] -->
+---
 
 ## The Identity Management Behaviour
 

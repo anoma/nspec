@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- shard-engine
-- engine-environment
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - shard
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.shard_config;

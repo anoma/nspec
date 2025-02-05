@@ -1,10 +1,11 @@
 ---
-icon: material/new-box
+icon: material/book-open-variant
 social:
   cards: false
 search:
     exclude: false
-list_wikilinks: false
+tags:
+  - changelog
 ---
 
 # Change Log

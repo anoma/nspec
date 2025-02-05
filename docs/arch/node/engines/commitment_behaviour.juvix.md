@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
+- node-architecture
+- identity-subsystem
+- engine
 - commitment
-- engine-behavior
+- behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.commitment_behaviour;
@@ -144,15 +144,14 @@ type CommitmentActionArgument :=
 
 ### `CommitmentActionArguments`
 
-<!-- --8<-- [start:commitment-action-arguments] -->
 ```juvix
 CommitmentActionArguments : Type := List CommitmentActionArgument;
 ```
-<!-- --8<-- [end:commitment-action-arguments] -->
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
 
     ### `CommitmentAction`
 
@@ -169,6 +168,8 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         Anoma.Env;
     ```
 
+
+
     ### `CommitmentActionInput`
 
     ```juvix
@@ -181,6 +182,8 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         CommitmentActionArguments
         Anoma.Msg;
     ```
+
+
 
     ### `CommitmentActionEffect`
 
@@ -279,7 +282,9 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `CommitmentGuard`
 
@@ -297,6 +302,8 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
         Anoma.Env;
     ```
     <!-- --8<-- [end:CommitmentGuard] -->
+
+
 
     ### `CommitmentGuardOutput`
 
