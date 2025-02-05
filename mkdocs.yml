@@ -12,7 +12,6 @@ use_directory_urls: false
 nav:
   - Home: index.md
   - Changelog: ./changelog.md
-  - Disclaimer: ./disclaimer.md
   - Indexes:
       - List of tags: ./indexes/tags.md
       - List of modules: ./indexes/modules.md
