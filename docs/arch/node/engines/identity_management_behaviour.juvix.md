@@ -283,13 +283,14 @@ flowchart TD
    - Reply is sent back to the original requester
    - Uses mailbox 0 (default mailbox for responses)
 
-#### Important Notes
-  - All spawned engines inherit the backend from the generation request
-  - Engine references are managed through the identity management engine's state
-  - Capabilities can only be restricted when connecting, never expanded
-  - The system maintains a mapping between identities and their associated engine references
-  - Each identity maintains its own separate set of engines
-  - State updates are atomic - either all parts succeed or none do
+!!! warning "Important Notes"
+
+    - All spawned engines inherit the backend from the generation request
+    - Engine references are managed through the identity management engine's state
+    - Capabilities can only be restricted when connecting, never expanded
+    - The system maintains a mapping between identities and their associated engine references
+    - Each identity maintains its own separate set of engines
+    - State updates are atomic - either all parts succeed or none do
 
 ## Action arguments
 
@@ -323,9 +324,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 
 ??? code "Auxiliary Juvix code"
 
-
-
-    ### IdentityManagementAction
+    ### `IdentityManagementAction`
 
     ```juvix
     IdentityManagementAction : Type :=
@@ -340,9 +339,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-
-
-    ### IdentityManagementActionInput
+    ### `IdentityManagementActionInput`
 
     ```juvix
     IdentityManagementActionInput : Type :=
@@ -355,9 +352,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Msg;
     ```
 
-
-
-    ### IdentityManagementActionEffect
+    ### `IdentityManagementActionEffect`
 
     ```juvix
     IdentityManagementActionEffect : Type :=
@@ -369,8 +364,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Cfg
         Anoma.Env;
     ```
-
-
 
     ### IdentityManagementActionExec
 
@@ -387,8 +380,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-
-
     ### `hasCommitCapability`
 
     ```juvix
@@ -399,8 +390,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         | _ := false
       };
     ```
-
-
 
     ### `hasDecryptCapability`
 
@@ -413,8 +402,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       };
     ```
 
-
-
     ### `isSubsetCapabilities`
 
     ```juvix
@@ -424,7 +411,11 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       : Bool :=
       (not (hasCommitCapability requested) || hasCommitCapability available)
       && (not (hasDecryptCapability requested) || hasDecryptCapability available);
+    ```
 
+    ### `updateIdentityAndSpawnEngines`
+
+    ```juvix
     updateIdentityAndSpawnEngines
       (env : IdentityManagementEnv)
       (backend' : Backend)
@@ -487,8 +478,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       };
     ```
 
-
-
     ### `copyEnginesForCapabilities`
 
     ```juvix
@@ -514,8 +503,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
           };
       in newIdentityInfo;
     ```
-
-
 
 ### `generateIdentityAction`
 
@@ -613,7 +600,7 @@ State update
 : A new identity is created with copied capabilities if valid.
 
 Messages to be sent
-: A ConnectIdentityReply message with confirmation or error.
+: A `ConnectIdentityReply` message with confirmation or error.
 
 Engines to be spawned
 : No new engines are spawned.

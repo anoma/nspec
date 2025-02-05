@@ -23,7 +23,14 @@ An engine has the following components:
 - a [[Engine Behaviour|behaviour]].
 
 Engines of the same type share the same [[Engine Behaviour|behaviour]]. However, two engines of the same type may have different
-[[Engine Environment|execution context]].
+[[Engine Environment|execution context]],
+which in turn may lead to a different message reaction pattern
+(as "observed" by other engines).
+
+We often write _engine_,
+whenever the context makes clear that we refer to a _term_ of an engine type
+(and not to the type itself),
+for the sake of brevity.
 
 ## The type of an engine
 

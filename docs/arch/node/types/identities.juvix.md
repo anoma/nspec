@@ -391,7 +391,18 @@ syntax alias WallClockTime := Nat;
 
 ### `keyToShard`
 
+Up to v0.2,
+the specification assumes a fixed/static assignment from
+keys of the key-value storage to
+engine IDs of shards that are
+responsible for mangaging the values associated to keys.
+
 ```juvix
--- Map a key to its shard
+-- Map each key to its shard
 axiom keyToShard {KVSKey} : KVSKey -> EngineID;
 ```
+
+!!! todo "v0.3"
+
+    Is the map from keys to shards
+    still assumed to be fixed?

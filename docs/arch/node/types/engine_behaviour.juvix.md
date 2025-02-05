@@ -62,7 +62,7 @@ messages, creating new engine instances, and updating timers.
 
 ### `Action`
 
-The input of the action function is parameterised by the types for:
+The input of the action function is parameterized by the types for:
 
 - `C`: engine configuration,
 - `S`: local state,
@@ -180,6 +180,24 @@ type ActionEffect S B H AM AC AE :=
 
 ### `ActionExec`
 
+!!! todo "cf. monadic effect descriptions >=v0.2"
+
+    As brainstormed *today*,
+    engine IDs could naturally be generated freshly,
+    by use of monads;
+    as we are talking about monads,
+    `ActionExec` would deserve a thorough overhaul:
+
+    - proper monadic "task execution" instead of the list of actions,
+      of which there may be only one as a reaction
+      to a trigger (leading to an event with duration)
+    - related, other features, in particular
+      - concurrency of several tasks
+      - cf. one "thread" for each mailbox
+    - message send, engine spawn, and timer updates, could also be monadic
+
+It is allowed to have several actions executed.[^1]
+
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
 type ActionExec C S B H A AM AC AE :=
@@ -189,6 +207,21 @@ type ActionExec C S B H A AM AC AE :=
 <!-- --8<-- [end:ActionExec] -->
 
 ### `Guard`
+
+A guard implements—first and foremost—a pre-condition for an action,
+which checks whether the associated action or action sequence is to be performed.
+
+??? note "Relation to other notions of guards"
+
+    Guards generalize guards as used in Erlang.
+    In future versions,
+    simplified forms of guards
+    and a DSL may come so that
+    we do not always have to write in the most general style.
+
+If the pre-condition of a guard is satisfied,
+the guard produces an output that is part of the input of actions;
+otherwise, it returns nothing.
 
 <!-- --8<-- [start:Guard] -->
 ```juvix
@@ -270,3 +303,23 @@ type EngineBehaviour C S B H A AM AC AE :=
     `guards`
     : the guards to be evaluated.
 
+
+!!! note "Summary of behaviour"
+
+    Roughly,
+    engines are a collection of guarded state-transition functions,
+    using terminology of
+    [Moore](https://en.wikipedia.org/wiki/Moore_machine) or
+    [Mealy](https://en.wikipedia.org/wiki/Moore_machine) machines.
+    The presentation in terms of a set of guards
+    is in the spirit of Dijkstra's
+    [guarded command language](https://en.wikipedia.org/wiki/Guarded_Command_Language),
+    where the commands are replaced by actions.
+    Effectively,
+    the data of engine behaviour indirectly describes a function
+    that determines how the received timestamped trigger is to be handled,
+    expressed as a set of action effects.[^2]
+
+[^1]: This is likely to change in future versions.
+
+[^2]: In future versions, this may be done using `do notation` (as provided by monads).

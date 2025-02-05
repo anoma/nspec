@@ -27,7 +27,7 @@ tags:
 
 ## Overview
 
-The commitment engine configuration contains static information for commitment engine instances.
+The commitment engine configuration contains static information for commitment engine instances, namely the signer and the backend.
 
 ## The Commitment Configuration
 

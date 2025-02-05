@@ -20,10 +20,10 @@ tags:
 
 This document describes the basic types and functions used in the node
 architecture prelude. For a more general prelude, please refer to
-[[Juvix Base Prelude]]. (1)
+[[Prelude]]. (1) :raising_hand:
 { .annotate }
 
-1. :woman_raising_hand: If you are unfamiliar with Juvix,
+1. If you are unfamiliar with Juvix,
 please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorials/learn.html).
 
 ## Basic types
