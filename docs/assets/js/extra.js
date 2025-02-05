@@ -8,7 +8,7 @@ document.querySelectorAll('a.md-tag').forEach(function(link) {
             link.style.backgroundColor = 'gold';
         }
         if (tag === 'new') {
-            console.log('new' + link.textContent);  
+            console.log('new' + link.textContent);
             link.style.backgroundColor = 'lightgreen';
         }
         if (tag === 'deprecated') {

@@ -177,8 +177,8 @@ nav:
                       - Storage Environment: ./arch/node/engines/storage_environment.juvix.md
                       - Storage Behaviour: ./arch/node/engines/storage_behaviour.juvix.md
   - System architecture:
-      - Identity Architecture: 
-        - Identity Architecture Types: ./arch/system/identity/identity_types.juvix.md
+      - Identity Architecture:
+          - Identity Architecture Types: ./arch/system/identity/identity_types.juvix.md
       - State Architecture:
           - Resource Machine:
               - ./arch/system/state/resource_machine/index.juvix.md
@@ -227,7 +227,6 @@ nav:
                   - Function formats:
                       - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.juvix.md
                   - Applications: ./arch/system/state/resource_machine/notes/applications.juvix.md
-
   - Tutorials:
       - Contributor guidelines:
           - Global principles and guidelines: ./tutorial/principles_and_guidelines.md
