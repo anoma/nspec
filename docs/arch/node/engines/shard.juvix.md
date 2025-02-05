@@ -40,8 +40,10 @@ to read and write state concurrently while maintaining consistency, similar to h
 Git allows multiple developers to work with different versions of code.
 
 At the heart of the Shard Engine is a sophisticated locking system that coordinates
-state access between transactions. Rather than using simple read/write locks, it
-employs a more nuanced approach using a DAG (Directed Acyclic Graph) structure.
+state access between transactions.<!--
+Rather than using simple read/write locks, it
+employs a more nuanced approach using a DAG (Directed Acyclic Graph) structure.--><!--ᚦ
+«There is no DAG in v0.2»-->
 This structure tracks both the values stored at each key and, crucially,
 the relationships between different transactions' access requests. The Shard
 receives lock acquisition requests (`ShardMsgKVSAcquireLock`) from Mempool Workers,
@@ -93,13 +95,12 @@ They provide [[Executor]]s with input data and update the state
    the work of multiple shards with different learners
    so long as those shards are identical, and
    fork that process if and when the learners diverge.
--->
+--><!--ᚦ«re-sharding may come some time ≥v0.3»-->
 
 
 Each shard is responsible for a set of [[KVSKey]]s
 and these sets are disjoint for different shards.
-For each of the keys that a shard is responsible for, the shard maintains a
- (partially-ordered) timeline of Timestamps of
+For each of the keys that a shard is responsible for, the shard maintains a<!--(partially-ordered)--><!--ᚦ«it is a total order in v0.2»--> timeline of Timestamps of
  [[TransactionCandidate|transaction candidates]] that may read or write to keys.
 Shards also keep a history of data written by each
  [[TransactionCandidate]] to each key.
@@ -116,7 +117,7 @@ This is [multi-version concurrent storage](
 For each [[Mempool Worker Engine]], the Shard maintains:
 
 -  A Timestamp, such that all
-   _[[KVSAcquireLock|write lock requests]]_[^1] for
+   [[KVSAcquireLock|write lock acquisition requests]] for
    transaction candidates with earlier timestamps that this worker curates
    have already been received.
   Together, these timestamps represent [`heardAllWrites`](#heardallwrites).
@@ -125,7 +126,8 @@ For each [[Mempool Worker Engine]], the Shard maintains:
    [[Mempool Worker Engine]].
   For [[Mempool Worker Engine]], this cannot be *after* the corresponding
    *write* Timestamps.
-  We will also maintain these from each Read Backend worker.
+  <!--We will also maintain these from each Read Backend worker.--><!--ᚦ
+  «no consensus in v0.2, so no need for read back-end(?)»-->
   Together, these represent `heardAllReads`.
 
 For each [key](#state) (assigned to this Shard):
@@ -156,7 +158,7 @@ For each [key](#state) (assigned to this Shard):
    reads or writes before it, then we can remove all *earlier* values
    written.
 
-Additionally, the Shard maintains:
+<!--Additionally, the Shard maintains:
 
 - A complete copy of the DAG structure produced by the
    [[Mempool Engines]].
@@ -169,7 +171,8 @@ Additionally, the Shard maintains:
   This is a sequence of consensus decisions.
   For Timestamps before `heardAllReads`, if there are
    no keys with a pending read or write before that
-   Timestamp, we can delete old anchors.
+   Timestamp, we can delete old anchors.--><!--ᚦ
+«no consensus, no DAG in v0.2»-->
 
 ## Shard Optimizations
 
@@ -178,8 +181,8 @@ function](../index.md#executor-function) in order to compute the data
 written) using the idea of [serializability](
 https://en.wikipedia.org/wiki/Serializability): each [[TransactionCandidate]]'s
 reads and writes should be *as if* they were executed in the total order
-determined by the [[Mempool Engines|mempool]] (and [[Consensus
-Engine|consensus]], from V2 onward). In fact, the simplest correct
+determined by the [[Mempool Engines|mempool]]<!--(and [[Consensus
+Engine|consensus]], from V2 onward)--><!--ᚦ«there is no consensus in v0.2»-->. In fact, the simplest correct
 implementation amounts to executing all [[TransactionCandidate|transaction
 candidates]] sequentially, repeatedly applying the executor function in a loop.
 However, we want to compute concurrently as possible, for minimum latency. We do
@@ -187,10 +190,10 @@ this using a set of optimizations.
 
 ### Optimization: Per-Key Ordering
 
-![Per-key ordering (see web version for animation)](keys_animated.svg)
+![Per-key ordering](keys_animated.svg)
 
 [[Mempool Engines|Mempool]]
- and  [[Consensus Engine|consensus]] provides ordering
+<!-- and  [[Consensus Engine|consensus]]--><!--ᚦ«no consensus in v0.2»-->provides ordering
  information for  [[TxFingerprint|the time‍stamps]].
 Thus, relative to each key,
 [[TransactionCandidate|transaction candidates]] can be totally ordered by the
@@ -199,7 +202,7 @@ Thus, relative to each key,
 With a total ordering of [[TransactionCandidate|transaction candidates]], Shards can send
  read information ([[KVSRead]]s) to [[Executor]]s as soon as the
  previous [[TransactionCandidate]] is complete.
-However, [[TransactionCandidate|transaction candidates]] that access on disjoint sets of
+However, [[TransactionCandidate|transaction candidates]] that access disjoint sets of
  keys can be run in parallel.
 In the diagram above, for example, [[TransactionCandidate|transaction candidates]] `c` and
  `d` can run concurrently, as can [[TransactionCandidate|transaction candidates]] `e` and
@@ -207,7 +210,7 @@ In the diagram above, for example, [[TransactionCandidate|transaction candidates
 
 ### Optimization: Order With Respect To Writes
 
-![Order with respect to writes (see web version for animation)](only_order_wrt_writes_animated.svg)
+![Order with respect to writes](only_order_wrt_writes_animated.svg)
 
 In fact, Shards can send read information to an [[Executor]] as soon
  as the previous *write*'s [[TransactionCandidate]] has completed
@@ -224,7 +227,7 @@ for example, [[TransactionCandidate|transaction candidates]] `a` and `b` can run
 
 ### Optimization: Only Wait to Read
 
-![Only wait to read (see web version for animation)](only_wait_to_read_animated.svg)
+![Only wait to read](only_wait_to_read_animated.svg)
 
 Because we store each version written
  ([multi-version concurrent storage](
@@ -237,6 +240,7 @@ In the diagram above, for example, only green _happens-before_ arrows
 [[TransactionCandidate|transaction candidates]] `a`, `b`, `c`, and `j` can all be executed
  concurrently, as can [[TransactionCandidate|transaction candidates]] `d`, `e`, and `i`.
 
+<!--
 ### Optimization: Execute With Partial Order
 
 Some [[Mempool Engines|mempools, including Narwhal]],
@@ -248,13 +252,15 @@ In general, for a given key,
 a shard can send read information to an executor when
 it knows precisely which write happens most recently before the read,
 and that write has executed.
+--><!--ᚦ«no mempool dag»-->
 
 ### `heardAllWrites`
 
 In order to know which write happens most recently before a given
  read, the Shard must know that no further writes will be added to
  the timeline before the read.
-[[Mempool Engines|Mempool]] and [[Consensus Engine|consensus]] should
+[[Mempool Engines|Mempool]]<!-- and [[Consensus Engine|consensus]]--><!--ᚦ
+«there is no consensus in v0.2»--> should
  communicate a lower bound on timestamps to the Shards, called
  `heardAllWrites`.
 The Shard is guaranteed to never receive another [[KVSAcquireLock]]
@@ -288,17 +294,18 @@ this can of course be done at any time.
 
 ### `heardAllReads`
 
-We want to allow Typhon to eventually garbage-collect old state.
-[[Mempool Engines|mempool]] and [[Consensus Engine|consensus]] should
+We want eventually garbage-collect old state.
+[[Mempool Engines|mempool]]<!-- and [[Consensus Engine|consensus]]--><!--ᚦ
+«there is no consensus in v0.2»--> should
 communicate a lower bound timestamp to the execution engine,
 called `heardAllReads`,
 before which there will be
-no more read transactions send to the execution engine.
+no more read requrests send to the execution engine.
 Occasionally, `heardAllReads` should be updated with later timestamps.
 Each Shard must keep track of `heardAllReads` on
 each key's multi-version timeline, so it can garbage-collect old values.
 
-![Execute with partial order (see web version for animation)](execute_before_consensus_animated.svg)
+![Execute with partial order](execute_before_consensus_animated.svg)
 
 In the example above, our happens-before arrows have been replaced with
 _may-happen-before_ arrows,
@@ -306,6 +313,8 @@ representing partial ordering information from the [[Mempool Engines|mempool]].
 Note that not all transactions can be executed with
 this partial order information.
 
+
+<!--
 #### Conflicts
 
 There are three types of conflicts that can prevent a transaction from
@@ -347,6 +356,7 @@ Then the transitive conflict is also resolved:
 transaction `h` will be able to execute.
 -->
 
+<!--
 ### Optimization: Client Reads as Read-Only Transactions
 
 ![Client reads as read-only transactions (see web version for animation)](read_only_animated.svg)
@@ -357,6 +367,7 @@ Clients can simply send read-only transactions directly to the execution engine 
 In the diagram above, transaction `f` is read-only.
 
 If client reads produce signed responses, then signed responses from a weak quorum of validators would form a *light client proof*.
+-->
 
 ## Engine components
 
