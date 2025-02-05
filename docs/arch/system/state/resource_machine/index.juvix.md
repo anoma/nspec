@@ -10,8 +10,6 @@ tags:
   - nullifier
   - accumulator
   - resource logic
-hide:
-- toc
 ---
 
 ```juvix

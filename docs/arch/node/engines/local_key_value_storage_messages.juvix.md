@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-messages
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-key-value-storage
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_key_value_storage_messages;
@@ -26,8 +26,6 @@ These are the messages that the Local Key-Value Storage engine can receive/respo
 --8<-- "./local_key_value_storage_messages.juvix.md:LocalKVStorageMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Get value request/response flow
 
@@ -49,8 +47,6 @@ Get Value Request/Reply Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-get] -->
 
----
-
 ### Set value request/response flow
 
 <!-- --8<-- [start:message-sequence-diagram-set] -->
@@ -70,8 +66,6 @@ Set Value Request/Reply Flow
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-set] -->
-
----
 
 ### Delete value request/response flow
 
@@ -93,19 +87,15 @@ Delete Value Request/Reply Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-delete] -->
 
----
-
 ## Message types
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias StorageKey := String;
     syntax alias StorageValue := String;
     syntax alias EpochTimestamp := Nat;
     ```
-
----
 
 ### `GetValueKVStoreRequest`
 
@@ -119,12 +109,10 @@ type GetValueKVStoreRequest := mkGetValueKVStoreRequest {
 ```
 <!-- --8<-- [end:GetValueKVStoreRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that maps to the requested value in the KV-store.
-
----
 
 ### `GetValueKVStoreReply`
 
@@ -139,15 +127,13 @@ type GetValueKVStoreReply := mkGetValueKVStoreReply {
 ```
 <!-- --8<-- [end:GetValueKVStoreReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that maps to the requested value in the KV-store.
 
     `value`
     : The requested value from the KV-store.
-
----
 
 ### `SetValueKVStoreRequest`
 
@@ -162,15 +148,13 @@ type SetValueKVStoreRequest := mkSetValueKVStoreRequest {
 ```
 <!-- --8<-- [end:SetValueKVStoreRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that identifies the data in the KV-store.
 
     `value`
     : The value to store in the KV-store.
-
----
 
 ### `SetValueKVStoreReply`
 
@@ -185,8 +169,6 @@ type SetValueKVStoreReply := mkSetValueKVStoreReply {
 ```
 <!-- --8<-- [end:SetValueKVStoreReply] -->
 
----
-
 ### `DeleteValueKVStoreRequest`
 
 Request to delete a value from storage.
@@ -198,8 +180,6 @@ type DeleteValueKVStoreRequest := mkDeleteValueKVStoreRequest {
 };
 ```
 <!-- --8<-- [end:DeleteValueKVStoreRequest] -->
-
----
 
 ### `DeleteValueKVStoreReply`
 

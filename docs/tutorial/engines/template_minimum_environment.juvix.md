@@ -2,15 +2,12 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-minimum-engine
-- engine-environment
+  - tutorial
+  - example
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_minimum_environment;

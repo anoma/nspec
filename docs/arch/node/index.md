@@ -1,11 +1,13 @@
 ---
-icon: material/graph
+icon: material/devices
 search:
   exclude: false
   boost: 2
+tags:
+  - index
 ---
 
-# Introduction
+# Node Architecture
 ​
 The operational architecture specification concerns the state evolution of Anoma instances, broken into smaller steps: which messages are exchanged, how computation is performed on the level of function calls, and which intermediate states are reachable.
 The specification is organized into the following sections:
@@ -16,9 +18,9 @@ The specification is organized into the following sections:
 
 - [[Ordering Subsystem]]
 
+- [[Network Subsystem]]
 
-- [[Networking Subsystem]] (coming soon)
-
+## Message Flow
 
 <figure markdown>
 
@@ -27,7 +29,9 @@ The specification is organized into the following sections:
 
 <figcaption markdow
 
-Intent/ transaction candidate flowchart.
+Intent/transaction candidate flowchart.
 
 </figcaption>
 </figure>
+
+---

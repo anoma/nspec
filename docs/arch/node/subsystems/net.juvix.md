@@ -1,3 +1,27 @@
+---
+icon: material/check-network
+search:
+  exclude: false
+  boost: 2
+tags:
+  - node-architecture
+  - network-subsystem
+  - index
+---
+
+???+ code "Juvix imports"
+
+    ```juvix
+    module arch.node.subsystems.net;
+    import arch.node.engines.net_registry open;
+    import arch.node.engines.router open;
+    import arch.node.engines.transport_connection open;
+    import arch.node.engines.transport_protocol open;
+    import arch.node.engines.pub_sub_topic open;
+    import arch.node.engines.storage open;
+    import arch.node.engines.verification open;
+    ```
+
 # Network Subsystem
 
 ## Purpose
@@ -12,27 +36,27 @@ The *Network Subsystem* consists of the following engines.
 
 ### [[Network Registry]]
 
---8<-- "../engines/net_registry.juvix.md:purpose"
+--8<-- "./docs/arch/node/engines/net_registry.juvix.md:purpose"
 
 ### [[Router]]
 
---8<-- "../engines/router.juvix.md:purpose"
+--8<-- "./docs/arch/node/engines/router.juvix.md:purpose"
 
 ### [[Transport Connection]]
 
---8<-- "../engines/transport_connection.juvix.md:purpose"
+--8<-- "./docs/arch/node/engines/transport_connection.juvix.md:purpose"
 
 ### [[Transport Protocol]]
 
---8<-- "../engines/transport_protocol.juvix.md:purpose"
+--8<-- "./docs/arch/node/engines/transport_protocol.juvix.md:purpose"
 
 ### [[Pub/Sub Topic]]
 
---8<-- "../engines/pub_sub_topic.juvix.md:purpose"
+--8<-- "./docs/arch/node/engines/pub_sub_topic.juvix.md:purpose"
 
 ### [[Storage]]
 
---8<-- "../engines/storage.juvix.md:purpose"
+--8<-- "./docs/arch/node/engines/storage.juvix.md:purpose"
 
 ## Diagrams
 
@@ -112,3 +136,7 @@ Spawn tree & message flow:
 </figcaption>
 
 </figure>
+
+---
+
+

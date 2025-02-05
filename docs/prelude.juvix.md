@@ -3,11 +3,12 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Juvix-Types
-- Juvix-Prelude
+  - node-architecture
+  - prelude
+  - index
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module prelude;
@@ -202,7 +203,7 @@ Not or
 nor (a b : Bool) : Bool := not (or a b);
 ```
 
-## Nat
+## `Nat`
 
 The type `Nat` represents natural numbers (non-negative integers). Used for
 counting and indexing.
@@ -350,7 +351,7 @@ lcm (a b : Nat) : Nat :=
     };
 ```
 
-## String
+## `String`
 
 The type `String` represents sequences of characters. Used for text and
 communication.
@@ -370,7 +371,7 @@ For example,
 hello : String := "Hello, World!";
 ```
 
-### String Comparison
+### Comparison instance for `String`
 
 ```juvix
 axiom stringCmp : String -> String -> Ordering;
@@ -382,7 +383,7 @@ StringOrd : Ord String :=
   };
 ```
 
-## ByteString
+## `ByteString`
 
 ```juvix
 ByteString : Type := String;
@@ -394,7 +395,7 @@ A basic type for representing binary data.
 emptyByteString : ByteString := "";
 ```
 
-## Unit
+## `Unit`
 
 The type `Unit` represents a type with a single value. Often used when a
 function does not return any meaningful value.
@@ -422,7 +423,7 @@ Unique function to the unit. Universal property of terminal object.
 trivial {A} : A -> Unit := const unit;
 ```
 
-## Empty
+## `Empty`
 
 The type `Empty` represents a type with a single value. Often used when a
 function does not return any meaningful value.
@@ -439,7 +440,7 @@ Unique function from empty. Universal property of initial object.
 axiom explode {A} : Empty -> A;
 ```
 
-## Pair A B
+## `Pair A B`
 
 The type `Pair A B` represents a tuple containing two elements of types `A` and
 `B`. Useful for grouping related values together.
@@ -553,7 +554,7 @@ fork
   mkPair (f c) (g c);
 ```
 
-## Result A B
+## `Result A B`
 
 The `Result A B` type represents either a success with a value of `ok x` with
 `x` of type `A` or an error with value `error e` with `e` of type `B`.
@@ -563,7 +564,7 @@ import Stdlib.Data.Result.Base as Result;
 open Result using { Result; ok; error } public;
 ```
 
-## Either A B
+## `Either A B`
 
 The type `Either A B`, or sum type of `A` and `B`, represents a value of type
 `A` or `B`. It is equivalent to `Result A B`, however, the meaning of the values
@@ -862,7 +863,7 @@ filterOption
   };
 ```
 
-## List A
+## `List A`
 
 The type `List A` represents a _sequence_ of elements of type `A`. Used for collections and ordered data.
 

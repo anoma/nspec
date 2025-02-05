@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- router-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - router
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.router_messages;
@@ -33,16 +33,12 @@ tags:
 
 ## Message types
 
----
-
 ### `RouterMsgSend`
 
 Send an `EngineMsg` to the remote node with the given transport preferences and
 expiry time for send retries.
 
 Expected sender: any local engine.
-
----
 
 #### `NodeOutMsg`
 
@@ -60,15 +56,11 @@ type NodeOutMsg M := mkNodeOutMsg@{
 ```
 <!-- --8<-- [end:NodeOutMsg] -->
 
----
-
 ### `RouterMsgRecv`
 
 Receive a message from the remote node.
 
 Expected sender: local [[Transport Connection]] engine.
-
----
 
 #### `NodeMsg`
 
@@ -85,15 +77,13 @@ type NodeMsg := mkNodeMsg@{
 ```
 <!-- --8<-- [end:NodeMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `seq`
     : Message sequence number of the sender.
 
     `msg`
     : Encrypted `SerializedMsg` message that contains an `EngineMsg`.
-
----
 
 ### `ConnectRequest`
 
@@ -121,7 +111,7 @@ type ConnectRequest :=
   }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `proto_ver_min`
     : Min. supported protocol version range.
@@ -141,13 +131,9 @@ type ConnectRequest :=
     `dst_node_advert_ver`
     : Latest known `NodeAdvert` version of the destination node.
 
----
-
 ### `ConnectReply`
 
 Reply to a `ConnectRequest`.
-
----
 
 #### `ConnectReplyOk`
 
@@ -161,15 +147,13 @@ type ConnectReplyOk :=
   }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `proto_ver`
     : Protocol version to use.
 
     `node_advert_ver`
     : Latest local `NodeAdvert` version.
-
----
 
 #### `ConnectReplyError`
 
@@ -183,7 +167,7 @@ type ConnectReplyError :=
   ;
 ```
 
-???+ quote "ConnectReplyError constructors"
+???+ code "ConnectReplyError constructors"
 
     `NodeConnectReplyErrorOverCapacity`
     : Node over capacity. Temporary failure.
@@ -194,15 +178,11 @@ type ConnectReplyError :=
   `NodeConnectReplyErrorDenied`
   : Connection denied by local policy.
 
----
-
 #### `ConnectReply`
 
 ```juvix
 ConnectReply : Type := Result ConnectReplyOk ConnectReplyError;
 ```
-
----
 
 ### `SetPermanence`
 
@@ -218,8 +198,6 @@ type ConnectionPermanence :=
   | RouterMsgConnectionPermanent
   ;
 ```
-
----
 
 ### `RouterMsg`
 

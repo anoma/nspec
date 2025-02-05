@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- verification
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - verification
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.verification_messages;
@@ -24,8 +25,6 @@ tags:
 --8<-- "./verification_messages.juvix.md:VerificationMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Verification sequence (without `signs_for` evidence)
 
@@ -47,8 +46,6 @@ Sequence diagram for verification (no `signs_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-no-signs-for] -->
-
----
 
 ### Verification sequence (with `signs_for` evidence)
 
@@ -75,11 +72,7 @@ Sequence diagram for verification (with `signs_for` evidence).
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-signs-for] -->
 
----
-
 ## Message types
-
----
 
 ### `RequestVerification`
 
@@ -96,7 +89,7 @@ A `RequestVerification` instructs the Verification Engine to verify a commitment
 (signature) from a particular external identity, possibly using known
 `signs_for` relationships.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : The data that was signed.
@@ -110,8 +103,6 @@ A `RequestVerification` instructs the Verification Engine to verify a commitment
     `useSignsFor`:
     : Whether or not to use known `signs_for` relationships.
 
----
-
 ### `ReplyVerification`
 
 ```juvix
@@ -124,15 +115,13 @@ type ReplyVerification := mkReplyVerification@{
 A `ReplyVerification` contains the result of verifying a commitment in
 response to a `RequestVerification`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `result`:
     : True if the verification succeeded, False otherwise.
 
     `err`:
     : An error message if verification failed.
-
----
 
 ### `VerificationMsg`
 

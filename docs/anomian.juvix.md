@@ -3,12 +3,13 @@ icon: material/chat-question
 search:
   exclude: false
   boost: 2
-status: new
 tags:
-  - story
-  - engine
+  - work-in-progress
   - tutorial
+  - engine
 ---
+
+# Anomian
 
 ## Preface
 
@@ -34,7 +35,7 @@ but we fully embrace [literate programming](https://www-cs-faculty.stanford.edu/
 This comes at the inconvenience of some lines of boilerplate here,
 but it can safely be skipped on a first reading.
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module anomian;
@@ -56,6 +57,13 @@ So, what do you mean by an _engine_?
 > us, and that has an **engine-status** that could be *running*, *dead*, or
 > *suspended*.
 
+```juvix
+type EngineStatus := Running | Dead | Suspended;
+```
+
+</div>
+
+
 !!! todo
 
     - Explain that if the engine is dead, next time the system steps, engines marked
@@ -64,11 +72,6 @@ So, what do you mean by an _engine_?
     - Explain that the engine-status is not a property of the engine, but rather
       a property of the engine-instance.
 
-```juvix
-type EngineStatus := Running | Dead | Suspended;
-```
-
-</div>
 
 Dynamic entity? What is *dynamic* about it?
 
@@ -171,7 +174,6 @@ type MsgInterface :=
 > To see the full list of message interfaces in the current model, check out the
 > sum type `Msg` in [[Anoma Message]].
 
-
 ## Chapter 2: Communication patterns
 
 > Now that we understand engines and their message interfaces, let's talk about
@@ -271,7 +273,6 @@ type EngineCfg C :=
 
 Tell me one thing about the parents of engines. Do they always know who their
 parent is? I don't know who is my father, actually.
-
 
 <div class="grid" markdown>
 
@@ -494,7 +495,6 @@ You have not answered yet how mail is actually sent.
 !!! info "Mailboxes for eventual message delivery"
 
     So, yes, the main purpose of mailboxes is where the elf delivers the messages.
-
 
 ## Chapter 5: Context of execution
 
@@ -787,7 +787,6 @@ I think I am getting the hang of it. But what's next?
 - **EngineMsg**: Structure of messages exchanged between engines, including
   sender and target identifiers, mailbox, communication pattern, message kind,
   and the message content itself.
-
 
 [^1]: The constructors are very much like _message tags_ in
       [the paper](https://simonjf.com/writing/pat.pdf)

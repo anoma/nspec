@@ -3,10 +3,8 @@ icon: octicons/link-16
 search:
   exclude: false
 tags:
-  - wikilinks
-  - images
-  - snippets
-todos: False
+  - tutorial
+  - conventions
 ---
 
 # Support for Wiki Links
@@ -109,25 +107,3 @@ Captions can include icons, for example:
 
     [[Home | :material-link: this is a caption with an icon ]]
 
-
-## List of wiki-style links per Page
-
-By default, the build process will generate a list of all wiki-style links per
-page. This list is displayed at the bottom of the page, and it is useful for
-identifying broken links or pages that are not linked to from other pages.
-
-To disable this feature, set the `list_wikilinks` option to `false` in the front
-matter of the page.
-
-```yaml
-list_wikilinks: false
-```
-
-Additionally, you could see a mermaid graph of the links by setting the
-`graph_wikilinks` option to `true` in the front matter of the page. This,
-however, may render graphs that are too large to be useful. Thus, it is
-set to `false` by default.
-
-```yaml
-graph_wikilinks: true
-```

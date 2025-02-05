@@ -3,12 +3,14 @@ icon: material/animation-play
 search:
   exclude: false
 tags:
-- Engine
-- Behaviour
-- Juvix
+  - node-architecture
+  - types
+  - engine
+  - behaviour
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.engine_behaviour;
@@ -76,7 +78,6 @@ and returns the `ActionEffect`.
 
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
-{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Action (C S B H A AM AC AE : Type) : Type :=
   (input : ActionInput C S B H A AM) ->
   Option (ActionEffect S B H AM AC AE);
@@ -115,13 +116,6 @@ are triggered.
 
 ### `ActionInput`
 
-The `ActionInput` contains:
-
-- the action arguments,
-- the engine configuration,
-- the engine environment, and
-- the timestamped trigger that caused the guard evaluation.
-
 <!-- --8<-- [start:ActionInput] -->
 ```juvix
 type ActionInput C S B H A AM :=
@@ -133,6 +127,20 @@ type ActionInput C S B H A AM :=
   };
 ```
 <!-- --8<-- [end:ActionInput] -->
+
+???+ code "Arguments"
+
+    `args`
+    : the action arguments,
+
+    `cfg`
+    : the engine configuration,
+
+    `env`
+    : the engine environment, and
+
+    `trigger`
+    : the timestamped trigger that caused the guard evaluation.
 
 ### `ActionEffect`
 
@@ -155,6 +163,20 @@ type ActionEffect S B H AM AC AE :=
   };
 ```
 <!-- --8<-- [end:ActionEffect] -->
+
+???+ code "Arguments"
+
+    `env`
+    : the engine environment,
+
+    `msgs`
+    : the messages to be sent to other engine instances,
+
+    `timers`
+    : the timers to be set, discarded, or superseded, and
+
+    `engines`
+    : the new engine instances to be created.
 
 ### `ActionExec`
 
@@ -194,6 +216,14 @@ type GuardOutput C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:GuardOutput] -->
 
+???+ code "Arguments"
+
+    `action`
+    : the action sequence to be executed,
+
+    `args`
+    : the action arguments.
+
 ### `GuardEval`
 
 <!-- --8<-- [start:GuardEval] -->
@@ -211,6 +241,7 @@ guards inside the given list. The evaluation strategies are as follows:
 - With `First`, we say that the first guard in the provided list that holds,
 i.e., yields a result, upon sequential evaluation is selected, its associated
 action is performed, and the evaluation stops.
+
 - With `Any`, we say that any guard in the provided list that holds upon
 sequential evaluation is selected, their associated actions are performed, and
 the evaluation stops.
@@ -233,3 +264,9 @@ type EngineBehaviour C S B H A AM AC AE :=
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
+
+???+ code "Arguments"
+
+    `guards`
+    : the guards to be evaluated.
+

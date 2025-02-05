@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- identity-management
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - identity-management
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.identity_management_messages;
@@ -24,8 +25,6 @@ tags:
 --8<-- "./identity_management_messages.juvix.md:IdentityManagementMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Generating an identity
 
@@ -52,8 +51,6 @@ Generating an identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-generate] -->
 
----
-
 ### Connecting to an existing identity
 
 <!-- --8<-- [start:message-sequence-diagram-connect] -->
@@ -77,8 +74,6 @@ Connecting to an existing identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-connect] -->
 
----
-
 ### Deleting an identity
 
 <!-- --8<-- [start:message-sequence-diagram-delete] -->
@@ -101,8 +96,6 @@ Deleting an identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-delete] -->
 
----
-
 ## Message types
 
 ### `RequestGenerateIdentity`
@@ -118,7 +111,7 @@ type RequestGenerateIdentity := mkRequestGenerateIdentity {
 A `RequestGenerateIdentity` instructs the Identity Management Engine to generate
 a new identity using the specified backend, parameters, and capabilities.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `backend`:
     : The backend to use for identity generation.
@@ -128,8 +121,6 @@ a new identity using the specified backend, parameters, and capabilities.
 
     `capabilities`:
     : Capabilities to request (e.g., commitment, decryption, or both).
-
----
 
 ### `ReplyGenerateIdentity`
 
@@ -146,7 +137,7 @@ A `ReplyGenerateIdentity` provides the handles to the decryption and
 commitment engine instances for the newly generated identity, or an error if a
 failure occurred.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `commitmentEngine`:
     : Reference to the newly instantiated commitment engine.
@@ -159,8 +150,6 @@ failure occurred.
 
     `err`:
     : An error message if identity generation failed.
-
----
 
 ### `RequestConnectIdentity`
 
@@ -175,7 +164,7 @@ type RequestConnectIdentity := mkRequestConnectIdentity {
 A `RequestConnectIdentity` instructs the Identity Management Engine to connect
 to an existing identity using the specified backend.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The external identity to connect.
@@ -185,8 +174,6 @@ to an existing identity using the specified backend.
 
     `capabilities`:
     : Capabilities to request (e.g., commitment, decryption, or both).
-
----
 
 ### `ReplyConnectIdentity`
 
@@ -202,7 +189,7 @@ A `ReplyConnectIdentity` provides the handles to the decryption and
 commitment engine instances for the connected identity, or an error if a failure
 occurred.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `commitmentEngine`:
     : Reference to the newly connected commitment engine.
@@ -212,8 +199,6 @@ occurred.
 
     `err`:
     : An error message if identity connection failed.
-
----
 
 ### `RequestDeleteIdentity`
 
@@ -227,15 +212,13 @@ type RequestDeleteIdentity := mkRequestDeleteIdentity {
 A `RequestDeleteIdentity` instructs the Identity Management Engine to delete an
 existing identity using the specified backend.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The external identity to delete.
 
     `backend`:
     : The backend to use for deletion.
-
----
 
 ### `ReplyDeleteIdentity`
 
@@ -248,12 +231,10 @@ type ReplyDeleteIdentity := mkReplyDeleteIdentity {
 A `ReplyDeleteIdentity` provides the response from an attempt to delete an
 identity.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `err`:
     : An error message if identity deletion failed.
-
----
 
 ### `IdentityManagementMsg`
 
@@ -269,8 +250,6 @@ type IdentityManagementMsg :=
   ;
 ```
 <!-- --8<-- [end:IdentityManagementMsg] -->
-
----
 
 ## Engine components
 

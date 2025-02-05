@@ -2,17 +2,17 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- ticker-engine
-- engine-environment
+  - node-architecture
+  - example
+  - engine
+  - ticker
+  - environment
 ---
 
 # Ticker Environment
 
-??? quote "Juvix preamble"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.ticker_environment;
@@ -46,7 +46,7 @@ type TickerLocalState := mkTickerLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `counter`:
     : The counter value.

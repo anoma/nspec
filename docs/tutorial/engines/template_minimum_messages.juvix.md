@@ -2,15 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template_minimum-minimum-engine
-- engine-messages
+  - tutorial
+  - example
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_minimum_messages;
@@ -26,8 +23,6 @@ These are the messages that the *Template Minimum* engine can receive/respond to
 --8<-- "./template_minimum_messages.juvix.md:TemplateMinimumMsg"
 
 ## Message sequence diagrams
-
----
 
 ### `ExampleRequest` and `ExampleReply`
 
@@ -57,13 +52,9 @@ Sequence Diagram: `ExampleRequest` & `ExampleReply`
 
 ## Message types
 
----
-
 ### `TemplateMinimumMsgJustHi`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
----
 
 ### `ExampleRequest`
 
@@ -78,7 +69,7 @@ type ExampleRequest := mkExampleRequest@{
 ```
 <!-- --8<-- [end:ExampleRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `argOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -86,11 +77,9 @@ type ExampleRequest := mkExampleRequest@{
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
----
-
 #### `ExampleReply`
 
-???+ quote "Auxiliary types"
+???+ code "Auxiliary types"
 
     ### `ReplyPayload`
 
@@ -100,7 +89,7 @@ type ExampleRequest := mkExampleRequest@{
     };
     ```
 
-    ---
+
 
     ### `ReplyError`
 
@@ -116,8 +105,6 @@ ExampleReply : Type := Result ReplyError ReplyPayload;
 ```
 <!-- --8<-- [end:ExampleReply] -->
 
----
-
 ### `TemplateMinimumMsg`
 
 <!-- --8<-- [start:TemplateMinimumMsg] -->
@@ -129,8 +116,6 @@ type TemplateMinimumMsg :=
   ;
 ```
 <!-- --8<-- [end:TemplateMinimumMsg] -->
-
----
 
 ## Engine components
 
