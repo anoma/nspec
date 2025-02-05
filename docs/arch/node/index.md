@@ -11,9 +11,9 @@ tags:
 ​
 The node architecture specification concerns the state evolution of Anoma instances,
 broken into smaller steps[^1] on the level of [[Engine|engines]] in nodes:
-which messages are sent and received,
-which computation is performed as reaction to message receptions, and
-which local state changes ensue as a result.
+- which messages are sent and received,
+- which computation is performed as reaction to message receptions, and
+- which local state changes ensue as a result.
 
 How message passing works is introduced in the [[Anomian]],
 based on illustrative examples.

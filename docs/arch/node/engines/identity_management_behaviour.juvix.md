@@ -30,10 +30,8 @@ tags:
     import arch.node.types.messages open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     ```
----
 
 # Identity Management Behaviour
----
 
 ## Overview
 
@@ -325,8 +323,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 ??? code "Auxiliary Juvix code"
 
 
-
-    ### IdentityManagementAction
+    ### `IdentityManagementAction`
 
     ```juvix
     IdentityManagementAction : Type :=
@@ -342,8 +339,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```
 
 
-
-    ### IdentityManagementActionInput
+    ### `IdentityManagementActionInput`
 
     ```juvix
     IdentityManagementActionInput : Type :=
@@ -357,8 +353,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```
 
 
-
-    ### IdentityManagementActionEffect
+    ### `IdentityManagementActionEffect`
 
     ```juvix
     IdentityManagementActionEffect : Type :=
@@ -372,8 +367,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```
 
 
-
-    ### IdentityManagementActionExec
+    ### `IdentityManagementActionExec`
 
     ```juvix
     IdentityManagementActionExec : Type :=
@@ -388,8 +382,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-
-
     ### `hasCommitCapability`
 
     ```juvix
@@ -401,8 +393,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       };
     ```
 
-
-
     ### `hasDecryptCapability`
 
     ```juvix
@@ -413,8 +403,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         | _ := false
       };
     ```
-
-
 
     ### `isSubsetCapabilities`
 
@@ -488,8 +476,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       };
     ```
 
-
-
     ### `copyEnginesForCapabilities`
 
     ```juvix
@@ -515,8 +501,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
           };
       in newIdentityInfo;
     ```
-
-
 
 ### `generateIdentityAction`
 
@@ -614,7 +598,7 @@ State update
 : A new identity is created with copied capabilities if valid.
 
 Messages to be sent
-: A ConnectIdentityReply message with confirmation or error.
+: A `ConnectIdentityReply` message with confirmation or error.
 
 Engines to be spawned
 : No new engines are spawned.
