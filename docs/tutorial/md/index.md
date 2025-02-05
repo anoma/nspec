@@ -2,11 +2,10 @@
 icon: octicons/markdown-16
 search:
   exclude: false
-tags:
-    - wikilinks
-    - images
-    - snippets
 todos: False
+tags:
+  - tutorial
+  - conventions
 ---
 
 # Markdown Basics for Anoma Documentation
@@ -34,12 +33,11 @@ search:
   exclude: false
   boost: 3
 tags:
-  - GitHub
-  - python
-  - MkDocs
-  - Makefile
-categories:
-  - tutorial
+  - node-architecture
+  - harware-subsystem
+  - engine
+  - logging
+  - message-types
 ---
 ```
 

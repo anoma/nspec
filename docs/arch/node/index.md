@@ -1,11 +1,13 @@
 ---
-icon: material/graph
+icon: material/devices
 search:
   exclude: false
   boost: 2
+tags:
+  - index
 ---
 
-# Introduction
+# Node Architecture
 ​
 The node architecture specification concerns the state evolution of Anoma instances,
 broken into smaller steps[^1] on the level of [[Engine|engines]] in nodes:
@@ -28,7 +30,9 @@ An illustration of the pattern of communication between participants<!--
 
 - [[Ordering Subsystem]]
 
-- [[Networking Subsystem]] (coming soon)
+- [[Network Subsystem]]
+
+## Message Flow
 
 <figure markdown>
 
@@ -37,9 +41,11 @@ An illustration of the pattern of communication between participants<!--
 
 <figcaption markdow
 
-Intent/ transaction candidate flowchart.
+Intent/transaction candidate flowchart.
 
 </figcaption>
 </figure>
 
 [^1]: The technical term is the _isolated turn principle_ [@taxonomy-of-actor-models-2016].
+
+---

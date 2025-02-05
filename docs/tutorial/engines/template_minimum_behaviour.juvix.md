@@ -2,15 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-minimum-engine
-- engine-behaviour
+  - tutorial
+  - example
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_minimum_behaviour;
@@ -49,7 +46,7 @@ TemplateMinimumActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TemplateMinimumAction`
 
@@ -183,7 +180,7 @@ exampleReplyActionLabel : TemplateMinimumActionExec := Seq [ exampleReplyAction 
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TemplateMinimumGuard`
 

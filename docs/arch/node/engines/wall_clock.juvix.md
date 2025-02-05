@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-definition
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - wall-clock-engine
+  - engine-definition
 ---
 
-??? quote "Juvix preamble"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.wall_clock;

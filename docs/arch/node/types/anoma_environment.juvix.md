@@ -3,9 +3,15 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+tags:
+  - node-architecture
+  - types
+  - engine
+  - environment
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.anoma_environment;
@@ -79,7 +85,7 @@ This means, an Anoma engine instance would have an environment of type `Env`.
 For example, an environment for an engine instance
 of the engine `TickerEngine` is of type `TickerEnvironment`.
 
-<!-- --8<-- [start:anoma-environment-type] -->
+<!-- --8<-- [start:Env] -->
 ```juvix
 type PreEnv KVSKey KVSDatum Executable ProgramState :=
 
@@ -130,4 +136,4 @@ type PreEnv KVSKey KVSDatum Executable ProgramState :=
 
 Env : Type := PreEnv String String ByteString String;
 ```
-<!-- --8<-- [end:anoma-environment-type] -->
+<!-- --8<-- [end:Env] -->

@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- registry-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - registry
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.net_registry_behaviour;
@@ -81,7 +81,7 @@ NetworkRegistryActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `NetworkRegistryAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : NetworkRegistryActionExec := Seq [ exampleReplyAction 
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `NetworkRegistryGuard`
 

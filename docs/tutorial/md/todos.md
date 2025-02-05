@@ -2,6 +2,9 @@
 icon: material/notebook
 search:
   exclude: false
+tags:
+  - tutorial
+  - conventions
 todos: False
 ---
 

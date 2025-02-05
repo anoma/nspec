@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- executor-engine
-- engine-environment
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - executor
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.executor_config;
@@ -48,7 +48,7 @@ type ExecutorCfg KVSKey Executable :=
 ```
 <!-- --8<-- [end:ExecutorCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The logical timestamp representing when this transaction executes in the

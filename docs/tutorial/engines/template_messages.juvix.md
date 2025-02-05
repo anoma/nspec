@@ -2,15 +2,12 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-engine
-- engine-messages
+  - tutorial
+  - example
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_messages;
@@ -27,8 +24,6 @@ These are the messages that the Template engine can receive/respond to.
 
 
 ## Message sequence diagrams
-
----
 
 ### `ExampleRequest` and `ExampleReply`
 
@@ -56,17 +51,11 @@ Sequence Diagram: `ExampleRequest` & `ExampleReply`
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
 
----
-
 ## Message types
-
----
 
 ### `TemplateMsgJustHi`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
----
 
 ### `ExampleRequest`
 
@@ -81,7 +70,7 @@ type ExampleRequest := mkExampleRequest@{
 ```
 <!-- --8<-- [end:ExampleRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `argOne`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -89,13 +78,11 @@ type ExampleRequest := mkExampleRequest@{
     `argTwo`
     : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
----
-
 ### `ExampleReply`
 
 Reply to an `ExampleRequest`.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     #### `ExampleReplyOk`
 
@@ -109,12 +96,12 @@ Reply to an `ExampleRequest`.
     ```
     <!-- --8<-- [end:ExampleReplyOk] -->
 
-    ???+ quote "Arguments"
+    ???+ code "Arguments"
 
         `argOne`
         : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-    ---
+
 
     #### `ExampleReplyError`
 
@@ -127,7 +114,7 @@ Reply to an `ExampleRequest`.
       ;
     ```
 
-    ???+ quote "Error types"
+    ???+ code "Error types"
 
         `ExampleErrorOne`
         : Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -141,8 +128,6 @@ ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
 ```
 <!-- --8<-- [end:ExampleReply] -->
 
----
-
 ### `TemplateMsg`
 
 <!-- --8<-- [start:TemplateMsg] -->
@@ -154,8 +139,6 @@ type TemplateMsg :=
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->
-
----
 
 ## Engine components
 

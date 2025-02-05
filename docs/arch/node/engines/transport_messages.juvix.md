@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- transport-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - transport
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.transport_messages;
@@ -31,8 +31,6 @@ These are the messages that the Transport engine can receive.
 --8<-- "./transport_messages.juvix.md:TransportMsg"
 
 ## Message types
-
----
 
 ### `TransportOutMsg`
 

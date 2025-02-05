@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- ticker-engine
-- engine-behaviour
+  - node-architecture
+  - example
+  - engine
+  - ticker
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.ticker_behaviour;
@@ -48,7 +48,7 @@ type ReplyTo := mkReplyTo@{
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-???+ quote "Argument description"
+???+ code "Arguments"
 
     `whoAsked`:
     : is the address of the engine that sent the message.
@@ -76,7 +76,7 @@ TickerActionArguments : Type := List TickerActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ## `TickerAction`
 
@@ -222,6 +222,8 @@ countReplyAction
     };
 ```
 <!-- --8<-- [end:countReplyAction] -->
+---
+
 ## Action Labels
 
 ### `incrementActionLabel`
@@ -238,7 +240,7 @@ countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TickerGuard`
 

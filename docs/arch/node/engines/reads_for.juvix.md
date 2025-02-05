@@ -2,14 +2,15 @@
 icon: octicons/project-template-24
 search:
   exclude: false
-categories:
-- engine
 tags:
-- reads-for-engine
-- engine-definition
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - readsfor
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.reads_for;

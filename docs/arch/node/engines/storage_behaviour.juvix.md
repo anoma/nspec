@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- storage-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - storage
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.storage_behaviour;
@@ -81,7 +81,7 @@ StorageActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `StorageAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : StorageActionExec := Seq [ exampleReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `StorageGuard`
 

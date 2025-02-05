@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-environment
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - wall-clock-engine
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.wall_clock_environment;
@@ -46,7 +46,7 @@ type WallClockLocalState := mkWallClockLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `currentTime`
     : The current epoch time value

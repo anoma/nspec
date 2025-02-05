@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- pub-sub-topic-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - pub-sub-topic
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.pub_sub_topic_messages;
@@ -36,14 +36,12 @@ These are the messages that the *Pub/Sub Topic* engine can receive/respond to.
 
 ## Message types
 
----
-
 ### `TopicMsg`
 
 A message published in a topic by an authorized publisher,
 forwarded to the local node.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `TopicMsgID`
 
@@ -63,7 +61,7 @@ type TopicMsg := mkTopicMsg@{
 }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `publisher`
     : Publisher identity.
@@ -83,8 +81,6 @@ type TopicMsg := mkTopicMsg@{
     `sig`
     : Signature by `publisher` over the topic ID and the above fields.
 
----
-
 ### `TopicMsgContent`
 
 ```juvix
@@ -96,7 +92,7 @@ type TopicMsgContent :=
   ;
 ```
 
-???+ quote "TopicMsgContent constructors"
+???+ code "TopicMsgContent constructors"
 
     `TopicMsgContentMsg`
     : Encrypted `TopicMsg`.
@@ -111,8 +107,6 @@ type TopicMsgContent :=
     `TopicMsgContentAck`
     : Acknowledgement of a `TopicMsg`.
 
----
-
 ### `TopicMsgAck`
 
 Acknowledgement of a `TopicMsg` with commitment to store it until the specified
@@ -124,12 +118,10 @@ type TopicMsgAck := mkTopicMsgAck@{
 }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `expiry`
     : Expiry date and time until the node commits to store the event.
-
----
 
 ### `TopicSubRequest`
 
@@ -141,13 +133,11 @@ type TopicSubRequest := mkTopicSubRequest@{
 }
 ```
 
----
-
 ### `TopicSubReply`
 
 Reply to a `TopicSubRequest`.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `TopicSubReplyOk`
 
@@ -184,13 +174,11 @@ type TopicUnsubRequest := mkTopicUnsubRequest@{
 }
 ```
 
----
-
 ### `TopicUnsubReply`
 
 Unsubscription successful.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `TopicUnsubReplyOk`
 
@@ -213,8 +201,6 @@ Unsubscription successful.
 ```juvix
 TopicUnsubReply : Type := Result TopicUnsubReplyOk TopicUnsubReplyError;
 ```
-
----
 
 ### `PubSubTopicMsg`
 

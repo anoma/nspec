@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- verification-engine
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - verification
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.verification_config;
@@ -45,7 +45,7 @@ type VerificationCfg := mkVerificationCfg@{
 ```
 <!-- --8<-- [end:VerificationCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `verifier`:
     : Function to generate verifier for a set of evidence and an identity.

@@ -2,16 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- mempool
-- mempool-worker
-- engine-environment
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - mempool-worker
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.mempool_worker_config;

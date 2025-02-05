@@ -2,15 +2,15 @@
 icon: octicons/gear-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- router-engine
-- engine-definition
+  - node-architecture
+  - network-subsystem
+  - engine
+  - router
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.router;

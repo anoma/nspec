@@ -4,8 +4,9 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix-types
-- Types
+  - node-architecture
+  - prelude
+  - index
 ---
 
 # Types

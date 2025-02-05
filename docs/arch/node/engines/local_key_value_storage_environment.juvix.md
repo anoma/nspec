@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-environment
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-key-value-storage
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_key_value_storage_environment;
@@ -30,7 +30,7 @@ tags:
 The Local Key-Value Storage Engine provides local storage and
 retrieval of data in a key-value format.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     axiom getNotificationTargets : StorageKey -> List EngineID;
@@ -60,7 +60,7 @@ type LocalKVStorageLocalState := mkLocalKVStorageLocalState {
 ```
 <!-- --8<-- [end:LocalKVStorageLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `storage`
     : The key-value store mapping keys to values.

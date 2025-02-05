@@ -2,15 +2,15 @@
 icon: octicons/gear-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- pub-sub-topic-engine
-- engine-definition
+  - node-architecture
+  - network-subsystem
+  - engine
+  - pub-sub-topic
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.pub_sub_topic;

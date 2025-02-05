@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- registry-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - registry
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.net_registry_messages;
@@ -61,17 +61,11 @@ Sequence Diagram: `ExampleRequest` & `ExampleReply`
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-ExampleRequest] -->
 
----
-
 ## Message types
-
----
 
 ### `NetworkRegistryMsgNodeAdvert`
 
 A `NodeAdvert` update from another node.
-
----
 
 ## `NodeAdvert`
 
@@ -89,7 +83,7 @@ type NodeAdvert :=
   };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `id`
     : Node identity.
@@ -105,8 +99,6 @@ type NodeAdvert :=
 
     `sig`
     : Signature by `id`.
-
----
 
 ### `TopicAdvert`
 
@@ -127,21 +119,15 @@ type TopicAdvert :=
   };
 ```
 
----
-
 ### `GetNodeAdvertRequest`
 
 Get `NodeAdvert` for the given `NodeID`.
 
 Sender: any local engine.
 
----
-
 ### `GetNodeAdvertReply`
 
 Reply to a `GetNodeAdvertRequest`.
-
----
 
 #### `GetNodeAdvertReplyOk`
 
@@ -171,15 +157,11 @@ GetNodeAdvertReply : Type := Result GetNodeAdvertReplyError GetNodeAdvertReplyOk
 ```
 <!-- --8<-- [end:GetNodeAdvertReply] -->
 
----
-
 ### `GetTopicAdvertRequest`
 
 Get `TopicAdvert` for the given `TopicID`.
 
 Sender: any local engine.
-
----
 
 ### `GetTopicAdvertReply`
 
@@ -212,8 +194,6 @@ type GetTopicAdvertReplyError :=
 GetTopicAdvertReply : Type := Result GetTopicAdvertReplyError GetTopicAdvertReplyOk;
 ```
 <!-- --8<-- [end:GetTopicAdvertReply] -->
-
----
 
 ### `NetworkRegistryMsg`
 
