@@ -12,3 +12,4 @@ sys = { name = "System architecture", path = "sys" }
 types = { name = "Juvix types and updates", path = "types" }
 tutorial = { name = "Tutorial and documentation", path = "tutorial" }
 python = { name = "Python-related changes", path = "python" }
+apps = { name = "Application documentation", path = "apps" }

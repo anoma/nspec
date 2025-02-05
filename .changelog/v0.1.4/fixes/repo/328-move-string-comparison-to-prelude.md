@@ -1,0 +1,1 @@
+  -  [**#328**](https://github.com/anoma/nspec/pull/328): Move string comparison to prelude

@@ -1,0 +1,1 @@
+  -  [**#331**](https://github.com/anoma/nspec/pull/331): RM type fixes
