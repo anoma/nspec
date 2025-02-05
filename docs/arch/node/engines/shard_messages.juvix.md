@@ -39,14 +39,15 @@ sequenceDiagram
     participant WorkerEngine
     participant Shard
     participant Executor
-    participant Mempool
-    participant Consensus
+%%  participant Mempool %% ≥v0.3
+%%  participant Consensus %% ≥v0.3
 
     WorkerEngine->>Shard: KVSAcquireLock
     Shard->>WorkerEngine: KVSLockAcquired
     Executor->>Shard: KVSReadRequest
-    Mempool->>Shard: UpdateSeenAll
-    Consensus->>Shard: AnchorChosen
+    WorkerEngine->>Shard: UpdateSeenAll
+%%  Mempool->>Shard: UpdateSeenAll %% ≥v0.3 ??
+%%  Consensus->>Shard: AnchorChosen %% ≥v0.3
     Shard->>Executor: KVSRead
     Executor->>Shard: KVSWrite
 ```
