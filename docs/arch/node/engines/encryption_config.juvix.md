@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- encryption-engine
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - encryption
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.encryption_config;
@@ -47,7 +47,7 @@ type EncryptionCfg := mkEncryptionCfg {
 ```
 <!-- --8<-- [end:EncryptionCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `encryptor`:
     : Function to generate encryptor for a set of evidence and an identity.

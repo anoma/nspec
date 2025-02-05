@@ -2,14 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- decryption
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - decryption
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.decryption_environment;
@@ -92,3 +93,5 @@ decryptionEnv : DecryptionEnv :=
 end;
 ```
 <!-- --8<-- [end:decryptionEnv] -->
+
+---

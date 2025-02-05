@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- decryption-engine
-- engine-definition
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - decryption
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.decryption;
@@ -75,7 +76,6 @@ DecryptionEngine : Type :=
 <!-- --8<-- [end:DecryptionEngine] -->
 
 ### Example of a decryption engine
-
 
 <!-- --8<-- [start:exampleDecryptionEngine] -->
 ```juvix

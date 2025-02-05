@@ -2,11 +2,13 @@
 icon: material/keyboard
 search:
   exclude: false
-hide:
-  - navigation
+tags:
+  - index
 ---
 
-# Modules in Juvix
+# Modules
+
+All the Juvix modules for the Anoma Specification are listed below.
 
 ## Juvix Package version
 
@@ -21,7 +23,7 @@ hide:
 ## {@ letter @}
 {@@ for entry in juvix_modules @@}
 
-- [{@ entry['module_name'] @}]({@ entry['url'] @})
+- [{@ entry['qualified_module_name'] @}]({@ entry['url'] @})
 
 {@@ endfor @@}
 {@@ endfor @@}

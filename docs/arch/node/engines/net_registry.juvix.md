@@ -2,15 +2,15 @@
 icon: octicons/gear-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- registry-engine
-- engine-definition
+  - node-architecture
+  - network-subsystem
+  - engine
+  - registry
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.net_registry;

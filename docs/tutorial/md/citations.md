@@ -2,10 +2,10 @@
 icon: simple/latex
 search:
   exclude: false
-tags:
-  - references
-  - bibtex
 todos: False
+tags:
+  - tutorial
+  - conventions
 ---
 
 # Bibliography

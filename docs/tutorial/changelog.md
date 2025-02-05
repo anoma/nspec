@@ -3,8 +3,6 @@ icon: material/check-all
 search:
   exclude: false
   boost: 3
-categories:
-  - tutorial
 tags:
   - tutorial
   - changelog

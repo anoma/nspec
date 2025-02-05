@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- reads_for
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - readsfor
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.reads_for_messages;
@@ -24,8 +25,6 @@ tags:
 --8<-- "./reads_for_messages.juvix.md:ReadsForMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Submitting `reads_for` evidence
 
@@ -48,8 +47,6 @@ Submitting `reads_for` evidence
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
 
----
-
 ### Querying a `reads_for` relationship
 
 <!-- --8<-- [start:message-sequence-diagram-query-relationship] -->
@@ -70,8 +67,6 @@ Querying a reads_for relationship
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-relationship] -->
-
----
 
 ### Querying `reads_for` evidence
 
@@ -94,11 +89,7 @@ Querying reads_for evidence for an identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
 
----
-
 ## Message types
-
----
 
 ### `RequestReadsFor`
 
@@ -112,15 +103,13 @@ type RequestReadsFor := mkRequestReadsFor@{
 A request to query whether `externalIdentityA` can read data encrypted to
 `externalIdentityB`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentityA`:
     : The identity doing the reading.
 
     `externalIdentityB`:
     : The identity being read for.
-
----
 
 ### `ReplyReadsFor`
 
@@ -133,15 +122,13 @@ type ReplyReadsFor := mkReplyReadsFor@{
 
 Reply indicating whether the `reads_for` relationship exists.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `readsFor`:
     : True if `externalIdentityA` can read for `externalIdentityB`, False otherwise.
 
     `err`:
     : An error message if the query failed.
-
----
 
 ### `RequestSubmitReadsForEvidence`
 
@@ -153,12 +140,10 @@ type RequestSubmitReadsForEvidence := mkRequestSubmitReadsForEvidence@{
 
 Request to submit evidence of a `reads_for` relationship.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidence`:
     : The evidence supporting the `reads_for` relationship.
-
----
 
 ### `ReplySubmitReadsForEvidence`
 
@@ -170,12 +155,10 @@ type ReplySubmitReadsForEvidence := mkReplySubmitReadsForEvidence@{
 
 Reply acknowledging the submission of evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `err`:
     : An error message if the submission failed.
-
----
 
 ### `RequestQueryReadsForEvidence`
 
@@ -187,12 +170,10 @@ type RequestQueryReadsForEvidence := mkRequestQueryReadsForEvidence@{
 
 Request to query all `reads_for` evidence related to an identity.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The identity for which to retrieve evidence.
-
----
 
 ### `ReplyQueryReadsForEvidence`
 
@@ -206,7 +187,7 @@ type ReplyQueryReadsForEvidence := mkReplyQueryReadsForEvidence@{
 
 Reply providing the requested evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The identity for which evidence was requested.
@@ -216,8 +197,6 @@ Reply providing the requested evidence.
 
     `err`:
     : An error message if the query failed.
-
----
 
 ### `ReadsForMsg`
 
@@ -233,8 +212,6 @@ type ReadsForMsg :=
   ;
 ```
 <!-- --8<-- [end:ReadsForMsg] -->
-
----
 
 ## Engine components
 

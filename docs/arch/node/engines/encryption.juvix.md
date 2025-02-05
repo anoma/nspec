@@ -2,14 +2,15 @@
 icon: octicons/project-template-24
 search:
   exclude: false
-categories:
-- engine
 tags:
-- encryption-engine
-- engine-definition
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - encryption
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.encryption;

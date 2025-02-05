@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- encryption
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - encryption
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.encryption_messages;
@@ -73,8 +74,6 @@ Sequence diagram for encryption (with `reads_for` evidence).
 
 ## Message types
 
----
-
 ### `RequestEncrypt`
 
 ```juvix
@@ -88,7 +87,7 @@ type RequestEncrypt := mkRequestEncrypt {
 A `RequestEncrypt` instructs the Encryption Engine to encrypt data to a
 particular external identity, possibly using known `reads_for` relationships.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : The data to encrypt.
@@ -98,8 +97,6 @@ particular external identity, possibly using known `reads_for` relationships.
 
     `useReadsFor`:
     : Whether to use known `reads_for` relationships or not.
-
----
 
 ### `ReplyEncrypt`
 
@@ -113,15 +110,13 @@ type ReplyEncrypt := mkReplyEncrypt {
 A `ReplyEncrypt` contains the data encrypted by the Encryption Engine in
 response to a `RequestEncrypt`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `ciphertext`:
     : The encrypted data.
 
     `err`:
     : An error message if encryption failed.
-
----
 
 ### `EncryptionMsg`
 
@@ -133,8 +128,6 @@ type EncryptionMsg :=
   ;
 ```
 <!-- --8<-- [end:EncryptionMsg] -->
-
----
 
 ## Engine components
 

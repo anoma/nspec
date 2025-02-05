@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- identity-management-engine
-- engine-definition
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - identity-management
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.identity_management;
@@ -34,6 +35,8 @@ tags:
 
 # IdentityManagement Engine
 
+---
+
 The Identity Management Engine serves as the central coordinator for
 identity operations within Anoma, managing the entire lifecycle of
 identities across various storage systems (called "backends"). These backends
@@ -41,6 +44,8 @@ provide a service such as creating new identities, connecting to existing ones,
 and managing their cryptographic capabilities (commiting and decrypting), while
 abstracting away the complexity of different storage systems (e.g., local memory,
 hardware devices, browser extensions, and remote machines).
+
+---
 
 Users can request new identity generation (via a
 `MsgIdentityManagementGenerateIdentityRequest` message) or connection

@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-ts-storage-engine
-- engine-environment
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-time-series-storage
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_time_series_storage_environment;
@@ -37,7 +37,7 @@ syntax alias LocalTSStorageMailboxState := Unit;
 
 ## Local state
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias Database := String; -- Abstract DB type
@@ -60,7 +60,7 @@ type LocalTSStorageLocalState :=
 ```
 <!-- --8<-- [end:LocalTSStorageLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `db`
     : The database storing the time series data.

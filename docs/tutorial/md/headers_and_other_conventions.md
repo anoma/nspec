@@ -3,8 +3,8 @@ icon: material/format-header-1
 search:
   exclude: false
 tags:
-  - references
-  - bibtex
+  - tutorial
+  - conventions
 todos: False
 ---
 

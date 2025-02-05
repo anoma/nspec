@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- shard-engine
-- engine-environment
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - shard
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.shard_environment;
@@ -40,7 +40,7 @@ The shard engine does not require complex mailbox states. Therefore, we define t
 
 ## Local state
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     <!-- --8<-- [start:DAGStructure] -->
     ```juvix
@@ -79,7 +79,7 @@ type ShardLocalState KVSKey KVSDatum := mkShardLocalState @{
 ```
 <!-- --8<-- [end:ShardLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `dagStructure`
     : Structure tracking all key accesses across transactions, including read/write status and `heardAll` points

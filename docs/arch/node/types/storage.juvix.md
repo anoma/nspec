@@ -4,12 +4,14 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix
-- Types
-- Network
+  - node-architecture
+  - types
+  - network-subsystem
+  - storage
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.storage;
@@ -22,8 +24,6 @@ tags:
     ```
 
 # Storage Types
-
----
 
 ## `ACL`
 
@@ -44,7 +44,7 @@ type ACL := mkACL@{
 }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `members`
     : Set of `ExternalID`s that are members of the ACL.
@@ -54,8 +54,6 @@ type ACL := mkACL@{
 
     `sig`
     : Signature of the ACL by the ACL owner.
-
----
 
 ## `Chunk`
 
@@ -70,7 +68,7 @@ type Chunk := mkChunk@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `children`
     : List of chunk IDs of children in the Merkle tree.
@@ -84,7 +82,6 @@ type Chunk := mkChunk@{
     `acl`
     : Nodes that are allowed to request the chunk.
 
----
 ## `ChunkContent`
 
 The content of a `Chunk`.
@@ -96,15 +93,13 @@ type ChunkContent :=
   ;
 ```
 
-???+ quote "`ChunkContent` constructors"
+???+ code "`ChunkContent` constructors"
 
     `InternalNode`
     : An internal node of the Merkle tree. Contains decryption keys of its children.
 
     `LeafNode`
     : A leaf node of the Merkle tree. Contains a data chunk.
-
----
 
 ## `ChunkCommitment`
 
@@ -123,7 +118,7 @@ type ChunkCommitment := mkChunkCommitment {
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `id`
     : `ChunkID` to commit to.
@@ -136,3 +131,5 @@ type ChunkCommitment := mkChunkCommitment {
 
     `sig`
     : Cryptographic signature of the above fields by `node`.
+
+---

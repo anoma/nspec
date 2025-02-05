@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- decryption-engine
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - decryption
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.decryption_config;
@@ -45,7 +45,7 @@ type DecryptionCfg := mkDecryptionCfg@{
 ```
 <!-- --8<-- [end:DecryptionCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `decryptor`:
     : The decryptor for the decrypting.
@@ -53,7 +53,7 @@ type DecryptionCfg := mkDecryptionCfg@{
     `backend`:
     : The backend to use for decryption.
 
-#### Instantiation
+### Instantiation
 
 <!-- --8<-- [start:decryptionCfg] -->
 ```juvix extract-module-statements

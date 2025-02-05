@@ -3,12 +3,14 @@ icon: material/animation-play
 search:
   exclude: false
 tags:
-- Engine
-- Behaviour
-- Juvix
+  - node-architecture
+  - types
+  - engine
+  - behaviour
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.engine_behaviour;
@@ -60,7 +62,7 @@ messages, creating new engine instances, and updating timers.
 
 ### `Action`
 
-The input of the action function is parameterised by the types for:
+The input of the action function is parameterized by the types for:
 
 - `C`: engine configuration,
 - `S`: local state,
@@ -76,7 +78,6 @@ and returns the `ActionEffect`.
 
 <!-- --8<-- [start:ActionFunction] -->
 ```juvix
-{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Action (C S B H A AM AC AE : Type) : Type :=
   (input : ActionInput C S B H A AM) ->
   Option (ActionEffect S B H AM AC AE);
@@ -115,13 +116,6 @@ are triggered.
 
 ### `ActionInput`
 
-The `ActionInput` contains:
-
-- the action arguments,
-- the engine configuration,
-- the engine environment, and
-- the timestamped trigger that caused the guard evaluation.
-
 <!-- --8<-- [start:ActionInput] -->
 ```juvix
 type ActionInput C S B H A AM :=
@@ -133,6 +127,20 @@ type ActionInput C S B H A AM :=
   };
 ```
 <!-- --8<-- [end:ActionInput] -->
+
+???+ code "Arguments"
+
+    `args`
+    : the action arguments,
+
+    `cfg`
+    : the engine configuration,
+
+    `env`
+    : the engine environment, and
+
+    `trigger`
+    : the timestamped trigger that caused the guard evaluation.
 
 ### `ActionEffect`
 
@@ -156,7 +164,39 @@ type ActionEffect S B H AM AC AE :=
 ```
 <!-- --8<-- [end:ActionEffect] -->
 
+???+ code "Arguments"
+
+    `env`
+    : the engine environment,
+
+    `msgs`
+    : the messages to be sent to other engine instances,
+
+    `timers`
+    : the timers to be set, discarded, or superseded, and
+
+    `engines`
+    : the new engine instances to be created.
+
 ### `ActionExec`
+
+!!! todo "cf. monadic effect descriptions >=v0.2"
+
+    As brainstormed *today*,
+    engine IDs could naturally be generated freshly,
+    by use of monads;
+    as we are talking about monads,
+    `ActionExec` would deserve a thorough overhaul:
+
+    - proper monadic "task execution" instead of the list of actions,
+      of which there may be only one as a reaction
+      to a trigger (leading to an event with duration)
+    - related, other features, in particular
+      - concurrency of several tasks
+      - cf. one "thread" for each mailbox
+    - message send, engine spawn, and timer updates, could also be monadic
+
+It is allowed to have several actions executed.[^1]
 
 <!-- --8<-- [start:ActionExec] -->
 ```juvix
@@ -167,6 +207,21 @@ type ActionExec C S B H A AM AC AE :=
 <!-- --8<-- [end:ActionExec] -->
 
 ### `Guard`
+
+A guard implements—first and foremost—a pre-condition for an action,
+which checks whether the associated action or action sequence is to be performed.
+
+??? note "Relation to other notions of guards"
+
+    Guards generalize guards as used in Erlang.
+    In future versions,
+    simplified forms of guards
+    and a DSL may come so that
+    we do not always have to write in the most general style.
+
+If the pre-condition of a guard is satisfied,
+the guard produces an output that is part of the input of actions;
+otherwise, it returns nothing.
 
 <!-- --8<-- [start:Guard] -->
 ```juvix
@@ -194,6 +249,14 @@ type GuardOutput C S B H A AM AC AE :=
 ```
 <!-- --8<-- [end:GuardOutput] -->
 
+???+ code "Arguments"
+
+    `action`
+    : the action sequence to be executed,
+
+    `args`
+    : the action arguments.
+
 ### `GuardEval`
 
 <!-- --8<-- [start:GuardEval] -->
@@ -211,6 +274,7 @@ guards inside the given list. The evaluation strategies are as follows:
 - With `First`, we say that the first guard in the provided list that holds,
 i.e., yields a result, upon sequential evaluation is selected, its associated
 action is performed, and the evaluation stops.
+
 - With `Any`, we say that any guard in the provided list that holds upon
 sequential evaluation is selected, their associated actions are performed, and
 the evaluation stops.
@@ -233,3 +297,29 @@ type EngineBehaviour C S B H A AM AC AE :=
   };
 ```
 <!-- --8<-- [end:EngineBehaviour] -->
+
+???+ code "Arguments"
+
+    `guards`
+    : the guards to be evaluated.
+
+
+!!! note "Summary of behaviour"
+
+    Roughly,
+    engines are a collection of guarded state-transition functions,
+    using terminology of
+    [Moore](https://en.wikipedia.org/wiki/Moore_machine) or
+    [Mealy](https://en.wikipedia.org/wiki/Moore_machine) machines.
+    The presentation in terms of a set of guards
+    is in the spirit of Dijkstra's
+    [guarded command language](https://en.wikipedia.org/wiki/Guarded_Command_Language),
+    where the commands are replaced by actions.
+    Effectively,
+    the data of engine behaviour indirectly describes a function
+    that determines how the received timestamped trigger is to be handled,
+    expressed as a set of action effects.[^2]
+
+[^1]: This is likely to change in future versions.
+
+[^2]: In future versions, this may be done using `do notation` (as provided by monads).

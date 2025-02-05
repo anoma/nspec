@@ -4,13 +4,15 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix-types
-- Types
-- Message
-- Mailbox
+  - work-in-progress
+  - node-architecture
+  - types
+  - message-types
+  - mailboxes
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.messages;
@@ -112,45 +114,49 @@ type Trigger H M :=
   | Elapsed { timers : List (Timer H) };
 ```
 
-- Extract the `EngineMsg` from a trigger in case it has one:
+### `getEngineMsgFromTrigger`
 
-    ```juvix
-    getEngineMsgFromTrigger {H M} (tr : Trigger H M) : Option (EngineMsg M)
-      := case tr of {
-      | MessageArrived@{msg} := some msg
-      | Elapsed@{} := none
-      };
-    ```
+Extract the `EngineMsg` from a trigger in case it has one:
 
-- Extract the `Msg` from a trigger in case it has one:
+```juvix
+getEngineMsgFromTrigger {H M} (tr : Trigger H M) : Option (EngineMsg M)
+  := case tr of {
+  | MessageArrived@{msg} := some msg
+  | Elapsed@{} := none
+  };
+```
 
-    ```juvix
-    getMsgFromTrigger {H M} (tr : Trigger H M) : Option M
-      := case tr of {
-      | MessageArrived@{msg} := some (EngineMsg.msg msg)
-      | Elapsed@{} := none
-      };
-    ```
+### `getMsgFromTrigger`
 
-- Get the message sender from a trigger:
+Extract the `Msg` from a trigger in case it has one:
 
-    ```juvix
-    getSenderFromTrigger {H M} (tr : Trigger H M) : Option EngineID
-      := case tr of {
-      | MessageArrived@{msg} := some (EngineMsg.sender msg)
-      | Elapsed@{} := none
-      };
-    ```
+```juvix
+getMsgFromTrigger {H M} (tr : Trigger H M) : Option M
+  := case tr of {
+  | MessageArrived@{msg} := some (EngineMsg.msg msg)
+  | Elapsed@{} := none
+  };
+```
 
-- Get the target destination from a trigger:
+### `getSenderFromTrigger`
 
-    ```juvix
-    getTargetFromTrigger {H M} (tr : Trigger H M) : Option EngineID
-      := case tr of {
-      | MessageArrived@{msg} := some (EngineMsg.target msg)
-      | Elapsed@{} := none
-      };
-    ```
+```juvix
+getSenderFromTrigger {H M} (tr : Trigger H M) : Option EngineID
+  := case tr of {
+  | MessageArrived@{msg} := some (EngineMsg.sender msg)
+  | Elapsed@{} := none
+  };
+```
+
+### `getTargetFromTrigger`
+
+```juvix
+getTargetFromTrigger {H M} (tr : Trigger H M) : Option EngineID
+  := case tr of {
+  | MessageArrived@{msg} := some (EngineMsg.target msg)
+  | Elapsed@{} := none
+  };
+```
 
 ### `TimestampedTrigger H`
 
@@ -162,30 +168,33 @@ type TimestampedTrigger H M :=
   };
 ```
 
-- Get the `EngineMsg` from a `TimestampedTrigger`:
+### `getEngineMsgFromTimestampedTrigger`
 
-    ```juvix
-    getEngineMsgFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option (EngineMsg M)
-      := getEngineMsgFromTrigger (TimestampedTrigger.trigger tr);
-    ```
+```juvix
+getEngineMsgFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option (EngineMsg M)
+  := getEngineMsgFromTrigger (TimestampedTrigger.trigger tr);
+```
 
-- Get the `Msg` from a `TimestampedTrigger`:
+### `getMsgFromTimestampedTrigger`
 
-    ```juvix
-    getMsgFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option M
-      := getMsgFromTrigger (TimestampedTrigger.trigger tr);
-    ```
+```juvix
+getMsgFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option M
+  := getMsgFromTrigger (TimestampedTrigger.trigger tr);
+```
 
-- Get the sender from a `TimestampedTrigger`:
+### `getSenderFromTimestampedTrigger`
 
-    ```juvix
-    getSenderFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
-      := getSenderFromTrigger (TimestampedTrigger.trigger tr);
-    ```
+```juvix
+getSenderFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
+  := getSenderFromTrigger (TimestampedTrigger.trigger tr);
+```
 
-- Get the target from a `TimestampedTrigger`:
+### `getTargetFromTimestampedTrigger`
 
-    ```juvix
-    getTargetFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
-      := getTargetFromTrigger (TimestampedTrigger.trigger tr);
-    ```
+```juvix
+getTargetFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option EngineID
+  := getTargetFromTrigger (TimestampedTrigger.trigger tr);
+```
+
+---
+

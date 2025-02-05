@@ -2,16 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- mempool
-- mempool-worker
-- engine-messages
+  - node-architecture
+  - ordering
+  - engine
+  - mempool-worker
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.mempool_worker_messages;
@@ -29,8 +28,6 @@ These are the specific messages that the Mempool Worker engine can receive/respo
 --8<-- "./mempool_worker_messages.juvix.md:MempoolWorkerMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Transaction request flow
 
@@ -58,11 +55,7 @@ Sequence Diagram: Transaction Request Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-transaction-request] -->
 
----
-
 ## Message types
-
----
 
 ### `TransactionRequest`
 
@@ -78,7 +71,7 @@ type TransactionRequest KVSKey Executable :=
 ```
 <!-- --8<-- [end:TransactionRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `tx`
     : The transaction candidate to be ordered and executed.
@@ -86,8 +79,6 @@ type TransactionRequest KVSKey Executable :=
     `resubmission`
     : Optional reference to a previous occurrence of the same transaction
     candidate (currently unused).
-
----
 
 ### `TransactionAck`
 
@@ -107,7 +98,7 @@ type TransactionAck :=
 ```
 <!-- --8<-- [end:TransactionAck] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `tx_hash`
     : The hash of the acknowledged transaction candidate (Currently unused).
@@ -124,8 +115,6 @@ type TransactionAck :=
     `signature`
     : The signature of the worker engine over the above fields (Currently unused).
 
----
-
 ### `MempoolWorkerMsg`
 
 <!-- --8<-- [start:MempoolWorkerMsg] -->
@@ -136,8 +125,6 @@ type MempoolWorkerMsg KVSKey Executable :=
   ;
 ```
 <!-- --8<-- [end:MempoolWorkerMsg] -->
-
----
 
 ## Engine components
 

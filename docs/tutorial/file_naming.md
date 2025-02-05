@@ -1,8 +1,11 @@
 ---
 icon: octicons/typography-16
+search:
+  exclude: false
+  boost: 3
 tags:
-    - file naming
-    - conventions
+  - tutorial
+  - conventions
 ---
 
 
