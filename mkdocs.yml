@@ -16,8 +16,8 @@ nav:
   - Indexes:
       - List of tags: ./indexes/tags.md
       - List of modules: ./indexes/modules.md
-      - List of engines: ./indexes/engines.md
       - List of basic types: ./prelude.juvix.md
+      - List of engines: ./indexes/engines.md
   - Introduction:
       - Anomian: ./anomian.juvix.md
       - Anoma architecture: ./arch/overview.md
@@ -317,6 +317,9 @@ plugins:
       j2_block_end_string: "@@}"
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
+
+watch:
+  - docs/assets/css/extra.css
 hooks:
   - hooks/fix_changelog.py
 exclude_docs: |

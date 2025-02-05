@@ -4,6 +4,7 @@ search:
   exclude: false
   boost: 2
 tags:
+  - work-in-progress
   - node-architecture
   - types
   - message-types

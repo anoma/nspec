@@ -10,11 +10,15 @@ tags:
 
 # The concept of a subsystem
 
-## Overview
+!!! definition "Subsystem"
 
-A subsystem is a collection of engines that work together to achieve a specific goal.
+  A **subsystem** is a collection of engines that work together to achieve a
+  specific goal. The purpose of a subsystem is to provide a high-level interface
+  for the components that make up the node.
 
-## Purpose
+## Examples 
 
-The purpose of a subsystem is to provide a high-level interface for the components that make up the node.
-
+- [[Network subsystem]]
+- [[Hardware subsystem]]
+- [[Identity subsystem]]
+- [[Ordering subsystem]]

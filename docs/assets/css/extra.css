@@ -2,8 +2,25 @@
     max-width: 100%;
   }
 
-h1, h2, h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 {
   border-top: 1px solid lightgray;
+  padding-top: 0.5rem;
+}
+
+.work-in-progress {
+  background-color: gold
+}
+
+.new {
+  background-color: lightgreen
+}
+
+.deprecated {
+  background-color: lightcoral;
+}
+
+.md-nav__item--section {
+  border-top: 1px solid lightgray; 
   padding-top: 0.5rem;
 }
 

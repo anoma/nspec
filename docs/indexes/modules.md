@@ -4,7 +4,6 @@ search:
   exclude: false
 tags:
   - index
-  - juvix
 ---
 
 # Modules
