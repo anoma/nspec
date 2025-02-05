@@ -360,7 +360,6 @@ type TransactionLabel ReadLabel WriteLabel := mkTransactionLabel@{
 ```juvix
 syntax alias TxFingerprint := Nat;
 ```
-
 ### `TransactionCandidate`
 
 ```juvix
@@ -388,7 +387,6 @@ syntax alias BatchNumber := Nat;
 ```juvix
 syntax alias WallClockTime := Nat;
 ```
-
 ### `keyToShard`
 
 Up to v0.2,
@@ -396,7 +394,6 @@ the specification assumes a fixed/static assignment from
 keys of the key-value storage to
 engine IDs of shards that are
 responsible for mangaging the values associated to keys.
-
 
 ```juvix
 -- Map each key to its shard

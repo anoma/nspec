@@ -8,6 +8,11 @@ tags:
   - engine
   - identity-management
   - behaviour
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - identity-management
+  - behaviour
 ---
 
 ??? code "Juvix imports"
@@ -30,8 +35,10 @@ tags:
     import arch.node.types.messages open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     ```
+---
 
 # Identity Management Behaviour
+---
 
 ## Overview
 
@@ -338,7 +345,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-
     ### `IdentityManagementActionInput`
 
     ```juvix
@@ -352,7 +358,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Msg;
     ```
 
-
     ### `IdentityManagementActionEffect`
 
     ```juvix
@@ -365,7 +370,6 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Cfg
         Anoma.Env;
     ```
-
 
     ### `IdentityManagementActionExec`
 
@@ -413,7 +417,11 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       : Bool :=
       (not (hasCommitCapability requested) || hasCommitCapability available)
       && (not (hasDecryptCapability requested) || hasDecryptCapability available);
+    ```
 
+    ### `updateIdentityAndSpawnEngines`
+
+    ```juvix
     updateIdentityAndSpawnEngines
       (env : IdentityManagementEnv)
       (backend' : Backend)

@@ -8,8 +8,14 @@ tags:
   - engine
   - behaviour
   - prelude
+  - node-architecture
+  - types
+  - engine
+  - behaviour
+  - prelude
 ---
 
+??? code "Juvix imports"
 ??? code "Juvix imports"
 
     ```juvix
@@ -274,6 +280,7 @@ guards inside the given list. The evaluation strategies are as follows:
 - With `First`, we say that the first guard in the provided list that holds,
 i.e., yields a result, upon sequential evaluation is selected, its associated
 action is performed, and the evaluation stops.
+
 
 - With `Any`, we say that any guard in the provided list that holds upon
 sequential evaluation is selected, their associated actions are performed, and

@@ -47,5 +47,3 @@ Intent/transaction candidate flowchart.
 </figure>
 
 [^1]: The technical term is the _isolated turn principle_ [@taxonomy-of-actor-models-2016].
-
----
