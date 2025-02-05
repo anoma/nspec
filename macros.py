@@ -150,7 +150,6 @@ def on_pre_page_macros(env):
     """
     pass
 
-
 def on_post_page_macros(env):
     """
     Actions to be performed after the page macros have been expanded.

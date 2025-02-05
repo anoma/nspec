@@ -4,9 +4,10 @@ icon: material/alert-circle-outline
 
 # Disclaimer
 
-This documentation website is a work-in-progress [**formal specification**](#formal-specification-approach) of the
-Anoma protocol. We refer to this documentation as the "Anoma specs".
-It is important to understand what this documentation is and what it is not.
+This documentation website is a work-in-progress [**formal
+specification**](#formal-specification-approach) of the Anoma protocol. We refer
+to this documentation as the "Anoma specs". The following disclaimer is
+important to understand what this documentation is and what it is not.
 
 ### General information
 
@@ -14,7 +15,8 @@ It is important to understand what this documentation is and what it is not.
 
 - The documentation is versioned, so refer to the specific version when
     discussing this documentation. Where is the version? Latest is not the
-    version, we use semver. Find the version in website title or in the footer of any page.
+    version, we use semver. Find the version in website title or in the footer
+    of any page. If you want to refer to `main`, use the commit hash.
 
 - This documentation is written in natural language in combination with
     mathematical notation and Juvix code snippets (read more about it

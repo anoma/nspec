@@ -12,11 +12,17 @@ tags:
 
 ## Overview
 
-The model of Anoma revolves around the concept of an [[Engine|engine]], an
-actor-like entity encapsulating the [[Engine Environment|engine environment]] and
-[[Engine Behaviour|behaviour]] of a computational process. In Anoma, every
-engine is of a specific type. Engines of the same type share the same
-[[Engine Behaviour|behaviour]]. However, two engines of the same type may have different
+The model of Anoma revolves around the concept of an [[Engine|engine]] instance, an
+actor-like entity encapsulating all aspects of a computation process.
+
+An engine has the following components:
+
+- a declaration of a **message interface**,
+- a [[Engine Configuration|configuration]],
+- an [[Engine Environment|environment]], and
+- a [[Engine Behaviour|behaviour]].
+
+Engines of the same type share the same [[Engine Behaviour|behaviour]]. However, two engines of the same type may have different
 [[Engine Environment|execution context]].
 
 ## The type of an engine
@@ -30,7 +36,7 @@ We show the type definition here for convenience.
 
 ### [[Engine Configuration|*Configuration*]]
 
-The configuration of an engine. It consists of:
+The configuration of an engine. The data of an engine configuration consists of:
 
 - a parent engine,
 - a name,
@@ -42,7 +48,7 @@ The complete definition of an engine configuration can be found in the
 
 ### [[Engine Environment|*Environment*]]
 
-The execution context of an engine. It consists of:
+The execution context of an engine. The data of an engine environment consists of:
 
 - a local state for storing engine-specific data,
 - a mailbox cluster for receiving and sending [[Anoma Message|messages]],
@@ -67,6 +73,6 @@ The complete definition of an engine behaviour can be found in the
 
 ## Useful Links
 
-- [[Anomian]]
-- [[Engines in Anoma|Tutorials on Writing Engine Families]]
-- [[Ticker Engine|Example Engine]]
+- Learn about the [[Anomian]].
+- [[Engines in Anoma|Tutorials on Writing Engine Families for Anoma Spec writers]].
+- [[Ticker Engine|Example of an engine that ticks, the Ticker Engine]].
