@@ -16,7 +16,7 @@ tags:
   specific goal. The purpose of a subsystem is to provide a high-level interface
   for the components that make up the node.
 
-## Examples 
+## Examples
 
 - [[Network subsystem]]
 - [[Hardware subsystem]]
