@@ -18,13 +18,13 @@ search:
 Figuratively speaking,
 it is the blueprint of Anoma,
 but then, how can the blueprint be part of the whole?
-In first approximation, 
+In first approximation,
 we are spiraling up,
 bootstrapping from what started out as
 a write-up of the idea of Anoma for a wider audience
 and a prototype implementation loosely based on ... ideas written up.
 Less prosaic,
-we can make sense of specification as part of the whole 
+we can make sense of specification as part of the whole
 if we consider that
 future iterations of the existing code base will be
 influenced by the current specification,
@@ -78,9 +78,9 @@ or other ways of collaboration.
       In short,
       all of Anoma specs should be informative
       without reference to the code.
-      
+
       !!! note ""
-      
+
       _Please let us know if the English language descriptions or not precise enough!_
 
 ### Purpose and scope
@@ -89,8 +89,8 @@ Anoma specs describe the [[Protocol Architecture|protocol architecture]].
 In other words,
 it provides a blueprint for how components of Anoma protocol instances
 may interact to provide functionality.
-Thus, 
-Anoma specs describe what any correct implementation 
+Thus,
+Anoma specs describe what any correct implementation
 _has to_ provide and
 _may provide._
 Anoma specs focus on the rules of the protocol,
@@ -121,10 +121,10 @@ Let us recap what specifications are about, in general—<!--
 
     A specification primarily states what is required [for a task],
     providing minimal or no details about how the task should be accomplished.
-    
+
 This goal, i.e., capturing the requirements and essential structure,
 can be achieved using English language.
-However, 
+However,
 we are sometimes underestimating natural language's flexibility
 to change meanings depending on the context,
 which can catch us off guard.
@@ -136,8 +136,8 @@ as used and studied by logicians, mathematicians, and computer scientists.
 
 !!! quote "Mathematical expression of specifications"
 
-    A formal specification is, in addition, 
-    a mathematical expression of what is required (a computational task) 
+    A formal specification is, in addition,
+    a mathematical expression of what is required (a computational task)
     which may be subjected to mathematical scrutiny (reasoning or proof).
 
 Thus,
@@ -163,17 +163,17 @@ and our list of requests is growing a second element:
 At some point in the future,
 we may want to make sure that some given implementation matches the protocol,
 i.e., demonstrate that an implementation is _correct_;
-in short, 
+in short,
 we want to _verify_ the implementation.[^2]
 There is a large variety of methods,
 which often are summarized as _[formal methods](https://en.wikipedia.org/wiki/Formal_methods),_
 which we may want to apply, now or in the future.
 Note that formal _specification_ is of interest in and of itself:
 it forces one to resolve any natural language ambiguities,
-and in this way, 
+and in this way,
 we also catch issues that tend to "hide" in natural language.
 
-In summary, 
+In summary,
 most concepts in the Anoma specs are intended to have formal counterparts
 in what we *currently* call _idealized Anoma_ (v0.3-ish).
 Anoma specs takes a page out of the proverbial book of formal methods,
@@ -184,11 +184,11 @@ is mathematical rigour in the Anoma specs.
 ## Use of Juvix
 
 Throughout the Anoma specs,
-we embed code snippets, 
-written in [Juvix](https://juvix.org/). 
+we embed code snippets,
+written in [Juvix](https://juvix.org/).
 While Juvix is still in its infancy,
 compared to established languages like Coq,
-Isabelle/HOL, Agda or Lean, 
+Isabelle/HOL, Agda or Lean,
 it serves our needs surprising well.
 Let us highlight some aspects.
 
@@ -202,7 +202,7 @@ Let us highlight some aspects.
 - Support for hypertext documentation, including features such as clickable
    references for easy code navigation.
 
-- An easy embedding into Lean4, which we use whenever Juvix's type system restrictions 
+- An easy embedding into Lean4, which we use whenever Juvix's type system restrictions
     call for a more expressive language.
 
 - Built-in support for literate programming, enabling us to seamlessly blend
@@ -229,13 +229,13 @@ for at least the following professionals:
 - Protocol designers and architects
 - Implementation teams
 - Verification experts
-- External auditors 
+- External auditors
 
 Eventually, we want to reach the Anoma community at large.
-So, 
+So,
 don't hesitate to join the discussion [Anoma](https://research.anoma.net/)!
 
-[^1]: Interestingly, Leslie Lamport goes as far as speaking of "writing math" 
+[^1]: Interestingly, Leslie Lamport goes as far as speaking of "writing math"
     instead of "formally specifying".<!--citation https://duckduckgo.com/?t=ffab&q=lamport+paxos+or+how+to+win+turing+award&iax=videos&ia=videos&iai=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Dtw3gsBms-f8#-->
 
 [^2]: Recall that this only makes sense for,
