@@ -21,7 +21,7 @@ but then, how can the blueprint be part of the whole?
 In first approximation, 
 we are spiraling up,
 bootstrapping from what started out as
-a write up of the idea of Anoma for a wider audience
+a write-up of the idea of Anoma for a wider audience
 and a prototype implementation loosely based on ... ideas written up.
 Less prosaic,
 we can make sense of specification as part of the whole 
@@ -125,7 +125,7 @@ Let us recap what specifications are about, in general—<!--
 This goal, i.e., capturing the requirements and essential structure,
 can be achieved using English language.
 However, 
-we sometimes are underestimating natural language's flexibility
+we are sometimes underestimating natural language's flexibility
 to change meanings depending on the context,
 which can catch us off guard.
 We want to avoid any such haphazard ambiguities,
@@ -178,7 +178,7 @@ most concepts in the Anoma specs are intended to have formal counterparts
 in what we *currently* call _idealized Anoma_ (v0.3-ish).
 Anoma specs takes a page out of the proverbial book of formal methods,
 but first and foremost,
-the purpose of complementing English language prose with juvix code and formal languages
+the purpose of complementing English language prose with Juvix code and formal languages
 is mathematical rigour in the Anoma specs.
 
 ## Use of Juvix
@@ -202,7 +202,7 @@ Let us highlight some aspects.
 - Support for hypertext documentation, including features such as clickable
    references for easy code navigation.
 
-- An easy embedding into Lean4, which we use whenever juvix's type system restrictions 
+- An easy embedding into Lean4, which we use whenever Juvix's type system restrictions 
     call for a more expressive language.
 
 - Built-in support for literate programming, enabling us to seamlessly blend
