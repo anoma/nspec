@@ -1,7 +1,7 @@
 [tool.poetry]
 package-mode = true
 name = "nspec"
-version = "0.1.3"
+version = "0.1.4"
 description = "NSpec is a specification project for the Anoma network."
 authors = []
 readme = "README.md"
