@@ -24,7 +24,7 @@ bootstrapping from what started out as
 a write-up of the idea of Anoma for a wider audience
 and a prototype implementation loosely based on ... ideas written up.
 Less prosaic,
-we can make sense of specification as part of the whole
+we view the specification as part of the whole
 if we consider that
 future iterations of the existing code base will be
 influenced by the current specification,
@@ -39,7 +39,7 @@ We fully embrace the dynamic and open nature of Anoma.
 We thus offer an unmasked view of
 the evolution of the Anoma protocol specification,
 also referred to as _Anoma specs,_
-the document you are reading right now and here.
+the document you are reading right now.
 
 We believe that accepting the principle of constant change
 is a simple and honest approach to make sure that
@@ -81,7 +81,7 @@ or other ways of collaboration.
 
       !!! note ""
 
-      _Please let us know if the English language descriptions or not precise enough!_
+      _Please let us know if the English language descriptions are not precise enough!_
 
 ### Purpose and scope
 
@@ -148,7 +148,7 @@ In summary,
 Anoma specs use formal languages to complement natural language
 and our list of requests is growing a second element:
 
-- _Please let us know if the English language descriptions or not precise enough!_
+- _Please let us know if the English language descriptions are not precise enough!_
 
 - _Please let us know if the formal specification does not match the English language descriptions!_
 
@@ -216,7 +216,7 @@ Let us highlight some aspects.
 The Anoma specs should  be self-contained, ideally,
 but this is rather a promise than a true statement.
 For example,
-almost certainly there are number technical terms that have become second nature to the authors that should be listed as pre-requisites,
+almost certainly there are a number of technical terms that have become second nature to the authors that should be listed as pre-requisites,
 but are not (yet).
 Thus,
 please reach out,
@@ -238,5 +238,5 @@ don't hesitate to join the discussion [Anoma](https://research.anoma.net/)!
 [^1]: Interestingly, Leslie Lamport goes as far as speaking of "writing math"
     instead of "formally specifying".<!--citation https://duckduckgo.com/?t=ffab&q=lamport+paxos+or+how+to+win+turing+award&iax=videos&ia=videos&iai=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Dtw3gsBms-f8#-->
 
-[^2]: Recall that this only makes sense for,
+[^2]: Recall that this only makes sense for
     a specific version of the Anoma specs.
