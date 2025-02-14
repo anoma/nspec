@@ -18,13 +18,9 @@ search:
 Figuratively speaking,
 it is the blueprint of Anoma,
 but then, how can the blueprint be part of the whole?
-In first approximation,
-we are spiraling up,
-bootstrapping from what started out as
-a write-up of the idea of Anoma for a wider audience
-and a prototype implementation loosely based on ... ideas written up.
-Less prosaic,
-we view the specification as part of the whole
+We are bootstrapping; starting with a prototype implementation of 
+the idea of Anoma based on prior writings, intended for a wider audience.
+We view the specification as part of the whole
 if we consider that
 future iterations of the existing code base will be
 influenced by the current specification,
@@ -105,7 +101,7 @@ Besides iterations and improvements of the existing specification,
 new components will be added to the Anoma specs.
 Roughly,
 the table of contents will strictly grow,
-not only in depth (detail), but also in length (encompass).
+not only in depth (detail), but also in length (coverage).
 Whether and how ongoing research is to be incorporated into the Anoma specs is
 being discussed on the [research forums](https://research.anoma.net/).
 This is yet another facet of the principle of
