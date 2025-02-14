@@ -18,7 +18,7 @@ search:
 Figuratively speaking,
 it is the blueprint of Anoma,
 but then, how can the blueprint be part of the whole?
-We are bootstrapping; starting with a prototype implementation of 
+We are bootstrapping; starting with a prototype implementation of
 the idea of Anoma based on prior writings, intended for a wider audience.
 We view the specification as part of the whole
 if we consider that
