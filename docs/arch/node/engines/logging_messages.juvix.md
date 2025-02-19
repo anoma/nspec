@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- logging-engine
-- engine-messages
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - logging
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.logging_messages;
@@ -26,8 +26,6 @@ These are the messages that the Logging engine can receive/respond to.
 --8<-- "./logging_messages.juvix.md:LoggingMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Appending a log entry
 
@@ -49,11 +47,7 @@ A local engine sends a log entry to be appended to the logbook
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
----
-
 ## Message types
-
----
 
 ### `AppendValue`
 
@@ -65,12 +59,10 @@ type AppendValue := mkAppendValue {
 ```
 <!-- --8<-- [end:AppendValue] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `value`:
     : The value in string format to be added to the logbook.
-
----
 
 ### `LoggingMsg`
 
@@ -80,8 +72,6 @@ type LoggingMsg :=
   | LoggingMsgAppend AppendValue;
 ```
 <!-- --8<-- [end:LoggingMsg] -->
-
----
 
 ## Engine components
 

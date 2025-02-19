@@ -3,9 +3,12 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+tags:
+  - system-architecture
+  - identity
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.system.identity.identity;

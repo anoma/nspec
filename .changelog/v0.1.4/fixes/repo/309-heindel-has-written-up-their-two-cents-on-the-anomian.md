@@ -1,0 +1,1 @@
+  -  [**#309**](https://github.com/anoma/nspec/pull/309): Heindel has written up their two cents on the [[Anomian]]

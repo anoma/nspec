@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- mempool-worker-engine
-- engine-definition
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - mempool-worker
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.mempool_worker;
@@ -35,7 +36,7 @@ the critical process of ordering transactions and orchestrating their execution.
 Think of it as a traffic controller that not only assigns each transaction a unique
 position in line (via a timestamp called a *TxFingerprint*), but also ensures all the
 necessary resources (state access) are locked and ready before execution begins. In
-the current version of Anoma (V2), there is only a single Mempool Worker Engine
+the current version of Anoma (up to v0.2), there is only a single Mempool Worker Engine
 instance, making it the central coordinator for all transaction processing.
 
 When users or solvers submit transactions (via `MempoolWorkerMsgTransactionRequest`),
@@ -76,12 +77,12 @@ collects lock acquisition confirmations, tracks the seen-all barriers, and store
 execution summaries. This state allows it to provide the ordering and
 coordination services needed for Anoma's parallel execution model, where multiple
 transactions can process simultaneously so long as their state access patterns
-don't conflict, ensuring (serializability)[https://en.wikipedia.org/wiki/Database_transaction_schedule#Serializable]..
+don't conflict, ensuring [serializability](https://en.wikipedia.org/wiki/Database_transaction_schedule#Serializable).
 
 ## Purpose
 
 Workers are one of the [[Mempool Engines#mempool-engines|mempool engines]]
-and, in V2, they are _the_ only one and there is only a single worker.
+and, up to v0.2, they are _the_ only one and there is only a single worker.
 
 The worker receives transaction requests from users and
 [[Solver#solver|solvers]] and batches these transaction requests, assigning a

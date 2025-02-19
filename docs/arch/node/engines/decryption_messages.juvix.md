@@ -2,20 +2,23 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- decryption
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - decryption
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.decryption_messages;
     import prelude open;
     import arch.node.types.identities open;
     ```
+
+---
 
 # Decryption Messages
 
@@ -24,8 +27,6 @@ tags:
 --8<-- "./decryption_messages.juvix.md:DecryptionMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Request sequence
 
@@ -52,11 +53,7 @@ Sequence diagram for decryption.
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
----
-
 ## Message types
-
----
 
 ### `RequestDecryption`
 
@@ -68,11 +65,9 @@ type RequestDecryption := mkRequestDecryption {
 
 A `RequestDecryption` instructs a decryption engine instance to decrypt data.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `data`:
     : The encrypted ciphertext to decrypt.
-
----
 
 ### `ReplyDecryption`
 
@@ -86,15 +81,13 @@ type ReplyDecryption := mkReplyDecryption {
 A `ReplyDecryption` contains the data decrypted by a decryption engine instance
 in response to a `RequestDecryption`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : The decrypted data.
 
     `err`:
     : An error message if decryption failed.
-
----
 
 ### `DecryptionMsg`
 
@@ -106,8 +99,6 @@ type DecryptionMsg :=
   ;
 ```
 <!-- --8<-- [end:DecryptionMsg] -->
-
----
 
 ## Engine components
 

@@ -1,0 +1,1 @@
+  -  [**#310**](https://github.com/anoma/nspec/pull/310): Heindel/[[Anomian]] review v0.2 some ideas for improvements

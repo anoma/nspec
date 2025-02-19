@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- signs_for
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - signsfor
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.signs_for_behaviour;
@@ -72,7 +72,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### SignsForAction
 
@@ -361,7 +361,7 @@ queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `SignsForGuard`
 

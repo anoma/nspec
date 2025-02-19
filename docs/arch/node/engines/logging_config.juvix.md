@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- logging-engine
-- engine-environment
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - logging
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.logging_config;

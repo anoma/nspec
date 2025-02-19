@@ -5,9 +5,17 @@ plugins:
   - offline:
       enabled: !ENV [OFFLINE, false]
   - search:
-      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+      lang: en
+      pipeline:
+        - stemmer
+        - stopWordFilter
+        - trimmer
   - social
-  - tags
+  - tags:
+      tags_file: ./indexes/tags.md
+      tags_slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - glightbox
   - juvix # Provided with mkdocs-juvix-plugin
   - todos

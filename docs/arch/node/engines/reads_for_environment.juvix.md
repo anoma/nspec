@@ -2,14 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- reads_for
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - readsfor
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.reads_for_environment;
@@ -27,7 +28,7 @@ tags:
 
 The ReadFor Engine environment maintains the state necessary for managing `reads_for` relationships between identities, including storing evidence submitted by clients.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     axiom verifyEvidence : ReadsForEvidence -> Bool;
@@ -55,7 +56,7 @@ type ReadsForLocalState := mkReadsForLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidenceStore`:
     : The collection of validated `ReadsForEvidence` which has been submitted to the engine.

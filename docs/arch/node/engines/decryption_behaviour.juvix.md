@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- decryption
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - decryption
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.decryption_behaviour;
@@ -111,15 +111,18 @@ flowchart TD
    - Reply is sent back to the original requester.
    - Uses mailbox 0 (default mailbox for responses).
 
-#### Important Notes:
-- The commitment engine is stateless - each request is handled .
+---
+
+!!! note
+
+    The commitment engine is stateless - each request is handled .
 
 ## Action arguments
 
-### `DecryptionActionArgumentReplyTo ReplyTo`
+### `ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID;
 };
@@ -128,11 +131,13 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: is the address of the engine that sent the message.
+???+ code "Arguments"
 
-`mailbox`:
-: is the mailbox ID where the response message should be sent.
+    `whoAsked`:
+    : is the address of the engine that sent the message.
+
+    `mailbox`:
+    : is the mailbox ID where the response message should be sent.
 
 ### `DecryptionActionArgument`
 
@@ -154,7 +159,9 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `DecryptionAction`
 
@@ -171,6 +178,8 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Env;
     ```
 
+
+
     ### `DecryptionActionInput`
 
     ```juvix
@@ -184,6 +193,8 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Msg;
     ```
 
+
+
     ### `DecryptionActionEffect`
 
     ```juvix
@@ -196,6 +207,8 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+
+
 
     ### `DecryptionActionExec`
 
@@ -212,7 +225,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
         Anoma.Env;
     ```
 
-#### `decryptAction`
+### `decryptAction`
 
 Process a decryption request.
 
@@ -288,7 +301,7 @@ decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `DecryptionGuard`
 
@@ -323,6 +336,8 @@ decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
         Anoma.Env;
     ```
     <!-- --8<-- [end:DecryptionGuardOutput] -->
+
+
 
     ### `DecryptionGuardEval`
 

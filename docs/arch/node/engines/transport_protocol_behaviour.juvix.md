@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- transport-protocol-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - transport
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.transport_protocol_behaviour;
@@ -25,6 +25,8 @@ tags:
     import arch.node.types.engine open;
     import arch.node.types.anoma as Anoma open;
     ```
+
+---
 
 # Transport Protocol Behaviour
 
@@ -80,7 +82,7 @@ TransportProtocolActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TransportProtocolAction`
 
@@ -214,7 +216,7 @@ exampleReplyActionLabel : TransportProtocolActionExec := Seq [ exampleReplyActio
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TransportProtocolGuard`
 

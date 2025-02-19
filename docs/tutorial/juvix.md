@@ -1,9 +1,8 @@
 ---
 icon: material/keyboard
 tags:
-    - Juvix
-category:
-    - tutorial
+  - tutorial
+  - juvix
 ---
 
 # Render Juvix code

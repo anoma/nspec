@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- mempool
-- mempool-worker
-- engine-environment
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - mempool-worker
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.mempool_worker_environment;
@@ -50,7 +50,7 @@ type MempoolWorkerLocalState KVSKey KVSDatum Executable := mkMempoolWorkerLocalS
 ```
 <!-- --8<-- [end:MempoolWorkerLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `batch_number`:
     : The current batch number. (Currently unused)

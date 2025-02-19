@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- transport-connection-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - transport
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.transport_connection_behaviour;
@@ -25,6 +25,8 @@ tags:
     import arch.node.types.engine open;
     import arch.node.types.anoma as Anoma open;
     ```
+
+---
 
 # Transport Connection Behaviour
 
@@ -82,7 +84,7 @@ TransportConnectionActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TransportConnectionAction`
 
@@ -216,7 +218,7 @@ exampleReplyActionLabel : TransportConnectionActionExec := Seq [ exampleReplyAct
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TransportConnectionGuard`
 

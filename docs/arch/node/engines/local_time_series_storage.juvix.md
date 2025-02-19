@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-ts-storage-engine
-- engine-definition
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-time-series-storage
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_time_series_storage;

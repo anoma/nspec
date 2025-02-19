@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- transport-protocol-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - transport
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.transport_protocol_messages;
@@ -33,8 +33,6 @@ These are the messages that the *Transport Protocol* engine can receive.
 
 ## Message types
 
----
-
 ### `TransportOutMsg`
 
 Send a message to a remote node via the given transport address.
@@ -54,7 +52,7 @@ type TransportOutMsg := mkTransportOutMsg@{
 ```
 <!-- --8<-- [end:TransportOutMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `addr`
     : Transport address.
@@ -67,8 +65,6 @@ type TransportOutMsg := mkTransportOutMsg@{
 
     `msg`
     : Node message.
-
----
 
 ### `TransportProtocolMsg`
 

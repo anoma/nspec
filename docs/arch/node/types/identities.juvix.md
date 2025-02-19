@@ -4,13 +4,12 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix-types
-- Types
-- ID
-- Identity
+  - node-architecture
+  - types
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.identities;
@@ -25,7 +24,7 @@ Types in this section are used to represent identities within the network.
 
 ## Basic Types
 
-### Signable
+### `Signable`
 
 A type representing data that can be cryptographically signed.
 
@@ -33,7 +32,7 @@ A type representing data that can be cryptographically signed.
 Signable : Type := ByteString;
 ```
 
-### Plaintext
+### `Plaintext`
 
 Raw unencrypted data.
 
@@ -41,7 +40,7 @@ Raw unencrypted data.
 Plaintext : Type := ByteString;
 ```
 
-### Ciphertext
+### `Ciphertext`
 
 Encrypted data.
 
@@ -49,16 +48,21 @@ Encrypted data.
 Ciphertext : Type := ByteString;
 ```
 
-### Cryptographic Keys
+### `DecryptionKey`
 
 ```juvix
 DecryptionKey : Type := ByteString;
+```
+
+### `SigningKey`
+
+```juvix
 SigningKey : Type := ByteString;
 ```
 
 ## Identity Types
 
-### ExternalID
+### `ExternalID`
 
 A unique identifier, such as a public key, represented as a natural number.
 
@@ -68,7 +72,7 @@ syntax alias ExternalID := PublicKey;
 ```
 <!-- --8<-- [end:ExternalID] -->
 
-### InternalID
+### `InternalID`
 
 A unique identifier, such as a private key, used internally within the network.
 
@@ -76,7 +80,7 @@ A unique identifier, such as a private key, used internally within the network.
 syntax alias InternalID := PrivateKey;
 ```
 
-### Identity
+### `Identity`
 
 A pair combining an `ExternalID` and an `InternalID`.
 
@@ -84,19 +88,25 @@ A pair combining an `ExternalID` and an `InternalID`.
 Identity : Type := Pair ExternalID InternalID;
 ```
 
-### Commitment
+### `Commitment`
 
 A cryptographic signature or commitment.
 
 ```juvix
 syntax alias Commitment := Signature;
+```
 
+### `emptyCommitment`
+
+An empty commitment.
+
+```juvix
 axiom emptyCommitment : Commitment;
 ```
 
 ## Network Identifiers
 
-### NodeID
+### `NodeID`
 
 Cryptographic node identity.
 
@@ -104,7 +114,7 @@ Cryptographic node identity.
 syntax alias NodeID := ExternalID;
 ```
 
-### TopicID
+### `TopicID`
 
 Cryptographic topic identity.
 
@@ -112,7 +122,7 @@ Cryptographic topic identity.
 syntax alias TopicID := ExternalID;
 ```
 
-### PublisherID
+### `PublisherID`
 
 Cryptographic identity of a publisher in a pub/sub topic.
 
@@ -120,7 +130,7 @@ Cryptographic identity of a publisher in a pub/sub topic.
 syntax alias PublisherID := ExternalID;
 ```
 
-### DomainID
+### `DomainID`
 
 Cryptographic domain identity.
 
@@ -128,7 +138,7 @@ Cryptographic domain identity.
 syntax alias DomainID := ExternalID;
 ```
 
-### MemberID
+### `MemberID`
 
 Cryptographic identity of a member in a domain.
 
@@ -136,7 +146,7 @@ Cryptographic identity of a member in a domain.
 syntax alias MemberID := ExternalID;
 ```
 
-### ChunkID
+### `ChunkID`
 
 Cryptographic content addressed hash digest of a data chunk.
 
@@ -146,7 +156,7 @@ syntax alias ChunkID := Digest;
 
 ## Engine Related Types
 
-### EngineName
+### `EngineName`
 
 Engine instance name as an opaque string.
 
@@ -154,7 +164,7 @@ Engine instance name as an opaque string.
 syntax alias EngineName := String;
 ```
 
-### ExternalIdentity
+### `ExternalIdentity`
 
 An alias for engine name.
 
@@ -162,7 +172,7 @@ An alias for engine name.
 syntax alias ExternalIdentity := EngineName;
 ```
 
-### EngineID
+### `EngineID`
 
 Engine instance identity combining node identity and engine name.
 
@@ -172,17 +182,23 @@ EngineID : Type := Pair (Option NodeID) EngineName;
 ```
 <!-- --8<-- [end:EngineID] -->
 
+### `isLocalEngineID`
+
 ```juvix
 isLocalEngineID (eid : EngineID) : Bool :=
   case eid of {
     | mkPair none _ := true
     | _ := false
 };
+```
 
+### `isRemoteEngineID`
+
+```juvix
 isRemoteEngineID (eid : EngineID) : Bool := not (isLocalEngineID eid);
 ```
 
-### Engine Helper Functions
+### `nameGen`
 
 ```juvix
 nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
@@ -191,9 +207,10 @@ nameGen (str : String) (name : EngineName) (addr : EngineID) : EngineName :=
 
 ## Identity Parameters and Capabilities
 
-### IDParams
+### `IDParams`
 
 Supported identity parameter types.
+
 ```juvix
 type IDParams :=
   | Ed25519
@@ -201,9 +218,10 @@ type IDParams :=
   | BLS;
 ```
 
-### Backend
+### `Backend`
 
 Backend connection types.
+
 ```juvix
 type Backend :=
   | BackendLocalMemory
@@ -211,9 +229,10 @@ type Backend :=
   | BackendRemoteConnection { externalIdentity : ExternalIdentity };
 ```
 
-### Capabilities
+### `Capabilities`
 
 Available identity capabilities.
+
 ```juvix
 type Capabilities :=
   | CapabilityCommit
@@ -223,7 +242,7 @@ type Capabilities :=
 
 ## Identity Evidence Types
 
-### IdentityName
+### `IdentityName`
 
 Hierarchical identity naming structure.
 
@@ -236,6 +255,8 @@ type IdentityName :=
 
 ??? quote "Instances"
 
+    #### Ordering instance for `IdentityName`
+
     ```juvix
     axiom IdentityNameCmpDummy : IdentityName -> IdentityName -> Ordering;
 
@@ -246,7 +267,7 @@ type IdentityName :=
       };
     ```
 
-### ReadsForEvidence
+### `ReadsForEvidence`
 
 Evidence of read permissions between identities.
 
@@ -260,6 +281,8 @@ type ReadsForEvidence := mkReadsForEvidence@{
 
 ??? quote "Instances"
 
+    #### Ordering instance for `ReadsForEvidence`
+
     ```juvix
     axiom ReadsForCmpDummy : ReadsForEvidence -> ReadsForEvidence -> Ordering;
 
@@ -270,7 +293,7 @@ type ReadsForEvidence := mkReadsForEvidence@{
     };
     ```
 
-### SignsForEvidence
+### `SignsForEvidence`
 
 Evidence of signing permissions between identities.
 
@@ -284,6 +307,8 @@ type SignsForEvidence := mkSignsForEvidence {
 
 ??? quote "Instances"
 
+    #### Ordering instance for `SignsForEvidence`
+
     ```juvix
     axiom SignsForCmpDummy : SignsForEvidence -> SignsForEvidence -> Ordering;
 
@@ -294,7 +319,7 @@ type SignsForEvidence := mkSignsForEvidence {
     };
     ```
 
-### IdentityNameEvidence
+### `IdentityNameEvidence`
 
 Evidence linking identity names to external identities.
 
@@ -307,6 +332,8 @@ type IdentityNameEvidence := mkIdentityNameEvidence@{
 ```
 
 ??? quote "Instances"
+
+    #### Ordering instance for `IdentityNameEvidence`
 
     ```juvix
     axiom IdentityNameEvidenceCmpDummy : IdentityNameEvidence ->
@@ -328,9 +355,13 @@ type TransactionLabel ReadLabel WriteLabel := mkTransactionLabel@{
 };
 ```
 
+### `TxFingerprint`
+
 ```juvix
 syntax alias TxFingerprint := Nat;
 ```
+
+### `TransactionCandidate`
 
 ```juvix
 type TransactionCandidate ReadLabel WriteLabel Executable :=
@@ -340,13 +371,38 @@ type TransactionCandidate ReadLabel WriteLabel Executable :=
   };
 ```
 
+### `NarwhalBlock`
+
 ```juvix
 syntax alias NarwhalBlock := String;
+```
+
+### `BatchNumber`
+
+```juvix
 syntax alias BatchNumber := Nat;
+```
+
+### `WallClockTime`
+
+```juvix
 syntax alias WallClockTime := Nat;
 ```
 
+### `keyToShard`
+
+Up to v0.2,
+the specification assumes a fixed/static assignment from
+keys of the key-value storage to
+engine IDs of shards that are
+responsible for mangaging the values associated to keys.
+
 ```juvix
--- Map a key to its shard
+-- Map each key to its shard
 axiom keyToShard {KVSKey} : KVSKey -> EngineID;
 ```
+
+!!! todo "v0.3"
+
+    Is the map from keys to shards
+    still assumed to be fixed?

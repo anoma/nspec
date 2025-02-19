@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-time-series-storage-engine
-- engine-messages
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-time-series-storage
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_time_series_storage_messages;
@@ -26,8 +26,6 @@ These are the messages that the Local Time Series Storage engine can receive/res
 --8<-- "./local_time_series_storage_messages.juvix.md:LocalTSStorageMsg"
 
 ## Message sequence diagrams
-
----
 
 ### `GetDataTSStorageDBRequest` and `GetDataTSStorageDBReply`
 
@@ -49,8 +47,6 @@ Sequence diagram: Get data flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Get] -->
 
----
-
 ### `RecordDataTSStorageDBRequest` and `RecordDataTSStorageDBReply`
 
 <!-- --8<-- [start:message-sequence-diagram-Record] -->
@@ -70,8 +66,6 @@ Sequence diagram: Record data flow
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Record] -->
-
----
 
 ### `DeleteDataTSStorageDBRequest` and `DeleteDataTSStorageDBReply`
 
@@ -93,19 +87,15 @@ Sequence diagram: Delete data flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-Delete] -->
 
----
-
 ## Message types
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias TSStorageDBQuery := String;
     syntax alias TSStorageDBData := String;
     syntax alias EpochTimestamp := Nat;
     ```
-
----
 
 ### `GetDataTSStorageDBRequest`
 
@@ -117,12 +107,10 @@ type GetDataTSStorageDBRequest := mkGetDataTSStorageDBRequest {
 ```
 <!-- --8<-- [end:GetDataTSStorageDBRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query to find the requested time series data in the DB.
-
----
 
 ### `GetDataTSStorageDBReply`
 
@@ -135,15 +123,13 @@ type GetDataTSStorageDBReply := mkGetDataTSStorageDBReply {
 ```
 <!-- --8<-- [end:GetDataTSStorageDBReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query to find the requested time series data in the DB.
 
     `data`
     : The requested time series data.
-
----
 
 ### `RecordDataTSStorageDBRequest`
 
@@ -155,13 +141,11 @@ type RecordDataTSStorageDBRequest := mkRecordDataTSStorageDBRequest {
 ```
 <!-- --8<-- [end:RecordDataTSStorageDBRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
 
     : The query that expresses the addition of the time series data into the DB.
-
----
 
 ### `RecordDataTSStorageDBReply`
 
@@ -174,15 +158,13 @@ type RecordDataTSStorageDBReply := mkRecordDataTSStorageDBReply {
 ```
 <!-- --8<-- [end:RecordDataTSStorageDBReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query that expresses the recording of the time series data into the DB.
 
     `success`
     : The success of the operation, indicating if the data was stored successfully or not.
-
----
 
 ### `DeleteDataTSStorageDBRequest`
 
@@ -194,12 +176,10 @@ type DeleteDataTSStorageDBRequest := mkDeleteDataTSStorageDBRequest {
 ```
 <!-- --8<-- [end:DeleteDataTSStorageDBRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query that expresses the deletion of the time series data from the DB.
-
----
 
 ### `DeleteDataTSStorageDBReply`
 
@@ -212,15 +192,13 @@ type DeleteDataTSStorageDBReply := mkDeleteDataTSStorageDBReply {
 ```
 <!-- --8<-- [end:DeleteDataTSStorageDBReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query that expresses the deletion of the time series data from the DB.
 
     `success`
     : The success of the operation, indicating if the data was deleted successfully or not.
-
----
 
 ### `DataChangedTSStorageDB`
 
@@ -234,7 +212,7 @@ type DataChangedTSStorageDB := mkDataChangedTSStorageDB {
 ```
 <!-- --8<-- [end:DataChangedTSStorageDB] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `query`
     : The query that expresses the change of the time series DB.
@@ -244,8 +222,6 @@ type DataChangedTSStorageDB := mkDataChangedTSStorageDB {
 
     `timestamp`
     : The wall clock time of the moment the data was changed.
-
----
 
 ### `LocalTSStorageMsg`
 
@@ -262,8 +238,6 @@ type LocalTSStorageMsg :=
   ;
 ```
 <!-- --8<-- [end:LocalTSStorageMsg] -->
-
----
 
 ## Engine components
 

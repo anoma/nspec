@@ -1,9 +1,9 @@
-site_name: !ENV [SITE_NAME, "Anoma Specification"]
+site_name: !ENV [SITE_NAME, "Anoma specs"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
-site_description: !ENV [SITE_DESCRIPTION, "The Anoma Specification is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
+site_description: !ENV [SITE_DESCRIPTION, "The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
 site_dir: !ENV [SITE_DIR, site]
 site_url: !ENV [SITE_URL, 'https://specs.anoma.net/latest/']
-site_version: !ENV [SITE_VERSION, "v0.1.3"]
+site_version: !ENV [SITE_VERSION, "v0.1.4"]
 copyright: !ENV [COPYRIGHT, "&copy; 2025 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
 repo_url: https://github.com/anoma/nspec
 repo_name: anoma/nspec
@@ -12,251 +12,253 @@ use_directory_urls: false
 nav:
   - Home: index.md
   - Changelog: ./changelog.md
-  - Protocol Architecture:
-      - ./arch/index.md
-      - System Architecture:
-          - ./arch/system/index.md
-          - Identity Architecture: ./arch/system/identity/identity.juvix.md
-          - State Architecture:
-              - Types:
-                  - Resource: ./arch/system/types/resource.juvix.md
-                  - Nullifier: ./arch/system/types/nullifier.juvix.md
-                  - Nullifier key: ./arch/system/types/nullifierkey.juvix.md
-                  - Nullifier properties: ./arch/system/types/nullifier_properties.juvix.md
-                  - Resource machine: ./arch/system/types/resource_machine.juvix.md
-                  - Transaction: ./arch/system/types/transaction.juvix.md
-                  - Action: ./arch/system/types/action.juvix.md
-                  - Resource logic proof: ./arch/system/types/resource_logic_proof.juvix.md
-                  - State: ./arch/system/types/state.juvix.md
-              - Resource Machine:
-                  - ./arch/system/state/resource_machine/index.juvix.md
-                  - Primitive interfaces:
-                      - ./arch/system/state/resource_machine/primitive_interfaces/index.juvix.md
-                      - RM Prelude: ./arch/system/state/resource_machine/prelude.juvix.md
-                      - Proving system:
-                          - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
-                          - Definitions: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.juvix.md
-                          - Delta proving system: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.juvix.md
-                      - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.juvix.md
-                      - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.juvix.md
-                  - Data structures:
-                      - ./arch/system/state/resource_machine/data/index.juvix.md
-                      - Resource:
-                          - ./arch/system/state/resource_machine/data_structures/resource/index.juvix.md
-                          - Computable components:
-                              - ./arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.juvix.md
-                              - Commitment: ./arch/system/state/resource_machine/data_structures/resource/computable_components/resource_commitment.juvix.md
-                              - Nullifier: ./arch/system/types/nullifier.juvix.md
-                              - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.juvix.md
-                              - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.juvix.md
-                      - Compliance unit:
-                          - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.juvix.md
-                          - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.juvix.md
-                      - Action:
-                          - Action: ./arch/system/state/resource_machine/data_structures/action/index.juvix.md
-                          - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.juvix.md
-                      - Transaction:
-                          - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.juvix.md
-                          - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.juvix.md
-                          - Transaction Function: ./arch/system/state/resource_machine/data_structures/transaction/transaction_function.juvix.md
-                          - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.juvix.md
-                  - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.juvix.md
-                  - Notes:
-                      - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.juvix.md
-                      - Stored data format: ./arch/system/state/resource_machine/notes/storage.juvix.md
-                      - Function formats:
-                          - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.juvix.md
-                      - Applications: ./arch/system/state/resource_machine/notes/applications.juvix.md
-      - Node Architecture:
-          - ./arch/node/index.md
-          - Basic Types:
-              - ./arch/node/types/basics.juvix.md
-              - Cryptographic Primitives: ./arch/node/types/crypto.juvix.md
-              - Identities: ./arch/node/types/identities.juvix.md
-              - Messages & Mailboxes: ./arch/node/types/messages.juvix.md
-          - Engine Types:
-              - ./arch/node/engines/index.md
-              - Engine:
-                  - ./arch/node/types/engine.juvix.md
-                  - Engine Configuration: ./arch/node/types/engine_config.juvix.md
-                  - Engine Environment: ./arch/node/types/engine_environment.juvix.md
-                  - Engine Behaviour: ./arch/node/types/engine_behaviour.juvix.md
-              - Anoma:
-                  - Anoma Message: ./arch/node/types/anoma_message.juvix.md
-                  - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
-                  - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
-          - Hardware Subsystem:
-              - Local Key Value Storage Engine:
-                  - Local Key Value Storage Engine: ./arch/node/engines/local_key_value_storage.juvix.md
-                  - Local Key Value Storage Messages: ./arch/node/engines/local_key_value_storage_messages.juvix.md
-                  - Local Key Value Storage Configuration: ./arch/node/engines/local_key_value_storage_config.juvix.md
-                  - Local Key Value Storage Environment: ./arch/node/engines/local_key_value_storage_environment.juvix.md
-                  - Local Key Value Storage Behaviour: ./arch/node/engines/local_key_value_storage_behaviour.juvix.md
-              - Local Time Series Storage Engine:
-                  - Local Time Series Storage Engine: ./arch/node/engines/local_time_series_storage.juvix.md
-                  - Local Time Series Storage Messages: ./arch/node/engines/local_time_series_storage_messages.juvix.md
-                  - Local Time Series Storage Configuration: ./arch/node/engines/local_time_series_storage_config.juvix.md
-                  - Local Time Series Storage Environment: ./arch/node/engines/local_time_series_storage_environment.juvix.md
-                  - Local Time Series Storage Behaviour: ./arch/node/engines/local_time_series_storage_behaviour.juvix.md
-              - Logging Engine:
-                  - Logging Engine: ./arch/node/engines/logging.juvix.md
-                  - Logging Messages: ./arch/node/engines/logging_messages.juvix.md
-                  - Logging Configuration: ./arch/node/engines/logging_config.juvix.md
-                  - Logging Environment: ./arch/node/engines/logging_environment.juvix.md
-                  - Logging Behaviour: ./arch/node/engines/logging_behaviour.juvix.md
-              - Wall Clock Engine:
-                  - Wall Clock Engine: ./arch/node/engines/wall_clock.juvix.md
-                  - Wall Clock Messages: ./arch/node/engines/wall_clock_messages.juvix.md
-                  - Wall Clock Configuration: ./arch/node/engines/wall_clock_config.juvix.md
-                  - Wall Clock Environment: ./arch/node/engines/wall_clock_environment.juvix.md
-                  - Wall Clock Behaviour: ./arch/node/engines/wall_clock_behaviour.juvix.md
-          - Identity Subsystem:
-              - Identity Management Engine:
-                  - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
-                  - Identity Management Messages: ./arch/node/engines/identity_management_messages.juvix.md
-                  - Identity Management Configuration: ./arch/node/engines/identity_management_config.juvix.md
-                  - Identity Management Environment: ./arch/node/engines/identity_management_environment.juvix.md
-                  - Identity Management Behaviour: ./arch/node/engines/identity_management_behaviour.juvix.md
-              - Encryption Engine:
-                  - Encryption Engine: ./arch/node/engines/encryption.juvix.md
-                  - Encryption Messages: ./arch/node/engines/encryption_messages.juvix.md
-                  - Encryption Configuration: ./arch/node/engines/encryption_config.juvix.md
-                  - Encryption Environment: ./arch/node/engines/encryption_environment.juvix.md
-                  - Encryption Behaviour: ./arch/node/engines/encryption_behaviour.juvix.md
-              - Decryption Engine:
-                  - Decryption Engine: ./arch/node/engines/decryption.juvix.md
-                  - Decryption Messages: ./arch/node/engines/decryption_messages.juvix.md
-                  - Decryption Configuration: ./arch/node/engines/decryption_config.juvix.md
-                  - Decryption Environment: ./arch/node/engines/decryption_environment.juvix.md
-                  - Decryption Behaviour: ./arch/node/engines/decryption_behaviour.juvix.md
-              - Commitment Engine:
-                  - Commitment Engine: ./arch/node/engines/commitment.juvix.md
-                  - Commitment Messages: ./arch/node/engines/commitment_messages.juvix.md
-                  - Commitment Configuration: ./arch/node/engines/commitment_config.juvix.md
-                  - Commitment Environment: ./arch/node/engines/commitment_environment.juvix.md
-                  - Commitment Behaviour: ./arch/node/engines/commitment_behaviour.juvix.md
-              - Verification Engine:
-                  - Verification Engine: ./arch/node/engines/verification.juvix.md
-                  - Verification Messages: ./arch/node/engines/verification_messages.juvix.md
-                  - Verification Configuration: ./arch/node/engines/verification_config.juvix.md
-                  - Verification Environment: ./arch/node/engines/verification_environment.juvix.md
-                  - Verification Behaviour: ./arch/node/engines/verification_behaviour.juvix.md
-              - ReadsFor Engine:
-                  - ReadsFor Engine: ./arch/node/engines/reads_for.juvix.md
-                  - ReadsFor Messages: ./arch/node/engines/reads_for_messages.juvix.md
-                  - ReadsFor Configuration: ./arch/node/engines/reads_for_config.juvix.md
-                  - ReadsFor Environment: ./arch/node/engines/reads_for_environment.juvix.md
-                  - ReadsFor Behaviour: ./arch/node/engines/reads_for_behaviour.juvix.md
-              - SignsFor Engine:
-                  - SignsFor Engine: ./arch/node/engines/signs_for.juvix.md
-                  - SignsFor Messages: ./arch/node/engines/signs_for_messages.juvix.md
-                  - SignsFor Configuration: ./arch/node/engines/signs_for_config.juvix.md
-                  - SignsFor Environment: ./arch/node/engines/signs_for_environment.juvix.md
-                  - SignsFor Behaviour: ./arch/node/engines/signs_for_behaviour.juvix.md
-              - Naming Engine:
-                  - Naming Engine: ./arch/node/engines/naming.juvix.md
-                  - Naming Messages: ./arch/node/engines/naming_messages.juvix.md
-                  - Naming Configuration: ./arch/node/engines/naming_config.juvix.md
-                  - Naming Environment: ./arch/node/engines/naming_environment.juvix.md
-                  - Naming Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
-          - Network Subsystem:
-              - ./arch/node/net/index.md
-              - Network Registry:
-                  - Network Registry Engine: ./arch/node/engines/net_registry.juvix.md
-                  - Network Registry Messages: ./arch/node/engines/net_registry_messages.juvix.md
-                  - Network Registry Configuration: ./arch/node/engines/net_registry_config.juvix.md
-                  - Network Registry Environment: ./arch/node/engines/net_registry_environment.juvix.md
-                  - Network Registry Behaviour: ./arch/node/engines/net_registry_behaviour.juvix.md
-              - Router:
-                  - Router Engine: ./arch/node/engines/router.juvix.md
-                  - Router Messages: ./arch/node/engines/router_messages.juvix.md
-                  - Router Configuration: ./arch/node/engines/router_config.juvix.md
-                  - Router Environment: ./arch/node/engines/router_environment.juvix.md
-                  - Router Behaviour: ./arch/node/engines/router_behaviour.juvix.md
-              - Transport Protocol:
-                  - Transport Protocol Engine: ./arch/node/engines/transport_protocol.juvix.md
-                  - Transport Protocol Messages: ./arch/node/engines/transport_protocol_messages.juvix.md
-                  - Transport Protocol Configuration: ./arch/node/engines/transport_protocol_config.juvix.md
-                  - Transport Protocol Environment: ./arch/node/engines/transport_protocol_environment.juvix.md
-                  - Transport Protocol Behaviour: ./arch/node/engines/transport_protocol_behaviour.juvix.md
-              - Transport Connection:
-                  - Transport Connection Engine: ./arch/node/engines/transport_connection.juvix.md
-                  - Transport Connection Messages: ./arch/node/engines/transport_connection_messages.juvix.md
-                  - Transport Connection Configuration: ./arch/node/engines/transport_connection_config.juvix.md
-                  - Transport Connection Environment: ./arch/node/engines/transport_connection_environment.juvix.md
-                  - Transport Connection Behaviour: ./arch/node/engines/transport_connection_behaviour.juvix.md
-              - Pub/Sub Topic:
-                  - Pub/Sub Topic Engine: ./arch/node/engines/pub_sub_topic.juvix.md
-                  - Pub/Sub Topic Messages: ./arch/node/engines/pub_sub_topic_messages.juvix.md
-                  - Pub/Sub Topic Configuration: ./arch/node/engines/pub_sub_topic_config.juvix.md
-                  - Pub/Sub Topic Environment: ./arch/node/engines/pub_sub_topic_environment.juvix.md
-                  - Pub/Sub Topic Behaviour: ./arch/node/engines/pub_sub_topic_behaviour.juvix.md
-              - Storage:
-                  - Storage Engine: ./arch/node/engines/storage.juvix.md
-                  - Storage Messages: ./arch/node/engines/storage_messages.juvix.md
-                  - Storage Configuration: ./arch/node/engines/storage_config.juvix.md
-                  - Storage Environment: ./arch/node/engines/storage_environment.juvix.md
-                  - Storage Behaviour: ./arch/node/engines/storage_behaviour.juvix.md
-          - Ordering Subsystem:
-              - Mempool engines:
-                  - Mempool Worker Engine:
-                      - Mempool Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
-                      - Mempool Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
-                      - Mempool Worker Configuration: ./arch/node/engines/mempool_worker_config.juvix.md
-                      - Mempool Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
-                      - Mempool Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
-              - Execution engines:
-                  - ./arch/node/ordering/execution/index.md
-                  - Shard:
-                      - Shard Engine: ./arch/node/engines/shard.juvix.md
-                      - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
-                      - Shard Configuration: ./arch/node/engines/shard_config.juvix.md
-                      - Shard Environment: ./arch/node/engines/shard_environment.juvix.md
-                      - Shard Behaviour: ./arch/node/engines/shard_behaviour.juvix.md
-                  - Executor:
-                      - Executor Engine: ./arch/node/engines/executor.juvix.md
-                      - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
-                      - Executor Configuration: ./arch/node/engines/executor_config.juvix.md
-                      - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
-                      - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
-  - Index of links: ./indexes/links.md
-  - Juvix modules:
-      - Prelude: ./prelude.juvix.md
-      - Module Index: ./indexes/juvix_modules.md
-  - Tutorials for contributors:
-      - ./tutorial/index.md
-      - Prepare working environment: ./tutorial/install/index.md
-      - Use Git and GitHub: ./tutorial/branch.md
-      - Updating the changelog: ./tutorial/changelog.md
-      - Versioning: ./tutorial/versioning.md
-      - File naming conventions: ./tutorial/file_naming.md
-      - Write Markdown: ./tutorial/md/index.md
-      - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
-      - Use Wiki style links: ./tutorial/md/links.md
-      - Include images in Markdown: ./tutorial/md/images.md
-      - Include code snippets: ./tutorial/md/snippets.md
-      - Add Juvix code for specification: ./tutorial/juvix.md
-      - Add pending tasks with Todos admonition: ./tutorial/md/todos.md
-      - Add literature references: ./tutorial/md/citations.md
-      - Add diffs for versioning: ./tutorial/differ/index.md
-      - Run pre commit checks: ./tutorial/commit_checks.md
-      - Engines in Anoma:
-          - ./tutorial/engines/index.md
-          - Engine writing conventions: ./tutorial/engines/writing_conventions.md
-          - Examples:
-              - Template Engine:
-                  - Template Engine: ./tutorial/engines/template.juvix.md
-                  - Template Messages: ./tutorial/engines/template_messages.juvix.md
-                  - Template Configuration: ./tutorial/engines/template_config.juvix.md
-                  - Template Environment: ./tutorial/engines/template_environment.juvix.md
-                  - Template Behaviour: ./tutorial/engines/template_behaviour.juvix.md
-              - Ticker Engine:
-                  - Ticker Engine: ./arch/node/engines/ticker.juvix.md
-                  - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
-                  - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
-                  - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
-                  - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
-  - Anomian: ./anomian.juvix.md
+  - Indexes:
+      - List of tags: ./indexes/tags.md
+      - List of modules: ./indexes/modules.md
+      - List of basic types: ./prelude.juvix.md
+      - List of engines: ./indexes/engines.md
+  - Introduction:
+      - Anomian: ./anomian.juvix.md
+      - Anoma architecture: ./arch/overview.md
+  - Node architecture:
+      - Concepts:
+          - Engine: ./arch/node/concepts/engine.md
+          - Subsystem: ./arch/node/concepts/subsystem.md
+          - Node: ./arch/node/concepts/node.md
+      - Types:
+          - Anoma Message: ./arch/node/types/anoma_message.juvix.md
+          - Anoma Configuration: ./arch/node/types/anoma_config.juvix.md
+          - Anoma Environment: ./arch/node/types/anoma_environment.juvix.md
+          - Engine: ./arch/node/types/engine.juvix.md
+          - Engine Configuration: ./arch/node/types/engine_config.juvix.md
+          - Engine Environment: ./arch/node/types/engine_environment.juvix.md
+          - Engine Behaviour: ./arch/node/types/engine_behaviour.juvix.md
+          - Messages & Mailboxes: ./arch/node/types/messages.juvix.md
+      - Subsystems:
+          - Hardware subsystem:
+              - Hardware subsystem overview: ./arch/node/subsystems/hardware.juvix.md
+              - Hardware subsystem engines:
+                  - Local Key Value Storage Engine:
+                      - Local Key Value Storage Engine: ./arch/node/engines/local_key_value_storage.juvix.md
+                      - Local Key Value Storage Messages: ./arch/node/engines/local_key_value_storage_messages.juvix.md
+                      - Local Key Value Storage Configuration: ./arch/node/engines/local_key_value_storage_config.juvix.md
+                      - Local Key Value Storage Environment: ./arch/node/engines/local_key_value_storage_environment.juvix.md
+                      - Local Key Value Storage Behaviour: ./arch/node/engines/local_key_value_storage_behaviour.juvix.md
+                  - Local Time Series Storage Engine:
+                      - Local Time Series Storage Engine: ./arch/node/engines/local_time_series_storage.juvix.md
+                      - Local Time Series Storage Messages: ./arch/node/engines/local_time_series_storage_messages.juvix.md
+                      - Local Time Series Storage Configuration: ./arch/node/engines/local_time_series_storage_config.juvix.md
+                      - Local Time Series Storage Environment: ./arch/node/engines/local_time_series_storage_environment.juvix.md
+                      - Local Time Series Storage Behaviour: ./arch/node/engines/local_time_series_storage_behaviour.juvix.md
+                  - Logging Engine:
+                      - Logging Engine: ./arch/node/engines/logging.juvix.md
+                      - Logging Messages: ./arch/node/engines/logging_messages.juvix.md
+                      - Logging Configuration: ./arch/node/engines/logging_config.juvix.md
+                      - Logging Environment: ./arch/node/engines/logging_environment.juvix.md
+                      - Logging Behaviour: ./arch/node/engines/logging_behaviour.juvix.md
+                  - Wall Clock Engine:
+                      - Wall Clock Engine: ./arch/node/engines/wall_clock.juvix.md
+                      - Wall Clock Messages: ./arch/node/engines/wall_clock_messages.juvix.md
+                      - Wall Clock Configuration: ./arch/node/engines/wall_clock_config.juvix.md
+                      - Wall Clock Environment: ./arch/node/engines/wall_clock_environment.juvix.md
+                      - Wall Clock Behaviour: ./arch/node/engines/wall_clock_behaviour.juvix.md
+          - Identity subsystem:
+              - Identity subsystem overview: ./arch/node/subsystems/identity.juvix.md
+              - Identity subsystem engines:
+                  - Identity Management Engine:
+                      - Identity Management Engine: ./arch/node/engines/identity_management.juvix.md
+                      - Identity Management Messages: ./arch/node/engines/identity_management_messages.juvix.md
+                      - Identity Management Configuration: ./arch/node/engines/identity_management_config.juvix.md
+                      - Identity Management Environment: ./arch/node/engines/identity_management_environment.juvix.md
+                      - Identity Management Behaviour: ./arch/node/engines/identity_management_behaviour.juvix.md
+                  - Encryption Engine:
+                      - Encryption Engine: ./arch/node/engines/encryption.juvix.md
+                      - Encryption Messages: ./arch/node/engines/encryption_messages.juvix.md
+                      - Encryption Configuration: ./arch/node/engines/encryption_config.juvix.md
+                      - Encryption Environment: ./arch/node/engines/encryption_environment.juvix.md
+                      - Encryption Behaviour: ./arch/node/engines/encryption_behaviour.juvix.md
+                  - Decryption Engine:
+                      - Decryption Engine: ./arch/node/engines/decryption.juvix.md
+                      - Decryption Messages: ./arch/node/engines/decryption_messages.juvix.md
+                      - Decryption Configuration: ./arch/node/engines/decryption_config.juvix.md
+                      - Decryption Environment: ./arch/node/engines/decryption_environment.juvix.md
+                      - Decryption Behaviour: ./arch/node/engines/decryption_behaviour.juvix.md
+                  - Commitment Engine:
+                      - Commitment Engine: ./arch/node/engines/commitment.juvix.md
+                      - Commitment Messages: ./arch/node/engines/commitment_messages.juvix.md
+                      - Commitment Configuration: ./arch/node/engines/commitment_config.juvix.md
+                      - Commitment Environment: ./arch/node/engines/commitment_environment.juvix.md
+                      - Commitment Behaviour: ./arch/node/engines/commitment_behaviour.juvix.md
+                  - Verification Engine:
+                      - Verification Engine: ./arch/node/engines/verification.juvix.md
+                      - Verification Messages: ./arch/node/engines/verification_messages.juvix.md
+                      - Verification Configuration: ./arch/node/engines/verification_config.juvix.md
+                      - Verification Environment: ./arch/node/engines/verification_environment.juvix.md
+                      - Verification Behaviour: ./arch/node/engines/verification_behaviour.juvix.md
+                  - ReadsFor Engine:
+                      - ReadsFor Engine: ./arch/node/engines/reads_for.juvix.md
+                      - ReadsFor Messages: ./arch/node/engines/reads_for_messages.juvix.md
+                      - ReadsFor Configuration: ./arch/node/engines/reads_for_config.juvix.md
+                      - ReadsFor Environment: ./arch/node/engines/reads_for_environment.juvix.md
+                      - ReadsFor Behaviour: ./arch/node/engines/reads_for_behaviour.juvix.md
+                  - SignsFor Engine:
+                      - SignsFor Engine: ./arch/node/engines/signs_for.juvix.md
+                      - SignsFor Messages: ./arch/node/engines/signs_for_messages.juvix.md
+                      - SignsFor Configuration: ./arch/node/engines/signs_for_config.juvix.md
+                      - SignsFor Environment: ./arch/node/engines/signs_for_environment.juvix.md
+                      - SignsFor Behaviour: ./arch/node/engines/signs_for_behaviour.juvix.md
+                  - Naming Engine:
+                      - Naming Engine: ./arch/node/engines/naming.juvix.md
+                      - Naming Messages: ./arch/node/engines/naming_messages.juvix.md
+                      - Naming Configuration: ./arch/node/engines/naming_config.juvix.md
+                      - Naming Environment: ./arch/node/engines/naming_environment.juvix.md
+                      - Naming Behaviour: ./arch/node/engines/naming_behaviour.juvix.md
+          - Ordering subsystem:
+              - Ordering subsystem overview: ./arch/node/subsystems/ordering.juvix.md
+              - Ordering subsystem engines:
+                  - Mempool layer:
+                      - Mempool Worker Engine:
+                          - Mempool Worker Engine: ./arch/node/engines/mempool_worker.juvix.md
+                          - Mempool Worker Messages: ./arch/node/engines/mempool_worker_messages.juvix.md
+                          - Mempool Worker Configuration: ./arch/node/engines/mempool_worker_config.juvix.md
+                          - Mempool Worker Environment: ./arch/node/engines/mempool_worker_environment.juvix.md
+                          - Mempool Worker Behaviour: ./arch/node/engines/mempool_worker_behaviour.juvix.md
+                  - Execution layer:
+                      - Shard Engine:
+                          - Shard Engine: ./arch/node/engines/shard.juvix.md
+                          - Shard Messages: ./arch/node/engines/shard_messages.juvix.md
+                          - Shard Configuration: ./arch/node/engines/shard_config.juvix.md
+                          - Shard Environment: ./arch/node/engines/shard_environment.juvix.md
+                          - Shard Behaviour: ./arch/node/engines/shard_behaviour.juvix.md
+                      - Executor Engine:
+                          - Executor Engine: ./arch/node/engines/executor.juvix.md
+                          - Executor Messages: ./arch/node/engines/executor_messages.juvix.md
+                          - Executor Configuration: ./arch/node/engines/executor_config.juvix.md
+                          - Executor Environment: ./arch/node/engines/executor_environment.juvix.md
+                          - Executor Behaviour: ./arch/node/engines/executor_behaviour.juvix.md
+          - Network subsystem:
+              - Network subsystem overview: ./arch/node/subsystems/net.juvix.md
+              - Network subsystem engines:
+                  - Network Registry:
+                      - Network Registry Engine: ./arch/node/engines/net_registry.juvix.md
+                      - Network Registry Messages: ./arch/node/engines/net_registry_messages.juvix.md
+                      - Network Registry Configuration: ./arch/node/engines/net_registry_config.juvix.md
+                      - Network Registry Environment: ./arch/node/engines/net_registry_environment.juvix.md
+                      - Network Registry Behaviour: ./arch/node/engines/net_registry_behaviour.juvix.md
+                  - Router:
+                      - Router Engine: ./arch/node/engines/router.juvix.md
+                      - Router Messages: ./arch/node/engines/router_messages.juvix.md
+                      - Router Configuration: ./arch/node/engines/router_config.juvix.md
+                      - Router Environment: ./arch/node/engines/router_environment.juvix.md
+                      - Router Behaviour: ./arch/node/engines/router_behaviour.juvix.md
+                  - Transport Protocol:
+                      - Transport Protocol Engine: ./arch/node/engines/transport_protocol.juvix.md
+                      - Transport Protocol Messages: ./arch/node/engines/transport_protocol_messages.juvix.md
+                      - Transport Protocol Configuration: ./arch/node/engines/transport_protocol_config.juvix.md
+                      - Transport Protocol Environment: ./arch/node/engines/transport_protocol_environment.juvix.md
+                      - Transport Protocol Behaviour: ./arch/node/engines/transport_protocol_behaviour.juvix.md
+                  - Transport Connection:
+                      - Transport Connection Engine: ./arch/node/engines/transport_connection.juvix.md
+                      - Transport Connection Messages: ./arch/node/engines/transport_connection_messages.juvix.md
+                      - Transport Connection Configuration: ./arch/node/engines/transport_connection_config.juvix.md
+                      - Transport Connection Environment: ./arch/node/engines/transport_connection_environment.juvix.md
+                      - Transport Connection Behaviour: ./arch/node/engines/transport_connection_behaviour.juvix.md
+                  - Pub/Sub Topic:
+                      - Pub/Sub Topic Engine: ./arch/node/engines/pub_sub_topic.juvix.md
+                      - Pub/Sub Topic Messages: ./arch/node/engines/pub_sub_topic_messages.juvix.md
+                      - Pub/Sub Topic Configuration: ./arch/node/engines/pub_sub_topic_config.juvix.md
+                      - Pub/Sub Topic Environment: ./arch/node/engines/pub_sub_topic_environment.juvix.md
+                      - Pub/Sub Topic Behaviour: ./arch/node/engines/pub_sub_topic_behaviour.juvix.md
+                  - Storage:
+                      - Storage Engine: ./arch/node/engines/storage.juvix.md
+                      - Storage Messages: ./arch/node/engines/storage_messages.juvix.md
+                      - Storage Configuration: ./arch/node/engines/storage_config.juvix.md
+                      - Storage Environment: ./arch/node/engines/storage_environment.juvix.md
+                      - Storage Behaviour: ./arch/node/engines/storage_behaviour.juvix.md
+  - System architecture:
+      - Identity Architecture:
+          - Identity Architecture Types: ./arch/system/identity/identity_types.juvix.md
+      - State Architecture:
+          - Resource Machine:
+              - ./arch/system/state/resource_machine/index.juvix.md
+              - Primitive interfaces:
+                  - ./arch/system/state/resource_machine/primitive_interfaces/index.juvix.md
+                  - Set:
+                      - Set interface: ./arch/system/state/resource_machine/primitive_interfaces/set.juvix.md
+                      - Ordered set: ./arch/system/state/resource_machine/primitive_interfaces/ordered_set.juvix.md
+                  - Map: ./arch/system/state/resource_machine/primitive_interfaces/map.juvix.md
+                  - Fixed size type:
+                      - Interface: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/fixed_size_type.juvix.md
+                      - Arithmetic: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.juvix.md
+                      - Hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/hash.juvix.md
+                      - Delta hash: ./arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/delta_hash.juvix.md
+                  - Proving system:
+                      - ./arch/system/state/resource_machine/primitive_interfaces/proving_system/index.md
+                      - Definitions: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.juvix.md
+                      - Delta proving system: ./arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_delta.juvix.md
+                  - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.juvix.md
+                  - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.juvix.md
+              - Data structures:
+                  - ./arch/system/state/resource_machine/data/index.juvix.md
+                  - Resource:
+                      - ./arch/system/state/resource_machine/data_structures/resource/index.juvix.md
+                      - Computable components:
+                          - ./arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.juvix.md
+                          - Commitment: ./arch/system/state/resource_machine/data_structures/resource/computable_components/resource_commitment.juvix.md
+                          - Nullifier: ./arch/system/state/resource_machine/data_structures/resource/computable_components/nullifier.juvix.md
+                          - Kind: ./arch/system/state/resource_machine/data_structures/resource/computable_components/kind.juvix.md
+                          - Delta: ./arch/system/state/resource_machine/data_structures/resource/computable_components/delta.juvix.md
+                  - Compliance unit:
+                      - Compliance unit: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_unit.juvix.md
+                      - Compliance proof: ./arch/system/state/resource_machine/data_structures/compliance_unit/compliance_proof.juvix.md
+                  - Action:
+                      - Action: ./arch/system/state/resource_machine/data_structures/action/index.juvix.md
+                      - Resource logic proof: ./arch/system/state/resource_machine/data_structures/action/resource_logic_proof.juvix.md
+                  - Transaction:
+                      - Transaction: ./arch/system/state/resource_machine/data_structures/transaction/transaction.juvix.md
+                      - Delta proof: ./arch/system/state/resource_machine/data_structures/transaction/delta_proof.juvix.md
+                      - Transaction Function: ./arch/system/state/resource_machine/data_structures/transaction/transaction_function.juvix.md
+                      - Transaction With Payment: ./arch/system/state/resource_machine/data_structures/transaction/transaction_with_payment.juvix.md
+              - Execution flow: ./arch/system/state/resource_machine/execution_flow/flow.juvix.md
+              - Notes:
+                  - Roles and requirements: ./arch/system/state/resource_machine/notes/roles_and_requirements.juvix.md
+                  - Stored data format: ./arch/system/state/resource_machine/notes/storage.juvix.md
+                  - Function formats:
+                      - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.juvix.md
+                  - Applications: ./arch/system/state/resource_machine/notes/applications.juvix.md
+  - Tutorials:
+      - Contributor guidelines:
+          - Global principles and guidelines: ./tutorial/principles_and_guidelines.md
+          - Prepare working environment: ./tutorial/install/index.md
+          - Engines in Anoma:
+              - ./tutorial/engines/index.md
+              - Engine writing conventions: ./tutorial/engines/writing_conventions.md
+              - Examples:
+                  - Template Engine:
+                      - Template Engine: ./tutorial/engines/template.juvix.md
+                      - Template Messages: ./tutorial/engines/template_messages.juvix.md
+                      - Template Configuration: ./tutorial/engines/template_config.juvix.md
+                      - Template Environment: ./tutorial/engines/template_environment.juvix.md
+                      - Template Behaviour: ./tutorial/engines/template_behaviour.juvix.md
+                  - Ticker Engine:
+                      - Ticker Engine: ./arch/node/engines/ticker.juvix.md
+                      - Ticker Messages: ./arch/node/engines/ticker_messages.juvix.md
+                      - Ticker Configuration: ./arch/node/engines/ticker_config.juvix.md
+                      - Ticker Environment: ./arch/node/engines/ticker_environment.juvix.md
+                      - Ticker Behaviour: ./arch/node/engines/ticker_behaviour.juvix.md
+          - Add Juvix code for specification: ./tutorial/juvix.md
+          - Write Markdown: ./tutorial/md/index.md
+          - Headers and other Markdown formatting conventions: ./tutorial/md/headers_and_other_conventions.md
+          - Use Wiki style links: ./tutorial/md/links.md
+          - Include images in Markdown: ./tutorial/md/images.md
+          - Include code snippets: ./tutorial/md/snippets.md
+          - Add pending tasks with Todos admonition: ./tutorial/md/todos.md
+          - Add literature references: ./tutorial/md/citations.md
+          - Use Git and GitHub: ./tutorial/branch.md
+          - File naming conventions: ./tutorial/file_naming.md
+          - Run pre commit checks: ./tutorial/commit_checks.md
+          - Updating the changelog: ./tutorial/changelog.md
+          - Versioning: ./tutorial/versioning.md
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
@@ -279,9 +281,12 @@ theme:
   language: en
   google_analytics: G-WJWZWB2TW5
   icon:
+    edit: material/file-edit
+    view: material/language-markdown
     repo: fontawesome/brands/github
-    edit: material/lead-pencil
-    view: material/eye
+    search: octicons/search-16
+    previous: octicons/arrow-left-16
+    next: octicons/arrow-right-16
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
@@ -321,20 +326,23 @@ theme:
     # - navigation.instant
     # - navigation.instant.prefetch
     # - navigation.instant.progress
-    # - navigation.instant.preview
+    - navigation.instant.preview
     - navigation.tracking
-    # - navigation.tabs
-    # - navigation.tabs.sticky
     # - navigation.expand
-    # - navigation.prune
+    - navigation.prune
     - navigation.indexes
+    - navigation.sections
     - navigation.footer
-    # - navigation.top
     - navigation.path
     - toc.follow
     # - toc.integrate
 plugins:
-  - search
+  - search:
+      lang: en
+      pipeline:
+        - stemmer
+        - stopWordFilter
+        - trimmer
   - glightbox
   - juvix # Provided with mkdocs-juvix-plugin
   - todos
@@ -345,6 +353,11 @@ plugins:
         - png
       FileTypeOverrides:
         mermaid: svg
+  - tags:
+      tags_file: indexes/tags.md
+      tags_slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - bibtex:
       bib_dir: "docs/references"
   - macros:
@@ -354,6 +367,8 @@ plugins:
       j2_block_end_string: "@@}"
       j2_variable_start_string: "{@"
       j2_variable_end_string: "@}"
+watch:
+  - docs/assets/css/extra.css
 hooks:
   - hooks/fix_changelog.py
 exclude_docs: |
@@ -369,6 +384,7 @@ extra_css:
   - assets/css/juvix-highlighting.css
   - assets/css/juvix_codeblock_footer.css
   - assets/css/latte-light.css
+  - assets/css/extra.css
 extra_javascript:
   - assets/js/extra.js
   - assets/js/highlight.js

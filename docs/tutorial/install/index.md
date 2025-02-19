@@ -1,10 +1,8 @@
 ---
 icon: material/desktop-classic
 tags:
-    - GitHub
-    - python
-    - MkDocs
-    - Makefile
+  - tutorial
+  - install
 ---
 
 # Preparing the local environment for writing documentation

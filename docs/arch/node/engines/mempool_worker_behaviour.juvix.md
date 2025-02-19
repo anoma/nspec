@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- mempool-worker-engine
-- engine-behaviour
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - mempool-worker
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.mempool_worker_behaviour;
@@ -39,7 +39,7 @@ tags:
 
 A mempool worker acts as a transaction coordinator, receiving transaction requests, managing their execution lifecycle, and coordinating with shards and executors.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     axiom sign {KVSKey Executable} : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Signature;
@@ -306,7 +306,7 @@ MempoolWorkerActionArguments : Type := List MempoolWorkerActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     MempoolWorkerAction (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
@@ -656,7 +656,7 @@ executorFinishedActionLabel
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     MempoolWorkerGuard (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
