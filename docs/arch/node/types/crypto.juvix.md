@@ -27,13 +27,23 @@ Public key for public-key cryptography.
 type PublicKey :=
   | Curve25519PubKey ByteString
   ;
-
-instance
-PublicKeyOrd : Ord PublicKey :=
-  mkOrd@{
-    cmp := \{_ _ := Equal};
-  };
 ```
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    PublicKeyEq : Eq PublicKey;
+    ```
+
+    ```juvix
+    instance
+    PublicKeyOrd : Ord PublicKey :=
+      mkOrd@{
+        cmp := \{_ _ := Equal};
+      };
+    ```
 
 ### Private key
 
@@ -43,13 +53,21 @@ Private key for public-key cryptography.
 type PrivateKey :=
   | Curve25519PrivKey ByteString
   ;
-
-instance
-PrivateKeyOrd : Ord PrivateKey :=
-  mkOrd@{
-    cmp := \{_ _ := Equal};
-  };
 ```
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    PrivateKeyEq : Eq PrivateKey;
+
+    instance
+    PrivateKeyOrd : Ord PrivateKey :=
+      mkOrd@{
+        cmp := \{_ _ := Equal};
+      };
+    ```
 
 ### Secret key
 
@@ -60,6 +78,18 @@ type SecretKey :=
   | ChaCha20Key
   ;
 ```
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    SecretKeyEq : Eq SecretKey;
+
+    deriving
+    instance
+    SecretKeyOrd : Ord SecretKey;
+    ```
 
 ### Signature
 
@@ -80,3 +110,23 @@ type Digest :=
   | Blake3Digest ByteString
   ;
 ```
+
+### `hash`
+
+```juvix
+axiom hash {A} : A -> Digest;
+```
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    DigestEq : Eq Digest;
+
+    instance
+    DigestOrd : Ord Digest :=
+      mkOrd@{
+        cmp := \{(Blake3Digest a) (Blake3Digest b) := Equal};
+      };
+    ```

@@ -56,7 +56,7 @@ type EncryptionCfg := mkEncryptionCfg {
     : The backend to use for encryption.
 
     `readsForEngineAddress`:
-    : The address of the associated Reads For engine.
+    : The address of the associated ReadFor engine.
 
 #### Instantiation
 

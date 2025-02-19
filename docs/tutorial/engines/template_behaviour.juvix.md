@@ -51,7 +51,7 @@ and passed to the action function as part of the `GuardOutput`.
 
 <!-- --8<-- [start:FirstArgument] -->
 ```juvix
-type FirstArgument := mkFirstArgument {
+type FirstArgument := mkFirstArgument@{
   data : Val;
 };
 ```
@@ -66,7 +66,7 @@ type FirstArgument := mkFirstArgument {
 
 <!-- --8<-- [start:SecondArgument] -->
 ```juvix
-type SecondArgument := mkSecondArgument {
+type SecondArgument := mkSecondArgument@{
   data : String;
 };
 ```
@@ -215,7 +215,7 @@ justHiAction
 
 #### `exampleReplyAction`
 
-Respond with a `TemplateMsgExampleResponse`.
+Respond with a `TemplateMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -495,7 +495,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>TemplateMsgExampleResponse<br/>argOne]
+    EMsg>TemplateMsgExampleReply<br/>argOne]
   end
 ```
 

@@ -38,7 +38,7 @@ machine that the Anoma node is running. It supports diagnostic efforts,
 security monitoring, performance optimization, and historical analysis
 to ensure stability, security, and efficiency.
 
-## Components
+## Engine components
 
 - [[Logging Messages]]
 - [[Logging Configuration]]

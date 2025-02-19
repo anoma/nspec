@@ -21,64 +21,13 @@ tags:
 
 ## Message interface
 
-### `MsgVerificationRequest RequestVerification`
-
-```juvix
-type RequestVerification := mkRequestVerification {
-  data : Signable;
-  commitment : Commitment;
-  externalIdentity : ExternalIdentity;
-  useSignsFor : Bool
-};
-```
-
-A `RequestVerification` instructs the Verification Engine to verify a commitment (signature) from a particular external identity, possibly using known signs_for relationships.
-
-???+ quote "Arguments"
-    `data`:
-    : The data that was signed.
-
-    `commitment`:
-    : The commitment (signature) to verify.
-
-    `externalIdentity`:
-    : The external identity that supposedly made the commitment.
-
-    `useSignsFor`:
-    : Whether or not to use known `signs_for` relationships.
-
-### `MsgVerificationResponse ResponseVerification`
-
-```juvix
-type ResponseVerification := mkResponseVerification {
-  result : Bool;
-  err : Option String
-};
-```
-
-A `ResponseVerification` contains the result of verifying a commitment in response to a RequestVerification.
-
-???+ quote "Arguments"
-    `result`:
-    : True if the verification succeeded, False otherwise.
-
-    `err`:
-    : An error message if verification failed.
-
-### `VerificationMsg`
-
-<!-- --8<-- [start:VerificationMsg] -->
-```juvix
-type VerificationMsg :=
-  | MsgVerificationRequest RequestVerification
-  | MsgVerificationResponse ResponseVerification
-  ;
-```
-<!-- --8<-- [end:VerificationMsg] -->
+--8<-- "./verification_messages.juvix.md:VerificationMsg"
 
 ## Message sequence diagrams
 
-### Verification Sequence (Without SignsFor evidence)
+---
+
+### Verification sequence (without `signs_for` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-no-signs-for] -->
 <figure markdown="span">
@@ -90,16 +39,18 @@ sequenceDiagram
 
     C->>VE: RequestVerification(useSignsFor=false)
     Note over VE: Verify commitment directly for external identity
-    VE-->>C: ResponseVerification
+    VE-->>C: ReplyVerification
 ```
 
 <figcaption markdown="span">
-Sequence diagram for verification (no signs for).
+Sequence diagram for verification (no `signs_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-no-signs-for] -->
 
-### Verification Sequence (With SignsFor evidence)
+---
+
+### Verification sequence (with `signs_for` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-signs-for] -->
 <figure markdown="span">
@@ -113,18 +64,91 @@ sequenceDiagram
     C->>VE: RequestVerification(useSignsFor=true)
     VE->>SF: QuerySignsForEvidenceRequest
     Note over SF: Retrieve signs_for evidence
-    SF-->>VE: QuerySignsForEvidenceResponse
+    SF-->>VE: QuerySignsForEvidenceReply
     Note over VE: Verify commitment using SignsFor evidence
-    VE-->>C: ResponseVerification
+    VE-->>C: ReplyVerification
 ```
 
 <figcaption markdown="span">
-Sequence diagram for verification (signs for).
+Sequence diagram for verification (with `signs_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-signs-for] -->
 
-## Engine Components
+---
 
+## Message types
+
+---
+
+### `RequestVerification`
+
+```juvix
+type RequestVerification := mkRequestVerification@{
+  data : Signable;
+  commitment : Commitment;
+  externalIdentity : ExternalIdentity;
+  useSignsFor : Bool
+};
+```
+
+A `RequestVerification` instructs the Verification Engine to verify a commitment
+(signature) from a particular external identity, possibly using known
+`signs_for` relationships.
+
+???+ quote "Arguments"
+
+    `data`:
+    : The data that was signed.
+
+    `commitment`:
+    : The commitment (signature) to verify.
+
+    `externalIdentity`:
+    : The external identity that supposedly made the commitment.
+
+    `useSignsFor`:
+    : Whether or not to use known `signs_for` relationships.
+
+---
+
+### `ReplyVerification`
+
+```juvix
+type ReplyVerification := mkReplyVerification@{
+  result : Bool;
+  err : Option String
+};
+```
+
+A `ReplyVerification` contains the result of verifying a commitment in
+response to a `RequestVerification`.
+
+???+ quote "Arguments"
+
+    `result`:
+    : True if the verification succeeded, False otherwise.
+
+    `err`:
+    : An error message if verification failed.
+
+---
+
+### `VerificationMsg`
+
+<!-- --8<-- [start:VerificationMsg] -->
+```juvix
+type VerificationMsg :=
+  | MsgVerificationRequest RequestVerification
+  | MsgVerificationReply ReplyVerification
+  ;
+```
+<!-- --8<-- [end:VerificationMsg] -->
+
+## Engine components
+
+- [[Verification Configuration]]
 - [[Verification Environment]]
 - [[Verification Behaviour]]
+
+

@@ -23,31 +23,11 @@ These are the messages that the Logging engine can receive/respond to.
 
 ## Message interface
 
-### `LoggingMsgAppendValue AppendValue`
-
-<!-- --8<-- [start:AppendValue] -->
-```juvix
-type AppendValue := mkAppendValue {
-  value : String
-};
-```
-<!-- --8<-- [end:AppendValue] -->
-
-???+ quote "Arguments"
-
-    `value`:
-    : The value in string format to be added to the logbook.
-
-### `LoggingMsg`
-
-<!-- --8<-- [start:LoggingMsg] -->
-```juvix
-type LoggingMsg :=
-  | LoggingMsgAppend AppendValue;
-```
-<!-- --8<-- [end:LoggingMsg] -->
+--8<-- "./logging_messages.juvix.md:LoggingMsg"
 
 ## Message sequence diagrams
+
+---
 
 ### Appending a log entry
 
@@ -68,3 +48,43 @@ A local engine sends a log entry to be appended to the logbook
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
+
+---
+
+## Message types
+
+---
+
+### `AppendValue`
+
+<!-- --8<-- [start:AppendValue] -->
+```juvix
+type AppendValue := mkAppendValue {
+  value : String
+};
+```
+<!-- --8<-- [end:AppendValue] -->
+
+???+ quote "Arguments"
+
+    `value`:
+    : The value in string format to be added to the logbook.
+
+---
+
+### `LoggingMsg`
+
+<!-- --8<-- [start:LoggingMsg] -->
+```juvix
+type LoggingMsg :=
+  | LoggingMsgAppend AppendValue;
+```
+<!-- --8<-- [end:LoggingMsg] -->
+
+---
+
+## Engine components
+
+- [[Logging Configuration]]
+- [[Logging Environment]]
+- [[Logging Behaviour]]
