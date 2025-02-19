@@ -5,10 +5,6 @@ search:
   boost: 2
 tags:
   - index
-  - juvix
-tags:
-  - index
-  - juvix
 ---
 
 
@@ -16,32 +12,15 @@ tags:
 
 ```juvix
 module everything;
-```
-```
 
-## Prelude
-## Prelude
+{- Prelude -}
 
-```juvix
-```juvix
 import prelude;
-```
-
-## Anomian
-
-```juvix
-```
-
-## Anomian
-
-```juvix
 import anomian;
-```
 ```
 
 ## System
 
-```juvix
 ```juvix
 import arch.system.identity.identity;
 ```
@@ -165,47 +144,22 @@ import arch.node.types.transport;
 import arch.node.types.storage;
 import arch.node.types.router;
 ```
-```
 
 ## Engines
-## Engines
 
-### Identity
-### Identity
-
-### Commitment
-### Commitment
-
-```juvix
 ```juvix
 import arch.node.engines.commitment_messages;
 import arch.node.engines.commitment_config;
 import arch.node.engines.commitment_environment;
 import arch.node.engines.commitment_behaviour;
 import arch.node.engines.commitment;
-```
 
-### Decryption
-```
-
-### Decryption
-
-```juvix
-```juvix
 import arch.node.engines.decryption_messages;
 import arch.node.engines.decryption_config;
 import arch.node.engines.decryption_environment;
 import arch.node.engines.decryption_behaviour;
 import arch.node.engines.decryption;
-```
 
-### Encryption
-```
-
-### Encryption
-
-```juvix
-```juvix
 import arch.node.engines.encryption_messages;
 import arch.node.engines.encryption_config;
 import arch.node.engines.encryption_environment;
