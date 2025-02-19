@@ -8,8 +8,13 @@ tags:
   - types
   - crypto
   - prelude
+  - node-architecture
+  - types
+  - crypto
+  - prelude
 ---
 
+??? code "Juvix imports"
 ??? code "Juvix imports"
 
     ```juvix
@@ -45,6 +50,7 @@ type PublicKey :=
       };
     ```
 
+### `PrivateKey`
 ### `PrivateKey`
 
 Private key for public-key cryptography.
@@ -91,7 +97,7 @@ type SecretKey :=
     SecretKeyOrd : Ord SecretKey;
     ```
 
-### `Signature`
+### ``Signature``
 
 Cryptographic signature.
 
