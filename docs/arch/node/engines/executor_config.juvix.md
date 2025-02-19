@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- executor-engine
-- engine-environment
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - executor
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.executor_config;
@@ -34,7 +34,7 @@ The executor configuration contains static information needed for execution: the
 
 <!-- --8<-- [start:ExecutorCfg] -->
 ```juvix
-type ExecutorCfg :=
+type ExecutorCfg KVSKey Executable :=
   mkExecutorCfg@{
     timestamp : TxFingerprint;
     executable : Executable;
@@ -48,10 +48,11 @@ type ExecutorCfg :=
 ```
 <!-- --8<-- [end:ExecutorCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
-    : The logical timestamp representing when this transaction executes in the ordering
+    : The logical timestamp representing when this transaction executes in the
+    ordering
 
     `executable`
     : The transaction's executable code
@@ -80,7 +81,7 @@ type ExecutorCfg :=
 ```juvix extract-module-statements
 module executor_config_example;
 
-  executorCfg : EngineCfg ExecutorCfg :=
+  executorCfg : EngineCfg (ExecutorCfg String ByteString) :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "executor";

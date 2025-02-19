@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- identity-management-engine
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - identity-management
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.identity_management_config;

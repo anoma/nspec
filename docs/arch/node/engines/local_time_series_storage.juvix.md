@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-ts-storage-engine
-- engine-definition
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-time-series-storage
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_time_series_storage;
@@ -40,7 +40,7 @@ The Local Time Series Storage Engine manages local storage and
 retrieval of time series data. It provides functions for recording
 new data, retrieving existing data, and deleting data when needed.
 
-## Components
+## Engine components
 
 - [[Local Time Series Storage Messages]]
 - [[Local Time Series Storage Configuration]]

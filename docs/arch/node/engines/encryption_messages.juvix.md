@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- encryption
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - encryption
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.encryption_messages;
@@ -21,60 +22,11 @@ tags:
 
 ## Message interface
 
-### `MsgEncryptionRequest RequestEncrypt`
-
-```juvix
-type RequestEncrypt := mkRequestEncrypt {
-  data : Plaintext;
-  externalIdentity : ExternalIdentity;
-  useReadsFor : Bool
-};
-```
-
-An `RequestEncrypt` instructs the Encryption Engine to encrypt data to a particular external identity, possibly using known reads_for relationships.
-
-???+ quote "Arguments"
-    `data`:
-    : The data to encrypt.
-
-    `externalIdentity`:
-    : The external identity requesting encryption.
-
-    `useReadsFor`:
-    : Whether to use known `reads_for` relationships or not.
-
-### `MsgEncryptionResponse ResponseEncrypt`
-
-```juvix
-type ResponseEncrypt := mkResponseEncrypt {
-  ciphertext : Ciphertext;
-  err : Option String
-};
-```
-
-An `ResponseEncrypt` contains the data encrypted by the Encryption Engine in response to an `RequestEncrypt`.
-
-???+ quote "Arguments"
-    `ciphertext`:
-    : The encrypted data.
-
-    `err`:
-    : An error message if encryption failed.
-
-### `EncryptionMsg`
-
-<!-- --8<-- [start:EncryptionMsg] -->
-```juvix
-type EncryptionMsg :=
-  | MsgEncryptionRequest RequestEncrypt
-  | MsgEncryptionResponse ResponseEncrypt
-  ;
-```
-<!-- --8<-- [end:EncryptionMsg] -->
+--8<-- "./encryption_messages.juvix.md:EncryptionMsg"
 
 ## Message sequence diagrams
 
-### Encryption Sequence (Without `ReadsFor` evidence)
+### Encryption sequence (without `ReadsFor` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-no-reads-for] -->
 <figure markdown="span">
@@ -86,7 +38,7 @@ sequenceDiagram
 
     C->>EE: RequestEncrypt (useReadsFor: false)
     Note over EE: Encrypt commitment
-    EE-->>C: ResponseEncrypt
+    EE-->>C: ReplyEncrypt
 ```
 
 <figcaption markdown="span">
@@ -95,7 +47,7 @@ Sequence diagram for encryption (no reads for).
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-no-reads-for] -->
 
-### Encryption Sequence (With `ReadsFor` evidence)
+### Encryption sequence (with `ReadsFor` evidence)
 
 <!-- --8<-- [start:message-sequence-diagram-reads-for] -->
 <figure markdown="span">
@@ -109,18 +61,76 @@ sequenceDiagram
     C->>EE: RequestEncrypt (useReadsFor: true)
     EE->>RE: QueryReadsForEvidenceRequest
     Note over RE: Retrieve evidence
-    RE-->>EE: QueryReadsForEvidenceResponse
+    RE-->>EE: QueryReadsForEvidenceReply
     Note over EE: Encrypt commitment using ReadsFor evidence
-    EE-->>C: ResponseEncrypt
+    EE-->>C: ReplyEncrypt
 ```
 
 <figcaption markdown="span">
-Sequence diagram for encryption (reads for).
+Sequence diagram for encryption (with `reads_for` evidence).
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-reads-for] -->
 
-## Engine Components
+## Message types
 
+### `RequestEncrypt`
+
+```juvix
+type RequestEncrypt := mkRequestEncrypt {
+  data : Plaintext;
+  externalIdentity : ExternalIdentity;
+  useReadsFor : Bool
+};
+```
+
+A `RequestEncrypt` instructs the Encryption Engine to encrypt data to a
+particular external identity, possibly using known `reads_for` relationships.
+
+???+ code "Arguments"
+
+    `data`:
+    : The data to encrypt.
+
+    `externalIdentity`:
+    : The external identity requesting encryption.
+
+    `useReadsFor`:
+    : Whether to use known `reads_for` relationships or not.
+
+### `ReplyEncrypt`
+
+```juvix
+type ReplyEncrypt := mkReplyEncrypt {
+  ciphertext : Ciphertext;
+  err : Option String
+};
+```
+
+A `ReplyEncrypt` contains the data encrypted by the Encryption Engine in
+response to a `RequestEncrypt`.
+
+???+ code "Arguments"
+
+    `ciphertext`:
+    : The encrypted data.
+
+    `err`:
+    : An error message if encryption failed.
+
+### `EncryptionMsg`
+
+<!-- --8<-- [start:EncryptionMsg] -->
+```juvix
+type EncryptionMsg :=
+  | MsgEncryptionRequest RequestEncrypt
+  | MsgEncryptionReply ReplyEncrypt
+  ;
+```
+<!-- --8<-- [end:EncryptionMsg] -->
+
+## Engine components
+
+- [[Encryption Configuration]]
 - [[Encryption Environment]]
 - [[Encryption Behaviour]]

@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- mempool
-- mempool-worker
-- engine-environment
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - mempool-worker
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.mempool_worker_environment;
@@ -37,20 +37,20 @@ The local state of the Mempool Worker engine includes the following:
 
 <!-- --8<-- [start:MempoolWorkerLocalState] -->
 ```juvix
-type MempoolWorkerLocalState := mkMempoolWorkerLocalState {
+type MempoolWorkerLocalState KVSKey KVSDatum Executable := mkMempoolWorkerLocalState @{
   batch_number : BatchNumber;
-  transactions : Map TxFingerprint TransactionCandidate;
+  transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable);
   transactionEngines : Map EngineID TxFingerprint;
   locks_acquired : List (Pair EngineID KVSLockAcquiredMsg);
   seen_all_writes : TxFingerprint;
   seen_all_reads : TxFingerprint;
-  execution_summaries : Map TxFingerprint ExecutorFinishedMsg;
+  execution_summaries : Map TxFingerprint (ExecutorFinishedMsg KVSKey KVSDatum);
   gensym : TxFingerprint
 }
 ```
 <!-- --8<-- [end:MempoolWorkerLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `batch_number`:
     : The current batch number. (Currently unused)
@@ -101,12 +101,12 @@ syntax alias MempoolWorkerTimerHandle := Unit;
 ### `MempoolWorkerEnv`
 
 ```juvix
-MempoolWorkerEnv : Type :=
+MempoolWorkerEnv (KVSKey KVSDatum Executable : Type) : Type :=
   EngineEnv
-    MempoolWorkerLocalState
+    (MempoolWorkerLocalState KVSKey KVSDatum Executable)
     MempoolWorkerMailboxState
     MempoolWorkerTimerHandle
-    Anoma.Msg;
+    (Anoma.PreMsg KVSKey KVSDatum Executable);
 ```
 
 ### Instantiation
@@ -115,7 +115,7 @@ MempoolWorkerEnv : Type :=
 ```juvix extract-module-statements
 module mempool_worker_environment_example;
 
-  mempoolWorkerEnv : MempoolWorkerEnv :=
+  mempoolWorkerEnv : MempoolWorkerEnv String String ByteString :=
     mkEngineEnv@{
       localState := mkMempoolWorkerLocalState@{
         batch_number := 0;

@@ -3,12 +3,14 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-- Engine
-- Environment
-- Juvix
+  - node-architecture
+  - types
+  - engine
+  - environment
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.engine_environment;
@@ -17,6 +19,7 @@ tags:
     import arch.node.types.identities open;
     import arch.node.types.messages open;
     ```
+
 
 # Engine environment
 
@@ -41,8 +44,9 @@ which is parameterised by four types, which represent:
 These same letters will be used in the rest of the document to represent these
 types.
 
+<!-- --8<-- [start:EngineEnv] -->
 ```juvix
-type EngineEnv (S B H AM : Type) :=
+type EngineEnv S B H AM :=
   mkEngineEnv@{
     localState : S;
     mailboxCluster : Map MailboxID (Mailbox B AM);
@@ -50,6 +54,22 @@ type EngineEnv (S B H AM : Type) :=
     timers : List (Timer H);
   };
 ```
+<!-- --8<-- [end:EngineEnv] -->
+
+???+ code "Arguments"
+
+    `localState`
+    : the local state,
+
+    `mailboxCluster`
+    : the mailbox cluster,
+
+    `acquaintances`
+    : the set of acquainted engine instances, and
+
+    `timers`
+    : the list of timers.
+
 
 ??? info "On the mailbox cluster"
 

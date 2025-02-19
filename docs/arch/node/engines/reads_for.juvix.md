@@ -2,14 +2,15 @@
 icon: octicons/project-template-24
 search:
   exclude: false
-categories:
-- engine
 tags:
-- reads-for-engine
-- engine-definition
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - readsfor
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.reads_for;
@@ -32,26 +33,26 @@ tags:
     open reads_for_environment_example;
     ```
 
-# Reads For Engine
+# ReadFor Engine
 
-The Reads For Engine manages `reads_for` relationships between identities. A
+The ReadFor Engine manages `reads_for` relationships between identities. A
 `reads_for` relationship indicates that one identity can read data encrypted
 for another identity.
 
 ## Purpose
 
-The Reads For Engine maintains and manages the state of `reads_for`
+The ReadFor Engine maintains and manages the state of `reads_for`
 relationships between identities. It handles queries about these relationships,
 allows submission of new evidence, and provides information about existing
 relationships. This is useful in scenarios where data access needs to be
 delegated or shared.
 
-## Components
+## Engine components
 
-- [[Reads For Messages]]
-- [[Reads For Configuration]]
-- [[Reads For Environment]]
-- [[Reads For Behaviour]]
+- [[ReadFor Messages]]
+- [[ReadFor Configuration]]
+- [[ReadFor Environment]]
+- [[ReadFor Behaviour]]
 
 ## Type
 

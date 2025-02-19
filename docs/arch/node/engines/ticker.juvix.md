@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- ticker-engine
-- engine-definition
+  - node-architecture
+  - example
+  - engine
+  - ticker
+  - engine-definition
 ---
 
-??? quote "Juvix preamble"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.ticker;
@@ -42,7 +42,7 @@ A ticker engine maintains a counter in its local state. It increases the counter
 when it receives an `Increment` message and provides the updated result upon
 receiving a `Count` message. The initial state initializes the counter.
 
-## Components
+## Engine components
 
 - [[Ticker Messages]]
 - [[Ticker Configuration]]

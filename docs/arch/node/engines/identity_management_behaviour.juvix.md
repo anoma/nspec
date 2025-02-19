@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- identity_management
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - identity-management
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.identity_management_behaviour;
@@ -30,14 +30,267 @@ tags:
     import arch.node.types.messages open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
     ```
+---
 
 # Identity Management Behaviour
+---
 
 ## Overview
 
-The behavior of the Identity Management Engine defines how it processes
-incoming messages (requests) and produces the corresponding responses and
-actions.
+The behaviour of the Identity Management Engine defines how it coordinates
+committing/signing and decrypting operations through the spawning of engines for
+these functions along with maintaining a database which may be modified through
+the creation, connection, and deletion of identities associated with specific
+capabilities.
+
+## Identity Management Action Flowcharts
+
+### `generateIdentityAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Generate Request]) --> MsgReq[MsgIdentityManagementGenerateIdentityRequest<br/>backend: Backend<br/>params: IDParams<br/>capabilities: Capabilities]
+
+    subgraph Guard["generateIdentityGuard"]
+        MsgReq --> ValidType{Is message type<br/>GenerateIdentityRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["generateIdentityAction"]
+        direction TB
+        Check{Identity already<br/>exists?}
+        Check -->|Yes| ErrExists[Create Error Reply]
+        Check -->|No| Create[Create new identity info]
+        Create --> SpawnEngines{Which capabilities?}
+        SpawnEngines -->|Commit| SpawnCommit[Spawn Commitment Engine]
+        SpawnEngines -->|Decrypt| SpawnDecrypt[Spawn Decryption Engine]
+        SpawnEngines -->|Both| SpawnBoth[Spawn Both Engines]
+        SpawnCommit & SpawnDecrypt & SpawnBoth --> UpdateState[Update registry]
+    end
+
+    UpdateState --> Reply[Success Reply<br/>with engine IDs]
+    ErrExists --> ErrReply[Error Reply]
+    Reply & ErrReply --> Client([Return to Client])
+```
+
+<figcaption markdown="span">
+
+`generateIdentityAction` flowchart
+
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgIdentityManagementGenerateIdentityRequest` containing:
+     - `backend`: Specifies backend to be used
+     - `params`: Cryptographic parameters
+     - `capabilities`: Which capabilities are needed (commit, decrypt, or both)
+   - The requesting identity must not already exist in the system
+
+2. **Guard Phase** (`generateIdentityGuard`)
+   - Validates incoming message structure and type
+   - Validation steps:
+     - Verifies message type is `MsgIdentityManagementGenerateIdentityRequest`
+     - If validation fails, request is rejected immediately
+     - On success, passes control to `generateIdentityActionLabel`
+
+3. **Action Phase** (`generateIdentityAction`)
+   - Processes valid generation requests through these steps:
+     - Checks if requesting identity already exists in registry
+     - Creates new identity info with specified backend and capabilities
+     - Spawns appropriate engine(s) based on requested capabilities
+     - Updates identity registry with new identity and engine references
+     - Constructs appropriate response based on result
+
+4. **Reply Generation**
+   - **Successful Case**
+     - Creates `MsgIdentityManagementGenerateIdentityReply` with:
+       - `commitmentEngine`: Engine ID if commit capability requested, None otherwise
+       - `decryptionEngine`: Engine ID if decrypt capability requested, None otherwise
+       - `externalIdentity`: ID of the newly created identity
+       - `err`: None
+   - **Error Case**
+     - Creates `MsgIdentityManagementGenerateIdentityReply` with:
+       - `commitmentEngine`: None
+       - `decryptionEngine`: None
+       - `externalIdentity`: Requester's ID
+       - `err`: Some "Identity already exists"
+
+5. **Reply Delivery**
+   - Reply is sent back to the original requester
+   - Uses mailbox 0 (default mailbox for responses)
+
+### `connectIdentityAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Connect Request]) --> MsgReq[MsgIdentityManagementConnectIdentityRequest<br/>externalIdentity: EngineID<br/>backend: Backend<br/>capabilities: Capabilities]
+
+    subgraph Guard["connectIdentityGuard"]
+        MsgReq --> ValidType{Is message type<br/>ConnectIdentityRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["connectIdentityAction"]
+        direction TB
+        Check{Requesting Identity<br/>exists?}
+        Check -->|Yes| ErrExists[Create Error Reply]
+        Check -->|No| FindExternal{External Identity<br/>exists?}
+        FindExternal -->|No| ErrNotFound[Error: Not Found]
+        FindExternal -->|Yes| CheckCaps{Requested capabilities<br/>subset of original?}
+        CheckCaps -->|No| ErrCaps[Error: Invalid Capabilities]
+        CheckCaps -->|Yes| CopyEngines[Copy Engine References]
+        CopyEngines --> UpdateState[Update registry]
+    end
+
+    UpdateState --> Reply[Success Reply<br/>with engine IDs]
+    ErrExists & ErrNotFound & ErrCaps --> ErrReply[Error Reply]
+    Reply & ErrReply --> Client([Return to Client])
+```
+
+<figcaption markdown="span">
+
+`connectIdentityAction` flowchart
+
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgIdentityManagementConnectIdentityRequest` containing:
+     - `externalIdentity`: ID of the existing identity to connect to
+     - `backend`: Backend to use
+     - `capabilities`: Which subset of the original identity's capabilities are requested
+   - The requesting identity must not already exist in the system
+   - The external identity must exist and have at least the requested capabilities
+
+2. **Guard Phase** (`connectIdentityGuard`)
+   - Validates incoming message structure and type
+   - Validation steps:
+     - Verifies message type is `MsgIdentityManagementConnectIdentityRequest`
+     - If validation fails, request is rejected immediately
+     - On success, passes control to `connectIdentityActionLabel`
+
+3. **Action Phase** (`connectIdentityAction`)
+   - Processes valid connection requests through these steps:
+     - Verifies requesting identity doesn't already exist
+     - Checks if external identity exists in registry
+     - Validates requested capabilities are subset of original
+     - Copies relevant engine references based on capabilities
+     - Updates identity registry with new connected identity
+     - Constructs appropriate response based on result
+
+4. **Reply Generation**
+   - **Successful Case**
+     - Creates `MsgIdentityManagementConnectIdentityReply` with:
+       - `commitmentEngine`: Copied engine ID if commit capability requested, None otherwise
+       - `decryptionEngine`: Copied engine ID if decrypt capability requested, None otherwise
+       - `err`: None
+   - **Error Cases**
+     - Creates `MsgIdentityManagementConnectIdentityReply` with:
+       - `commitmentEngine`: None
+       - `decryptionEngine`: None
+       - `err`: Some error message:
+         - "Identity already exists" if requesting identity exists
+         - "External identity not found" if target doesn't exist
+         - "Capabilities not available" if capability subset invalid
+
+5. **Reply Delivery**
+   - Reply is sent back to the original requester
+   - Uses mailbox 0 (default mailbox for responses)
+
+### `deleteIdentityAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Delete Request]) --> MsgReq[MsgIdentityManagementDeleteIdentityRequest<br/>externalIdentity: EngineID<br/>backend: Backend]
+
+    subgraph Guard["deleteIdentityGuard"]
+        MsgReq --> ValidType{Is message type<br/>DeleteIdentityRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["deleteIdentityAction"]
+        direction TB
+        Check{Identity exists?}
+        Check -->|No| ErrNoExist[Create Error Reply]
+        Check -->|Yes| Delete[Remove from registry]
+    end
+
+    Delete --> Reply[Success Reply]
+    ErrNoExist --> ErrReply[Error Reply]
+    Reply & ErrReply --> Client([Return to Client])
+
+    style Guard fill:#f0f7ff,stroke:#333,stroke-width:2px
+    style Action fill:#fff7f0,stroke:#333,stroke-width:2px
+```
+
+<figcaption markdown="span">
+
+`deleteIdentityAction` flowchart
+
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgIdentityManagementDeleteIdentityRequest` containing:
+     - `externalIdentity`: ID of the identity to delete
+     - `backend`: Backend system where the identity exists
+   - The identity to be deleted must exist in the system
+
+2. **Guard Phase** (`deleteIdentityGuard`)
+   - Validates incoming message structure and type
+   - Validation steps:
+     - Verifies message type is `MsgIdentityManagementDeleteIdentityRequest`
+     - If validation fails, request is rejected immediately
+     - On success, passes control to `deleteIdentityActionLabel`
+
+3. **Action Phase** (`deleteIdentityAction`)
+   - Processes valid deletion requests through these steps:
+     - Verifies identity exists in registry
+     - Removes identity and associated engine references from registry
+     - Constructs appropriate response based on result
+
+4. **Reply Generation**
+   - **Successful Case**
+     - Creates `MsgIdentityManagementDeleteIdentityReply` with:
+       - `err`: None
+   - **Error Case**
+     - Creates `MsgIdentityManagementDeleteIdentityReply` with:
+       - `err`: Some "Identity does not exist"
+
+5. **Reply Delivery**
+   - Reply is sent back to the original requester
+   - Uses mailbox 0 (default mailbox for responses)
+
+!!! warning "Important Notes"
+
+    - All spawned engines inherit the backend from the generation request
+    - Engine references are managed through the identity management engine's state
+    - Capabilities can only be restricted when connecting, never expanded
+    - The system maintains a mapping between identities and their associated engine references
+    - Each identity maintains its own separate set of engines
+    - State updates are atomic - either all parts succeed or none do
 
 ## Action arguments
 
@@ -69,9 +322,9 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
-    ### IdentityManagementAction
+    ### `IdentityManagementAction`
 
     ```juvix
     IdentityManagementAction : Type :=
@@ -86,7 +339,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-    ### IdentityManagementActionInput
+    ### `IdentityManagementActionInput`
 
     ```juvix
     IdentityManagementActionInput : Type :=
@@ -99,7 +352,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Msg;
     ```
 
-    ### IdentityManagementActionEffect
+    ### `IdentityManagementActionEffect`
 
     ```juvix
     IdentityManagementActionEffect : Type :=
@@ -127,113 +380,129 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
         Anoma.Env;
     ```
 
-### Helper Functions
+    ### `hasCommitCapability`
 
-```juvix
-hasCommitCapability (capabilities : Capabilities) : Bool :=
-  case capabilities of {
-    | CapabilityCommit := true
-    | CapabilityCommitAndDecrypt := true
-    | _ := false
-  };
-
-hasDecryptCapability (capabilities : Capabilities) : Bool :=
-  case capabilities of {
-    | CapabilityDecrypt := true
-    | CapabilityCommitAndDecrypt := true
-    | _ := false
-  };
-
-isSubsetCapabilities
-  (requested : Capabilities)
-  (available : Capabilities)
-  : Bool :=
-  (not (hasCommitCapability requested) || hasCommitCapability available)
-  && (not (hasDecryptCapability requested) || hasDecryptCapability available);
-
-updateIdentityAndSpawnEngines
-  (env : IdentityManagementEnv)
-  (backend' : Backend)
-  (whoAsked : EngineID)
-  (identityInfo : IdentityInfo)
-  (capabilities' : Capabilities)
-  : Pair IdentityInfo (List (Pair Cfg Env)) :=
-  let decryptionConfig : DecryptionCfg :=
-        mkDecryptionCfg@{
-          decryptor := genDecryptor backend';
-          backend := backend';
-        };
-      decryptionEnv : DecryptionEnv :=
-        mkEngineEnv@{
-          localState := unit;
-          mailboxCluster := Map.empty;
-          acquaintances := Set.empty;
-          timers := []
-        };
-      decryptionEng : Pair Cfg Env :=
-        mkPair (CfgDecryption decryptionConfig) (EnvDecryption decryptionEnv);
-      commitmentConfig : CommitmentCfg :=
-        mkCommitmentCfg@{
-          signer := genSigner backend';
-          backend := backend';
-        };
-      commitmentEnv : CommitmentEnv :=
-        mkEngineEnv@{
-          localState := unit;
-          mailboxCluster := Map.empty;
-          acquaintances := Set.empty;
-          timers := []
-        };
-      commitmentEng : Pair Cfg Env :=
-        mkPair (CfgCommitment commitmentConfig) (EnvCommitment commitmentEnv);
-  in case capabilities' of {
-    | CapabilityCommitAndDecrypt :=
-        let spawnedEngines := [decryptionEng; commitmentEng];
-            commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
-            decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
-            updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              commitmentEngine := some (mkPair none commitmentEngineName);
-              decryptionEngine := some (mkPair none decryptionEngineName)
-            };
-        in mkPair updatedIdentityInfo1 spawnedEngines
-    | CapabilityCommit :=
-        let spawnedEngines := [commitmentEng];
-            commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
-            updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              commitmentEngine := some (mkPair none commitmentEngineName)
-            };
-        in mkPair updatedIdentityInfo1 spawnedEngines
-    | CapabilityDecrypt :=
-        let spawnedEngines := [decryptionEng];
-            decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
-            updatedIdentityInfo1 := identityInfo@IdentityInfo{
-              decryptionEngine := some (mkPair none decryptionEngineName)
-            };
-        in mkPair updatedIdentityInfo1 spawnedEngines
-  };
-
-copyEnginesForCapabilities
-  (env : IdentityManagementEnv)
-  (whoAsked : EngineID)
-  (externalIdentityInfo : IdentityInfo)
-  (requestedCapabilities : Capabilities)
-  : IdentityInfo :=
-  let newIdentityInfo := mkIdentityInfo@{
-        backend := IdentityInfo.backend externalIdentityInfo;
-        capabilities := requestedCapabilities;
-        commitmentEngine :=
-          case hasCommitCapability requestedCapabilities of {
-            | true := IdentityInfo.commitmentEngine externalIdentityInfo
-            | false := none
-          };
-        decryptionEngine :=
-          case hasDecryptCapability requestedCapabilities of {
-            | true := IdentityInfo.decryptionEngine externalIdentityInfo
-            | false := none
-          }
+    ```juvix
+    hasCommitCapability (capabilities : Capabilities) : Bool :=
+      case capabilities of {
+        | CapabilityCommit := true
+        | CapabilityCommitAndDecrypt := true
+        | _ := false
       };
-  in newIdentityInfo;
-```
+    ```
+
+    ### `hasDecryptCapability`
+
+    ```juvix
+    hasDecryptCapability (capabilities : Capabilities) : Bool :=
+      case capabilities of {
+        | CapabilityDecrypt := true
+        | CapabilityCommitAndDecrypt := true
+        | _ := false
+      };
+    ```
+
+    ### `isSubsetCapabilities`
+
+    ```juvix
+    isSubsetCapabilities
+      (requested : Capabilities)
+      (available : Capabilities)
+      : Bool :=
+      (not (hasCommitCapability requested) || hasCommitCapability available)
+      && (not (hasDecryptCapability requested) || hasDecryptCapability available);
+    ```
+
+    ### `updateIdentityAndSpawnEngines`
+
+    ```juvix
+    updateIdentityAndSpawnEngines
+      (env : IdentityManagementEnv)
+      (backend' : Backend)
+      (whoAsked : EngineID)
+      (identityInfo : IdentityInfo)
+      (capabilities' : Capabilities)
+      : Pair IdentityInfo (List (Pair Cfg Env)) :=
+      let decryptionConfig : DecryptionCfg :=
+            mkDecryptionCfg@{
+              decryptor := genDecryptor backend';
+              backend := backend';
+            };
+          decryptionEnv : DecryptionEnv :=
+            mkEngineEnv@{
+              localState := unit;
+              mailboxCluster := Map.empty;
+              acquaintances := Set.empty;
+              timers := []
+            };
+          decryptionEng : Pair Cfg Env :=
+            mkPair (CfgDecryption decryptionConfig) (EnvDecryption decryptionEnv);
+          commitmentConfig : CommitmentCfg :=
+            mkCommitmentCfg@{
+              signer := genSigner backend';
+              backend := backend';
+            };
+          commitmentEnv : CommitmentEnv :=
+            mkEngineEnv@{
+              localState := unit;
+              mailboxCluster := Map.empty;
+              acquaintances := Set.empty;
+              timers := []
+            };
+          commitmentEng : Pair Cfg Env :=
+            mkPair (CfgCommitment commitmentConfig) (EnvCommitment commitmentEnv);
+      in case capabilities' of {
+        | CapabilityCommitAndDecrypt :=
+            let spawnedEngines := [decryptionEng; commitmentEng];
+                commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
+                decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
+                updatedIdentityInfo1 := identityInfo@IdentityInfo{
+                  commitmentEngine := some (mkPair none commitmentEngineName);
+                  decryptionEngine := some (mkPair none decryptionEngineName)
+                };
+            in mkPair updatedIdentityInfo1 spawnedEngines
+        | CapabilityCommit :=
+            let spawnedEngines := [commitmentEng];
+                commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
+                updatedIdentityInfo1 := identityInfo@IdentityInfo{
+                  commitmentEngine := some (mkPair none commitmentEngineName)
+                };
+            in mkPair updatedIdentityInfo1 spawnedEngines
+        | CapabilityDecrypt :=
+            let spawnedEngines := [decryptionEng];
+                decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
+                updatedIdentityInfo1 := identityInfo@IdentityInfo{
+                  decryptionEngine := some (mkPair none decryptionEngineName)
+                };
+            in mkPair updatedIdentityInfo1 spawnedEngines
+      };
+    ```
+
+    ### `copyEnginesForCapabilities`
+
+    ```juvix
+    copyEnginesForCapabilities
+      (env : IdentityManagementEnv)
+      (whoAsked : EngineID)
+      (externalIdentityInfo : IdentityInfo)
+      (requestedCapabilities : Capabilities)
+      : IdentityInfo :=
+      let newIdentityInfo := mkIdentityInfo@{
+            backend := IdentityInfo.backend externalIdentityInfo;
+            capabilities := requestedCapabilities;
+            commitmentEngine :=
+              case hasCommitCapability requestedCapabilities of {
+                | true := IdentityInfo.commitmentEngine externalIdentityInfo
+                | false := none
+              };
+            decryptionEngine :=
+              case hasDecryptCapability requestedCapabilities of {
+                | true := IdentityInfo.decryptionEngine externalIdentityInfo
+                | false := none
+              }
+          };
+      in newIdentityInfo;
+    ```
 
 ### `generateIdentityAction`
 
@@ -241,7 +510,7 @@ State update
 : A new identity is created and added to the identities map if it doesn't exist.
 
 Messages to be sent
-: A GenerateIdentityResponse message containing the new identity info or error.
+: A GenerateIdentityReply message containing the new identity info or error.
 
 Engines to be spawned
 : Commitment and/or Decryption engines based on capabilities.
@@ -270,8 +539,8 @@ generateIdentityAction
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityResponse
-                (mkResponseGenerateIdentity@{
+              msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityReply
+                (mkReplyGenerateIdentity@{
                   commitmentEngine := none;
                   decryptionEngine := none;
                   externalIdentity := whoAsked;
@@ -306,8 +575,8 @@ generateIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityResponse
-                    (mkResponseGenerateIdentity@{
+                  msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityReply
+                    (mkReplyGenerateIdentity@{
                       commitmentEngine := IdentityInfo.commitmentEngine updatedIdentityInfo;
                       decryptionEngine := IdentityInfo.decryptionEngine updatedIdentityInfo;
                       externalIdentity := whoAsked;
@@ -331,7 +600,7 @@ State update
 : A new identity is created with copied capabilities if valid.
 
 Messages to be sent
-: A ConnectIdentityResponse message with confirmation or error.
+: A `ConnectIdentityReply` message with confirmation or error.
 
 Engines to be spawned
 : No new engines are spawned.
@@ -360,8 +629,8 @@ connectIdentityAction
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
-                (mkConnectIdentityResponse@{
+              msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                (mkConnectIdentityReply@{
                   commitmentEngine := none;
                   decryptionEngine := none;
                   err := some "Identity already exists"
@@ -381,8 +650,8 @@ connectIdentityAction
                       sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                       target := whoAsked;
                       mailbox := some 0;
-                      msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
-                        (mkConnectIdentityResponse@{
+                      msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                        (mkConnectIdentityReply@{
                           commitmentEngine := none;
                           decryptionEngine := none;
                           err := some "External identity not found"
@@ -392,9 +661,8 @@ connectIdentityAction
                     engines := []
                   }
                 | some externalIdentityInfo :=
-                  let isSubset := isSubsetCapabilities capabilities' (IdentityInfo.capabilities externalIdentityInfo);
-                  in case isSubset of {
-                    | true :=
+                  if
+                    | isSubsetCapabilities capabilities' (IdentityInfo.capabilities externalIdentityInfo) :=
                       let newIdentityInfo := copyEnginesForCapabilities env whoAsked externalIdentityInfo capabilities';
                           updatedIdentities := Map.insert whoAsked newIdentityInfo identities;
                           newLocalState := local@IdentityManagementLocalState{
@@ -409,8 +677,8 @@ connectIdentityAction
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
-                            (mkConnectIdentityResponse@{
+                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                            (mkConnectIdentityReply@{
                               commitmentEngine := IdentityInfo.commitmentEngine newIdentityInfo;
                               decryptionEngine := IdentityInfo.decryptionEngine newIdentityInfo;
                               err := none
@@ -419,23 +687,22 @@ connectIdentityAction
                         timers := [];
                         engines := []
                       }
-                    | false :=
+                    | else :=
                       some mkActionEffect@{
                         env := env;
                         msgs := [mkEngineMsg@{
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityResponse
-                            (mkConnectIdentityResponse@{
+                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                            (mkConnectIdentityReply@{
                               commitmentEngine := none;
                               decryptionEngine := none;
-                              err := some "Requested capabilities not available"
+                              err := some "Capabilities not available"
                             }))
                         }];
                         timers := [];
                         engines := []
-                      }
                   }
               }
             | _ := none
@@ -452,7 +719,7 @@ State update
 : Removes the specified identity if it exists.
 
 Messages to be sent
-: A DeleteIdentityResponse message with confirmation or error.
+: A DeleteIdentityReply message with confirmation or error.
 
 Engines to be spawned
 : No engines are spawned.
@@ -483,8 +750,8 @@ deleteIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityResponse
-                    (mkResponseDeleteIdentity@{
+                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
+                    (mkReplyDeleteIdentity@{
                       err := some "Identity does not exist"
                     }))
                 }];
@@ -505,8 +772,8 @@ deleteIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityResponse
-                    (mkResponseDeleteIdentity@{
+                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
+                    (mkReplyDeleteIdentity@{
                       err := none
                     }))
                 }];
@@ -523,17 +790,29 @@ deleteIdentityAction
 
 ### Action Labels
 
+#### `generateIdentityActionLabel`
+
 ```juvix
 generateIdentityActionLabel : IdentityManagementActionExec := Seq [ generateIdentityAction ];
+```
 
+#### `connectIdentityActionLabel`
+
+```juvix
 connectIdentityActionLabel : IdentityManagementActionExec := Seq [ connectIdentityAction ];
+```
 
+#### `deleteIdentityActionLabel`
+
+```juvix
 deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentityAction ];
 ```
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `IdentityManagementGuard`
 
@@ -552,6 +831,8 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
     ```
     <!-- --8<-- [end:IdentityManagementGuard] -->
 
+
+
     ### `IdentityManagementGuardOutput`
 
     <!-- --8<-- [start:IdentityManagementGuardOutput] -->
@@ -568,6 +849,8 @@ deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentity
         Anoma.Env;
     ```
     <!-- --8<-- [end:IdentityManagementGuardOutput] -->
+
+
 
     ### `IdentityManagementGuardEval`
 
@@ -614,7 +897,7 @@ generateIdentityGuard
 ### `connectIdentityGuard`
 
 Condition
-: Message type is MsgIdentityManagementConnectIdentityRequest.
+: Message type is `MsgIdentityManagementConnectIdentityRequest`.
 
 <!-- --8<-- [start:connectIdentityGuard] -->
 ```juvix
@@ -635,11 +918,12 @@ connectIdentityGuard
   };
 ```
 <!-- --8<-- [end:connectIdentityGuard] -->
+---
 
 ### `deleteIdentityGuard`
 
 Condition
-: Message type is MsgIdentityManagementDeleteIdentityRequest.
+: Message type is `MsgIdentityManagementDeleteIdentityRequest`.
 
 <!-- --8<-- [start:deleteIdentityGuard] -->
 ```juvix
@@ -660,6 +944,7 @@ deleteIdentityGuard
   };
 ```
 <!-- --8<-- [end:deleteIdentityGuard] -->
+---
 
 ## The Identity Management Behaviour
 
@@ -694,65 +979,3 @@ identityManagementBehaviour : IdentityManagementBehaviour :=
   };
 ```
 <!-- --8<-- [end:identityManagementBehaviour] -->
-
-## Identity Management Action Flowcharts
-
-### `generateIdentityAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>IdentityManagementGenerateIdentityRequest]
-  A(generateIdentityAction)
-  RE>IdentityManagementGenerateIdentityResponse]
-
-  CM --generateIdentityGuard--> A --generateIdentityActionLabel--> RE
-```
-
-<figcaption markdown="span">
-
-`generateIdentityAction` flowchart
-
-</figcaption>
-</figure>
-
-### `connectIdentityAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>IdentityManagementConnectIdentityRequest]
-  A(connectIdentityAction)
-  RE>IdentityManagementConnectIdentityResponse]
-
-  CM --connectIdentityGuard--> A --connectIdentityActionLabel--> RE
-```
-
-<figcaption markdown="span">
-
-`connectIdentityAction` flowchart
-
-</figcaption>
-</figure>
-
-### `deleteIdentityAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>IdentityManagementDeleteIdentityRequest]
-  A(deleteIdentityAction)
-  RE>IdentityManagementDeleteIdentityResponse]
-
-  CM --deleteIdentityGuard--> A --deleteIdentityActionLabel--> RE
-```
-
-<figcaption markdown="span">
-
-`deleteIdentityAction` flowchart
-
-</figcaption>
-</figure>

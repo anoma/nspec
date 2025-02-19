@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- verification
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - verification
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.verification_behaviour;
@@ -35,12 +35,190 @@ tags:
 The behavior of the Verification Engine defines how it processes incoming verification
 requests and produces the corresponding responses.
 
+## Verification Action Flowchart
+
+### `verifyAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Client Request]) --> MsgReq[MsgVerificationRequest<br/>data: Signable<br/>commitment: Commitment<br/>externalIdentity: ExternalIdentity<br/>useSignsFor: Bool]
+
+    subgraph Guard["verifyGuard"]
+        MsgReq --> ValidType{Is message type<br/>VerificationRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["verifyAction"]
+        direction TB
+        SignsFor{useSignsFor<br/>flag?}
+        SignsFor -->|No| DirectVerify[Verify using configured<br/>verifier]
+        SignsFor -->|Yes| CheckPending{Existing requests<br/>for this identity?}
+
+        CheckPending -->|Yes| StorePending[Add to pending<br/>request list only]
+        CheckPending -->|No| SendAndStore[Send SignsFor request<br/>and store in pending]
+
+        DirectVerify --> Response1[Prepare immediate response]
+    end
+
+    Response1 --> MsgResp1[MsgVerificationReply<br/>result: Bool<br/>err: none]
+    SendAndStore --> SignsForQuery[MsgQuerySignsForEvidenceRequest<br/>to SignsFor Engine]
+    MsgResp1 --> Client([Return to Client])
+```
+
+<figcaption markdown="span">
+`verifyAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgVerificationRequest` containing:
+     - `data`: The original data (`Signable`) that was allegedly signed
+     - `commitment`: The signature (`Commitment`) to verify
+     - `externalIdentity`: The identity that supposedly made the signature
+     - `useSignsFor`: Flag indicating whether to check signs-for relationships
+
+2. **Guard Phase** (`verifyGuard`)
+   - Validates that the incoming message is a proper verification request
+   - Checks occur in the following order:
+     - Verifies message type is `MsgVerificationRequest`
+     - If validation fails, request is rejected without entering the action phase
+     - On success, passes control to `verifyActionLabel`
+
+3. **Action Phase** (`verifyAction`)
+   - Processing branches based on the `useSignsFor` flag:
+
+   - **Direct Verification Path** (useSignsFor = false)
+
+     - Directly verifies the commitment using the configured verifier
+     - Creates `MsgVerificationReply` with:
+       - `result`: Boolean indicating if verification succeeded
+       - `err`: None (or Some error message if verification failed)
+     - Sends response immediately back to requester
+
+   - **SignsFor Path** (useSignsFor = true)
+
+     - Checks if there are existing pending requests for this identity
+     - If this is the first request:
+       - Stores request in pending requests map
+       - Sends `MsgQuerySignsForEvidenceRequest` to SignsFor Engine
+     - If there are existing requests:
+       - Only stores new request in pending requests map
+     - No immediate response is sent to client
+
+4. **State Management**
+   - For direct verification: No state changes
+   - For signs-for verification:
+     - Updates pendingRequests map in VerificationLocalState
+     - Stores:
+       - The requester's engine ID
+       - The data to verify
+       - The commitment to verify
+     - Maintains these until signs-for evidence is received
+
+!!! warning "Important Notes"
+
+    - Multiple requests for the same identity are batched to avoid duplicate signs-for queries
+    - The engine ensures exactly one signs-for query per identity is in flight at any time
+
+### `signsForReplyAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Client Request]) --> MsgReq[MsgVerificationRequest<br/>data: Signable<br/>commitment: Commitment<br/>externalIdentity: ExternalIdentity<br/>useSignsFor: Bool]
+
+    subgraph Guard["verifyGuard"]
+        MsgReq --> ValidType{Is message type<br/>VerificationRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["verifyAction"]
+        direction TB
+        SignsFor{useSignsFor<br/>flag?}
+        SignsFor -->|No| DirectVerify[Verify using configured<br/>verifier]
+        SignsFor -->|Yes| CheckPending{Existing requests<br/>for this identity?}
+
+        CheckPending -->|Yes| StorePending[Add to pending<br/>request list]
+        CheckPending -->|No| RequestSF[Send SignsFor<br/>evidence request]
+
+        StorePending & RequestSF --> UpdateState[Update state with<br/>pending request]
+        DirectVerify --> Response1[Prepare immediate response]
+        UpdateState --> Response2[Prepare pending response]
+    end
+
+    Response1 --> MsgResp1[MsgVerificationReply<br/>result: Bool<br/>err: none]
+    Response2 --> MsgResp2[MsgQuerySignsForEvidenceRequest<br/>to SignsFor Engine]
+
+    MsgResp1 & MsgResp2 --> Client([Return to Client])
+```
+
+<figcaption markdown="span">
+`signsForReplyAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+Let me provide a detailed explanation of the SignsFor Reply flow chart, following the style used for previous engines:
+
+### SignsFor Reply Flow
+
+1. **Initial Request**
+   - A message arrives from the SignsFor Engine containing:
+     - `externalIdentity`: The identity the evidence relates to
+     - `evidence`: The signs-for relationships evidence
+     - `err`: Any error that occurred during evidence gathering
+
+2. **Guard Phase** (`signsForReplyGuard`)
+   - Validates incoming messages through these checks:
+     - Verifies message type is `MsgQuerySignsForEvidenceReply`
+     - Verifies the message sender is the known SignsFor Engine address
+     - If validation fails, request is rejected without entering action phase
+     - On success, passes control to `signsForReplyActionLabel`
+
+3. **Action Phase** (`signsForReplyAction`)
+   - Processes the SignsFor evidence reply through these steps:
+     - Checks map of pending requests for the given external identity
+     - If no pending requests exist:
+       - No action needed
+       - No responses are generated
+     - If pending requests exist:
+       - Processes each pending request using the received evidence
+       - For each request, verifies the commitment using both the verifier and the signs-for evidence
+       - Generates verification responses for all pending requesters
+       - Clears all pending requests for this identity from the state
+
+4. **Response Generation**
+   - For each pending requester:
+     - Creates `MsgVerificationReply` containing:
+       - `result`: Boolean indicating if verification succeeded
+       - `err`: None (or Some error if verification failed)
+   - All responses are sent back to their original requesters
+   - Each response uses mailbox ID 0
+
+!!! warning "Important Notes"
+
+    - The engine processes all pending requests for an identity at once when evidence arrives
+    - The state is cleaned up (pending requests removed) regardless of verification results
+    - Each original requester gets their own individual response
+
 ## Action arguments
 
 ### `ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
@@ -49,11 +227,13 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: The engine ID of the requester.
+???+ code "Arguments"
 
-`mailbox`:
-: The mailbox ID where the response should be sent.
+    `whoAsked`:
+    : The engine ID of the requester.
+
+    `mailbox`:
+    : The mailbox ID where the response should be sent.
 
 ### `VerificationActionArgument`
 
@@ -75,7 +255,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `VerificationAction`
 
@@ -141,7 +321,7 @@ State update
 : If `useSignsFor` is true, the state is updated to store pending requests. Otherwise, the state remains unchanged.
 
 Messages to be sent
-: If `useSignsFor` is false, a `ResponseVerification` message is sent back to the requester. If `useSignsFor` is true and it's the first request for this identity, a `QuerySignsForEvidenceRequest` is sent to the SignsFor Engine.
+: If `useSignsFor` is false, a `ReplyVerification` message is sent back to the requester. If `useSignsFor` is true and it's the first request for this identity, a `QuerySignsForEvidenceRequest` is sent to the SignsFor Engine.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -171,7 +351,7 @@ verifyAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := EngineMsg.sender emsg;
                     mailbox := some 0;
-                    msg := Anoma.MsgVerification (MsgVerificationResponse (mkResponseVerification
+                    msg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
                       (Verifier.verify
                         (VerificationCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
                         (VerificationCfg.backend (EngineCfg.cfg cfg))
@@ -219,7 +399,7 @@ verifyAction
   };
 ```
 
-#### `handleSignsForResponseAction`
+#### `signsForReplyAction`
 
 Process a signs-for response and handle pending requests.
 
@@ -227,7 +407,7 @@ State update
 : The state is updated to remove the processed pending requests for the given external identity.
 
 Messages to be sent
-: `ResponseVerification` messages are sent to all requesters who were waiting for this SignsFor evidence.
+: `ReplyVerification` messages are sent to all requesters who were waiting for this SignsFor evidence.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -236,7 +416,7 @@ Timer updates
 : No timers are set or cancelled.
 
 ```juvix
-handleSignsForResponseAction
+signsForReplyAction
   (input : VerificationActionInput)
   : Option VerificationActionEffect :=
   let
@@ -247,7 +427,7 @@ handleSignsForResponseAction
   in case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-        | mkEngineMsg@{msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse (mkResponseQuerySignsForEvidence externalIdentity evidence err))} :=
+        | mkEngineMsg@{msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply (mkReplyQuerySignsForEvidence externalIdentity evidence err))} :=
           case Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState) of {
             | some reqs :=
               let
@@ -269,7 +449,7 @@ handleSignsForResponseAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := whoAsked;
                     mailbox := some 0;
-                    msg := Anoma.MsgVerification (MsgVerificationResponse (mkResponseVerification
+                    msg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
                       (Verifier.verify
                         (VerificationCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
                         (VerificationCfg.backend (EngineCfg.cfg cfg))
@@ -300,15 +480,15 @@ handleSignsForResponseAction
 verifyActionLabel : VerificationActionExec := Seq [ verifyAction ];
 ```
 
-### `handleSignsForResponseActionLabel`
+### `signsForReplyActionLabel`
 
 ```juvix
-handleSignsForResponseActionLabel : VerificationActionExec := Seq [ handleSignsForResponseAction ];
+signsForReplyActionLabel : VerificationActionExec := Seq [ signsForReplyAction ];
 ```
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `VerificationGuard`
 
@@ -386,14 +566,14 @@ verifyGuard
 ```
 <!-- --8<-- [end:verifyGuard] -->
 
-#### `signsForResponseGuard`
+#### `signsForReplyGuard`
 
 Condition
 : Message is a signs-for response from the SignsFor engine.
 
-<!-- --8<-- [start:signsForResponseGuard] -->
+<!-- --8<-- [start:signsForReplyGuard] -->
 ```juvix
-signsForResponseGuard
+signsForReplyGuard
   (tt : TimestampedTrigger VerificationTimerHandle Anoma.Msg)
   (cfg : EngineCfg VerificationCfg)
   (env : VerificationEnv)
@@ -402,12 +582,12 @@ signsForResponseGuard
     | some emsg :=
       case emsg of {
         | mkEngineMsg@{
-            msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse _);
+            msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply _);
             sender := sender
           } :=
           case isEqual (Ord.cmp sender (VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
             | true := some mkGuardOutput@{
-              action := handleSignsForResponseActionLabel;
+              action := signsForReplyActionLabel;
               args := []
             }
             | false := none
@@ -417,7 +597,7 @@ signsForResponseGuard
     | none := none
   };
 ```
-<!-- --8<-- [end:signsForResponseGuard] -->
+<!-- --8<-- [end:signsForReplyGuard] -->
 
 ## The Verification Behaviour
 
@@ -446,51 +626,8 @@ verificationBehaviour : VerificationBehaviour :=
   mkEngineBehaviour@{
     guards := First [
       verifyGuard;
-      signsForResponseGuard
+      signsForReplyGuard
     ]
   };
 ```
 <!-- --8<-- [end:verificationBehaviour] -->
-
-## Verification Action Flowchart
-
-### `verifyAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>MsgVerificationRequest]
-  SC{useSignsFor?}
-  ES[(Update pending requests)]
-  MSG1>Response to requester]
-  MSG2>Request to SignsFor Engine]
-
-  CM --verifyGuard--> SC
-  SC --false --> MSG1
-  SC --true--> ES
-  ES --> MSG2
-```
-
-<figcaption markdown="span">
-`verifyAction` flowchart
-</figcaption>
-</figure>
-
-### `handleSignsForResponseAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>MsgQuerySignsForEvidenceResponse]
-  ES[(Remove pending requests)]
-  MSG>Responses to requesters]
-
-  CM --signsForResponseGuard--> ES --> MSG
-```
-
-<figcaption markdown="span">
-`handleSignsForResponseAction` flowchart
-</figcaption>
-</figure>

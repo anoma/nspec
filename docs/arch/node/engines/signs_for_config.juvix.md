@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- signs-for-engine
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - signsfor
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.signs_for_config;
@@ -22,19 +22,19 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# Signs For Configuration
+# SignsFor Configuration
 
 ## Overview
 
-The Signs For engine configuration contains static information for Signs For engine instances.
+The SignsFor engine configuration contains static information for SignsFor engine instances.
 
-## The Signs For Configuration
+## The SignsFor Configuration
 
 ### `SignsForCfg`
 
 <!-- --8<-- [start:SignsForCfg] -->
 ```juvix
-type SignsForCfg := mkSignsForCfg
+type SignsForCfg := mkSignsForCfg;
 ```
 <!-- --8<-- [end:SignsForCfg] -->
 

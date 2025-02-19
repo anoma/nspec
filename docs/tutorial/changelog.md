@@ -3,8 +3,6 @@ icon: material/check-all
 search:
   exclude: false
   boost: 3
-categories:
-  - tutorial
 tags:
   - tutorial
   - changelog
@@ -38,14 +36,14 @@ Use one of these sections when adding entries:
 - `fixes` - For bug fixes (**FIXED**)
 - `deprecations` - For soon-to-be removed features (**REMOVED**)
 
-#### Available Components
+#### Available Subsystems
 
 Use one of the following components for your entry:
+
 - `node`: For changes to the node architecture
 - `sys`: For changes to the system architecture
 - `spec`: For changes to the general specification
 - `types`: For changes to the fundamentals (basic abstractions, types, etc.)
-- `apps`: For changes to the applications
 - `juvix`: For changes related to the Juvix language/compiler
 - `tutorial`: For changes to the tutorial for Spec writers
 
@@ -62,8 +60,8 @@ The following flags are used:
 
 - `-i` for the entry identifier (filename)
 - `-p` for the pull request number
-- `-c` for the component (e.g. `node`, `system`, `juvix`, `apps`, `fundamentals`)
-- `-s` for the section (e.g. `features`, `fixes`, `deprecations`,:)
+- `-c` for the component (e.g. `node`, `sys`, `juvix`, `tutorial`)
+- `-s` for the section (e.g. `features`, `fixes`, `deprecations`)
 - `-m` for the message
 - `--editor` for the editor to use (e.g. `nano`, `vim`, `code`)
 More information about the command syntax can be found in the [unclog
@@ -108,13 +106,6 @@ unclog add -p 134 -i tut134 --editor nano -c tutorial \
   -s features -m "Refactor tutorial for wiki-style links"
 ```
 
-- Application Documentation
-
-```bash
-unclog add -p 198 -i apps198 --editor nano -c apps \
-  -s features -m "Add transparent RM implementation documentation"
-```
-
 - General Specification Changes
 
 ```bash
@@ -130,6 +121,13 @@ unclog add -p 133 -i py133 --editor nano -c python \
 ```
 
 ## Releasing a New Version
+
+0. Update the version number in `mkdocs.yml`:
+
+  ```diff title="mkdocs.yml"
+  - site_version: !ENV [SITE_VERSION, "v0.1.1"]
+  + site_version: !ENV [SITE_VERSION, "v0.1.2"]
+  ```
 
 1. Update the version number in `docs/Package.juvix` accordingly to the new release:
 
@@ -149,17 +147,24 @@ unclog add -p 133 -i py133 --editor nano -c python \
   unclog release v0.X.Y --editor nano
   ```
 
-  This will:
-  - Let you edit the summary of the release
-  - Move entries from `.changelog/unreleased/` to a new version section
+  - If you already have a summary, it will move entries from `.changelog/unreleased/` to a new version section.
+  - Otherwise, it will create a new summary. And, you will need to run the above
+    command again to edit the summary.
 
-3. Update the changelog file in the docs directory:
+3. Update the changelog file in the `docs` directory:
 
   ```bash
-  unclog build > ./docs/changelog.md
+  unclog build > .temporary-changelog.md
   ```
 
-4. Tag the release:
+  - This will create a new changelog file in the `docs` directory.
+  - Copy the relevant entries to the `changelog.md` file in the root of the
+    repository. Edit headers and fix the header link to the new version.
+  - Remove the `.temporary-changelog.md` file.
+
+4. Open a PR with only one commit.
+
+5. Tag the release:
 
   ```bash
   git tag -a v0.X.Y -m "Release v0.X.Y"
@@ -167,6 +172,8 @@ unclog add -p 133 -i py133 --editor nano -c python \
 
 And push the tag to the repository. The PR corresponding to a release **must**
 contain the changelog entries for that release, and a tag.
+
+6. Merge the PR.
 
 !!! warning "Do not squash-merge release PRs!"
 

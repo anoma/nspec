@@ -1,13 +1,71 @@
 ---
-icon: material/new-box
+icon: material/book-open-variant
 social:
   cards: false
 search:
     exclude: false
-list_wikilinks: false
+tags:
+  - changelog
 ---
 
 # Change Log
+
+## [v0.1.4](https://specs.anoma.net/v0.1.4/)
+
+This release focuses on improving the prose, layout, and documentation structure. Key changes include:
+
+- Reorganized node architecture documentation for better clarity
+- Reorganized the navigation bar to be more consistent and easier to use
+- Added a new tutorial: [[Anomian]]
+- Several prose improvements on engines, e.g: [[Mempool Worker Engine]],
+  [[Executor Engine]], [[Shard Engine]]
+- CSS changes to improve the layout and readability of the website, like
+  better separation for headers and footers that improve, for example, the
+  readability of message interfaces
+- Updated Juvix type definitions to match latest standards
+- Added new definitions for [[List of basic types|Prelude]]
+- Improved template engine documentation for easier engine creation
+
+### Features
+
+- [System architecture](sys)
+  -  [**#334**](https://github.com/anoma/nspec/pull/334): Add deletion criterion to delete blobs immediately
+
+### Fixes
+
+- [Repository maintenance and CI](.)
+  -  [**#297**](https://github.com/anoma/nspec/pull/297): Fixes for issues seen in [v0.1.3](https://specs.anoma.net/v0.1.3/ )
+  -  [**#306**](https://github.com/anoma/nspec/pull/306): Add data structures and interfaces used by RM
+  -  [**#307**](https://github.com/anoma/nspec/pull/307): Prose improvements for commitment, decryption, and identity
+    management engines
+  -  [**#308**](https://github.com/anoma/nspec/pull/308): The Little Anomian
+  -  [**#309**](https://github.com/anoma/nspec/pull/309): Heindel has written up their two cents on the [[Anomian]]
+  -  [**#310**](https://github.com/anoma/nspec/pull/310): Heindel/[[Anomian]] review v0.2 some ideas for improvements
+  -  [**#311**](https://github.com/anoma/nspec/pull/311): Prose improvements for
+    [[Mempool Worker Engine]], [[Executor Engine]], and [[Shard Engine]]'s descriptions.
+  -  [**#312**](https://github.com/anoma/nspec/pull/312): nix flake update to
+    support Juvix v0.6.9
+  -  [**#313**](https://github.com/anoma/nspec/pull/313): Revision of all message interfaces but not for networking's
+    engines
+  -  [**#314**](https://github.com/anoma/nspec/pull/314): Add more fixes for message interfaces for consistency
+  -  [**#315**](https://github.com/anoma/nspec/pull/315): Add a few corrections to the Anomian doc
+  -  [**#320**](https://github.com/anoma/nspec/pull/320): Update Network subsystems' engine to comply standard
+  -  [**#328**](https://github.com/anoma/nspec/pull/328): Move string comparison to prelude
+  -  [**#331**](https://github.com/anoma/nspec/pull/331): RM type fixes
+  -  [**#332**](https://github.com/anoma/nspec/pull/332): Improve layout, documentation structure, navigation and
+    readability with indexes, tags and descriptions
+  -  [**#336**](https://github.com/anoma/nspec/pull/336): some changes, proposed as a result of specs overall review
+    (revamped)
+  -  [**#337**](https://github.com/anoma/nspec/pull/337): Heindel/anthony/prose 3 suggestions for fixing the markdown
+- [System architecture](sys)
+  -  [**#334**](https://github.com/anoma/nspec/pull/334): Add missing deletion criterion to delete blobs after the
+    transaction
+- [Juvix types and updates](types)
+  -  [**#298**](https://github.com/anoma/nspec/pull/298): Update juvix v0.6.9
+  -  [**#302**](https://github.com/anoma/nspec/pull/302): [[List of basic types|Prelude]] improvements
+  -  [**#305**](https://github.com/anoma/nspec/pull/305): Add most of the types for RM specs
+  -  [**#321**](https://github.com/anoma/nspec/pull/321): Add Runnable trait and make ordering engines parametric
+  -  [**#329**](https://github.com/anoma/nspec/pull/329): Refactor type definitions to use simplified syntax
 
 ## [v0.1.3](https://specs.anoma.net/v0.1.3/)
 
@@ -15,7 +73,6 @@ The major change in this release is the gas payment system introduced in
 [#286](https://github.com/anoma/nspec/pull/286), and the description of messages
 in the Networking subsystem introduced in
 [#294](https://github.com/anoma/nspec/pull/277).
-
 
 ### Fixes
 
@@ -80,13 +137,13 @@ mkdocs to process Juvix Markdown.
     conventions|writing conventions]], Fix [[Template Behaviour|template
     behaviour]] diagrams and update Mkdocs Na
   -  [**#263**](https://github.com/anoma/nspec/pull/263): To the [[Hardware
-    Component]] section, add [[Local Key Value Store Engine]] , [[Logging
+    Subsystem]] section, add [[Local Key Value Store Engine]] , [[Logging
     Engine]] and [[Local Time Series Storage Engine]], [[Wall Clock Engine]].
-  -  [**#268**](https://github.com/anoma/nspec/pull/268): Add to [[Anoma Configuration]] section, the [[Identity Component]].
+  -  [**#268**](https://github.com/anoma/nspec/pull/268): Add to [[Anoma Configuration]] section, the [[Identity Subsystem]].
   -  [**#269**](https://github.com/anoma/nspec/pull/269): Fix type error due to
     not making configs when spawning engines in [[Identity Management Engine]].
   -  [**#273**](https://github.com/anoma/nspec/pull/273): Replace X Machine by X
-    Component in the [[Node Architecture]] section.
+    Subsystem in the [[Node Architecture]] section.
 - **Python-related changes**
   -  [**#271**](https://github.com/anoma/nspec/pull/271): update mkdocs juvix plugin v0.4.8
   -  [**#272**](https://github.com/anoma/nspec/pull/272): Update mkdocs juvix plugin v0.4.9

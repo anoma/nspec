@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- executor-engine
-- engine-definition
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - executor
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.executor;
@@ -30,52 +31,63 @@ tags:
 
 # Executor Engine
 
-Conceptually, Executors  run the
- *executor function* in order to
- compute transaction outputs, including state updates
- (see [[Execution Engines|here]] for more on the executor function).
-Executors may be co-located with [[Shard|shards]], or with
- [[Worker Engine|mempool workers]].
-The [[Execution Engines]] might keep a pool of Executors,
- or spin a new one up with each [[TransactionCandidate]].
+The Executor Engine is responsible for executing transaction programs in Anoma,
+serving as the computational core that processes state transitions within the
+system. It operates as part of a distributed execution system, working in concert
+with [[Shard Engine]]s that manage state access and [[Mempool Worker]] engines that
+take orders and spawn Executor engines based on those orders. Each Executor Engine
+instance is spawned to handle the execution of a single transaction in the form of
+a program which it is spawned with, making them ephemeral components that exist
+solely for the duration of their assigned transaction's lifecycle.
 
-## Purpose
+At its core, an Executor Engine receives read responses from shards and uses these
+to step through the transaction program's execution. Each transaction program
+defines a sequence of operations that may read from or write to various keys in
+the system's state. The Executor doesn't directly access this state - instead, it
+coordinates with Shard engines that manage actual state access.
 
-The Executor Engine maintains executor capabilities for a specific identity
-and handles executor requests for that identity. Only the original caller and
-anyone to whom they pass the engine instance reference can send messages to the
-instance and decrypt data encrypted to the corresponding identity.
+The primary interface for the Executor Engine consists of three main message types
+that facilitate its operation. It receives `ShardMsgKVSRead` messages from Shards
+containing the data for requested state reads. For each read, the Executor applies
+this data to advance the transaction program's execution, potentially generating
+new read requests (`ShardMsgKVSReadRequest`) or write operations (`ShardMsgKVSWrite`)
+that are sent to the appropriate Shards. Once execution is complete, it sends
+an `ExecutorMsgExecutorFinished` message to both the Worker that spawned it and the
+transaction's issuer, containing a summary of all reads and writes performed during
+execution.
 
-## Components
+## Engine components
 
 - [[Executor Messages]]
-- [[Executor Config]]
+- [[Executor Configuration]]
 - [[Executor Environment]]
 - [[Executor Behaviour]]
 
-## Type
+## The type for an executor engine
 
+The executor engine is designed to be "agnostic" to choices of virtual machines and data formats,
+assuming only that the _executable_ will run step by step (possibly involving program state updates) and
+interaction with replicated state machine state is via a key value storage interface.
 <!-- --8<-- [start:ExecutorEngine] -->
 ```juvix
-ExecutorEngine : Type :=
+ExecutorEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
-    ExecutorCfg
-    ExecutorLocalState
+    (ExecutorCfg KVSKey Executable)
+    (ExecutorLocalState KVSKey KVSDatum ProgramState)
     ExecutorMailboxState
     ExecutorTimerHandle
     ExecutorActionArguments
-    Anoma.Msg
-    Anoma.Cfg
-    Anoma.Env;
+    (Anoma.PreMsg KVSKey KVSDatum Executable)
+    (Anoma.PreCfg KVSKey KVSDatum Executable)
+    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ExecutorEngine] -->
 
-### Example of a executor engine
-
+### Example of an executor engine
 
 <!-- --8<-- [start:exampleExecutorEngine] -->
 ```juvix
-exampleExecutorEngine : ExecutorEngine :=
+exampleExecutorEngine : ExecutorEngine String String ByteString String :=
   mkEngine@{
     cfg := executorCfg;
     env := executorEnv;
@@ -84,14 +96,14 @@ exampleExecutorEngine : ExecutorEngine :=
 ```
 <!-- --8<-- [end:exampleExecutorEngine] -->
 
-where `executorCfg` is defined as follows:
+where [[Executor Configuration#executorCfg|`executorCfg`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/executor_config.juvix.md:executorCfg"
 
-`executorEnv` is defined as follows:
+[[Executor Environment#executorEnv|`executorEnv`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/executor_environment.juvix.md:executorEnv"
 
-and `executorBehaviour` is defined as follows:
+and [[Executor Behaviour#executorBehaviour|`executorBehaviour`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/executor_behaviour.juvix.md:executorBehaviour"

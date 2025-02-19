@@ -2,6 +2,9 @@
 icon: material/image
 search:
   exclude: false
+tags:
+  - tutorial
+  - conventions
 todos: False
 ---
 

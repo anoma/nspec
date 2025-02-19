@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-messages
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-key-value-storage
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_key_value_storage_messages;
@@ -23,7 +23,73 @@ These are the messages that the Local Key-Value Storage engine can receive/respo
 
 ## Message interface
 
-??? quote "Auxiliary Juvix code"
+--8<-- "./local_key_value_storage_messages.juvix.md:LocalKVStorageMsg"
+
+## Message sequence diagrams
+
+### Get value request/response flow
+
+<!-- --8<-- [start:message-sequence-diagram-get] -->
+<figure markdown>
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant KVStorage
+
+    Client ->>+ KVStorage: GetValueKVStoreRequest
+    KVStorage -->>- Client: GetValueKVStoreReply
+```
+
+<figcaption markdown="span">
+Get Value Request/Reply Flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-get] -->
+
+### Set value request/response flow
+
+<!-- --8<-- [start:message-sequence-diagram-set] -->
+<figure markdown>
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant KVStorage
+
+    Client ->>+ KVStorage: SetValueKVStoreRequest
+    KVStorage -->>- Client: SetValueKVStoreReply
+```
+
+<figcaption markdown="span">
+Set Value Request/Reply Flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-set] -->
+
+### Delete value request/response flow
+
+<!-- --8<-- [start:message-sequence-diagram-delete] -->
+<figure markdown>
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant KVStorage
+
+    Client ->>+ KVStorage: DeleteValueKVStoreRequest
+    KVStorage -->>- Client: DeleteValueKVStoreReply
+```
+
+<figcaption markdown="span">
+Delete Value Request/Reply Flow
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-delete] -->
+
+## Message types
+
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias StorageKey := String;
@@ -31,7 +97,7 @@ These are the messages that the Local Key-Value Storage engine can receive/respo
     syntax alias EpochTimestamp := Nat;
     ```
 
-### `GetValueKVStoreRequest GetValueKVStoreRequest`
+### `GetValueKVStoreRequest`
 
 Request to get a value from storage.
 
@@ -43,25 +109,25 @@ type GetValueKVStoreRequest := mkGetValueKVStoreRequest {
 ```
 <!-- --8<-- [end:GetValueKVStoreRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that maps to the requested value in the KV-store.
 
-### `GetValueKVStoreResponse GetValueKVStoreResponse`
+### `GetValueKVStoreReply`
 
-Response containing requested value.
+Reply containing requested value.
 
-<!-- --8<-- [start:GetValueKVStoreResponse] -->
+<!-- --8<-- [start:GetValueKVStoreReply] -->
 ```juvix
-type GetValueKVStoreResponse := mkGetValueKVStoreResponse {
+type GetValueKVStoreReply := mkGetValueKVStoreReply {
   key : StorageKey;
   value : StorageValue;
 };
 ```
-<!-- --8<-- [end:GetValueKVStoreResponse] -->
+<!-- --8<-- [end:GetValueKVStoreReply] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that maps to the requested value in the KV-store.
@@ -69,7 +135,7 @@ type GetValueKVStoreResponse := mkGetValueKVStoreResponse {
     `value`
     : The requested value from the KV-store.
 
-### `SetValueKVStoreRequest SetValueKVStoreRequest`
+### `SetValueKVStoreRequest`
 
 Request to set a value in storage.
 
@@ -82,7 +148,7 @@ type SetValueKVStoreRequest := mkSetValueKVStoreRequest {
 ```
 <!-- --8<-- [end:SetValueKVStoreRequest] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `key`
     : The key that identifies the data in the KV-store.
@@ -90,20 +156,20 @@ type SetValueKVStoreRequest := mkSetValueKVStoreRequest {
     `value`
     : The value to store in the KV-store.
 
-### `SetValueKVStoreResponse SetValueKVStoreResponse`
+### `SetValueKVStoreReply`
 
-Response indicating success/failure of set operation.
+Reply indicating success/failure of set operation.
 
-<!-- --8<-- [start:SetValueKVStoreResponse] -->
+<!-- --8<-- [start:SetValueKVStoreReply] -->
 ```juvix
-type SetValueKVStoreResponse := mkSetValueKVStoreResponse {
+type SetValueKVStoreReply := mkSetValueKVStoreReply {
   key : StorageKey;
   success : Bool;
 };
 ```
-<!-- --8<-- [end:SetValueKVStoreResponse] -->
+<!-- --8<-- [end:SetValueKVStoreReply] -->
 
-### `DeleteValueKVStoreRequest DeleteValueKVStoreRequest`
+### `DeleteValueKVStoreRequest`
 
 Request to delete a value from storage.
 
@@ -115,18 +181,18 @@ type DeleteValueKVStoreRequest := mkDeleteValueKVStoreRequest {
 ```
 <!-- --8<-- [end:DeleteValueKVStoreRequest] -->
 
-### `DeleteValueKVStoreResponse DeleteValueKVStoreResponse`
+### `DeleteValueKVStoreReply`
 
-Response indicating success/failure of a delete operation.
+Reply indicating success/failure of a delete operation.
 
-<!-- --8<-- [start:DeleteValueKVStoreResponse] -->
+<!-- --8<-- [start:DeleteValueKVStoreReply] -->
 ```juvix
-type DeleteValueKVStoreResponse := mkDeleteValueKVStoreResponse {
+type DeleteValueKVStoreReply := mkDeleteValueKVStoreReply {
   key : StorageKey;
   success : Bool;
 };
 ```
-<!-- --8<-- [end:DeleteValueKVStoreResponse] -->
+<!-- --8<-- [end:DeleteValueKVStoreReply] -->
 
 ### `ValueChangedKVStore`
 
@@ -148,73 +214,17 @@ type ValueChangedKVStore := mkValueChangedKVStore {
 ```juvix
 type LocalKVStorageMsg :=
   | LocalKVStorageMsgGetValueRequest GetValueKVStoreRequest
-  | LocalKVStorageMsgGetValueResponse GetValueKVStoreResponse
+  | LocalKVStorageMsgGetValueReply GetValueKVStoreReply
   | LocalKVStorageMsgSetValueRequest SetValueKVStoreRequest
-  | LocalKVStorageMsgSetValueResponse SetValueKVStoreResponse
+  | LocalKVStorageMsgSetValueReply SetValueKVStoreReply
   | LocalKVStorageMsgDeleteValueRequest DeleteValueKVStoreRequest
-  | LocalKVStorageMsgDeleteValueResponse DeleteValueKVStoreResponse
+  | LocalKVStorageMsgDeleteValueReply DeleteValueKVStoreReply
   | LocalKVStorageMsgValueChanged ValueChangedKVStore;
 ```
 <!-- --8<-- [end:LocalKVStorageMsg] -->
 
-## Sequence Diagrams
+## Engine components
 
-### Get Value Request/Response Flow
-
-<!-- --8<-- [start:message-sequence-diagram-get] -->
-<figure markdown>
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant KVStorage
-
-    Client ->>+ KVStorage: GetValueKVStoreRequest
-    KVStorage -->>- Client: GetValueKVStoreResponse
-```
-
-<figcaption markdown="span">
-Get Value Request/Response Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-get] -->
-
-### Set Value Request/Response Flow
-
-<!-- --8<-- [start:message-sequence-diagram-set] -->
-<figure markdown>
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant KVStorage
-
-    Client ->>+ KVStorage: SetValueKVStoreRequest
-    KVStorage -->>- Client: SetValueKVStoreResponse
-```
-
-<figcaption markdown="span">
-Set Value Request/Response Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-set] -->
-
-### Delete Value Request/Response Flow
-
-<!-- --8<-- [start:message-sequence-diagram-delete] -->
-<figure markdown>
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant KVStorage
-
-    Client ->>+ KVStorage: DeleteValueKVStoreRequest
-    KVStorage -->>- Client: DeleteValueKVStoreResponse
-```
-
-<figcaption markdown="span">
-Delete Value Request/Response Flow
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-delete] -->
+- [[Local Key Value Storage Configuration]]
+- [[Local Key Value Storage Environment]]
+- [[Local Key Value Storage Behaviour]]

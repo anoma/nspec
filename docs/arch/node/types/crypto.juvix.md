@@ -4,22 +4,26 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix-types
-- Types
-- Cryptography
-- Crypto
+  - node-architecture
+  - types
+  - crypto
+  - prelude
+  - node-architecture
+  - types
+  - crypto
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.crypto;
     import prelude open;
     ```
 
-## Cryptographic primitives
+# Cryptographic primitives
 
-### Public key
+### `PublicKey`
 
 Public key for public-key cryptography.
 
@@ -27,15 +31,26 @@ Public key for public-key cryptography.
 type PublicKey :=
   | Curve25519PubKey ByteString
   ;
-
-instance
-PublicKeyOrd : Ord PublicKey :=
-  mkOrd@{
-    cmp := \{_ _ := Equal};
-  };
 ```
 
-### Private key
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    PublicKeyEq : Eq PublicKey;
+    ```
+
+    ```juvix
+    instance
+    PublicKeyOrd : Ord PublicKey :=
+      mkOrd@{
+        cmp := \{_ _ := Equal};
+      };
+    ```
+
+### `PrivateKey`
+### `PrivateKey`
 
 Private key for public-key cryptography.
 
@@ -43,15 +58,23 @@ Private key for public-key cryptography.
 type PrivateKey :=
   | Curve25519PrivKey ByteString
   ;
-
-instance
-PrivateKeyOrd : Ord PrivateKey :=
-  mkOrd@{
-    cmp := \{_ _ := Equal};
-  };
 ```
 
-### Secret key
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    PrivateKeyEq : Eq PrivateKey;
+
+    instance
+    PrivateKeyOrd : Ord PrivateKey :=
+      mkOrd@{
+        cmp := \{_ _ := Equal};
+      };
+    ```
+
+### `SecretKey`
 
 Secret key for secret-key cryptography.
 
@@ -61,7 +84,19 @@ type SecretKey :=
   ;
 ```
 
-### Signature
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    SecretKeyEq : Eq SecretKey;
+
+    deriving
+    instance
+    SecretKeyOrd : Ord SecretKey;
+    ```
+
+### ``Signature``
 
 Cryptographic signature.
 
@@ -70,7 +105,7 @@ type Signature :=
   | Ed25519Signature ByteString
 ```
 
-### Digest
+### `Digest`
 
 Message digest.
 Output of a cryptographic hash function.
@@ -80,3 +115,23 @@ type Digest :=
   | Blake3Digest ByteString
   ;
 ```
+
+### `hash`
+
+```juvix
+axiom hash {A} : A -> Digest;
+```
+
+??? quote "Auxiliary Juvix code"
+
+    ```juvix
+    deriving
+    instance
+    DigestEq : Eq Digest;
+
+    instance
+    DigestOrd : Ord Digest :=
+      mkOrd@{
+        cmp := \{(Blake3Digest a) (Blake3Digest b) := Equal};
+      };
+    ```

@@ -1,18 +1,21 @@
 ---
-icon: material/file-document-outline
+icon: material/message-text
 search:
   exclude: false
 tags:
-- Anoma-Message
-- Juvix
+  - node-architecture
+  - types
+  - engine
+  - message-types
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.anoma_message;
 
-    import prelude;
+    import prelude open;
 
     {- Identity -}
 
@@ -33,12 +36,12 @@ tags:
 
     {- Network -}
 
-    import arch.node.net.router_messages open;
-    import arch.node.net.node_proxy_messages open;
-    import arch.node.net.transport_protocol_messages open;
-    import arch.node.net.transport_connection_messages open;
-    import arch.node.net.pub_sub_topic_messages open;
-    import arch.node.net.storage_messages open;
+    import arch.node.engines.net_registry_messages open;
+    import arch.node.engines.router_messages open;
+    import arch.node.engines.transport_protocol_messages open;
+    import arch.node.engines.transport_connection_messages open;
+    import arch.node.engines.pub_sub_topic_messages open;
+    import arch.node.engines.storage_messages open;
 
     {- Ordering -}
 
@@ -68,7 +71,7 @@ corresponding message type `TickerMsg`.
 
 <!-- --8<-- [start:Msg] -->
 ```juvix
-type Msg :=
+type PreMsg KVSKey KVSDatum Executable :=
 
   {- Identity -}
 
@@ -89,8 +92,7 @@ type Msg :=
 
   {- Network -}
 
-  | MsgRouter (RouterMsg Msg)
-  | MsgNodeProxy (NodeProxyMsg Msg)
+  | MsgRouter (RouterMsg (PreMsg KVSKey KVSDatum Executable))
   | MsgTransportProtocol TransportProtocolMsg
   | MsgTransportConnection TransportConnectionMsg
   | MsgPubSubTopic PubSubTopicMsg
@@ -98,9 +100,9 @@ type Msg :=
 
   {- Ordering -}
 
-  | MsgMempoolWorker MempoolWorkerMsg
-  | MsgExecutor ExecutorMsg
-  | MsgShard ShardMsg
+  | MsgMempoolWorker (MempoolWorkerMsg KVSKey Executable)
+  | MsgExecutor (ExecutorMsg KVSKey KVSDatum)
+  | MsgShard (ShardMsg KVSKey KVSDatum)
 
   {- Misc -}
 
@@ -113,5 +115,7 @@ type Msg :=
 
   -- Add more messages here
   ;
+
+Msg : Type := PreMsg String String ByteString;
 ```
 <!-- --8<-- [end:Msg] -->

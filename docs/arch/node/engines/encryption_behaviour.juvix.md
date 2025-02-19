@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- encryption
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - encryption
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.encryption_behaviour;
@@ -27,6 +27,8 @@ tags:
     import arch.node.types.messages open;
     ```
 
+---
+
 # Encryption Behaviour
 
 ## Overview
@@ -34,12 +36,175 @@ tags:
 The behavior of the Encryption Engine defines how it processes incoming
 encryption requests and produces the corresponding responses.
 
+## Encryption Action Flowcharts
+
+### `encryptAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Client Request]) --> MsgReq[MsgEncryptionRequest<br/>data: Plaintext<br/>externalIdentity: ExternalIdentity<br/>useReadsFor: Bool]
+
+    subgraph Guard["encryptGuard"]
+        MsgReq --> ValidType{Is message type<br/>EncryptionRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["encryptAction"]
+        direction TB
+        CheckReadsFor{useReadsFor?}
+        CheckReadsFor -->|No| DirectPath[Get encryptor<br/>Encrypt directly]
+        CheckReadsFor -->|Yes| CheckPending{Previous requests<br/>for this identity?}
+        CheckPending -->|Yes| Queue[Add to pending requests]
+        CheckPending -->|No| Init[Initialize pending requests<br/>Send ReadsFor query]
+        DirectPath --> CreateResp[Create response]
+    end
+
+    CreateResp --> DirectResponse[MsgEncryptionReply<br/>ciphertext: Ciphertext<br/>err: none]
+    Queue & Init --> Wait([Await ReadsFor Reply])
+    DirectResponse --> Client([Return to Client])
+```
+
+<figcaption markdown="span">
+`encryptAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgEncryptionRequest` containing:
+     - `data`: The plaintext that needs to be encrypted
+     - `externalIdentity`: The target identity to encrypt for
+     - `useReadsFor`: Boolean flag indicating whether to use reads-for relationships
+
+2. **Guard Phase** (`encryptGuard`)
+   - Validates that the incoming message is a proper encryption request
+   - Checks occur in the following order:
+     - Verifies message type is `MsgEncryptionRequest`
+     - If validation fails, request is rejected without entering the action phase
+     - On success, passes control to `encryptActionLabel`
+
+3. **Action Phase** (`encryptAction`)
+   - First decision point: Check `useReadsFor` flag
+
+   - **Direct Path** (`useReadsFor: false`):
+     - Gets encryptor from engine's configuration
+     - Encrypts data directly for the target identity using empty evidence set
+     - Creates `MsgEncryptionReply` with:
+       - `ciphertext`: The encrypted data
+       - `err`: None
+     - Returns response immediately to client
+
+   - **ReadsFor Path** (`useReadsFor: true`):
+     - Checks if there are existing pending requests for this identity
+     - If this is the first request:
+       - Initializes a new pending request list
+       - Adds current request to the list
+       - Sends `MsgQueryReadsForEvidenceRequest` to ReadsFor engine
+       - Awaits reply
+     - If there are existing pending requests:
+       - Adds current request to existing pending list
+       - Awaits existing query's reply
+     - No immediate response is sent to client
+
+4. **State Changes**
+   - Direct Path: No state changes
+   - ReadsFor Path: Updates `pendingRequests` map in local state
+     - Key: `externalIdentity`
+     - Value: List of pending requests (pairs of requester ID and plaintext)
+
+5. **Messages Generated**
+   - Direct Path:
+     - `MsgEncryptionReply` sent back to requester
+     - Sends to mailbox 0 (the default)
+   - ReadsFor Path:
+     - If first request: `MsgQueryReadsForEvidenceRequest` sent to ReadsFor engine
+     - No immediate response to requester
+
+### `handleReadsForReplyAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([ReadsFor Reply]) --> Reply[MsgQueryReadsForEvidenceReply<br/>evidence: ReadsForEvidence<br/>externalIdentity: ExternalIdentity]
+
+    subgraph Guard["readsForReplyGuard"]
+        Reply --> ValidSource{From correct<br/>ReadsFor engine?}
+        ValidSource -->|No| Reject([Reject Reply])
+        ValidSource -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["handleReadsForReplyAction"]
+        direction TB
+        GetReqs[Get pending requests<br/>for this identity]
+        GetReqs --> Process[For each request:<br/>Encrypt with evidence]
+        Process --> Clear[Clear pending requests]
+    end
+
+    Clear --> Responses[Send MsgEncryptionReply<br/>to each waiting client]
+    Responses --> Client([Return to Clients])
+```
+
+<figcaption markdown="span">
+`handleReadsForReplyAction` flowchart
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Input**
+   - The ReadsFor Engine sends a `MsgQueryReadsForEvidenceReply` containing:
+     - `evidence`: The ReadsFor evidence for the requested identity
+     - `externalIdentity`: The identity the evidence relates to
+     - `err`: Optional error message if evidence retrieval failed
+
+2. **Guard Phase** (`readsForReplyGuard`)
+   - Validates incoming message in following order:
+     - Checks message type is `MsgQueryReadsForEvidenceReply`
+     - Verifies the message sender matches the configured ReadsFor engine address
+     - If either check fails, request is rejected without entering action phase
+     - On success, passes control to `handleReadsForReplyActionLabel`
+
+3. **Action Phase** (`handleReadsForReplyAction`)
+   - Processing occurs in these steps:
+     - Retrieves all pending encryption requests for the specified identity from state
+     - For each pending request:
+       - Gets encryptor from configuration
+       - Applies ReadsFor evidence to encryptor
+       - Encrypts the pending plaintext data
+       - Creates response message with encrypted result
+     - Clears all processed requests from the pending queue
+     - Sends responses to all waiting clients
+
+4. **Response Generation**
+   - For each pending request, creates `MsgEncryptionReply` with:
+     - `ciphertext`: The encrypted data using the provided evidence
+     - `err`: None for successful encryption
+
+5. **Response Delivery**
+   - Each response is sent back to its original requester
+   - Uses mailbox  0 (the default) for all responses
+
+!!! warning "Important Notes"
+
+    - All pending requests for an identity are processed in a single batch when evidence arrives
+    - The same evidence is used for all pending requests for that identity
+    - If no pending requests exist for the identity when evidence arrives, the evidence is discarded
+
 ## Action arguments
 
-### `EncryptionActionArgumentReplyTo ReplyTo`
+### `ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
@@ -48,11 +213,13 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: is the address of the engine that sent the message.
+???+ code "Arguments"
 
-`mailbox`:
-: is the mailbox ID where the response message should be sent.
+    `whoAsked`:
+    : is the address of the engine that sent the message.
+
+    `mailbox`:
+    : is the mailbox ID where the response message should be sent.
 
 ### `EncryptionActionArgument`
 
@@ -74,7 +241,9 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `EncryptionAction`
 
@@ -91,6 +260,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Env;
     ```
 
+
+
     ### `EncryptionActionInput`
 
     ```juvix
@@ -104,6 +275,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Msg;
     ```
 
+
+
     ### `EncryptionActionEffect`
 
     ```juvix
@@ -116,6 +289,8 @@ EncryptionActionArguments : Type := List EncryptionActionArgument;
         Anoma.Cfg
         Anoma.Env;
     ```
+
+
 
     ### `EncryptionActionExec`
 
@@ -141,7 +316,7 @@ State update
 Otherwise, the state remains unchanged.
 
 Messages to be sent
-: If `useReadsFor` is false, a `ResponseEncrypt` message is sent back to
+: If `useReadsFor` is false, a `ReplyEncrypt` message is sent back to
 the requester. If `useReadsFor` is true and it's the first request for
 this identity, a `QueryReadsForEvidenceRequest` is sent to the ReadsFor
 Engine.
@@ -175,8 +350,8 @@ encryptAction
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.MsgEncryption (MsgEncryptionResponse (
-                  mkResponseEncrypt@{
+                msg := Anoma.MsgEncryption (MsgEncryptionReply (
+                  mkReplyEncrypt@{
                     ciphertext := Encryptor.encrypt
                       (EncryptionCfg.encryptor (EngineCfg.cfg cfg) Set.empty externalIdentity)
                       (EncryptionCfg.backend (EngineCfg.cfg cfg))
@@ -225,15 +400,15 @@ encryptAction
     };
 ```
 
-### `handleReadsForResponseAction`
+### `handleReadsForReplyAction`
 
-Process reads-for evidence response.
+Process `reads-for` evidence response.
 
 State update
 : The state is updated to remove processed pending requests.
 
 Messages to be sent
-: `ResponseEncrypt` messages are sent to all requesters who were waiting
+: `ReplyEncrypt` messages are sent to all requesters who were waiting
 for this ReadsFor evidence.
 
 Engines to be spawned
@@ -243,7 +418,7 @@ Timer updates
 : No timers are set or cancelled.
 
 ```juvix
-handleReadsForResponseAction
+handleReadsForReplyAction
   (input : EncryptionActionInput)
   : Option EncryptionActionEffect :=
   let
@@ -255,7 +430,7 @@ handleReadsForResponseAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case EngineMsg.msg emsg of {
-      | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse (mkResponseQueryReadsForEvidence externalIdentity evidence err)) :=
+      | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceReply (mkReplyQueryReadsForEvidence externalIdentity evidence err)) :=
         case Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState) of {
         | some reqs :=
           let newLocalState := localState@EncryptionLocalState{
@@ -272,8 +447,8 @@ handleReadsForResponseAction
                               sender := getEngineIDFromEngineCfg cfg;
                               target := whoAsked;
                               mailbox := some 0;
-                              msg := Anoma.MsgEncryption (MsgEncryptionResponse (
-                                mkResponseEncrypt@{
+                              msg := Anoma.MsgEncryption (MsgEncryptionReply (
+                                mkReplyEncrypt@{
                                   ciphertext := Encryptor.encrypt
                                     (EncryptionCfg.encryptor (EngineCfg.cfg cfg) evidence externalIdentity)
                                     (EncryptionCfg.backend (EngineCfg.cfg cfg))
@@ -301,15 +476,17 @@ handleReadsForResponseAction
 encryptActionLabel : EncryptionActionExec := Seq [ encryptAction ];
 ```
 
-### `handleReadsForResponseActionLabel`
+### `handleReadsForReplyActionLabel`
 
 ```juvix
-handleReadsForResponseActionLabel : EncryptionActionExec := Seq [ handleReadsForResponseAction ];
+handleReadsForReplyActionLabel : EncryptionActionExec := Seq [ handleReadsForReplyAction ];
 ```
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `EncryptionGuard`
 
@@ -327,6 +504,8 @@ handleReadsForResponseActionLabel : EncryptionActionExec := Seq [ handleReadsFor
         Anoma.Env;
     ```
     <!-- --8<-- [end:EncryptionGuard] -->
+
+
 
     ### `EncryptionGuardOutput`
 
@@ -370,11 +549,11 @@ encryptGuard
 ```
 <!-- --8<-- [end:encryptGuard] -->
 
-### `readsForResponseGuard`
+### `readsForReplyGuard`
 
-<!-- --8<-- [start:readsForResponseGuard] -->
+<!-- --8<-- [start:readsForReplyGuard] -->
 ```juvix
-readsForResponseGuard
+readsForReplyGuard
   (tt : TimestampedTrigger EncryptionTimerHandle Anoma.Msg)
   (cfg : EngineCfg EncryptionCfg)
   (env : EncryptionEnv)
@@ -382,10 +561,10 @@ readsForResponseGuard
   case getEngineMsgFromTimestampedTrigger tt of {
   | some emsg :=
     case EngineMsg.msg emsg of {
-    | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceResponse _) :=
+    | Anoma.MsgReadsFor (MsgQueryReadsForEvidenceReply _) :=
       case isEqual (Ord.cmp (EngineMsg.sender emsg) (EncryptionCfg.readsForEngineAddress (EngineCfg.cfg cfg))) of {
       | true := some mkGuardOutput@{
-          action := handleReadsForResponseActionLabel;
+          action := handleReadsForReplyActionLabel;
           args := []
         }
       | false := none
@@ -395,7 +574,7 @@ readsForResponseGuard
   | _ := none
   };
 ```
-<!-- --8<-- [end:readsForResponseGuard] -->
+<!-- --8<-- [end:readsForReplyGuard] -->
 
 ## The Encryption Behaviour
 
@@ -425,64 +604,8 @@ encryptionBehaviour : EncryptionBehaviour :=
     guards :=
       First [
         encryptGuard;
-        readsForResponseGuard
+        readsForReplyGuard
       ];
   };
 ```
 <!-- --8<-- [end:encryptionBehaviour] -->
-
-## Encryption Action Flowcharts
-
-### `encryptAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C [Conditions]
-    CMsg[MsgEncryptionRequest]
-  end
-
-  G[encryptGuard]
-  A[encryptAction]
-
-  C --> G -->|encryptActionLabel| A --> E
-
-  subgraph E [Effects]
-    direction TB
-    E1[(Update pending requests)]
-    E2[Send encrypted response]
-  end
-```
-
-<figcaption markdown="span">
-`encryptAction` flowchart
-</figcaption>
-</figure>
-
-### `handleReadsForResponseAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  subgraph C [Conditions]
-    CMsg[MsgQueryReadsForEvidenceResponse]
-  end
-
-  G[readsForResponseGuard]
-  A[handleReadsForResponseAction]
-
-  C --> G -->|handleReadsForResponseActionLabel| A --> E
-
-  subgraph E [Effects]
-    direction TB
-    E1[(Remove pending requests)]
-    E2[Send encrypted responses]
-  end
-```
-
-<figcaption markdown="span">
-`handleReadsForResponseAction` flowchart
-</figcaption>
-</figure>

@@ -2,15 +2,12 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-engine
-- engine-behaviour
+  - tutorial
+  - example
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_behaviour;
@@ -39,7 +36,7 @@ Using the action labels, we describe the effects of the actions.
 The action arguments are set by a guard
 and passed to the action function as part of the `GuardOutput`.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     <!-- --8<-- [start:Val] -->
     ```juvix
@@ -51,13 +48,13 @@ and passed to the action function as part of the `GuardOutput`.
 
 <!-- --8<-- [start:FirstArgument] -->
 ```juvix
-type FirstArgument := mkFirstArgument {
+type FirstArgument := mkFirstArgument@{
   data : Val;
 };
 ```
 <!-- --8<-- [end:FirstArgument] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : is the value of the action argument.
@@ -66,13 +63,13 @@ type FirstArgument := mkFirstArgument {
 
 <!-- --8<-- [start:SecondArgument] -->
 ```juvix
-type SecondArgument := mkSecondArgument {
+type SecondArgument := mkSecondArgument@{
   data : String;
 };
 ```
 <!-- --8<-- [end:SecondArgument] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `data`:
     : is the value of the action argument.
@@ -98,7 +95,7 @@ TemplateActionArguments : Type := List TemplateActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TemplateAction`
 
@@ -215,7 +212,7 @@ justHiAction
 
 #### `exampleReplyAction`
 
-Respond with a `TemplateMsgExampleResponse`.
+Respond with a `TemplateMsgExampleReply`.
 
 State update
 : The state remains unchanged.
@@ -296,7 +293,7 @@ doBothActionLabel : TemplateActionExec :=
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TemplateGuard`
 
@@ -495,7 +492,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(exampleValue := exampleValue + 1)]
-    EMsg>TemplateMsgExampleResponse<br/>argOne]
+    EMsg>TemplateMsgExampleReply<br/>argOne]
   end
 ```
 

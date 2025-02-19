@@ -2,15 +2,12 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-engine
-- engine-environment
+  - tutorial
+  - example
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module tutorial.engines.template_environment;
@@ -32,7 +29,7 @@ The [[dynamic environment|Engine environment]] of the engine.
 
 ## Mailbox state
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias MailboxOneOne := Nat;
@@ -44,7 +41,7 @@ The [[dynamic environment|Engine environment]] of the engine.
 
 <!-- --8<-- [start:FirstKindMailboxState] -->
 ```juvix
-type FirstKindMailboxState := mkFirstKindMailboxState {
+type FirstKindMailboxState := mkFirstKindMailboxState@{
   fieldOne : MailboxOneOne
 };
 ```
@@ -52,7 +49,7 @@ type FirstKindMailboxState := mkFirstKindMailboxState {
 
 This is one family of mailbox states without much complexity.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `fieldOne`
 
@@ -63,7 +60,7 @@ This is one family of mailbox states without much complexity.
 
 <!-- --8<-- [start:SecondKindMailboxState] -->
 ```juvix
-type SecondKindMailboxState := mkSecondKindMailboxState {
+type SecondKindMailboxState := mkSecondKindMailboxState@{
   fieldOne : MailboxTwoOne;
   fieldTwo : MailboxTwoTwo
 };
@@ -72,7 +69,7 @@ type SecondKindMailboxState := mkSecondKindMailboxState {
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `fieldOne`
 
@@ -94,7 +91,7 @@ type TemplateMailboxState :=
 
 ## Local state
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
@@ -104,7 +101,7 @@ type TemplateMailboxState :=
     ```
     <!-- --8<-- [end:CustomData] -->
 
-    ???+ quote "Arguments"
+    ???+ code "Arguments"
 
         `word`
 
@@ -115,13 +112,13 @@ type TemplateMailboxState :=
 <!-- --8<-- [start:TemplateLocalState] -->
 ```juvix
 type TemplateLocalState :=
-  mkTemplateLocalState {
+  mkTemplateLocalState@{
     taskQueue : CustomData
-};
+  };
 ```
 <!-- --8<-- [end:TemplateLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `taskQueue`
 
@@ -129,7 +126,7 @@ type TemplateLocalState :=
 
 ## Timer handles
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     <!-- --8<-- [start:ArgOne] -->
     ```juvix
@@ -141,7 +138,7 @@ type TemplateLocalState :=
 
 <!-- --8<-- [start:FirstOptionTimerHandle] -->
 ```juvix
-type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
+type FirstOptionTimerHandle := mkFirstOptionTimerHandle@{
   argOne : ArgOne
 };
 ```
@@ -150,7 +147,7 @@ type FirstOptionTimerHandle := mkFirstOptionTimerHandle {
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. The following code is
 an example of this case.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `argOne`
 
@@ -160,14 +157,14 @@ an example of this case.
 
 <!-- --8<-- [start:SecondOptionTimerHandle] -->
 ```juvix
-type SecondOptionTimerHandle := mkSecondOptionTimerHandle {
+type SecondOptionTimerHandle := mkSecondOptionTimerHandle@{
   argOne : String;
   argTwo : Bool
 };
 ```
 <!-- --8<-- [end:SecondOptionTimerHandle] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `argOne`
 

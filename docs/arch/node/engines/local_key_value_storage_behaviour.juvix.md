@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-behaviour
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-key-value-storage
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_key_value_storage_behaviour;
@@ -55,7 +55,7 @@ LocalKVStorageActionArguments : Type := List LocalKVStorageActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalKVStorageAction`
 
@@ -129,7 +129,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `GetValueKVStoreResponse` message with the requested value.
+: A `GetValueKVStoreReply` message with the requested value.
 
 Engines to be spawned
 : No engines are created by this action.
@@ -158,8 +158,8 @@ getValueAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueResponse
-                (mkGetValueKVStoreResponse@{
+              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueReply
+                (mkGetValueKVStoreReply@{
                   key := GetValueKVStoreRequest.key req;
                   value := fromOption (Map.lookup (GetValueKVStoreRequest.key req) storage) ""
                 }))
@@ -182,7 +182,7 @@ State update
 : The storage map is updated with new key-value pair.
 
 Messages to be sent
-: A `SetValueKVStoreResponse` message indicating success/failure.
+: A `SetValueKVStoreReply` message indicating success/failure.
 : Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
 
 Engines to be spawned
@@ -217,8 +217,8 @@ setValueAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueResponse
-                (mkSetValueKVStoreResponse@{
+              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueReply
+                (mkSetValueKVStoreReply@{
                   key := key;
                   success := true
                 }))
@@ -256,7 +256,7 @@ State update
 : The storage map is updated to remove the key-value pair.
 
 Messages to be sent
-: A `DeleteValueKVStoreResponse message` indicating success/failure.
+: A `DeleteValueKVStoreReply message` indicating success/failure.
 : Several `LocalKVStorageMsgValueChanged` messages to those interested engines.
 
 Engines to be spawned
@@ -290,8 +290,8 @@ deleteValueAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueResponse
-                (mkDeleteValueKVStoreResponse@{
+              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueReply
+                (mkDeleteValueKVStoreReply@{
                   key := key;
                   success := true
                 }))
@@ -343,7 +343,7 @@ deleteValueActionLabel : LocalKVStorageActionExec := Seq [ deleteValueAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalKVStorageGuard`
 
@@ -517,7 +517,7 @@ flowchart TD
   C --> G -- *getValueActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EMsg>LocalKVStorageMsgGetValueResponse<br/>key, value]
+    EMsg>LocalKVStorageMsgGetValueReply<br/>key, value]
   end
 ```
 
@@ -543,7 +543,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(storage := Map.insert key value storage)]
-    EMsg>LocalKVStorageMsgSetValueResponse<br/>success]
+    EMsg>LocalKVStorageMsgSetValueReply<br/>success]
   end
 ```
 
@@ -569,7 +569,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(storage := Map.delete key storage)]
-    EMsg>LocalKVStorageMsgDeleteValueResponse<br/>success]
+    EMsg>LocalKVStorageMsgDeleteValueReply<br/>success]
   end
 ```
 

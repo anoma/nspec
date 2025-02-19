@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-behaviour
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - wall-clock-engine
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.wall_clock_behaviour;
@@ -29,6 +29,7 @@ tags:
 
 # Wall Clock Behaviour
 
+
 ## Overview
 
 The behavior of the Wall Clock Engine defines how it processes get time requests
@@ -36,16 +37,24 @@ and produces time results using the current wall clock time.
 
 ## Action arguments
 
-### `WallClockActionArgumentFrom MessageFrom`
+### `MessageFrom`
 
 <!-- --8<-- [start:MessageFrom] -->
 ```juvix
-type MessageFrom := mkMessageFrom {
+type MessageFrom := mkMessageFrom@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID
 };
 ```
 <!-- --8<-- [end:MessageFrom] -->
+
+???+ code "Arguments"
+
+    `whoAsked`:
+    : The engine ID of the requester.
+
+    `mailbox`:
+    : The mailbox ID where the response message should be sent.
 
 ### `WallClockActionArgument`
 
@@ -64,9 +73,10 @@ WallClockActionArguments : Type := List WallClockActionArgument;
 ```
 <!-- --8<-- [end:wall-clock-action-arguments] -->
 
+
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### WallClockAction
 
@@ -100,7 +110,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```
     <!-- --8<-- [end:WallClockActionInput] -->
 
-    ### WallClockActionEffect
+    ### `WallClockActionEffect`
 
     <!-- --8<-- [start:WallClockActionEffect] -->
     ```juvix
@@ -115,7 +125,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```
     <!-- --8<-- [end:WallClockActionEffect] -->
 
-    ### WallClockActionExec
+    ### `WallClockActionExec`
 
     <!-- --8<-- [start:WallClockActionExec] -->
     ```juvix
@@ -199,7 +209,7 @@ getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `WallClockGuard`
 
@@ -307,6 +317,7 @@ wallClockBehaviour : WallClockBehaviour :=
   };
 ```
 <!-- --8<-- [end:wallClockBehaviour] -->
+
 
 ## Wall Clock Action Flowchart
 

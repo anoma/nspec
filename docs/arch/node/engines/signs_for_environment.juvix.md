@@ -2,14 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- signs_for
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - signsfor
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.signs_for_environment;
@@ -22,13 +23,13 @@ tags:
     import arch.node.types.anoma_message as Anoma open;
     ```
 
-# Signs For Environment
+# SignsFor Environment
 
 ## Overview
 
-The Signs For Engine environment maintains the state necessary for managing `signs_for` relationships between identities, including storing evidence submitted by clients.
+The SignsFor Engine environment maintains the state necessary for managing `signs_for` relationships between identities, including storing evidence submitted by clients.
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     axiom verifyEvidence : SignsForEvidence -> Bool;
@@ -36,7 +37,7 @@ The Signs For Engine environment maintains the state necessary for managing `sig
 
 ## Mailbox states
 
-The Signs For Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
+The SignsFor Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
 
 ### `SignsForMailboxState`
 
@@ -46,7 +47,7 @@ syntax alias SignsForMailboxState := Unit;
 
 ## Local state
 
-The local state of the Signs For Engine includes the evidence for signs_for relationships.
+The local state of the SignsFor Engine includes the evidence for signs_for relationships.
 
 ### `SignsForLocalState`
 
@@ -56,14 +57,14 @@ type SignsForLocalState := mkSignsForLocalState@{
 };
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidenceStore`:
     : The collection of validated `SignsForEvidence` which has been submitted to the engine.
 
 ## Timer Handle
 
-The Signs For Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
+The SignsFor Engine does not require a timer handle type. Therefore, we define the timer handle type as `Unit`.
 
 ### `SignsForTimerHandle`
 
@@ -71,7 +72,7 @@ The Signs For Engine does not require a timer handle type. Therefore, we define 
 syntax alias SignsForTimerHandle := Unit;
 ```
 
-## The Signs For Environment
+## The SignsFor Environment
 
 ### `SignsForEnv`
 

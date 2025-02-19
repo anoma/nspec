@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- logging-engine
-- engine-messages
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - logging
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.logging_messages;
@@ -23,29 +23,7 @@ These are the messages that the Logging engine can receive/respond to.
 
 ## Message interface
 
-### `LoggingMsgAppendValue AppendValue`
-
-<!-- --8<-- [start:AppendValue] -->
-```juvix
-type AppendValue := mkAppendValue {
-  value : String
-};
-```
-<!-- --8<-- [end:AppendValue] -->
-
-???+ quote "Arguments"
-
-    `value`:
-    : The value in string format to be added to the logbook.
-
-### `LoggingMsg`
-
-<!-- --8<-- [start:LoggingMsg] -->
-```juvix
-type LoggingMsg :=
-  | LoggingMsgAppend AppendValue;
-```
-<!-- --8<-- [end:LoggingMsg] -->
+--8<-- "./logging_messages.juvix.md:LoggingMsg"
 
 ## Message sequence diagrams
 
@@ -68,3 +46,35 @@ A local engine sends a log entry to be appended to the logbook
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
+
+## Message types
+
+### `AppendValue`
+
+<!-- --8<-- [start:AppendValue] -->
+```juvix
+type AppendValue := mkAppendValue {
+  value : String
+};
+```
+<!-- --8<-- [end:AppendValue] -->
+
+???+ code "Arguments"
+
+    `value`:
+    : The value in string format to be added to the logbook.
+
+### `LoggingMsg`
+
+<!-- --8<-- [start:LoggingMsg] -->
+```juvix
+type LoggingMsg :=
+  | LoggingMsgAppend AppendValue;
+```
+<!-- --8<-- [end:LoggingMsg] -->
+
+## Engine components
+
+- [[Logging Configuration]]
+- [[Logging Environment]]
+- [[Logging Behaviour]]

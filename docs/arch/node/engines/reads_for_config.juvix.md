@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- reads-for-engine
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - readsfor
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.reads_for_config;
@@ -22,13 +22,13 @@ tags:
     import arch.node.types.identities open;
     ```
 
-# Reads For Configuration
+# ReadFor Configuration
 
 ## Overview
 
-The Reads For engine configuration contains static information for Reads For engine instances.
+The ReadFor engine configuration contains static information for ReadFor engine instances.
 
-## The Reads For Configuration
+## The ReadFor Configuration
 
 ### `ReadsForCfg`
 

@@ -3,12 +3,20 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+tags:
+  - node-architecture
+  - types
+  - engine
+  - environment
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.anoma_environment;
+
+    import prelude open;
 
     {- Identity -}
 
@@ -29,12 +37,12 @@ search:
 
     {- Network -}
 
-    import arch.node.net.router_environment open;
-    import arch.node.net.node_proxy_environment open;
-    import arch.node.net.transport_protocol_environment open;
-    import arch.node.net.transport_connection_environment open;
-    import arch.node.net.pub_sub_topic_environment open;
-    import arch.node.net.storage_environment open;
+    import arch.node.engines.net_registry_environment open;
+    import arch.node.engines.router_environment open;
+    import arch.node.engines.transport_protocol_environment open;
+    import arch.node.engines.transport_connection_environment open;
+    import arch.node.engines.pub_sub_topic_environment open;
+    import arch.node.engines.storage_environment open;
 
     {- Ordering -}
 
@@ -64,12 +72,22 @@ Below is the definition of the type `Env`,
 which represents an Anoma engine environment.
 This means, an Anoma engine instance would have an environment of type `Env`.
 
+??? info "Why a sum type for _all_ engines?"
+
+    The sum type will be useful for specifying
+    the "initial" state of any newly created engine instance.
+    In this way,
+    we can omit any initialization,
+    but we can have it by sending "init messages"
+    to the newly created engine
+    at the same time as we create new engines.
+
 For example, an environment for an engine instance
 of the engine `TickerEngine` is of type `TickerEnvironment`.
 
-<!-- --8<-- [start:anoma-environment-type] -->
+<!-- --8<-- [start:Env] -->
 ```juvix
-type Env :=
+type PreEnv KVSKey KVSDatum Executable ProgramState :=
 
   {- Identity -}
 
@@ -93,7 +111,6 @@ type Env :=
   {- Network -}
 
   | EnvRouter RouterEnv
-  | EnvNodeProxy NodeProxyEnv
   | EnvTransportProtocol TransportProtocolEnv
   | EnvTransportConnection TransportConnectionEnv
   | EnvPubSubTopic PubSubTopicEnv
@@ -101,9 +118,9 @@ type Env :=
 
   {- Ordering -}
 
-  | EnvMempoolWorker MempoolWorkerEnv
-  | EnvExecutor ExecutorEnv
-  | EnvShard ShardEnv
+  | EnvMempoolWorker (MempoolWorkerEnv KVSKey KVSDatum Executable)
+  | EnvExecutor (ExecutorEnv KVSKey KVSDatum ProgramState)
+  | EnvShard (ShardEnv KVSKey KVSDatum)
 
   {- Misc -}
 
@@ -116,5 +133,7 @@ type Env :=
 
   -- Add more environments here
   ;
+
+Env : Type := PreEnv String String ByteString String;
 ```
-<!-- --8<-- [end:anoma-environment-type] -->
+<!-- --8<-- [end:Env] -->

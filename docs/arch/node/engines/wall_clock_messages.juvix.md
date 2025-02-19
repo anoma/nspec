@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- wall-clock-engine
-- engine-messages
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - wall-clock-engine
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.wall_clock_messages;
@@ -21,9 +21,37 @@ tags:
 
 These are the messages that the Wall Clock engine can receive/respond to.
 
-## Message Interface
+## Message interface
 
-??? quote "Auxiliary Juvix code"
+--8<-- "./wall_clock_messages.juvix.md:WallClockMsg"
+
+
+## Message sequence diagrams
+
+
+### Wall Clock request and response
+
+<!-- --8<-- [start:message-sequence-diagram-gettime] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant WallClockClient
+    participant WallClock
+
+    WallClockClient ->> WallClock: WallClockGetTime
+    WallClock ->> WallClockClient: WallClockGetTimeResult
+```
+
+<figcaption markdown="span">
+Sequence diagram: Wall Clock time request & response
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-gettime] -->
+
+## Message types
+
+??? code "Auxiliary Juvix code"
 
     ```juvix
     syntax alias StorageKey := String;
@@ -37,20 +65,20 @@ A `WallClockGetTime` message tracks and manages time within the
 local computing environment. This message doesn't require any
 arguments.
 
-### `WallClockGetTimeResult TimeResult`
+### `TimeResult`
 
-Response to a `WallClockGetTime` request.
+Reply to a `WallClockGetTime` request.
 
 <!-- --8<-- [start:TimeResult] -->
 ```juvix
-type TimeResult : Type :=
+type TimeResult :=
   mkTimeResult {
     epochTime : EpochTimestamp;
   }
 ```
 <!-- --8<-- [end:TimeResult] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `epochTime`
     : The current time in epoch format (seconds/milliseconds since epoch)
@@ -66,24 +94,8 @@ type WallClockMsg :=
 ```
 <!-- --8<-- [end:WallClockMsg] -->
 
-## Message Flow
+## Engine components
 
-### Wall Clock Request & Response
-
-<!-- --8<-- [start:message-sequence-diagram-gettime] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant WallClockClient
-    participant WallClock
-
-    WallClockClient ->> WallClock: WallClockGetTime
-    WallClock ->> WallClockClient: WallClockGetTimeResult
-```
-
-<figcaption markdown="span">
-Sequence Diagram: Wall Clock Time Request & Response
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-gettime] -->
+- [[Wall Clock Configuration]]
+- [[Wall Clock Environment]]
+- [[Wall Clock Behaviour]]

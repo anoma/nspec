@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-ts-storage-engine
-- engine-behaviour
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-time-series-storage
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_time_series_storage_behaviour;
@@ -53,7 +53,7 @@ LocalTSStorageActionArguments : Type := List LocalTSStorageActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalTSStorageAction`
 
@@ -127,7 +127,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `GetDataTSStorageDBResponse` message with the requested data.
+: A `GetDataTSStorageDBReply` message with the requested data.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -158,8 +158,8 @@ getDataAction
               sender := getEngineIDFromEngineCfg cfg;
               target := sender;
               mailbox := some 0;
-              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetResponse
-                mkGetDataTSStorageDBResponse@{
+              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetReply
+                mkGetDataTSStorageDBReply@{
                   query := GetDataTSStorageDBRequest.query request;
                   data := data;
                 })
@@ -182,7 +182,7 @@ State update
 : Updates the database with new time series data, if successful.
 
 Messages to be sent
-: A `RecordDataTSStorageDBResponse` message indicating success/failure.
+: A `RecordDataTSStorageDBReply` message indicating success/failure.
 : Several `DataChangedTSStorageDB` messages to those interested engines, if successful.
 
 Engines to be spawned
@@ -223,8 +223,8 @@ recordDataAction
                   sender := getEngineIDFromEngineCfg cfg;
                   target := sender;
                   mailbox := some 0;
-                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteResponse
-                    mkDeleteDataTSStorageDBResponse@{
+                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteReply
+                    mkDeleteDataTSStorageDBReply@{
                       query := query;
                       success := true;
                     })
@@ -253,8 +253,8 @@ recordDataAction
               sender := getEngineIDFromEngineCfg cfg;
               target := sender;
               mailbox := some 0;
-              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordResponse
-                mkRecordDataTSStorageDBResponse@{
+              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordReply
+                mkRecordDataTSStorageDBReply@{
                   query := query;
                   success := false;
                 })
@@ -276,7 +276,7 @@ State update
 : Updates the database by removing specified time series data, if successful.
 
 Messages to be sent
-: A `DeleteDataTSStorageDBResponse` message indicating success/failure.
+: A `DeleteDataTSStorageDBReply` message indicating success/failure.
 : Several `DataChangedTSStorageDB` messages to those interested engines, if successful.
 
 Engines to be spawned
@@ -317,8 +317,8 @@ deleteDataAction
                   sender := getEngineIDFromEngineCfg cfg;
                   target := sender;
                   mailbox := some 0;
-                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteResponse
-                    mkDeleteDataTSStorageDBResponse@{
+                  msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteReply
+                    mkDeleteDataTSStorageDBReply@{
                       query := query;
                       success := true;
                     })
@@ -347,8 +347,8 @@ deleteDataAction
               sender := getEngineIDFromEngineCfg cfg;
               target := sender;
               mailbox := some 0;
-              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteResponse
-                mkDeleteDataTSStorageDBResponse@{
+              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteReply
+                mkDeleteDataTSStorageDBReply@{
                   query := query;
                   success := false;
                 })
@@ -384,7 +384,7 @@ deleteDataActionLabel : LocalTSStorageActionExec := Seq [ deleteDataAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LocalTSStorageGuard`
 
@@ -561,7 +561,7 @@ flowchart TD
   C --> G -- *getDataActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EMsg>LocalTSStorageMsgGetResponse]
+    EMsg>LocalTSStorageMsgGetReply]
   end
 ```
 
@@ -589,7 +589,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(DB update)]
-    EMsg1>LocalTSStorageMsgRecordResponse]
+    EMsg1>LocalTSStorageMsgRecordReply]
     EMsg2>LocalTSStorageMsgDataChanged]
   end
 ```
@@ -618,7 +618,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(DB update)]
-    EMsg1>LocalTSStorageMsgDeleteResponse]
+    EMsg1>LocalTSStorageMsgDeleteReply]
     EMsg2>LocalTSStorageMsgDataChanged]
   end
 ```

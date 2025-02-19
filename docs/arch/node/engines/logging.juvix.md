@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- logging-engine
-- engine-definition
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - logging
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.logging;
@@ -38,7 +39,7 @@ machine that the Anoma node is running. It supports diagnostic efforts,
 security monitoring, performance optimization, and historical analysis
 to ensure stability, security, and efficiency.
 
-## Components
+## Engine components
 
 - [[Logging Messages]]
 - [[Logging Configuration]]

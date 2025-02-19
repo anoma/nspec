@@ -4,11 +4,12 @@ search:
   exclude: false
   boost: 2
 tags:
-- Juvix-types
-- Types
+  - node-architecture
+  - types
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.basics;
@@ -19,23 +20,24 @@ tags:
 
 This document describes the basic types and functions used in the node
 architecture prelude. For a more general prelude, please refer to
-[[Juvix Base Prelude]]. (1)
+[[Prelude]]. (1) :raising_hand:
 { .annotate }
 
-1. :woman_raising_hand: If you are unfamiliar with Juvix,
+1. If you are unfamiliar with Juvix,
 please refer to the [Juvix documentation](https://docs.juvix.org/latest/tutorials/learn.html).
 
 ## Basic types
 
-### Hash
+### `Hash`
 
-Natural numbers are used (for now) to represent hash values, bytes sizes, and other non-negative integers.
+Natural numbers are used (for now) to represent hash values, bytes sizes, and
+other non-negative integers.
 
 ```juvix
 syntax alias Hash := Nat;
 ```
 
-### RelTime
+### `RelTime`
 
 Relative time.
 In seconds from now.
@@ -44,7 +46,7 @@ In seconds from now.
 syntax alias RelTime := Nat;
 ```
 
-### AbsTime
+### `AbsTime`
 
 Absolute time.
 In minutes since epoch (2024-01-01 00:00).
@@ -53,7 +55,7 @@ In minutes since epoch (2024-01-01 00:00).
 syntax alias AbsTime := Nat;
 ```
 
-### Time
+### `Time`
 
 Either absolute or relative time.
 
@@ -61,12 +63,12 @@ Either absolute or relative time.
 Time : Type := Either RelTime AbsTime;
 ```
 
-### Version
+### `Version`
 
 Semantic version number (major.minor.patch).
 
 ```juvix
-type Version : Type :=
+type Version :=
   mkVersion@{
     major : Nat;
     minor : Nat;

@@ -3,9 +3,8 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
-hide:
-  - navigation
-  - toc
+tags:
+  - index
 ---
 
 
@@ -17,13 +16,24 @@ module everything;
 {- Prelude -}
 
 import prelude;
+import anomian;
+```
 
-{- System -}
+## System
 
+```juvix
 import arch.system.identity.identity;
+```
 
-{- Resource Machine -}
+### Resource Machine
 
+```juvix
+{- Types -}
+```
+
+### Resource Machine
+
+```juvix
 import arch.system.state.resource_machine.data_structures.transaction.transaction_with_payment;
 import arch.system.state.resource_machine.data_structures.transaction.transaction;
 import arch.system.state.resource_machine.data_structures.transaction.transaction_function;
@@ -52,19 +62,69 @@ import arch.system.state.resource_machine.primitive_interfaces.index;
 import arch.system.state.resource_machine.primitive_interfaces.ordered_set;
 import arch.system.state.resource_machine.primitive_interfaces.commitment_accumulator;
 import arch.system.state.resource_machine.notes.storage;
-import
-arch.system.state.resource_machine.notes.function_formats.transactionfunction;
-import
-arch.system.state.resource_machine.notes.function_formats.nockma;
 import arch.system.state.resource_machine.notes.function_formats.transaction_function_format;
 import arch.system.state.resource_machine.notes.applications;
 import arch.system.state.resource_machine.notes.roles_and_requirements;
 import arch.system.state.resource_machine.index;
 import arch.system.state.resource_machine.execution_flow.flow;
+```
 
-{- Types -}
+## Types
 
--- import arch.node.types;
+import arch.system.types.nullifier;
+import arch.system.types.nullifierkey;
+import arch.system.types.nullifier_properties;
+
+import arch.system.types.resource;
+import arch.system.types.resource_machine;
+import arch.system.types.resource_logic_proof;
+import arch.system.types.action;
+import arch.system.types.transaction;
+import arch.system.types.state;
+
+import arch.system.state.resource_machine.prelude;
+
+import arch.system.types;
+
+-- import arch.system.state.resource_machine.data_structures.transaction.transaction_with_payment;
+-- import arch.system.state.resource_machine.data_structures.transaction.transaction;
+-- import arch.system.state.resource_machine.data_structures.transaction.transaction_function;
+-- import arch.system.state.resource_machine.data_structures.transaction.delta_proof;
+-- import arch.system.state.resource_machine.data_structures.compliance_unit.compliance_proof;
+-- import arch.system.state.resource_machine.data_structures.compliance_unit.compliance_unit;
+-- import arch.system.state.resource_machine.data_structures.action.resource_logic_proof;
+-- import arch.system.state.resource_machine.data_structures.action.index;
+-- import arch.system.state.resource_machine.data_structures.resource.computable_components.resource_commitment;
+-- import arch.system.state.resource_machine.data_structures.resource.computable_components.kind;
+-- import arch.system.state.resource_machine.data_structures.resource.computable_components.nullifier;
+-- import arch.system.state.resource_machine.data_structures.resource.computable_components.delta;
+-- import arch.system.state.resource_machine.data_structures.resource.computable_components.introduction;
+-- import arch.system.state.resource_machine.data_structures.resource.index;
+-- import arch.system.state.resource_machine.primitive_interfaces.transaction_function_vm;
+-- import arch.system.state.resource_machine.primitive_interfaces.set;
+-- import arch.system.state.resource_machine.primitive_interfaces.nullifier_set;
+-- import arch.system.state.resource_machine.primitive_interfaces.map;
+-- import arch.system.state.resource_machine.primitive_interfaces.proving_system.proving_system_types;
+-- import arch.system.state.resource_machine.primitive_interfaces.proving_system.proving_system_delta;
+-- import arch.system.state.resource_machine.primitive_interfaces.fixed_size_type.fixed_size_type;
+-- import arch.system.state.resource_machine.primitive_interfaces.fixed_size_type.hash;
+-- import arch.system.state.resource_machine.primitive_interfaces.fixed_size_type.delta_hash;
+-- import arch.system.state.resource_machine.primitive_interfaces.fixed_size_type.arithmetic;
+-- import arch.system.state.resource_machine.primitive_interfaces.index;
+-- import arch.system.state.resource_machine.primitive_interfaces.ordered_set;
+-- import arch.system.state.resource_machine.primitive_interfaces.commitment_accumulator;
+-- import arch.system.state.resource_machine.notes.storage;
+-- import arch.system.state.resource_machine.notes.function_formats.transaction_function_format;
+-- import arch.system.state.resource_machine.notes.applications;
+-- import arch.system.state.resource_machine.notes.roles_and_requirements;
+-- import arch.system.state.resource_machine.index;
+-- import arch.system.state.resource_machine.execution_flow.flow;
+```
+
+## Types
+
+```juvix
+import arch.node.types;
 
 import arch.node.types.basics;
 import arch.node.types.crypto;
@@ -80,10 +140,14 @@ import arch.node.types.engine_environment;
 import arch.node.types.engine_behaviour;
 import arch.node.types.engine;
 
-{- Engines -}
+import arch.node.types.transport;
+import arch.node.types.storage;
+import arch.node.types.router;
+```
 
-{- Identity -}
+## Engines
 
+```juvix
 import arch.node.engines.commitment_messages;
 import arch.node.engines.commitment_config;
 import arch.node.engines.commitment_environment;
@@ -101,130 +165,205 @@ import arch.node.engines.encryption_config;
 import arch.node.engines.encryption_environment;
 import arch.node.engines.encryption_behaviour;
 import arch.node.engines.encryption;
+```
 
+### Identity Management
+
+```juvix
 import arch.node.engines.identity_management_messages;
 import arch.node.engines.identity_management_config;
 import arch.node.engines.identity_management_environment;
 import arch.node.engines.identity_management_behaviour;
 import arch.node.engines.identity_management;
+```
 
+### Naming
+
+```juvix
 import arch.node.engines.naming_messages;
 import arch.node.engines.naming_config;
 import arch.node.engines.naming_environment;
 import arch.node.engines.naming_behaviour;
 import arch.node.engines.naming;
+```
 
+### Reads For
+
+```juvix
 import arch.node.engines.reads_for_messages;
 import arch.node.engines.reads_for_config;
 import arch.node.engines.reads_for_environment;
 import arch.node.engines.reads_for_behaviour;
 import arch.node.engines.reads_for;
+```
 
+### Signs For
+
+```juvix
 import arch.node.engines.signs_for_messages;
 import arch.node.engines.signs_for_config;
 import arch.node.engines.signs_for_environment;
 import arch.node.engines.signs_for_behaviour;
 import arch.node.engines.signs_for;
+```
 
+### Verification
+
+```juvix
 import arch.node.engines.verification_messages;
 import arch.node.engines.verification_config;
 import arch.node.engines.verification_environment;
 import arch.node.engines.verification_behaviour;
 import arch.node.engines.verification;
+```
 
-{- Hardware -}
+## Hardware
 
+```juvix
 import arch.node.engines.local_key_value_storage_messages;
 import arch.node.engines.local_key_value_storage_config;
 import arch.node.engines.local_key_value_storage_environment;
 import arch.node.engines.local_key_value_storage_behaviour;
 import arch.node.engines.local_key_value_storage;
+```
 
+### Logging
+
+```juvix
 import arch.node.engines.logging_messages;
 import arch.node.engines.logging_config;
 import arch.node.engines.logging_environment;
 import arch.node.engines.logging_behaviour;
 import arch.node.engines.logging;
+```
 
+### Wall Clock
+
+```juvix
 import arch.node.engines.wall_clock_messages;
 import arch.node.engines.wall_clock_config;
 import arch.node.engines.wall_clock_environment;
 import arch.node.engines.wall_clock_behaviour;
 import arch.node.engines.wall_clock;
+```
 
+### Local Time Series Storage
+
+```juvix
 import arch.node.engines.local_time_series_storage_messages;
 import arch.node.engines.local_time_series_storage_config;
 import arch.node.engines.local_time_series_storage_environment;
 import arch.node.engines.local_time_series_storage_behaviour;
 import arch.node.engines.local_time_series_storage;
+```
 
-{- Network -}
+### Network-Registry
 
-import arch.node.net.router_messages;
-import arch.node.net.router_config;
-import arch.node.net.router_environment;
-import arch.node.net.router_behaviour;
+```juvix
+import arch.node.engines.net_registry_messages;
+import arch.node.engines.net_registry_config;
+import arch.node.engines.net_registry_environment;
+import arch.node.engines.net_registry_behaviour;
+import arch.node.engines.net_registry;
+```
 
-import arch.node.net.node_proxy_messages;
-import arch.node.net.node_proxy_config;
-import arch.node.net.node_proxy_environment;
-import arch.node.net.node_proxy_behaviour;
-import arch.node.net.node_proxy;
+### Router
 
-import arch.node.net.transport_protocol_messages;
-import arch.node.net.transport_protocol_config;
-import arch.node.net.transport_protocol_environment;
-import arch.node.net.transport_protocol_behaviour;
-import arch.node.net.transport_protocol;
+```juvix
+import arch.node.engines.router_messages;
+import arch.node.engines.router_config;
+import arch.node.engines.router_environment;
+import arch.node.engines.router_behaviour;
+import arch.node.engines.router;
+```
 
-import arch.node.net.transport_connection_messages;
-import arch.node.net.transport_connection_config;
-import arch.node.net.transport_connection_environment;
-import arch.node.net.transport_connection_behaviour;
-import arch.node.net.transport_connection;
+### Transport Protocol
 
-import arch.node.net.pub_sub_topic_messages;
-import arch.node.net.pub_sub_topic_config;
-import arch.node.net.pub_sub_topic_environment;
-import arch.node.net.pub_sub_topic_behaviour;
-import arch.node.net.pub_sub_topic;
+```juvix
+import arch.node.engines.transport_protocol_messages;
+import arch.node.engines.transport_protocol_config;
+import arch.node.engines.transport_protocol_environment;
+import arch.node.engines.transport_protocol_behaviour;
+import arch.node.engines.transport_protocol;
+```
 
-import arch.node.net.storage_messages;
-import arch.node.net.storage_config;
-import arch.node.net.storage_environment;
-import arch.node.net.storage_behaviour;
-import arch.node.net.storage;
+### Transport Connection
 
-{- Ordering -}
+```juvix
+import arch.node.engines.transport_connection_messages;
+import arch.node.engines.transport_connection_config;
+import arch.node.engines.transport_connection_environment;
+import arch.node.engines.transport_connection_behaviour;
+import arch.node.engines.transport_connection;
+```
 
+### Pub Sub Topic
+
+```juvix
+import arch.node.engines.pub_sub_topic_messages;
+import arch.node.engines.pub_sub_topic_config;
+import arch.node.engines.pub_sub_topic_environment;
+import arch.node.engines.pub_sub_topic_behaviour;
+import arch.node.engines.pub_sub_topic;
+```
+
+### Storage
+
+```juvix
+import arch.node.engines.storage_messages;
+import arch.node.engines.storage_config;
+import arch.node.engines.storage_environment;
+import arch.node.engines.storage_behaviour;
+import arch.node.engines.storage;
+```
+
+### Mempool Worker
+
+```juvix
 import arch.node.engines.mempool_worker_messages;
 import arch.node.engines.mempool_worker_config;
 import arch.node.engines.mempool_worker_environment;
 import arch.node.engines.mempool_worker_behaviour;
 import arch.node.engines.mempool_worker;
+```
 
+### Executor
+
+```juvix
 import arch.node.engines.executor_messages;
 import arch.node.engines.executor_config;
 import arch.node.engines.executor_environment;
 import arch.node.engines.executor_behaviour;
 import arch.node.engines.executor;
+```
 
+### Shard
+
+```juvix
 import arch.node.engines.shard_messages;
 import arch.node.engines.shard_config;
 import arch.node.engines.shard_environment;
 import arch.node.engines.shard_behaviour;
 import arch.node.engines.shard;
+```
 
-{- Misc -}
+```juvix
+-- Add more engines here
+```
 
+### Misc
+
+```juvix
 import arch.node.engines.ticker_messages;
 import arch.node.engines.ticker_config;
 import arch.node.engines.ticker_environment;
 import arch.node.engines.ticker_behaviour;
 import arch.node.engines.ticker;
+```
 
-{- Tutorial Templates -}
+## Tutorial Templates
 
+```juvix
 import tutorial.engines.template_messages;
 import tutorial.engines.template_config;
 import tutorial.engines.template_environment;
@@ -236,6 +375,4 @@ import tutorial.engines.template_minimum_config;
 import tutorial.engines.template_minimum_environment;
 import tutorial.engines.template_minimum_behaviour;
 import tutorial.engines.template_minimum;
-
--- Add more engines here
 ```

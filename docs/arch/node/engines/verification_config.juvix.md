@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- verification-engine
-- engine-environment
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - verification
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.verification_config;
@@ -37,7 +37,7 @@ The configuration of a Verification Engine instance includes the identity's veri
 
 <!-- --8<-- [start:VerificationCfg] -->
 ```juvix
-type VerificationCfg := mkVerificationCfg {
+type VerificationCfg := mkVerificationCfg@{
   verifier : Set SignsForEvidence -> ExternalIdentity -> Verifier ByteString Backend Signable Commitment;
   backend : Backend;
   signsForEngineAddress : EngineID;
@@ -45,16 +45,17 @@ type VerificationCfg := mkVerificationCfg {
 ```
 <!-- --8<-- [end:VerificationCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `verifier`:
     : Function to generate verifier for a set of evidence and an identity.
+    It takes a set of evidence, an identity, and returns a verifier.
 
     `backend`:
     : The backend to use for verification.
 
     `signsForEngineAddress`:
-    : The address of the associated Signs For engine.
+    : The address of the associated SignsFor engine.
 
 #### Instantiation
 

@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- ticker-engine
-- engine-behaviour
+  - node-architecture
+  - example
+  - engine
+  - ticker
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.ticker_behaviour;
@@ -39,7 +39,7 @@ incrementing the counter and sending the current counter value.
 ### `TickerActionArgumentReplyTo ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID;
 };
@@ -48,11 +48,13 @@ type ReplyTo := mkReplyTo {
 This action argument contains the address and mailbox ID of where the
 response message should be sent.
 
-`whoAsked`:
-: is the address of the engine that sent the message.
+???+ code "Arguments"
 
-`mailbox`:
-: is the mailbox ID where the response message should be sent.
+    `whoAsked`:
+    : is the address of the engine that sent the message.
+
+    `mailbox`:
+    : is the mailbox ID where the response message should be sent.
 
 ### `TickerActionArgument`
 
@@ -74,7 +76,7 @@ TickerActionArguments : Type := List TickerActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ## `TickerAction`
 
@@ -220,6 +222,8 @@ countReplyAction
     };
 ```
 <!-- --8<-- [end:countReplyAction] -->
+---
+
 ## Action Labels
 
 ### `incrementActionLabel`
@@ -236,7 +240,7 @@ countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TickerGuard`
 

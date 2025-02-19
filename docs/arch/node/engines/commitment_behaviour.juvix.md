@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
+- node-architecture
+- identity-subsystem
+- engine
 - commitment
-- engine-behavior
+- behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.commitment_behaviour;
@@ -31,15 +31,93 @@ tags:
 
 ## Overview
 
-The behavior of the Commitment Engine defines how it processes incoming
-commitment requests and produces the corresponding responses.
+The behaviour of the Commitment Engine defines how it processes incoming
+commitment requests and produces the corresponding commitments/signatures.
+
+## Commitment Action Flowchart
+
+### `commitAction` flowchart
+
+<figure markdown>
+
+```mermaid
+flowchart TD
+    Start([Client Request]) --> MsgReq[MsgCommitmentRequest<br>data: Signable]
+
+    subgraph Guard["commitGuard (Message Validation)"]
+        MsgReq --> ValidType{Is message type<br>CommitmentRequest?}
+        ValidType -->|No| Reject([Reject Request])
+        ValidType -->|Yes| ActionEntry[Enter Action Phase]
+    end
+
+    ActionEntry --> Action
+
+    subgraph Action["commitAction (Processing)"]
+        direction TB
+        Sign[Generate signature<br>using backend signer]
+        Sign --> Success{Signature<br>Generated?}
+        Success -->|Yes| GoodResp[Create Reply<br>with signature]
+        Success -->|No| ErrResp[Create Reply<br>with error]
+    end
+
+    GoodResp --> Reply[MsgCommitmentReply<br>commitment: Commitment<br>err: none]
+    ErrResp --> ErrReply[MsgCommitmentReply<br>commitment: empty<br>err: Some error]
+
+    Reply --> Client([Return to Client])
+    ErrReply --> Client
+```
+
+<figcaption markdown="span">
+
+`commitAction` flowchart
+
+</figcaption>
+</figure>
+
+#### Explanation
+
+1. **Initial Request**
+   - A client sends a `MsgCommitmentRequest` containing data (`Signable`) that needs to be signed.
+   - The data must be in a format that can be signed by the backend (e.g., a byte string, transaction data, etc.).
+
+2. **Guard Phase** (`commitGuard`)
+   - Validates that the incoming message is a proper commitment request.
+   - Checks occur in the following order:
+     - Verifies message type is `MsgCommitmentRequest`.
+     - If validation fails, request is rejected without entering the action phase.
+     - On success, passes control to `commitActionLabel`.
+
+3. **Action Phase** (`commitAction`)
+   - Processes valid commitment requests through these steps:
+     - Extracts the data to be signed from the request.
+     - Retrieves the signer from the engine's configuration.
+     - Attempts to generate a signature using the backend signer.
+     - Constructs an appropriate response message.
+
+4. **Reply Generation**
+   - **Successful Case**
+     - Creates `MsgCommitmentReply` with:
+       - `commitment`: The generated signature.
+       - `err`: None.
+   - **Error Case**
+     - In all error cases, returns `MsgCommitmentReply` with:
+       - `commitment`: Empty.
+       - `err`: Some(error message).
+
+5. **Reply Delivery**
+   - Reply is sent back to the original requester.
+   - Uses mailbox 0 (default mailbox for responses).
+
+#### Important Notes:
+
+- The commitment engine is stateless - each request is handled independently.
 
 ## Action arguments
 
 ### `CommitmentActionArgumentReplyTo ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID;
 };
@@ -66,15 +144,14 @@ type CommitmentActionArgument :=
 
 ### `CommitmentActionArguments`
 
-<!-- --8<-- [start:commitment-action-arguments] -->
 ```juvix
 CommitmentActionArguments : Type := List CommitmentActionArgument;
 ```
-<!-- --8<-- [end:commitment-action-arguments] -->
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
 
     ### `CommitmentAction`
 
@@ -91,6 +168,8 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         Anoma.Env;
     ```
 
+
+
     ### `CommitmentActionInput`
 
     ```juvix
@@ -103,6 +182,8 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
         CommitmentActionArguments
         Anoma.Msg;
     ```
+
+
 
     ### `CommitmentActionEffect`
 
@@ -140,7 +221,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `ResponseCommitment` message is sent back to the requester.
+: A `ReplyCommitment` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -167,7 +248,7 @@ commitAction
             (CommitmentCfg.signer (EngineCfg.cfg cfg))
             (CommitmentCfg.backend (EngineCfg.cfg cfg))
             (RequestCommitment.data request);
-          responseMsg := mkResponseCommitment@{
+          responseMsg := mkReplyCommitment@{
             commitment := signedData;
             err := none
           }
@@ -178,7 +259,7 @@ commitAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgCommitment (MsgCommitmentResponse responseMsg)
+              msg := Anoma.MsgCommitment (MsgCommitmentReply responseMsg)
             }
           ];
           timers := [];
@@ -201,7 +282,9 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `CommitmentGuard`
 
@@ -219,6 +302,8 @@ commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
         Anoma.Env;
     ```
     <!-- --8<-- [end:CommitmentGuard] -->
+
+
 
     ### `CommitmentGuardOutput`
 
@@ -310,25 +395,3 @@ commitmentBehaviour : CommitmentBehaviour :=
   };
 ```
 <!-- --8<-- [end:commitmentBehaviour] -->
-
-## Commitment Action Flowchart
-
-### `commitAction` flowchart
-
-<figure markdown>
-
-```mermaid
-flowchart TD
-  CM>MsgCommitmentRequest]
-  A(commitAction)
-  RE>MsgCommitmentResponse signedData]
-  G(commitGuard)
-  CM --> G --*commitActionLabel*--> A --> RE
-```
-
-<figcaption markdown="span">
-
-`commitAction` flowchart
-
-</figcaption>
-</figure>

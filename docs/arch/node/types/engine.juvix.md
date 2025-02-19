@@ -3,12 +3,13 @@ icon: octicons/gear-16
 search:
   exclude: false
 tags:
-- engine-behaviour
-- engine-type
-- juvix
+  - node-architecture
+  - types
+  - engine
+  - prelude
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.types.engine;
@@ -21,10 +22,12 @@ tags:
 
 # The type for engines
 
-An **engine** is a computational unit with a specific name and [[Engine Behaviour|behaviour]],
-plus an initial [[Engine Environment|environment]],
-which comprises the specific state, the mailbox cluster,
-the acquaintances, and the timers.
+!!! definition "Engine"
+
+    An **engine** is a computational unit with a specific name and [[Engine Behaviour|behaviour]],
+    plus an initial [[Engine Environment|environment]],
+    which comprises the specific state, the mailbox cluster,
+    the acquaintances, and the timers.
 
 We refer to the type of engines as `Engine`,
 instantiated with the following type parameters:
@@ -46,36 +49,49 @@ Each engine, not its type, is associated with:
   the engine-specific local state, the mailbox cluster, the acquaintances, and the timers,
 - as well as a specific [[Engine Behaviour|behaviour]].
 
+<!-- --8<-- [start:Engine] -->
 ```juvix
-type Engine (C S B H A AM AC AE : Type) :=
+type Engine C S B H A AM AC AE :=
   mkEngine@{
     cfg : EngineCfg C;
     env : EngineEnv S B H AM;
     behaviour : EngineBehaviour C S B H A AM AC AE;
   };
 ```
+<!-- --8<-- [end:Engine] -->
 
-!!! note "Engine type parameters"
+???+ code "Arguments"
 
-    In the related types to `Engine` such as `EngineBehaviour`, we try to follow
-    the following convention:
+    `cfg`
+    : the engine configuration,
 
-    - the type parameters are ordered such that they form a subsequence of the
-      type parameters sequence in the `Engine` type, and
-    - the first type parameter of `EngineBehaviour` is always `C`, the type for
-      the read-only engine configuration.
+    `env`
+    : the engine environment, and
 
-!!! example "Voting Engine"
+    `behaviour`
+    : the engine behaviour.
 
-    As an example, we could define an engine type for a voting system:
+### On the type parameters
 
-    - `S` could be a record with fields like `votes`, `voters`, and `results`.
-    - The engine-specific message type might be a coproduct of `Vote` and `Result`.
-    - The behaviour of this engine may include guarded actions such as:
+In the related types to `Engine` such as `EngineBehaviour`, we try to follow
+the following convention:
 
-      - `storeVote` to store a vote in the local state,
-      - `computeResult` to compute the result of the election, and
-      - `announceResult` to send the result to some other engine instances.
+- the type parameters are ordered such that they form a subsequence of the
+  type parameters sequence in the `Engine` type, and
+- the first type parameter of `EngineBehaviour` is always `C`, the type for
+  the read-only engine configuration.
 
-    With each different election or kind of voters, we obtain a new engine instance,
-    while the underlining voting system, the voting engine family, remains the same.
+### Example: Voting Engine
+
+As an example, we could define an engine type for a voting system:
+
+- `S` could be a record with fields like `votes`, `voters`, and `results`.
+- The engine-specific message type might be a coproduct of `Vote` and `Result`.
+- The behaviour of this engine may include guarded actions such as:
+
+  - `storeVote` to store a vote in the local state,
+  - `computeResult` to compute the result of the election, and
+  - `announceResult` to send the result to some other engine instances.
+
+With each different election or kind of voters, we obtain a new engine instance,
+while the underlining voting system, the voting engine family, remains the same.

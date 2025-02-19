@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine
 tags:
-- shard
-- execution
-- engine-definition
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - shard
+  - engine-definition
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.shard;
@@ -30,6 +30,50 @@ tags:
     ```
 
 # Shard
+
+The Shard Engine functions as a specialized multi-version concurrent database that
+manages state access for Anoma's distributed execution system. Think of each Shard
+as a guardian of a specific subset of the system's key-value pairs, maintaining not
+just the current values, but a complete timeline of how those values change through
+different transactions. This timeline-based approach allows multiple transactions
+to read and write state concurrently while maintaining consistency, similar to how
+Git allows multiple developers to work with different versions of code.
+
+At the heart of the Shard Engine is a sophisticated locking system that coordinates
+state access between transactions. Rather than using simple read/write locks, it
+employs a more nuanced approach using a DAG (Directed Acyclic Graph) structure.
+This structure tracks both the values stored at each key and, crucially,
+the relationships between different transactions' access requests. The Shard
+receives lock acquisition requests (`ShardMsgKVSAcquireLock`) from Mempool Workers,
+which specify exactly how a transaction intends to interact with state through
+several categories: eager reads (keys that will definitely be read), lazy reads
+(keys that might be read), definite writes (keys that will be written), and
+potential writes (keys that might be written).
+
+When a transaction needs to read a value, it can happen in two ways. With eager
+reads, the Shard automatically sends the value (`ShardMsgKVSRead`) as soon as it's
+known to be the correct version for that transaction's timestamp. With lazy reads,
+the transaction must explicitly request the value (`ShardMsgKVSReadRequest`). This
+dual approach allows for optimization - transactions can get values they definitely
+need right away while avoiding unnecessary data transfer for values they might not
+use.
+
+The Shard maintains ordering through two important timestamps: `heardAllWrites` and
+`heardAllReads`. These act like watermarks in the system - the Shard knows it won't
+receive any new write operations before `heardAllWrites` or any new read operations
+before `heardAllReads`. These watermarks, updated through `ShardMsgUpdateSeenAll`
+messages from Mempool Workers, allow the Shard to make important decisions about when
+it's safe to execute reads and when it can clean up old state versions that are no
+longer needed.
+
+The interface of the Shard Engine revolves around these key message types:
+`KVSAcquireLock` for securing access rights, `KVSReadRequest` for requesting
+values, `KVSWrite` for updating values, and `UpdateSeenAll` for maintaining order.
+Each write operation (`ShardMsgKVSWrite`) adds a new version to a key's timeline,
+while read operations need to carefully select the correct version based on
+transaction timestamps. When locks are successfully acquired, the Shard responds
+with `KVSLockAcquired` messages, allowing the Mempool Worker to track transaction
+progress.
 
 ## Purpose
 
@@ -205,7 +249,7 @@ a shard can send read information to an executor when
 it knows precisely which write happens most recently before the read,
 and that write has executed.
 
-### heardAllWrites
+### `heardAllWrites`
 
 In order to know which write happens most recently before a given
  read, the Shard must know that no further writes will be added to
@@ -242,7 +286,7 @@ but this simply means calculating the data they will write.
 Since that does not depend on state,
 this can of course be done at any time.
 
-#### heardAllReads
+### `heardAllReads`
 
 We want to allow Typhon to eventually garbage-collect old state.
 [[Mempool Engines|mempool]] and [[Consensus Engine|consensus]] should
@@ -314,7 +358,7 @@ In the diagram above, transaction `f` is read-only.
 
 If client reads produce signed responses, then signed responses from a weak quorum of validators would form a *light client proof*.
 
-## Components
+## Engine components
 
 - [[Shard Messages]]
 - [[Shard Configuration]]
@@ -325,16 +369,16 @@ If client reads produce signed responses, then signed responses from a weak quor
 
 <!-- --8<-- [start:ShardEngine] -->
 ```juvix
-ShardEngine : Type :=
+ShardEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
     ShardCfg
-    ShardLocalState
+    (ShardLocalState KVSKey KVSDatum)
     ShardMailboxState
     ShardTimerHandle
     ShardActionArguments
-    Anoma.Msg
-    Anoma.Cfg
-    Anoma.Env;
+    (Anoma.PreMsg KVSKey KVSDatum Executable)
+    (Anoma.PreCfg KVSKey KVSDatum Executable)
+    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
 ```
 <!-- --8<-- [end:ShardEngine] -->
 
@@ -342,7 +386,7 @@ ShardEngine : Type :=
 
 <!-- --8<-- [start:exampleShardEngine] -->
 ```juvix
-exampleShardEngine : ShardEngine :=
+exampleShardEngine : ShardEngine String String ByteString String :=
   mkEngine@{
     cfg := shardCfg;
     env := shardEnv;
@@ -351,14 +395,14 @@ exampleShardEngine : ShardEngine :=
 ```
 <!-- --8<-- [start:exampleShardEngine] -->
 
-where `shardCfg` is defined as follows:
+where [[Shard Configuration#shardCfg|`shardCfg`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/shard_config.juvix.md:shardCfg"
 
-where `shardEnv` is defined as follows:
+where [[Shard Environment#shardEnv|`shardEnv`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/shard_environment.juvix.md:shardEnv"
 
-and `shardBehaviour` is defined as follows:
+and [[Shard Behaviour#shardBehaviour|`shardBehaviour`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/shard_behaviour.juvix.md:shardBehaviour"

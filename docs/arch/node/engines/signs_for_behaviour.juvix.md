@@ -2,15 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
-- juvix-module
 tags:
-- signs_for
-- engine-behavior
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - signsfor
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.signs_for_behaviour;
@@ -25,11 +25,11 @@ tags:
     import arch.node.types.anoma as Anoma open;
     ```
 
-# Signs For Behaviour
+# SignsFor Behaviour
 
 ## Overview
 
-The behavior of the Signs For Engine defines how it processes incoming messages and updates
+The behavior of the SignsFor Engine defines how it processes incoming messages and updates
 its state accordingly.
 
 ## Action arguments
@@ -37,7 +37,7 @@ its state accordingly.
 ### `SignsForActionArgumentReplyTo ReplyTo`
 
 ```juvix
-type ReplyTo := mkReplyTo {
+type ReplyTo := mkReplyTo@{
   whoAsked : Option EngineID;
   mailbox : Option MailboxID;
 };
@@ -72,7 +72,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### SignsForAction
 
@@ -138,7 +138,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `ResponseSignsFor` message is sent back to the requester.
+: A `ReplySignsFor` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -166,7 +166,7 @@ signsForQueryAction
           isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
           isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
         } (Set.toList (SignsForLocalState.evidenceStore localState)));
-        responseMsg := mkResponseSignsFor@{
+        responseMsg := mkReplySignsFor@{
           signsFor := hasEvidence;
           err := none
         };
@@ -176,7 +176,7 @@ signsForQueryAction
           sender := getEngineIDFromEngineCfg cfg;
           target := msgSender;
           mailbox := some 0;
-          msg := Anoma.MsgSignsFor (MsgSignsForResponse responseMsg)
+          msg := Anoma.MsgSignsFor (MsgSignsForReply responseMsg)
         }];
         timers := [];
         engines := []
@@ -193,7 +193,7 @@ State update
 : If the evidence doesn't already exist and is valid, it's added to the `evidenceStore` in the local state.
 
 Messages to be sent
-: A `ResponseSubmitSignsForEvidence` message is sent back to the requester.
+: A `ReplySubmitSignsForEvidence` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -224,7 +224,7 @@ submitEvidenceAction
           in case alreadyExists of {
             | true :=
               let
-                responseMsg := mkResponseSubmitSignsForEvidence@{
+                responseMsg := mkReplySubmitSignsForEvidence@{
                   err := some "Evidence already exists."
                 };
               in some mkActionEffect@{
@@ -233,7 +233,7 @@ submitEvidenceAction
                   sender := getEngineIDFromEngineCfg cfg;
                   target := msgSender;
                   mailbox := some 0;
-                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
+                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
                 }];
                 timers := [];
                 engines := []
@@ -247,7 +247,7 @@ submitEvidenceAction
                 newEnv := env@EngineEnv{
                   localState := updatedLocalState
                 };
-                responseMsg := mkResponseSubmitSignsForEvidence@{
+                responseMsg := mkReplySubmitSignsForEvidence@{
                   err := none
                 };
               in some mkActionEffect@{
@@ -256,7 +256,7 @@ submitEvidenceAction
                   sender := getEngineIDFromEngineCfg cfg;
                   target := msgSender;
                   mailbox := some 0;
-                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
+                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
                 }];
                 timers := [];
                 engines := []
@@ -264,7 +264,7 @@ submitEvidenceAction
           }
         | false :=
           let
-            responseMsg := mkResponseSubmitSignsForEvidence@{
+            responseMsg := mkReplySubmitSignsForEvidence@{
               err := some "Invalid evidence provided."
             };
           in some mkActionEffect@{
@@ -273,7 +273,7 @@ submitEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := msgSender;
               mailbox := some 0;
-              msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceResponse responseMsg)
+              msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -291,7 +291,7 @@ State update
 : The state remains unchanged.
 
 Messages to be sent
-: A `ResponseQuerySignsForEvidence` message is sent back to the requester.
+: A `ReplyQuerySignsForEvidence` message is sent back to the requester.
 
 Engines to be spawned
 : No engine is created by this action.
@@ -319,7 +319,7 @@ queryEvidenceAction
           isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity) ||
           isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity)
         } (SignsForLocalState.evidenceStore localState);
-        responseMsg := mkResponseQuerySignsForEvidence@{
+        responseMsg := mkReplyQuerySignsForEvidence@{
           externalIdentity := externalIdentity;
           evidence := relevantEvidence;
           err := none
@@ -330,7 +330,7 @@ queryEvidenceAction
           sender := getEngineIDFromEngineCfg cfg;
           target := msgSender;
           mailbox := some 0;
-          msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceResponse responseMsg)
+          msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply responseMsg)
         }];
         timers := [];
         engines := []
@@ -361,7 +361,7 @@ queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `SignsForGuard`
 
@@ -486,7 +486,7 @@ queryEvidenceGuard
 ```
 <!-- --8<-- [end:queryEvidenceGuard] -->
 
-## The Signs For Behaviour
+## The SignsFor Behaviour
 
 ### `SignsForBehaviour`
 
@@ -520,7 +520,7 @@ signsForBehaviour : SignsForBehaviour :=
 ```
 <!-- --8<-- [end:signsForBehaviour] -->
 
-## Signs For Action Flowcharts
+## SignsFor Action Flowcharts
 
 ### `signsForQueryAction` flowchart
 
@@ -538,7 +538,7 @@ flowchart TD
   C --> G -- *signsForQueryActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EMsg>MsgSignsForResponse<br/>signsFor result]
+    EMsg>MsgSignsForReply<br/>signsFor result]
   end
 ```
 
@@ -564,7 +564,7 @@ flowchart TD
 
   subgraph E[Effects]
     EEnv[(evidenceStore update)]
-    EMsg>MsgSubmitSignsForEvidenceResponse]
+    EMsg>MsgSubmitSignsForEvidenceReply]
   end
 ```
 
@@ -589,7 +589,7 @@ flowchart TD
   C --> G -- *queryEvidenceActionLabel* --> A --> E
 
   subgraph E[Effects]
-    EMsg>MsgQuerySignsForEvidenceResponse<br/>matching evidence]
+    EMsg>MsgQuerySignsForEvidenceReply<br/>matching evidence]
   end
 ```
 

@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- logging-engine
-- engine-environment
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - logging
+  - environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.logging_environment;
@@ -27,7 +27,8 @@ tags:
 
 ## Overview
 
-The logging environment maintains the state necessary for recording logs locally on the physical machine.
+The logging environment maintains the state necessary for recording logs locally
+on the physical machine.
 
 ## Mailbox state types
 
@@ -46,13 +47,13 @@ The logging engine does not require complex mailbox states.
 <!-- --8<-- [start:LoggingLocalState] -->
 ```juvix
 type LoggingLocalState :=
-  mkLoggingLocalState {
+  mkLoggingLocalState@{
     logbook : List String
-};
+  };
 ```
 <!-- --8<-- [end:LoggingLocalState] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `logbook`
     : List of log entries stored as strings.

@@ -3,9 +3,12 @@ icon: material/file-document-outline
 search:
   exclude: false
   boost: 2
+tags:
+  - system-architecture
+  - identity
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.system.identity.identity;
@@ -17,15 +20,15 @@ search:
 ??? note "Type definitions"
 
     ```juvix
-    type OrdKey (OrdKeyType : Type) :=
-      mkOrdkey {
-          compare : OrdKeyType -> OrdKeyType -> Ordering
+    type OrdKey OrdKeyType :=
+      mkOrdkey@{
+        compare : OrdKeyType -> OrdKeyType -> Ordering
       };
     ```
 
     ```juvix
-    type HASH (OrdKeyType Hashable : Type) :=
-      mkHASH {
+    type HASH OrdKeyType Hashable :=
+      mkHASH@{
         ordKey : OrdKey OrdKeyType;
         hash : Hashable -> OrdKeyType
       };
@@ -36,12 +39,12 @@ search:
     type OrdMap (OrdKeyType : Type) (MapCon : Type -> Type) :=
       mkOrdMap {
         ordKey : OrdKey OrdKeyType;
-        empty : {a : Type} -> MapCon a;
-        map : {a b : Type} -> (a -> b) -> MapCon a -> MapCon b;
-        insert : {a : Type} -> Pair (MapCon a) (Pair OrdKeyType a) -> MapCon a;
-        foldl : {a b : Type} -> (Pair a b -> b) -> b -> MapCon a -> b;
-        intersectWith : {a b c : Type} -> (Pair a b -> c) -> Pair (MapCon a) (MapCon b) -> MapCon c;
-        all : {a : Type} -> (a -> Bool) -> MapCon a -> Bool
+        empty {A} : MapCon A;
+        map {A B} : (A -> B) -> MapCon A -> MapCon B;
+        insert {A} : Pair (MapCon A) (Pair OrdKeyType A) -> MapCon A;
+        foldl {A B} : (Pair A B -> B) -> B -> MapCon A -> B;
+        intersectWith {A B C} : (Pair A B -> C) -> Pair (MapCon A) (MapCon B) -> MapCon C;
+        all {A} : (A -> Bool) -> MapCon A -> Bool
         -- Bunch of stuff, see https://www.smlnj.org/doc/smlnj-lib/Util/sig-OrdMap.html
       };
     ```
@@ -90,8 +93,8 @@ Properties:
     able to approximate `s` knowing only `v`.
 
 ```juvix
-type Signer (SignerType Signable Commitment : Type) :=
-  mkSigner {
+type Signer SignerType Signable Commitment :=
+  mkSigner@{
     sign : SignerType -> Signable -> Commitment
   };
 ```
@@ -124,8 +127,8 @@ Properties:
     it's "asymmetric encryption"
 
 ```juvix
-type Decryptor (DecryptorType Plaintext Ciphertext : Type) :=
-  mkDecryptor {
+type Decryptor DecryptorType Plaintext Ciphertext :=
+  mkDecryptor@{
     decrypt : DecryptorType -> Ciphertext -> Option Plaintext
   }
 ```
@@ -156,8 +159,14 @@ An internal_identity includes:
 Properties are inherited from `Signer` and `Decryptor`.
 
 ```juvix
-type InternalIdentity (SignerType Signable Commitment DecryptorType Plaintext Ciphertext : Type) :=
-  mkInternalIdentity {
+type InternalIdentity
+    SignerType
+    Signable
+    Commitment
+    DecryptorType
+    Plaintext
+    Ciphertext :=
+  mkInternalIdentity@{
     signer : Signer SignerType Signable Commitment;
     decryptor : Decryptor DecryptorType Plaintext Ciphertext
   }
@@ -197,8 +206,8 @@ Properties:
     able to approximate `s` knowing only `v`.
 
 ```juvix
-type Verifier (OrdKey VerifierType Signable Commitment : Type) :=
-  mkVerifier {
+type Verifier OrdKey VerifierType Signable Commitment :=
+  mkVerifier@{
     verify : VerifierType -> Signable -> Commitment -> Bool;
     verifierHash : HASH OrdKey VerifierType
   }
@@ -234,8 +243,8 @@ Properties:
     should not be able to approximate `d` knowing only `e`.
 
 ```juvix
-type Encryptor (OrdKey EncryptorType Plaintext Ciphertext : Type) :=
-  mkEncryptor {
+type Encryptor OrdKey EncryptorType Plaintext Ciphertext :=
+  mkEncryptor@{
     encrypt : EncryptorType -> Plaintext -> Ciphertext;
     encryptorHash : HASH OrdKey EncryptorType
   }
@@ -262,10 +271,17 @@ An external_identity includes:
 Properties are inherited from `Verifier` and `Encryptor`.
 
 ```juvix
-type ExternalIdentity (
-    VerifierOrdKeyType VerifierType Signable Commitment
-    EncryptorOrdKeyType EncryptorType Plaintext Ciphertext : Type) :=
-  mkExternalIdentity {
+type ExternalIdentity
+  VerifierOrdKeyType
+  VerifierType
+  Signable
+  Commitment
+  EncryptorOrdKeyType
+  EncryptorType
+  Plaintext
+  Ciphertext
+  :=
+  mkExternalIdentity@{
     verifier : Verifier VerifierOrdKeyType VerifierType Signable Commitment;
     encryptor : Encryptor EncryptorOrdKeyType EncryptorType Plaintext Ciphertext
   };
@@ -298,15 +314,21 @@ An Identity includes:
 Properties are inherited from `Verifier`, `Encryptor`, `Signer`, and `Decryptor`.
 
 ```juvix
-type Identity (
-  SignerType InternalSignable InternalCommitment
-  DecryptorType InternalCiphertext InternalPlaintext
+type Identity
+  SignerType
+  InternalSignable
+  InternalCommitment
+  DecryptorType
+  InternalCiphertext
+  InternalPlaintext
   VerifierOrdKeyType
-  VerifierType ExternalSignable ExternalCommitment
+  VerifierType
+  ExternalSignable
+  ExternalCommitment
   EncryptorOrdKeyType
   EncryptorType ExternalPlaintext ExternalCiphertext
- : Type) :=
-  mkIdentity {
+   :=
+  mkIdentity@{
     internalIdentity : InternalIdentity SignerType InternalSignable InternalCommitment DecryptorType InternalPlaintext InternalCiphertext;
     externalIdentity : ExternalIdentity VerifierOrdKeyType VerifierType ExternalSignable ExternalCommitment EncryptorOrdKeyType EncryptorType ExternalPlaintext ExternalCiphertext
   };
@@ -354,8 +376,8 @@ Note that `signsFor` is not symmetric: `signsFor e (x,y)` does not
  imply that any `z` exists such that `signsFor z (y,x)`.
 
 ```juvix
-type SignsFor (OrdKey VerifierType Signable Commitment Evidence : Type) :=
-  mkSignsFor {
+type SignsFor OrdKey VerifierType Signable Commitment Evidence :=
+  mkSignsFor@{
     verifier : Verifier OrdKey VerifierType Signable Commitment;
     signsFor : Evidence -> (Pair VerifierType VerifierType) -> Bool
   };
@@ -633,7 +655,8 @@ ThresholdComposeFunctor
             OrdMap.foldl map \{(mkPair x y) := x + y} 0 (
               OrdMap.intersectWith map (
                 \{ | (mkPair (mkPair w v) x) :=
-                      ite (Verifier.verify underlyingVerifier v s x) w 0
+                      if | (Verifier.verify underlyingVerifier v s x) := w
+                         | else := 0
                 }
             ) (mkPair ws c)))
       )
@@ -727,7 +750,7 @@ type ThresholdComposeSignsFor
 
 ```juvix
 projectSignsFor
-  { OrdKey VerifierType Signable Commitment Evidence : Type }
+  { OrdKey VerifierType Signable Commitment Evidence }
   { MapCon : Type -> Type }
   { VerifierHashOrdKeyType : Type }
   ( tc : ThresholdComposeSignsFor OrdKey VerifierType Signable Commitment Evidence MapCon VerifierHashOrdKeyType ) :
@@ -740,7 +763,7 @@ projectSignsFor
 
 ```juvix
 ThresholdComposeSignsForFunctor
-  { OrdKey VerifierType Signable Commitment Evidence : Type }
+  { OrdKey VerifierType Signable Commitment Evidence }
   { MapCon : Type -> Type }
   { VerifierHashOrdKeyType : Type }
   ( S : SignsFor OrdKey VerifierType Signable Commitment Evidence )
@@ -759,7 +782,8 @@ ThresholdComposeSignsForFunctor
               (w * t1) <=
               ((OrdMap.foldl map
                 \{ (mkPair (mkPair x v1) s) :=
-                    ite (SignsFor.signsFor underlyingSignsFor e (mkPair v v1)) (x + s) s
+                    if | (SignsFor.signsFor underlyingSignsFor e (mkPair v v1)) := x + s
+                       | else := s
                 }
                 0 w1
                 ) * t0)
@@ -813,9 +837,10 @@ projectEncryptor
 ```
 
 ```juvix
-axiom encrypt_DUMMY :
-  {EncryptorType Plaintext Ciphertext : Type} -> {MapCon : Type -> Type} ->
-  (ComposeHashable EncryptorType MapCon) -> Plaintext -> Ciphertext;
+axiom encrypt_DUMMY
+  {EncryptorType Plaintext Ciphertext}
+  {MapCon}
+  : (ComposeHashable EncryptorType MapCon) -> Plaintext -> Ciphertext;
 ```
 
 ```juvix
@@ -926,7 +951,8 @@ ThresholdComposeReadsForFunctor
               (w * t1) <=
               ((OrdMap.foldl map
                 \{ (mkPair (mkPair x v1) s) :=
-                    ite (ReadsFor.readsFor underlyingReadsFor e (mkPair v v1)) (x + s) s
+                    if | (ReadsFor.readsFor underlyingReadsFor e (mkPair v v1)) := x + s
+                       | else := s
                 }
                 0 w1
               ) * t0)

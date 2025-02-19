@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- naming
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - naming
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.naming_messages;
@@ -21,7 +22,76 @@ tags:
 
 ## Message interface
 
-### `MsgNamingResolveNameRequest RequestResolveName`
+--8<-- "./naming_messages.juvix.md:NamingMsg"
+
+## Message sequence diagrams
+
+### Resolving a name
+
+<!-- --8<-- [start:message-sequence-diagram-name-resolution] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant NamingEngine
+
+    Client->>NamingEngine: RequestResolveName (name)
+    Note over NamingEngine: Check stored evidence
+    NamingEngine->>Client: ReplyResolveName
+```
+
+<figcaption markdown="span">
+Resolving a name
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-name-resolution] -->
+
+### Submitting name evidence
+
+<!-- --8<-- [start:message-sequence-diagram-submit] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant NamingEngine
+
+    Client->>NamingEngine: RequestSubmitNameEvidence
+    Note over NamingEngine: Verify and store evidence
+    NamingEngine->>Client: ReplySubmitNameEvidence
+```
+
+<figcaption markdown="span">
+Submitting name evidence
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-submit] -->
+
+### Querying name evidence
+
+<!-- --8<-- [start:message-sequence-diagram-query] -->
+<figure markdown="span">
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant NamingEngine
+
+    Client->>NamingEngine: RequestQueryNameEvidence (for ExternalIdentity)
+    Note over NamingEngine: Retrieve relevant evidence
+    NamingEngine->>Client: ReplyQueryNameEvidence
+```
+
+<figcaption markdown="span">
+Querying name evidence for an identity.
+</figcaption>
+</figure>
+<!-- --8<-- [end:message-sequence-diagram-query] -->
+
+## Message types
+
+### `RequestResolveName`
 
 ```juvix
 type RequestResolveName := mkRequestResolveName {
@@ -29,31 +99,33 @@ type RequestResolveName := mkRequestResolveName {
 };
 ```
 
-A `RequestResolveName` asks the Naming Engine which `ExternalIdentity`s are associated with a given `IdentityName`.
+A `RequestResolveName` asks the Naming Engine which `ExternalIdentity`s are
+associated with a given `IdentityName`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `identityName`:
     : The name to resolve.
 
-### `MsgNamingResolveNameResponse ResponseResolveName`
+### `ReplyResolveName`
 
 ```juvix
-type ResponseResolveName := mkResponseResolveName {
+type ReplyResolveName := mkReplyResolveName {
   externalIdentities : Set ExternalIdentity;
   err : Option String
 };
 ```
 
-A `ResponseResolveName` is returned in response to a `RequestResolveName`.
+A `ReplyResolveName` is returned in response to a `RequestResolveName`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
+
     `externalIdentities`:
-    : A set of ExternalIdentitys associated with the IdentityName.
+    : A set of `ExternalIdentity`s associated with the `IdentityName`.
 
     `err`:
     : An error message if the resolution failed.
 
-### `MsgNamingSubmitNameEvidenceRequest RequestSubmitNameEvidence`
+### `RequestSubmitNameEvidence`
 
 ```juvix
 type RequestSubmitNameEvidence := mkRequestSubmitNameEvidence {
@@ -61,27 +133,29 @@ type RequestSubmitNameEvidence := mkRequestSubmitNameEvidence {
 };
 ```
 
-A `RequestSubmitNameEvidence` instructs the Naming Engine to store a new piece of IdentityNameEvidence.
+A `RequestSubmitNameEvidence` instructs the Naming Engine to store a new piece
+of `IdentityNameEvidence`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
+
     `evidence`:
-    : The evidence supporting the association between an IdentityName and an ExternalIdentity.
+    : The evidence supporting the association between an `IdentityName` and an `ExternalIdentity`.
 
-### `MsgNamingSubmitNameEvidenceResponse ResponseSubmitNameEvidence`
+### `ReplySubmitNameEvidence`
 
 ```juvix
-type ResponseSubmitNameEvidence := mkResponseSubmitNameEvidence {
+type ReplySubmitNameEvidence := mkReplySubmitNameEvidence {
   err : Option String
 };
 ```
 
-A `ResponseSubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`.
+A `ReplySubmitNameEvidence` is sent in response to a `RequestSubmitNameEvidence`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `err`:
     : An error message if the submission failed.
 
-### `MsgNamingQueryNameEvidenceRequest RequestQueryNameEvidence`
+### `RequestQueryNameEvidence`
 
 ```juvix
 type RequestQueryNameEvidence := mkRequestQueryNameEvidence {
@@ -89,26 +163,28 @@ type RequestQueryNameEvidence := mkRequestQueryNameEvidence {
 };
 ```
 
-A `RequestQueryNameEvidence` instructs the Naming Engine to return any known IdentityNames
-and IdentityNameEvidence associated with a specific ExternalIdentity.
+A `RequestQueryNameEvidence` instructs the Naming Engine to return any known
+`IdentityName`s and `IdentityNameEvidence` associated with a specific
+`ExternalIdentity`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
     `externalIdentity`:
     : The identity for which to retrieve evidence.
 
-### `MsgNamingQueryNameEvidenceResponse ResponseQueryNameEvidence`
+### `ReplyQueryNameEvidence`
 
 ```juvix
-type ResponseQueryNameEvidence := mkResponseQueryNameEvidence {
+type ReplyQueryNameEvidence := mkReplyQueryNameEvidence {
   externalIdentity : ExternalIdentity;
   evidence : Set IdentityNameEvidence;
   err : Option String
 };
 ```
 
-A `ResponseQueryNameEvidence` provides the requested evidence.
+A `ReplyQueryNameEvidence` provides the requested evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
+
     `externalIdentity`:
     : The `ExternalIdentity` associated with the returned evidence.
 
@@ -124,81 +200,17 @@ A `ResponseQueryNameEvidence` provides the requested evidence.
 ```juvix
 type NamingMsg :=
   | MsgNamingResolveNameRequest RequestResolveName
-  | MsgNamingResolveNameResponse ResponseResolveName
+  | MsgNamingResolveNameReply ReplyResolveName
   | MsgNamingSubmitNameEvidenceRequest RequestSubmitNameEvidence
-  | MsgNamingSubmitNameEvidenceResponse ResponseSubmitNameEvidence
+  | MsgNamingSubmitNameEvidenceReply ReplySubmitNameEvidence
   | MsgNamingQueryNameEvidenceRequest RequestQueryNameEvidence
-  | MsgNamingQueryNameEvidenceResponse ResponseQueryNameEvidence
+  | MsgNamingQueryNameEvidenceReply ReplyQueryNameEvidence
   ;
 ```
 <!-- --8<-- [end:NamingMsg] -->
 
-## Message sequence diagrams
+## Engine components
 
-### Resolving a Name
-
-<!-- --8<-- [start:message-sequence-diagram-name-resolution] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant NamingEngine
-
-    Client->>NamingEngine: RequestResolveName (name)
-    Note over NamingEngine: Check stored evidence
-    NamingEngine->>Client: ResponseResolveName
-```
-
-<figcaption markdown="span">
-Resolving a name
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-name-resolution] -->
-
-### Submitting Name Evidence
-
-<!-- --8<-- [start:message-sequence-diagram-submit] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant NamingEngine
-
-    Client->>NamingEngine: RequestSubmitNameEvidence
-    Note over NamingEngine: Verify and store evidence
-    NamingEngine->>Client: ResponseSubmitNameEvidence
-```
-
-<figcaption markdown="span">
-Submitting name evidence
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-submit] -->
-
-### Querying Name Evidence
-
-<!-- --8<-- [start:message-sequence-diagram-query] -->
-<figure markdown="span">
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant NamingEngine
-
-    Client->>NamingEngine: RequestQueryNameEvidence (for ExternalIdentity)
-    Note over NamingEngine: Retrieve relevant evidence
-    NamingEngine->>Client: ResponseQueryNameEvidence
-```
-
-<figcaption markdown="span">
-Querying name evidence for an identity.
-</figcaption>
-</figure>
-<!-- --8<-- [end:message-sequence-diagram-query] -->
-
-## Engine Components
-
+- [[Naming Configuration]]
 - [[Naming Environment]]
 - [[Naming Behaviour]]
