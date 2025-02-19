@@ -7,6 +7,8 @@ search:
 
 ```juvix
 module arch.system.state.resource_machine.primitive_interfaces.proving_system.proving_system_delta;
+import prelude open;
+import arch.system.state.resource_machine.primitive_interfaces.proving_system.proving_system_types open;
 ```
 
 # Delta Proving System
@@ -21,6 +23,21 @@ Delta proving system is used to prove that the transaction delta is equal to a c
 
 The aggregation function allows to aggregate proofs in a way that if $\pi_1$ proves that the first transaction's balance is $b_1$ and the second proof $\pi_2$ proves the second transaction's balance is $b_2$, then the proof $Aggregate(\pi_1, \pi_2)$ proves that the composed transaction's balance is $b_1 + b_2$.
 
+```juvix
+trait
+type DeltaProvingSystem (Statement Proof Instance Witness ProvingKey VerifyingKey : Type) := mkDeltaProvingSystem@{
+     provingSystem : ProvingSystem Statement Proof Instance Witness ProvingKey VerifyingKey;
+     aggregate : Proof -> Proof;
+     };
+```
+
+??? note "Coercion to parent `provingSystemOf`"
+
+    ```juvix
+    coercion instance
+    provingSystemOf {S P I W PK VK} {{dps : DeltaProvingSystem S P I W PK VK}} : ProvingSystem S P I W PK VK :=
+      DeltaProvingSystem.provingSystem {{dps}};
+    ```
 
 ```mermaid
 ---
