@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- commitment-engine
-- engine-environment
+- node-architecture
+- identity-subsystem
+- engine
+- commitment
+- configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.commitment_config;
@@ -27,7 +27,7 @@ tags:
 
 ## Overview
 
-The commitment engine configuration contains static information for commitment engine instances.
+The commitment engine configuration contains static information for commitment engine instances, namely the signer and the backend.
 
 ## The Commitment Configuration
 
@@ -44,7 +44,7 @@ type CommitmentCfg := mkCommitmentCfg@{
 ```
 <!-- --8<-- [end:CommitmentCfg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `signer`:
     : The signer for the identity.

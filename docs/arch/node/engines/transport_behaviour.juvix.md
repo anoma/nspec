@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- transport-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - transport
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.transport_behaviour;
@@ -81,7 +81,7 @@ TransportActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TransportAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : TransportActionExec := Seq [ exampleReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `TransportGuard`
 

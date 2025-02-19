@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- pub-sub-topic-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - pub-sub-topic
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.pub_sub_topic_behaviour;
@@ -80,7 +80,7 @@ PubSubTopicActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `PubSubTopicAction`
 
@@ -215,7 +215,7 @@ exampleReplyActionLabel : PubSubTopicActionExec := Seq [ exampleReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `PubSubTopicGuard`
 

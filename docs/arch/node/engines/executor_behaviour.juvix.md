@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- executor-engine
-- engine-behaviour
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - executor
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.executor_behaviour;
@@ -32,7 +32,8 @@ tags:
 
 ## Overview
 
-The executor behaviour defines how it processes incoming read responses and performs state transitions to execute the transaction program.
+The executor behaviour defines how it processes incoming read responses and
+performs state transitions to execute the transaction program.
 
 ## Executor Action Flowcharts
 
@@ -191,9 +192,11 @@ syntax alias ExecutorActionArguments := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
-    ### ExecutorAction
+
+
+    ### `ExecutorAction`
 
     ```juvix
     ExecutorAction (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
@@ -208,7 +211,9 @@ syntax alias ExecutorActionArguments := Unit;
         (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
-    ### ExecutorActionInput
+
+
+    ### `ExecutorActionInput`
 
     ```juvix
     ExecutorActionInput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
@@ -221,7 +226,9 @@ syntax alias ExecutorActionArguments := Unit;
         (Anoma.PreMsg KVSKey KVSDatum Executable);
     ```
 
-    ### ExecutorActionEffect
+
+
+    ### `ExecutorActionEffect`
 
     ```juvix
     ExecutorActionEffect (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
@@ -234,7 +241,9 @@ syntax alias ExecutorActionArguments := Unit;
         (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
 
-    ### ExecutorActionExec
+
+
+    ### `ExecutorActionExec`
 
     ```juvix
     ExecutorActionExec (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
@@ -433,7 +442,7 @@ processReadActionLabel
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `ExecutorGuard`
 
@@ -452,6 +461,8 @@ processReadActionLabel
     ```
     <!-- --8<-- [end:ExecutorGuard] -->
 
+
+
     ### `ExecutorGuardOutput`
 
     <!-- --8<-- [start:ExecutorGuardOutput] -->
@@ -468,6 +479,8 @@ processReadActionLabel
         (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
     ```
     <!-- --8<-- [end:ExecutorGuardOutput] -->
+
+
 
     ### `ExecutorGuardEval`
 
@@ -557,3 +570,5 @@ executorBehaviour : ExecutorBehaviour String String ByteString String :=
   };
 ```
 <!-- --8<-- [end:executorBehaviour] -->
+
+---

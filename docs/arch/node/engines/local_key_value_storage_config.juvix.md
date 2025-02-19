@@ -2,15 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- local-key-value-storage-engine
-- engine-environment
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - local-key-value-storage
+  - configuration
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.local_key_value_storage_config;

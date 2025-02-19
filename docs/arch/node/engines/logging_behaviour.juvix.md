@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- logging-engine
-- engine-behaviour
+  - node-architecture
+  - hardware-subsystem
+  - engine
+  - logging
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.logging_behaviour;
@@ -53,7 +53,7 @@ LoggingActionArguments : Type := List LoggingActionArgument;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `LoggingAction`
 
@@ -175,7 +175,7 @@ appendLogActionLabel : LoggingActionExec := Seq [ appendLogAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ```juvix
     LoggingGuard : Type :=

@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- router-engine
-- engine-behaviour
+  - node-architecture
+  - network-subsystem
+  - engine
+  - router
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.router_behaviour;
@@ -25,6 +25,8 @@ tags:
     import arch.node.types.engine open;
     import arch.node.types.anoma as Anoma open;
     ```
+
+---
 
 # Router Behaviour
 
@@ -81,7 +83,9 @@ RouterActionArguments : Type := Unit;
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
+
+
 
     ### `RouterAction`
 
@@ -100,6 +104,8 @@ RouterActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:RouterAction] -->
 
+
+
     ### `RouterActionInput`
 
     <!-- --8<-- [start:RouterActionInput] -->
@@ -115,6 +121,8 @@ RouterActionArguments : Type := Unit;
     ```
     <!-- --8<-- [end:RouterActionInput] -->
 
+
+
     ### `RouterActionEffect`
 
     <!-- --8<-- [start:RouterActionEffect] -->
@@ -129,6 +137,8 @@ RouterActionArguments : Type := Unit;
         Anoma.Env;
     ```
     <!-- --8<-- [end:RouterActionEffect] -->
+
+
 
     ### `RouterActionExec`
 
@@ -215,7 +225,7 @@ exampleReplyActionLabel : RouterActionExec := Seq [ exampleReplyAction ];
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `RouterGuard`
 

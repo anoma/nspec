@@ -2,14 +2,15 @@
 icon: octicons/container-24
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
+- node-architecture
+- identity-subsystem
+- engine
 - commitment
-- engine-environment
+- environment
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.commitment_environment;
@@ -32,7 +33,8 @@ signing capabilities and any necessary signing keys or handles.
 
 ## Mailbox states
 
-The Commitment Engine does not require complex mailbox states. We define the mailbox state as `Unit`.
+The Commitment Engine does not require complex mailbox states. We define the
+mailbox state as `Unit`.
 
 ### `CommitmentMailboxState`
 

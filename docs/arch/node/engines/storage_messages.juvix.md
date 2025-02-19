@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- template-engine
-- engine-messages
+  - node-architecture
+  - network-subsystem
+  - engine
+  - storage
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.storage_messages;
@@ -48,8 +48,6 @@ Chunk request & response.
 
 ## Message types
 
----
-
 ### `ChunkGetRequest`
 
 Request for a *chunk* of an *object*.
@@ -63,7 +61,7 @@ type ChunkGetRequest := mkChunkRequest {
 }
 ```
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `chunk`
     : Chunk ID
@@ -75,13 +73,11 @@ type ChunkGetRequest := mkChunkRequest {
       - `True`: all,
       - `Nat`: up to nth level.
 
----
-
 ### `ChunkGetReply`
 
 Reply to a `ChunkGetRequest`.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `ChunkGetReplyOk`
 
@@ -97,7 +93,7 @@ Reply to a `ChunkGetRequest`.
       ;
     ```
 
-    ???+ quote "`ChunkGetReplyOk` constructors"
+    ???+ code "`ChunkGetReplyOk` constructors"
 
         `ChunkGetReplyOkContent`
         : Reply with chunk content.
@@ -108,7 +104,7 @@ Reply to a `ChunkGetRequest`.
         To retrieve the chunk, the requestor should issue another `ChunkGetRequest` to one of these nodes,
         trying them in the order of most recently successfully contacted.
 
-    ---
+
 
     #### `ChunkGetReplyError`
 
@@ -124,14 +120,11 @@ Reply to a `ChunkGetRequest`.
 ChunkGetReply : Type := Result ChunkGetReplyOk ChunkGetReplyError;
 ```
 
----
-
 ### `ChunkPutRequest`
 
-Request to store a chunk.
-May be restricted to local engines.
+Request to store a chunk. May be restricted to local engines.
 
-???+ quote "Auxiliary type"
+???+ code "Auxiliary type"
 
     #### `ChunkPutRequestOk`
 
@@ -154,7 +147,7 @@ May be restricted to local engines.
       ;
     ```
 
-    ---
+
 
     #### `ChunkPutReplyError`
 
@@ -169,8 +162,6 @@ May be restricted to local engines.
 ```juvix
 ChunkPutReply : Type := Result ChunkPutReplyOk ChunkPutReplyError;
 ```
-
----
 
 ### `StorageMsg`
 

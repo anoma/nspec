@@ -1,0 +1,1 @@
+  -  [**#329**](https://github.com/anoma/nspec/pull/329): Refactor type definitions to use simplified syntax

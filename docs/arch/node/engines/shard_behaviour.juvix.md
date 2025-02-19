@@ -2,15 +2,15 @@
 icon: material/animation-play
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- shard-engine
-- engine-behaviour
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - shard
+  - behaviour
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.shard_behaviour;
@@ -613,7 +613,7 @@ execEagerReads
 
 ## Actions
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `ShardAction`
 
@@ -968,7 +968,7 @@ updateSeenAllActionLabel
 
 ## Guards
 
-??? quote "Auxiliary Juvix code"
+??? code "Auxiliary Juvix code"
 
     ### `ShardGuard`
 

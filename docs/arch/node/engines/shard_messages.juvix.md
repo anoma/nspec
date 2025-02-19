@@ -2,15 +2,15 @@
 icon: material/message-draw
 search:
   exclude: false
-categories:
-- engine
-- node
 tags:
-- shard-engine
-- engine-messages
+  - node-architecture
+  - ordering-subsystem
+  - engine
+  - shard
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.shard_messages;
@@ -28,8 +28,6 @@ These are the messages that the Shard engine can receive/respond to.
 --8<-- "./shard_messages.juvix.md:ShardMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Transaction lock and read flow
 
@@ -59,11 +57,7 @@ Sequence Diagram: Transaction Lock and Read Flow
 </figure>
 <!-- --8<-- [end:message-sequence-diagram] -->
 
----
-
 ## Message types
-
----
 
 ### `KVSReadRequestMsg`
 
@@ -80,7 +74,7 @@ type KVSReadRequestMsg KVSKey :=
 ```
 <!-- --8<-- [end:KVSReadRequestMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The logical timestamp identifying the transaction at which to read
@@ -90,8 +84,6 @@ type KVSReadRequestMsg KVSKey :=
 
     `actual`
     : True if value is actually needed, false if just cleaning up a lazy read
-
----
 
 ### `KVSWriteMsg`
 
@@ -108,7 +100,7 @@ type KVSWriteMsg KVSKey KVSDatum :=
 ```
 <!-- --8<-- [end:KVSWriteMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The logical timestamp identifying the transaction in which to write
@@ -118,8 +110,6 @@ type KVSWriteMsg KVSKey KVSDatum :=
 
     `datum`
     : The data to write, or `none` to indicate no write
-
----
 
 ### `UpdateSeenAllMsg`
 
@@ -135,15 +125,13 @@ type UpdateSeenAllMsg :=
 ```
 <!-- --8<-- [end:UpdateSeenAllMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The logical timestamp at which to push the SeenAll value.
 
     `write`
     : Whether it is the `SeenAllReads` or `SeenAllWrites` to update.
-
----
 
 ### `KVSAcquireLockMsg`
 
@@ -164,7 +152,7 @@ type KVSAcquireLockMsg KVSKey :=
 ```
 <!-- --8<-- [end:KVSAcquireLockMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `lazy_read_keys`
     : Keys this transaction may read (only send values read in response to `KVSReadRequest`s)
@@ -187,8 +175,6 @@ type KVSAcquireLockMsg KVSKey :=
     `timestamp`
     : Specifies the transaction affiliated with these locks
 
----
-
 ### `KVSLockAcquiredMsg`
 
 Confirmation that locks were acquired.
@@ -202,12 +188,10 @@ type KVSLockAcquiredMsg :=
 ```
 <!-- --8<-- [end:KVSLockAcquiredMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The timestamp of the transaction which was locked.
-
----
 
 ### `KVSReadMsg`
 
@@ -224,7 +208,7 @@ type KVSReadMsg KVSKey KVSDatum :=
 ```
 <!-- --8<-- [end:KVSReadMsg] -->
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `timestamp`
     : The timestamp of the transaction which was read.
@@ -234,8 +218,6 @@ type KVSReadMsg KVSKey KVSDatum :=
 
     `data`
     : The the data read.
-
----
 
 ### `ShardMsg`
 
@@ -251,8 +233,6 @@ type ShardMsg KVSKey KVSDatum :=
   ;
 ```
 <!-- --8<-- [end:ShardMsg] -->
-
----
 
 ## Engine components
 

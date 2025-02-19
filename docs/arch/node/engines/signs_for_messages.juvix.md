@@ -2,14 +2,15 @@
 icon: octicons/gear-16
 search:
   exclude: false
-categories:
-- engine-behaviour
 tags:
-- signs_for
-- engine-messages
+  - node-architecture
+  - identity-subsystem
+  - engine
+  - signsfor
+  - message-types
 ---
 
-??? quote "Juvix imports"
+??? code "Juvix imports"
 
     ```juvix
     module arch.node.engines.signs_for_messages;
@@ -24,8 +25,6 @@ tags:
 --8<-- "./signs_for_messages.juvix.md:SignsForMsg"
 
 ## Message sequence diagrams
-
----
 
 ### Submitting `signs_for` evidence
 
@@ -48,8 +47,6 @@ Submitting evidence of a signs_for relationship
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-submit] -->
 
----
-
 ### Querying `signs_for` relationship
 
 <!-- --8<-- [start:message-sequence-diagram-query-relation] -->
@@ -70,8 +67,6 @@ Querying whether a specific signs_for relationship exists
 </figcaption>
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-relation] -->
-
----
 
 ### Retrieving `signs_for` evidence
 
@@ -94,11 +89,7 @@ Retrieving all signs_for evidence related to a particular identity
 </figure>
 <!-- --8<-- [end:message-sequence-diagram-query-evidence] -->
 
----
-
 ## Message types
-
----
 
 ### `RequestSignsFor`
 
@@ -112,15 +103,13 @@ type RequestSignsFor := mkRequestSignsFor {
 A `RequestSignsFor` queries whether `externalIdentityA` can sign on behalf of
 `externalIdentityB`.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentityA`:
     : The identity attempting to sign.
 
     `externalIdentityB`:
     : The identity on whose behalf the signature is made.
-
----
 
 ### `MsgSignsForReply ReplySignsFor`
 
@@ -133,15 +122,13 @@ type ReplySignsFor := mkReplySignsFor {
 
 A `ReplySignsFor` indicates whether the `signs_for` relationship exists.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `signsFor`:
     : True if `externalIdentityA` can sign for `externalIdentityB`, False otherwise.
 
     `err`:
     : An error message if the query failed.
-
----
 
 ### `RequestSubmitSignsForEvidence`
 
@@ -153,12 +140,10 @@ type RequestSubmitSignsForEvidence := mkRequestSubmitSignsForEvidence {
 
 A `RequestSubmitSignsForEvidence` submits evidence of a `signs_for` relationship.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `evidence`:
     : The evidence supporting the `signs_for` relationship.
-
----
 
 ### `ReplySubmitSignsForEvidence`
 
@@ -170,12 +155,10 @@ type ReplySubmitSignsForEvidence := mkReplySubmitSignsForEvidence {
 
 A `ReplySubmitSignsForEvidence` acknowledges the submission of evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `err`:
     : An error message if the submission failed.
-
----
 
 ### `RequestQuerySignsForEvidence`
 
@@ -187,12 +170,10 @@ type RequestQuerySignsForEvidence := mkRequestQuerySignsForEvidence {
 
 A `RequestQuerySignsForEvidence` queries all `signs_for` evidence related to an identity.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The identity for which to retrieve evidence.
-
----
 
 ### `ReplyQuerySignsForEvidence`
 
@@ -206,7 +187,7 @@ type ReplyQuerySignsForEvidence := mkReplyQuerySignsForEvidence {
 
 A `ReplyQuerySignsForEvidence` provides the requested evidence.
 
-???+ quote "Arguments"
+???+ code "Arguments"
 
     `externalIdentity`:
     : The identity for which to retrieve evidence.
@@ -216,8 +197,6 @@ A `ReplyQuerySignsForEvidence` provides the requested evidence.
 
     `err`:
     : An error message if the query failed.
-
----
 
 ### `SignsForMsg`
 
@@ -233,8 +212,6 @@ type SignsForMsg :=
   ;
 ```
 <!-- --8<-- [end:SignsForMsg] -->
-
----
 
 ## Engine components
 

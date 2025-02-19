@@ -1,8 +1,9 @@
 ---
 icon: octicons/versions-16
 tags:
-  - GitHub
-  - Git
+  - tutorial
+  - conventions
+  - versioning
 ---
 
 # Versioning
@@ -80,6 +81,24 @@ Update the version of the `nspec` package in the `references.bib` file.
   url = {https://github.com/anoma/nspec}
 }
 ```
+
+## Update `VERSION`
+
+```diff title="VERSION"
+-0.1.0
++0.1.1
+```
+
+## Update `pyproject.toml`
+
+```diff title="pyproject.toml"
+[tool.poetry]
+package-mode = true
+name = "nspec"
+- version = "0.1.0"
++ version = "0.1.1"
+```
+
 
 ### Git tag the new version
 
