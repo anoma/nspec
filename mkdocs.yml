@@ -16,7 +16,7 @@ nav:
       - List of tags: ./indexes/tags.md
       - List of modules: ./indexes/modules.md
       - List of basic types: ./prelude.juvix.md
-      - List of engines: ./indexes/engines.md
+    #   - List of engines: ./indexes/engines.md
   - Introduction:
       - Anomian: ./anomian.juvix.md
       - Anoma architecture: ./arch/overview.md
@@ -177,7 +177,7 @@ nav:
                       - Storage Behaviour: ./arch/node/engines/storage_behaviour.juvix.md
   - System architecture:
       - Identity Architecture:
-          - Identity Architecture Types: ./arch/system/identity/identity_types.juvix.md
+          - Identity Architecture Types: ./arch/system/identity/identity.juvix.md
       - State Architecture:
           - Resource Machine:
               - ./arch/system/state/resource_machine/index.juvix.md
@@ -199,7 +199,7 @@ nav:
                   - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.juvix.md
                   - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.juvix.md
               - Data structures:
-                  - ./arch/system/state/resource_machine/data/index.juvix.md
+                  - ./arch/system/state/resource_machine/data_structures/index.juvix.md
                   - Resource:
                       - ./arch/system/state/resource_machine/data_structures/resource/index.juvix.md
                       - Computable components:
