@@ -18,7 +18,6 @@ tags:
 
 ## Examples
 
-- [[Network subsystem]]
-- [[Hardware subsystem]]
-- [[Identity subsystem]]
-- [[Ordering subsystem]]
+- [[Hardware subsystem overview|Hardware subsystem]]
+- [[Identity subsystem overview|Identity subsystem]]
+- [[Ordering subsystem overview|Ordering subsystem]]
