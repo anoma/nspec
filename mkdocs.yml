@@ -16,7 +16,7 @@ nav:
       - List of tags: ./indexes/tags.md
       - List of modules: ./indexes/modules.md
       - List of basic types: ./prelude.juvix.md
-    #   - List of engines: ./indexes/engines.md
+        #   - List of engines: ./indexes/engines.md
   - Introduction:
       - Anomian: ./anomian.juvix.md
       - Anoma architecture: ./arch/overview.md
