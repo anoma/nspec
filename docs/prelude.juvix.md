@@ -14,7 +14,7 @@ tags:
     module prelude;
     import Stdlib.Trait open public;
     import Stdlib.Trait.Ord open using {Ordering; mkOrd; Equal; isEqual} public;
-    import Stdlib.Trait.Eq open using {==} public;
+    import Stdlib.Trait.Eq open using {Eq; mkEq; ==} public;
     import Stdlib.Debug.Fail open using {failwith};
     import Stdlib.Data.Fixity open public;
     ```
@@ -884,6 +884,8 @@ import Stdlib.Data.List as List
   any;
   all;
   zip;
+  splitAt;
+  filter;
 } public;
 ```
 
@@ -1079,7 +1081,11 @@ Traversable instance for lists
 instance
 traversableListI : Traversable List :=
   mkTraversable@{
-    sequence {F : Type -> Type} {A} {{appF : Applicative F}} (xs : List (F A)) : F (List A) :=
+    sequence
+      {F : Type -> Type}
+      {A}
+      {{appF : Applicative F}}
+      (xs : List (F A)) : F (List A) :=
       let
         cons : F A -> F (List A) -> F (List A)
           | x acc := liftA2 (::) x acc;
@@ -1089,7 +1095,11 @@ traversableListI : Traversable List :=
           | (x :: xs) := cons x (go xs);
       in go xs;
 
-    traverse {F : Type -> Type} {A B} {{appF : Applicative F}} (f : A -> F B) (xs : List A) : F (List B) :=
+    traverse
+      {F : Type -> Type}
+      {A B}
+      {{appF : Applicative F}}
+      (f : A -> F B) (xs : List A) : F (List B) :=
       let
         cons : A -> F (List B) -> F (List B)
           | x acc := liftA2 (::) (f x) acc;
