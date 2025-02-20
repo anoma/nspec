@@ -28,7 +28,7 @@ This release focuses on improving the prose, layout, and documentation structure
 
 ### Features
 
-- [System architecture](sys)
+- System architecture
   -  [**#334**](https://github.com/anoma/nspec/pull/334): Add deletion criterion to delete blobs immediately
 
 ### Fixes
@@ -57,10 +57,10 @@ This release focuses on improving the prose, layout, and documentation structure
   -  [**#336**](https://github.com/anoma/nspec/pull/336): some changes, proposed as a result of specs overall review
     (revamped)
   -  [**#337**](https://github.com/anoma/nspec/pull/337): Heindel/anthony/prose 3 suggestions for fixing the markdown
-- [System architecture](sys)
+- System architecture
   -  [**#334**](https://github.com/anoma/nspec/pull/334): Add missing deletion criterion to delete blobs after the
     transaction
-- [Juvix types and updates](types)
+- Juvix types and updates
   -  [**#298**](https://github.com/anoma/nspec/pull/298): Update juvix v0.6.9
   -  [**#302**](https://github.com/anoma/nspec/pull/302): [[List of basic types|Prelude]] improvements
   -  [**#305**](https://github.com/anoma/nspec/pull/305): Add most of the types for RM specs
@@ -297,7 +297,7 @@ project per version, with better documentation and descriptions of the changes.
 
 ### Features
 
-- [Application documentation](apps)
+- Application documentation
   - [**#198**](https://github.com/anoma/nspec/pull/198): Add transparent RM implementation documentation
 - **Python-related changes**
   - [**#133**](https://github.com/anoma/nspec/pull/133): Add support for multi-line wiki-style links
