@@ -67,6 +67,12 @@ syntax alias LabelHash := Digest;
 syntax alias LogicHash := Digest;
 ```
 
+#### `KindHash`
+
+```juvix
+syntax alias KindHash := Digest;
+```
+
 #### `Quantity`
 
 There are two numeric types of unspecified character mentioned in the RM, which
