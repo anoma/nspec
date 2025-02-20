@@ -35,17 +35,37 @@ tags:
 
 # Encryption Engine
 
-The Encryption engine is responsible for encrypting data to external identities,
-possibly using known `reads_for` relationships. It automatically utilizes
-"reads_for" relationship information from the [[ReadFor Engine]] along with caller
-preference information to choose which identity to encrypt to.
+The Encryption Engine provides encryption services within Anoma, allowing data to be securely
+encrypted for specific identities while supporting flexible encryption policies through integration
+with reads-for relationships. One may think of it as a smart mail service that can seal messages so that
+only intended recipients can read them, with the additional ability to consider pre-approved sharing
+relationships when sealing the message.
 
-## Purpose
+When users request encryption (via a `MsgEncryptionRequest` message), they provide the data to encrypt
+(a `Plaintext`), the target identity (an `ExternalIdentity`), and whether to consider reads-for
+relationships (`useReadsFor`). The engine has two main operating modes:
 
-The Encryption Engine encrypts data to external identities, optionally using
-known `reads_for` relationships. It is a stateless function, and calls to it do
-not need to be ordered. The runtime should implement this intelligently for
-efficiency.
+Direct encryption (`useReadsFor: false`)
+
+: The engine immediately encrypts the data for the
+specified identity and returns the encrypted result (via s `MsgEncryptionReply` containing a
+`Ciphertext`).
+
+ReadsFor-aware encryption (`useReadsFor: true`)
+
+: The engine first queries a [[ReadsFor Engine]] to
+check for any relevant reads-for relationships, then encrypts the data in a way that respects these
+relationships. This mode enables scenarios where data should be accessible not just to the direct
+recipient, but also to other identities with approved access rights.
+
+??? info "On spawning"
+
+    The engine is spawned by the system
+    when encryption services are needed and operates statelessly
+    except when handling reads-for queries.
+    For reads-for cases,
+    it maintains a temporary queue of pending encryption requests
+    while waiting for relationship evidence.
 
 ## Engine components
 

@@ -16,7 +16,7 @@ nav:
       - List of tags: ./indexes/tags.md
       - List of modules: ./indexes/modules.md
       - List of basic types: ./prelude.juvix.md
-    #   - List of engines: ./indexes/engines.md
+        #   - List of engines: ./indexes/engines.md
   - Introduction:
       - Anomian: ./anomian.juvix.md
       - Anoma architecture: ./arch/overview.md
@@ -199,7 +199,6 @@ nav:
                   - Commitment accumulator: ./arch/system/state/resource_machine/primitive_interfaces/commitment_accumulator.juvix.md
                   - Nullifier set: ./arch/system/state/resource_machine/primitive_interfaces/nullifier_set.juvix.md
               - Data structures:
-                  - ./arch/system/state/resource_machine/data_structures/index.juvix.md
                   - Resource:
                       - ./arch/system/state/resource_machine/data_structures/resource/index.juvix.md
                       - Computable components:
@@ -355,9 +354,6 @@ plugins:
         mermaid: svg
   - tags:
       tags_file: indexes/tags.md
-      tags_slugify: !!python/object/apply:pymdownx.slugs.slugify
-        kwds:
-          case: lower
   - bibtex:
       bib_dir: "docs/references"
   - macros:
@@ -432,9 +428,9 @@ markdown_extensions:
 validation:
   nav:
     omitted_files: ignore
-    not_found: ignore
+    not_found: warn
     absolute_links: ignore
   links:
-    not_found: ignore
+    not_found: warn
     absolute_links: ignore
-    unrecognized_links: ignore
+    unrecognized_links: warn
