@@ -14,7 +14,6 @@ tags:
     ```juvix
     module arch.system.types.kind;
     import prelude open;
-    import arch.system.types.resource open;
     import arch.system.state.resource_machine.prelude open;
     ```
 
@@ -29,11 +28,4 @@ We assume an axiomatic function to combine a label and logic hash into a deltaâ€
 
 ```juvix
 axiom kindHash : LabelHash -> LogicHash -> KindHash;
-```
-
-The function `kind` computes the kind of a resource by extracting its label and logic fields.
-
-```juvix
-kind (r : Resource) : KindHash :=
-  kindHash (Resource.labelRef r) (Resource.logicRef r);
 ```

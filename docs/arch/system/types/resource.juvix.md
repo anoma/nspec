@@ -11,6 +11,8 @@ search:
     module arch.system.types.resource;
     import prelude open;
     import arch.system.types.nullifierkey open;
+    import arch.system.types.delta open;
+    import arch.system.types.kind open;
     import arch.system.state.resource_machine.prelude open;
     ```
 
@@ -95,3 +97,32 @@ Resources have the following key properties:
 - Fungibility: Resources sharing the same label are considered fungible
 - Nullification: Resources can be consumed only once using their [[Nullifier|nullifier key]]
 - Ephemerality: Ephemeral resources bypass existence checks when consumed
+
+# Kind
+
+The function `kind` computes the kind of a resource by extracting its label and logic fields.
+
+```juvix
+kind (r : Resource) : KindHash :=
+  kindHash (Resource.labelRef r) (Resource.logicRef r);
+```
+
+## Delta for Resource
+
+Below is the *HasDelta* instance for a `Resource`. It calls `deltaHash` with the
+resource’s `kind`, `quantity`, and some `extraInput`.
+
+```juvix
+axiom extraInput : ExtraInput;
+
+axiom deltaHash :
+  KindHash -> Nat -> ExtraInput -> DeltaHash;
+
+instance
+hasDeltaResourceI : HasDelta Resource :=
+  mkHasDelta@{
+    delta := \{r :=
+      deltaHash (kind r) (Resource.quantity r) extraInput
+    }
+  };
+```
