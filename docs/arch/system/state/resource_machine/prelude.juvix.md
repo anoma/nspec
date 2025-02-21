@@ -67,6 +67,12 @@ syntax alias LabelHash := Digest;
 syntax alias LogicHash := Digest;
 ```
 
+#### `LogicRef`
+
+```juvix
+syntax alias LogicRef := LogicHash;
+```
+
 #### `KindHash`
 
 ```juvix
@@ -77,6 +83,24 @@ syntax alias KindHash := Digest;
 
 ```juvix
 syntax alias ExtraInput := ByteString;
+```
+
+#### `NullifierRef`
+
+```juvix
+syntax alias NullifierRef := Digest;
+```
+
+#### `RootRef`
+
+```juvix
+syntax alias RootRef      := Digest;
+```
+
+#### `CommitmentRef`
+
+```juvix
+syntax alias CommitmentRef := Digest;
 ```
 
 #### `Quantity`

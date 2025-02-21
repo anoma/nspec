@@ -12,7 +12,7 @@ tags:
 ??? quote "Juvix imports"
 
     ```juvix
-    module arch.system.state.resource_machine.primitive_interfaces.proving_system.ProvingSystem;
+    module arch.system.types.proving_system;
     import prelude open;
     import arch.system.state.resource_machine.prelude open;
     ```
