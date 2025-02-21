@@ -118,7 +118,7 @@ hasDeltaComplianceUnit {A}
 
 The doc states:
 
-1. `create(PS.ProvingKey, PS.Instance, PS.Proof) -> ComplianceUnit`  
+1. `create(PS.ProvingKey, PS.Instance, PS.Proof) -> ComplianceUnit`
 2. `verify(ComplianceUnit) -> Bool`
 
 We define them top-level:
@@ -130,7 +130,7 @@ createComplianceUnit
   (pr : Proof)
   : ComplianceUnit Proof VerifyingKey ProvingKey
   :=
-    -- doc says we might call system.prove(...) etc. 
+    -- doc says we might call system.prove(...) etc.
     -- We'll do minimal logic:
     mkComplianceUnit
       { system    = ???    -- should be present in env already
@@ -142,7 +142,7 @@ createComplianceUnit
 ```
 
 ```juvix
-verifyComplianceUnit 
+verifyComplianceUnit
   (A Proof VerifyingKey ProvingKey : Type)
   (u : ComplianceUnit A Proof VerifyingKey ProvingKey)
   : Bool

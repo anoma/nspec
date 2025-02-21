@@ -22,7 +22,7 @@ tags:
 A **proving system** is defined by five type parameters: `Proof`, `VerifyingKey`,
 `ProvingKey`, `Instance`, and `Witness`. It provides two core functions:
 
-1. `prove(pk, instance, witness) -> Proof`  
+1. `prove(pk, instance, witness) -> Proof`
 2. `verify(vk, instance, proof) -> Bool`
 
 These functions are used to produce and verify proofs that some statement

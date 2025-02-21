@@ -150,7 +150,7 @@ checkConsumedResource
               passCommit : Bool := resourceCommitment r == cm;
               passLog    : Bool := resourceLogicRefHash r == logRf;
               passMerkle : Bool := merkleVerify cm path rootRf;
-            in 
+            in
             passNF && passCommit && passLog && passMerkle
           }
         }
@@ -164,7 +164,7 @@ checkCreatedResource
       | mkCreatedResourceWitness r logOp :=
         case creatRef of {
           | (cmRef, logRf) :=
-            let passC   : Bool := commitmentHash (resourceCommitment r) == cmRef; 
+            let passC   : Bool := commitmentHash (resourceCommitment r) == cmRef;
                 passLog : Bool := resourceLogicRefHash r == logRf;
             in passC && passLog
         }
