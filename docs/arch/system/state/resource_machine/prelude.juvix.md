@@ -73,6 +73,12 @@ syntax alias LogicHash := Digest;
 syntax alias KindHash := Digest;
 ```
 
+#### `ExtraInput`
+
+```juvix
+syntax alias ExtraInput := ByteString;
+```
+
 #### `Quantity`
 
 There are two numeric types of unspecified character mentioned in the RM, which
