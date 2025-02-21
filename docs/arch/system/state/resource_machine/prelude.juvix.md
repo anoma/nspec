@@ -416,6 +416,16 @@ orderedSetFromList
     (mkOrderedSet Set.empty []);
 ```
 
+#### `orderedSetMap`
+
+```juvix
+orderedSetMap
+  {A B} {{Ord A}} {{Ord B}}
+  (f : A -> B)
+  (s : OrderedSet A) : OrderedSet B :=
+  orderedSetFromList (map f (orderedSetToList s));
+```
+
 #### `IOrderedSet` instance for `OrderedSet`
 
 ```juvix

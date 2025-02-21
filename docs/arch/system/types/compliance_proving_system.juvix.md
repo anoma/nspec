@@ -27,6 +27,7 @@ tags:
 
     import arch.system.types.proving_system open;
     import arch.system.types.resource open;
+    import arch.system.types.nullifier open;
     import arch.system.types.nullifierkey open;
     import arch.system.types.commitment open;
     import arch.system.types.commitmenttree open;
@@ -98,10 +99,21 @@ The doc states that compliance instance data has:
 
 ```juvix
 type ComplianceInstance : Type :=
-  mkComplianceInstance
-    (OrderedSet (Pair (Pair NullifierRef RootRef) LogicRef))
-    (OrderedSet (Pair CommitmentRef LogicRef))
-    DeltaHash;
+  mkComplianceInstance {
+    consumed : (OrderedSet (Pair NullifierRef (Pair RootRef LogicRef)));
+    created : (OrderedSet (Pair CommitmentRef LogicRef));
+    unitDelta : DeltaHash;
+  }
+```
+
+There also has to exist some method to dereference resources.
+
+```juvix
+axiom dereferenceNullifier : LogicRef -> Nullifier;
+axiom dereferenceCommitment {A} : CommitmentRef -> Commitment A;
+
+axiom dereferenceConsumed : (Pair NullifierRef (Pair RootRef LogicRef)) -> Resource;
+axiom dereferenceCreated : (Pair CommitmentRef LogicRef) -> Resource;
 ```
 
 ## Local Constraint Checks
@@ -125,7 +137,7 @@ NOTE: There are a bunch of functions here that aren't currently defined.
 ```
 checkConsumedResource
   (consWitness : ConsumedResourceWitness)
-  (consRef     : (Pair (Pair NullifierRef RootRef) LogicRef))
+  (consRef     : (Pair NullifierRef (Pair RootRef LogicRef)))
   : Bool
   := case consWitness of {
       | mkConsumedResourceWitness r nk path cm logOp :=
@@ -171,7 +183,7 @@ type ComplianceProvingSystem A
   (VerifyingKey : Type)
   (ProvingKey : Type)
 := mkComplianceProvingSystem@{
-    {{baseSystem}} : ProvingSystem
+    baseSystem : ProvingSystem
       Proof
       VerifyingKey
       ProvingKey
