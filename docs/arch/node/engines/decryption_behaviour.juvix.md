@@ -18,6 +18,7 @@ tags:
     import prelude open;
     import arch.node.types.messages open;
     import arch.system.identity.identity open;
+    import arch.node.utils open;
     import arch.node.types.engine open;
     import arch.node.engines.decryption_config open;
     import arch.node.engines.decryption_environment open;
@@ -261,7 +262,7 @@ decryptAction
               (DecryptionCfg.decryptor (EngineCfg.cfg cfg))
               (DecryptionCfg.backend (EngineCfg.cfg cfg))
               (RequestDecryption.data request);
-          responseMsg := case decryptedData of {
+          responseMsg' := case decryptedData of {
             | none := mkReplyDecryption@{
                 data := emptyByteString;
                 err := some "Decryption Failed"
@@ -270,20 +271,9 @@ decryptAction
                 data := plaintext;
                 err := none
               }
-          }
-        in some mkActionEffect@{
-          env := env;
-          msgs := [
-            mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := EngineMsg.sender emsg;
-              mailbox := some 0;
-              msg := Anoma.MsgDecryption (MsgDecryptionReply responseMsg)
-            }
-          ];
-          timers := [];
-          engines := []
-        }
+          };
+          responseMsg := Anoma.MsgDecryption (MsgDecryptionReply responseMsg');
+        in some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
       | _ := none
       }
     | _ := none

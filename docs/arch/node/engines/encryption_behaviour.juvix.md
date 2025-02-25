@@ -21,6 +21,7 @@ tags:
     import arch.node.engines.encryption_messages open;
     import arch.node.engines.encryption_config open;
     import arch.node.engines.reads_for_messages open;
+    import arch.node.utils open;
     import arch.node.types.anoma as Anoma open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;
@@ -343,26 +344,14 @@ encryptAction
       | Anoma.MsgEncryption (MsgEncryptionRequest (mkRequestEncrypt data externalIdentity useReadsFor)) :=
         case useReadsFor of {
         | false :=
-          some mkActionEffect@{
-            env := env;
-            msgs := [
-              mkEngineMsg@{
-                sender := getEngineIDFromEngineCfg cfg;
-                target := EngineMsg.sender emsg;
-                mailbox := some 0;
-                msg := Anoma.MsgEncryption (MsgEncryptionReply (
-                  mkReplyEncrypt@{
-                    ciphertext := Encryptor.encrypt
-                      (EncryptionCfg.encryptor (EngineCfg.cfg cfg) Set.empty externalIdentity)
-                      (EncryptionCfg.backend (EngineCfg.cfg cfg))
-                      data;
-                    err := none
-                  }))
-              }
-            ];
-            timers := [];
-            engines := []
-          }
+          let responseMsg := Anoma.MsgEncryption (MsgEncryptionReply mkReplyEncrypt@{
+                ciphertext := Encryptor.encrypt
+                  (EncryptionCfg.encryptor (EngineCfg.cfg cfg) Set.empty externalIdentity)
+                  (EncryptionCfg.backend (EngineCfg.cfg cfg))
+                  data;
+                err := none
+              })
+          in some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
         | true :=
           let existingRequests := Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState);
               newPendingList := case existingRequests of {
@@ -372,23 +361,17 @@ encryptAction
               newLocalState := localState@EncryptionLocalState{
                 pendingRequests := Map.insert externalIdentity newPendingList (EncryptionLocalState.pendingRequests localState)
               };
+              responseMsg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceRequest
+                mkRequestQueryReadsForEvidence@{
+                  externalIdentity := externalIdentity
+                })
           in some mkActionEffect@{
               env := env@EngineEnv{
                 localState := newLocalState
               };
               msgs := case existingRequests of {
                 | some _ := []
-                | none := [
-                    mkEngineMsg@{
-                      sender := getEngineIDFromEngineCfg cfg;
-                      target := EncryptionCfg.readsForEngineAddress (EngineCfg.cfg cfg);
-                      mailbox := some 0;
-                      msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceRequest (
-                        mkRequestQueryReadsForEvidence@{
-                          externalIdentity := externalIdentity
-                        }))
-                    }
-                  ]
+                | none := [defaultReplyMsg cfg (EncryptionCfg.readsForEngineAddress (EngineCfg.cfg cfg)) responseMsg]
               };
               timers := [];
               engines := []
@@ -442,20 +425,15 @@ handleReadsForReplyAction
               };
               msgs := map
                 (\{req := let whoAsked := fst req;
-                            data := snd req;
-                         in mkEngineMsg@{
-                              sender := getEngineIDFromEngineCfg cfg;
-                              target := whoAsked;
-                              mailbox := some 0;
-                              msg := Anoma.MsgEncryption (MsgEncryptionReply (
-                                mkReplyEncrypt@{
-                                  ciphertext := Encryptor.encrypt
-                                    (EncryptionCfg.encryptor (EngineCfg.cfg cfg) evidence externalIdentity)
-                                    (EncryptionCfg.backend (EngineCfg.cfg cfg))
-                                    data;
-                                  err := none
-                                }))
-                            }})
+                              data := snd req;
+                              responseMsg := Anoma.MsgEncryption (MsgEncryptionReply mkReplyEncrypt@{
+                                ciphertext := Encryptor.encrypt
+                                  (EncryptionCfg.encryptor (EngineCfg.cfg cfg) evidence externalIdentity)
+                                  (EncryptionCfg.backend (EngineCfg.cfg cfg))
+                                  data;
+                                err := none
+                              })
+                            in defaultReplyMsg cfg whoAsked responseMsg})
                 reqs;
               timers := [];
               engines := []

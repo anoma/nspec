@@ -20,6 +20,7 @@ tags:
     import arch.node.engines.commitment_messages open;
     import arch.node.engines.commitment_config open;
     import arch.node.engines.commitment_environment open;
+    import arch.node.utils open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -248,23 +249,11 @@ commitAction
             (CommitmentCfg.signer (EngineCfg.cfg cfg))
             (CommitmentCfg.backend (EngineCfg.cfg cfg))
             (RequestCommitment.data request);
-          responseMsg := mkReplyCommitment@{
+          responseMsg := Anoma.MsgCommitment (MsgCommitmentReply mkReplyCommitment@{
             commitment := signedData;
             err := none
-          }
-        in some mkActionEffect@{
-          env := env;
-          msgs := [
-            mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := EngineMsg.sender emsg;
-              mailbox := some 0;
-              msg := Anoma.MsgCommitment (MsgCommitmentReply responseMsg)
-            }
-          ];
-          timers := [];
-          engines := []
-        }
+          })
+        in some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
       | _ := none
       }
     | _ := none

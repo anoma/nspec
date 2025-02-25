@@ -21,6 +21,7 @@ tags:
     import arch.node.engines.shard_messages open;
 
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -292,12 +293,7 @@ processReadAction
     | some (MsgShard (ShardMsgKVSRead (mkKVSReadMsg@{key := readKey; data := readValue}))) :=
       let
         envelope (target : EngineID) (msg : Anoma.PreMsg KVSKey KVSDatum Executable) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-            target := target;
-            mailbox := some 0;
-            msg := msg
-          };
+          defaultReplyMsg (ActionInput.cfg input) target msg;
         local := EngineEnv.localState env;
         reads := ExecutorLocalState.completed_reads local;
         writes := ExecutorLocalState.completed_writes local;

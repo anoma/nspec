@@ -26,6 +26,7 @@ tags:
     import prelude open;
     import Stdlib.Data.Nat open;
     import Stdlib.Data.List as List;
+    import arch.node.utils open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -560,16 +561,11 @@ lockAcquiredAction
             newEnv := env@EngineEnv{localState := newState};
             allShards := getAllShards (MempoolWorkerLocalState.transactions local);
             makeUpdateMsg (target : EngineID) (isWrite : Bool) (timestamp : TxFingerprint) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-              mkEngineMsg@{
-                sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-                target := target;
-                mailbox := some 0;
-                msg := Anoma.MsgShard (ShardMsgUpdateSeenAll
-                  (mkUpdateSeenAllMsg@{
-                    timestamp := timestamp;
-                    write := isWrite
-                  }))
-              };
+              (defaultReplyMsg (ActionInput.cfg input) target (Anoma.MsgShard (ShardMsgUpdateSeenAll
+                (mkUpdateSeenAllMsg@{
+                  timestamp := timestamp;
+                  write := isWrite
+                }))));
             writeMessages := map \{shard := makeUpdateMsg shard true maxConsecutiveWrite} (Set.toList allShards);
             readMessages := map \{shard := makeUpdateMsg shard false maxConsecutiveRead} (Set.toList allShards);
         in some mkActionEffect@{

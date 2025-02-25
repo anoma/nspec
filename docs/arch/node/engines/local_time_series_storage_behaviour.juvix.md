@@ -20,6 +20,7 @@ tags:
     import arch.node.engines.local_time_series_storage_environment open;
 
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -152,21 +153,13 @@ getDataAction
       } :=
       let result := queryDB (LocalTSStorageLocalState.db local) (GetDataTSStorageDBRequest.query request);
       in case result of {
-        | some data := some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := sender;
-              mailbox := some 0;
-              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetReply
-                mkGetDataTSStorageDBReply@{
-                  query := GetDataTSStorageDBRequest.query request;
-                  data := data;
-                })
-            }];
-            timers := [];
-            engines := [];
-          }
+        | some data := 
+          let responseMsg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetReply
+            mkGetDataTSStorageDBReply@{
+              query := GetDataTSStorageDBRequest.query request;
+              data := data;
+            });
+          in some (defaultReplyActionEffect env cfg sender responseMsg)
         | none := none
       }
     | _ := none
@@ -229,17 +222,14 @@ recordDataAction
                       success := true;
                     })
                 };
-            notificationMsg := \{target := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := target;
-              mailbox := some 0;
-              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
-                (mkDataChangedTSStorageDB@{
+            notificationMsg := \{target := defaultReplyMsg cfg target
+              (Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
+                mkDataChangedTSStorageDB@{
                   query := query;
                   data := value;
                   timestamp := newTime
                 }))
-            }};
+            };
             notificationMsgs := map notificationMsg (getNotificationTargets query);
           in some mkActionEffect@{
               env := newEnv;
@@ -247,21 +237,13 @@ recordDataAction
               timers := [];
               engines := [];
             }
-        | none := some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := sender;
-              mailbox := some 0;
-              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgRecordReply
-                mkRecordDataTSStorageDBReply@{
-                  query := query;
-                  success := false;
-                })
-            }];
-            timers := [];
-            engines := [];
-          }
+        | none := 
+          let responseMsg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteReply
+            mkDeleteDataTSStorageDBReply@{
+              query := query;
+              success := false;
+            });
+          in some (defaultReplyActionEffect env cfg sender responseMsg)
       }
     | _ := none
   };
@@ -323,17 +305,14 @@ deleteDataAction
                       success := true;
                     })
                 };
-            notificationMsg := \{target := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := target;
-              mailbox := some 0;
-              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
-                (mkDataChangedTSStorageDB@{
+            notificationMsg := \{target := defaultReplyMsg cfg target
+              (Anoma.MsgLocalTSStorage (LocalTSStorageMsgDataChanged
+                mkDataChangedTSStorageDB@{
                   query := query;
                   data := value;
                   timestamp := newTime
                 }))
-            }};
+            };
             notificationMsgs := map notificationMsg (getNotificationTargets query);
           in some mkActionEffect@{
               env := newEnv;
@@ -341,21 +320,13 @@ deleteDataAction
               timers := [];
               engines := [];
             }
-        | none := some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := sender;
-              mailbox := some 0;
-              msg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteReply
-                mkDeleteDataTSStorageDBReply@{
-                  query := query;
-                  success := false;
-                })
-            }];
-            timers := [];
-            engines := [];
-          }
+        | none := 
+          let responseMsg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteReply
+            mkDeleteDataTSStorageDBReply@{
+              query := query;
+              success := false;
+            });
+          in some (defaultReplyActionEffect env cfg sender responseMsg)
       }
     | _ := none
   };
