@@ -22,6 +22,7 @@ tags:
     import Stdlib.Data.Nat open;
     import Stdlib.Data.List as List;
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -736,12 +737,10 @@ acquireLockAction
       in some mkActionEffect@{
         env := newEnv;
         msgs :=
-          mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-            target := KVSAcquireLockMsg.worker lockMsg;
-            mailbox := some 0;
-            msg := Anoma.MsgShard (ShardMsgKVSLockAcquired mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})
-          } :: snd propagationResult;
+          (defaultReplyMsg (ActionInput.cfg input)
+                           (KVSAcquireLockMsg.worker lockMsg)
+                           (Anoma.MsgShard (ShardMsgKVSLockAcquired mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg}))
+          ) :: snd propagationResult;
         timers := [];
         engines := []
       }
@@ -849,21 +848,16 @@ processReadRequestAction
                   case findMostRecentWrite updatedDag key timestamp of {
                     | none := none
                     | some data :=
-                      let readMsg := mkEngineMsg@{
-                            sender := getEngineIDFromEngineCfg cfg;
-                            target := sender;
-                            mailbox := some 0;
-                            msg := Anoma.MsgShard (ShardMsgKVSRead mkKVSReadMsg@{
+                      let responsMsg := Anoma.MsgShard (ShardMsgKVSRead mkKVSReadMsg@{
                               timestamp := timestamp;
                               key := key;
                               data := data
-                            })
-                          };
+                            });
                           newLocal := local@ShardLocalState{ dagStructure := updatedDag };
                           newEnv := env@EngineEnv{ localState := newLocal };
                       in some mkActionEffect@{
                         env := newEnv;
-                        msgs := [readMsg];
+                        msgs := [defaultReplyMsg cfg sender responsMsg];
                         timers := [];
                         engines := []
                       }

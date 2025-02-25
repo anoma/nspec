@@ -20,6 +20,7 @@ tags:
     import arch.node.engines.wall_clock_environment open;
 
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -172,28 +173,15 @@ getTimeAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
-      some mkActionEffect@{
-        env := env@EngineEnv{
-          localState := mkWallClockLocalState@{
-            currentTime := newTime
-          }
-        };
-        msgs := [
-          mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg cfg;
-            target := EngineMsg.sender emsg;
-            mailbox := some 0;
-            msg :=
-              Anoma.MsgWallClock
-                (WallClockGetTimeResult
-                  mkTimeResult@{
-                    epochTime := newTime
-                  })
-          }
-        ];
-        timers := [];
-        engines := [];
-      }
+      let newEnv := env@EngineEnv{
+        localState := mkWallClockLocalState@{
+          currentTime := newTime
+        }
+      };
+      responseMsg := Anoma.MsgWallClock (WallClockGetTimeResult mkTimeResult@{
+        epochTime := newTime
+      })
+      in some (defaultReplyActionEffect newEnv cfg (EngineMsg.sender emsg) responseMsg)
     | _ := none
     };
 ```

@@ -16,6 +16,7 @@ tags:
     module arch.node.engines.naming_behaviour;
 
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;
@@ -393,22 +394,12 @@ resolveNameAction
         identities := Set.fromList (map \{evidence :=
           IdentityNameEvidence.externalIdentity evidence
         } (Set.toList matchingEvidence));
-        responseMsg := mkReplyResolveName@{
+        responseMsg := Anoma.MsgNaming (MsgNamingResolveNameReply mkReplyResolveName@{
           externalIdentities := identities;
           err := none
-        }
+        })
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := EngineMsg.sender emsg;
-              mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingResolveNameReply responseMsg)
-            }];
-            timers := [];
-            engines := []
-          }
+        | some emsg := some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
         | _ := none
       }
     | _ := none
@@ -462,7 +453,7 @@ submitNameEvidenceAction
             }
           | false := env
         };
-        responseMsg := mkReplySubmitNameEvidence@{
+        responseMsg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceReply mkReplySubmitNameEvidence@{
           err := case isValid of {
             | false := some "Invalid evidence"
             | true := case alreadyExists of {
@@ -470,19 +461,9 @@ submitNameEvidenceAction
                 | false := none
               }
           }
-        }
+        })
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some mkActionEffect@{
-            env := newEnv;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := EngineMsg.sender emsg;
-              mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceReply responseMsg)
-            }];
-            timers := [];
-            engines := []
-          }
+        | some emsg := some (defaultReplyActionEffect newEnv cfg (EngineMsg.sender emsg) responseMsg)
         | _ := none
       }
     | _ := none
@@ -524,23 +505,13 @@ queryNameEvidenceAction
         relevantEvidence := AVLTree.filter \{evidence :=
           isEqual (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) extId)
         } (NamingLocalState.evidenceStore localState);
-        responseMsg := mkReplyQueryNameEvidence@{
+        responseMsg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceReply mkReplyQueryNameEvidence@{
           externalIdentity := extId;
           evidence := relevantEvidence;
           err := none
-        }
+        })
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := EngineMsg.sender emsg;
-              mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceReply responseMsg)
-            }];
-            timers := [];
-            engines := []
-          }
+        | some emsg := some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
         | _ := none
       }
     | _ := none

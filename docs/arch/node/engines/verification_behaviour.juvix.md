@@ -18,6 +18,7 @@ tags:
     import prelude open;
     import arch.node.types.messages open;
     import arch.system.identity.identity open hiding {ExternalIdentity};
+    import arch.node.utils open;
     import arch.node.types.engine open;
     import arch.node.engines.verification_config open;
     import arch.node.engines.verification_environment open;
@@ -344,24 +345,13 @@ verifyAction
         | mkEngineMsg@{msg := Anoma.MsgVerification (MsgVerificationRequest (mkRequestVerification data commitment externalIdentity useSignsFor))} :=
           case useSignsFor of {
             | false :=
-              some mkActionEffect@{
-                env := env;
-                msgs := [
-                  mkEngineMsg@{
-                    sender := getEngineIDFromEngineCfg cfg;
-                    target := EngineMsg.sender emsg;
-                    mailbox := some 0;
-                    msg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
-                      (Verifier.verify
-                        (VerificationCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
-                        (VerificationCfg.backend (EngineCfg.cfg cfg))
-                        data commitment)
-                      none))
-                  }
-                ];
-                timers := [];
-                engines := []
-              }
+              let responseMsg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
+                (Verifier.verify
+                  (VerificationCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
+                  (VerificationCfg.backend (EngineCfg.cfg cfg))
+                  data commitment)
+                none))
+              in some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
             | true :=
               let
                 existingRequests := Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState);
@@ -375,23 +365,9 @@ verifyAction
                 };
                 newEnv := env@EngineEnv{
                   localState := newLocalState
-                }
-              in some mkActionEffect@{
-                env := newEnv;
-                msgs := case existingRequests of {
-                  | some _ := []
-                  | none := [
-                    mkEngineMsg@{
-                      sender := getEngineIDFromEngineCfg cfg;
-                      target := VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg);
-                      mailbox := some 0;
-                      msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceRequest (mkRequestQuerySignsForEvidence externalIdentity))
-                    }
-                  ]
                 };
-                timers := [];
-                engines := []
-              }
+                responseMsg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceRequest (mkRequestQuerySignsForEvidence externalIdentity))
+              in some (defaultReplyActionEffect env cfg (VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg)) responseMsg)
           }
         | _ := none
       }
@@ -444,18 +420,14 @@ signsForReplyAction
                   let
                     whoAsked := fst req;
                     data := fst (snd req);
-                    commitment := snd (snd req)
-                  in mkEngineMsg@{
-                    sender := getEngineIDFromEngineCfg cfg;
-                    target := whoAsked;
-                    mailbox := some 0;
-                    msg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
+                    commitment := snd (snd req);
+                    responseMsg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
                       (Verifier.verify
                         (VerificationCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
                         (VerificationCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
-                  }}) reqs;
+                  in defaultReplyMsg cfg whoAsked responseMsg}) reqs;
                 timers := [];
                 engines := []
               }
