@@ -212,9 +212,9 @@ submitEvidenceAction
         case verifyEvidence evidence of {
         | true :=
           case isElement \{a b := a && b} true (map \{e := isEqual (Ord.cmp e evidence)} (Set.toList (ReadsForLocalState.evidenceStore localState))) of {
-          | true := some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) 
+          | true := some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg)
                             (Anoma.MsgReadsFor
-                              (MsgSubmitReadsForEvidenceReply 
+                              (MsgSubmitReadsForEvidenceReply
                               (mkReplySubmitReadsForEvidence
                               (some "Evidence already exists.")))))
           | false :=
@@ -225,9 +225,9 @@ submitEvidenceAction
               responseMsg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence none))
             in some (defaultReplyActionEffect newEnv cfg (EngineMsg.sender emsg) responseMsg)
           }
-        | false := some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) 
+        | false := some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg)
                         (Anoma.MsgReadsFor
-                          (MsgSubmitReadsForEvidenceReply 
+                          (MsgSubmitReadsForEvidenceReply
                           (mkReplySubmitReadsForEvidence
                           (some "Invalid evidence provided."))))
                       )

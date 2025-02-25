@@ -85,7 +85,7 @@ replyActionEffect
   (target : EngineID)
   (replyMsg : Anoma.Msg)
   : ActionEffect S B H Anoma.Msg Anoma.Cfg Anoma.Env :=
-    let 
+    let
       msg := defaultReplyMsg cfg target replyMsg
     in msgActionEffect {S} {B} {H} env [msg];
 ```

@@ -153,7 +153,7 @@ getDataAction
       } :=
       let result := queryDB (LocalTSStorageLocalState.db local) (GetDataTSStorageDBRequest.query request);
       in case result of {
-        | some data := 
+        | some data :=
           let responseMsg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgGetReply
             mkGetDataTSStorageDBReply@{
               query := GetDataTSStorageDBRequest.query request;
@@ -237,7 +237,7 @@ recordDataAction
               timers := [];
               engines := [];
             }
-        | none := 
+        | none :=
           let responseMsg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteReply
             mkDeleteDataTSStorageDBReply@{
               query := query;
@@ -320,7 +320,7 @@ deleteDataAction
               timers := [];
               engines := [];
             }
-        | none := 
+        | none :=
           let responseMsg := Anoma.MsgLocalTSStorage (LocalTSStorageMsgDeleteReply
             mkDeleteDataTSStorageDBReply@{
               query := query;
