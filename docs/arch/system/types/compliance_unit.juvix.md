@@ -47,7 +47,7 @@ file defines:
 
 ## The `ComplianceUnit` Type
 
-The doc states that a compliance unit has:
+The doc (compliance_unit.juvix.md) states that a compliance unit has:
 
 1. A reference to the **compliance proving system** used,
 2. The verifying key,
@@ -74,7 +74,7 @@ type ComplianceUnit A
 
 ## HasDelta(ComplianceUnit)
 
-The doc states we can re-derive the compliance unit's delta from the consumed
+The doc (compliance_unit.juvix.md) states we can re-derive the compliance unit's delta from the consumed
 and created resource deltas: \(\sum(\text{consumed}) - \sum(\text{created})\).
 We assert an additive group over `DeltaHash` and define a fold to hash a set of resources.
 We define:
@@ -118,7 +118,7 @@ hasDeltaComplianceUnit {A}
 
 NOTE: These are unfinished and need to be redone. IGNORE THIS SECTION.
 
-The doc states:
+The doc (compliance_unit.juvix.md) states:
 
 1. `create(PS.ProvingKey, PS.Instance, PS.Proof) -> ComplianceUnit`
 2. `verify(ComplianceUnit) -> Bool`
@@ -132,8 +132,8 @@ createComplianceUnit
   (pr : Proof)
   : ComplianceUnit Proof VerifyingKey ProvingKey
   :=
-    -- doc says we might call system.prove(...) etc.
-    -- We'll do minimal logic:
+    -- doc (compliance_unit.juvix.md) says we might call system.prove(...) etc.
+    -- I don't really know what all to do here
     mkComplianceUnit
       { system    = ???    -- should be present in env already
       ; vk        = ???    -- unclear where this comes from
@@ -159,11 +159,11 @@ verifyComplianceUnit
 !!! note
     This code is partial. In a real system, `createComplianceUnit` might produce
     the proof itself via `sys.prove(pk, cInst, someWitness)`, or store references
-    differently. The doc's detail aren't really clear
+    differently. The doc's (compliance_unit.juvix.md) detail aren't really clear
 
 ## `consumed` and `created` Functions
 
-The doc says:
+The doc (compliance_unit.juvix.md) says:
 
 - `consumed(ComplianceUnit) -> Set Nullifier`
 - `created(ComplianceUnit) -> Set Commitment`

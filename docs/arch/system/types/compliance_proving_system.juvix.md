@@ -48,7 +48,7 @@ described in the compliance proof documentation, and then provide a
 
 ### Consumed Resource Witness
 
-The doc states that each consumed resource has five data points in the witness:
+The doc (compliance_proof.juvix.md) states that each consumed resource has five data points in the witness:
 1. `resource` object
 2. `nullifierKey`
 3. `CTreePath`
@@ -80,7 +80,7 @@ type CreatedResourceWitness : Type :=
 
 ### ComplianceWitness
 
-The doc merges all consumed resource witness data and created resource witness
+The doc (compliance_proof.juvix.md) merges all consumed resource witness data and created resource witness
 data. We store them as lists in a single data structure:
 
 ```juvix
@@ -92,7 +92,7 @@ type ComplianceWitness A : Type :=
 
 ### ComplianceInstance
 
-The doc states that compliance instance data has:
+The doc (compliance_proof.juvix.md) states that compliance instance data has:
 1. `consumed : OrderedSet (NullifierRef, RootRef, LogicRef)`
 2. `created  : OrderedSet (CommitmentRef, LogicRef)`
 3. `unitDelta: DeltaHash`
@@ -120,7 +120,7 @@ axiom dereferenceCreated : (Pair CommitmentRef LogicRef) -> Resource;
 
 NOTE: These are unfinished and need to be redone. IGNORE THIS SECTION.
 
-The doc’s constraints for each consumed resource:
+The doc’s (compliance_proof.juvix.md) constraints for each consumed resource:
 
 1. `resourceNullifier(r, nk) == nfRef`
 2. `resourceCommitment(r) == cm`
