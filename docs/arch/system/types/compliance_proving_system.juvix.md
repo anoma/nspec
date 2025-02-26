@@ -118,6 +118,8 @@ axiom dereferenceCreated : (Pair CommitmentRef LogicRef) -> Resource;
 
 ## Local Constraint Checks
 
+NOTE: These are unfinished and need to be redone. IGNORE THIS SECTION.
+
 The doc’s constraints for each consumed resource:
 
 1. `resourceNullifier(r, nk) == nfRef`

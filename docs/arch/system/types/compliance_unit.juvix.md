@@ -116,6 +116,8 @@ hasDeltaComplianceUnit {A}
 
 ## `createComplianceUnit` and `verifyComplianceUnit`
 
+NOTE: These are unfinished and need to be redone. IGNORE THIS SECTION.
+
 The doc states:
 
 1. `create(PS.ProvingKey, PS.Instance, PS.Proof) -> ComplianceUnit`
