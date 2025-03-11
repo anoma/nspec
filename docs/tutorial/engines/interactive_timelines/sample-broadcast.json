@@ -10,12 +10,12 @@
           "generateMessages": [
             {
               "to": "Engine2",
-              "type": "broadcast", 
+              "type": "broadcast",
               "payload": "return state;"
             },
             {
               "to": "Engine3",
-              "type": "broadcast", 
+              "type": "broadcast",
               "payload": "return state;"
             }
           ]

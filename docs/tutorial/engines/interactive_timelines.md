@@ -17,7 +17,7 @@ configuration and renders an animated timeline of message interactions between
 engines.
 
 <div class="interactive-timeline-wrapper">
-<iframe 
+<iframe
 class="interactive-timeline"
 src="/latest/tutorial/engines/interactive_timelines/app.html"
 width="100%"
