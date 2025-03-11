@@ -19,7 +19,7 @@ engines.
 <div class="interactive-timeline-wrapper">
 <iframe
 class="interactive-timeline"
-src="/latest/tutorial/engines/interactive_timelines/app.html"
+src="app.html"
 width="100%"
 height="500px">
 </iframe>
