@@ -174,12 +174,12 @@ const sampleTitles = {
 function showKnownSampleFiles(fileList) {
     // Known sample files in this project
     const knownSamples = Object.keys(sampleTitles);
-    
+
     // const heading = document.createElement('div');
     // heading.className = 'sample-heading';
     // heading.textContent = 'Sample Network Configurations:';
     // fileList.appendChild(heading);
-    
+
     // Create buttons for sample files using the titles dictionary
     knownSamples.forEach(file => {
         addFileButton(fileList, file);
