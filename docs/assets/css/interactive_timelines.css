@@ -1,8 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0a1929;
+    color: #fff;
+}
 
 #app {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
+    padding: 10px 20px 10px 20px;
 }
 
 #engines-container {
@@ -132,6 +151,7 @@
     z-index: 1000;
     overflow: auto;
     border: 2px solid #4caf50;
+    box-sizing: border-box;
 }
 
 .file-selector-container h2 {
@@ -191,4 +211,25 @@
     background-color: #0a1929;
     color: white;
     margin-bottom: 10px;
+}
+
+/* Back to selection button */
+#back-to-selection {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #1a365d;
+    color: white;
+    border: 1px solid #4caf50;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+#back-to-selection:hover {
+    background-color: #4caf50;
+    color: #000;
 }

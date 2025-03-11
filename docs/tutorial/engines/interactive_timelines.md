@@ -7,67 +7,54 @@ tags:
   - example
   - interactive
 ---
-
-
-<link rel="stylesheet" href="/latest/assets/css/interactive_timelines.css" markdown="1">
-<script src="/latest/assets/js/interactive_timelines.js" markdown="1"></script>
-
-
 # Engine Timeline Visualizer
 
-In this tutorial, we'll look at an interactive timeline that visualizes message
-passing between different engines. The demo takes a configuration representation
-of the network as input and displays a visual timeline of message interactions.
-You can interact with the demo by clicking on the dotted lines to send messages
-between engines.
+## Engine communication
 
-<div id="app">
-    <div id="engines-container"></div>
-    <div id="timeline-container"></div>
+This interactive tutorial helps you explore how we envision [[Anomian|engines]]
+communicating through message passing. The visualization tool takes a JSON
+configuration and renders an animated timeline of message interactions between
+engines.
+
+<div class="interactive-timeline-wrapper">
+<iframe 
+class="interactive-timeline"
+src="/latest/tutorial/engines/interactive_timelines/app.html"
+width="100%"
+height="500px">
+</iframe>
 </div>
 
-## Interaction Guide
+## Getting Started
 
-In the interactive timeline below, 
+### how to use
 
-- each engine is represented as a box at the top of the screen
-- vertical lines extend down from each engine
-- dotted lines represent potential messages that can be sent
-- click on a dotted line to animate the message being sent
-- when the animation completes, the message is processed and may generate new potential messages
-- hover over message lines to see details about the message
-- the timeline scrolls up as messages are sent
-- hovering near an engine line will cause potential messages to spread out
+1. **Start the visualization** by clicking dotted message lines.
+2. **Hover over elements** to see detailed tooltips.
+3. **Watch the timeline scroll** automatically as messages propagate.
+4. **Observe engine states** update in real-time above each engine.
 
+### Visual interface overview
 
-### Message processing flow
+- **Engine Nodes**: Coloured boxes at top representing system components.
+- **Timeline**: Vertical lines showing message history and potential paths.
+- **Message Types**:
+  - **Dotted Lines**: Potential messages (click to send).
+  - **Solid Lines**: Active message animations
+  - **Faded Lines**: Historical messages
 
-When an engine receives a message, the following steps occur:
+## Core Concepts
 
-1. The original state of the receiving engine is captured
-2. The state effect is applied if the guard condition is met
-3. The guard condition for message generation is evaluated using the original
-   state
-4. If the guard returns true, new messages are generated based on the updated
-   state
+### message lifecycle
 
-This allows handlers to evaluate conditions based on the state before any
-modifications, while generating messages that include values from the updated
-state.
+1. **Initiation**: Click potential message (dotted line).
+2. **Transmission**: Animation shows message travelling between engines.
+3. **Processing**: Receiving engine evaluates message against handlers.
+4. **Response**: New potential messages generated based on updated state.
 
-## Features
+### Configuration Guide
 
-- Visualize messages being passed between engines
-- Interactive timeline with click-to-send functionality
-- Support for custom JavaScript handlers in messages
-- Support for engine state tracking
-- Animation of message transmission
-- Time-based scrolling timeline
-
-??? quote "JSON Configuration Format"
-
-    The JSON configuration should have the following structure:
-
+??? example "JSON Schema Structure"
     ```json
     {
     "engines": [
@@ -99,59 +86,36 @@ state.
     }
     ```
 
-???+ quote "Important Fields"
+??? note "Field Reference"
 
-    - `engines`: Array of engine configurations
-    - `name`: Name of the engine
-    - `initialState`: Initial state of the engine (can be any JSON value, or `null`)
-    - `messageHandlers`: Object mapping message types to handler configurations
-    - `initialMessages`: Array of messages that the engine will send on startup
+    #### Engine configuration
 
-    - `messageHandlers`: An object where each key is a message type the engine handles:
-    - `stateEffect`: JavaScript code as a string that updates the engine state (should return the new state)
-    - `guard`: JavaScript condition as a string that determines if the message should be processed
-    - `generateMessages`: Array of message objects to be generated in response
+    | Field | Type | Description |
+    |-------|------|-------------|
+    | `name` | string | Unique engine identifier |
+    | `initialState` | any | Starting state value |
+    | `messageHandlers` | array | Message processing rules |
+    | `initialMessages` | array | Initial outgoing messages |
 
-    - Message objects have the following structure:
-    - `to`: Target engine name
-    - `type`: Type of message
-    - `payload`: Data to send (can be a JS function string that returns a value)
+    #### Handler configuration
 
+    | Field | Context Variables | Description |
+    |-------|-------------------|-------------|
+    | `stateEffect` | `state`, `payload` | JS code returning new state |
+    | `guard` | `state`, `payload`, `messageType` | JS condition for handler activation |
+    | `generateMessages` | `state`, `payload` | Messages to send if guard passes |
 
-??? quote "Special Features"
+### Advanced Features
 
-- Use `"to": "from"` to send a message back to the sender
-- Include JavaScript code in the payload as a string: `"payload": "return state;"`
-- The JavaScript in `stateEffect` and `guard` now has access to:
-  - `state`: The current state of the receiving engine
-  - `payload`: The data sent with the message
-  - `from`: The name of the sending engine
-  - `messageType`: The type of message that triggered the handler   
+!!! tip "Special Message Handling"
 
-## Sample Configurations
-
-Three example JSON files are included:
-
-???+ quote "sample-ping-pong.json"
-
-    Simple ping-pong message passing between two engines
-
-    ```json title="sample-ping-pong.json"
-    --8<-- "./docs/tutorial/engines/interactive_timelines/sample-ping-pong.json"
-    ```
-
-???+ quote "sample-broadcast.json"
-
-    Demonstrates broadcast messaging and state propagation
-
-    ```json title="sample-broadcast.json"
-    --8<-- "./docs/tutorial/engines/interactive_timelines/sample-broadcast.json"
-    ```
-
-???+ quote "sample-ticker.json"
-
-    Shows read and increment operations with two ticker engines
-
-```
---8<-- "./docs/tutorial/engines/interactive_timelines/sample-ticker.json"
-```
+    - **Loopback Messages**: Use `"to": "from"` to return messages to sender
+    - **Dynamic Payloads**: Include JS code in payload strings:
+      ```json
+      "payload": "return {timestamp: Date.now(), value: state}"
+      ```
+    - **State Access**: Handlers can access:
+      - `state`: Current engine state
+      - `payload`: Received message data
+      - `from`: Sender engine name
+      - `messageType`: Type of received message

@@ -85,7 +85,7 @@ function showJsonFileSelector() {
     selectorContainer.className = 'file-selector-container';
     
     const title = document.createElement('h2');
-    title.textContent = 'Select a JSON file to visualize:';
+    title.textContent = 'Select a engine-timeline example';
     selectorContainer.appendChild(title);
     
     const fileList = document.createElement('div');
@@ -145,6 +145,16 @@ async function tryDirectoryListing(fileList) {
     }
 }
 
+// Helper function to check if we're in an iframe
+function isInIframe() {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        // If we can't access window.top, we're likely in a cross-origin iframe
+        return true;
+    }
+}
+
 // Show known sample files if directory listing fails
 function showKnownSampleFiles(fileList) {
     // Known sample files in this project
@@ -153,10 +163,17 @@ function showKnownSampleFiles(fileList) {
         'sample-broadcast.json',
         'sample-ticker.json'
     ];
+
+    // dictionario to assign labels/titles to the sample files
+    const sampleTitles = {
+        'sample-ticker.json': 'Ticker: Two-engine of the same type',
+        'sample-ping-pong.json': 'Ping Pong: Two-engine of different types',
+        'sample-broadcast.json': 'Broadcast: Several-engine of the same type',
+    };
     
     const heading = document.createElement('div');
     heading.className = 'sample-heading';
-    heading.textContent = 'Sample Files:';
+    heading.textContent = 'Sample Network Configurations:';
     fileList.appendChild(heading);
     
     // Create buttons for sample files
@@ -164,53 +181,55 @@ function showKnownSampleFiles(fileList) {
         addFileButton(fileList, file);
     });
     
-    // Add custom JSON input option
-    const customSection = document.createElement('div');
-    customSection.className = 'custom-json-section';
-    
-    const customHeading = document.createElement('div');
-    customHeading.className = 'sample-heading';
-    customHeading.textContent = 'Or provide JSON URL:';
-    customSection.appendChild(customHeading);
-    
-    const customInput = document.createElement('input');
-    customInput.type = 'text';
-    customInput.className = 'custom-json-input';
-    customInput.placeholder = 'Enter URL to JSON file';
-    customSection.appendChild(customInput);
-    
-    const loadButton = document.createElement('button');
-    loadButton.className = 'file-button';
-    loadButton.textContent = 'Load JSON';
-    
-    // Helper function to load the JSON
-    const loadJson = () => {
-        const url = customInput.value.trim();
-        if (url) {
-            window.location.search = `?json=${encodeURIComponent(url)}`;
-        }
-    };
-    
-    // Add click event
-    loadButton.addEventListener('click', loadJson);
-    
-    // Add enter key event
-    customInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            loadJson();
-        }
-    });
-    
-    customSection.appendChild(loadButton);
-    
-    fileList.appendChild(customSection);
+    // Only show URL input if not in an iframe
+    if (!isInIframe()) {
+        // Add custom JSON input option
+        const customSection = document.createElement('div');
+        customSection.className = 'custom-json-section';
+        
+        const customHeading = document.createElement('div');
+        customHeading.className = 'sample-heading';
+        customHeading.textContent = 'Or provide JSON URL:';
+        customSection.appendChild(customHeading);
+        
+        const customInput = document.createElement('input');
+        customInput.type = 'text';
+        customInput.className = 'custom-json-input';
+        customInput.placeholder = 'Enter URL to JSON file';
+        customSection.appendChild(customInput);
+        
+        const loadButton = document.createElement('button');
+        loadButton.className = 'file-button';
+        loadButton.textContent = 'Load JSON';
+        
+        // Helper function to load the JSON
+        const loadJson = () => {
+            const url = customInput.value.trim();
+            if (url) {
+                window.location.search = `?json=${encodeURIComponent(url)}`;
+            }
+        };
+        
+        // Add click event
+        loadButton.addEventListener('click', loadJson);
+        
+        // Add enter key event
+        customInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loadJson();
+            }
+        });
+        
+        customSection.appendChild(loadButton);
+        fileList.appendChild(customSection);
+    }
 }
 
 // Helper function to add a file button
 function addFileButton(container, file) {
     const fileButton = document.createElement('button');
     fileButton.className = 'file-button';
-    fileButton.textContent = file;
+    fileButton.textContent = sampleTitles[file] || file;
     
     fileButton.addEventListener('click', () => {
         // Load the selected JSON file
@@ -265,6 +284,15 @@ function initializeApp(data) {
             }
         });
     });
+    
+    // Add back button for selection menu
+    const backButton = document.createElement('button');
+    backButton.id = 'back-to-selection';
+    backButton.innerHTML = '&larr;';
+    backButton.addEventListener('click', () => {
+        window.location.search = ''; // Clear the query string to return to selection menu
+    });
+    document.body.appendChild(backButton);
     
     // Set up timeline visuals
     setupTimeline();
