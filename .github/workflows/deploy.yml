@@ -48,7 +48,7 @@ jobs:
           cache: enable
           rename-to: juvix
           chmod: 0755
-      - uses: actions/cache@v4.0.2
+      - uses: actions/cache@v4
         with:
           key: juvix-cache-${{ hashFiles('**/*.juvix.md') }}-${{ hashFiles('**/*.juvix') }}
           path: .juvix-build
@@ -72,14 +72,14 @@ jobs:
           poetry config virtualenvs.in-project true --local
       - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
       - name: Cache .cache
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
           restore-keys: |
             mkdocs-material-
       - name: Cache .cache-juvix-mkdocs
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4
         with:
           key: cache-juvix-mkdocs-${{ env.cache_id }}
           path: .cache-juvix-mkdocs
