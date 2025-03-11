@@ -19,6 +19,7 @@ nav:
         #   - List of engines: ./indexes/engines.md
   - Introduction:
       - Anomian: ./anomian.juvix.md
+      - Interactive engine timelines: ./tutorial/engines/interactive_timelines.md
       - Anoma architecture: ./arch/overview.md
   - Node architecture:
       - Concepts:
