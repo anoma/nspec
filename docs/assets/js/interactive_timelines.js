@@ -102,7 +102,6 @@ function showJsonFileSelector() {
         }
     });
 }
-
 // Try to get JSON files via directory listing
 async function tryDirectoryListing(fileList) {
     // Add loading indicator
@@ -112,7 +111,11 @@ async function tryDirectoryListing(fileList) {
     fileList.appendChild(loadingIndicator);
     
     try {
-        const response = await fetch('/');
+        // Get current directory path based on page location
+        const currentPath = window.location.pathname;
+        const directoryPath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+        
+        const response = await fetch(directoryPath);
         const html = await response.text();
         
         // Parse HTML to get file links
@@ -120,10 +123,16 @@ async function tryDirectoryListing(fileList) {
         const doc = parser.parseFromString(html, 'text/html');
         const links = Array.from(doc.querySelectorAll('a'));
         
-        // Filter for JSON files
+        // Filter for JSON files and exclude directories
         const jsonFiles = links
-            .map(link => link.getAttribute('href'))
-            .filter(href => href && href.toLowerCase().endsWith('.json'));
+            .map(link => {
+                const href = link.getAttribute('href');
+                return href && decodeURIComponent(href); // Handle URL-encoded filenames
+            })
+            .filter(href => href && 
+                !href.endsWith('/') && // Exclude directories
+                href.toLowerCase().endsWith('.json')
+            );
         
         // Remove loading indicator
         loadingIndicator.remove();
@@ -132,7 +141,7 @@ async function tryDirectoryListing(fileList) {
             return false; // No files found, will fall back to known samples
         }
         
-        // Create file buttons
+        // Create file buttons with decoded filenames
         jsonFiles.forEach(file => {
             addFileButton(fileList, file);
         });
@@ -154,29 +163,24 @@ function isInIframe() {
         return true;
     }
 }
+// Sample titles mapped to display names
+const sampleTitles = {
+    'sample-ticker.json': 'Ticker: Two engines of the same type',
+    'sample-ping-pong.json': 'Ping Pong: Two engines of different types',
+    'sample-broadcast.json': 'Broadcast: Several engines of the same type'
+};
 
 // Show known sample files if directory listing fails
 function showKnownSampleFiles(fileList) {
     // Known sample files in this project
-    const knownSamples = [
-        'sample-ping-pong.json',
-        'sample-broadcast.json',
-        'sample-ticker.json'
-    ];
-
-    // dictionario to assign labels/titles to the sample files
-    const sampleTitles = {
-        'sample-ticker.json': 'Ticker: Two-engine of the same type',
-        'sample-ping-pong.json': 'Ping Pong: Two-engine of different types',
-        'sample-broadcast.json': 'Broadcast: Several-engine of the same type',
-    };
+    const knownSamples = Object.keys(sampleTitles);
     
     const heading = document.createElement('div');
     heading.className = 'sample-heading';
     heading.textContent = 'Sample Network Configurations:';
     fileList.appendChild(heading);
     
-    // Create buttons for sample files
+    // Create buttons for sample files using the titles dictionary
     knownSamples.forEach(file => {
         addFileButton(fileList, file);
     });
