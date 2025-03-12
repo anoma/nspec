@@ -129,7 +129,7 @@ The doc’s (compliance_proof.juvix.md) constraints for each consumed resource:
 
 Analogously for created resources:
 
-1. `resourceCommitment(r) == ...`
+1. `resourceCommitment(r) == cm`
 2. `resourceLogicRefHash(r) == logRef`
 
 We define checks for these constraints:
