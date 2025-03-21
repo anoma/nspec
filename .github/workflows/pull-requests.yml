@@ -123,20 +123,6 @@ jobs:
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
       - name: Install Python dependencies
         run: poetry install
-      - name: Build MkDocs
-        id: mkdocs-basic
-        run: |
-          poetry run mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
-        env:
-          SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
-          SITE_VERSION: (PR ${{ github.event.pull_request.number }})
-          PROCESS_JUVIX: true
-          TIMELIMIT: 100
-      - name: The build failed comment
-        if: failure()
-        run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
       - name: get the last commit short hash
         id: commit
         run: echo "::set-output name=commit::$(git rev-parse --short HEAD)"
@@ -194,3 +180,87 @@ jobs:
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Check the logs."
         continue-on-error: true
+  build-without-insiders:
+    runs-on: ubuntu-latest
+    concurrency: ci-basic-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+      - run: |
+          git config --global user.name 'Anoma Research'
+          git config --global user.email 'arts@heliax.dev'
+      - name: comment on PR
+        run: gh $GH_FLAGS --edit-last --body "$MSG" || gh $GH_FLAGS --body "$MSG"
+        continue-on-error: true
+        env:
+          MSG: "The build is in progress. Please wait for the preview link."
+          GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
+      - name: Install the right Juvix for the Specs
+        uses: jaxxstorm/action-install-gh-release@v1
+        with:
+          repo: anoma/juvix
+          tag: ${{ env.JUVIX_VERSION }}
+          cache: enable
+          rename-to: juvix
+          chmod: 0755
+      - uses: actions/cache@v4
+        with:
+          key: juvix-cache-${{ hashFiles('**/*.juvix.md') }}-${{ hashFiles('**/*.juvix') }}
+          path: .juvix-build
+          restore-keys: |
+            juvix-cache-
+      - id: juvix-version
+        name: See the dev version in the documentation
+        run: |
+          juvix --version
+      - name: typecheck docs
+        continue-on-error: true
+        run: |
+          juvix typecheck docs/everything.juvix.md
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: ${{ env.POETRY_VERSION }}
+      - name: Setup a local virtual environment (if no poetry.toml file)
+        run: |
+          poetry config virtualenvs.create true --local
+          poetry config virtualenvs.in-project true --local
+      - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
+      - name: Cache .cache
+        uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - name: Cache .cache-juvix-mkdocs
+        uses: actions/cache@v4
+        with:
+          key: .cache-juvix-mkdocs-${{ env.cache_id }}
+          path: .cache-juvix-mkdocs
+          restore-keys: |
+            .cache-juvix-mkdocs-
+      - name: Install Linux dependencies
+        run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
+      - name: Install Python dependencies
+        run: poetry install
+      - name: Build MkDocs
+        id: mkdocs-basic
+        run: |
+          poetry run mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
+        env:
+          SITE_DIR: pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
+          SITE_VERSION: (PR ${{ github.event.pull_request.number }})
+          PROCESS_JUVIX: true
+          TIMELIMIT: 100
+      - name: The build failed comment
+        if: failure()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
