@@ -4,8 +4,6 @@
       - opened
       - synchronize
       - reopened
-      - edited
-      - ready_for_review
 env:
   CI: true
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
