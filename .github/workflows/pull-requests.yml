@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: ci-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
@@ -71,14 +71,14 @@ jobs:
           MSG: "The build is in progress. Please wait for the preview link."
           GH_FLAGS: pr -R anoma/nspec comment ${{ github.event.pull_request.number }}
       - name: Install the right Juvix for the Specs
-        uses: jaxxstorm/action-install-gh-release@v1.12.0
+        uses: jaxxstorm/action-install-gh-release@v1
         with:
           repo: anoma/juvix
           tag: ${{ env.JUVIX_VERSION }}
           cache: enable
           rename-to: juvix
           chmod: 0755
-      - uses: actions/cache@v4.0.2
+      - uses: actions/cache@v4
         with:
           key: juvix-cache-${{ hashFiles('**/*.juvix.md') }}-${{ hashFiles('**/*.juvix') }}
           path: .juvix-build
@@ -93,11 +93,11 @@ jobs:
         run: |
           juvix typecheck docs/everything.juvix.md
       - name: Install Python
-        uses: actions/setup-python@v5.2.0
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v3.0.0
+        uses: abatilo/actions-poetry@v3
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
       - name: Setup a local virtual environment (if no poetry.toml file)
@@ -106,14 +106,14 @@ jobs:
           poetry config virtualenvs.in-project true --local
       - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
       - name: Cache .cache
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
           restore-keys: |
             mkdocs-material-
       - name: Cache .cache-juvix-mkdocs
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4
         with:
           key: .cache-juvix-mkdocs-${{ env.cache_id }}
           path: .cache-juvix-mkdocs
@@ -165,7 +165,7 @@ jobs:
         continue-on-error: true
       - name: Deploy MkDocs with insiders theme
         if: success()
-        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           repository-name: anoma/nspec
           branch: gh-pages
