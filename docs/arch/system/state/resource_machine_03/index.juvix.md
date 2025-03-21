@@ -19,10 +19,10 @@ module arch.system.state.resource_machine_03.index;
 # Introduction
 
 ![Alt text](./dag.svg)
-<img src="./dag.svg">
+<img src="./arch/system/state/resource_machine_03/dag.svg">
 
 ```kroki-plantuml
-@from_file:./dag.puml
+@from_file:./arch/system/state/resource_machine_03/dag.puml
 ```
 
 ```kroki-plantuml
