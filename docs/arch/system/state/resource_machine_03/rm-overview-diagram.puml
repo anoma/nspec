@@ -1,0 +1,37 @@
+@startuml
+' This is an overview of interfaces and classes that are relevant to the resource machine
+title
+Overview of interfaces and classes that are relevant to the resource machine
+end title
+
+' This is the interface of a `resource`
+interface Resource {
+        ' logic reference, a logic hash
+        +logicRef: LogicHash
+        ' logic reference, a label hash
+        +labelRef: LabelHash
+        ' value reference, a value hash
+        +valueRef: ValueHash
+        ' quantity of Quantity type
+        +quantity: Quantity
+        ' whether or not the resource is ephemeral
+        +isEphemeral: Bool
+        ' nonce, a number used once
+        +nonce: Nonce
+        ' the nullifier key commitment
+        +nullifierKeyCommitment: NullifierKeyCommitment
+        ' a seed for pseud-random number generation
+        +randSeed: RandSeed
+/' TODO leftoververs from Anthony s dag
+TODO        +commitment(): Commitment
+TODO        +nullifier(NullifierKey): Nullifier
+TODO        +kind(): Kind
+TODO        +delta(): DeltaHash
+TODO        +tag(consumed: Bool) Tag
+'/
+}
+note right
+[[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/data_structures/resource/index.html#resource Resource]]
+end note
+
+@enduml
