@@ -44,6 +44,7 @@ type ExecutorCfg KVSKey Executable :=
     may_write_keys : Set KVSKey;
     worker : EngineID;
     issuer : EngineID;
+    keyToShard : KVSKey -> EngineID
   }
 ```
 <!-- --8<-- [end:ExecutorCfg] -->
@@ -94,6 +95,7 @@ module executor_config_example;
         may_write_keys := Set.empty;
         worker := mkPair none "";
         issuer := mkPair none "";
+        keyToShard := \{_ := mkPair none "shard"}
       };
     }
   ;

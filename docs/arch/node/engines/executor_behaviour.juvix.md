@@ -306,13 +306,13 @@ processReadAction
         -- These inform the shards that they can release pending locks in the
         -- case that the executor halts.
         staleReadMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
+          envelope (ExecutorCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
             key := key;
             actual := false
           })));
         staleWriteMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          envelope (keyToShard key) (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
+          envelope (ExecutorCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
             key := key;
             datum := none
@@ -353,7 +353,7 @@ processReadAction
                      (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
                      List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
-                envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
+                envelope (ExecutorCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
                     timestamp := ExecutorCfg.timestamp cfg;
                     key := key;
                     actual := true
@@ -368,7 +368,7 @@ processReadAction
                       (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
                       List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
-                envelope (keyToShard key)
+                envelope (ExecutorCfg.keyToShard cfg key)
                   (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
                     timestamp := ExecutorCfg.timestamp cfg;
                     key := key;

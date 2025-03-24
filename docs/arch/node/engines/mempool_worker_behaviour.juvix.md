@@ -311,7 +311,7 @@ MempoolWorkerActionArguments : Type := List MempoolWorkerActionArgument;
     ```juvix
     MempoolWorkerAction (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Action
-        MempoolWorkerCfg
+        (MempoolWorkerCfg KVSKey)
         (MempoolWorkerLocalState KVSKey KVSDatum Executable)
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
@@ -322,7 +322,7 @@ MempoolWorkerActionArguments : Type := List MempoolWorkerActionArgument;
 
     MempoolWorkerActionInput (KVSKey KVSDatum Executable : Type) : Type :=
       ActionInput
-        MempoolWorkerCfg
+        (MempoolWorkerCfg KVSKey)
         (MempoolWorkerLocalState KVSKey KVSDatum Executable)
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
@@ -340,7 +340,7 @@ MempoolWorkerActionArguments : Type := List MempoolWorkerActionArgument;
 
     MempoolWorkerActionExec (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionExec
-        MempoolWorkerCfg
+        (MempoolWorkerCfg KVSKey)
         (MempoolWorkerLocalState KVSKey KVSDatum Executable)
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
@@ -380,6 +380,7 @@ transactionRequestAction
     cfg := ActionInput.cfg input;
     local := EngineEnv.localState env;
     trigger := ActionInput.trigger input;
+    keyToShard := MempoolWorkerCfg.keyToShard (EngineCfg.cfg cfg);
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
       | mkEngineMsg@{msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionRequest request); sender := sender} :=
@@ -396,7 +397,8 @@ transactionRequestAction
                   will_write_keys := Set.fromList (TransactionLabel.write (TransactionCandidate.label candidate));
                   may_write_keys := Set.empty;
                   worker := worker_id;
-                  issuer := sender
+                  issuer := sender;
+                  keyToShard := keyToShard
                 };
               executorEnv := Anoma.EnvExecutor mkEngineEnv@{
                 localState := mkExecutorLocalState@{
@@ -484,6 +486,7 @@ Timer updates
 ```juvix
 allLocksAcquired
   {KVSKey Executable}
+  (keyToShard : KVSKey -> EngineID)
   (isWrite : Bool)
   (tx : TransactionCandidate KVSKey KVSKey Executable)
   (txNum : TxFingerprint)
@@ -506,6 +509,7 @@ allLocksAcquired
 terminating
 findMaxConsecutiveLocked
   {KVSKey Executable}
+  (keyToShard : KVSKey -> EngineID)
   (isWrite : Bool)
   (transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable))
   (locks : List (Pair EngineID KVSLockAcquiredMsg))
@@ -513,8 +517,8 @@ findMaxConsecutiveLocked
   (prev : TxFingerprint) : TxFingerprint :=
   case Map.lookup current transactions of {
     | none := prev
-    | some tx := case allLocksAcquired isWrite tx current locks of {
-      | true := findMaxConsecutiveLocked isWrite transactions locks (current + 1) current
+    | some tx := case allLocksAcquired keyToShard isWrite tx current locks of {
+      | true := findMaxConsecutiveLocked keyToShard isWrite transactions locks (current + 1) current
       | false := prev
     }
   };
@@ -525,6 +529,7 @@ findMaxConsecutiveLocked
 ```juvix
 getAllShards
   {KVSKey Executable}
+  (keyToShard : KVSKey -> EngineID)
   (transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable)) : Set EngineID :=
   let getAllKeysFromLabel (label : TransactionLabel KVSKey KVSKey) : List KVSKey :=
         TransactionLabel.read label ++ TransactionLabel.write label;
@@ -545,20 +550,21 @@ lockAcquiredAction
     env := ActionInput.env input;
     local := EngineEnv.localState env;
     trigger := ActionInput.trigger input;
+    keyToShard := MempoolWorkerCfg.keyToShard (EngineCfg.cfg (ActionInput.cfg input));
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
       | mkEngineMsg@{msg := Anoma.MsgShard (ShardMsgKVSLockAcquired lockMsg); sender := sender} :=
         let timestamp := KVSLockAcquiredMsg.timestamp lockMsg;
             newLocks := (mkPair sender lockMsg) :: MempoolWorkerLocalState.locks_acquired local;
-            maxConsecutiveWrite := findMaxConsecutiveLocked true (MempoolWorkerLocalState.transactions local) newLocks 1 0;
-            maxConsecutiveRead := findMaxConsecutiveLocked false (MempoolWorkerLocalState.transactions local) newLocks 1 0;
+            maxConsecutiveWrite := findMaxConsecutiveLocked keyToShard true (MempoolWorkerLocalState.transactions local) newLocks 1 0;
+            maxConsecutiveRead := findMaxConsecutiveLocked keyToShard false (MempoolWorkerLocalState.transactions local) newLocks 1 0;
             newState := local@MempoolWorkerLocalState{
               locks_acquired := newLocks;
               seen_all_writes := maxConsecutiveWrite;
               seen_all_reads := maxConsecutiveRead
             };
             newEnv := env@EngineEnv{localState := newState};
-            allShards := getAllShards (MempoolWorkerLocalState.transactions local);
+            allShards := getAllShards keyToShard (MempoolWorkerLocalState.transactions local);
             makeUpdateMsg (target : EngineID) (isWrite : Bool) (timestamp : TxFingerprint) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
               mkEngineMsg@{
                 sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -661,7 +667,7 @@ executorFinishedActionLabel
     ```juvix
     MempoolWorkerGuard (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Guard
-        MempoolWorkerCfg
+        (MempoolWorkerCfg KVSKey)
         (MempoolWorkerLocalState KVSKey KVSDatum Executable)
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
@@ -672,7 +678,7 @@ executorFinishedActionLabel
 
     MempoolWorkerGuardOutput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardOutput
-        MempoolWorkerCfg
+        (MempoolWorkerCfg KVSKey)
         (MempoolWorkerLocalState KVSKey KVSDatum Executable)
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
@@ -683,7 +689,7 @@ executorFinishedActionLabel
 
     MempoolWorkerGuardEval (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardEval
-        MempoolWorkerCfg
+        (MempoolWorkerCfg KVSKey)
         (MempoolWorkerLocalState KVSKey KVSDatum Executable)
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
@@ -704,7 +710,7 @@ transactionRequestGuard
   {KVSKey KVSDatum Executable ProgramState} {{Ord KVSKey}}
   {{Runnable KVSKey KVSDatum Executable ProgramState}}
   (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : EngineCfg MempoolWorkerCfg)
+  (cfg : EngineCfg (MempoolWorkerCfg KVSKey))
   (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
   : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -733,7 +739,7 @@ Condition
 lockAcquiredGuard
   {KVSKey KVSDatum Executable ProgramState}
   (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : EngineCfg MempoolWorkerCfg)
+  (cfg : EngineCfg (MempoolWorkerCfg KVSKey))
   (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
   : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -757,7 +763,7 @@ Condition
 executorFinishedGuard
   {KVSKey KVSDatum Executable ProgramState}
   (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : EngineCfg MempoolWorkerCfg)
+  (cfg : EngineCfg (MempoolWorkerCfg KVSKey))
   (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
   : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -779,7 +785,7 @@ executorFinishedGuard
 ```juvix
 MempoolWorkerBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   EngineBehaviour
-    MempoolWorkerCfg
+    (MempoolWorkerCfg KVSKey)
     (MempoolWorkerLocalState KVSKey KVSDatum Executable)
     MempoolWorkerMailboxState
     MempoolWorkerTimerHandle

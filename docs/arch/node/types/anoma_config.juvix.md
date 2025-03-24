@@ -107,7 +107,7 @@ type PreCfg KVSKey KVSDatum Executable :=
 
   {- Ordering -}
 
-  | CfgMempoolWorker MempoolWorkerCfg
+  | CfgMempoolWorker (MempoolWorkerCfg KVSKey)
   | CfgExecutor (ExecutorCfg KVSKey Executable)
   | CfgShard ShardCfg
 

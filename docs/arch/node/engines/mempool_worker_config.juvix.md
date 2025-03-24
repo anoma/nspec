@@ -33,7 +33,9 @@ The Mempool Worker engine configuration contains static information for Mempool 
 
 <!-- --8<-- [start:MempoolWorkerCfg] -->
 ```juvix
-type MempoolWorkerCfg := mkMempoolWorkerCfg
+type MempoolWorkerCfg (KVSKey : Type) := mkMempoolWorkerCfg@{
+  keyToShard : KVSKey -> EngineID
+};
 ```
 <!-- --8<-- [end:MempoolWorkerCfg] -->
 
@@ -43,11 +45,13 @@ type MempoolWorkerCfg := mkMempoolWorkerCfg
 ```juvix extract-module-statements
 module mempool_worker_config_example;
 
-  mempoolWorkerCfg : EngineCfg MempoolWorkerCfg :=
+  mempoolWorkerCfg : EngineCfg (MempoolWorkerCfg String) :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "mempool worker";
-      cfg := mkMempoolWorkerCfg
+      cfg := mkMempoolWorkerCfg@{
+        keyToShard := \{_ := mkPair none "shard"}
+      }
     }
   ;
 end;
