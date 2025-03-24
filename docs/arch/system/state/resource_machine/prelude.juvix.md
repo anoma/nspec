@@ -67,6 +67,42 @@ syntax alias LabelHash := Digest;
 syntax alias LogicHash := Digest;
 ```
 
+#### `LogicRef`
+
+```juvix
+syntax alias LogicRef := LogicHash;
+```
+
+#### `KindHash`
+
+```juvix
+syntax alias KindHash := Digest;
+```
+
+#### `ExtraInput`
+
+```juvix
+syntax alias ExtraInput := ByteString;
+```
+
+#### `NullifierRef`
+
+```juvix
+syntax alias NullifierRef := Digest;
+```
+
+#### `RootRef`
+
+```juvix
+syntax alias RootRef      := Digest;
+```
+
+#### `CommitmentRef`
+
+```juvix
+syntax alias CommitmentRef := Digest;
+```
+
 #### `Quantity`
 
 There are two numeric types of unspecified character mentioned in the RM, which
@@ -378,6 +414,16 @@ orderedSetFromList
                           (Set.insert x (OrderedSet.elements acc))
                           ((OrderedSet.permutation acc) ++ [pos])})
     (mkOrderedSet Set.empty []);
+```
+
+#### `orderedSetMap`
+
+```juvix
+orderedSetMap
+  {A B} {{Ord A}} {{Ord B}}
+  (f : A -> B)
+  (s : OrderedSet A) : OrderedSet B :=
+  orderedSetFromList (map f (orderedSetToList s));
 ```
 
 #### `IOrderedSet` instance for `OrderedSet`
