@@ -18,19 +18,12 @@ module arch.system.state.resource_machine_03.index;
 
 # Introduction
 
-![Alt text](./dag.svg)
-<img src="./arch/system/state/resource_machine_03/dag.svg">
+The resource machine provides the default interfaces
+that controllers can use to perform state changes.
 
 ```kroki-plantuml
-@from_file:./arch/system/state/resource_machine_03/dag.puml
+@from_file:./arch/system/state/resource_machine_03/rm-overview-diagram.puml
 ```
-
-```kroki-plantuml
-@startuml
-Bob -> Alice : [[https://research.anoma.net Forums]]
-@enduml
-```
-
 
 <!--
 **The Anoma Resource Machine (ARM)** is the part of the Anoma protocol that defines and enforces the rules for valid state updates that satisfy users' preferences. The new proposed state is then agreed on by the consensus participants. In that sense the role of the Anoma Resource Machine in the Anoma protocol is similar to the role of the Ethereum Virtual Machine in the Ethereum protocol.
