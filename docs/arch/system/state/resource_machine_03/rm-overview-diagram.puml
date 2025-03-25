@@ -4,6 +4,20 @@ title
 Overview of interfaces and classes that are relevant to the resource machine
 end title
 
+' This is the interface of a `Arithmetic`
+' TODO: do we want a group structure on T
+interface "Arithmetic<T, Arg>" as Arithmetic {
+        +add(T, T): T
+        +sub(T, T): T
+        ' do we want a zero TODO
+}
+note right
+[[https://specs.anoma.net/latest/arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.html Arithmetic]]
+end note
+
+'note below
+' This is actually an additive group.
+'end note
 
 ' This is the interface of a `resource`
 interface Resource {
