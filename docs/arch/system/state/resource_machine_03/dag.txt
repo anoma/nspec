@@ -253,7 +253,7 @@ classDiagram
     Balance --> DeltaProofInstance
     DeltaHash --> DeltaProofInstance
     NullifierKey --> Nullifier
-    
+
     %% Input relationships (required for ResourceLogicProofInstance)
     Tag --> ResourceLogicProofInstance
     Nullifier --> ResourceLogicProofInstance
@@ -263,7 +263,7 @@ classDiagram
 
     %% Output relationships (where ResourceLogicProofInstance is used)
     ResourceLogicProofInstance --> ResourceLogicProvingSystem
-    
+
     %% Input relationships (required for ResourceLogicProofWitness)
     OrderedSet --> ResourceLogicProofWitness
     NullifierKey --> ResourceLogicProofWitness
