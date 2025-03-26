@@ -249,12 +249,11 @@ evaluateAndExecuteEng (eng : Eng) (msg : EngineMsg Msg) : Option (Pair (List (En
 
 -- Helper function to add a single new engine to the state
 addNewEngine (state : NetworkState) (cfg : Cfg) (env : Env) : NetworkState :=
-  case mkEng (NetworkState.nextId state) id (mkPair cfg env) of {
+  case mkEng (NetworkState.nextId state) (mkPair cfg env) of {
     | none := state
-    | some (mkPair newEng name) := 
+    | some (mkPair newEng newEngineId) := 
       let
         newId := NetworkState.incrementId state (NetworkState.nextId state);
-        newEngineId := mkPair (some newId) name;
       in state@NetworkState{
         engines := Map.insert newEngineId newEng (NetworkState.engines state);
         nextId := newId

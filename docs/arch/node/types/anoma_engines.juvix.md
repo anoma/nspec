@@ -95,322 +95,218 @@ type Eng :=
   | EngTemplate TemplateEngine
   | EngTemplateMinimum TemplateMinimumEngine
   ;
+```
 
-mkEng (nodeId : NodeID) (nameMap : String -> String) (p : Pair Cfg Env) : Option (Pair Eng EngineName) :=
+```juvix
+mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
   case p of {
   | mkPair (CfgIdentityManagement cfg) (EnvIdentityManagement env) :=
     let
-      engineCfg : EngineCfg IdentityManagementCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "identity_management";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngIdentityManagement (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := identityManagementBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgDecryption cfg) (EnvDecryption env) :=
     let
-      engineCfg : EngineCfg DecryptionCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "decryption";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngDecryption (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := decryptionBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgEncryption cfg) (EnvEncryption env) :=
     let
-      engineCfg : EngineCfg EncryptionCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "encryption";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngEncryption (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := encryptionBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgCommitment cfg) (EnvCommitment env) :=
     let
-      engineCfg : EngineCfg CommitmentCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "commitment";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngCommitment (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := commitmentBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgVerification cfg) (EnvVerification env) :=
     let
-      engineCfg : EngineCfg VerificationCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "verification";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngVerification (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := verificationBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgReadsFor cfg) (EnvReadsFor env) :=
     let
-      engineCfg : EngineCfg ReadsForCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "reads_for";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngReadsFor (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := readsForBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgSignsFor cfg) (EnvSignsFor env) :=
     let
-      engineCfg : EngineCfg SignsForCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "signs_for";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngSignsFor (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := signsForBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgNaming cfg) (EnvNaming env) :=
     let
-      engineCfg : EngineCfg NamingCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "naming";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngNaming (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := namingBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgLocalKeyValueStorage cfg) (EnvLocalKeyValueStorage env) :=
     let
-      engineCfg : EngineCfg LocalKVStorageCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "local_key_value_storage";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngLocalKeyValueStorage (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := localKVStorageBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgLogging cfg) (EnvLogging env) :=
     let
-      engineCfg : EngineCfg LoggingCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "logging";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngLogging (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := loggingBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgWallClock cfg) (EnvWallClock env) :=
     let
-      engineCfg : EngineCfg WallClockCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "wall_clock";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngWallClock (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := wallClockBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgLocalTSeries cfg) (EnvLocalTSeries env) :=
     let
-      engineCfg : EngineCfg LocalTSStorageCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "local_time_series_storage";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngLocalTSeries (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := localTSStorageBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgRouter cfg) (EnvRouter env) :=
     let
-      engineCfg : EngineCfg RouterLocalCfg :=
-        TODO;
-      name := EngineCfg.name engineCfg;
       eng := EngRouter (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := TODO;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgTransportProtocol cfg) (EnvTransportProtocol env) :=
     let
-      engineCfg : EngineCfg TransportProtocolLocalCfg :=
-        TODO;
-      name := EngineCfg.name engineCfg;
       eng := EngTransportProtocol (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := TODO;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgTransportConnection cfg) (EnvTransportConnection env) :=
     let
-      engineCfg : EngineCfg TransportConnectionLocalCfg :=
-        TODO;
-      name := EngineCfg.name engineCfg;
       eng := EngTransportConnection (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := TODO;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgPubSubTopic cfg) (EnvPubSubTopic env) :=
     let
-      engineCfg : EngineCfg PubSubTopicLocalCfg :=
-        TODO;
-      name := EngineCfg.name engineCfg;
       eng := EngPubSubTopic (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := TODO;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgStorage cfg) (EnvStorage env) :=
     let
-      engineCfg : EngineCfg StorageLocalCfg :=
-        TODO;
-      name := EngineCfg.name engineCfg;
       eng := EngStorage (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := TODO;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgMempoolWorker cfg) (EnvMempoolWorker env) :=
     let
-      engineCfg : EngineCfg (MempoolWorkerCfg String) :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "mempool_worker";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngMempoolWorker (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := mempoolWorkerBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgExecutor cfg) (EnvExecutor env) :=
     let
-      engineCfg : EngineCfg (ExecutorCfg String ByteString) :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "executor";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngExecutor (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := executorBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgShard cfg) (EnvShard env) :=
     let
-      engineCfg : EngineCfg ShardCfg :=
-        mkEngineCfg@{
-          node := nodeId;
-          name := nameMap "shard";
-          cfg := cfg;
-        };
-      name := EngineCfg.name engineCfg;
       eng := EngShard (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := shardBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgTicker cfg) (EnvTicker env) :=
     let
-      engineCfg : EngineCfg TickerLocalCfg :=
-        TODO;
-      name := EngineCfg.name engineCfg;
       eng := EngTicker (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := tickerBehaviour;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgTemplate cfg) (EnvTemplate env) :=
     let
-      engineCfg : EngineCfg TemplateLocalCfg :=
-        TODO;
-      name := EngineCfg.name engineCfg;
       eng := EngTemplate (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := TODO;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | mkPair (CfgTemplateMinimum cfg) (EnvTemplateMinimum env) :=
     let
-      engineCfg : EngineCfg TemplateMinimumLocalCfg :=
-        TODO;
-      name := EngineCfg.name engineCfg;
       eng := EngTemplateMinimum (mkEngine@{
-        cfg := engineCfg;
+        cfg := cfg@EngineCfg{node := nodeId};
         env := env;
         behaviour := TODO;
       });
-    in some (mkPair eng name)
+      engineId := mkPair (some nodeId) (EngineCfg.name cfg);
+    in some (mkPair eng engineId)
   | _ := none
   };
 ```
