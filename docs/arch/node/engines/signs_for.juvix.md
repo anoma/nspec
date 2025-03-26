@@ -54,7 +54,7 @@ scenarios where signature delegation or proxy signing is required.
 ```juvix
 SignsForEngine : Type :=
   Engine
-    SignsForCfg
+    SignsForLocalCfg
     SignsForLocalState
     SignsForMailboxState
     SignsForTimerHandle

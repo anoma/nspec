@@ -28,14 +28,16 @@ tags:
 
 The executor configuration contains static information needed for execution: the transaction program, access rights, and notification targets.
 
-## The Executor Configuration
+## The Executor Local Configuration
 
-### `ExecutorCfg`
+### `ExecutorLocalCfg`
 
-<!-- --8<-- [start:ExecutorCfg] -->
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:ExecutorLocalCfg] -->
 ```juvix
-type ExecutorCfg KVSKey Executable :=
-  mkExecutorCfg@{
+type ExecutorLocalCfg KVSKey Executable :=
+  mkExecutorLocalCfg@{
     timestamp : TxFingerprint;
     executable : Executable;
     lazy_read_keys : Set KVSKey;
@@ -47,7 +49,7 @@ type ExecutorCfg KVSKey Executable :=
     keyToShard : KVSKey -> EngineID
   }
 ```
-<!-- --8<-- [end:ExecutorCfg] -->
+<!-- --8<-- [end:ExecutorLocalCfg] -->
 
 ???+ code "Arguments"
 
@@ -76,17 +78,29 @@ type ExecutorCfg KVSKey Executable :=
     `issuer`
     : ID of the transaction sender to notify on completion
 
-## Instantiation
+## The Executor Configuration
+
+### `ExecutorCfg`
+
+<!-- --8<-- [start:ExecutorCfg] -->
+```juvix
+ExecutorCfg (KVSKey Executable : Type) : Type :=
+  EngineCfg
+    (ExecutorLocalCfg KVSKey Executable);
+```
+<!-- --8<-- [end:ExecutorCfg] -->
+
+#### Instantiation
 
 <!-- --8<-- [start:executorCfg] -->
 ```juvix extract-module-statements
 module executor_config_example;
 
-  executorCfg : EngineCfg (ExecutorCfg String ByteString) :=
+  executorCfg : ExecutorCfg String ByteString :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "executor";
-      cfg := mkExecutorCfg@{
+      cfg := mkExecutorLocalCfg@{
         timestamp := 0;
         executable := "";
         lazy_read_keys := Set.empty;

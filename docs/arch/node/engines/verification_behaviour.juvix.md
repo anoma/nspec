@@ -262,7 +262,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
     ```juvix
     VerificationAction : Type :=
       Action
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -277,7 +277,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
     ```juvix
     VerificationActionInput : Type :=
       ActionInput
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -303,7 +303,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
     ```juvix
     VerificationActionExec : Type :=
       ActionExec
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -353,8 +353,8 @@ verifyAction
                     mailbox := some 0;
                     msg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
                       (Verifier.verify
-                        (VerificationCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
-                        (VerificationCfg.backend (EngineCfg.cfg cfg))
+                        (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
+                        (VerificationLocalCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
                   }
@@ -383,7 +383,7 @@ verifyAction
                   | none := [
                     mkEngineMsg@{
                       sender := getEngineIDFromEngineCfg cfg;
-                      target := VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg);
+                      target := VerificationLocalCfg.signsForEngineAddress (EngineCfg.cfg cfg);
                       mailbox := some 0;
                       msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceRequest (mkRequestQuerySignsForEvidence externalIdentity))
                     }
@@ -451,8 +451,8 @@ signsForReplyAction
                     mailbox := some 0;
                     msg := Anoma.MsgVerification (MsgVerificationReply (mkReplyVerification
                       (Verifier.verify
-                        (VerificationCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
-                        (VerificationCfg.backend (EngineCfg.cfg cfg))
+                        (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
+                        (VerificationLocalCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
                   }}) reqs;
@@ -496,7 +496,7 @@ signsForReplyActionLabel : VerificationActionExec := Seq [ signsForReplyAction ]
     ```juvix
     VerificationGuard : Type :=
       Guard
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -513,7 +513,7 @@ signsForReplyActionLabel : VerificationActionExec := Seq [ signsForReplyAction ]
     ```juvix
     VerificationGuardOutput : Type :=
       GuardOutput
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -530,7 +530,7 @@ signsForReplyActionLabel : VerificationActionExec := Seq [ signsForReplyAction ]
     ```juvix
     VerificationGuardEval : Type :=
       GuardEval
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -550,7 +550,7 @@ Condition
 ```juvix
 verifyGuard
   (tt : TimestampedTrigger VerificationTimerHandle Anoma.Msg)
-  (cfg : EngineCfg VerificationCfg)
+  (cfg : VerificationCfg)
   (env : VerificationEnv)
   : Option VerificationGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -575,7 +575,7 @@ Condition
 ```juvix
 signsForReplyGuard
   (tt : TimestampedTrigger VerificationTimerHandle Anoma.Msg)
-  (cfg : EngineCfg VerificationCfg)
+  (cfg : VerificationCfg)
   (env : VerificationEnv)
   : Option VerificationGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -585,7 +585,7 @@ signsForReplyGuard
             msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply _);
             sender := sender
           } :=
-          case isEqual (Ord.cmp sender (VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
+          case isEqual (Ord.cmp sender (VerificationLocalCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
             | true := some mkGuardOutput@{
               action := signsForReplyActionLabel;
               args := []
@@ -607,7 +607,7 @@ signsForReplyGuard
 ```juvix
 VerificationBehaviour : Type :=
   EngineBehaviour
-    VerificationCfg
+    VerificationLocalCfg
     VerificationLocalState
     VerificationMailboxState
     VerificationTimerHandle

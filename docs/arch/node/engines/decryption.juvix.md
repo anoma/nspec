@@ -64,7 +64,7 @@ decryption keys.
 ```juvix
 DecryptionEngine : Type :=
   Engine
-    DecryptionCfg
+    DecryptionLocalCfg
     DecryptionLocalState
     DecryptionMailboxState
     DecryptionTimerHandle

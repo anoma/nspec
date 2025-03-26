@@ -29,21 +29,23 @@ tags:
 
 The decryption engine configuration contains static information for decryption engine instances.
 
-## The Decryption Configuration
+## The Decryption Local Configuration
 
 The configuration of a Decryption Engine instance includes the identity's
 decryption capabilities.
 
-### `DecryptionCfg`
+### `DecryptionLocalCfg`
 
-<!-- --8<-- [start:DecryptionCfg] -->
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:DecryptionLocalCfg] -->
 ```juvix
-type DecryptionCfg := mkDecryptionCfg@{
+type DecryptionLocalCfg := mkDecryptionLocalCfg@{
   decryptor : Decryptor Backend Plaintext Ciphertext;
   backend : Backend;
 };
 ```
-<!-- --8<-- [end:DecryptionCfg] -->
+<!-- --8<-- [end:DecryptionLocalCfg] -->
 
 ???+ code "Arguments"
 
@@ -53,17 +55,29 @@ type DecryptionCfg := mkDecryptionCfg@{
     `backend`:
     : The backend to use for decryption.
 
-### Instantiation
+## The Decryption Configuration
+
+### `DecryptionCfg`
+
+<!-- --8<-- [start:DecryptionCfg] -->
+```juvix
+DecryptionCfg : Type :=
+  EngineCfg
+    DecryptionLocalCfg;
+```
+<!-- --8<-- [end:DecryptionCfg] -->
+
+#### Instantiation
 
 <!-- --8<-- [start:decryptionCfg] -->
 ```juvix extract-module-statements
 module decryption_config_example;
 
-  decryptionCfg : EngineCfg DecryptionCfg :=
+  decryptionCfg : DecryptionCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "decryption";
-      cfg := mkDecryptionCfg@{
+      cfg := mkDecryptionLocalCfg@{
         decryptor := mkDecryptor@{
           decrypt := \{_ x := some x};
         };

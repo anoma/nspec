@@ -28,27 +28,41 @@ tags:
 
 The logging engine configuration contains static information for logging engine instances.
 
+## The Logging Local Configuration
+
+### `LoggingLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:LoggingLocalCfg] -->
+```juvix
+type LoggingLocalCfg := mkLoggingLocalCfg;
+```
+<!-- --8<-- [end:LoggingLocalCfg] -->
+
 ## The Logging Configuration
 
 ### `LoggingCfg`
 
 <!-- --8<-- [start:LoggingCfg] -->
 ```juvix
-type LoggingCfg := mkLoggingCfg;
+LoggingCfg : Type :=
+  EngineCfg
+    LoggingLocalCfg;
 ```
 <!-- --8<-- [end:LoggingCfg] -->
 
-## Instantiation
+#### Instantiation
 
 <!-- --8<-- [start:loggingCfg] -->
 ```juvix extract-module-statements
 module logging_config_example;
 
-  loggingCfg : EngineCfg LoggingCfg :=
+  loggingCfg : LoggingCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "logging";
-      cfg := mkLoggingCfg;
+      cfg := mkLoggingLocalCfg;
     }
   ;
 end;

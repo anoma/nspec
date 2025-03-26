@@ -53,7 +53,7 @@ deleting key-value pairs while notifying interested parties of changes.
 ```juvix
 LocalKVStorageEngine : Type :=
   Engine
-    LocalKVStorageCfg
+    LocalKVStorageLocalCfg
     LocalKVStorageLocalState
     LocalKVStorageMailboxState
     LocalKVStorageTimerHandle

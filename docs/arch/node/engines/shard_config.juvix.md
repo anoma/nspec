@@ -28,27 +28,41 @@ tags:
 
 The shard configuration contains static information for shard engine instances.
 
+## The Shard Local Configuration
+
+### `ShardLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:ShardLocalCfg] -->
+```juvix
+type ShardLocalCfg := mkShardLocalCfg;
+```
+<!-- --8<-- [end:ShardLocalCfg] -->
+
 ## The Shard Configuration
 
 ### `ShardCfg`
 
 <!-- --8<-- [start:ShardCfg] -->
 ```juvix
-type ShardCfg := mkShardCfg;
+ShardCfg : Type :=
+  EngineCfg
+    ShardLocalCfg;
 ```
 <!-- --8<-- [end:ShardCfg] -->
 
-## Instantiation
+#### Instantiation
 
 <!-- --8<-- [start:shardCfg] -->
 ```juvix extract-module-statements
 module shard_config_example;
 
-  shardCfg : EngineCfg ShardCfg :=
+  shardCfg : ShardCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "shard";
-      cfg := mkShardCfg;
+      cfg := mkShardLocalCfg;
     }
   ;
 end;

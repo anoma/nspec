@@ -201,7 +201,7 @@ syntax alias ExecutorActionArguments := Unit;
     ```juvix
     ExecutorAction (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Action
-        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalCfg KVSKey Executable)
         (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
@@ -218,7 +218,7 @@ syntax alias ExecutorActionArguments := Unit;
     ```juvix
     ExecutorActionInput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionInput
-        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalCfg KVSKey Executable)
         (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
@@ -248,7 +248,7 @@ syntax alias ExecutorActionArguments := Unit;
     ```juvix
     ExecutorActionExec (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionExec
-        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalCfg KVSKey Executable)
         (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
@@ -306,28 +306,28 @@ processReadAction
         -- These inform the shards that they can release pending locks in the
         -- case that the executor halts.
         staleReadMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          envelope (ExecutorCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
-            timestamp := ExecutorCfg.timestamp cfg;
+          envelope (ExecutorLocalCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
+            timestamp := ExecutorLocalCfg.timestamp cfg;
             key := key;
             actual := false
           })));
         staleWriteMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          envelope (ExecutorCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
-            timestamp := ExecutorCfg.timestamp cfg;
+          envelope (ExecutorLocalCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
+            timestamp := ExecutorLocalCfg.timestamp cfg;
             key := key;
             datum := none
           })));
         staleReadLocations :=
-          Set.difference (ExecutorCfg.lazy_read_keys cfg) (Set.fromList (Map.keys reads));
+          Set.difference (ExecutorLocalCfg.lazy_read_keys cfg) (Set.fromList (Map.keys reads));
         readStaleMsgs := map staleReadMsg (Set.toList staleReadLocations);
         staleWriteLocations :=
-          Set.difference (ExecutorCfg.may_write_keys cfg) (Set.fromList (Map.keys writes));
+          Set.difference (ExecutorLocalCfg.may_write_keys cfg) (Set.fromList (Map.keys writes));
         writeStaleMsgs := map staleWriteMsg (Set.toList staleWriteLocations);
         staleMsgs := readStaleMsgs ++ writeStaleMsgs;
 
         stepInput := mkPair readKey readValue;
         stepResult := Runnable.executeStep
-          (ExecutorCfg.executable cfg)
+          (ExecutorLocalCfg.executable cfg)
           (ExecutorLocalState.program_state local)
           stepInput;
       in case stepResult of {
@@ -335,7 +335,7 @@ processReadAction
             let
               local := EngineEnv.localState env;
               finishedMsg :=
-                envelope (ExecutorCfg.issuer cfg)
+                envelope (ExecutorLocalCfg.issuer cfg)
                   (MsgExecutor (ExecutorMsgExecutorFinished mkExecutorFinishedMsg@{
                     success := false;
                     values_read := (mkPair readKey readValue) :: Map.toList reads;
@@ -353,13 +353,13 @@ processReadAction
                      (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
                      List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
-                envelope (ExecutorCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
-                    timestamp := ExecutorCfg.timestamp cfg;
+                envelope (ExecutorLocalCfg.keyToShard cfg key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
+                    timestamp := ExecutorLocalCfg.timestamp cfg;
                     key := key;
                     actual := true
                   })))
-              in case or (Set.isMember key (ExecutorCfg.lazy_read_keys cfg))
-                         (Set.isMember key (ExecutorCfg.eager_read_keys cfg)) of {
+              in case or (Set.isMember key (ExecutorLocalCfg.lazy_read_keys cfg))
+                         (Set.isMember key (ExecutorLocalCfg.eager_read_keys cfg)) of {
                 | true := msg :: msgs
                 | false := msgs
               };
@@ -368,14 +368,14 @@ processReadAction
                       (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
                       List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
-                envelope (ExecutorCfg.keyToShard cfg key)
+                envelope (ExecutorLocalCfg.keyToShard cfg key)
                   (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
-                    timestamp := ExecutorCfg.timestamp cfg;
+                    timestamp := ExecutorLocalCfg.timestamp cfg;
                     key := key;
                     datum := some value
                   })))
-              in case or (Set.isMember key (ExecutorCfg.will_write_keys cfg))
-                         (Set.isMember key (ExecutorCfg.may_write_keys cfg)) of {
+              in case or (Set.isMember key (ExecutorLocalCfg.will_write_keys cfg))
+                         (Set.isMember key (ExecutorLocalCfg.may_write_keys cfg)) of {
                 | true := msg :: msgs
                 | false := msgs
               };
@@ -411,7 +411,7 @@ processReadAction
               let
                 finishedMsg :=
                   envelope
-                    (ExecutorCfg.issuer cfg)
+                    (ExecutorLocalCfg.issuer cfg)
                     (MsgExecutor (ExecutorMsgExecutorFinished mkExecutorFinishedMsg@{
                       success := true;
                       values_read := Map.toList reads;
@@ -450,7 +450,7 @@ processReadActionLabel
     ```juvix
     ExecutorGuard (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Guard
-        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalCfg KVSKey Executable)
         (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
@@ -469,7 +469,7 @@ processReadActionLabel
     ```juvix
     ExecutorGuardOutput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardOutput
-        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalCfg KVSKey Executable)
         (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
@@ -488,7 +488,7 @@ processReadActionLabel
     ```juvix
     ExecutorGuardEval (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardEval
-        (ExecutorCfg KVSKey Executable)
+        (ExecutorLocalCfg KVSKey Executable)
         (ExecutorLocalState KVSKey KVSDatum ProgramState)
         ExecutorMailboxState
         ExecutorTimerHandle
@@ -510,7 +510,7 @@ processReadGuard
   {{Ord KVSKey}}
   {{Runnable KVSKey KVSDatum Executable ProgramState}}
   (trigger : TimestampedTrigger ExecutorTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : EngineCfg (ExecutorCfg KVSKey Executable))
+  (cfg : ExecutorCfg KVSKey Executable)
   (env : ExecutorEnv KVSKey KVSDatum ProgramState)
   : Option (ExecutorGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -519,7 +519,7 @@ processReadGuard
       key := _;
       data := _
     }))} :=
-    case timestamp == ExecutorCfg.timestamp (EngineCfg.cfg cfg) of {
+    case timestamp == ExecutorLocalCfg.timestamp (EngineCfg.cfg cfg) of {
     | true :=
       some mkGuardOutput@{
         action := processReadActionLabel;
@@ -540,7 +540,7 @@ processReadGuard
 ```juvix
 ExecutorBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   EngineBehaviour
-    (ExecutorCfg KVSKey Executable)
+    (ExecutorLocalCfg KVSKey Executable)
     (ExecutorLocalState KVSKey KVSDatum ProgramState)
     ExecutorMailboxState
     ExecutorTimerHandle

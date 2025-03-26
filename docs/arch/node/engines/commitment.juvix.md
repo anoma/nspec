@@ -60,7 +60,7 @@ maintaining the security of the underlying signing keys.
 ```juvix
 CommitmentEngine : Type :=
   Engine
-    CommitmentCfg
+    CommitmentLocalCfg
     CommitmentLocalState
     CommitmentMailboxState
     CommitmentTimerHandle

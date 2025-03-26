@@ -29,13 +29,27 @@ tags:
 The wall clock engine configuration contains the static configuration needed for
 the wall clock engine to function.
 
+## The Wall Clock Local Configuration
+
+### `WallClockLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:WallClockLocalCfg] -->
+```juvix
+type WallClockLocalCfg := mkWallClockLocalCfg;
+```
+<!-- --8<-- [end:WallClockLocalCfg] -->
+
 ## The Wall Clock Configuration
 
 ### `WallClockCfg`
 
 <!-- --8<-- [start:WallClockCfg] -->
 ```juvix
-type WallClockCfg := mkWallClockCfg;
+WallClockCfg : Type :=
+  EngineCfg
+    WallClockLocalCfg;
 ```
 <!-- --8<-- [end:WallClockCfg] -->
 
@@ -45,11 +59,11 @@ type WallClockCfg := mkWallClockCfg;
 ```juvix extract-module-statements
 module wall_clock_config_example;
 
-  wallClockCfg : EngineCfg WallClockCfg :=
+  wallClockCfg : WallClockCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
       name := "wall clock";
-      cfg := mkWallClockCfg;
+      cfg := mkWallClockLocalCfg;
     }
   ;
 end;

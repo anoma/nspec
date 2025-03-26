@@ -84,7 +84,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```juvix
     WallClockAction : Type :=
       Action
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -101,7 +101,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```juvix
     WallClockActionInput : Type :=
       ActionInput
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -131,7 +131,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```juvix
     WallClockActionExec : Type :=
       ActionExec
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -217,7 +217,7 @@ getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
     ```juvix
     WallClockGuard : Type :=
       Guard
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -234,7 +234,7 @@ getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
     ```juvix
     WallClockGuardOutput : Type :=
       GuardOutput
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -251,7 +251,7 @@ getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
     ```juvix
     WallClockGuardEval : Type :=
       GuardEval
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -271,7 +271,7 @@ Condition
 ```juvix
 getTimeGuard
   (trigger : TimestampedTrigger WallClockTimerHandle Anoma.Msg)
-  (cfg : EngineCfg WallClockCfg)
+  (cfg : WallClockCfg)
   (env : WallClockEnv)
   : Option WallClockGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -294,7 +294,7 @@ getTimeGuard
 ```juvix
 WallClockBehaviour : Type :=
   EngineBehaviour
-    WallClockCfg
+    WallClockLocalCfg
     WallClockLocalState
     WallClockMailboxState
     WallClockTimerHandle

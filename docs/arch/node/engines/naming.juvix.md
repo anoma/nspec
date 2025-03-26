@@ -73,7 +73,7 @@ name-to-identity mappings and understand the history of name claims.
 ```juvix
 NamingEngine : Type :=
   Engine
-    NamingCfg
+    NamingLocalCfg
     NamingLocalState
     NamingMailboxState
     NamingTimerHandle

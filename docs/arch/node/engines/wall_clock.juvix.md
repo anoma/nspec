@@ -51,7 +51,7 @@ It abstracts away the details of the underlying hardware and provides an interfa
 ```juvix
 WallClockEngine : Type :=
   Engine
-    WallClockCfg
+    WallClockLocalCfg
     WallClockLocalState
     WallClockMailboxState
     WallClockTimerHandle

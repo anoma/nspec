@@ -304,7 +304,7 @@ NamingActionArguments : Type := List NamingActionArgument;
     ```juvix
     NamingAction : Type :=
       Action
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -319,7 +319,7 @@ NamingActionArguments : Type := List NamingActionArgument;
     ```juvix
     NamingActionInput : Type :=
       ActionInput
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -345,7 +345,7 @@ NamingActionArguments : Type := List NamingActionArgument;
     ```juvix
     NamingActionExec : Type :=
       ActionExec
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -577,7 +577,7 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
     ```juvix
     NamingGuard : Type :=
       Guard
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -594,7 +594,7 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
     ```juvix
     NamingGuardOutput : Type :=
       GuardOutput
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -611,7 +611,7 @@ queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction
     ```juvix
     NamingGuardEval : Type :=
       GuardEval
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -631,7 +631,7 @@ Condition
 ```juvix
 resolveNameGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
-  (cfg : EngineCfg NamingCfg)
+  (cfg : NamingCfg)
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -655,7 +655,7 @@ Condition
 ```juvix
 submitNameEvidenceGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
-  (cfg : EngineCfg NamingCfg)
+  (cfg : NamingCfg)
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -679,7 +679,7 @@ Condition
 ```juvix
 queryNameEvidenceGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
-  (cfg : EngineCfg NamingCfg)
+  (cfg : NamingCfg)
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -702,7 +702,7 @@ queryNameEvidenceGuard
 ```juvix
 NamingBehaviour : Type :=
   EngineBehaviour
-    NamingCfg
+    NamingLocalCfg
     NamingLocalState
     NamingMailboxState
     NamingTimerHandle

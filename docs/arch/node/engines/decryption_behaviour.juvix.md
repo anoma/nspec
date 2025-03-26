@@ -168,7 +168,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
     ```juvix
     DecryptionAction : Type :=
       Action
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -185,7 +185,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
     ```juvix
     DecryptionActionInput : Type :=
       ActionInput
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -215,7 +215,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
     ```juvix
     DecryptionActionExec : Type :=
       ActionExec
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -258,8 +258,8 @@ decryptAction
         let
           decryptedData :=
             Decryptor.decrypt
-              (DecryptionCfg.decryptor (EngineCfg.cfg cfg))
-              (DecryptionCfg.backend (EngineCfg.cfg cfg))
+              (DecryptionLocalCfg.decryptor (EngineCfg.cfg cfg))
+              (DecryptionLocalCfg.backend (EngineCfg.cfg cfg))
               (RequestDecryption.data request);
           responseMsg := case decryptedData of {
             | none := mkReplyDecryption@{
@@ -309,7 +309,7 @@ decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
     ```juvix
     DecryptionGuard : Type :=
       Guard
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -326,7 +326,7 @@ decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
     ```juvix
     DecryptionGuardOutput : Type :=
       GuardOutput
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -345,7 +345,7 @@ decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
     ```juvix
     DecryptionGuardEval : Type :=
       GuardEval
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -365,7 +365,7 @@ Condition
 ```juvix
 decryptGuard
   (tt : TimestampedTrigger DecryptionTimerHandle Anoma.Msg)
-  (cfg : EngineCfg DecryptionCfg)
+  (cfg : DecryptionCfg)
   (env : DecryptionEnv)
   : Option DecryptionGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -388,7 +388,7 @@ decryptGuard
 ```juvix
 DecryptionBehaviour : Type :=
   EngineBehaviour
-    DecryptionCfg
+    DecryptionLocalCfg
     DecryptionLocalState
     DecryptionMailboxState
     DecryptionTimerHandle

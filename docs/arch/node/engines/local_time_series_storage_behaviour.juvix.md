@@ -61,7 +61,7 @@ LocalTSStorageActionArguments : Type := List LocalTSStorageActionArgument;
     ```juvix
     LocalTSStorageAction : Type :=
       Action
-        LocalTSStorageCfg
+        LocalTSStorageLocalCfg
         LocalTSStorageLocalState
         LocalTSStorageMailboxState
         LocalTSStorageTimerHandle
@@ -78,7 +78,7 @@ LocalTSStorageActionArguments : Type := List LocalTSStorageActionArgument;
     ```juvix
     LocalTSStorageActionInput : Type :=
       ActionInput
-        LocalTSStorageCfg
+        LocalTSStorageLocalCfg
         LocalTSStorageLocalState
         LocalTSStorageMailboxState
         LocalTSStorageTimerHandle
@@ -108,7 +108,7 @@ LocalTSStorageActionArguments : Type := List LocalTSStorageActionArgument;
     ```juvix
     LocalTSStorageActionExec : Type :=
       ActionExec
-        LocalTSStorageCfg
+        LocalTSStorageLocalCfg
         LocalTSStorageLocalState
         LocalTSStorageMailboxState
         LocalTSStorageTimerHandle
@@ -392,7 +392,7 @@ deleteDataActionLabel : LocalTSStorageActionExec := Seq [ deleteDataAction ];
     ```juvix
     LocalTSStorageGuard : Type :=
       Guard
-        LocalTSStorageCfg
+        LocalTSStorageLocalCfg
         LocalTSStorageLocalState
         LocalTSStorageMailboxState
         LocalTSStorageTimerHandle
@@ -409,7 +409,7 @@ deleteDataActionLabel : LocalTSStorageActionExec := Seq [ deleteDataAction ];
     ```juvix
     LocalTSStorageGuardOutput : Type :=
       GuardOutput
-        LocalTSStorageCfg
+        LocalTSStorageLocalCfg
         LocalTSStorageLocalState
         LocalTSStorageMailboxState
         LocalTSStorageTimerHandle
@@ -426,7 +426,7 @@ deleteDataActionLabel : LocalTSStorageActionExec := Seq [ deleteDataAction ];
     ```juvix
     LocalTSStorageGuardEval : Type :=
       GuardEval
-        LocalTSStorageCfg
+        LocalTSStorageLocalCfg
         LocalTSStorageLocalState
         LocalTSStorageMailboxState
         LocalTSStorageTimerHandle
@@ -446,7 +446,7 @@ Condition
 ```juvix
 getDataGuard
   (trigger : LocalTSStorageTimestampedTrigger)
-  (cfg : EngineCfg LocalTSStorageCfg)
+  (cfg : LocalTSStorageCfg)
   (env : LocalTSStorageEnv)
   : Option LocalTSStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -470,7 +470,7 @@ Condition
 ```juvix
 recordDataGuard
   (trigger : LocalTSStorageTimestampedTrigger)
-  (cfg : EngineCfg LocalTSStorageCfg)
+  (cfg : LocalTSStorageCfg)
   (env : LocalTSStorageEnv)
   : Option LocalTSStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -494,7 +494,7 @@ Condition
 ```juvix
 deleteDataGuard
   (trigger : LocalTSStorageTimestampedTrigger)
-  (cfg : EngineCfg LocalTSStorageCfg)
+  (cfg : LocalTSStorageCfg)
   (env : LocalTSStorageEnv)
   : Option LocalTSStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -517,7 +517,7 @@ deleteDataGuard
 ```juvix
 LocalTSStorageBehaviour : Type :=
   EngineBehaviour
-    LocalTSStorageCfg
+    LocalTSStorageLocalCfg
     LocalTSStorageLocalState
     LocalTSStorageMailboxState
     LocalTSStorageTimerHandle
