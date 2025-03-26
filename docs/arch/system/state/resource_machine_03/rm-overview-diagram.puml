@@ -37,9 +37,13 @@ interface Resource {
         +nullifierKeyCommitment: NullifierKeyCommitment
         ' a seed for pseudo-random number generation
         +randSeed: RandSeed
+        ' computing a commitment to the resource
         +commitment(): Commitment
+        ' computing the nullifier for this resource (requires the NK)
         +nullifier(NullifierKey): Nullifier
+        ' computing the kind
         +kind(): Kind
+        ' computing the delta
         +delta(): DeltaHash
 /' TODO another leftover from Anthony's DAG
         +tag(consumed: Bool) Tag
