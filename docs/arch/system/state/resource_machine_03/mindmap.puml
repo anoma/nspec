@@ -1,0 +1,35 @@
+@startmindmap
+
++ Proving System\n- make proofs\n- check proofs
+
+++ for resource logic
+' produce proofs from ...
+++ for compliance
+' produce proofs from ...
+++ for resource deltas
+' produce proofs from ...
+
+'inputs and constraints
+-- <b>Architecture-level (aka RM-level)</b>
+-- Instantiation-level (aka instance specific)
+-- Application-level (aka `custom` / application specific)
+
+
+
+'+ **myThoughts**
+'++ Thought 1
+''tag::details[]
+'+++_ Thought 1.1
+'+++_ Thought 1.2
+''end::details[]
+'++ Thought 2
+'++ Thought 3
+'
+''tag::left[]
+'-- Thought A
+'-- Thought B
+'-- Thought C
+''end::left[]
+'
+
+@endmindmap
