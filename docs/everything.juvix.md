@@ -84,6 +84,7 @@ import arch.node.types.identities;
 import arch.node.types.anoma_message;
 import arch.node.types.anoma_config;
 import arch.node.types.anoma_environment;
+import arch.node.types.anoma_engines;
 import arch.node.types.anoma;
 
 import arch.node.types.engine_environment;
@@ -93,6 +94,8 @@ import arch.node.types.engine;
 import arch.node.types.transport;
 import arch.node.types.storage;
 import arch.node.types.router;
+
+import arch.node.integration.simulator;
 ```
 
 ## Engines
