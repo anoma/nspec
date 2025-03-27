@@ -4,6 +4,8 @@ classDiagram
         +prove(ProvingKey, Instance, Witness) Proof
         +verify(VerifyingKey, Instance, Proof) Bool
     }
+    %%IProvingSystem done.
+    %%ProvingSystem done.
     class IDeltaProvingSystem~VerifyingKey,ProvingKey,Instance,Witness,Proof~ {
         +aggregate(Proof, Proof) Proof
     }
@@ -24,10 +26,11 @@ classDiagram
         +new(Arg) T
         +equal(T, T) Bool
     }
-    %% class Arithmetic~T,Arg~ {
-    %%     +add(T, T) T
-    %%     +sub(T, T) T
-    %% }
+    %%Arithmetic done.
+    class Arithmetic~T,Arg~ {
+        +add(T, T) T
+        +sub(T, T) T
+    }
     class Hash~T,Arg~
     class CommitmentAccumulator~Witness,CommitmentIdentifier,AccumulatedValue~ {
         +add(Accumulator, CommitmentIdentifier) Witness
@@ -38,21 +41,22 @@ classDiagram
     class NullifierSet
 
     %% Core Data Structures
-    %% class Resource {
-    %%     +logicRef: LogicHash
-    %%     +labelRef: LabelHash
-    %%     +valueRef: ValueHash
-    %%     +quantity: Quantity
-    %%     +isEphemeral: Bool
-    %%     +nonce: Nonce
-    %%     +nullifierKeyCommitment: NullifierKeyCommitment
-    %%     +randSeed: RandSeed
-    %%     +commitment() Commitment
-    %%     +nullifier(NullifierKey) Nullifier
-    %%     +kind() Kind
-    %%     +delta() DeltaHash
-    %%     +tag(consumed: Bool) Tag
-    %% }
+    %%Resource done.
+    class Resource {
+        +logicRef: LogicHash
+        +labelRef: LabelHash
+        +valueRef: ValueHash
+        +quantity: Quantity
+        +isEphemeral: Bool
+        +nonce: Nonce
+        +nullifierKeyCommitment: NullifierKeyCommitment
+        +randSeed: RandSeed
+        +commitment() Commitment
+        +nullifier(NullifierKey) Nullifier
+        +kind() Kind
+        +delta() DeltaHash
+        +tag(consumed: Bool) Tag
+    }
     class Action {
         +created: List Commitment
         +consumed: List Nullifier
