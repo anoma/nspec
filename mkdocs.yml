@@ -225,6 +225,11 @@ nav:
                   - Function formats:
                       - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.juvix.md
                   - Applications: ./arch/system/state/resource_machine/notes/applications.juvix.md
+  - Integrations:
+      - Adapters:
+          - ./arch/integrations/adapters/index.md
+          - Ethereum Virtual Machine: ./arch/integrations/adapters/evm.md
+
   - Tutorials:
       - Contributor guidelines:
           - Global principles and guidelines: ./tutorial/principles_and_guidelines.md
