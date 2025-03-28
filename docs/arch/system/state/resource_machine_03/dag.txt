@@ -82,6 +82,7 @@ classDiagram
         +verify() Bool
         +delta() DeltaHash
     }
+    %%Transaction done.
 
     %% Implementation Classes
     class ResourceLogicProvingSystem
