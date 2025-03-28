@@ -259,7 +259,7 @@ addNewEngine (state : NetworkState) (nodeId : NodeID) (cfg : Cfg) (env : Env) : 
     | some node :=
       case mkEng nodeId (mkPair cfg env) of {
         | none := state
-        | some (mkPair newEng newEngineId) := 
+        | some (mkPair newEng newEngineId) :=
           let
             engineName := snd newEngineId;
             updatedNode := node@Node{engines := Map.insert engineName newEng (Node.engines node)};
@@ -334,7 +334,7 @@ step (selector : MessageSelector) (state : NetworkState) : Pair NetworkState (Op
             result := evaluateAndExecuteEng eng msg;
           in case result of {
             | none := mkPair state' none  -- No action to execute, remove message and return state
-            | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := 
+            | some (mkPair msgs (mkPair cfgEnvPairs newEng)) :=
               mkPair (updateNetworkState state' target newEng msgs cfgEnvPairs) (some msg)
           }
       }
