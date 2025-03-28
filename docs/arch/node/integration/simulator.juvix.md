@@ -39,9 +39,14 @@ selectFirstMessage (messages : List (EngineMsg Msg)) : Option (Pair (EngineMsg M
     | msg :: rest := some (mkPair msg rest)
   };
 
--- Network state contains all engines, in-transit messages, and current time
+-- Node type that contains a map from engine names to engines
+type Node := mkNode@{
+  engines : Map EngineName Eng;
+};
+
+-- Network state contains all nodes, in-transit messages, and current time
 type NetworkState := mkNetworkState@{
-  engines : Map EngineID Eng;
+  nodes : Map NodeID Node;
   messages : List (EngineMsg Msg);
   currentTime : Time;
   incrementId : NodeID -> NodeID;
@@ -247,31 +252,51 @@ evaluateAndExecuteEng (eng : Eng) (msg : EngineMsg Msg) : Option (Pair (List (En
     }
   };
 
--- Helper function to add a single new engine to the state
-addNewEngine (state : NetworkState) (cfg : Cfg) (env : Env) : NetworkState :=
-  case mkEng (NetworkState.nextId state) (mkPair cfg env) of {
+-- Helper function to add a single new engine to a node
+addNewEngine (state : NetworkState) (nodeId : NodeID) (cfg : Cfg) (env : Env) : NetworkState :=
+  case Map.lookup nodeId (NetworkState.nodes state) of {
     | none := state
-    | some (mkPair newEng newEngineId) := 
-      let
-        newId := NetworkState.incrementId state (NetworkState.nextId state);
-      in state@NetworkState{
-        engines := Map.insert newEngineId newEng (NetworkState.engines state);
-        nextId := newId
+    | some node :=
+      case mkEng nodeId (mkPair cfg env) of {
+        | none := state
+        | some (mkPair newEng newEngineId) := 
+          let
+            engineName := snd newEngineId;
+            updatedNode := node@Node{engines := Map.insert engineName newEng (Node.engines node)};
+          in state@NetworkState{
+            nodes := Map.insert nodeId updatedNode (NetworkState.nodes state)
+          }
       }
   };
 
--- Helper function to update network state based on action effect
+-- Helper function to update an engine's state, add new messages, and create new engines
 updateNetworkState (state : NetworkState) (target : EngineID) (eng : Eng) (msgs : List (EngineMsg Msg)) (cfgEnvPairs : List (Pair Cfg Env)) : NetworkState :=
   let
-    -- First update the target engine and messages
-    state' := state@NetworkState{
-      engines := Map.insert target eng (NetworkState.engines state);
-      messages := msgs ++ (NetworkState.messages state)
+    -- Get the node ID from the target engine ID
+    nodeId := case target of {
+      | mkPair none _ := none
+      | mkPair (some nid) _ := some nid
     };
-    -- Then fold over the config/env pairs to create new engines
+    -- Get the engine name from the target engine ID
+    engineName := snd target;
+    -- Look up the target node and update it
+    state' := case nodeId of {
+      | none := state
+      | some nid := case Map.lookup nid (NetworkState.nodes state) of {
+        | none := state
+        | some n := state@NetworkState{
+            nodes := Map.insert nid (n@Node{engines := Map.insert engineName eng (Node.engines n)}) (NetworkState.nodes state)
+          }
+      }
+    };
+    -- Then fold over the config/env pairs to create new engines in the target node
+    stateWithMessages := state'@NetworkState{messages := msgs ++ (NetworkState.messages state)};
     finalState := foldl
-      (\{s (mkPair cfg env) := addNewEngine s cfg env})
-      state'
+      (\{s (mkPair cfg env) := case nodeId of {
+        | none := s
+        | some nid := addNewEngine s nid cfg env
+      }})
+      stateWithMessages
       cfgEnvPairs
   in finalState;
 
@@ -287,8 +312,20 @@ step (selector : MessageSelector) (state : NetworkState) : Pair NetworkState (Op
         state' := state@NetworkState{messages := rest};
         -- Get the target engine ID from the message
         target := EngineMsg.target msg;
+        -- Get the node ID and engine name from the target engine ID
+        nodeId := case target of {
+          | mkPair none _ := none
+          | mkPair (some nid) _ := some nid
+        };
+        engineName := snd target;
         -- Look up the target engine
-        engine := Map.lookup target (NetworkState.engines state);
+        engine := case nodeId of {
+          | none := none
+          | some nid := case Map.lookup nid (NetworkState.nodes state) of {
+            | none := none
+            | some n := Map.lookup engineName (Node.engines n)
+          }
+        };
       in case engine of {
         | none := mkPair state' none  -- Target engine not found, remove message and return state
         | some eng :=
