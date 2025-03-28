@@ -4,13 +4,21 @@ title
 Overview of interfaces and classes that are relevant to the resource machine
 end title
 
-interface "ProvingSystem<VerifyingKey, ProvingKey, Instance, Witness, Proof>" as ProvingSystem {
+' The proving system interface
+interface "ProvingSystem<VerifyingKey, ProvingKey, Instance, Witness, Proof>" as PSI {
+        ' create a proof
         +prove(ProvingKey, Instance, Witness): Proof
+        ' check whether a proof is correct
         +verify(VerifyingKey, Instance, Proof): Bool
 }
 note right
-[[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/proving_system/index.html#proving-system-hierarchy Proving System Hierarchy]]
+- ""prove"" creates a proof
+- ""verify"" checks whether a proof is correct
+[[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/proving_system/index.html#proving-system-hierarchy → Proving System Hierarchy]]
 end note
+' note left of PSI
+' test
+' end note
 
 ' This is the interface of a `Arithmetic`
 ' TODO: do we want a group structure on T

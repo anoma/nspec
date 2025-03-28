@@ -1,9 +1,9 @@
 @startmindmap
 
 +[#orange] **Transaction**
-++ computed by (interpreting) **a** [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/data_structures/transaction/transaction_function.html?h=function#transaction-function transaction function]]
+++ computed by (interpreting) **a** [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/data_structures/transaction/transaction_function.html#transaction-function transaction function]]
 +++_ needs to be run by the executor
-+++_ transaction function calculation on the [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/transaction_function_vm.html?h=function transaction function ᴠᴍ]]
++++_ transaction function calculation on the [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/transaction_function_vm.html transaction function ᴠᴍ]]
 +++_ produces ""transaction"" as a result
 ++ some kind of //"code"//
 +++[#white] **TODO** specifically/examples?
@@ -11,7 +11,7 @@
 -- verification\n(via proving systems)
 ---_ compute ""verify"" operation
 ---_ check gas
----_ [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/transaction_function_vm.html?h=function → Transaction function ᴠᴍ]]
+---_ [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/transaction_function_vm.html → Transaction function ᴠᴍ]]
 -- //"execution"//\n
 --- perform reads an writes
 ---- transaction function computation
