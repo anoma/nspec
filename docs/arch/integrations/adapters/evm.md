@@ -241,8 +241,8 @@ Besides referencing the external contract, the wrapper contract also contains re
 - the resource kind of a [wrapping resource](#wrapping-resources) (`wrappingKind`) that carries information associated with the read from or write to the external contract
 
 !!! note
-    The mutual dependency between 
-    - the wrapper resource label containing the wrapper contract address 
+    The mutual dependency between
+    - the wrapper resource label containing the wrapper contract address
     - the wrapper contract referencing the wrapper resource label
 
     can be established by deterministic deployment or post-deployment initialization of the wrapper contract.
