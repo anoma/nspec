@@ -154,7 +154,7 @@ The wrapper contract
 
 - is only callable by the protocol adapter
 - has the address to the external contract
-- forwards arbitrary calls to the external contract to read and write its state 
+- forwards arbitrary calls to the external contract to read and write its state
 - returns the call return data to the protocol adapter
 
 A minimal implementation is shown below:
@@ -180,12 +180,12 @@ struct FFICall {
 }
 ```
 
-On execution inside the protoco, the FFI call is executed 
+On execution inside the protoco, the FFI call is executed
 
 ```solidity
 function _executeFFICall(FFICall calldata ffiCall) internal {
     bytes memory output = UntrustedWrapper(ffiCall.untrustedWrapperContract).forwardCall(ffiCall.input);
-    
+
     if (keccak256(output) != keccak256(ffiCall.output)) {
         revert FFICallOutputMismatch({ expected: ffiCall.output, actual: output });
     }
@@ -277,11 +277,11 @@ sequenceDiagram
   Note over TF, R0B: Resource Logic, Compliance, <br> and Delta Proof Computation
   box Anoma Client (Local)
     participant TF as Transaction<br>Function
-    participant R0B as RISC ZERO<br>Backend 
+    participant R0B as RISC ZERO<br>Backend
   end
 
   Alice ->> TF: call
-  
+
   par Local Proving
   activate TF
     TF ->> R0B: prove
@@ -291,11 +291,11 @@ sequenceDiagram
   deactivate TF
 
   Bob ->> TF: call
-  
+
   activate TF
     TF ->> IP: send tx2 (intent)
   deactivate TF
-  
+
   Note over IP, Sally: Intent Matching
   box Anoma P2P Node
     participant IP as Intent<br>Pool
@@ -307,7 +307,7 @@ sequenceDiagram
     Sally ->> Sally: compose(tx1,tx2)
 
     box EVM
-      participant R0V as RISC ZERO<br>Verifier Contract 
+      participant R0V as RISC ZERO<br>Verifier Contract
       participant PA as Protocol Adapter<br>Contract
       participant Wrapper as Wrapper<br>Contract
       participant Ext as External<br>Contract
@@ -324,7 +324,7 @@ sequenceDiagram
       Note over PA,Ext: Read/write external state
       PA ->> Wrapper: FFI Call
       Wrapper ->> Ext: Forwarded Call
-      opt 
+      opt
         Ext -->> Wrapper: Return Data
       end
       Wrapper -->> PA: Return Data
@@ -337,11 +337,11 @@ sequenceDiagram
 1. A user Alice calls a transaction function of a Juvix application to produce an ARM transaction object (here expressing an intent) as well as the instances and witnesses for the various proof types (resource logic, compliance, and delta proofs).
 2. The transaction function requests proofs from the RISC ZERO backend.
 3. The backend returns the proofs for the transaction object.
-4. The Anoma client sends the intent transaction object 
+4. The Anoma client sends the intent transaction object
   to the intent pool.
 5. Another user Bob expresses his intent (see 1. to 4.).
 6. See 4.
-7. A solver Sally monitors the intent pool and sees the intent transactions by Alice and Bob and finds a match (using her algorithm). 
+7. A solver Sally monitors the intent pool and sees the intent transactions by Alice and Bob and finds a match (using her algorithm).
 8. Sally composes the the intent transactions and adds her own actions s.t. the transaction becomes balanced & valid. She converts the transaction object into the format required by the EVM protocol adapter.
 9. Sally being connected to an Ethereum node makes an [`eth_sendTransaction`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sendtransaction) call into the Protocol adapter's `execute(Transaction tx)` function, which she signs with the private key of her account.
 10. The protocol adapter verifies the proofs from 3. by calling a RISC ZERO verifier contract deployed on the network.
@@ -349,7 +349,7 @@ sequenceDiagram
 12. The wrapper contract forwards the call to an external target smart contract to read from or write to its state.
 13. Optional return data is passed back to the wrapper contract.
 14. Return data (that can be empty) is passed to the protocol adapter contract that conducts integrity checks on them (requiring the same data to be part of `action.appData`).
-15. The protocol adapter updates its internal state by storing 
+15. The protocol adapter updates its internal state by storing
     - nullifiers of consumed resources
     - commitments of created resources
     - blobs with deletion criteria `!= DeletionCriterion.Immediately`
