@@ -12,18 +12,10 @@ tags:
 
 # Protocol Adapters
 
-Protocol adapters are programs settling resource machine transactions on foreign blockchain protocols (adaptees) that are independent of the Anoma protocol (target).
+A protocol adapter provides [[Executor Engine|executor engine]] and [[Shard|shard engine]] functionality on a foreign blockchain protocol (adaptee) being independent of the Anoma protocol (target). In other words, it processes [[Resource Machine]] transactions and updates the RM state.
 
-This requires the adaptee protocol to be programmable (i.e., support smart contracts).
+In order to support a protocol adapter, the adaptee protocol has to be programmable (i.e., support smart contracts).
 
-## Transaction Function Evaluation
+## Instances
 
-Protocol adapters can be distinguished by their ability to partially evaluate transaction functions.
-
-The current protocol adapter is **settlment-only**. It can only fully-evaluated transaction functions resulting in a static and fully determined transaction candidate.
-
-<!-- TODO Improve explanation -->
-
-**Full** protocol adapters implement the full executor behavior and can allow adding timestamps or other data post-ordering.
-
-<!-- TODO Add link to executor specs -->
+- [[EVM Protocol Adapter]] prototype (settlement-only)

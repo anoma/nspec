@@ -12,7 +12,10 @@ tags:
 
 # EVM Protocol Adapter
 
-The EVM protocol adapter is a smart contract written in Solidity that can be deployed to EVM compatible chains and rollups to connect them to the Anoma protocol.
+The EVM protocol adapter is a smart contract written in [Solidity](https://soliditylang.org/) that can be deployed to EVM compatible chains and rollups to connect them to the Anoma protocol.
+
+The current prototype is  **settlment-only** protocol adapter, i.e., it is only capable of  processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behavior.
+
 
 The implementation can be found in [`anoma/evm-protocol-adapter` GH repo](https://github.com/anoma/evm-protocol-adapter).
 
@@ -22,34 +25,31 @@ For the upcoming product version v0.3, only the [Sepolia network](https://ethere
 
 ## Storage
 
-The smart contract implements the following storage components:
+The protocol adapter contract implements the following storage components
 
 - [[Commitment accumulator|Commitment Accumulator]]
 - [[Nullifier set|Nullifier Set]]
 - [[Stored data format#Data blob storage|Blob Storage]]
 
+Only the protocol adapter can call non-view functions implemented by the storage components.
+
 ### Commitment Accumulator
 
-The implementation uses a modified version of the [OpenZeppelin `MerkleTree` v.5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/MerkleTree.sol) that populates the binary tree from left to right.
-In addition to the leaves, the [modified implementation](https://github.com/anoma/evm-protocol-adapter/blob/main/src/state/CommitmentAccumulator.sol) stores also the intermediary node hashes.
-
-Leaf indices are stored in a hash table
+The implementation uses a modified version of the [OpenZeppelin `MerkleTree` v.5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/MerkleTree.sol) that populates the binary tree from left to right and stores leaf indices in a hash table
 
 ```solidity
  mapping(bytes32 commitment => uint256 index) internal _indices;
 ```
 
-allowing for commitment existence and non-existence checks.
+allowing for commitment existence checks.
+
+ In addition to the leaves, the [modified implementation](https://github.com/anoma/evm-protocol-adapter/blob/main/src/state/CommitmentAccumulator.sol) stores also the intermediary node hashes.
 
 Historical Merkle tree roots are stored in an [OpenZeppelin `EnumerableSet` v5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/EnumerableSet.sol).
 
-Only the protocol adapter can call commitment accumulator interface functions.
-
 ### Nullifier Set
 
-The implementation uses the [OpenZeppelin `EnumerableSet` v5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/EnumerableSet.sol) to store nullifiers of consumed resources.
-
-Only the protocol adapter can call nullifier set interface functions.
+The implementation uses an [OpenZeppelin `EnumerableSet` v5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/EnumerableSet.sol) to store nullifiers of consumed resources and allow for existence checks.
 
 ### Blob Storage
 
@@ -68,13 +68,18 @@ enum DeletionCriterion {
 }
 ```
 
-Only the protocol adapter can call blob storage interface functions.
+## Hash Function
+
+For hashing, we compute the SHA-256 has of the [strictly ABI-encoded](https://docs.soliditylang.org/en/latest/abi-spec.html#strict-encoding-mode) data. SHA-256 is availble as a pre-compile in both the [EVM](https://www.evm.codes/precompiled) and [RISC ZERO zkVM](https://dev.risczero.com/api/zkvm/precompiles).
+
+
+
 
 ## Types & Computable Components
 
 The RM-related type and computable component definitions in Solidity can be found in the [src/Types.sol file](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol) and [src/libs/ComputableComponents.sol file](https://github.com/anoma/evm-protocol-adapter/blob/main/src/libs/ComputableComponents.sol), respectively.
 
-For hashing, we use `sha256` of the [ABI-encoded](https://docs.soliditylang.org/en/latest/abi-spec.html#abi), unpacked data structures.
+
 
 ## Proving Systems
 
@@ -116,114 +121,31 @@ function _transactionHash(bytes32[] memory tags) internal pure returns (bytes32 
 
 For key recovery from the message digest and signature, we use [OpenZeppelin's `ECDSA` library](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/ECDSA.sol).
 
-
-### Transaction Flow
-
-
-```mermaid
----
-title: Call Trace of an ARM Transaction
----
-sequenceDiagram
-  autonumber
-  title: Call Trace of an ARM Transaction Utilizing the Settlement-Only EVM Protocol Adapter
-
-  actor Alice as Alice
-  actor Bob as Bob
-
-  box Anoma Client
-    participant TF as Transaction<br>Function
-    participant R0B as RISC ZERO<br>Backend 
-  end
-
-  Alice ->> TF: call
-  
-  par tx1
-    activate TF
-    TF ->> R0B: prove
-    R0B -->> TF: proofs
-    TF ->> IP: send tx1
-    deactivate TF
-  end
-
-  Bob ->> TF: call
-  activate TF
-    TF ->> IP: send tx2
-  deactivate TF
-  
-  box Anoma P2P node
-    participant IP as Intent<br>Pool
-    actor Sally as Solver
-  end
-
-
-  Sally -->> IP: monitor pool
-  activate Sally
-    Sally ->> Sally: compose(tx1,tx2)
-
-    box EVM
-      participant R0V as RISC ZERO<br>Verifier Contract 
-      participant PA as Protocol Adapter<br>Contract
-      participant Ext as External<br>Contract
-    end
-    Sally ->> PA: eth_sendTransaction
-  deactivate Sally
-
-  %%par verify(tx)
-  PA ->> R0V: verify(tx)
-  %%end
-
-  par execute(tx)
-    opt
-      Note right of PA: Read/write external state
-      PA ->> Ext: FFI call
-    end
-    Note right of PA: Update internal state
-    PA ->> PA: add nullifiers,<br>commitments, blobs
-  end
-
-```
-
-<!--TODO Use sequence diagram instead-->
-
-The protocol adapter contract receives an `Transaction` object
-
-```solidity
-struct Transaction {
-    bytes32[] roots;
-    Action[] actions;
-    bytes deltaProof;
-}
-```
-
-through an Ethereum contract call from an Anoma node instance. It then verifies and executes the call.
-
-## EVM and ARM State Correspondence
+## EVM and RM State Correspondence
 
 We distinguish two types of state:
 
-1. Internal ARM state being maintained inside the protocol adapter contract that is constituted by commitments, nullifiers, and blobs (see [Storage](#Storage)).
-2. External EVM state existing in smart contracts being independent of the protocol adapter.
+1. Internal [[Resource Machine|resource machine (RM)]] state being maintained inside the protocol adapter contract that is constituted by commitments, nullifiers, and blobs (see [Storage](#Storage)).
+2. External EVM state existing in smart contracts being independent of the protocol adapter and its internal RM state.
 
-EVM state interoperability means that the protocol adapter contract can read from and write to external EVM state and create and consume corresponding resources in its internal state.
+To **interoperate with the external EVM state**, the protocol adapter contract can read from and write to external EVM state and **make it available in corresponding resources** in its internal state.
+The correspondence to an external contract maintaining EVM state is established through a custom and permissionlessly deployed [wrapper contract](#wrapper-contract) and an associated, unique [wrapper resource](#wrapper-resource) that must be consumed and created with each call.
+
+
 
 ```mermaid
 flowchart LR
     tx(("tx"))
-    pa("Protocol Adapter<br>Contract")
-    wrapper("Wrapper<br>Contract")
-    evmContract("Contract to<br>read from/write to")
+    pa("Protocol Adapter")
+    wc("Wrapper Contract")
+    ec("External Contract<br> to read from / write to")
 
-    tx
-    -->
-    pa
-    --FFI<br>Call-->
-    wrapper
-    --Forwarded<br>Call-->
-    evmContract
+    tx --> pa
+    pa --"FFI Call"--> wc -. Return Data .-> pa
+    wc --"Forwarded Call" --> ec -. Return Data .-> wc
+
 ```
 
-The correspondence to an external contract maintaining EVM state is established through a custom and permissionlessly deployed [wrapper contract](#wrapper-contract) and an associated, unique [wrapper resource](#wrapper-resource) that must be consumed and created with each call.
 
 
 ### Wrapper Contract
@@ -231,8 +153,9 @@ The correspondence to an external contract maintaining EVM state is established 
 The wrapper contract
 
 - is only callable by the protocol adapter
-- references the external contract
-- forwards arbitrary calls to external contracts to read and write their state
+- has the address to the external contract
+- forwards arbitrary calls to the external contract to read and write its state 
+- returns the call return data to the protocol adapter
 
 A minimal implementation is shown below:
 
@@ -247,18 +170,29 @@ contract Wrapper is Ownable {
 }
 ```
 
-The required wrapper calldata is passed with the ARM transaction object that the protocol adapter executes and shown below:
+The required FFI calldata is passed with the RM transaction object [as part of the action struct](https://github.com/anoma/evm-protocol-adapter/blob/9d315a37be1c53e7e76dac7d43791e43a4f68ebf/src/Types.sol#L31).
 
 ```solidity
 struct FFICall {
-    Resource wrapperResource;
     address untrustedWrapperContract;
     bytes input;
     bytes output;
 }
 ```
 
-The output data is returned to the protocol adapter and compared with the `output` reference in the `FFICall` struct.
+On execution inside the protoco, the FFI call is executed 
+
+```solidity
+function _executeFFICall(FFICall calldata ffiCall) internal {
+    bytes memory output = UntrustedWrapper(ffiCall.untrustedWrapperContract).forwardCall(ffiCall.input);
+    
+    if (keccak256(output) != keccak256(ffiCall.output)) {
+        revert FFICallOutputMismatch({ expected: ffiCall.output, actual: output });
+    }
+}
+```
+
+The output data is returned to the protocol adapter and compared with the `output` stored in the `FFICall` struct.
 
 !!! note
     In the current, settlement-only protocol adapter design, the `output` data must already be known during proving time to be checked by resource logics and therefore is part of the `FFICall` struct.
@@ -324,3 +258,98 @@ A transaction attempting to initialize a second wrapper resource would revert si
 
 Wrapping resources encapsulate EVM state and correspond to a specific [wrapper resource](#wrapper-resource) being referenced in their label.
 Their initialization and finalization logic requires a created wrapper resource to be part of the same action.
+
+
+
+## Transaction Flow
+
+The protocol adapter transaction flow is shown below:
+
+```mermaid
+sequenceDiagram
+  autonumber
+  title: Transaction Flow of the Settlement-Only EVM Protocol Adapter
+
+
+  actor Alice as User Alice
+  actor Bob as User Bob
+
+  Note over TF, R0B: Resource Logic, Compliance, <br> and Delta Proof Computation
+  box Anoma Client (Local)
+    participant TF as Transaction<br>Function
+    participant R0B as RISC ZERO<br>Backend 
+  end
+
+  Alice ->> TF: call
+  
+  par Local Proving
+  activate TF
+    TF ->> R0B: prove
+    R0B -->> TF: proofs
+  end
+  TF ->> IP: send tx1 (intent)
+  deactivate TF
+
+  Bob ->> TF: call
+  
+  activate TF
+    TF ->> IP: send tx2 (intent)
+  deactivate TF
+  
+  Note over IP, Sally: Intent Matching
+  box Anoma P2P Node
+    participant IP as Intent<br>Pool
+    actor Sally as Solver Sally
+  end
+
+  Sally -->> IP: monitor pool
+  activate Sally
+    Sally ->> Sally: compose(tx1,tx2)
+
+    box EVM
+      participant R0V as RISC ZERO<br>Verifier Contract 
+      participant PA as Protocol Adapter<br>Contract
+      participant Wrapper as Wrapper<br>Contract
+      participant Ext as External<br>Contract
+    end
+    Sally ->> PA: eth_sendTransaction [execute(tx)]
+  deactivate Sally
+
+  %%par verify(tx)
+  PA ->> R0V: verify(tx)
+  %%end
+
+  par Settlement
+    opt Optional FFI Calls
+      Note over PA,Ext: Read/write external state
+      PA ->> Wrapper: FFI Call
+      Wrapper ->> Ext: Forwarded Call
+      opt 
+        Ext -->> Wrapper: Return Data
+      end
+      Wrapper -->> PA: Return Data
+    end
+    Note over PA: Update internal state
+    PA ->> PA: add nullifiers,<br>commitments, blobs
+  end
+
+```
+1. A user Alice calls a transaction function of a Juvix application to produce an ARM transaction object (here expressing an intent) as well as the instances and witnesses for the various proof types (resource logic, compliance, and delta proofs).
+2. The transaction function requests proofs from the RISC ZERO backend.
+3. The backend returns the proofs for the transaction object.
+4. The Anoma client sends the intent transaction object 
+  to the intent pool.
+5. Another user Bob expresses his intent (see 1. to 4.).
+6. See 4.
+7. A solver Sally monitors the intent pool and sees the intent transactions by Alice and Bob and finds a match (using her algorithm). 
+8. Sally composes the the intent transactions and adds her own actions s.t. the transaction becomes balanced & valid. She converts the transaction object into the format required by the EVM protocol adapter.
+9. Sally being connected to an Ethereum node makes an [`eth_sendTransaction`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sendtransaction) call into the Protocol adapter's `execute(Transaction tx)` function, which she signs with the private key of her account.
+10. The protocol adapter verifies the proofs from 3. by calling a RISC ZERO verifier contract deployed on the network.
+11. The protocol adapter makes optional FFI calls to a wrapper contract.
+12. The wrapper contract forwards the call to an external target smart contract to read from or write to its state.
+13. Optional return data is passed back to the wrapper contract.
+14. Return data (that can be empty) is passed to the protocol adapter contract that conducts integrity checks on them (requiring the same data to be part of `action.appData`).
+15. The protocol adapter updates its internal state by storing 
+    - nullifiers of consumed resources
+    - commitments of created resources
+    - blobs with deletion criteria `!= DeletionCriterion.Immediately`
