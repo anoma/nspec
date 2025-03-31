@@ -1,0 +1,275 @@
+classDiagram
+    %% Core Interfaces
+    class IProvingSystem~VerifyingKey,ProvingKey,Instance,Witness,Proof~ {
+        +prove(ProvingKey, Instance, Witness) Proof
+        +verify(VerifyingKey, Instance, Proof) Bool
+    }
+    %%IProvingSystem done.
+    %%ProvingSystem done.
+    class IDeltaProvingSystem~VerifyingKey,ProvingKey,Instance,Witness,Proof~ {
+        +aggregate(Proof, Proof) Proof
+    }
+    class ISet~T~ {
+        +new() Set
+        +new(List) Set
+        +size(Set) Nat
+        +insert(Set, T) Set
+        +union(Set, Set) Set
+        +intersection(Set, Set) Set
+        +difference(Set, Set) Set
+        +disjointUnion(Set, Set) Set
+        +contains(Set, T) Bool
+    }
+    class IOrderedSet~T~
+    class FixedSize~T,Arg~ {
+        +bit_size: Int
+        +new(Arg) T
+        +equal(T, T) Bool
+    }
+    %%Arithmetic done.
+    class Arithmetic~T,Arg~ {
+        +add(T, T) T
+        +sub(T, T) T
+    }
+    class Hash~T,Arg~
+    class CommitmentAccumulator~Witness,CommitmentIdentifier,AccumulatedValue~ {
+        +add(Accumulator, CommitmentIdentifier) Witness
+        +witness(Accumulator, CommitmentIdentifier) Maybe Witness
+        +verify(CommitmentIdentifier, Witness, AccumulatedValue) Bool
+        +value(Accumulator) AccumulatedValue
+    }
+    class NullifierSet
+
+    %% Core Data Structures
+    %%Resource done.
+    class Resource {
+        +logicRef: LogicHash
+        +labelRef: LabelHash
+        +valueRef: ValueHash
+        +quantity: Quantity
+        +isEphemeral: Bool
+        +nonce: Nonce
+        +nullifierKeyCommitment: NullifierKeyCommitment
+        +randSeed: RandSeed
+        +commitment() Commitment
+        +nullifier(NullifierKey) Nullifier
+        +kind() Kind
+        +delta() DeltaHash
+        +tag(consumed: Bool) Tag
+    }
+    class Action {
+        +created: List Commitment
+        +consumed: List Nullifier
+        +resourceLogicProofs: Map Tag (LogicRefHash, PS.Proof)
+        +complianceUnits: Set ComplianceUnit
+        +applicationData: Map Tag (BitString, DeletionCriterion)
+        +verify() Bool
+        +delta() DeltaHash
+    }
+    class ComplianceUnit {
+        +proof: PS.Proof
+        +refInstance: ReferencedInstance
+        +vk: PS.VerifyingKey
+        +delta() DeltaHash
+        +verify() Bool
+    }
+    class Transaction {
+        +CMTreeRoots: Set CMtree.Value
+        +actions: Set Action
+        +deltaProof: DeltaProvingSystem.Proof
+        +create(Set CMtree.Value, Set Actions) Transaction
+        +compose(Transaction, Transaction) Transaction
+        +verify() Bool
+        +delta() DeltaHash
+    }
+    %%Transaction done.
+
+    %% Implementation Classes
+    class ResourceLogicProvingSystem
+    class ComplianceProvingSystem
+    class DeltaProvingSystem
+    class OrderedSet
+    class CMTree
+    class NFSet
+    class DeltaHash
+    class TransactionFunction {
+        +eval() Transaction
+    }
+    class TransactionFunctionVM {
+        +eval(TransactionFunction, GasLimit) Transaction
+    }
+    class TransactionWithPayment {
+        +stateTransitionFunction: TransactionFunction
+        +paymentTransaction: Transaction
+        +gasLimit: Arithmetic
+    }
+
+    %% Fixed Size Types
+    class Nonce
+    class RandSeed
+    class NullifierKeyCommitment
+    class NullifierKey
+    class Quantity
+    class Balance
+    class LogicHash
+    class LabelHash
+    class ValueHash
+    class Commitment
+    class Nullifier
+    class LogicRefHash
+
+    %% Proof Related Types
+    class ResourceLogicProofInstance {
+        +tag: Tag
+        +isConsumed: Bool
+        +consumed: List Nullifier
+        +created: List Commitment
+        +applicationData: BitString
+    }
+    class ResourceLogicProofWitness {
+        +consumed: OrderedSet (Resource, NullifierKey)
+        +created: OrderedSet Resource
+        +applicationInputs: Any
+    }
+    class ComplianceProofInstance {
+        +consumed: List (NullifierRef, RootRef, LogicRefHash)
+        +created: List (CommitmentRef, LogicRefHash)
+        +unitDelta: DeltaHash
+    }
+    class ComplianceProofWitness {
+        +consumed: OrderedSet Resource
+        +consumed_nullifierKey: OrderedSet NullifierKey
+        +consumed_cmtreePath: OrderedSet CMtreePath
+        +consumed_commitment: OrderedSet Commitment
+        +consumed_logicRefHash: OrderedSet LogicRefHash
+        +created: OrderedSet Resource
+        +created_logicRefHash: OrderedSet LogicRefHash
+    }
+    class DeltaProofInstance {
+        +delta: DeltaHash
+        +expectedBalance: Balance
+    }
+    class DeltaProofWitness {
+        +resourceDeltaPreimages: List Resource
+    }
+
+    %% Inheritance/Implementation
+    IProvingSystem --|> IDeltaProvingSystem
+    IProvingSystem --|> ResourceLogicProvingSystem
+    IProvingSystem --|> ComplianceProvingSystem
+    IDeltaProvingSystem --|> DeltaProvingSystem
+    ISet --|> IOrderedSet
+    IOrderedSet --|> OrderedSet
+    CommitmentAccumulator --|> CMTree
+    Timestamp --> CMTree
+    NFSet --|> NullifierSet
+    FixedSize --|> Hash
+    FixedSize --|> Arithmetic
+    Hash --|> DeltaHash
+    Arithmetic --|> DeltaHash
+
+    LogicHash --> Resource
+    LabelHash --> Resource
+    ValueHash --> Resource
+    Quantity --> Resource
+    Nonce --> Resource
+    NullifierKeyCommitment --> Resource
+    RandSeed --> Resource
+    Commitment --> Resource
+    Nullifier --> Resource
+    class Kind
+    Kind --> Resource
+    DeltaHash --> Resource
+    Tag --> Resource
+    Kind --> Resource
+
+    Resource --> ComplianceProofWitness
+    Resource --> NullifierSet
+    Resource --> DeltaProofWitness
+
+    %% Action Componenents
+    Commitment --> Action
+    Nullifier --> Action
+    Tag --> Action
+    IProvingSystem --> Action
+    LogicRefHash --> Action
+    DeletionCriterion --> Action
+    ComplianceUnit --> Action
+
+    %% Action interface reqs
+    DeltaHash --> Action
+    NullifierKey --> Action
+    Resource --> Action
+
+    IProvingSystem --> ComplianceUnit
+    %%ReferencedInstance --> ComplianceUnit
+    Commitment --> ComplianceUnit
+    Nullifier --> ComplianceUnit
+    DeltaHash --> ComplianceUnit
+
+    Action --> Transaction
+    CMTree --> Transaction
+    DeltaProvingSystem --> Transaction
+    DeltaHash --> Transaction
+
+    Transaction --> TransactionFunction
+    TransactionFunction --> TransactionWithPayment
+    Transaction --> TransactionWithPayment
+    Arithmetic --> TransactionWithPayment
+    TransactionFunction --> TransactionFunctionVM
+
+    OrderedSet --> ComplianceProofWitness
+
+    Nullifier --> ComplianceProofInstance
+    CMTree --> ComplianceProofInstance
+    LogicRefHash --> ComplianceProofInstance
+    Commitment --> ComplianceProofInstance
+
+    CMTree --> ComplianceProofWitness
+    NullifierKey --> ComplianceProofWitness
+    Commitment --> ComplianceProofWitness
+    LogicRefHash --> ComplianceProofWitness
+
+    Predicate --> DeletionCriterion
+
+    CMTree --> Transaction
+    NullifierSet --> Transaction
+    Action --> Transaction
+    DeltaHash --> Transaction
+
+    %% Fixed Size Type Implementation Dependencies
+    Hash --> LogicHash
+    Hash --> LabelHash
+    Hash --> ValueHash
+    Hash --> Commitment
+    Hash --> Nullifier
+    Hash --> Kind
+    Hash --> LogicRefHash
+    Hash --> CMTree
+
+    Arithmetic --> Quantity
+    Arithmetic --> Balance
+
+    FixedSize --> Nonce
+    FixedSize --> RandSeed
+    FixedSize --> NullifierKeyCommitment
+    FixedSize --> NullifierKey
+
+    Balance --> DeltaProofInstance
+    DeltaHash --> DeltaProofInstance
+    NullifierKey --> Nullifier
+
+    %% Input relationships (required for ResourceLogicProofInstance)
+    Tag --> ResourceLogicProofInstance
+    Nullifier --> ResourceLogicProofInstance
+    Commitment --> ResourceLogicProofInstance
+    Action --> ResourceLogicProofInstance
+    Resource --> ResourceLogicProofInstance
+
+    %% Output relationships (where ResourceLogicProofInstance is used)
+    ResourceLogicProofInstance --> ResourceLogicProvingSystem
+
+    %% Input relationships (required for ResourceLogicProofWitness)
+    OrderedSet --> ResourceLogicProofWitness
+    NullifierKey --> ResourceLogicProofWitness
+    Resource --> ResourceLogicProofWitness

@@ -179,6 +179,8 @@ nav:
       - Identity Architecture:
           - Identity Architecture Types: ./arch/system/identity/identity.juvix.md
       - State Architecture:
+          - Resource Machine v0.3:
+              - ./arch/system/state/resource_machine_03/index.juvix.md
           - Resource Machine:
               - ./arch/system/state/resource_machine/index.juvix.md
               - Primitive interfaces:

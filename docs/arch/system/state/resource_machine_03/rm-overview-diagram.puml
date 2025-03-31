@@ -1,0 +1,106 @@
+@startuml
+' This is an overview of interfaces and classes that are relevant to the resource machine
+title
+Overview of interfaces and classes that are relevant to the resource machine
+end title
+
+' The proving system interface
+interface "ProvingSystem<VerifyingKey, ProvingKey, Instance, Witness, Proof>" as PSI {
+        ' create a proof
+        +prove(ProvingKey, Instance, Witness): Proof
+        ' check whether a proof is correct
+        +verify(VerifyingKey, Instance, Proof): Bool
+}
+note right
+- ""prove"" creates a proof
+- ""verify"" checks whether a proof is correct
+[[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/proving_system/index.html#proving-system-hierarchy → Proving System Hierarchy]]
+end note
+' note left of PSI
+' test
+' end note
+
+note left of PSI
+        Proving systems are subject to conditions:
+        - completness and soundness
+        - proofs attest statements (an implicit parameter)
+        [[https://specs.anoma.net/latest/arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.html#proving-system-definition → Proving System Definition]]
+end note
+
+' This is the interface of a `Arithmetic`
+' TODO: do we want a group structure on T
+interface "Arithmetic<T, Arg>" as Arithmetic {
+        +add(T, T): T
+        +sub(T, T): T
+        ' do we want a zero TODO
+}
+note right
+[[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/arithmetic.html Arithmetic]]
+end note
+
+'note below
+' This is actually an additive group.
+'end note
+
+' This is the interface of a `resource`
+interface Resource {
+        ' logic reference, a logic hash
+        +logicRef: LogicHash
+        ' logic reference, a label hash
+        +labelRef: LabelHash
+        ' value reference, a value hash
+        +valueRef: ValueHash
+        ' quantity of Quantity type
+        +quantity: Quantity
+        ' whether or not the resource is ephemeral
+        +isEphemeral: Bool
+        ' nonce, a number used once
+        +nonce: Nonce
+        ' the nullifier key commitment
+        +nullifierKeyCommitment: NullifierKeyCommitment
+        ' a seed for pseudo-random number generation
+        +randSeed: RandSeed
+        ' computing a commitment to the resource
+        +commitment(): Commitment
+        ' computing the nullifier for this resource (requires the NK)
+        +nullifier(NullifierKey): Nullifier
+        ' computing the kind
+        +kind(): Kind
+        ' computing the delta
+        +delta(): DeltaHash
+}
+note right of Resource
+        fields
+        [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/data_structures/resource/index.html#resource → Resource]]
+
+        ===
+
+        methods
+        [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/primitive_interfaces/fixed_size_type/hash.html#hash-interface-diagram → computable components]]
+end note
+note bottom of Resource
+see also [[https://specs.anoma.net/v0.1.4/arch/system/state/resource_machine/data_structures/resource/computable_components/introduction.html?h=resource+tag#tag Tag]] of a resource, which is not part of the class
+end note
+
+Arithmetic <|-[dashed]- Resource: <T, Arg> := <Quantity, ???>
+note bottom on link #red
+todo ???
+end note
+
+
+class "Transaction<TODO lots of parameters>" as Transaction {
+        ' these are not any more neede
+        ' +CMTreeRoots: Set CMtree.Value
+        +actions: Set Action
+        +deltaProof: DeltaProvingSystem.Proof
+        +vk: DeltaProvingSystem.Proof
+        /' TODO: sort the interface out
+         ' +create(Set CMtree.Value, Set Actions): Transaction
+         ' +compose(Transaction, Transaction): Transaction
+         ' +verify(): Bool
+         ' +delta(): DeltaHash
+         '/
+}
+'--------------------------------------------------------------------------------'
+footer "[[https://tinyurl.com/anthonydag evolved from the Anthony DAG]]"
+@enduml
