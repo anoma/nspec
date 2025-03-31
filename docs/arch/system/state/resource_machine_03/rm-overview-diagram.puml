@@ -20,6 +20,13 @@ end note
 ' test
 ' end note
 
+note left of PSI
+        Proving systems are subject to conditions:
+        - completness and soundness
+        - proofs attest statements (an implicit parameter)
+        [[https://specs.anoma.net/latest/arch/system/state/resource_machine/primitive_interfaces/proving_system/proving_system_types.html#proving-system-definition → Proving System Definition]]
+end note
+
 ' This is the interface of a `Arithmetic`
 ' TODO: do we want a group structure on T
 interface "Arithmetic<T, Arg>" as Arithmetic {
