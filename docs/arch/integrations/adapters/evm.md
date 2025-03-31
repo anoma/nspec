@@ -119,38 +119,69 @@ For key recovery from the message digest and signature, we use [OpenZeppelin's `
 
 ### Transaction Flow
 
+
 ```mermaid
 ---
 title: Call Trace of an ARM Transaction
 ---
-flowchart LR
-  user(("User"))
+sequenceDiagram
+  autonumber
+  title: Call Trace of an ARM Transaction Utilizing the Settlement-Only EVM Protocol Adapter
 
-  subgraph Anoma: Off-Chain Proving
-    subgraph Juvix App
-      direction TB
-      tf("Transaction<br>Function")
+  actor Alice as Alice
+  actor Bob as Bob
+
+  box Anoma Client
+    participant TF as Transaction<br>Function
+    participant R0B as RISC ZERO<br>Backend 
+  end
+
+  Alice ->> TF: call
+  
+  par tx1
+    activate TF
+    TF ->> R0B: prove
+    R0B -->> TF: proofs
+    TF ->> IP: send tx1
+    deactivate TF
+  end
+
+  Bob ->> TF: call
+  activate TF
+    TF ->> IP: send tx2
+  deactivate TF
+  
+  box Anoma P2P node
+    participant IP as Intent<br>Pool
+    actor Sally as Solver
+  end
+
+
+  Sally -->> IP: monitor pool
+  activate Sally
+    Sally ->> Sally: compose(tx1,tx2)
+
+    box EVM
+      participant R0V as RISC ZERO<br>Verifier Contract 
+      participant PA as Protocol Adapter<br>Contract
+      participant Ext as External<br>Contract
     end
-    node("Anoma<br>Node Instance")
+    Sally ->> PA: eth_sendTransaction
+  deactivate Sally
+
+  %%par verify(tx)
+  PA ->> R0V: verify(tx)
+  %%end
+
+  par execute(tx)
+    opt
+      Note right of PA: Read/write external state
+      PA ->> Ext: FFI call
+    end
+    Note right of PA: Update internal state
+    PA ->> PA: add nullifiers,<br>commitments, blobs
   end
 
-  subgraph EVM: On-Chain Settlement
-    pa("Protocol Adapter<br>Contract")
-    risc0("RISC ZERO<br>Verifier Contract")
-  end
-    user
-    --Call -->
-    tf
-    --Anoma Transaction<br>Object-->
-    node
-    --Ethereum Contract<br>Call-->
-    pa
-    --execute<br>(update state)-->
-    pa
-
-    pa
-    --verify-->
-    risc0
 ```
 
 <!--TODO Use sequence diagram instead-->
