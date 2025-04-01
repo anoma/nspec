@@ -73,7 +73,7 @@ For hashing, we compute the SHA-256 has of the [strictly ABI-encoded](https://do
 
 ## Types & Computable Components
 
-The RM-related type and computable component definitions in Solidity can be found in the [src/Types.sol file](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol) and [src/libs/ComputableComponents.sol file](https://github.com/anoma/evm-protocol-adapter/blob/main/src/libs/ComputableComponents.sol), respectively.
+The RM-related type and computable component definitions in Solidity can be found in the [src/Types.sol](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol) and [src/libs/ComputableComponents.sol](https://github.com/anoma/evm-protocol-adapter/blob/main/src/libs/ComputableComponents.sol) file, respectively.
 
 ## Proving Systems
 
@@ -189,8 +189,8 @@ The output data is returned to the protocol adapter and compared with the `outpu
 
 Besides referencing the external contract by its address, the wrapper contract also contains references to
 
-- the resource logic function (`logicRef`) of the associated wrapper resource
-- the resource label (`labelRef`) of the associated wrapper resource that must reference the wrapper contract address
+- the resource logic function (`logicRef`) of the associated [wrapper resource](#wrapper-resource)
+- the resource label (`labelRef`) of the associated [wrapper resource](#wrapper-resource) that, in turn, must reference the wrapper contract address (see note below)
 - the resource kind of a [wrapping resource](#wrapping-resources) (`wrappingKind`) that carries information associated with the read from or write to the external contract
 
 !!! note
