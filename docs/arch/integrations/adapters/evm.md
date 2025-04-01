@@ -14,8 +14,7 @@ tags:
 
 The EVM protocol adapter is a smart contract written in [Solidity](https://soliditylang.org/) that can be deployed to EVM compatible chains and rollups to connect them to the Anoma protocol.
 
-The current prototype is  **settlment-only** protocol adapter, i.e., it is only capable of  processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behavior.
-
+The current prototype is **settlment-only** protocol adapter, i.e., it is only capable of processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behavior.
 
 The implementation can be found in [`anoma/evm-protocol-adapter` GH repo](https://github.com/anoma/evm-protocol-adapter).
 
@@ -43,7 +42,7 @@ The implementation uses a modified version of the [OpenZeppelin `MerkleTree` v.5
 
 allowing for commitment existence checks.
 
- In addition to the leaves, the [modified implementation](https://github.com/anoma/evm-protocol-adapter/blob/main/src/state/CommitmentAccumulator.sol) stores also the intermediary node hashes.
+In addition to the leaves, the [modified implementation](https://github.com/anoma/evm-protocol-adapter/blob/main/src/state/CommitmentAccumulator.sol) stores also the intermediary node hashes.
 
 Historical Merkle tree roots are stored in an [OpenZeppelin `EnumerableSet` v5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/EnumerableSet.sol).
 
@@ -72,14 +71,9 @@ enum DeletionCriterion {
 
 For hashing, we compute the SHA-256 has of the [strictly ABI-encoded](https://docs.soliditylang.org/en/latest/abi-spec.html#strict-encoding-mode) data. SHA-256 is availble as a pre-compile in both the [EVM](https://www.evm.codes/precompiled) and [RISC ZERO zkVM](https://dev.risczero.com/api/zkvm/precompiles).
 
-
-
-
 ## Types & Computable Components
 
 The RM-related type and computable component definitions in Solidity can be found in the [src/Types.sol file](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol) and [src/libs/ComputableComponents.sol file](https://github.com/anoma/evm-protocol-adapter/blob/main/src/libs/ComputableComponents.sol), respectively.
-
-
 
 ## Proving Systems
 
@@ -131,8 +125,6 @@ We distinguish two types of state:
 To **interoperate with the external EVM state**, the protocol adapter contract can read from and write to external EVM state and **make it available in corresponding resources** in its internal state.
 The correspondence to an external contract maintaining EVM state is established through a custom and permissionlessly deployed [wrapper contract](#wrapper-contract) and an associated, unique [wrapper resource](#wrapper-resource) that must be consumed and created with each call.
 
-
-
 ```mermaid
 flowchart LR
     tx(("tx"))
@@ -146,14 +138,12 @@ flowchart LR
 
 ```
 
-
-
 ### Wrapper Contract
 
 The wrapper contract
 
 - is only callable by the protocol adapter
-- has the address to the external contract
+- has the address to the external contract it corresponds to
 - forwards arbitrary calls to the external contract to read and write its state
 - returns the call return data to the protocol adapter
 
@@ -180,7 +170,7 @@ struct FFICall {
 }
 ```
 
-On execution inside the protoco, the FFI call is executed
+On transaction execution by the protocol adapter, the FFI call is processed as follows:
 
 ```solidity
 function _executeFFICall(FFICall calldata ffiCall) internal {
@@ -197,22 +187,18 @@ The output data is returned to the protocol adapter and compared with the `outpu
 !!! note
     In the current, settlement-only protocol adapter design, the `output` data must already be known during proving time to be checked by resource logics and therefore is part of the `FFICall` struct.
 
-<!--note end-->
-
-Besides referencing the external contract, the wrapper contract also contains references to
+Besides referencing the external contract by its address, the wrapper contract also contains references to
 
 - the resource logic function (`logicRef`) of the associated wrapper resource
 - the resource label (`labelRef`) of the associated wrapper resource that must reference the wrapper contract address
 - the resource kind of a [wrapping resource](#wrapping-resources) (`wrappingKind`) that carries information associated with the read from or write to the external contract
 
 !!! note
-    The mutual dependency between
-    - the wrapper resource label containing the wrapper contract address
+    The mutual dependency between 
+    - the wrapper resource label containing the wrapper contract address 
     - the wrapper contract referencing the wrapper resource label
 
     can be established by deterministic deployment or post-deployment initialization of the wrapper contract.
-
-<!--note end-->
 
 The wrapper contract base class can be found in [`src/WrapperBase.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/ProtocolAdapter.sol)
 
@@ -221,28 +207,29 @@ The wrapper contract base class can be found in [`src/WrapperBase.sol`](https://
 The wrapper resource is unique, associated with a single wrapper contract, and ensures creation and consumption of [wrapping resources](#wrapping-resources) in correspondence to the wrapper resource call. By default, they can be consumed by everyone (because their nullifier key commitment is derived from the
 [[Identity Architecture|universal identity]]).
 
-As described above, calls to the wrapper contract can only happen through the protocol adapter.
-This allows the protocol adapter to enforce the presence of the `FFICall` data in the `appData` and inspection of the contained `bytes input` and `bytes output` calldata by the the corresponding wrapper resource logic.
+The wrapper resource object is passed to the protocol adapter together with the`FFICall` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/cc38c7c5004b5a8b0e72c67a33d53979d3ed1a9e/src/Types.sol#L31)):
 
-Given this information, the wrapper resource logic can ensure creation or consumption of a corresponding [wrapping resource](#wrapping-resource) in the same action reflecting the external EVM state read or write that has been forwarded through the wrapper contract.
-This enables applications, such as wrapping ERC20 tokens into resources.
+```solidity
+struct WrapperResourceFFICallPair {
+    Resource wrapperResource;
+    FFICall ffiCall;
+}
+```
+
+This allows the protocol adapter to verify that the wrapper resource kind matches the one referenced in the wrapper contract and that a corresponding `action.appData` entry exists for the wrapper resource commitment tag. The latter makes the inspection of the contained `bytes input` and `bytes output` calldata by the the corresponding wrapper resource logic possible.
+
+Given this information, the wrapper resource logic can ensure creation or consumption of a corresponding [wrapping resource](#wrapping-resource) in the same action reflecting the external EVM state read or write that has been forwarded through the wrapper contract. This enables applications, such as wrapping ERC20 tokens into resources.
 
 !!! note
-    If the wrapper resource is consumed in a transaction, subsequent transactions in the same block cannot consume it anymore.
-This effectively limits the current design to a single wrapper contract call per block (if the commitment of the latest, unspent wrapper resource is not known to the subsequent transaction ahead of time). This will be improved in upcoming versions.
-
-<!--note end-->
+    If the wrapper resource is consumed in a transaction, subsequent transactions in the same block cannot consume it anymore. This effectively limits the current design to a single wrapper contract call per block (if the commitment of the latest, unspent wrapper resource is not known to the subsequent transaction ahead of time). This will be improved in upcoming protocol adapter versions.
 
 #### Initialization
 
-In the current implementation, wrapper resources are expected to only be directly initialized through the protocol adapter smart contract that directly adds the commitment to the commitment accumulator.
-To comply with this rule, the wrapper resource logics must return `false` on ephemeral consumption to prevent conventional initialization.
+In the current implementation, wrapper resources are expected to only be directly initialized through the protocol adapter smart contract that directly adds the commitment to the commitment accumulator. To comply with this rule, the wrapper resource logics must return `false` on ephemeral consumption to prevent conventional initialization.
 This cannot be enforced through the protocol adapter. However, violation of this rule can be detected by inspection and auditing of resource logics. Resource kinds violating this rule are deemed unsafe and not trustworthy.
 
 !!! note
     Conventional initialization is possible, but not implemented for now to simplify wrapper resource logics and the wrapper deployment process. This can be changed at any time.
-
-<!--note end-->
 
 The initialization works as follows:
 
@@ -258,8 +245,6 @@ A transaction attempting to initialize a second wrapper resource would revert si
 
 Wrapping resources encapsulate EVM state and correspond to a specific [wrapper resource](#wrapper-resource) being referenced in their label.
 Their initialization and finalization logic requires a created wrapper resource to be part of the same action.
-
-
 
 ## Transaction Flow
 
@@ -334,11 +319,12 @@ sequenceDiagram
   end
 
 ```
+
 1. A user Alice calls a transaction function of a Juvix application to produce an ARM transaction object (here expressing an intent) as well as the instances and witnesses for the various proof types (resource logic, compliance, and delta proofs).
 2. The transaction function requests proofs from the RISC ZERO backend.
 3. The backend returns the proofs for the transaction object.
 4. The Anoma client sends the intent transaction object
-  to the intent pool.
+   to the intent pool.
 5. Another user Bob expresses his intent (see 1. to 4.).
 6. See 4.
 7. A solver Sally monitors the intent pool and sees the intent transactions by Alice and Bob and finds a match (using her algorithm).
