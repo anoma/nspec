@@ -16,7 +16,7 @@ The EVM protocol adapter is a smart contract written in [Solidity](https://solid
 
 The current prototype is **settlment-only** protocol adapter, i.e., it is only capable of processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behavior.
 
-The implementation can be found in [`anoma/evm-protocol-adapter` GH repo](https://github.com/anoma/evm-protocol-adapter).
+The implementation can be found in the [`anoma/evm-protocol-adapter` GH repo](https://github.com/anoma/evm-protocol-adapter).
 
 ## Supported Networks
 
