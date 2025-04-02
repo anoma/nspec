@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
   repository-projects: write
 env:
-  GH_TOKEN: ${{ github_token }}
+  GH_TOKEN: ${{ github.token }}
   BRANCH_NUMBER: ${{ github.event.pull_request.number }}
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
