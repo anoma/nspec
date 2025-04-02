@@ -1,4 +1,4 @@
-name: cleanup and delete PR previews
+name: clean up and delete PR previews
 on:
   pull_request:
     types:
@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
   repository-projects: write
 env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ github_token }}
   BRANCH_NUMBER: ${{ github.event.pull_request.number }}
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
@@ -22,7 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: gh-pages
+          token: ${{ secrets.PAGES_TOKEN }}
+          repository: anoma/specs.anoma.net
+          ref: main
           clean: true
           fetch-depth: 0
       - name: List directories
@@ -31,12 +33,13 @@ jobs:
         run: |
           if [ -d "pr-${{ env.BRANCH_NUMBER }}" ]; then
             echo "Directory pr-${{ env.BRANCH_NUMBER }} exists. Deleting..."
-            rm -rf "pr-${{ env.BRANCH_NUMBER }}"
             git config --global user.name "${{ env.GIT_COMMITTER_NAME }}"
             git config --global user.email "${{ env.GIT_COMMITTER_EMAIL }}"
-            git add .
+            git checkout --orphan new
+            git rm -rf "pr-${{ env.BRANCH_NUMBER }}"
             git commit -m "Delete PR preview for PR #${{ env.BRANCH_NUMBER }}"
-            git push
+            git branch -M main
+            git push -f
           else
             echo "Directory pr-${{ env.BRANCH_NUMBER }} does not exist. Skipping deletion."
           fi
