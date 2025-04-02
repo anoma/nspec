@@ -7,7 +7,7 @@ on:
       - reopened
 env:
   CI: true
-  GH_TOKEN: ${{ secrets.GITHUB.TOKEN }}
+  GH_TOKEN: ${{ github.token }}
   PYTHON_VERSION: 3.x
   POETRY_VERSION: 1.8.3
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
