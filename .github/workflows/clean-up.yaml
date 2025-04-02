@@ -3,7 +3,6 @@ on:
   pull_request:
     types:
       - closed
-  workflow_dispatch:
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
   cancel-in-progress: true
@@ -12,7 +11,7 @@ permissions:
   pull-requests: write
   repository-projects: write
 env:
-  GH_TOKEN: ${{ secrets.GITHUB.TOKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   BRANCH_NUMBER: ${{ github.event.pull_request.number }}
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
@@ -32,16 +31,14 @@ jobs:
         run: ls -la
       - name: Delete PR branch
         run: |
-          if [ -d "pr-${{ env.BRANCH_NUMBER }}" ] || [[ "${{ github.event_name }}" -eq "workflow_dispatch" ]]; then
+          if [ -d "pr-${{ env.BRANCH_NUMBER }}" ]; then
             echo "Directory pr-${{ env.BRANCH_NUMBER }} exists. Deleting..."
             git config --global user.name "${{ env.GIT_COMMITTER_NAME }}"
             git config --global user.email "${{ env.GIT_COMMITTER_EMAIL }}"
             git checkout --orphan new
-            rm -rf "pr-${{ env.BRANCH_NUMBER }}"
-            git add -A
+            git rm -rf "pr-${{ env.BRANCH_NUMBER }}"
             git commit -m "Delete PR preview for PR #${{ env.BRANCH_NUMBER }}"
-            git branch -D main
-            git branch -m main
+            git branch -M main
             git push -f
           else
             echo "Directory pr-${{ env.BRANCH_NUMBER }} does not exist. Skipping deletion."
