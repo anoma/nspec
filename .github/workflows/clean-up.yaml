@@ -1,4 +1,4 @@
-name: cleanup and delete PR previews
+name: clean up and delete PR previews
 on:
   pull_request:
     types:
