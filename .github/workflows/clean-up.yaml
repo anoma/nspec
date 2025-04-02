@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
   repository-projects: write
 env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB.TOKEN }}
   BRANCH_NUMBER: ${{ github.event.pull_request.number }}
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
@@ -22,7 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: gh-pages
+          token: ${{ secrets.PAGES_TOKEN }}
+          repository: anoma/specs.anoma.net
+          ref: main
           clean: true
           fetch-depth: 0
       - name: List directories

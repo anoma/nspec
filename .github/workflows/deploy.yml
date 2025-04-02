@@ -6,8 +6,7 @@ name: deploy
       - v*.*.* # only major.minor.patch versions
 env:
   CI: true
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  INSIDERS_TOKEN: ${{ secrets.INSIDERS_TOKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB.TOKEN }}
   PYTHON_VERSION: 3.x
   POETRY_VERSION: 1.8.3
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
@@ -98,7 +97,7 @@ jobs:
       - name: Build MkDocs with material insiders version
         id: material
         run: |
-          pip install git+https://${INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
+          pip install git+https://${{ secrets.INSIDERS_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
           poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: ${{ env.BRANCH_NAME }}
@@ -111,17 +110,21 @@ jobs:
       - if: success()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          token: ${{ secrets.PAGES_TOKEN }}
+          repository-name: anoma/specs.anoma.net
+          branch: main
           folder: ${{ env.BRANCH_NAME }}
           target-folder: ${{ env.BRANCH_NAME }}
-          token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research
           git-config-email: arts@heliax.dev
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
+          token: ${{ secrets.PAGES_TOKEN }}
+          repository-name: anoma/specs.anoma.net
+          branch: main
           folder: ${{ env.BRANCH_NAME }}
           target-folder: ${{ env.BRANCH_NAME }}
-          token: ${{ secrets.GITHUB_TOKEN }}
           clean: false
           git-config-name: Anoma Research
           git-config-email: arts@heliax.dev
