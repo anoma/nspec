@@ -3,6 +3,7 @@ on:
   pull_request:
     types:
       - closed
+  workflow_dispatch:
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
   cancel-in-progress: true
@@ -31,14 +32,17 @@ jobs:
         run: ls -la
       - name: Delete PR branch
         run: |
-          if [ -d "pr-${{ env.BRANCH_NUMBER }}" ]; then
+          if [ -d "pr-${{ env.BRANCH_NUMBER }}" ] || [[ "${{ github.event_name }}" -eq "workflow_dispatch" ]]; then
             echo "Directory pr-${{ env.BRANCH_NUMBER }} exists. Deleting..."
-            rm -rf "pr-${{ env.BRANCH_NUMBER }}"
             git config --global user.name "${{ env.GIT_COMMITTER_NAME }}"
             git config --global user.email "${{ env.GIT_COMMITTER_EMAIL }}"
-            git add .
+            git checkout --orphan new
+            rm -rf "pr-${{ env.BRANCH_NUMBER }}"
+            git add -A
             git commit -m "Delete PR preview for PR #${{ env.BRANCH_NUMBER }}"
-            git push
+            git branch -D main
+            git branch -m main
+            git push -f
           else
             echo "Directory pr-${{ env.BRANCH_NUMBER }} does not exist. Skipping deletion."
           fi
