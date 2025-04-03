@@ -200,7 +200,7 @@ Besides referencing the external contract by its address, the wrapper contract a
 
     can be established by deterministic deployment or post-deployment initialization of the wrapper contract.
 
-The wrapper contract base class can be found in [`src/WrapperBase.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/ProtocolAdapter.sol)
+The wrapper contract base class can be found in [`src/WrapperBase.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/WrapperBase.sol)
 
 ### Wrapper Resource
 
