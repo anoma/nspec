@@ -23,5 +23,4 @@ Map is a structure that contains pairs (key: value), where key is of type `K` an
 
 
 # Used in
-1. Action: `applicationData`
-2. Action: `proofs`
+1. Action

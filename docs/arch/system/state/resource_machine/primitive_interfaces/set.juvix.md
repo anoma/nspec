@@ -57,5 +57,4 @@ classDiagram
 ```
 
 ## Used in
-1. Transaction (roots, actions)
-2. Nullifier set
+1. Transaction 

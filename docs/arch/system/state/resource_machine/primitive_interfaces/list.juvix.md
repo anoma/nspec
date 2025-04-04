@@ -19,5 +19,4 @@ module arch.system.state.resource_machine.primitive_interfaces.ordered_set;
 6. `contains(List, T) -> Bool` - checks if an element is in the list
 
 ## Used in
-1. Action (commitments, nullifiers)
-2. Compliance unit
+1. Action
