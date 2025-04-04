@@ -77,7 +77,7 @@ flowchart LR
     style DeltaHash fill:transparent
 
 
-    Hash --> PS\.VerifyingKey 
+    Hash --> PS\.VerifyingKey
     Hash --> LabelHash
     Hash --> ValueHash
     Hash --> DeltaHash

@@ -71,7 +71,7 @@ Assuming the proving system is used to verify that a predicate evaluated on its 
 
 In the trivial scheme, verification requires the pre-images of the verifying key / instance hashes. In the trusted delegation case, the pre-images are not required if the signature is produced over the hashed values.
 
-!!! note 
+!!! note
     Proving-related data structures described further are written with a PoK proving system in mind. For a transparent system, all values that are marked as witness in the specification shouldn't be discarded but rather moved to instance.
 
 !!! note
