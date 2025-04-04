@@ -18,7 +18,7 @@ A set is an unordered data structure that contains only distinct elements.
 For a set parametrised over the element type `T`:
 
 1. `new() -> Set` - creates an empty set.
-2. `new(OrderedSet) -> Set` - creates a set from the given list of elements. If the list contains duplicating elements, ignores them.
+2. `new(List) -> Set` - creates a set from the given list of elements. If the list contains duplicating elements, ignores them.
 3. `size(Set) -> Nat` - returns the number of elements in the set.
 4. `insert(Set, T) -> Set` - adds an element of type `T` to the set.
 5. `union(Set, Set) -> Set` - computes the union of two sets.
@@ -34,7 +34,7 @@ classDiagram
     class ISet~T~ {
          <<Interface>>
          new() Set
-         new(OrderedSet) Set
+         new(List) Set
          size(Set) Nat
          insert(Set, T) Set
          union(Set, Set) Set
@@ -44,15 +44,15 @@ classDiagram
          contains(Set, T) Bool
     }
 
-    class IOrderedSet~T~ {
+    class IList~T~ {
          <<Interface>>
     }
 
-    ISet <|-- IOrderedSet
+    ISet <|-- IList
 
     ISet <-- Set
 
-    IOrderedSet <-- OrderedSet
+    IList <-- List
 
 ```
 

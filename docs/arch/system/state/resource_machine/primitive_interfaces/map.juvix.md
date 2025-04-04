@@ -19,7 +19,7 @@ Map is a structure that contains pairs (key: value), where key is of type `K` an
 2. `add(Map, K, V) -> Map`
 3. `size(Map) -> Nat`
 4. `get(Map, K) -> V`
-5. `keys(Map) -> OrderedSet K`
+5. `keys(Map) -> List K`
 
 
 # Used in

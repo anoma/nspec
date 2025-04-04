@@ -18,7 +18,8 @@ We define a set of structures required to define a proving system $PS$ as follow
 - Instance $x: PS.Instance$ is the ordered input data structure used to produce and verify a proof.
 - Witness $w: PS.Witness$ is the ordered input data structure used to produce (but not verify) a proof.
 - Proving key $pk: PS.ProvingKey$ contains the data required to produce a proof for a pair $(x, w)$. Specific to a particular statement (different statements `f` and `f'` imply different proving keys) being proven, but doesn't depend on the inputs.
-- Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the instance $x$, to verify a proof $\pi$. Specific to a particular statement being proven (different statements `f` and `f'` imply different verifying keys), but doesn't depend on the inputs.
+- Verifying key $vk: PS.VerifyingKey$ contains the data required, along with the instance $x$, to verify a proof $\pi$. Specific to a particular statement being proven (different statements `f` and `f'` imply different verifying keys), but doesn't depend on the inputs. The verifying key is assumed to be of fixed size.
+
 
 
 A proving system $PS$ consists of a pair of algorithms, $(Prove, Verify)$:
@@ -62,13 +63,16 @@ Assuming the proving system is used to verify that a predicate evaluated on its 
 
 ||Proving key|Verifying key|Instance (x)|Witness (w)|Proof|Properties|
 |-|-|-|-|-|-|-|
-|Trivial scheme|predicate|predicate|predicate's arguments|()|()|transparent, not succinct|
-|Trusted delegation|predicate + signing key|predicate + signature verifying key|predicate's arguments|()|signature|succinct, trusted, verifiable|
+|Trivial scheme|hash of the predicate|hash of the predicate|predicate's arguments, predicate|()|()|transparent, not succinct|
+|Trusted delegation|hash of the predicate + signing key|hash of the predicate + signature verifying key|predicate's arguments, predicate|()|signature|succinct, trusted, verifiable|
 |Succinct PoK|defined by the scheme (incl. predicate representation)|defined by the scheme|public input|private input|defined by the scheme|succinct, verifiable, possibly zero knowledge|
 
 !!! note
 
-In practice, the predicate and its arguments can be represented as a hash or commitment to the actual value. In the trivial scheme, they would have to be opened in order to verify them. In the trusted delegation case, they *don't have to* be opened if the signature is produced over the hashed values.
+In the trivial scheme, verification requires the pre-images of the verifying key / instance hashes. In the trusted delegation case, the pre-images are not required if the signature is produced over the hashed values.
+
+!!! note 
+    Proving-related data structures described further are written with a PoK proving system in mind. For a transparent system, all values that are marked as witness in the specification shouldn't be discarded but rather moved to instance.
 
 !!! note
-  For application developers: writing applications that can work with all types of systems can be challenging since different proof types require different argument split between instance and witness (e.g., trivial scheme, unlike succinct PoK, expects no witness). The current solution is to write applications with succinct PoK types of proving systems in mind, which then can be translated to other proving systems by moving witness arguments to instance.
+  For application developers: writing applications that can work with all types of proving systems can be challenging since different proof types require different argument split between instance and witness (e.g., trivial scheme, unlike succinct PoK, expects no witness). The current solution is to write applications with succinct PoK types of proving systems in mind, which then can be translated to other proving systems by moving witness arguments to instance.

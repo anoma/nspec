@@ -20,16 +20,15 @@ The diagram below illustrates the primitive types required for resource machine.
 ```mermaid
 flowchart LR
     ProvingSystem
-    Set --> OrderedSet
     Map --> MapInstance
     CommitmentAccumulator --> CommitmentAccumulatorInstance
     NullifierSet --> NullifierSetInstance
 
-    OrderedSet --> OrderedSetInstance
+    List --> ListInstance
     Set --> SetInstance
 
     style SetInstance fill:transparent
-    style OrderedSetInstance fill:transparent
+    style ListInstance fill:transparent
     style MapInstance fill:transparent
     style CommitmentAccumulatorInstance fill:transparent
     style NullifierSetInstance fill:transparent
@@ -78,7 +77,7 @@ flowchart LR
     style DeltaHash fill:transparent
 
 
-    Hash --> LogicHash
+    Hash --> PS\.VerifyingKey 
     Hash --> LabelHash
     Hash --> ValueHash
     Hash --> DeltaHash
@@ -86,17 +85,17 @@ flowchart LR
     Hash --> Commitment
     Hash --> Nullifier
     Hash --> Kind
-    Hash --> LogicRefHash
+    Hash --> LogicVerifyingKeyHash
     Hash --> MerkleTreeNodeHash
 
-    style LogicHash fill:transparent
+    style PS\.VerifyingKey fill:transparent
     style LabelHash fill:transparent
     style ValueHash fill:transparent
     style DeltaHash fill:transparent
     style Commitment fill:transparent
     style Nullifier fill:transparent
     style Kind fill:transparent
-    style LogicRefHash fill:transparent
+    style LogicVerifyingKeyHash fill:transparent
     style MerkleTreeNodeHash fill:transparent
 
 
