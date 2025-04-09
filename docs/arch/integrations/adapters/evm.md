@@ -336,7 +336,7 @@ sequenceDiagram
 3. The backend returns the proofs for the transaction object.
 4. The Anoma client sends the intent transaction object
    to the intent pool.
-5. Another user Bob expresses his intent (see 1. to 4.).
+5. Another user Bob expresses his intent (see 1. to 3.).
 6. See 4.
 7. A solver Sally monitors the intent pool and sees the intent transactions by Alice and Bob and finds a match (using her algorithm).
 8. Sally composes the the intent transactions and adds her own actions s.t. the transaction becomes balanced & valid. She converts the transaction object into the format required by the EVM protocol adapter.
