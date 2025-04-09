@@ -212,8 +212,10 @@ The wrapper contract base class can be found in [`src/WrapperBase.sol`](https://
 
 ### Wrapper Resource
 
-The wrapper resource is unique, associated with a single wrapper contract, and ensures creation and consumption of [wrapping resources](#wrapping-resources) in correspondence to the wrapper resource call. By default, they can be consumed by everyone (because their nullifier key commitment is derived from the
-[[Identity Architecture|universal identity]]).
+A wrapper resource is a singleton (i.e., it has a unique kind ensuring that only a single instance with quantity 1 exists) being bound to an associated wrapper contract.
+As such, it can ensure creation and consumption of [wrapping resources](#wrapping-resources) in correspondence to the wrapper contract call. 
+By default, wrapper resources can be consumed by everyone (because their nullifier key commitment is derived from the
+[[Identity Architecture#true-all|universal identity]]).
 
 The wrapper resource object is passed to the protocol adapter together with the`FFICall` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol#L31)):
 
