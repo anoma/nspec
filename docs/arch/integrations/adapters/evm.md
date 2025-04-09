@@ -117,12 +117,12 @@ For key recovery from the message digest and signature, we use [OpenZeppelin's `
 
 ## EVM and RM State Correspondence
 
-We distinguish two types of state:
+From the protocol adapter contract viewpoint, we can distinguish between two types of EVM state:
 
 1. Internal [[Resource Machine|resource machine (RM)]] state being maintained inside the protocol adapter contract that is constituted by commitments, nullifiers, and blobs (see [Storage](#storage)).
-2. External EVM state existing in smart contracts being independent of the protocol adapter and its internal RM state.
+2. External state existing in smart contracts being independent of the protocol adapter and its internal RM state.
 
-To **interoperate with the external EVM state**, the protocol adapter contract can read from and write to external EVM state and **make it available in corresponding resources** in its internal state.
+To **interoperate with the external EVM state**, the protocol adapter contract can read from and write to external EVM state and **create corresponding resources** in its internal state containing the input and output data from the external state reads and writes.
 The correspondence to an external contract maintaining EVM state is established through a custom and permissionlessly deployed [wrapper contract](#wrapper-contract) and an associated, unique [wrapper resource](#wrapper-resource) that must be consumed and created with each call.
 
 ```mermaid
