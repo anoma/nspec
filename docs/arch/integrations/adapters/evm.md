@@ -341,5 +341,5 @@ sequenceDiagram
     - nullifiers of consumed resources
 
     - commitments of created resources
-    
+
     - blobs with deletion criteria `!= DeletionCriterion.Immediately`.
