@@ -140,12 +140,20 @@ flowchart LR
 
 ### Wrapper Contract
 
-The wrapper contract
+The wrapper contract is a forwarder that
 
 - is only callable by the protocol adapter
 - has the address to the external contract it corresponds to
-- forwards arbitrary calls to the external contract to read and write its state
+- forwards arbitrary calls to the external contract to read and write its state and changes the [call context](https://docs.soliditylang.org/en/latest/units-and-global-variables.html#block-and-transaction-properties)(i.e., `msg.sender` and `msg.data`)
 - returns the call return data to the protocol adapter
+
+The forwarder design has the purpose to keep custom logic such as
+
+- callback logic (e.g., required by [ERC-721](https://eips.ethereum.org/EIPS/eip-721) or [ERC-1155](https://eips.ethereum.org/EIPS/eip-1155) tokens)
+- escrow logic (e.g., required to wrap owned state into resources)
+- event logic (e.g., required for EVM indexers)
+
+separate and independent from the protocol adapter contract. This allows the wrapper contract to be deployed by untrusted 3rd parties. The protocol adapter ensures that each wrapper contract corresponds to a [wrapper resource kind](#wrapper-resource) and therefore binds the two states.
 
 A minimal implementation is shown below:
 
