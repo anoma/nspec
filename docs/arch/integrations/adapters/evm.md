@@ -213,7 +213,7 @@ The wrapper contract base class can be found in [`src/WrapperBase.sol`](https://
 ### Wrapper Resource
 
 A wrapper resource is a singleton (i.e., it has a unique kind ensuring that only a single instance with quantity 1 exists) being bound to an associated wrapper contract.
-As such, it can ensure creation and consumption of [wrapping resources](#wrapping-resources) in correspondence to the wrapper contract call. 
+As such, it can ensure creation and consumption of [wrapping resources](#wrapping-resources) in correspondence to the wrapper contract call.
 By default, wrapper resources can be consumed by everyone (because their nullifier key commitment is derived from the
 [[Identity Architecture#true-all|universal identity]]).
 
