@@ -30,7 +30,7 @@ The protocol adapter contract implements the following storage components
 - [[Nullifier set|Nullifier Set]]
 - [[Stored data format#Data blob storage|Blob Storage]]
 
-Only the protocol adapter can call non-view functions implemented by the storage components.
+Only the protocol adapter can call [non-view functions](https://docs.soliditylang.org/en/latest/contracts.html#view-functions) implemented by the storage components.
 
 ### Commitment Accumulator
 
