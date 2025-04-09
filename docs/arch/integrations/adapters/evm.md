@@ -249,7 +249,7 @@ The initialization works as follows:
 3. The protocol adapter computes the resource commitment
 4. The protocol adapter adds the commitment to commitment accumulator.
 
-Because all data is pre-determined by the wrapper contract or zeroed, only one wrapper resource can ever be created.
+Because all data is pre-determined by the wrapper contract or zeroed, only one wrapper resource can ever be initialized.
 A transaction attempting to initialize a second wrapper resource would revert since the commitment exists already in the commitment accumulator.
 
 ### Wrapping Resources
