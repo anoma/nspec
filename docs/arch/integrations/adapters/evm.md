@@ -245,7 +245,7 @@ This cannot be enforced through the protocol adapter. However, violation of this
 The initialization works as follows:
 
 1. The external `createWrapperContractResource` function in the protocol adapter is called and receives the wrapper contract address as an input argument
-2. The protocol adapter constructs a wrapper resource object with `logic`, `label`, and `value` information taken from the wrapper contract, quantity 1, and all other fields being to zero/false.
+2. The protocol adapter constructs a wrapper resource object with `logic`, `label`, and `value` information taken from the wrapper contract, quantity 1, and all other fields (i.e, `nullifierKeyCommitment`, `nonce`, `randSeet`, `ephemeral` ) being set to zero/false.
 3. The protocol adapter computes the resource commitment
 4. The protocol adapter adds the commitment to commitment accumulator.
 
