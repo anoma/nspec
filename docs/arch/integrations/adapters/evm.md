@@ -138,6 +138,16 @@ flowchart LR
 
 ```
 
+The binding between the created wrapper resource and the called wrapper contract is achieved through the protocol adapter. The protocol adapter 
+
+1. is the exclusive caller of the wrapper contract 
+2. ensures the presence of a created wrapper resource in correspondence to the call
+3. ensures that the wrapper contract call input data, call output data, and address is available in the app data entry of the created wrapper resource (i.e., under its commitment)
+4. ensures that the kind of the created wrapper resource matches the kind being immutably referenced in the wrapper contract. 
+This way, the wrapper resource logic and label (usually, back-referencing the wrapper contract address) are fully determined by the wrapper contract. 
+
+Because the wrapper resource is a singleton, we know that its consumption is guaranteed through the balance property.
+
 ### Wrapper Contract
 
 The wrapper contract is a forwarder that
