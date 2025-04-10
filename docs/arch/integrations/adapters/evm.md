@@ -124,7 +124,7 @@ Taking a protocol adapter contract-centric viewpoint, we can distinguish between
 
 To **interoperate with state in external contracts**, the protocol adapter contract can, during transaction execution, **make read and write calls** to them and **create corresponding resources** in its internal state containing the input and output data from the external state reads and writes.
 
-The above is achieved by the protocol adapter accepting optional call instructions as part of the transaction object it executes. A call instruction contains the address of a **[forwarder contract](#forwarder-contract)**  which conducts the actual state read and write calls in the target contract and returns eventual return data. 
+The above is achieved by the protocol adapter accepting optional call instructions as part of the transaction object it executes. A call instruction contains the address of a **[forwarder contract](#forwarder-contract)**  which conducts the actual state read and write calls in the target contract and returns eventual return data.
 
 ```mermaid
 flowchart LR
@@ -138,14 +138,14 @@ flowchart LR
     fc --"Forwarded Call" --> ec -. Return Data .-> fc
 ```
 
-This allows the protocol adapter to create a corresponding [singleton calldata carrier resource](#calldata-carrier-resource) of pre-determined kind that contains the input and output data from the external state read or write in its `Resource.value` field. 
+This allows the protocol adapter to create a corresponding [singleton calldata carrier resource](#calldata-carrier-resource) of pre-determined kind that contains the input and output data from the external state read or write in its `Resource.value` field.
 
 The binding between the created calldata carrier resource and the called forwarder contract is ensured through the protocol adapter, who
 
 1. is the exclusive caller of the forwarder contract,
 2. ensures the presence of a created calldata carrier resource in correspondence to the call in the transaction,
 3. ensures that the forwarder contract call input data, call output data, and address is available in the app data entry of the created calldata carrier resource (i.e., under its commitment),
-4. ensures that the kind of the created calldata carrier resource matches the kind being immutably referenced in the forwarder contract. This way, the calldata carrier resource logic and label (which must back-reference the forwarder contract address) are fully determined by the forwarder contract. 
+4. ensures that the kind of the created calldata carrier resource matches the kind being immutably referenced in the forwarder contract. This way, the calldata carrier resource logic and label (which must back-reference the forwarder contract address) are fully determined by the forwarder contract.
 
 Because the calldata carrier resource is a singleton, we know that the consumption of the old carrier is guaranteed through the transaction balance property.
 
