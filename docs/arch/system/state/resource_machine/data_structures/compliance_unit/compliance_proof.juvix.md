@@ -31,9 +31,11 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
     2. `nullifierKey`
 
-    3. `CMtree` path (includes `cm`)
+    3. `CMtree` path to the consumed resource commitment
 
     4. pre-image of `logicVerifyingKeyHash`
+
+    5. `extraInput` for r.delta()
 
 2. for created resources:
 
@@ -48,7 +50,7 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 ## Compliance constraints
 Each resource machine compliance proof must check the following:
 
-1. Merkle path validity: `CMTree::Verify(cm, path, root) = True` for each resource associated with a nullifier from the `consumed`. For ephemeral resources a "fake" relation is checked.
+1. Merkle path validity: `CMTree::Verify(r.commitment(), path, root) = True` for each resource associated with a nullifier from the `consumed`. For ephemeral resources a "fake" relation is checked.
 
 2. For each consumed resource `r`:
 

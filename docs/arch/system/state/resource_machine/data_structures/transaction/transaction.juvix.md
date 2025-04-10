@@ -38,10 +38,10 @@ Given a set of roots and a set of actions, a transaction is formed as follows:
 Having two transactions `tx1` and `tx2`, their composition `compose(tx1, tx2)` is defined as a transaction `tx`, where:
 
 2. `tx.actions = Set.union(tx1.actions, tx2.actions)`
-3. `tx.deltaProof = DeltaProvingSystem.aggregate(tx1.deltaProof, tx2.deltaProof)`
+3. `tx.deltaProof, tx.delta_vk = DeltaProvingSystem.aggregate(tx1.deltaProof, tx1.delta_vk, tx2.deltaProof, tx2.delta_vk)`
 
 !!! note
-    When composing transactions, action sets are simply united. For example, composing a transaction with two actions and another transaction with three actions will result in a transaction with five actions.
+    When composing transactions, action sets are simply united. For example, composing a transaction with two actions and another transaction with three actions will result in a transaction with five actions, given all actions are distinct.
 
 ## `verify`
 

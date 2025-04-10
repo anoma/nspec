@@ -16,20 +16,20 @@ An action is a composite structure of type `Action` that contains the following 
 
 |Component|Type|Description|
 |-|-|-|
-|`resourceLogicProofs`|`Map Tag (isConsumed: Bool, RL_VK: ResourceLogicProvingSystem.VerifyingKey, applicationData: List (BitString, DeletionCriterion), ResourceLogicProvingSystem.Proof, memo: BitString)`|Resource logic proofs for resources associated with the action. The key of the map is the resource for which the proof is computed. The deletion criterion field is described [[Stored data format |here]].|
+|`resourceLogicProofs`|`Map Tag (isConsumed: Bool, RL_VK: ResourceLogicProvingSystem.VerifyingKey, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof, memo: BitString)`|Resource logic proofs for resources associated with the action. The key of the map is the resource for which the proof is computed. The deletion criterion field is described [[Stored data format |here]].|
 |`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
 
 !!! note
-    For function privacy in the shielded contenxt, instead of a logic proof we verify a proof of a logic proof validity - a recursive proof. `LogicVerifyingKeyHash` type corresponds to the RL VK commitment while verifying key in `resourceLogicProofs` refers to the key to be used for verification (i.e., verifier circuit verifying key as opposed to a resource logic verifying key). RL VK commitment should be included somewhere else, e.g., `applicationData[tag]`, and the compliance instance must reference it in `refInstance` as it is also a compliance proof instance.
+    For function privacy in the shielded context, instead of a logic proof we verify a proof of a logic proof validity - a recursive proof. `LogicVerifyingKeyHash` type corresponds to the RL VK commitment while verifying key in `resourceLogicProofs` refers to the key to be used for verification (i.e., verifier circuit verifying key as opposed to a resource logic verifying key). RL VK commitment should be included somewhere else, e.g., `applicationData`.
 
-Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's `created` or `consumed` correspondingly. A resource is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's `consumed` list. A resource is said to be *created in the action* for a valid action if its commitment is in the action's `created` list.
+Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's `created` or `consumed` correspondingly. A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's `consumed` list. A resource is said to be *created in the action* for a valid action if its commitment is in the action's `created` list.
 
 !!! note
     Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
 
 ## Interface
 
-1. `create(Set (NullifierKey, Resource, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), Set (Resource, List (BitString, DeletionCriterion))) -> Action`
+1. `create(List (NullifierKey, Resource, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, List (BitString, DeletionCriterion))) -> Action`
 2. `verify(Action) -> Bool`
 3. `delta(Action) -> DeltaHash`
 
@@ -48,6 +48,7 @@ Validity of an action can only be determined for actions that are associated wit
 
 1. All resource logic proofs associated with the action are valid
 2. All compliance proofs associated with the action are valid: `cu.verify() = True for cu in complianceUnits`
+3. `resourceLogicProofs` keys = the list of tags associated with `complianceUnits` (ignoring the order)
 
 ## `delta`
 

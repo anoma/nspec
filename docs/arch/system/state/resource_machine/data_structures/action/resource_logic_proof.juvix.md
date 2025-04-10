@@ -30,12 +30,13 @@ When proving, resource logics take as input resources created and consumed in th
 #### Witness
 
 1. `self` resource object
-2. Resource objects of consumed resources: `List (Resource, NullifierKey)`
-3. Resource objects of created resources: `List Resource`
-4. Application-specific inputs
+2. If `isConsumed = True`: nullifier key of `self`
+3. Resource objects of consumed resources: `List (Resource, NullifierKey)`
+4. Resource objects of created resources: `List Resource`
+5. Application-specific inputs
 
 !!! note
-    Instance and witness elements are expected to go in the same order: the first element of the instance corresponds to the first (4 for consumed and 2 for created) elements of the witness and so on.
+    Instance and witness elements are expected to go in the same order: the first element of the instance corresponds to the first elements of the witness and so on.
 
 #### Constraints
 
