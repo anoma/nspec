@@ -24,7 +24,7 @@ For the upcoming product version v0.3, only the [Sepolia network](https://ethere
 
 ## Storage
 
-The protocol adapter contract implements the following storage components
+The protocol adapter contract inherits the following storage components
 
 - [[Commitment accumulator|Commitment Accumulator]]
 - [[Nullifier set|Nullifier Set]]
@@ -117,13 +117,14 @@ For key recovery from the message digest and signature, we use [OpenZeppelin's `
 
 ## EVM and RM State Correspondence
 
-From the protocol adapter contract viewpoint, we can distinguish between two types of EVM state:
+Taking a protocol adapter contract-centric viewpoint, we can distinguish between two types of EVM state:
 
 1. Internal [[Resource Machine|resource machine (RM)]] state being maintained inside the protocol adapter contract that is constituted by commitments, nullifiers, and blobs (see [Storage](#storage)).
 2. External state existing in smart contracts being independent of the protocol adapter and its internal RM state.
 
-To **interoperate with the state in external contracts**, the protocol adapter contract can, during transaction processing, make read and write calls to them and **create corresponding resources** in its internal state containing the input and output data from the external state reads and writes.
-The correspondence to an external contract managing EVM state is established through a custom and permissionlessly deployed [forwarder contract](#forwarder-contract) and an associated [singleton calldata-carrying resource](#calldata-carrier-resource) that must be consumed and created with each call to the external contract.
+To **interoperate with state in external contracts**, the protocol adapter contract can, during transaction execution, **make read and write calls** to them and **create corresponding resources** in its internal state containing the input and output data from the external state reads and writes.
+
+The above is achieved by the protocol adapter accepting optional call instructions as part of the transaction object it executes. A call instruction contains the address of a **[forwarder contract](#forwarder-contract)**  which conducts the actual state read and write calls in the target contract and returns eventual return data. 
 
 ```mermaid
 flowchart LR
@@ -133,23 +134,26 @@ flowchart LR
     ec("External Contract<br> to read from / write to")
 
     tx --> pa
-    pa --"Calldata"--> fc -. Return Data .-> pa
+    pa --"Forwarder Call"--> fc -. Return Data .-> pa
     fc --"Forwarded Call" --> ec -. Return Data .-> fc
 ```
 
-The binding between the created calldata-carrying resource and the called forwarder contract is achieved through the protocol adapter, who
+This allows the protocol adapter to create a corresponding [singleton calldata carrier resource](#calldata-carrier-resource) of pre-determined kind that contains the input and output data from the external state read or write in its `Resource.value` field. 
 
-1. is the exclusive caller of the forwarder contract 
-2. ensures the presence of a created calldata carrier resource in correspondence to the call
-3. ensures that the forwarder contract call input data, call output data, and address is available in the app data entry of the created calldata carrier resource (i.e., under its commitment)
-4. ensures that the kind of the created calldata carrier resource matches the kind being immutably referenced in the forwarder contract. 
-This way, the calldata carrier resource logic and label (which back-references the forwarder contract address) are fully determined by the forwarder contract. 
+The binding between the created calldata carrier resource and the called forwarder contract is ensured through the protocol adapter, who
 
-Because the calldata carrier resource is a singleton, we know that its consumption is guaranteed through the transaction balance property.
+1. is the exclusive caller of the forwarder contract,
+2. ensures the presence of a created calldata carrier resource in correspondence to the call in the transaction,
+3. ensures that the forwarder contract call input data, call output data, and address is available in the app data entry of the created calldata carrier resource (i.e., under its commitment),
+4. ensures that the kind of the created calldata carrier resource matches the kind being immutably referenced in the forwarder contract. This way, the calldata carrier resource logic and label (which must back-reference the forwarder contract address) are fully determined by the forwarder contract. 
+
+Because the calldata carrier resource is a singleton, we know that the consumption of the old carrier is guaranteed through the transaction balance property.
+
+In the following we discuss these components in more detail.
 
 ### Forwarder Contract
 
-The forwarder contract is a forwarder that
+The forwarder contract
 
 - is only callable by the protocol adapter
 - has the address to the external contract it corresponds to
@@ -162,7 +166,9 @@ The forwarder design has the purpose to keep custom logic such as
 - escrow logic (e.g., required to wrap owned state into resources)
 - event logic (e.g., required for EVM indexers)
 
-separate and independent from the protocol adapter contract. This allows the forwarder contract to be deployed by untrusted 3rd parties. The protocol adapter ensures that each forwarder contract corresponds to a [calldata carrier resource kind](#calldata carrier resource) and therefore binds the two states.
+separate and independent from the protocol adapter contract.
+
+ This allows the forwarder contract to be custom-built and permissionlessly deployed by untrusted 3rd parties. The protocol adapter ensures that each forwarder contract corresponds to a [calldata carrier resource kind](#calldata carrier resource) and therefore binds the two states.
 
 A minimal implementation is shown below:
 
@@ -177,7 +183,7 @@ contract Forwarder is Ownable {
 }
 ```
 
-The required  calldata is passed with the RM transaction object as part of the [`Action` struct](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol#L31).
+The required calldata is passed with the RM transaction object as part of the [`Action` struct](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol#L31).
 
 ```solidity
 struct ForwarderCalldata {
@@ -187,22 +193,22 @@ struct ForwarderCalldata {
 }
 ```
 
-On transaction execution by the protocol adapter, the FFI call is processed as follows:
+On transaction execution by the protocol adapter, the `ForwarderCalldata` struct is processed as follows:
 
 ```solidity
-function _executeFFICall(ForwarderCalldata calldata call) internal {
-    bytes memory output = UntrustedWrapper(ffiCall.untrustedWrapperContract).forwardCall(call.input);
+function _executeForwarderCall(ForwarderCalldata calldata call) internal {
+    bytes memory output = IForwarder(call.untrustedForwarder).forwardCall(call.input);
 
     if (keccak256(output) != keccak256(call.output)) {
-        revert FFICallOutputMismatch({ expected: call.output, actual: output });
+        revert ForwarderCallOutputMismatch({ expected: call.output, actual: output });
     }
 }
 ```
 
-The output data is returned to the protocol adapter and compared with the `output` stored in the `FFICall` struct.
+The output data is returned to the protocol adapter and compared with the `output` stored in the `ForwarderCalldata` struct.
 
 !!! note
-    In the current, settlement-only protocol adapter design, the `output` data must already be known during proving time to be checked by resource logics and therefore is part of the `FFICall` struct.
+    In the current, settlement-only protocol adapter design, the `output` data must already be known during proving time to be checked by resource logics and therefore is part of the `ForwarderCalldata` struct.
 
 Besides referencing the external contract by its address, the forwarder contract also contains references to
 
@@ -222,10 +228,10 @@ The forwarder contract base class can be found in [`src/ForwarderBase.sol`](http
 ### Calldata Carrier Resource
 
 A calldata carrier resource is a singleton (i.e., it has a unique kind ensuring that only a single instance with quantity 1 exists) being bound to an associated forwarder contract.
-As such, it can ensure creation and consumption of [state-wrapping resources](#state-wrapping-resources) in correspondence to the forwarder contract call.
+As such, it can ensure creation and consumption of [state-wrapping resources](#state-wrapping-resources) in correspondence to the external state read or write of the forwarder contract call.
 By default, calldata carrier resources can be consumed by everyone (because their nullifier key commitment is derived from the [[Identity Architecture#true-all|universal identity]]).
 
-The calldata carrier resource object is passed to the protocol adapter together with the`FFICall` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol#L31)):
+The calldata carrier resource object is passed to the protocol adapter together with the`ForwarderCalldata` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol#L31)):
 
 
 ```solidity
@@ -237,7 +243,7 @@ struct ResourceForwarderCalldataPair {
 
 This allows the protocol adapter to verify that the calldata carrier resource kind matches the one referenced in the forwarder contract and that a corresponding `action.appData` entry exists for the calldata carrier resource commitment tag. The latter makes the inspection of the contained `bytes input` and `bytes output` calldata by the the corresponding calldata carrier resource logic possible.
 
-Given this information, the calldata carrier resource logic can ensure creation or consumption of a corresponding [wrapping resource](#wrapping-resources) in the same action reflecting the external EVM state read or write that has been forwarded through the forwarder contract. This enables applications, such as wrapping ERC20 tokens into resources.
+Given this information, the calldata carrier resource logic can ensure creation or consumption of a corresponding [state-wrapping resource](#state-wrapping-resources) in the same action reflecting the external EVM state read or write that has been forwarded through the forwarder contract. This enables applications, such as wrapping ERC20 tokens into resources, which is achieved by transferring a token amount from an owner into the forwarder contract and creating an owned resource with a corresponding quantity and the kind being specified in the forwarder contract.
 
 !!! note
     If the calldata carrier resource is consumed in a transaction, subsequent transactions in the same block cannot consume it anymore. This effectively limits the current design to a single forwarder contract call per block (if the commitment of the latest, unspent calldata carrier resource is not known to the subsequent transaction ahead of time). This will be improved in upcoming protocol adapter versions.
@@ -248,21 +254,21 @@ In the current implementation, calldata carrier resources are expected to only b
 This cannot be enforced through the protocol adapter. However, violation of this rule can be detected by inspection and auditing of resource logics. Resource kinds violating this rule are deemed unsafe and not trustworthy.
 
 !!! note
-    Conventional initialization is possible, but not implemented for now to simplify calldata carrier resource logics and the wrapper deployment process. This can be changed at any time.
+    Conventional initialization is possible, but not implemented for now to simplify calldata carrier resource logics and the forwarder deployment process. This can be changed at any time.
 
 The initialization works as follows:
 
-1. The external `createWrapperContractResource` function in the protocol adapter is called and receives the forwarder contract address as an input argument.
-2. The protocol adapter constructs a calldata carrier resource object with `logic`, `label`, and `value` information taken from the forwarder contract, quantity 1, and all other fields (i.e, `nullifierKeyCommitment`, `nonce`, `randSeet`, `ephemeral` ) being set to zero/false.
+1. The external `createCalldataCarrierResource` function in the protocol adapter is called and receives the forwarder contract address as an input argument.
+2. The protocol adapter constructs a calldata carrier resource object with `logic`, `label`, and `value` information from the forwarder contract, quantity 1, and all other fields (i.e, `nullifierKeyCommitment`, `nonce`, `randSeet`, `ephemeral` ) being set to zero/false.
 3. The protocol adapter computes the resource commitment
 4. The protocol adapter adds the commitment to commitment accumulator.
 
 Because all data is pre-determined by the forwarder contract or zeroed, only one calldata carrier resource can ever be initialized.
 A transaction attempting to initialize a second calldata carrier resource would revert since the commitment exists already in the commitment accumulator.
 
-### Wrapping Resources
+### State-Wrapping Resources
 
-Wrapping resources encapsulate EVM state and correspond to a specific [calldata carrier resource](#calldata carrier resource) being referenced in their label.
+State-wrapping resources encapsulate EVM state and correspond to a specific [calldata carrier resource](#calldata-carrier-resource) being referenced in their label.
 Their initialization and finalization logic requires a created calldata carrier resource to be part of the same action.
 
 ## Transaction Flow
@@ -324,14 +330,14 @@ sequenceDiagram
   %%end
 
   par Settlement
-    opt Optional FFI Calls
+    opt Optional Forwarder Calls
       Note over PA,Ext: Read/write external state
-      PA ->> Forwarder: FFI Call
+      PA ->> Forwarder: Forwarder Call <br>forwardCall(call.input)
       Forwarder ->> Ext: Forwarded Call
       opt
         Ext -->> Forwarder: Return Data
       end
-      Forwarder -->> PA: Return Data
+      Forwarder -->> PA: Return Data<br>call.output
     end
     Note over PA: Update internal state
     PA ->> PA: add nullifiers,<br>commitments, blobs
@@ -350,10 +356,10 @@ sequenceDiagram
 8. Sally composes the the intent transactions and adds her own actions s.t. the transaction becomes balanced & valid. She converts the transaction object into the format required by the EVM protocol adapter.
 9. Sally being connected to an Ethereum node makes an [`eth_sendTransaction`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sendtransaction) call into the protocol adapter's `execute(Transaction tx)` function, which she signs with the private key of her account.
 10. The protocol adapter verifies the proofs from 3. by calling a RISC ZERO verifier contract deployed on the network.
-11. The protocol adapter makes optional FFI calls to a forwarder contract.
-12. The forwarder contract forwards the call to an external target smart contract to read from or write to its state.
+11. The protocol adapter makes an optional forwarder contract call by using the `ForwarderCalldata.input` data.
+12. The forwarder contract forwards the call to an external target contract to read from or write to its state.
 13. Optional return data is passed back to the forwarder contract.
-14. Return data (that can be empty) is passed to the protocol adapter contract that conducts integrity checks on them (requiring the same data to be part of `action.appData`).
+14. Return data (that can be empty) is passed to the protocol adapter contract allowing it to conduct integrity checks (by requiring the same data to be part of `action.appData`).
 15. The protocol adapter updates its internal state by storing
 
     - nullifiers of consumed resources
