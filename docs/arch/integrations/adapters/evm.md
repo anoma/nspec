@@ -122,8 +122,8 @@ From the protocol adapter contract viewpoint, we can distinguish between two typ
 1. Internal [[Resource Machine|resource machine (RM)]] state being maintained inside the protocol adapter contract that is constituted by commitments, nullifiers, and blobs (see [Storage](#storage)).
 2. External state existing in smart contracts being independent of the protocol adapter and its internal RM state.
 
-To **interoperate with the external EVM state**, the protocol adapter contract can read from and write to external state and **create corresponding resources** in its internal state containing the input and output data from the external state reads and writes.
-The correspondence to an external contract maintaining EVM state is established through a custom and permissionlessly deployed [wrapper contract](#wrapper-contract) and an associated, singleton [wrapper resource](#wrapper-resource) that must be consumed and created with each call.
+To **interoperate with the state in external contracts**, the protocol adapter contract can, during transaction processing, make read and write calls to them and **create corresponding resources** in its internal state containing the input and output data from the external state reads and writes.
+The correspondence to an external contract managing EVM state is established through a custom and permissionlessly deployed [wrapper contract](#wrapper-contract) and an associated [singleton wrapper resource](#wrapper-resource) that must be consumed and created with each call to the external contract.
 
 ```mermaid
 flowchart LR
@@ -135,16 +135,15 @@ flowchart LR
     tx --> pa
     pa --"FFI Call"--> wc -. Return Data .-> pa
     wc --"Forwarded Call" --> ec -. Return Data .-> wc
-
 ```
 
-The binding between the created wrapper resource and the called wrapper contract is achieved through the protocol adapter. The protocol adapter
+The binding between the created wrapper resource and the called wrapper contract is achieved through the protocol adapter, who
 
 1. is the exclusive caller of the wrapper contract
 2. ensures the presence of a created wrapper resource in correspondence to the call
 3. ensures that the wrapper contract call input data, call output data, and address is available in the app data entry of the created wrapper resource (i.e., under its commitment)
-4. ensures that the kind of the created wrapper resource matches the kind being immutably referenced in the wrapper contract.
-This way, the wrapper resource logic and label (usually, back-referencing the wrapper contract address) are fully determined by the wrapper contract.
+4. ensures that the kind of the created wrapper resource matches the kind being immutably referenced in the wrapper contract. 
+This way, the wrapper resource logic and label (which back-references the wrapper contract address) are fully determined by the wrapper contract. 
 
 Because the wrapper resource is a singleton, we know that its consumption is guaranteed through the balance property.
 
