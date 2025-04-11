@@ -127,7 +127,7 @@ To **interoperate with state in external contracts**, the protocol adapter contr
 We achieve this by creating an indirection layer separating the protocol adapter from the
 the external contract and resources that should be created and consumed in consequence. It consists of:
 - A [forwarder contract](#forwarder-contract) that
-    - conducts the actual state read or write calls into the target contract and returns eventual return data 
+    - conducts the actual state read or write calls into the target contract and returns eventual return data
     - is custom-built for the target contract to call and permissionlessly deployed by 3rd parties
 - A [calldata carrier resource](#calldata-carrier-resource) (singleton) that
     - must be present during the transaction
@@ -151,7 +151,7 @@ struct ForwarderCalldata {
     bytes output;
 }
 ```
-The struct contains the address of the [forwarder contract](#forwarder-contract) and `bytes input` data required for the intended state read or write calls on the target contract. It also contains the `bytes output` data that must match the data returned from the call. 
+The struct contains the address of the [forwarder contract](#forwarder-contract) and `bytes input` data required for the intended state read or write calls on the target contract. It also contains the `bytes output` data that must match the data returned from the call.
 
 The protocol adapter ensures the `ForwarderCalldata` is part of the app data of the [singleton calldata carrier resources](#calldata-carrier-resource) that has a pre-determined kind being referenced in the forwarder contract.
 
@@ -163,7 +163,7 @@ The binding between the created calldata carrier resource and the called forward
 1. is the exclusive caller of the forwarder contract,
 2. ensures the presence of the created calldata carrier resource in correspondence to the call in the transaction,
 3. ensures that the forwarder contract call input data, call output data, and address is available in the app data entry of the created calldata carrier resource under its commitment,
-4. ensures that the kind of the created calldata carrier resource matches the kind being immutably referenced in the forwarder contract. This way, the calldata carrier resource logic and label are fully determined by the forwarder contract. 
+4. ensures that the kind of the created calldata carrier resource matches the kind being immutably referenced in the forwarder contract. This way, the calldata carrier resource logic and label are fully determined by the forwarder contract.
 
 Because the calldata carrier resource is a singleton, we know that the consumption of the old carrier is guaranteed through the transaction balance property.
 
@@ -217,9 +217,9 @@ contract ExampleForwarder is Ownable {
   function forwardCall(bytes calldata input) external onlyOwner returns (bytes memory output) {
       output = _CONTRACT.functionCall(input);
   }
-  
+
   function calldataCarrierResourceKind() external view returns (bytes32 kind){
-      kind = _CALLDATA_CARRIER_RESOURCE_KIND; 
+      kind = _CALLDATA_CARRIER_RESOURCE_KIND;
   }
 }
 ```
@@ -267,10 +267,10 @@ struct ResourceForwarderCalldataPair {
 ```
 
 This allows the protocol adapter to ensure that
-1. the calldata carrier resource kind matches the one referenced in the forwarder contract and 
-2. a corresponding `action.appData` entry exists for the calldata carrier resource commitment tag that includes the `ForwarderCalldata`. 
+1. the calldata carrier resource kind matches the one referenced in the forwarder contract and
+2. a corresponding `action.appData` entry exists for the calldata carrier resource commitment tag that includes the `ForwarderCalldata`.
 
-The latter allows calldata carrier to inspect the `bytes input` and `bytes output` in the `ForwarderCalldata` 
+The latter allows calldata carrier to inspect the `bytes input` and `bytes output` in the `ForwarderCalldata`
 and ensure the creation and consumption of [resources corresponding to the external state reads or writes](#resources-corresponding-to-external-state) in the same action.
 Moreover, it can integrity check that its own label matches the `untrustedForwarderContract` address.
 
