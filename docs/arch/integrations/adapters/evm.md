@@ -136,13 +136,11 @@ the external contract and resources that should be created and consumed in conse
 
 and allows the protocol adapter to ensure the correspondence.
 
-<p align="center">
-  <img src="./pa-evm.drawio.svg" alt="A schematic depiction of the state correspondence design." />
-</p>
+![Schematic depiction of the state correspondence design.](pa-evm.drawio.svg)
 
 This works as follows:
 
-The protocol adapter accepts optional call data with the RM transaction object as part of a [`ForwarderCalldata` struct](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol#L31) being part of the action object:
+The protocol adapter accepts optional an `ForwarderCalldata` struct with the RM transaction object as part of the action object (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol)):
 
 ```solidity
 struct ForwarderCalldata {
@@ -177,7 +175,7 @@ The forwarder contract
 
 - is only callable by the protocol adapter
 - has the address to the external contract it corresponds to
-- forwards arbitrary calls to the external contract to read and write its state and changes the [call context](https://docs.soliditylang.org/en/latest/units-and-global-variables.html#block-and-transaction-properties) (i.e., `msg.sender` and `msg.data`)
+- forwards arbitrary calls to the external contract to read and write its state and changes the call context (i.e., [`msg.sender` and `msg.data`](https://docs.soliditylang.org/en/latest/units-and-global-variables.html#block-and-transaction-properties))
 - returns the call return data to the protocol adapter
 
 The resulting indirection has the purpose to keep custom logic such as
@@ -224,7 +222,7 @@ contract ExampleForwarder is Ownable {
 }
 ```
 
-The required calldata is passed with the RM transaction object as part of the `Action` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol#L31)).
+The required calldata is passed with the RM transaction object as part of the `Action` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol)).
 
 ```solidity
 struct ForwarderCalldata {
