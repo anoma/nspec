@@ -57,12 +57,12 @@ Each resource machine compliance proof must check the following:
 2. For each consumed resource `r`:
 
   1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumed`
-  3. Logic integrity: `logicVerifyingKeyHash = hash(r.logicRef, ...)`
+  3. Logic integrity: `vk_hash = logicVerifyingKeyHash(r.logicRef, ...)`
 
 3. For each created resource `r`:
 
   1. Commitment integrity: `r.commitment() is in created`
-  2. Logic integrity: `logicVerifyingKeyHash = hash(r.logicRef, ...)`
+  2. Logic integrity: `vk_hash = logicVerifyingKeyHash(r.logicRef, ...)`
 
 4. Delta integrity: `unitDelta = sum(r.delta(r.deltaExtraInput) for r in consumed) - sum(r.delta(r.deltaExtraInput) for r in created)`
 
