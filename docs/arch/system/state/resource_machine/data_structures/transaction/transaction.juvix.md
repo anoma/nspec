@@ -19,6 +19,7 @@ It is a composite structure that contains the following components:
 |`actions`|`Set Action`|A set of actions that comprise the transaction|
 |`deltaProof`|`DeltaProvingSystem.Proof`|Balance proof. It makes sure that `transactionDelta` is correctly derived from the actions' deltas and commits to the expected publicly known value, called a _balancing value_. There is just one delta proof per transaction|
 |`delta_vk`| `DeltaProvingSystem.VerifyingKey`|Used to verify the delta proof. Might be optional in case the key is computable from other components|
+|`expectedBalance`| Balanced transactions have delta pre-image 0 for all involved kinds, for unbalanced transactions `expectedBalance` is a non-zero value.
 
 ## Interface
 
@@ -30,8 +31,8 @@ It is a composite structure that contains the following components:
 ## `create`
 Given a set of actions alongside delta data a transaction is formed as follows:
 
-1. `actions = actions`
-2. `deltaProof = DeltaProvingSystem.Prove(DeltaProvingSystem.ProvingKey, DeltaProvingSystem.Instance, DeltaProvingSystem.Witness)`
+1. `tx.actions = actions`
+2. `tx.deltaProof = DeltaProvingSystem.Prove(DeltaProvingSystem.ProvingKey, DeltaProvingSystem.Instance, DeltaProvingSystem.Witness)`
 
 ## `compose`
 

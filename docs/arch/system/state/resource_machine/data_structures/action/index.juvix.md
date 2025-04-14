@@ -22,16 +22,17 @@ An action is a composite structure of type `Action` that contains the following 
 !!! note
     For function privacy in the shielded context, instead of a logic proof we verify a proof of a logic proof validity - a recursive proof. `LogicVerifyingKeyHash` type corresponds to the RL VK commitment while verifying key in `resourceLogicProofs` refers to the key to be used for verification (i.e., verifier circuit verifying key as opposed to a resource logic verifying key). RL VK commitment should be included somewhere else, e.g., `applicationData`.
 
-Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its commitment or nullifier is present in the action's `created` or `consumed` correspondingly. A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its nullifier is present in the action's `consumed` list. A resource is said to be *created in the action* for a valid action if its commitment is in the action's `created` list.
+Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its tag is present in the set of `resourceLogicProofs` keys . A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its *nullifier* is present in the set of `resourceLogicProofs` keys. A resource is said to be *created in the action* for a valid action if its *commitment* is in the set of `resourceLogicProofs` keys.
 
 !!! note
     Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
 
 ## Interface
 
-1. `create(List (NullifierKey, Resource, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, List (BitString, DeletionCriterion))) -> Action`
+1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion))) -> Action`
 2. `verify(Action) -> Bool`
 3. `delta(Action) -> DeltaHash`
+4. `to_instance(Action, Tag) -> ResourceLogicProvingSystem.Instance`
 
 
 ## Proofs
@@ -52,4 +53,18 @@ Validity of an action can only be determined for actions that are associated wit
 
 ## `delta`
 
-`action.delta() -> DeltaHash` is a computable component used to compute `transactionDelta`. It is computed from `r.delta()` of the resources that comprise the action and defined as `action.delta() = sum(cu.delta() for cu in action.complianceUnits)`.
+`action.delta()` computes the action delta. Action delta is computed from `r.delta()` of the resources that comprise the action and defined as `action.delta() = sum(cu.delta() for cu in action.complianceUnits)`.
+
+## `to_instance`
+
+This function assembles the instance required to verify a resource logic proof from the data in the action.
+
+The main question to answer here is how to assemble `consumed` and `created` lists of resources. The proposed mechanism works as follows:
+1. Iterate over all compliance units and accumulate the lists of created and consumed resources. The resulting list of consumed resources contains all consumed resources in the action. The resulting list of created resources contains all created resources in the action.
+2. Erase the `self` resource from the relevant list. If the resource is consumed and its nullifier is stored under index `n` in the list of consumed resources, the resulting list is `l[0], l[1], ..., l[n - 1], l[n + 1], ...`. Keep the list of created resources the same. 
+3. If `self` is created, erase the resource from the list of created resources as in step 2. Keep the list of consumed resources the same. For each resource we assemble an instance for, we erase only one resource - itself - from one list.
+
+!!! note
+   When verifying multiple logic proofs from the same action, it might make sense to create the 'full' lists once and erase resources one at a time to create a particular instance. Note that the next instance must be created from the original `full` list, not the list with previously erased resources.
+
+All other fields of the instance (resource tag, `isConsumed`, `applicationData`) are taken from the relevant entry of `resourceLogicProofs`.

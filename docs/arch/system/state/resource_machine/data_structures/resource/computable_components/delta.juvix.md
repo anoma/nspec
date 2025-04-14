@@ -10,7 +10,7 @@ module arch.system.state.resource_machine.data_structures.resource.computable_co
 ```
 
 # Resource Delta
-Resource delta is used to reason about the total quantities of different kinds of resources in transactions. For a resource `r`, its delta is computed as `r.delta() = deltaHash(r.kind(), r.quantity, extraInput)`. `extraInput` contains the extra data required to derive resource delta, e.g., randomness. It may be empty if no extra data is required.
+Resource delta is used to reason about the total quantities of different kinds of resources in transactions. For a resource `r`, its delta is computed as `r.delta(deltaExtraInput) = deltaHash(r.kind(), r.quantity, deltaExtraInput)`. `deltaExtraInput` contains the extra data required to derive resource delta, e.g., randomness. It may be empty if no extra data is required.
 
 ## Delta for data structures
 

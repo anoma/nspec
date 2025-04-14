@@ -48,3 +48,4 @@ Checks that require access to global `CMTree` and `NullifierSet`:
 
 1. each created resource wasn't created in prior transactions
 2. each consumed resource wasn't consumed in prior transactions
+

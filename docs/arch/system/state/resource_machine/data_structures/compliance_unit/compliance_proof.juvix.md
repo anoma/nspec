@@ -35,13 +35,15 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
     4. pre-image of `logicVerifyingKeyHash`
 
-    5. `extraInput` for r.delta()
+    5. `deltaExtraInput` used to compute resource delta
 
 2. for created resources:
 
   1. resource object `r`
 
   2. pre-image of `logicVerifyingKeyHash`
+
+  3. `deltaExtraInput` used to compute resource delta
 
 !!! note
 
@@ -62,7 +64,7 @@ Each resource machine compliance proof must check the following:
   1. Commitment integrity: `r.commitment() is in created`
   2. Logic integrity: `logicVerifyingKeyHash = hash(r.logicRef, ...)`
 
-4. Delta integrity: `unitDelta = sum(r.delta() for r in consumed) - sum(r.delta() for r in created)`
+4. Delta integrity: `unitDelta = sum(r.delta(r.deltaExtraInput) for r in consumed) - sum(r.delta(r.deltaExtraInput) for r in created)`
 
 !!! note
     Kind integrity is checked implicitly in delta integrity
