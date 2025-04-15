@@ -30,12 +30,16 @@ Actions partition the state change induced by a transaction and limit the resour
 ## Interface
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion)), appWitness: BitString) -> Action`
 2. `verify(Action) -> Bool`
 3. `delta(Action) -> DeltaHash`
 4. `to_instance(Action, Tag) -> Maybe ResourceLogicProvingSystem.Instance`
 =======
 1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion))) -> Action`
+=======
+1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion)), appWitness: BitString) -> Action`
+>>>>>>> f76a58fd99 (Remove memo, add global check notes, more vk hashes renaming)
 2. `verify(Action) -> Bool`
 3. `delta(Action) -> DeltaHash`
 4. `to_instance(Action, Tag) -> ResourceLogicProvingSystem.Instance`

@@ -16,11 +16,7 @@ Resource logic proofs attest to validity of resource logics. A resource logic is
 
 ## Proving
 
-<<<<<<< HEAD
 When proving, resource logics take as input resources created and consumed in that action.
-=======
-When proving, resource logics take as input resources created and consumed in that action. 
->>>>>>> f561119113 (Resolve conflicts with main)
 
 #### Instance
 

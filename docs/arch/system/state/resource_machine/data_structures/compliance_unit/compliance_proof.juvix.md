@@ -45,8 +45,6 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
   3. `deltaExtraInput` used to compute resource delta
 
-  3. `deltaExtraInput` used to compute resource delta
-
 !!! note
 
     Instance and witness elements are expected to go in the same order: the first element of the instance corresponds to the first (4 for consumed and 2 for created) elements of the witness and so on.
