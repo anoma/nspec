@@ -31,7 +31,7 @@ classDiagram
          <<Interface>>
     }
 
-    Hash <|-- PS.VerifyingKey
+    Hash <|-- LogicVKCompact
     Hash <|-- LabelHash
     Hash <|-- ValueHash
 
@@ -39,7 +39,7 @@ classDiagram
     Hash <|-- Nullifier
     Hash <|-- Kind
     Hash <|-- DeltaHash
-    Hash <|-- LogicVerifyingKeyHash
+    Hash <|-- LogicVKOuterHash
     Hash <|-- MerkleTreeNodeHash
 
     Hash <|-- AppDataValueHash

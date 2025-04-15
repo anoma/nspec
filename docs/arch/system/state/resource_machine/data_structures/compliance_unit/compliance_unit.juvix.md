@@ -52,3 +52,6 @@ As a result, the properties of `DeltaHash` allow computing the total balance for
 
 1. `ComplianceProvingSystem.Verify(vk, instance, proof) = True`
 2. Global check: `CMTree` roots used to verify the proof are valid `CMTree` roots
+
+!!! note
+  Compliance units can be verified as parts of supposedly valid transactions and individually, when building a valid transaction (e.g., in the partial solving case). In case the compliance units are verified _not_ individually, all global checks can be aggregated and verified at once to reduce the amount of global communication.

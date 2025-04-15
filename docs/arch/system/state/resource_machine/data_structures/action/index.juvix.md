@@ -16,11 +16,11 @@ An action is a composite structure of type `Action` that contains the following 
 
 |Component|Type|Description|
 |-|-|-|
-|`resourceLogicProofs`|`Map Tag (isConsumed: Bool, RL_VK: ResourceLogicProvingSystem.VerifyingKey, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof, memo: BitString)`|Resource logic proofs for resources associated with the action. The key of the map is the resource for which the proof is computed. The deletion criterion field is described [[Stored data format |here]].|
+|`resourceLogicProofs`|`Map Tag (isConsumed: Bool, logicVKOuter: LogicVKOuterHash, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof)`|Resource logic proofs for resources associated with the action. The key of the map is the resource for which the proof is computed. The deletion criterion field is described [[Stored data format |here]].|
 |`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
 
 !!! note
-    For function privacy in the shielded context, instead of a logic proof we verify a proof of a logic proof validity - a recursive proof. `LogicVerifyingKeyHash` type corresponds to the RL VK commitment while verifying key in `resourceLogicProofs` refers to the key to be used for verification (i.e., verifier circuit verifying key as opposed to a resource logic verifying key). RL VK commitment should be included somewhere else, e.g., `applicationData`.
+    For function privacy in the shielded context, instead of a logic proof we verify a proof of a logic proof validity - a recursive proof. `LogicVKOuterHash` type corresponds to the RL VK commitment while verifying key in `resourceLogicProofs` refers to the key to be used for verification (i.e., verifier circuit verifying key as opposed to a resource logic verifying key). RL VK commitment should be included somewhere else, e.g., `applicationData`.
 
 Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its tag is present in the set of `resourceLogicProofs` keys . A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its *nullifier* is present in the set of `resourceLogicProofs` keys. A resource is said to be *created in the action* for a valid action if its *commitment* is in the set of `resourceLogicProofs` keys.
 
@@ -29,7 +29,7 @@ Actions partition the state change induced by a transaction and limit the resour
 
 ## Interface
 
-1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion))) -> Action`
+1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion)), appWitness: BitString) -> Action`
 2. `verify(Action) -> Bool`
 3. `delta(Action) -> DeltaHash`
 4. `to_instance(Action, Tag) -> ResourceLogicProvingSystem.Instance`

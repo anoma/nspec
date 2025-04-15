@@ -49,3 +49,6 @@ Checks that require access to global `CMTree` and `NullifierSet`:
 1. each created resource wasn't created in prior transactions
 2. each consumed resource wasn't consumed in prior transactions
 
+!!! note
+  Actions can be verified as parts of supposedly valid transactions and individually, when building a valid transaction (e.g., in the partial solving case). In case the actions are verified _not_ individually, all global checks can be aggregated and verified at once to reduce the amount of global communication.
+

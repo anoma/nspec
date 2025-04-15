@@ -85,17 +85,17 @@ flowchart LR
     Hash --> Commitment
     Hash --> Nullifier
     Hash --> Kind
-    Hash --> LogicVerifyingKeyHash
+    Hash --> LogicVKOuterHash
     Hash --> MerkleTreeNodeHash
 
-    style PS\.VerifyingKey fill:transparent
+    style LogicVKCompact fill:transparent
     style LabelHash fill:transparent
     style ValueHash fill:transparent
     style DeltaHash fill:transparent
     style Commitment fill:transparent
     style Nullifier fill:transparent
     style Kind fill:transparent
-    style LogicVerifyingKeyHash fill:transparent
+    style LogicVKOuterHash fill:transparent
     style MerkleTreeNodeHash fill:transparent
 
 

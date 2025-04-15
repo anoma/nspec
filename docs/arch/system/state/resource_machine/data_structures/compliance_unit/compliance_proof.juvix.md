@@ -19,8 +19,8 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
 |Name|Type|Description|
 |-|-|-|
-|`consumed`|`List (nf: Nullifier, root: CMTree.Value, vk_hash: LogicVerifyingKeyHash)`|Each entry corresponds to a consumed resource and includes a hash of the resource's [[Resource | `logicRef` component]]|
-|`created`|`List (cm: Commitment, vk_hash: LogicVerifyingKeyHash)`|Each entry corresponds to a created resource|
+|`consumed`|`List (nf: Nullifier, root: CMTree.Value, logicVKOuter: LogicVKOuterHash)`|Each entry corresponds to a consumed resource and includes a hash of the resource's [[Resource | `logicRef` component]]|
+|`created`|`List (cm: Commitment, logicVKOuter: LogicVKOuterHash)`|Each entry corresponds to a created resource|
 |`unitDelta`|`DeltaHash`||
 
 #### Witness
@@ -33,7 +33,7 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
     3. `CMtree` path to the consumed resource commitment
 
-    4. pre-image of `logicVerifyingKeyHash`
+    4. pre-image of `logicVKOuter`
 
     5. `deltaExtraInput` used to compute resource delta
 
@@ -41,7 +41,7 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
   1. resource object `r`
 
-  2. pre-image of `logicVerifyingKeyHash`
+  2. pre-image of `logicVKOuter`
 
   3. `deltaExtraInput` used to compute resource delta
 
@@ -57,12 +57,12 @@ Each resource machine compliance proof must check the following:
 2. For each consumed resource `r`:
 
   1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumed`
-  3. Logic integrity: `vk_hash = logicVerifyingKeyHash(r.logicRef, ...)`
+  3. Logic integrity: `logicVKOuter = logicVKOuterHash(r.logicRef, ...)`
 
 3. For each created resource `r`:
 
   1. Commitment integrity: `r.commitment() is in created`
-  2. Logic integrity: `vk_hash = logicVerifyingKeyHash(r.logicRef, ...)`
+  2. Logic integrity: `logicVKOuter = logicVKOuterHash(r.logicRef, ...)`
 
 4. Delta integrity: `unitDelta = sum(r.delta(r.deltaExtraInput) for r in consumed) - sum(r.delta(r.deltaExtraInput) for r in created)`
 
