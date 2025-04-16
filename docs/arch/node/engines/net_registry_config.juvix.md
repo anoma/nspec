@@ -37,7 +37,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:NetworkRegistryLocalCfg] -->
 ```juvix
 type NetworkRegistryLocalCfg :=
-  mkNetworkRegistryLocalCfg;
+  mk;
 ```
 <!-- --8<-- [end:NetworkRegistryLocalCfg] -->
 
@@ -60,10 +60,10 @@ NetworkRegistryCfg : Type :=
 module registry_config_example;
 
   exNetworkRegistryCfg : NetworkRegistryCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "net-registry";
-      cfg := mkNetworkRegistryLocalCfg;
+      cfg := NetworkRegistryLocalCfg.mk;
     };
 end;
 ```

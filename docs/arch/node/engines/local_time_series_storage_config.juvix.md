@@ -34,7 +34,7 @@ The Local Time Series Storage engine configuration contains static information f
 
 <!-- --8<-- [start:LocalTSStorageCfg] -->
 ```juvix
-type LocalTSStorageCfg := mkLocalTSStorageCfg;
+type LocalTSStorageCfg := mk;
 ```
 <!-- --8<-- [end:LocalTSStorageCfg] -->
 
@@ -45,10 +45,10 @@ type LocalTSStorageCfg := mkLocalTSStorageCfg;
 module local_ts_storage_config_example;
 
   localTSStorageCfg : EngineCfg LocalTSStorageCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "local time series storage";
-      cfg := mkLocalTSStorageCfg;
+      cfg := LocalTSStorageCfg.mk;
     }
   ;
 end;

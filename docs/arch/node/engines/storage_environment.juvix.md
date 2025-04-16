@@ -47,7 +47,7 @@ StorageMailboxState : Type := Unit;
 <!-- --8<-- [start:StorageLocalState] -->
 ```juvix
 type StorageLocalState :=
-  mkStorageLocalState;
+  mk;
 ```
 <!-- --8<-- [end:StorageLocalState] -->
 
@@ -94,10 +94,10 @@ StorageEnv : Type :=
 module storage_environment_example;
 
 exStorageEnv : StorageEnv :=
-  mkEngineEnv@{
-    localState := mkStorageLocalState;
+  EngineEnv.mk@{
+    localState := StorageLocalState.mk;
     mailboxCluster := Map.empty;
-    acquaintances := Set.empty;
+    acquaintances := Set.Set.empty;
     timers := []
   };
 

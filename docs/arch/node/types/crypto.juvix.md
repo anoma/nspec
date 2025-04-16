@@ -30,8 +30,8 @@ type PublicKey :=
 
 instance
 PublicKeyOrd : Ord PublicKey :=
-  mkOrd@{
-    cmp := \{_ _ := Equal};
+  Ord.mk@{
+    compare := \{_ _ := Equal};
   };
 ```
 
@@ -46,8 +46,8 @@ type PrivateKey :=
 
 instance
 PrivateKeyOrd : Ord PrivateKey :=
-  mkOrd@{
-    cmp := \{_ _ := Equal};
+  Ord.mk@{
+    compare := \{_ _ := Equal};
   };
 ```
 

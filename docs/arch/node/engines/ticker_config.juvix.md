@@ -37,7 +37,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:TickerLocalCfg] -->
 ```juvix
 type TickerLocalCfg :=
-  mkTickerLocalCfg;
+  mk;
 ```
 <!-- --8<-- [end:TickerLocalCfg] -->
 
@@ -60,10 +60,10 @@ TickerCfg : Type :=
 module ticker_config_example;
 
   tickerCfg : TickerCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "ticker";
-      cfg := mkTickerLocalCfg;
+      cfg := TickerLocalCfg.mk;
     }
   ;
 end;

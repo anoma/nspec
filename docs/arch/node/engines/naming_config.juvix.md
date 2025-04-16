@@ -34,7 +34,7 @@ The Naming engine configuration contains static information for Naming engine in
 
 <!-- --8<-- [start:NamingCfg] -->
 ```juvix
-type NamingCfg := mkNamingCfg
+type NamingCfg := mk
 ```
 <!-- --8<-- [end:NamingCfg] -->
 
@@ -45,10 +45,10 @@ type NamingCfg := mkNamingCfg
 module naming_config_example;
 
   namingCfg : EngineCfg NamingCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "naming";
-      cfg := mkNamingCfg
+      cfg := NamingCfg.mk
     }
   ;
 end;

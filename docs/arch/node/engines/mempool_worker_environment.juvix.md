@@ -37,7 +37,7 @@ The local state of the Mempool Worker engine includes the following:
 
 <!-- --8<-- [start:MempoolWorkerLocalState] -->
 ```juvix
-type MempoolWorkerLocalState KVSKey KVSDatum Executable := mkMempoolWorkerLocalState @{
+type MempoolWorkerLocalState KVSKey KVSDatum Executable := mk @{
   batch_number : BatchNumber;
   transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable);
   transactionEngines : Map EngineID TxFingerprint;
@@ -116,8 +116,8 @@ MempoolWorkerEnv (KVSKey KVSDatum Executable : Type) : Type :=
 module mempool_worker_environment_example;
 
   mempoolWorkerEnv : MempoolWorkerEnv String String ByteString :=
-    mkEngineEnv@{
-      localState := mkMempoolWorkerLocalState@{
+    EngineEnv.mk@{
+      localState := MempoolWorkerLocalState.mk@{
         batch_number := 0;
         transactions := Map.empty;
         transactionEngines := Map.empty;
@@ -128,7 +128,7 @@ module mempool_worker_environment_example;
         gensym := 0
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

@@ -37,7 +37,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:StorageLocalCfg] -->
 ```juvix
 type StorageLocalCfg :=
-  mkStorageLocalCfg;
+  mk;
 ```
 <!-- --8<-- [end:StorageLocalCfg] -->
 
@@ -60,10 +60,10 @@ StorageCfg : Type :=
 module storage_config_example;
 
 exStorageCfg : StorageCfg :=
-  mkEngineCfg@{
-    node := Curve25519PubKey "0xabcd1234";
+  EngineCfg.mk@{
+    node := PublicKey.Curve25519PubKey "0xabcd1234";
     name := "storage";
-    cfg := mkStorageLocalCfg;
+    cfg := StorageLocalCfg.mk;
   };
 
 end;

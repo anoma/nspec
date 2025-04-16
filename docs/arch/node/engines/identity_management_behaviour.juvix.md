@@ -385,8 +385,8 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     hasCommitCapability (capabilities : Capabilities) : Bool :=
       case capabilities of {
-        | CapabilityCommit := true
-        | CapabilityCommitAndDecrypt := true
+        | Capabilities.Commit := true
+        | Capabilities.CommitAndDecrypt := true
         | _ := false
       };
     ```
@@ -396,8 +396,8 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     hasDecryptCapability (capabilities : Capabilities) : Bool :=
       case capabilities of {
-        | CapabilityDecrypt := true
-        | CapabilityCommitAndDecrypt := true
+        | Capabilities.Decrypt := true
+        | Capabilities.CommitAndDecrypt := true
         | _ := false
       };
     ```
@@ -424,35 +424,35 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       (capabilities' : Capabilities)
       : Pair IdentityInfo (List (Pair Cfg Env)) :=
       let decryptionConfig : DecryptionCfg :=
-            mkDecryptionCfg@{
+            DecryptionCfg.mk@{
               decryptor := genDecryptor backend';
               backend := backend';
             };
           decryptionEnv : DecryptionEnv :=
-            mkEngineEnv@{
+            EngineEnv.mk@{
               localState := unit;
               mailboxCluster := Map.empty;
-              acquaintances := Set.empty;
+              acquaintances := Set.Set.empty;
               timers := []
             };
           decryptionEng : Pair Cfg Env :=
-            mkPair (CfgDecryption decryptionConfig) (EnvDecryption decryptionEnv);
+            mkPair (PreCfg.CfgDecryption decryptionConfig) (PreEnv.EnvDecryption decryptionEnv);
           commitmentConfig : CommitmentCfg :=
-            mkCommitmentCfg@{
+            CommitmentCfg.mk@{
               signer := genSigner backend';
               backend := backend';
             };
           commitmentEnv : CommitmentEnv :=
-            mkEngineEnv@{
+            EngineEnv.mk@{
               localState := unit;
               mailboxCluster := Map.empty;
-              acquaintances := Set.empty;
+              acquaintances := Set.Set.empty;
               timers := []
             };
           commitmentEng : Pair Cfg Env :=
-            mkPair (CfgCommitment commitmentConfig) (EnvCommitment commitmentEnv);
+            mkPair (PreCfg.CfgCommitment commitmentConfig) (PreEnv.EnvCommitment commitmentEnv);
       in case capabilities' of {
-        | CapabilityCommitAndDecrypt :=
+        | Capabilities.CommitAndDecrypt :=
             let spawnedEngines := [decryptionEng; commitmentEng];
                 commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
                 decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
@@ -461,14 +461,14 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
                   decryptionEngine := some (mkPair none decryptionEngineName)
                 };
             in mkPair updatedIdentityInfo1 spawnedEngines
-        | CapabilityCommit :=
+        | Capabilities.Commit :=
             let spawnedEngines := [commitmentEng];
                 commitmentEngineName := nameGen "committer" (snd whoAsked) whoAsked;
                 updatedIdentityInfo1 := identityInfo@IdentityInfo{
                   commitmentEngine := some (mkPair none commitmentEngineName)
                 };
             in mkPair updatedIdentityInfo1 spawnedEngines
-        | CapabilityDecrypt :=
+        | Capabilities.Decrypt :=
             let spawnedEngines := [decryptionEng];
                 decryptionEngineName := nameGen "decryptor" (snd whoAsked) whoAsked;
                 updatedIdentityInfo1 := identityInfo@IdentityInfo{
@@ -487,7 +487,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       (externalIdentityInfo : IdentityInfo)
       (requestedCapabilities : Capabilities)
       : IdentityInfo :=
-      let newIdentityInfo := mkIdentityInfo@{
+      let newIdentityInfo := IdentityInfo.mkIdentityInfo@{
             backend := IdentityInfo.backend externalIdentityInfo;
             capabilities := requestedCapabilities;
             commitmentEngine :=
@@ -533,14 +533,14 @@ generateIdentityAction
       let whoAsked := EngineMsg.sender emsg;
       in case Map.lookup whoAsked identities of {
         | some _ :=
-          some mkActionEffect@{
+          some ActionEffect.mkActionEffect@{
             env := env;
-            msgs := [mkEngineMsg@{
+            msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityReply
-                (mkReplyGenerateIdentity@{
+              msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityReply
+                (ReplyGenerateIdentity.mkReplyGenerateIdentity@{
                   commitmentEngine := none;
                   decryptionEngine := none;
                   externalIdentity := whoAsked;
@@ -552,8 +552,8 @@ generateIdentityAction
           }
         | none :=
           case emsg of {
-            | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementGenerateIdentityRequest (mkRequestGenerateIdentity backend' params' capabilities'))} :=
-              let identityInfo := mkIdentityInfo@{
+            | EngineMsg.mk@{msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityRequest (RequestGenerateIdentity.mkRequestGenerateIdentity backend' params' capabilities'))} :=
+              let identityInfo := IdentityInfo.mkIdentityInfo@{
                     backend := backend';
                     capabilities := capabilities';
                     commitmentEngine := none;
@@ -569,14 +569,14 @@ generateIdentityAction
                   newEnv' := env@EngineEnv{
                     localState := newLocalState
                   };
-              in some mkActionEffect@{
+              in some ActionEffect.mkActionEffect@{
                 env := newEnv';
-                msgs := [mkEngineMsg@{
+                msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityReply
-                    (mkReplyGenerateIdentity@{
+                  msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityReply
+                    (ReplyGenerateIdentity.mkReplyGenerateIdentity@{
                       commitmentEngine := IdentityInfo.commitmentEngine updatedIdentityInfo;
                       decryptionEngine := IdentityInfo.decryptionEngine updatedIdentityInfo;
                       externalIdentity := whoAsked;
@@ -623,14 +623,14 @@ connectIdentityAction
       let whoAsked := EngineMsg.sender emsg;
       in case Map.lookup whoAsked identities of {
         | some _ :=
-          some mkActionEffect@{
+          some ActionEffect.mkActionEffect@{
             env := env;
-            msgs := [mkEngineMsg@{
+            msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
-                (mkConnectIdentityReply@{
+              msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityReply
+                (ReplyConnectIdentity.mkReplyConnectIdentity@{
                   commitmentEngine := none;
                   decryptionEngine := none;
                   err := some "Identity already exists"
@@ -641,17 +641,17 @@ connectIdentityAction
           }
         | none :=
           case emsg of {
-            | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementConnectIdentityRequest (mkRequestConnectIdentity externalIdentity' backend' capabilities'))} :=
+            | EngineMsg.mk@{msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityRequest (RequestConnectIdentity.mkRequestConnectIdentity externalIdentity' backend' capabilities'))} :=
               case Map.lookup externalIdentity' identities of {
                 | none :=
-                  some mkActionEffect@{
+                  some ActionEffect.mkActionEffect@{
                     env := env;
-                    msgs := [mkEngineMsg@{
+                    msgs := [EngineMsg.mk@{
                       sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                       target := whoAsked;
                       mailbox := some 0;
-                      msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
-                        (mkConnectIdentityReply@{
+                      msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityReply
+                        (ReplyConnectIdentity.mkReplyConnectIdentity@{
                           commitmentEngine := none;
                           decryptionEngine := none;
                           err := some "External identity not found"
@@ -671,14 +671,14 @@ connectIdentityAction
                           newEnv' := env@EngineEnv{
                             localState := newLocalState
                           };
-                      in some mkActionEffect@{
+                      in some ActionEffect.mkActionEffect@{
                         env := newEnv';
-                        msgs := [mkEngineMsg@{
+                        msgs := [EngineMsg.mk@{
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
-                            (mkConnectIdentityReply@{
+                          msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityReply
+                            (ReplyConnectIdentity.mkReplyConnectIdentity@{
                               commitmentEngine := IdentityInfo.commitmentEngine newIdentityInfo;
                               decryptionEngine := IdentityInfo.decryptionEngine newIdentityInfo;
                               err := none
@@ -688,14 +688,14 @@ connectIdentityAction
                         engines := []
                       }
                     | else :=
-                      some mkActionEffect@{
+                      some ActionEffect.mkActionEffect@{
                         env := env;
-                        msgs := [mkEngineMsg@{
+                        msgs := [EngineMsg.mk@{
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
-                            (mkConnectIdentityReply@{
+                          msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityReply
+                            (ReplyConnectIdentity.mkReplyConnectIdentity@{
                               commitmentEngine := none;
                               decryptionEngine := none;
                               err := some "Capabilities not available"
@@ -741,17 +741,17 @@ deleteIdentityAction
     | some emsg :=
       let whoAsked := EngineMsg.sender emsg;
       in case emsg of {
-        | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementDeleteIdentityRequest (mkRequestDeleteIdentity externalIdentity backend'))} :=
+        | EngineMsg.mk@{msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityRequest (RequestDeleteIdentity.mkRequestDeleteIdentity externalIdentity backend'))} :=
           case Map.lookup externalIdentity identities of {
             | none :=
-              some mkActionEffect@{
+              some ActionEffect.mkActionEffect@{
                 env := env;
-                msgs := [mkEngineMsg@{
+                msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
-                    (mkReplyDeleteIdentity@{
+                  msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityReply
+                    (ReplyDeleteIdentity.mkReplyDeleteIdentity@{
                       err := some "Identity does not exist"
                     }))
                 }];
@@ -766,14 +766,14 @@ deleteIdentityAction
                   newEnv' := env@EngineEnv{
                     localState := newLocalState
                   };
-              in some mkActionEffect@{
+              in some ActionEffect.mkActionEffect@{
                 env := newEnv';
-                msgs := [mkEngineMsg@{
+                msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
-                    (mkReplyDeleteIdentity@{
+                  msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityReply
+                    (ReplyDeleteIdentity.mkReplyDeleteIdentity@{
                       err := none
                     }))
                 }];
@@ -793,19 +793,19 @@ deleteIdentityAction
 #### `generateIdentityActionLabel`
 
 ```juvix
-generateIdentityActionLabel : IdentityManagementActionExec := Seq [ generateIdentityAction ];
+generateIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ generateIdentityAction ];
 ```
 
 #### `connectIdentityActionLabel`
 
 ```juvix
-connectIdentityActionLabel : IdentityManagementActionExec := Seq [ connectIdentityAction ];
+connectIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ connectIdentityAction ];
 ```
 
 #### `deleteIdentityActionLabel`
 
 ```juvix
-deleteIdentityActionLabel : IdentityManagementActionExec := Seq [ deleteIdentityAction ];
+deleteIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ deleteIdentityAction ];
 ```
 
 ## Guards
@@ -882,10 +882,10 @@ generateIdentityGuard
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgIdentityManagement (MsgIdentityManagementGenerateIdentityRequest _)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityRequest _)
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mkGuardOutput@{
         action := generateIdentityActionLabel;
         args := []
       }
@@ -907,10 +907,10 @@ connectIdentityGuard
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgIdentityManagement (MsgIdentityManagementConnectIdentityRequest _)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityRequest _)
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mkGuardOutput@{
         action := connectIdentityActionLabel;
         args := []
       }
@@ -933,10 +933,10 @@ deleteIdentityGuard
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgIdentityManagement (MsgIdentityManagementDeleteIdentityRequest _)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityRequest _)
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mkGuardOutput@{
         action := deleteIdentityActionLabel;
         args := []
       }
@@ -970,8 +970,8 @@ IdentityManagementBehaviour : Type :=
 <!-- --8<-- [start:identityManagementBehaviour] -->
 ```juvix
 identityManagementBehaviour : IdentityManagementBehaviour :=
-  mkEngineBehaviour@{
-    guards := First [
+  EngineBehaviour.mk@{
+    guards := GuardEval.First [
       generateIdentityGuard;
       connectIdentityGuard;
       deleteIdentityGuard

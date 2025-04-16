@@ -254,7 +254,7 @@ decryptAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case EngineMsg.msg emsg of {
-      | Anoma.MsgDecryption (MsgDecryptionRequest request) :=
+      | Anoma.PreMsg.MsgDecryption (DecryptionMsg.Request request) :=
         let
           decryptedData :=
             Decryptor.decrypt
@@ -262,23 +262,23 @@ decryptAction
               (DecryptionCfg.backend (EngineCfg.cfg cfg))
               (RequestDecryption.data request);
           responseMsg := case decryptedData of {
-            | none := mkReplyDecryption@{
+            | none := ReplyDecryption.mkReplyDecryption@{
                 data := emptyByteString;
                 err := some "Decryption Failed"
               }
-            | some plaintext := mkReplyDecryption@{
+            | some plaintext := ReplyDecryption.mkReplyDecryption@{
                 data := plaintext;
                 err := none
               }
           }
-        in some mkActionEffect@{
+        in some ActionEffect.mkActionEffect@{
           env := env;
           msgs := [
-            mkEngineMsg@{
+            EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgDecryption (MsgDecryptionReply responseMsg)
+              msg := Anoma.PreMsg.MsgDecryption (DecryptionMsg.Reply responseMsg)
             }
           ];
           timers := [];
@@ -296,7 +296,7 @@ decryptAction
 ### `decryptActionLabel`
 
 ```juvix
-decryptActionLabel : DecryptionActionExec := Seq [ decryptAction ];
+decryptActionLabel : DecryptionActionExec := ActionExec.Seq [ decryptAction ];
 ```
 
 ## Guards
@@ -369,9 +369,9 @@ decryptGuard
   (env : DecryptionEnv)
   : Option DecryptionGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgDecryption (MsgDecryptionRequest _);
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgDecryption (DecryptionMsg.Request _);
+      } := some GuardOutput.mkGuardOutput@{
         action := decryptActionLabel;
         args := []
       }
@@ -404,9 +404,9 @@ DecryptionBehaviour : Type :=
 <!-- --8<-- [start:decryptionBehaviour] -->
 ```juvix
 decryptionBehaviour : DecryptionBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         decryptGuard
       ];
   };

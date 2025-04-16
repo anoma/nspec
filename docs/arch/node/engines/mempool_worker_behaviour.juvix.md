@@ -382,30 +382,30 @@ transactionRequestAction
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionRequest request); sender := sender} :=
+      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest request); sender := sender} :=
           let fingerprint := MempoolWorkerLocalState.gensym local + 1;
               worker_id := getEngineIDFromEngineCfg cfg;
               candidate := TransactionRequest.tx request;
               executor_name := nameGen "executor" (snd worker_id) worker_id;
               executor_id := mkPair none executor_name;
-              executorCfg := Anoma.CfgExecutor mkExecutorCfg@{
+              executorCfg := Anoma.PreCfg.CfgExecutor ExecutorCfg.mk@{
                   timestamp := fingerprint;
                   executable := TransactionCandidate.executable candidate;
-                  lazy_read_keys := Set.empty;
+                  lazy_read_keys := Set.Set.empty;
                   eager_read_keys := Set.fromList (TransactionLabel.read (TransactionCandidate.label candidate));
                   will_write_keys := Set.fromList (TransactionLabel.write (TransactionCandidate.label candidate));
-                  may_write_keys := Set.empty;
+                  may_write_keys := Set.Set.empty;
                   worker := worker_id;
                   issuer := sender
                 };
-              executorEnv := Anoma.EnvExecutor mkEngineEnv@{
-                localState := mkExecutorLocalState@{
+              executorEnv := Anoma.PreEnv.EnvExecutor EngineEnv.mk@{
+                localState := ExecutorLocalState.mk@{
                   program_state := Runnable.startingState {{rinst}};
                   completed_reads := Map.empty;
                   completed_writes := Map.empty
                 };
                 mailboxCluster := Map.empty;
-                acquaintances := Set.empty;
+                acquaintances := Set.Set.empty;
                 timers := []
               };
               newState := local@MempoolWorkerLocalState{
@@ -421,28 +421,28 @@ transactionRequestAction
                 \{shard :=
                   let shard_read_keys := Set.filter (\{key := snd (keyToShard key) == snd shard}) read_keys;
                       shard_write_keys := Set.filter (\{key := snd (keyToShard key) == snd shard}) write_keys;
-                      lockRequest := mkKVSAcquireLockMsg@{
-                        lazy_read_keys := Set.empty;
+                      lockRequest := KVSAcquireLockMsg.mkKVSAcquireLockMsg@{
+                        lazy_read_keys := Set.Set.empty;
                         eager_read_keys := shard_read_keys;
                         will_write_keys := shard_write_keys;
-                        may_write_keys := Set.empty;
+                        may_write_keys := Set.Set.empty;
                         worker := worker_id;
                         executor := executor_id;
                         timestamp := fingerprint
                       };
-                  in mkEngineMsg@{
+                  in EngineMsg.mk@{
                     sender := worker_id;
                     target := shard;
                     mailbox := some 0;
-                    msg := Anoma.MsgShard (ShardMsgKVSAcquireLock lockRequest)
+                    msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSAcquireLock lockRequest)
                   }}
                 shards;
-              ackMsg := mkEngineMsg@{
+              ackMsg := EngineMsg.mk@{
                 sender := worker_id;
                 target := sender;
                 mailbox := some 0;
-                msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionAck
-                  (mkTransactionAck@{
+                msg := Anoma.PreMsg.MsgMempoolWorker (MempoolWorkerMsg.TransactionAck
+                  (TransactionAck.mkTransactionAck@{
                     tx_hash := hash fingerprint candidate;
                     batch_number := MempoolWorkerLocalState.batch_number local;
                     batch_start := 0;
@@ -450,7 +450,7 @@ transactionRequestAction
                     signature := sign fingerprint candidate
                   }))
               };
-          in some mkActionEffect@{
+          in some ActionEffect.mkActionEffect@{
             env := newEnv;
             msgs := ackMsg :: shardMsgs;
             timers := [];
@@ -547,7 +547,7 @@ lockAcquiredAction
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgShard (ShardMsgKVSLockAcquired lockMsg); sender := sender} :=
+      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSLockAcquired lockMsg); sender := sender} :=
         let timestamp := KVSLockAcquiredMsg.timestamp lockMsg;
             newLocks := (mkPair sender lockMsg) :: MempoolWorkerLocalState.locks_acquired local;
             maxConsecutiveWrite := findMaxConsecutiveLocked true (MempoolWorkerLocalState.transactions local) newLocks 1 0;
@@ -560,19 +560,19 @@ lockAcquiredAction
             newEnv := env@EngineEnv{localState := newState};
             allShards := getAllShards (MempoolWorkerLocalState.transactions local);
             makeUpdateMsg (target : EngineID) (isWrite : Bool) (timestamp : TxFingerprint) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-              mkEngineMsg@{
+              EngineMsg.mk@{
                 sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                 target := target;
                 mailbox := some 0;
-                msg := Anoma.MsgShard (ShardMsgUpdateSeenAll
-                  (mkUpdateSeenAllMsg@{
+                msg := Anoma.PreMsg.MsgShard (ShardMsg.UpdateSeenAll
+                  (UpdateSeenAllMsg.mkUpdateSeenAllMsg@{
                     timestamp := timestamp;
                     write := isWrite
                   }))
               };
             writeMessages := map \{shard := makeUpdateMsg shard true maxConsecutiveWrite} (Set.toList allShards);
             readMessages := map \{shard := makeUpdateMsg shard false maxConsecutiveRead} (Set.toList allShards);
-        in some mkActionEffect@{
+        in some ActionEffect.mkActionEffect@{
           env := newEnv;
           msgs := writeMessages ++ readMessages;
           timers := [];
@@ -613,14 +613,14 @@ executorFinishedAction
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgExecutor (ExecutorMsgExecutorFinished summary); sender := sender} :=
+      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgExecutor (ExecutorMsg.ExecutorFinished summary); sender := sender} :=
           case Map.lookup sender (MempoolWorkerLocalState.transactionEngines local) of {
             | some tr :=
               let newState := local@MempoolWorkerLocalState{
                     execution_summaries := Map.insert tr summary (MempoolWorkerLocalState.execution_summaries local)
                   };
                   newEnv := env@EngineEnv{localState := newState};
-              in some mkActionEffect@{
+              in some ActionEffect.mkActionEffect@{
                 env := newEnv;
                 msgs := [];
                 timers := [];
@@ -641,17 +641,17 @@ executorFinishedAction
 transactionRequestActionLabel
   {KVSKey KVSDatum Executable ProgramState} {{Ord KVSKey}} {{Runnable KVSKey KVSDatum Executable ProgramState}}
   : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
-  Seq [ transactionRequestAction ];
+  ActionExec.Seq [ transactionRequestAction ];
 
 lockAcquiredActionLabel
   {KVSKey KVSDatum Executable ProgramState}
   : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
-  Seq [ lockAcquiredAction ];
+  ActionExec.Seq [ lockAcquiredAction ];
 
 executorFinishedActionLabel
   {KVSKey KVSDatum Executable ProgramState}
   : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
-  Seq [ executorFinishedAction ];
+  ActionExec.Seq [ executorFinishedAction ];
 ```
 
 ## Guards
@@ -708,8 +708,8 @@ transactionRequestGuard
   (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
   : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{msg := Anoma.MsgMempoolWorker (MempoolWorkerMsgTransactionRequest _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := transactionRequestActionLabel;
         args := []
       }
@@ -737,8 +737,8 @@ lockAcquiredGuard
   (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
   : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{msg := Anoma.MsgShard (ShardMsgKVSLockAcquired _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSLockAcquired _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := lockAcquiredActionLabel;
         args := []
       }
@@ -761,8 +761,8 @@ executorFinishedGuard
   (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
   : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{msg := Anoma.MsgExecutor (ExecutorMsgExecutorFinished _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgExecutor (ExecutorMsg.ExecutorFinished _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := executorFinishedActionLabel;
         args := []
       }
@@ -795,15 +795,15 @@ MempoolWorkerBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :
 <!-- --8<-- [start:mempoolWorkerBehaviour] -->
 ```juvix
 instance dummyRunnable : Runnable String String ByteString String :=
-  mkRunnable@{
+  Runnable.mkRunnable@{
     executeStep := \{_ _ _ := error "Not implemented"};
     halted := \{_ := false};
     startingState := ""
   };
 
 mempoolWorkerBehaviour : MempoolWorkerBehaviour String String ByteString String :=
-  mkEngineBehaviour@{
-    guards := First [
+  EngineBehaviour.mk@{
+    guards := GuardEval.First [
       transactionRequestGuard;
       lockAcquiredGuard;
       executorFinishedGuard

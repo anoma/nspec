@@ -46,7 +46,7 @@ NetworkRegistryMailboxState : Type := Unit;
 <!-- --8<-- [start:NetworkRegistryLocalState] -->
 ```juvix
 type NetworkRegistryLocalState :=
-  mkNetworkRegistryLocalState;
+  mk;
 ```
 <!-- --8<-- [end:NetworkRegistryLocalState] -->
 
@@ -93,10 +93,10 @@ NetworkRegistryEnv : Type :=
 module registry_environment_example;
 
   exNetworkRegistryEnv : NetworkRegistryEnv :=
-    mkEngineEnv@{
-      localState := mkNetworkRegistryLocalState;
+    EngineEnv.mk@{
+      localState := NetworkRegistryLocalState.mk;
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     };
 end;

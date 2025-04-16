@@ -63,7 +63,7 @@ syntax alias ExecutorMailboxState := Unit;
 
 ```juvix
 type ExecutorLocalState KVSKey KVSDatum ProgramState :=
-  mkExecutorLocalState@{
+  mk@{
     program_state : ProgramState;
     completed_reads : Map KVSKey KVSDatum;
     completed_writes : Map KVSKey KVSDatum
@@ -111,14 +111,14 @@ ExecutorEnv (KVSKey KVSDatum ProgramState : Type) : Type :=
 module executor_environment_example;
 
 executorEnv {KVSKey KVSDatum} : ExecutorEnv KVSKey KVSDatum String :=
-  mkEngineEnv@{
-    localState := mkExecutorLocalState@{
+  EngineEnv.mk@{
+    localState := ExecutorLocalState.mk@{
       program_state := "";
       completed_reads := Map.empty;
       completed_writes := Map.empty
     };
     mailboxCluster := Map.empty;
-    acquaintances := Set.empty;
+    acquaintances := Set.Set.empty;
     timers := []
   };
 end;

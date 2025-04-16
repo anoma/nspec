@@ -71,7 +71,7 @@ PubSubTopicEngine : Type :=
 <!-- --8<-- [start:exPubSubTopicEngine] -->
 ```juvix
 exPubSubTopicEngine : PubSubTopicEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := exPubSubTopicCfg;
     env := exPubSubTopicEnv;
     behaviour := exPubSubTopicBehaviour;

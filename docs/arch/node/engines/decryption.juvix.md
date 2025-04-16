@@ -80,7 +80,7 @@ DecryptionEngine : Type :=
 <!-- --8<-- [start:exampleDecryptionEngine] -->
 ```juvix
 exampleDecryptionEngine : DecryptionEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := decryptionCfg;
     env := decryptionEnv;
     behaviour := decryptionBehaviour;

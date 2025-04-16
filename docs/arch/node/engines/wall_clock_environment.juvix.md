@@ -17,6 +17,7 @@ tags:
 
     import prelude open;
     import arch.node.engines.wall_clock_messages open;
+    import arch.node.types.engine_environment open;
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
@@ -41,7 +42,7 @@ syntax alias WallClockMailboxState := Unit;
 ## Local state
 
 ```juvix
-type WallClockLocalState := mkWallClockLocalState@{
+type WallClockLocalState := mk@{
   currentTime : EpochTimestamp
 };
 ```
@@ -88,12 +89,12 @@ WallClockEnv : Type :=
 module wall_clock_environment_example;
 
   wallClockEnv : WallClockEnv :=
-    mkEngineEnv@{
-      localState := mkWallClockLocalState@{
+    EngineEnv.mk@{
+      localState := WallClockLocalState.mk@{
         currentTime := 0
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

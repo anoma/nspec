@@ -172,21 +172,21 @@ getTimeAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
-      some mkActionEffect@{
+      some ActionEffect.mkActionEffect@{
         env := env@EngineEnv{
-          localState := mkWallClockLocalState@{
+          localState := WallClockLocalState.mk@{
             currentTime := newTime
           }
         };
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := EngineMsg.sender emsg;
             mailbox := some 0;
             msg :=
-              Anoma.MsgWallClock
-                (WallClockGetTimeResult
-                  mkTimeResult@{
+              Anoma.PreMsg.MsgWallClock
+                (WallClockMsg.GetTimeResult
+                  TimeResult.mk@{
                     epochTime := newTime
                   })
           }
@@ -204,7 +204,7 @@ getTimeAction
 ### `getTimeActionLabel`
 
 ```juvix
-getTimeActionLabel : WallClockActionExec := Seq [ getTimeAction ];
+getTimeActionLabel : WallClockActionExec := ActionExec.Seq [ getTimeAction ];
 ```
 
 ## Guards
@@ -275,9 +275,9 @@ getTimeGuard
   (env : WallClockEnv)
   : Option WallClockGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgWallClock WallClockGetTime;
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgWallClock WallClockMsg.GetTime;
+      } := some GuardOutput.mkGuardOutput@{
         action := getTimeActionLabel;
         args := [];
       }
@@ -310,8 +310,8 @@ WallClockBehaviour : Type :=
 <!-- --8<-- [start:wallClockBehaviour] -->
 ```juvix
 wallClockBehaviour : WallClockBehaviour :=
-  mkEngineBehaviour@{
-    guards := First [
+  EngineBehaviour.mk@{
+    guards := GuardEval.First [
       getTimeGuard
     ];
   };

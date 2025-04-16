@@ -51,7 +51,7 @@ The local state of the Naming Engine includes the evidence for name associations
 ### `NamingLocalState`
 
 ```juvix
-type NamingLocalState := mkNamingLocalState@{
+type NamingLocalState := mk@{
   evidenceStore : Set IdentityNameEvidence;
 };
 ```
@@ -92,12 +92,12 @@ NamingEnv : Type :=
 module naming_environment_example;
 
 namingEnv : NamingEnv :=
-    mkEngineEnv@{
-      localState := mkNamingLocalState@{
-        evidenceStore := Set.empty;
+    EngineEnv.mk@{
+      localState := NamingLocalState.mk@{
+        evidenceStore := Set.Set.empty;
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

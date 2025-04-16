@@ -83,10 +83,10 @@ DecryptionEnv : Type :=
 module decryption_environment_example;
 
 decryptionEnv : DecryptionEnv :=
-    mkEngineEnv@{
+    EngineEnv.mk@{
       localState := unit;
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

@@ -289,10 +289,10 @@ processReadAction
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
   in case getMsgFromTimestampedTrigger trigger of {
-    | some (MsgShard (ShardMsgKVSRead (mkKVSReadMsg@{key := readKey; data := readValue}))) :=
+    | some (PreMsg.MsgShard (ShardMsg.KVSRead (KVSReadMsg.mkKVSReadMsg@{key := readKey; data := readValue}))) :=
       let
         envelope (target : EngineID) (msg : Anoma.PreMsg KVSKey KVSDatum Executable) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
             target := target;
             mailbox := some 0;
@@ -306,13 +306,13 @@ processReadAction
         -- These inform the shards that they can release pending locks in the
         -- case that the executor halts.
         staleReadMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
+          envelope (keyToShard key) (PreMsg.MsgShard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
             key := key;
             actual := false
           })));
         staleWriteMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          envelope (keyToShard key) (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
+          envelope (keyToShard key) (PreMsg.MsgShard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
             timestamp := ExecutorCfg.timestamp cfg;
             key := key;
             datum := none
@@ -336,12 +336,12 @@ processReadAction
               local := EngineEnv.localState env;
               finishedMsg :=
                 envelope (ExecutorCfg.issuer cfg)
-                  (MsgExecutor (ExecutorMsgExecutorFinished mkExecutorFinishedMsg@{
+                  (PreMsg.MsgExecutor (ExecutorMsg.ExecutorFinished ExecutorFinishedMsg.mkExecutorFinishedMsg@{
                     success := false;
                     values_read := (mkPair readKey readValue) :: Map.toList reads;
                     values_written := Map.toList writes
                 }));
-            in some mkActionEffect@{
+            in some ActionEffect.mkActionEffect@{
                 env := env;
                 msgs := finishedMsg :: staleMsgs;
                 timers := [];
@@ -353,7 +353,7 @@ processReadAction
                      (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
                      List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
-                envelope (keyToShard key) (MsgShard (ShardMsgKVSReadRequest (mkKVSReadRequestMsg@{
+                envelope (keyToShard key) (PreMsg.MsgShard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
                     timestamp := ExecutorCfg.timestamp cfg;
                     key := key;
                     actual := true
@@ -369,7 +369,7 @@ processReadAction
                       List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
                 envelope (keyToShard key)
-                  (MsgShard (ShardMsgKVSWrite (mkKVSWriteMsg@{
+                  (PreMsg.MsgShard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
                     timestamp := ExecutorCfg.timestamp cfg;
                     key := key;
                     datum := some value
@@ -401,7 +401,7 @@ processReadAction
             msgList := snd final;
             newEnv := env@EngineEnv{localState := newLocalState};
           in case Runnable.halted {{rinst}} program' of {
-            | false := some mkActionEffect@{
+            | false := some ActionEffect.mkActionEffect@{
                   env := newEnv;
                   msgs := msgList;
                   timers := [];
@@ -412,12 +412,12 @@ processReadAction
                 finishedMsg :=
                   envelope
                     (ExecutorCfg.issuer cfg)
-                    (MsgExecutor (ExecutorMsgExecutorFinished mkExecutorFinishedMsg@{
+                    (PreMsg.MsgExecutor (ExecutorMsg.ExecutorFinished ExecutorFinishedMsg.mkExecutorFinishedMsg@{
                       success := true;
                       values_read := Map.toList reads;
                       values_written := Map.toList writes
                   }));
-              in some mkActionEffect@{
+              in some ActionEffect.mkActionEffect@{
                   env := newEnv;
                   msgs := msgList ++ finishedMsg :: staleMsgs;
                   timers := [];
@@ -437,7 +437,7 @@ processReadActionLabel
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
   {{Runnable KVSKey KVSDatum Executable ProgramState}}
-  : ExecutorActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadAction ];
+  : ExecutorActionExec KVSKey KVSDatum Executable ProgramState := ActionExec.Seq [ processReadAction ];
 ```
 
 ## Guards
@@ -514,14 +514,14 @@ processReadGuard
   (env : ExecutorEnv KVSKey KVSDatum ProgramState)
   : Option (ExecutorGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-  | some mkEngineMsg@{msg := MsgShard (ShardMsgKVSRead (mkKVSReadMsg@{
+  | some EngineMsg.mk@{msg := PreMsg.MsgShard (ShardMsg.KVSRead (KVSReadMsg.mkKVSReadMsg@{
       timestamp := timestamp;
       key := _;
       data := _
     }))} :=
     case timestamp == ExecutorCfg.timestamp (EngineCfg.cfg cfg) of {
     | true :=
-      some mkGuardOutput@{
+      some GuardOutput.mkGuardOutput@{
         action := processReadActionLabel;
         args := unit
       }
@@ -556,15 +556,15 @@ ExecutorBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
 <!-- --8<-- [start:executorBehaviour] -->
 ```juvix
 instance dummyRunnable : Runnable String String ByteString String :=
-  mkRunnable@{
+  Runnable.mkRunnable@{
     executeStep := \{_ _ _ := error "Not implemented"};
     halted := \{_ := false};
     startingState := ""
   };
 
 executorBehaviour : ExecutorBehaviour String String ByteString String :=
-  mkEngineBehaviour@{
-    guards := First [
+  EngineBehaviour.mk@{
+    guards := GuardEval.First [
       processReadGuard
     ]
   };
