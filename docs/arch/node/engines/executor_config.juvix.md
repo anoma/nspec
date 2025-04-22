@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:ExecutorLocalCfg] -->
 ```juvix
-type ExecutorCfg KVSKey Executable :=
+type ExecutorLocalCfg KVSKey Executable :=
   mk@{
     timestamp : TxFingerprint;
     executable : Executable;
@@ -96,11 +96,11 @@ ExecutorCfg (KVSKey Executable : Type) : Type :=
 ```juvix extract-module-statements
 module executor_config_example;
 
-  executorCfg : EngineCfg (ExecutorCfg String ByteString) :=
+  executorCfg : ExecutorCfg String ByteString :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "executor";
-      cfg := ExecutorCfg.mk@{
+      cfg := ExecutorLocalCfg.mk@{
         timestamp := 0;
         executable := "";
         lazy_read_keys := Set.Set.empty;

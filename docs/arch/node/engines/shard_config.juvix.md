@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:ShardLocalCfg] -->
 ```juvix
-type ShardLocalCfg := mkShardLocalCfg;
+type ShardLocalCfg := mk;
 ```
 <!-- --8<-- [end:ShardLocalCfg] -->
 
@@ -62,7 +62,7 @@ module shard_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "shard";
-      cfg := ShardCfg.mk;
+      cfg := ShardLocalCfg.mk;
     }
   ;
 end;

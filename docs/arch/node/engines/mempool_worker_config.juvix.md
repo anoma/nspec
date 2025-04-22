@@ -35,7 +35,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:MempoolWorkerLocalCfg] -->
 ```juvix
-type MempoolWorkerLocalCfg (KVSKey : Type) := mkMempoolWorkerLocalCfg@{
+type MempoolWorkerLocalCfg (KVSKey : Type) := mk@{
   keyToShard : KVSKey -> EngineID
 };
 ```
@@ -63,7 +63,7 @@ module mempool_worker_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "mempool worker";
-      cfg := mkMempoolWorkerLocalCfg@{
+      cfg := MempoolWorkerLocalCfg.mk@{
         keyToShard := \{_ := mkPair none "shard"}
       }
     }

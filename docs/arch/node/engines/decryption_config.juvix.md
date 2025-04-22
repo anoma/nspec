@@ -40,7 +40,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:DecryptionLocalCfg] -->
 ```juvix
-type DecryptionCfg := mk@{
+type DecryptionLocalCfg := mk@{
   decryptor : Identity.Decryptor Backend Plaintext Ciphertext;
   backend : Backend;
 };
@@ -73,18 +73,12 @@ DecryptionCfg : Type :=
 ```juvix extract-module-statements
 module decryption_config_example;
 
-  decryptionCfg : EngineCfg DecryptionCfg :=
+  decryptionCfg : DecryptionCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "decryption";
-      cfg := DecryptionCfg.mk@{
+      cfg := DecryptionLocalCfg.mk@{
         decryptor := Identity.Decryptor.mkDecryptor@{
-  decryptionCfg : DecryptionCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
-      name := "decryption";
-      cfg := mkDecryptionLocalCfg@{
-        decryptor := mkDecryptor@{
           decrypt := \{_ x := some x};
         };
         backend := Backend.LocalMemory;

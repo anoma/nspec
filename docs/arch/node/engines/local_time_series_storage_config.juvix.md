@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:LocalTSStorageLocalCfg] -->
 ```juvix
-type LocalTSStorageLocalCfg := mkLocalTSStorageLocalCfg;
+type LocalTSStorageLocalCfg := mk;
 ```
 <!-- --8<-- [end:LocalTSStorageLocalCfg] -->
 
@@ -62,7 +62,7 @@ module local_ts_storage_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "local time series storage";
-      cfg := LocalTSStorageCfg.mk;
+      cfg := LocalTSStorageLocalCfg.mk;
     }
   ;
 end;

@@ -37,7 +37,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:CommitmentLocalCfg] -->
 ```juvix
-type CommitmentCfg := mk@{
+type CommitmentLocalCfg := mk@{
   signer : Identity.Signer Backend Signable Commitment;
   backend : Backend;
 };
@@ -70,11 +70,11 @@ CommitmentCfg : Type :=
 ```juvix extract-module-statements
 module commitment_config_example;
 
-  commitmentCfg : EngineCfg CommitmentCfg :=
+  commitmentCfg : CommitmentCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "commitment";
-      cfg := CommitmentCfg.mk@{
+      cfg := CommitmentLocalCfg.mk@{
         signer := Identity.Signer.mkSigner@{
           sign := \{_ x := Signature.Ed25519Signature "0xabcd1234"};
         };

@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:SignsForLocalCfg] -->
 ```juvix
-type SignsForLocalCfg := mkSignsForLocalCfg;
+type SignsForLocalCfg := mk;
 ```
 <!-- --8<-- [end:SignsForLocalCfg] -->
 
@@ -62,7 +62,7 @@ module signs_for_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "signs for";
-      cfg := SignsForCfg.mk
+      cfg := SignsForLocalCfg.mk
     }
   ;
 end;

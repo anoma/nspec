@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:IdentityManagementLocalCfg] -->
 ```juvix
-type IdentityManagementLocalCfg := mkIdentityManagementLocalCfg;
+type IdentityManagementLocalCfg := mk;
 ```
 <!-- --8<-- [end:IdentityManagementLocalCfg] -->
 
@@ -58,11 +58,11 @@ IdentityManagementCfg : Type :=
 ```juvix extract-module-statements
 module identity_management_config_example;
 
-  identityManagementCfg : EngineCfg IdentityManagementCfg :=
+  identityManagementCfg : IdentityManagementCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "identity management";
-      cfg := IdentityManagementCfg.mk
+      cfg := IdentityManagementLocalCfg.mk
     }
   ;
 end;

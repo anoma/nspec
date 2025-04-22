@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:ReadsForLocalCfg] -->
 ```juvix
-type ReadsForLocalCfg := mkReadsForLocalCfg;
+type ReadsForLocalCfg := mk;
 ```
 <!-- --8<-- [end:ReadsForLocalCfg] -->
 
@@ -62,7 +62,7 @@ module reads_for_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "reads for";
-      cfg := ReadsForCfg.mk
+      cfg := ReadsForLocalCfg.mk
     }
   ;
 end;

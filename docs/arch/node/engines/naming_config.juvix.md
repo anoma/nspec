@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:NamingLocalCfg] -->
 ```juvix
-type NamingLocalCfg := mkNamingLocalCfg;
+type NamingLocalCfg := mk;
 ```
 <!-- --8<-- [end:NamingLocalCfg] -->
 
@@ -62,7 +62,7 @@ module naming_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "naming";
-      cfg := NamingCfg.mk
+      cfg := NamingLocalCfg.mk
     }
   ;
 end;

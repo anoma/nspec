@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:LocalKVStorageLocalCfg] -->
 ```juvix
-type LocalKVStorageLocalCfg := mkLocalKVStorageLocalCfg;
+type LocalKVStorageLocalCfg := mk;
 ```
 <!-- --8<-- [end:LocalKVStorageLocalCfg] -->
 
@@ -62,7 +62,7 @@ module local_key_value_storage_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "key value storage";
-      cfg := LocalKVStorageCfg.mk;
+      cfg := LocalKVStorageLocalCfg.mk;
     }
   ;
 end;

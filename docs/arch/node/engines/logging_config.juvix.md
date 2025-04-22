@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:LoggingLocalCfg] -->
 ```juvix
-type LoggingLocalCfg := mkLoggingLocalCfg;
+type LoggingLocalCfg := mk;
 ```
 <!-- --8<-- [end:LoggingLocalCfg] -->
 
@@ -62,7 +62,7 @@ module logging_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "logging";
-      cfg := LoggingCfg.mk;
+      cfg := LoggingLocalCfg.mk;
     }
   ;
 end;

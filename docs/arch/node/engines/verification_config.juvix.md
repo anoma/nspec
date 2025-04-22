@@ -82,7 +82,7 @@ module verification_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "verification";
-      cfg := VerificationCfg.mk@{
+      cfg := VerificationLocalCfg.mk@{
         verifier := \{_ _ := Verifier.mkVerifier@{
           verify := \{_ _ _ := true};
           verifierHash := HASH.mkHASH@{

@@ -37,7 +37,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:WallClockLocalCfg] -->
 ```juvix
-type WallClockLocalCfg := mkWallClockLocalCfg;
+type WallClockLocalCfg := mk;
 ```
 <!-- --8<-- [end:WallClockLocalCfg] -->
 
@@ -63,7 +63,7 @@ module wall_clock_config_example;
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "wall clock";
-      cfg := WallClockCfg.mk;
+      cfg := WallClockLocalCfg.mk;
     }
   ;
 end;
