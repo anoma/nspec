@@ -40,12 +40,12 @@ type Noun :=
 terminating
 nounEq (n1 n2 : Noun) : Bool :=
   case mkPair n1 n2 of {
-    | mkPair (Atom x) (Atom y) := x == y
-    | mkPair (Cell a b) (Cell c d) := nounEq a c && nounEq b d
+    | mkPair (Noun.Atom x) (Noun.Atom y) := x == y
+    | mkPair (Noun.Cell a b) (Noun.Cell c d) := nounEq a c && nounEq b d
     | _ := false
   };
 
-instance EqNoun : Eq Noun := mkEq@{ eq := nounEq };
+instance EqNoun : Eq Noun := Eq.mk@{ isEqual := nounEq };
 
 -- Helper to convert storage values to Nouns
 axiom convertToNoun : {val : Type} -> val -> Noun;
@@ -93,27 +93,27 @@ parseOp (n : Nat) : Option NockOp :=
   foldr opOr none
     (zipWith test
       [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
-      [Slash; Constant; Apply; CellTest; Increment;
-      EqualOp; IfThenElse; Compose; Extend; Invoke;
-      Pound; Match; Scry]);
+      [NockOp.Slash; NockOp.Constant; NockOp.Apply; NockOp.CellTest; NockOp.Increment;
+      NockOp.EqualOp; NockOp.IfThenElse; NockOp.Compose; NockOp.Extend; NockOp.Invoke;
+      NockOp.Pound; NockOp.Match; NockOp.Scry]);
 
 -- Monad to encompass gas consumption and error handling.
-type GasState A := mkGasState {
+type GasState A := mk {
   runGasState : Nat -> Result String (Pair A Nat)
 };
 
 instance
-GasStateMonad : Monad GasState := mkMonad@{
-  applicative := mkApplicative@{
-    functor := mkFunctor@{
-      map := \{f s := mkGasState \{gas :=
+GasStateMonad : Monad GasState := Monad.mk@{
+  applicative := Applicative.mk@{
+    functor := Functor.mk@{
+      map := \{f s := GasState.mk \{gas :=
         case GasState.runGasState s gas of {
           | ok (mkPair x remaining) := ok (mkPair (f x) remaining)
           | error e := error e
         }}
     }};
-    pure := \{x := mkGasState \{gas := ok (mkPair x gas)}};
-    ap := \{sf sa := mkGasState \{gas :=
+    pure := \{x := GasState.mk \{gas := ok (mkPair x gas)}};
+    ap := \{sf sa := GasState.mk \{gas :=
       case GasState.runGasState sf gas of {
         | ok (mkPair f remaining) :=
           case GasState.runGasState sa remaining of {
@@ -124,7 +124,7 @@ GasStateMonad : Monad GasState := mkMonad@{
       }}
     }
   };
-  bind := \{ma f := mkGasState \{gas :=
+  bind := \{ma f := GasState.mk \{gas :=
     case GasState.runGasState ma gas of {
       | ok (mkPair a remaining) := GasState.runGasState (f a) remaining
       | error e := error e
@@ -132,27 +132,27 @@ GasStateMonad : Monad GasState := mkMonad@{
   }
 };
 
-err {A : Type} (str : String) : GasState A := mkGasState \{_ := error str};
+err {A : Type} (str : String) : GasState A := GasState.mk \{_ := error str};
 
 -- Gas cost values for each operation type
 -- These are made up for demo purposes
 getGasCost (cost : NockOp) : Nat :=
   case cost of {
-    | Slash := 1
-    | CellTest := 1
-    | Increment := 1
-    | EqualOp := 2
-    | IfThenElse := 3
-    | Compose := 2
-    | Extend := 2
-    | Invoke := 3
-    | Pound := 1
-    | Scry := 10
+    | NockOp.Slash := 1
+    | NockOp.CellTest := 1
+    | NockOp.Increment := 1
+    | NockOp.EqualOp := 2
+    | NockOp.IfThenElse := 3
+    | NockOp.Compose := 2
+    | NockOp.Extend := 2
+    | NockOp.Invoke := 3
+    | NockOp.Pound := 1
+    | NockOp.Scry := 10
     | _ := 0
   };
 
 consume (op : NockOp) : GasState Unit :=
-  mkGasState \{gas :=
+  GasState.mk \{gas :=
   let cost := getGasCost op in
   case cost > gas of {
     | true := error "Out of gas"
@@ -162,11 +162,11 @@ consume (op : NockOp) : GasState Unit :=
 -- Implementation of storage read operations (scrying)
 scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result String Noun :=
   case op of {
-    | Direct := case Storage.readDirect stor addr of {
+    | ScryOp.Direct := case Storage.readDirect stor addr of {
       | some val := ok (convertToNoun val)
       | none := error "Direct storage read failed"
     }
-    | Index := case Storage.readDirect stor addr of {
+    | ScryOp.Index := case Storage.readDirect stor addr of {
       | some indexFn := case Storage.readIndex stor indexFn of {
         | some val := ok (convertToNoun val)
         | none := error "Index computation failed"
@@ -179,30 +179,30 @@ scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result S
 terminating
 slash {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasState Noun :=
   case n of {
-    | Atom x := case x == 1 of {
+    | Noun.Atom x := case x == 1 of {
       | true := pure subject -- Rule: /[1 a] -> a
       | false := case x == 2 of {
         | true := case subject of { -- Rule: /[2 a b] -> a
-          | Cell a _ := pure a
+          | Noun.Cell a _ := pure a
           | _ := err "Cannot take slash of atom"
         }
         | false := case x == 3 of {
           | true := case subject of { -- Rule: /[3 a b] -> b
-            | Cell _ b := pure b
+            | Noun.Cell _ b := pure b
             | _ := err "Cannot take slash of atom"
           }
           | false := case (mod x 2) == 0 of {
             | true :=  -- Rule: /[(a + a) b] -> /[2 /[a b]]
-                consume Slash >>= \{_ :=
-                slash stor (Atom (div x 2)) subject >>= \{res :=
-                consume Slash >>= \{_ :=
-                slash stor (Atom 2) res
+                consume NockOp.Slash >>= \{_ :=
+                slash stor (Noun.Atom (div x 2)) subject >>= \{res :=
+                consume NockOp.Slash >>= \{_ :=
+                slash stor (Noun.Atom 2) res
                 }}}
             | false := -- Rule: /[(a + a + 1) b] -> /[3 /[a b]]
-                consume Slash >>= \{_ :=
-                slash stor (Atom (div x 2)) subject >>= \{res :=
-                consume Slash >>= \{_ :=
-                slash stor (Atom 3) res
+                consume NockOp.Slash >>= \{_ :=
+                slash stor (Noun.Atom (div x 2)) subject >>= \{res :=
+                consume NockOp.Slash >>= \{_ :=
+                slash stor (Noun.Atom 3) res
                 }}}
           }
         }
@@ -215,24 +215,24 @@ slash {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasSta
 terminating
 pound {val : Type} (stor : Storage Nat val) (n : Noun) (b : Noun) (c : Noun) : GasState Noun :=
   case n of {
-    | Atom x := case x == 1 of {
+    | Noun.Atom x := case x == 1 of {
       | true := pure b  -- Rule: #[1 a b] -> a
       | false := case mod x 2 == 0 of {
         | true := case c of { -- Rule: #[(a + a) b c] -> #[a [b /[(a + a + 1) c]] c]
-          | Cell _ _ :=
-            consume Slash >>= \{_ :=
-            slash stor (Atom ((2 * div x 2) + 1)) c >>= \{slashResult :=
-            consume Pound >>= \{_ :=
-            pound stor (Atom (div x 2)) (Cell b slashResult) c
+          | Noun.Cell _ _ :=
+            consume NockOp.Slash >>= \{_ :=
+            slash stor (Noun.Atom ((2 * div x 2) + 1)) c >>= \{slashResult :=
+            consume NockOp.Pound >>= \{_ :=
+            pound stor (Noun.Atom (div x 2)) (Noun.Cell b slashResult) c
             }}}
           | _ := err "Invalid pound target"
         }
         | false := case c of { -- Rule: #[(a + a + 1) b c] -> #[a [/[(a + a) c] b] c]
-          | Cell _ _ :=
-            consume Slash >>= \{_ :=
-            slash stor (Atom (2 * div x 2)) c >>= \{slashResult :=
-            consume Pound >>= \{_ :=
-            pound stor (Atom (div x 2)) (Cell slashResult b) c
+          | Noun.Cell _ _ :=
+            consume NockOp.Slash >>= \{_ :=
+            slash stor (Noun.Atom (2 * div x 2)) c >>= \{slashResult :=
+            consume NockOp.Pound >>= \{_ :=
+            pound stor (Noun.Atom (div x 2)) (Noun.Cell slashResult b) c
             }}}
           | _ := err "Invalid pound target"
         }
@@ -245,17 +245,17 @@ terminating
 evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : Noun) : GasState Noun :=
   case op of {
     -- *[a 0 b] -> /[b a]
-    | Slash := slash stor args a
+    | NockOp.Slash := slash stor args a
 
     -- *[a 1 b] -> b
-    | Constant := pure args
+    | NockOp.Constant := pure args
 
     -- *[a 2 b c] -> *[*[a b] *[a c]]
-    | Apply := case args of {
-      | Cell b c :=
-        nock stor (Cell a b) >>= \{r1 :=
-        nock stor (Cell a c) >>= \{r2 :=
-        nock stor (Cell r1 r2)
+    | NockOp.Apply := case args of {
+      | Noun.Cell b c :=
+        nock stor (Noun.Cell a b) >>= \{r1 :=
+        nock stor (Noun.Cell a c) >>= \{r2 :=
+        nock stor (Noun.Cell r1 r2)
         }}
       | _ := err "Invalid apply args"
     }
@@ -263,12 +263,12 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
     -- *[a 3 b] -> ?*[a b]
     -- ?[a b] -> 0
     -- ?a -> 1
-    | CellTest := case args of {
-      | Cell b _ :=
-        nock stor (Cell a b) >>= \{res :=
+    | NockOp.CellTest := case args of {
+      | Noun.Cell b _ :=
+        nock stor (Noun.Cell a b) >>= \{res :=
         case res of {
-          | Cell _ _ := pure (Atom 0)
-          | _ := pure (Atom 1)
+          | Noun.Cell _ _ := pure (Noun.Atom 0)
+          | _ := pure (Noun.Atom 1)
         }
         }
       | _ := err "Invalid cell test args"
@@ -277,11 +277,11 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
     -- *[a 4 b] -> +*[a b]
     -- +[a b] -> +[a b]
     -- +a -> 1 + a
-    | Increment := case args of {
-      | Cell b _ :=
-        nock stor (Cell a b) >>= \{res :=
+    | NockOp.Increment := case args of {
+      | Noun.Cell b _ :=
+        nock stor (Noun.Cell a b) >>= \{res :=
         case res of {
-          | (Atom n) := pure (Atom (suc n))
+          | (Noun.Atom n) := pure (Noun.Atom (suc n))
           | x := pure x  -- +[a b] -> +[a b] case
         }
         }
@@ -291,11 +291,11 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
     -- *[a 5 b c] -> =*[a b] *[a c]
     -- =[a a] -> 0
     -- =[a b] -> 1
-    | EqualOp := case args of {
-      | Cell b c :=
-        nock stor (Cell a b) >>= \{r1 :=
-        nock stor (Cell a c) >>= \{r2 :=
-        pure (Atom (case nounEq r1 r2 of {
+    | NockOp.EqualOp := case args of {
+      | Noun.Cell b c :=
+        nock stor (Noun.Cell a b) >>= \{r1 :=
+        nock stor (Noun.Cell a c) >>= \{r2 :=
+        pure (Noun.Atom (case nounEq r1 r2 of {
               | true := 0
               | false := 1
             }))
@@ -304,49 +304,49 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
     }
 
     -- *[a 6 b c d] -> *[a *[[c d] 0 *[[2 3] 0 *[a 4 4 b]]]]
-    | IfThenElse := case args of {
-      | Cell b (Cell c d) :=
-        nock stor (Cell a (Cell (Atom 4) (Cell (Atom 4) b))) >>= \{r1 :=
-        nock stor (Cell (Cell (Atom 2) (Atom 3)) (Cell (Atom 0) r1)) >>= \{r2 :=
-        nock stor (Cell (Cell c d) (Cell (Atom 0) r2)) >>= \{r3 :=
-        nock stor (Cell a r3)
+    | NockOp.IfThenElse := case args of {
+      | Noun.Cell b (Noun.Cell c d) :=
+        nock stor (Noun.Cell a (Noun.Cell (Noun.Atom 4) (Noun.Cell (Noun.Atom 4) b))) >>= \{r1 :=
+        nock stor (Noun.Cell (Noun.Cell (Noun.Atom 2) (Noun.Atom 3)) (Noun.Cell (Noun.Atom 0) r1)) >>= \{r2 :=
+        nock stor (Noun.Cell (Noun.Cell c d) (Noun.Cell (Noun.Atom 0) r2)) >>= \{r3 :=
+        nock stor (Noun.Cell a r3)
         }}}
       | _ := err "Invalid if-then-else args"
     }
 
     -- *[a 7 b c] -> *[*[a b] c]
-    | Compose := case args of {
-      | Cell b c :=
-        nock stor (Cell a b) >>= \{r :=
-        nock stor (Cell r c)
+    | NockOp.Compose := case args of {
+      | Noun.Cell b c :=
+        nock stor (Noun.Cell a b) >>= \{r :=
+        nock stor (Noun.Cell r c)
         }
       | _ := err "Invalid compose args"
     }
 
     -- *[a 8 b c] -> *[[*[a b] a] c]
-    | Extend := case args of {
-      | Cell b c :=
-        nock stor (Cell a b) >>= \{r :=
-        nock stor (Cell (Cell r a) c)
+    | NockOp.Extend := case args of {
+      | Noun.Cell b c :=
+        nock stor (Noun.Cell a b) >>= \{r :=
+        nock stor (Noun.Cell (Noun.Cell r a) c)
         }
       | _ := err "Invalid extend args"
     }
 
     -- *[a 9 b c] -> *[*[a c] 2 [0 1] 0 b]
-    | Invoke := case args of {
-      | Cell b c :=
-        nock stor (Cell a c) >>= \{core :=
-        let formula := Cell (Atom 2) (Cell (Cell (Atom 0) (Atom 1)) (Cell (Atom 0) b)) in
-        nock stor (Cell core formula)
+    | NockOp.Invoke := case args of {
+      | Noun.Cell b c :=
+        nock stor (Noun.Cell a c) >>= \{core :=
+        let formula := Noun.Cell (Noun.Atom 2) (Noun.Cell (Noun.Cell (Noun.Atom 0) (Noun.Atom 1)) (Noun.Cell (Noun.Atom 0) b)) in
+        nock stor (Noun.Cell core formula)
         }
       | _ := err "Invalid invoke args"
     }
 
     -- *[a 10 [b c] d] -> #[b *[a c] *[a d]]
-    | Pound := case args of {
-      | Cell (Cell b c) d :=
-        nock stor (Cell a c) >>= \{r1 :=
-        nock stor (Cell a d) >>= \{r2 :=
+    | NockOp.Pound := case args of {
+      | Noun.Cell (Noun.Cell b c) d :=
+        nock stor (Noun.Cell a c) >>= \{r1 :=
+        nock stor (Noun.Cell a d) >>= \{r2 :=
         pound stor b r1 r2
         }}
       | _ := err "Invalid pound args"
@@ -354,37 +354,37 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
 
     -- *[a 11 [b c] d] -> *[[*[a c] *[a d]] 0 3]
     -- *[a 11 b c] -> *[a c]
-    | Match := case args of {
-      | Cell (Cell b c) d :=
-        nock stor (Cell a c) >>= \{r1 :=
-        nock stor (Cell a d) >>= \{r2 :=
-        nock stor (Cell (Cell r1 r2) (Cell (Atom 0) (Atom 3)))
+    | NockOp.Match := case args of {
+      | Noun.Cell (Noun.Cell b c) d :=
+        nock stor (Noun.Cell a c) >>= \{r1 :=
+        nock stor (Noun.Cell a d) >>= \{r2 :=
+        nock stor (Noun.Cell (Noun.Cell r1 r2) (Noun.Cell (Noun.Atom 0) (Noun.Atom 3)))
         }}
-      | Cell _ c := nock stor (Cell a c)
+      | Noun.Cell _ c := nock stor (Noun.Cell a c)
       | _ := err "Invalid pure pound args"
     }
 
     -- *[a 12 b c d] -> result <- SCRY b c; *[a result d]
-    | Scry := case args of {
-      | Cell b (Cell c d) :=
+    | NockOp.Scry := case args of {
+      | Noun.Cell b (Noun.Cell c d) :=
           -- First evaluate b to get the opcode
           nock stor b >>= \{opcode :=
             case opcode of {
-              | Atom opval :=
+              | Noun.Atom opval :=
                   -- Then evaluate c to get the address
                   nock stor c >>= \{addr :=
                     case addr of {
-                      | Atom addrVal :=
+                      | Noun.Atom addrVal :=
                           -- Convert opcode to ScryOp
                           let scryType := case opval == 0 of {
-                            | true := Direct
-                            | false := Index
+                            | true := ScryOp.Direct
+                            | false := ScryOp.Index
                           } in
                           -- Perform the scry operation and wrap result in GasState
-                          mkGasState \{gas :=
+                          GasState.mk \{gas :=
                             scry stor scryType addrVal >>= \{scryResult :=
                             -- Continue evaluation with the scry result
-                            GasState.runGasState (nock stor (Cell a (Cell scryResult d))) gas
+                            GasState.runGasState (nock stor (Noun.Cell a (Noun.Cell scryResult d))) gas
                             }
                           }
                       | _ := err "Scry address must be atom"
@@ -402,19 +402,19 @@ terminating
 nock {val : Type} (stor : Storage Nat val) (input : Noun) : GasState Noun :=
   case input of {
     -- Rule: *a -> *a
-    | Atom _ := pure input
+    | Noun.Atom _ := pure input
 
-    | Cell a b := case b of {
+    | Noun.Cell a b := case b of {
 
-      | Cell first rest := case first of {
+      | Noun.Cell first rest := case first of {
         -- Rule: *[a [b c] d] -> [*[a b c] *[a d]]
-        | Cell b c :=
-          nock stor (Cell a (Cell b c)) >>= \{r1 :=
-          nock stor (Cell a rest) >>= \{r2 :=
-          pure (Cell r1 r2)
+        | Noun.Cell b c :=
+          nock stor (Noun.Cell a (Noun.Cell b c)) >>= \{r1 :=
+          nock stor (Noun.Cell a rest) >>= \{r2 :=
+          pure (Noun.Cell r1 r2)
           }}
 
-        | Atom n := case parseOp n of {
+        | Noun.Atom n := case parseOp n of {
           | some opcode := consume opcode >>= \{_ :=
               evalOp stor opcode a rest
             }
