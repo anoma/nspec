@@ -122,7 +122,7 @@ Taking a protocol adapter contract-centric viewpoint, we distinguish between two
 1. Internal [[Resource Machine|resource machine (RM)]] state being maintained inside the protocol adapter contract that is constituted by commitments, nullifiers, and blobs (see [Storage](#storage)).
 2. External state existing in smart contracts being independent of the protocol adapter and its internal RM state.
 
-To **interoperate with state in external contracts**, the protocol adapter contract can, during transaction execution, **make read and write calls** to them and **corresponding resources** in its internal state containing the input and output data from the external state reads and writes.
+To **interoperate with state in external contracts**, the protocol adapter contract can, during transaction execution, **make read and write calls** to them and **create and consume corresponding resources** in its internal state reflecting the external state reads and writes.
 
 We achieve this by creating an indirection layer separating the protocol adapter from the
 the external contract and resources that should be created and consumed in consequence. It consists of:
