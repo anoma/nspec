@@ -31,6 +31,8 @@ tags:
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.anoma as Anoma open;
+
+    import arch.system.state.resource_machine.notes.runnable open;
     ```
 
 # Mempool Worker Behaviour
@@ -42,8 +44,8 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 ??? code "Auxiliary Juvix code"
 
     ```juvix
-    axiom sign {KVSKey Executable} : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Signature;
-    axiom hash {KVSKey Executable} : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Hash;
+    axiom sign : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Signature;
+    axiom hash : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Hash;
     ```
 
 ## Mempool Worker Action Flowcharts
@@ -309,45 +311,45 @@ MempoolWorkerActionArguments : Type := List MempoolWorkerActionArgument;
 ??? code "Auxiliary Juvix code"
 
     ```juvix
-    MempoolWorkerAction (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+    MempoolWorkerAction : Type :=
       Action
-        (MempoolWorkerLocalCfg KVSKey)
-        (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+        MempoolWorkerLocalCfg
+        MempoolWorkerLocalState
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
         MempoolWorkerActionArguments
-        (Anoma.PreMsg KVSKey KVSDatum Executable)
-        (Anoma.PreCfg KVSKey KVSDatum Executable)
-        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
 
-    MempoolWorkerActionInput (KVSKey KVSDatum Executable : Type) : Type :=
+    MempoolWorkerActionInput : Type :=
       ActionInput
-        (MempoolWorkerLocalCfg KVSKey)
-        (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+        MempoolWorkerLocalCfg
+        MempoolWorkerLocalState
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
         MempoolWorkerActionArguments
-        (Anoma.PreMsg KVSKey KVSDatum Executable);
+        Anoma.Msg;
 
-    MempoolWorkerActionEffect (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+    MempoolWorkerActionEffect : Type :=
       ActionEffect
-        (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+        MempoolWorkerLocalState
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
-        (Anoma.PreMsg KVSKey KVSDatum Executable)
-        (Anoma.PreCfg KVSKey KVSDatum Executable)
-        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
 
-    MempoolWorkerActionExec (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+    MempoolWorkerActionExec : Type :=
       ActionExec
-        (MempoolWorkerLocalCfg KVSKey)
-        (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+        MempoolWorkerLocalCfg
+        MempoolWorkerLocalState
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
         MempoolWorkerActionArguments
-        (Anoma.PreMsg KVSKey KVSDatum Executable)
-        (Anoma.PreCfg KVSKey KVSDatum Executable)
-        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
 
 ### `transactionRequestAction`
@@ -371,10 +373,9 @@ Timer updates
 <!-- --8<-- [start:transactionRequestAction] -->
 ```juvix
 transactionRequestAction
-  {KVSKey KVSDatum Executable ProgramState} {{Ord KVSKey}}
   {{rinst : Runnable KVSKey KVSDatum Executable ProgramState}}
-  (input : MempoolWorkerActionInput KVSKey KVSDatum Executable)
-  : Option (MempoolWorkerActionEffect KVSKey KVSDatum Executable ProgramState) :=
+  (input : MempoolWorkerActionInput)
+  : Option MempoolWorkerActionEffect :=
   let
     env := ActionInput.env input;
     cfg := ActionInput.cfg input;
@@ -383,13 +384,13 @@ transactionRequestAction
     keyToShard := MempoolWorkerLocalCfg.keyToShard (EngineCfg.cfg cfg);
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest request); sender := sender} :=
+      | EngineMsg.mk@{msg := Anoma.Msg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest request); sender := sender} :=
           let fingerprint := MempoolWorkerLocalState.gensym local + 1;
               worker_id := getEngineIDFromEngineCfg cfg;
               candidate := TransactionRequest.tx request;
               executor_name := nameGen "executor" (snd worker_id) worker_id;
               executor_id := mkPair none executor_name;
-              executorCfg := Anoma.PreCfg.CfgExecutor (EngineCfg.mk@{
+              executorCfg := Anoma.Cfg.CfgExecutor (EngineCfg.mk@{
                 node := EngineCfg.node cfg; -- Copies the node id from the parent engine.
                 name := executor_name;
                 cfg := ExecutorLocalCfg.mk@{
@@ -404,7 +405,7 @@ transactionRequestAction
                   keyToShard := keyToShard
                 }
               });
-              executorEnv := Anoma.PreEnv.EnvExecutor EngineEnv.mk@{
+              executorEnv := Anoma.Env.EnvExecutor EngineEnv.mk@{
                 localState := ExecutorLocalState.mk@{
                   program_state := Runnable.startingState {{rinst}};
                   completed_reads := Map.empty;
@@ -440,14 +441,14 @@ transactionRequestAction
                     sender := worker_id;
                     target := shard;
                     mailbox := some 0;
-                    msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSAcquireLock lockRequest)
+                    msg := Anoma.Msg.MsgShard (ShardMsg.KVSAcquireLock lockRequest)
                   }}
                 shards;
               ackMsg := EngineMsg.mk@{
                 sender := worker_id;
                 target := sender;
                 mailbox := some 0;
-                msg := Anoma.PreMsg.MsgMempoolWorker (MempoolWorkerMsg.TransactionAck
+                msg := Anoma.Msg.MsgMempoolWorker (MempoolWorkerMsg.TransactionAck
                   (TransactionAck.mkTransactionAck@{
                     tx_hash := hash fingerprint candidate;
                     batch_number := MempoolWorkerLocalState.batch_number local;
@@ -489,7 +490,6 @@ Timer updates
 <!-- --8<-- [start:allLocksAcquired] -->
 ```juvix
 allLocksAcquired
-  {KVSKey Executable}
   (keyToShard : KVSKey -> EngineID)
   (isWrite : Bool)
   (tx : TransactionCandidate KVSKey KVSKey Executable)
@@ -512,7 +512,6 @@ allLocksAcquired
 --- the "safe point" up to which shards can process transactions without worrying about missing locks.
 terminating
 findMaxConsecutiveLocked
-  {KVSKey Executable}
   (keyToShard : KVSKey -> EngineID)
   (isWrite : Bool)
   (transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable))
@@ -532,7 +531,6 @@ findMaxConsecutiveLocked
 <!-- --8<-- [start:getAllShards] -->
 ```juvix
 getAllShards
-  {KVSKey Executable}
   (keyToShard : KVSKey -> EngineID)
   (transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable)) : Set EngineID :=
   let getAllKeysFromLabel (label : TransactionLabel KVSKey KVSKey) : List KVSKey :=
@@ -547,9 +545,8 @@ getAllShards
 <!-- --8<-- [start:lockAcquiredAction] -->
 ```juvix
 lockAcquiredAction
-  {KVSKey KVSDatum Executable ProgramState}
-  (input : MempoolWorkerActionInput KVSKey KVSDatum Executable)
-  : Option (MempoolWorkerActionEffect KVSKey KVSDatum Executable ProgramState) :=
+  (input : MempoolWorkerActionInput)
+  : Option MempoolWorkerActionEffect :=
   let
     env := ActionInput.env input;
     local := EngineEnv.localState env;
@@ -557,7 +554,7 @@ lockAcquiredAction
     keyToShard := MempoolWorkerLocalCfg.keyToShard (EngineCfg.cfg (ActionInput.cfg input));
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSLockAcquired lockMsg); sender := sender} :=
+      | EngineMsg.mk@{msg := Anoma.Msg.MsgShard (ShardMsg.KVSLockAcquired lockMsg); sender := sender} :=
         let timestamp := KVSLockAcquiredMsg.timestamp lockMsg;
             newLocks := (mkPair sender lockMsg) :: MempoolWorkerLocalState.locks_acquired local;
             maxConsecutiveWrite := findMaxConsecutiveLocked keyToShard true (MempoolWorkerLocalState.transactions local) newLocks 1 0;
@@ -569,12 +566,12 @@ lockAcquiredAction
             };
             newEnv := env@EngineEnv{localState := newState};
             allShards := getAllShards keyToShard (MempoolWorkerLocalState.transactions local);
-            makeUpdateMsg (target : EngineID) (isWrite : Bool) (timestamp : TxFingerprint) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
+            makeUpdateMsg (target : EngineID) (isWrite : Bool) (timestamp : TxFingerprint) : EngineMsg Anoma.Msg :=
               EngineMsg.mk@{
                 sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                 target := target;
                 mailbox := some 0;
-                msg := Anoma.PreMsg.MsgShard (ShardMsg.UpdateSeenAll
+                msg := Anoma.Msg.MsgShard (ShardMsg.UpdateSeenAll
                   (UpdateSeenAllMsg.mkUpdateSeenAllMsg@{
                     timestamp := timestamp;
                     write := isWrite
@@ -614,16 +611,15 @@ Timer updates
 <!-- --8<-- [start:executorFinishedAction] -->
 ```juvix
 executorFinishedAction
-  {KVSKey KVSDatum Executable ProgramState}
-  (input : MempoolWorkerActionInput KVSKey KVSDatum Executable)
-  : Option (MempoolWorkerActionEffect KVSKey KVSDatum Executable ProgramState) :=
+  (input : MempoolWorkerActionInput)
+  : Option MempoolWorkerActionEffect :=
   let
     env := ActionInput.env input;
     local := EngineEnv.localState env;
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgExecutor (ExecutorMsg.ExecutorFinished summary); sender := sender} :=
+      | EngineMsg.mk@{msg := Anoma.Msg.MsgExecutor (ExecutorMsg.ExecutorFinished summary); sender := sender} :=
           case Map.lookup sender (MempoolWorkerLocalState.transactionEngines local) of {
             | some tr :=
               let newState := local@MempoolWorkerLocalState{
@@ -649,18 +645,15 @@ executorFinishedAction
 
 ```juvix
 transactionRequestActionLabel
-  {KVSKey KVSDatum Executable ProgramState} {{Ord KVSKey}} {{Runnable KVSKey KVSDatum Executable ProgramState}}
-  : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
+  : MempoolWorkerActionExec :=
   ActionExec.Seq [ transactionRequestAction ];
 
 lockAcquiredActionLabel
-  {KVSKey KVSDatum Executable ProgramState}
-  : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
+  : MempoolWorkerActionExec :=
   ActionExec.Seq [ lockAcquiredAction ];
 
 executorFinishedActionLabel
-  {KVSKey KVSDatum Executable ProgramState}
-  : MempoolWorkerActionExec KVSKey KVSDatum Executable ProgramState :=
+  : MempoolWorkerActionExec :=
   ActionExec.Seq [ executorFinishedAction ];
 ```
 
@@ -669,38 +662,38 @@ executorFinishedActionLabel
 ??? code "Auxiliary Juvix code"
 
     ```juvix
-    MempoolWorkerGuard (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+    MempoolWorkerGuard : Type :=
       Guard
-        (MempoolWorkerLocalCfg KVSKey)
-        (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+        MempoolWorkerLocalCfg
+        MempoolWorkerLocalState
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
         MempoolWorkerActionArguments
-        (Anoma.PreMsg KVSKey KVSDatum Executable)
-        (Anoma.PreCfg KVSKey KVSDatum Executable)
-        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
 
-    MempoolWorkerGuardOutput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+    MempoolWorkerGuardOutput : Type :=
       GuardOutput
-        (MempoolWorkerLocalCfg KVSKey)
-        (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+        MempoolWorkerLocalCfg
+        MempoolWorkerLocalState
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
         MempoolWorkerActionArguments
-        (Anoma.PreMsg KVSKey KVSDatum Executable)
-        (Anoma.PreCfg KVSKey KVSDatum Executable)
-        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
 
-    MempoolWorkerGuardEval (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+    MempoolWorkerGuardEval : Type :=
       GuardEval
-        (MempoolWorkerLocalCfg KVSKey)
-        (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+        MempoolWorkerLocalCfg
+        MempoolWorkerLocalState
         MempoolWorkerMailboxState
         MempoolWorkerTimerHandle
         MempoolWorkerActionArguments
-        (Anoma.PreMsg KVSKey KVSDatum Executable)
-        (Anoma.PreCfg KVSKey KVSDatum Executable)
-        (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+        Anoma.Msg
+        Anoma.Cfg
+        Anoma.Env;
     ```
 
 ### `transactionRequestGuard`
@@ -711,14 +704,13 @@ Condition
 <!-- --8<-- [start:transactionRequestGuard] -->
 ```juvix
 transactionRequestGuard
-  {KVSKey KVSDatum Executable ProgramState} {{Ord KVSKey}}
   {{Runnable KVSKey KVSDatum Executable ProgramState}}
-  (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : MempoolWorkerCfg KVSKey)
-  (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
-  : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
+  (trigger : TimestampedTrigger MempoolWorkerTimerHandle Anoma.Msg)
+  (cfg : MempoolWorkerCfg)
+  (env : MempoolWorkerEnv)
+  : Option MempoolWorkerGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest _)} :=
+    | some EngineMsg.mk@{msg := Anoma.Msg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest _)} :=
       some GuardOutput.mkGuardOutput@{
         action := transactionRequestActionLabel;
         args := []
@@ -741,13 +733,12 @@ Condition
 <!-- --8<-- [start:lockAcquiredGuard] -->
 ```juvix
 lockAcquiredGuard
-  {KVSKey KVSDatum Executable ProgramState}
-  (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : MempoolWorkerCfg KVSKey)
-  (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
-  : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
+  (trigger : TimestampedTrigger MempoolWorkerTimerHandle Anoma.Msg)
+  (cfg : MempoolWorkerCfg)
+  (env : MempoolWorkerEnv)
+  : Option MempoolWorkerGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSLockAcquired _)} :=
+    | some EngineMsg.mk@{msg := Anoma.Msg.MsgShard (ShardMsg.KVSLockAcquired _)} :=
       some GuardOutput.mkGuardOutput@{
         action := lockAcquiredActionLabel;
         args := []
@@ -765,13 +756,12 @@ Condition
 <!-- --8<-- [start:executorFinishedGuard] -->
 ```juvix
 executorFinishedGuard
-  {KVSKey KVSDatum Executable ProgramState}
-  (trigger : TimestampedTrigger MempoolWorkerTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : MempoolWorkerCfg KVSKey)
-  (env : MempoolWorkerEnv KVSKey KVSDatum Executable)
-  : Option (MempoolWorkerGuardOutput KVSKey KVSDatum Executable ProgramState) :=
+  (trigger : TimestampedTrigger MempoolWorkerTimerHandle Anoma.Msg)
+  (cfg : MempoolWorkerCfg)
+  (env : MempoolWorkerEnv)
+  : Option MempoolWorkerGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgExecutor (ExecutorMsg.ExecutorFinished _)} :=
+    | some EngineMsg.mk@{msg := Anoma.Msg.MsgExecutor (ExecutorMsg.ExecutorFinished _)} :=
       some GuardOutput.mkGuardOutput@{
         action := executorFinishedActionLabel;
         args := []
@@ -787,16 +777,16 @@ executorFinishedGuard
 
 <!-- --8<-- [start:MempoolWorkerBehaviour] -->
 ```juvix
-MempoolWorkerBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+MempoolWorkerBehaviour : Type :=
   EngineBehaviour
-    (MempoolWorkerLocalCfg KVSKey)
-    (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+    MempoolWorkerLocalCfg
+    MempoolWorkerLocalState
     MempoolWorkerMailboxState
     MempoolWorkerTimerHandle
     MempoolWorkerActionArguments
-    (Anoma.PreMsg KVSKey KVSDatum Executable)
-    (Anoma.PreCfg KVSKey KVSDatum Executable)
-    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:MempoolWorkerBehaviour] -->
 
@@ -804,14 +794,7 @@ MempoolWorkerBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :
 
 <!-- --8<-- [start:mempoolWorkerBehaviour] -->
 ```juvix
-instance dummyRunnable : Runnable String String ByteString String :=
-  Runnable.mkRunnable@{
-    executeStep := \{_ _ _ := error "Not implemented"};
-    halted := \{_ := false};
-    startingState := ""
-  };
-
-mempoolWorkerBehaviour : MempoolWorkerBehaviour String String ByteString String :=
+mempoolWorkerBehaviour : MempoolWorkerBehaviour :=
   EngineBehaviour.mk@{
     guards := GuardEval.First [
       transactionRequestGuard;

@@ -254,7 +254,7 @@ decryptAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case EngineMsg.msg emsg of {
-      | Anoma.PreMsg.MsgDecryption (DecryptionMsg.Request request) :=
+      | Anoma.Msg.MsgDecryption (DecryptionMsg.Request request) :=
         let
           decryptedData :=
             Decryptor.decrypt
@@ -278,7 +278,7 @@ decryptAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.PreMsg.MsgDecryption (DecryptionMsg.Reply responseMsg)
+              msg := Anoma.Msg.MsgDecryption (DecryptionMsg.Reply responseMsg)
             }
           ];
           timers := [];
@@ -370,7 +370,7 @@ decryptGuard
   : Option DecryptionGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgDecryption (DecryptionMsg.Request _);
+        msg := Anoma.Msg.MsgDecryption (DecryptionMsg.Request _);
       } := some GuardOutput.mkGuardOutput@{
         action := decryptActionLabel;
         args := []

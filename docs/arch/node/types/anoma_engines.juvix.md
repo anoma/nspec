@@ -21,6 +21,7 @@ import arch.node.engines.pub_sub_topic_config open;
 import arch.node.engines.pub_sub_topic_environment open;
 import arch.node.engines.storage_config open;
 import arch.node.engines.storage_environment open;
+import arch.system.state.resource_machine.notes.nockma open;
 
 {- Identity -}
 import arch.node.engines.identity_management open;
@@ -84,9 +85,9 @@ type Eng :=
   | Storage StorageEngine
 
   {- Ordering -}
-  | MempoolWorker (MempoolWorkerEngine String String ByteString String)
-  | Executor (ExecutorEngine String String ByteString String)
-  | Shard (ShardEngine String String ByteString String)
+  | MempoolWorker MempoolWorkerEngine
+  | Executor ExecutorEngine
+  | Shard ShardEngine
 
   {- Misc -}
   | Ticker TickerEngine
@@ -100,7 +101,7 @@ type Eng :=
 ```juvix
 mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
   case p of {
-  | mkPair (PreCfg.CfgIdentityManagement cfg) (PreEnv.EnvIdentityManagement env) :=
+  | mkPair (Cfg.CfgIdentityManagement cfg) (Env.EnvIdentityManagement env) :=
     let
       eng := Eng.IdentityManagement (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -109,7 +110,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgDecryption cfg) (PreEnv.EnvDecryption env) :=
+  | mkPair (Cfg.CfgDecryption cfg) (Env.EnvDecryption env) :=
     let
       eng := Eng.Decryption (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -118,7 +119,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgEncryption cfg) (PreEnv.EnvEncryption env) :=
+  | mkPair (Cfg.CfgEncryption cfg) (Env.EnvEncryption env) :=
     let
       eng := Eng.Encryption (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -127,7 +128,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgCommitment cfg) (PreEnv.EnvCommitment env) :=
+  | mkPair (Cfg.CfgCommitment cfg) (Env.EnvCommitment env) :=
     let
       eng := Eng.Commitment (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -136,7 +137,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgVerification cfg) (PreEnv.EnvVerification env) :=
+  | mkPair (Cfg.CfgVerification cfg) (Env.EnvVerification env) :=
     let
       eng := Eng.Verification (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -145,7 +146,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgReadsFor cfg) (PreEnv.EnvReadsFor env) :=
+  | mkPair (Cfg.CfgReadsFor cfg) (Env.EnvReadsFor env) :=
     let
       eng := Eng.ReadsFor (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -154,7 +155,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgSignsFor cfg) (PreEnv.EnvSignsFor env) :=
+  | mkPair (Cfg.CfgSignsFor cfg) (Env.EnvSignsFor env) :=
     let
       eng := Eng.SignsFor (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -163,7 +164,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgNaming cfg) (PreEnv.EnvNaming env) :=
+  | mkPair (Cfg.CfgNaming cfg) (Env.EnvNaming env) :=
     let
       eng := Eng.Naming (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -172,7 +173,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgLocalKeyValueStorage cfg) (PreEnv.EnvLocalKeyValueStorage env) :=
+  | mkPair (Cfg.CfgLocalKeyValueStorage cfg) (Env.EnvLocalKeyValueStorage env) :=
     let
       eng := Eng.LocalKeyValueStorage (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -181,7 +182,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgLogging cfg) (PreEnv.EnvLogging env) :=
+  | mkPair (Cfg.CfgLogging cfg) (Env.EnvLogging env) :=
     let
       eng := Eng.Logging (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -190,7 +191,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgWallClock cfg) (PreEnv.EnvWallClock env) :=
+  | mkPair (Cfg.CfgWallClock cfg) (Env.EnvWallClock env) :=
     let
       eng := Eng.WallClock (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -199,7 +200,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgLocalTSeries cfg) (PreEnv.EnvLocalTSeries env) :=
+  | mkPair (Cfg.CfgLocalTSeries cfg) (Env.EnvLocalTSeries env) :=
     let
       eng := Eng.LocalTSeries (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -208,7 +209,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgRouter cfg) (PreEnv.EnvRouter env) :=
+  | mkPair (Cfg.CfgRouter cfg) (Env.EnvRouter env) :=
     let
       eng := Eng.Router (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -217,7 +218,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgTransportProtocol cfg) (PreEnv.EnvTransportProtocol env) :=
+  | mkPair (Cfg.CfgTransportProtocol cfg) (Env.EnvTransportProtocol env) :=
     let
       eng := Eng.TransportProtocol (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -226,7 +227,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgTransportConnection cfg) (PreEnv.EnvTransportConnection env) :=
+  | mkPair (Cfg.CfgTransportConnection cfg) (Env.EnvTransportConnection env) :=
     let
       eng := Eng.TransportConnection (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -235,7 +236,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgPubSubTopic cfg) (PreEnv.EnvPubSubTopic env) :=
+  | mkPair (Cfg.CfgPubSubTopic cfg) (Env.EnvPubSubTopic env) :=
     let
       eng := Eng.PubSubTopic (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -244,7 +245,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgStorage cfg) (PreEnv.EnvStorage env) :=
+  | mkPair (Cfg.CfgStorage cfg) (Env.EnvStorage env) :=
     let
       eng := Eng.Storage (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -253,7 +254,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgMempoolWorker cfg) (PreEnv.EnvMempoolWorker env) :=
+  | mkPair (Cfg.CfgMempoolWorker cfg) (Env.EnvMempoolWorker env) :=
     let
       eng := Eng.MempoolWorker (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -262,7 +263,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgExecutor cfg) (PreEnv.EnvExecutor env) :=
+  | mkPair (Cfg.CfgExecutor cfg) (Env.EnvExecutor env) :=
     let
       eng := Eng.Executor (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -271,7 +272,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgShard cfg) (PreEnv.EnvShard env) :=
+  | mkPair (Cfg.CfgShard cfg) (Env.EnvShard env) :=
     let
       eng := Eng.Shard (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -280,7 +281,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgTicker cfg) (PreEnv.EnvTicker env) :=
+  | mkPair (Cfg.CfgTicker cfg) (Env.EnvTicker env) :=
     let
       eng := Eng.Ticker (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -289,7 +290,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgTemplate cfg) (PreEnv.EnvTemplate env) :=
+  | mkPair (Cfg.CfgTemplate cfg) (Env.EnvTemplate env) :=
     let
       eng := Eng.Template (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};
@@ -298,7 +299,7 @@ mkEng (nodeId : NodeID) (p : Pair Cfg Env) : Option (Pair Eng EngineID) :=
       });
       engineId := mkPair (some nodeId) (EngineCfg.name cfg);
     in some (mkPair eng engineId)
-  | mkPair (PreCfg.CfgTemplateMinimum cfg) (PreEnv.EnvTemplateMinimum env) :=
+  | mkPair (Cfg.CfgTemplateMinimum cfg) (Env.EnvTemplateMinimum env) :=
     let
       eng := Eng.TemplateMinimum (Engine.mk@{
         cfg := cfg@EngineCfg{node := nodeId};

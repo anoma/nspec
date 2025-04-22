@@ -180,7 +180,7 @@ exampleReplyAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgTransportConnection (TransportConnectionMsgExampleRequest req);
+        msg := Anoma.Msg.MsgTransportConnection (TransportConnectionMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
@@ -193,7 +193,7 @@ exampleReplyAction
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.PreMsg.MsgTransportConnection
+              Anoma.Msg.MsgTransportConnection
                 (TransportConnectionMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -288,7 +288,7 @@ exampleReplyGuard
   TODO {-
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgTransportConnection (TransportConnectionMsgExampleRequest req);
+        msg := Anoma.Msg.MsgTransportConnection (TransportConnectionMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
       } := some GuardOutput.mkGuardOutput@{
         action := exampleReplyActionLabel;

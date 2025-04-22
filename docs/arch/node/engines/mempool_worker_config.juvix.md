@@ -35,7 +35,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:MempoolWorkerLocalCfg] -->
 ```juvix
-type MempoolWorkerLocalCfg (KVSKey : Type) := mk@{
+type MempoolWorkerLocalCfg := mk@{
   keyToShard : KVSKey -> EngineID
 };
 ```
@@ -47,9 +47,9 @@ type MempoolWorkerLocalCfg (KVSKey : Type) := mk@{
 
 <!-- --8<-- [start:MempoolWorkerCfg] -->
 ```juvix
-MempoolWorkerCfg (KVSKey : Type) : Type :=
+MempoolWorkerCfg : Type :=
   EngineCfg
-    (MempoolWorkerLocalCfg KVSKey);
+    MempoolWorkerLocalCfg;
 ```
 <!-- --8<-- [end:MempoolWorkerCfg] -->
 
@@ -59,7 +59,7 @@ MempoolWorkerCfg (KVSKey : Type) : Type :=
 ```juvix extract-module-statements
 module mempool_worker_config_example;
 
-  mempoolWorkerCfg : MempoolWorkerCfg String :=
+  mempoolWorkerCfg : MempoolWorkerCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "mempool worker";

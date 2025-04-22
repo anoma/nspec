@@ -15,6 +15,9 @@ tags:
     module arch.node.types.identities;
 
     import arch.node.types.crypto open public;
+    import arch.system.state.resource_machine.notes.nockma open;
+    import arch.system.state.resource_machine.notes.nockma_runnable open;
+
     import prelude open;
     ```
 
@@ -387,6 +390,24 @@ syntax alias BatchNumber := Nat;
 
 ```juvix
 syntax alias WallClockTime := Nat;
+```
+
+### Sharding
+
+```juvix
+syntax alias KVSKey := Nat;
+```
+
+```juvix
+syntax alias KVSDatum := Nat;
+```
+
+```juvix
+syntax alias ProgramState := NockmaProgramState;
+```
+
+```juvix
+syntax alias Executable := Noun;
 ```
 
 !!! todo "v0.3"

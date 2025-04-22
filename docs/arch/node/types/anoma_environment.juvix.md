@@ -17,6 +17,7 @@ tags:
     module arch.node.types.anoma_environment;
 
     import prelude open;
+    import arch.system.state.resource_machine.notes.nockma open;
 
     {- Identity -}
 
@@ -87,7 +88,7 @@ of the engine `TickerEngine` is of type `TickerEnvironment`.
 
 <!-- --8<-- [start:Env] -->
 ```juvix
-type PreEnv KVSKey KVSDatum Executable ProgramState :=
+type Env :=
 
   {- Identity -}
 
@@ -118,9 +119,9 @@ type PreEnv KVSKey KVSDatum Executable ProgramState :=
 
   {- Ordering -}
 
-  | EnvMempoolWorker (MempoolWorkerEnv KVSKey KVSDatum Executable)
-  | EnvExecutor (ExecutorEnv KVSKey KVSDatum ProgramState)
-  | EnvShard (ShardEnv KVSKey KVSDatum)
+  | EnvMempoolWorker MempoolWorkerEnv
+  | EnvExecutor ExecutorEnv
+  | EnvShard ShardEnv
 
   {- Misc -}
 
@@ -133,7 +134,5 @@ type PreEnv KVSKey KVSDatum Executable ProgramState :=
 
   -- Add more environments here
   ;
-
-Env : Type := PreEnv String String ByteString String;
 ```
 <!-- --8<-- [end:Env] -->

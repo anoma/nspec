@@ -208,7 +208,7 @@ countReplyAction
             target := EngineMsg.sender emsg;
             mailbox := some 0;
             msg :=
-              Anoma.PreMsg.MsgTicker
+              Anoma.Msg.MsgTicker
                 (TickerMsg.CountReply
                   CountReply.mkCountReply@{
                     counter := counterValue;
@@ -311,7 +311,7 @@ incrementGuard
   in
     case emsg of {
     | some EngineMsg.mk@{
-        msg := (Anoma.PreMsg.MsgTicker TickerMsg.Increment);
+        msg := (Anoma.Msg.MsgTicker TickerMsg.Increment);
       } :=
       some GuardOutput.mkGuardOutput@{
         action := incrementActionLabel;
@@ -336,7 +336,7 @@ countReplyGuard
   : Option TickerGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgTicker TickerMsg.CountRequest;
+        msg := Anoma.Msg.MsgTicker TickerMsg.CountRequest;
       } := some GuardOutput.mkGuardOutput@{
         action := countReplyActionLabel;
         args := [];

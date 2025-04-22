@@ -20,6 +20,7 @@ tags:
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
+    import arch.system.state.resource_machine.notes.nockma open;
     ```
 
 # Executor Configuration
@@ -36,7 +37,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:ExecutorLocalCfg] -->
 ```juvix
-type ExecutorLocalCfg KVSKey Executable :=
+type ExecutorLocalCfg :=
   mk@{
     timestamp : TxFingerprint;
     executable : Executable;
@@ -84,9 +85,9 @@ type ExecutorLocalCfg KVSKey Executable :=
 
 <!-- --8<-- [start:ExecutorCfg] -->
 ```juvix
-ExecutorCfg (KVSKey Executable : Type) : Type :=
+ExecutorCfg : Type :=
   EngineCfg
-    (ExecutorLocalCfg KVSKey Executable);
+    ExecutorLocalCfg;
 ```
 <!-- --8<-- [end:ExecutorCfg] -->
 
@@ -96,13 +97,13 @@ ExecutorCfg (KVSKey Executable : Type) : Type :=
 ```juvix extract-module-statements
 module executor_config_example;
 
-  executorCfg : ExecutorCfg String ByteString :=
+  executorCfg : ExecutorCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "executor";
       cfg := ExecutorLocalCfg.mk@{
         timestamp := 0;
-        executable := "";
+        executable := Noun.Atom 0;
         lazy_read_keys := Set.Set.empty;
         eager_read_keys := Set.Set.empty;
         will_write_keys := Set.Set.empty;

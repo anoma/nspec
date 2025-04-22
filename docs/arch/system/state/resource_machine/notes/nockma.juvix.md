@@ -61,6 +61,12 @@ type Storage addr val := mkStorage {
   readIndex : val -> Option val
 };
 
+emptyStorage {addr val : Type} : Storage addr val :=
+  Storage.mkStorage@{
+    readDirect := \{_ := none};
+    readIndex := \{_ := none};
+  };
+
 axiom externalStorage : {addr val : Type} -> Storage addr val;
 
 type NockOp :=
@@ -365,7 +371,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
     }
 
     -- *[a 12 b c d] -> result <- SCRY b c; *[a result d]
-    | NockOp.Scry := case args of {
+    | Scry := case args of {
       | Noun.Cell b (Noun.Cell c d) :=
           -- First evaluate b to get the opcode
           nock stor b >>= \{opcode :=

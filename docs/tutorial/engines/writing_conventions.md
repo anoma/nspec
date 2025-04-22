@@ -128,7 +128,7 @@ along with the corresponding type for the messages, that is, `TickerMsg`.
 module arch.node.types.anoma_message;
 + import arch.node.engines.ticker_messages open;
 
-type PreMsg KVSKey KVSDatum Executable :=
+type Msg KVSKey KVSDatum Executable :=
 +  | MsgTicker TickerMsg
 ```
 
@@ -145,7 +145,7 @@ module arch.node.types.anoma_config;
 ...
 + import arch.node.engines.ticker_config open;
 ...
-type PreCfg KVSKey KVSDatum Executable :=
+type Cfg KVSKey KVSDatum Executable :=
 +  | CfgTicker TickerCfg
 ```
 
@@ -162,7 +162,7 @@ module arch.node.types.anoma_environment;
 ...
 + import arch.node.engines.ticker_environment open;
 ...
-type PreEnv KVSKey KVSDatum Executable :=
+type Env KVSKey KVSDatum Executable :=
 +  | EnvTicker TickerEnv
 ```
 

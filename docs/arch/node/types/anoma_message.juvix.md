@@ -16,6 +16,7 @@ tags:
     module arch.node.types.anoma_message;
 
     import prelude open;
+    import arch.system.state.resource_machine.notes.nockma open;
 
     {- Identity -}
 
@@ -71,7 +72,7 @@ corresponding message type `TickerMsg`.
 
 <!-- --8<-- [start:Msg] -->
 ```juvix
-type PreMsg KVSKey KVSDatum Executable :=
+type Msg :=
 
   {- Identity -}
 
@@ -92,7 +93,7 @@ type PreMsg KVSKey KVSDatum Executable :=
 
   {- Network -}
 
-  | MsgRouter (RouterMsg (PreMsg KVSKey KVSDatum Executable))
+  | MsgRouter (RouterMsg Msg)
   | MsgTransportProtocol TransportProtocolMsg
   | MsgTransportConnection TransportConnectionMsg
   | MsgPubSubTopic PubSubTopicMsg
@@ -100,9 +101,9 @@ type PreMsg KVSKey KVSDatum Executable :=
 
   {- Ordering -}
 
-  | MsgMempoolWorker (MempoolWorkerMsg KVSKey Executable)
-  | MsgExecutor (ExecutorMsg KVSKey KVSDatum)
-  | MsgShard (ShardMsg KVSKey KVSDatum)
+  | MsgMempoolWorker (MempoolWorkerMsg Noun)
+  | MsgExecutor ExecutorMsg
+  | MsgShard ShardMsg
 
   {- Misc -}
 
@@ -115,7 +116,5 @@ type PreMsg KVSKey KVSDatum Executable :=
 
   -- Add more messages here
   ;
-
-Msg : Type := PreMsg String String ByteString;
 ```
 <!-- --8<-- [end:Msg] -->

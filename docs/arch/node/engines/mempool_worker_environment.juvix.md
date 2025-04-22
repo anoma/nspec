@@ -37,14 +37,14 @@ The local state of the Mempool Worker engine includes the following:
 
 <!-- --8<-- [start:MempoolWorkerLocalState] -->
 ```juvix
-type MempoolWorkerLocalState KVSKey KVSDatum Executable := mk @{
+type MempoolWorkerLocalState := mk @{
   batch_number : BatchNumber;
   transactions : Map TxFingerprint (TransactionCandidate KVSKey KVSKey Executable);
   transactionEngines : Map EngineID TxFingerprint;
   locks_acquired : List (Pair EngineID KVSLockAcquiredMsg);
   seen_all_writes : TxFingerprint;
   seen_all_reads : TxFingerprint;
-  execution_summaries : Map TxFingerprint (ExecutorFinishedMsg KVSKey KVSDatum);
+  execution_summaries : Map TxFingerprint ExecutorFinishedMsg;
   gensym : TxFingerprint
 }
 ```
@@ -101,12 +101,12 @@ syntax alias MempoolWorkerTimerHandle := Unit;
 ### `MempoolWorkerEnv`
 
 ```juvix
-MempoolWorkerEnv (KVSKey KVSDatum Executable : Type) : Type :=
+MempoolWorkerEnv : Type :=
   EngineEnv
-    (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+    MempoolWorkerLocalState
     MempoolWorkerMailboxState
     MempoolWorkerTimerHandle
-    (Anoma.PreMsg KVSKey KVSDatum Executable);
+    Anoma.Msg;
 ```
 
 ### Instantiation
@@ -115,7 +115,7 @@ MempoolWorkerEnv (KVSKey KVSDatum Executable : Type) : Type :=
 ```juvix extract-module-statements
 module mempool_worker_environment_example;
 
-  mempoolWorkerEnv : MempoolWorkerEnv String String ByteString :=
+  mempoolWorkerEnv : MempoolWorkerEnv :=
     EngineEnv.mk@{
       localState := MempoolWorkerLocalState.mk@{
         batch_number := 0;
