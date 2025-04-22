@@ -190,13 +190,13 @@ justHiAction
     args := ActionInput.args input;
   in
     case args of {
-    | TemplateActionArgumentTwo (mkSecondArgument@{
+    | TemplateActionArgument.TemplateActionArgumentTwo (SecondArgument.mkSecondArgument@{
         data := data;
       }) :: _ :=
-      some mkActionEffect@{
+      some ActionEffect.mkActionEffect@{
         env := env@EngineEnv{
-          localState := mkTemplateLocalState@{
-            taskQueue := mkCustomData@{
+          localState := TemplateLocalState.mk@{
+            taskQueue := CustomData.mkCustomData@{
               word := data
             }
           }
@@ -238,23 +238,23 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTemplate (TemplateMsg.ExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mkActionEffect@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgTemplate
-                (TemplateMsgExampleReply
-                  (ok mkExampleReplyOk@{
+              Anoma.PreMsg.MsgTemplate
+                (TemplateMsg.ExampleReply
+                  (ok ExampleReplyOk.mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
                   }));
           }
@@ -272,20 +272,20 @@ exampleReplyAction
 ### `justHiActionLabel`
 
 ```juvix
-justHiActionLabel : TemplateActionExec := Seq [ justHiAction ];
+justHiActionLabel : TemplateActionExec := ActionExec.Seq [ justHiAction ];
 ```
 
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : TemplateActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : TemplateActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ### `doBothActionLabel`
 
 ```juvix
 doBothActionLabel : TemplateActionExec :=
-  Seq [
+  ActionExec.Seq [
     justHiAction;
     exampleReplyAction;
   ];
@@ -364,14 +364,14 @@ justHiGuard
     emsg := getEngineMsgFromTimestampedTrigger trigger;
   in
     case emsg of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplate TemplateMsgJustHi;
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTemplate TemplateMsg.JustHi;
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mkGuardOutput@{
         action := justHiActionLabel;
         args := [
-          TemplateActionArgumentTwo
-            mkSecondArgument@{
+          TemplateActionArgument.TemplateActionArgumentTwo
+            SecondArgument.mkSecondArgument@{
               data := "Hello World!"
             }
         ];
@@ -396,10 +396,10 @@ exampleReplyGuard
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTemplate (TemplateMsg.ExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mkGuardOutput@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -434,9 +434,9 @@ TemplateBehaviour : Type :=
 module template_behaviour_example;
 
   exTemplateBehaviour : TemplateBehaviour :=
-    mkEngineBehaviour@{
+    EngineBehaviour.mk@{
       guards :=
-        First [
+        GuardEval.First [
           justHiGuard;
           exampleReplyGuard;
         ];

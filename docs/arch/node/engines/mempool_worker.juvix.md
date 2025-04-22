@@ -140,7 +140,7 @@ MempoolWorkerEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
 <!-- --8<-- [start:exampleMempoolWorkerEngine] -->
 ```juvix
 exampleMempoolWorkerEngine : MempoolWorkerEngine String String ByteString String :=
-  mkEngine@{
+  Engine.mk@{
     cfg := mempoolWorkerCfg;
     env := mempoolWorkerEnv;
     behaviour := mempoolWorkerBehaviour;

@@ -13,7 +13,7 @@ tags:
     ```juvix
     module prelude;
     import Stdlib.Trait open public;
-    import Stdlib.Trait.Ord open using {Ordering; mkOrd; Equal; isEqual} public;
+    import Stdlib.Trait.Ord open using {Ordering; Equal; isEqual} public;
     import Stdlib.Trait.Eq open using {==} public;
     import Stdlib.Debug.Fail open using {failwith};
     import Stdlib.Data.Fixity open public;
@@ -52,15 +52,17 @@ import Stdlib.Trait.Functor.Polymorphic as Functor;
 ### `Applicative`
 
 ```juvix
-import Stdlib.Trait.Applicative open using {Applicative; mkApplicative} public;
-open Applicative public;
+import Stdlib.Trait.Applicative as Applicative
+  open using
+  { Applicative;
+  } public;
 ```
 
 ### `Monad`
 
 ```juvix
-import Stdlib.Trait.Monad open using {Monad; mkMonad} public;
-open Monad public;
+import Stdlib.Trait.Monad as Monad
+  open using {Monad} public;
 ```
 
 #### `join`
@@ -80,10 +82,10 @@ join
 
 Two-argument functor
 
-```juvix
+```
 trait
 type Bifunctor (F : Type -> Type -> Type) :=
-  mkBifunctor@{
+  mk@{
     bimap {A B C D} :  (A -> C) -> (B -> D) -> F A B -> F C D
   };
 ```
@@ -92,10 +94,10 @@ type Bifunctor (F : Type -> Type -> Type) :=
 
 Product with associators
 
-```juvix
+```
 trait
 type AssociativeProduct (F : Type -> Type -> Type) :=
-  mkAssociativeProduct@{
+  mk@{
     assocLeft {A B C} : F A (F B C) -> F (F A B) C;
     assocRight {A B C} : F (F A B) C -> F A (F B C)
   };
@@ -105,10 +107,10 @@ type AssociativeProduct (F : Type -> Type -> Type) :=
 
 Product with commuters
 
-```juvix
+```
 trait
 type CommutativeProduct (F : Type -> Type -> Type) :=
-  mkCommutativeProduct@{
+  mk@{
     swap {A B} : F A B -> F B A;
   };
 ```
@@ -117,10 +119,10 @@ type CommutativeProduct (F : Type -> Type -> Type) :=
 
 Product with units
 
-```juvix
+```
 trait
 type UnitalProduct U (F : Type -> Type -> Type) :=
-  mkUnitalProduct@{
+  mk@{
     unitLeft {A} : A -> F U A;
     unUnitLeft {A} : F U A -> A;
     unitRight {A} : A -> F A U;
@@ -130,25 +132,14 @@ type UnitalProduct U (F : Type -> Type -> Type) :=
 
 ### `Traversable`
 
-Traversable type class.
 
 ```juvix
-trait
-type Traversable (T : Type -> Type) :=
-  mkTraversable@{
-    {{functorI}} : Functor T;
-    {{foldableI}} : Polymorphic.Foldable T;
-    sequence :
-      {F : Type -> Type} ->
-      {A : Type} ->
-      {{Applicative F}} ->
-      T (F A) -> F (T A);
-    traverse :
-      {F : Type -> Type} ->
-      {A B : Type} ->
-      {{Applicative F}} ->
-      (A -> F B) -> T A -> F (T B);
-  };
+import Stdlib.Trait.Traversable as Traversable
+  open using {
+    Traversable;
+    sequenceA;
+    traverse;
+    } public;
 ```
 
 ## Bool
@@ -378,8 +369,8 @@ axiom stringCmp : String -> String -> Ordering;
 
 instance
 StringOrd : Ord String :=
-  mkOrd@{
-    cmp := stringCmp;
+  Ord.mk@{
+    compare := stringCmp;
   };
 ```
 
@@ -459,7 +450,6 @@ import Stdlib.Data.Pair as Pair
 
 ```juvix
 import Stdlib.Data.Fixity open;
-syntax operator mkPair none;
 syntax alias mkPair := ,;
 ```
 
@@ -487,10 +477,10 @@ snd {A B} : Pair A B -> B
 
 Swap components
 
-```juvix
+```
 instance
 PairCommutativeProduct : CommutativeProduct Pair :=
-  mkCommutativeProduct@{
+  CommutativeProduct.mk@{
     swap := \{p := mkPair (snd p) (fst p)}
   };
 ```
@@ -499,10 +489,10 @@ PairCommutativeProduct : CommutativeProduct Pair :=
 
 Pair associations
 
-```juvix
+```
 instance
 PairAssociativeProduct : AssociativeProduct Pair :=
-  mkAssociativeProduct@{
+  AssociativeProduct.mk@{
     assocLeft := \{p :=
       let pbc := snd p;
       in mkPair (mkPair (fst p) (fst pbc)) (snd pbc)
@@ -518,10 +508,10 @@ PairAssociativeProduct : AssociativeProduct Pair :=
 
 Unit maps for pairs and units
 
-```juvix
+```
 instance
 PairUnitalProduct : UnitalProduct Unit Pair :=
-  mkUnitalProduct@{
+  UnitalProduct.mk@{
     unitLeft := \{a := mkPair unit a};
     unUnitLeft := snd;
     unitRight := \{a := mkPair a unit};
@@ -533,10 +523,10 @@ PairUnitalProduct : UnitalProduct Unit Pair :=
 
 Map functions over pairs
 
-```juvix
+```
 instance
 PairBifunctor : Bifunctor Pair :=
-  mkBifunctor@{
+  Bifunctor.mk@{
     bimap := \{f g p := mkPair (f (fst p)) (g (snd p))};
   };
 ```
@@ -641,10 +631,10 @@ swapEither {A B} (e : Either A B) : Either B A :=
   };
 ```
 
-```juvix
+```
 instance
 EitherCommutativeProduct : CommutativeProduct Either :=
-  mkCommutativeProduct@{
+  CommutativeProduct.mk@{
     swap := swapEither;
   };
 ```
@@ -665,10 +655,10 @@ eitherBimap
   };
 ```
 
-```juvix
+```
 instance
 EitherBifunctor : Bifunctor Either :=
-  mkBifunctor@{
+  Bifunctor.mk@{
     bimap := eitherBimap
   };
 ```
@@ -688,6 +678,7 @@ unUnitLeftEither {A} (e : Either Empty A) : A :=
 ```
 
 #### `unUnitRightEither`
+
 ```juvix
 unUnitRightEither {A} (e : Either A Empty) : A :=
   case e of {
@@ -700,10 +691,10 @@ unUnitRightEither {A} (e : Either A Empty) : A :=
 
 Unit maps for Either and Empty
 
-```juvix
+```
 instance
 EitherUnitalProduct : UnitalProduct Empty Either :=
-  mkUnitalProduct@{
+  UnitalProduct.mk@{
     unitLeft := right;
     unUnitLeft := unUnitLeftEither;
     unitRight := \{{A} := left};
@@ -766,10 +757,10 @@ assocRightEither
 
 #### `EitherAssociativeProduct`
 
-```juvix
+```
 instance
 EitherAssociativeProduct : AssociativeProduct Either :=
-  mkAssociativeProduct@{
+  AssociativeProduct.mk@{
     assocLeft := assocLeftEither;
     assocRight := assocRightEither;
   };
@@ -1071,36 +1062,6 @@ minimalBy {A B} {{Ord B}}
   in foldr minHelper none lst;
 ```
 
-### `traversableListI`
-
-Traversable instance for lists
-
-```juvix
-instance
-traversableListI : Traversable List :=
-  mkTraversable@{
-    sequence {F : Type -> Type} {A} {{appF : Applicative F}} (xs : List (F A)) : F (List A) :=
-      let
-        cons : F A -> F (List A) -> F (List A)
-          | x acc := liftA2 (::) x acc;
-
-        go : List (F A) -> F (List A)
-          | nil := pure nil
-          | (x :: xs) := cons x (go xs);
-      in go xs;
-
-    traverse {F : Type -> Type} {A B} {{appF : Applicative F}} (f : A -> F B) (xs : List A) : F (List B) :=
-      let
-        cons : A -> F (List B) -> F (List B)
-          | x acc := liftA2 (::) (f x) acc;
-
-        go : List A -> F (List B)
-          | nil := pure nil
-          | (x :: xs) := cons x (go xs);
-      in go xs;
-  };
-```
-
 ### `chunksOf`
 
 Splits a list into chunks of size `n`. The last chunk may be smaller than `n` if the
@@ -1267,7 +1228,7 @@ Collapse a set of sets into a set
 
 ```juvix
 setJoin {A} {{Ord A}} (sets : Set (Set A)) : Set A :=
-  for (acc := Set.empty) (innerSet in sets) {
+  for (acc := Set.Set.empty) (innerSet in sets) {
     Set.union acc innerSet
   };
 ```
@@ -1278,7 +1239,7 @@ setJoin {A} {{Ord A}} (sets : Set (Set A)) : Set A :=
 --- Computes the disjoint union of two ;Set;s.
 disjointUnion {T} {{Ord T}} (s1 s2 : Set T) : Result (Set T) (Set T) :=
   case Set.intersection s1 s2 of
-    | Set.empty := ok (Set.union s1 s2)
+    | Set.Set.empty := ok (Set.union s1 s2)
     | s := error s;
 ```
 
@@ -1309,13 +1270,13 @@ cartesianProduct
   let
     -- For a fixed element from set1, create a set of all pairs with elements from s2
     pairsForElement (a : A) : Set (Pair A B) :=
-      for (acc := Set.empty) (b in s2) {
+      for (acc := Set.Set.empty) (b in s2) {
         Set.insert (mkPair a b) acc
       };
 
     -- Create set of sets, each containing pairs for one element from s1
     pairSets : Set (Set (Pair A B)) :=
-      for (acc := Set.empty) (a in s1) {
+      for (acc := Set.Set.empty) (a in s1) {
         Set.insert (pairsForElement a) acc
       };
   in setJoin pairSets;
@@ -1568,13 +1529,4 @@ axiom undef {A} : A;
 
 ```juvix
 axiom TODO {A} : A;
-```
-
-## `AVLTree`
-
-```juvix
-import Stdlib.Data.Set.AVL as AVLTree public;
-open AVLTree using {
-    AVLTree;
-} public;
 ```

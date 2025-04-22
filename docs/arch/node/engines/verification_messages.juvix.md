@@ -128,8 +128,8 @@ response to a `RequestVerification`.
 <!-- --8<-- [start:VerificationMsg] -->
 ```juvix
 type VerificationMsg :=
-  | MsgVerificationRequest RequestVerification
-  | MsgVerificationReply ReplyVerification
+  | Request RequestVerification
+  | Reply ReplyVerification
   ;
 ```
 <!-- --8<-- [end:VerificationMsg] -->

@@ -59,10 +59,10 @@ LocalKVStorageCfg : Type :=
 module local_key_value_storage_config_example;
 
   localKVStorageCfg : LocalKVStorageCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "key value storage";
-      cfg := mkLocalKVStorageLocalCfg;
+      cfg := LocalKVStorageCfg.mk;
     }
   ;
 end;

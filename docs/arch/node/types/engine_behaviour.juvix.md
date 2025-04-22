@@ -292,7 +292,7 @@ introduced earlier, an `EngineBehaviour` is a set of guards and an action functi
 <!-- --8<-- [start:EngineBehaviour] -->
 ```juvix
 type EngineBehaviour C S B H A AM AC AE :=
-  mkEngineBehaviour@{
+  mk@{
     guards : GuardEval C S B H A AM AC AE;
   };
 ```

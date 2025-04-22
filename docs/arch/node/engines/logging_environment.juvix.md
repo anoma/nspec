@@ -47,7 +47,7 @@ The logging engine does not require complex mailbox states.
 <!-- --8<-- [start:LoggingLocalState] -->
 ```juvix
 type LoggingLocalState :=
-  mkLoggingLocalState@{
+  mk@{
     logbook : List String
   };
 ```
@@ -101,12 +101,12 @@ LoggingEnv : Type :=
 module logging_environment_example;
 
   loggingEnv : LoggingEnv :=
-    mkEngineEnv@{
-      localState := mkLoggingLocalState@{
+    EngineEnv.mk@{
+      localState := LoggingLocalState.mk@{
         logbook := []
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

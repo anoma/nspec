@@ -60,10 +60,10 @@ WallClockCfg : Type :=
 module wall_clock_config_example;
 
   wallClockCfg : WallClockCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "wall clock";
-      cfg := mkWallClockLocalCfg;
+      cfg := WallClockCfg.mk;
     }
   ;
 end;

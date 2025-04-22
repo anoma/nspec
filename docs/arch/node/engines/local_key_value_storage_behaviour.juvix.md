@@ -151,15 +151,15 @@ getValueAction
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
       case emsg of {
-        | mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueRequest req)} :=
-          some mkActionEffect@{
+        | EngineMsg.mk@{msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.GetValueRequest req)} :=
+          some ActionEffect.mkActionEffect@{
             env := env;
-            msgs := [mkEngineMsg@{
+            msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueReply
-                (mkGetValueKVStoreReply@{
+              msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.GetValueReply
+                (GetValueKVStoreReply.mkGetValueKVStoreReply@{
                   key := GetValueKVStoreRequest.key req;
                   value := fromOption (Map.lookup (GetValueKVStoreRequest.key req) storage) ""
                 }))
@@ -206,36 +206,36 @@ setValueAction
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
       case emsg of {
-        | mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueRequest req)} :=
+        | EngineMsg.mk@{msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.SetValueRequest req)} :=
           let
             key := SetValueKVStoreRequest.key req;
             value := SetValueKVStoreRequest.value req;
             newStorage := Map.insert key value storage;
             newLocal := local@LocalKVStorageLocalState{storage := newStorage; localClock := newTime};
             newEnv := env@EngineEnv{localState := newLocal};
-            responseMsg := mkEngineMsg@{
+            responseMsg := EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueReply
-                (mkSetValueKVStoreReply@{
+              msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.SetValueReply
+                (SetValueKVStoreReply.mkSetValueKVStoreReply@{
                   key := key;
                   success := true
                 }))
             };
-            notificationMsg := \{target := mkEngineMsg@{
+            notificationMsg := \{target := EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := target;
               mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
-                (mkValueChangedKVStore@{
+              msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.ValueChanged
+                (ValueChangedKVStore.mkValueChangedKVStore@{
                   key := key;
                   value := value;
                   timestamp := newTime
                 }))
             }};
             notificationMsgs := map notificationMsg (getNotificationTargets key);
-          in some mkActionEffect@{
+          in some ActionEffect.mkActionEffect@{
             env := newEnv;
             msgs := responseMsg :: notificationMsgs;
             timers := [];
@@ -280,35 +280,35 @@ deleteValueAction
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
       case emsg of {
-        | mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueRequest req)} :=
+        | EngineMsg.mk@{msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.DeleteValueRequest req)} :=
           let
             key := DeleteValueKVStoreRequest.key req;
             newStorage := Map.delete key storage;
             newLocal := local@LocalKVStorageLocalState{storage := newStorage; localClock := newTime};
             newEnv := env@EngineEnv{localState := newLocal};
-            responseMsg := mkEngineMsg@{
+            responseMsg := EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueReply
-                (mkDeleteValueKVStoreReply@{
+              msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.DeleteValueReply
+                (DeleteValueKVStoreReply.mkDeleteValueKVStoreReply@{
                   key := key;
                   success := true
                 }))
             };
-            notificationMsg := \{target := mkEngineMsg@{
+            notificationMsg := \{target := EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := target;
               mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
-                (mkValueChangedKVStore@{
+              msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.ValueChanged
+                (ValueChangedKVStore.mkValueChangedKVStore@{
                   key := key;
                   value := "";
                   timestamp := newTime
                 }))
             }};
             notificationMsgs := map notificationMsg (getNotificationTargets key);
-          in some mkActionEffect@{
+          in some ActionEffect.mkActionEffect@{
             env := newEnv;
             msgs := responseMsg :: notificationMsgs;
             timers := [];
@@ -326,19 +326,19 @@ deleteValueAction
 ### `getValueActionLabel`
 
 ```juvix
-getValueActionLabel : LocalKVStorageActionExec := Seq [ getValueAction ];
+getValueActionLabel : LocalKVStorageActionExec := ActionExec.Seq [ getValueAction ];
 ```
 
 ### `setValueActionLabel`
 
 ```juvix
-setValueActionLabel : LocalKVStorageActionExec := Seq [ setValueAction ];
+setValueActionLabel : LocalKVStorageActionExec := ActionExec.Seq [ setValueAction ];
 ```
 
 ### `deleteValueActionLabel`
 
 ```juvix
-deleteValueActionLabel : LocalKVStorageActionExec := Seq [ deleteValueAction ];
+deleteValueActionLabel : LocalKVStorageActionExec := ActionExec.Seq [ deleteValueAction ];
 ```
 
 ## Guards
@@ -399,7 +399,7 @@ deleteValueActionLabel : LocalKVStorageActionExec := Seq [ deleteValueAction ];
 ### `getValueGuard`
 
 Condition
-: Message type is `LocalKVStorageMsgGetValueRequest`.
+: Message type is `LocalKVStorageMsg.GetValueRequest`.
 
 <!-- --8<-- [start:getValueGuard] -->
 ```juvix
@@ -409,8 +409,8 @@ getValueGuard
   (env : LocalKVStorageEnv)
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueRequest _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.GetValueRequest _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := getValueActionLabel;
         args := [];
       }
@@ -422,7 +422,7 @@ getValueGuard
 ### `setValueGuard`
 
 Condition
-: Message type is `LocalKVStorageMsgSetValueRequest`.
+: Message type is `LocalKVStorageMsg.SetValueRequest`.
 
 <!-- --8<-- [start:setValueGuard] -->
 ```juvix
@@ -432,8 +432,8 @@ setValueGuard
   (env : LocalKVStorageEnv)
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgSetValueRequest _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.SetValueRequest _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := setValueActionLabel;
         args := [];
       }
@@ -445,7 +445,7 @@ setValueGuard
 ### `deleteValueGuard`
 
 Condition
-: Message type is `LocalKVStorageMsgDeleteValueRequest`.
+: Message type is `LocalKVStorageMsg.DeleteValueRequest`.
 
 <!-- --8<-- [start:deleteValueGuard] -->
 ```juvix
@@ -455,8 +455,8 @@ deleteValueGuard
   (env : LocalKVStorageEnv)
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgDeleteValueRequest _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgLocalKVStorage (LocalKVStorageMsg.DeleteValueRequest _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := deleteValueActionLabel;
         args := [];
       }
@@ -489,8 +489,8 @@ LocalKVStorageBehaviour : Type :=
 <!-- --8<-- [start:localKVStorageBehaviour] -->
 ```juvix
 localKVStorageBehaviour : LocalKVStorageBehaviour :=
-  mkEngineBehaviour@{
-    guards := First [
+  EngineBehaviour.mk@{
+    guards := GuardEval.First [
       getValueGuard;
       setValueGuard;
       deleteValueGuard;

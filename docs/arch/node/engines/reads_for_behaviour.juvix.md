@@ -161,23 +161,23 @@ readsForQueryAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgReadsForRequest (mkRequestReadsFor identityA identityB))} :=
+      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.Request (RequestReadsFor.mkRequestReadsFor identityA identityB))} :=
         let
           hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
-              isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) identityA) &&
-              isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) identityB)
+              isEqual (Ord.compare (ReadsForEvidence.fromIdentity evidence) identityA) &&
+              isEqual (Ord.compare (ReadsForEvidence.toIdentity evidence) identityB)
             } (Set.toList (ReadsForLocalState.evidenceStore localState)));
-          responseMsg := mkReplyReadsFor@{
+          responseMsg := ReplyReadsFor.mkReplyReadsFor@{
             readsFor := hasEvidence;
             err := none
           }
-        in some mkActionEffect@{
+        in some ActionEffect.mkActionEffect@{
           env := env;
-          msgs := [mkEngineMsg@{
+          msgs := [EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := EngineMsg.sender emsg;
             mailbox := some 0;
-            msg := Anoma.MsgReadsFor (MsgReadsForReply responseMsg)
+            msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.Reply responseMsg)
           }];
           timers := [];
           engines := []
@@ -217,18 +217,18 @@ submitEvidenceAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceRequest (mkRequestSubmitReadsForEvidence evidence))} :=
+      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceRequest (RequestSubmitReadsForEvidence.mkRequestSubmitReadsForEvidence evidence))} :=
         case verifyEvidence evidence of {
         | true :=
-          case isElement \{a b := a && b} true (map \{e := isEqual (Ord.cmp e evidence)} (Set.toList (ReadsForLocalState.evidenceStore localState))) of {
+          case isElement \{a b := a && b} true (map \{e := isEqual (Ord.compare e evidence)} (Set.toList (ReadsForLocalState.evidenceStore localState))) of {
           | true :=
-            some mkActionEffect@{
+            some ActionEffect.mkActionEffect@{
               env := env;
-              msgs := [mkEngineMsg@{
+              msgs := [EngineMsg.mk@{
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence (some "Evidence already exists.")))
+                msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence (some "Evidence already exists.")))
               }];
               timers := [];
               engines := []
@@ -238,26 +238,26 @@ submitEvidenceAction
               newEvidenceStore := Set.insert evidence (ReadsForLocalState.evidenceStore localState);
               updatedLocalState := localState@ReadsForLocalState{evidenceStore := newEvidenceStore};
               newEnv := env@EngineEnv{localState := updatedLocalState}
-            in some mkActionEffect@{
+            in some ActionEffect.mkActionEffect@{
               env := newEnv;
-              msgs := [mkEngineMsg@{
+              msgs := [EngineMsg.mk@{
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence none))
+                msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence none))
               }];
               timers := [];
               engines := []
             }
           }
         | false :=
-          some mkActionEffect@{
+          some ActionEffect.mkActionEffect@{
             env := env;
-            msgs := [mkEngineMsg@{
+            msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence (some "Invalid evidence provided.")))
+              msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence (some "Invalid evidence provided.")))
             }];
             timers := [];
             engines := []
@@ -298,24 +298,24 @@ queryEvidenceAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceRequest (mkRequestQueryReadsForEvidence identity))} :=
+      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest (RequestQueryReadsForEvidence.mkRequestQueryReadsForEvidence identity))} :=
         let
-          relevantEvidence := AVLTree.filter \{evidence :=
-              isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) identity) ||
-              isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) identity)
+          relevantEvidence := Set.filter \{evidence :=
+              isEqual (Ord.compare (ReadsForEvidence.fromIdentity evidence) identity) ||
+              isEqual (Ord.compare (ReadsForEvidence.toIdentity evidence) identity)
             } (ReadsForLocalState.evidenceStore localState);
-          responseMsg := mkReplyQueryReadsForEvidence@{
+          responseMsg := ReplyQueryReadsForEvidence.mkReplyQueryReadsForEvidence@{
               externalIdentity := identity;
               evidence := relevantEvidence;
               err := none
             }
-        in some mkActionEffect@{
+        in some ActionEffect.mkActionEffect@{
           env := env;
-          msgs := [mkEngineMsg@{
+          msgs := [EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := EngineMsg.sender emsg;
             mailbox := some 0;
-            msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceReply responseMsg)
+            msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceReply responseMsg)
           }];
           timers := [];
           engines := []
@@ -331,19 +331,19 @@ queryEvidenceAction
 ### `readsForQueryActionLabel`
 
 ```juvix
-readsForQueryActionLabel : ReadsForActionExec := Seq [ readsForQueryAction ];
+readsForQueryActionLabel : ReadsForActionExec := ActionExec.Seq [ readsForQueryAction ];
 ```
 
 ### `submitEvidenceActionLabel`
 
 ```juvix
-submitEvidenceActionLabel : ReadsForActionExec := Seq [ submitEvidenceAction ];
+submitEvidenceActionLabel : ReadsForActionExec := ActionExec.Seq [ submitEvidenceAction ];
 ```
 
 ### `queryEvidenceActionLabel`
 
 ```juvix
-queryEvidenceActionLabel : ReadsForActionExec := Seq [ queryEvidenceAction ];
+queryEvidenceActionLabel : ReadsForActionExec := ActionExec.Seq [ queryEvidenceAction ];
 ```
 
 ## Guards
@@ -414,8 +414,8 @@ readsForQueryGuard
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgReadsForRequest _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.Request _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := readsForQueryActionLabel;
         args := []
       }
@@ -437,8 +437,8 @@ submitEvidenceGuard
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceRequest _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceRequest _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := submitEvidenceActionLabel;
         args := []
       }
@@ -460,8 +460,8 @@ queryEvidenceGuard
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceRequest _)} :=
-      some mkGuardOutput@{
+    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest _)} :=
+      some GuardOutput.mkGuardOutput@{
         action := queryEvidenceActionLabel;
         args := []
       }
@@ -494,9 +494,9 @@ ReadsForBehaviour : Type :=
 <!-- --8<-- [start:readsForBehaviour] -->
 ```juvix
 readsForBehaviour : ReadsForBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         readsForQueryGuard;
         submitEvidenceGuard;
         queryEvidenceGuard

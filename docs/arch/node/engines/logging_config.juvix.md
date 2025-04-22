@@ -59,10 +59,10 @@ LoggingCfg : Type :=
 module logging_config_example;
 
   loggingCfg : LoggingCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "logging";
-      cfg := mkLoggingLocalCfg;
+      cfg := LoggingCfg.mk;
     }
   ;
 end;

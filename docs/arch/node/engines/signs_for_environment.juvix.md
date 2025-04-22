@@ -52,7 +52,7 @@ The local state of the SignsFor Engine includes the evidence for signs_for relat
 ### `SignsForLocalState`
 
 ```juvix
-type SignsForLocalState := mkSignsForLocalState@{
+type SignsForLocalState := mk@{
   evidenceStore : Set SignsForEvidence;
 };
 ```
@@ -92,12 +92,12 @@ SignsForEnv : Type :=
 module signs_for_environment_example;
 
 signsForEnv : SignsForEnv :=
-    mkEngineEnv@{
-      localState := mkSignsForLocalState@{
-        evidenceStore := Set.empty
+    EngineEnv.mk@{
+      localState := SignsForLocalState.mk@{
+        evidenceStore := Set.Set.empty
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

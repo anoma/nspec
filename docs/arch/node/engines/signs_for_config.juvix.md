@@ -59,10 +59,10 @@ SignsForCfg : Type :=
 module signs_for_config_example;
 
   signsForCfg : SignsForCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "signs for";
-      cfg := mkSignsForLocalCfg;
+      cfg := SignsForCfg.mk
     }
   ;
 end;

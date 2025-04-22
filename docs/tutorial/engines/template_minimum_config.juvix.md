@@ -34,7 +34,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:TemplateMinimumLocalCfg] -->
 ```juvix
 type TemplateMinimumLocalCfg :=
-  mkTemplateMinimumLocalCfg;
+  mk;
 ```
 <!-- --8<-- [end:TemplateMinimumLocalCfg] -->
 
@@ -57,10 +57,10 @@ TemplateMinimumCfg : Type :=
 module template_minimum_config_example;
 
   exTemplateMinimumCfg : TemplateMinimumCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "template-minimum";
-      cfg := mkTemplateMinimumLocalCfg;
+      cfg := TemplateMinimumLocalCfg.mk;
     };
 end;
 ```

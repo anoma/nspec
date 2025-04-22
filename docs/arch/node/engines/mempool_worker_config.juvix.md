@@ -60,8 +60,8 @@ MempoolWorkerCfg (KVSKey : Type) : Type :=
 module mempool_worker_config_example;
 
   mempoolWorkerCfg : MempoolWorkerCfg String :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "mempool worker";
       cfg := mkMempoolWorkerLocalCfg@{
         keyToShard := \{_ := mkPair none "shard"}

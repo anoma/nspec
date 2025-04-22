@@ -59,10 +59,10 @@ ShardCfg : Type :=
 module shard_config_example;
 
   shardCfg : ShardCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "shard";
-      cfg := mkShardLocalCfg;
+      cfg := ShardCfg.mk;
     }
   ;
 end;

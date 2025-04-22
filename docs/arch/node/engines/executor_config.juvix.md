@@ -36,8 +36,8 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:ExecutorLocalCfg] -->
 ```juvix
-type ExecutorLocalCfg KVSKey Executable :=
-  mkExecutorLocalCfg@{
+type ExecutorCfg KVSKey Executable :=
+  mk@{
     timestamp : TxFingerprint;
     executable : Executable;
     lazy_read_keys : Set KVSKey;
@@ -96,17 +96,17 @@ ExecutorCfg (KVSKey Executable : Type) : Type :=
 ```juvix extract-module-statements
 module executor_config_example;
 
-  executorCfg : ExecutorCfg String ByteString :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+  executorCfg : EngineCfg (ExecutorCfg String ByteString) :=
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "executor";
-      cfg := mkExecutorLocalCfg@{
+      cfg := ExecutorCfg.mk@{
         timestamp := 0;
         executable := "";
-        lazy_read_keys := Set.empty;
-        eager_read_keys := Set.empty;
-        will_write_keys := Set.empty;
-        may_write_keys := Set.empty;
+        lazy_read_keys := Set.Set.empty;
+        eager_read_keys := Set.Set.empty;
+        will_write_keys := Set.Set.empty;
+        may_write_keys := Set.Set.empty;
         worker := mkPair none "";
         issuer := mkPair none "";
         keyToShard := \{_ := mkPair none "shard"}

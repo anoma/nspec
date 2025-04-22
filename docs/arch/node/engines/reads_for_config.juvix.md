@@ -59,10 +59,10 @@ ReadsForCfg : Type :=
 module reads_for_config_example;
 
   readsForCfg : ReadsForCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "reads for";
-      cfg := mkReadsForLocalCfg;
+      cfg := ReadsForCfg.mk
     }
   ;
 end;

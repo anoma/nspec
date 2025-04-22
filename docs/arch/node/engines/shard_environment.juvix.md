@@ -72,7 +72,7 @@ The shard engine does not require complex mailbox states. Therefore, we define t
 
 <!-- --8<-- [start:ShardLocalState] -->
 ```juvix
-type ShardLocalState KVSKey KVSDatum := mkShardLocalState @{
+type ShardLocalState KVSKey KVSDatum := mk @{
   dagStructure : DAGStructure KVSKey KVSDatum;
   anchors : List NarwhalBlock
 };
@@ -117,9 +117,9 @@ ShardEnv (KVSKey KVSDatum : Type) : Type :=
 module shard_environment_example;
 
   shardEnv : ShardEnv String String :=
-    mkEngineEnv@{
-      localState := mkShardLocalState@{
-        dagStructure := mkDAGStructure@{
+    EngineEnv.mk@{
+      localState := ShardLocalState.mk@{
+        dagStructure := DAGStructure.mkDAGStructure@{
           keyAccesses := Map.empty;
           heardAllReads := 0;
           heardAllWrites := 0
@@ -127,7 +127,7 @@ module shard_environment_example;
         anchors := []
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

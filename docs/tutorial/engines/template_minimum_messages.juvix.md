@@ -110,9 +110,9 @@ ExampleReply : Type := Result ReplyError ReplyPayload;
 <!-- --8<-- [start:TemplateMinimumMsg] -->
 ```juvix
 type TemplateMinimumMsg :=
-  | TemplateMinimumMsgJustHi
-  | TemplateMinimumMsgExampleRequest ExampleRequest
-  | TemplateMinimumMsgExampleReply ExampleReply
+  | JustHi
+  | ExampleRequest ExampleRequest
+  | ExampleReply ExampleReply
   ;
 ```
 <!-- --8<-- [end:TemplateMinimumMsg] -->

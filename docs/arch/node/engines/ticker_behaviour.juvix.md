@@ -158,9 +158,9 @@ incrementAction
   let
     env := ActionInput.env input;
     counterValue := TickerLocalState.counter (EngineEnv.localState env)
-  in some mkActionEffect@{
+  in some ActionEffect.mkActionEffect@{
       env := env@EngineEnv{
-        localState := mkTickerLocalState@{
+        localState := TickerLocalState.mk@{
           counter := counterValue + 1
         }
       };
@@ -200,17 +200,17 @@ countReplyAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
-      some mkActionEffect@{
+      some ActionEffect.mkActionEffect@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := EngineMsg.sender emsg;
             mailbox := some 0;
             msg :=
-              Anoma.MsgTicker
-                (TickerMsgCountReply
-                  mkCountReply@{
+              Anoma.PreMsg.MsgTicker
+                (TickerMsg.CountReply
+                  CountReply.mkCountReply@{
                     counter := counterValue;
                   })
           }
@@ -229,13 +229,13 @@ countReplyAction
 ### `incrementActionLabel`
 
 ```juvix
-incrementActionLabel : TickerActionExec :=  Seq [ incrementAction ];
+incrementActionLabel : TickerActionExec :=  ActionExec.Seq [ incrementAction ];
 ```
 
 ### `countReplyActionLabel`
 
 ```juvix
-countReplyActionLabel : TickerActionExec := Seq [ countReplyAction ];
+countReplyActionLabel : TickerActionExec := ActionExec.Seq [ countReplyAction ];
 ```
 
 ## Guards
@@ -310,10 +310,10 @@ incrementGuard
     emsg := getEngineMsgFromTimestampedTrigger trigger;
   in
     case emsg of {
-    | some mkEngineMsg@{
-        msg := (Anoma.MsgTicker TickerMsgIncrement);
+    | some EngineMsg.mk@{
+        msg := (Anoma.PreMsg.MsgTicker TickerMsg.Increment);
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mkGuardOutput@{
         action := incrementActionLabel;
         args := [];
       }
@@ -335,9 +335,9 @@ countReplyGuard
   (env : TickerEnv)
   : Option TickerGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTicker TickerMsgCountRequest;
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTicker TickerMsg.CountRequest;
+      } := some GuardOutput.mkGuardOutput@{
         action := countReplyActionLabel;
         args := [];
       }
@@ -370,9 +370,9 @@ TickerBehaviour : Type :=
 <!-- --8<-- [start:tickerBehaviour] -->
 ```juvix
 tickerBehaviour : TickerBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         incrementGuard;
         countReplyGuard
       ];

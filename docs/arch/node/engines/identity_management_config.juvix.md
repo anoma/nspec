@@ -58,11 +58,11 @@ IdentityManagementCfg : Type :=
 ```juvix extract-module-statements
 module identity_management_config_example;
 
-  identityManagementCfg : IdentityManagementCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+  identityManagementCfg : EngineCfg IdentityManagementCfg :=
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "identity management";
-      cfg := mkIdentityManagementLocalCfg;
+      cfg := IdentityManagementCfg.mk
     }
   ;
 end;

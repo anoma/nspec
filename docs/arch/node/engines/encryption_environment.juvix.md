@@ -50,7 +50,7 @@ engine.
 ### `EncryptionLocalState`
 
 ```juvix
-type EncryptionLocalState := mkEncryptionLocalState@{
+type EncryptionLocalState := mk@{
   pendingRequests : Map ExternalIdentity (List (Pair EngineID Plaintext));
 };
 ```
@@ -91,12 +91,12 @@ EncryptionEnv : Type :=
 module encryption_environment_example;
 
 encryptionEnv : EncryptionEnv :=
-    mkEngineEnv@{
-      localState := mkEncryptionLocalState@{
+    EngineEnv.mk@{
+      localState := EncryptionLocalState.mk@{
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

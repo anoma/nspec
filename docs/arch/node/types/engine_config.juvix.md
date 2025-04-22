@@ -38,7 +38,7 @@ which is parametrized by:
 
 ```juvix
 type EngineCfg C :=
-  mkEngineCfg@{
+  mk@{
     node : NodeID;
     name : EngineName;
     cfg : C;

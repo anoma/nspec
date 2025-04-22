@@ -53,7 +53,7 @@ type TransportOutMsg := mkTransportOutMsg {
 <!-- --8<-- [start:TransportMsg] -->
 ```juvix
 type TransportMsg :=
-  | TransportMsgSend TransportOutMsg
+  | Send TransportOutMsg
   ;
 ```
 <!-- --8<-- [end:TransportMsg] -->

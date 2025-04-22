@@ -177,21 +177,21 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTransportProtocol (TransportProtocolMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTransportProtocol (TransportProtocolMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mkActionEffect@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgTransportProtocol
+              Anoma.PreMsg.MsgTransportProtocol
                 (TransportProtocolMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -211,7 +211,7 @@ exampleReplyAction
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : TransportProtocolActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : TransportProtocolActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ## Guards
@@ -285,10 +285,10 @@ exampleReplyGuard
   : Option TransportProtocolGuardOutput :=
   TODO {-
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTransportProtocol (TransportProtocolMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTransportProtocol (TransportProtocolMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mkGuardOutput@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -323,9 +323,9 @@ TransportProtocolBehaviour : Type :=
 module transport_protocol_behaviour_example;
 
 exTransportProtocolBehaviour : TransportProtocolBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         exampleReplyGuard;
       ];
   };

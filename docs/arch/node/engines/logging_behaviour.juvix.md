@@ -144,15 +144,15 @@ appendLogAction
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgLogging (LoggingMsgAppend (mkAppendValue@{value := value}));
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgLogging (LoggingMsg.Append (AppendValue.mkAppendValue@{value := value}));
       } :=
       let
         currentLogbook := LoggingLocalState.logbook (EngineEnv.localState env);
         newLogbook := value :: currentLogbook;
-      in some mkActionEffect@{
+      in some ActionEffect.mkActionEffect@{
         env := env@EngineEnv{
-          localState := mkLoggingLocalState@{
+          localState := LoggingLocalState.mk@{
             logbook := newLogbook
           }
         };
@@ -170,7 +170,7 @@ appendLogAction
 ### `appendLogActionLabel`
 
 ```juvix
-appendLogActionLabel : LoggingActionExec := Seq [ appendLogAction ];
+appendLogActionLabel : LoggingActionExec := ActionExec.Seq [ appendLogAction ];
 ```
 
 ## Guards
@@ -217,7 +217,7 @@ appendLogActionLabel : LoggingActionExec := Seq [ appendLogAction ];
 Guard for append log action.
 
 Condition
-: Message type is `LoggingMsgAppend`.
+: Message type is `Append`.
 
 <!-- --8<-- [start:appendLogGuard] -->
 ```juvix
@@ -227,9 +227,9 @@ appendLogGuard
   (env : LoggingEnv)
   : Option LoggingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgLogging (LoggingMsgAppend _);
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgLogging (LoggingMsg.Append _);
+      } := some GuardOutput.mkGuardOutput@{
         action := appendLogActionLabel;
         args := [];
       }
@@ -262,8 +262,8 @@ LoggingBehaviour : Type :=
 <!-- --8<-- [start:loggingBehaviour] -->
 ```juvix
 loggingBehaviour : LoggingBehaviour :=
-  mkEngineBehaviour@{
-    guards := First [ appendLogGuard ];
+  EngineBehaviour.mk@{
+    guards := GuardEval.First [ appendLogGuard ];
   };
 ```
 <!-- --8<-- [end:loggingBehaviour] -->
@@ -277,7 +277,7 @@ loggingBehaviour : LoggingBehaviour :=
 ```mermaid
 flowchart TD
   subgraph C[Conditions]
-    CMsg>LoggingMsgAppend]
+    CMsg>Append]
   end
 
   G(appendLogGuard)

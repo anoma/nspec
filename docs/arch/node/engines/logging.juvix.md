@@ -68,7 +68,7 @@ LoggingEngine : Type :=
 <!-- --8<-- [start:exampleLoggingEngine] -->
 ```juvix
 exampleLoggingEngine : LoggingEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := loggingCfg;
     env := loggingEnv;
     behaviour := loggingBehaviour;

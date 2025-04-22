@@ -179,21 +179,21 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTransportConnection (TransportConnectionMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTransportConnection (TransportConnectionMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mkActionEffect@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgTransportConnection
+              Anoma.PreMsg.MsgTransportConnection
                 (TransportConnectionMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -213,7 +213,7 @@ exampleReplyAction
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : TransportConnectionActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : TransportConnectionActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ## Guards
@@ -287,10 +287,10 @@ exampleReplyGuard
   : Option TransportConnectionGuardOutput :=
   TODO {-
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTransportConnection (TransportConnectionMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTransportConnection (TransportConnectionMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mkGuardOutput@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -325,9 +325,9 @@ TransportConnectionBehaviour : Type :=
 module transport_connection_behaviour_example;
 
 exTransportConnectionBehaviour : TransportConnectionBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         exampleReplyGuard;
       ];
   };

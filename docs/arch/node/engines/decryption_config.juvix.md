@@ -19,7 +19,7 @@ tags:
     import arch.node.engines.decryption_messages open;
     import arch.node.types.engine open;
     import arch.node.types.messages open;
-    import arch.system.identity.identity open using {Decryptor; mkDecryptor};
+    import arch.system.identity.identity as Identity;
     import arch.node.types.identities open;
     ```
 
@@ -40,8 +40,8 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:DecryptionLocalCfg] -->
 ```juvix
-type DecryptionLocalCfg := mkDecryptionLocalCfg@{
-  decryptor : Decryptor Backend Plaintext Ciphertext;
+type DecryptionCfg := mk@{
+  decryptor : Identity.Decryptor Backend Plaintext Ciphertext;
   backend : Backend;
 };
 ```
@@ -73,6 +73,12 @@ DecryptionCfg : Type :=
 ```juvix extract-module-statements
 module decryption_config_example;
 
+  decryptionCfg : EngineCfg DecryptionCfg :=
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
+      name := "decryption";
+      cfg := DecryptionCfg.mk@{
+        decryptor := Identity.Decryptor.mkDecryptor@{
   decryptionCfg : DecryptionCfg :=
     mkEngineCfg@{
       node := Curve25519PubKey "0xabcd1234";
@@ -81,7 +87,7 @@ module decryption_config_example;
         decryptor := mkDecryptor@{
           decrypt := \{_ x := some x};
         };
-        backend := BackendLocalMemory;
+        backend := Backend.LocalMemory;
       };
     }
   ;

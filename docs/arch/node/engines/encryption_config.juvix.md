@@ -41,7 +41,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:EncryptionLocalCfg] -->
 ```juvix
-type EncryptionLocalCfg := mkEncryptionLocalCfg {
+type EncryptionCfg := mk {
   encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
   backend : Backend;
   readsForEngineAddress : EngineID;
@@ -78,21 +78,21 @@ EncryptionCfg : Type :=
 ```juvix extract-module-statements
 module encryption_config_example;
 
-  encryptionCfg : EncryptionCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+  encryptionCfg : EngineCfg EncryptionCfg :=
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "encryption";
-      cfg := mkEncryptionLocalCfg@{
-        encryptor := \{_ _ := mkEncryptor@{
+      cfg := EncryptionCfg.mk@{
+        encryptor := \{_ _ := Encryptor.mkEncryptor@{
           encrypt := \{_ x := x};
-          encryptorHash := mkHASH@{
-            ordKey := mkOrdkey@{
-                compare := Ord.cmp
+          encryptorHash := HASH.mkHASH@{
+            ordKey := OrdKey.mkOrdKey@{
+                compare := Ord.compare
             };
             hash := \{x := "0x1234abcd"};
           };
         }};
-        backend := BackendLocalMemory;
+        backend := Backend.LocalMemory;
         readsForEngineAddress := mkPair none "Blah";
       };
     }

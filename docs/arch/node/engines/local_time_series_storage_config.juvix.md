@@ -59,10 +59,10 @@ LocalTSStorageCfg : Type :=
 module local_ts_storage_config_example;
 
   localTSStorageCfg : LocalTSStorageCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "local time series storage";
-      cfg := mkLocalTSStorageLocalCfg;
+      cfg := LocalTSStorageCfg.mk;
     }
   ;
 end;

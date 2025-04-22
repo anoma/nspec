@@ -96,7 +96,7 @@ EncryptionEngine : Type :=
 <!-- --8<-- [start:exampleEncryptionEngine] -->
 ```juvix
 exampleEncryptionEngine : EncryptionEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := encryptionCfg;
     env := encryptionEnv;
     behaviour := encryptionBehaviour;

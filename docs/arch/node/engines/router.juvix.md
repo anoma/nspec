@@ -89,7 +89,7 @@ RouterEngine : Type :=
 <!-- --8<-- [start:exRouterEngine] -->
 ```juvix
 exRouterEngine : RouterEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := exRouterCfg;
     env := exRouterEnv;
     behaviour := exRouterBehaviour;

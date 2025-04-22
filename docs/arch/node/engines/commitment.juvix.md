@@ -76,7 +76,7 @@ CommitmentEngine : Type :=
 <!-- --8<-- [start:exampleCommitmentEngine] -->
 ```juvix
 exampleCommitmentEngine : CommitmentEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := commitmentCfg;
     env := commitmentEnv;
     behaviour := commitmentBehaviour;

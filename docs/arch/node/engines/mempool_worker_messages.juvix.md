@@ -120,8 +120,8 @@ type TransactionAck :=
 <!-- --8<-- [start:MempoolWorkerMsg] -->
 ```juvix
 type MempoolWorkerMsg KVSKey Executable :=
-  | MempoolWorkerMsgTransactionRequest (TransactionRequest KVSKey Executable)
-  | MempoolWorkerMsgTransactionAck TransactionAck
+  | TransactionRequest (TransactionRequest KVSKey Executable)
+  | TransactionAck TransactionAck
   ;
 ```
 <!-- --8<-- [end:MempoolWorkerMsg] -->

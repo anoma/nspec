@@ -224,9 +224,9 @@ Backend connection types.
 
 ```juvix
 type Backend :=
-  | BackendLocalMemory
-  | BackendLocalConnection { subtype : String }
-  | BackendRemoteConnection { externalIdentity : ExternalIdentity };
+  | LocalMemory
+  | LocalConnection { subtype : String }
+  | RemoteConnection { externalIdentity : ExternalIdentity };
 ```
 
 ### `Capabilities`
@@ -235,9 +235,9 @@ Available identity capabilities.
 
 ```juvix
 type Capabilities :=
-  | CapabilityCommit
-  | CapabilityDecrypt
-  | CapabilityCommitAndDecrypt;
+  | Commit
+  | Decrypt
+  | CommitAndDecrypt;
 ```
 
 ## Identity Evidence Types
@@ -262,8 +262,8 @@ type IdentityName :=
 
     instance
     IdentityNameOrd : Ord IdentityName :=
-      mkOrd@{
-        cmp := IdentityNameCmpDummy;
+      Ord.mk@{
+        compare := IdentityNameCmpDummy;
       };
     ```
 
@@ -288,8 +288,8 @@ type ReadsForEvidence := mkReadsForEvidence@{
 
     instance
     ReadsForOrd : Ord ReadsForEvidence :=
-    mkOrd@{
-      cmp := ReadsForCmpDummy;
+    Ord.mk@{
+      compare := ReadsForCmpDummy;
     };
     ```
 
@@ -314,8 +314,8 @@ type SignsForEvidence := mkSignsForEvidence {
 
     instance
     SignsForOrd : Ord SignsForEvidence :=
-      mkOrd@{
-    cmp := SignsForCmpDummy;
+      Ord.mk@{
+    compare := SignsForCmpDummy;
     };
     ```
 
@@ -341,8 +341,8 @@ type IdentityNameEvidence := mkIdentityNameEvidence@{
 
     instance
     IdentityNameEvidenceOrd : Ord IdentityNameEvidence :=
-      mkOrd@{
-        cmp := IdentityNameEvidenceCmpDummy;
+      Ord.mk@{
+        compare := IdentityNameEvidenceCmpDummy;
       };
     ```
 

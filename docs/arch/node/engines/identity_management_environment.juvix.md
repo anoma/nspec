@@ -79,7 +79,7 @@ type IdentityInfo := mkIdentityInfo@{
 ### `IdentityManagementLocalState`
 
 ```juvix
-type IdentityManagementLocalState := mkIdentityManagementLocalState {
+type IdentityManagementLocalState := mk {
   identities : Map EngineID IdentityInfo;
 };
 ```
@@ -119,12 +119,12 @@ IdentityManagementEnv : Type :=
 module identity_management_environment_example;
 
 identityManagementEnv : IdentityManagementEnv :=
-    mkEngineEnv@{
-      localState := mkIdentityManagementLocalState@{
+    EngineEnv.mk@{
+      localState := IdentityManagementLocalState.mk@{
         identities := Map.empty
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;

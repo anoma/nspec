@@ -176,21 +176,21 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgStorage (StorageMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgStorage (StorageMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mkActionEffect@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgStorage
+              Anoma.PreMsg.MsgStorage
                 (StorageMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -210,7 +210,7 @@ exampleReplyAction
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : StorageActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : StorageActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ## Guards
@@ -284,10 +284,10 @@ exampleReplyGuard
   : Option StorageGuardOutput :=
   TODO {-
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgStorage (StorageMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgStorage (StorageMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mkGuardOutput@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -322,9 +322,9 @@ StorageBehaviour : Type :=
 module storage_behaviour_example;
 
 exStorageBehaviour : StorageBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         exampleReplyGuard;
       ];
   };

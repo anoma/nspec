@@ -387,7 +387,7 @@ ShardEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
 <!-- --8<-- [start:exampleShardEngine] -->
 ```juvix
 exampleShardEngine : ShardEngine String String ByteString String :=
-  mkEngine@{
+  Engine.mk@{
     cfg := shardCfg;
     env := shardEnv;
     behaviour := shardBehaviour;

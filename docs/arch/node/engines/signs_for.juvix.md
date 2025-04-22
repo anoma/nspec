@@ -70,7 +70,7 @@ SignsForEngine : Type :=
 <!-- --8<-- [start:exampleSignsForEngine] -->
 ```juvix
 exampleSignsForEngine : SignsForEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := signsForCfg;
     env := signsForEnv;
     behaviour := signsForBehaviour;

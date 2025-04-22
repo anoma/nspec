@@ -47,7 +47,7 @@ TransportMailboxState : Type := Unit;
 <!-- --8<-- [start:TransportLocalState] -->
 ```juvix
 type TransportLocalState :=
-  mkTransportLocalState;
+  mk;
 ```
 <!-- --8<-- [end:TransportLocalState] -->
 
@@ -94,10 +94,10 @@ TransportEnv : Type :=
 module transport_environment_example;
 
   transportEnv : TransportEnv :=
-    mkEngineEnv@{
-      localState := mkTransportLocalState;
+    EngineEnv.mk@{
+      localState := TransportLocalState.mk;
       mailboxCluster := Map.empty;
-      acquaintances := Set.empty;
+      acquaintances := Set.Set.empty;
       timers := []
     }
   ;
