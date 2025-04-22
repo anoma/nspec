@@ -20,6 +20,7 @@ tags:
     import arch.node.engines.local_key_value_storage_environment open;
 
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -152,21 +153,12 @@ getValueAction
     | some emsg :=
       case emsg of {
         | mkEngineMsg@{msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueRequest req)} :=
-          some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := EngineMsg.sender emsg;
-              mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueReply
-                (mkGetValueKVStoreReply@{
-                  key := GetValueKVStoreRequest.key req;
-                  value := fromOption (Map.lookup (GetValueKVStoreRequest.key req) storage) ""
-                }))
-            }];
-            timers := [];
-            engines := [];
-          }
+          let responseMsg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgGetValueReply
+            (mkGetValueKVStoreReply@{
+              key := GetValueKVStoreRequest.key req;
+              value := fromOption (Map.lookup (GetValueKVStoreRequest.key req) storage) ""
+            }));
+          in some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
         | _ := none
       }
     | _ := none
@@ -223,17 +215,14 @@ setValueAction
                   success := true
                 }))
             };
-            notificationMsg := \{target := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := target;
-              mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
+            notificationMsg := \{target := defaultReplyMsg cfg target
+              (Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
                 (mkValueChangedKVStore@{
                   key := key;
                   value := value;
                   timestamp := newTime
-                }))
-            }};
+                })))
+            };
             notificationMsgs := map notificationMsg (getNotificationTargets key);
           in some mkActionEffect@{
             env := newEnv;
@@ -296,17 +285,14 @@ deleteValueAction
                   success := true
                 }))
             };
-            notificationMsg := \{target := mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := target;
-              mailbox := some 0;
-              msg := Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
+            notificationMsg := \{target := defaultReplyMsg cfg target
+              (Anoma.MsgLocalKVStorage (LocalKVStorageMsgValueChanged
                 (mkValueChangedKVStore@{
                   key := key;
                   value := "";
                   timestamp := newTime
-                }))
-            }};
+                })))
+            };
             notificationMsgs := map notificationMsg (getNotificationTargets key);
           in some mkActionEffect@{
             env := newEnv;

@@ -16,6 +16,7 @@ tags:
     module arch.node.engines.reads_for_behaviour;
 
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;
@@ -167,21 +168,11 @@ readsForQueryAction
               isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) identityA) &&
               isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) identityB)
             } (Set.toList (ReadsForLocalState.evidenceStore localState)));
-          responseMsg := mkReplyReadsFor@{
+          responseMsg := Anoma.MsgReadsFor (MsgReadsForReply mkReplyReadsFor@{
             readsFor := hasEvidence;
             err := none
-          }
-        in some mkActionEffect@{
-          env := env;
-          msgs := [mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg cfg;
-            target := EngineMsg.sender emsg;
-            mailbox := some 0;
-            msg := Anoma.MsgReadsFor (MsgReadsForReply responseMsg)
-          }];
-          timers := [];
-          engines := []
-        }
+          })
+        in some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
       | _ := none
       }
     | _ := none
@@ -221,47 +212,25 @@ submitEvidenceAction
         case verifyEvidence evidence of {
         | true :=
           case isElement \{a b := a && b} true (map \{e := isEqual (Ord.cmp e evidence)} (Set.toList (ReadsForLocalState.evidenceStore localState))) of {
-          | true :=
-            some mkActionEffect@{
-              env := env;
-              msgs := [mkEngineMsg@{
-                sender := getEngineIDFromEngineCfg cfg;
-                target := EngineMsg.sender emsg;
-                mailbox := some 0;
-                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence (some "Evidence already exists.")))
-              }];
-              timers := [];
-              engines := []
-            }
+          | true := some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg)
+                            (Anoma.MsgReadsFor
+                              (MsgSubmitReadsForEvidenceReply
+                              (mkReplySubmitReadsForEvidence
+                              (some "Evidence already exists.")))))
           | false :=
             let
               newEvidenceStore := Set.insert evidence (ReadsForLocalState.evidenceStore localState);
               updatedLocalState := localState@ReadsForLocalState{evidenceStore := newEvidenceStore};
-              newEnv := env@EngineEnv{localState := updatedLocalState}
-            in some mkActionEffect@{
-              env := newEnv;
-              msgs := [mkEngineMsg@{
-                sender := getEngineIDFromEngineCfg cfg;
-                target := EngineMsg.sender emsg;
-                mailbox := some 0;
-                msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence none))
-              }];
-              timers := [];
-              engines := []
-            }
+              newEnv := env@EngineEnv{localState := updatedLocalState};
+              responseMsg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence none))
+            in some (defaultReplyActionEffect newEnv cfg (EngineMsg.sender emsg) responseMsg)
           }
-        | false :=
-          some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := EngineMsg.sender emsg;
-              mailbox := some 0;
-              msg := Anoma.MsgReadsFor (MsgSubmitReadsForEvidenceReply (mkReplySubmitReadsForEvidence (some "Invalid evidence provided.")))
-            }];
-            timers := [];
-            engines := []
-          }
+        | false := some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg)
+                        (Anoma.MsgReadsFor
+                          (MsgSubmitReadsForEvidenceReply
+                          (mkReplySubmitReadsForEvidence
+                          (some "Invalid evidence provided."))))
+                      )
         }
       | _ := none
       }
@@ -304,22 +273,12 @@ queryEvidenceAction
               isEqual (Ord.cmp (ReadsForEvidence.fromIdentity evidence) identity) ||
               isEqual (Ord.cmp (ReadsForEvidence.toIdentity evidence) identity)
             } (ReadsForLocalState.evidenceStore localState);
-          responseMsg := mkReplyQueryReadsForEvidence@{
+          responseMsg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceReply mkReplyQueryReadsForEvidence@{
               externalIdentity := identity;
               evidence := relevantEvidence;
               err := none
-            }
-        in some mkActionEffect@{
-          env := env;
-          msgs := [mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg cfg;
-            target := EngineMsg.sender emsg;
-            mailbox := some 0;
-            msg := Anoma.MsgReadsFor (MsgQueryReadsForEvidenceReply responseMsg)
-          }];
-          timers := [];
-          engines := []
-        }
+            })
+        in some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
       | _ := none
       }
     | _ := none

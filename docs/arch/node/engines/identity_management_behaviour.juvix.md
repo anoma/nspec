@@ -23,6 +23,7 @@ tags:
     import arch.node.engines.identity_management_environment open;
     import arch.node.engines.identity_management_messages open;
     import arch.node.engines.identity_management_config open;
+    import arch.node.utils open;
     import arch.node.types.anoma as Anoma open;
     import arch.node.types.engine open;
     import arch.node.types.engine_environment open;
@@ -525,6 +526,7 @@ generateIdentityAction
   : Option IdentityManagementActionEffect :=
   let
     env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
     local := EngineEnv.localState env;
     identities := IdentityManagementLocalState.identities local;
     trigger := ActionInput.trigger input;
@@ -533,23 +535,15 @@ generateIdentityAction
       let whoAsked := EngineMsg.sender emsg;
       in case Map.lookup whoAsked identities of {
         | some _ :=
-          some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-              target := whoAsked;
-              mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementGenerateIdentityReply
-                (mkReplyGenerateIdentity@{
-                  commitmentEngine := none;
-                  decryptionEngine := none;
-                  externalIdentity := whoAsked;
-                  err := some "Identity already exists"
-                }))
-            }];
-            timers := [];
-            engines := []
-          }
+          let responseMsg :=
+                MsgIdentityManagement (MsgIdentityManagementGenerateIdentityReply
+                  (mkReplyGenerateIdentity@{
+                    commitmentEngine := none;
+                    decryptionEngine := none;
+                    externalIdentity := whoAsked;
+                    err := some "Identity already exists"
+                  }));
+          in some (defaultReplyActionEffect env cfg whoAsked responseMsg)
         | none :=
           case emsg of {
             | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementGenerateIdentityRequest (mkRequestGenerateIdentity backend' params' capabilities'))} :=
@@ -615,6 +609,7 @@ connectIdentityAction
   : Option IdentityManagementActionEffect :=
   let
     env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
     local := EngineEnv.localState env;
     identities := IdentityManagementLocalState.identities local;
     trigger := ActionInput.trigger input;
@@ -623,43 +618,27 @@ connectIdentityAction
       let whoAsked := EngineMsg.sender emsg;
       in case Map.lookup whoAsked identities of {
         | some _ :=
-          some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-              target := whoAsked;
-              mailbox := some 0;
-              msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
-                (mkConnectIdentityReply@{
-                  commitmentEngine := none;
-                  decryptionEngine := none;
-                  err := some "Identity already exists"
-                }))
-            }];
-            timers := [];
-            engines := []
-          }
+          let responseMsg :=
+                MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                  (mkConnectIdentityReply@{
+                    commitmentEngine := none;
+                    decryptionEngine := none;
+                    err := some "Identity already exists"
+                  }));
+          in some (defaultReplyActionEffect env cfg whoAsked responseMsg)
         | none :=
           case emsg of {
             | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementConnectIdentityRequest (mkRequestConnectIdentity externalIdentity' backend' capabilities'))} :=
               case Map.lookup externalIdentity' identities of {
                 | none :=
-                  some mkActionEffect@{
-                    env := env;
-                    msgs := [mkEngineMsg@{
-                      sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-                      target := whoAsked;
-                      mailbox := some 0;
-                      msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
-                        (mkConnectIdentityReply@{
-                          commitmentEngine := none;
-                          decryptionEngine := none;
-                          err := some "External identity not found"
-                        }))
-                    }];
-                    timers := [];
-                    engines := []
-                  }
+                  let responseMsg :=
+                        MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                          (mkConnectIdentityReply@{
+                            commitmentEngine := none;
+                            decryptionEngine := none;
+                            err := some "External identity not found"
+                          }));
+                  in some (defaultReplyActionEffect env cfg whoAsked responseMsg)
                 | some externalIdentityInfo :=
                   if
                     | isSubsetCapabilities capabilities' (IdentityInfo.capabilities externalIdentityInfo) :=
@@ -671,39 +650,23 @@ connectIdentityAction
                           newEnv' := env@EngineEnv{
                             localState := newLocalState
                           };
-                      in some mkActionEffect@{
-                        env := newEnv';
-                        msgs := [mkEngineMsg@{
-                          sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-                          target := whoAsked;
-                          mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
-                            (mkConnectIdentityReply@{
-                              commitmentEngine := IdentityInfo.commitmentEngine newIdentityInfo;
-                              decryptionEngine := IdentityInfo.decryptionEngine newIdentityInfo;
-                              err := none
-                            }))
-                        }];
-                        timers := [];
-                        engines := []
-                      }
+                          responseMsg :=
+                            MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                              (mkConnectIdentityReply@{
+                                commitmentEngine := IdentityInfo.commitmentEngine newIdentityInfo;
+                                decryptionEngine := IdentityInfo.decryptionEngine newIdentityInfo;
+                                err := none
+                              }));
+                      in some (defaultReplyActionEffect newEnv' cfg whoAsked responseMsg)
                     | else :=
-                      some mkActionEffect@{
-                        env := env;
-                        msgs := [mkEngineMsg@{
-                          sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-                          target := whoAsked;
-                          mailbox := some 0;
-                          msg := MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
-                            (mkConnectIdentityReply@{
-                              commitmentEngine := none;
-                              decryptionEngine := none;
-                              err := some "Capabilities not available"
-                            }))
-                        }];
-                        timers := [];
-                        engines := []
-                  }
+                      let responseMsg :=
+                            MsgIdentityManagement (MsgIdentityManagementConnectIdentityReply
+                              (mkConnectIdentityReply@{
+                                commitmentEngine := none;
+                                decryptionEngine := none;
+                                err := some "Capabilities not available"
+                              }));
+                      in some (defaultReplyActionEffect env cfg whoAsked responseMsg)
               }
             | _ := none
           }
@@ -734,6 +697,7 @@ deleteIdentityAction
   : Option IdentityManagementActionEffect :=
   let
     env := ActionInput.env input;
+    cfg := ActionInput.cfg input;
     local := EngineEnv.localState env;
     identities := IdentityManagementLocalState.identities local;
     trigger := ActionInput.trigger input;
@@ -744,20 +708,12 @@ deleteIdentityAction
         | mkEngineMsg@{msg := Anoma.MsgIdentityManagement (MsgIdentityManagementDeleteIdentityRequest (mkRequestDeleteIdentity externalIdentity backend'))} :=
           case Map.lookup externalIdentity identities of {
             | none :=
-              some mkActionEffect@{
-                env := env;
-                msgs := [mkEngineMsg@{
-                  sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-                  target := whoAsked;
-                  mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
-                    (mkReplyDeleteIdentity@{
-                      err := some "Identity does not exist"
-                    }))
-                }];
-                timers := [];
-                engines := []
-              }
+              let responseMsg :=
+                    MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
+                      (mkReplyDeleteIdentity@{
+                        err := some "Identity does not exist"
+                      }));
+              in some (defaultReplyActionEffect env cfg whoAsked responseMsg)
             | some _ :=
               let updatedIdentities := Map.delete externalIdentity identities;
                   newLocalState := local@IdentityManagementLocalState{
@@ -766,20 +722,12 @@ deleteIdentityAction
                   newEnv' := env@EngineEnv{
                     localState := newLocalState
                   };
-              in some mkActionEffect@{
-                env := newEnv';
-                msgs := [mkEngineMsg@{
-                  sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
-                  target := whoAsked;
-                  mailbox := some 0;
-                  msg := MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
-                    (mkReplyDeleteIdentity@{
-                      err := none
-                    }))
-                }];
-                timers := [];
-                engines := []
-              }
+                  responseMsg :=
+                    MsgIdentityManagement (MsgIdentityManagementDeleteIdentityReply
+                      (mkReplyDeleteIdentity@{
+                        err := none
+                      }));
+              in some (defaultReplyActionEffect newEnv' cfg whoAsked responseMsg)
           }
         | _ := none
       }

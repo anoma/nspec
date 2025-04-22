@@ -20,6 +20,7 @@ tags:
     import arch.node.engines.ticker_environment open;
 
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
     import arch.node.types.messages open;
@@ -200,24 +201,10 @@ countReplyAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
-      some mkActionEffect@{
-        env := env;
-        msgs := [
-          mkEngineMsg@{
-            sender := getEngineIDFromEngineCfg cfg;
-            target := EngineMsg.sender emsg;
-            mailbox := some 0;
-            msg :=
-              Anoma.MsgTicker
-                (TickerMsgCountReply
-                  mkCountReply@{
-                    counter := counterValue;
-                  })
-          }
-        ];
-        timers := [];
-        engines := [];
-      }
+      let responseMsg := Anoma.MsgTicker (TickerMsgCountReply mkCountReply@{
+        counter := counterValue;
+      })
+      in some (defaultReplyActionEffect env cfg (EngineMsg.sender emsg) responseMsg)
     | _ := none
     };
 ```

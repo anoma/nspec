@@ -16,6 +16,7 @@ tags:
     module arch.node.engines.signs_for_behaviour;
 
     import prelude open;
+    import arch.node.utils open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;
@@ -166,21 +167,11 @@ signsForQueryAction
           isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
           isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
         } (Set.toList (SignsForLocalState.evidenceStore localState)));
-        responseMsg := mkReplySignsFor@{
+        responseMsg := Anoma.MsgSignsFor (MsgSignsForReply mkReplySignsFor@{
           signsFor := hasEvidence;
           err := none
-        };
-      in some mkActionEffect@{
-        env := env;
-        msgs := [mkEngineMsg@{
-          sender := getEngineIDFromEngineCfg cfg;
-          target := msgSender;
-          mailbox := some 0;
-          msg := Anoma.MsgSignsFor (MsgSignsForReply responseMsg)
-        }];
-        timers := [];
-        engines := []
-      }
+        });
+      in some (defaultReplyActionEffect env cfg msgSender responseMsg)
     | _ := none
     }
 ```
@@ -224,20 +215,10 @@ submitEvidenceAction
           in case alreadyExists of {
             | true :=
               let
-                responseMsg := mkReplySubmitSignsForEvidence@{
+                responseMsg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply mkReplySubmitSignsForEvidence@{
                   err := some "Evidence already exists."
-                };
-              in some mkActionEffect@{
-                env := env;
-                msgs := [mkEngineMsg@{
-                  sender := getEngineIDFromEngineCfg cfg;
-                  target := msgSender;
-                  mailbox := some 0;
-                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
-                }];
-                timers := [];
-                engines := []
-              }
+                });
+              in some (defaultReplyActionEffect env cfg msgSender responseMsg)
             | false :=
               let
                 newEvidenceStore := Set.insert evidence (SignsForLocalState.evidenceStore localState);
@@ -247,37 +228,17 @@ submitEvidenceAction
                 newEnv := env@EngineEnv{
                   localState := updatedLocalState
                 };
-                responseMsg := mkReplySubmitSignsForEvidence@{
+                responseMsg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply mkReplySubmitSignsForEvidence@{
                   err := none
-                };
-              in some mkActionEffect@{
-                env := newEnv;
-                msgs := [mkEngineMsg@{
-                  sender := getEngineIDFromEngineCfg cfg;
-                  target := msgSender;
-                  mailbox := some 0;
-                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
-                }];
-                timers := [];
-                engines := []
-              }
+                });
+              in some (defaultReplyActionEffect newEnv cfg msgSender responseMsg)
           }
         | false :=
           let
-            responseMsg := mkReplySubmitSignsForEvidence@{
+            responseMsg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply mkReplySubmitSignsForEvidence@{
               err := some "Invalid evidence provided."
-            };
-          in some mkActionEffect@{
-            env := env;
-            msgs := [mkEngineMsg@{
-              sender := getEngineIDFromEngineCfg cfg;
-              target := msgSender;
-              mailbox := some 0;
-              msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
-            }];
-            timers := [];
-            engines := []
-          }
+            });
+          in some (defaultReplyActionEffect env cfg msgSender responseMsg)
       }
     | _ := none
     }
@@ -319,22 +280,12 @@ queryEvidenceAction
           isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity) ||
           isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity)
         } (SignsForLocalState.evidenceStore localState);
-        responseMsg := mkReplyQuerySignsForEvidence@{
+        responseMsg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply mkReplyQuerySignsForEvidence@{
           externalIdentity := externalIdentity;
           evidence := relevantEvidence;
           err := none
-        };
-      in some mkActionEffect@{
-        env := env;
-        msgs := [mkEngineMsg@{
-          sender := getEngineIDFromEngineCfg cfg;
-          target := msgSender;
-          mailbox := some 0;
-          msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply responseMsg)
-        }];
-        timers := [];
-        engines := []
-      }
+        });
+      in some (defaultReplyActionEffect env cfg msgSender responseMsg)
     | _ := none
     }
 ```
