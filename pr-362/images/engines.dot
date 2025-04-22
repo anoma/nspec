@@ -1,0 +1,131 @@
+digraph {
+    layout = dot
+    rankdir = TB
+    mclimit = 1.0
+
+    fontname = "TeX Gyre Pagella"
+    node [fontname="TeX Gyre Pagella"; shape=octagon]
+
+    # cluster border
+    pencolor = "#777777"
+    edge [color="#555555"; arrowhead=vee; arrowtail=vee]
+    # dark theme
+    bgcolor = transparent
+    # fontcolor = white
+    # node [color=white; fontcolor=white]
+    # edge [color="#999999"
+    Router [penwidth=2]
+
+    Ordering [label="Ordering Subsystem"; shape=rect; color="#aaaaaa"]
+    /*
+    subgraph cluster_ordering {
+        label = "Ordering Subsystem"
+        node [shape=doubleoctagon]
+
+        Consensus
+        Mempool
+        Execution
+    }
+    */
+
+    subgraph cluster_networking {
+        label = "Networking Subsystem"
+
+        # inter-domain protocols
+        subgraph cluster_inter_domain {
+            label = "Inter-domain protocols"
+            pencolor = "#aaaaaa"
+
+            DomainRouting
+            Clustering
+            PeerSampling
+        }
+
+        # intra-domain protocols
+        subgraph cluster_intra_domain {
+            label = "Intra-domain protocols"
+            pencolor = "#aaaaaa"
+            # rank = same
+            Domain [shape=doubleoctagon]
+            Topology [shape=doubleoctagon]
+            PubSub [shape=doubleoctagon]
+            Storage
+            # Compute
+        }
+
+        subgraph cluster_node {
+            label = "Intra-node & inter-node protocols"
+            pencolor = "#aaaaaa"
+
+            Router
+            Transport
+            NIDS [label="ID Store"]
+
+            node [shape=rect]
+            WebSocket
+            Veilid
+            Nym
+            QUIC
+        }
+    }
+
+    /*
+    subgraph cluster_hwabs {
+        label = "HW Abstraction"
+
+        KVStore
+        TSStore
+        Logging
+        WallClock
+        Randomness
+        Compute
+    }
+
+    subgraph cluster_control {
+        label = "Control"
+
+        UserPrefs
+        StaticConfig
+        DynamicConfig
+        Measurement
+        Decision
+        ControlAgent
+    }
+    */
+
+    # Other components
+    #{Consensus Execution Mempool} -> Router [minlen=5; weight=200]
+    Ordering -> Router [minlen=5; weight=200]
+
+    # Networking
+    #
+    # Inter-domain
+    PeerSampling -> Clustering [style=dashed]
+    {PeerSampling Clustering} -> {DomainRouting Topology} [style=dashed]
+    {PeerSampling Clustering DomainRouting} -> Router [dir=both; style=dotted]
+
+    # Intra-domain
+    Domain -> DomainRouting
+    PubSub -> Topology
+    PubSub -> Router [weight=10; style=dotted]
+    Storage -> PubSub
+    {Domain Topology Storage} -> Router [dir=both; style=dotted]
+
+    # Router
+    Router -> Transport [minlen=2; weight=10]
+    Router -> PubSub
+
+    # NIDS
+    {PeerSampling Clustering Topology PubSub Router} -> NIDS
+    NIDS -> Router [style=dashed]
+
+    # Transport
+    Transport -> {QUIC WebSocket Veilid Nym} [dir=both]
+    Transport -> Router
+    Transport -> Router [style=dashed]
+
+     # Example
+    edge [color="#ff7777"; style=dotted; constraint=false]
+    # Send message to an external identity / pubsub topic
+    # Mempool -> Router -> PubSub -> Router -> Transport -> QUIC
+}

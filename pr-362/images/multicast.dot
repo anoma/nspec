@@ -1,0 +1,96 @@
+digraph {
+  layout = neato
+  model = mds
+  overlap = false
+  start = 1
+
+  fontname = "TeX Gyre Pagella"
+  node [fontname="TeX Gyre Pagella"]
+
+  bgcolor = transparent
+  # cluster border
+  pencolor = "#777777"
+  edge [color="#555555"; arrowhead=vee; arrowtail=vee]
+  # dark theme
+  # fontcolor = white
+  # node [color=white; fontcolor=white]
+  # edge [color="#999999"
+
+  node [shape=circle; style=bold]
+
+  subgraph cluster_a {
+    label = "Node A"
+    labeljust = l
+
+    A_R [shape=doublecircle; root=true]
+    A_PS
+    A_T
+    A_X
+    A_Y
+  }
+
+  subgraph cluster_b {
+    label = "Node B"
+    labeljust = r
+
+    B_R [shape=doublecircle; root=true]
+    B_PS
+    B_T
+    B_X
+    B_Y
+  }
+
+  subgraph cluster_c {
+    label = "Node C"
+    labeljust = l
+
+    C_R [shape=doublecircle; root=true]
+    C_PS
+    C_T
+    C_X
+    C_Y
+  }
+
+  subgraph cluster_d {
+    label = "Node D"
+
+    D_R [shape=doublecircle; root=true]
+    D_PS
+    D_T
+    D_X
+    D_Y
+  }
+
+  # Engine connections
+  edge [len=1; dir=none]
+
+  A_R -> { A_T A_X A_Y A_PS }
+  B_R -> { B_T B_X B_Y B_PS }
+  C_R -> { C_T C_X C_Y C_PS }
+  D_R -> { D_T D_X D_Y D_PS }
+
+  # Network connections
+  edge [len=5; style=dashed];
+
+  A_T -> B_T
+  A_T -> C_T
+  B_T -> D_T
+
+  # Message paths
+  edge [len=5; dir=forward; style=dashed; color=red]
+
+  edge [label="T"]
+  A_X -> A_R -> A_PS
+  B_PS -> B_R -> {B_X}
+  C_PS -> C_R -> {C_X}
+  D_PS -> D_R -> {D_X D_Y}
+
+  edge [label="B"; color=green]
+  A_PS -> A_R -> A_T -> B_T -> B_R -> B_PS
+
+  edge [label="C"; color=blue]
+  A_PS -> A_R -> A_T -> C_T -> C_R -> C_PS
+
+  edge [label="D"; color=blue]
+  B_PS -> B_R -> B_T -> D_T -> D_R -> D_PS
+}

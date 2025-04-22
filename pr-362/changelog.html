@@ -1,0 +1,1325 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." name="description"/>
+<meta content="Anoma Foundation" name="author"/>
+<link href="https://specs.anoma.net/pr-362/changelog.html" rel="canonical"/>
+<link href="index.html" rel="prev"/>
+<link href="indexes/tags.html" rel="next"/>
+<link href="assets/logo.svg" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.49" name="generator"/>
+<title>Changelog - Anoma specs</title>
+<link href="assets/stylesheets/main.6f8fc17f.min.css" rel="stylesheet"/>
+<link href="assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+<link href="css/timeago.css" rel="stylesheet"/>
+<link href="assets/css/juvix-material-style.css" rel="stylesheet"/>
+<link href="assets/css/juvix-highlighting.css" rel="stylesheet"/>
+<link href="assets/css/juvix_codeblock_footer.css" rel="stylesheet"/>
+<link href="assets/css/latte-light.css" rel="stylesheet"/>
+<link href="assets/css/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<meta content="website" property="og:type"/>
+<meta content="Changelog - Anoma specs" property="og:title"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." property="og:description"/>
+<meta content="https://specs.anoma.net/pr-362/assets/images/social/changelog.png" property="og:image"/>
+<meta content="image/png" property="og:image:type"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="https://specs.anoma.net/pr-362/changelog.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Changelog - Anoma specs" name="twitter:title"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." name="twitter:description"/>
+<meta content="https://specs.anoma.net/pr-362/assets/images/social/changelog.png" name="twitter:image"/>
+<link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="assets/javascripts/glightbox.min.js"></script></link></head>
+<body data-md-color-accent="indigo" data-md-color-primary="white" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#change-log">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+<aside class="md-banner">
+<div class="md-banner__inner md-grid md-typeset">
+<button aria-label="Don't show this again" class="md-banner__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+            
+            
+  For updates follow <strong>@anoma</strong> on
+  <a href="https://x.com/anoma" rel="me">
+<span class="twemoji x-twitter">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"></path></svg>
+</span>
+<strong></strong>
+</a>
+  and discuss on our
+  <a href="https://research.anoma.net">
+<span class="twemoji discourse">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9S348.6 32 225.9 32M224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128"></path></svg>
+</span>
+<strong>forum</strong>
+</a>
+</div>
+<script>var el=document.querySelector("[data-md-component=announce]");if(el){var content=el.querySelector(".md-typeset");__md_hash(content.innerHTML)===__md_get("__announce")&&(el.hidden=!0)}</script>
+</aside>
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Anoma specs" class="md-header__button md-logo" data-md-component="logo" href="index.html" title="Anoma specs">
+<img alt="logo" src="assets/logo.svg"/>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+<span class="first-letter">A</span>noma 
+              
+                <span class="first-letter">s</span>pecs
+              
+              
+                <span class="md-header__topic-version">(PR362 - anthony/bump-47b3ec5a)</span>
+</span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+              
+                Changelog
+              
+            </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme)" data-md-color-primary="white" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+</label>
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="white" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to system preference" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to system preference">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7"></path></svg>
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.042.018.75.75 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/anoma/nspec" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    anoma/nspec
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<!--
+  This is a modified version of the original mkdocs-material theme.
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Determine classes -->
+<!-- Navigation -->
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<!-- Site title -->
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Anoma specs" class="md-nav__button md-logo" data-md-component="logo" href="index.html" title="Anoma specs">
+<img alt="logo" src="assets/logo.svg"/>
+</a>
+    Anoma specs
+  </label>
+<!-- List of Versions -->
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://specs.anoma.net/latest" target="_blank">
+     Latest version ((PR362 - anthony/bump-47b3ec5a))
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://specs.anoma.net/main">
+        Development version
+      </a>
+</li>
+</ul>
+<!-- Navigation list -->
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="index.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
+<span class="md-ellipsis">
+    Home
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"></path></svg>
+<span class="md-ellipsis">
+    Changelog
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="changelog.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"></path></svg>
+<span class="md-ellipsis">
+    Changelog
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v014">
+<span class="md-ellipsis">
+      v0.1.4
+    </span>
+</a>
+<nav aria-label="v0.1.4" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fixes">
+<span class="md-ellipsis">
+      Fixes
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v013">
+<span class="md-ellipsis">
+      v0.1.3
+    </span>
+</a>
+<nav aria-label="v0.1.3" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fixes_1">
+<span class="md-ellipsis">
+      Fixes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#changes">
+<span class="md-ellipsis">
+      Changes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features_1">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v012">
+<span class="md-ellipsis">
+      v0.1.2
+    </span>
+</a>
+<nav aria-label="v0.1.2" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fixes_2">
+<span class="md-ellipsis">
+      Fixes
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v011">
+<span class="md-ellipsis">
+      v0.1.1
+    </span>
+</a>
+<nav aria-label="v0.1.1" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features_2">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fixes_3">
+<span class="md-ellipsis">
+      Fixes
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v010">
+<span class="md-ellipsis">
+      v0.1.0
+    </span>
+</a>
+<nav aria-label="v0.1.0" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#breaking-changes">
+<span class="md-ellipsis">
+      Breaking changes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bug-fixes">
+<span class="md-ellipsis">
+      Bug fixes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features_3">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-ellipsis">
+    Indexes
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Indexes
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="indexes/tags.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 7A1.5 1.5 0 0 1 4 5.5 1.5 1.5 0 0 1 5.5 4 1.5 1.5 0 0 1 7 5.5 1.5 1.5 0 0 1 5.5 7m15.91 4.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.11 0-2 .89-2 2v7c0 .55.22 1.05.59 1.41l8.99 9c.37.36.87.59 1.42.59s1.05-.23 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.56-.23-1.06-.59-1.42"></path></svg>
+<span class="md-ellipsis">
+    List of tags
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="indexes/modules.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 10h-2V8h2m0 5h-2v-2h2m-3-1h-2V8h2m0 5h-2v-2h2m0 6H8v-2h8m-9-5H5V8h2m0 5H5v-2h2m1 0h2v2H8m0-5h2v2H8m3 1h2v2h-2m0-5h2v2h-2m9-5H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2"></path></svg>
+<span class="md-ellipsis">
+    List of modules
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="prelude.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2h7v5h5v11H6zm2 8v2h8v-2zm0 4v2h5v-2z"></path></svg>
+<span class="md-ellipsis">
+    List of basic types
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-ellipsis">
+    Introduction
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            Introduction
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="anomian.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.1 1 4.1 2.8 5.5 0 .6-.4 2.2-2.8 4.5 0 0 3.5 0 6.5-2.5 1.1.3 2.3.5 3.5.5 5.5 0 10-3.6 10-8s-4.5-8-10-8m1 12h-2v-2h2zm1.8-5c-.3.4-.7.6-1.1.8-.3.2-.4.3-.5.5-.2.2-.2.4-.2.7h-2c0-.5.1-.8.3-1.1.2-.2.6-.5 1.1-.8.3-.1.5-.3.6-.5s.2-.5.2-.7c0-.3-.1-.5-.3-.7s-.5-.3-.8-.3-.5.1-.7.2q-.3.15-.3.6h-2c.1-.7.4-1.3.9-1.7s1.2-.5 2.1-.5 1.7.2 2.2.6.8 1 .8 1.7q.15.6-.3 1.2"></path></svg>
+<span class="md-ellipsis">
+    Anomian
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="arch/overview.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 18.714v4.8c0 .288-.192.48-.48.48h-4.8c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48h1.92v-1.92h-8.16v1.92h1.92c.288 0 .48.192.48.48v4.8c0 .288-.192.48-.48.48H9.6c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48h1.92v-1.92H3.36v1.92h1.92c.288 0 .48.192.48.48v4.8c0 .288-.192.48-.48.48H.48c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48H2.4v-2.4c0-.288.192-.48.48-.48h8.64v-1.44h.96v1.44h8.64c.288 0 .48.192.48.48v2.4h1.92c.288 0 .48.192.48.48m-13.92 4.32h3.84v-3.84h-3.84zm-9.12 0H4.8v-3.84H.96Zm18.24 0h3.84v-3.84H19.2ZM6.24 9.642V3.546c0-.192.096-.336.24-.432L11.76.042a.8.8 0 0 1 .48 0l5.28 3.072c.144.096.24.24.24.432v6.096c0 .144-.096.288-.24.384l-5.28 3.072q-.096.048-.24.048t-.24-.048l-5.28-3.072c-.144-.096-.24-.24-.24-.384m10.56-.288V4.362l-4.32 2.496v4.992zm-9.6 0 4.32 2.496V6.858L7.2 4.362Zm.48-5.808L12 5.994l4.32-2.448L12 1.05Z"></path></svg>
+<span class="md-ellipsis">
+    Anoma architecture
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-ellipsis">
+    Node architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            Node architecture
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="arch/node/concepts/engine.html">
+<span class="md-ellipsis">
+    Concepts
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="arch/node/types/anoma_message.html">
+<span class="md-ellipsis">
+    Types
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="arch/node/subsystems/hardware.html">
+<span class="md-ellipsis">
+    Subsystems
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-ellipsis">
+    System architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            System architecture
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="arch/system/identity/identity.html">
+<span class="md-ellipsis">
+    Identity Architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="arch/system/state/resource_machine/index.html">
+<span class="md-ellipsis">
+    State Architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-ellipsis">
+    Tutorials
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="tutorial/principles_and_guidelines.html">
+<span class="md-ellipsis">
+    Contributor guidelines
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v014">
+<span class="md-ellipsis">
+      v0.1.4
+    </span>
+</a>
+<nav aria-label="v0.1.4" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fixes">
+<span class="md-ellipsis">
+      Fixes
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v013">
+<span class="md-ellipsis">
+      v0.1.3
+    </span>
+</a>
+<nav aria-label="v0.1.3" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fixes_1">
+<span class="md-ellipsis">
+      Fixes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#changes">
+<span class="md-ellipsis">
+      Changes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features_1">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v012">
+<span class="md-ellipsis">
+      v0.1.2
+    </span>
+</a>
+<nav aria-label="v0.1.2" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fixes_2">
+<span class="md-ellipsis">
+      Fixes
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v011">
+<span class="md-ellipsis">
+      v0.1.1
+    </span>
+</a>
+<nav aria-label="v0.1.1" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features_2">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fixes_3">
+<span class="md-ellipsis">
+      Fixes
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#v010">
+<span class="md-ellipsis">
+      v0.1.0
+    </span>
+</a>
+<nav aria-label="v0.1.0" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#breaking-changes">
+<span class="md-ellipsis">
+      Breaking changes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bug-fixes">
+<span class="md-ellipsis">
+      Bug fixes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features_3">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<!--
+  This is a modified version of the original mkdocs-material theme.
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Tags -->
+<nav class="md-tags">
+<a class="md-tag" href="indexes/tags.html#changelog">changelog</a>
+</nav>
+<!-- Actions -->
+<!--
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Actions -->
+<!-- Edit button -->
+<a class="md-content__button md-icon" href="https://github.com/anoma/nspec/edit/main/docs/changelog.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-1.9l10-10V8l-6-6zm7 1.5L18.5 9H13zm7.1 9.5c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-2 1.8L12 20.9V23h2.1l6.1-6.1z"></path></svg>
+</a>
+<!-- View button -->
+<a class="md-content__button md-icon" href="https://github.com/anoma/nspec/raw/main/docs/changelog.md" title="View source of this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6h17.12c.79 0 1.44.63 1.44 1.41v9.18c0 .78-.65 1.41-1.44 1.41M6.81 15.19v-3.66l1.92 2.35 1.92-2.35v3.66h1.93V8.81h-1.93l-1.92 2.35-1.92-2.35H4.89v6.38zM19.69 12h-1.92V8.81h-1.92V12h-1.93l2.89 3.28z"></path></svg>
+</a>
+<!-- If the page source ends with .juvix.md, we show a button to view the raw code -->
+<!--
+  Hack: check whether the content contains a h1 headline. If it doesn't, the
+  page title (or respectively site name) is used as the main headline.
+-->
+<!-- Page content -->
+<h1 id="change-log">Change Log<a class="headerlink" href="#change-log" title="Anchor link to this section for reference">¶</a></h1>
+<h2 id="v014"><a href="https://specs.anoma.net/v0.1.4/">v0.1.4</a><a class="headerlink" href="#v014" title="Anchor link to this section for reference">¶</a></h2>
+<p>This release focuses on improving the prose, layout, and documentation structure. Key changes include:</p>
+<ul>
+<li>Reorganized node architecture documentation for better clarity</li>
+<li>Reorganized the navigation bar to be more consistent and easier to use</li>
+<li>Added a new tutorial: <a href="https://specs.anoma.net/pr-362/anomian.html">Anomian</a></li>
+<li>Several prose improvements on engines, e.g: <a href="https://specs.anoma.net/pr-362/arch/node/engines/mempool_worker.html">Mempool Worker Engine</a>,
+  <a href="https://specs.anoma.net/pr-362/arch/node/engines/executor.html">Executor Engine</a>, <a href="https://specs.anoma.net/pr-362/arch/node/engines/shard.html">Shard Engine</a></li>
+<li>CSS changes to improve the layout and readability of the website, like
+  better separation for headers and footers that improve, for example, the
+  readability of message interfaces</li>
+<li>Updated Juvix type definitions to match latest standards</li>
+<li>Added new definitions for <a href="https://specs.anoma.net/pr-362/prelude.html">Prelude</a></li>
+<li>Improved template engine documentation for easier engine creation</li>
+</ul>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li>System architecture<ul>
+<li><a href="https://github.com/anoma/nspec/pull/334"><strong>#334</strong></a>: Add deletion criterion to delete blobs immediately</li>
+</ul>
+</li>
+</ul>
+<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li>Repository maintenance and CI<ul>
+<li><a href="https://github.com/anoma/nspec/pull/297"><strong>#297</strong></a>: Fixes for issues seen in <a href="https://specs.anoma.net/v0.1.3/">v0.1.3</a></li>
+<li><a href="https://github.com/anoma/nspec/pull/306"><strong>#306</strong></a>: Add data structures and interfaces used by RM</li>
+<li><a href="https://github.com/anoma/nspec/pull/307"><strong>#307</strong></a>: Prose improvements for commitment, decryption, and identity
+  management engines</li>
+<li><a href="https://github.com/anoma/nspec/pull/308"><strong>#308</strong></a>: The Little Anomian</li>
+<li><a href="https://github.com/anoma/nspec/pull/309"><strong>#309</strong></a>: Heindel has written up their two cents on the <a href="https://specs.anoma.net/pr-362/anomian.html">Anomian</a></li>
+<li><a href="https://github.com/anoma/nspec/pull/310"><strong>#310</strong></a>: Heindel/<a href="https://specs.anoma.net/pr-362/anomian.html">Anomian</a> review v0.2 some ideas for improvements</li>
+<li><a href="https://github.com/anoma/nspec/pull/311"><strong>#311</strong></a>: Prose improvements for
+  <a href="https://specs.anoma.net/pr-362/arch/node/engines/mempool_worker.html">Mempool Worker Engine</a>, <a href="https://specs.anoma.net/pr-362/arch/node/engines/executor.html">Executor Engine</a>, and <a href="https://specs.anoma.net/pr-362/arch/node/engines/shard.html">Shard Engine</a>'s descriptions.</li>
+<li><a href="https://github.com/anoma/nspec/pull/312"><strong>#312</strong></a>: nix flake update to
+  support Juvix v0.6.9</li>
+<li><a href="https://github.com/anoma/nspec/pull/313"><strong>#313</strong></a>: Revision of all message interfaces but not for networking's
+  engines</li>
+<li><a href="https://github.com/anoma/nspec/pull/314"><strong>#314</strong></a>: Add more fixes for message interfaces for consistency</li>
+<li><a href="https://github.com/anoma/nspec/pull/315"><strong>#315</strong></a>: Add a few corrections to the Anomian doc</li>
+<li><a href="https://github.com/anoma/nspec/pull/320"><strong>#320</strong></a>: Update Network subsystems' engine to comply standard</li>
+<li><a href="https://github.com/anoma/nspec/pull/328"><strong>#328</strong></a>: Move string comparison to prelude</li>
+<li><a href="https://github.com/anoma/nspec/pull/331"><strong>#331</strong></a>: RM type fixes</li>
+<li><a href="https://github.com/anoma/nspec/pull/332"><strong>#332</strong></a>: Improve layout, documentation structure, navigation and
+  readability with indexes, tags and descriptions</li>
+<li><a href="https://github.com/anoma/nspec/pull/336"><strong>#336</strong></a>: some changes, proposed as a result of specs overall review
+  (revamped)</li>
+<li><a href="https://github.com/anoma/nspec/pull/337"><strong>#337</strong></a>: Heindel/anthony/prose 3 suggestions for fixing the markdown</li>
+</ul>
+</li>
+<li>System architecture<ul>
+<li><a href="https://github.com/anoma/nspec/pull/334"><strong>#334</strong></a>: Add missing deletion criterion to delete blobs after the
+  transaction</li>
+</ul>
+</li>
+<li>Juvix types and updates<ul>
+<li><a href="https://github.com/anoma/nspec/pull/298"><strong>#298</strong></a>: Update juvix v0.6.9</li>
+<li><a href="https://github.com/anoma/nspec/pull/302"><strong>#302</strong></a>: <a href="https://specs.anoma.net/pr-362/prelude.html">Prelude</a> improvements</li>
+<li><a href="https://github.com/anoma/nspec/pull/305"><strong>#305</strong></a>: Add most of the types for RM specs</li>
+<li><a href="https://github.com/anoma/nspec/pull/321"><strong>#321</strong></a>: Add Runnable trait and make ordering engines parametric</li>
+<li><a href="https://github.com/anoma/nspec/pull/329"><strong>#329</strong></a>: Refactor type definitions to use simplified syntax</li>
+</ul>
+</li>
+</ul>
+<h2 id="v013"><a href="https://specs.anoma.net/v0.1.3/">v0.1.3</a><a class="headerlink" href="#v013" title="Anchor link to this section for reference">¶</a></h2>
+<p>The major change in this release is the gas payment system introduced in
+<a href="https://github.com/anoma/nspec/pull/286">#286</a>, and the description of messages
+in the Networking subsystem introduced in
+<a href="https://github.com/anoma/nspec/pull/277">#294</a>.</p>
+<h3 id="fixes_1">Fixes<a class="headerlink" href="#fixes_1" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li><strong>Node architecture</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/290"><strong>#290</strong></a>: Fix english
+  description for guards to match the Juvix types in <a href="https://specs.anoma.net/pr-362/arch/node/types/engine_behaviour.html">Engine Behaviour</a>.</li>
+</ul>
+</li>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/288"><strong>#288</strong></a>: Improve primitive interfaces diagrams. Use LR mermaid option.</li>
+</ul>
+</li>
+<li><strong>System architecture</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/293"><strong>#293</strong></a>: Fix formatting issues,
+  typos, warnings, and broken links related to <a href="https://specs.anoma.net/pr-362/arch/system/state/resource_machine/primitive_interfaces/proving_system/index.html">Proving
+  system definitions</a>.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong>Tutorial and documentation</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/280"><strong>#280</strong></a>: Guides: Add hard and soft
+  requirements for writing pages in the Anoma Specification.</li>
+<li><a href="https://github.com/anoma/nspec/pull/284"><strong>#284</strong></a>: Add minimal version of
+  the template (not visible in the website) and related refactors.</li>
+</ul>
+</li>
+</ul>
+<h3 id="changes">Changes<a class="headerlink" href="#changes" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/296"><strong>#296</strong></a>: Add next/prev buttons,
+  fix footer, change font, add buttons to view/edit source code, and links to
+  the GitHub repository.</li>
+</ul>
+</li>
+<li><strong>Juvix types and updates</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/294"><strong>#294</strong></a>: Bump up Juvix version
+  to v0.6.9 , reorder <code>MailboxID</code> alias, and update Stdlib to v0.9.0</li>
+</ul>
+</li>
+</ul>
+<h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li><strong>Python-related changes</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/291"><strong>#291</strong></a>: Add new command tool
+  <code>nspec</code> to create new engines based on the minimal version of the Template     Engine files.</li>
+</ul>
+</li>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/286"><strong>#286</strong></a>: Incorporated gas
+  payments description. Additionally, made several improvements such as
+  switching to wiki-style links, adding icons, clarifying proof inputs, fixing
+  rendering issues, and various other enhancements.</li>
+</ul>
+</li>
+<li><strong>Tutorial and documentation</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/292"><strong>#292</strong></a>: Move template/template_minimum engines to
+  docs/tutorial/engines folder. Update imports accordingly.</li>
+</ul>
+</li>
+</ul>
+<h2 id="v012"><a href="https://specs.anoma.net/v0.1.2/">v0.1.2</a><a class="headerlink" href="#v012" title="Anchor link to this section for reference">¶</a></h2>
+<p>Progress on translating the old specification to the new Juvix codebase, fixing
+typechecking errors. Removed unsupported documents from the codebase. Building
+specs no longer requires Juvix by default - use <code>PROCESS_JUVIX=true</code> flag with
+mkdocs to process Juvix Markdown.</p>
+<h3 id="fixes_2">Fixes<a class="headerlink" href="#fixes_2" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li><strong>Node architecture</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/235"><strong>#235</strong></a>: Revisit <a href="https://specs.anoma.net/pr-362/arch/node/engines/decryption.html">Decryption Engine</a>. Changes to the messages,
+  environment, and behaviour types to conform the recent template changes.</li>
+<li><a href="https://github.com/anoma/nspec/pull/236"><strong>#236</strong></a>: Revisit <a href="https://specs.anoma.net/pr-362/arch/node/engines/encryption.html">Encryption Engine</a> and Reads Engine. These are
+  bundled since they rely on eachother's messages. Changes to the messages, environment, and behavior types to conform
+  to the recent template changes</li>
+<li><a href="https://github.com/anoma/nspec/pull/262"><strong>#262</strong></a>: Updatewriting conventions, Fix <a href="https://specs.anoma.net/pr-362/tutorial/engines/template_behaviour.html">template
+  behaviour</a> diagrams and update Mkdocs Na</li>
+<li><a href="https://github.com/anoma/nspec/pull/263"><strong>#263</strong></a>: To the Hardware     Subsystem section, add Local Key Value Store Engine , Logging     Engine and <a href="https://specs.anoma.net/pr-362/arch/node/engines/local_time_series_storage.html">Local Time Series Storage Engine</a>, <a href="https://specs.anoma.net/pr-362/arch/node/engines/wall_clock.html">Wall Clock Engine</a>.</li>
+<li><a href="https://github.com/anoma/nspec/pull/268"><strong>#268</strong></a>: Add to <a href="https://specs.anoma.net/pr-362/arch/node/types/anoma_config.html">Anoma Configuration</a> section, the Identity Subsystem.</li>
+<li><a href="https://github.com/anoma/nspec/pull/269"><strong>#269</strong></a>: Fix type error due to
+  not making configs when spawning engines in <a href="https://specs.anoma.net/pr-362/arch/node/engines/identity_management.html">Identity Management Engine</a>.</li>
+<li><a href="https://github.com/anoma/nspec/pull/273"><strong>#273</strong></a>: Replace X Machine by X
+  Subsystem in the Node Architecture section.</li>
+</ul>
+</li>
+<li><strong>Python-related changes</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/271"><strong>#271</strong></a>: update mkdocs juvix plugin v0.4.8</li>
+<li><a href="https://github.com/anoma/nspec/pull/272"><strong>#272</strong></a>: Update mkdocs juvix plugin v0.4.9</li>
+</ul>
+</li>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/195"><strong>#195</strong></a>: Optimize documentation build process and upgrade dependencies</li>
+<li><a href="https://github.com/anoma/nspec/pull/262"><strong>#262</strong></a>: Template fixes: diagrams, nav</li>
+<li><a href="https://github.com/anoma/nspec/pull/266"><strong>#266</strong></a>: Remove old
+  documentation and update table of contents: Remove basic-abstractions,
+  scope, applications, implementations, and several other files that were
+  decided not to be included in this version of the specification.</li>
+</ul>
+</li>
+<li><strong>Tutorial and documentation</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/257"><strong>#257</strong></a>: Add description of our
+  <a href="https://specs.anoma.net/pr-362/tutorial/branch.html">Git workflow</a> and new integration
+  branches strategy.</li>
+<li><a href="https://github.com/anoma/nspec/pull/265"><strong>#265</strong></a>: Rename <code>TemplateCfg</code>
+  to <code>TemplateLocalCfg</code>, add <code>TemplateCfg</code> similar to <code>TemplateEnv</code>, apply
+  the same to <code>Ticker</code>.</li>
+<li><a href="https://github.com/anoma/nspec/pull/274"><strong>#274</strong></a>: Update engine writing
+  conventions: <a href="https://specs.anoma.net/pr-362/tutorial/engines/writing_conventions.html">#update-the-table-of-contents</a>
+  and Table of Contents.</li>
+</ul>
+</li>
+<li><strong>Juvix types and updates</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/267"><strong>#267</strong></a>: Fix all the type
+  checking errors in engine definitions.</li>
+</ul>
+</li>
+</ul>
+<h2 id="v011"><a href="https://specs.anoma.net/v0.1.1/">v0.1.1</a><a class="headerlink" href="#v011" title="Anchor link to this section for reference">¶</a></h2>
+<p>Major revision of the engine definitions, the template, and the ticker engine.</p>
+<h3 id="features_2">Features<a class="headerlink" href="#features_2" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/217"><strong>#217</strong></a>: Update template engine
+  files to be more consistent, use backticks for Juvix terms/types in
+  headlines, uncollapsed sections for type constructors arguments in template
+  engine files, and auxiliary sections of Juvix code are always collapsed.</li>
+</ul>
+</li>
+</ul>
+<h3 id="fixes_3">Fixes<a class="headerlink" href="#fixes_3" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li><strong>Node architecture</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/219"><strong>#219</strong></a>: Revisit <a href="https://specs.anoma.net/pr-362/arch/node/engines/commitment.html">Commitment Engine</a>. Changes to the messages, environment, and behaviour types to conform the recent template changes.</li>
+<li><a href="https://github.com/anoma/nspec/pull/253"><strong>#253</strong></a>: Integration PR that
+  combines multiple engine-related changes: <a href="https://github.com/anoma/nspec/pull/242">Engines: Use <code>ByteString</code> in
+  crypto types #242</a>, <a href="https://github.com/anoma/nspec/pull/255">Engines:
+  ByteString type definition #255</a>,
+  <a href="https://github.com/anoma/nspec/pull/241">Engines: <code>EngineMsg</code> revision #241</a>,
+  <a href="https://github.com/anoma/nspec/pull/256">EngineID: make <code>EngineName</code> compulsory #256</a>, <a href="https://github.com/anoma/nspec/pull/244">Engines: Engine type revision #244</a>, <a href="https://github.com/anoma/nspec/pull/258"> <code>EngineMsg</code>: add type param #258</a>, <a href="https://github.com/anoma/nspec/pull/260">Engines: add <code>GuardEval</code> and <code>ActionExec</code> #260</a>, and <a href="https://github.com/anoma/nspec/pull/226">Engines: Behaviour template revision #226</a>.</li>
+<li><a href="https://github.com/anoma/nspec/pull/256"><strong>#256</strong></a>: Make <code>EngineName</code>
+  compulsory in <code>EngineID</code>.</li>
+</ul>
+</li>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/218"><strong>#218</strong></a>: Rename <code>EngineMessage</code>
+   type to <code>EngineMsg</code> and <code>mkEngineMessage</code> to <code>mkEngineMsg</code>.</li>
+<li><a href="https://github.com/anoma/nspec/pull/220"><strong>#220</strong></a>: Fix the deployment of
+   the latest version by deploying the website if the branch name is <code>main</code> or
+   matches the semver pattern, and add information about the version and the
+   commit hash to the title for reference.</li>
+<li><a href="https://github.com/anoma/nspec/pull/222"><strong>#222</strong></a>: Remove SML codebase as
+  not used any more and any other reference in the markdown files</li>
+<li><a href="https://github.com/anoma/nspec/pull/225"><strong>#225</strong></a>: Fix navigation table
+   for the identity component</li>
+<li><a href="https://github.com/anoma/nspec/pull/227"><strong>#227</strong></a>: Update Juvix version in Nix flake due to breaking changes, and
+  also the input packages while at it.</li>
+<li><a href="https://github.com/anoma/nspec/pull/250"><strong>#250</strong></a>: Update policy on Juvix typechecking. The whole codebase in a
+  PR should typecheck before merging</li>
+</ul>
+</li>
+<li><strong>Tutorial and documentation</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/257"><strong>#257</strong></a>: Refactor the Git strategy: introduce integration PRs for
+  better overview of complex changes</li>
+</ul>
+</li>
+<li><strong>Juvix types and updates</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/221"><strong>#221</strong></a>: Update the prelude to
+  incorporate the latest changes in the <code>Stdlib</code>, including the addition of
+  applicative and monad traits, and the integration of the <code>containers</code> library.
+  This update also includes changes to data type definitions, with the <code>@</code>
+  syntax now used for declaration, creation, and matching on records, and other
+  removals like <code>: Type</code> for implicit arguments and function-style declarations.</li>
+<li><a href="https://github.com/anoma/nspec/pull/226"><strong>#226</strong></a>: Update <a href="https://specs.anoma.net/pr-362/tutorial/engines/template.html">Template</a> &amp; <a href="https://specs.anoma.net/pr-362/arch/node/engines/ticker_behaviour.html">Ticker Behaviour</a> according to the engine &amp; message type changes. The examples have been improved with better clarity. The documentation now uses headlines instead of collapsible boxes and definition lists instead of tables. A new diagram template has been added that illustrates conditions and effects of actions.</li>
+<li><a href="https://github.com/anoma/nspec/pull/241"><strong>#241</strong></a>: <code>EngineMsg</code>-related changes: rename <code>MessageID</code> to <code>EngineMsgID</code>, add <code>getEngineMsgFrom(Timestamped)Trigger</code>, and rename <code>getMessageFrom(Timestamped)Trigger</code> to <code>getMsgFrom(Timestamped)Trigger</code>.</li>
+<li><a href="https://github.com/anoma/nspec/pull/242"><strong>#242</strong></a>: Use <code>ByteString</code> in crypto types.</li>
+<li><a href="https://github.com/anoma/nspec/pull/244"><strong>#244</strong></a>: Major refactoring of
+  engine-related types. The <code>Engine</code> type now includes a <code>cfg</code> field of type
+  <code>EngineConfig</code> containing static configuration (engine name and local node
+  ID). For consistency, <code>EngineEnvironment</code> has been renamed to <code>EngineEnv</code>. The
+  <code>EngineBehaviour</code> type has undergone several changes: the conflict solver has
+  been removed (to be replaced by new mechanism in
+  <a href="https://github.com/anoma/nspec/pull/246">#246</a>), precomputation results are
+  now passed directly as action arguments, and the <code>action</code> field has been
+  replaced with action labels defined by label type.</li>
+<li><a href="https://github.com/anoma/nspec/pull/249"><strong>#249</strong></a>: Remove <code>name</code> field in Engine instances due to PR 242</li>
+<li><a href="https://github.com/anoma/nspec/pull/255"><strong>#255</strong></a>: Make ByteString <code>String</code> instead of <code>Nat</code></li>
+<li><a href="https://github.com/anoma/nspec/pull/258"><strong>#258</strong></a>: Engine-related changes: add type parameter to parameterized the type of message and <a href="https://github.com/anoma/nspec/pull/258/commits/e35d75f8a187155629fa1b0a5b72ea6983a49e2d">rename <code>EngineConfig</code> to <code>EngineCfg</code></a></li>
+<li><a href="https://github.com/anoma/nspec/pull/260"><strong>#260</strong></a>: Revise engine behaviour type: add <code>GuardEval (Seq)</code> and <code>ActionExec (First &amp; Any)</code>, <code>EngineCfg</code>: add <code>getEngineIDFromEngineCfg</code>. Partially addresses <a href="https://github.com/anoma/nspec/issues/246">#246</a>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="v010"><a href="https://specs.anoma.net/v0.1.0/">v0.1.0</a><a class="headerlink" href="#v010" title="Anchor link to this section for reference">¶</a></h2>
+<p>This is the first release of Anoma's Spec project, following the <a href="https://specs.anoma.net/pr-362/tutorial/versioning.html">semantic-versioning</a> scheme.
+This version includes all the changes from the creation of this repository. From
+here on, we will keep a changelog of all the changes that are made to the
+project per version, with better documentation and descriptions of the changes.</p>
+<h3 id="breaking-changes">Breaking changes<a class="headerlink" href="#breaking-changes" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li><strong>Node architecture</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/179"><strong>#179</strong></a>: Reorganize node architecture
+  documentation structure</li>
+<li><a href="https://github.com/anoma/nspec/pull/192"><strong>#192</strong></a>: Port identity engines to v2 template</li>
+</ul>
+</li>
+<li><strong>System architecture</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/210"><strong>#210</strong></a>: Fix engine message, environment and
+  behavior layout</li>
+</ul>
+</li>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/29"><strong>#29</strong></a>: Remove unused libraries</li>
+<li><a href="https://github.com/anoma/nspec/pull/30"><strong>#30</strong></a>: Remove juvix hook in pro of mkdos Juvix
+  plugin</li>
+<li><a href="https://github.com/anoma/nspec/pull/53"><strong>#53</strong></a>: Setup: require only python 3.9</li>
+<li><a href="https://github.com/anoma/nspec/pull/60"><strong>#60</strong></a>: Restructure for v2</li>
+<li><a href="https://github.com/anoma/nspec/pull/64"><strong>#64</strong></a>: Change KV Storage Deletion Documentation</li>
+<li><a href="https://github.com/anoma/nspec/pull/65"><strong>#65</strong></a>: Delete Compute and Randomness Engines</li>
+<li><a href="https://github.com/anoma/nspec/pull/69"><strong>#69</strong></a>: Remove outdates files from arch1 and fix
+  formatting</li>
+<li><a href="https://github.com/anoma/nspec/pull/104"><strong>#104</strong></a>: Refactor scope, basic types, and
+  application architecture sections</li>
+<li><a href="https://github.com/anoma/nspec/pull/115"><strong>#115</strong></a>: Refactor file and folder names: add
+  snake_case convention</li>
+</ul>
+</li>
+</ul>
+<h3 id="bug-fixes">Bug fixes<a class="headerlink" href="#bug-fixes" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/4"><strong>#4</strong></a>: Fix mike</li>
+<li><a href="https://github.com/anoma/nspec/pull/9"><strong>#9</strong></a>: Add batch of fixes</li>
+<li><a href="https://github.com/anoma/nspec/pull/10"><strong>#10</strong></a>: Fix Index: quick links and remove empty types
+  pages</li>
+<li><a href="https://github.com/anoma/nspec/pull/18"><strong>#18</strong></a>: Fix TODO, add todos.py script, and more
+  formatting issues</li>
+<li><a href="https://github.com/anoma/nspec/pull/19"><strong>#19</strong></a>: Remove todos on deploy, fix wikilinks warnings</li>
+<li><a href="https://github.com/anoma/nspec/pull/21"><strong>#21</strong></a>: Fix whitespaces</li>
+<li><a href="https://github.com/anoma/nspec/pull/22"><strong>#22</strong></a>: Fix indexes generation with macros and optimize
+  caching</li>
+<li><a href="https://github.com/anoma/nspec/pull/24"><strong>#24</strong></a>: Fix minors</li>
+<li><a href="https://github.com/anoma/nspec/pull/25"><strong>#25</strong></a>: CI fixes</li>
+<li><a href="https://github.com/anoma/nspec/pull/74"><strong>#74</strong></a>: Fix broken links in navigation bar and a few
+  pages</li>
+<li><a href="https://github.com/anoma/nspec/pull/77"><strong>#77</strong></a>: Fix CI: deploy website by PRs against main, v1,
+  and v2</li>
+<li><a href="https://github.com/anoma/nspec/pull/78"><strong>#78</strong></a>: Fix: CI doesnt trigger on edits</li>
+<li><a href="https://github.com/anoma/nspec/pull/91"><strong>#91</strong></a>: Fix default views and deploys in the CI</li>
+<li><a href="https://github.com/anoma/nspec/pull/96"><strong>#96</strong></a>: Fix navigation bar and more broken links due #60</li>
+<li><a href="https://github.com/anoma/nspec/pull/101"><strong>#101</strong></a>: Fix typos and small improve wording</li>
+<li><a href="https://github.com/anoma/nspec/pull/105"><strong>#105</strong></a>: Fix warnings messages due to recent refactors</li>
+<li><a href="https://github.com/anoma/nspec/pull/122"><strong>#122</strong></a>: Fix support for Juvix Markdown snippets</li>
+<li><a href="https://github.com/anoma/nspec/pull/123"><strong>#123</strong></a>: Fix merging conflicts chris-update-basic-types</li>
+<li><a href="https://github.com/anoma/nspec/pull/124"><strong>#124</strong></a>: Fix tutorial nav structure and broken links in
+  the footer</li>
+<li><a href="https://github.com/anoma/nspec/pull/132"><strong>#132</strong></a>: Fix minor issues with directories and filenames</li>
+</ul>
+</li>
+</ul>
+<h3 id="features_3">Features<a class="headerlink" href="#features_3" title="Anchor link to this section for reference">¶</a></h3>
+<ul>
+<li>Application documentation<ul>
+<li><a href="https://github.com/anoma/nspec/pull/198"><strong>#198</strong></a>: Add transparent RM implementation documentation</li>
+</ul>
+</li>
+<li><strong>Python-related changes</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/133"><strong>#133</strong></a>: Add support for multi-line wiki-style links</li>
+</ul>
+</li>
+<li><strong>Repository maintenance and CI</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/2"><strong>#2</strong></a>: Add better support for WikiLinks and other goodies</li>
+<li><a href="https://github.com/anoma/nspec/pull/3"><strong>#3</strong></a>: Update README and run pre-commit</li>
+<li><a href="https://github.com/anoma/nspec/pull/5"><strong>#5</strong></a>: Add Ubuntu dependencies to the CI</li>
+<li><a href="https://github.com/anoma/nspec/pull/6"><strong>#6</strong></a>: Use site_url for link generation</li>
+<li><a href="https://github.com/anoma/nspec/pull/7"><strong>#7</strong></a>: Add new hook for images</li>
+<li><a href="https://github.com/anoma/nspec/pull/8"><strong>#8</strong></a>: Add lightboxes to images, fix local image loading</li>
+<li><a href="https://github.com/anoma/nspec/pull/11"><strong>#11</strong></a>: Improve link resolution for urls outside nav</li>
+<li><a href="https://github.com/anoma/nspec/pull/14"><strong>#14</strong></a>: Add Last updated time to the footer and other
+  fixes</li>
+<li><a href="https://github.com/anoma/nspec/pull/15"><strong>#15</strong></a>: Add a more explicit MathJax config</li>
+<li><a href="https://github.com/anoma/nspec/pull/17"><strong>#17</strong></a>: Revised macros configuration</li>
+<li><a href="https://github.com/anoma/nspec/pull/20"><strong>#20</strong></a>: Refactor hooks</li>
+<li><a href="https://github.com/anoma/nspec/pull/23"><strong>#23</strong></a>: Add previews for PRs</li>
+<li><a href="https://github.com/anoma/nspec/pull/27"><strong>#27</strong></a>: Fix url indexes and improve PR previews</li>
+<li><a href="https://github.com/anoma/nspec/pull/28"><strong>#28</strong></a>: Add tutorial basic instructions</li>
+<li><a href="https://github.com/anoma/nspec/pull/31"><strong>#31</strong></a>: Translate Haskell snippets to Juvix and fix typos</li>
+<li><a href="https://github.com/anoma/nspec/pull/51"><strong>#51</strong></a>: Configuration Engine</li>
+<li><a href="https://github.com/anoma/nspec/pull/52"><strong>#52</strong></a>: Add nix flake</li>
+<li><a href="https://github.com/anoma/nspec/pull/56"><strong>#56</strong></a>: Add page on dynamic code loading</li>
+<li><a href="https://github.com/anoma/nspec/pull/58"><strong>#58</strong></a>: Homogeneous consensus for V2</li>
+<li><a href="https://github.com/anoma/nspec/pull/59"><strong>#59</strong></a>: Readme: tighten up install instructions</li>
+<li><a href="https://github.com/anoma/nspec/pull/61"><strong>#61</strong></a>: Updates kudos spec</li>
+<li><a href="https://github.com/anoma/nspec/pull/63"><strong>#63</strong></a>: Counter example</li>
+<li><a href="https://github.com/anoma/nspec/pull/68"><strong>#68</strong></a>: Add New Engine Specifications from Anoma Elixir
+  Database</li>
+<li><a href="https://github.com/anoma/nspec/pull/75"><strong>#75</strong></a>: Add proof-of-stake example</li>
+<li><a href="https://github.com/anoma/nspec/pull/80"><strong>#80</strong></a>: Re-introduced full execution machine for V2</li>
+<li><a href="https://github.com/anoma/nspec/pull/81"><strong>#81</strong></a>: Add BibTeX entries and fix configuration</li>
+<li><a href="https://github.com/anoma/nspec/pull/84"><strong>#84</strong></a>: Add templates for defining engine systems</li>
+<li><a href="https://github.com/anoma/nspec/pull/92"><strong>#92</strong></a>: Add global table of contents</li>
+<li><a href="https://github.com/anoma/nspec/pull/95"><strong>#95</strong></a>: Continue v2 updates</li>
+<li><a href="https://github.com/anoma/nspec/pull/97"><strong>#97</strong></a>: Add git branching strategy</li>
+<li><a href="https://github.com/anoma/nspec/pull/98"><strong>#98</strong></a>: Add citation instructions and restructure markdown
+  tutorials</li>
+<li><a href="https://github.com/anoma/nspec/pull/99"><strong>#99</strong></a>: Delete previews for closed PRs on gh-pages branch</li>
+<li><a href="https://github.com/anoma/nspec/pull/100"><strong>#100</strong></a>: Split CI workflows: deploy, pull-request, clean-
+  ups</li>
+<li><a href="https://github.com/anoma/nspec/pull/103"><strong>#103</strong></a>: Additional reorganization &amp; updates</li>
+<li><a href="https://github.com/anoma/nspec/pull/117"><strong>#117</strong></a>: Tweaks to message types in basics</li>
+<li><a href="https://github.com/anoma/nspec/pull/120"><strong>#120</strong></a>: Refactor tutorial organization and add a few
+  more on conventions</li>
+<li><a href="https://github.com/anoma/nspec/pull/121"><strong>#121</strong></a>: Improve look&amp;feel, organized nav, hide extra
+  links and move them to the footer</li>
+<li><a href="https://github.com/anoma/nspec/pull/127"><strong>#127</strong></a>: Update basic abstractions</li>
+<li><a href="https://github.com/anoma/nspec/pull/131"><strong>#131</strong></a>: Add RMv3 content</li>
+<li><a href="https://github.com/anoma/nspec/pull/135"><strong>#135</strong></a>: Show PR number in the site name</li>
+<li><a href="https://github.com/anoma/nspec/pull/209"><strong>#209</strong></a>: Add changelog management system</li>
+<li><a href="https://github.com/anoma/nspec/pull/214"><strong>#214</strong></a>: Add GitHub template for creating PRs</li>
+</ul>
+</li>
+<li><strong>Tutorial and documentation</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/134"><strong>#134</strong></a>: Refactor tutorial for wiki-style links</li>
+</ul>
+</li>
+<li><strong>Juvix types and updates</strong><ul>
+<li><a href="https://github.com/anoma/nspec/pull/128"><strong>#128</strong></a>: Add new Juvix definitions from PR-84</li>
+<li><a href="https://github.com/anoma/nspec/pull/130"><strong>#130</strong></a>: Translate SML Identity definitions to Juvix</li>
+</ul>
+</li>
+</ul>
+<!-- list_wikilinks -->
+<!-- Source file information -->
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="Last update">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-20T17:37:26+01:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-20</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="Created">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-09T20:06:11+01:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-09</span>
+</span>
+</aside>
+<!-- Was this page helpful? -->
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53z"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c.67 0 1.32.12 1.94.33L13 9.35l-4 5zM16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35l-1-7 4.5-5-2.65-5.08C13.87 3.47 15.17 3 16.5 3"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              Thanks for your feedback! We'll try to improve this page in the future.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+<!-- Comment system -->
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Home" class="md-footer__link md-footer__link--prev" href="index.html">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.042.018.75.75 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Home
+              </div>
+</div>
+</a>
+<a aria-label="Next: List of tags" class="md-footer__link md-footer__link--next" href="indexes/tags.html">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Next
+              </span>
+<div class="md-ellipsis">
+                List of tags
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Powered by Mkdocs, Poetry 1.8.3, Material 9.5.49-insiders-4.53.14 and Juvix v0.6.9
+    </div>
+<strong>Version: (PR362 - anthony/bump-47b3ec5a) - Updated: April 22,
+    2025 at 03:18 AM UTC</strong>
+<br/>
+<strong>Latest version: <a href="https://specs.anoma.net/latest">
+    https://specs.anoma.net/latest</a></strong>
+<br/>
+<strong>Development version: <a href="https://specs.anoma.net/main">
+    https://specs.anoma.net/main</a></strong>
+<br/>
+<strong>Anoma Official Resources:</strong>
+<small> <a href="https://anoma.net/" target="_blank">Website</a> | <a href="https://art.anoma.net" target="_blank">Research</a> | <a href="https://anoma.net/blog" target="_blank">Blog</a> | <a href="https://anoma.net/talks" target="_blank">Talks</a> </small>
+<br/>
+<strong>For Specification Authors:</strong>
+<small>
+<a href="https://specs.anoma.net/pr-362/indexes/tags.html">Tags</a>
+    | <a href="https://specs.anoma.net/pr-362/indexes/links.html">Quick links</a>
+    | <a href="https://specs.anoma.net/pr-362/indexes/juvix_modules.html">Juvix modules</a>
+    | <a href="https://specs.anoma.net/pr-362/tutorial/index.html">Guides</a>
+</small>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://x.com/anoma" rel="noopener" target="_blank" title="x.com">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"></path></svg>
+</a>
+<a class="md-social__link" href="https://github.com/anoma" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://anoma.net/blog" rel="noopener" target="_blank" title="anoma.net">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M192 32c0 17.7 14.3 32 32 32 123.7 0 224 100.3 224 224 0 17.7 14.3 32 32 32s32-14.3 32-32C512 128.9 383.1 0 224 0c-17.7 0-32 14.3-32 32m0 96c0 17.7 14.3 32 32 32 70.7 0 128 57.3 128 128 0 17.7 14.3 32 32 32s32-14.3 32-32c0-106-86-192-192-192-17.7 0-32 14.3-32 32m-96 16c0-26.5-21.5-48-48-48S0 117.5 0 144v224c0 79.5 64.5 144 144 144s144-64.5 144-144-64.5-144-144-144h-16v96h16c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48z"></path></svg>
+</a>
+<a class="md-social__link" href="https://research.anoma.net" rel="noopener" target="_blank" title="research.anoma.net">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9S348.6 32 225.9 32M224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128"></path></svg>
+</a>
+<a class="md-social__link" href="https://youtube.com/anoma" rel="noopener" target="_blank" title="youtube.com">
+<svg viewbox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305m-317.51 213.508V175.185l142.739 81.205z"></path></svg>
+</a>
+<a class="md-social__link" href="mailto:arts@heliax.dev" rel="noopener" target="_blank" title="">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": ".", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tooltips", "content.action.edit", "content.action.view", "search.highlight", "search.suggest", "search.sharing", "navigation.instant.preview", "navigation.tracking", "navigation.prune", "navigation.indexes", "navigation.sections", "navigation.footer", "navigation.path", "toc.follow"], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="assets/javascripts/bundle.88dd0f4e.min.js"></script>
+<script src="js/timeago.min.js"></script>
+<script src="js/timeago_mkdocs_material.js"></script>
+<script src="assets/js/extra.js"></script>
+<script src="assets/js/highlight.js"></script>
+<script src="assets/js/mathjax.js"></script>
+<script src="assets/js/tex-svg-full.js"></script>
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

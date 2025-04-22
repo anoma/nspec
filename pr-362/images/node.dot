@@ -1,0 +1,43 @@
+digraph {
+  layout = neato
+  model = mds
+  overlap = false
+  start = 1
+
+  fontname = "TeX Gyre Pagella"
+  node [fontname="TeX Gyre Pagella"]
+
+  bgcolor = transparent
+  # cluster border
+  pencolor = "#777777"
+  edge [color="#555555"; arrowhead=vee; arrowtail=vee]
+  # dark theme
+  # fontcolor = white
+  # node [color=white; fontcolor=white]
+  # edge [color="#999999"
+
+  node [shape=circle; style=bold]
+
+  subgraph cluster_a {
+    label = "Node A"
+
+    A_R [shape=doublecircle]
+    A_T
+    A_Y
+    A_X
+    A_Z
+  }
+
+  # Engine connections
+  edge [len=1; dir=none]
+
+  A_R -> { A_T A_X A_Y A_Z }
+
+  # Message paths
+  edge [len=3; dir=forward; style=dashed]
+
+  A_X -> A_R -> A_Y [color=red; label="Y"]
+
+  A_Z -> A_R -> {A_X A_Y} [color=blue; label="T"]
+
+}

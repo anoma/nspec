@@ -1,0 +1,2128 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." name="description"/>
+<meta content="Anoma Foundation" name="author"/>
+<link href="https://specs.anoma.net/pr-362/arch/system/identity/identity.juvix.html" rel="canonical"/>
+<link href="../../node/engines/storage_behaviour.html" rel="prev"/>
+<link href="../state/resource_machine/index.html" rel="next"/>
+<link href="../../../assets/logo.svg" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.49" name="generator"/>
+<title>Identity Architecture Types - Anoma specs</title>
+<link href="../../../assets/stylesheets/main.6f8fc17f.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+<link href="../../../css/timeago.css" rel="stylesheet"/>
+<link href="../../../assets/css/juvix-material-style.css" rel="stylesheet"/>
+<link href="../../../assets/css/juvix-highlighting.css" rel="stylesheet"/>
+<link href="../../../assets/css/juvix_codeblock_footer.css" rel="stylesheet"/>
+<link href="../../../assets/css/latte-light.css" rel="stylesheet"/>
+<link href="../../../assets/css/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<meta content="website" property="og:type"/>
+<meta content="Identity Architecture Types - Anoma specs" property="og:title"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." property="og:description"/>
+<meta content="https://specs.anoma.net/pr-362/assets/images/social/arch/system/identity/identity.juvix.png" property="og:image"/>
+<meta content="image/png" property="og:image:type"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="https://specs.anoma.net/pr-362/arch/system/identity/identity.juvix.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Identity Architecture Types - Anoma specs" name="twitter:title"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." name="twitter:description"/>
+<meta content="https://specs.anoma.net/pr-362/assets/images/social/arch/system/identity/identity.juvix.png" name="twitter:image"/>
+<link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../assets/javascripts/glightbox.min.js"></script></link></head>
+<body data-md-color-accent="indigo" data-md-color-primary="white" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#identity-architecture">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+<aside class="md-banner">
+<div class="md-banner__inner md-grid md-typeset">
+<button aria-label="Don't show this again" class="md-banner__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+            
+            
+  For updates follow <strong>@anoma</strong> on
+  <a href="https://x.com/anoma" rel="me">
+<span class="twemoji x-twitter">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"></path></svg>
+</span>
+<strong></strong>
+</a>
+  and discuss on our
+  <a href="https://research.anoma.net">
+<span class="twemoji discourse">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9S348.6 32 225.9 32M224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128"></path></svg>
+</span>
+<strong>forum</strong>
+</a>
+</div>
+<script>var el=document.querySelector("[data-md-component=announce]");if(el){var content=el.querySelector(".md-typeset");__md_hash(content.innerHTML)===__md_get("__announce")&&(el.hidden=!0)}</script>
+</aside>
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Anoma specs" class="md-header__button md-logo" data-md-component="logo" href="../../../index.html" title="Anoma specs">
+<img alt="logo" src="../../../assets/logo.svg"/>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+<span class="first-letter">A</span>noma 
+              
+                <span class="first-letter">s</span>pecs
+              
+              
+                <span class="md-header__topic-version">(PR362 - anthony/bump-47b3ec5a)</span>
+</span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+              
+                Identity Architecture Types
+              
+            </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme)" data-md-color-primary="white" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+</label>
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="white" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to system preference" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to system preference">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7"></path></svg>
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.042.018.75.75 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/anoma/nspec" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    anoma/nspec
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<!--
+  This is a modified version of the original mkdocs-material theme.
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Determine classes -->
+<!-- Navigation -->
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<!-- Site title -->
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Anoma specs" class="md-nav__button md-logo" data-md-component="logo" href="../../../index.html" title="Anoma specs">
+<img alt="logo" src="../../../assets/logo.svg"/>
+</a>
+    Anoma specs
+  </label>
+<!-- List of Versions -->
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://specs.anoma.net/latest" target="_blank">
+     Latest version ((PR362 - anthony/bump-47b3ec5a))
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://specs.anoma.net/main">
+        Development version
+      </a>
+</li>
+</ul>
+<!-- Navigation list -->
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../index.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
+<span class="md-ellipsis">
+    Home
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../changelog.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"></path></svg>
+<span class="md-ellipsis">
+    Changelog
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-ellipsis">
+    Indexes
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Indexes
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../indexes/tags.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 7A1.5 1.5 0 0 1 4 5.5 1.5 1.5 0 0 1 5.5 4 1.5 1.5 0 0 1 7 5.5 1.5 1.5 0 0 1 5.5 7m15.91 4.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.11 0-2 .89-2 2v7c0 .55.22 1.05.59 1.41l8.99 9c.37.36.87.59 1.42.59s1.05-.23 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.56-.23-1.06-.59-1.42"></path></svg>
+<span class="md-ellipsis">
+    List of tags
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../indexes/modules.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 10h-2V8h2m0 5h-2v-2h2m-3-1h-2V8h2m0 5h-2v-2h2m0 6H8v-2h8m-9-5H5V8h2m0 5H5v-2h2m1 0h2v2H8m0-5h2v2H8m3 1h2v2h-2m0-5h2v2h-2m9-5H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2"></path></svg>
+<span class="md-ellipsis">
+    List of modules
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../prelude.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2h7v5h5v11H6zm2 8v2h8v-2zm0 4v2h5v-2z"></path></svg>
+<span class="md-ellipsis">
+    List of basic types
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-ellipsis">
+    Introduction
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            Introduction
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../anomian.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.1 1 4.1 2.8 5.5 0 .6-.4 2.2-2.8 4.5 0 0 3.5 0 6.5-2.5 1.1.3 2.3.5 3.5.5 5.5 0 10-3.6 10-8s-4.5-8-10-8m1 12h-2v-2h2zm1.8-5c-.3.4-.7.6-1.1.8-.3.2-.4.3-.5.5-.2.2-.2.4-.2.7h-2c0-.5.1-.8.3-1.1.2-.2.6-.5 1.1-.8.3-.1.5-.3.6-.5s.2-.5.2-.7c0-.3-.1-.5-.3-.7s-.5-.3-.8-.3-.5.1-.7.2q-.3.15-.3.6h-2c.1-.7.4-1.3.9-1.7s1.2-.5 2.1-.5 1.7.2 2.2.6.8 1 .8 1.7q.15.6-.3 1.2"></path></svg>
+<span class="md-ellipsis">
+    Anomian
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../overview.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 18.714v4.8c0 .288-.192.48-.48.48h-4.8c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48h1.92v-1.92h-8.16v1.92h1.92c.288 0 .48.192.48.48v4.8c0 .288-.192.48-.48.48H9.6c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48h1.92v-1.92H3.36v1.92h1.92c.288 0 .48.192.48.48v4.8c0 .288-.192.48-.48.48H.48c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48H2.4v-2.4c0-.288.192-.48.48-.48h8.64v-1.44h.96v1.44h8.64c.288 0 .48.192.48.48v2.4h1.92c.288 0 .48.192.48.48m-13.92 4.32h3.84v-3.84h-3.84zm-9.12 0H4.8v-3.84H.96Zm18.24 0h3.84v-3.84H19.2ZM6.24 9.642V3.546c0-.192.096-.336.24-.432L11.76.042a.8.8 0 0 1 .48 0l5.28 3.072c.144.096.24.24.24.432v6.096c0 .144-.096.288-.24.384l-5.28 3.072q-.096.048-.24.048t-.24-.048l-5.28-3.072c-.144-.096-.24-.24-.24-.384m10.56-.288V4.362l-4.32 2.496v4.992zm-9.6 0 4.32 2.496V6.858L7.2 4.362Zm.48-5.808L12 5.994l4.32-2.448L12 1.05Z"></path></svg>
+<span class="md-ellipsis">
+    Anoma architecture
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-ellipsis">
+    Node architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            Node architecture
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../node/concepts/engine.html">
+<span class="md-ellipsis">
+    Concepts
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../node/types/anoma_message.html">
+<span class="md-ellipsis">
+    Types
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../node/subsystems/hardware.html">
+<span class="md-ellipsis">
+    Subsystems
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-ellipsis">
+    System architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            System architecture
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+<span class="md-ellipsis">
+    Identity Architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_6_1_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_1">
+<span class="md-nav__icon md-icon"></span>
+            Identity Architecture
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2h7v5h5v11H6zm2 8v2h8v-2zm0 4v2h5v-2z"></path></svg>
+<span class="md-ellipsis">
+    Identity Architecture Types
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="identity.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2h7v5h5v11H6zm2 8v2h8v-2zm0 4v2h5v-2z"></path></svg>
+<span class="md-ellipsis">
+    Identity Architecture Types
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-interface">
+<span class="md-ellipsis">
+      Identity Interface
+    </span>
+</a>
+<nav aria-label="Identity Interface" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#internal-identity">
+<span class="md-ellipsis">
+      Internal Identity
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#external-identity">
+<span class="md-ellipsis">
+      External Identity
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-juvix-type">
+<span class="md-ellipsis">
+      Identity Juvix Type
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#signsfor-relation">
+<span class="md-ellipsis">
+      SignsFor Relation
+    </span>
+</a>
+<nav aria-label="SignsFor Relation" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#signsfor-evidence">
+<span class="md-ellipsis">
+      SignsFor Evidence
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#signsfor-equivalence">
+<span class="md-ellipsis">
+      SignsFor Equivalence
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#readsfor-relation">
+<span class="md-ellipsis">
+      ReadsFor Relation
+    </span>
+</a>
+<nav aria-label="ReadsFor Relation" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#readsfor-evidence">
+<span class="md-ellipsis">
+      ReadsFor Evidence
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#equivalence">
+<span class="md-ellipsis">
+      Equivalence
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#composition">
+<span class="md-ellipsis">
+      Composition
+    </span>
+</a>
+<nav aria-label="Composition" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#threshold-composition">
+<span class="md-ellipsis">
+      Threshold Composition
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#and-identities">
+<span class="md-ellipsis">
+      "And" Identities
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#or-identities">
+<span class="md-ellipsis">
+      "Or" Identities
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#opaque-composition">
+<span class="md-ellipsis">
+      Opaque Composition
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#special-identities">
+<span class="md-ellipsis">
+      Special identities
+    </span>
+</a>
+<nav aria-label="Special identities" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#true-all">
+<span class="md-ellipsis">
+      "true / All"
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#false-none">
+<span class="md-ellipsis">
+      "false / None"
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-names">
+<span class="md-ellipsis">
+      Identity Names
+    </span>
+</a>
+<nav aria-label="Identity Names" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sub-identities">
+<span class="md-ellipsis">
+      Sub-Identities
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#notation">
+<span class="md-ellipsis">
+      "." Notation
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-engine">
+<span class="md-ellipsis">
+      Identity Engine
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-name-resolution">
+<span class="md-ellipsis">
+      Identity Name Resolution
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../state/resource_machine/index.html">
+<span class="md-ellipsis">
+    State Architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-ellipsis">
+    Tutorials
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../../tutorial/principles_and_guidelines.html">
+<span class="md-ellipsis">
+    Contributor guidelines
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-interface">
+<span class="md-ellipsis">
+      Identity Interface
+    </span>
+</a>
+<nav aria-label="Identity Interface" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#internal-identity">
+<span class="md-ellipsis">
+      Internal Identity
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#external-identity">
+<span class="md-ellipsis">
+      External Identity
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-juvix-type">
+<span class="md-ellipsis">
+      Identity Juvix Type
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#signsfor-relation">
+<span class="md-ellipsis">
+      SignsFor Relation
+    </span>
+</a>
+<nav aria-label="SignsFor Relation" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#signsfor-evidence">
+<span class="md-ellipsis">
+      SignsFor Evidence
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#signsfor-equivalence">
+<span class="md-ellipsis">
+      SignsFor Equivalence
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#readsfor-relation">
+<span class="md-ellipsis">
+      ReadsFor Relation
+    </span>
+</a>
+<nav aria-label="ReadsFor Relation" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#readsfor-evidence">
+<span class="md-ellipsis">
+      ReadsFor Evidence
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#equivalence">
+<span class="md-ellipsis">
+      Equivalence
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#composition">
+<span class="md-ellipsis">
+      Composition
+    </span>
+</a>
+<nav aria-label="Composition" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#threshold-composition">
+<span class="md-ellipsis">
+      Threshold Composition
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#and-identities">
+<span class="md-ellipsis">
+      "And" Identities
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#or-identities">
+<span class="md-ellipsis">
+      "Or" Identities
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#opaque-composition">
+<span class="md-ellipsis">
+      Opaque Composition
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#special-identities">
+<span class="md-ellipsis">
+      Special identities
+    </span>
+</a>
+<nav aria-label="Special identities" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#true-all">
+<span class="md-ellipsis">
+      "true / All"
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#false-none">
+<span class="md-ellipsis">
+      "false / None"
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-names">
+<span class="md-ellipsis">
+      Identity Names
+    </span>
+</a>
+<nav aria-label="Identity Names" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sub-identities">
+<span class="md-ellipsis">
+      Sub-Identities
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#notation">
+<span class="md-ellipsis">
+      "." Notation
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-engine">
+<span class="md-ellipsis">
+      Identity Engine
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identity-name-resolution">
+<span class="md-ellipsis">
+      Identity Name Resolution
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<!--
+  This is a modified version of the original mkdocs-material theme.
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Tags -->
+<nav class="md-tags">
+<a class="md-tag" href="../../../indexes/tags.html#system-architecture">system-architecture</a>
+<a class="md-tag" href="../../../indexes/tags.html#identity">identity</a>
+</nav>
+<!-- Actions -->
+<!--
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Actions -->
+<!-- Edit button -->
+<a class="md-content__button md-icon" href="https://github.com/anoma/nspec/edit/main/docs/arch/system/identity/identity.juvix.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-1.9l10-10V8l-6-6zm7 1.5L18.5 9H13zm7.1 9.5c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-2 1.8L12 20.9V23h2.1l6.1-6.1z"></path></svg>
+</a>
+<!-- View button -->
+<a class="md-content__button md-icon" href="https://github.com/anoma/nspec/raw/main/docs/arch/system/identity/identity.juvix.md" title="View source of this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6h17.12c.79 0 1.44.63 1.44 1.41v9.18c0 .78-.65 1.41-1.44 1.41M6.81 15.19v-3.66l1.92 2.35 1.92-2.35v3.66h1.93V8.81h-1.93l-1.92 2.35-1.92-2.35H4.89v6.38zM19.69 12h-1.92V8.81h-1.92V12h-1.93l2.89 3.28z"></path></svg>
+</a>
+<!-- If the page source ends with .juvix.md, we show a button to view the raw code -->
+<a class="md-content__button md-icon" href="arch/system/identity/identity-src.html" title="View Raw Juvix Code">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 3a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2H3v2h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h2v-2H8v-5a2 2 0 0 0-2-2 2 2 0 0 0 2-2V5h2V3m6 0a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1v2h-1a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-2v-2h2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5h-2V3z"></path></svg>
+</a>
+<!--
+  Hack: check whether the content contains a h1 headline. If it doesn't, the
+  page title (or respectively site name) is used as the main headline.
+-->
+<!-- Page content -->
+<details class="failure"><summary>Juvix Markdown error</summary>
+<pre><code>
+    ***/.juvix-build/0.6.9/deps/4840c75d24c71a4510ee7338beea31f9f2a65ddc71eab3907b676813c23e321a/Stdlib/Trait/DivM
+od.juvix:12:21-23: error: The module DivMod does not export mk
+
+</code></pre></details>
+<details class="code">
+<summary>Juvix imports</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-0-1">module arch.system.identity.identity;
+</span><span id="__ispan-0-2">import prelude open;
+</span></code></pre></div>
+</details>
+<h1 id="identity-architecture">Identity Architecture<a class="headerlink" href="#identity-architecture" title="Anchor link to this section for reference">¶</a></h1>
+<details class="note">
+<summary>Type definitions</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-1-1">type OrdKey OrdKeyType :=
+</span><span id="__ispan-1-2">  mkOrdKey@{
+</span><span id="__ispan-1-3">    compare : OrdKeyType -&gt; OrdKeyType -&gt; Ordering
+</span><span id="__ispan-1-4">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-2-1">type HASH OrdKeyType Hashable :=
+</span><span id="__ispan-2-2">  mkHASH@{
+</span><span id="__ispan-2-3">    ordKey : OrdKey OrdKeyType;
+</span><span id="__ispan-2-4">    hash : Hashable -&gt; OrdKeyType
+</span><span id="__ispan-2-5">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-3-1">-- Note: instance of this with Data.Map should be made
+</span><span id="__ispan-3-2">type OrdMap (OrdKeyType : Type) (MapCon : Type -&gt; Type) :=
+</span><span id="__ispan-3-3">  mkMap {
+</span><span id="__ispan-3-4">    ordKey : OrdKey OrdKeyType;
+</span><span id="__ispan-3-5">    empty {A} : MapCon A;
+</span><span id="__ispan-3-6">    map {A B} : (A -&gt; B) -&gt; MapCon A -&gt; MapCon B;
+</span><span id="__ispan-3-7">    insert {A} : Pair (MapCon A) (Pair OrdKeyType A) -&gt; MapCon A;
+</span><span id="__ispan-3-8">    foldl {A B} : (Pair A B -&gt; B) -&gt; B -&gt; MapCon A -&gt; B;
+</span><span id="__ispan-3-9">    intersectWith {A B C} : (Pair A B -&gt; C) -&gt; Pair (MapCon A) (MapCon B) -&gt; MapCon C;
+</span><span id="__ispan-3-10">    all {A} : (A -&gt; Bool) -&gt; MapCon A -&gt; Bool
+</span><span id="__ispan-3-11">    -- Bunch of stuff, see https://www.smlnj.org/doc/smlnj-lib/Util/sig-OrdMap.html
+</span><span id="__ispan-3-12">  };
+</span></code></pre></div>
+</details>
+<p>The base abstraction of the protocol is a knowledge-based identity
+ interface, where the identity of an agent is defined entirely on the
+ basis of whether or not they know some secret information.</p>
+<p>Agents can use private information (likely randomness) to create an
+ <em>internal identity</em>, from which they can derive an
+ <em>external identity</em> to which it corresponds.
+The external identity can be shared with other parties.
+The agent who knows the internal identity can sign messages, which any
+ agent who knows the external identity can verify, and any agent who
+ knows the external identity can encrypt messages which the agent with
+ knowledge of the internal identity can decrypt.
+This identity interface is independent of the particular cryptographic
+ mechanisms, which may vary.</p>
+<h2 id="identity-interface">Identity Interface<a class="headerlink" href="#identity-interface" title="Anchor link to this section for reference">¶</a></h2>
+<h3 id="internal-identity">Internal Identity<a class="headerlink" href="#internal-identity" title="Anchor link to this section for reference">¶</a></h3>
+<p>An internal identity includes private information necessary for signing and
+ decryption. Formally, an internal identity has two parts: a Signer and a
+Decryptor.</p>
+<h4 id="signer-juvix-type">Signer Juvix Type<a class="headerlink" href="#signer-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>A signature describing a type <code>SignerType</code> that can cryptographically
+ <code>sign</code> (or credibly commit) to something (a <code>Signable</code>), forming a
+ <code>Commitment</code>.
+Implementations should ultimately include, for example
+ <a href="https://en.wikipedia.org/wiki/BLS_digital_signature">BLS</a> keys,
+  which should be able to sign anything that can be marshaled into a
+  bitstring.</p>
+<p>Properties:</p>
+<ul>
+<li>
+<p>In general, every <code>S : Signer</code> needs a corresponding <code>V : Verifier</code>, and
+  every <code>s : SignerType</code> needs a corresponding <code>v : VerifierType</code>, such that:</p>
+<ul>
+<li>For any message <code>m</code> : <code>verify v m x = (x = (sign s m))</code></li>
+</ul>
+<ul>
+<li>for most cryptosystems, a computationally bounded adversary should not be
+  able to approximate <code>s</code> knowing only <code>v</code>.</li>
+</ul>
+</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-4-1">type Signer SignerType Signable Commitment :=
+</span><span id="__ispan-4-2">  mkSigner@{
+</span><span id="__ispan-4-3">    sign : SignerType -&gt; Signable -&gt; Commitment
+</span><span id="__ispan-4-4">  };
+</span></code></pre></div>
+<h4 id="decryptor-juvix-type">Decryptor Juvix Type<a class="headerlink" href="#decryptor-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>A signature describing a type <code>DecryptorType</code> that can cryptographically
+ <code>decrypt</code> something (a <code>Ciphertext</code>), resulting in a <code>Plaintext</code>
+ (or <code>none</code>, if decryption fails).
+Implementations should ultimately include, for example,
+ <a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256</a>
+ keys,  which should be able to decrypt bitstrings into anything that
+ can be unmarshaled from a bitstring.</p>
+<p>Properties:</p>
+<ul>
+<li>a computationally bounded adversary should not be able to
+  approximate <code>decrypt d</code> without knowledge of <code>d</code>.</li>
+</ul>
+<ul>
+<li><code>decrypt</code> should take polynomial time (in the size of its inputs)</li>
+</ul>
+<ul>
+<li>
+<p>Each <code>D : Decryptor</code> should have a corresponding <code>E : Encryptor</code>, and
+  each <code>d : DecryptorType</code> has a corresponding <code>e : EncryptorType</code> such
+  that:</p>
+<ul>
+<li>for all <code>c : Ciphertext</code>, <code>p : Plaintext</code>:
+  <code>decrypt d c = Some p</code> iff <code>c = encrypt e p</code></li>
+</ul>
+<ul>
+<li>if <code>d = e</code>, we call this "symmetric encryption," and otherwise
+  it's "asymmetric encryption"</li>
+</ul>
+</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-5-1">type Decryptor DecryptorType Plaintext Ciphertext :=
+</span><span id="__ispan-5-2">  mkDecryptor@{
+</span><span id="__ispan-5-3">    decrypt : DecryptorType -&gt; Ciphertext -&gt; Option Plaintext
+</span><span id="__ispan-5-4">  }
+</span></code></pre></div>
+<h4 id="internal-identity-juvix-type">Internal Identity Juvix Type<a class="headerlink" href="#internal-identity-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>An Internal Identity structure simply specifies everything specified by
+both Signer and Decryptor.</p>
+<p>An Internal Identity structure specifies the necessary types and
+ functions for both a Signer and a Decryptor.
+Implementations should ultimately include, for example,
+ <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a> private keys,
+ which should be able to decrypt integers into anything that can be
+ unmarshaled from a bitstring, and sign anything which can be
+ marshaled into a bytestring to form an integer.</p>
+<p>An internal_identity includes:</p>
+<ul>
+<li>a type <code>SignerType</code> that can cryptographically
+  <code>sign</code> (or credibly commit) to something (a <code>Signable</code>), forming a
+  <code>Commitment</code>.</li>
+</ul>
+<ul>
+<li>a type <code>DecryptorType</code> that can cryptographically <code>decrypt</code> something
+  (a <code>Ciphertext</code>), resulting in a <code>Plaintext</code>
+  (or <code>none</code>, if decryption fails).</li>
+</ul>
+<p>Properties are inherited from <code>Signer</code> and <code>Decryptor</code>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-6-1">type InternalIdentity
+</span><span id="__ispan-6-2">    SignerType
+</span><span id="__ispan-6-3">    Signable
+</span><span id="__ispan-6-4">    Commitment
+</span><span id="__ispan-6-5">    DecryptorType
+</span><span id="__ispan-6-6">    Plaintext
+</span><span id="__ispan-6-7">    Ciphertext :=
+</span><span id="__ispan-6-8">  mkInternalIdentity@{
+</span><span id="__ispan-6-9">    signer : Signer SignerType Signable Commitment;
+</span><span id="__ispan-6-10">    decryptor : Decryptor DecryptorType Plaintext Ciphertext
+</span><span id="__ispan-6-11">  }
+</span></code></pre></div>
+<h3 id="external-identity">External Identity<a class="headerlink" href="#external-identity" title="Anchor link to this section for reference">¶</a></h3>
+<p>An external identity includes only public information. An external identity can
+verify signatures produced by an internal identity, and encrypt messages the
+internal identity can then decrypt. Formally, an external identity has two parts:
+a verifier and an Encryptor. Each is <em>hashable</em>: any
+<a href="https://www.cs.cornell.edu/riccardo/prog-smlnj/notes-011001.pdf#page=59">structure</a>
+specifying verifier and Encryptor types must also specify a hash function, so
+that external identities can be specified by hash.</p>
+<h4 id="verifier-juvix-type">Verifier Juvix Type<a class="headerlink" href="#verifier-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>A signature describing a type <code>VerifierType</code> that can cryptographically
+ <code>verify</code> that a <code>Commitment</code> (or cryptographic signature) corresponds
+ to a given message (a <code>Signable</code>), and was signed by the <code>SignerType</code>
+ corresponding to this <code>VerifierType</code>.
+A <code>VerifierType</code> can be hashed (producing a unique identifier), so a
+ structure with signature <code>Verifier</code> must specify a <code>VerifierHash</code>
+ structure defining a suitable <code>hash</code> function.
+Implementations should ultimately include, for example
+ <a href="https://en.wikipedia.org/wiki/BLS_digital_signature">BLS</a>
+ identities.</p>
+<p>Properties:</p>
+<ul>
+<li>
+<p>In general, every <code>V : Verifier</code> needs a corresponding <code>S : Signer</code>, and
+  every <code>s : SignerType</code> needs a corresponding <code>v : VerifierType</code>, such that:</p>
+<ul>
+<li>For any message <code>m</code> : <code>verify v m x = (x = (sign s m))</code></li>
+</ul>
+<ul>
+<li>for most cryptosystems, a computationally bounded adversary should not be
+  able to approximate <code>s</code> knowing only <code>v</code>.</li>
+</ul>
+</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-7-1">type Verifier OrdKey VerifierType Signable Commitment :=
+</span><span id="__ispan-7-2">  mkVerifier@{
+</span><span id="__ispan-7-3">    verify : VerifierType -&gt; Signable -&gt; Commitment -&gt; Bool;
+</span><span id="__ispan-7-4">    verifierHash : HASH OrdKey VerifierType
+</span><span id="__ispan-7-5">  }
+</span></code></pre></div>
+<h4 id="encryptor-juvix-type">Encryptor Juvix Type<a class="headerlink" href="#encryptor-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>A signature describing a type <code>EncryptorType</code> that can cryptographically
+ <code>encrypt</code> a <code>Plaintext</code> (message) to create a <code>Ciphertext</code> readable
+ only by the corresponding <code>DecryptorType</code>.
+An <code>EncryptorType</code> can be hashed (producing a unique identifier), so a
+ structure with signature <code>Encryptor</code> must specify an <code>encryptorHash</code>
+ structure defining a suitable hash function.
+Implementations should ultimately include, for example,
+ <a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256</a>
+ keys,  which should be able to decrypt bitstrings into anything that
+ can be  unmarshaled from a bitstring.</p>
+<p>Properties:</p>
+<ul>
+<li><code>encrypt</code> should take polynomial time (in the size of its inputs)</li>
+</ul>
+<ul>
+<li>
+<p>Each <code>E : Encryptor</code> should have a corresponding <code>D : Decryptor</code>, and
+  each <code>d : DecryptorType</code> has a corresponding <code>e : EncryptorType</code> such
+  that:</p>
+<ul>
+<li>for all <code>c : Ciphertext</code>, <code>p : Plaintext</code>:
+  <code>decrypt d c = Some p</code> iff <code>c = encrypt e p</code></li>
+</ul>
+<ul>
+<li>if <code>d = e</code>, we call this "symmetric encryption," and otherwise
+  it's "asymmetric encryption."
+  In an asymmetric cryptosystem, a computationally bounded adversary
+  should not be able to approximate <code>d</code> knowing only <code>e</code>.</li>
+</ul>
+</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-8-1">type Encryptor OrdKey EncryptorType Plaintext Ciphertext :=
+</span><span id="__ispan-8-2">  mkEncryptor@{
+</span><span id="__ispan-8-3">    encrypt : EncryptorType -&gt; Plaintext -&gt; Ciphertext;
+</span><span id="__ispan-8-4">    encryptorHash : HASH OrdKey EncryptorType
+</span><span id="__ispan-8-5">  }
+</span></code></pre></div>
+<h4 id="external-identity-juvix-type">External Identity Juvix Type<a class="headerlink" href="#external-identity-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>An External Identity structure specifies the necessary types and
+ functions for both a Verifier and an Encryptor.
+Implementations should ultimately include, for example,
+ <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a> public keys.</p>
+<p>An external_identity includes:</p>
+<ul>
+<li>a type <code>VerifierType</code> that can cryptographically <code>verify</code> that a
+  <code>Commitment</code> (or cryptographic signature) corresponds to a given
+  message (a <code>Signable</code>), and was signed by the <code>SignerType</code>
+  corresponding to this <code>VerifierType</code>.</li>
+</ul>
+<ul>
+<li>a type <code>EncryptorType</code> that can cryptographically <code>encrypt</code> a
+  <code>Plaintext</code> (message) to create a <code>Ciphertext</code> readable only by the
+  corresponding <code>DecryptorType</code>.</li>
+</ul>
+<p>Properties are inherited from <code>Verifier</code> and <code>Encryptor</code>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-9-1">type ExternalIdentity
+</span><span id="__ispan-9-2">  VerifierOrdKeyType
+</span><span id="__ispan-9-3">  VerifierType
+</span><span id="__ispan-9-4">  Signable
+</span><span id="__ispan-9-5">  Commitment
+</span><span id="__ispan-9-6">  EncryptorOrdKeyType
+</span><span id="__ispan-9-7">  EncryptorType
+</span><span id="__ispan-9-8">  Plaintext
+</span><span id="__ispan-9-9">  Ciphertext
+</span><span id="__ispan-9-10">  :=
+</span><span id="__ispan-9-11">  mkExternalIdentity@{
+</span><span id="__ispan-9-12">    verifier : Verifier VerifierOrdKeyType VerifierType Signable Commitment;
+</span><span id="__ispan-9-13">    encryptor : Encryptor EncryptorOrdKeyType EncryptorType Plaintext Ciphertext
+</span><span id="__ispan-9-14">  };
+</span></code></pre></div>
+<h3 id="identity-juvix-type">Identity Juvix Type<a class="headerlink" href="#identity-juvix-type" title="Anchor link to this section for reference">¶</a></h3>
+<p>An Identity structure, formally, specifies all the types for
+ corresponding internal and external identities.
+So, for a given Identity structure <code>I</code>, its <code>VerifierType</code> should be the
+ type of objects that can verify <code>Commitment</code>s produced by a
+ corresponding object of type <code>SignerType</code>.
+Likewise, its <code>DecryptorType</code> should be the type of objects that can decrypt
+ <code>Ciphertext</code>s produced by a corresponding object of type
+ <code>EncryptorType</code>.
+Implementations should ultimately include, for example,
+ <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a>
+ public / private keys sytems.</p>
+<p>An Identity includes:</p>
+<ul>
+<li>a type <code>SignerType</code> that can cryptographically <code>sign</code> (or credibly commit) to something (an <code>InternalSignable</code>), forming an <code>InternalCommitment</code>.</li>
+</ul>
+<ul>
+<li>a type <code>DecryptorType</code> that can cryptographically <code>decrypt</code> something (an <code>InternalCiphertext</code>), resulting in an <code>InternalPlaintext</code> (or <code>none</code>, if decryption fails).</li>
+</ul>
+<ul>
+<li>a type <code>VerifierType</code> that can cryptographically <code>verify</code> that an <code>ExternalCommitment</code> (or cryptographic signature) corresponds to a given message (an <code>ExternalSignable</code>), and was signed by the <code>SignerType</code> corresponding to this <code>VerifierType</code>.</li>
+</ul>
+<ul>
+<li>a type <code>EncryptorType</code> that can cryptographically <code>encrypt</code> an <code>ExternalPlaintext</code> (message) to create an <code>ExternalCiphertext</code> readable only by the corresponding <code>DecryptorType</code>.</li>
+</ul>
+<p>Properties are inherited from <code>Verifier</code>, <code>Encryptor</code>, <code>Signer</code>, and <code>Decryptor</code>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-10-1">type Identity
+</span><span id="__ispan-10-2">  SignerType
+</span><span id="__ispan-10-3">  InternalSignable
+</span><span id="__ispan-10-4">  InternalCommitment
+</span><span id="__ispan-10-5">  DecryptorType
+</span><span id="__ispan-10-6">  InternalCiphertext
+</span><span id="__ispan-10-7">  InternalPlaintext
+</span><span id="__ispan-10-8">  VerifierOrdKeyType
+</span><span id="__ispan-10-9">  VerifierType
+</span><span id="__ispan-10-10">  ExternalSignable
+</span><span id="__ispan-10-11">  ExternalCommitment
+</span><span id="__ispan-10-12">  EncryptorOrdKeyType
+</span><span id="__ispan-10-13">  EncryptorType ExternalPlaintext ExternalCiphertext
+</span><span id="__ispan-10-14">   :=
+</span><span id="__ispan-10-15">  mkIdentity@{
+</span><span id="__ispan-10-16">    internalIdentity : InternalIdentity SignerType InternalSignable InternalCommitment DecryptorType InternalPlaintext InternalCiphertext;
+</span><span id="__ispan-10-17">    externalIdentity : ExternalIdentity VerifierOrdKeyType VerifierType ExternalSignable ExternalCommitment EncryptorOrdKeyType EncryptorType ExternalPlaintext ExternalCiphertext
+</span><span id="__ispan-10-18">  };
+</span></code></pre></div>
+<h2 id="signsfor-relation">SignsFor Relation<a class="headerlink" href="#signsfor-relation" title="Anchor link to this section for reference">¶</a></h2>
+<p>Some identities may have the authority to sign statements on behalf of other
+ identities. For example, <em>Alice</em> might grant <em>Bob</em> the authority to sign
+arbitrary messages on her behalf. We write this relationship as <em>Bob</em> <code>signsFor</code>
+<em>Alice</em>.</p>
+<p>In general, <code>signsFor</code> is a partial order over identities. This means
+<code>signsFor</code> is transitive: if <em>A</em> <code>signsFor</code> <em>B</em> and <em>B</em> <code>signsFor</code> <em>C</em>, then <em>A</em>
+<code>signsFor</code> <em>C</em>. The <code>signsFor</code> relation becomes especially useful with regard
+to <a href="#composition">composed identities, discussed below</a>.</p>
+<h3 id="signsfor-evidence">SignsFor Evidence<a class="headerlink" href="#signsfor-evidence" title="Anchor link to this section for reference">¶</a></h3>
+<p>We do not specify all the ways one might know if one identity <code>signsFor</code>
+another. In general, an <a href="#identity-engine">Identity Engine</a> might accept (and
+perhaps store) a variety of forms of evidence as proof. As one simple form of
+evidence, we can specify a format for signed statements from <em>B</em> that proves
+some specified <em>A</em> <code>signsFor</code> <em>B</em>.</p>
+<p>Note that <code>signsFor</code> evidence cannot be revoked, and so a <code>signsFor</code> relation is
+not <em>stateful</em>: it cannot depend on the current state of, for example, a
+blockchain.</p>
+<h4 id="signsfor-juvix-type">SignsFor Juvix Type<a class="headerlink" href="#signsfor-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>Formally, a <code>signsFor</code> relation requires a type of evidence, and a
+ <code>Verifier</code> structure.
+This codifies a belief about what <code>VerifierType</code>'s <code>Commitments</code> are
+ "at least as good as" another <code>VerifierType</code>'s.
+Evidence can be signed statements, proofs, or even local state about beliefs.</p>
+<p>For example, suppose <code>Alice</code> wants to grant authority to <code>Bob</code> to
+ <code>sign</code> on her behalf.
+Nodes who want to take this into account might accept some sort of
+ <code>e : Evidence</code>, perhaps a signed statement from <code>Alice</code>, so that they
+ can recognize that <code>signsFor e (Bob, Alice)</code>.</p>
+<p>Note that <code>signsFor</code> is not symmetric: <code>signsFor e (x,y)</code> does not
+ imply that any <code>z</code> exists such that <code>signsFor z (y,x)</code>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-11-1">type SignsFor OrdKey VerifierType Signable Commitment Evidence :=
+</span><span id="__ispan-11-2">  mkSignsFor@{
+</span><span id="__ispan-11-3">    verifier : Verifier OrdKey VerifierType Signable Commitment;
+</span><span id="__ispan-11-4">    signsFor : Evidence -&gt; (Pair VerifierType VerifierType) -&gt; Bool
+</span><span id="__ispan-11-5">  };
+</span></code></pre></div>
+<h3 id="signsfor-equivalence">SignsFor Equivalence<a class="headerlink" href="#signsfor-equivalence" title="Anchor link to this section for reference">¶</a></h3>
+<p>We can also define a kind of identity <em>equivalence</em> : <em>A</em> <code>signsSameAs</code> <em>B</em>
+ precisely when <em>A</em> <code>signsFor</code> <em>B</em> and <em>B</em> <code>signsFor</code> <em>A</em>. This means that (in
+ general), if you want to sign a message as <em>A</em>, but for whatever reason it's
+cheaper to sign a message as <em>B</em>, it's safe to just use <em>B</em> instead, and vice
+ versa.</p>
+<h2 id="readsfor-relation">ReadsFor Relation<a class="headerlink" href="#readsfor-relation" title="Anchor link to this section for reference">¶</a></h2>
+<p>Similar to <code>signsFor</code>, it is useful to sometimes note that one identity can read
+ information encrypted to another identity. For example, suppose <em>Alice</em> gives
+her private <code>DecryptorType</code> to <em>Bob</em>, and wants to let everyone know that <em>Bob</em> can
+ now read anything encrypted to <em>Alice</em>. Nodes who want to take this into
+ account might accept some sort of <code>evidence</code>, perhaps a signed statement from
+<em>Alice</em>, so that they can recognize that <em>Bob</em> <code>readsFor</code> <em>Alice</em>.</p>
+<p>Like <code>signsFor</code>, <code>readsFor</code> is a partial order over identities. This means
+<code>readsFor</code> is transitive: if <em>A</em> <code>readsFor</code> <em>B</em> and <em>B</em> <code>readsFor</code> <em>C</em>, then <em>A</em>
+<code>readsFor</code> <em>C</em>. The <code>readsFor</code> relation becomes especially useful with regard
+to <a href="#composition">composed identities, discussed below</a>.</p>
+<h3 id="readsfor-evidence">ReadsFor Evidence<a class="headerlink" href="#readsfor-evidence" title="Anchor link to this section for reference">¶</a></h3>
+<p>We do not specify all the ways one might know if one identity <code>readsFor</code>
+ another. In general, an <a href="#identity-engine">Identity Engine</a> might accept (and
+perhaps store) a variety of forms of evidence as proof. As one simple form of
+ evidence, we can specify a format for signed statements from <em>B</em> that proves
+<em>A</em> <code>readsFor</code> <em>B</em>.</p>
+<h4 id="readsfor-juvix-type">ReadsFor Juvix Type<a class="headerlink" href="#readsfor-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>Formally, a <code>readsFor</code> relation requires a type of evidence, and an
+ <code>Encryptor</code> structure.
+This codifies a belief about what <code>Decryptor</code>s can read other
+ <code>Encryptor</code>s ciphertext.
+Evidence can be signed statements, proofs, or even local state about beliefs.</p>
+<p>Specifically, if a node expresses a <code>readsFor</code> relation, and
+ <code>readsFor e (x,y)</code>, then the node believes that any node knowing the
+ decryptor corresponding to <code>x</code> can decrypt <code>encrypt y p</code>.
+If there is some Plaintext <code>p</code> such that some node knowing a decryptor
+ corresponding to <code>x</code> cannot read <code>encrypt y p</code>, then the node's
+ beliefs, as encoded in the <code>readsFor</code> relation, are incorrect.</p>
+<p>For example, suppose <code>Alice</code> gives her private <code>DecryptorType</code> to <code>Bob</code>,
+ and wants to let everyone know that <code>Bob</code> can now read anything
+ encrypted to <code>Alice</code>.
+Nodes who want to take this into account might accept some sort of
+ <code>e : Evidence</code>, perhaps a signed statement from <code>Alice</code>, so that they
+ can recognize that <code>readsFor e (Bob, Alice)</code>.</p>
+<p>Note that <code>readsFor</code> is not symmetric: <code>readsFor e (x,y)</code> does not
+ imply that any <code>z</code> exists such that <code>readsFor z (y,x)</code>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-12-1">type ReadsFor (OrdKey EncryptorType Plaintext Ciphertext Evidence : Type) :=
+</span><span id="__ispan-12-2">  mkReadsFor {
+</span><span id="__ispan-12-3">    encryptor : Encryptor OrdKey EncryptorType Plaintext Ciphertext;
+</span><span id="__ispan-12-4">    readsFor : Evidence -&gt; (Pair EncryptorType EncryptorType) -&gt; Bool
+</span><span id="__ispan-12-5">  }
+</span></code></pre></div>
+<h3 id="equivalence">Equivalence<a class="headerlink" href="#equivalence" title="Anchor link to this section for reference">¶</a></h3>
+<p>We can also define a kind of identity <em>equivalence</em>: <em>A</em> <code>readsSameAs</code> <em>B</em>
+precisely when <em>A</em> <code>readsFor</code> <em>B</em> and <em>B</em> <code>readsFor</code> <em>A</em>. This means that, in
+general, if you want to encrypt a message to <em>A</em>, but for whatever reason it's
+cheaper to encrypt a message for <em>B</em>, it's safe to just use <em>B</em> instead, and
+vice versa.</p>
+<p>In total, <em>A</em> <code>equivalent</code> <em>B</em> when <em>A</em> <code>readsSameAs</code> <em>B</em> and <em>A</em> <code>signsSameAs</code>
+<em>B</em>. This means that (in general) <em>A</em> and <em>B</em> can be used interchangeably.</p>
+<h2 id="composition">Composition<a class="headerlink" href="#composition" title="Anchor link to this section for reference">¶</a></h2>
+<p>There are a variety of ways to refer to groups of identities as
+ single, larger identities.</p>
+<h3 id="threshold-composition">Threshold Composition<a class="headerlink" href="#threshold-composition" title="Anchor link to this section for reference">¶</a></h3>
+<p>Suppose we want an identity <em>M</em> that refers to any majority from a
+ set of shareholders.
+A signature from <em>M</em> would require that a majority of shareholders
+ participated in signing, and encrypting information for <em>M</em> would
+ require that a majority of shareholders participate in decryption.
+To construct <em>M</em>, we start with a set of shareholder identities, each
+ paired with a <em>weight</em> (their share), and define a weight threshold
+ which specifies the minimum weight for a "majority."</p>
+<p>There are several ways we could imagine constructing Threshold
+ Composition Identities, but without specifying <em>anything</em> about the
+ underlying identities:</p>
+<ul>
+<li>A threshold composition identity signature is a map from (hashes of)
+   external identities, to signatures.
+  To verify a signature for some message <code>x</code>, we verify each signature
+   with <code>x</code> and its external identity, and check that the weights of
+   the external identities sum to at least the threshold.</li>
+</ul>
+<ul>
+<li>A threshold composition identity encrypted message is a map from
+   (hashes of) external identities, to ciphertexts.
+  To decrypt, any subset of internal identities with weights summing
+   to at least the threshold must decrypt their corresponding
+   ciphertexts, and the resulting plaintexts must be combined using an
+   erasure coding scheme.</li>
+</ul>
+<h4 id="threshold-composition-juvix-type-signer-and-verifier">Threshold Composition Juvix Type (Signer and verifier)<a class="headerlink" href="#threshold-composition-juvix-type-signer-and-verifier" title="Anchor link to this section for reference">¶</a></h4>
+<p>A <code>ThresholdCompose</code> <code>VerifierType</code> consists of a
+ threshold (<code>Nat</code>), and a set of <code>VerifierType</code>s, each paired with a
+ weight (<code>Nat</code>).
+ (this set is encoded as a <code>Map.map</code> from hashes of <code>verifiers</code> to
+  <code>Pair Nat VerifierType</code> pairs).
+<code>Commitments</code> are simply <code>Map</code>s from hashes of the underlying
+ identities to <code>Commitments</code> signed by that identitity.
+A <code>Commitment</code> verifies iff the set of valid Commitments included
+ correspond to a set of <code>verifiers</code> whose weights sum to at least
+ the threshold.
+Note that this satisfies both signatures <code>Verifier</code> and <code>Signer</code>.</p>
+<p>In general, <code>ThresholdCompose</code> <code>SignerType</code>s and <code>VerifierType</code>s may not be
+ used much directly.
+Instead, nodes can make more efficient identities (using cryptographic
+ signature aggregation techniques), and express their relationship to
+ <code>ThresholdCompose</code> <code>VerifierType</code>s as a <code>SignsFor</code> relationship.
+This will let nodes reason about identities using simple
+ <code>ThresholdCompose</code> <code>VerifierType</code>s, while actually using more efficient
+ implementations.</p>
+<p>Formally, to specify a <code>ThresholdCompose</code>, we need:</p>
+<ul>
+<li><code>verifier</code>, the structure of the underlying <code>Verifiers</code>.</li>
+</ul>
+<ul>
+<li><code>signer</code>, the corresponding structure of the underlying <code>Signers</code>.</li>
+</ul>
+<ul>
+<li><code>map : OrdMap</code>, to be used to encode weights and <code>Commitment</code>s.
+  (Note that this needs the <code>OrdKey</code> to be the hash type of the
+   underlying <code>verifier</code>)</li>
+</ul>
+<ul>
+<li><code>thresholdComposeHash</code>, which specifies a <code>hash</code> function that can
+   hash our composed <code>VerifierType</code>s (type <code>ComposeHashable VerifierType MapCon</code>).</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-13-1">type ComposeHashable (VerifierType : Type) (MapCon : Type -&gt; Type) :=
+</span><span id="__ispan-13-2">  mkComposeHashable {
+</span><span id="__ispan-13-3">    threshold : Nat;
+</span><span id="__ispan-13-4">    weights : MapCon (Pair Nat VerifierType)
+</span><span id="__ispan-13-5">  };
+</span></code></pre></div>
+<p>A <code>ThresholdCompose</code> structure provides:</p>
+<ul>
+<li><code>map : OrdMap</code> the underlying <code>OrdMap</code> used in
+   <code>VerifierType</code> and <code>Commitment</code></li>
+</ul>
+<ul>
+<li><code>underlyingVerifier : Verifier</code> the structure describing
+   the types of the underlying <code>VerifierType</code>s which can be composed.</li>
+</ul>
+<ul>
+<li><code>underlyingSigner : Signer</code> the structure describing
+   the types of the underlying <code>SignerType</code>s which can be composed.</li>
+</ul>
+<ul>
+<li><code>VerifierHash : HASH</code> describes the hash function for
+   hashing these composed <code>verifiers</code></li>
+</ul>
+<ul>
+<li>The <code>SignerType</code> type of the composed verifiers is the type of composed signers.
+   These are just <code>MapCon Commitment</code>, meaning each is
+   stored under the hash of the corresponding
+   <code>VerifierType</code>.
+   This <code>SignerType</code> does not need to encode weights or threshold.</li>
+</ul>
+<ul>
+<li>The <code>VerifierType</code> type of composed verifiers. These are
+   <code>ComposeHashable VerifierType MapCon</code></li>
+</ul>
+<ul>
+<li>The <code>Signable</code> type , being the type of message that can be signed. This is
+   exactly the same as what the underlying verifiers can sign
+   (<code>Signable</code> of <code>underlyingVerifier</code>).</li>
+</ul>
+<ul>
+<li>The <code>Commitment</code> type describes composed signatures, these are a
+   <code>MapCon</code> from hashes of underlying verifiers to signatures
+   (<code>Commitment</code> of <code>underlyingVerifier</code>)</li>
+</ul>
+<ul>
+<li>The <code>sign</code> function creates a <code>Commitment</code> using all
+   <code>underlyingSigner</code> <code>SignerType</code>s in the composed <code>SignerType</code>.</li>
+</ul>
+<ul>
+<li>The <code>verify</code> function returns true iff the set of valid Commitments included
+   correspond to a set of <code>underlyingVerifier</code> <code>VerifierType</code>s whose weights
+   sum to at least the threshold.</li>
+</ul>
+<ul>
+<li>The <code>signerCompose</code> function constructs a composed <code>SignerType</code> from a list of
+   <code>Pair VerifierType SignerType</code> pairs.
+   Note that each <code>SignerType</code> must be paired with its correct <code>VerifierType</code>,
+    or the composed <code>SignerType</code> will not produce verifiable
+    <code>Commitment</code>s.</li>
+</ul>
+<ul>
+<li>
+<p>The <code>verifierCompose</code> function is useful for constructing the composition of
+   a list of verifiers.
+  Returns a composed <code>VerifierType</code>.
+  Its arguments are:</p>
+<ul>
+<li>the threshold (<code>Nat</code>)</li>
+</ul>
+<ul>
+<li>a <code>list</code> of weights(<code>Nat</code>), <code>VerifierType</code> pairs.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>The <code>verifierAnd</code> function creates a composed <code>VerifierType</code> that is the "&amp;&amp;" of
+   two input verifiers: a <code>SignerType</code> must encode the information of the
+   signers for <em>both</em> <code>x</code> and <code>y</code> to sign statements <code>verifierAnd x y</code>
+   will verify.</li>
+</ul>
+<ul>
+<li>The <code>verifierOr</code> function creates a composed <code>VerifierType</code> that is the "||" of
+   two input verifiers: a <code>SignerType</code> must encode the information of the
+   signers for <em>either</em> <code>x</code> or <code>y</code> to sign statements <code>verifierOr x y</code>
+   will verify.</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-14-1">type ThresholdCompose
+</span><span id="__ispan-14-2">  ( OrdKey : Type ) ( MapCon : Type -&gt; Type )
+</span><span id="__ispan-14-3">  ( VerifierType Signable Commitment SignerType VerifierHashOrdKeyType : Type)
+</span><span id="__ispan-14-4">  :=
+</span><span id="__ispan-14-5">  mkThresholdCompose {
+</span><span id="__ispan-14-6">    map : OrdMap OrdKey MapCon;
+</span><span id="__ispan-14-7">    underlyingVerifier : Verifier OrdKey VerifierType Signable Commitment;
+</span><span id="__ispan-14-8">    underlyingSigner : Signer SignerType Signable Commitment;
+</span><span id="__ispan-14-9">    verifierHash : HASH VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon);
+</span><span id="__ispan-14-10">
+</span><span id="__ispan-14-11">    sign : MapCon SignerType -&gt; Signable -&gt; MapCon Commitment;
+</span><span id="__ispan-14-12">    verify : (ComposeHashable VerifierType MapCon) -&gt; Signable -&gt; MapCon Commitment -&gt; Bool;
+</span><span id="__ispan-14-13">    signerCompose : List (Pair VerifierType SignerType) -&gt; MapCon SignerType;
+</span><span id="__ispan-14-14">    verifierCompose : Nat -&gt; List (Pair Nat VerifierType) -&gt; (ComposeHashable VerifierType MapCon);
+</span><span id="__ispan-14-15">    verifierAnd : VerifierType -&gt; VerifierType -&gt; (ComposeHashable VerifierType MapCon);
+</span><span id="__ispan-14-16">    verifierOr : VerifierType -&gt; VerifierType -&gt; (ComposeHashable VerifierType MapCon);
+</span><span id="__ispan-14-17">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-15-1">projectVerifier
+</span><span id="__ispan-15-2">  { MapCon : Type -&gt; Type }
+</span><span id="__ispan-15-3">  { OrdKey VerifierType Signable Commitment SignerType VerifierHashOrdKeyType : Type }
+</span><span id="__ispan-15-4">  ( tc : ThresholdCompose OrdKey MapCon VerifierType Signable Commitment SignerType VerifierHashOrdKeyType ) :
+</span><span id="__ispan-15-5">  Verifier VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable (MapCon Commitment) :=
+</span><span id="__ispan-15-6">  Verifier.mkVerifier@{
+</span><span id="__ispan-15-7">    verify := ThresholdCompose.verify tc;
+</span><span id="__ispan-15-8">    verifierHash := ThresholdCompose.verifierHash tc;
+</span><span id="__ispan-15-9">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-16-1">ThresholdComposeFunctor
+</span><span id="__ispan-16-2">  { MapCon : Type -&gt; Type }
+</span><span id="__ispan-16-3">  { OrdKey VerifierType Signable Commitment SignerType VerifierHashOrdKeyType : Type }
+</span><span id="__ispan-16-4">  (verifier : Verifier OrdKey VerifierType Signable Commitment)
+</span><span id="__ispan-16-5">  (signer : Signer SignerType Signable Commitment)
+</span><span id="__ispan-16-6">  (mapIn : OrdMap OrdKey MapCon)
+</span><span id="__ispan-16-7">  (thresholdComposeHash : HASH VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon)) :
+</span><span id="__ispan-16-8">  ThresholdCompose
+</span><span id="__ispan-16-9">    OrdKey MapCon
+</span><span id="__ispan-16-10">    VerifierType Signable Commitment
+</span><span id="__ispan-16-11">    SignerType
+</span><span id="__ispan-16-12">    VerifierHashOrdKeyType
+</span><span id="__ispan-16-13">  :=
+</span><span id="__ispan-16-14">  ThresholdCompose.mkThresholdCompose@{
+</span><span id="__ispan-16-15">    map := mapIn;
+</span><span id="__ispan-16-16">    underlyingVerifier := verifier;
+</span><span id="__ispan-16-17">    underlyingSigner := signer;
+</span><span id="__ispan-16-18">    verifierHash := thresholdComposeHash;
+</span><span id="__ispan-16-19">    sign := \ {s m := OrdMap.map map \ { i := Signer.sign underlyingSigner i m } s};
+</span><span id="__ispan-16-20">    verify := \ {
+</span><span id="__ispan-16-21">      | (ComposeHashable.mkComposeHashable t ws) s c := (
+</span><span id="__ispan-16-22">          t &lt;= (
+</span><span id="__ispan-16-23">            OrdMap.foldl map \{(mkPair x y) := x + y} 0 (
+</span><span id="__ispan-16-24">              OrdMap.intersectWith map (
+</span><span id="__ispan-16-25">                \{ | (mkPair (mkPair w v) x) :=
+</span><span id="__ispan-16-26">                      if | (Verifier.verify underlyingVerifier v s x) := w
+</span><span id="__ispan-16-27">                         | else := 0
+</span><span id="__ispan-16-28">                }
+</span><span id="__ispan-16-29">            ) (mkPair ws c)))
+</span><span id="__ispan-16-30">      )
+</span><span id="__ispan-16-31">    };
+</span><span id="__ispan-16-32">
+</span><span id="__ispan-16-33">    signerCompose := \{ l :=
+</span><span id="__ispan-16-34">        foldl
+</span><span id="__ispan-16-35">        \{ m (mkPair v s) :=
+</span><span id="__ispan-16-36">          OrdMap.insert map (mkPair m (mkPair (
+</span><span id="__ispan-16-37">            HASH.hash (Verifier.verifierHash underlyingVerifier) v
+</span><span id="__ispan-16-38">          ) s))
+</span><span id="__ispan-16-39">        }
+</span><span id="__ispan-16-40">        (OrdMap.empty map) l
+</span><span id="__ispan-16-41">    };
+</span><span id="__ispan-16-42">
+</span><span id="__ispan-16-43">    verifierCompose := \{
+</span><span id="__ispan-16-44">      threshold weights :=
+</span><span id="__ispan-16-45">        (ComposeHashable.mkComposeHashable threshold
+</span><span id="__ispan-16-46">          (foldl
+</span><span id="__ispan-16-47">            \ { m (mkPair w v) :=
+</span><span id="__ispan-16-48">              OrdMap.insert map (mkPair m (mkPair (
+</span><span id="__ispan-16-49">                HASH.hash (Verifier.verifierHash underlyingVerifier) v
+</span><span id="__ispan-16-50">              ) (mkPair w v)))
+</span><span id="__ispan-16-51">            }
+</span><span id="__ispan-16-52">            (OrdMap.empty map) weights
+</span><span id="__ispan-16-53">        ))
+</span><span id="__ispan-16-54">    };
+</span><span id="__ispan-16-55">
+</span><span id="__ispan-16-56">    verifierAnd := \{ x y := verifierCompose 2 [(mkPair 1 x); (mkPair 1 y)]};
+</span><span id="__ispan-16-57">    verifierOr := \{ x y := verifierCompose 1 [(mkPair 1 x); (mkPair 1 y)] };
+</span><span id="__ispan-16-58">  };
+</span></code></pre></div>
+<p>While this construction is rather naive, it is general, and crucially, we can reason about
+ equivalence with any number of more interesting schemes:</p>
+<ul>
+<li>We can show that a threshold RSA signature scheme <code>signsSameAs</code> as a Threshold Composition
+   Identity.</li>
+</ul>
+<ul>
+<li>We can show that a secret sharing scheme <code>readsSameAs</code> a Threshold Composition Identity.</li>
+</ul>
+<p>By phrasing our discussion in terms of equivalence and Threshold Composition Identities, we can
+ abstract over the actual cryptography used. We can also derive some <code>signsFor</code> and <code>readsFor</code>
+ relations that must hold, by looking at the relations that must hold for Threshold Composition
+Identities:</p>
+<h4 id="signsfor-threshold-composition"><code>signsFor</code> Threshold Composition<a class="headerlink" href="#signsfor-threshold-composition" title="Anchor link to this section for reference">¶</a></h4>
+<p>Like any identity, Threshold Composition Identities can define any number of ways to delegate
+signing power, or be delegated signing power. However, some cases should always hold: <em>A</em>
+<code>signsFor</code> <em>B</em> if every identity in <em>A</em> has no more weight (divided by threshold) than identities
+it <code>signsFor</code> in <em>B</em>. This implies that any collection of identities that can sign as <em>A</em> can also
+sign as <em>B</em>.</p>
+<p>A <code>signsFor</code> relation for easy comparison of
+  <code>ThresholdCompose</code> <code>VerifierType</code>s
+ <em>x</em> <code>signsFor</code> <em>y</em> if every underlying VerifierType in <em>x</em> has no more
+  weight (divided by threshold) as verifiers it <code>signsFor</code> in y.
+This implies that anything which can sign as <em>x</em> can also sign
+ as <em>y</em>.</p>
+<p>This requires an underlying <code>S : SignsFor</code> for comparing the weighted
+ signers in <em>x</em> and <em>y</em>, which in turn may require evidence.
+No additional evidence is required.</p>
+<p>Other parameters necessary to define the <code>ThresholdCompose</code>
+<code>verifiers</code> include:</p>
+<ul>
+<li><code>signer</code>, the corresponding structure of the underlying <code>signers</code>.</li>
+</ul>
+<ul>
+<li><code>map : OrdMap</code>, to be used to encode weights and <code>Commitment</code>s.
+  (Note that this needs <code>OrdKey</code> to be the hash type of the
+   underlying <code>verifier</code>)</li>
+</ul>
+<ul>
+<li><code>thresholdComposeHash</code>, which specifies a <code>hash</code> function that can
+   hash our composed <code>VerifierType</code>s (type
+   <code>ComposeHashable VerifierType MapCon</code>).</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-17-1">type ThresholdComposeSignsFor
+</span><span id="__ispan-17-2">  ( OrdKey VerifierType Signable Commitment Evidence : Type )
+</span><span id="__ispan-17-3">  ( MapCon : Type -&gt; Type )
+</span><span id="__ispan-17-4">  ( VerifierHashOrdKeyType )
+</span><span id="__ispan-17-5">  :=
+</span><span id="__ispan-17-6">  mkThresholdComposeSignsFor {
+</span><span id="__ispan-17-7">    underlyingSignsFor : SignsFor OrdKey VerifierType Signable Commitment Evidence;
+</span><span id="__ispan-17-8">    verifier : ThresholdCompose OrdKey MapCon VerifierType Signable Commitment VerifierType VerifierHashOrdKeyType;
+</span><span id="__ispan-17-9">    signsFor : Evidence -&gt; Pair (ComposeHashable VerifierType MapCon) (ComposeHashable VerifierType MapCon) -&gt; Bool;
+</span><span id="__ispan-17-10">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-18-1">projectSignsFor
+</span><span id="__ispan-18-2">  { OrdKey VerifierType Signable Commitment Evidence }
+</span><span id="__ispan-18-3">  { MapCon : Type -&gt; Type }
+</span><span id="__ispan-18-4">  { VerifierHashOrdKeyType : Type }
+</span><span id="__ispan-18-5">  ( tc : ThresholdComposeSignsFor OrdKey VerifierType Signable Commitment Evidence MapCon VerifierHashOrdKeyType ) :
+</span><span id="__ispan-18-6">  SignsFor VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable (MapCon Commitment) Evidence :=
+</span><span id="__ispan-18-7">  SignsFor.mkSignsFor@{
+</span><span id="__ispan-18-8">    verifier := projectVerifier (ThresholdComposeSignsFor.verifier tc);
+</span><span id="__ispan-18-9">    signsFor := ThresholdComposeSignsFor.signsFor tc;
+</span><span id="__ispan-18-10">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-19-1">ThresholdComposeSignsForFunctor
+</span><span id="__ispan-19-2">  { OrdKey VerifierType Signable Commitment Evidence }
+</span><span id="__ispan-19-3">  { MapCon : Type -&gt; Type }
+</span><span id="__ispan-19-4">  { VerifierHashOrdKeyType : Type }
+</span><span id="__ispan-19-5">  ( S : SignsFor OrdKey VerifierType Signable Commitment Evidence )
+</span><span id="__ispan-19-6">  ( signer : Signer VerifierType Signable Commitment)
+</span><span id="__ispan-19-7">  ( map : OrdMap OrdKey MapCon )
+</span><span id="__ispan-19-8">  ( thresholdComposeHash : HASH VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) ) :
+</span><span id="__ispan-19-9">  ThresholdComposeSignsFor OrdKey VerifierType Signable Commitment Evidence MapCon VerifierHashOrdKeyType
+</span><span id="__ispan-19-10">  :=
+</span><span id="__ispan-19-11">  ThresholdComposeSignsFor.mkThresholdComposeSignsFor@{
+</span><span id="__ispan-19-12">    underlyingSignsFor := S;
+</span><span id="__ispan-19-13">    verifier := ThresholdComposeFunctor (SignsFor.verifier underlyingSignsFor) signer map thresholdComposeHash;
+</span><span id="__ispan-19-14">    signsFor := \{
+</span><span id="__ispan-19-15">      e (mkPair (ComposeHashable.mkComposeHashable t0 w0) (ComposeHashable.mkComposeHashable t1 w1)) :=
+</span><span id="__ispan-19-16">        OrdMap.all map
+</span><span id="__ispan-19-17">          \{ (mkPair w v) :=
+</span><span id="__ispan-19-18">              (w * t1) &lt;=
+</span><span id="__ispan-19-19">              ((OrdMap.foldl map
+</span><span id="__ispan-19-20">                \{ (mkPair (mkPair x v1) s) :=
+</span><span id="__ispan-19-21">                    if | (SignsFor.signsFor underlyingSignsFor e (mkPair v v1)) := x + s
+</span><span id="__ispan-19-22">                       | else := s
+</span><span id="__ispan-19-23">                }
+</span><span id="__ispan-19-24">                0 w1
+</span><span id="__ispan-19-25">                ) * t0)
+</span><span id="__ispan-19-26">          }
+</span><span id="__ispan-19-27">          w0
+</span><span id="__ispan-19-28">    };
+</span><span id="__ispan-19-29">  };
+</span></code></pre></div>
+<h4 id="encryptor-threshold-composition"><code>Encryptor</code> Threshold Composition<a class="headerlink" href="#encryptor-threshold-composition" title="Anchor link to this section for reference">¶</a></h4>
+<p>DANGER: NOT YET IMPLEMENTED</p>
+<p>Implementing this requires secret sharing.
+ The threshold composed <code>encryptor</code> is a threshold, and a set of weights
+ paired with <code>UnderlyingEncryptor.encryptor</code>s. There are stored in a <code>Map.map</code>
+ under their hashes, to ensure uniqueness.</p>
+<p>The idea is that an encrypted <code>plaintext</code> should only be
+ decryptable by a <code>decryptor</code> that encodes the information from a
+ set of <code>decryptor</code>s corresponding to a set of <code>encryptor</code>s whose
+ weight sums to at least the threshold.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-20-1">type ThresholdComposeEncryptor
+</span><span id="__ispan-20-2">  (OrdKey EncryptorType Plaintext Ciphertext : Type)
+</span><span id="__ispan-20-3">  (MapCon : Type -&gt; Type)
+</span><span id="__ispan-20-4">  (EncryptorHashOrdKeyType : Type)
+</span><span id="__ispan-20-5">  :=
+</span><span id="__ispan-20-6">  mkThresholdComposeEncryptor@{
+</span><span id="__ispan-20-7">    map : OrdMap OrdKey MapCon;
+</span><span id="__ispan-20-8">    underlyingEncryptor : Encryptor OrdKey EncryptorType Plaintext Ciphertext;
+</span><span id="__ispan-20-9">    encryptorHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon);
+</span><span id="__ispan-20-10">    compose : Nat -&gt; List (Pair Nat EncryptorType) -&gt; ComposeHashable EncryptorType MapCon;
+</span><span id="__ispan-20-11">    encrypt : (ComposeHashable EncryptorType MapCon) -&gt; Plaintext -&gt; Ciphertext;
+</span><span id="__ispan-20-12">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-21-1">projectEncryptor
+</span><span id="__ispan-21-2">  {OrdKey EncryptorType Plaintext Ciphertext}
+</span><span id="__ispan-21-3">  {MapCon : Type -&gt; Type}
+</span><span id="__ispan-21-4">  {EncryptorHashOrdKeyType}
+</span><span id="__ispan-21-5">  (tc : ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType) :
+</span><span id="__ispan-21-6">  Encryptor EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon) Plaintext Ciphertext
+</span><span id="__ispan-21-7">  :=
+</span><span id="__ispan-21-8">  Encryptor.mkEncryptor@{
+</span><span id="__ispan-21-9">    encrypt := ThresholdComposeEncryptor.encrypt tc;
+</span><span id="__ispan-21-10">    encryptorHash := ThresholdComposeEncryptor.encryptorHash tc;
+</span><span id="__ispan-21-11">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-22-1">axiom encrypt_DUMMY
+</span><span id="__ispan-22-2">  {EncryptorType Plaintext Ciphertext}
+</span><span id="__ispan-22-3">  {MapCon}
+</span><span id="__ispan-22-4">  : (ComposeHashable EncryptorType MapCon) -&gt; Plaintext -&gt; Ciphertext;
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-23-1">ThresholdComposeEncryptorFunctor
+</span><span id="__ispan-23-2">  {OrdKey EncryptorType Plaintext Ciphertext}
+</span><span id="__ispan-23-3">  {MapCon : Type -&gt; Type}
+</span><span id="__ispan-23-4">  {EncryptorHashOrdKeyType}
+</span><span id="__ispan-23-5">  (encryptor : Encryptor OrdKey EncryptorType Plaintext Ciphertext)
+</span><span id="__ispan-23-6">  (mapIn : OrdMap OrdKey MapCon)
+</span><span id="__ispan-23-7">  (thresholdComposeHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon)) :
+</span><span id="__ispan-23-8">  ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType
+</span><span id="__ispan-23-9">  := ThresholdComposeEncryptor.mkThresholdComposeEncryptor@{
+</span><span id="__ispan-23-10">    map := mapIn;
+</span><span id="__ispan-23-11">    underlyingEncryptor := encryptor;
+</span><span id="__ispan-23-12">    encryptorHash := thresholdComposeHash;
+</span><span id="__ispan-23-13">    compose := \{
+</span><span id="__ispan-23-14">      t w :=
+</span><span id="__ispan-23-15">        ComposeHashable.mkComposeHashable@{
+</span><span id="__ispan-23-16">          threshold := t;
+</span><span id="__ispan-23-17">          weights :=
+</span><span id="__ispan-23-18">            foldl
+</span><span id="__ispan-23-19">              \{m (mkPair w e) :=
+</span><span id="__ispan-23-20">                OrdMap.insert map (mkPair m (mkPair (HASH.hash (Encryptor.encryptorHash underlyingEncryptor) e) (mkPair w e)))
+</span><span id="__ispan-23-21">              }
+</span><span id="__ispan-23-22">              (OrdMap.empty map) w
+</span><span id="__ispan-23-23">        }
+</span><span id="__ispan-23-24">    };
+</span><span id="__ispan-23-25">    encrypt := encrypt_DUMMY;
+</span><span id="__ispan-23-26">  };
+</span></code></pre></div>
+<h4 id="readsfor-threshold-composition"><code>readsFor</code> Threshold Composition<a class="headerlink" href="#readsfor-threshold-composition" title="Anchor link to this section for reference">¶</a></h4>
+<p>Like any identity, ThresholdCompositionIdentities can have arbitrary
+ <code>readsFor</code> relationships.
+However, some cases should always hold : <em>A</em> <code>readsFor</code> <em>B</em> if every
+ identity in <em>A</em> has no more weight (divided by threshold) than
+ identities it <code>readsFor</code> in <em>B</em>.
+This implies that any collection of identities that can read messages
+ encrypted with <em>A</em> can also read messages encrypted as <em>B</em>.</p>
+<p>A <code>readsFor</code> relation for easy comparison of
+  <code>ThresholdComposeEncryptor</code> <code>EncryptorType</code>s
+ <em>x</em> <code>readsFor</code> <em>y</em> if every underlying <code>EncryptorType</code> in <em>x</em> has no more
+  weight (divided by threshold) as encryptors it <code>readsFor</code> in y.
+This implies that anything which can decrypt as <em>x</em> can also decrypt
+ as <em>y</em>.</p>
+<p>This requires an underlying <code>R : ReadsFor</code> for comparing the weighted
+ encryptors in  <em>x</em> and <em>y</em>, which in turn may require evidence.
+No additional evidence is required.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-24-1">type ThresholdComposeReadsFor
+</span><span id="__ispan-24-2">  ( OrdKey EncryptorType Plaintext Ciphertext Evidence : Type )
+</span><span id="__ispan-24-3">  ( MapCon : Type -&gt; Type )
+</span><span id="__ispan-24-4">  ( EncryptorHashOrdKeyType : Type )
+</span><span id="__ispan-24-5">  :=
+</span><span id="__ispan-24-6">  mkThresholdComposeReadsFor@{
+</span><span id="__ispan-24-7">    underlyingReadsFor : ReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence;
+</span><span id="__ispan-24-8">    encryptor : ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType;
+</span><span id="__ispan-24-9">    readsFor : Evidence -&gt; Pair (ComposeHashable EncryptorType MapCon) (ComposeHashable EncryptorType MapCon) -&gt; Bool;
+</span><span id="__ispan-24-10">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-25-1">projectReadsFor
+</span><span id="__ispan-25-2">  { OrdKey VerifierType Signable Commitment Evidence }
+</span><span id="__ispan-25-3">  { MapCon : Type -&gt; Type }
+</span><span id="__ispan-25-4">  { EncryptorHashOrdKeyType : Type }
+</span><span id="__ispan-25-5">  ( tc : ThresholdComposeReadsFor
+</span><span id="__ispan-25-6">          OrdKey
+</span><span id="__ispan-25-7">          VerifierType
+</span><span id="__ispan-25-8">          Signable
+</span><span id="__ispan-25-9">          Commitment
+</span><span id="__ispan-25-10">          Evidence
+</span><span id="__ispan-25-11">          MapCon
+</span><span id="__ispan-25-12">          EncryptorHashOrdKeyType ) :
+</span><span id="__ispan-25-13">    ReadsFor
+</span><span id="__ispan-25-14">    EncryptorHashOrdKeyType
+</span><span id="__ispan-25-15">    (ComposeHashable VerifierType MapCon)
+</span><span id="__ispan-25-16">    Signable
+</span><span id="__ispan-25-17">    Commitment
+</span><span id="__ispan-25-18">    Evidence
+</span><span id="__ispan-25-19">  := ReadsFor.mkReadsFor@{
+</span><span id="__ispan-25-20">    encryptor := projectEncryptor (ThresholdComposeReadsFor.encryptor tc);
+</span><span id="__ispan-25-21">    readsFor := ThresholdComposeReadsFor.readsFor tc;
+</span><span id="__ispan-25-22">  };
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-26-1">ThresholdComposeReadsForFunctor
+</span><span id="__ispan-26-2">  { OrdKey EncryptorType Plaintext Ciphertext Evidence}
+</span><span id="__ispan-26-3">  { MapCon : Type -&gt; Type }
+</span><span id="__ispan-26-4">  { EncryptorHashOrdKeyType}
+</span><span id="__ispan-26-5">  ( r : ReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence )
+</span><span id="__ispan-26-6">  ( map : OrdMap OrdKey MapCon )
+</span><span id="__ispan-26-7">  ( thresholdComposeHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon) ) :
+</span><span id="__ispan-26-8">  ThresholdComposeReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence MapCon EncryptorHashOrdKeyType
+</span><span id="__ispan-26-9">  :=
+</span><span id="__ispan-26-10">  ThresholdComposeReadsFor.mkThresholdComposeReadsFor@{
+</span><span id="__ispan-26-11">    underlyingReadsFor := r;
+</span><span id="__ispan-26-12">    encryptor := ThresholdComposeEncryptorFunctor (ReadsFor.encryptor underlyingReadsFor) map thresholdComposeHash;
+</span><span id="__ispan-26-13">    readsFor := \{
+</span><span id="__ispan-26-14">      e (mkPair (ComposeHashable.mkComposeHashable t0 w0) (ComposeHashable.mkComposeHashable t1 w1)) :=
+</span><span id="__ispan-26-15">        OrdMap.all map
+</span><span id="__ispan-26-16">          \{ (mkPair w v) :=
+</span><span id="__ispan-26-17">              (w * t1) &lt;=
+</span><span id="__ispan-26-18">              ((OrdMap.foldl map
+</span><span id="__ispan-26-19">                \{ (mkPair (mkPair x v1) s) :=
+</span><span id="__ispan-26-20">                    if | (ReadsFor.readsFor underlyingReadsFor e (mkPair v v1)) := x + s
+</span><span id="__ispan-26-21">                       | else := s
+</span><span id="__ispan-26-22">                }
+</span><span id="__ispan-26-23">                0 w1
+</span><span id="__ispan-26-24">              ) * t0)
+</span><span id="__ispan-26-25">          }
+</span><span id="__ispan-26-26">          w0
+</span><span id="__ispan-26-27">    };
+</span><span id="__ispan-26-28">  }
+</span></code></pre></div>
+<h3 id="and-identities">"And" Identities<a class="headerlink" href="#and-identities" title="Anchor link to this section for reference">¶</a></h3>
+<p>We can compose identities with conjunction: <em>A</em> <code>&amp;&amp;</code> <em>B</em> is the identity which requires an agent to
+have both <em>A</em>'s internal identity and <em>B</em>'s internal identity to sign or decrypt. It represents <em>A</em>
+and <em>B</em> working together. In practice, <em>A</em> <code>&amp;&amp;</code> <em>B</em> can be defined as a special case of Threshold
+composition (see <code>verifierAnd</code> above).</p>
+<h3 id="or-identities">"Or" Identities<a class="headerlink" href="#or-identities" title="Anchor link to this section for reference">¶</a></h3>
+<p>We can compose identities with disjunction as well: <em>A</em> <code>||</code> <em>B</em>
+requires an agent to have either <em>A</em>'s internal identity or <em>B</em>'s internal identity. It represents
+either <em>A</em> or <em>B</em>, without specifying which. In practice, <em>A</em> <code>||</code> <em>B</em> can be defined as a special
+case of Threshold Composition (see <code>verifierOr</code> above).</p>
+<p>In principle, we could define things differently: Threshold Composition could be defined using <code>&amp;&amp;</code>
+and <code>||</code> as primitives, by building a disjunction of every possible conjunction that satisfies the
+threshold. In several important cases, however, this takes much more space to express, so we use the
+equally general and more numerically efficient threshold composition abstraction.</p>
+<h3 id="opaque-composition">Opaque Composition<a class="headerlink" href="#opaque-composition" title="Anchor link to this section for reference">¶</a></h3>
+<p>A group of agents can also compose an opaque identity such that composition information is not available
+to the outside. One example would be using distributed key generation and a threshold
+cryptosystem <a href="https://iacr.org/archive/eurocrypt2001/20450151.pdf">e.g. Threshold RSA</a>. Here the
+agents compute <em>one</em> RSA keypair together, with only shares of the private key being generated by
+each agent. Decryption of messages encrypted to the single public key then requires cooperation of
+a subset of agents holding key shares, fulfilling the threshold requirements. This group would have
+a single External Identity based on a regular RSA public key, and it would not necessarily be clear
+how the identity was composed.</p>
+<p>Specific evidence could prove that this threshold cryptosystem identity is <code>equivalent</code> to some
+ <code>ThresholdCompose</code> identity. This kind of proof requires <code>readsFor</code> and <code>signsFor</code> relations
+tailored to the cryptosystem used. Once equivalence is proven, however, one could use the threshold
+ cryptosystem identity for efficiency, but reason using the
+ <code>ThresholdCompose</code> identity.</p>
+<h2 id="special-identities">Special identities<a class="headerlink" href="#special-identities" title="Anchor link to this section for reference">¶</a></h2>
+<p>The following special identities illustrate the generality of our
+identity abstractions:</p>
+<h3 id="true-all">"true / All"<a class="headerlink" href="#true-all" title="Anchor link to this section for reference">¶</a></h3>
+<p>Anyone can sign and decrypt (<code>verify</code> returns true and <code>encrypt</code> returns the <code>Plaintext</code>). No secret
+knowledge is required, so all agents can take on this identity.</p>
+<p>The <em>true</em> identity preserves structure under conjunction (<em>x</em> <code>&amp;&amp;</code> <em>true</em> <code>equivalent</code> <em>x</em>) and
+forgets structure under disjunction (<em>x</em> <code>||</code> <em>true</em> <code>equivalent</code> <em>true</em>).</p>
+<h3 id="false-none">"false / None"<a class="headerlink" href="#false-none" title="Anchor link to this section for reference">¶</a></h3>
+<p>No one can sign or decrypt (<code>verify</code> returns false and <code>encrypt</code>
+ returns empty string). No secret knowledge exists that fulfills these
+ requirements, so no agent can take on this identity.</p>
+<p>The <em>false</em> identity forgets structure under disjunction
+ (<em>x</em> <code>&amp;&amp;</code> <em>false</em> <code>equivalent</code> <em>false</em>) and preserves structure under
+ disjunction (<em>x</em> <code>||</code> <em>false</em> <code>equivalent</code> <em>x</em>).</p>
+<h2 id="identity-names">Identity Names<a class="headerlink" href="#identity-names" title="Anchor link to this section for reference">¶</a></h2>
+<p>Sometimes it is useful to have a name for an external identity before the relevant cryptographic
+values are available. For example, we might refer to <em>"a quorum of validators from chain <code>X</code> at
+epoch <code>Y</code>"</em>. Before epoch <code>Y</code> has begun, chain <code>X</code> may not have yet decided who constitutes a
+quorum.</p>
+<p>It would be possible to build a <code>Verifier</code>, where the evidence that the signers are in fact a quorum
+of validators from chain <code>X</code> at epoch <code>Y</code> is part of the signature. One might later build a simpler
+<code>Verifier</code>, which elides this evidence, and then prove that the two <code>signsSameAs</code> using the
+evidence. However, barring some really exciting cryptography, we'd need to know the quorums from
+chain <code>X</code> at epoch <code>Y</code> before we could make an <code>Encryptor</code>.</p>
+<p>We therefore introduce a new type, <em>Identity Name</em>, which represents a placeholder to be filled in
+when an appropriate external identity can be found. Specifically, each type of identity name comes
+with a predicate, which can be satisfied by an external identity, and accompanying evidence.
+Identity names can also be hashed, like external identities.</p>
+<p>Identity names can be described in two structures: one for checking that
+ a <code>VerifierType</code> corresponds with an <code>IdentityName</code>, and one for checking
+ that an <code>EncryptorType</code> corresponds with an <code>IdentityName</code>.
+The same name can refer to both a <code>VerifierType</code> and an <code>EncryptorType</code>.</p>
+<h4 id="verifier-name-juvix-type">Verifier Name Juvix Type<a class="headerlink" href="#verifier-name-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>An <code>IdentityName</code> can be mapped to an appropriate <code>VerifierType</code>
+ when suitable <code>Evidence</code> is found.
+Here, <code>checkVerifierName</code> defines what evidence is acceptable for a
+ <code>VerifierType</code>.</p>
+<p>Note that <code>IdentityName</code>s are also hashable: we require a structure
+ <code>verifierNameHash</code> that details how to hash them.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-27-1">type VerifierName
+</span><span id="__ispan-27-2">  (OrdKey VerifierType Signable Commitment Evidence IdentityName VerifierNameHashOrdKeyType) :=
+</span><span id="__ispan-27-3">  mkVerifierName {
+</span><span id="__ispan-27-4">    verifier : Verifier OrdKey VerifierType Signable Commitment;
+</span><span id="__ispan-27-5">    checkVerifierName : IdentityName -&gt; VerifierType -&gt; Evidence -&gt; Bool;
+</span><span id="__ispan-27-6">    verifierNameHash : HASH VerifierNameHashOrdKeyType IdentityName
+</span><span id="__ispan-27-7">  };
+</span></code></pre></div>
+<h4 id="encryptor-name-juvix-type">Encryptor Name Juvix Type<a class="headerlink" href="#encryptor-name-juvix-type" title="Anchor link to this section for reference">¶</a></h4>
+<p>An <code>IdentityName</code> can be mapped to an appropriate Encryptor <code>EncryptorType</code>
+ when suitable <code>Evidence</code> is found.
+Here, <code>checkEncryptorName</code> defines what evidence is acceptable for an
+ <code>Encryptor</code> <code>EncryptorType</code>.
+Note that <code>IdentityName</code>s are also hashable: we require a structure
+ <code>encryptorNameHash</code> that details how to hash them.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-28-1">type EncryptorName
+</span><span id="__ispan-28-2">  (OrdKey EncryptorType Plaintext Ciphertext Evidence IdentityName EncryptorNameHashOrdKeyType) :=
+</span><span id="__ispan-28-3">  mkEncryptorName {
+</span><span id="__ispan-28-4">    verifier : Encryptor OrdKey EncryptorType Plaintext Ciphertext;
+</span><span id="__ispan-28-5">    checkEncryptorName : IdentityName -&gt; EncryptorType -&gt; Evidence -&gt; Bool;
+</span><span id="__ispan-28-6">    encryptorNameHash : HASH EncryptorNameHashOrdKeyType IdentityName
+</span><span id="__ispan-28-7">  };
+</span></code></pre></div>
+<p>For example, for the identity name <em>"a quorum of validators from chain <code>X</code> at epoch <code>Y</code>"</em>, a
+satisfying external identity would be composed from the validators selected for epoch <code>Y</code>, and the
+accompanying evidence would be a light-client proof from chain <code>X</code> that these are the correct
+validators for epoch <code>Y</code>.</p>
+<p>Note that multiple identity names can refer to the same external identity, and in principle,
+multiple external identities could have the same identity name. Usually, multiple external
+identities only have the same identity name when there is Byzantine behaviour, but that is not
+explicitly part of the identity abstractions at this layer.</p>
+<h3 id="sub-identities">Sub-Identities<a class="headerlink" href="#sub-identities" title="Anchor link to this section for reference">¶</a></h3>
+<p>One particularly common case for identity names is when one party (the super-identity) wants to
+designate a specific name they use to refer to another identity. Here, the super-identity is acting
+like a <a href="https://en.wikipedia.org/wiki/Certificate_authority">certificate authority</a>: they designate
+which external identity corresponds with this identity name. This sub-identity is often something
+the super-identity controls: a specific machine they own, or a process they run on that machine.
+Such a sub-identity might be associated with a string, such as <code>"acceptor"</code>, which might designate
+the process participating in consensus within a validator. In this case, the predicate should check
+that the super-identity has signed a statement declaring that the external identity matches the
+sub-identity.</p>
+<h3 id="notation">"." Notation<a class="headerlink" href="#notation" title="Anchor link to this section for reference">¶</a></h3>
+<p>Because sub-identities using string names are so common, we have a short-cut notation for expressing
+identity names. Given some identity <em>Alice</em>, for any string <code>"foo"</code>, <em>Alice.foo</em> is an identity
+name. For example, even before they learn anything about <em>Alice</em>, validators might refer to
+<em>Alice.acceptor</em> to mean the specific process Alice is running to participate in consensus. The
+identity <em>Alice</em> can sign statements to let people know what external identity they should
+(immutably) use for <em>Alice.foo</em> or <em>Alice.acceptor</em>. These are left associative, so <em>Alice.foo</em> can
+designate <em>Alice.foo.bar</em> (shorthand for (<em>Alice.foo</em>)<em>.bar</em>) and <em>Alice.foo.bar</em> can designate
+<em>Alice.foo.bar.baz</em> (shorthand for ((<em>Alice.foo</em>)<em>.bar</em>)<em>.baz</em>), and so on. These are a special case
+of sub-identities: <em>X.Y</em> is a sub-identity of <em>X</em>.</p>
+<p>Formally, we use <code>mkPair (hash Alice) "foo"</code> as the Juvix representation of <em>Alice.foo</em>:</p>
+<p>A specific kind of identity name, wher ethe evidence is a signed
+ statement from a specified parent saying that it associates this
+ VerifierType with a specific <code>name</code>.</p>
+<p>Here,</p>
+<ul>
+<li><code>Name</code> is the type the parent identifies with a child.
+  For example, for <code>name = string</code>, and some identity Alice, we can specify
+  <code>(hash(Alice),"bob")</code>, or <em>Alice.bob</em>, as the identity that
+  Alice refers to as <code>"bob"</code>.</li>
+</ul>
+<ul>
+<li><code>child</code> : <code>Verifier</code> type that can be identified with a name.</li>
+</ul>
+<ul>
+<li>
+<p><code>parent</code> : <code>Verifier</code> type that signs evidence statements.</p>
+<p>Crucially, it must be able to sign tuples of the form
+(string, name, child's hash type)
+In our example, where Alice refers to Bob as Alice.<code>"bob"</code>, <code>child</code> describes
+Bob, <code>parent</code> describes Alice, and <code>name</code> describes <code>"bob"</code>.</p>
+</li>
+</ul>
+<ul>
+<li><code>hash</code> Describes what will become the <code>verifierNameHash</code>.
+  Crucially, it must be able to hash pairs of the form
+  (parent's hash type, name)</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-29-1">SubVerifierFunctor
+</span><span id="__ispan-29-2">  (OrdKey VerifierType Signable Commitment Name ParentOrdKeyType : Type)
+</span><span id="__ispan-29-3">  (child : Verifier OrdKey VerifierType Signable Commitment)
+</span><span id="__ispan-29-4">  (parent : Verifier ParentOrdKeyType VerifierType (Pair String (Pair Name OrdKey)) Commitment)
+</span><span id="__ispan-29-5">  (hash : HASH ParentOrdKeyType (Pair ParentOrdKeyType Name)) :
+</span><span id="__ispan-29-6">  VerifierName OrdKey VerifierType Signable Commitment (Pair VerifierType Commitment) (Pair ParentOrdKeyType Name) ParentOrdKeyType :=
+</span><span id="__ispan-29-7">  VerifierName.mkVerifierName@{
+</span><span id="__ispan-29-8">    verifier := child;
+</span><span id="__ispan-29-9">    checkVerifierName := \{
+</span><span id="__ispan-29-10">      (mkPair ph n) c (mkPair pv pc) :=
+</span><span id="__ispan-29-11">        (Verifier.verify parent pv (mkPair "I identify this verifier with this name : " (mkPair n (HASH.hash (Verifier.verifierHash child) c))) pc) &amp;&amp;
+</span><span id="__ispan-29-12">        ((OrdKey.compare (HASH.ordKey (Verifier.verifierHash parent)) ph (HASH.hash (Verifier.verifierHash parent) pv)) == Equal)
+</span><span id="__ispan-29-13">    };
+</span><span id="__ispan-29-14">    verifierNameHash := hash;
+</span><span id="__ispan-29-15">  }
+</span></code></pre></div>
+<p>In other words, we have a specific, standardized thing an external identity can sign to designate
+that another external identity corresponds to a "." name.</p>
+<p>Note that we can use "." sub-identities for purposes other than identifying identities that the
+super-identity controls. <em>Alice</em> might have a friend <em>Bob</em>, and designate his external identity as
+<em>Alice.bob</em>. This is an example of a place where "sub-identity-ness" is not transitive:
+<em>Alice.bob.carol</em> is (<em>Alice.bob</em>)<em>.carol</em>, a sub-identity of <em>Alice.bob</em>, so it is up to <em>Bob</em> to
+designate which external identity he associates with <code>"carol"</code>, and <em>Alice</em> has no say:
+<em>Alice.bob.carol</em> is not a sub-identity of <em>Alice</em>.</p>
+<h3 id="identity-engine">Identity Engine<a class="headerlink" href="#identity-engine" title="Anchor link to this section for reference">¶</a></h3>
+<p>In practice, using Identity Names requires each physical machine to maintain a mapping from identity
+names to known external identities. The machine does not have to store the accompanying evidence for
+each, although it might be useful to do so sometimes (for example, in order to present to a third
+party). When any process on that machine wants to do any operation using an identity name instead of
+an external identity, it can query this mapping to see if there is a known external identity to use
+for that operation.</p>
+<p>An Identity Engine can also store evidence for known <code>signsFor</code> and <code>readsFor</code> relationships, and
+help choose which external identity is most efficient for a task. For example, if an agent wants to
+encrypt a message to <em>"a quorum of validators from chain <code>X</code> at epoch <code>Y</code>"</em>, they would first
+resolving the identity name to an identity (possibly a Threshold Composed Identity), and might then
+ask if there is some known equivalent identity (such as a threshold encryption identity) with
+cheaper encryption.</p>
+<h3 id="identity-name-resolution">Identity Name Resolution<a class="headerlink" href="#identity-name-resolution" title="Anchor link to this section for reference">¶</a></h3>
+<p>There is no general mechanism for finding external identities (and accompanying evidence) for
+<em>arbitrary</em> identity names, with arbitrary forms of evidence. However, for some common types of
+identity names, such as "." sub-identities, we can establish a standard server and query language,
+which participating Identity Engines can query to resolve those identity names.</p>
+<!-- list_wikilinks -->
+<!-- Source file information -->
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="Last update">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-04-16T13:07:14+02:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-04-16</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="Created">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-02T17:12:54+02:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-02</span>
+</span>
+</aside>
+<!-- Was this page helpful? -->
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53z"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c.67 0 1.32.12 1.94.33L13 9.35l-4 5zM16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35l-1-7 4.5-5-2.65-5.08C13.87 3.47 15.17 3 16.5 3"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              Thanks for your feedback! We'll try to improve this page in the future.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+<!-- Comment system -->
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Storage Behaviour" class="md-footer__link md-footer__link--prev" href="../../node/engines/storage_behaviour.html">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.042.018.75.75 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Storage Behaviour
+              </div>
+</div>
+</a>
+<a aria-label="Next: Index" class="md-footer__link md-footer__link--next" href="../state/resource_machine/index.html">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Next
+              </span>
+<div class="md-ellipsis">
+                Index
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Powered by Mkdocs, Poetry 1.8.3, Material 9.5.49-insiders-4.53.14 and Juvix v0.6.9
+    </div>
+<strong>Version: (PR362 - anthony/bump-47b3ec5a) - Updated: April 22,
+    2025 at 03:18 AM UTC</strong>
+<br/>
+<strong>Latest version: <a href="https://specs.anoma.net/latest">
+    https://specs.anoma.net/latest</a></strong>
+<br/>
+<strong>Development version: <a href="https://specs.anoma.net/main">
+    https://specs.anoma.net/main</a></strong>
+<br/>
+<strong>Anoma Official Resources:</strong>
+<small> <a href="https://anoma.net/" target="_blank">Website</a> | <a href="https://art.anoma.net" target="_blank">Research</a> | <a href="https://anoma.net/blog" target="_blank">Blog</a> | <a href="https://anoma.net/talks" target="_blank">Talks</a> </small>
+<br/>
+<strong>For Specification Authors:</strong>
+<small>
+<a href="https://specs.anoma.net/pr-362/indexes/tags.html">Tags</a>
+    | <a href="https://specs.anoma.net/pr-362/indexes/links.html">Quick links</a>
+    | <a href="https://specs.anoma.net/pr-362/indexes/juvix_modules.html">Juvix modules</a>
+    | <a href="https://specs.anoma.net/pr-362/tutorial/index.html">Guides</a>
+</small>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://x.com/anoma" rel="noopener" target="_blank" title="x.com">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"></path></svg>
+</a>
+<a class="md-social__link" href="https://github.com/anoma" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://anoma.net/blog" rel="noopener" target="_blank" title="anoma.net">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M192 32c0 17.7 14.3 32 32 32 123.7 0 224 100.3 224 224 0 17.7 14.3 32 32 32s32-14.3 32-32C512 128.9 383.1 0 224 0c-17.7 0-32 14.3-32 32m0 96c0 17.7 14.3 32 32 32 70.7 0 128 57.3 128 128 0 17.7 14.3 32 32 32s32-14.3 32-32c0-106-86-192-192-192-17.7 0-32 14.3-32 32m-96 16c0-26.5-21.5-48-48-48S0 117.5 0 144v224c0 79.5 64.5 144 144 144s144-64.5 144-144-64.5-144-144-144h-16v96h16c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48z"></path></svg>
+</a>
+<a class="md-social__link" href="https://research.anoma.net" rel="noopener" target="_blank" title="research.anoma.net">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9S348.6 32 225.9 32M224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128"></path></svg>
+</a>
+<a class="md-social__link" href="https://youtube.com/anoma" rel="noopener" target="_blank" title="youtube.com">
+<svg viewbox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305m-317.51 213.508V175.185l142.739 81.205z"></path></svg>
+</a>
+<a class="md-social__link" href="mailto:arts@heliax.dev" rel="noopener" target="_blank" title="">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tooltips", "content.action.edit", "content.action.view", "search.highlight", "search.suggest", "search.sharing", "navigation.instant.preview", "navigation.tracking", "navigation.prune", "navigation.indexes", "navigation.sections", "navigation.footer", "navigation.path", "toc.follow"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+<script src="../../../js/timeago.min.js"></script>
+<script src="../../../js/timeago_mkdocs_material.js"></script>
+<script src="../../../assets/js/extra.js"></script>
+<script src="../../../assets/js/highlight.js"></script>
+<script src="../../../assets/js/mathjax.js"></script>
+<script src="../../../assets/js/tex-svg-full.js"></script>
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

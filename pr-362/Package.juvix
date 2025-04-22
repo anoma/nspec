@@ -1,0 +1,14 @@
+module Package;
+
+import PackageDescription.V2 open;
+
+-- --8<-- [start:package]
+package : Package :=
+  defaultPackage@{
+    name := "nspec";
+    version := mkVersion 0 1 4;
+    dependencies :=
+      [github "anoma" "juvix-stdlib" "v0.11.0"]
+  };
+-- --8<-- [end:package]
+

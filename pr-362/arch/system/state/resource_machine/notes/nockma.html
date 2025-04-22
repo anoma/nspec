@@ -1,0 +1,1036 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." name="description"/>
+<meta content="Anoma Foundation" name="author"/>
+<link href="https://specs.anoma.net/pr-362/arch/system/state/resource_machine/notes/nockma.juvix.html" rel="canonical"/>
+<link href="../../../../../assets/logo.svg" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.49" name="generator"/>
+<title>Nockma - Anoma specs</title>
+<link href="../../../../../assets/stylesheets/main.6f8fc17f.min.css" rel="stylesheet"/>
+<link href="../../../../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+<link href="../../../../../css/timeago.css" rel="stylesheet"/>
+<link href="../../../../../assets/css/juvix-material-style.css" rel="stylesheet"/>
+<link href="../../../../../assets/css/juvix-highlighting.css" rel="stylesheet"/>
+<link href="../../../../../assets/css/juvix_codeblock_footer.css" rel="stylesheet"/>
+<link href="../../../../../assets/css/latte-light.css" rel="stylesheet"/>
+<link href="../../../../../assets/css/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<meta content="website" property="og:type"/>
+<meta content="Nockma.juvix - Anoma specs" property="og:title"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." property="og:description"/>
+<meta content="https://specs.anoma.net/pr-362/assets/images/social/arch/system/state/resource_machine/notes/nockma.juvix.png" property="og:image"/>
+<meta content="image/png" property="og:image:type"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="https://specs.anoma.net/pr-362/arch/system/state/resource_machine/notes/nockma.juvix.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Nockma.juvix - Anoma specs" name="twitter:title"/>
+<meta content="The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network." name="twitter:description"/>
+<meta content="https://specs.anoma.net/pr-362/assets/images/social/arch/system/state/resource_machine/notes/nockma.juvix.png" name="twitter:image"/>
+<link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></link></head>
+<body data-md-color-accent="indigo" data-md-color-primary="white" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#nockma-implementation">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+<aside class="md-banner">
+<div class="md-banner__inner md-grid md-typeset">
+<button aria-label="Don't show this again" class="md-banner__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+            
+            
+  For updates follow <strong>@anoma</strong> on
+  <a href="https://x.com/anoma" rel="me">
+<span class="twemoji x-twitter">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"></path></svg>
+</span>
+<strong></strong>
+</a>
+  and discuss on our
+  <a href="https://research.anoma.net">
+<span class="twemoji discourse">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9S348.6 32 225.9 32M224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128"></path></svg>
+</span>
+<strong>forum</strong>
+</a>
+</div>
+<script>var el=document.querySelector("[data-md-component=announce]");if(el){var content=el.querySelector(".md-typeset");__md_hash(content.innerHTML)===__md_get("__announce")&&(el.hidden=!0)}</script>
+</aside>
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Anoma specs" class="md-header__button md-logo" data-md-component="logo" href="../../../../../index.html" title="Anoma specs">
+<img alt="logo" src="../../../../../assets/logo.svg"/>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+<span class="first-letter">A</span>noma 
+              
+                <span class="first-letter">s</span>pecs
+              
+              
+                <span class="md-header__topic-version">(PR362 - anthony/bump-47b3ec5a)</span>
+</span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+              
+                Nockma
+              
+            </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme)" data-md-color-primary="white" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+</label>
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="white" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to system preference" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to system preference">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7"></path></svg>
+<svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.042.018.75.75 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/anoma/nspec" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    anoma/nspec
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<!--
+  This is a modified version of the original mkdocs-material theme.
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Determine classes -->
+<!-- Navigation -->
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<!-- Site title -->
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Anoma specs" class="md-nav__button md-logo" data-md-component="logo" href="../../../../../index.html" title="Anoma specs">
+<img alt="logo" src="../../../../../assets/logo.svg"/>
+</a>
+    Anoma specs
+  </label>
+<!-- List of Versions -->
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://specs.anoma.net/latest" target="_blank">
+     Latest version ((PR362 - anthony/bump-47b3ec5a))
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://specs.anoma.net/main">
+        Development version
+      </a>
+</li>
+</ul>
+<!-- Navigation list -->
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../../../index.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
+<span class="md-ellipsis">
+    Home
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../../../changelog.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"></path></svg>
+<span class="md-ellipsis">
+    Changelog
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-ellipsis">
+    Indexes
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Indexes
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../../../indexes/tags.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 7A1.5 1.5 0 0 1 4 5.5 1.5 1.5 0 0 1 5.5 4 1.5 1.5 0 0 1 7 5.5 1.5 1.5 0 0 1 5.5 7m15.91 4.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.11 0-2 .89-2 2v7c0 .55.22 1.05.59 1.41l8.99 9c.37.36.87.59 1.42.59s1.05-.23 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.56-.23-1.06-.59-1.42"></path></svg>
+<span class="md-ellipsis">
+    List of tags
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../../../indexes/modules.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 10h-2V8h2m0 5h-2v-2h2m-3-1h-2V8h2m0 5h-2v-2h2m0 6H8v-2h8m-9-5H5V8h2m0 5H5v-2h2m1 0h2v2H8m0-5h2v2H8m3 1h2v2h-2m0-5h2v2h-2m9-5H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2"></path></svg>
+<span class="md-ellipsis">
+    List of modules
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../../../prelude.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2h7v5h5v11H6zm2 8v2h8v-2zm0 4v2h5v-2z"></path></svg>
+<span class="md-ellipsis">
+    List of basic types
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-ellipsis">
+    Introduction
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            Introduction
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../../../anomian.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.1 1 4.1 2.8 5.5 0 .6-.4 2.2-2.8 4.5 0 0 3.5 0 6.5-2.5 1.1.3 2.3.5 3.5.5 5.5 0 10-3.6 10-8s-4.5-8-10-8m1 12h-2v-2h2zm1.8-5c-.3.4-.7.6-1.1.8-.3.2-.4.3-.5.5-.2.2-.2.4-.2.7h-2c0-.5.1-.8.3-1.1.2-.2.6-.5 1.1-.8.3-.1.5-.3.6-.5s.2-.5.2-.7c0-.3-.1-.5-.3-.7s-.5-.3-.8-.3-.5.1-.7.2q-.3.15-.3.6h-2c.1-.7.4-1.3.9-1.7s1.2-.5 2.1-.5 1.7.2 2.2.6.8 1 .8 1.7q.15.6-.3 1.2"></path></svg>
+<span class="md-ellipsis">
+    Anomian
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../../overview.html">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 18.714v4.8c0 .288-.192.48-.48.48h-4.8c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48h1.92v-1.92h-8.16v1.92h1.92c.288 0 .48.192.48.48v4.8c0 .288-.192.48-.48.48H9.6c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48h1.92v-1.92H3.36v1.92h1.92c.288 0 .48.192.48.48v4.8c0 .288-.192.48-.48.48H.48c-.288 0-.48-.192-.48-.48v-4.8c0-.288.192-.48.48-.48H2.4v-2.4c0-.288.192-.48.48-.48h8.64v-1.44h.96v1.44h8.64c.288 0 .48.192.48.48v2.4h1.92c.288 0 .48.192.48.48m-13.92 4.32h3.84v-3.84h-3.84zm-9.12 0H4.8v-3.84H.96Zm18.24 0h3.84v-3.84H19.2ZM6.24 9.642V3.546c0-.192.096-.336.24-.432L11.76.042a.8.8 0 0 1 .48 0l5.28 3.072c.144.096.24.24.24.432v6.096c0 .144-.096.288-.24.384l-5.28 3.072q-.096.048-.24.048t-.24-.048l-5.28-3.072c-.144-.096-.24-.24-.24-.384m10.56-.288V4.362l-4.32 2.496v4.992zm-9.6 0 4.32 2.496V6.858L7.2 4.362Zm.48-5.808L12 5.994l4.32-2.448L12 1.05Z"></path></svg>
+<span class="md-ellipsis">
+    Anoma architecture
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-ellipsis">
+    Node architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            Node architecture
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../../../node/concepts/engine.html">
+<span class="md-ellipsis">
+    Concepts
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../../../node/types/anoma_message.html">
+<span class="md-ellipsis">
+    Types
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../../../node/subsystems/hardware.html">
+<span class="md-ellipsis">
+    Subsystems
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-ellipsis">
+    System architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            System architecture
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../../identity/identity.html">
+<span class="md-ellipsis">
+    Identity Architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../index.html">
+<span class="md-ellipsis">
+    State Architecture
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-ellipsis">
+    Tutorials
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+<a class="md-nav__link" href="../../../../../tutorial/principles_and_guidelines.html">
+<span class="md-ellipsis">
+    Contributor guidelines
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<!--
+  This is a modified version of the original mkdocs-material theme.
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Tags -->
+<nav class="md-tags">
+</nav>
+<!-- Actions -->
+<!--
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+<!-- Actions -->
+<!-- Edit button -->
+<a class="md-content__button md-icon" href="https://github.com/anoma/nspec/edit/main/docs/arch/system/state/resource_machine/notes/nockma.juvix.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-1.9l10-10V8l-6-6zm7 1.5L18.5 9H13zm7.1 9.5c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-2 1.8L12 20.9V23h2.1l6.1-6.1z"></path></svg>
+</a>
+<!-- View button -->
+<a class="md-content__button md-icon" href="https://github.com/anoma/nspec/raw/main/docs/arch/system/state/resource_machine/notes/nockma.juvix.md" title="View source of this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6h17.12c.79 0 1.44.63 1.44 1.41v9.18c0 .78-.65 1.41-1.44 1.41M6.81 15.19v-3.66l1.92 2.35 1.92-2.35v3.66h1.93V8.81h-1.93l-1.92 2.35-1.92-2.35H4.89v6.38zM19.69 12h-1.92V8.81h-1.92V12h-1.93l2.89 3.28z"></path></svg>
+</a>
+<!-- If the page source ends with .juvix.md, we show a button to view the raw code -->
+<a class="md-content__button md-icon" href="arch/system/state/resource_machine/notes/nockma-src.html" title="View Raw Juvix Code">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 3a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2H3v2h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h2v-2H8v-5a2 2 0 0 0-2-2 2 2 0 0 0 2-2V5h2V3m6 0a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1v2h-1a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-2v-2h2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5h-2V3z"></path></svg>
+</a>
+<!--
+  Hack: check whether the content contains a h1 headline. If it doesn't, the
+  page title (or respectively site name) is used as the main headline.
+-->
+<!-- Page content -->
+<details class="failure"><summary>Juvix Markdown error</summary>
+<pre><code>
+    ***/.juvix-build/0.6.9/deps/4840c75d24c71a4510ee7338beea31f9f2a65ddc71eab3907b676813c23e321a/Stdlib/Trait/DivM
+od.juvix:12:21-23: error: The module DivMod does not export mk
+
+</code></pre></details>
+<details class="quote">
+<summary>Juvix imports</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-0-1">module arch.system.state.resource_machine.notes.nockma;
+</span><span id="__ispan-0-2">import prelude open;
+</span><span id="__ispan-0-3">import Stdlib.Data.Nat open;
+</span><span id="__ispan-0-4">import Stdlib.Data.List open;
+</span></code></pre></div>
+</details>
+<h1 id="nockma-implementation">Nockma Implementation<a class="headerlink" href="#nockma-implementation" title="Anchor link to this section for reference">¶</a></h1>
+<div class="language-text highlight"><pre><span></span><code><span id="__ispan-1-1">-- Operation codes for Nockma:
+</span><span id="__ispan-1-2">-- 0: Slash (/)
+</span><span id="__ispan-1-3">-- 1: Constant: Returns operand unchanged
+</span><span id="__ispan-1-4">-- 2: Apply/Ap/S:
+</span><span id="__ispan-1-5">-- 3: Cell test (?): Tests if noun is cell
+</span><span id="__ispan-1-6">-- 4: Increment (+): Add 1 to atom
+</span><span id="__ispan-1-7">-- 5: Equality test (=): Compare nouns
+</span><span id="__ispan-1-8">-- 6: If-then-else
+</span><span id="__ispan-1-9">-- 7: Compose
+</span><span id="__ispan-1-10">-- 8: Extend subject
+</span><span id="__ispan-1-11">-- 9: Invoke (call function by arm name)
+</span><span id="__ispan-1-12">-- 10: Pound (#)
+</span><span id="__ispan-1-13">-- 11: Match: Case split on Cells vs Atoms
+</span><span id="__ispan-1-14">-- 12: Scry (read storage)
+</span><span id="__ispan-1-15">
+</span><span id="__ispan-1-16">-- Basic Nock types
+</span><span id="__ispan-1-17">type Noun :=
+</span><span id="__ispan-1-18">  | Atom : Nat -&gt; Noun
+</span><span id="__ispan-1-19">  | Cell : Noun -&gt; Noun -&gt; Noun;
+</span><span id="__ispan-1-20">
+</span><span id="__ispan-1-21">terminating
+</span><span id="__ispan-1-22">nounEq (n1 n2 : Noun) : Bool :=
+</span><span id="__ispan-1-23">  case mkPair n1 n2 of {
+</span><span id="__ispan-1-24">    | mkPair (Atom x) (Atom y) := x == y
+</span><span id="__ispan-1-25">    | mkPair (Cell a b) (Cell c d) := nounEq a c &amp;&amp; nounEq b d
+</span><span id="__ispan-1-26">    | _ := false
+</span><span id="__ispan-1-27">  };
+</span><span id="__ispan-1-28">
+</span><span id="__ispan-1-29">instance EqNoun : Eq Noun := mkEq@{ eq := nounEq };
+</span><span id="__ispan-1-30">
+</span><span id="__ispan-1-31">-- Helper to convert storage values to Nouns
+</span><span id="__ispan-1-32">axiom convertToNoun : {val : Type} -&gt; val -&gt; Noun;
+</span><span id="__ispan-1-33">-- Helper to convert Nouns to storage values
+</span><span id="__ispan-1-34">axiom convertFromNoun : {val : Type} -&gt; Noun -&gt; Option val;
+</span><span id="__ispan-1-35">
+</span><span id="__ispan-1-36">type ScryOp :=
+</span><span id="__ispan-1-37">  | Direct
+</span><span id="__ispan-1-38">  | Index;
+</span><span id="__ispan-1-39">
+</span><span id="__ispan-1-40">type Storage addr val := mkStorage {
+</span><span id="__ispan-1-41">  readDirect : addr -&gt; Option val;
+</span><span id="__ispan-1-42">  readIndex : val -&gt; Option val
+</span><span id="__ispan-1-43">};
+</span><span id="__ispan-1-44">
+</span><span id="__ispan-1-45">axiom externalStorage : {addr val : Type} -&gt; Storage addr val;
+</span><span id="__ispan-1-46">
+</span><span id="__ispan-1-47">type NockOp :=
+</span><span id="__ispan-1-48">  | Slash -- /
+</span><span id="__ispan-1-49">  | Constant -- Returns operand unchanged
+</span><span id="__ispan-1-50">  | Apply
+</span><span id="__ispan-1-51">  | CellTest -- ?
+</span><span id="__ispan-1-52">  | Increment -- +
+</span><span id="__ispan-1-53">  | EqualOp -- =
+</span><span id="__ispan-1-54">  | IfThenElse -- 6
+</span><span id="__ispan-1-55">  | Compose -- 7
+</span><span id="__ispan-1-56">  | Extend -- 8
+</span><span id="__ispan-1-57">  | Invoke -- 9
+</span><span id="__ispan-1-58">  | Pound -- #
+</span><span id="__ispan-1-59">  | Match -- 11
+</span><span id="__ispan-1-60">  | Scry; -- 12
+</span><span id="__ispan-1-61">
+</span><span id="__ispan-1-62">opOr {A : Type} (n m : Option A) : Option A :=
+</span><span id="__ispan-1-63">  case n of {
+</span><span id="__ispan-1-64">    | none := m
+</span><span id="__ispan-1-65">    | (some n) := some n
+</span><span id="__ispan-1-66">  };
+</span><span id="__ispan-1-67">
+</span><span id="__ispan-1-68">parseOp (n : Nat) : Option NockOp :=
+</span><span id="__ispan-1-69">  let test := \{m op :=
+</span><span id="__ispan-1-70">    case (n == m) of {
+</span><span id="__ispan-1-71">      | true := some op
+</span><span id="__ispan-1-72">      | false := none
+</span><span id="__ispan-1-73">    }} in
+</span><span id="__ispan-1-74">  foldr opOr none
+</span><span id="__ispan-1-75">    (zipWith test
+</span><span id="__ispan-1-76">      [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12]
+</span><span id="__ispan-1-77">      [Slash; Constant; Apply; CellTest; Increment;
+</span><span id="__ispan-1-78">      EqualOp; IfThenElse; Compose; Extend; Invoke;
+</span><span id="__ispan-1-79">      Pound; Match; Scry]);
+</span><span id="__ispan-1-80">
+</span><span id="__ispan-1-81">-- Monad to encompass gas consumption and error handling.
+</span><span id="__ispan-1-82">type GasState A := mkGasState {
+</span><span id="__ispan-1-83">  runGasState : Nat -&gt; Result String (Pair A Nat)
+</span><span id="__ispan-1-84">};
+</span><span id="__ispan-1-85">
+</span><span id="__ispan-1-86">instance
+</span><span id="__ispan-1-87">GasStateMonad : Monad GasState := mkMonad@{
+</span><span id="__ispan-1-88">  applicative := mkApplicative@{
+</span><span id="__ispan-1-89">    functor := mkFunctor@{
+</span><span id="__ispan-1-90">      map := \{f s := mkGasState \{gas :=
+</span><span id="__ispan-1-91">        case GasState.runGasState s gas of {
+</span><span id="__ispan-1-92">          | ok (mkPair x remaining) := ok (mkPair (f x) remaining)
+</span><span id="__ispan-1-93">          | error e := error e
+</span><span id="__ispan-1-94">        }}
+</span><span id="__ispan-1-95">    }};
+</span><span id="__ispan-1-96">    pure := \{x := mkGasState \{gas := ok (mkPair x gas)}};
+</span><span id="__ispan-1-97">    ap := \{sf sa := mkGasState \{gas :=
+</span><span id="__ispan-1-98">      case GasState.runGasState sf gas of {
+</span><span id="__ispan-1-99">        | ok (mkPair f remaining) :=
+</span><span id="__ispan-1-100">          case GasState.runGasState sa remaining of {
+</span><span id="__ispan-1-101">            | ok (mkPair x final) := ok (mkPair (f x) final)
+</span><span id="__ispan-1-102">            | error e := error e
+</span><span id="__ispan-1-103">          }
+</span><span id="__ispan-1-104">        | error e := error e
+</span><span id="__ispan-1-105">      }}
+</span><span id="__ispan-1-106">    }
+</span><span id="__ispan-1-107">  };
+</span><span id="__ispan-1-108">  bind := \{ma f := mkGasState \{gas :=
+</span><span id="__ispan-1-109">    case GasState.runGasState ma gas of {
+</span><span id="__ispan-1-110">      | ok (mkPair a remaining) := GasState.runGasState (f a) remaining
+</span><span id="__ispan-1-111">      | error e := error e
+</span><span id="__ispan-1-112">    }}
+</span><span id="__ispan-1-113">  }
+</span><span id="__ispan-1-114">};
+</span><span id="__ispan-1-115">
+</span><span id="__ispan-1-116">err {A : Type} (str : String) : GasState A := mkGasState \{_ := error str};
+</span><span id="__ispan-1-117">
+</span><span id="__ispan-1-118">-- Gas cost values for each operation type
+</span><span id="__ispan-1-119">-- These are made up for demo purposes
+</span><span id="__ispan-1-120">getGasCost (cost : NockOp) : Nat :=
+</span><span id="__ispan-1-121">  case cost of {
+</span><span id="__ispan-1-122">    | Slash := 1
+</span><span id="__ispan-1-123">    | CellTest := 1
+</span><span id="__ispan-1-124">    | Increment := 1
+</span><span id="__ispan-1-125">    | EqualOp := 2
+</span><span id="__ispan-1-126">    | IfThenElse := 3
+</span><span id="__ispan-1-127">    | Compose := 2
+</span><span id="__ispan-1-128">    | Extend := 2
+</span><span id="__ispan-1-129">    | Invoke := 3
+</span><span id="__ispan-1-130">    | Pound := 1
+</span><span id="__ispan-1-131">    | Scry := 10
+</span><span id="__ispan-1-132">    | _ := 0
+</span><span id="__ispan-1-133">  };
+</span><span id="__ispan-1-134">
+</span><span id="__ispan-1-135">consume (op : NockOp) : GasState Unit :=
+</span><span id="__ispan-1-136">  mkGasState \{gas :=
+</span><span id="__ispan-1-137">  let cost := getGasCost op in
+</span><span id="__ispan-1-138">  case cost &gt; gas of {
+</span><span id="__ispan-1-139">    | true := error "Out of gas"
+</span><span id="__ispan-1-140">    | false := ok (mkPair unit (sub gas cost))
+</span><span id="__ispan-1-141">  }};
+</span><span id="__ispan-1-142">
+</span><span id="__ispan-1-143">-- Implementation of storage read operations (scrying)
+</span><span id="__ispan-1-144">scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result String Noun :=
+</span><span id="__ispan-1-145">  case op of {
+</span><span id="__ispan-1-146">    | Direct := case Storage.readDirect stor addr of {
+</span><span id="__ispan-1-147">      | some val := ok (convertToNoun val)
+</span><span id="__ispan-1-148">      | none := error "Direct storage read failed"
+</span><span id="__ispan-1-149">    }
+</span><span id="__ispan-1-150">    | Index := case Storage.readDirect stor addr of {
+</span><span id="__ispan-1-151">      | some indexFn := case Storage.readIndex stor indexFn of {
+</span><span id="__ispan-1-152">        | some val := ok (convertToNoun val)
+</span><span id="__ispan-1-153">        | none := error "Index computation failed"
+</span><span id="__ispan-1-154">      }
+</span><span id="__ispan-1-155">      | none := error "Index function not found"
+</span><span id="__ispan-1-156">    }
+</span><span id="__ispan-1-157">  };
+</span><span id="__ispan-1-158">
+</span><span id="__ispan-1-159">-- Helper for slash (/) operations
+</span><span id="__ispan-1-160">terminating
+</span><span id="__ispan-1-161">slash {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasState Noun :=
+</span><span id="__ispan-1-162">  case n of {
+</span><span id="__ispan-1-163">    | Atom x := case x == 1 of {
+</span><span id="__ispan-1-164">      | true := pure subject -- Rule: /[1 a] -&gt; a
+</span><span id="__ispan-1-165">      | false := case x == 2 of {
+</span><span id="__ispan-1-166">        | true := case subject of { -- Rule: /[2 a b] -&gt; a
+</span><span id="__ispan-1-167">          | Cell a _ := pure a
+</span><span id="__ispan-1-168">          | _ := err "Cannot take slash of atom"
+</span><span id="__ispan-1-169">        }
+</span><span id="__ispan-1-170">        | false := case x == 3 of {
+</span><span id="__ispan-1-171">          | true := case subject of { -- Rule: /[3 a b] -&gt; b
+</span><span id="__ispan-1-172">            | Cell _ b := pure b
+</span><span id="__ispan-1-173">            | _ := err "Cannot take slash of atom"
+</span><span id="__ispan-1-174">          }
+</span><span id="__ispan-1-175">          | false := case (mod x 2) == 0 of {
+</span><span id="__ispan-1-176">            | true :=  -- Rule: /[(a + a) b] -&gt; /[2 /[a b]]
+</span><span id="__ispan-1-177">                consume Slash &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-178">                slash stor (Atom (div x 2)) subject &gt;&gt;= \{res :=
+</span><span id="__ispan-1-179">                consume Slash &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-180">                slash stor (Atom 2) res
+</span><span id="__ispan-1-181">                }}}
+</span><span id="__ispan-1-182">            | false := -- Rule: /[(a + a + 1) b] -&gt; /[3 /[a b]]
+</span><span id="__ispan-1-183">                consume Slash &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-184">                slash stor (Atom (div x 2)) subject &gt;&gt;= \{res :=
+</span><span id="__ispan-1-185">                consume Slash &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-186">                slash stor (Atom 3) res
+</span><span id="__ispan-1-187">                }}}
+</span><span id="__ispan-1-188">          }
+</span><span id="__ispan-1-189">        }
+</span><span id="__ispan-1-190">      }
+</span><span id="__ispan-1-191">    }
+</span><span id="__ispan-1-192">    | _ := err "Slash must be atom"
+</span><span id="__ispan-1-193">  };
+</span><span id="__ispan-1-194">
+</span><span id="__ispan-1-195">-- Helper for pound (#) operations
+</span><span id="__ispan-1-196">terminating
+</span><span id="__ispan-1-197">pound {val : Type} (stor : Storage Nat val) (n : Noun) (b : Noun) (c : Noun) : GasState Noun :=
+</span><span id="__ispan-1-198">  case n of {
+</span><span id="__ispan-1-199">    | Atom x := case x == 1 of {
+</span><span id="__ispan-1-200">      | true := pure b  -- Rule: #[1 a b] -&gt; a
+</span><span id="__ispan-1-201">      | false := case mod x 2 == 0 of {
+</span><span id="__ispan-1-202">        | true := case c of { -- Rule: #[(a + a) b c] -&gt; #[a [b /[(a + a + 1) c]] c]
+</span><span id="__ispan-1-203">          | Cell _ _ :=
+</span><span id="__ispan-1-204">            consume Slash &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-205">            slash stor (Atom ((2 * div x 2) + 1)) c &gt;&gt;= \{slashResult :=
+</span><span id="__ispan-1-206">            consume Pound &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-207">            pound stor (Atom (div x 2)) (Cell b slashResult) c
+</span><span id="__ispan-1-208">            }}}
+</span><span id="__ispan-1-209">          | _ := err "Invalid pound target"
+</span><span id="__ispan-1-210">        }
+</span><span id="__ispan-1-211">        | false := case c of { -- Rule: #[(a + a + 1) b c] -&gt; #[a [/[(a + a) c] b] c]
+</span><span id="__ispan-1-212">          | Cell _ _ :=
+</span><span id="__ispan-1-213">            consume Slash &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-214">            slash stor (Atom (2 * div x 2)) c &gt;&gt;= \{slashResult :=
+</span><span id="__ispan-1-215">            consume Pound &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-216">            pound stor (Atom (div x 2)) (Cell slashResult b) c
+</span><span id="__ispan-1-217">            }}}
+</span><span id="__ispan-1-218">          | _ := err "Invalid pound target"
+</span><span id="__ispan-1-219">        }
+</span><span id="__ispan-1-220">      }
+</span><span id="__ispan-1-221">    }
+</span><span id="__ispan-1-222">    | _ := err "Pound must be atom"
+</span><span id="__ispan-1-223">  };
+</span><span id="__ispan-1-224">
+</span><span id="__ispan-1-225">terminating
+</span><span id="__ispan-1-226">evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : Noun) : GasState Noun :=
+</span><span id="__ispan-1-227">  case op of {
+</span><span id="__ispan-1-228">    -- *[a 0 b] -&gt; /[b a]
+</span><span id="__ispan-1-229">    | Slash := slash stor args a
+</span><span id="__ispan-1-230">
+</span><span id="__ispan-1-231">    -- *[a 1 b] -&gt; b
+</span><span id="__ispan-1-232">    | Constant := pure args
+</span><span id="__ispan-1-233">
+</span><span id="__ispan-1-234">    -- *[a 2 b c] -&gt; *[*[a b] *[a c]]
+</span><span id="__ispan-1-235">    | Apply := case args of {
+</span><span id="__ispan-1-236">      | Cell b c :=
+</span><span id="__ispan-1-237">        nock stor (Cell a b) &gt;&gt;= \{r1 :=
+</span><span id="__ispan-1-238">        nock stor (Cell a c) &gt;&gt;= \{r2 :=
+</span><span id="__ispan-1-239">        nock stor (Cell r1 r2)
+</span><span id="__ispan-1-240">        }}
+</span><span id="__ispan-1-241">      | _ := err "Invalid apply args"
+</span><span id="__ispan-1-242">    }
+</span><span id="__ispan-1-243">
+</span><span id="__ispan-1-244">    -- *[a 3 b] -&gt; ?*[a b]
+</span><span id="__ispan-1-245">    -- ?[a b] -&gt; 0
+</span><span id="__ispan-1-246">    -- ?a -&gt; 1
+</span><span id="__ispan-1-247">    | CellTest := case args of {
+</span><span id="__ispan-1-248">      | Cell b _ :=
+</span><span id="__ispan-1-249">        nock stor (Cell a b) &gt;&gt;= \{res :=
+</span><span id="__ispan-1-250">        case res of {
+</span><span id="__ispan-1-251">          | Cell _ _ := pure (Atom 0)
+</span><span id="__ispan-1-252">          | _ := pure (Atom 1)
+</span><span id="__ispan-1-253">        }
+</span><span id="__ispan-1-254">        }
+</span><span id="__ispan-1-255">      | _ := err "Invalid cell test args"
+</span><span id="__ispan-1-256">    }
+</span><span id="__ispan-1-257">
+</span><span id="__ispan-1-258">    -- *[a 4 b] -&gt; +*[a b]
+</span><span id="__ispan-1-259">    -- +[a b] -&gt; +[a b]
+</span><span id="__ispan-1-260">    -- +a -&gt; 1 + a
+</span><span id="__ispan-1-261">    | Increment := case args of {
+</span><span id="__ispan-1-262">      | Cell b _ :=
+</span><span id="__ispan-1-263">        nock stor (Cell a b) &gt;&gt;= \{res :=
+</span><span id="__ispan-1-264">        case res of {
+</span><span id="__ispan-1-265">          | (Atom n) := pure (Atom (suc n))
+</span><span id="__ispan-1-266">          | x := pure x  -- +[a b] -&gt; +[a b] case
+</span><span id="__ispan-1-267">        }
+</span><span id="__ispan-1-268">        }
+</span><span id="__ispan-1-269">      | _ := err "Invalid increment args"
+</span><span id="__ispan-1-270">    }
+</span><span id="__ispan-1-271">
+</span><span id="__ispan-1-272">    -- *[a 5 b c] -&gt; =*[a b] *[a c]
+</span><span id="__ispan-1-273">    -- =[a a] -&gt; 0
+</span><span id="__ispan-1-274">    -- =[a b] -&gt; 1
+</span><span id="__ispan-1-275">    | EqualOp := case args of {
+</span><span id="__ispan-1-276">      | Cell b c :=
+</span><span id="__ispan-1-277">        nock stor (Cell a b) &gt;&gt;= \{r1 :=
+</span><span id="__ispan-1-278">        nock stor (Cell a c) &gt;&gt;= \{r2 :=
+</span><span id="__ispan-1-279">        pure (Atom (case nounEq r1 r2 of {
+</span><span id="__ispan-1-280">              | true := 0
+</span><span id="__ispan-1-281">              | false := 1
+</span><span id="__ispan-1-282">            }))
+</span><span id="__ispan-1-283">        }}
+</span><span id="__ispan-1-284">      | _ := err "Invalid equality args"
+</span><span id="__ispan-1-285">    }
+</span><span id="__ispan-1-286">
+</span><span id="__ispan-1-287">    -- *[a 6 b c d] -&gt; *[a *[[c d] 0 *[[2 3] 0 *[a 4 4 b]]]]
+</span><span id="__ispan-1-288">    | IfThenElse := case args of {
+</span><span id="__ispan-1-289">      | Cell b (Cell c d) :=
+</span><span id="__ispan-1-290">        nock stor (Cell a (Cell (Atom 4) (Cell (Atom 4) b))) &gt;&gt;= \{r1 :=
+</span><span id="__ispan-1-291">        nock stor (Cell (Cell (Atom 2) (Atom 3)) (Cell (Atom 0) r1)) &gt;&gt;= \{r2 :=
+</span><span id="__ispan-1-292">        nock stor (Cell (Cell c d) (Cell (Atom 0) r2)) &gt;&gt;= \{r3 :=
+</span><span id="__ispan-1-293">        nock stor (Cell a r3)
+</span><span id="__ispan-1-294">        }}}
+</span><span id="__ispan-1-295">      | _ := err "Invalid if-then-else args"
+</span><span id="__ispan-1-296">    }
+</span><span id="__ispan-1-297">
+</span><span id="__ispan-1-298">    -- *[a 7 b c] -&gt; *[*[a b] c]
+</span><span id="__ispan-1-299">    | Compose := case args of {
+</span><span id="__ispan-1-300">      | Cell b c :=
+</span><span id="__ispan-1-301">        nock stor (Cell a b) &gt;&gt;= \{r :=
+</span><span id="__ispan-1-302">        nock stor (Cell r c)
+</span><span id="__ispan-1-303">        }
+</span><span id="__ispan-1-304">      | _ := err "Invalid compose args"
+</span><span id="__ispan-1-305">    }
+</span><span id="__ispan-1-306">
+</span><span id="__ispan-1-307">    -- *[a 8 b c] -&gt; *[[*[a b] a] c]
+</span><span id="__ispan-1-308">    | Extend := case args of {
+</span><span id="__ispan-1-309">      | Cell b c :=
+</span><span id="__ispan-1-310">        nock stor (Cell a b) &gt;&gt;= \{r :=
+</span><span id="__ispan-1-311">        nock stor (Cell (Cell r a) c)
+</span><span id="__ispan-1-312">        }
+</span><span id="__ispan-1-313">      | _ := err "Invalid extend args"
+</span><span id="__ispan-1-314">    }
+</span><span id="__ispan-1-315">
+</span><span id="__ispan-1-316">    -- *[a 9 b c] -&gt; *[*[a c] 2 [0 1] 0 b]
+</span><span id="__ispan-1-317">    | Invoke := case args of {
+</span><span id="__ispan-1-318">      | Cell b c :=
+</span><span id="__ispan-1-319">        nock stor (Cell a c) &gt;&gt;= \{core :=
+</span><span id="__ispan-1-320">        let formula := Cell (Atom 2) (Cell (Cell (Atom 0) (Atom 1)) (Cell (Atom 0) b)) in
+</span><span id="__ispan-1-321">        nock stor (Cell core formula)
+</span><span id="__ispan-1-322">        }
+</span><span id="__ispan-1-323">      | _ := err "Invalid invoke args"
+</span><span id="__ispan-1-324">    }
+</span><span id="__ispan-1-325">
+</span><span id="__ispan-1-326">    -- *[a 10 [b c] d] -&gt; #[b *[a c] *[a d]]
+</span><span id="__ispan-1-327">    | Pound := case args of {
+</span><span id="__ispan-1-328">      | Cell (Cell b c) d :=
+</span><span id="__ispan-1-329">        nock stor (Cell a c) &gt;&gt;= \{r1 :=
+</span><span id="__ispan-1-330">        nock stor (Cell a d) &gt;&gt;= \{r2 :=
+</span><span id="__ispan-1-331">        pound stor b r1 r2
+</span><span id="__ispan-1-332">        }}
+</span><span id="__ispan-1-333">      | _ := err "Invalid pound args"
+</span><span id="__ispan-1-334">    }
+</span><span id="__ispan-1-335">
+</span><span id="__ispan-1-336">    -- *[a 11 [b c] d] -&gt; *[[*[a c] *[a d]] 0 3]
+</span><span id="__ispan-1-337">    -- *[a 11 b c] -&gt; *[a c]
+</span><span id="__ispan-1-338">    | Match := case args of {
+</span><span id="__ispan-1-339">      | Cell (Cell b c) d :=
+</span><span id="__ispan-1-340">        nock stor (Cell a c) &gt;&gt;= \{r1 :=
+</span><span id="__ispan-1-341">        nock stor (Cell a d) &gt;&gt;= \{r2 :=
+</span><span id="__ispan-1-342">        nock stor (Cell (Cell r1 r2) (Cell (Atom 0) (Atom 3)))
+</span><span id="__ispan-1-343">        }}
+</span><span id="__ispan-1-344">      | Cell _ c := nock stor (Cell a c)
+</span><span id="__ispan-1-345">      | _ := err "Invalid pure pound args"
+</span><span id="__ispan-1-346">    }
+</span><span id="__ispan-1-347">
+</span><span id="__ispan-1-348">    -- *[a 12 b c d] -&gt; result &lt;- SCRY b c; *[a result d]
+</span><span id="__ispan-1-349">    | Scry := case args of {
+</span><span id="__ispan-1-350">      | Cell b (Cell c d) :=
+</span><span id="__ispan-1-351">          -- First evaluate b to get the opcode
+</span><span id="__ispan-1-352">          nock stor b &gt;&gt;= \{opcode :=
+</span><span id="__ispan-1-353">            case opcode of {
+</span><span id="__ispan-1-354">              | Atom opval :=
+</span><span id="__ispan-1-355">                  -- Then evaluate c to get the address
+</span><span id="__ispan-1-356">                  nock stor c &gt;&gt;= \{addr :=
+</span><span id="__ispan-1-357">                    case addr of {
+</span><span id="__ispan-1-358">                      | Atom addrVal :=
+</span><span id="__ispan-1-359">                          -- Convert opcode to ScryOp
+</span><span id="__ispan-1-360">                          let scryType := case opval == 0 of {
+</span><span id="__ispan-1-361">                            | true := Direct
+</span><span id="__ispan-1-362">                            | false := Index
+</span><span id="__ispan-1-363">                          } in
+</span><span id="__ispan-1-364">                          -- Perform the scry operation and wrap result in GasState
+</span><span id="__ispan-1-365">                          mkGasState \{gas :=
+</span><span id="__ispan-1-366">                            scry stor scryType addrVal &gt;&gt;= \{scryResult :=
+</span><span id="__ispan-1-367">                            -- Continue evaluation with the scry result
+</span><span id="__ispan-1-368">                            GasState.runGasState (nock stor (Cell a (Cell scryResult d))) gas
+</span><span id="__ispan-1-369">                            }
+</span><span id="__ispan-1-370">                          }
+</span><span id="__ispan-1-371">                      | _ := err "Scry address must be atom"
+</span><span id="__ispan-1-372">                    }
+</span><span id="__ispan-1-373">                  }
+</span><span id="__ispan-1-374">              | _ := err "Scry type must be atom"
+</span><span id="__ispan-1-375">            }
+</span><span id="__ispan-1-376">          }
+</span><span id="__ispan-1-377">      | _ := err "Invalid scry args"
+</span><span id="__ispan-1-378">    }
+</span><span id="__ispan-1-379">  };
+</span><span id="__ispan-1-380">
+</span><span id="__ispan-1-381">-- Core Nockma evaluator
+</span><span id="__ispan-1-382">terminating
+</span><span id="__ispan-1-383">nock {val : Type} (stor : Storage Nat val) (input : Noun) : GasState Noun :=
+</span><span id="__ispan-1-384">  case input of {
+</span><span id="__ispan-1-385">    -- Rule: *a -&gt; *a
+</span><span id="__ispan-1-386">    | Atom _ := pure input
+</span><span id="__ispan-1-387">
+</span><span id="__ispan-1-388">    | Cell a b := case b of {
+</span><span id="__ispan-1-389">
+</span><span id="__ispan-1-390">      | Cell first rest := case first of {
+</span><span id="__ispan-1-391">        -- Rule: *[a [b c] d] -&gt; [*[a b c] *[a d]]
+</span><span id="__ispan-1-392">        | Cell b c :=
+</span><span id="__ispan-1-393">          nock stor (Cell a (Cell b c)) &gt;&gt;= \{r1 :=
+</span><span id="__ispan-1-394">          nock stor (Cell a rest) &gt;&gt;= \{r2 :=
+</span><span id="__ispan-1-395">          pure (Cell r1 r2)
+</span><span id="__ispan-1-396">          }}
+</span><span id="__ispan-1-397">
+</span><span id="__ispan-1-398">        | Atom n := case parseOp n of {
+</span><span id="__ispan-1-399">          | some opcode := consume opcode &gt;&gt;= \{_ :=
+</span><span id="__ispan-1-400">              evalOp stor opcode a rest
+</span><span id="__ispan-1-401">            }
+</span><span id="__ispan-1-402">          | none := err "Invalid operation"
+</span><span id="__ispan-1-403">        }
+</span><span id="__ispan-1-404">      }
+</span><span id="__ispan-1-405">      | _ := err "Invalid Nock expression"
+</span><span id="__ispan-1-406">    }
+</span><span id="__ispan-1-407">  };
+</span></code></pre></div>
+<!-- list_wikilinks -->
+<!-- Source file information -->
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="Last update">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-03-28T00:55:13+01:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-03-28</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="Created">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-03-28T00:55:13+01:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-03-28</span>
+</span>
+</aside>
+<!-- Was this page helpful? -->
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53z"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c.67 0 1.32.12 1.94.33L13 9.35l-4 5zM16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35l-1-7 4.5-5-2.65-5.08C13.87 3.47 15.17 3 16.5 3"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              Thanks for your feedback! We'll try to improve this page in the future.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+<!-- Comment system -->
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Powered by Mkdocs, Poetry 1.8.3, Material 9.5.49-insiders-4.53.14 and Juvix v0.6.9
+    </div>
+<strong>Version: (PR362 - anthony/bump-47b3ec5a) - Updated: April 22,
+    2025 at 03:18 AM UTC</strong>
+<br/>
+<strong>Latest version: <a href="https://specs.anoma.net/latest">
+    https://specs.anoma.net/latest</a></strong>
+<br/>
+<strong>Development version: <a href="https://specs.anoma.net/main">
+    https://specs.anoma.net/main</a></strong>
+<br/>
+<strong>Anoma Official Resources:</strong>
+<small> <a href="https://anoma.net/" target="_blank">Website</a> | <a href="https://art.anoma.net" target="_blank">Research</a> | <a href="https://anoma.net/blog" target="_blank">Blog</a> | <a href="https://anoma.net/talks" target="_blank">Talks</a> </small>
+<br/>
+<strong>For Specification Authors:</strong>
+<small>
+<a href="https://specs.anoma.net/pr-362/indexes/tags.html">Tags</a>
+    | <a href="https://specs.anoma.net/pr-362/indexes/links.html">Quick links</a>
+    | <a href="https://specs.anoma.net/pr-362/indexes/juvix_modules.html">Juvix modules</a>
+    | <a href="https://specs.anoma.net/pr-362/tutorial/index.html">Guides</a>
+</small>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://x.com/anoma" rel="noopener" target="_blank" title="x.com">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"></path></svg>
+</a>
+<a class="md-social__link" href="https://github.com/anoma" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://anoma.net/blog" rel="noopener" target="_blank" title="anoma.net">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M192 32c0 17.7 14.3 32 32 32 123.7 0 224 100.3 224 224 0 17.7 14.3 32 32 32s32-14.3 32-32C512 128.9 383.1 0 224 0c-17.7 0-32 14.3-32 32m0 96c0 17.7 14.3 32 32 32 70.7 0 128 57.3 128 128 0 17.7 14.3 32 32 32s32-14.3 32-32c0-106-86-192-192-192-17.7 0-32 14.3-32 32m-96 16c0-26.5-21.5-48-48-48S0 117.5 0 144v224c0 79.5 64.5 144 144 144s144-64.5 144-144-64.5-144-144-144h-16v96h16c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48z"></path></svg>
+</a>
+<a class="md-social__link" href="https://research.anoma.net" rel="noopener" target="_blank" title="research.anoma.net">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9S348.6 32 225.9 32M224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128"></path></svg>
+</a>
+<a class="md-social__link" href="https://youtube.com/anoma" rel="noopener" target="_blank" title="youtube.com">
+<svg viewbox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305m-317.51 213.508V175.185l142.739 81.205z"></path></svg>
+</a>
+<a class="md-social__link" href="mailto:arts@heliax.dev" rel="noopener" target="_blank" title="">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../../../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tooltips", "content.action.edit", "content.action.view", "search.highlight", "search.suggest", "search.sharing", "navigation.instant.preview", "navigation.tracking", "navigation.prune", "navigation.indexes", "navigation.sections", "navigation.footer", "navigation.path", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+<script src="../../../../../js/timeago.min.js"></script>
+<script src="../../../../../js/timeago_mkdocs_material.js"></script>
+<script src="../../../../../assets/js/extra.js"></script>
+<script src="../../../../../assets/js/highlight.js"></script>
+<script src="../../../../../assets/js/mathjax.js"></script>
+<script src="../../../../../assets/js/tex-svg-full.js"></script>
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
