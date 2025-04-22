@@ -97,7 +97,7 @@ module executor_environment_example;
 executorEnv : ExecutorEnv :=
   EngineEnv.mk@{
     localState := ExecutorLocalState.mk@{
-      program_state := NockmaProgramState.mk@{ 
+      program_state := NockmaProgramState.mk@{
           current_noun := Noun.Atom 0;
           storage := emptyStorage;
           gas_limit := 0 };
