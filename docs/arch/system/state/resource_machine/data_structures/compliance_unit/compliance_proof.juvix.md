@@ -64,7 +64,7 @@ Each resource machine compliance proof must check the following:
   1. Commitment integrity: `r.commitment() is in created`
   2. Logic integrity: `logicVKOuter = logicVKOuterHash(r.logicRef, ...)`
 
-4. Delta integrity: `unitDelta = sum(r.delta(r.deltaExtraInput) for r in consumed) - sum(r.delta(r.deltaExtraInput) for r in created)`
+4. Delta integrity: `unitDelta = sum(r.delta(deltaExtraInput(r)) for r in consumed) - sum(r.delta(deltaExtraInput(r)) for r in created)` where `deltaExtraInput(r)` returns `deltaExtraInput` associated with resource `r`
 
 !!! note
     Kind integrity is checked implicitly in delta integrity
