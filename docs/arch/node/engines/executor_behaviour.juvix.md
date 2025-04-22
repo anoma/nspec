@@ -306,14 +306,14 @@ processReadAction
         -- These inform the shards that they can release pending locks in the
         -- case that the executor halts.
         staleReadMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          envelope (keyToShard key) (PreMsg.MsgShard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
-            timestamp := ExecutorCfg.timestamp cfg;
+          envelope (ExecutorLocalCfg.keyToShard cfg key) (PreMsg.MsgShard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
+            timestamp := ExecutorLocalCfg.timestamp cfg;
             key := key;
             actual := false
           })));
         staleWriteMsg (key : KVSKey) : EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable) :=
-          envelope (keyToShard key) (PreMsg.MsgShard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
-            timestamp := ExecutorCfg.timestamp cfg;
+          envelope (ExecutorLocalCfg.keyToShard cfg key) (PreMsg.MsgShard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
+            timestamp := ExecutorLocalCfg.timestamp cfg;
             key := key;
             datum := none
           })));
@@ -335,7 +335,7 @@ processReadAction
             let
               local := EngineEnv.localState env;
               finishedMsg :=
-                envelope (ExecutorCfg.issuer cfg)
+                envelope (ExecutorLocalCfg.issuer cfg)
                   (PreMsg.MsgExecutor (ExecutorMsg.ExecutorFinished ExecutorFinishedMsg.mkExecutorFinishedMsg@{
                     success := false;
                     values_read := (mkPair readKey readValue) :: Map.toList reads;
@@ -353,8 +353,8 @@ processReadAction
                      (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
                      List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
-                envelope (keyToShard key) (PreMsg.MsgShard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
-                    timestamp := ExecutorCfg.timestamp cfg;
+                envelope (ExecutorLocalCfg.keyToShard cfg key) (PreMsg.MsgShard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
+                    timestamp := ExecutorLocalCfg.timestamp cfg;
                     key := key;
                     actual := true
                   })))
@@ -368,9 +368,9 @@ processReadAction
                       (msgs : List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable))) :
                       List (EngineMsg (Anoma.PreMsg KVSKey KVSDatum Executable)) :=
               let msg :=
-                envelope (keyToShard key)
+                envelope (ExecutorLocalCfg.keyToShard cfg key)
                   (PreMsg.MsgShard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
-                    timestamp := ExecutorCfg.timestamp cfg;
+                    timestamp := ExecutorLocalCfg.timestamp cfg;
                     key := key;
                     datum := some value
                   })))
@@ -411,7 +411,7 @@ processReadAction
               let
                 finishedMsg :=
                   envelope
-                    (ExecutorCfg.issuer cfg)
+                    (ExecutorLocalCfg.issuer cfg)
                     (PreMsg.MsgExecutor (ExecutorMsg.ExecutorFinished ExecutorFinishedMsg.mkExecutorFinishedMsg@{
                       success := true;
                       values_read := Map.toList reads;

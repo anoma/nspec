@@ -353,8 +353,8 @@ verifyAction
                     mailbox := some 0;
                     msg := Anoma.PreMsg.MsgVerification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
                       (Verifier.verify
-                        (VerificationCfg.verifier (EngineCfg.cfg cfg) Set.Set.empty externalIdentity)
-                        (VerificationCfg.backend (EngineCfg.cfg cfg))
+                        (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) Set.Set.empty externalIdentity)
+                        (VerificationLocalCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
                   }
@@ -585,7 +585,7 @@ signsForReplyGuard
             msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceReply _);
             sender := sender
           } :=
-          case isEqual (Ord.compare sender (VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
+          case isEqual (Ord.compare sender (VerificationLocalCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
             | true := some GuardOutput.mkGuardOutput@{
               action := signsForReplyActionLabel;
               args := []

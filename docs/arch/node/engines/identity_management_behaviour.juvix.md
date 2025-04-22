@@ -425,10 +425,10 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
       (capabilities' : Capabilities)
       : Pair IdentityInfo (List (Pair Cfg Env)) :=
       let decryptionConfig : DecryptionCfg :=
-            mkEngineCfg@{
+            EngineCfg.mk@{
               node := EngineCfg.node cfg;
               name := nameGen "decryptor" (snd whoAsked) whoAsked;
-              cfg := mkDecryptionLocalCfg@{
+              cfg := DecryptionLocalCfg.mk@{
                 decryptor := genDecryptor backend';
                 backend := backend';
               }
@@ -443,10 +443,10 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
           decryptionEng : Pair Cfg Env :=
             mkPair (PreCfg.CfgDecryption decryptionConfig) (PreEnv.EnvDecryption decryptionEnv);
           commitmentConfig : CommitmentCfg :=
-            mkEngineCfg@{
+            EngineCfg.mk@{
               node := EngineCfg.node cfg;
               name := nameGen "committer" (snd whoAsked) whoAsked;
-              cfg := mkCommitmentLocalCfg@{
+              cfg := CommitmentLocalCfg.mk@{
                 signer := genSigner backend';
                 backend := backend';
               }

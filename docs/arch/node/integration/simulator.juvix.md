@@ -61,7 +61,7 @@ executeGuardOutput
   (trigger : TimestampedTrigger H AM)
   : Option (ActionEffect S B H AM AC AE) :=
   case output of {
-    | mkGuardOutput@{action := Seq actions; args := args} :=
+    | GuardOutput.mkGuardOutput@{action := ActionExec.Seq actions; args := args} :=
       let
         -- Execute each action in sequence
         terminating
@@ -69,7 +69,7 @@ executeGuardOutput
           case acts of {
             | [] := none
             | act :: rest :=
-              case act (mkActionInput@{
+              case act (ActionInput.mkActionInput@{
                 args := args;
                 cfg := Engine.cfg eng;
                 env := currentEnv;
@@ -79,7 +79,7 @@ executeGuardOutput
                 | some effect :=
                   case executeAction rest (ActionEffect.env effect) of {
                     | none := some effect
-                    | some nextEffect := some mkActionEffect@{
+                    | some nextEffect := some ActionEffect.mkActionEffect@{
                         env := ActionEffect.env nextEffect;
                         msgs := ActionEffect.msgs effect ++ ActionEffect.msgs nextEffect;
                         timers := ActionEffect.timers effect ++ ActionEffect.timers nextEffect;
@@ -100,15 +100,15 @@ evaluateAndExecute
   : Option (Pair (List (EngineMsg AM)) (Pair (List (Pair AC AE)) (Engine C S B H A AM AC AE))) :=
   let
     -- Create a trigger from the message
-    trigger := mkTimestampedTrigger@{
+    trigger := TimestampedTrigger.mkTimestampedTrigger@{
       time := right 0;  -- Dummy time value for now
-      trigger := MessageArrived@{msg := msg}
+      trigger := Trigger.MessageArrived@{msg := msg}
     };
     -- Get the engine's behaviour
     behaviour := Engine.behaviour eng;
     -- Evaluate guards based on strategy
     guardResult := case EngineBehaviour.guards behaviour of {
-      | First guards :=
+      | GuardEval.First guards :=
         let
           -- Try each guard until one matches
           terminating
@@ -122,7 +122,7 @@ evaluateAndExecute
                 }
             };
         in tryGuard guards
-      | Any guards := -- What's this actually supposed to do?
+      | GuardEval.Any guards := -- What's this actually supposed to do?
         let
           -- Try each guard until one matches
           terminating
@@ -158,97 +158,97 @@ evaluateAndExecute
 -- Helper function to evaluate and execute for any engine type
 evaluateAndExecuteEng (eng : Eng) (msg : EngineMsg Msg) : Option (Pair (List (EngineMsg Msg)) (Pair (List (Pair Cfg Env)) Eng)) :=
   case eng of {
-    | EngIdentityManagement e := case evaluateAndExecute e msg of {
+    | Eng.IdentityManagement e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngIdentityManagement newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.IdentityManagement newEng)))
     }
-    | EngDecryption e := case evaluateAndExecute e msg of {
+    | Eng.Decryption e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngDecryption newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Decryption newEng)))
     }
-    | EngEncryption e := case evaluateAndExecute e msg of {
+    | Eng.Encryption e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngEncryption newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Encryption newEng)))
     }
-    | EngCommitment e := case evaluateAndExecute e msg of {
+    | Eng.Commitment e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngCommitment newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Commitment newEng)))
     }
-    | EngVerification e := case evaluateAndExecute e msg of {
+    | Eng.Verification e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngVerification newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Verification newEng)))
     }
-    | EngReadsFor e := case evaluateAndExecute e msg of {
+    | Eng.ReadsFor e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngReadsFor newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.ReadsFor newEng)))
     }
-    | EngSignsFor e := case evaluateAndExecute e msg of {
+    | Eng.SignsFor e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngSignsFor newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.SignsFor newEng)))
     }
-    | EngNaming e := case evaluateAndExecute e msg of {
+    | Eng.Naming e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngNaming newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Naming newEng)))
     }
-    | EngLocalKeyValueStorage e := case evaluateAndExecute e msg of {
+    | Eng.LocalKeyValueStorage e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngLocalKeyValueStorage newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.LocalKeyValueStorage newEng)))
     }
-    | EngLogging e := case evaluateAndExecute e msg of {
+    | Eng.Logging e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngLogging newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Logging newEng)))
     }
-    | EngWallClock e := case evaluateAndExecute e msg of {
+    | Eng.WallClock e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngWallClock newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.WallClock newEng)))
     }
-    | EngLocalTSeries e := case evaluateAndExecute e msg of {
+    | Eng.LocalTSeries e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngLocalTSeries newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.LocalTSeries newEng)))
     }
-    | EngRouter e := case evaluateAndExecute e msg of {
+    | Eng.Router e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngRouter newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Router newEng)))
     }
-    | EngTransportProtocol e := case evaluateAndExecute e msg of {
+    | Eng.TransportProtocol e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngTransportProtocol newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.TransportProtocol newEng)))
     }
-    | EngTransportConnection e := case evaluateAndExecute e msg of {
+    | Eng.TransportConnection e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngTransportConnection newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.TransportConnection newEng)))
     }
-    | EngPubSubTopic e := case evaluateAndExecute e msg of {
+    | Eng.PubSubTopic e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngPubSubTopic newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.PubSubTopic newEng)))
     }
-    | EngStorage e := case evaluateAndExecute e msg of {
+    | Eng.Storage e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngStorage newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Storage newEng)))
     }
-    | EngMempoolWorker e := case evaluateAndExecute e msg of {
+    | Eng.MempoolWorker e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngMempoolWorker newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.MempoolWorker newEng)))
     }
-    | EngExecutor e := case evaluateAndExecute e msg of {
+    | Eng.Executor e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngExecutor newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Executor newEng)))
     }
-    | EngShard e := case evaluateAndExecute e msg of {
+    | Eng.Shard e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngShard newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Shard newEng)))
     }
-    | EngTicker e := case evaluateAndExecute e msg of {
+    | Eng.Ticker e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngTicker newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Ticker newEng)))
     }
-    | EngTemplate e := case evaluateAndExecute e msg of {
+    | Eng.Template e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngTemplate newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.Template newEng)))
     }
-    | EngTemplateMinimum e := case evaluateAndExecute e msg of {
+    | Eng.TemplateMinimum e := case evaluateAndExecute e msg of {
       | none := none
-      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (EngTemplateMinimum newEng)))
+      | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.TemplateMinimum newEng)))
     }
   };
 

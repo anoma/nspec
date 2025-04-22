@@ -353,8 +353,8 @@ encryptAction
                 msg := Anoma.PreMsg.MsgEncryption (EncryptionMsg.Reply (
                   ReplyEncrypt.mkReplyEncrypt@{
                     ciphertext := Encryptor.encrypt
-                      (EncryptionCfg.encryptor (EngineCfg.cfg cfg) Set.Set.empty externalIdentity)
-                      (EncryptionCfg.backend (EngineCfg.cfg cfg))
+                      (EncryptionLocalCfg.encryptor (EngineCfg.cfg cfg) Set.Set.empty externalIdentity)
+                      (EncryptionLocalCfg.backend (EngineCfg.cfg cfg))
                       data;
                     err := none
                   }))
@@ -562,7 +562,7 @@ readsForReplyGuard
   | some emsg :=
     case EngineMsg.msg emsg of {
     | Anoma.PreMsg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceReply _) :=
-      case isEqual (Ord.compare (EngineMsg.sender emsg) (EncryptionCfg.readsForEngineAddress (EngineCfg.cfg cfg))) of {
+      case isEqual (Ord.compare (EngineMsg.sender emsg) (EncryptionLocalCfg.readsForEngineAddress (EngineCfg.cfg cfg))) of {
       | true := some GuardOutput.mkGuardOutput@{
           action := handleReadsForReplyActionLabel;
           args := []

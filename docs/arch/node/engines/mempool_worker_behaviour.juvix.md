@@ -53,7 +53,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 <figure markdown>
 
 ```mermaidflowchart TD
-    Start([Client Request]) --> MsgReq[MempoolWorkerMsgTransactionRequest<br/>tx: TransactionCandidate]
+    Start([Client Request]) --> MsgReq[MempoolWorkerMsg.TransactionRequest<br/>tx: TransactionCandidate]
 
     subgraph Guard["transactionRequestGuard"]
         MsgReq --> ValidType{Is message type<br/>TransactionRequest?}
@@ -92,13 +92,13 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 #### Explanation
 
 1. **Initial Request**
-   - A client sends a `MempoolWorkerMsgTransactionRequest` containing:
+   - A client sends a `MempoolWorkerMsg.TransactionRequest` containing:
      - `tx`: The transaction candidate to be ordered and executed.
      - `resubmission`: Optional reference to a previous occurrence (currently unused).
    - The transaction candidate includes its program code and access patterns (what it will read/write).
 
 2. **Guard Phase** (`transactionRequestGuard`)
-   - Verifies message type is `MempoolWorkerMsgTransactionRequest`.
+   - Verifies message type is `MempoolWorkerMsg.TransactionRequest`.
    - If validation fails, request is rejected.
    - On success, passes control to `transactionRequestActionLabel`.
 
@@ -151,7 +151,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 
 ```mermaid
 flowchart TD
-    Start([Shard Reply]) --> MsgReq[ShardMsgKVSLockAcquired<br/>timestamp: TxFingerprint]
+    Start([Shard Reply]) --> MsgReq[ShardMsg.KVSLockAcquired<br/>timestamp: TxFingerprint]
 
     subgraph Guard["lockAcquiredGuard"]
         MsgReq --> ValidType{Is message type<br/>LockAcquired?}
@@ -184,13 +184,13 @@ flowchart TD
 #### Explanation
 
 1. **Initial Message**
-   - A Mempool Worker receives a `ShardMsgKVSLockAcquired` message from a Shard engine.
+   - A Mempool Worker receives a `ShardMsg.KVSLockAcquired` message from a Shard engine.
    - The message contains:
      - `timestamp`: The TxFingerprint identifying which transaction's locks were acquired.
      - (Implicit) The sender of the message identifies which shard has confirmed the locks.
 
 2. **Guard Phase** (`lockAcquiredGuard`)
-   - Verifies message type is `ShardMsgKVSLockAcquired`.
+   - Verifies message type is `ShardMsg.KVSLockAcquired`.
    - If validation fails, request is rejected.
    - On success, passes control to `lockAcquiredActionLabel`.
 
@@ -221,7 +221,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Start([Executor Reply]) --> MsgReq[ExecutorMsgExecutorFinished<br/>success: Bool<br/>values_read: List KeyValue<br/>values_written: List KeyValue]
+    Start([Executor Reply]) --> MsgReq[ExecutorMsg.ExecutorFinished<br/>success: Bool<br/>values_read: List KeyValue<br/>values_written: List KeyValue]
 
     subgraph Guard["executorFinishedGuard"]
         MsgReq --> ValidType{Is message type<br/>ExecutorFinished?}
@@ -261,7 +261,7 @@ flowchart TD
    - This message represents the completion of a transaction's execution lifecycle.
 
 2. **Guard Phase** (`executorFinishedGuard`)
-   - Verifies message type is `ExecutorMsgExecutorFinished`.
+   - Verifies message type is `ExecutorMsg.ExecutorFinished`.
    - If validation fails, request is rejected immediately.
    - On success, passes control to `executorFinishedLabel`.
 
@@ -389,10 +389,10 @@ transactionRequestAction
               candidate := TransactionRequest.tx request;
               executor_name := nameGen "executor" (snd worker_id) worker_id;
               executor_id := mkPair none executor_name;
-              executorCfg := Anoma.PreCfg.CfgExecutor (ExecutorCfg.mk@{
+              executorCfg := Anoma.PreCfg.CfgExecutor (EngineCfg.mk@{
                 node := EngineCfg.node cfg; -- Copies the node id from the parent engine.
                 name := executor_name;
-                cfg := mkExecutorLocalCfg@{
+                cfg := ExecutorLocalCfg.mk@{
                   timestamp := fingerprint;
                   executable := TransactionCandidate.executable candidate;
                   lazy_read_keys := Set.Set.empty;
@@ -402,7 +402,8 @@ transactionRequestAction
                   worker := worker_id;
                   issuer := sender;
                   keyToShard := keyToShard
-                };
+                }
+              });
               executorEnv := Anoma.PreEnv.EnvExecutor EngineEnv.mk@{
                 localState := ExecutorLocalState.mk@{
                   program_state := Runnable.startingState {{rinst}};
@@ -705,7 +706,7 @@ executorFinishedActionLabel
 ### `transactionRequestGuard`
 
 Condition
-: Message type is MempoolWorkerMsgTransactionRequest
+: Message type is MempoolWorkerMsg.TransactionRequest
 
 <!-- --8<-- [start:transactionRequestGuard] -->
 ```juvix
@@ -735,7 +736,7 @@ Condition
 ### `lockAcquiredGuard`
 
 Condition
-: Message type is ShardMsgKVSLockAcquired
+: Message type is ShardMsg.KVSLockAcquired
 
 <!-- --8<-- [start:lockAcquiredGuard] -->
 ```juvix
@@ -759,7 +760,7 @@ lockAcquiredGuard
 ### `executorFinishedGuard`
 
 Condition
-: Message type is ExecutorMsgExecutorFinished
+: Message type is ExecutorMsg.ExecutorFinished
 
 <!-- --8<-- [start:executorFinishedGuard] -->
 ```juvix
@@ -820,4 +821,3 @@ mempoolWorkerBehaviour : MempoolWorkerBehaviour String String ByteString String 
   };
 ```
 <!-- --8<-- [end:mempoolWorkerBehaviour] -->
-
