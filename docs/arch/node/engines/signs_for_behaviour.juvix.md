@@ -79,7 +79,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
     ```juvix
     SignsForAction : Type :=
       Action
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -94,7 +94,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
     ```juvix
     SignsForActionInput : Type :=
       ActionInput
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -120,7 +120,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
     ```juvix
     SignsForActionExec : Type :=
       ActionExec
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -369,7 +369,7 @@ queryEvidenceActionLabel : SignsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     SignsForGuard : Type :=
       Guard
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -386,7 +386,7 @@ queryEvidenceActionLabel : SignsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     SignsForGuardOutput : Type :=
       GuardOutput
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -403,7 +403,7 @@ queryEvidenceActionLabel : SignsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     SignsForGuardEval : Type :=
       GuardEval
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -423,7 +423,7 @@ Condition
 ```juvix
 signsForQueryGuard
   (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg SignsForCfg)
+  (cfg : SignsForCfg)
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -447,7 +447,7 @@ Condition
 ```juvix
 submitEvidenceGuard
   (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg SignsForCfg)
+  (cfg : SignsForCfg)
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -471,7 +471,7 @@ Condition
 ```juvix
 queryEvidenceGuard
   (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg SignsForCfg)
+  (cfg : SignsForCfg)
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -494,7 +494,7 @@ queryEvidenceGuard
 ```juvix
 SignsForBehaviour : Type :=
   EngineBehaviour
-    SignsForCfg
+    SignsForLocalCfg
     SignsForLocalState
     SignsForMailboxState
     SignsForTimerHandle

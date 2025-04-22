@@ -29,20 +29,20 @@ tags:
 
 The commitment engine configuration contains static information for commitment engine instances, namely the signer and the backend.
 
-## The Commitment Configuration
+## The Commitment Local Configuration
 
-The configuration of a Commitment Engine instance includes the identity's signing capabilities.
+### `CommitmentLocalCfg`
 
-### `CommitmentCfg`
+The type for engine-specific local configuration.
 
-<!-- --8<-- [start:CommitmentCfg] -->
+<!-- --8<-- [start:CommitmentLocalCfg] -->
 ```juvix
 type CommitmentCfg := mk@{
   signer : Identity.Signer Backend Signable Commitment;
   backend : Backend;
 };
 ```
-<!-- --8<-- [end:CommitmentCfg] -->
+<!-- --8<-- [end:CommitmentLocalCfg] -->
 
 ???+ code "Arguments"
 
@@ -51,6 +51,18 @@ type CommitmentCfg := mk@{
 
     `backend`:
     : The backend to use for signing.
+
+## The Commitment Configuration
+
+### `CommitmentCfg`
+
+<!-- --8<-- [start:CommitmentCfg] -->
+```juvix
+CommitmentCfg : Type :=
+  EngineCfg
+    CommitmentLocalCfg;
+```
+<!-- --8<-- [end:CommitmentCfg] -->
 
 #### Instantiation
 

@@ -53,7 +53,7 @@ new data, retrieving existing data, and deleting data when needed.
 ```juvix
 LocalTSStorageEngine : Type :=
   Engine
-    LocalTSStorageCfg
+    LocalTSStorageLocalCfg
     LocalTSStorageLocalState
     LocalTSStorageMailboxState
     LocalTSStorageTimerHandle

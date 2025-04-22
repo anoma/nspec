@@ -99,7 +99,7 @@ message).
 ```juvix
 IdentityManagementEngine : Type :=
   Engine
-    IdentityManagementCfg
+    IdentityManagementLocalCfg
     IdentityManagementLocalState
     IdentityManagementMailboxState
     IdentityManagementTimerHandle

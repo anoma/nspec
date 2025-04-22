@@ -27,13 +27,29 @@ tags:
 
 The Mempool Worker engine configuration contains static information for Mempool Worker engine instances.
 
+## The Mempool Worker Local Configuration
+
+### `MempoolWorkerLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:MempoolWorkerLocalCfg] -->
+```juvix
+type MempoolWorkerLocalCfg (KVSKey : Type) := mkMempoolWorkerLocalCfg@{
+  keyToShard : KVSKey -> EngineID
+};
+```
+<!-- --8<-- [end:MempoolWorkerLocalCfg] -->
+
 ## The Mempool Worker Configuration
 
 ### `MempoolWorkerCfg`
 
 <!-- --8<-- [start:MempoolWorkerCfg] -->
 ```juvix
-type MempoolWorkerCfg := mk
+MempoolWorkerCfg (KVSKey : Type) : Type :=
+  EngineCfg
+    (MempoolWorkerLocalCfg KVSKey);
 ```
 <!-- --8<-- [end:MempoolWorkerCfg] -->
 
@@ -43,11 +59,13 @@ type MempoolWorkerCfg := mk
 ```juvix extract-module-statements
 module mempool_worker_config_example;
 
-  mempoolWorkerCfg : EngineCfg MempoolWorkerCfg :=
+  mempoolWorkerCfg : MempoolWorkerCfg String :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "mempool worker";
-      cfg := MempoolWorkerCfg.mk
+      cfg := mkMempoolWorkerLocalCfg@{
+        keyToShard := \{_ := mkPair none "shard"}
+      }
     }
   ;
 end;

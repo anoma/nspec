@@ -28,13 +28,27 @@ tags:
 
 The Local Key Value Storage engine configuration contains static information for Local Key Value Storage engine instances.
 
+## The Local Key Value Storage Local Configuration
+
+### `LocalKVStorageLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:LocalKVStorageLocalCfg] -->
+```juvix
+type LocalKVStorageLocalCfg := mkLocalKVStorageLocalCfg;
+```
+<!-- --8<-- [end:LocalKVStorageLocalCfg] -->
+
 ## The Local Key Value Storage Configuration
 
 ### `LocalKVStorageCfg`
 
 <!-- --8<-- [start:LocalKVStorageCfg] -->
 ```juvix
-type LocalKVStorageCfg := mk;
+LocalKVStorageCfg : Type :=
+  EngineCfg
+    LocalKVStorageLocalCfg;
 ```
 <!-- --8<-- [end:LocalKVStorageCfg] -->
 
@@ -44,7 +58,7 @@ type LocalKVStorageCfg := mk;
 ```juvix extract-module-statements
 module local_key_value_storage_config_example;
 
-  localKVStorageCfg : EngineCfg LocalKVStorageCfg :=
+  localKVStorageCfg : LocalKVStorageCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "key value storage";

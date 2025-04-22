@@ -72,7 +72,7 @@ interaction with replicated state machine state is via a key value storage inter
 ```juvix
 ExecutorEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
-    (ExecutorCfg KVSKey Executable)
+    (ExecutorLocalCfg KVSKey Executable)
     (ExecutorLocalState KVSKey KVSDatum ProgramState)
     ExecutorMailboxState
     ExecutorTimerHandle

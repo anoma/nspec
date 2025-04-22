@@ -29,21 +29,24 @@ tags:
 
 The Verification engine configuration contains static information for Verification engine instances.
 
-## The Verification Configuration
+## The Verification Local Configuration
 
 The configuration of a Verification Engine instance includes the identity's verification capabilities, the address of an associated `SignsFor` engine, and a specific backend.
 
-### `VerificationCfg`
+### `VerificationLocalCfg`
 
-<!-- --8<-- [start:VerificationCfg] -->
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:VerificationLocalCfg] -->
 ```juvix
-type VerificationCfg := mk@{
+type VerificationLocalCfg := mk@{
   verifier : Set SignsForEvidence -> ExternalIdentity -> Verifier ByteString Backend Signable Commitment;
   backend : Backend;
   signsForEngineAddress : EngineID;
 }
 ```
-<!-- --8<-- [end:VerificationCfg] -->
+<!-- --8<-- [end:VerificationLocalCfg] -->
 
 ???+ code "Arguments"
 
@@ -57,13 +60,25 @@ type VerificationCfg := mk@{
     `signsForEngineAddress`:
     : The address of the associated SignsFor engine.
 
+## The Verification Configuration
+
+### `VerificationCfg`
+
+<!-- --8<-- [start:VerificationCfg] -->
+```juvix
+VerificationCfg : Type :=
+  EngineCfg
+    VerificationLocalCfg;
+```
+<!-- --8<-- [end:VerificationCfg] -->
+
 #### Instantiation
 
 <!-- --8<-- [start:verificationCfg] -->
 ```juvix extract-module-statements
 module verification_config_example;
 
-  verificationCfg : EngineCfg VerificationCfg :=
+  verificationCfg : VerificationCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "verification";

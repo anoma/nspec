@@ -620,7 +620,7 @@ execEagerReads
     ```juvix
     ShardAction (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Action
-        ShardCfg
+        ShardLocalCfg
         (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
@@ -635,7 +635,7 @@ execEagerReads
     ```juvix
     ShardActionInput (KVSKey KVSDatum Executable : Type) : Type :=
       ActionInput
-        ShardCfg
+        ShardLocalCfg
         (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
@@ -661,7 +661,7 @@ execEagerReads
     ```juvix
     ShardActionExec (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       ActionExec
-        ShardCfg
+        ShardLocalCfg
         (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
@@ -975,7 +975,7 @@ updateSeenAllActionLabel
     ```juvix
     ShardGuard (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       Guard
-        ShardCfg
+        ShardLocalCfg
         (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
@@ -990,7 +990,7 @@ updateSeenAllActionLabel
     ```juvix
     ShardGuardOutput (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardOutput
-        ShardCfg
+        ShardLocalCfg
         (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
@@ -1005,7 +1005,7 @@ updateSeenAllActionLabel
     ```juvix
     ShardGuardEval (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
       GuardEval
-        ShardCfg
+        ShardLocalCfg
         (ShardLocalState KVSKey KVSDatum)
         ShardMailboxState
         ShardTimerHandle
@@ -1026,7 +1026,7 @@ acquireLockGuard
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
   (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : EngineCfg ShardCfg)
+  (cfg : ShardCfg)
   (env : ShardEnv KVSKey KVSDatum)
   : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -1053,7 +1053,7 @@ processWriteGuard
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
   (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : EngineCfg ShardCfg)
+  (cfg : ShardCfg)
   (env : ShardEnv KVSKey KVSDatum)
   : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -1080,7 +1080,7 @@ processReadRequestGuard
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
   (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : EngineCfg ShardCfg)
+  (cfg : ShardCfg)
   (env : ShardEnv KVSKey KVSDatum)
   : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -1107,7 +1107,7 @@ updateSeenAllGuard
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
   (trigger : TimestampedTrigger ShardTimerHandle (Anoma.PreMsg KVSKey KVSDatum Executable))
-  (cfg : EngineCfg ShardCfg)
+  (cfg : ShardCfg)
   (env : ShardEnv KVSKey KVSDatum)
   : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -1131,7 +1131,7 @@ updateSeenAllGuard
 ```juvix
 ShardBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   EngineBehaviour
-    ShardCfg
+    ShardLocalCfg
     (ShardLocalState KVSKey KVSDatum)
     ShardMailboxState
     ShardTimerHandle

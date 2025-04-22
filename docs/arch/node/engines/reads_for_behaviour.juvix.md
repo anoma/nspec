@@ -81,7 +81,7 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
     ```juvix
     ReadsForAction : Type :=
       Action
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -96,7 +96,7 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
     ```juvix
     ReadsForActionInput : Type :=
       ActionInput
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -122,7 +122,7 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
     ```juvix
     ReadsForActionExec : Type :=
       ActionExec
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -356,7 +356,7 @@ queryEvidenceActionLabel : ReadsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     ReadsForGuard : Type :=
       Guard
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -373,7 +373,7 @@ queryEvidenceActionLabel : ReadsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     ReadsForGuardOutput : Type :=
       GuardOutput
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -390,7 +390,7 @@ queryEvidenceActionLabel : ReadsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     ReadsForGuardEval : Type :=
       GuardEval
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -410,7 +410,7 @@ Condition
 ```juvix
 readsForQueryGuard
   (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg ReadsForCfg)
+  (cfg : ReadsForCfg)
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -433,7 +433,7 @@ Condition
 ```juvix
 submitEvidenceGuard
   (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg ReadsForCfg)
+  (cfg : ReadsForCfg)
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -456,7 +456,7 @@ Condition
 ```juvix
 queryEvidenceGuard
   (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg ReadsForCfg)
+  (cfg : ReadsForCfg)
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
@@ -478,7 +478,7 @@ queryEvidenceGuard
 ```juvix
 ReadsForBehaviour : Type :=
   EngineBehaviour
-    ReadsForCfg
+    ReadsForLocalCfg
     ReadsForLocalState
     ReadsForMailboxState
     ReadsForTimerHandle

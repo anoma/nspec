@@ -61,7 +61,7 @@ LoggingActionArguments : Type := List LoggingActionArgument;
     ```juvix
     LoggingAction : Type :=
       Action
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -78,7 +78,7 @@ LoggingActionArguments : Type := List LoggingActionArgument;
     ```juvix
     LoggingActionInput : Type :=
       ActionInput
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -108,7 +108,7 @@ LoggingActionArguments : Type := List LoggingActionArgument;
     ```juvix
     LoggingActionExec : Type :=
       ActionExec
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -180,7 +180,7 @@ appendLogActionLabel : LoggingActionExec := ActionExec.Seq [ appendLogAction ];
     ```juvix
     LoggingGuard : Type :=
       Guard
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -191,7 +191,7 @@ appendLogActionLabel : LoggingActionExec := ActionExec.Seq [ appendLogAction ];
 
     LoggingGuardOutput : Type :=
       GuardOutput
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -202,7 +202,7 @@ appendLogActionLabel : LoggingActionExec := ActionExec.Seq [ appendLogAction ];
 
     LoggingGuardEval : Type :=
       GuardEval
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -223,7 +223,7 @@ Condition
 ```juvix
 appendLogGuard
   (trigger : LoggingTimestampedTrigger)
-  (cfg : EngineCfg LoggingCfg)
+  (cfg : LoggingCfg)
   (env : LoggingEnv)
   : Option LoggingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -246,7 +246,7 @@ appendLogGuard
 ```juvix
 LoggingBehaviour : Type :=
   EngineBehaviour
-    LoggingCfg
+    LoggingLocalCfg
     LoggingLocalState
     LoggingMailboxState
     LoggingTimerHandle

@@ -63,7 +63,7 @@ LocalKVStorageActionArguments : Type := List LocalKVStorageActionArgument;
     ```juvix
     LocalKVStorageAction : Type :=
       Action
-        LocalKVStorageCfg
+        LocalKVStorageLocalCfg
         LocalKVStorageLocalState
         LocalKVStorageMailboxState
         LocalKVStorageTimerHandle
@@ -80,7 +80,7 @@ LocalKVStorageActionArguments : Type := List LocalKVStorageActionArgument;
     ```juvix
     LocalKVStorageActionInput : Type :=
       ActionInput
-        LocalKVStorageCfg
+        LocalKVStorageLocalCfg
         LocalKVStorageLocalState
         LocalKVStorageMailboxState
         LocalKVStorageTimerHandle
@@ -110,7 +110,7 @@ LocalKVStorageActionArguments : Type := List LocalKVStorageActionArgument;
     ```juvix
     LocalKVStorageActionExec : Type :=
       ActionExec
-        LocalKVStorageCfg
+        LocalKVStorageLocalCfg
         LocalKVStorageLocalState
         LocalKVStorageMailboxState
         LocalKVStorageTimerHandle
@@ -351,7 +351,7 @@ deleteValueActionLabel : LocalKVStorageActionExec := ActionExec.Seq [ deleteValu
     ```juvix
     LocalKVStorageGuard : Type :=
       Guard
-        LocalKVStorageCfg
+        LocalKVStorageLocalCfg
         LocalKVStorageLocalState
         LocalKVStorageMailboxState
         LocalKVStorageTimerHandle
@@ -368,7 +368,7 @@ deleteValueActionLabel : LocalKVStorageActionExec := ActionExec.Seq [ deleteValu
     ```juvix
     LocalKVStorageGuardOutput : Type :=
       GuardOutput
-        LocalKVStorageCfg
+        LocalKVStorageLocalCfg
         LocalKVStorageLocalState
         LocalKVStorageMailboxState
         LocalKVStorageTimerHandle
@@ -385,7 +385,7 @@ deleteValueActionLabel : LocalKVStorageActionExec := ActionExec.Seq [ deleteValu
     ```juvix
     LocalKVStorageGuardEval : Type :=
       GuardEval
-        LocalKVStorageCfg
+        LocalKVStorageLocalCfg
         LocalKVStorageLocalState
         LocalKVStorageMailboxState
         LocalKVStorageTimerHandle
@@ -405,7 +405,7 @@ Condition
 ```juvix
 getValueGuard
   (trigger : LocalKVStorageTimestampedTrigger)
-  (cfg : EngineCfg LocalKVStorageCfg)
+  (cfg : LocalKVStorageCfg)
   (env : LocalKVStorageEnv)
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -428,7 +428,7 @@ Condition
 ```juvix
 setValueGuard
   (trigger : LocalKVStorageTimestampedTrigger)
-  (cfg : EngineCfg LocalKVStorageCfg)
+  (cfg : LocalKVStorageCfg)
   (env : LocalKVStorageEnv)
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -451,7 +451,7 @@ Condition
 ```juvix
 deleteValueGuard
   (trigger : LocalKVStorageTimestampedTrigger)
-  (cfg : EngineCfg LocalKVStorageCfg)
+  (cfg : LocalKVStorageCfg)
   (env : LocalKVStorageEnv)
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -473,7 +473,7 @@ deleteValueGuard
 ```juvix
 LocalKVStorageBehaviour : Type :=
   EngineBehaviour
-    LocalKVStorageCfg
+    LocalKVStorageLocalCfg
     LocalKVStorageLocalState
     LocalKVStorageMailboxState
     LocalKVStorageTimerHandle

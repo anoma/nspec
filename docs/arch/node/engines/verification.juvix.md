@@ -65,7 +65,7 @@ is provided by the SignsFor Engine.
 ```juvix
 VerificationEngine : Type :=
   Engine
-    VerificationCfg
+    VerificationLocalCfg
     VerificationLocalState
     VerificationMailboxState
     VerificationTimerHandle

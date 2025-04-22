@@ -371,7 +371,7 @@ If client reads produce signed responses, then signed responses from a weak quor
 ```juvix
 ShardEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
-    ShardCfg
+    ShardLocalCfg
     (ShardLocalState KVSKey KVSDatum)
     ShardMailboxState
     ShardTimerHandle

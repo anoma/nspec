@@ -28,23 +28,37 @@ tags:
 
 The Local Time Series Storage engine configuration contains static information for Local Time Series Storage engine instances.
 
+## The Local Time Series Storage Local Configuration
+
+### `LocalTSStorageLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:LocalTSStorageLocalCfg] -->
+```juvix
+type LocalTSStorageLocalCfg := mkLocalTSStorageLocalCfg;
+```
+<!-- --8<-- [end:LocalTSStorageLocalCfg] -->
+
 ## The Local Time Series Storage Configuration
 
 ### `LocalTSStorageCfg`
 
 <!-- --8<-- [start:LocalTSStorageCfg] -->
 ```juvix
-type LocalTSStorageCfg := mk;
+LocalTSStorageCfg : Type :=
+  EngineCfg
+    LocalTSStorageLocalCfg;
 ```
 <!-- --8<-- [end:LocalTSStorageCfg] -->
 
-## Instantiation
+#### Instantiation
 
 <!-- --8<-- [start:localTSStorageCfg] -->
 ```juvix extract-module-statements
 module local_ts_storage_config_example;
 
-  localTSStorageCfg : EngineCfg LocalTSStorageCfg :=
+  localTSStorageCfg : LocalTSStorageCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "local time series storage";

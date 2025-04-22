@@ -124,7 +124,7 @@ spawned to execute the message.
 ```juvix
 MempoolWorkerEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
   Engine
-    MempoolWorkerCfg
+    (MempoolWorkerLocalCfg KVSKey)
     (MempoolWorkerLocalState KVSKey KVSDatum Executable)
     MempoolWorkerMailboxState
     MempoolWorkerTimerHandle

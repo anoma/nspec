@@ -329,7 +329,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     IdentityManagementAction : Type :=
       Action
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -344,7 +344,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     IdentityManagementActionInput : Type :=
       ActionInput
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -370,7 +370,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     IdentityManagementActionExec : Type :=
       ActionExec
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -418,15 +418,20 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     updateIdentityAndSpawnEngines
       (env : IdentityManagementEnv)
+      (cfg : IdentityManagementCfg)
       (backend' : Backend)
       (whoAsked : EngineID)
       (identityInfo : IdentityInfo)
       (capabilities' : Capabilities)
       : Pair IdentityInfo (List (Pair Cfg Env)) :=
       let decryptionConfig : DecryptionCfg :=
-            DecryptionCfg.mk@{
-              decryptor := genDecryptor backend';
-              backend := backend';
+            mkEngineCfg@{
+              node := EngineCfg.node cfg;
+              name := nameGen "decryptor" (snd whoAsked) whoAsked;
+              cfg := mkDecryptionLocalCfg@{
+                decryptor := genDecryptor backend';
+                backend := backend';
+              }
             };
           decryptionEnv : DecryptionEnv :=
             EngineEnv.mk@{
@@ -438,9 +443,13 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
           decryptionEng : Pair Cfg Env :=
             mkPair (PreCfg.CfgDecryption decryptionConfig) (PreEnv.EnvDecryption decryptionEnv);
           commitmentConfig : CommitmentCfg :=
-            CommitmentCfg.mk@{
-              signer := genSigner backend';
-              backend := backend';
+            mkEngineCfg@{
+              node := EngineCfg.node cfg;
+              name := nameGen "committer" (snd whoAsked) whoAsked;
+              cfg := mkCommitmentLocalCfg@{
+                signer := genSigner backend';
+                backend := backend';
+              }
             };
           commitmentEnv : CommitmentEnv :=
             EngineEnv.mk@{
@@ -559,7 +568,7 @@ generateIdentityAction
                     commitmentEngine := none;
                     decryptionEngine := none
                   };
-                  pair' := updateIdentityAndSpawnEngines env backend' whoAsked identityInfo capabilities';
+                  pair' := updateIdentityAndSpawnEngines env (ActionInput.cfg input) backend' whoAsked identityInfo capabilities';
                   updatedIdentityInfo := fst pair';
                   spawnedEnginesFinal := snd pair';
                   updatedIdentities := Map.insert whoAsked updatedIdentityInfo identities;
@@ -820,7 +829,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ del
     ```juvix
     IdentityManagementGuard : Type :=
       Guard
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -839,7 +848,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ del
     ```juvix
     IdentityManagementGuardOutput : Type :=
       GuardOutput
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -858,7 +867,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ del
     ```juvix
     IdentityManagementGuardEval : Type :=
       GuardEval
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -878,7 +887,7 @@ Condition
 ```juvix
 generateIdentityGuard
   (trigger : TimestampedTrigger IdentityManagementTimerHandle Anoma.Msg)
-  (cfg : EngineCfg IdentityManagementCfg)
+  (cfg : IdentityManagementCfg)
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -903,7 +912,7 @@ Condition
 ```juvix
 connectIdentityGuard
   (trigger : TimestampedTrigger IdentityManagementTimerHandle Anoma.Msg)
-  (cfg : EngineCfg IdentityManagementCfg)
+  (cfg : IdentityManagementCfg)
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -916,8 +925,7 @@ connectIdentityGuard
       }
     | _ := none
   };
-```
-<!-- --8<-- [end:connectIdentityGuard] -->
+```<!-- --8<-- [end:connectIdentityGuard] -->
 ---
 
 ### `deleteIdentityGuard`
@@ -929,7 +937,7 @@ Condition
 ```juvix
 deleteIdentityGuard
   (trigger : TimestampedTrigger IdentityManagementTimerHandle Anoma.Msg)
-  (cfg : EngineCfg IdentityManagementCfg)
+  (cfg : IdentityManagementCfg)
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
@@ -942,8 +950,7 @@ deleteIdentityGuard
       }
     | _ := none
   };
-```
-<!-- --8<-- [end:deleteIdentityGuard] -->
+```<!-- --8<-- [end:deleteIdentityGuard] -->
 ---
 
 ## The Identity Management Behaviour
@@ -954,7 +961,7 @@ deleteIdentityGuard
 ```juvix
 IdentityManagementBehaviour : Type :=
   EngineBehaviour
-    IdentityManagementCfg
+    IdentityManagementLocalCfg
     IdentityManagementLocalState
     IdentityManagementMailboxState
     IdentityManagementTimerHandle
@@ -962,8 +969,7 @@ IdentityManagementBehaviour : Type :=
     Anoma.Msg
     Anoma.Cfg
     Anoma.Env;
-```
-<!-- --8<-- [end:IdentityManagementBehaviour] -->
+```<!-- --8<-- [end:IdentityManagementBehaviour] -->
 
 ### Instantiation
 

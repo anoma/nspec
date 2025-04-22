@@ -28,13 +28,27 @@ tags:
 
 The Identity Management engine configuration contains static information for Identity Management engine instances.
 
+## The Identity Management Local Configuration
+
+### `IdentityManagementLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:IdentityManagementLocalCfg] -->
+```juvix
+type IdentityManagementLocalCfg := mkIdentityManagementLocalCfg;
+```
+<!-- --8<-- [end:IdentityManagementLocalCfg] -->
+
 ## The Identity Management Configuration
 
 ### `IdentityManagementCfg`
 
 <!-- --8<-- [start:IdentityManagementCfg] -->
 ```juvix
-type IdentityManagementCfg := mk
+IdentityManagementCfg : Type :=
+  EngineCfg
+    IdentityManagementLocalCfg;
 ```
 <!-- --8<-- [end:IdentityManagementCfg] -->
 

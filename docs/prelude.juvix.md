@@ -38,7 +38,7 @@ import Stdlib.Function open
     |>;
     iterate;
     >->;
-  }
+  } public;
 ```
 
 ## Useful Type Classes

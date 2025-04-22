@@ -52,7 +52,7 @@ to ensure stability, security, and efficiency.
 ```juvix
 LoggingEngine : Type :=
   Engine
-    LoggingCfg
+    LoggingLocalCfg
     LoggingLocalState
     LoggingMailboxState
     LoggingTimerHandle
