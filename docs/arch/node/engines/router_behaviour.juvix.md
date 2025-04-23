@@ -186,21 +186,21 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgRouter (RouterMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgRouter (RouterMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgRouter
+              Anoma.PreMsg.MsgRouter
                 (RouterMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -220,7 +220,7 @@ exampleReplyAction
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : RouterActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : RouterActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ## Guards
@@ -294,10 +294,10 @@ exampleReplyGuard
   : Option RouterGuardOutput :=
   TODO {-
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgRouter (RouterMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgRouter (RouterMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -332,9 +332,9 @@ RouterBehaviour : Type :=
 module router_behaviour_example;
 
 exRouterBehaviour : RouterBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         exampleReplyGuard;
       ];
   };

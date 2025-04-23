@@ -200,12 +200,12 @@ GetTopicAdvertReply : Type := Result GetTopicAdvertReplyError GetTopicAdvertRepl
 <!-- --8<-- [start:NetworkRegistryMsg] -->
 ```juvix
 type NetworkRegistryMsg :=
-  | NetworkRegistryMsgNodeAdvert NodeAdvert
-  | NetworkRegistryMsgTopicAdvert TopicAdvert
-  | NetworkRegistryMsgGetNodeAdvertRequest NodeID
-  | NetworkRegistryMsgGetNodeAdvertReply GetNodeAdvertReply
-  | NetworkRegistryMsgGetTopicAdvertRequest TopicID
-  | NetworkRegistryMsgGetTopicAdvertReply GetTopicAdvertReply
+  | NodeAdvert NodeAdvert
+  | TopicAdvert TopicAdvert
+  | GetNodeAdvertRequest NodeID
+  | GetNodeAdvertReply GetNodeAdvertReply
+  | GetTopicAdvertRequest TopicID
+  | GetTopicAdvertReply GetTopicAdvertReply
   ;
 ```
 <!-- --8<-- [end:NetworkRegistryMsg] -->

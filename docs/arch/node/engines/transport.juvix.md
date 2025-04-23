@@ -65,7 +65,7 @@ TransportEngine : Type :=
 <!-- --8<-- [start:transportEngine] -->
 ```juvix
 transportEngine : TransportEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := transportCfg;
     env := transportEnv;
     behaviour := transportBehaviour;

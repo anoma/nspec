@@ -34,7 +34,7 @@ The shard configuration contains static information for shard engine instances.
 
 <!-- --8<-- [start:ShardCfg] -->
 ```juvix
-type ShardCfg := mkShardCfg;
+type ShardCfg := mk;
 ```
 <!-- --8<-- [end:ShardCfg] -->
 
@@ -45,10 +45,10 @@ type ShardCfg := mkShardCfg;
 module shard_config_example;
 
   shardCfg : EngineCfg ShardCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "shard";
-      cfg := mkShardCfg;
+      cfg := ShardCfg.mk;
     }
   ;
 end;

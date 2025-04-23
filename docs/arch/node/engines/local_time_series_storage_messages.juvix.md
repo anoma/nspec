@@ -228,13 +228,13 @@ type DataChangedTSStorageDB := mkDataChangedTSStorageDB {
 <!-- --8<-- [start:LocalTSStorageMsg] -->
 ```juvix
 type LocalTSStorageMsg :=
-  | LocalTSStorageMsgGetRequest GetDataTSStorageDBRequest
-  | LocalTSStorageMsgGetReply GetDataTSStorageDBReply
-  | LocalTSStorageMsgRecordRequest RecordDataTSStorageDBRequest
-  | LocalTSStorageMsgRecordReply RecordDataTSStorageDBReply
-  | LocalTSStorageMsgDeleteRequest DeleteDataTSStorageDBRequest
-  | LocalTSStorageMsgDeleteReply DeleteDataTSStorageDBReply
-  | LocalTSStorageMsgDataChanged DataChangedTSStorageDB
+  | GetRequest GetDataTSStorageDBRequest
+  | GetReply GetDataTSStorageDBReply
+  | RecordRequest RecordDataTSStorageDBRequest
+  | RecordReply RecordDataTSStorageDBReply
+  | DeleteRequest DeleteDataTSStorageDBRequest
+  | DeleteReply DeleteDataTSStorageDBReply
+  | DataChanged DataChangedTSStorageDB
   ;
 ```
 <!-- --8<-- [end:LocalTSStorageMsg] -->

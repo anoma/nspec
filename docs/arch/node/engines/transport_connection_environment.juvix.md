@@ -37,7 +37,7 @@ syntax alias TransportConnectionMailboxState := Unit;
 ## Local state
 
 ```juvix
-type TransportConnectionLocalState := mkTransportConnectionLocalState;
+type TransportConnectionLocalState := mk;
 ```
 
 ## Timer Handle
@@ -82,8 +82,8 @@ TransportConnectionEnv : Type :=
 module transport_connection_environment_example;
 
 exTransportConnectionEnv : TransportConnectionEnv :=
-  mkEngineEnv@{
-    localState := mkTransportConnectionLocalState;
+  EngineEnv.mk@{
+    localState := TransportConnectionLocalState.mk;
     mailboxCluster := Map.empty;
     acquaintances := Set.empty;
     timers := []

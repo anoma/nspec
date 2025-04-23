@@ -42,7 +42,7 @@ but it can safely be skipped on a first reading.
     import arch.node.types.basics open public;
     import arch.node.types.identities open;
     import arch.node.types.messages
-      open hiding {EngineMsg; mkEngineMsg; Mailbox};
+      open hiding {EngineMsg; Mailbox};
     ```
 
 ## Chapter 1: The core players of the game
@@ -149,7 +149,7 @@ Got it. Here is a message you can understand, Anomian.
 
 ```juvix
 helloAnomian : AnomianMsgInterface :=
-  AnomianMsgEnglish@{msg := "Hello!"};
+  AnomianMsgInterface.AnomianMsgEnglish@{msg := "Hello!"};
 ```
 
 
@@ -256,7 +256,7 @@ attributes?
 
 ```juvix
 type EngineCfg C :=
-  mkEngineCfg@{
+  mkCfg@{
     parent : Option EngineID;
     name : EngineName;
     node : NodeID;
@@ -285,7 +285,7 @@ parent is? I don't know who is my father, actually.
 axiom localhost : NodeID;
 
 simpleConfig : EngineCfg Unit :=
-  mkEngineCfg@{
+  EngineCfg.mkCfg@{
     parent := none;
     name := "Anomian";
     node := localhost;
@@ -338,7 +338,7 @@ AnomianID : EngineID := mkPair (some localhost) "Anomian184";
 
 ```juvix
 type EngineMsg M :=
-  mkEngineMsg@{
+  mkMsg@{
     sender : EngineID;
     target : EngineID;
     mailbox : Option MailboxID;
@@ -356,13 +356,13 @@ Hah! So let me craft a message for you, Anomian.
 
 ```juvix
 jordanToAnomian : EngineMsg MsgInterface :=
-  mkEngineMsg@{
+  EngineMsg.mkMsg@{
     sender := JordanID;
     target := AnomianID;
     mailbox := some 1;
-    pattern := RequestReply@{timeout := none};
-    kind := Request;
-    msg := MsgAnomian (AnomianMsgEnglish@{msg := "What is the meaning of life?"});
+    pattern := CommunicationPattern.RequestReply@{timeout := none};
+    kind := EngineMsgKind.Request;
+    msg := MsgInterface.MsgAnomian (AnomianMsgInterface.AnomianMsgEnglish@{msg := "What is the meaning of life?"});
   };
 ```
 
@@ -378,13 +378,13 @@ jordanToAnomian : EngineMsg MsgInterface :=
 
 ```juvix
 anomianToJordan : EngineMsg MsgInterface :=
-  mkEngineMsg@{
+  EngineMsg.mkMsg@{
     sender := AnomianID;
     target := JordanID;
     mailbox := some 1;
-    pattern := FireAndForget;
-    kind := Reply;
-    msg := MsgJordan (JordanMsgEnglish@{msg := "The meaning of life is 42."});
+    pattern := CommunicationPattern.FireAndForget;
+    kind := EngineMsgKind.Reply;
+    msg := MsgInterface.MsgJordan (JordanMsgInterface.JordanMsgEnglish@{msg := "The meaning of life is 42."});
   };
 ```
 
@@ -518,7 +518,7 @@ question: how do engines actually run?
 AddressBook : Type := Set EngineName;
 
 type EngineEnv S Msg :=
-  mkEngineEnv@{
+  mkEnv@{
     state : S;
     mailbox : MailboxCluster S Msg;
     acq : AddressBook;
@@ -709,7 +709,7 @@ EngineBehaviour (S E M C R : Type) : Type :=
 
 ```juvix
 type Engine (S E M C R : Type) :=
-  mkEngine@{
+  mk@{
     status : EngineStatus;
     cfg : EngineCfg C;
     state : EngineEnv S M;

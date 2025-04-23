@@ -15,6 +15,8 @@ tags:
     ```juvix
     module arch.node.engines.naming_behaviour;
 
+    import Stdlib.Data.Set as Set;
+
     import prelude open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
@@ -381,30 +383,30 @@ resolveNameAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     identityName := case getEngineMsgFromTimestampedTrigger tt of {
-      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingResolveNameRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgNaming (NamingMsg.ResolveNameRequest req)} :=
           some (RequestResolveName.identityName req)
       | _ := none
     }
   in case identityName of {
     | some name := let
-        matchingEvidence := AVLTree.filter \{evidence :=
-          isEqual (Ord.cmp (IdentityNameEvidence.identityName evidence) name)
+        matchingEvidence := Set.filter \{evidence :=
+          isEqual (Ord.compare (IdentityNameEvidence.identityName evidence) name)
         } (NamingLocalState.evidenceStore localState);
         identities := Set.fromList (map \{evidence :=
           IdentityNameEvidence.externalIdentity evidence
         } (Set.toList matchingEvidence));
-        responseMsg := mkReplyResolveName@{
+        responseMsg := ReplyResolveName.mkReplyResolveName@{
           externalIdentities := identities;
           err := none
         }
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some mkActionEffect@{
+        | some emsg := some ActionEffect.mk@{
             env := env;
-            msgs := [mkEngineMsg@{
+            msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingResolveNameReply responseMsg)
+              msg := Anoma.PreMsg.MsgNaming (NamingMsg.ResolveNameReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -441,7 +443,7 @@ submitNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     evidence := case getEngineMsgFromTimestampedTrigger tt of {
-      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgNaming (NamingMsg.SubmitNameEvidenceRequest req)} :=
           some (RequestSubmitNameEvidence.evidence req)
       | _ := none
     }
@@ -450,7 +452,7 @@ submitNameEvidenceAction
         isValid := verifyEvidence ev;
         alreadyExists := case isValid of {
           | true := isElement \{a b := a && b} true (map \{e :=
-              isEqual (Ord.cmp e ev)
+              isEqual (Ord.compare e ev)
             } (Set.toList (NamingLocalState.evidenceStore localState)))
           | false := false
         };
@@ -462,7 +464,7 @@ submitNameEvidenceAction
             }
           | false := env
         };
-        responseMsg := mkReplySubmitNameEvidence@{
+        responseMsg := ReplySubmitNameEvidence.mkReplySubmitNameEvidence@{
           err := case isValid of {
             | false := some "Invalid evidence"
             | true := case alreadyExists of {
@@ -472,13 +474,13 @@ submitNameEvidenceAction
           }
         }
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some mkActionEffect@{
+        | some emsg := some ActionEffect.mk@{
             env := newEnv;
-            msgs := [mkEngineMsg@{
+            msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceReply responseMsg)
+              msg := Anoma.PreMsg.MsgNaming (NamingMsg.SubmitNameEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -515,28 +517,28 @@ queryNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     externalIdentity := case getEngineMsgFromTimestampedTrigger tt of {
-      | some mkEngineMsg@{msg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgNaming (NamingMsg.QueryNameEvidenceRequest req)} :=
           some (RequestQueryNameEvidence.externalIdentity req)
       | _ := none
     }
   in case externalIdentity of {
     | some extId := let
-        relevantEvidence := AVLTree.filter \{evidence :=
-          isEqual (Ord.cmp (IdentityNameEvidence.externalIdentity evidence) extId)
+        relevantEvidence := Set.filter \{evidence :=
+          isEqual (Ord.compare (IdentityNameEvidence.externalIdentity evidence) extId)
         } (NamingLocalState.evidenceStore localState);
-        responseMsg := mkReplyQueryNameEvidence@{
+        responseMsg := ReplyQueryNameEvidence.mkReplyQueryNameEvidence@{
           externalIdentity := extId;
           evidence := relevantEvidence;
           err := none
         }
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some mkActionEffect@{
+        | some emsg := some ActionEffect.mk@{
             env := env;
-            msgs := [mkEngineMsg@{
+            msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceReply responseMsg)
+              msg := Anoma.PreMsg.MsgNaming (NamingMsg.QueryNameEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -552,19 +554,19 @@ queryNameEvidenceAction
 ### `resolveNameActionLabel`
 
 ```juvix
-resolveNameActionLabel : NamingActionExec := Seq [ resolveNameAction ];
+resolveNameActionLabel : NamingActionExec := ActionExec.Seq [ resolveNameAction ];
 ```
 
 ### `submitNameEvidenceActionLabel`
 
 ```juvix
-submitNameEvidenceActionLabel : NamingActionExec := Seq [ submitNameEvidenceAction ];
+submitNameEvidenceActionLabel : NamingActionExec := ActionExec.Seq [ submitNameEvidenceAction ];
 ```
 
 ### `queryNameEvidenceActionLabel`
 
 ```juvix
-queryNameEvidenceActionLabel : NamingActionExec := Seq [ queryNameEvidenceAction ];
+queryNameEvidenceActionLabel : NamingActionExec := ActionExec.Seq [ queryNameEvidenceAction ];
 ```
 
 ## Guards
@@ -635,9 +637,9 @@ resolveNameGuard
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgNaming (MsgNamingResolveNameRequest _)
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgNaming (NamingMsg.ResolveNameRequest _)
+      } := some GuardOutput.mk@{
         action := resolveNameActionLabel;
         args := []
       }
@@ -659,9 +661,9 @@ submitNameEvidenceGuard
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgNaming (MsgNamingSubmitNameEvidenceRequest _)
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgNaming (NamingMsg.SubmitNameEvidenceRequest _)
+      } := some GuardOutput.mk@{
         action := submitNameEvidenceActionLabel;
         args := []
       }
@@ -683,9 +685,9 @@ queryNameEvidenceGuard
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgNaming (MsgNamingQueryNameEvidenceRequest _)
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgNaming (NamingMsg.QueryNameEvidenceRequest _)
+      } := some GuardOutput.mk@{
         action := queryNameEvidenceActionLabel;
         args := []
       }
@@ -718,9 +720,9 @@ NamingBehaviour : Type :=
 <!-- --8<-- [start:namingBehaviour] -->
 ```juvix
 namingBehaviour : NamingBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         resolveNameGuard;
         submitNameEvidenceGuard;
         queryNameEvidenceGuard

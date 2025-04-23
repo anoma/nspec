@@ -94,8 +94,8 @@ in response to a `RequestDecryption`.
 <!-- --8<-- [start:DecryptionMsg] -->
 ```juvix
 type DecryptionMsg :=
-  | MsgDecryptionRequest RequestDecryption
-  | MsgDecryptionReply ReplyDecryption
+  | Request RequestDecryption
+  | Reply ReplyDecryption
   ;
 ```
 <!-- --8<-- [end:DecryptionMsg] -->

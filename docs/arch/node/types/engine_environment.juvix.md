@@ -47,7 +47,7 @@ types.
 <!-- --8<-- [start:EngineEnv] -->
 ```juvix
 type EngineEnv S B H AM :=
-  mkEngineEnv@{
+  mk@{
     localState : S;
     mailboxCluster : Map MailboxID (Mailbox B AM);
     acquaintances : Set EngineName;

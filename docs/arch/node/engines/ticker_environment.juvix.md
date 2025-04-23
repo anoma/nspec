@@ -41,7 +41,7 @@ syntax alias TickerMailboxState := Unit;
 ## Local state
 
 ```juvix
-type TickerLocalState := mkTickerLocalState@{
+type TickerLocalState := mk@{
   counter : Nat
 };
 ```
@@ -93,8 +93,8 @@ TickerEnv : Type :=
 module ticker_environment_example;
 
 tickerEnv : TickerEnv :=
-  mkEngineEnv@{
-    localState := mkTickerLocalState@{
+  EngineEnv.mk@{
+    localState := TickerLocalState.mk@{
       counter := 0
     };
     mailboxCluster := Map.empty;

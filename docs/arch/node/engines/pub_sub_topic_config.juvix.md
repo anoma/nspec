@@ -37,7 +37,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:PubSubTopicLocalCfg] -->
 ```juvix
 type PubSubTopicLocalCfg :=
-  mkPubSubTopicLocalCfg;
+  mk;
 ```
 <!-- --8<-- [end:PubSubTopicLocalCfg] -->
 
@@ -60,10 +60,10 @@ PubSubTopicCfg : Type :=
 module pub_sub_topic_config_example;
 
 exPubSubTopicCfg : PubSubTopicCfg :=
-  mkEngineCfg@{
-    node := Curve25519PubKey "0xabcd1234";
+  EngineCfg.mk@{
+    node := PublicKey.Curve25519PubKey "0xabcd1234";
     name := "pub-sub-topic";
-    cfg := mkPubSubTopicLocalCfg;
+    cfg := PubSubTopicLocalCfg.mk;
   };
 
 end;

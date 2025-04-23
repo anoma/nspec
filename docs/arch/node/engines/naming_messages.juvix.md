@@ -199,12 +199,12 @@ A `ReplyQueryNameEvidence` provides the requested evidence.
 <!-- --8<-- [start:NamingMsg] -->
 ```juvix
 type NamingMsg :=
-  | MsgNamingResolveNameRequest RequestResolveName
-  | MsgNamingResolveNameReply ReplyResolveName
-  | MsgNamingSubmitNameEvidenceRequest RequestSubmitNameEvidence
-  | MsgNamingSubmitNameEvidenceReply ReplySubmitNameEvidence
-  | MsgNamingQueryNameEvidenceRequest RequestQueryNameEvidence
-  | MsgNamingQueryNameEvidenceReply ReplyQueryNameEvidence
+  | ResolveNameRequest RequestResolveName
+  | ResolveNameReply ReplyResolveName
+  | SubmitNameEvidenceRequest RequestSubmitNameEvidence
+  | SubmitNameEvidenceReply ReplySubmitNameEvidence
+  | QueryNameEvidenceRequest RequestQueryNameEvidence
+  | QueryNameEvidenceReply ReplyQueryNameEvidence
   ;
 ```
 <!-- --8<-- [end:NamingMsg] -->

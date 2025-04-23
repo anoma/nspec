@@ -44,11 +44,11 @@ and passed to the action function as part of the `GuardOutput`.
     ```
     <!-- --8<-- [end:Val] -->
 
-### `TemplateActionArgumentOne FirstArgument`
+### `One FirstArgument`
 
 <!-- --8<-- [start:FirstArgument] -->
 ```juvix
-type FirstArgument := mkFirstArgument@{
+type FirstArgument := mk@{
   data : Val;
 };
 ```
@@ -59,11 +59,11 @@ type FirstArgument := mkFirstArgument@{
     `data`:
     : is the value of the action argument.
 
-### `TemplateActionArgumentTwo SecondArgument`
+### `Two SecondArgument`
 
 <!-- --8<-- [start:SecondArgument] -->
 ```juvix
-type SecondArgument := mkSecondArgument@{
+type SecondArgument := mk@{
   data : String;
 };
 ```
@@ -79,8 +79,8 @@ type SecondArgument := mkSecondArgument@{
 <!-- --8<-- [start:TemplateActionArgument] -->
 ```juvix
 type TemplateActionArgument :=
-  | TemplateActionArgumentOne FirstArgument
-  | TemplateActionArgumentTwo SecondArgument
+  | One FirstArgument
+  | Two SecondArgument
   ;
 ```
 <!-- --8<-- [end:TemplateActionArgument] -->
@@ -190,13 +190,13 @@ justHiAction
     args := ActionInput.args input;
   in
     case args of {
-    | TemplateActionArgumentTwo (mkSecondArgument@{
+    | TemplateActionArgument.Two (SecondArgument.mk@{
         data := data;
       }) :: _ :=
-      some mkActionEffect@{
+      some ActionEffect.mk@{
         env := env@EngineEnv{
-          localState := mkTemplateLocalState@{
-            taskQueue := mkCustomData@{
+          localState := TemplateLocalState.mk@{
+            taskQueue := CustomData.mkCustomData@{
               word := data
             }
           }
@@ -238,23 +238,23 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTemplate (TemplateMsg.ExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgTemplate
-                (TemplateMsgExampleReply
-                  (ok mkExampleReplyOk@{
+              Anoma.PreMsg.MsgTemplate
+                (TemplateMsg.ExampleReply
+                  (ok ExampleReplyOk.mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
                   }));
           }
@@ -272,20 +272,20 @@ exampleReplyAction
 ### `justHiActionLabel`
 
 ```juvix
-justHiActionLabel : TemplateActionExec := Seq [ justHiAction ];
+justHiActionLabel : TemplateActionExec := ActionExec.Seq [ justHiAction ];
 ```
 
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : TemplateActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : TemplateActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ### `doBothActionLabel`
 
 ```juvix
 doBothActionLabel : TemplateActionExec :=
-  Seq [
+  ActionExec.Seq [
     justHiAction;
     exampleReplyAction;
   ];
@@ -364,14 +364,14 @@ justHiGuard
     emsg := getEngineMsgFromTimestampedTrigger trigger;
   in
     case emsg of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplate TemplateMsgJustHi;
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTemplate TemplateMsg.JustHi;
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mk@{
         action := justHiActionLabel;
         args := [
-          TemplateActionArgumentTwo
-            mkSecondArgument@{
+          TemplateActionArgument.Two
+            SecondArgument.mk@{
               data := "Hello World!"
             }
         ];
@@ -396,10 +396,10 @@ exampleReplyGuard
   (env : TemplateEnv)
   : Option TemplateGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplate (TemplateMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTemplate (TemplateMsg.ExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -434,9 +434,9 @@ TemplateBehaviour : Type :=
 module template_behaviour_example;
 
   exTemplateBehaviour : TemplateBehaviour :=
-    mkEngineBehaviour@{
+    EngineBehaviour.mk@{
       guards :=
-        First [
+        GuardEval.First [
           justHiGuard;
           exampleReplyGuard;
         ];

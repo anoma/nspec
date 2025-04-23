@@ -1,43 +1,40 @@
 [tool.poetry]
 package-mode = true
 name = "nspec"
-version = "0.1.4"
+version = "0.1.5"
 description = "NSpec is a specification project for the Anoma network."
-authors = []
+authors = ["GitHub Contributors <https://github.com/anoma/nspec/graphs/contributors>"]
 readme = "README.md"
-
+s
 packages = [
     { include = "hooks", from = "." }
 ]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.14"
+graphviz = "^0.20.3"
 mkdocs = "^1.6.1"
+mkdocs-autorefs = "^1.0.1"
 mkdocs-bibtex = "^2.16.2"
 mkdocs-git-authors-plugin = "^0.9.2"
 mkdocs-git-committers-plugin-2 = "^2.4.1"
 mkdocs-git-revision-date-localized-plugin = "^1.3.0"
 mkdocs-git-revision-date-plugin = "^0.3.2"
+mkdocs-glightbox = "^0.4.0"
+mkdocs-juvix-plugin = "^0.4.9"
+mkdocs-kroki-plugin = "^0.9.0"
 mkdocs-literate-nav = "^0.6.1"
 mkdocs-macros-plugin = "^1.2.0"
 mkdocs-material = {extras = ["imaging"], version = "==9.5.49"}
 mkdocs-section-index = "^0.3.9"
-pymdown-extensions = "^10.12.0"
-mkdocs-autorefs = "^1.0.1"
-mkdocs-glightbox = "^0.4.0"
-mkdocs-juvix-plugin = "^0.4.9"
-pre-commit = "^3.7.1"
-graphviz = "^0.20.3"
 mdx-truly-sane-lists = "^1.3"
-mkdocs-kroki-plugin = "^0.9.0"
-click = "^8.1.7"
-colorama = "^0.4.6"
+pymdown-extensions = "^10.12.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.1"
 rich = "^13.9.4"
-questionary = "^2.0.1"
+colorama = "^0.4.6"
+click = "^8.1.7"
 
 [tool.poetry.scripts]
 nspec = "hooks.cli:cli"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

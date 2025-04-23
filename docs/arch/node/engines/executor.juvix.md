@@ -88,7 +88,7 @@ ExecutorEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
 <!-- --8<-- [start:exampleExecutorEngine] -->
 ```juvix
 exampleExecutorEngine : ExecutorEngine String String ByteString String :=
-  mkEngine@{
+  Engine.mk@{
     cfg := executorCfg;
     env := executorEnv;
     behaviour := executorBehaviour;

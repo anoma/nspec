@@ -43,7 +43,7 @@ RouterMailboxState : Type := Unit;
 <!-- --8<-- [start:RouterLocalState] -->
 ```juvix
 type RouterLocalState :=
-  mkRouterLocalState;
+  mk;
 ```
 <!-- --8<-- [end:RouterLocalState] -->
 
@@ -88,8 +88,8 @@ RouterEnv : Type :=
 module router_environment_example;
 
 exRouterEnv : RouterEnv :=
-  mkEngineEnv@{
-    localState := mkRouterLocalState;
+  EngineEnv.mk@{
+    localState := RouterLocalState.mk;
     mailboxCluster := Map.empty;
     acquaintances := Set.empty;
     timers := []

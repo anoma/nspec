@@ -47,7 +47,7 @@ PubSubTopicMailboxState : Type := Unit;
 <!-- --8<-- [start:PubSubTopicLocalState] -->
 ```juvix
 type PubSubTopicLocalState :=
-  mkPubSubTopicLocalState;
+  mk;
 ```
 <!-- --8<-- [end:PubSubTopicLocalState] -->
 
@@ -94,8 +94,8 @@ PubSubTopicEnv : Type :=
 module pub_sub_topic_environment_example;
 
 exPubSubTopicEnv : PubSubTopicEnv :=
-  mkEngineEnv@{
-    localState := mkPubSubTopicLocalState;
+  EngineEnv.mk@{
+    localState := PubSubTopicLocalState.mk;
     mailboxCluster := Map.empty;
     acquaintances := Set.empty;
     timers := []

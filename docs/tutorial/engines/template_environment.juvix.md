@@ -112,7 +112,7 @@ type TemplateMailboxState :=
 <!-- --8<-- [start:TemplateLocalState] -->
 ```juvix
 type TemplateLocalState :=
-  mkTemplateLocalState@{
+  mk@{
     taskQueue : CustomData
   };
 ```
@@ -217,9 +217,9 @@ TemplateEnv : Type :=
 module template_environment_example;
 
   exTemplateEnv : TemplateEnv :=
-    mkEngineEnv@{
-      localState := mkTemplateLocalState@{
-        taskQueue := mkCustomData@{
+    EngineEnv.mk@{
+      localState := TemplateLocalState.mk@{
+        taskQueue := CustomData.mkCustomData@{
           word := "taskQueue"
         }
       };
