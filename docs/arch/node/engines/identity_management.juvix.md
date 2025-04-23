@@ -115,7 +115,7 @@ IdentityManagementEngine : Type :=
 <!-- --8<-- [start:exampleIdentityManagementEngine] -->
 ```juvix
 exampleIdentityManagementEngine : IdentityManagementEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := identityManagementCfg;
     env := identityManagementEnv;
     behaviour := identityManagementBehaviour;

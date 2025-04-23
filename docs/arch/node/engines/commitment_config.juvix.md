@@ -17,7 +17,7 @@ tags:
 
     import prelude open;
     import arch.node.engines.commitment_messages open;
-    import arch.system.identity.identity open using {Signer; mkSigner};
+    import arch.system.identity.identity as Identity;
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
@@ -37,8 +37,8 @@ The configuration of a Commitment Engine instance includes the identity's signin
 
 <!-- --8<-- [start:CommitmentCfg] -->
 ```juvix
-type CommitmentCfg := mkCommitmentCfg@{
-  signer : Signer Backend Signable Commitment;
+type CommitmentCfg := mk@{
+  signer : Identity.Signer Backend Signable Commitment;
   backend : Backend;
 };
 ```
@@ -59,14 +59,14 @@ type CommitmentCfg := mkCommitmentCfg@{
 module commitment_config_example;
 
   commitmentCfg : EngineCfg CommitmentCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "commitment";
-      cfg := mkCommitmentCfg@{
-        signer := mkSigner@{
-          sign := \{_ x := Ed25519Signature "0xabcd1234"};
+      cfg := CommitmentCfg.mk@{
+        signer := Identity.Signer.mkSigner@{
+          sign := \{_ x := Signature.Ed25519Signature "0xabcd1234"};
         };
-        backend := BackendLocalMemory;
+        backend := Backend.LocalMemory;
       };
     }
   ;

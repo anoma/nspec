@@ -34,7 +34,7 @@ The Identity Management engine configuration contains static information for Ide
 
 <!-- --8<-- [start:IdentityManagementCfg] -->
 ```juvix
-type IdentityManagementCfg := mkIdentityManagementCfg
+type IdentityManagementCfg := mk
 ```
 <!-- --8<-- [end:IdentityManagementCfg] -->
 
@@ -45,10 +45,10 @@ type IdentityManagementCfg := mkIdentityManagementCfg
 module identity_management_config_example;
 
   identityManagementCfg : EngineCfg IdentityManagementCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "identity management";
-      cfg := mkIdentityManagementCfg
+      cfg := IdentityManagementCfg.mk
     }
   ;
 end;

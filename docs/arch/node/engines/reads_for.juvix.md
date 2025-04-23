@@ -76,7 +76,7 @@ ReadsForEngine : Type :=
 <!-- --8<-- [start:exampleReadsForEngine] -->
 ```juvix
 exampleReadsForEngine : ReadsForEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := readsForCfg;
     env := readsForEnv;
     behaviour := readsForBehaviour;

@@ -69,7 +69,7 @@ LocalKVStorageEngine : Type :=
 <!-- --8<-- [start:exampleLocalKVStorageEngine] -->
 ```juvix
 exampleLocalKVStorageEngine : LocalKVStorageEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := localKVStorageCfg;
     env := localKVStorageEnv;
     behaviour := localKVStorageBehaviour;

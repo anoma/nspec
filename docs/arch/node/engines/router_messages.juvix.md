@@ -206,12 +206,12 @@ All *Router* engine messages.
 <!-- --8<-- [start:RouterMsg] -->
 ```juvix
 type RouterMsg M :=
-  | RouterNodeAdvert NodeAdvert
-  | RouterMsgSend (NodeOutMsg M)
-  | RouterMsgRecv NodeMsg
-  | RouterMsgConnectRequest ConnectRequest
-  | RouterMsgConnectReply ConnectReply
-  | RouterMsgSetPermanence ConnectionPermanence
+  | NodeAdvert NodeAdvert
+  | Send (NodeOutMsg M)
+  | Recv NodeMsg
+  | ConnectRequest ConnectRequest
+  | ConnectReply ConnectReply
+  | SetPermanence ConnectionPermanence
   ;
 ```
 <!-- --8<-- [end:RouterMsg] -->

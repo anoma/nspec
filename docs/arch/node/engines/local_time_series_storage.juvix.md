@@ -69,7 +69,7 @@ LocalTSStorageEngine : Type :=
 <!-- --8<-- [start:exampleLocalTSStorageEngine] -->
 ```juvix
 exampleLocalTSStorageEngine : LocalTSStorageEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := localTSStorageCfg;
     env := localTSStorageEnv;
     behaviour := localTSStorageBehaviour;

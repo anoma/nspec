@@ -209,11 +209,11 @@ All pub/sub topic  messages.
 <!-- --8<-- [start:PubSubTopicMsg] -->
 ```juvix
 type PubSubTopicMsg :=
-  | PubSubTopicMsgForward TopicMsg
-  | PubSubTopicMsgSubRequest TopicSubRequest
-  | PubSubTopicMsgSubReply TopicSubReply
-  | PubSubTopicMsgUnsubRequest TopicUnsubRequest
-  | PubSubTopicMsgUnsubReply TopicUnsubReply
+  | Forward TopicMsg
+  | SubRequest TopicSubRequest
+  | SubReply TopicSubReply
+  | UnsubRequest TopicUnsubRequest
+  | UnsubReply TopicUnsubReply
   ;
 ```
 <!-- --8<-- [end:PubSubTopicMsg] -->

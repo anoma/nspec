@@ -37,7 +37,7 @@ sequenceDiagram
     participant LocalEngine
     participant LoggingEngine
 
-    LocalEngine ->> LoggingEngine: LoggingMsgAppend
+    LocalEngine ->> LoggingEngine: Append
     Note over LoggingEngine: Appends the value to logbook
 ```
 
@@ -53,7 +53,7 @@ A local engine sends a log entry to be appended to the logbook
 
 <!-- --8<-- [start:AppendValue] -->
 ```juvix
-type AppendValue := mkAppendValue {
+type AppendValue := mk@{
   value : String
 };
 ```
@@ -69,7 +69,7 @@ type AppendValue := mkAppendValue {
 <!-- --8<-- [start:LoggingMsg] -->
 ```juvix
 type LoggingMsg :=
-  | LoggingMsgAppend AppendValue;
+  | Append AppendValue;
 ```
 <!-- --8<-- [end:LoggingMsg] -->
 

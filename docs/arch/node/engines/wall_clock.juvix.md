@@ -67,7 +67,7 @@ WallClockEngine : Type :=
 <!-- --8<-- [start:exampleWallClockEngine] -->
 ```juvix
 exampleWallClockEngine : WallClockEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := wallClockCfg;
     env := wallClockEnv;
     behaviour := wallClockBehaviour;

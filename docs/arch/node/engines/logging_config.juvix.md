@@ -34,7 +34,7 @@ The logging engine configuration contains static information for logging engine 
 
 <!-- --8<-- [start:LoggingCfg] -->
 ```juvix
-type LoggingCfg := mkLoggingCfg;
+type LoggingCfg := mk;
 ```
 <!-- --8<-- [end:LoggingCfg] -->
 
@@ -45,10 +45,10 @@ type LoggingCfg := mkLoggingCfg;
 module logging_config_example;
 
   loggingCfg : EngineCfg LoggingCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "logging";
-      cfg := mkLoggingCfg;
+      cfg := LoggingCfg.mk;
     }
   ;
 end;
