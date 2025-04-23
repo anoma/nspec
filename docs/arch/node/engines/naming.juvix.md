@@ -89,7 +89,7 @@ NamingEngine : Type :=
 <!-- --8<-- [start:exampleNamingEngine] -->
 ```juvix
 exampleNamingEngine : NamingEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := namingCfg;
     env := namingEnv;
     behaviour := namingBehaviour;

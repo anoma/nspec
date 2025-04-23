@@ -242,24 +242,24 @@ commitAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | mkEngineMsg@{msg := Anoma.MsgCommitment (MsgCommitmentRequest request)} :=
+      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgCommitment (CommitmentMsg.Request request)} :=
         let
           signedData := Signer.sign
             (CommitmentCfg.signer (EngineCfg.cfg cfg))
             (CommitmentCfg.backend (EngineCfg.cfg cfg))
             (RequestCommitment.data request);
-          responseMsg := mkReplyCommitment@{
+          responseMsg := ReplyCommitment.mkReplyCommitment@{
             commitment := signedData;
             err := none
           }
-        in some mkActionEffect@{
+        in some ActionEffect.mk@{
           env := env;
           msgs := [
-            mkEngineMsg@{
+            EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.MsgCommitment (MsgCommitmentReply responseMsg)
+              msg := Anoma.PreMsg.MsgCommitment (CommitmentMsg.Reply responseMsg)
             }
           ];
           timers := [];
@@ -277,7 +277,7 @@ commitAction
 ### `commitActionLabel`
 
 ```juvix
-commitActionLabel : CommitmentActionExec := Seq [ commitAction ];
+commitActionLabel : CommitmentActionExec := ActionExec.Seq [ commitAction ];
 ```
 
 ## Guards
@@ -352,9 +352,9 @@ commitGuard
   (env : CommitmentEnv)
   : Option CommitmentGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgCommitment (MsgCommitmentRequest _);
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgCommitment (CommitmentMsg.Request _);
+      } := some GuardOutput.mk@{
         action := commitActionLabel;
         args := [];
       }
@@ -387,9 +387,9 @@ CommitmentBehaviour : Type :=
 <!-- --8<-- [start:commitmentBehaviour] -->
 ```juvix
 commitmentBehaviour : CommitmentBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         commitGuard
       ];
   };

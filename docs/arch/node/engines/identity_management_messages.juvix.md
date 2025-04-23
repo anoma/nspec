@@ -178,7 +178,7 @@ to an existing identity using the specified backend.
 ### `ReplyConnectIdentity`
 
 ```juvix
-type ReplyConnectIdentity := mkConnectIdentityReply {
+type ReplyConnectIdentity := mkReplyConnectIdentity {
   commitmentEngine : Option EngineID;
   decryptionEngine : Option EngineID;
   err : Option String
@@ -241,12 +241,12 @@ identity.
 <!-- --8<-- [start:IdentityManagementMsg] -->
 ```juvix
 type IdentityManagementMsg :=
-  | MsgIdentityManagementGenerateIdentityRequest RequestGenerateIdentity
-  | MsgIdentityManagementGenerateIdentityReply ReplyGenerateIdentity
-  | MsgIdentityManagementConnectIdentityRequest RequestConnectIdentity
-  | MsgIdentityManagementConnectIdentityReply ReplyConnectIdentity
-  | MsgIdentityManagementDeleteIdentityRequest RequestDeleteIdentity
-  | MsgIdentityManagementDeleteIdentityReply ReplyDeleteIdentity
+  | GenerateIdentityRequest RequestGenerateIdentity
+  | GenerateIdentityReply ReplyGenerateIdentity
+  | ConnectIdentityRequest RequestConnectIdentity
+  | ConnectIdentityReply ReplyConnectIdentity
+  | DeleteIdentityRequest RequestDeleteIdentity
+  | DeleteIdentityReply ReplyDeleteIdentity
   ;
 ```
 <!-- --8<-- [end:IdentityManagementMsg] -->

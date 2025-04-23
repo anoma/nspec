@@ -35,7 +35,7 @@ The executor configuration contains static information needed for execution: the
 <!-- --8<-- [start:ExecutorCfg] -->
 ```juvix
 type ExecutorCfg KVSKey Executable :=
-  mkExecutorCfg@{
+  mk@{
     timestamp : TxFingerprint;
     executable : Executable;
     lazy_read_keys : Set KVSKey;
@@ -82,10 +82,10 @@ type ExecutorCfg KVSKey Executable :=
 module executor_config_example;
 
   executorCfg : EngineCfg (ExecutorCfg String ByteString) :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "executor";
-      cfg := mkExecutorCfg@{
+      cfg := ExecutorCfg.mk@{
         timestamp := 0;
         executable := "";
         lazy_read_keys := Set.empty;

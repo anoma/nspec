@@ -67,7 +67,7 @@ TemplateEngine : Type :=
 <!-- --8<-- [start:exTemplateEngine] -->
 ```juvix
 exTemplateEngine : TemplateEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := exTemplateCfg;
     env := exTemplateEnv;
     behaviour := exTemplateBehaviour;

@@ -67,7 +67,7 @@ NetworkRegistryEngine : Type :=
 <!-- --8<-- [start:exNetworkRegistryEngine] -->
 ```juvix
 exNetworkRegistryEngine : NetworkRegistryEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := exNetworkRegistryCfg;
     env := exNetworkRegistryEnv;
     behaviour := exNetworkRegistryBehaviour;

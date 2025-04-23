@@ -119,7 +119,7 @@ are triggered.
 <!-- --8<-- [start:ActionInput] -->
 ```juvix
 type ActionInput C S B H A AM :=
-  mkActionInput@{
+  mk@{
     args : A;
     cfg : EngineCfg C;
     env : EngineEnv S B H AM;
@@ -155,7 +155,7 @@ action. The action can perform any of the following:
 <!-- --8<-- [start:ActionEffect] -->
 ```juvix
 type ActionEffect S B H AM AC AE :=
-  mkActionEffect@{
+  mk@{
     env : EngineEnv S B H AM;
     msgs : List (EngineMsg AM);
     timers : List (Timer H);
@@ -242,7 +242,7 @@ performed, and action arguments.
 <!-- --8<-- [start:GuardOutput] -->
 ```juvix
 type GuardOutput C S B H A AM AC AE :=
-  mkGuardOutput@{
+  mk@{
     action : ActionExec C S B H A AM AC AE;
     args : A;
   };
@@ -292,7 +292,7 @@ introduced earlier, an `EngineBehaviour` is a set of guards and an action functi
 <!-- --8<-- [start:EngineBehaviour] -->
 ```juvix
 type EngineBehaviour C S B H A AM AC AE :=
-  mkEngineBehaviour@{
+  mk@{
     guards : GuardEval C S B H A AM AC AE;
   };
 ```

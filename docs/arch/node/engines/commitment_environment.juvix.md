@@ -87,7 +87,7 @@ axiom dummyIDBackend : Backend;
 axiom dummySigningKey : SigningKey;
 
 commitmentEnv : CommitmentEnv :=
-    mkEngineEnv@{
+    EngineEnv.mk@{
       localState := unit;
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;

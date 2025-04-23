@@ -33,7 +33,7 @@ The Mempool Worker engine configuration contains static information for Mempool 
 
 <!-- --8<-- [start:MempoolWorkerCfg] -->
 ```juvix
-type MempoolWorkerCfg := mkMempoolWorkerCfg
+type MempoolWorkerCfg := mk
 ```
 <!-- --8<-- [end:MempoolWorkerCfg] -->
 
@@ -44,10 +44,10 @@ type MempoolWorkerCfg := mkMempoolWorkerCfg
 module mempool_worker_config_example;
 
   mempoolWorkerCfg : EngineCfg MempoolWorkerCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "mempool worker";
-      cfg := mkMempoolWorkerCfg
+      cfg := MempoolWorkerCfg.mk
     }
   ;
 end;

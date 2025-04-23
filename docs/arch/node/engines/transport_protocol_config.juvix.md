@@ -36,7 +36,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:TransportProtocolLocalCfg] -->
 ```juvix
 type TransportProtocolLocalCfg :=
-  mkTransportProtocolLocalCfg;
+  mk;
 ```
 <!-- --8<-- [end:TransportProtocolLocalCfg] -->
 
@@ -59,10 +59,10 @@ TransportProtocolCfg : Type :=
 module transport_protocol_config_example;
 
 exTransportProtocolCfg : TransportProtocolCfg :=
-  mkEngineCfg@{
-    node := Curve25519PubKey "0xabcd1234";
+  EngineCfg.mk@{
+    node := PublicKey.Curve25519PubKey "0xabcd1234";
     name := "transport-protocol";
-    cfg := mkTransportProtocolLocalCfg;
+    cfg := TransportProtocolLocalCfg.mk;
   };
 
 end;

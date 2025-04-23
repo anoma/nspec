@@ -224,12 +224,12 @@ type KVSReadMsg KVSKey KVSDatum :=
 <!-- --8<-- [start:ShardMsg] -->
 ```juvix
 type ShardMsg KVSKey KVSDatum :=
-  | ShardMsgKVSReadRequest (KVSReadRequestMsg KVSKey)
-  | ShardMsgKVSWrite (KVSWriteMsg KVSKey KVSDatum)
-  | ShardMsgKVSAcquireLock (KVSAcquireLockMsg KVSKey)
-  | ShardMsgKVSLockAcquired (KVSLockAcquiredMsg)
-  | ShardMsgKVSRead (KVSReadMsg KVSKey KVSDatum)
-  | ShardMsgUpdateSeenAll (UpdateSeenAllMsg)
+  | KVSReadRequest (KVSReadRequestMsg KVSKey)
+  | KVSWrite (KVSWriteMsg KVSKey KVSDatum)
+  | KVSAcquireLock (KVSAcquireLockMsg KVSKey)
+  | KVSLockAcquired (KVSLockAcquiredMsg)
+  | KVSRead (KVSReadMsg KVSKey KVSDatum)
+  | UpdateSeenAll (UpdateSeenAllMsg)
   ;
 ```
 <!-- --8<-- [end:ShardMsg] -->

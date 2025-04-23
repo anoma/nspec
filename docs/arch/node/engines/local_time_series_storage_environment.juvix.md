@@ -53,7 +53,7 @@ syntax alias LocalTSStorageMailboxState := Unit;
 <!-- --8<-- [start:LocalTSStorageLocalState] -->
 ```juvix
 type LocalTSStorageLocalState :=
-  mkLocalTSStorageLocalState {
+  mk {
     db : Database;
     localClock : EpochTimestamp
   };
@@ -107,8 +107,8 @@ LocalTSStorageEnv : Type :=
 module local_ts_storage_environment_example;
 
   localTSStorageEnv : LocalTSStorageEnv :=
-    mkEngineEnv@{
-      localState := mkLocalTSStorageLocalState@{
+    EngineEnv.mk@{
+      localState := LocalTSStorageLocalState.mk@{
         db := "";
         localClock := 0
       };

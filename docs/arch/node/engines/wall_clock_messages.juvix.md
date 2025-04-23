@@ -72,7 +72,7 @@ Reply to a `WallClockGetTime` request.
 <!-- --8<-- [start:TimeResult] -->
 ```juvix
 type TimeResult :=
-  mkTimeResult {
+  mk {
     epochTime : EpochTimestamp;
   }
 ```
@@ -88,8 +88,8 @@ type TimeResult :=
 <!-- --8<-- [start:WallClockMsg] -->
 ```juvix
 type WallClockMsg :=
-  | WallClockGetTime
-  | WallClockGetTimeResult TimeResult
+  | GetTime
+  | GetTimeResult TimeResult
   ;
 ```
 <!-- --8<-- [end:WallClockMsg] -->

@@ -203,12 +203,12 @@ Reply providing the requested evidence.
 <!-- --8<-- [start:ReadsForMsg] -->
 ```juvix
 type ReadsForMsg :=
-  | MsgReadsForRequest RequestReadsFor
-  | MsgReadsForReply ReplyReadsFor
-  | MsgSubmitReadsForEvidenceRequest RequestSubmitReadsForEvidence
-  | MsgSubmitReadsForEvidenceReply ReplySubmitReadsForEvidence
-  | MsgQueryReadsForEvidenceRequest RequestQueryReadsForEvidence
-  | MsgQueryReadsForEvidenceReply ReplyQueryReadsForEvidence
+  | Request RequestReadsFor
+  | Reply ReplyReadsFor
+  | SubmitReadsForEvidenceRequest RequestSubmitReadsForEvidence
+  | SubmitReadsForEvidenceReply ReplySubmitReadsForEvidence
+  | QueryReadsForEvidenceRequest RequestQueryReadsForEvidence
+  | QueryReadsForEvidenceReply ReplyQueryReadsForEvidence
   ;
 ```
 <!-- --8<-- [end:ReadsForMsg] -->

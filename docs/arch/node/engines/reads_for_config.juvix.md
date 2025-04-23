@@ -34,7 +34,7 @@ The ReadFor engine configuration contains static information for ReadFor engine 
 
 <!-- --8<-- [start:ReadsForCfg] -->
 ```juvix
-type ReadsForCfg := mkReadsForCfg
+type ReadsForCfg := mk
 ```
 <!-- --8<-- [end:ReadsForCfg] -->
 
@@ -45,10 +45,10 @@ type ReadsForCfg := mkReadsForCfg
 module reads_for_config_example;
 
   readsForCfg : EngineCfg ReadsForCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "reads for";
-      cfg := mkReadsForCfg
+      cfg := ReadsForCfg.mk
     }
   ;
 end;
