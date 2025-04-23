@@ -16,7 +16,7 @@ tags:
     module arch.node.engines.naming_behaviour;
 
     import Stdlib.Data.Set as Set;
-    
+
     import prelude open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
