@@ -39,18 +39,11 @@ jobs:
         id: pre-commit
         with:
           extra_args: --all-files --show-diff-on-failure
-        continue-on-error: true
+        continue-on-error: false
       - name: Check for pre-commit changes
         id: git_diff
         run: |
-          git diff --exit-code ||  echo "NEED=true" >> "$GITHUB_ENV"
-      - if: env.NEED == 'true'
-        run: |
-          git config --global user.name 'Anoma Research'
-          git config --global user.email 'arts@heliax.dev'
-          git add .
-          git commit -m "Fix issues detected by pre-commit"
-          git push
+          git diff --exit-code
   build-and-deploy:
     runs-on: ubuntu-latest
     concurrency: ci-${{ github.ref }}
