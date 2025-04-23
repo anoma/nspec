@@ -94,7 +94,7 @@ module template_minimum_environment_example;
     EngineEnv.mk@{
       localState := TemplateMinimumLocalState.mk;
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     };
 end;

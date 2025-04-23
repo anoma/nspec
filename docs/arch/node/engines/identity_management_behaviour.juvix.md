@@ -432,7 +432,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
             EngineEnv.mk@{
               localState := unit;
               mailboxCluster := Map.empty;
-              acquaintances := Set.Set.empty;
+              acquaintances := Set.empty;
               timers := []
             };
           decryptionEng : Pair Cfg Env :=
@@ -446,7 +446,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
             EngineEnv.mk@{
               localState := unit;
               mailboxCluster := Map.empty;
-              acquaintances := Set.Set.empty;
+              acquaintances := Set.empty;
               timers := []
             };
           commitmentEng : Pair Cfg Env :=
@@ -533,7 +533,7 @@ generateIdentityAction
       let whoAsked := EngineMsg.sender emsg;
       in case Map.lookup whoAsked identities of {
         | some _ :=
-          some ActionEffect.mkActionEffect@{
+          some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -569,7 +569,7 @@ generateIdentityAction
                   newEnv' := env@EngineEnv{
                     localState := newLocalState
                   };
-              in some ActionEffect.mkActionEffect@{
+              in some ActionEffect.mk@{
                 env := newEnv';
                 msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -623,7 +623,7 @@ connectIdentityAction
       let whoAsked := EngineMsg.sender emsg;
       in case Map.lookup whoAsked identities of {
         | some _ :=
-          some ActionEffect.mkActionEffect@{
+          some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -644,7 +644,7 @@ connectIdentityAction
             | EngineMsg.mk@{msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityRequest (RequestConnectIdentity.mkRequestConnectIdentity externalIdentity' backend' capabilities'))} :=
               case Map.lookup externalIdentity' identities of {
                 | none :=
-                  some ActionEffect.mkActionEffect@{
+                  some ActionEffect.mk@{
                     env := env;
                     msgs := [EngineMsg.mk@{
                       sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -671,7 +671,7 @@ connectIdentityAction
                           newEnv' := env@EngineEnv{
                             localState := newLocalState
                           };
-                      in some ActionEffect.mkActionEffect@{
+                      in some ActionEffect.mk@{
                         env := newEnv';
                         msgs := [EngineMsg.mk@{
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -688,7 +688,7 @@ connectIdentityAction
                         engines := []
                       }
                     | else :=
-                      some ActionEffect.mkActionEffect@{
+                      some ActionEffect.mk@{
                         env := env;
                         msgs := [EngineMsg.mk@{
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -744,7 +744,7 @@ deleteIdentityAction
         | EngineMsg.mk@{msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityRequest (RequestDeleteIdentity.mkRequestDeleteIdentity externalIdentity backend'))} :=
           case Map.lookup externalIdentity identities of {
             | none :=
-              some ActionEffect.mkActionEffect@{
+              some ActionEffect.mk@{
                 env := env;
                 msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -766,7 +766,7 @@ deleteIdentityAction
                   newEnv' := env@EngineEnv{
                     localState := newLocalState
                   };
-              in some ActionEffect.mkActionEffect@{
+              in some ActionEffect.mk@{
                 env := newEnv';
                 msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
@@ -885,7 +885,7 @@ generateIdentityGuard
     | some EngineMsg.mk@{
         msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityRequest _)
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := generateIdentityActionLabel;
         args := []
       }
@@ -910,7 +910,7 @@ connectIdentityGuard
     | some EngineMsg.mk@{
         msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityRequest _)
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := connectIdentityActionLabel;
         args := []
       }
@@ -936,7 +936,7 @@ deleteIdentityGuard
     | some EngineMsg.mk@{
         msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityRequest _)
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := deleteIdentityActionLabel;
         args := []
       }

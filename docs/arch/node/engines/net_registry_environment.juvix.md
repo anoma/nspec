@@ -96,7 +96,7 @@ module registry_environment_example;
     EngineEnv.mk@{
       localState := NetworkRegistryLocalState.mk;
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     };
 end;

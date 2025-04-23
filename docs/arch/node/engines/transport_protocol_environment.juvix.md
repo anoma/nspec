@@ -85,7 +85,7 @@ exTransportProtocolEnv : TransportProtocolEnv :=
   EngineEnv.mk@{
     localState := TransportProtocolLocalState.mk;
     mailboxCluster := Map.empty;
-    acquaintances := Set.Set.empty;
+    acquaintances := Set.empty;
     timers := []
   };
 

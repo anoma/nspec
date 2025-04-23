@@ -158,7 +158,7 @@ incrementAction
   let
     env := ActionInput.env input;
     counterValue := TickerLocalState.counter (EngineEnv.localState env)
-  in some ActionEffect.mkActionEffect@{
+  in some ActionEffect.mk@{
       env := env@EngineEnv{
         localState := TickerLocalState.mk@{
           counter := counterValue + 1
@@ -200,7 +200,7 @@ countReplyAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
-      some ActionEffect.mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
           EngineMsg.mk@{
@@ -313,7 +313,7 @@ incrementGuard
     | some EngineMsg.mk@{
         msg := (Anoma.PreMsg.MsgTicker TickerMsg.Increment);
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := incrementActionLabel;
         args := [];
       }
@@ -337,7 +337,7 @@ countReplyGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
         msg := Anoma.PreMsg.MsgTicker TickerMsg.CountRequest;
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := countReplyActionLabel;
         args := [];
       }

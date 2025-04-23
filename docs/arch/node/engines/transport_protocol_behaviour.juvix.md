@@ -183,7 +183,7 @@ exampleReplyAction
         target := target;
         mailbox := mailbox;
       } :=
-      some ActionEffect.mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
           EngineMsg.mk@{
@@ -288,7 +288,7 @@ exampleReplyGuard
     | some EngineMsg.mk@{
         msg := Anoma.PreMsg.MsgTransportProtocol (TransportProtocolMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;
         args := [];
       }

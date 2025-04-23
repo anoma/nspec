@@ -82,7 +82,7 @@ join
 
 Two-argument functor
 
-```
+```juvix
 trait
 type Bifunctor (F : Type -> Type -> Type) :=
   mk@{
@@ -94,7 +94,7 @@ type Bifunctor (F : Type -> Type -> Type) :=
 
 Product with associators
 
-```
+```juvix
 trait
 type AssociativeProduct (F : Type -> Type -> Type) :=
   mk@{
@@ -107,7 +107,7 @@ type AssociativeProduct (F : Type -> Type -> Type) :=
 
 Product with commuters
 
-```
+```juvix
 trait
 type CommutativeProduct (F : Type -> Type -> Type) :=
   mk@{
@@ -119,7 +119,7 @@ type CommutativeProduct (F : Type -> Type -> Type) :=
 
 Product with units
 
-```
+```juvix
 trait
 type UnitalProduct U (F : Type -> Type -> Type) :=
   mk@{
@@ -477,7 +477,7 @@ snd {A B} : Pair A B -> B
 
 Swap components
 
-```
+```juvix
 instance
 PairCommutativeProduct : CommutativeProduct Pair :=
   CommutativeProduct.mk@{
@@ -489,7 +489,7 @@ PairCommutativeProduct : CommutativeProduct Pair :=
 
 Pair associations
 
-```
+```juvix
 instance
 PairAssociativeProduct : AssociativeProduct Pair :=
   AssociativeProduct.mk@{
@@ -508,7 +508,7 @@ PairAssociativeProduct : AssociativeProduct Pair :=
 
 Unit maps for pairs and units
 
-```
+```juvix
 instance
 PairUnitalProduct : UnitalProduct Unit Pair :=
   UnitalProduct.mk@{
@@ -523,7 +523,7 @@ PairUnitalProduct : UnitalProduct Unit Pair :=
 
 Map functions over pairs
 
-```
+```juvix
 instance
 PairBifunctor : Bifunctor Pair :=
   Bifunctor.mk@{
@@ -631,7 +631,7 @@ swapEither {A B} (e : Either A B) : Either B A :=
   };
 ```
 
-```
+```juvix
 instance
 EitherCommutativeProduct : CommutativeProduct Either :=
   CommutativeProduct.mk@{
@@ -655,7 +655,7 @@ eitherBimap
   };
 ```
 
-```
+```juvix
 instance
 EitherBifunctor : Bifunctor Either :=
   Bifunctor.mk@{
@@ -691,7 +691,7 @@ unUnitRightEither {A} (e : Either A Empty) : A :=
 
 Unit maps for Either and Empty
 
-```
+```juvix
 instance
 EitherUnitalProduct : UnitalProduct Empty Either :=
   UnitalProduct.mk@{
@@ -757,7 +757,7 @@ assocRightEither
 
 #### `EitherAssociativeProduct`
 
-```
+```juvix
 instance
 EitherAssociativeProduct : AssociativeProduct Either :=
   AssociativeProduct.mk@{
@@ -1198,9 +1198,8 @@ The type `Set A` represents a collection of unique elements of type `A`. Used
 for sets of values.
 
 ```juvix
-import Stdlib.Data.Set as Set public;
-open Set using {
-    Set;
+import Stdlib.Data.Set as Set open using {
+    Set; module Set;
     difference;
     union;
     eqSetI;
@@ -1228,7 +1227,7 @@ Collapse a set of sets into a set
 
 ```juvix
 setJoin {A} {{Ord A}} (sets : Set (Set A)) : Set A :=
-  for (acc := Set.Set.empty) (innerSet in sets) {
+  for (acc := Set.empty) (innerSet in sets) {
     Set.union acc innerSet
   };
 ```
@@ -1239,7 +1238,7 @@ setJoin {A} {{Ord A}} (sets : Set (Set A)) : Set A :=
 --- Computes the disjoint union of two ;Set;s.
 disjointUnion {T} {{Ord T}} (s1 s2 : Set T) : Result (Set T) (Set T) :=
   case Set.intersection s1 s2 of
-    | Set.Set.empty := ok (Set.union s1 s2)
+    | Set.empty := ok (Set.union s1 s2)
     | s := error s;
 ```
 
@@ -1270,13 +1269,13 @@ cartesianProduct
   let
     -- For a fixed element from set1, create a set of all pairs with elements from s2
     pairsForElement (a : A) : Set (Pair A B) :=
-      for (acc := Set.Set.empty) (b in s2) {
+      for (acc := Set.empty) (b in s2) {
         Set.insert (mkPair a b) acc
       };
 
     -- Create set of sets, each containing pairs for one element from s1
     pairSets : Set (Set (Pair A B)) :=
-      for (acc := Set.Set.empty) (a in s1) {
+      for (acc := Set.empty) (a in s1) {
         Set.insert (pairsForElement a) acc
       };
   in setJoin pairSets;

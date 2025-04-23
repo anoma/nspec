@@ -97,7 +97,7 @@ exStorageEnv : StorageEnv :=
   EngineEnv.mk@{
     localState := StorageLocalState.mk;
     mailboxCluster := Map.empty;
-    acquaintances := Set.Set.empty;
+    acquaintances := Set.empty;
     timers := []
   };
 

@@ -128,7 +128,7 @@ module mempool_worker_environment_example;
         gensym := 0
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

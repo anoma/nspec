@@ -53,7 +53,7 @@ A local engine sends a log entry to be appended to the logbook
 
 <!-- --8<-- [start:AppendValue] -->
 ```juvix
-type AppendValue := mkAppendValue {
+type AppendValue := mk@{
   value : String
 };
 ```

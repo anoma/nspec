@@ -96,7 +96,7 @@ encryptionEnv : EncryptionEnv :=
         pendingRequests := Map.empty
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

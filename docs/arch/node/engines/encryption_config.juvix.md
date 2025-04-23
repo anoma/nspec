@@ -39,7 +39,7 @@ specific backend.
 
 <!-- --8<-- [start:EncryptionCfg] -->
 ```juvix
-type EncryptionCfg := mk {
+type EncryptionCfg := mk@{
   encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
   backend : Backend;
   readsForEngineAddress : EngineID;

@@ -44,11 +44,11 @@ and passed to the action function as part of the `GuardOutput`.
     ```
     <!-- --8<-- [end:Val] -->
 
-### `TemplateActionArgumentOne FirstArgument`
+### `One FirstArgument`
 
 <!-- --8<-- [start:FirstArgument] -->
 ```juvix
-type FirstArgument := mkFirstArgument@{
+type FirstArgument := mk@{
   data : Val;
 };
 ```
@@ -59,11 +59,11 @@ type FirstArgument := mkFirstArgument@{
     `data`:
     : is the value of the action argument.
 
-### `TemplateActionArgumentTwo SecondArgument`
+### `Two SecondArgument`
 
 <!-- --8<-- [start:SecondArgument] -->
 ```juvix
-type SecondArgument := mkSecondArgument@{
+type SecondArgument := mk@{
   data : String;
 };
 ```
@@ -79,8 +79,8 @@ type SecondArgument := mkSecondArgument@{
 <!-- --8<-- [start:TemplateActionArgument] -->
 ```juvix
 type TemplateActionArgument :=
-  | TemplateActionArgumentOne FirstArgument
-  | TemplateActionArgumentTwo SecondArgument
+  | One FirstArgument
+  | Two SecondArgument
   ;
 ```
 <!-- --8<-- [end:TemplateActionArgument] -->
@@ -190,10 +190,10 @@ justHiAction
     args := ActionInput.args input;
   in
     case args of {
-    | TemplateActionArgument.TemplateActionArgumentTwo (SecondArgument.mkSecondArgument@{
+    | TemplateActionArgument.Two (SecondArgument.mk@{
         data := data;
       }) :: _ :=
-      some ActionEffect.mkActionEffect@{
+      some ActionEffect.mk@{
         env := env@EngineEnv{
           localState := TemplateLocalState.mk@{
             taskQueue := CustomData.mkCustomData@{
@@ -244,7 +244,7 @@ exampleReplyAction
         target := target;
         mailbox := mailbox;
       } :=
-      some ActionEffect.mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
           EngineMsg.mk@{
@@ -367,11 +367,11 @@ justHiGuard
     | some EngineMsg.mk@{
         msg := Anoma.PreMsg.MsgTemplate TemplateMsg.JustHi;
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := justHiActionLabel;
         args := [
-          TemplateActionArgument.TemplateActionArgumentTwo
-            SecondArgument.mkSecondArgument@{
+          TemplateActionArgument.Two
+            SecondArgument.mk@{
               data := "Hello World!"
             }
         ];
@@ -399,7 +399,7 @@ exampleReplyGuard
     | some EngineMsg.mk@{
         msg := Anoma.PreMsg.MsgTemplate (TemplateMsg.ExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;
         args := [];
       }

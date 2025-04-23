@@ -93,10 +93,10 @@ module reads_for_environment_example;
 readsForEnv : ReadsForEnv :=
     EngineEnv.mk@{
       localState := ReadsForLocalState.mk@{
-        evidenceStore := Set.Set.empty;
+        evidenceStore := Set.empty;
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;
