@@ -28,6 +28,15 @@ type PublicKey :=
   | Curve25519PubKey ByteString
   ;
 
+publicKeyEq : PublicKey -> PublicKey -> Bool
+  | (PublicKey.Curve25519PubKey s1) (PublicKey.Curve25519PubKey s2) := s1 == s2;
+
+instance
+PublicKeyEq : Eq PublicKey :=
+  Eq.mk@{
+    isEqual := publicKeyEq;
+  };
+
 instance
 PublicKeyOrd : Ord PublicKey :=
   Ord.mk@{

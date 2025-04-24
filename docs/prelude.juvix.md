@@ -13,7 +13,7 @@ tags:
     ```juvix
     module prelude;
     import Stdlib.Trait open public;
-    import Stdlib.Trait.Ord open using {Ordering; Equal; isEqual} public;
+    import Stdlib.Trait.Ord open using {Ordering; module Ordering; Equal; isEqual} public;
     import Stdlib.Trait.Eq open using {==} public;
     import Stdlib.Debug.Fail open using {failwith};
     import Stdlib.Data.Fixity open public;
@@ -365,7 +365,11 @@ hello : String := "Hello, World!";
 ### Comparison instance for `String`
 
 ```juvix
-axiom stringCmp : String -> String -> Ordering;
+stringCmp (s1 s2 : String) : Ordering :=
+  if
+    | s1 == s2 := Ordering.Equal
+    | else := Ordering.GreaterThan
+  ;
 
 instance
 StringOrd : Ord String :=
@@ -1529,4 +1533,68 @@ axiom undef {A} : A;
 
 ```juvix
 axiom TODO {A} : A;
+```
+
+## `OMap K V`
+
+A simple map implementation represented as a function from keys to optional values.
+Note: Unlike `Stdlib.Data.Map`, this implementation does not require an `Ord`
+instance for the key type `K`. However, operations like `insert`, `delete`, and
+`fromList` require an `Eq` instance instead of an `Ord` instance.
+
+Meant for usage with `String` which does not have a working `Ord` instance but does
+have a working `Eq` instance.
+
+```juvix
+module OMap;
+
+  type OMap K V := mk@{
+    omap : K -> Option V
+  };
+
+  -- The empty map maps every key to `none`.
+  empty {K V} : OMap K V := OMap.mk \{_ := none};
+
+  -- Look up a key in the map.
+  lookup {K V} (k : K) (m : OMap K V) : Option V := OMap.omap m k;
+
+  -- Insert a key-value pair. Requires an equality function for the key type.
+  insert {K V} {{Eq K}} (k : K) (v : V) (m : OMap K V) : OMap K V :=
+    OMap.mk@{omap := \{k' := if | k == k' := some v
+                                | else := OMap.omap m k'}};
+
+  -- Delete a key. Requires an equality function for the key type.
+  delete {K V} {{Eq K}} (k : K) (m : OMap K V) : OMap K V :=
+    OMap.mk@{omap := \{k' := if | k == k' := none
+                                | else := OMap.omap m k'}};
+
+  -- Create a map from a list of key-value pairs. Requires an equality function.
+  fromList {K V} {{Eq K}} (pairs : List (Pair K V)) : OMap K V :=
+    foldl (\{m (k, v) := insert k v m}) empty pairs;
+
+  -- Map a function over the values of the map.
+  map {K V1 V2} (f : V1 -> V2) (m : OMap K V1) : OMap K V2 :=
+    OMap.mk@{omap := \{k := Functor.map f (OMap.omap m k)}};
+
+  -- Apply a function that returns an Option to values, keeping only `some` results.
+  mapOption {K V1 V2} (f : V1 -> Option V2) (m : OMap K V1) : OMap K V2 :=
+    OMap.mk@{omap := \{k := case OMap.omap m k of { none := none | some v1 := f v1 }}};
+
+  -- Apply a function that returns an Option to keys and values, keeping only `some` results.
+  mapOptionWithKey {K V1 V2} (f : K -> V1 -> Option V2) (m : OMap K V1) : OMap K V2 :=
+    OMap.mk@{omap := \{k := case OMap.omap m k of { none := none | some v1 := f k v1 }}};
+
+  -- Fold over the map *given a specific list of keys*.
+  -- Note: A true fold isn't possible without knowing the domain.
+  foldWithKeys {K V Acc} (f : K -> V -> Acc -> Acc) (init : Acc) (keys : List K) (m : OMap K V) : Acc :=
+    foldl
+      (\{acc k := case OMap.omap m k of { none := acc | some v := f k v acc }})
+      init
+      keys;
+
+  -- Create a map with a single key-value pair.
+  singleton {K V} {{Eq K}} (k : K) (v : V) : OMap K V :=
+    OMap.mk@{omap := \{k' := if | k == k' := some v | else := none}};
+
+end;
 ```

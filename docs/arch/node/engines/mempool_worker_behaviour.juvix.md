@@ -44,8 +44,11 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
 ??? code "Auxiliary Juvix code"
 
     ```juvix
-    axiom sign : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Signature;
-    axiom hash : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Hash;
+    sign : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Signature
+         := \{txfp _ := Signature.Ed25519Signature (natToString txfp)};
+    
+    hash : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Hash
+         := \{txfp _ := txfp};
     ```
 
 ## Mempool Worker Action Flowcharts
@@ -384,7 +387,7 @@ transactionRequestAction
     keyToShard := MempoolWorkerLocalCfg.keyToShard (EngineCfg.cfg cfg);
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg := case emsg of {
-      | EngineMsg.mk@{msg := Anoma.Msg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest request); sender := sender} :=
+      | EngineMsg.mk@{sender := sender; target := _; mailbox := _; msg := Anoma.Msg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest request)} :=
           let fingerprint := MempoolWorkerLocalState.gensym local + 1;
               worker_id := getEngineIDFromEngineCfg cfg;
               candidate := TransactionRequest.tx request;

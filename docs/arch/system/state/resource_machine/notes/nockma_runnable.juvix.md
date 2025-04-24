@@ -102,7 +102,7 @@ instance nockmaRunnable : Runnable Nat Nat Noun NockmaProgramState :=
     -- Initial program state
     startingState := NockmaProgramState.mk@{
       current_noun := Noun.Atom zero;  -- Start with empty noun
-      storage := externalStorage;  -- Use external storage
+      storage := emptyStorage;  -- Use external storage
       gas_limit := 1000  -- Start with 1000 gas units
     }
   };

@@ -85,6 +85,21 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
         reqList : Noun := Noun.Cell writePair const0; -- [[[1 98] [4 /7]] [1 0]]
       in Noun.Cell const0 reqList; -- [[1 0] [[[1 98] [4 /7]] [1 0]]]
 
+    -- Junk for testing
+    initialState : Noun := Noun.Atom 0;
+    storage : Storage Nat Nat := emptyStorage;
+    initialGas : Nat := 1000;
+
+    -- Input for testing writeAProgram
+    externalInput1 : Noun := Noun.Cell (Noun.Atom 0) (Noun.Atom 0); -- Arbitrary input for writeA
+    subject1 : Noun := Noun.Cell initialState externalInput1;
+    prog1Result : Result String (Pair Noun Nat) := GasState.runGasState (nock storage (Noun.Cell subject1 writeAProgram)) initialGas;
+
+    -- Input for testing incWriteProgram
+    externalInput2 : Noun := Noun.Cell (Noun.Atom 97) (Noun.Atom 3); -- Simulate input [key=97, value=3]
+    subject2 : Noun := Noun.Cell initialState externalInput2;
+    prog2Result : Result String (Pair Noun Nat) := GasState.runGasState (nock storage (Noun.Cell subject2 incWriteProgram)) initialGas;
+
     -- Engine Configuration and Environment Setup
 
     -- Define NodeID (can be arbitrary for simulation)
@@ -132,7 +147,7 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
 
     -- Node containing all engines
     initialNode : Node := Node.mkNode@{
-      engines := Map.fromList [
+      engines := OMap.fromList [
         mkPair (snd mempoolWorkerId) mempoolWorker;
         mkPair (snd shardAId) shardA;
         mkPair (snd shardBId) shardB
@@ -171,7 +186,7 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
 
     -- Initial Network State
     initialNetworkState : NetworkState := NetworkState.mkNetworkState@{
-      nodes := Map.singleton nodeId initialNode;
+      nodes := OMap.singleton nodeId initialNode;
       messages := initialMessages;
       currentTime := left 0;
       incrementId := \{n := n}; -- Dummy ID incrementor
@@ -182,6 +197,9 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
     -- Run the simulation for 20 steps using the selectFirstMessage strategy.
     simulationResult : List (EngineMsg Msg) := simulate selectFirstMessage initialNetworkState 20;
 
+    simulationResult2 : Pair (List (EngineMsg Msg)) (List (EngineMsg Msg)) := simulateWithFailures selectFirstMessage initialNetworkState 20;
+
+
     -- The `simulationResult` variable now holds the list of messages processed
     -- during the simulation run. Analyzing this list would show the sequence
     -- of lock acquisitions, reads, writes, and acknowledgments.
@@ -189,23 +207,6 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
     -- Final Expected State:
     -- - Key 97 ("a") has value 3 (written by Tx1).
     -- - Key 98 ("b") has value 4 (written by Tx2, incrementing the value 3 read from 'a').
-
-
-    -- Junk for testing
-
-    initialState : Noun := Noun.Atom 0;
-    storage : Storage Nat Nat := emptyStorage;
-    initialGas : Nat := 1000;
-
-    -- Input for testing writeAProgram
-    externalInput1 : Noun := Noun.Cell (Noun.Atom 0) (Noun.Atom 0); -- Arbitrary input for writeA
-    subject1 : Noun := Noun.Cell initialState externalInput1;
-    prog1Result : Result String (Pair Noun Nat) := GasState.runGasState (nock storage (Noun.Cell subject1 writeAProgram)) initialGas;
-
-    -- Input for testing incWriteProgram
-    externalInput2 : Noun := Noun.Cell (Noun.Atom 97) (Noun.Atom 3); -- Simulate input [key=97, value=3]
-    subject2 : Noun := Noun.Cell initialState externalInput2;
-    prog2Result : Result String (Pair Noun Nat) := GasState.runGasState (nock storage (Noun.Cell subject2 incWriteProgram)) initialGas;
     ```
 
 This setup defines the necessary components, initial state, and transaction logic using Nockma Nouns. The simulation is executed, and the resulting message trace is stored in `simulationResult`.

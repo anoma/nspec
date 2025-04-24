@@ -15,6 +15,7 @@ tags:
 module arch.node.integration.simulator;
 
 import prelude open;
+open OMap;
 import arch.node.types.basics open public;
 import arch.node.types.messages open public;
 import arch.node.types.identities open;
@@ -41,12 +42,12 @@ selectFirstMessage (messages : List (EngineMsg Msg)) : Option (Pair (EngineMsg M
 
 -- Node type that contains a map from engine names to engines
 type Node := mkNode@{
-  engines : Map EngineName Eng;
+  engines : OMap EngineName Eng;
 };
 
 -- Network state contains all nodes, in-transit messages, and current time
 type NetworkState := mkNetworkState@{
-  nodes : Map NodeID Node;
+  nodes : OMap NodeID Node;
   messages : List (EngineMsg Msg);
   currentTime : Time;
   incrementId : NodeID -> NodeID;
@@ -254,7 +255,7 @@ evaluateAndExecuteEng (eng : Eng) (msg : EngineMsg Msg) : Option (Pair (List (En
 
 -- Helper function to add a single new engine to a node
 addNewEngine (state : NetworkState) (nodeId : NodeID) (cfg : Cfg) (env : Env) : NetworkState :=
-  case Map.lookup nodeId (NetworkState.nodes state) of {
+  case OMap.lookup nodeId (NetworkState.nodes state) of {
     | none := state
     | some node :=
       case mkEng nodeId (mkPair cfg env) of {
@@ -262,9 +263,9 @@ addNewEngine (state : NetworkState) (nodeId : NodeID) (cfg : Cfg) (env : Env) : 
         | some (mkPair newEng newEngineId) :=
           let
             engineName := snd newEngineId;
-            updatedNode := node@Node{engines := Map.insert engineName newEng (Node.engines node)};
+            updatedNode := node@Node{engines := OMap.insert engineName newEng (Node.engines node)};
           in state@NetworkState{
-            nodes := Map.insert nodeId updatedNode (NetworkState.nodes state)
+            nodes := OMap.insert nodeId updatedNode (NetworkState.nodes state)
           }
       }
   };
@@ -282,15 +283,15 @@ updateNetworkState (state : NetworkState) (target : EngineID) (eng : Eng) (msgs 
     -- Look up the target node and update it
     state' := case nodeId of {
       | none := state
-      | some nid := case Map.lookup nid (NetworkState.nodes state) of {
+      | some nid := case OMap.lookup nid (NetworkState.nodes state) of {
         | none := state
         | some n := state@NetworkState{
-            nodes := Map.insert nid (n@Node{engines := Map.insert engineName eng (Node.engines n)}) (NetworkState.nodes state)
+            nodes := OMap.insert nid (n@Node{engines := OMap.insert engineName eng (Node.engines n)}) (NetworkState.nodes state)
           }
       }
     };
     -- Then fold over the config/env pairs to create new engines in the target node
-    stateWithMessages := state'@NetworkState{messages := msgs ++ (NetworkState.messages state)};
+    stateWithMessages := state'@NetworkState{messages := NetworkState.messages state ++ msgs};
     finalState := foldl
       (\{s (mkPair cfg env) := case nodeId of {
         | none := s
@@ -321,9 +322,9 @@ step (selector : MessageSelector) (state : NetworkState) : Pair NetworkState (Op
         -- Look up the target engine
         engine := case nodeId of {
           | none := none
-          | some nid := case Map.lookup nid (NetworkState.nodes state) of {
+          | some nid := case OMap.lookup nid (NetworkState.nodes state) of {
             | none := none
-            | some n := Map.lookup engineName (Node.engines n)
+            | some n := OMap.lookup engineName (Node.engines n)
           }
         };
       in case engine of {
@@ -340,7 +341,7 @@ step (selector : MessageSelector) (state : NetworkState) : Pair NetworkState (Op
       }
   };
 
--- Simulate function that runs for a specified number of steps and collects messages
+-- Simulate function that runs for a specified number of steps and collects successfully delivered messages
 terminating
 simulate (selector : MessageSelector) (state : NetworkState) (steps : Nat) : List (EngineMsg Msg) :=
   case steps of {
@@ -348,14 +349,54 @@ simulate (selector : MessageSelector) (state : NetworkState) (steps : Nat) : Lis
     | suc n :=
       let
         -- Apply one step
-        next := step selector state;
-        -- Get the message if any
-        msg := snd next;
+        nextPair := step selector state;
+        newState := fst nextPair;
+        processedMsgOpt := snd nextPair;
         -- Recursively simulate remaining steps
-        restMsgs := simulate selector (fst next) n;
-      in case msg of {
+        restMsgs := simulate selector newState n;
+      in case processedMsgOpt of {
         | none := restMsgs
-        | some m := m :: restMsgs
+        | some processedMsg := processedMsg :: restMsgs
+      }
+  };
+
+-- Simulate function that runs for a specified number of steps and collects both
+-- successfully delivered and failed messages.
+terminating
+simulateWithFailures
+  (selector : MessageSelector)
+  (state : NetworkState)
+  (steps : Nat)
+  : Pair (List (EngineMsg Msg)) (List (EngineMsg Msg)) :=
+  case steps of {
+    | zero := mkPair [] []
+    | suc n :=
+      let
+        -- Try to select a message using the selector
+        selected := selector (NetworkState.messages state);
+      in case selected of {
+        | none := -- No message selected, continue simulation
+          let
+            -- Recursively simulate remaining steps
+            recursiveResult := simulateWithFailures selector state n;
+          in recursiveResult
+        | some (mkPair msg rest) := -- Message selected
+          let
+            state' := state@NetworkState{messages := rest};
+            -- Apply one step for the selected message
+            nextPair := step selector state; -- Need to use the original state here for step
+            newState := fst nextPair;
+            processedMsgOpt := snd nextPair;
+            -- Recursively simulate remaining steps with the new state
+            recursiveResult := simulateWithFailures selector newState n;
+            successMsgs := fst recursiveResult;
+            failedMsgs := snd recursiveResult;
+          in case processedMsgOpt of {
+            | none := -- Message failed to deliver
+              mkPair successMsgs (msg :: failedMsgs)
+            | some processedMsg := -- Message delivered successfully
+              mkPair (processedMsg :: successMsgs) failedMsgs
+          }
       }
   };
 ```
