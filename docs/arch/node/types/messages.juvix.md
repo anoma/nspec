@@ -197,4 +197,3 @@ getTargetFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option Eng
 ```
 
 ---
-

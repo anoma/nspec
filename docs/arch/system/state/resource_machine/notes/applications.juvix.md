@@ -62,4 +62,3 @@ Applications do not have to exist within the bounds of a single controller, and 
 #### Controller state synchronisation
 
 Each controller would have their own commitment tree associated with it. Treated as subtrees of a larger Merkle tree, the controller commitment trees comprise a global commitment tree, where the leaves are the roots of the controller trees.
-

@@ -86,4 +86,3 @@ Where [[Network Registry Configuration#exNetworkRegistryCfg|`exNetworkRegistryCf
 and [[Network Registry Behaviour#exNetworkRegistryBehaviour|`exNetworkRegistryBehaviour`]] is defined as follows:
 
 --8<-- "./net_registry_behaviour.juvix.md:exNetworkRegistryBehaviour"
-

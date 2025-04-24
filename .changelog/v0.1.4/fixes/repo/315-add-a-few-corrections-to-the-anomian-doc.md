@@ -1,1 +1,0 @@
-  -  [**#315**](https://github.com/anoma/nspec/pull/315): Add a few corrections to the Anomian doc
