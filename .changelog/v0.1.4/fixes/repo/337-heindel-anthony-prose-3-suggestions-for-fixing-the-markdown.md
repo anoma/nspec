@@ -1,1 +1,0 @@
-  -  [**#337**](https://github.com/anoma/nspec/pull/337): Heindel/anthony/prose 3 suggestions for fixing the markdown
