@@ -3,7 +3,7 @@
 # Set up the repository with all dependencies and hooks
 setup-repo:
 	uv sync
-    uv tool install just || true
+	uv tool install just || true
 	just install-hooks
 	just install-tools
 
@@ -43,7 +43,7 @@ juvix-check:
 
 # Build documentation
 build:
-	uv run mkdocs build --config-file mkdocs.yml 
+	uv run mkdocs build --config-file mkdocs.yml
 
 # Serve documentation locally
 serve:
