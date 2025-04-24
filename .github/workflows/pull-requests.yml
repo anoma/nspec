@@ -38,6 +38,8 @@ jobs:
         id: pre-commit
         with:
           extra_args: --all-files --show-diff-on-failure
+        env:
+          SKIP: typecheck
         continue-on-error: false
       - name: Check for pre-commit changes
         id: git_diff

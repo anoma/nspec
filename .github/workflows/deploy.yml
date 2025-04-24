@@ -53,7 +53,7 @@ jobs:
           restore-keys: |
             juvix-cache-
 
-      - name: typecheck docs
+      - name: typecheck
         continue-on-error: true
         run: |
           juvix --log-level error typecheck docs/everything.juvix.md

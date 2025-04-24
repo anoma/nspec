@@ -70,7 +70,7 @@ repos:
         types: [file]
         exclude: '.pre-commit.*|^overrides.*|^docs/(assets|images)/|^formal.*|.*Package.juvix.*|^\.github/.*|CITATION|LICENSE|Makefile|README\.md|VERSION|.changelog/.*'
 
-      - id: juvix-typecheck
+      - id: typecheck
         name: typecheck
         entry: juvix --log-level error typecheck docs/everything.juvix.md
         language: system

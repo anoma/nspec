@@ -19,7 +19,7 @@ After installing the development tools, you can, for example, invoke all
 checks, by running the following command:
 
 ```bash
-pre-commit run --all-files
+uv run pre-commit -- run --all-files
 ```
 
 Or shorter:

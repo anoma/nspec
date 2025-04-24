@@ -9,7 +9,7 @@ setup-repo:
 
 # Install pre-commit hooks
 install-hooks:
-	uv run pre-commit install --install-hooks
+	uv run pre-commit -- install --install-hooks
 
 # Install development tools
 install-tools:
@@ -33,7 +33,7 @@ export:
 
 # Run all pre-commit checks
 check:
-	uv run pre-commit run --all-files
+	uv run pre-commit -- run --all-files
 
 # Typecheck the code
 juvix-check:
