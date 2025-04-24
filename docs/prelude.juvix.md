@@ -1426,19 +1426,19 @@ mapPartition
 Split a map according to a predicate that can examine both key and value.
 Returns a pair of maps, (matching, non-matching).
 
-      ```juvix
-      partitionWithKey
-        {Key Value}
-        {{Ord Key}}
-        (predicate : Key -> Value -> Bool)
-        (map : Map Key Value)
-        : Pair (Map Key Value) (Map Key Value) :=
-        for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
-          if
-            | predicate k v := Map.insert k v matching, nonMatching
-            | else := matching, Map.insert k v nonMatching
-        };
-      ```
+```juvix
+partitionWithKey
+  {Key Value}
+  {{Ord Key}}
+  (predicate : Key -> Value -> Bool)
+  (map : Map Key Value)
+  : Pair (Map Key Value) (Map Key Value) :=
+  for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
+    if
+      | predicate k v := Map.insert k v matching, nonMatching
+      | else := matching, Map.insert k v nonMatching
+  };
+```
 
 ### `mapOption`
 

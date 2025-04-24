@@ -1,1 +1,0 @@
-  - [**#7**](https://github.com/anoma/nspec/pull/7): Add new hook for images

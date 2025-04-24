@@ -1,1 +1,0 @@
-  - [**#8**](https://github.com/anoma/nspec/pull/8): Add lightboxes to images, fix local image loading

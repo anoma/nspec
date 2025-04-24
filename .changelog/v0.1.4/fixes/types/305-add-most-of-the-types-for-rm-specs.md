@@ -1,1 +1,0 @@
-  -  [**#305**](https://github.com/anoma/nspec/pull/305): Add most of the types for RM specs

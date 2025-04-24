@@ -225,7 +225,6 @@ otherwise, it returns nothing.
 
 <!-- --8<-- [start:Guard] -->
 ```juvix
-{-# isabelle-ignore: true #-} -- TODO: remove this when the compiler is fixed
 Guard (C S B H A AM AC AE : Type) : Type :=
   (trigger : TimestampedTrigger H AM) ->
   (cfg : EngineCfg C) ->

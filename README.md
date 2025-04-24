@@ -1,71 +1,48 @@
 # Anoma Specs [![deploy](https://github.com/anoma/nspec/actions/workflows/deploy.yml/badge.svg)](https://github.com/anoma/nspec/actions/workflows/deploy.yml)
+
 <!-- --8<-- [start:all]-- -->
 
 ## Getting Started
 
-> **Note**
-> All you need to know to contribute to the documentation is in:
-> - https://specs.anoma.net/latest/tutorial/index.html
+- **Contribute**: [Tutorial](https://specs.anoma.net/latest/tutorial/index.html)
+- **Markdown**: Uses [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/reference/)
 
-We use Markdown with extensions according to the [Material for MkDocs reference](https://squidfunk.github.io/mkdocs-material/reference/).
+### Setup
 
-To set up the project for development and testing on your local machine, please follow these steps.
-Alternatively, you can edit the Markdown files directly on GitHub, open a pull request (PR), and
-the CI/CD pipeline will manage the build and deployment process after the changes are merged.
+1. **Prerequisites**:
 
-For `.juvix.md` files, which include Juvix code examples, ensure that Juvix is
-installed. You can install the Juvix plugin for VS Code
-from [the
-marketplace](https://marketplace.visualstudio.com/items?itemName=heliax.juvix-mode).
+   - `uv`: Install via:
 
-### Installing
+     ```bash
+     # macOS/Linux
+     curl -LsSf https://astral.sh/uv/install.sh | sh
+     # Windows
+     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+     ```
+   - `graphviz` for local deployment,
 
-1. Install prerequisites
+   - `juvix` for local deployment,
 
-  The following are the prerequisites to build the website locally:
+     ```bash
+     curl --proto '=https' --tlsv1.2 -sSfL https://get.juvix.org | sh
+     ```
+   - `just` for local development (although you can use `uv run` for most commands)
 
-  - Python or higher which includes `pip`
-
-  - Poetry: You can install by running `pip install poetry`.
-
-  - To deploy the website locally, you would need to install `graphviz` to
-    generate SVG files for *dot* files and `juvix` to render the Juvix code
-    examples.
-
-2. Install the required packages (preferably in the virtual environment) using Poetry:
+2. **Setup Commands**:
 
     ```bash
-    poetry install
+    just setup-repo
     ```
 
-### Building and serving the website
+### Documentation
 
-1. To generate the website in the `site/` directory, run:
+- **Build**: `just build`
+- **Serve Locally**: `just serve`
 
-    ```bash
-    poetry run mkdocs build
-    ```
+### Development with Nix
 
-2. To serve the website locally, run the following command:
-
-    ```bash
-    poetry run mkdocs serve
-    ```
-
-    Take into account that this web server will automatically reload the website
-    when you make any changes to the files, and it is not especially fast.
-
-
-### Development shell with Nix
-
-1. Install Nix: https://nixos.org/download/
-
-2. Enable Nix Flakes: https://nixos.wiki/wiki/flakes
-
-3. Enter development shell:
-
-    ```bash
-    nix develop
-    ```
+1. **Install Nix**: [Download](https://nixos.org/download/)
+2. **Enable Flakes**: [Guide](https://nixos.wiki/wiki/flakes)
+3. **Enter Shell**: `nix develop`
 
 <!-- --8<-- [end:all]-- -->

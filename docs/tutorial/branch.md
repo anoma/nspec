@@ -142,7 +142,13 @@ juvix typecheck docs/everything.juvix.md
 Next, we must verify the MkDocs site build by running the following command:
 
 ```bash
-poetry run mkdocs build
+uv run mkdocs build
+```
+
+or with `just`
+
+```
+just build
 ```
 
 ## Integration branches for complex changes

@@ -56,4 +56,3 @@ $cnk = h_{cnk}(nk)$.
 
 > These concerns are not meaningful in the contexts with lower security
 requirements.
-
