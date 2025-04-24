@@ -34,4 +34,3 @@ type Runnable KVSKey KVSDatum Executable ProgramState :=
   - New program state and list of either:
     - Left key for read requests
     - Right (key, value) for write requests
-  
