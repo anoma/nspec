@@ -3,8 +3,9 @@
 # Set up the repository with all dependencies and hooks
 setup-repo:
 	uv sync
-	uv run just install-hooks
-	uv run just install-tools
+    uv tool install just || true
+	just install-hooks
+	just install-tools
 
 # Install pre-commit hooks
 install-hooks:
@@ -42,15 +43,15 @@ juvix-check:
 
 # Build documentation
 build:
-	uv run mkdocs build
+	uv run mkdocs build --config-file mkdocs.yml 
 
 # Serve documentation locally
 serve:
-	uv run mkdocs serve
+	uv run mkdocs serve --config-file mkdocs.yml
 
 # Deploy documentation to GitHub Pages
 deploy:
-	uv run mkdocs gh-deploy --force
+	uv run mkdocs gh-deploy --force --config-file mkdocs.yml
 
 # ===== Git Operations =====
 
