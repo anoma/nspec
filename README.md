@@ -12,7 +12,7 @@
 1. **Prerequisites**:
 
    - `uv`: Install via:
-   
+
      ```bash
      # macOS/Linux
      curl -LsSf https://astral.sh/uv/install.sh | sh

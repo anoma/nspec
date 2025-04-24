@@ -87,10 +87,10 @@ jobs:
       - name: get the last commit short hash
         id: commit
         run: echo "::set-output name=commit::$(git rev-parse --short HEAD)"
-        
+
       - name: Install material insiders version
         run: uv run install git+https://${{ secrets.INSIDERS_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
-        
+
       - name: Build MkDocs with material insiders version
         id: material
         run: |

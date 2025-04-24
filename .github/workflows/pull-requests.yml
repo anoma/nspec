@@ -66,7 +66,7 @@ jobs:
       - uses: extractions/setup-just@v2
         with:
           just-version: ${{ env.JUST_VERSION }}  # optional semver specification, otherwise latest
-          
+
       - run: just setup-repo
 
       - name: Build basic MkDocs
@@ -84,7 +84,7 @@ jobs:
         if: failure()
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
-          
+
       - name: Deploy basic MkDocs
         if: success()
         uses: JamesIves/github-pages-deploy-action@v4
@@ -103,7 +103,7 @@ jobs:
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
           MSG: "Success! Preview of basic version available at https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/basic/."
-  
+
   build-and-deploy-with-insiders-and-juvix:
     runs-on: ubuntu-latest
     concurrency: ci-${{ github.ref }}
@@ -179,7 +179,7 @@ jobs:
           REMOVE_CACHE: true
           PROCESS_JUVIX: true
           TIMELIMIT: 100
-      
+
       - if: steps.mkdocs-insiders.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
