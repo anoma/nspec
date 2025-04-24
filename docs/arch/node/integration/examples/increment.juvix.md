@@ -68,27 +68,22 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
     -- Nockma Programs (Executables)
 
     -- Program to write 3 to key "a" (97)
-    -- Nockma: /[* [0 [[97 3] 0]]] - Ignores input, returns state 0 and write request.
-    writeAOutput : Noun := Noun.Cell zeroNoun (Noun.Cell (Noun.Cell keyA val3) zeroNoun);
-    writeAProgram : Noun := Noun.Cell (Noun.Atom 0) (Noun.Cell oneNoun writeAOutput); -- /[* output]
+    -- Nock: [1 [0 [[97 3] 0]]] - Ignores subject, returns constant output.
+    writeAOutputNoun : Noun := Noun.Cell (Noun.Atom 0) (Noun.Cell (Noun.Cell keyA val3) zeroNoun);
+    writeAProgram : Noun := Noun.Cell oneNoun writeAOutputNoun;
 
     -- Program to read "a", increment, write to "b"
-    -- Nockma: /[* [0 [[98 [4 /6]] 0]]] - Ignores initial state, uses read value.
-    -- Input Subject: [program_state [key value]]
-    -- /6 accesses the read value `value`
-    getVal : Noun := Noun.Cell (Noun.Atom 0) (Noun.Atom 6);
-    -- [4 /6] increments the read value (Nock increment opcode is 4)
-    incVal : Noun := Noun.Cell (Noun.Atom 4) getVal;
-    -- [98 [4 /6]] is the write pair (key b, incremented_value)
-    writePair : Noun := Noun.Cell keyB incVal;
-    -- [[98 [4 /6]] 0] is the request list containing the single write request
-    reqList : Noun := Noun.Cell writePair zeroNoun;
-    -- [0 [[98 [4 /6]] 0]] is the final output structure [new_state request_list]
-    -- We use 0 for new_state as the program halts after this step.
-    incWriteOutput : Noun := Noun.Cell zeroNoun reqList;
-    -- /[* output] -> [0 1 output] is the program that produces the output
-    incWriteProgram : Noun := Noun.Cell (Noun.Atom 0) (Noun.Cell oneNoun incWriteOutput);
-
+    -- Nock: [[1 0] [[[1 98] [4 /7]] [1 0]]]
+    -- Dynamically builds the output [0 [[98 ++val] 0]] using the subject [state [key val]].
+    incWriteProgram : Noun :=
+      let
+        const0 : Noun := Noun.Cell (Noun.Atom 1) (Noun.Atom 0);
+        const98 : Noun := Noun.Cell (Noun.Atom 1) (Noun.Atom 98);
+        getVal : Noun := Noun.Cell (Noun.Atom 0) (Noun.Atom 7); -- /7 accesses value from [state [key val]]
+        incVal : Noun := Noun.Cell (Noun.Atom 4) getVal; -- [4 /7]
+        writePair : Noun := Noun.Cell const98 incVal; -- [[1 98] [4 /7]]
+        reqList : Noun := Noun.Cell writePair const0; -- [[[1 98] [4 /7]] [1 0]]
+      in Noun.Cell const0 reqList; -- [[1 0] [[[1 98] [4 /7]] [1 0]]]
 
     -- Engine Configuration and Environment Setup
 
@@ -195,6 +190,22 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
     -- - Key 97 ("a") has value 3 (written by Tx1).
     -- - Key 98 ("b") has value 4 (written by Tx2, incrementing the value 3 read from 'a').
 
+
+    -- Junk for testing
+
+    initialState : Noun := Noun.Atom 0;
+    storage : Storage Nat Nat := emptyStorage;
+    initialGas : Nat := 1000;
+
+    -- Input for testing writeAProgram
+    externalInput1 : Noun := Noun.Cell (Noun.Atom 0) (Noun.Atom 0); -- Arbitrary input for writeA
+    subject1 : Noun := Noun.Cell initialState externalInput1;
+    prog1Result : Result String (Pair Noun Nat) := GasState.runGasState (nock storage (Noun.Cell subject1 writeAProgram)) initialGas;
+
+    -- Input for testing incWriteProgram
+    externalInput2 : Noun := Noun.Cell (Noun.Atom 97) (Noun.Atom 3); -- Simulate input [key=97, value=3]
+    subject2 : Noun := Noun.Cell initialState externalInput2;
+    prog2Result : Result String (Pair Noun Nat) := GasState.runGasState (nock storage (Noun.Cell subject2 incWriteProgram)) initialGas;
     ```
 
 This setup defines the necessary components, initial state, and transaction logic using Nockma Nouns. The simulation is executed, and the resulting message trace is stored in `simulationResult`.

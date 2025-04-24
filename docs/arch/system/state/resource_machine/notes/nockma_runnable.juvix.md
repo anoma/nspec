@@ -40,12 +40,10 @@ instance nockmaRunnable : Runnable Nat Nat Noun NockmaProgramState :=
         -- Convert input key-value pair to a Noun for evaluation
         -- The input value is already a Noun since KVSDatum is Nat
         input_noun := Noun.Cell (Noun.Atom (fst input)) (Noun.Atom (snd input));
-        -- Construct the full input noun for Nockma evaluation:
-        -- *[a b c] where:
-        -- a is the executable program
-        -- b is the current program state
-        -- c is the input key-value pair
-        full_input := Noun.Cell (Noun.Cell executable (NockmaProgramState.current_noun state)) input_noun;
+        -- Construct the Nock subject: [state [key val]]
+        subject := Noun.Cell (NockmaProgramState.current_noun state) input_noun;
+        -- Construct the full input for Nock evaluation: [subject formula]
+        full_input := Noun.Cell subject executable;
         -- Run Nockma evaluation with current gas limit
         result := GasState.runGasState (nock (NockmaProgramState.storage state) full_input) (NockmaProgramState.gas_limit state);
       in case result of {
@@ -119,7 +117,8 @@ This implementation:
 
 2. Implements `executeStep` to:
    - Convert input key-value pair to a Noun (using direct Noun.Atom construction since KVSDatum is Nat)
-   - Construct the full input noun for Nockma evaluation using the executable program and current state
+   - Construct the Nock subject: [state [key val]]
+   - Construct the full input for Nock evaluation: [subject formula]
    - Run one step of Nockma evaluation
    - Parse the result which should be of the form (Noun.Atom new_state output_requests)
    - Parse the output_requests which is a linked list of requests

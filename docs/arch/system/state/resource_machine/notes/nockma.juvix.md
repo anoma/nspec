@@ -12,6 +12,7 @@ search:
     import prelude open;
     import Stdlib.Data.Nat open;
     import Stdlib.Data.List open;
+    import Stdlib.Trait.Show open;
     ```
 
 # Nockma Implementation
@@ -46,6 +47,16 @@ nounEq (n1 n2 : Noun) : Bool :=
   };
 
 instance EqNoun : Eq Noun := Eq.mk@{ isEqual := nounEq };
+
+-- Pretty-printer for Noun
+terminating
+showNoun (n : Noun) : String :=
+  case n of {
+    | Noun.Atom a := natToString a
+    | Noun.Cell l r := "[" ++str (showNoun l) ++str " " ++str (showNoun r) ++str "]"
+  };
+
+instance ShowNoun : Show Noun := Show.mk@{ show := showNoun };
 
 -- Helper to convert storage values to Nouns
 axiom convertToNoun : {val : Type} -> val -> Noun;
@@ -190,12 +201,12 @@ slash {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasSta
       | false := case x == 2 of {
         | true := case subject of { -- Rule: /[2 a b] -> a
           | Noun.Cell a _ := pure a
-          | _ := err "Cannot take slash of atom"
+          | _ := err ("Cannot take slash (/2) of atom: " ++str (showNoun subject))
         }
         | false := case x == 3 of {
           | true := case subject of { -- Rule: /[3 a b] -> b
             | Noun.Cell _ b := pure b
-            | _ := err "Cannot take slash of atom"
+            | _ := err ("Cannot take slash (/3) of atom: " ++str (showNoun subject))
           }
           | false := case (mod x 2) == 0 of {
             | true :=  -- Rule: /[(a + a) b] -> /[2 /[a b]]
@@ -214,7 +225,7 @@ slash {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasSta
         }
       }
     }
-    | _ := err "Slash must be atom"
+    | _ := err ("Slash axis must be atom, got: " ++str (showNoun n))
   };
 
 -- Helper for pound (#) operations
@@ -231,7 +242,7 @@ pound {val : Type} (stor : Storage Nat val) (n : Noun) (b : Noun) (c : Noun) : G
             consume NockOp.Pound >>= \{_ :=
             pound stor (Noun.Atom (div x 2)) (Noun.Cell b slashResult) c
             }}}
-          | _ := err "Invalid pound target"
+          | _ := err ("Invalid pound target (must be cell): " ++str (showNoun c))
         }
         | false := case c of { -- Rule: #[(a + a + 1) b c] -> #[a [/[(a + a) c] b] c]
           | Noun.Cell _ _ :=
@@ -240,11 +251,11 @@ pound {val : Type} (stor : Storage Nat val) (n : Noun) (b : Noun) (c : Noun) : G
             consume NockOp.Pound >>= \{_ :=
             pound stor (Noun.Atom (div x 2)) (Noun.Cell slashResult b) c
             }}}
-          | _ := err "Invalid pound target"
+          | _ := err ("Invalid pound target (must be cell): " ++str (showNoun c))
         }
       }
     }
-    | _ := err "Pound must be atom"
+    | _ := err ("Pound axis must be atom, got: " ++str (showNoun n))
   };
 
 terminating
@@ -263,7 +274,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
         nock stor (Noun.Cell a c) >>= \{r2 :=
         nock stor (Noun.Cell r1 r2)
         }}
-      | _ := err "Invalid apply args"
+      | _ := err ("Invalid apply (2) args (must be cell): " ++str (showNoun args))
     }
 
     -- *[a 3 b] -> ?*[a b]
@@ -277,22 +288,21 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
           | _ := pure (Noun.Atom 1)
         }
         }
-      | _ := err "Invalid cell test args"
+      | _ := err ("Invalid cell test (3) args (must be cell): " ++str (showNoun args))
     }
 
     -- *[a 4 b] -> +*[a b]
-    -- +[a b] -> +[a b]
+    -- +[a b] -> error (specs say this should loop infinitely?)
     -- +a -> 1 + a
-    | NockOp.Increment := case args of {
-      | Noun.Cell b _ :=
-        nock stor (Noun.Cell a b) >>= \{res :=
-        case res of {
-          | (Noun.Atom n) := pure (Noun.Atom (suc n))
-          | x := pure x  -- +[a b] -> +[a b] case
+    | NockOp.Increment := 
+        -- First, evaluate the argument expression *[subject args]
+        nock stor (Noun.Cell a args) >>= \{res :=
+          -- Then, check if the result is an atom and increment it
+          case res of {
+            | (Noun.Atom n) := pure (Noun.Atom (suc n))
+            | x := err ("Increment (4) target must be atom, got: " ++str (showNoun x))
+          }
         }
-        }
-      | _ := err "Invalid increment args"
-    }
 
     -- *[a 5 b c] -> =*[a b] *[a c]
     -- =[a a] -> 0
@@ -306,7 +316,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
               | false := 1
             }))
         }}
-      | _ := err "Invalid equality args"
+      | _ := err ("Invalid equality (5) args (must be cell): " ++str (showNoun args))
     }
 
     -- *[a 6 b c d] -> *[a *[[c d] 0 *[[2 3] 0 *[a 4 4 b]]]]
@@ -317,7 +327,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
         nock stor (Noun.Cell (Noun.Cell c d) (Noun.Cell (Noun.Atom 0) r2)) >>= \{r3 :=
         nock stor (Noun.Cell a r3)
         }}}
-      | _ := err "Invalid if-then-else args"
+      | _ := err ("Invalid if-then-else (6) args (must be [b [c d]]): " ++str (showNoun args))
     }
 
     -- *[a 7 b c] -> *[*[a b] c]
@@ -326,7 +336,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
         nock stor (Noun.Cell a b) >>= \{r :=
         nock stor (Noun.Cell r c)
         }
-      | _ := err "Invalid compose args"
+      | _ := err ("Invalid compose (7) args (must be cell): " ++str (showNoun args))
     }
 
     -- *[a 8 b c] -> *[[*[a b] a] c]
@@ -335,7 +345,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
         nock stor (Noun.Cell a b) >>= \{r :=
         nock stor (Noun.Cell (Noun.Cell r a) c)
         }
-      | _ := err "Invalid extend args"
+      | _ := err ("Invalid extend (8) args (must be cell): " ++str (showNoun args))
     }
 
     -- *[a 9 b c] -> *[*[a c] 2 [0 1] 0 b]
@@ -345,7 +355,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
         let formula := Noun.Cell (Noun.Atom 2) (Noun.Cell (Noun.Cell (Noun.Atom 0) (Noun.Atom 1)) (Noun.Cell (Noun.Atom 0) b)) in
         nock stor (Noun.Cell core formula)
         }
-      | _ := err "Invalid invoke args"
+      | _ := err ("Invalid invoke (9) args (must be cell): " ++str (showNoun args))
     }
 
     -- *[a 10 [b c] d] -> #[b *[a c] *[a d]]
@@ -355,7 +365,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
         nock stor (Noun.Cell a d) >>= \{r2 :=
         pound stor b r1 r2
         }}
-      | _ := err "Invalid pound args"
+      | _ := err ("Invalid pound (10) args (must be [[b c] d]): " ++str (showNoun args))
     }
 
     -- *[a 11 [b c] d] -> *[[*[a c] *[a d]] 0 3]
@@ -366,8 +376,8 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
         nock stor (Noun.Cell a d) >>= \{r2 :=
         nock stor (Noun.Cell (Noun.Cell r1 r2) (Noun.Cell (Noun.Atom 0) (Noun.Atom 3)))
         }}
-      | Noun.Cell _ c := nock stor (Noun.Cell a c)
-      | _ := err "Invalid pure pound args"
+      | Noun.Cell b c := nock stor (Noun.Cell a c) -- Corrected to take 'a' as subject
+      | _ := err ("Invalid match (11) args (must be cell): " ++str (showNoun args))
     }
 
     -- *[a 12 b c d] -> result <- SCRY b c; *[a result d]
@@ -393,13 +403,13 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
                             GasState.runGasState (nock stor (Noun.Cell a (Noun.Cell scryResult d))) gas
                             }
                           }
-                      | _ := err "Scry address must be atom"
+                      | _ := err ("Scry address must be atom, got: " ++str (showNoun addr))
                     }
                   }
-              | _ := err "Scry type must be atom"
+              | _ := err ("Scry type must be atom, got: " ++str (showNoun opcode))
             }
           }
-      | _ := err "Invalid scry args"
+      | _ := err ("Invalid scry (12) args (must be [b [c d]]): " ++str (showNoun args))
     }
   };
 
@@ -408,7 +418,7 @@ terminating
 nock {val : Type} (stor : Storage Nat val) (input : Noun) : GasState Noun :=
   case input of {
     -- Rule: *a -> *a
-    | Noun.Atom _ := pure input
+    | Noun.Atom n := err ("Cannot evaluate atom as program: " ++str (showNoun (Noun.Atom n)))
 
     | Noun.Cell a b := case b of {
 
@@ -422,12 +432,13 @@ nock {val : Type} (stor : Storage Nat val) (input : Noun) : GasState Noun :=
 
         | Noun.Atom n := case parseOp n of {
           | some opcode := consume opcode >>= \{_ :=
-              evalOp stor opcode a rest
+              evalOp stor opcode a rest -- Evaluate [subject rest] with opcode n
             }
-          | none := err "Invalid operation"
+          | none := err ("Invalid operation code: " ++str (natToString n) ++str " in formula: " ++str (showNoun b))
         }
       }
-      | _ := err "Invalid Nock expression"
+      -- Rule: *[a b] where b is an atom is an error
+      | Noun.Atom bn := err ("Formula cannot be an atom: " ++str (showNoun (Noun.Atom bn)) ++str " in input: " ++str (showNoun input))
     }
   };
 ```
