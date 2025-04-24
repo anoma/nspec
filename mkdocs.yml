@@ -337,11 +337,7 @@ theme:
     # - toc.integrate
 plugins:
   - search:
-      lang: en
-      pipeline:
-        - stemmer
-        - stopWordFilter
-        - trimmer
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   - glightbox
   - juvix # Provided with mkdocs-juvix-plugin
   - todos
@@ -352,6 +348,7 @@ plugins:
         - png
       FileTypeOverrides:
         mermaid: svg
+  - drawio
   - tags:
       tags_file: indexes/tags.md
   - bibtex:

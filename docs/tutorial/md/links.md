@@ -106,4 +106,3 @@ Captions can include icons, for example:
 === "Preview"
 
     [[Home | :material-link: this is a caption with an icon ]]
-

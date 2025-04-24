@@ -39,4 +39,3 @@ classDiagram
 ## Used in
 1. Resource component: `quantity`
 2. `DeltaHash`
-

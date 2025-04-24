@@ -1,38 +1,80 @@
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
 repos:
+  # General code quality checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-        exclude: ^[art.bib|mkdocs]*
-      - id: check-added-large-files
+      - id: check-merge-conflict
       - id: debug-statements
       - id: detect-private-key
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        name: isort (python)
-        args: ["--profile", "black", "--filter-files"]
-  - repo: https://github.com/psf/black
-    rev: 24.8.0
-    hooks:
-      - id: black
-  - repo: local
-    hooks:
-      - id: snake_case_filenames
-        name: snake_case_filenames
-        entry: filenames must be lower
-        language: fail
-        files: '[^a-z0-9._/]'
-        exclude: '.pre-commit.*|^overrides.*|^docs/(assets|images)/|^formal.*|.*Package.juvix.*|^\.github/.*|CITATION|LICENSE|Makefile|README\.md|VERSION|.changelog/.*'
+      - id: check-toml
+        files: \.toml$
+      - id: check-yaml
+        files: \.yml$
+        args: [ '--unsafe' ] # for mkdocs.yml
+      - id: check-vcs-permalinks
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [ --markdown-linebreak-ext=md ]
+        exclude: '\.svg$'
+
+  # Binary file restrictions
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 3.0.0
     hooks:
       - id: forbid-binary
         exclude_types: [png]
         exclude: docs/assets/|docs/overrides/
-  - repo: https://github.com/google/yamlfmt
-    rev: v0.13.0
+
+  # Python code formatting
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
     hooks:
-      - id: yamlfmt
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black", "--filter-files"]
+
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+
+  # Dependency management
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.6.16
+    hooks:
+      - id: uv-sync
+        args: ["--locked", "--all-packages"]
+      - id: uv-lock
+      - id: uv-export
+
+  # Commit quality and standards
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.6.0 # automatically updated by Commitizen
+    hooks:
+      - id: commitizen
+      - id: commitizen-branch
+        stages:
+          - post-commit
+
+  # Custom local hooks
+  - repo: local
+    hooks:
+      - id: snake_case_filenames
+        name: snake_case_filenames
+        entry: python -c "import sys, re; sys.exit(1 if any(not re.match(r'^[a-z0-9_.-]+$', f.split('/')[-1]) for f in sys.argv[1:]) else 0)"
+        language: python
+        types: [file]
+        exclude: '.pre-commit.*|^overrides.*|^docs/(assets|images)/|^formal.*|.*Package.juvix.*|^\.github/.*|CITATION|LICENSE|Makefile|README\.md|VERSION|.changelog/.*'
+
+      - id: juvix-typecheck
+        name: typecheck
+        entry: juvix --log-level error typecheck docs/everything.juvix.md
+        language: system
+        pass_filenames: false
+        verbose: true
+        always_run: true
+        stages: [pre-commit]

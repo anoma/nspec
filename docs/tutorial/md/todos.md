@@ -28,4 +28,3 @@ The above renders as:
 !!! info
 
     Be aware that todos are automatically removed from the online version. If you want to keep them, set `todos: True` in the front matter.
-

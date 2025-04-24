@@ -139,5 +139,3 @@ type VerificationMsg :=
 - [[Verification Configuration]]
 - [[Verification Environment]]
 - [[Verification Behaviour]]
-
-

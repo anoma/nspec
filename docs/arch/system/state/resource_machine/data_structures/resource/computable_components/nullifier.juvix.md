@@ -19,5 +19,3 @@ A resource can be consumed only once. Nullifiers of consumed resources are store
 
 !!! note
     Every time a resource is consumed, it has to be checked that the resource existed before (the resource's commitment is in the commitment tree) and has not been consumed yet (the resource's nullifier is not in the nullifier set).
-
-

@@ -63,5 +63,3 @@ type KindDistinct T :=
 2. Compliance unit delta
 3. Action delta
 4. Transaction delta
-
-

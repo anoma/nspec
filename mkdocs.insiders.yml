@@ -5,11 +5,7 @@ plugins:
   - offline:
       enabled: !ENV [OFFLINE, false]
   - search:
-      lang: en
-      pipeline:
-        - stemmer
-        - stopWordFilter
-        - trimmer
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   - social
   - tags:
       tags_file: ./indexes/tags.md
@@ -25,7 +21,8 @@ plugins:
         - png
         - svg
       FileTypeOverrides:
-        mermaid: png
+        mermaid: svg
+  - drawio
   - bibtex:
       bib_dir: "docs/references"
   - git-revision-date-localized:
