@@ -25,17 +25,6 @@ plugins:
   - drawio
   - bibtex:
       bib_dir: "docs/references"
-  - git-revision-date-localized:
-      type: timeago
-      custom_format: "%d. %B %Y"
-      timezone: Europe/Oslo
-      locale: en
-      fallback_to_build_date: false
-      enable_creation_date: true
-      exclude:
-        - index.md
-      enabled: !ENV [CI, true]
-      strict: true
   - macros:
       module_name: macros
       j2_block_start_string: "{@@"
