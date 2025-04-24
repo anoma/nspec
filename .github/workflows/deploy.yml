@@ -9,7 +9,7 @@ env:
   GH_TOKEN: ${{ github.token }}
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
-  INSIDERS_VERSION: 9.5.49-insiders-4.53.14
+  INSIDERS_VERSION: 9.6.12-insiders-4.53.16
   JUVIX_VERSION: v0.6.10
   JUST_VERSION: 1.40.0
   GIT_COMMITTER_EMAIL: arts@heliax.dev
