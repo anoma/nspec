@@ -29,22 +29,10 @@ Actions partition the state change induced by a transaction and limit the resour
 
 ## Interface
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion)), appWitness: BitString) -> Action`
 2. `verify(Action) -> Bool`
 3. `delta(Action) -> DeltaHash`
 4. `to_instance(Action, Tag) -> Maybe ResourceLogicProvingSystem.Instance`
-=======
-1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion))) -> Action`
-=======
-1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot), List (BitString, DeletionCriterion))), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion)), appWitness: BitString) -> Action`
->>>>>>> f76a58fd99 (Remove memo, add global check notes, more vk hashes renaming)
-2. `verify(Action) -> Bool`
-3. `delta(Action) -> DeltaHash`
-4. `to_instance(Action, Tag) -> ResourceLogicProvingSystem.Instance`
->>>>>>> 749587b6ac (Resolve conflicts with main)
-
 
 ## Proofs
 For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [[Resource logic proof | here]].
