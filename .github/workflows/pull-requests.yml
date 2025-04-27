@@ -8,12 +8,11 @@ on:
 env:
   CI: true
   GH_TOKEN: ${{ github.token }}
-  PYTHON_VERSION: 3.x
-  POETRY_VERSION: 1.8.3
   # NOTE: insiders version must correspond to the mkdocs-material version in pyproject.toml
   #       and must be updated in all .yml files in this directory
-  INSIDERS_VERSION: 9.5.49-insiders-4.53.14
+  INSIDERS_VERSION: 9.6.12-insiders-4.53.16
   JUVIX_VERSION: v0.6.10
+  JUST_VERSION: 1.40.0
   GIT_COMMITTER_EMAIL: arts@heliax.dev
   GIT_COMMITTER_NAME: Anoma Research
   SHOW_TODOS_IN_MD: true
@@ -39,12 +38,73 @@ jobs:
         id: pre-commit
         with:
           extra_args: --all-files --show-diff-on-failure
+        env:
+          SKIP: typecheck
         continue-on-error: false
       - name: Check for pre-commit changes
         id: git_diff
         run: |
           git diff --exit-code
-  build-and-deploy:
+
+  build-basic-without-insiders-and-juvix:
+    runs-on: ubuntu-latest
+    concurrency: ci-basic-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Install Linux dependencies
+        run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - uses: extractions/setup-just@v2
+        with:
+          just-version: ${{ env.JUST_VERSION }}  # optional semver specification, otherwise latest
+
+      - run: uv sync
+
+      - name: Build basic MkDocs
+        id: mkdocs-basic
+        run: |
+          uv run mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
+        env:
+          SITE_DIR: pr-${{ github.event.pull_request.number }}
+          SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
+          SITE_VERSION: (PR ${{ github.event.pull_request.number }})
+          PROCESS_JUVIX: false
+          TIMELIMIT: 100
+
+      - name: The build failed comment
+        if: failure()
+        run: |
+          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
+
+      - name: Deploy basic MkDocs
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          token: ${{ secrets.PAGES_TOKEN }}
+          repository-name: anoma/specs.anoma.net
+          branch: main
+          folder: pr-${{ github.event.pull_request.number }}
+          target-folder: pr-${{ github.event.pull_request.number }}/basic
+          clean: false
+        continue-on-error: false
+
+      - id: comment-success-basic
+        if: success()
+        continue-on-error: true
+        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
+        env:
+          MSG: "Success! Preview of basic version available at https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/basic/."
+
+  build-and-deploy-with-insiders-and-juvix:
     runs-on: ubuntu-latest
     concurrency: ci-${{ github.ref }}
     steps:
@@ -69,62 +129,48 @@ jobs:
           cache: enable
           rename-to: juvix
           chmod: 0755
+
       - uses: actions/cache@v4
         with:
           key: juvix-cache-${{ hashFiles('**/*.juvix.md') }}-${{ hashFiles('**/*.juvix') }}
           path: .juvix-build
           restore-keys: |
             juvix-cache-
+
       - id: juvix-version
         name: See the dev version in the documentation
         run: |
           juvix --version
-      - name: typecheck docs
-        continue-on-error: true
-        run: |
-          juvix typecheck docs/everything.juvix.md
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v3
-        with:
-          poetry-version: ${{ env.POETRY_VERSION }}
-      - name: Setup a local virtual environment (if no poetry.toml file)
-        run: |
-          poetry config virtualenvs.create true --local
-          poetry config virtualenvs.in-project true --local
-      - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
-      - name: Cache .cache
-        uses: actions/cache@v4
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-material-
-      - name: Cache .cache-juvix-mkdocs
-        uses: actions/cache@v4
-        with:
-          key: .cache-juvix-mkdocs-${{ env.cache_id }}
-          path: .cache-juvix-mkdocs
-          restore-keys: |
-            .cache-juvix-mkdocs-
+
       - name: Install Linux dependencies
         run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
-      - name: Install Python dependencies
-        run: poetry install
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - uses: extractions/setup-just@v2
+        with:
+          just-version: 1.40.0  # optional semver specification, otherwise latest
+
+      - run: just setup-repo
+
       - name: get the last commit short hash
         id: commit
         run: echo "::set-output name=commit::$(git rev-parse --short HEAD)"
+
       - name: get the last commit in main
         id: main-commit
         run: echo "::set-output name=commit::$(git rev-parse --short main)"
+
+      - name: Install material insiders version
+        run: uv add git+https://${{ secrets.INSIDERS_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
+
       - name: Build MkDocs with material insiders version
         id: mkdocs-insiders
         run: |
-          pip install git+https://${{ secrets.INSIDERS_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git@${INSIDERS_VERSION}
-          poetry run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
+          uv run mkdocs build --clean --config-file mkdocs.insiders.yml --site-dir $SITE_DIR
         env:
           SITE_DIR: pr-${{ github.event.pull_request.number }}
           SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
@@ -133,13 +179,16 @@ jobs:
           REMOVE_CACHE: true
           PROCESS_JUVIX: true
           TIMELIMIT: 100
+
       - if: steps.mkdocs-insiders.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed with MkDocs Insiders. Please check the logs."
+
       - if: steps.mkdocs-insiders.outcome == 'success'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "Builds using material and material-insiders theme succeed. We are now deploying the preview"
         continue-on-error: true
+
       - name: Deploy MkDocs with insiders theme
         if: success()
         uses: JamesIves/github-pages-deploy-action@v4
@@ -151,86 +200,27 @@ jobs:
           target-folder: pr-${{ github.event.pull_request.number }}
           clean: false
         continue-on-error: false
+
       - id: comment-success-insiders
         if: success()
         continue-on-error: true
         run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
           MSG: "Success! Preview available at https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/."
-      - id: typecheck-docs
-        run: |
-          juvix typecheck docs/everything.juvix.md
+
+      - name: typecheck
         continue-on-error: true
-      - if: steps.typecheck-docs.outcome == 'failure'
+        run: |
+          juvix --log-level error typecheck docs/everything.juvix.md
+
+      - if: steps.typecheck.outcome == 'failure'
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
         env:
           MSG: "The typecheck failed. Please check the logs. However, the preview is available at https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/."
+
       - name: Failed preview build comment
         if: failure()
         run: |
           gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The preview of this PR failed to build. Check the logs."
         continue-on-error: true
-  build-basic: # without insiders and juvix
-    runs-on: ubuntu-latest
-    concurrency: ci-basic-${{ github.ref }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-          fetch-depth: 0
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v3
-        with:
-          poetry-version: ${{ env.POETRY_VERSION }}
-      - name: Setup a local virtual environment (if no poetry.toml file)
-        run: |
-          poetry config virtualenvs.create true --local
-          poetry config virtualenvs.in-project true --local
-      - run: echo "cache_id=$(date --utc '+%V')-${{ hashFiles( '**/poetry.lock' )}}-${{ hashFiles( '**/*.py' )}}" >> $GITHUB_ENV
-      - name: Cache .cache
-        uses: actions/cache@v4
-        with:
-          key: mkdocs-basic-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-basic-material-
-      - name: Install Linux dependencies
-        run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev pngquant graphviz
-      - name: Install Python dependencies
-        run: poetry install
-      - name: Build basic MkDocs
-        id: mkdocs-basic
-        run: |
-          poetry run mkdocs build --clean --config-file mkdocs.yml --site-dir $SITE_DIR
-        env:
-          SITE_DIR: pr-${{ github.event.pull_request.number }}
-          SITE_URL: https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/
-          SITE_VERSION: (PR ${{ github.event.pull_request.number }})
-          PROCESS_JUVIX: false
-          TIMELIMIT: 100
-      - name: The build failed comment
-        if: failure()
-        run: |
-          gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "The build failed. Please check the logs."
-      - name: Deploy basic MkDocs
-        if: success()
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          token: ${{ secrets.PAGES_TOKEN }}
-          repository-name: anoma/specs.anoma.net
-          branch: main
-          folder: pr-${{ github.event.pull_request.number }}
-          target-folder: pr-${{ github.event.pull_request.number }}/basic
-          clean: false
-        continue-on-error: false
-      - id: comment-success-insiders
-        if: success()
-        continue-on-error: true
-        run: gh pr -R anoma/nspec comment ${{ github.event.pull_request.number }} --edit-last --body "$MSG"
-        env:
-          MSG: "Success! Preview of basic version available at https://specs.anoma.net/pr-${{ github.event.pull_request.number }}/basic/."

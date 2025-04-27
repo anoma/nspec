@@ -58,4 +58,3 @@ URL links (`[target](URL)`) only for external material
 The specification should keep design decisions to a minimum, but design
 decisions that are left to the potential implementer _on purpose_ should be
 discussed in footnotes or notes.
-

@@ -1,1 +1,0 @@
-  -  [**#268**](https://github.com/anoma/nspec/pull/268): Add to [[Anoma Configuration]] section, the [[Identity Subsystem]].

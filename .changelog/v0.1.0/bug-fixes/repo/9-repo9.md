@@ -1,1 +1,0 @@
-  - [**#9**](https://github.com/anoma/nspec/pull/9): Add batch of fixes

@@ -812,4 +812,3 @@ mempoolWorkerBehaviour : MempoolWorkerBehaviour String String ByteString String 
   };
 ```
 <!-- --8<-- [end:mempoolWorkerBehaviour] -->
-

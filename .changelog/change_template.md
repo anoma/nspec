@@ -1,1 +1,0 @@
-  - {{#if change_id}} [**#{{{ change_id }}}**]({{{ change_url }}}):{{/if}} {{{ message }}}{{#if issue}} [{{{ issue }}}]({{{ project_url }}}/issues/{{{ issue }}}){{/if}}

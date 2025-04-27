@@ -1,1 +1,0 @@
-  -  [**#308**](https://github.com/anoma/nspec/pull/308): The Little Anomian
