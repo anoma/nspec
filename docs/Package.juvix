@@ -11,4 +11,3 @@ package : Package :=
       [github "anoma" "juvix-stdlib" "v0.11.0"]
   };
 -- --8<-- [end:package]
-

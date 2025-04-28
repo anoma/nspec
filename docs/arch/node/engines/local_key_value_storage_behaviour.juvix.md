@@ -152,7 +152,7 @@ getValueAction
     | some emsg :=
       case emsg of {
         | EngineMsg.mk@{msg := Anoma.Msg.MsgLocalKVStorage (LocalKVStorageMsg.GetValueRequest req)} :=
-          some ActionEffect.mkActionEffect@{
+          some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -235,7 +235,7 @@ setValueAction
                 }))
             }};
             notificationMsgs := map notificationMsg (getNotificationTargets key);
-          in some ActionEffect.mkActionEffect@{
+          in some ActionEffect.mk@{
             env := newEnv;
             msgs := responseMsg :: notificationMsgs;
             timers := [];
@@ -308,7 +308,7 @@ deleteValueAction
                 }))
             }};
             notificationMsgs := map notificationMsg (getNotificationTargets key);
-          in some ActionEffect.mkActionEffect@{
+          in some ActionEffect.mk@{
             env := newEnv;
             msgs := responseMsg :: notificationMsgs;
             timers := [];
@@ -410,7 +410,7 @@ getValueGuard
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{msg := Anoma.Msg.MsgLocalKVStorage (LocalKVStorageMsg.GetValueRequest _)} :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := getValueActionLabel;
         args := [];
       }
@@ -433,7 +433,7 @@ setValueGuard
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{msg := Anoma.Msg.MsgLocalKVStorage (LocalKVStorageMsg.SetValueRequest _)} :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := setValueActionLabel;
         args := [];
       }
@@ -456,7 +456,7 @@ deleteValueGuard
   : Option LocalKVStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{msg := Anoma.Msg.MsgLocalKVStorage (LocalKVStorageMsg.DeleteValueRequest _)} :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := deleteValueActionLabel;
         args := [];
       }

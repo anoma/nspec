@@ -56,11 +56,17 @@ import Stdlib.Trait.Applicative as Applicative
   open using
   { Applicative;
   } public;
+import Stdlib.Trait.Applicative as Applicative
+  open using
+  { Applicative;
+  } public;
 ```
 
 ### `Monad`
 
 ```juvix
+import Stdlib.Trait.Monad as Monad
+  open using {Monad} public;
 import Stdlib.Trait.Monad as Monad
   open using {Monad} public;
 ```
@@ -86,6 +92,7 @@ Two-argument functor
 trait
 type Bifunctor (F : Type -> Type -> Type) :=
   mk@{
+  mk@{
     bimap {A B C D} :  (A -> C) -> (B -> D) -> F A B -> F C D
   };
 ```
@@ -97,6 +104,7 @@ Product with associators
 ```
 trait
 type AssociativeProduct (F : Type -> Type -> Type) :=
+  mk@{
   mk@{
     assocLeft {A B C} : F A (F B C) -> F (F A B) C;
     assocRight {A B C} : F (F A B) C -> F A (F B C)
@@ -111,6 +119,7 @@ Product with commuters
 trait
 type CommutativeProduct (F : Type -> Type -> Type) :=
   mk@{
+  mk@{
     swap {A B} : F A B -> F B A;
   };
 ```
@@ -123,6 +132,7 @@ Product with units
 trait
 type UnitalProduct U (F : Type -> Type -> Type) :=
   mk@{
+  mk@{
     unitLeft {A} : A -> F U A;
     unUnitLeft {A} : F U A -> A;
     unitRight {A} : A -> F A U;
@@ -134,6 +144,12 @@ type UnitalProduct U (F : Type -> Type -> Type) :=
 
 
 ```juvix
+import Stdlib.Trait.Traversable as Traversable
+  open using {
+    Traversable;
+    sequenceA;
+    traverse;
+    } public;
 import Stdlib.Trait.Traversable as Traversable
   open using {
     Traversable;
@@ -638,6 +654,7 @@ swapEither {A B} (e : Either A B) : Either B A :=
 ```
 instance
 EitherCommutativeProduct : CommutativeProduct Either :=
+  CommutativeProduct.mk@{
   CommutativeProduct.mk@{
     swap := swapEither;
   };
@@ -1202,9 +1219,8 @@ The type `Set A` represents a collection of unique elements of type `A`. Used
 for sets of values.
 
 ```juvix
-import Stdlib.Data.Set as Set public;
-open Set using {
-    Set;
+import Stdlib.Data.Set as Set open using {
+    Set; module Set;
     difference;
     union;
     eqSetI;
@@ -1232,7 +1248,7 @@ Collapse a set of sets into a set
 
 ```juvix
 setJoin {A} {{Ord A}} (sets : Set (Set A)) : Set A :=
-  for (acc := Set.Set.empty) (innerSet in sets) {
+  for (acc := Set.empty) (innerSet in sets) {
     Set.union acc innerSet
   };
 ```
@@ -1243,7 +1259,7 @@ setJoin {A} {{Ord A}} (sets : Set (Set A)) : Set A :=
 --- Computes the disjoint union of two ;Set;s.
 disjointUnion {T} {{Ord T}} (s1 s2 : Set T) : Result (Set T) (Set T) :=
   case Set.intersection s1 s2 of
-    | Set.Set.empty := ok (Set.union s1 s2)
+    | Set.empty := ok (Set.union s1 s2)
     | s := error s;
 ```
 
@@ -1274,13 +1290,13 @@ cartesianProduct
   let
     -- For a fixed element from set1, create a set of all pairs with elements from s2
     pairsForElement (a : A) : Set (Pair A B) :=
-      for (acc := Set.Set.empty) (b in s2) {
+      for (acc := Set.empty) (b in s2) {
         Set.insert (mkPair a b) acc
       };
 
     -- Create set of sets, each containing pairs for one element from s1
     pairSets : Set (Set (Pair A B)) :=
-      for (acc := Set.Set.empty) (a in s1) {
+      for (acc := Set.empty) (a in s1) {
         Set.insert (pairsForElement a) acc
       };
   in setJoin pairSets;
@@ -1431,19 +1447,19 @@ mapPartition
 Split a map according to a predicate that can examine both key and value.
 Returns a pair of maps, (matching, non-matching).
 
-      ```juvix
-      partitionWithKey
-        {Key Value}
-        {{Ord Key}}
-        (predicate : Key -> Value -> Bool)
-        (map : Map Key Value)
-        : Pair (Map Key Value) (Map Key Value) :=
-        for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
-          if
-            | predicate k v := Map.insert k v matching, nonMatching
-            | else := matching, Map.insert k v nonMatching
-        };
-      ```
+```juvix
+partitionWithKey
+  {Key Value}
+  {{Ord Key}}
+  (predicate : Key -> Value -> Bool)
+  (map : Map Key Value)
+  : Pair (Map Key Value) (Map Key Value) :=
+  for (matching, nonMatching := Map.empty, Map.empty) (k, v in map) {
+    if
+      | predicate k v := Map.insert k v matching, nonMatching
+      | else := matching, Map.insert k v nonMatching
+  };
+```
 
 ### `mapOption`
 

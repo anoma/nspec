@@ -104,10 +104,10 @@ module executor_config_example;
       cfg := ExecutorLocalCfg.mk@{
         timestamp := 0;
         executable := Noun.Atom 0;
-        lazy_read_keys := Set.Set.empty;
-        eager_read_keys := Set.Set.empty;
-        will_write_keys := Set.Set.empty;
-        may_write_keys := Set.Set.empty;
+        lazy_read_keys := Set.empty;
+        eager_read_keys := Set.empty;
+        will_write_keys := Set.empty;
+        may_write_keys := Set.empty;
         worker := mkPair none "";
         issuer := mkPair none "";
         keyToShard := \{_ := mkPair none "shard"}

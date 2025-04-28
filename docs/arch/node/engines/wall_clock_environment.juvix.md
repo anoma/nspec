@@ -94,7 +94,7 @@ module wall_clock_environment_example;
         currentTime := 0
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

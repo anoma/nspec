@@ -91,7 +91,7 @@ exRouterEnv : RouterEnv :=
   EngineEnv.mk@{
     localState := RouterLocalState.mk;
     mailboxCluster := Map.empty;
-    acquaintances := Set.Set.empty;
+    acquaintances := Set.empty;
     timers := []
   };
 

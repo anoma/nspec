@@ -159,4 +159,3 @@ where [[Mempool Worker Environment#mempoolWorkerEnv|`mempoolWorkerEnv`]] is defi
 and [[Mempool Worker Behaviour#mempoolWorkerBehaviour|`mempoolWorkerBehaviour`]] is defined as follows:
 
 --8<-- "./docs/arch/node/engines/mempool_worker_behaviour.juvix.md:mempoolWorkerBehaviour"
-

@@ -113,7 +113,7 @@ module local_ts_storage_environment_example;
         localClock := 0
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

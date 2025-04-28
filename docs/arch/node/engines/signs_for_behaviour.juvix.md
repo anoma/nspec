@@ -16,6 +16,7 @@ tags:
     module arch.node.engines.signs_for_behaviour;
 
     import prelude open;
+    import Stdlib.Data.Set as Set;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;
@@ -170,7 +171,7 @@ signsForQueryAction
           signsFor := hasEvidence;
           err := none
         };
-      in some ActionEffect.mkActionEffect@{
+      in some ActionEffect.mk@{
         env := env;
         msgs := [EngineMsg.mk@{
           sender := getEngineIDFromEngineCfg cfg;
@@ -227,7 +228,7 @@ submitEvidenceAction
                 responseMsg := ReplySubmitSignsForEvidence.mkReplySubmitSignsForEvidence@{
                   err := some "Evidence already exists."
                 };
-              in some ActionEffect.mkActionEffect@{
+              in some ActionEffect.mk@{
                 env := env;
                 msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg cfg;
@@ -250,7 +251,7 @@ submitEvidenceAction
                 responseMsg := ReplySubmitSignsForEvidence.mkReplySubmitSignsForEvidence@{
                   err := none
                 };
-              in some ActionEffect.mkActionEffect@{
+              in some ActionEffect.mk@{
                 env := newEnv;
                 msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg cfg;
@@ -267,7 +268,7 @@ submitEvidenceAction
             responseMsg := ReplySubmitSignsForEvidence.mkReplySubmitSignsForEvidence@{
               err := some "Invalid evidence provided."
             };
-          in some ActionEffect.mkActionEffect@{
+          in some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -324,7 +325,7 @@ queryEvidenceAction
           evidence := relevantEvidence;
           err := none
         };
-      in some ActionEffect.mkActionEffect@{
+      in some ActionEffect.mk@{
         env := env;
         msgs := [EngineMsg.mk@{
           sender := getEngineIDFromEngineCfg cfg;
@@ -429,7 +430,7 @@ signsForQueryGuard
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgSignsFor (SignsForMsg.SignsForRequest _);
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := signsForQueryActionLabel;
         args := []
       }
@@ -453,7 +454,7 @@ submitEvidenceGuard
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceRequest _);
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := submitEvidenceActionLabel;
         args := []
       }
@@ -477,7 +478,7 @@ queryEvidenceGuard
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceRequest _);
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := queryEvidenceActionLabel;
         args := []
       }

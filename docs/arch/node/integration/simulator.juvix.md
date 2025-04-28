@@ -62,7 +62,7 @@ executeGuardOutput
   (trigger : TimestampedTrigger H AM)
   : Option (ActionEffect S B H AM AC AE) :=
   case output of {
-    | GuardOutput.mkGuardOutput@{action := ActionExec.Seq actions; args := args} :=
+    | GuardOutput.mk@{action := ActionExec.Seq actions; args := args} :=
       let
         -- Execute each action in sequence
         terminating
@@ -70,7 +70,7 @@ executeGuardOutput
           case acts of {
             | [] := none
             | act :: rest :=
-              case act (ActionInput.mkActionInput@{
+              case act (ActionInput.mk@{
                 args := args;
                 cfg := Engine.cfg eng;
                 env := currentEnv;
@@ -80,7 +80,7 @@ executeGuardOutput
                 | some effect :=
                   case executeAction rest (ActionEffect.env effect) of {
                     | none := some effect
-                    | some nextEffect := some ActionEffect.mkActionEffect@{
+                    | some nextEffect := some ActionEffect.mk@{
                         env := ActionEffect.env nextEffect;
                         msgs := ActionEffect.msgs effect ++ ActionEffect.msgs nextEffect;
                         timers := ActionEffect.timers effect ++ ActionEffect.timers nextEffect;

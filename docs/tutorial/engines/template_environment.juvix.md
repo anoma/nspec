@@ -224,7 +224,7 @@ module template_environment_example;
         }
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     };
 end;

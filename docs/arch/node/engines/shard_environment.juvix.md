@@ -72,7 +72,7 @@ The shard engine does not require complex mailbox states. Therefore, we define t
 
 <!-- --8<-- [start:ShardLocalState] -->
 ```juvix
-type ShardLocalState := mk @{
+type ShardLocalState := mk@{
   dagStructure : DAGStructure;
   anchors : List NarwhalBlock
 };
@@ -127,7 +127,7 @@ module shard_environment_example;
         anchors := []
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

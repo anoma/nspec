@@ -271,7 +271,7 @@ decryptAction
                 err := none
               }
           }
-        in some ActionEffect.mkActionEffect@{
+        in some ActionEffect.mk@{
           env := env;
           msgs := [
             EngineMsg.mk@{
@@ -371,7 +371,7 @@ decryptGuard
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgDecryption (DecryptionMsg.Request _);
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := decryptActionLabel;
         args := []
       }

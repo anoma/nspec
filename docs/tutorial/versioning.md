@@ -43,6 +43,7 @@ MAJOR.MINOR.PATCH
 - [ ] Update `mkdocs.yml`
 - [ ] Update `docs/Package.juvix`
 - [ ] Update `docs/references/ref.bib`
+- [ ] Make sure to run `just sync` to update the dependencies and `just build` to check that the code is still typechecking.
 - [ ] Git tag the new version
 - [ ] Release a new changelog entry
 
@@ -68,11 +69,11 @@ package : Package :=
   };
 ```
 
-### Update `docs/references/references.bib`
+### Update `docs/ref.bib`
 
-Update the version of the `nspec` package in the `references.bib` file.
+Update the version of the `nspec` package in the `ref.bib` file.
 
-```diff title="docs/references/references.bib"
+```diff title="docs/ref.bib"
 @software{nspec,
   author = {Anoma},
   title = {Anoma Specification},
@@ -92,9 +93,6 @@ Update the version of the `nspec` package in the `references.bib` file.
 ## Update `pyproject.toml`
 
 ```diff title="pyproject.toml"
-[tool.poetry]
-package-mode = true
-name = "nspec"
 - version = "0.1.0"
 + version = "0.1.1"
 ```

@@ -152,7 +152,7 @@ getDataAction
       } :=
       let result := queryDB (LocalTSStorageLocalState.db local) (GetDataTSStorageDBRequest.query request);
       in case result of {
-        | some data := some ActionEffect.mkActionEffect@{
+        | some data := some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -241,13 +241,13 @@ recordDataAction
                 }))
             }};
             notificationMsgs := map notificationMsg (getNotificationTargets query);
-          in some ActionEffect.mkActionEffect@{
+          in some ActionEffect.mk@{
               env := newEnv;
               msgs := responseMsg :: notificationMsgs;
               timers := [];
               engines := [];
             }
-        | none := some ActionEffect.mkActionEffect@{
+        | none := some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -335,13 +335,13 @@ deleteDataAction
                 }))
             }};
             notificationMsgs := map notificationMsg (getNotificationTargets query);
-          in some ActionEffect.mkActionEffect@{
+          in some ActionEffect.mk@{
               env := newEnv;
               msgs := responseMsg :: notificationMsgs;
               timers := [];
               engines := [];
             }
-        | none := some ActionEffect.mkActionEffect@{
+        | none := some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -452,7 +452,7 @@ getDataGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.GetRequest _);
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := getDataActionLabel;
         args := [];
       }
@@ -476,7 +476,7 @@ recordDataGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.RecordRequest _);
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := recordDataActionLabel;
         args := [];
       }
@@ -500,7 +500,7 @@ deleteDataGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.DeleteRequest _);
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := deleteDataActionLabel;
         args := [];
       }

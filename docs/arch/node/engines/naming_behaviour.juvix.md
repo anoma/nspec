@@ -15,6 +15,8 @@ tags:
     ```juvix
     module arch.node.engines.naming_behaviour;
 
+    import Stdlib.Data.Set as Set;
+
     import prelude open;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
@@ -398,7 +400,7 @@ resolveNameAction
           err := none
         }
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some ActionEffect.mkActionEffect@{
+        | some emsg := some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -472,7 +474,7 @@ submitNameEvidenceAction
           }
         }
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some ActionEffect.mkActionEffect@{
+        | some emsg := some ActionEffect.mk@{
             env := newEnv;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -530,7 +532,7 @@ queryNameEvidenceAction
           err := none
         }
       in case getEngineMsgFromTimestampedTrigger tt of {
-        | some emsg := some ActionEffect.mkActionEffect@{
+        | some emsg := some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -637,7 +639,7 @@ resolveNameGuard
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgNaming (NamingMsg.ResolveNameRequest _)
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := resolveNameActionLabel;
         args := []
       }
@@ -661,7 +663,7 @@ submitNameEvidenceGuard
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgNaming (NamingMsg.SubmitNameEvidenceRequest _)
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := submitNameEvidenceActionLabel;
         args := []
       }
@@ -685,7 +687,7 @@ queryNameEvidenceGuard
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgNaming (NamingMsg.QueryNameEvidenceRequest _)
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := queryNameEvidenceActionLabel;
         args := []
       }

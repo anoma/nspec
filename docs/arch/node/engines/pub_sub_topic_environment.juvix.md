@@ -97,7 +97,7 @@ exPubSubTopicEnv : PubSubTopicEnv :=
   EngineEnv.mk@{
     localState := PubSubTopicLocalState.mk;
     mailboxCluster := Map.empty;
-    acquaintances := Set.Set.empty;
+    acquaintances := Set.empty;
     timers := []
   };
 

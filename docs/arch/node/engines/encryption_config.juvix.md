@@ -41,7 +41,7 @@ The type for engine-specific local configuration.
 
 <!-- --8<-- [start:EncryptionLocalCfg] -->
 ```juvix
-type EncryptionLocalCfg := mk {
+type EncryptionLocalCfg := mk@{
   encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
   backend : Backend;
   readsForEngineAddress : EngineID;

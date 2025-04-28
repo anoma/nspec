@@ -23,5 +23,3 @@ At this point, this interface seems to be fully covered by the [[Set | set inter
 
         1.`Contains` should perform the check in O(1)
         2. The data structure should support proofs of non-existence
-
-

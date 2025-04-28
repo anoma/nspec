@@ -172,7 +172,7 @@ getTimeAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some emsg :=
-      some ActionEffect.mkActionEffect@{
+      some ActionEffect.mk@{
         env := env@EngineEnv{
           localState := WallClockLocalState.mk@{
             currentTime := newTime
@@ -277,7 +277,7 @@ getTimeGuard
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgWallClock WallClockMsg.GetTime;
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := getTimeActionLabel;
         args := [];
       }

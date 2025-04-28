@@ -20,6 +20,7 @@ tags:
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.system.identity.identity as Identity;
+    import arch.system.identity.identity as Identity;
     import arch.node.types.identities open;
     ```
 

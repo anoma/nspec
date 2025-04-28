@@ -252,7 +252,7 @@ commitAction
             commitment := signedData;
             err := none
           }
-        in some ActionEffect.mkActionEffect@{
+        in some ActionEffect.mk@{
           env := env;
           msgs := [
             EngineMsg.mk@{
@@ -354,7 +354,7 @@ commitGuard
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgCommitment (CommitmentMsg.Request _);
-      } := some GuardOutput.mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := commitActionLabel;
         args := [];
       }

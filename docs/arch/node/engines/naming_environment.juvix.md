@@ -94,10 +94,10 @@ module naming_environment_example;
 namingEnv : NamingEnv :=
     EngineEnv.mk@{
       localState := NamingLocalState.mk@{
-        evidenceStore := Set.Set.empty;
+        evidenceStore := Set.empty;
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

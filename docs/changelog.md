@@ -355,4 +355,3 @@ project per version, with better documentation and descriptions of the changes.
 - **Juvix types and updates**
   - [**#128**](https://github.com/anoma/nspec/pull/128): Add new Juvix definitions from PR-84
   - [**#130**](https://github.com/anoma/nspec/pull/130): Translate SML Identity definitions to Juvix
-

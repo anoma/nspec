@@ -15,6 +15,7 @@ tags:
     ```juvix
     module arch.node.engines.executor_behaviour;
 
+    import Stdlib.Data.Set as Set;
     import arch.node.engines.executor_messages open;
     import arch.node.engines.executor_config open;
     import arch.node.engines.executor_environment open;
@@ -340,7 +341,7 @@ processReadAction
                     values_read := (mkPair readKey readValue) :: Map.toList reads;
                     values_written := Map.toList writes
                 }));
-            in some ActionEffect.mkActionEffect@{
+            in some ActionEffect.mk@{
                 env := env;
                 msgs := finishedMsg :: staleMsgs;
                 timers := [];
@@ -400,7 +401,7 @@ processReadAction
             msgList := snd final;
             newEnv := env@EngineEnv{localState := newLocalState};
           in case Runnable.halted program' of {
-            | false := some ActionEffect.mkActionEffect@{
+            | false := some ActionEffect.mk@{
                   env := newEnv;
                   msgs := msgList;
                   timers := [];
@@ -416,7 +417,7 @@ processReadAction
                       values_read := Map.toList reads;
                       values_written := Map.toList writes
                   }));
-              in some ActionEffect.mkActionEffect@{
+              in some ActionEffect.mk@{
                   env := newEnv;
                   msgs := msgList ++ finishedMsg :: staleMsgs;
                   timers := [];
@@ -514,7 +515,7 @@ processReadGuard
     }))} :=
     case timestamp == ExecutorLocalCfg.timestamp (EngineCfg.cfg cfg) of {
     | true :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := processReadActionLabel;
         args := unit
       }

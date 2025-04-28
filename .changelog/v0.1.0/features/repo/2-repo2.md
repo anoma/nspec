@@ -1,1 +1,0 @@
-  - [**#2**](https://github.com/anoma/nspec/pull/2): Add better support for WikiLinks and other goodies

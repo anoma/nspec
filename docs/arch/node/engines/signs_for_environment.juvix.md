@@ -94,10 +94,10 @@ module signs_for_environment_example;
 signsForEnv : SignsForEnv :=
     EngineEnv.mk@{
       localState := SignsForLocalState.mk@{
-        evidenceStore := Set.Set.empty
+        evidenceStore := Set.empty
       };
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

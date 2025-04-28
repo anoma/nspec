@@ -1,1 +1,0 @@
-  -  [**#314**](https://github.com/anoma/nspec/pull/314): Add more fixes for message interfaces for consistency

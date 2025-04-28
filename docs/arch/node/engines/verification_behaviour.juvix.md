@@ -344,7 +344,7 @@ verifyAction
         | EngineMsg.mk@{msg := Anoma.Msg.MsgVerification (VerificationMsg.Request (RequestVerification.mkRequestVerification data commitment externalIdentity useSignsFor))} :=
           case useSignsFor of {
             | false :=
-              some ActionEffect.mkActionEffect@{
+              some ActionEffect.mk@{
                 env := env;
                 msgs := [
                   EngineMsg.mk@{
@@ -353,7 +353,7 @@ verifyAction
                     mailbox := some 0;
                     msg := Anoma.Msg.MsgVerification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
                       (Verifier.verify
-                        (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) Set.Set.empty externalIdentity)
+                        (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
                         (VerificationLocalCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
@@ -376,7 +376,7 @@ verifyAction
                 newEnv := env@EngineEnv{
                   localState := newLocalState
                 }
-              in some ActionEffect.mkActionEffect@{
+              in some ActionEffect.mk@{
                 env := newEnv;
                 msgs := case existingRequests of {
                   | some _ := []
@@ -438,7 +438,7 @@ signsForReplyAction
                 newEnv := env@EngineEnv{
                   localState := newLocalState
                 }
-              in some ActionEffect.mkActionEffect@{
+              in some ActionEffect.mk@{
                 env := newEnv;
                 msgs := map (\{req :=
                   let
@@ -459,7 +459,7 @@ signsForReplyAction
                 timers := [];
                 engines := []
               }
-            | none := some ActionEffect.mkActionEffect@{
+            | none := some ActionEffect.mk@{
               env := env;
               msgs := [];
               timers := [];
@@ -557,7 +557,7 @@ verifyGuard
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgVerification (VerificationMsg.Request _);
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := verifyActionLabel;
         args := []
       }
@@ -586,7 +586,7 @@ signsForReplyGuard
             sender := sender
           } :=
           case isEqual (Ord.compare sender (VerificationLocalCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
-            | true := some GuardOutput.mkGuardOutput@{
+            | true := some GuardOutput.mk@{
               action := signsForReplyActionLabel;
               args := []
             }

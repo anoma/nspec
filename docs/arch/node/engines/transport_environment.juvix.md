@@ -97,7 +97,7 @@ module transport_environment_example;
     EngineEnv.mk@{
       localState := TransportLocalState.mk;
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

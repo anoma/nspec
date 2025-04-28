@@ -21,6 +21,7 @@ tags:
 
     import Stdlib.Data.Nat open;
     import Stdlib.Data.List as List;
+    import Stdlib.Data.Set as Set;
     import prelude open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
@@ -717,7 +718,7 @@ acquireLockAction
           propagationResult := execEagerReads (getEngineIDFromEngineCfg cfg) dagWithAllWrites;
           newLocal := local@ShardLocalState{dagStructure := fst propagationResult};
           newEnv := env@EngineEnv{localState := newLocal};
-      in some ActionEffect.mkActionEffect@{
+      in some ActionEffect.mk@{
         env := newEnv;
         msgs :=
           EngineMsg.mk@{
@@ -766,7 +767,7 @@ processWriteAction
               newLocal := local@ShardLocalState{ dagStructure := fst propagationResult };
               newEnv := env@EngineEnv{ localState := newLocal };
               readMsgs := snd propagationResult;
-          in some ActionEffect.mkActionEffect@{
+          in some ActionEffect.mk@{
             env := newEnv;
             msgs := readMsgs;
             timers := [];
@@ -819,7 +820,7 @@ processReadRequestAction
                   -- If `actual` is false, just update the DAG and return.
                   let newLocal := local@ShardLocalState{ dagStructure := updatedDag };
                       newEnv := env@EngineEnv{ localState := newLocal };
-                  in some ActionEffect.mkActionEffect@{
+                  in some ActionEffect.mk@{
                     env := newEnv;
                     msgs := [];
                     timers := [];
@@ -841,7 +842,7 @@ processReadRequestAction
                           };
                           newLocal := local@ShardLocalState{ dagStructure := updatedDag };
                           newEnv := env@EngineEnv{ localState := newLocal };
-                      in some ActionEffect.mkActionEffect@{
+                      in some ActionEffect.mk@{
                         env := newEnv;
                         msgs := [readMsg];
                         timers := [];
@@ -895,7 +896,7 @@ updateSeenAllAction
           newLocal := local@ShardLocalState{dagStructure := fst propagationResult};
           newEnv := env@EngineEnv{localState := newLocal};
           readMsgs := snd propagationResult;
-      in some ActionEffect.mkActionEffect@{
+      in some ActionEffect.mk@{
           env := newEnv;
           msgs := readMsgs;
           timers := [];
@@ -1001,7 +1002,7 @@ acquireLockGuard
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgShard (ShardMsg.KVSAcquireLock _)
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := acquireLockActionLabel;
         args := []
       }
@@ -1026,7 +1027,7 @@ processWriteGuard
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgShard (ShardMsg.KVSWrite _)
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := processWriteActionLabel;
         args := []
       }
@@ -1051,7 +1052,7 @@ processReadRequestGuard
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgShard (ShardMsg.KVSReadRequest _)
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := processReadRequestActionLabel;
         args := []
       }
@@ -1076,7 +1077,7 @@ updateSeenAllGuard
     | some EngineMsg.mk@{
         msg := Anoma.Msg.MsgShard (ShardMsg.UpdateSeenAll _)
       } :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := updateSeenAllActionLabel;
         args := []
       }

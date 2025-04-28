@@ -86,7 +86,7 @@ decryptionEnv : DecryptionEnv :=
     EngineEnv.mk@{
       localState := unit;
       mailboxCluster := Map.empty;
-      acquaintances := Set.Set.empty;
+      acquaintances := Set.empty;
       timers := []
     }
   ;

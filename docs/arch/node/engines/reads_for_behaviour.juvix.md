@@ -16,6 +16,7 @@ tags:
     module arch.node.engines.reads_for_behaviour;
 
     import prelude open;
+    import Stdlib.Data.Set as Set;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;
@@ -171,7 +172,7 @@ readsForQueryAction
             readsFor := hasEvidence;
             err := none
           }
-        in some ActionEffect.mkActionEffect@{
+        in some ActionEffect.mk@{
           env := env;
           msgs := [EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
@@ -222,7 +223,7 @@ submitEvidenceAction
         | true :=
           case isElement \{a b := a && b} true (map \{e := isEqual (Ord.compare e evidence)} (Set.toList (ReadsForLocalState.evidenceStore localState))) of {
           | true :=
-            some ActionEffect.mkActionEffect@{
+            some ActionEffect.mk@{
               env := env;
               msgs := [EngineMsg.mk@{
                 sender := getEngineIDFromEngineCfg cfg;
@@ -238,7 +239,7 @@ submitEvidenceAction
               newEvidenceStore := Set.insert evidence (ReadsForLocalState.evidenceStore localState);
               updatedLocalState := localState@ReadsForLocalState{evidenceStore := newEvidenceStore};
               newEnv := env@EngineEnv{localState := updatedLocalState}
-            in some ActionEffect.mkActionEffect@{
+            in some ActionEffect.mk@{
               env := newEnv;
               msgs := [EngineMsg.mk@{
                 sender := getEngineIDFromEngineCfg cfg;
@@ -251,7 +252,7 @@ submitEvidenceAction
             }
           }
         | false :=
-          some ActionEffect.mkActionEffect@{
+          some ActionEffect.mk@{
             env := env;
             msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
@@ -309,7 +310,7 @@ queryEvidenceAction
               evidence := relevantEvidence;
               err := none
             }
-        in some ActionEffect.mkActionEffect@{
+        in some ActionEffect.mk@{
           env := env;
           msgs := [EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
@@ -415,7 +416,7 @@ readsForQueryGuard
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{msg := Anoma.Msg.MsgReadsFor (ReadsForMsg.Request _)} :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := readsForQueryActionLabel;
         args := []
       }
@@ -438,7 +439,7 @@ submitEvidenceGuard
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{msg := Anoma.Msg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceRequest _)} :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := submitEvidenceActionLabel;
         args := []
       }
@@ -461,7 +462,7 @@ queryEvidenceGuard
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{msg := Anoma.Msg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest _)} :=
-      some GuardOutput.mkGuardOutput@{
+      some GuardOutput.mk@{
         action := queryEvidenceActionLabel;
         args := []
       }
