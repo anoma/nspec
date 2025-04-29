@@ -1,1 +1,0 @@
-  - [**#3**](https://github.com/anoma/nspec/pull/3): Update README and run pre-commit

@@ -176,21 +176,21 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTransport (TransportMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTransport (TransportMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgTransport
+              Anoma.PreMsg.MsgTransport
                 (TransportMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -210,7 +210,7 @@ exampleReplyAction
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : TransportActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : TransportActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ## Guards
@@ -284,10 +284,10 @@ exampleReplyGuard
   : Option TransportGuardOutput :=
   TODO {-
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTransport (TransportMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTransport (TransportMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -320,9 +320,9 @@ TransportBehaviour : Type :=
 <!-- --8<-- [start:transportBehaviour] -->
 ```juvix
 transportBehaviour : TransportBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         exampleReplyGuard;
       ];
   };

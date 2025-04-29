@@ -81,7 +81,7 @@ VerificationEngine : Type :=
 <!-- --8<-- [start:exampleVerificationEngine] -->
 ```juvix
 exampleVerificationEngine : VerificationEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := verificationCfg;
     env := verificationEnv;
     behaviour := verificationBehaviour;

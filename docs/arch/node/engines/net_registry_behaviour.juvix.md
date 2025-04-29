@@ -176,21 +176,21 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgNetworkRegistry (NetworkRegistryMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgNetworkRegistry (NetworkRegistryMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgNetworkRegistry
+              Anoma.PreMsg.MsgNetworkRegistry
                 (NetworkRegistryMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -210,7 +210,7 @@ exampleReplyAction
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : NetworkRegistryActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : NetworkRegistryActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ## Guards
@@ -284,10 +284,10 @@ exampleReplyGuard
   : Option NetworkRegistryGuardOutput :=
   TODO {-
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgNetworkRegistry (NetworkRegistryMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgNetworkRegistry (NetworkRegistryMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -322,9 +322,9 @@ NetworkRegistryBehaviour : Type :=
 module registry_behaviour_example;
 
   exNetworkRegistryBehaviour : NetworkRegistryBehaviour :=
-    mkEngineBehaviour@{
+    EngineBehaviour.mk@{
       guards :=
-        First [
+        GuardEval.First [
           exampleReplyGuard;
         ];
     };

@@ -39,4 +39,3 @@ To incorporate the excerpt elsewhere, specify its path and tag:
 
 Following these practices ensures consistency, navigability, and professionalism
 in the Anoma documentation.
-

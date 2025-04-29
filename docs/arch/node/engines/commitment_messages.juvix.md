@@ -90,8 +90,8 @@ commitment engine instance in response to a `RequestCommitment`.
 <!-- --8<-- [start:CommitmentMsg] -->
 ```juvix
 type CommitmentMsg :=
-  | MsgCommitmentRequest RequestCommitment
-  | MsgCommitmentReply ReplyCommitment
+  | Request RequestCommitment
+  | Reply ReplyCommitment
   ;
 ```
 <!-- --8<-- [end:CommitmentMsg] -->

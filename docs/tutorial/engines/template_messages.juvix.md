@@ -133,9 +133,9 @@ ExampleReply : Type := Result ExampleReplyError ExampleReplyOk;
 <!-- --8<-- [start:TemplateMsg] -->
 ```juvix
 type TemplateMsg :=
-  | TemplateMsgJustHi
-  | TemplateMsgExampleRequest ExampleRequest
-  | TemplateMsgExampleReply ExampleReply
+  | JustHi
+  | ExampleRequest ExampleRequest
+  | ExampleReply ExampleReply
   ;
 ```
 <!-- --8<-- [end:TemplateMsg] -->

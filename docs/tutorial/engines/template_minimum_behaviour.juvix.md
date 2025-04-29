@@ -141,21 +141,21 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplateMinimum (TemplateMinimumMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTemplateMinimum (TemplateMinimumMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgTemplateMinimum
+              Anoma.PreMsg.MsgTemplateMinimum
                 (TemplateMinimumMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -175,7 +175,7 @@ exampleReplyAction
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : TemplateMinimumActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : TemplateMinimumActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ## Guards
@@ -248,10 +248,10 @@ exampleReplyGuard
   (env : TemplateMinimumEnv)
   : Option TemplateMinimumGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgTemplateMinimum (TemplateMinimumMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgTemplateMinimum (TemplateMinimumMsg.ExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;
         args := unit;
       }
@@ -286,9 +286,9 @@ TemplateMinimumBehaviour : Type :=
 module template_minimum_behaviour_example;
 
   exTemplateMinimumBehaviour : TemplateMinimumBehaviour :=
-    mkEngineBehaviour@{
+    EngineBehaviour.mk@{
       guards :=
-        First [
+        GuardEval.First [
           exampleReplyGuard;
         ];
     };

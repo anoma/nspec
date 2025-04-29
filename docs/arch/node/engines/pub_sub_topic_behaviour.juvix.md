@@ -176,21 +176,21 @@ exampleReplyAction
     args := ActionInput.args input;
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgPubSubTopic (PubSubTopicMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgPubSubTopic (PubSubTopicMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
       } :=
-      some mkActionEffect@{
+      some ActionEffect.mk@{
         env := env;
         msgs := [
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg cfg;
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.MsgPubSubTopic
+              Anoma.PreMsg.MsgPubSubTopic
                 (PubSubTopicMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -210,7 +210,7 @@ exampleReplyAction
 ### `exampleReplyActionLabel`
 
 ```juvix
-exampleReplyActionLabel : PubSubTopicActionExec := Seq [ exampleReplyAction ];
+exampleReplyActionLabel : PubSubTopicActionExec := ActionExec.Seq [ exampleReplyAction ];
 ```
 
 ## Guards
@@ -284,10 +284,10 @@ exampleReplyGuard
   : Option PubSubTopicGuardOutput :=
   TODO {-
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgPubSubTopic (PubSubTopicMsgExampleRequest req);
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgPubSubTopic (PubSubTopicMsgExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
-      } := some mkGuardOutput@{
+      } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;
         args := [];
       }
@@ -322,9 +322,9 @@ PubSubTopicBehaviour : Type :=
 module pub_sub_topic_behaviour_example;
 
 exPubSubTopicBehaviour : PubSubTopicBehaviour :=
-  mkEngineBehaviour@{
+  EngineBehaviour.mk@{
     guards :=
-      First [
+      GuardEval.First [
         exampleReplyGuard;
       ];
   };

@@ -80,7 +80,7 @@ StorageEngine : Type :=
 <!-- --8<-- [start:exStorageEngine] -->
 ```juvix
 exStorageEngine : StorageEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := exStorageCfg;
     env := exStorageEnv;
     behaviour := exStorageBehaviour;

@@ -37,7 +37,7 @@ syntax alias TransportProtocolMailboxState := Unit;
 ## Local state
 
 ```juvix
-type TransportProtocolLocalState := mkTransportProtocolLocalState;
+type TransportProtocolLocalState := mk;
 ```
 
 ## Timer Handle
@@ -82,8 +82,8 @@ TransportProtocolEnv : Type :=
 module transport_protocol_environment_example;
 
 exTransportProtocolEnv : TransportProtocolEnv :=
-  mkEngineEnv@{
-    localState := mkTransportProtocolLocalState;
+  EngineEnv.mk@{
+    localState := TransportProtocolLocalState.mk;
     mailboxCluster := Map.empty;
     acquaintances := Set.empty;
     timers := []

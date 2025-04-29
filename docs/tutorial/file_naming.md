@@ -9,9 +9,9 @@ tags:
 ---
 
 
-# snake_case convention for naming files and folders
+# `snake_case` convention for naming files and folders
 
-The Anoma Specification uses the snake case convention for naming files and
+The Anoma Specification uses the `snake_case` convention for naming files and
 folders.
 
 ## Guidelines

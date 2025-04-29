@@ -28,4 +28,3 @@ tags:
   - [[Ticker Configuration]]
   - [[Ticker Environment]]
   - [[Ticker Behaviour]]
-

@@ -65,7 +65,7 @@ TransportConnectionEngine : Type :=
 <!-- --8<-- [start:exTransportConnectionEngine] -->
 ```juvix
 exTransportConnectionEngine : TransportConnectionEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := exTransportConnectionCfg;
     env := exTransportConnectionEnv;
     behaviour := exTransportConnectionBehaviour;

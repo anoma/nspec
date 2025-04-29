@@ -85,7 +85,7 @@ type ExecutorFinishedMsg KVSKey KVSDatum :=
 <!-- --8<-- [start:ExecutorMsg] -->
 ```juvix
 type ExecutorMsg KVSKey KVSDatum :=
-  | ExecutorMsgExecutorFinished (ExecutorFinishedMsg KVSKey KVSDatum)
+  | ExecutorFinished (ExecutorFinishedMsg KVSKey KVSDatum)
   ;
 ```
 <!-- --8<-- [end:ExecutorMsg] -->

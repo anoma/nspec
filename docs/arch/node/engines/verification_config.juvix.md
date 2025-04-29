@@ -37,7 +37,7 @@ The configuration of a Verification Engine instance includes the identity's veri
 
 <!-- --8<-- [start:VerificationCfg] -->
 ```juvix
-type VerificationCfg := mkVerificationCfg@{
+type VerificationCfg := mk@{
   verifier : Set SignsForEvidence -> ExternalIdentity -> Verifier ByteString Backend Signable Commitment;
   backend : Backend;
   signsForEngineAddress : EngineID;
@@ -64,20 +64,20 @@ type VerificationCfg := mkVerificationCfg@{
 module verification_config_example;
 
   verificationCfg : EngineCfg VerificationCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "verification";
-      cfg := mkVerificationCfg@{
-        verifier := \{_ _ := mkVerifier@{
+      cfg := VerificationCfg.mk@{
+        verifier := \{_ _ := Verifier.mkVerifier@{
           verify := \{_ _ _ := true};
-          verifierHash := mkHASH@{
-            ordKey := mkOrdkey@{
-                compare := Ord.cmp
+          verifierHash := HASH.mkHASH@{
+            ordKey := OrdKey.mkOrdKey@{
+                compare := Ord.compare
             };
             hash := \{x := "0x1234abcd"};
           };
         }};
-        backend := BackendLocalMemory;
+        backend := Backend.LocalMemory;
         signsForEngineAddress := mkPair none "Blah"
       };
     }

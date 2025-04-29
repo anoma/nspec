@@ -8,4 +8,4 @@ tags:
 
 # List of tags
 
-<!-- material/tags { exclude: [changelog, git, conventions, tutorial, index, , juvix] } -->
+<!-- material/tags { exclude: [changelog, git, conventions, tutorial, index, juvix] } -->
