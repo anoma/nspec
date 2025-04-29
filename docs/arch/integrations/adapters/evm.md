@@ -127,7 +127,7 @@ To **interoperate with state in external contracts**, the protocol adapter contr
 We achieve this by creating an indirection layer separating the protocol adapter from the
 the external contract and resources that should be created and consumed in consequence. It consists of:
 - A [forwarder contract](#forwarder-contract) that
-    - conducts the actual state read or write calls into the target contract and returns eventual return data
+    - performs the actual state read or write calls into the target contract and returns eventual return data
     - is custom-built for the target contract to call and permissionlessly deployed by 3rd parties
 - A [calldata carrier resource](#calldata-carrier-resource) (singleton) that
     - must be part of the action data structure containing the forwarder call instruction
