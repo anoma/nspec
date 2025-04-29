@@ -170,10 +170,10 @@ All storage protocol messages.
 <!-- --8<-- [start:StorageMsg] -->
 ```juvix
 type StorageMsg :=
-  | StorageMsgChunkGetRequest ChunkGetRequest
-  | StorageMsgChunkGetReply ChunkGetReply
-  | StorageMsgChunkPutRequest Chunk
-  | StorageMsgChunkPutReply ChunkPutReply
+  | ChunkGetRequest ChunkGetRequest
+  | ChunkGetReply ChunkGetReply
+  | ChunkPutRequest Chunk
+  | ChunkPutReply ChunkPutReply
   ;
 ```
 <!-- --8<-- [end:StorageMsg] -->

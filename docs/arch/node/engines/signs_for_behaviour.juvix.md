@@ -16,6 +16,7 @@ tags:
     module arch.node.engines.signs_for_behaviour;
 
     import prelude open;
+    import Stdlib.Data.Set as Set;
     import arch.node.types.messages open;
     import arch.node.types.engine open;
     import arch.node.types.identities open;
@@ -157,26 +158,26 @@ signsForQueryAction
     localState := EngineEnv.localState env;
   in
     case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgSignsFor (MsgSignsForRequest (mkRequestSignsFor externalIdentityA externalIdentityB));
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SignsForRequest (RequestSignsFor.mkRequestSignsFor externalIdentityA externalIdentityB));
         sender := msgSender
       } :=
       let
         hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
-          isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
-          isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentityB)
+          isEqual (Ord.compare (SignsForEvidence.fromIdentity evidence) externalIdentityA) &&
+          isEqual (Ord.compare (SignsForEvidence.toIdentity evidence) externalIdentityB)
         } (Set.toList (SignsForLocalState.evidenceStore localState)));
-        responseMsg := mkReplySignsFor@{
+        responseMsg := ReplySignsFor.mkReplySignsFor@{
           signsFor := hasEvidence;
           err := none
         };
-      in some mkActionEffect@{
+      in some ActionEffect.mk@{
         env := env;
-        msgs := [mkEngineMsg@{
+        msgs := [EngineMsg.mk@{
           sender := getEngineIDFromEngineCfg cfg;
           target := msgSender;
           mailbox := some 0;
-          msg := Anoma.MsgSignsFor (MsgSignsForReply responseMsg)
+          msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SignsForReply responseMsg)
         }];
         timers := [];
         engines := []
@@ -212,28 +213,28 @@ submitEvidenceAction
     localState := EngineEnv.localState env;
   in
     case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceRequest (mkRequestSubmitSignsForEvidence evidence));
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceRequest (RequestSubmitSignsForEvidence.mkRequestSubmitSignsForEvidence evidence));
         sender := msgSender
       } := case verifyEvidence evidence of {
         | true :=
           let
             alreadyExists := isElement \{a b := a && b} true (map \{e :=
-              isEqual (Ord.cmp e evidence)
+              isEqual (Ord.compare e evidence)
             } (Set.toList (SignsForLocalState.evidenceStore localState)));
           in case alreadyExists of {
             | true :=
               let
-                responseMsg := mkReplySubmitSignsForEvidence@{
+                responseMsg := ReplySubmitSignsForEvidence.mkReplySubmitSignsForEvidence@{
                   err := some "Evidence already exists."
                 };
-              in some mkActionEffect@{
+              in some ActionEffect.mk@{
                 env := env;
-                msgs := [mkEngineMsg@{
+                msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg cfg;
                   target := msgSender;
                   mailbox := some 0;
-                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
+                  msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
                 }];
                 timers := [];
                 engines := []
@@ -247,16 +248,16 @@ submitEvidenceAction
                 newEnv := env@EngineEnv{
                   localState := updatedLocalState
                 };
-                responseMsg := mkReplySubmitSignsForEvidence@{
+                responseMsg := ReplySubmitSignsForEvidence.mkReplySubmitSignsForEvidence@{
                   err := none
                 };
-              in some mkActionEffect@{
+              in some ActionEffect.mk@{
                 env := newEnv;
-                msgs := [mkEngineMsg@{
+                msgs := [EngineMsg.mk@{
                   sender := getEngineIDFromEngineCfg cfg;
                   target := msgSender;
                   mailbox := some 0;
-                  msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
+                  msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
                 }];
                 timers := [];
                 engines := []
@@ -264,16 +265,16 @@ submitEvidenceAction
           }
         | false :=
           let
-            responseMsg := mkReplySubmitSignsForEvidence@{
+            responseMsg := ReplySubmitSignsForEvidence.mkReplySubmitSignsForEvidence@{
               err := some "Invalid evidence provided."
             };
-          in some mkActionEffect@{
+          in some ActionEffect.mk@{
             env := env;
-            msgs := [mkEngineMsg@{
+            msgs := [EngineMsg.mk@{
               sender := getEngineIDFromEngineCfg cfg;
               target := msgSender;
               mailbox := some 0;
-              msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceReply responseMsg)
+              msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -310,27 +311,27 @@ queryEvidenceAction
     localState := EngineEnv.localState env;
   in
     case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceRequest (mkRequestQuerySignsForEvidence externalIdentity));
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceRequest (RequestQuerySignsForEvidence.mkRequestQuerySignsForEvidence externalIdentity));
         sender := msgSender
       } :=
       let
-        relevantEvidence := AVLTree.filter \{evidence :=
-          isEqual (Ord.cmp (SignsForEvidence.fromIdentity evidence) externalIdentity) ||
-          isEqual (Ord.cmp (SignsForEvidence.toIdentity evidence) externalIdentity)
+        relevantEvidence := Set.filter \{evidence :=
+          isEqual (Ord.compare (SignsForEvidence.fromIdentity evidence) externalIdentity) ||
+          isEqual (Ord.compare (SignsForEvidence.toIdentity evidence) externalIdentity)
         } (SignsForLocalState.evidenceStore localState);
-        responseMsg := mkReplyQuerySignsForEvidence@{
+        responseMsg := ReplyQuerySignsForEvidence.mkReplyQuerySignsForEvidence@{
           externalIdentity := externalIdentity;
           evidence := relevantEvidence;
           err := none
         };
-      in some mkActionEffect@{
+      in some ActionEffect.mk@{
         env := env;
-        msgs := [mkEngineMsg@{
+        msgs := [EngineMsg.mk@{
           sender := getEngineIDFromEngineCfg cfg;
           target := msgSender;
           mailbox := some 0;
-          msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceReply responseMsg)
+          msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceReply responseMsg)
         }];
         timers := [];
         engines := []
@@ -344,19 +345,19 @@ queryEvidenceAction
 ### `signsForQueryActionLabel`
 
 ```juvix
-signsForQueryActionLabel : SignsForActionExec := Seq [ signsForQueryAction ];
+signsForQueryActionLabel : SignsForActionExec := ActionExec.Seq [ signsForQueryAction ];
 ```
 
 ### `submitEvidenceActionLabel`
 
 ```juvix
-submitEvidenceActionLabel : SignsForActionExec := Seq [ submitEvidenceAction ];
+submitEvidenceActionLabel : SignsForActionExec := ActionExec.Seq [ submitEvidenceAction ];
 ```
 
 ### `queryEvidenceActionLabel`
 
 ```juvix
-queryEvidenceActionLabel : SignsForActionExec := Seq [ queryEvidenceAction ];
+queryEvidenceActionLabel : SignsForActionExec := ActionExec.Seq [ queryEvidenceAction ];
 ```
 
 ## Guards
@@ -427,9 +428,9 @@ signsForQueryGuard
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgSignsFor (MsgSignsForRequest _);
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SignsForRequest _);
+      } := some GuardOutput.mk@{
         action := signsForQueryActionLabel;
         args := []
       }
@@ -451,9 +452,9 @@ submitEvidenceGuard
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgSignsFor (MsgSubmitSignsForEvidenceRequest _);
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceRequest _);
+      } := some GuardOutput.mk@{
         action := submitEvidenceActionLabel;
         args := []
       }
@@ -475,9 +476,9 @@ queryEvidenceGuard
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgSignsFor (MsgQuerySignsForEvidenceRequest _);
-      } := some mkGuardOutput@{
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceRequest _);
+      } := some GuardOutput.mk@{
         action := queryEvidenceActionLabel;
         args := []
       }
@@ -510,8 +511,8 @@ SignsForBehaviour : Type :=
 <!-- --8<-- [start:signsForBehaviour] -->
 ```juvix
 signsForBehaviour : SignsForBehaviour :=
-  mkEngineBehaviour@{
-    guards := First [
+  EngineBehaviour.mk@{
+    guards := GuardEval.First [
       signsForQueryGuard;
       submitEvidenceGuard;
       queryEvidenceGuard

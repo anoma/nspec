@@ -10,171 +10,37 @@ tags:
 
 # Managing the Changelog
 
-We use the `unclog` utility to manage our changelog entries. This ensures
-consistent formatting and makes it easier to maintain changelog entries.
-To install `unclog`, run:
-
-```bash
-cargo install unclog
-```
+We now use `Commitizen` to manage our changelog entries. This simplifies the
+process and ensures consistent formatting. The `Commitizen` binary should be
+available after installation.
 
 ## Adding a New Unreleased Entry
 
-There are two ways to add a new changelog entry:
+To add a new changelog entry, use the `cz` command provided by `Commitizen`.
+This will guide you through the process interactively.
 
-1. Using the CLI directly (recommended)
-2. Using your default text editor
+### Using Commitizen
 
-### Using the CLI Directly
+#### Available Types
 
-#### Available Sections
+When prompted, choose one of these types for your commit message:
 
-Use one of these sections when adding entries:
+- `feat` - For new features
+- `fix` - For bug fixes
+- `docs` - For documentation changes
+- `style` - For code style changes (formatting, missing semi-colons, etc.)
+- `refactor` - For code changes that neither fix a bug nor add a feature
+- `perf` - For performance improvements
+- `test` - For adding or correcting tests
+- `chore` - For changes to the build process or auxiliary tools
 
-- `features` - For new features (**NEW**)
-- `changes` - For changes in existing functionality (**CHANGED**)
-- `fixes` - For bug fixes (**FIXED**)
-- `deprecations` - For soon-to-be removed features (**REMOVED**)
+#### Recommended Commit Message Format
 
-#### Available Subsystems
+For consistency, follow the prompts to:
 
-Use one of the following components for your entry:
+- Specify the type of change
+- Provide a concise description of the change
+- Optionally, include the issue number if the change is related to an issue
 
-- `node`: For changes to the node architecture
-- `sys`: For changes to the system architecture
-- `spec`: For changes to the general specification
-- `types`: For changes to the fundamentals (basic abstractions, types, etc.)
-- `juvix`: For changes related to the Juvix language/compiler
-- `tutorial`: For changes to the tutorial for Spec writers
-
-#### Recommended Call Syntax
-
-For consistency,
-
-- Take into account the number of the pull request
-- Use the component that best describes the change
-- Use the section that best describes the change
-- Add an issue number if the change is related to an issue
-
-The following flags are used:
-
-- `-i` for the entry identifier (filename)
-- `-p` for the pull request number
-- `-c` for the component (e.g. `node`, `sys`, `juvix`, `tutorial`)
-- `-s` for the section (e.g. `features`, `fixes`, `deprecations`)
-- `-m` for the message
-- `--editor` for the editor to use (e.g. `nano`, `vim`, `code`)
-More information about the command syntax can be found in the [unclog
-documentation](https://github.com/informalsystems/unclog).
-
-#### Examples
-
-The following are examples used to populate the changelog for the v0.1.0 release.
-
-- System and Node Architecture
-
-```bash
-unclog add -p 210 -i sys210 --editor nano -c sys \
-  -s breaking-changes -m "Fix engine message, environment and behavior layout"
-```
-
-- Node Architecture
-
-```bash
-unclog add -p 179 -i node179 --editor nano -c node \
-  -s breaking-changes -m "Reorganize node architecture documentation structure"
-```
-
-- Juvix Types and Updates
-
-```bash
-unclog add -p 128 -i types128 --editor nano -c types \
-  -s features -m "Add new Juvix definitions from PR-84"
-```
-
-- Repository Maintenance and
-
-```bash
-unclog add -p 135 -i repo135 --editor nano -c repo \
-  -s features -m "Show PR number in the site name"
-```
-
-- Tutorial and Documentation
-
-```bash
-unclog add -p 134 -i tut134 --editor nano -c tutorial \
-  -s features -m "Refactor tutorial for wiki-style links"
-```
-
-- General Specification Changes
-
-```bash
-unclog add -p 192 -i spec192 --editor nano -c spec \
-  -s breaking-changes -m "Port identity engines to v2 template"
-```
-
-- Python-related Changes
-
-```bash
-unclog add -p 133 -i py133 --editor nano -c python \
-  -s features -m "Add support for multi-line wiki-style links"
-```
-
-## Releasing a New Version
-
-0. Update the version number in `mkdocs.yml`:
-
-  ```diff title="mkdocs.yml"
-  - site_version: !ENV [SITE_VERSION, "v0.1.1"]
-  + site_version: !ENV [SITE_VERSION, "v0.1.2"]
-  ```
-
-1. Update the version number in `docs/Package.juvix` accordingly to the new release:
-
-  ```diff title="docs/Package.juvix"
-  module Package;
-  ...
-  -    version := mkVersion 0 1 1
-  +    version := mkVersion 0 1 2;
-  ...
-  ```
-
-2. Create the release:
-
-  See [[Versioning]] for more details about version numbering.
-
-  ```bash
-  unclog release v0.X.Y --editor nano
-  ```
-
-  - If you already have a summary, it will move entries from `.changelog/unreleased/` to a new version section.
-  - Otherwise, it will create a new summary. And, you will need to run the above
-    command again to edit the summary.
-
-3. Update the changelog file in the `docs` directory:
-
-  ```bash
-  unclog build > .temporary-changelog.md
-  ```
-
-  - This will create a new changelog file in the `docs` directory.
-  - Copy the relevant entries to the `changelog.md` file in the root of the
-    repository. Edit headers and fix the header link to the new version.
-  - Remove the `.temporary-changelog.md` file.
-
-4. Open a PR with only one commit.
-
-5. Tag the release:
-
-  ```bash
-  git tag -a v0.X.Y -m "Release v0.X.Y"
-  ```
-
-And push the tag to the repository. The PR corresponding to a release **must**
-contain the changelog entries for that release, and a tag.
-
-6. Merge the PR.
-
-!!! warning "Do not squash-merge release PRs!"
-
-    Tags associated with individual commits are not preserved when squashing.
+More information about the command syntax can be found in the [Commitizen
+documentation](https://commitizen-tools.github.io/commitizen/tutorials/writing_commits/).

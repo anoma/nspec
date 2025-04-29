@@ -21,6 +21,7 @@ tags:
 
     import Stdlib.Data.Nat open;
     import Stdlib.Data.List as List;
+    import Stdlib.Data.Set as Set;
     import prelude open;
     import arch.node.types.basics open;
     import arch.node.types.identities open;
@@ -415,7 +416,7 @@ addReadAccess
     | some m := m
   };
     existingAccess := case Map.lookup timestamp keyMap of {
-    | none := mkKeyAccess@{ readStatus := none; writeStatus := none }
+    | none := KeyAccess.mkKeyAccess@{ readStatus := none; writeStatus := none }
     | some access := access
   };
     newAccess := existingAccess@KeyAccess{ readStatus := some readStatus };
@@ -438,7 +439,7 @@ addWriteAccess
     | some m := m
   };
     existingAccess := case Map.lookup timestamp keyMap of {
-    | none := mkKeyAccess@{ readStatus := none; writeStatus := none }
+    | none := KeyAccess.mkKeyAccess@{ readStatus := none; writeStatus := none }
     | some access := access
   };
     newAccess := existingAccess@KeyAccess{ writeStatus := some writeStatus };
@@ -523,11 +524,11 @@ generateReadMsg
   (data : KVSDatum)
   (executor : EngineID)
   : EngineMsg (PreMsg KVSKey KVSDatum Executable) :=
-  mkEngineMsg@{
+  EngineMsg.mk@{
     sender := sender;
     target := executor;
     mailbox := some 0;
-    msg := Anoma.MsgShard (ShardMsgKVSRead mkKVSReadMsg@{
+    msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSRead KVSReadMsg.mkKVSReadMsg@{
       timestamp := timestamp;
       key := key;
       data := data
@@ -693,11 +694,11 @@ acquireLockAction
       local := EngineEnv.localState env;
       trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgShard (ShardMsgKVSAcquireLock lockMsg)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSAcquireLock lockMsg)
       } :=
       let addEagerReadAccesses := \{key dag :=
-            let readStatus := mkReadStatus@{
+            let readStatus := ReadStatus.mkReadStatus@{
                   hasBeenRead := false;
                   isEager := true;
                   executor := KVSAcquireLockMsg.executor lockMsg
@@ -705,7 +706,7 @@ acquireLockAction
             in addReadAccess dag key (KVSAcquireLockMsg.timestamp lockMsg) readStatus
             };
           addLazyReadAccesses := \{key dag :=
-            let readStatus := mkReadStatus@{
+            let readStatus := ReadStatus.mkReadStatus@{
                   hasBeenRead := false;
                   isEager := false;
                   executor := KVSAcquireLockMsg.executor lockMsg
@@ -713,14 +714,14 @@ acquireLockAction
             in addReadAccess dag key (KVSAcquireLockMsg.timestamp lockMsg) readStatus
             };
           addWillWriteAccesses := \{key dag :=
-            let writeStatus := mkWriteStatus@{
+            let writeStatus := WriteStatus.mkWriteStatus@{
                   data := none;
                   mayWrite := false
                 };
             in addWriteAccess dag key (KVSAcquireLockMsg.timestamp lockMsg) writeStatus
             };
           addMayWriteAccesses := \{key dag :=
-            let writeStatus := mkWriteStatus@{
+            let writeStatus := WriteStatus.mkWriteStatus@{
                   data := none;
                   mayWrite := true
                 };
@@ -733,14 +734,14 @@ acquireLockAction
           propagationResult := execEagerReads (getEngineIDFromEngineCfg cfg) dagWithAllWrites;
           newLocal := local@ShardLocalState{dagStructure := fst propagationResult};
           newEnv := env@EngineEnv{localState := newLocal};
-      in some mkActionEffect@{
+      in some ActionEffect.mk@{
         env := newEnv;
         msgs :=
-          mkEngineMsg@{
+          EngineMsg.mk@{
             sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
             target := KVSAcquireLockMsg.worker lockMsg;
             mailbox := some 0;
-            msg := Anoma.MsgShard (ShardMsgKVSLockAcquired mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})
+            msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSLockAcquired KVSLockAcquiredMsg.mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})
           } :: snd propagationResult;
         timers := [];
         engines := []
@@ -772,8 +773,8 @@ processWriteAction
       local := EngineEnv.localState env;
       trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgShard (ShardMsgKVSWrite writeMsg)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSWrite writeMsg)
       } :=
       let dag := ShardLocalState.dagStructure local;
           key := KVSWriteMsg.key writeMsg;
@@ -784,7 +785,7 @@ processWriteAction
               newLocal := local@ShardLocalState{ dagStructure := fst propagationResult };
               newEnv := env@EngineEnv{ localState := newLocal };
               readMsgs := snd propagationResult;
-          in some mkActionEffect@{
+          in some ActionEffect.mk@{
             env := newEnv;
             msgs := readMsgs;
             timers := [];
@@ -820,9 +821,9 @@ processReadRequestAction
       local := EngineEnv.localState env;
       trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
+    | some EngineMsg.mk@{
         sender := sender;
-        msg := Anoma.MsgShard (ShardMsgKVSReadRequest readReqMsg)
+        msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSReadRequest readReqMsg)
       } :=
       let dag := ShardLocalState.dagStructure local;
           key := KVSReadRequestMsg.key readReqMsg;
@@ -839,7 +840,7 @@ processReadRequestAction
                   -- If `actual` is false, just update the DAG and return.
                   let newLocal := local@ShardLocalState{ dagStructure := updatedDag };
                       newEnv := env@EngineEnv{ localState := newLocal };
-                  in some mkActionEffect@{
+                  in some ActionEffect.mk@{
                     env := newEnv;
                     msgs := [];
                     timers := [];
@@ -849,11 +850,11 @@ processReadRequestAction
                   case findMostRecentWrite updatedDag key timestamp of {
                     | none := none
                     | some data :=
-                      let readMsg := mkEngineMsg@{
+                      let readMsg := EngineMsg.mk@{
                             sender := getEngineIDFromEngineCfg cfg;
                             target := sender;
                             mailbox := some 0;
-                            msg := Anoma.MsgShard (ShardMsgKVSRead mkKVSReadMsg@{
+                            msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSRead KVSReadMsg.mkKVSReadMsg@{
                               timestamp := timestamp;
                               key := key;
                               data := data
@@ -861,7 +862,7 @@ processReadRequestAction
                           };
                           newLocal := local@ShardLocalState{ dagStructure := updatedDag };
                           newEnv := env@EngineEnv{ localState := newLocal };
-                      in some mkActionEffect@{
+                      in some ActionEffect.mk@{
                         env := newEnv;
                         msgs := [readMsg];
                         timers := [];
@@ -898,8 +899,8 @@ updateSeenAllAction
       local := EngineEnv.localState env;
       trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgShard (ShardMsgUpdateSeenAll updateMsg)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgShard (ShardMsg.UpdateSeenAll updateMsg)
       } :=
       let oldDag := ShardLocalState.dagStructure local;
           newDag := case UpdateSeenAllMsg.write updateMsg of {
@@ -917,7 +918,7 @@ updateSeenAllAction
           newLocal := local@ShardLocalState{dagStructure := fst propagationResult};
           newEnv := env@EngineEnv{localState := newLocal};
           readMsgs := snd propagationResult;
-      in some mkActionEffect@{
+      in some ActionEffect.mk@{
           env := newEnv;
           msgs := readMsgs;
           timers := [];
@@ -936,7 +937,7 @@ updateSeenAllAction
 acquireLockActionLabel
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
-  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ acquireLockAction ];
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := ActionExec.Seq [ acquireLockAction ];
 ```
 
 ### `processWriteActionLabel`
@@ -945,7 +946,7 @@ acquireLockActionLabel
 processWriteActionLabel
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
-  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processWriteAction ];
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := ActionExec.Seq [ processWriteAction ];
 ```
 
 ### `processReadRequestActionLabel`
@@ -954,7 +955,7 @@ processWriteActionLabel
 processReadRequestActionLabel
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
-  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ processReadRequestAction ];
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := ActionExec.Seq [ processReadRequestAction ];
 ```
 
 ### `updateSeenAllActionLabel`
@@ -963,7 +964,7 @@ processReadRequestActionLabel
 updateSeenAllActionLabel
   {KVSKey KVSDatum Executable ProgramState}
   {{Ord KVSKey}}
-  : ShardActionExec KVSKey KVSDatum Executable ProgramState := Seq [ updateSeenAllAction ];
+  : ShardActionExec KVSKey KVSDatum Executable ProgramState := ActionExec.Seq [ updateSeenAllAction ];
 ```
 
 ## Guards
@@ -1030,10 +1031,10 @@ acquireLockGuard
   (env : ShardEnv KVSKey KVSDatum)
   : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgShard (ShardMsgKVSAcquireLock _)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSAcquireLock _)
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mk@{
         action := acquireLockActionLabel;
         args := []
       }
@@ -1057,10 +1058,10 @@ processWriteGuard
   (env : ShardEnv KVSKey KVSDatum)
   : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgShard (ShardMsgKVSWrite _)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSWrite _)
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mk@{
         action := processWriteActionLabel;
         args := []
       }
@@ -1084,10 +1085,10 @@ processReadRequestGuard
   (env : ShardEnv KVSKey KVSDatum)
   : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgShard (ShardMsgKVSReadRequest _)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgShard (ShardMsg.KVSReadRequest _)
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mk@{
         action := processReadRequestActionLabel;
         args := []
       }
@@ -1111,10 +1112,10 @@ updateSeenAllGuard
   (env : ShardEnv KVSKey KVSDatum)
   : Option (ShardGuardOutput KVSKey KVSDatum Executable ProgramState) :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-    | some mkEngineMsg@{
-        msg := Anoma.MsgShard (ShardMsgUpdateSeenAll _)
+    | some EngineMsg.mk@{
+        msg := Anoma.PreMsg.MsgShard (ShardMsg.UpdateSeenAll _)
       } :=
-      some mkGuardOutput@{
+      some GuardOutput.mk@{
         action := updateSeenAllActionLabel;
         args := []
       }
@@ -1147,8 +1148,8 @@ ShardBehaviour (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
 <!-- --8<-- [start:shardBehaviour] -->
 ```juvix
 shardBehaviour : ShardBehaviour String String ByteString String :=
-  mkEngineBehaviour@{
-    guards := First [
+  EngineBehaviour.mk@{
+    guards := GuardEval.First [
       acquireLockGuard;
       processWriteGuard;
       processReadRequestGuard;

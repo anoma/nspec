@@ -203,12 +203,12 @@ A `ReplyQuerySignsForEvidence` provides the requested evidence.
 <!-- --8<-- [start:SignsForMsg] -->
 ```juvix
 type SignsForMsg :=
-  | MsgSignsForRequest RequestSignsFor
-  | MsgSignsForReply ReplySignsFor
-  | MsgSubmitSignsForEvidenceRequest RequestSubmitSignsForEvidence
-  | MsgSubmitSignsForEvidenceReply ReplySubmitSignsForEvidence
-  | MsgQuerySignsForEvidenceRequest RequestQuerySignsForEvidence
-  | MsgQuerySignsForEvidenceReply ReplyQuerySignsForEvidence
+  | SignsForRequest RequestSignsFor
+  | SignsForReply ReplySignsFor
+  | SubmitSignsForEvidenceRequest RequestSubmitSignsForEvidence
+  | SubmitSignsForEvidenceReply ReplySubmitSignsForEvidence
+  | QuerySignsForEvidenceRequest RequestQuerySignsForEvidence
+  | QuerySignsForEvidenceReply ReplyQuerySignsForEvidence
   ;
 ```
 <!-- --8<-- [end:SignsForMsg] -->

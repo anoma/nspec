@@ -37,7 +37,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:TransportConnectionLocalCfg] -->
 ```juvix
 type TransportConnectionLocalCfg :=
-  mkTransportConnectionLocalCfg;
+  mk;
 ```
 <!-- --8<-- [end:TransportConnectionLocalCfg] -->
 
@@ -60,10 +60,10 @@ TransportConnectionCfg : Type :=
 module transport_connection_config_example;
 
 exTransportConnectionCfg : TransportConnectionCfg :=
-  mkEngineCfg@{
-    node := Curve25519PubKey "0xabcd1234";
+  EngineCfg.mk@{
+    node := PublicKey.Curve25519PubKey "0xabcd1234";
     name := "transport-connection";
-    cfg := mkTransportConnectionLocalCfg;
+    cfg := TransportConnectionLocalCfg.mk;
   };
 
 end;

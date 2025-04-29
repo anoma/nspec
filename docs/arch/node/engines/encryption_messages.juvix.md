@@ -123,8 +123,8 @@ response to a `RequestEncrypt`.
 <!-- --8<-- [start:EncryptionMsg] -->
 ```juvix
 type EncryptionMsg :=
-  | MsgEncryptionRequest RequestEncrypt
-  | MsgEncryptionReply ReplyEncrypt
+  | Request RequestEncrypt
+  | Reply ReplyEncrypt
   ;
 ```
 <!-- --8<-- [end:EncryptionMsg] -->

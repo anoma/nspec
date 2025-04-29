@@ -34,7 +34,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:TemplateLocalCfg] -->
 ```juvix
 type TemplateLocalCfg :=
-  mkTemplateLocalCfg@{
+  mk@{
     example : Nat;
     value : String;
   };
@@ -60,10 +60,10 @@ TemplateCfg : Type :=
 module template_config_example;
 
   exTemplateCfg : TemplateCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "template";
-      cfg := mkTemplateLocalCfg@{
+      cfg := TemplateLocalCfg.mk@{
         example := 1;
         value := "hello world";
       };

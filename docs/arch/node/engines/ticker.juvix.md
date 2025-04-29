@@ -75,7 +75,7 @@ TickerEngine : Type :=
 <!-- --8<-- [start:exampleTickerEngine] -->
 ```juvix
 exampleTickerEngine : TickerEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := tickerCfg;
     env := tickerEnv;
     behaviour := tickerBehaviour;

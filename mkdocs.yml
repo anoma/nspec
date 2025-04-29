@@ -341,11 +341,7 @@ theme:
     # - toc.integrate
 plugins:
   - search:
-      lang: en
-      pipeline:
-        - stemmer
-        - stopWordFilter
-        - trimmer
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   - glightbox
   - juvix # Provided with mkdocs-juvix-plugin
   - todos
@@ -356,6 +352,7 @@ plugins:
         - png
       FileTypeOverrides:
         mermaid: svg
+  - drawio
   - tags:
       tags_file: indexes/tags.md
   - bibtex:
@@ -369,8 +366,6 @@ plugins:
       j2_variable_end_string: "@}"
 watch:
   - docs/assets/css/extra.css
-hooks:
-  - hooks/fix_changelog.py
 exclude_docs: |
   **/.hooks/**
   docs/.juvix-build/**

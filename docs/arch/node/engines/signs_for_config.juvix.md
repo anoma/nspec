@@ -34,7 +34,7 @@ The SignsFor engine configuration contains static information for SignsFor engin
 
 <!-- --8<-- [start:SignsForCfg] -->
 ```juvix
-type SignsForCfg := mkSignsForCfg;
+type SignsForCfg := mk;
 ```
 <!-- --8<-- [end:SignsForCfg] -->
 
@@ -45,10 +45,10 @@ type SignsForCfg := mkSignsForCfg;
 module signs_for_config_example;
 
   signsForCfg : EngineCfg SignsForCfg :=
-    mkEngineCfg@{
-      node := Curve25519PubKey "0xabcd1234";
+    EngineCfg.mk@{
+      node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "signs for";
-      cfg := mkSignsForCfg
+      cfg := SignsForCfg.mk
     }
   ;
 end;

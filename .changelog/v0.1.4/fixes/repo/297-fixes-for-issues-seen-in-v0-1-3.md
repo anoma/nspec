@@ -1,1 +1,0 @@
-  -  [**#297**](https://github.com/anoma/nspec/pull/297): Fixes for issues seen in [v0.1.3](https://specs.anoma.net/v0.1.3/ )

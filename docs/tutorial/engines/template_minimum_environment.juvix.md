@@ -44,7 +44,7 @@ TemplateMinimumMailboxState : Type := Unit;
 <!-- --8<-- [start:TemplateMinimumLocalState] -->
 ```juvix
 type TemplateMinimumLocalState :=
-  mkTemplateMinimumLocalState;
+  mk;
 ```
 <!-- --8<-- [end:TemplateMinimumLocalState] -->
 
@@ -91,8 +91,8 @@ TemplateMinimumEnv : Type :=
 module template_minimum_environment_example;
 
   exTemplateMinimumEnv : TemplateMinimumEnv :=
-    mkEngineEnv@{
-      localState := mkTemplateMinimumLocalState;
+    EngineEnv.mk@{
+      localState := TemplateMinimumLocalState.mk;
       mailboxCluster := Map.empty;
       acquaintances := Set.empty;
       timers := []

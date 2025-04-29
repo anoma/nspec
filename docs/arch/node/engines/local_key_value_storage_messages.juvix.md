@@ -213,13 +213,13 @@ type ValueChangedKVStore := mkValueChangedKVStore {
 <!-- --8<-- [start:LocalKVStorageMsg] -->
 ```juvix
 type LocalKVStorageMsg :=
-  | LocalKVStorageMsgGetValueRequest GetValueKVStoreRequest
-  | LocalKVStorageMsgGetValueReply GetValueKVStoreReply
-  | LocalKVStorageMsgSetValueRequest SetValueKVStoreRequest
-  | LocalKVStorageMsgSetValueReply SetValueKVStoreReply
-  | LocalKVStorageMsgDeleteValueRequest DeleteValueKVStoreRequest
-  | LocalKVStorageMsgDeleteValueReply DeleteValueKVStoreReply
-  | LocalKVStorageMsgValueChanged ValueChangedKVStore;
+  | GetValueRequest GetValueKVStoreRequest
+  | GetValueReply GetValueKVStoreReply
+  | SetValueRequest SetValueKVStoreRequest
+  | SetValueReply SetValueKVStoreReply
+  | DeleteValueRequest DeleteValueKVStoreRequest
+  | DeleteValueReply DeleteValueKVStoreReply
+  | ValueChanged ValueChangedKVStore;
 ```
 <!-- --8<-- [end:LocalKVStorageMsg] -->
 

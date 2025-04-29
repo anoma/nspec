@@ -52,7 +52,7 @@ Each engine, not its type, is associated with:
 <!-- --8<-- [start:Engine] -->
 ```juvix
 type Engine C S B H A AM AC AE :=
-  mkEngine@{
+  mk@{
     cfg : EngineCfg C;
     env : EngineEnv S B H AM;
     behaviour : EngineBehaviour C S B H A AM AC AE;

@@ -21,7 +21,7 @@ tags:
 
     ```juvix
     type OrdKey OrdKeyType :=
-      mkOrdkey@{
+      mkOrdKey@{
         compare : OrdKeyType -> OrdKeyType -> Ordering
       };
     ```
@@ -37,7 +37,7 @@ tags:
     ```juvix
     -- Note: instance of this with Data.Map should be made
     type OrdMap (OrdKeyType : Type) (MapCon : Type -> Type) :=
-      mkOrdMap {
+      mkMap {
         ordKey : OrdKey OrdKeyType;
         empty {A} : MapCon A;
         map {A B} : (A -> B) -> MapCon A -> MapCon B;
@@ -623,7 +623,7 @@ projectVerifier
   { OrdKey VerifierType Signable Commitment SignerType VerifierHashOrdKeyType : Type }
   ( tc : ThresholdCompose OrdKey MapCon VerifierType Signable Commitment SignerType VerifierHashOrdKeyType ) :
   Verifier VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable (MapCon Commitment) :=
-  mkVerifier@{
+  Verifier.mkVerifier@{
     verify := ThresholdCompose.verify tc;
     verifierHash := ThresholdCompose.verifierHash tc;
   };
@@ -643,14 +643,14 @@ ThresholdComposeFunctor
     SignerType
     VerifierHashOrdKeyType
   :=
-  mkThresholdCompose@{
+  ThresholdCompose.mkThresholdCompose@{
     map := mapIn;
     underlyingVerifier := verifier;
     underlyingSigner := signer;
     verifierHash := thresholdComposeHash;
     sign := \ {s m := OrdMap.map map \ { i := Signer.sign underlyingSigner i m } s};
     verify := \ {
-      | (mkComposeHashable t ws) s c := (
+      | (ComposeHashable.mkComposeHashable t ws) s c := (
           t <= (
             OrdMap.foldl map \{(mkPair x y) := x + y} 0 (
               OrdMap.intersectWith map (
@@ -674,7 +674,7 @@ ThresholdComposeFunctor
 
     verifierCompose := \{
       threshold weights :=
-        (mkComposeHashable threshold
+        (ComposeHashable.mkComposeHashable threshold
           (foldl
             \ { m (mkPair w v) :=
               OrdMap.insert map (mkPair m (mkPair (
@@ -755,7 +755,7 @@ projectSignsFor
   { VerifierHashOrdKeyType : Type }
   ( tc : ThresholdComposeSignsFor OrdKey VerifierType Signable Commitment Evidence MapCon VerifierHashOrdKeyType ) :
   SignsFor VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) Signable (MapCon Commitment) Evidence :=
-  mkSignsFor@{
+  SignsFor.mkSignsFor@{
     verifier := projectVerifier (ThresholdComposeSignsFor.verifier tc);
     signsFor := ThresholdComposeSignsFor.signsFor tc;
   };
@@ -772,11 +772,11 @@ ThresholdComposeSignsForFunctor
   ( thresholdComposeHash : HASH VerifierHashOrdKeyType (ComposeHashable VerifierType MapCon) ) :
   ThresholdComposeSignsFor OrdKey VerifierType Signable Commitment Evidence MapCon VerifierHashOrdKeyType
   :=
-  mkThresholdComposeSignsFor@{
+  ThresholdComposeSignsFor.mkThresholdComposeSignsFor@{
     underlyingSignsFor := S;
     verifier := ThresholdComposeFunctor (SignsFor.verifier underlyingSignsFor) signer map thresholdComposeHash;
     signsFor := \{
-      e (mkPair (mkComposeHashable t0 w0) (mkComposeHashable t1 w1)) :=
+      e (mkPair (ComposeHashable.mkComposeHashable t0 w0) (ComposeHashable.mkComposeHashable t1 w1)) :=
         OrdMap.all map
           \{ (mkPair w v) :=
               (w * t1) <=
@@ -830,7 +830,7 @@ projectEncryptor
   (tc : ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType) :
   Encryptor EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon) Plaintext Ciphertext
   :=
-  mkEncryptor@{
+  Encryptor.mkEncryptor@{
     encrypt := ThresholdComposeEncryptor.encrypt tc;
     encryptorHash := ThresholdComposeEncryptor.encryptorHash tc;
   };
@@ -852,13 +852,13 @@ ThresholdComposeEncryptorFunctor
   (mapIn : OrdMap OrdKey MapCon)
   (thresholdComposeHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon)) :
   ThresholdComposeEncryptor OrdKey EncryptorType Plaintext Ciphertext MapCon EncryptorHashOrdKeyType
-  := mkThresholdComposeEncryptor@{
+  := ThresholdComposeEncryptor.mkThresholdComposeEncryptor@{
     map := mapIn;
     underlyingEncryptor := encryptor;
     encryptorHash := thresholdComposeHash;
     compose := \{
       t w :=
-        mkComposeHashable@{
+        ComposeHashable.mkComposeHashable@{
           threshold := t;
           weights :=
             foldl
@@ -925,7 +925,7 @@ projectReadsFor
     Signable
     Commitment
     Evidence
-  := mkReadsFor@{
+  := ReadsFor.mkReadsFor@{
     encryptor := projectEncryptor (ThresholdComposeReadsFor.encryptor tc);
     readsFor := ThresholdComposeReadsFor.readsFor tc;
   };
@@ -941,11 +941,11 @@ ThresholdComposeReadsForFunctor
   ( thresholdComposeHash : HASH EncryptorHashOrdKeyType (ComposeHashable EncryptorType MapCon) ) :
   ThresholdComposeReadsFor OrdKey EncryptorType Plaintext Ciphertext Evidence MapCon EncryptorHashOrdKeyType
   :=
-  mkThresholdComposeReadsFor@{
+  ThresholdComposeReadsFor.mkThresholdComposeReadsFor@{
     underlyingReadsFor := r;
     encryptor := ThresholdComposeEncryptorFunctor (ReadsFor.encryptor underlyingReadsFor) map thresholdComposeHash;
     readsFor := \{
-      e (mkPair (mkComposeHashable t0 w0) (mkComposeHashable t1 w1)) :=
+      e (mkPair (ComposeHashable.mkComposeHashable t0 w0) (ComposeHashable.mkComposeHashable t1 w1)) :=
         OrdMap.all map
           \{ (mkPair w v) :=
               (w * t1) <=
@@ -1150,7 +1150,7 @@ SubVerifierFunctor
   (parent : Verifier ParentOrdKeyType VerifierType (Pair String (Pair Name OrdKey)) Commitment)
   (hash : HASH ParentOrdKeyType (Pair ParentOrdKeyType Name)) :
   VerifierName OrdKey VerifierType Signable Commitment (Pair VerifierType Commitment) (Pair ParentOrdKeyType Name) ParentOrdKeyType :=
-  mkVerifierName@{
+  VerifierName.mkVerifierName@{
     verifier := child;
     checkVerifierName := \{
       (mkPair ph n) c (mkPair pv pc) :=

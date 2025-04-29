@@ -138,5 +138,3 @@ Spawn tree & message flow:
 </figure>
 
 ---
-
-

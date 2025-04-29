@@ -67,7 +67,7 @@ TemplateMinimumEngine : Type :=
 <!-- --8<-- [start:exTemplateMinimumEngine] -->
 ```juvix
 exTemplateMinimumEngine : TemplateMinimumEngine :=
-  mkEngine@{
+  Engine.mk@{
     cfg := exTemplateMinimumCfg;
     env := exTemplateMinimumEnv;
     behaviour := exTemplateMinimumBehaviour;

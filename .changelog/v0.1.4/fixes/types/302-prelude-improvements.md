@@ -1,1 +1,0 @@
-  -  [**#302**](https://github.com/anoma/nspec/pull/302): [[List of basic types|Prelude]] improvements

@@ -89,7 +89,7 @@ It consists of a sender, a target, an optional *mailbox identifier*, and the mes
 
 ```juvix
 type EngineMsg M :=
-  mkEngineMsg@{
+  mk@{
     sender : EngineID;
     target : EngineID;
     mailbox : Option MailboxID;
@@ -121,8 +121,8 @@ Extract the `EngineMsg` from a trigger in case it has one:
 ```juvix
 getEngineMsgFromTrigger {H M} (tr : Trigger H M) : Option (EngineMsg M)
   := case tr of {
-  | MessageArrived@{msg} := some msg
-  | Elapsed@{} := none
+  | Trigger.MessageArrived@{msg} := some msg
+  | Trigger.Elapsed@{} := none
   };
 ```
 
@@ -133,8 +133,8 @@ Extract the `Msg` from a trigger in case it has one:
 ```juvix
 getMsgFromTrigger {H M} (tr : Trigger H M) : Option M
   := case tr of {
-  | MessageArrived@{msg} := some (EngineMsg.msg msg)
-  | Elapsed@{} := none
+  | Trigger.MessageArrived@{msg} := some (EngineMsg.msg msg)
+  | Trigger.Elapsed@{} := none
   };
 ```
 
@@ -143,8 +143,8 @@ getMsgFromTrigger {H M} (tr : Trigger H M) : Option M
 ```juvix
 getSenderFromTrigger {H M} (tr : Trigger H M) : Option EngineID
   := case tr of {
-  | MessageArrived@{msg} := some (EngineMsg.sender msg)
-  | Elapsed@{} := none
+  | Trigger.MessageArrived@{msg} := some (EngineMsg.sender msg)
+  | Trigger.Elapsed@{} := none
   };
 ```
 
@@ -153,8 +153,8 @@ getSenderFromTrigger {H M} (tr : Trigger H M) : Option EngineID
 ```juvix
 getTargetFromTrigger {H M} (tr : Trigger H M) : Option EngineID
   := case tr of {
-  | MessageArrived@{msg} := some (EngineMsg.target msg)
-  | Elapsed@{} := none
+  | Trigger.MessageArrived@{msg} := some (EngineMsg.target msg)
+  | Trigger.Elapsed@{} := none
   };
 ```
 
@@ -197,4 +197,3 @@ getTargetFromTimestampedTrigger {H M} (tr : TimestampedTrigger H M) : Option Eng
 ```
 
 ---
-

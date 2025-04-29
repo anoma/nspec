@@ -84,9 +84,9 @@ type CountReply : Type :=
 <!-- --8<-- [start:TickerMsg] -->
 ```juvix
 type TickerMsg :=
-  | TickerMsgIncrement
-  | TickerMsgCountRequest
-  | TickerMsgCountReply CountReply
+  | Increment
+  | CountRequest
+  | CountReply CountReply
 ```
 <!-- --8<-- [end:TickerMsg] -->
 

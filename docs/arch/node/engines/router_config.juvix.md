@@ -37,7 +37,7 @@ The type for engine-specific local configuration.
 <!-- --8<-- [start:RouterLocalCfg] -->
 ```juvix
 type RouterLocalCfg :=
-  mkRouterLocalCfg;
+  mk;
 ```
 <!-- --8<-- [end:RouterLocalCfg] -->
 
@@ -60,10 +60,10 @@ RouterCfg : Type :=
 module router_config_example;
 
 exRouterCfg : RouterCfg :=
-  mkEngineCfg@{
-    node := Curve25519PubKey "0xabcd1234";
+  EngineCfg.mk@{
+    node := PublicKey.Curve25519PubKey "0xabcd1234";
     name := "router-0xab12cd34";
-    cfg := mkRouterLocalCfg;
+    cfg := RouterLocalCfg.mk;
   };
 
 end;
