@@ -12,9 +12,9 @@ tags:
 
 # Ethereum Virtual Machine Protocol Adapter
 
-The Ethereum Virtual Machine (EVM) protocol adapter is a smart contract written in [Solidity](https://soliditylang.org/) that can be deployed to EVM compatible chains and rollups to connect them to the Anoma protocol.
+The Ethereum Virtual Machine (EVM) protocol adapter is a smart contract written in [Solidity](https://soliditylang.org/) that can be deployed to EVM compatible chains and rollups to connect them to the a Anoma protocol. In general, the aim of the protocol adapter is to allow Anoma applications to be run on existing EVM-compatible chains (similar to how drivers allow an operating system to be run on different pieces of physical hardware).
 
-The current prototype is **settlment-only** protocol adapter, i.e., it is only capable of processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behavior.
+The current prototype is a **settlement-only** protocol adapter, i.e., it is only capable of processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behavior.
 
 The implementation can be found in the [`anoma/evm-protocol-adapter` GH repo](https://github.com/anoma/evm-protocol-adapter).
 
@@ -120,7 +120,7 @@ For key recovery from the message digest and signature, we use [OpenZeppelin's `
 Taking a protocol adapter contract-centric viewpoint, we distinguish between two types of EVM state:
 
 1. Internal [[Resource Machine|resource machine (RM)]] state being maintained inside the protocol adapter contract that is constituted by commitments, nullifiers, and blobs (see [Storage](#storage)).
-2. External state existing in smart contracts being independent of the protocol adapter and its internal RM state.
+2. External state existing in smart contracts which are independent of the protocol adapter and its internal RM state.
 
 To **interoperate with state in external contracts**, the protocol adapter contract can, during transaction execution, **make read and write calls** to them and **create and consume corresponding resources** in its internal state reflecting the external state reads and writes.
 
@@ -156,7 +156,7 @@ The protocol adapter ensures the `ForwarderCalldata` is part of the app data of 
 !!! note
     In the current, settlement-only protocol adapter design, the `output` data must already be known during proving time to be checked by resource logics and therefore is part of the `ForwarderCalldata` struct.
 
-The binding between the created calldata carrier resource and the called forwarder contract is ensured through the protocol adapter, who
+The binding between the created calldata carrier resource and the called forwarder contract is ensured through the protocol adapter, which
 
 1. is the exclusive caller of the forwarder contract,
 2. ensures the presence of the created calldata carrier resource in correspondence to the call in the transaction,
