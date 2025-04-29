@@ -13,7 +13,7 @@ module arch.system.state.resource_machine.data_structures.compliance_unit.compli
 
 `ComplianceUnit` is a data structure used to verify compliance proofs. It partitions the [[Action | action]], meaning that:
 
-1. there might be multiple compliance units for a single action 
+1. there might be multiple compliance units for a single action
 2. the sets of resources validated by any two compliance units don't intersect
 3. together the compliance units cover all of the resources in the action
 
