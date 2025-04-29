@@ -29,7 +29,7 @@ It is a composite structure that contains the following components:
 4. `delta(Transaction) -> DeltaHash`
 
 ## `create`
-Given a set of actions alongside delta data a transaction is formed as follows:
+Given a set of actions alongside delta data, a transaction is formed as follows:
 
 1. `tx.actions = actions`
 2. `tx.deltaProof = DeltaProvingSystem.Prove(DeltaProvingSystem.ProvingKey, DeltaProvingSystem.Instance, DeltaProvingSystem.Witness)`
