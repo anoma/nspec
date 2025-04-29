@@ -58,7 +58,7 @@ Validity of an action can only be determined for actions that are associated wit
 
 This function assembles the instance required to verify a resource logic proof from the data in the action.
 
-The main question to answer here is how to assemble `consumed` and `created` lists of resources. The proposed mechanism works as follows:
+The main task is to assemble the `consumed` and `created` lists of resources. The proposed mechanism works as follows:
 1. Iterate over all compliance units and accumulate the lists of created and consumed resources. The resulting list of consumed resources contains all consumed resources in the action. The resulting list of created resources contains all created resources in the action.
 2. Erase the `self` resource from the relevant list. If the resource is consumed and its nullifier is stored under index `n` in the list of consumed resources, the resulting list is `l[0], l[1], ..., l[n - 1], l[n + 1], ...`. Keep the list of created resources the same.
 3. If `self` is created, erase the resource from the list of created resources as in step 2. Keep the list of consumed resources the same. For each resource we assemble an instance for, we erase only one resource - itself - from one list.
