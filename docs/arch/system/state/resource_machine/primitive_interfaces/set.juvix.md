@@ -57,4 +57,4 @@ classDiagram
 ```
 
 ## Used in
-1. Transaction
+1. [[Transaction]]
