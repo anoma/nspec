@@ -16,7 +16,7 @@ An action is a composite structure of type `Action` that contains the following 
 
 |Component|Type|Description|
 |-|-|-|
-|`resourceLogicProofs`|`Map Tag (isConsumed: Bool, logicVKOuter: LogicVKOuterHash, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof)`|Resource logic proofs for resources associated with the action. The key of the map is the resource for which the proof is computed. The deletion criterion field is described [[Stored data format |here]].|
+|`resourceLogicProofs`|`Map Tag (isConsumed: Bool, logicVKOuter: LogicVKOuterHash, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof)`|Resource logic proofs for resources associated with the action. The key of each map entry is the tag of the resource for which a RL proof is provided. The deletion criterion field is described [[Stored data format |here]].|
 |`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
 
 !!! note
