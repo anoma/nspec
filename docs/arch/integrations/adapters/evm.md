@@ -254,7 +254,7 @@ By default, calldata carrier resources can be consumed by everyone (because thei
 !!! note
     When the singleton calldata carrier resource is consumed in a transaction, subsequent transactions in the same block cannot consume it anymore. This effectively limits the current design to a single forwarder contract call per block (if the commitment of the latest, unspent calldata carrier resource is not known to the subsequent transaction ahead of time). This will be improved in upcoming protocol adapter versions.
 
-The calldata carrier resource object is passed to the protocol adapter together with the `ForwarderCalldata` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol#L31)):
+The calldata carrier resource object is passed to the protocol adapter together with the `ForwarderCalldata` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6cdf69b92f58d56dc13df1c0b52539295ea59814/src/Types.sol#L31)):
 
 
 ```solidity
