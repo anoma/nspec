@@ -11,7 +11,7 @@ module arch.system.state.resource_machine.data_structures.compliance_unit.compli
 
 # Compliance unit
 
-`ComplianceUnit` is a data structure that partitions the [[Action | action]], meaning that there might be multiple compliance units for a single action, the sets of resources covered by any two compliance units cover don't intersect, and together the compliance units cover all of the resources in the action. This partition corresponds to the format expected by the compliance proving system used to produce compliance proofs. The table below describes the components of a compliance unit:
+`ComplianceUnit` is a data structure that partitions the [[Action | action]], meaning that there might be multiple compliance units for a single action, the sets of resources validated by any two compliance units cover don't intersect, and together the compliance units cover all of the resources in the action. This partition corresponds to the format expected by the compliance proving system used to produce compliance proofs. The table below describes the components of a compliance unit:
 
 |Component|Type|Description|
 |-|-|-|
@@ -38,13 +38,16 @@ Create is a function that provers use to create a compliance unit.
 
 ### Delta
 
-Compliance unit delta is used to compute action and transaction deltas and is itself computed from resource deltas: `delta = sum(r.delta() for r in outputResources - sum(r.delta() for r in inputResources))`. Note that the delta is computed by the prover (who knows the resource objects of resources associated with the unit) and is a part of the instance. The compliance proof must ensure the correct computation of delta from the resource deltas available at the proving time.
+Compliance unit delta is used to compute action and transaction deltas and is itself computed from resource deltas: `delta = sum(r.delta(deltaExtraInpu(r))) for r in outputResources - sum(r.delta(deltaExtraInput(r)) for r in inputResources))`. Note that the delta is computed by the prover (who knows the resource objects of resources associated with the unit) and is a part of the instance. The compliance proof must ensure the correct computation of delta from the resource deltas available at the proving time.
 
 #### Delta for computing balance
 
 From the homomorphic properties of [[Delta hash]], for the resources of the same kind $kind$, adding together the deltas of the resources results in the delta corresponding to the total quantity of that resource kind: $\sum_j{h_\Delta(kind, q_{r_{i_j}})} - \sum_j{h_\Delta(kind, q_{r_{o_j}})} = \sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}} =  h_\Delta(kind, q_{kind})$, where $q_{kind}$ is the total quantity of the resources of kind $kind$.
 
 The kind-distinctness property of $h_\Delta$ allows computing $\Delta = \sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}}$ adding resources of all kinds together without the need to account for distinct resource kinds explicitly: $\sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$.
+
+!!! note
+   The delta extra inputs omitted in the formulae above are added/subtracted accordingly.
 
 As a result, the properties of `DeltaHash` allow computing the total balance for a compliance unit, action, or transaction, without having direct access to quantities and kinds of the resources that comprise the data structure.
 

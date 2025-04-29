@@ -14,7 +14,7 @@ Resource delta is used to reason about the total quantities of different kinds o
 
 ## Delta for data structures
 
-Delta is a computable component that can also be computed for [[Compliance unit | compliance units]], [[Action | actions]], and [[Transaction | transactions]].
+Delta is a computable component that can be computed for [[Compliance unit | compliance units]], [[Action | actions]], and [[Transaction | transactions]] from resource deltas of the resources comprising the data structures.
 
 Note that transactions are partitioned into actions, actions are partitioned into compliance units, and compliance units are partitioned into resources. For that reason, the mechanism for computation of the deltas of these data structures is almost the same.
 
