@@ -130,7 +130,7 @@ the external contract and resources that should be created and consumed in conse
     - conducts the actual state read or write calls into the target contract and returns eventual return data
     - is custom-built for the target contract to call and permissionlessly deployed by 3rd parties
 - A [calldata carrier resource](#calldata-carrier-resource) (singleton) that
-    - must be present during the transaction
+    - must be part of the action data structure containing the forwarder call instruction
     - carries the inputs and outputs of the forwarded call
     - expresses constraints over other resources that must be present and correspond to the external call
 
@@ -140,7 +140,7 @@ and allows the protocol adapter to ensure the correspondence.
 
 This works as follows:
 
-The protocol adapter accepts optional an `ForwarderCalldata` struct with the RM transaction object as part of the action object (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol)):
+The protocol adapter accepts an optional `ForwarderCalldata` struct with the RM transaction object as part of the action object (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol)):
 
 ```solidity
 struct ForwarderCalldata {
