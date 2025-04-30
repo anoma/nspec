@@ -57,7 +57,7 @@ Each resource machine compliance proof must check the following:
 2. For each consumed resource `r`:
 
   1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumed`
-  3. Logic integrity: `logicVKOuter = logicVKOuterHash(r.logicRef, ...)`
+  2. Logic integrity: `logicVKOuter = logicVKOuterHash(r.logicRef, ...)`
 
 3. For each created resource `r`:
 
