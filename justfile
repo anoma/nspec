@@ -3,7 +3,6 @@
 # Set up the repository with all dependencies and hooks
 setup-repo:
 	uv sync
-	uv tool install just || true
 	just install-hooks
 	just install-tools
 
@@ -29,7 +28,7 @@ lock:
 
 # Export dependencies
 export:
-	uv export
+	uv export --frozen --output-file=requirements.txt
 
 # Run all pre-commit checks
 check:
@@ -64,9 +63,9 @@ commit-skip m:
 	git commit --no-verify -m "{{m}}"
 
 # Amend skipping pre-commit hooks
-amend:
+commit-amend:
 	git commit --amend --no-verify
 
 # Amend using commitizen
-amend-cz:
+cz-amend:
 	uv run cz commit --amend
