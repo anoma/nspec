@@ -44,7 +44,7 @@ Create is a function that provers use to create a compliance unit.
 
 ### Delta
 
-Compliance unit delta is used to compute action and transaction deltas and is itself computed from resource deltas: `delta = sum(r.delta(deltaExtraInpu(r))) for r in outputResources - sum(r.delta(deltaExtraInput(r)) for r in inputResources))`. Note that the delta is computed by the prover (who knows the resource objects of resources associated with the unit) and is a part of the instance. The compliance proof must ensure the correct computation of delta from the resource deltas available at the proving time.
+Compliance unit delta is used to compute action and transaction deltas and is itself computed from resource deltas: `delta = sum(r.delta(deltaExtraInput(r))) for r in outputResources - sum(r.delta(deltaExtraInput(r)) for r in inputResources))`. Note that the delta is computed by the prover (who knows the resource objects of resources associated with the unit) and is a part of the instance. The compliance proof must ensure the correct computation of delta from the resource deltas available at the proving time.
 
 #### Delta for computing balance
 
