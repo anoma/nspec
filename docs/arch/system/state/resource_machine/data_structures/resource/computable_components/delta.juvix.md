@@ -18,7 +18,7 @@ Delta is a computable component that can be computed for [[Compliance unit | com
 
 Note that transactions are partitioned into actions, actions are partitioned into compliance units, and compliance units are partitioned into resources. For that reason, the mechanism for computation of the deltas of these data structures is almost the same.
 
-1. For **compliance units**, delta is computed by using signed addition over the deltas of the resources that comprise the unit: `unit.delta() = sum(r.delta() for r in unit.consumedResources) - sum(r.delta() for r in unit.createdResources)`
+1. For **compliance units**, delta is computed by using signed addition over the deltas of the resources that comprise the unit: `unit.delta() = sum(r.delta(deltaExtraInput(r))) for r in outputResources - sum(r.delta(deltaExtraInput(r)) for r in inputResources))`
 2. For **actions**, delta is computed by adding the deltas of the compliance units that comprise the action:
 `action.delta() = sum(unit.delta() for unit in action)`. To make sure the action's delta is computed correctly, validate the compliance unit delta and make sure the action's deltas are computed using compliance unit deltas values.
 3. For **transactions**, delta is computed by adding the deltas of the actions that comprise the transaction:
