@@ -24,7 +24,7 @@ For the upcoming product version v0.3, only the [Sepolia network](https://ethere
 
 ## Storage
 
-The protocol adapter contract inherits the following storage components
+The protocol adapter contract inherits the following storage components as Solidity contracts:
 
 - [[Commitment accumulator|Commitment Accumulator]]
 - [[Nullifier set|Nullifier Set]]
