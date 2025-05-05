@@ -134,7 +134,7 @@ the external contract and resources that should be created and consumed in conse
     - carries the inputs and outputs of the forwarded call
     - expresses constraints over other resources that must be present and correspond to the external call
 
-and allows the protocol adapter to ensure the correspondence.
+and allows the application to ensure the correspondence.
 
 ![Schematic depiction of the state correspondence design.](pa-evm.drawio.svg)
 
