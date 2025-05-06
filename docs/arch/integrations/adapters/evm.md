@@ -12,9 +12,9 @@ tags:
 
 # Ethereum Virtual Machine Protocol Adapter
 
-The Ethereum Virtual Machine (EVM) protocol adapter is a smart contract written in [Solidity](https://soliditylang.org/) that can be deployed to EVM compatible chains and rollups to connect them to the a Anoma protocol. In general, the aim of the protocol adapter is to allow Anoma applications to be run on existing EVM-compatible chains (similar to how drivers allow an operating system to be run on different pieces of physical hardware).
+The Ethereum Virtual Machine (EVM) protocol adapter is a smart contract written in [Solidity](https://soliditylang.org/) that can be deployed to EVM compatible chains and roll-ups to connect them to the Anoma protocol. In general, the aim of the protocol adapter is to allow Anoma applications to be run on existing EVM-compatible chains (similar to how drivers allow an operating system to be run on different pieces of physical hardware).
 
-The current prototype is a **settlement-only** protocol adapter, i.e., it is only capable of processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behavior.
+The current prototype is a **settlement-only** protocol adapter, i.e., it is only capable of processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behaviour.
 
 The implementation can be found in the [`anoma/evm-protocol-adapter` GH repo](https://github.com/anoma/evm-protocol-adapter).
 
@@ -124,15 +124,18 @@ Taking a protocol adapter contract-centric viewpoint, we distinguish between two
 
 To **interoperate with state in external contracts**, the protocol adapter contract can, during transaction execution, **make read and write calls** to them and **create and consume corresponding resources** in its internal state reflecting the external state reads and writes.
 
-We achieve this by creating an indirection layer separating the protocol adapter from the
-the external contract and resources that should be created and consumed in consequence. It consists of:
+We achieve this by creating an indirection layer separating the protocol adapter from
+the external contract and resources that should be created and consumed in
+consequence. It consists of:
+
 - A [forwarder contract](#forwarder-contract) that
-    - performs the actual state read or write calls into the target contract and returns eventual return data
-    - is custom-built for the target contract to call and permissionlessly deployed by 3rd parties
+  - performs the actual state read or write calls into the target contract and returns eventual return data
+  - is custom-built for the target contract to call and permissionlessly deployed by 3rd parties
+
 - A [calldata carrier resource](#calldata-carrier-resource) (singleton) that
-    - must be part of the action data structure containing the forwarder call instruction
-    - carries the inputs and outputs of the forwarded call
-    - expresses constraints over other resources that must be present and correspond to the external call
+  - must be part of the action data structure containing the forwarder call instruction
+  - carries the inputs and outputs of the forwarded call
+  - expresses constraints over other resources that must be present and correspond to the external call
 
 and allows the application to ensure the correspondence.
 
@@ -184,9 +187,9 @@ The resulting indirection has the purpose to keep custom logic such as
 - escrow logic (e.g., required to wrap owned state into resources)
 - event logic (e.g., required for EVM indexers)
 
-separate and independent from the protocol adapter contract. This allows the forwarder contract to be custom-built and permissionlessly deployed by untrusted 3rd parties.
+separate and independent of the protocol adapter contract. This allows the forwarder contract to be custom-built and permissionlessly deployed by untrusted 3rd parties.
 
-Besides referencing the external contract by its address, the forwarder contract must also reference the
+Besides referencing the external contract by its address, the forwarder contract must also reference
 the resource kind of the associated [calldata carrier resource](#calldata-carrier-resource) that the protocol adapter will require be created. This allows the forwarder contract to also to enforce its own contract address to be part of the carrier resource label, which ensures that the correspondence between the forwarder and carrier resource is unique.
 
 !!! note
@@ -352,7 +355,6 @@ sequenceDiagram
     Note over PA: Update internal state
     PA ->> PA: add nullifiers,<br>commitments, blobs
   end
-
 ```
 
 1. A user Alice calls a transaction function of a Juvix application to produce an ARM transaction object (here expressing an intent) as well as the instances and witnesses for the various proof types (resource logic, compliance, and delta proofs).
@@ -363,7 +365,7 @@ sequenceDiagram
 5. Another user Bob expresses his intent (see 1. to 3.).
 6. See 4.
 7. A solver Sally monitors the intent pool and sees the intent transactions by Alice and Bob and finds a match (using her algorithm).
-8. Sally composes the the intent transactions and adds her own actions s.t. the transaction becomes balanced & valid. She converts the transaction object into the format required by the EVM protocol adapter.
+8. Sally composes the intent transactions and adds her own actions s.t. the transaction becomes balanced & valid. She converts the transaction object into the format required by the EVM protocol adapter.
 9. Sally being connected to an Ethereum node makes an [`eth_sendTransaction`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sendtransaction) call into the protocol adapter's `execute(Transaction tx)` function, which she signs with the private key of her account.
 10. The protocol adapter verifies the proofs from 3. by calling a RISC ZERO verifier contract deployed on the network.
 11. The protocol adapter makes an optional forwarder contract call by using the `ForwarderCalldata.input` data.
@@ -372,8 +374,8 @@ sequenceDiagram
 14. Return data (that can be empty) is passed to the protocol adapter contract allowing it to conduct integrity checks (by requiring the same data to be part of `action.appData`).
 15. The protocol adapter updates its internal state by storing
 
-    - nullifiers of consumed resources
+  - nullifiers of consumed resources
 
-    - commitments of created resources
+  - commitments of created resources
 
-    - blobs with deletion criteria `!= DeletionCriterion.Immediately`.
+  - blobs with deletion criteria `!= DeletionCriterion.Immediately`.
