@@ -288,7 +288,7 @@ Resources can correspond to EVM state and correspond to a specific [calldata car
 
 The protocol adapter transaction flow is shown below:
 
-```mermaid
+```kroki-mermaid
 sequenceDiagram
   autonumber
   title: Transaction Flow of the Settlement-Only EVM Protocol Adapter
