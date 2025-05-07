@@ -242,7 +242,7 @@ commitAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | EngineMsg.mk@{msg := Anoma.Msg.MsgCommitment (CommitmentMsg.Request request)} :=
+      | EngineMsg.mk@{msg := Anoma.Msg.Commitment (CommitmentMsg.Request request)} :=
         let
           signedData := Signer.sign
             (CommitmentLocalCfg.signer (EngineCfg.cfg cfg))
@@ -259,7 +259,7 @@ commitAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgCommitment (CommitmentMsg.Reply responseMsg)
+              msg := Anoma.Msg.Commitment (CommitmentMsg.Reply responseMsg)
             }
           ];
           timers := [];
@@ -353,7 +353,7 @@ commitGuard
   : Option CommitmentGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgCommitment (CommitmentMsg.Request _);
+        msg := Anoma.Msg.Commitment (CommitmentMsg.Request _);
       } := some GuardOutput.mk@{
         action := commitActionLabel;
         args := [];

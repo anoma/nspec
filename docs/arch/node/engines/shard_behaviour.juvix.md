@@ -520,7 +520,7 @@ generateReadMsg
     sender := sender;
     target := executor;
     mailbox := some 0;
-    msg := Anoma.Msg.MsgShard (ShardMsg.KVSRead KVSReadMsg.mkKVSReadMsg@{
+    msg := Anoma.Msg.Shard (ShardMsg.KVSRead KVSReadMsg.mkKVSReadMsg@{
       timestamp := timestamp;
       key := key;
       data := data
@@ -679,7 +679,7 @@ acquireLockAction
       trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgShard (ShardMsg.KVSAcquireLock lockMsg)
+        msg := Anoma.Msg.Shard (ShardMsg.KVSAcquireLock lockMsg)
       } :=
       let addEagerReadAccesses := \{key dag :=
             let readStatus := ReadStatus.mkReadStatus@{
@@ -725,7 +725,7 @@ acquireLockAction
             sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
             target := KVSAcquireLockMsg.worker lockMsg;
             mailbox := some 0;
-            msg := Anoma.Msg.MsgShard (ShardMsg.KVSLockAcquired KVSLockAcquiredMsg.mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})
+            msg := Anoma.Msg.Shard (ShardMsg.KVSLockAcquired KVSLockAcquiredMsg.mkKVSLockAcquiredMsg@{timestamp := KVSAcquireLockMsg.timestamp lockMsg})
           } :: snd propagationResult;
         timers := [];
         engines := []
@@ -756,7 +756,7 @@ processWriteAction
       trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgShard (ShardMsg.KVSWrite writeMsg)
+        msg := Anoma.Msg.Shard (ShardMsg.KVSWrite writeMsg)
       } :=
       let dag := ShardLocalState.dagStructure local;
           key := KVSWriteMsg.key writeMsg;
@@ -803,7 +803,7 @@ processReadRequestAction
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
         sender := sender;
-        msg := Anoma.Msg.MsgShard (ShardMsg.KVSReadRequest readReqMsg)
+        msg := Anoma.Msg.Shard (ShardMsg.KVSReadRequest readReqMsg)
       } :=
       let dag := ShardLocalState.dagStructure local;
           key := KVSReadRequestMsg.key readReqMsg;
@@ -834,7 +834,7 @@ processReadRequestAction
                             sender := getEngineIDFromEngineCfg cfg;
                             target := sender;
                             mailbox := some 0;
-                            msg := Anoma.Msg.MsgShard (ShardMsg.KVSRead KVSReadMsg.mkKVSReadMsg@{
+                            msg := Anoma.Msg.Shard (ShardMsg.KVSRead KVSReadMsg.mkKVSReadMsg@{
                               timestamp := timestamp;
                               key := key;
                               data := data
@@ -878,7 +878,7 @@ updateSeenAllAction
       trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgShard (ShardMsg.UpdateSeenAll updateMsg)
+        msg := Anoma.Msg.Shard (ShardMsg.UpdateSeenAll updateMsg)
       } :=
       let oldDag := ShardLocalState.dagStructure local;
           newDag := case UpdateSeenAllMsg.write updateMsg of {
@@ -1000,7 +1000,7 @@ acquireLockGuard
   : Option ShardGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgShard (ShardMsg.KVSAcquireLock _)
+        msg := Anoma.Msg.Shard (ShardMsg.KVSAcquireLock _)
       } :=
       some GuardOutput.mk@{
         action := acquireLockActionLabel;
@@ -1025,7 +1025,7 @@ processWriteGuard
   : Option ShardGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgShard (ShardMsg.KVSWrite _)
+        msg := Anoma.Msg.Shard (ShardMsg.KVSWrite _)
       } :=
       some GuardOutput.mk@{
         action := processWriteActionLabel;
@@ -1050,7 +1050,7 @@ processReadRequestGuard
   : Option ShardGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgShard (ShardMsg.KVSReadRequest _)
+        msg := Anoma.Msg.Shard (ShardMsg.KVSReadRequest _)
       } :=
       some GuardOutput.mk@{
         action := processReadRequestActionLabel;
@@ -1075,7 +1075,7 @@ updateSeenAllGuard
   : Option ShardGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgShard (ShardMsg.UpdateSeenAll _)
+        msg := Anoma.Msg.Shard (ShardMsg.UpdateSeenAll _)
       } :=
       some GuardOutput.mk@{
         action := updateSeenAllActionLabel;

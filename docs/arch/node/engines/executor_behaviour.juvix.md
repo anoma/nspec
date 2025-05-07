@@ -289,7 +289,7 @@ processReadAction
     env := ActionInput.env input;
     trigger := ActionInput.trigger input;
   in case getMsgFromTimestampedTrigger trigger of {
-    | some (Msg.MsgShard (ShardMsg.KVSRead (KVSReadMsg.mkKVSReadMsg@{key := readKey; data := readValue}))) :=
+    | some (Msg.Shard (ShardMsg.KVSRead (KVSReadMsg.mkKVSReadMsg@{key := readKey; data := readValue}))) :=
       let
         envelope (target : EngineID) (msg : Anoma.Msg) : EngineMsg Anoma.Msg :=
           EngineMsg.mk@{
@@ -306,13 +306,13 @@ processReadAction
         -- These inform the shards that they can release pending locks in the
         -- case that the executor halts.
         staleReadMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
-          envelope (ExecutorLocalCfg.keyToShard cfg key) (Msg.MsgShard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
+          envelope (ExecutorLocalCfg.keyToShard cfg key) (Msg.Shard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
             timestamp := ExecutorLocalCfg.timestamp cfg;
             key := key;
             actual := false
           })));
         staleWriteMsg (key : KVSKey) : EngineMsg Anoma.Msg :=
-          envelope (ExecutorLocalCfg.keyToShard cfg key) (Msg.MsgShard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
+          envelope (ExecutorLocalCfg.keyToShard cfg key) (Msg.Shard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
             timestamp := ExecutorLocalCfg.timestamp cfg;
             key := key;
             datum := none
@@ -336,7 +336,7 @@ processReadAction
               local := EngineEnv.localState env;
               finishedMsg :=
                 envelope (ExecutorLocalCfg.issuer cfg)
-                  (Msg.MsgExecutor (ExecutorMsg.ExecutorFinished ExecutorFinishedMsg.mkExecutorFinishedMsg@{
+                  (Msg.Executor (ExecutorMsg.ExecutorFinished ExecutorFinishedMsg.mkExecutorFinishedMsg@{
                     success := false;
                     values_read := (mkPair readKey readValue) :: Map.toList reads;
                     values_written := Map.toList writes
@@ -353,7 +353,7 @@ processReadAction
                      (msgs : List (EngineMsg Anoma.Msg)) :
                      List (EngineMsg Anoma.Msg) :=
               let msg :=
-                envelope (ExecutorLocalCfg.keyToShard cfg key) (Msg.MsgShard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
+                envelope (ExecutorLocalCfg.keyToShard cfg key) (Msg.Shard (ShardMsg.KVSReadRequest (KVSReadRequestMsg.mkKVSReadRequestMsg@{
                     timestamp := ExecutorLocalCfg.timestamp cfg;
                     key := key;
                     actual := true
@@ -369,7 +369,7 @@ processReadAction
                       List (EngineMsg Anoma.Msg) :=
               let msg :=
                 envelope (ExecutorLocalCfg.keyToShard cfg key)
-                  (Msg.MsgShard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
+                  (Msg.Shard (ShardMsg.KVSWrite (KVSWriteMsg.mkKVSWriteMsg@{
                     timestamp := ExecutorLocalCfg.timestamp cfg;
                     key := key;
                     datum := some value
@@ -412,7 +412,7 @@ processReadAction
                 finishedMsg :=
                   envelope
                     (ExecutorLocalCfg.issuer cfg)
-                    (Msg.MsgExecutor (ExecutorMsg.ExecutorFinished ExecutorFinishedMsg.mkExecutorFinishedMsg@{
+                    (Msg.Executor (ExecutorMsg.ExecutorFinished ExecutorFinishedMsg.mkExecutorFinishedMsg@{
                       success := true;
                       values_read := Map.toList reads;
                       values_written := Map.toList writes
@@ -508,7 +508,7 @@ processReadGuard
   (env : ExecutorEnv)
   : Option ExecutorGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
-  | some EngineMsg.mk@{msg := Msg.MsgShard (ShardMsg.KVSRead (KVSReadMsg.mkKVSReadMsg@{
+  | some EngineMsg.mk@{msg := Msg.Shard (ShardMsg.KVSRead (KVSReadMsg.mkKVSReadMsg@{
       timestamp := timestamp;
       key := _;
       data := _

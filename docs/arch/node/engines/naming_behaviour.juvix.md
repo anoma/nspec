@@ -383,7 +383,7 @@ resolveNameAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     identityName := case getEngineMsgFromTimestampedTrigger tt of {
-      | some EngineMsg.mk@{msg := Anoma.Msg.MsgNaming (NamingMsg.ResolveNameRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.Msg.Naming (NamingMsg.ResolveNameRequest req)} :=
           some (RequestResolveName.identityName req)
       | _ := none
     }
@@ -406,7 +406,7 @@ resolveNameAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgNaming (NamingMsg.ResolveNameReply responseMsg)
+              msg := Anoma.Msg.Naming (NamingMsg.ResolveNameReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -443,7 +443,7 @@ submitNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     evidence := case getEngineMsgFromTimestampedTrigger tt of {
-      | some EngineMsg.mk@{msg := Anoma.Msg.MsgNaming (NamingMsg.SubmitNameEvidenceRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.Msg.Naming (NamingMsg.SubmitNameEvidenceRequest req)} :=
           some (RequestSubmitNameEvidence.evidence req)
       | _ := none
     }
@@ -480,7 +480,7 @@ submitNameEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgNaming (NamingMsg.SubmitNameEvidenceReply responseMsg)
+              msg := Anoma.Msg.Naming (NamingMsg.SubmitNameEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -517,7 +517,7 @@ queryNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     externalIdentity := case getEngineMsgFromTimestampedTrigger tt of {
-      | some EngineMsg.mk@{msg := Anoma.Msg.MsgNaming (NamingMsg.QueryNameEvidenceRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.Msg.Naming (NamingMsg.QueryNameEvidenceRequest req)} :=
           some (RequestQueryNameEvidence.externalIdentity req)
       | _ := none
     }
@@ -538,7 +538,7 @@ queryNameEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgNaming (NamingMsg.QueryNameEvidenceReply responseMsg)
+              msg := Anoma.Msg.Naming (NamingMsg.QueryNameEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -638,7 +638,7 @@ resolveNameGuard
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgNaming (NamingMsg.ResolveNameRequest _)
+        msg := Anoma.Msg.Naming (NamingMsg.ResolveNameRequest _)
       } := some GuardOutput.mk@{
         action := resolveNameActionLabel;
         args := []
@@ -662,7 +662,7 @@ submitNameEvidenceGuard
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgNaming (NamingMsg.SubmitNameEvidenceRequest _)
+        msg := Anoma.Msg.Naming (NamingMsg.SubmitNameEvidenceRequest _)
       } := some GuardOutput.mk@{
         action := submitNameEvidenceActionLabel;
         args := []
@@ -686,7 +686,7 @@ queryNameEvidenceGuard
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgNaming (NamingMsg.QueryNameEvidenceRequest _)
+        msg := Anoma.Msg.Naming (NamingMsg.QueryNameEvidenceRequest _)
       } := some GuardOutput.mk@{
         action := queryNameEvidenceActionLabel;
         args := []

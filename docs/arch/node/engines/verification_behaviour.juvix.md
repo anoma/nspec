@@ -341,7 +341,7 @@ verifyAction
   in case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-        | EngineMsg.mk@{msg := Anoma.Msg.MsgVerification (VerificationMsg.Request (RequestVerification.mkRequestVerification data commitment externalIdentity useSignsFor))} :=
+        | EngineMsg.mk@{msg := Anoma.Msg.Verification (VerificationMsg.Request (RequestVerification.mkRequestVerification data commitment externalIdentity useSignsFor))} :=
           case useSignsFor of {
             | false :=
               some ActionEffect.mk@{
@@ -351,7 +351,7 @@ verifyAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := EngineMsg.sender emsg;
                     mailbox := some 0;
-                    msg := Anoma.Msg.MsgVerification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
+                    msg := Anoma.Msg.Verification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
                       (Verifier.verify
                         (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
                         (VerificationLocalCfg.backend (EngineCfg.cfg cfg))
@@ -385,7 +385,7 @@ verifyAction
                       sender := getEngineIDFromEngineCfg cfg;
                       target := VerificationLocalCfg.signsForEngineAddress (EngineCfg.cfg cfg);
                       mailbox := some 0;
-                      msg := Anoma.Msg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceRequest (RequestQuerySignsForEvidence.mkRequestQuerySignsForEvidence externalIdentity))
+                      msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceRequest (RequestQuerySignsForEvidence.mkRequestQuerySignsForEvidence externalIdentity))
                     }
                   ]
                 };
@@ -427,7 +427,7 @@ signsForReplyAction
   in case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-        | EngineMsg.mk@{msg := Anoma.Msg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceReply (ReplyQuerySignsForEvidence.mkReplyQuerySignsForEvidence externalIdentity evidence err))} :=
+        | EngineMsg.mk@{msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceReply (ReplyQuerySignsForEvidence.mkReplyQuerySignsForEvidence externalIdentity evidence err))} :=
           case Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState) of {
             | some reqs :=
               let
@@ -449,7 +449,7 @@ signsForReplyAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := whoAsked;
                     mailbox := some 0;
-                    msg := Anoma.Msg.MsgVerification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
+                    msg := Anoma.Msg.Verification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
                       (Verifier.verify
                         (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
                         (VerificationLocalCfg.backend (EngineCfg.cfg cfg))
@@ -555,7 +555,7 @@ verifyGuard
   : Option VerificationGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgVerification (VerificationMsg.Request _);
+        msg := Anoma.Msg.Verification (VerificationMsg.Request _);
       } :=
       some GuardOutput.mk@{
         action := verifyActionLabel;
@@ -582,7 +582,7 @@ signsForReplyGuard
     | some emsg :=
       case emsg of {
         | EngineMsg.mk@{
-            msg := Anoma.Msg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceReply _);
+            msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceReply _);
             sender := sender
           } :=
           case isEqual (Ord.compare sender (VerificationLocalCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {

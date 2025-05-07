@@ -184,7 +184,7 @@ getTimeAction
             target := EngineMsg.sender emsg;
             mailbox := some 0;
             msg :=
-              Anoma.Msg.MsgWallClock
+              Anoma.Msg.WallClock
                 (WallClockMsg.GetTimeResult
                   TimeResult.mk@{
                     epochTime := newTime
@@ -276,7 +276,7 @@ getTimeGuard
   : Option WallClockGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgWallClock WallClockMsg.GetTime;
+        msg := Anoma.Msg.WallClock WallClockMsg.GetTime;
       } := some GuardOutput.mk@{
         action := getTimeActionLabel;
         args := [];

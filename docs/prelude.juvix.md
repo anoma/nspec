@@ -1223,6 +1223,7 @@ import Stdlib.Data.Set as Set open using {
     Set; module Set;
     difference;
     union;
+    insert;
     eqSetI;
     ordSetI;
     isSubset;
@@ -1291,13 +1292,13 @@ cartesianProduct
     -- For a fixed element from set1, create a set of all pairs with elements from s2
     pairsForElement (a : A) : Set (Pair A B) :=
       for (acc := Set.empty) (b in s2) {
-        Set.insert (mkPair a b) acc
+        insert (mkPair a b) acc
       };
 
     -- Create set of sets, each containing pairs for one element from s1
     pairSets : Set (Set (Pair A B)) :=
       for (acc := Set.empty) (a in s1) {
-        Set.insert (pairsForElement a) acc
+        insert (pairsForElement a) acc
       };
   in setJoin pairSets;
 ```

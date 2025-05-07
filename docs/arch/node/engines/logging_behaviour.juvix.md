@@ -145,7 +145,7 @@ appendLogAction
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgLogging (LoggingMsg.Append (AppendValue.mk@{value := value}));
+        msg := Anoma.Msg.Logging (LoggingMsg.Append (AppendValue.mk@{value := value}));
       } :=
       let
         currentLogbook := LoggingLocalState.logbook (EngineEnv.localState env);
@@ -228,7 +228,7 @@ appendLogGuard
   : Option LoggingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgLogging (LoggingMsg.Append _);
+        msg := Anoma.Msg.Logging (LoggingMsg.Append _);
       } := some GuardOutput.mk@{
         action := appendLogActionLabel;
         args := [];

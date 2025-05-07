@@ -239,7 +239,7 @@ exampleReplyAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgTemplate (TemplateMsg.ExampleRequest req);
+        msg := Anoma.Msg.Template (TemplateMsg.ExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
@@ -252,7 +252,7 @@ exampleReplyAction
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.Msg.MsgTemplate
+              Anoma.Msg.Template
                 (TemplateMsg.ExampleReply
                   (ok ExampleReplyOk.mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -365,7 +365,7 @@ justHiGuard
   in
     case emsg of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgTemplate TemplateMsg.JustHi;
+        msg := Anoma.Msg.Template TemplateMsg.JustHi;
       } :=
       some GuardOutput.mk@{
         action := justHiActionLabel;
@@ -397,7 +397,7 @@ exampleReplyGuard
   : Option TemplateGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgTemplate (TemplateMsg.ExampleRequest req);
+        msg := Anoma.Msg.Template (TemplateMsg.ExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
       } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;

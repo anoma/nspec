@@ -120,7 +120,7 @@ module everything;
 
 All message types must be added to the `arch/node/types/anoma_message.juvix.md` file.
 Use the same pattern as the existing message types.
-For example, if the engine is the `ticker`, the new type constructor should be `MsgTicker`
+For example, if the engine is the `ticker`, the new type constructor should be `Msg.Ticker`
 along with the corresponding type for the messages, that is, `TickerMsg`.
 
 ```diff title="arch/node/types/anoma_message.juvix.md"
@@ -129,7 +129,7 @@ module arch.node.types.anoma_message;
 + import arch.node.engines.ticker_messages open;
 
 type Msg KVSKey KVSDatum Executable :=
-+  | MsgTicker TickerMsg
++  | Msg.Ticker TickerMsg
 ```
 
 

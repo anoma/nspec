@@ -340,7 +340,7 @@ encryptAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case EngineMsg.msg emsg of {
-      | Anoma.Msg.MsgEncryption (EncryptionMsg.Request (RequestEncrypt.mkRequestEncrypt data externalIdentity useReadsFor)) :=
+      | Anoma.Msg.Encryption (EncryptionMsg.Request (RequestEncrypt.mkRequestEncrypt data externalIdentity useReadsFor)) :=
         case useReadsFor of {
         | false :=
           some ActionEffect.mk@{
@@ -350,7 +350,7 @@ encryptAction
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.Msg.MsgEncryption (EncryptionMsg.Reply (
+                msg := Anoma.Msg.Encryption (EncryptionMsg.Reply (
                   ReplyEncrypt.mkReplyEncrypt@{
                     ciphertext := Encryptor.encrypt
                       (EncryptionLocalCfg.encryptor (EngineCfg.cfg cfg) Set.empty externalIdentity)
@@ -383,7 +383,7 @@ encryptAction
                       sender := getEngineIDFromEngineCfg cfg;
                       target := EncryptionLocalCfg.readsForEngineAddress (EngineCfg.cfg cfg);
                       mailbox := some 0;
-                      msg := Anoma.Msg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest (
+                      msg := Anoma.Msg.ReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest (
                         RequestQueryReadsForEvidence.mkRequestQueryReadsForEvidence@{
                           externalIdentity := externalIdentity
                         }))
@@ -430,7 +430,7 @@ handleReadsForReplyAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case EngineMsg.msg emsg of {
-      | Anoma.Msg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceReply (ReplyQueryReadsForEvidence.mkReplyQueryReadsForEvidence externalIdentity evidence err)) :=
+      | Anoma.Msg.ReadsFor (ReadsForMsg.QueryReadsForEvidenceReply (ReplyQueryReadsForEvidence.mkReplyQueryReadsForEvidence externalIdentity evidence err)) :=
         case Map.lookup externalIdentity (EncryptionLocalState.pendingRequests localState) of {
         | some reqs :=
           let newLocalState := localState@EncryptionLocalState{
@@ -447,7 +447,7 @@ handleReadsForReplyAction
                               sender := getEngineIDFromEngineCfg cfg;
                               target := whoAsked;
                               mailbox := some 0;
-                              msg := Anoma.Msg.MsgEncryption (EncryptionMsg.Reply (
+                              msg := Anoma.Msg.Encryption (EncryptionMsg.Reply (
                                 ReplyEncrypt.mkReplyEncrypt@{
                                   ciphertext := Encryptor.encrypt
                                     (EncryptionLocalCfg.encryptor (EngineCfg.cfg cfg) evidence externalIdentity)
@@ -538,7 +538,7 @@ encryptGuard
   : Option EncryptionGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
   | some EngineMsg.mk@{
-      msg := Anoma.Msg.MsgEncryption (EncryptionMsg.Request _);
+      msg := Anoma.Msg.Encryption (EncryptionMsg.Request _);
     } :=
     some GuardOutput.mk@{
       action := encryptActionLabel;
@@ -561,7 +561,7 @@ readsForReplyGuard
   case getEngineMsgFromTimestampedTrigger tt of {
   | some emsg :=
     case EngineMsg.msg emsg of {
-    | Anoma.Msg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceReply _) :=
+    | Anoma.Msg.ReadsFor (ReadsForMsg.QueryReadsForEvidenceReply _) :=
       case isEqual (Ord.compare (EngineMsg.sender emsg) (EncryptionLocalCfg.readsForEngineAddress (EngineCfg.cfg cfg))) of {
       | true := some GuardOutput.mk@{
           action := handleReadsForReplyActionLabel;

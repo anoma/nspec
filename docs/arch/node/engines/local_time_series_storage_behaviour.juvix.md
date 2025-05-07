@@ -147,7 +147,7 @@ getDataAction
     local := EngineEnv.localState env;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.GetRequest request);
+        msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.GetRequest request);
         sender := sender;
       } :=
       let result := queryDB (LocalTSStorageLocalState.db local) (GetDataTSStorageDBRequest.query request);
@@ -158,7 +158,7 @@ getDataAction
               sender := getEngineIDFromEngineCfg cfg;
               target := sender;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.GetReply
+              msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.GetReply
                 GetDataTSStorageDBReply.mkGetDataTSStorageDBReply@{
                   query := GetDataTSStorageDBRequest.query request;
                   data := data;
@@ -204,7 +204,7 @@ recordDataAction
     newTime := advanceTime (LocalTSStorageLocalState.localClock local)
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.RecordRequest request);
+        msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.RecordRequest request);
         sender := sender;
       } :=
       let query := RecordDataTSStorageDBRequest.query request;
@@ -223,7 +223,7 @@ recordDataAction
                   sender := getEngineIDFromEngineCfg cfg;
                   target := sender;
                   mailbox := some 0;
-                  msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.DeleteReply
+                  msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.DeleteReply
                     DeleteDataTSStorageDBReply.mkDeleteDataTSStorageDBReply@{
                       query := query;
                       success := true;
@@ -233,7 +233,7 @@ recordDataAction
               sender := getEngineIDFromEngineCfg cfg;
               target := target;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.DataChanged
+              msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.DataChanged
                 (DataChangedTSStorageDB.mkDataChangedTSStorageDB@{
                   query := query;
                   data := value;
@@ -253,7 +253,7 @@ recordDataAction
               sender := getEngineIDFromEngineCfg cfg;
               target := sender;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.RecordReply
+              msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.RecordReply
                 RecordDataTSStorageDBReply.mkRecordDataTSStorageDBReply@{
                   query := query;
                   success := false;
@@ -298,7 +298,7 @@ deleteDataAction
     newTime := advanceTime (LocalTSStorageLocalState.localClock local)
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.DeleteRequest request);
+        msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.DeleteRequest request);
         sender := sender;
       } :=
       let query := DeleteDataTSStorageDBRequest.query request;
@@ -317,7 +317,7 @@ deleteDataAction
                   sender := getEngineIDFromEngineCfg cfg;
                   target := sender;
                   mailbox := some 0;
-                  msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.DeleteReply
+                  msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.DeleteReply
                     DeleteDataTSStorageDBReply.mkDeleteDataTSStorageDBReply@{
                       query := query;
                       success := true;
@@ -327,7 +327,7 @@ deleteDataAction
               sender := getEngineIDFromEngineCfg cfg;
               target := target;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.DataChanged
+              msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.DataChanged
                 (DataChangedTSStorageDB.mkDataChangedTSStorageDB@{
                   query := query;
                   data := value;
@@ -347,7 +347,7 @@ deleteDataAction
               sender := getEngineIDFromEngineCfg cfg;
               target := sender;
               mailbox := some 0;
-              msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.DeleteReply
+              msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.DeleteReply
                 DeleteDataTSStorageDBReply.mkDeleteDataTSStorageDBReply@{
                   query := query;
                   success := false;
@@ -451,7 +451,7 @@ getDataGuard
   : Option LocalTSStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.GetRequest _);
+        msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.GetRequest _);
       } := some GuardOutput.mk@{
         action := getDataActionLabel;
         args := [];
@@ -475,7 +475,7 @@ recordDataGuard
   : Option LocalTSStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.RecordRequest _);
+        msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.RecordRequest _);
       } := some GuardOutput.mk@{
         action := recordDataActionLabel;
         args := [];
@@ -499,7 +499,7 @@ deleteDataGuard
   : Option LocalTSStorageGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.Msg.MsgLocalTSStorage (LocalTSStorageMsg.DeleteRequest _);
+        msg := Anoma.Msg.LocalTSStorage (LocalTSStorageMsg.DeleteRequest _);
       } := some GuardOutput.mk@{
         action := deleteDataActionLabel;
         args := [];

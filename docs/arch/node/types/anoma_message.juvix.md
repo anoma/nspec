@@ -76,43 +76,43 @@ type Msg :=
 
   {- Identity -}
 
-  | MsgIdentityManagement IdentityManagementMsg
-  | MsgDecryption DecryptionMsg
-  | MsgEncryption EncryptionMsg
-  | MsgCommitment CommitmentMsg
+  | IdentityManagement IdentityManagementMsg
+  | Decryption DecryptionMsg
+  | Encryption EncryptionMsg
+  | Commitment CommitmentMsg
 
-  | MsgVerification VerificationMsg
-  | MsgReadsFor ReadsForMsg
-  | MsgSignsFor SignsForMsg
-  | MsgNaming NamingMsg
+  | Verification VerificationMsg
+  | ReadsFor ReadsForMsg
+  | SignsFor SignsForMsg
+  | Naming NamingMsg
 
-  | MsgLocalKVStorage LocalKVStorageMsg
-  | MsgLogging LoggingMsg
-  | MsgWallClock WallClockMsg
-  | MsgLocalTSStorage LocalTSStorageMsg
+  | LocalKVStorage LocalKVStorageMsg
+  | Logging LoggingMsg
+  | WallClock WallClockMsg
+  | LocalTSStorage LocalTSStorageMsg
 
   {- Network -}
 
-  | MsgRouter (RouterMsg Msg)
-  | MsgTransportProtocol TransportProtocolMsg
-  | MsgTransportConnection TransportConnectionMsg
-  | MsgPubSubTopic PubSubTopicMsg
-  | MsgStorage StorageMsg
+  | Router (RouterMsg Msg)
+  | TransportProtocol TransportProtocolMsg
+  | TransportConnection TransportConnectionMsg
+  | PubSubTopic PubSubTopicMsg
+  | Storage StorageMsg
 
   {- Ordering -}
 
-  | MsgMempoolWorker (MempoolWorkerMsg Noun)
-  | MsgExecutor ExecutorMsg
-  | MsgShard ShardMsg
+  | MempoolWorker (MempoolWorkerMsg Noun)
+  | Executor ExecutorMsg
+  | Shard ShardMsg
 
   {- Misc -}
 
-  | MsgTicker TickerMsg
+  | Ticker TickerMsg
 
   {- Templates -}
 
-  | MsgTemplate TemplateMsg
-  | MsgTemplateMinimum TemplateMinimumMsg
+  | Template TemplateMsg
+  | TemplateMinimum TemplateMinimumMsg
 
   -- Add more messages here
   ;

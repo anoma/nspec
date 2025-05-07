@@ -40,6 +40,7 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
     import arch.node.types.anoma_config open;
     import arch.node.types.anoma_environment open;
     import arch.node.integration.simulator open;
+    import arch.node.integration.visualizer open;
 
     -- Import specific engine implementations (configs, envs, behaviours)
     import arch.node.engines.mempool_worker_config open;
@@ -173,14 +174,14 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
         sender := clientSenderId;
         target := mempoolWorkerId;
         mailbox := none;
-        msg := Msg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest (TransactionRequest.mkTransactionRequest@{ tx := txWriteA; resubmission := none }))
+        msg := Msg.MempoolWorker (MempoolWorkerMsg.TransactionRequest (TransactionRequest.mkTransactionRequest@{ tx := txWriteA; resubmission := none }))
       };
       EngineMsg.mk@{
         sender := clientSenderId;
         target := mempoolWorkerId;
         mailbox := none;
         -- Use the increment transaction
-        msg := Msg.MsgMempoolWorker (MempoolWorkerMsg.TransactionRequest (TransactionRequest.mkTransactionRequest@{ tx := txIncWrite; resubmission := none }))
+        msg := Msg.MempoolWorker (MempoolWorkerMsg.TransactionRequest (TransactionRequest.mkTransactionRequest@{ tx := txIncWrite; resubmission := none }))
       }
     ];
 
@@ -195,7 +196,7 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
 
     -- Simulation Execution
     -- Run the simulation for 20 steps using the selectFirstMessage strategy.
-    simulationResult : List (EngineMsg Msg) := simulate selectFirstMessage initialNetworkState 20;
+    simulationResult : String := prettyPrintMessageList (simulate selectFirstMessage initialNetworkState 20);
 
     simulationResult2 : Pair (List (EngineMsg Msg)) (List (EngineMsg Msg)) := simulateWithFailures selectFirstMessage initialNetworkState 20;
 
