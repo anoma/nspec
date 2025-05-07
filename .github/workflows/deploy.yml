@@ -113,14 +113,3 @@ jobs:
           clean: false
           git-config-name: Anoma Research
           git-config-email: arts@heliax.dev
-
-      - uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          token: ${{ secrets.PAGES_TOKEN }}
-          repository-name: anoma/specs.anoma.net
-          branch: main
-          folder: ${{ env.BRANCH_NAME }}
-          target-folder: ${{ env.BRANCH_NAME }}
-          clean: false
-          git-config-name: Anoma Research
-          git-config-email: arts@heliax.dev
