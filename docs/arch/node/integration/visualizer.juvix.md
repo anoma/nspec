@@ -24,6 +24,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
     import arch.node.types.anoma_message open;
     import arch.system.state.resource_machine.notes.nockma open; -- For Noun type
     import arch.node.types.basics open; -- For TxFingerprint, KVSKey, KVSDatum etc.
+    import arch.node.types.transport open; -- For TransportAddress etc.
 
     -- Imports from arch.node.types.anoma_message for detailed message types
     import arch.node.engines.identity_management_messages open;
@@ -49,17 +50,23 @@ This module provides functions to generate Mermaid sequence diagrams from a list
     import arch.node.engines.shard_messages open;
     import arch.node.engines.ticker_messages open;
     import tutorial.engines.template_messages open;
-    import tutorial.engines.template_minimum_messages open;
+    import tutorial.engines.template_minimum_messages as TemplateMinimum;
     
     -- Function to convert EngineID to a String for diagram labels
     engineIdToString (eid : EngineID) : String :=
       let
         nodeStr := case fst eid of {
           | none := "Client" -- Or some other placeholder for external senders
-          | some (PublicKey.Curve25519PubKey pk) := pk -- Assuming NodeID is a string-like pubkey
+          | some (PublicKey.Curve25519PubKey pk) := pk
         };
         engineNameStr := snd eid;
       in nodeStr ++str "/" ++str engineNameStr;
+    
+    -- Helper function to convert NodeID to a String
+    nodeIdToString (nodeId : NodeID) : String :=
+      case nodeId of {
+        | PublicKey.Curve25519PubKey pk := pk
+      };
     
     -- Helper to join a list of strings with a separator
     terminating
@@ -101,6 +108,28 @@ This module provides functions to generate Mermaid sequence diagrams from a list
     -- Placeholder for KVSDatum to String conversion
     kvsDatumToString (datum : KVSDatum) : String :=
       "<KVSDatumPlaceholder>";
+    
+    -- Placeholders for complex types
+    signableToString (s : Signable) : String := "<Signable>";
+    commitmentToString (c : Commitment) : String := "<Commitment>";
+    ciphertextToString (c : Ciphertext) : String := "<Ciphertext>";
+    plaintextToString (p : Plaintext) : String := "<Plaintext>";
+    readsForEvidenceToString (rfe : ReadsForEvidence) : String := "<ReadsForEvidence>";
+    signsForEvidenceToString (sfe : SignsForEvidence) : String := "<SignsForEvidence>";
+    backendToString (b : Backend) : String := "<Backend>";
+    idParamsToString (p : IDParams) : String := "<IDParams>";
+    capabilitiesToString (c : Capabilities) : String := "<Capabilities>";
+    routerMsgInnerToString (r : RouterMsg Msg) : String := "<RouterMsgInner>";
+    transportAddressToString (t : TransportAddress) : String := "<TransportAddress>";
+    byteStringToString (b : ByteString) : String := "<ByteString>";
+    chunkIdToString (c : ChunkID) : String := "<ChunkID>";
+    topicIdToString (t : TopicID) : String := "<TopicID>";
+    epochTimestampToString (et : Nat) : String := natToString et;
+    tsStorageDBQueryToString (q : TSStorageDBQuery) : String := "<TSQuery>";
+    tsStorageDBDataToString (d : TSStorageDBData) : String := "<TSData>";
+    storageKeyToString (k : String) : String := k;
+    storageValueToString (v : String) : String := v;
+    encryptedMsgToString (em : EncryptedMsg) : String := "<EncryptedMsg>";
     
     -- Helper to convert TransactionLabel to String
     transactionLabelToString (label : TransactionLabel KVSKey KVSKey) : String :=
@@ -179,6 +208,75 @@ This module provides functions to generate Mermaid sequence diagrams from a list
           in "QueryEvidenceReply(id:" ++str (externalIdentityToString (ReplyQueryNameEvidence.externalIdentity reply)) ++str ", evCount:" ++str (natToString evCount) ++str ", err:" ++str (option (ReplyQueryNameEvidence.err reply) "None" id) ++str ")"
       };
     
+    -- Identity Management
+    identityManagementMsgToString (imMsg : IdentityManagementMsg) : String :=
+      case imMsg of {
+        | IdentityManagementMsg.GenerateIdentityRequest req :=
+          "GenerateIdReq(be:" ++str (backendToString (RequestGenerateIdentity.backend req)) ++str ",cap:" ++str (capabilitiesToString (RequestGenerateIdentity.capabilities req)) ++str ")"
+        | IdentityManagementMsg.GenerateIdentityReply reply :=
+          "GenerateIdReply(extId:" ++str (engineIdToString (ReplyGenerateIdentity.externalIdentity reply)) ++str ",err:" ++str (option (ReplyGenerateIdentity.err reply) "None" id) ++str ")"
+        | IdentityManagementMsg.ConnectIdentityRequest req :=
+          "ConnectIdReq(id:" ++str (engineIdToString (RequestConnectIdentity.externalIdentity req)) ++str ",be:" ++str (backendToString (RequestConnectIdentity.backend req)) ++str ")"
+        | IdentityManagementMsg.ConnectIdentityReply reply :=
+          "ConnectIdReply(err:" ++str (option (ReplyConnectIdentity.err reply) "None" id) ++str ")"
+        | IdentityManagementMsg.DeleteIdentityRequest req :=
+          "DeleteIdReq(id:" ++str (engineIdToString (RequestDeleteIdentity.externalIdentity req)) ++str ",be:" ++str (backendToString (RequestDeleteIdentity.backend req)) ++str ")"
+        | IdentityManagementMsg.DeleteIdentityReply reply :=
+          "DeleteIdReply(err:" ++str (option (ReplyDeleteIdentity.err reply) "None" id) ++str ")"
+      };
+
+    -- Decryption
+    decryptionMsgToString (decMsg : DecryptionMsg) : String :=
+      case decMsg of {
+        | DecryptionMsg.Request req := "DecryptReq(data:" ++str (ciphertextToString (RequestDecryption.data req)) ++str ")"
+        | DecryptionMsg.Reply reply := "DecryptReply(data:" ++str (plaintextToString (ReplyDecryption.data reply)) ++str ",err:" ++str (option (ReplyDecryption.err reply) "None" id) ++str ")"
+      };
+
+    -- Encryption
+    encryptionMsgToString (encMsg : EncryptionMsg) : String :=
+      case encMsg of {
+        | EncryptionMsg.Request req := "EncryptReq(id:" ++str (externalIdentityToString (RequestEncrypt.externalIdentity req)) ++str ",readsFor:" ++str (boolToString (RequestEncrypt.useReadsFor req)) ++str ")"
+        | EncryptionMsg.Reply reply := "EncryptReply(data:" ++str (ciphertextToString (ReplyEncrypt.ciphertext reply)) ++str ",err:" ++str (option (ReplyEncrypt.err reply) "None" id) ++str ")"
+      };
+
+    -- Commitment
+    commitmentMsgToString (comMsg : CommitmentMsg) : String :=
+      case comMsg of {
+        | CommitmentMsg.Request req := "CommitReq(data:" ++str (signableToString (RequestCommitment.data req)) ++str ")"
+        | CommitmentMsg.Reply reply := "CommitReply(commit:" ++str (commitmentToString (ReplyCommitment.commitment reply)) ++str ",err:" ++str (option (ReplyCommitment.err reply) "None" id) ++str ")"
+      };
+
+    -- Verification
+    verificationMsgToString (verMsg : VerificationMsg) : String :=
+      case verMsg of {
+        | VerificationMsg.Request req :=
+          "VerifyReq(id:" ++str (externalIdentityToString (RequestVerification.externalIdentity req)) ++str ",useSf:" ++str (boolToString (RequestVerification.useSignsFor req)) ++str ")" -- Removed vk, using actual fields
+        | VerificationMsg.Reply reply :=
+          "VerifyReply(ok:" ++str (boolToString (ReplyVerification.result reply)) ++str ",err:" ++str (option (ReplyVerification.err reply) "None" id) ++str ")"
+      };
+
+    -- ReadsFor
+    readsForMsgToString (rfMsg : ReadsForMsg) : String :=
+      case rfMsg of {
+        | ReadsForMsg.Request req := "ReadsForReq(A:" ++str (externalIdentityToString (RequestReadsFor.externalIdentityA req)) ++str ",B:" ++str (externalIdentityToString (RequestReadsFor.externalIdentityB req)) ++str ")"
+        | ReadsForMsg.Reply reply := "ReadsForReply(ok:" ++str (boolToString (ReplyReadsFor.readsFor reply)) ++str ",err:" ++str (option (ReplyReadsFor.err reply) "None" id) ++str ")"
+        | ReadsForMsg.SubmitReadsForEvidenceRequest req := "SubmitReadsForEvReq(ev:" ++str (readsForEvidenceToString (RequestSubmitReadsForEvidence.evidence req)) ++str ")"
+        | ReadsForMsg.SubmitReadsForEvidenceReply reply := "SubmitReadsForEvReply(err:" ++str (option (ReplySubmitReadsForEvidence.err reply) "None" id) ++str ")"
+        | ReadsForMsg.QueryReadsForEvidenceRequest req := "QueryReadsForEvReq(id:" ++str (externalIdentityToString (RequestQueryReadsForEvidence.externalIdentity req)) ++str ")"
+        | ReadsForMsg.QueryReadsForEvidenceReply reply := "QueryReadsForEvReply(id:" ++str (externalIdentityToString (ReplyQueryReadsForEvidence.externalIdentity reply)) ++str ",err:" ++str (option (ReplyQueryReadsForEvidence.err reply) "None" id) ++str ")"
+      };
+
+    -- SignsFor
+    signsForMsgToString (sfMsg : SignsForMsg) : String :=
+      case sfMsg of {
+        | SignsForMsg.SignsForRequest req := "SignsForReq(A:" ++str (externalIdentityToString (RequestSignsFor.externalIdentityA req)) ++str ",B:" ++str (externalIdentityToString (RequestSignsFor.externalIdentityB req)) ++str ")"
+        | SignsForMsg.SignsForReply reply := "SignsForReply(ok:" ++str (boolToString (ReplySignsFor.signsFor reply)) ++str ",err:" ++str (option (ReplySignsFor.err reply) "None" id) ++str ")"
+        | SignsForMsg.SubmitSignsForEvidenceRequest req := "SubmitSignsForEvReq(ev:" ++str (signsForEvidenceToString (RequestSubmitSignsForEvidence.evidence req)) ++str ")"
+        | SignsForMsg.SubmitSignsForEvidenceReply reply := "SubmitSignsForEvReply(err:" ++str (option (ReplySubmitSignsForEvidence.err reply) "None" id) ++str ")"
+        | SignsForMsg.QuerySignsForEvidenceRequest req := "QuerySignsForEvReq(id:" ++str (externalIdentityToString (RequestQuerySignsForEvidence.externalIdentity req)) ++str ")"
+        | SignsForMsg.QuerySignsForEvidenceReply reply := "QuerySignsForEvReply(id:" ++str (externalIdentityToString (ReplyQuerySignsForEvidence.externalIdentity reply)) ++str ",err:" ++str (option (ReplyQuerySignsForEvidence.err reply) "None" id) ++str ")"
+      };
+    
     -- Main dispatcher function for Msg to String
     terminating
     msgToString (actualMsg : Msg) : String :=
@@ -186,28 +284,26 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         | Msg.MempoolWorker mwMsg := mempoolWorkerMsgToString mwMsg
         | Msg.Shard shardMsg := shardMsgToString shardMsg
         | Msg.Executor execMsg := executorMsgToString execMsg
-        -- Add other top-level Msg types from anoma_message.juvix.md
-        -- Example placeholder, to be expanded with actual calls to specific xxxMsgToString functions
-        | Msg.IdentityManagement _ := "IdentityManagementMsg"
-        | Msg.Decryption _ := "DecryptionMsg"
-        | Msg.Encryption _ := "EncryptionMsg"
-        | Msg.Commitment _ := "CommitmentMsg"
-        | Msg.Verification _ := "VerificationMsg"
-        | Msg.ReadsFor _ := "ReadsForMsg"
-        | Msg.SignsFor _ := "SignsForMsg"
+        | Msg.IdentityManagement imMsg := identityManagementMsgToString imMsg
+        | Msg.Decryption decMsg := decryptionMsgToString decMsg
+        | Msg.Encryption encMsg := encryptionMsgToString encMsg
+        | Msg.Commitment comMsg := commitmentMsgToString comMsg
+        | Msg.Verification verMsg := verificationMsgToString verMsg
+        | Msg.ReadsFor rfMsg := readsForMsgToString rfMsg
+        | Msg.SignsFor sfMsg := signsForMsgToString sfMsg
         | Msg.Naming nMsg := namingMsgToString nMsg
-        | Msg.LocalKVStorage _ := "LocalKVStorageMsg"
+        | Msg.LocalKVStorage kvMsg := localKVStorageMsgToString kvMsg
         | Msg.Logging logMsg := loggingMsgToString logMsg
-        | Msg.WallClock _ := "WallClockMsg"
-        | Msg.LocalTSStorage _ := "LocalTSStorageMsg"
-        | Msg.Router _ := "RouterMsg"
-        | Msg.TransportProtocol _ := "TransportProtocolMsg"
-        | Msg.TransportConnection _ := "TransportConnectionMsg"
-        | Msg.PubSubTopic _ := "PubSubTopicMsg"
-        | Msg.Storage _ := "StorageMsg"
-        | Msg.Ticker _ := "TickerMsg"
-        | Msg.Template _ := "TemplateMsg"
-        | Msg.TemplateMinimum _ := "TemplateMinimumMsg"
+        | Msg.WallClock wcMsg := wallClockMsgToString wcMsg
+        | Msg.LocalTSStorage tsMsg := localTSStorageMsgToString tsMsg
+        | Msg.Router rMsg := routerMsgToString rMsg
+        | Msg.TransportProtocol tpMsg := transportProtocolMsgToString tpMsg
+        | Msg.TransportConnection tcMsg := transportConnectionMsgToString tcMsg
+        | Msg.PubSubTopic psMsg := pubSubTopicMsgToString psMsg
+        | Msg.Storage stMsg := storageMsgToString stMsg
+        | Msg.Ticker tMsg := tickerMsgToString tMsg
+        | Msg.Template tMsg := templateMsgToString tMsg
+        | Msg.TemplateMinimum tmMsg := templateMinimumMsgToString tmMsg
       };
     
     -- Helper to convert a single message to its Mermaid string representation
@@ -230,4 +326,122 @@ This module provides functions to generate Mermaid sequence diagrams from a list
          ++str "    autonumber\n"
          ++str (if | Set.isEmpty participantsSet := "" | else := "    " ++str participantDeclarations ++str "\n")
          ++str messageLines;
+
+    -- Local Key Value Storage
+    localKVStorageMsgToString (kvMsg : LocalKVStorageMsg) : String :=
+      case kvMsg of {
+        | LocalKVStorageMsg.GetValueRequest req := "KVGetReq(key:" ++str (storageKeyToString (GetValueKVStoreRequest.key req)) ++str ")"
+        | LocalKVStorageMsg.GetValueReply reply := "KVGetReply(key:" ++str (storageKeyToString (GetValueKVStoreReply.key reply)) ++str ",val:" ++str (storageValueToString (GetValueKVStoreReply.value reply)) ++str ")"
+        | LocalKVStorageMsg.SetValueRequest req := "KVSetReq(key:" ++str (storageKeyToString (SetValueKVStoreRequest.key req)) ++str ",val:" ++str (storageValueToString (SetValueKVStoreRequest.value req)) ++str ")"
+        | LocalKVStorageMsg.SetValueReply reply := "KVSetReply(key:" ++str (storageKeyToString (SetValueKVStoreReply.key reply)) ++str ",ok:" ++str (boolToString (SetValueKVStoreReply.success reply)) ++str ")"
+        | LocalKVStorageMsg.DeleteValueRequest req := "KVDelReq(key:" ++str (storageKeyToString (DeleteValueKVStoreRequest.key req)) ++str ")"
+        | LocalKVStorageMsg.DeleteValueReply reply := "KVDelReply(key:" ++str (storageKeyToString (DeleteValueKVStoreReply.key reply)) ++str ",ok:" ++str (boolToString (DeleteValueKVStoreReply.success reply)) ++str ")"
+        | LocalKVStorageMsg.ValueChanged notice := "KVChanged(key:" ++str (storageKeyToString (ValueChangedKVStore.key notice)) ++str ",val:" ++str (storageValueToString (ValueChangedKVStore.value notice)) ++str ",ts:" ++str (epochTimestampToString (ValueChangedKVStore.timestamp notice)) ++str ")"
+      };
+
+    -- Wall Clock
+    wallClockMsgToString (wcMsg : WallClockMsg) : String :=
+      case wcMsg of {
+        | WallClockMsg.GetTime := "GetTimeReq"
+        | WallClockMsg.GetTimeResult reply := "GetTimeReply(ts:" ++str (epochTimestampToString (TimeResult.epochTime reply)) ++str ")"
+      };
+
+    -- Local Time Series Storage
+    localTSStorageMsgToString (tsMsg : LocalTSStorageMsg) : String :=
+      case tsMsg of {
+        | LocalTSStorageMsg.GetRequest req := "TSGetReq(q:" ++str (tsStorageDBQueryToString (GetDataTSStorageDBRequest.query req)) ++str ")"
+        | LocalTSStorageMsg.GetReply reply := "TSGetReply(q:" ++str (tsStorageDBQueryToString (GetDataTSStorageDBReply.query reply)) ++str ",data:" ++str (tsStorageDBDataToString (GetDataTSStorageDBReply.data reply)) ++str ")"
+        | LocalTSStorageMsg.RecordRequest req := "TSRecordReq(q:" ++str (tsStorageDBQueryToString (RecordDataTSStorageDBRequest.query req)) ++str ")"
+        | LocalTSStorageMsg.RecordReply reply := "TSRecordReply(q:" ++str (tsStorageDBQueryToString (RecordDataTSStorageDBReply.query reply)) ++str ",ok:" ++str (boolToString (RecordDataTSStorageDBReply.success reply)) ++str ")"
+        | LocalTSStorageMsg.DeleteRequest req := "TSDeleteReq(q:" ++str (tsStorageDBQueryToString (DeleteDataTSStorageDBRequest.query req)) ++str ")"
+        | LocalTSStorageMsg.DeleteReply reply := "TSDeleteReply(q:" ++str (tsStorageDBQueryToString (DeleteDataTSStorageDBReply.query reply)) ++str ",ok:" ++str (boolToString (DeleteDataTSStorageDBReply.success reply)) ++str ")"
+        | LocalTSStorageMsg.DataChanged notice := "TSDataChanged(q:" ++str (tsStorageDBQueryToString (DataChangedTSStorageDB.query notice)) ++str ",data:" ++str (tsStorageDBDataToString (DataChangedTSStorageDB.data notice)) ++str ",ts:" ++str (epochTimestampToString (DataChangedTSStorageDB.timestamp notice)) ++str ")"
+      };
+
+    -- Net Registry
+    netRegistryMsgToString (nrMsg : NetworkRegistryMsg) : String :=
+      case nrMsg of {
+        | NetworkRegistryMsg.NodeAdvert advert := "NodeAdvert(id:" ++str (nodeIdToString (NodeAdvert.id advert)) ++str ",v:" ++str (natToString (NodeAdvert.version advert)) ++str ")"
+        | NetworkRegistryMsg.TopicAdvert advert := "TopicAdvert(id:" ++str (topicIdToString (TopicAdvert.id advert)) ++str ",v:" ++str (natToString (TopicAdvert.version advert)) ++str ")"
+        | NetworkRegistryMsg.GetNodeAdvertRequest req := "GetNodeAdvertReq(id:" ++str (nodeIdToString req) ++str ")"
+        | NetworkRegistryMsg.GetNodeAdvertReply reply := "GetNodeAdvertReply(ok:" ++str (boolToString (isRight reply)) ++str ")" -- Simplified
+        | NetworkRegistryMsg.GetTopicAdvertRequest req := "GetTopicAdvertReq(id:" ++str (topicIdToString req) ++str ")"
+        | NetworkRegistryMsg.GetTopicAdvertReply reply := "GetTopicAdvertReply(ok:" ++str (boolToString (isRight reply)) ++str ")" -- Simplified
+      };
+
+    -- Router -- Need to handle the recursive type (RouterMsg Msg)
+    routerMsgToString (rMsg : RouterMsg Msg) : String :=
+      case rMsg of {
+        | RouterMsg.NodeAdvert advert := "NodeAdvert(id:" ++str (nodeIdToString (NodeAdvert.id advert)) ++str ")"
+        | RouterMsg.Send outMsg := "RouterSend(to:" ++str (engineIdToString (EngineMsg.target (NodeOutMsg.msg outMsg))) ++str ")" -- Simplified
+        | RouterMsg.Recv inMsg := "RouterRecv(seq:" ++str (natToString (NodeMsg.seq inMsg)) ++str ")"
+        | RouterMsg.ConnectRequest req := "RouterConnectReq(src:" ++str (nodeIdToString (ConnectRequest.src_node_id req)) ++str ")"
+        | RouterMsg.ConnectReply reply := "RouterConnectReply(ok:" ++str (boolToString (isRight reply)) ++str ")" -- Simplified
+        | RouterMsg.SetPermanence perm := "SetPermanence(" ++str (case perm of { | ConnectionPermanence.RouterMsgConnectionEphemeral := "Eph" | ConnectionPermanence.RouterMsgConnectionPermanent := "Perm"}) ++str ")"
+      };
+
+    -- Transport Protocol
+    transportProtocolMsgToString (tpMsg : TransportProtocolMsg) : String :=
+      case tpMsg of {
+        | TransportProtocolMsg.Send req := "TpSend(addr:" ++str (transportAddressToString (TransportOutMsg.addr req)) ++str ")"
+      };
+
+    -- Transport Connection
+    transportConnectionMsgToString (tcMsg : TransportConnectionMsg) : String :=
+      case tcMsg of {
+        | TransportConnectionMsg.Send outMsg :=
+          let
+            innerNodeMsg := TransportConnectionOutMsg.msg outMsg;
+            seqStr := natToString (NodeMsg.seq innerNodeMsg);
+            encMsgDetailStr := encryptedMsgToString (NodeMsg.msg innerNodeMsg);
+          in "TcSend(seq:" ++str seqStr ++str ", msg:" ++str encMsgDetailStr ++str ")"
+      };
+
+    -- Pub Sub Topic
+    pubSubTopicMsgToString (psMsg : PubSubTopicMsg) : String :=
+      case psMsg of {
+        | PubSubTopicMsg.Forward _ := "PsForward" -- Placeholder for TopicMsg details
+        | PubSubTopicMsg.SubRequest req := "PsSubReq(topic:" ++str (topicIdToString (TopicSubRequest.topic req)) ++str ")"
+        | PubSubTopicMsg.SubReply reply := "PsSubReply(ok:" ++str (boolToString (isRight reply)) ++str ")"
+        | PubSubTopicMsg.UnsubRequest req := "PsUnsubReq(topic:" ++str (topicIdToString (TopicUnsubRequest.topic req)) ++str ")"
+        | PubSubTopicMsg.UnsubReply reply := "PsUnsubReply(ok:" ++str (boolToString (isRight reply)) ++str ")"
+      };
+
+    -- Storage
+    storageMsgToString (stMsg : StorageMsg) : String :=
+      case stMsg of {
+        | StorageMsg.ChunkGetRequest req := "ChunkGetReq(id:" ++str (chunkIdToString (ChunkGetRequest.chunk req)) ++str ")"
+        | StorageMsg.ChunkGetReply reply := "ChunkGetReply(ok:" ++str (boolToString (isRight reply)) ++str ")" -- Simplified
+        | StorageMsg.ChunkPutRequest _ := "ChunkPutReq" -- Chunk type has no ID field
+        | StorageMsg.ChunkPutReply reply := "ChunkPutReply(ok:" ++str (boolToString (isRight reply)) ++str ")" -- Simplified
+      };
+
+    -- Ticker
+    tickerMsgToString (tMsg : TickerMsg) : String :=
+      case tMsg of {
+        | TickerMsg.Increment := "TickInc"
+        | TickerMsg.CountRequest := "TickCountReq"
+        | TickerMsg.CountReply reply := "TickCountReply(val:" ++str (natToString (CountReply.counter reply)) ++str ")"
+      };
+
+    -- Template
+    templateMsgToString (tMsg : TemplateMsg) : String :=
+      case tMsg of {
+        | TemplateMsg.JustHi := "TemplateHi"
+        | TemplateMsg.ExampleRequest (ExampleRequest.mk@{argOne := a1; argTwo := a2}) := "TemplateExampleReq(a1:" ++str (natToString a1) ++str ",a2:" ++str (natToString a2) ++str ")"
+        | TemplateMsg.ExampleReply reply := "TemplateExampleReply(ok:" ++str (boolToString (isRight reply)) ++str ")" -- Simplified
+      };
+
+    -- TemplateMinimum
+    templateMinimumMsgToString (tmMsg : TemplateMinimum.TemplateMinimumMsg) : String :=
+      case tmMsg of {
+        | TemplateMinimum.TemplateMinimumMsg.JustHi := "TemplateMinimumHi"
+        | TemplateMinimum.TemplateMinimumMsg.ExampleRequest req :=
+          "TemplateMinExampleReq(a1:" ++str (natToString (TemplateMinimum.ExampleRequest.argOne req)) ++str ",a2:" ++str (natToString (TemplateMinimum.ExampleRequest.argTwo req)) ++str ")"
+        | TemplateMinimum.TemplateMinimumMsg.ExampleReply reply :=
+          case reply of {
+            | right payload := "TemplateMinExampleReply(ok:" ++str (TemplateMinimum.ReplyPayload.payload payload) ++str ")"
+            | left err := "TemplateMinExampleReply(err:" ++str (TemplateMinimum.ReplyError.error err) ++str ")"
+          }
+      };
     ``` 
