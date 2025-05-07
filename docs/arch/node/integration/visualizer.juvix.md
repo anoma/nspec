@@ -90,7 +90,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
     -- Helper to convert Bool to String
     boolToString (b : Bool) : String := if | b := "true" | else := "false";
     
-    -- Placeholder for Hash to String conversion (if needed)
+    -- Placeholder for Hash to String conversion
     hashToString (h : Hash) : String := "<hash>"; -- Replace with actual conversion
     
     -- Placeholder for Noun to String conversion
@@ -369,7 +369,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         | NetworkRegistryMsg.GetTopicAdvertReply reply := "GetTopicAdvertReply(ok:" ++str (boolToString (isRight reply)) ++str ")" -- Simplified
       };
 
-    -- Router -- Need to handle the recursive type (RouterMsg Msg)
+    -- Router
     routerMsgToString (rMsg : RouterMsg Msg) : String :=
       case rMsg of {
         | RouterMsg.NodeAdvert advert := "NodeAdvert(id:" ++str (nodeIdToString (NodeAdvert.id advert)) ++str ")"
