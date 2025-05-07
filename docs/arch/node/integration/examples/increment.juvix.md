@@ -28,6 +28,7 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
     module arch.node.integration.examples.increment;
 
     import prelude open;
+    import Stdlib.Prelude as IO;
     import arch.node.types.basics open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
@@ -200,6 +201,7 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
 
     simulationResult2 : Pair (List (EngineMsg Msg)) (List (EngineMsg Msg)) := simulateWithFailures selectFirstMessage initialNetworkState 20;
 
+    main : IO.IO := IO.printStringLn simulationResult;
 
     -- The `simulationResult` variable now holds the list of messages processed
     -- during the simulation run. Analyzing this list would show the sequence
