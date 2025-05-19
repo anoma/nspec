@@ -11,34 +11,40 @@ module arch.system.state.resource_machine.data_structures.compliance_unit.compli
 
 # Compliance unit
 
-`ComplianceUnit` is a data structure that partitions the [[Action | action]], meaning that there might be multiple compliance units for a single action, the sets of resources covered by any two compliance units cover don't intersect, and together the compliance units cover all of the resources in the action. This partition corresponds to the format expected by the compliance proving system used to produce compliance proofs. The table below describes the components of a compliance unit:
+`ComplianceUnit` is a data structure used to verify compliance proofs. It partitions the [[Action | action]], meaning that:
+
+1. there might be multiple compliance units for a single action
+2. the sets of resource tags validated by any two compliance units don't intersect
+3. together the compliance units cover all of the resources in the action
+
+The table below describes the components of a compliance unit:
 
 |Component|Type|Description|
 |-|-|-|
-|`proof`| `PS.Proof`||
-|`refInstance`|`ReferencedInstance`|The instance required to verify the compliance proof. Includes the references to the tags of the checked resources, compliance unit delta, `CMtree` roots references|
-|`vk`|`PS.VerifyingKey`|
+|`vk`|`ComplianceProvingSystem.VerifyingKey`|
+|`instance`|`ComplianceProvingSystem.Instance`|The instance required to verify the compliance proof. Includes the tags of the checked resources, compliance unit delta, `CMtree` roots for consumed resources.|
+|`proof`| `ComplianceProvingSystem.Proof`||
 
-!!! warning
+The number of created and consumed resources in each unit is determined by the resource machine *instantiation*. The total number of compliance proofs required for an action is determined by the number of compliance units that comprise the action. For example, if the instantiation defines a single compliance proof to include 1 input and 1 output resource, and an action contains 3 input and 2 output resources, the total number of compliance units will be 3 (with a placeholder output resource in the third compliance unit).
 
-    `ReferenceInstance` is a modified `PS.Instance` structure in which some elements are replaced by their references. To get `PS.Instance` from `ReferencedInstance` the referenced structures must be dereferenced. The structures we assume to be referenced here are:
+## Interface
 
-      - CMtree roots (stored in transaction)
+1. `create(ComplianceProvingSystem.ProvingKey, ComplianceProvingSystem.VerifyingKey, ComplianceProvingSystem.Instance, ComplianceProvingSystem.Witness) -> ComplianceUnit` - computes the compliance unit proof and populates the compliance unit
+2. `created(ComplianceUnit) -> List Commimtent` - returns the commitments of the created resources checked in the unit
+3. `consumed(ComplianceUnit) -> List Nullifier` - returns the nullifiers of the consumed resources checked in the unit
+4. `verify(ComplianceUnit) -> Bool` - returns `ComplianceProvingSystem.Verify(vk, instance, proof)`
+5. `delta(ComplianceUnit) -> DeltaHash` - returns the compliance unit delta, which is stored in `complianceData`: `unit.delta() = unit.complianceData.delta`
 
-      - commitments and nullifiers (stored in action)
+### `create`
 
-    All other instance elements are assumed to be as the instance requires.
+Create is a function that provers use to create a compliance unit.
 
-!!! note
+1. Compute the compliance proof: `ComplianceProvingSystem.Prove(ComplianceProvingSystem.ProvingKey, ComplianceProvingSystem.Instance, ComplianceProvingSystem.Witness) -> ComplianceProvingSystem.Proof`. What comprises the instance and witness here is described in [[Compliance proof]].
+2. Create the compliance unit given the proof, verifying key, and instance.
 
-    Referencing Merkle tree roots: the Merkle tree roots required to verify the compliance proofs are stored in the transaction (not in action or a compliance unit), and are referenced by a short hash in `refInstance`. To find the right roots corresponding to the proof, the verifier has to compute the hashes of the roots in the transaction, match them with the short hashes in the `refInstance` structure, and use the ones that match for verification. A similar approach is used to reference the tags of the checked in the compliance unit resources.
+### Delta
 
-
-The size of a compliance unit - the number of created and consumed resources in each unit - is determined by the resource machine *instantiation*. The total number of compliance proofs required for an action is determined by the number of compliance units that comprise the action. For example, if the instantiation defines a single compliance proof to include 1 input and 1 output resource, and an action contains 3 input and 2 output resources, the total number of compliance units will be 3 (with a placeholder output resource in the third compliance unit).
-
-## Delta
-
-Compliance unit delta is used to compute action and transaction deltas and is itself computed from resource deltas: `delta = sum(r.delta() for r in outputResources - sum(r.delta() for r in inputResources))`. Note that the delta is computed by the prover (who knows the resource objects of resources associated with the unit) and is a part of the instance. The compliance proof must ensure the correct computation of delta from the resource deltas available at the proving time.
+Compliance unit delta is used to compute action and transaction deltas and is itself computed from resource deltas: `delta = sum(r.delta(deltaExtraInput(r))) for r in outputResources - sum(r.delta(deltaExtraInput(r)) for r in inputResources))`. Note that the delta is computed by the prover (who knows the resource objects of resources associated with the unit) and is a part of the instance. The compliance proof must ensure the correct computation of delta from the resource deltas available at the proving time.
 
 #### Delta for computing balance
 
@@ -46,12 +52,15 @@ From the homomorphic properties of [[Delta hash]], for the resources of the same
 
 The kind-distinctness property of $h_\Delta$ allows computing $\Delta = \sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}}$ adding resources of all kinds together without the need to account for distinct resource kinds explicitly: $\sum_j{\Delta_{r_{i_j}}} - \sum_j{\Delta_{r_{o_j}}} = \sum_j{h_\Delta(kind_j, q_{kind_j})}$.
 
+!!! note
+   The delta extra inputs omitted in the formulae above are added/subtracted accordingly.
+
 As a result, the properties of `DeltaHash` allow computing the total balance for a compliance unit, action, or transaction, without having direct access to quantities and kinds of the resources that comprise the data structure.
 
-## Interface
+### `verify`
 
-1. `delta(ComplianceUnit) -> DeltaHash` - returns the compliance unit delta, which is stored in `complianceData`: `unit.delta() = unit.complianceData.delta`
-2. `created(ComplianceUnit) -> Set Commimtent` - returns the commitments of the created resources checked in the unit
-3. `consumed(ComplianceUnit) -> Set Nullifier` - returns the nullifiers of the consumed resources checked in the unit
-4. `create(PS.ProvingKey, PS.Instance, PS.Proof) -> ComplianceUnit` - computes the compliance proof and stores the data (or references to it, if stored elsewhere) required to verify it in the compliance unit
-4. `verify(ComplianceUnit) -> Bool` - returns `ComplianceProvingSystem.Verify(vk, instance, proof)`, where `instance` is computed from `refInstance` by dereferencing
+1. `ComplianceProvingSystem.Verify(vk, instance, proof) = True`
+2. Global check: `CMTree` roots used to verify the proof are valid `CMTree` roots
+
+!!! note
+  Compliance units can be verified as parts of supposedly valid transactions and individually, when building a valid transaction (e.g., in the partial solving case). In case the compliance units are verified _not_ individually, all global checks can be aggregated and verified at once to reduce the amount of global communication.

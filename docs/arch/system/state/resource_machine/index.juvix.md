@@ -35,6 +35,9 @@ Ensuring the correctness of the transaction is achieved with the help of non-int
 
 ![Proof contexts associated with data structures](proof_contexts.svg)
 
+## Common flavours of ARMs
+
+A resource machine instantiation is called **shielded** if it achieves both data and function privacy. Any other resource machine is considered **transparent** from the privacy perspective.
 
 ## The role of the ARM
 

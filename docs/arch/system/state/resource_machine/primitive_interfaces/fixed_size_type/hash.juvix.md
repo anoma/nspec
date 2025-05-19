@@ -20,9 +20,6 @@ In the context of hashes, we say `a` is an **opening** of a hash `h: Hash` if `h
     1. for shielded: cryptographic hash, hiding
     2. do we want a separate interface for the logic hash, given it is a verifier key? UPD in Taiga we had the verifier key hashed. Is it fixed size? If not, what was the reason for tripple hashing? vk + hash + function privacy commitment
 
-### LogicHash
-
-In the case of resource logic, the hash used to compute it should output the logic's verifying key and therefore is determined by the proving system used to compute resource logic proofs.
 
 ## Hash interface diagram
 
@@ -34,7 +31,7 @@ classDiagram
          <<Interface>>
     }
 
-    Hash <|-- LogicHash
+    Hash <|-- LogicVKCompact
     Hash <|-- LabelHash
     Hash <|-- ValueHash
 
@@ -42,7 +39,7 @@ classDiagram
     Hash <|-- Nullifier
     Hash <|-- Kind
     Hash <|-- DeltaHash
-    Hash <|-- LogicRefHash
+    Hash <|-- LogicVKOuterHash
     Hash <|-- MerkleTreeNodeHash
 
     Hash <|-- AppDataValueHash
