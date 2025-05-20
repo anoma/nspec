@@ -19,11 +19,14 @@ For a commitment that existed in the accumulator before a new one was added, bot
 
 #### Accumulator functionality
 
-The commitment accumulator has type `Accumulator` and is parametrised over the types `Witness`,`CommitmentIdentifier`, and `AccumulatedValue`. The commitment accumulator interface must support the following functionality:
+!!! note
+    The witness we are talking about here is not related to proving system witness. It is a distinct concept of cryptographic accumulators.
 
-1. `add(Accumulator, CommitmentIdentifier) -> Witness` adds an element to the accumulator, returning the witness used to prove membership.
-2. `witness(Accumulator, CommitmentIdentifier) -> Maybe Witness` for a given element, returns the witness used to prove membership if the element is present, otherwise returns nothing.
-3. `verify(CommitmentIdentifier, Witness, AccumulatedValue) -> Bool` verifies the membership proof for a commitment identified with `CommitmentIdentifier` element with a membership witness `witness` for the accumulated value `value`.
+The commitment accumulator has type `Accumulator` and is parametrised over the types `AccumulatorWitness`,`CommitmentIdentifier`, and `AccumulatedValue`. The commitment accumulator interface must support the following functionality:
+
+1. `add(Accumulator, CommitmentIdentifier) -> AccumulatorWitness` adds an element to the accumulator, returning the accumulator witness used to prove membership.
+2. `witness(Accumulator, CommitmentIdentifier) -> Maybe AccumulatorWitness` for a given element, returns the accumulator witness used to prove membership if the element is present, otherwise returns nothing.
+3. `verify(CommitmentIdentifier, AccumulatorWitness, AccumulatedValue) -> Bool` verifies the membership proof for a commitment identified with `CommitmentIdentifier` element with a membership witness `AccumulatorWitness` for the accumulated value `AccumulatedValue`.
 4. `value(Accumulator) -> AccumulatedValue` returns the accumulator value.
 
 #### Merkle tree
@@ -37,7 +40,7 @@ Currently, the commitment accumulator is assumed to be a Merkle tree `CMTree` of
 For a Merkle tree:
 
 1. `CommitmentIdentifier` type corresponds to the identifier of the resource commitment used to locate the commitment's position in the tree
-2. `Witness` element is a path to the stored commitment
+2. `AccumulatorWitness` element is a path to the stored commitment
 3. `AccumulatedValue` corresponds to the Merkle tree root
 
 and the functions:

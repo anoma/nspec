@@ -10,15 +10,15 @@ module arch.system.state.resource_machine.data_structures.resource.computable_co
 ```
 
 # Resource Delta
-Resource delta is used to reason about the total quantities of different kinds of resources in transactions. For a resource `r`, its delta is computed as `r.delta() = deltaHash(r.kind(), r.quantity, extraInput)`. `extraInput` contains the extra data required to derive resource delta, e.g., randomness. It may be empty if no extra data is required.
+Resource delta is used to reason about the total quantities of different kinds of resources in transactions. For a resource `r`, its delta is computed as `r.delta(deltaExtraInput) = deltaHash(r.kind(), r.quantity, deltaExtraInput)`. `deltaExtraInput` contains the extra data required to derive resource delta, e.g., randomness. It may be empty if no extra data is required.
 
 ## Delta for data structures
 
-Delta is a computable component that can also be computed for [[Compliance unit | compliance units]], [[Action | actions]], and [[Transaction | transactions]].
+Delta is a computable component that can be computed for [[Compliance unit | compliance units]], [[Action | actions]], and [[Transaction | transactions]] from resource deltas of the resources comprising the data structures.
 
 Note that transactions are partitioned into actions, actions are partitioned into compliance units, and compliance units are partitioned into resources. For that reason, the mechanism for computation of the deltas of these data structures is almost the same.
 
-1. For **compliance units**, delta is computed by using signed addition over the deltas of the resources that comprise the unit: `unit.delta() = sum(r.delta() for r in unit.consumedResources) - sum(r.delta() for r in unit.createdResources)`
+1. For **compliance units**, delta is computed by using signed addition over the deltas of the resources that comprise the unit: `unit.delta() = sum(r.delta(deltaExtraInput(r))) for r in outputResources - sum(r.delta(deltaExtraInput(r)) for r in inputResources))`
 2. For **actions**, delta is computed by adding the deltas of the compliance units that comprise the action:
 `action.delta() = sum(unit.delta() for unit in action)`. To make sure the action's delta is computed correctly, validate the compliance unit delta and make sure the action's deltas are computed using compliance unit deltas values.
 3. For **transactions**, delta is computed by adding the deltas of the actions that comprise the transaction:
