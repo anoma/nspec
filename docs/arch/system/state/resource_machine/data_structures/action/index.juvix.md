@@ -25,7 +25,7 @@ An action is a composite structure of type `Action` that contains the following 
 Actions partition the state change induced by a transaction and limit the evaluation context of resource logics: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its tag is a key of the `logicVerifierInputs` map. A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its *nullifier* is a key of the `logicVerifierInputs` map. A resource is said to be *created in the action* for a valid action if its *commitment* is a key of the `logicVerifierInputs` map.
 
 !!! note
-    Unlike transactions, actions may be unbalanced; however, if an action is valid and balanced, it is sufficient to create a balanced transaction with only this one action.
+    Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
 
 ## Interface
 
