@@ -16,13 +16,13 @@ An action is a composite structure of type `Action` that contains the following 
 
 |Component|Type|Description|
 |-|-|-|
-|`resourceLogicProofs`|`Map Tag (isConsumed: Bool, logicVKOuter: LogicVKOuterHash, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof)`|Resource logic proofs for resources associated with the action. The key of each map entry is the tag of the resource for which a RL proof is provided. The deletion criterion field is described [[Stored data format |here]].|
+|`logicVerifierInputs`|`Map Tag (isConsumed: Bool, logicVKOuter: LogicVKOuterHash, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof)`|Resource logic proofs for resources associated with the action and accompanying data. The key of each map entry is the tag of the resource for which a RL proof is to be verified. The deletion criterion field is described [[Stored data format |here]].|
 |`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
 
 !!! note
-    For function privacy in the shielded context, instead of a logic proof we verify a proof of a logic proof validity - a recursive proof. `LogicVKOuterHash` type corresponds to the RL VK commitment while verifying key in `resourceLogicProofs` refers to the key to be used for verification (i.e., verifier circuit verifying key as opposed to a resource logic verifying key). RL VK commitment should be included somewhere else, e.g., `applicationData`.
+    For function privacy in the shielded context, instead of a logic proof we verify a proof of logic proof validity - a recursive proof. `LogicVKOuterHash` type corresponds to the RL VK commitment while verifying key in `logicVerifierInputs` refers to the key to be used for verification (i.e., a _verifier circuit verifying key_ as opposed to a _resource logic verifying key_). RL VK commitment should be included somewhere else, e.g., in `applicationData`.
 
-Actions partition the state change induced by a transaction and limit the resource logics evaluation context: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its tag is present in the set of `resourceLogicProofs` keys . A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its *nullifier* is present in the set of `resourceLogicProofs` keys. A resource is said to be *created in the action* for a valid action if its *commitment* is in the set of `resourceLogicProofs` keys.
+Actions partition the state change induced by a transaction and limit the evaluation context of resource logics: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its tag is a key of the `logicVerifierInputs` map. A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its *nullifier* is a key of the `logicVerifierInputs` map. A resource is said to be *created in the action* for a valid action if its *commitment* is a key of the `logicVerifierInputs` map.
 
 !!! note
     Unlike transactions, actions don't need to be balanced, but if an action is valid and balanced, it is sufficient to create a balanced transaction.
@@ -35,12 +35,13 @@ Actions partition the state change induced by a transaction and limit the resour
 4. `to_instance(Action, Tag) -> Maybe ResourceLogicProvingSystem.Instance`
 
 ## Proofs
+
 For each resource consumed or created in the action, it is required to provide a proof that the logic associated with that resource evaluates to `True` given the input parameters that describe the state transition induced by the action. The number of such proofs in an action equals to the amount of resources (both created and consumed) in that action, even if some resources have the same logics. Resource logic proofs are further described [[Resource logic proof | here]].
 
 ## `create`
 
 1. `complianceUnits`: Partition the resources into compliance units and compute a compliance proof for each unit
-2. `resourceLogicProofs`: For each resource, compute a resource logic proof. Associate each proof (and other components needed to verify it) with the tag of the resource
+2. `logicVerifierInputs`: For each resource, compute a resource logic proof and associate each proof with the tag of the resource and other components that are required to verify it.
 
 ## `verify`
 
@@ -48,7 +49,7 @@ Validity of an action can only be determined for actions that are associated wit
 
 1. All resource logic proofs associated with the action are valid
 2. All compliance proofs associated with the action are valid: `cu.verify() = True for cu in complianceUnits`
-3. `resourceLogicProofs` keys = the list of tags associated with `complianceUnits` (ignoring the order)
+3. `logicVerifierInputs` keys = the list of tags associated with `complianceUnits` (ignoring the order)
 
 ## `delta`
 
@@ -66,4 +67,4 @@ The main task is to assemble the `consumed` and `created` lists of resources. Th
 !!! note
    When verifying multiple logic proofs from the same action, it might make sense to create the 'full' lists once and erase resources one at a time to create a particular instance. Note that the next instance must be created from the original `full` list, not the list with previously erased resources.
 
-All other fields of the instance (resource tag, `isConsumed`, `applicationData`) are taken from the relevant entry of `resourceLogicProofs`.
+All other fields of the instance (resource tag, `isConsumed`, `applicationData`) are taken from the relevant entry of the `logicVerifierInputs` map.
