@@ -42,3 +42,11 @@ The same architecture supports both arbitrary *fungible* measures of value (e.g.
 currencies) and unique (*non-fungible*) objects, so users can choose the
 representations and level of precision most appropriate to model aspects of the
 world which they care about.
+
+## Deep diving directions for v0.2
+
+The main controller in v0.2 is a single node, which accepts transaction requests for ordering.
+The controller takes care of the resource machine state.
+State is organized in terms of persistent resources,
+and the state root is what the controller primarily takes care of.
+Futher functionality concerns the ordering of incoming transaction requests.
