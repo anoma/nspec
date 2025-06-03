@@ -28,13 +28,27 @@ tags:
 
 The SignsFor engine configuration contains static information for SignsFor engine instances.
 
+## The SignsFor Local Configuration
+
+### `SignsForLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:SignsForLocalCfg] -->
+```juvix
+type SignsForLocalCfg := mk;
+```
+<!-- --8<-- [end:SignsForLocalCfg] -->
+
 ## The SignsFor Configuration
 
 ### `SignsForCfg`
 
 <!-- --8<-- [start:SignsForCfg] -->
 ```juvix
-type SignsForCfg := mk;
+SignsForCfg : Type :=
+  EngineCfg
+    SignsForLocalCfg;
 ```
 <!-- --8<-- [end:SignsForCfg] -->
 
@@ -44,11 +58,11 @@ type SignsForCfg := mk;
 ```juvix extract-module-statements
 module signs_for_config_example;
 
-  signsForCfg : EngineCfg SignsForCfg :=
+  signsForCfg : SignsForCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "signs for";
-      cfg := SignsForCfg.mk
+      cfg := SignsForLocalCfg.mk
     }
   ;
 end;

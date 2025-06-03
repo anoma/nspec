@@ -84,7 +84,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```juvix
     WallClockAction : Type :=
       Action
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -101,7 +101,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```juvix
     WallClockActionInput : Type :=
       ActionInput
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -131,7 +131,7 @@ WallClockActionArguments : Type := List WallClockActionArgument;
     ```juvix
     WallClockActionExec : Type :=
       ActionExec
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -184,7 +184,7 @@ getTimeAction
             target := EngineMsg.sender emsg;
             mailbox := some 0;
             msg :=
-              Anoma.PreMsg.MsgWallClock
+              Anoma.Msg.WallClock
                 (WallClockMsg.GetTimeResult
                   TimeResult.mk@{
                     epochTime := newTime
@@ -217,7 +217,7 @@ getTimeActionLabel : WallClockActionExec := ActionExec.Seq [ getTimeAction ];
     ```juvix
     WallClockGuard : Type :=
       Guard
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -234,7 +234,7 @@ getTimeActionLabel : WallClockActionExec := ActionExec.Seq [ getTimeAction ];
     ```juvix
     WallClockGuardOutput : Type :=
       GuardOutput
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -251,7 +251,7 @@ getTimeActionLabel : WallClockActionExec := ActionExec.Seq [ getTimeAction ];
     ```juvix
     WallClockGuardEval : Type :=
       GuardEval
-        WallClockCfg
+        WallClockLocalCfg
         WallClockLocalState
         WallClockMailboxState
         WallClockTimerHandle
@@ -271,12 +271,12 @@ Condition
 ```juvix
 getTimeGuard
   (trigger : TimestampedTrigger WallClockTimerHandle Anoma.Msg)
-  (cfg : EngineCfg WallClockCfg)
+  (cfg : WallClockCfg)
   (env : WallClockEnv)
   : Option WallClockGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgWallClock WallClockMsg.GetTime;
+        msg := Anoma.Msg.WallClock WallClockMsg.GetTime;
       } := some GuardOutput.mk@{
         action := getTimeActionLabel;
         args := [];
@@ -294,7 +294,7 @@ getTimeGuard
 ```juvix
 WallClockBehaviour : Type :=
   EngineBehaviour
-    WallClockCfg
+    WallClockLocalCfg
     WallClockLocalState
     WallClockMailboxState
     WallClockTimerHandle

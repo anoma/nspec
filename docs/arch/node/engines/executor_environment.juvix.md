@@ -20,6 +20,9 @@ tags:
     import arch.node.types.engine_environment open;
     import arch.node.engines.executor_messages open;
     import arch.node.types.anoma_message as Anoma open;
+    import arch.system.state.resource_machine.notes.nockma open;
+    import arch.system.state.resource_machine.notes.runnable open;
+    import arch.system.state.resource_machine.notes.nockma_runnable open;
     ```
 
 # Executor Environment
@@ -27,25 +30,6 @@ tags:
 ## Overview
 
 The executor environment maintains state needed during transaction execution including completed reads/writes and program state.
-
-??? code "Auxiliary Juvix code"
-
-    ```juvix
-    trait
-    type Runnable KVSKey KVSDatum Executable ProgramState :=
-      mkRunnable@{
-        executeStep : Executable -> ProgramState -> Pair KVSKey KVSDatum -> Result String (Pair ProgramState (List (Either KVSKey (Pair KVSKey KVSDatum))));
-        halted : ProgramState -> Bool;
-        startingState : ProgramState;
-      };
-    ```
-
-    `executeStep`:
-    : Takes the executable code, current program state, and read key-value pair and returns either:
-      - Error string on failure
-      - New program state and list of either:
-        - Left key for read requests
-        - Right (key, value) for write requests
 
 ## Mailbox states
 
@@ -62,7 +46,7 @@ syntax alias ExecutorMailboxState := Unit;
 ### `ExecutorLocalState`
 
 ```juvix
-type ExecutorLocalState KVSKey KVSDatum ProgramState :=
+type ExecutorLocalState :=
   mk@{
     program_state : ProgramState;
     completed_reads : Map KVSKey KVSDatum;
@@ -96,9 +80,9 @@ syntax alias ExecutorTimerHandle := Unit;
 ### `ExecutorEnv`
 
 ```juvix
-ExecutorEnv (KVSKey KVSDatum ProgramState : Type) : Type :=
+ExecutorEnv : Type :=
   EngineEnv
-    (ExecutorLocalState KVSKey KVSDatum ProgramState)
+    ExecutorLocalState
     ExecutorMailboxState
     ExecutorTimerHandle
     Anoma.Msg;
@@ -110,10 +94,13 @@ ExecutorEnv (KVSKey KVSDatum ProgramState : Type) : Type :=
 ```juvix extract-module-statements
 module executor_environment_example;
 
-executorEnv {KVSKey KVSDatum} : ExecutorEnv KVSKey KVSDatum String :=
+executorEnv : ExecutorEnv :=
   EngineEnv.mk@{
     localState := ExecutorLocalState.mk@{
-      program_state := "";
+      program_state := NockmaProgramState.mk@{
+          current_noun := Noun.Atom 0;
+          storage := emptyStorage;
+          gas_limit := 0 };
       completed_reads := Map.empty;
       completed_writes := Map.empty
     };

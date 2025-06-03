@@ -17,6 +17,7 @@ tags:
     module arch.node.types.anoma_config;
 
     import prelude open;
+    import arch.system.state.resource_machine.notes.nockma open;
 
     {- Identity -}
 
@@ -76,7 +77,7 @@ is of type `TickerCfg`.
 
 <!-- --8<-- [start:Cfg] -->
 ```juvix
-type PreCfg KVSKey KVSDatum Executable :=
+type Cfg :=
 
   {- Identity -}
 
@@ -108,7 +109,7 @@ type PreCfg KVSKey KVSDatum Executable :=
   {- Ordering -}
 
   | CfgMempoolWorker MempoolWorkerCfg
-  | CfgExecutor (ExecutorCfg KVSKey Executable)
+  | CfgExecutor ExecutorCfg
   | CfgShard ShardCfg
 
   {- Misc -}
@@ -122,7 +123,5 @@ type PreCfg KVSKey KVSDatum Executable :=
 
   -- Add more configurations here
   ;
-
-Cfg : Type := PreCfg String String ByteString;
 ```
 <!-- --8<-- [end:anoma-config-type] -->

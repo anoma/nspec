@@ -70,16 +70,16 @@ assuming only that the _executable_ will run step by step (possibly involving pr
 interaction with replicated state machine state is via a key value storage interface.
 <!-- --8<-- [start:ExecutorEngine] -->
 ```juvix
-ExecutorEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+ExecutorEngine : Type :=
   Engine
-    (ExecutorCfg KVSKey Executable)
-    (ExecutorLocalState KVSKey KVSDatum ProgramState)
+    ExecutorLocalCfg
+    ExecutorLocalState
     ExecutorMailboxState
     ExecutorTimerHandle
     ExecutorActionArguments
-    (Anoma.PreMsg KVSKey KVSDatum Executable)
-    (Anoma.PreCfg KVSKey KVSDatum Executable)
-    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:ExecutorEngine] -->
 
@@ -87,7 +87,7 @@ ExecutorEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
 
 <!-- --8<-- [start:exampleExecutorEngine] -->
 ```juvix
-exampleExecutorEngine : ExecutorEngine String String ByteString String :=
+exampleExecutorEngine : ExecutorEngine :=
   Engine.mk@{
     cfg := executorCfg;
     env := executorEnv;

@@ -262,7 +262,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
     ```juvix
     VerificationAction : Type :=
       Action
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -277,7 +277,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
     ```juvix
     VerificationActionInput : Type :=
       ActionInput
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -303,7 +303,7 @@ VerificationActionArguments : Type := List VerificationActionArgument;
     ```juvix
     VerificationActionExec : Type :=
       ActionExec
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -341,7 +341,7 @@ verifyAction
   in case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-        | EngineMsg.mk@{msg := Anoma.PreMsg.MsgVerification (VerificationMsg.Request (RequestVerification.mkRequestVerification data commitment externalIdentity useSignsFor))} :=
+        | EngineMsg.mk@{msg := Anoma.Msg.Verification (VerificationMsg.Request (RequestVerification.mkRequestVerification data commitment externalIdentity useSignsFor))} :=
           case useSignsFor of {
             | false :=
               some ActionEffect.mk@{
@@ -351,10 +351,10 @@ verifyAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := EngineMsg.sender emsg;
                     mailbox := some 0;
-                    msg := Anoma.PreMsg.MsgVerification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
+                    msg := Anoma.Msg.Verification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
                       (Verifier.verify
-                        (VerificationCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
-                        (VerificationCfg.backend (EngineCfg.cfg cfg))
+                        (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) Set.empty externalIdentity)
+                        (VerificationLocalCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
                   }
@@ -383,9 +383,9 @@ verifyAction
                   | none := [
                     EngineMsg.mk@{
                       sender := getEngineIDFromEngineCfg cfg;
-                      target := VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg);
+                      target := VerificationLocalCfg.signsForEngineAddress (EngineCfg.cfg cfg);
                       mailbox := some 0;
-                      msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceRequest (RequestQuerySignsForEvidence.mkRequestQuerySignsForEvidence externalIdentity))
+                      msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceRequest (RequestQuerySignsForEvidence.mkRequestQuerySignsForEvidence externalIdentity))
                     }
                   ]
                 };
@@ -427,7 +427,7 @@ signsForReplyAction
   in case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-        | EngineMsg.mk@{msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceReply (ReplyQuerySignsForEvidence.mkReplyQuerySignsForEvidence externalIdentity evidence err))} :=
+        | EngineMsg.mk@{msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceReply (ReplyQuerySignsForEvidence.mkReplyQuerySignsForEvidence externalIdentity evidence err))} :=
           case Map.lookup externalIdentity (VerificationLocalState.pendingRequests localState) of {
             | some reqs :=
               let
@@ -449,10 +449,10 @@ signsForReplyAction
                     sender := getEngineIDFromEngineCfg cfg;
                     target := whoAsked;
                     mailbox := some 0;
-                    msg := Anoma.PreMsg.MsgVerification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
+                    msg := Anoma.Msg.Verification (VerificationMsg.Reply (ReplyVerification.mkReplyVerification
                       (Verifier.verify
-                        (VerificationCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
-                        (VerificationCfg.backend (EngineCfg.cfg cfg))
+                        (VerificationLocalCfg.verifier (EngineCfg.cfg cfg) evidence externalIdentity)
+                        (VerificationLocalCfg.backend (EngineCfg.cfg cfg))
                         data commitment)
                       none))
                   }}) reqs;
@@ -496,7 +496,7 @@ signsForReplyActionLabel : VerificationActionExec := ActionExec.Seq [ signsForRe
     ```juvix
     VerificationGuard : Type :=
       Guard
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -513,7 +513,7 @@ signsForReplyActionLabel : VerificationActionExec := ActionExec.Seq [ signsForRe
     ```juvix
     VerificationGuardOutput : Type :=
       GuardOutput
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -530,7 +530,7 @@ signsForReplyActionLabel : VerificationActionExec := ActionExec.Seq [ signsForRe
     ```juvix
     VerificationGuardEval : Type :=
       GuardEval
-        VerificationCfg
+        VerificationLocalCfg
         VerificationLocalState
         VerificationMailboxState
         VerificationTimerHandle
@@ -550,12 +550,12 @@ Condition
 ```juvix
 verifyGuard
   (tt : TimestampedTrigger VerificationTimerHandle Anoma.Msg)
-  (cfg : EngineCfg VerificationCfg)
+  (cfg : VerificationCfg)
   (env : VerificationEnv)
   : Option VerificationGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgVerification (VerificationMsg.Request _);
+        msg := Anoma.Msg.Verification (VerificationMsg.Request _);
       } :=
       some GuardOutput.mk@{
         action := verifyActionLabel;
@@ -575,17 +575,17 @@ Condition
 ```juvix
 signsForReplyGuard
   (tt : TimestampedTrigger VerificationTimerHandle Anoma.Msg)
-  (cfg : EngineCfg VerificationCfg)
+  (cfg : VerificationCfg)
   (env : VerificationEnv)
   : Option VerificationGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
         | EngineMsg.mk@{
-            msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceReply _);
+            msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceReply _);
             sender := sender
           } :=
-          case isEqual (Ord.compare sender (VerificationCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
+          case isEqual (Ord.compare sender (VerificationLocalCfg.signsForEngineAddress (EngineCfg.cfg cfg))) of {
             | true := some GuardOutput.mk@{
               action := signsForReplyActionLabel;
               args := []
@@ -607,7 +607,7 @@ signsForReplyGuard
 ```juvix
 VerificationBehaviour : Type :=
   EngineBehaviour
-    VerificationCfg
+    VerificationLocalCfg
     VerificationLocalState
     VerificationMailboxState
     VerificationTimerHandle

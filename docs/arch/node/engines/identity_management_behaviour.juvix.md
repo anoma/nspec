@@ -329,7 +329,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     IdentityManagementAction : Type :=
       Action
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -344,7 +344,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     IdentityManagementActionInput : Type :=
       ActionInput
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -370,7 +370,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     IdentityManagementActionExec : Type :=
       ActionExec
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -418,15 +418,20 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
     ```juvix
     updateIdentityAndSpawnEngines
       (env : IdentityManagementEnv)
+      (cfg : IdentityManagementCfg)
       (backend' : Backend)
       (whoAsked : EngineID)
       (identityInfo : IdentityInfo)
       (capabilities' : Capabilities)
       : Pair IdentityInfo (List (Pair Cfg Env)) :=
       let decryptionConfig : DecryptionCfg :=
-            DecryptionCfg.mk@{
-              decryptor := genDecryptor backend';
-              backend := backend';
+            EngineCfg.mk@{
+              node := EngineCfg.node cfg;
+              name := nameGen "decryptor" (snd whoAsked) whoAsked;
+              cfg := DecryptionLocalCfg.mk@{
+                decryptor := genDecryptor backend';
+                backend := backend';
+              }
             };
           decryptionEnv : DecryptionEnv :=
             EngineEnv.mk@{
@@ -436,11 +441,15 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
               timers := []
             };
           decryptionEng : Pair Cfg Env :=
-            mkPair (PreCfg.CfgDecryption decryptionConfig) (PreEnv.EnvDecryption decryptionEnv);
+            mkPair (Cfg.CfgDecryption decryptionConfig) (Env.EnvDecryption decryptionEnv);
           commitmentConfig : CommitmentCfg :=
-            CommitmentCfg.mk@{
-              signer := genSigner backend';
-              backend := backend';
+            EngineCfg.mk@{
+              node := EngineCfg.node cfg;
+              name := nameGen "committer" (snd whoAsked) whoAsked;
+              cfg := CommitmentLocalCfg.mk@{
+                signer := genSigner backend';
+                backend := backend';
+              }
             };
           commitmentEnv : CommitmentEnv :=
             EngineEnv.mk@{
@@ -450,7 +459,7 @@ IdentityManagementActionArguments : Type := List IdentityManagementActionArgumen
               timers := []
             };
           commitmentEng : Pair Cfg Env :=
-            mkPair (PreCfg.CfgCommitment commitmentConfig) (PreEnv.EnvCommitment commitmentEnv);
+            mkPair (Cfg.CfgCommitment commitmentConfig) (Env.EnvCommitment commitmentEnv);
       in case capabilities' of {
         | Capabilities.CommitAndDecrypt :=
             let spawnedEngines := [decryptionEng; commitmentEng];
@@ -539,7 +548,7 @@ generateIdentityAction
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityReply
+              msg := Msg.IdentityManagement (IdentityManagementMsg.GenerateIdentityReply
                 (ReplyGenerateIdentity.mkReplyGenerateIdentity@{
                   commitmentEngine := none;
                   decryptionEngine := none;
@@ -552,14 +561,14 @@ generateIdentityAction
           }
         | none :=
           case emsg of {
-            | EngineMsg.mk@{msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityRequest (RequestGenerateIdentity.mkRequestGenerateIdentity backend' params' capabilities'))} :=
+            | EngineMsg.mk@{msg := Anoma.Msg.IdentityManagement (IdentityManagementMsg.GenerateIdentityRequest (RequestGenerateIdentity.mkRequestGenerateIdentity backend' params' capabilities'))} :=
               let identityInfo := IdentityInfo.mkIdentityInfo@{
                     backend := backend';
                     capabilities := capabilities';
                     commitmentEngine := none;
                     decryptionEngine := none
                   };
-                  pair' := updateIdentityAndSpawnEngines env backend' whoAsked identityInfo capabilities';
+                  pair' := updateIdentityAndSpawnEngines env (ActionInput.cfg input) backend' whoAsked identityInfo capabilities';
                   updatedIdentityInfo := fst pair';
                   spawnedEnginesFinal := snd pair';
                   updatedIdentities := Map.insert whoAsked updatedIdentityInfo identities;
@@ -575,7 +584,7 @@ generateIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityReply
+                  msg := Msg.IdentityManagement (IdentityManagementMsg.GenerateIdentityReply
                     (ReplyGenerateIdentity.mkReplyGenerateIdentity@{
                       commitmentEngine := IdentityInfo.commitmentEngine updatedIdentityInfo;
                       decryptionEngine := IdentityInfo.decryptionEngine updatedIdentityInfo;
@@ -629,7 +638,7 @@ connectIdentityAction
               sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
               target := whoAsked;
               mailbox := some 0;
-              msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityReply
+              msg := Msg.IdentityManagement (IdentityManagementMsg.ConnectIdentityReply
                 (ReplyConnectIdentity.mkReplyConnectIdentity@{
                   commitmentEngine := none;
                   decryptionEngine := none;
@@ -641,7 +650,7 @@ connectIdentityAction
           }
         | none :=
           case emsg of {
-            | EngineMsg.mk@{msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityRequest (RequestConnectIdentity.mkRequestConnectIdentity externalIdentity' backend' capabilities'))} :=
+            | EngineMsg.mk@{msg := Anoma.Msg.IdentityManagement (IdentityManagementMsg.ConnectIdentityRequest (RequestConnectIdentity.mkRequestConnectIdentity externalIdentity' backend' capabilities'))} :=
               case Map.lookup externalIdentity' identities of {
                 | none :=
                   some ActionEffect.mk@{
@@ -650,7 +659,7 @@ connectIdentityAction
                       sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                       target := whoAsked;
                       mailbox := some 0;
-                      msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityReply
+                      msg := Msg.IdentityManagement (IdentityManagementMsg.ConnectIdentityReply
                         (ReplyConnectIdentity.mkReplyConnectIdentity@{
                           commitmentEngine := none;
                           decryptionEngine := none;
@@ -677,7 +686,7 @@ connectIdentityAction
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityReply
+                          msg := Msg.IdentityManagement (IdentityManagementMsg.ConnectIdentityReply
                             (ReplyConnectIdentity.mkReplyConnectIdentity@{
                               commitmentEngine := IdentityInfo.commitmentEngine newIdentityInfo;
                               decryptionEngine := IdentityInfo.decryptionEngine newIdentityInfo;
@@ -694,7 +703,7 @@ connectIdentityAction
                           sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                           target := whoAsked;
                           mailbox := some 0;
-                          msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityReply
+                          msg := Msg.IdentityManagement (IdentityManagementMsg.ConnectIdentityReply
                             (ReplyConnectIdentity.mkReplyConnectIdentity@{
                               commitmentEngine := none;
                               decryptionEngine := none;
@@ -741,7 +750,7 @@ deleteIdentityAction
     | some emsg :=
       let whoAsked := EngineMsg.sender emsg;
       in case emsg of {
-        | EngineMsg.mk@{msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityRequest (RequestDeleteIdentity.mkRequestDeleteIdentity externalIdentity backend'))} :=
+        | EngineMsg.mk@{msg := Anoma.Msg.IdentityManagement (IdentityManagementMsg.DeleteIdentityRequest (RequestDeleteIdentity.mkRequestDeleteIdentity externalIdentity backend'))} :=
           case Map.lookup externalIdentity identities of {
             | none :=
               some ActionEffect.mk@{
@@ -750,7 +759,7 @@ deleteIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityReply
+                  msg := Msg.IdentityManagement (IdentityManagementMsg.DeleteIdentityReply
                     (ReplyDeleteIdentity.mkReplyDeleteIdentity@{
                       err := some "Identity does not exist"
                     }))
@@ -772,7 +781,7 @@ deleteIdentityAction
                   sender := getEngineIDFromEngineCfg (ActionInput.cfg input);
                   target := whoAsked;
                   mailbox := some 0;
-                  msg := PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityReply
+                  msg := Msg.IdentityManagement (IdentityManagementMsg.DeleteIdentityReply
                     (ReplyDeleteIdentity.mkReplyDeleteIdentity@{
                       err := none
                     }))
@@ -820,7 +829,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ del
     ```juvix
     IdentityManagementGuard : Type :=
       Guard
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -839,7 +848,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ del
     ```juvix
     IdentityManagementGuardOutput : Type :=
       GuardOutput
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -858,7 +867,7 @@ deleteIdentityActionLabel : IdentityManagementActionExec := ActionExec.Seq [ del
     ```juvix
     IdentityManagementGuardEval : Type :=
       GuardEval
-        IdentityManagementCfg
+        IdentityManagementLocalCfg
         IdentityManagementLocalState
         IdentityManagementMailboxState
         IdentityManagementTimerHandle
@@ -878,12 +887,12 @@ Condition
 ```juvix
 generateIdentityGuard
   (trigger : TimestampedTrigger IdentityManagementTimerHandle Anoma.Msg)
-  (cfg : EngineCfg IdentityManagementCfg)
+  (cfg : IdentityManagementCfg)
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.GenerateIdentityRequest _)
+        msg := Anoma.Msg.IdentityManagement (IdentityManagementMsg.GenerateIdentityRequest _)
       } :=
       some GuardOutput.mk@{
         action := generateIdentityActionLabel;
@@ -903,12 +912,12 @@ Condition
 ```juvix
 connectIdentityGuard
   (trigger : TimestampedTrigger IdentityManagementTimerHandle Anoma.Msg)
-  (cfg : EngineCfg IdentityManagementCfg)
+  (cfg : IdentityManagementCfg)
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.ConnectIdentityRequest _)
+        msg := Anoma.Msg.IdentityManagement (IdentityManagementMsg.ConnectIdentityRequest _)
       } :=
       some GuardOutput.mk@{
         action := connectIdentityActionLabel;
@@ -916,8 +925,7 @@ connectIdentityGuard
       }
     | _ := none
   };
-```
-<!-- --8<-- [end:connectIdentityGuard] -->
+```<!-- --8<-- [end:connectIdentityGuard] -->
 ---
 
 ### `deleteIdentityGuard`
@@ -929,12 +937,12 @@ Condition
 ```juvix
 deleteIdentityGuard
   (trigger : TimestampedTrigger IdentityManagementTimerHandle Anoma.Msg)
-  (cfg : EngineCfg IdentityManagementCfg)
+  (cfg : IdentityManagementCfg)
   (env : IdentityManagementEnv)
   : Option IdentityManagementGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgIdentityManagement (IdentityManagementMsg.DeleteIdentityRequest _)
+        msg := Anoma.Msg.IdentityManagement (IdentityManagementMsg.DeleteIdentityRequest _)
       } :=
       some GuardOutput.mk@{
         action := deleteIdentityActionLabel;
@@ -942,8 +950,7 @@ deleteIdentityGuard
       }
     | _ := none
   };
-```
-<!-- --8<-- [end:deleteIdentityGuard] -->
+```<!-- --8<-- [end:deleteIdentityGuard] -->
 ---
 
 ## The Identity Management Behaviour
@@ -954,7 +961,7 @@ deleteIdentityGuard
 ```juvix
 IdentityManagementBehaviour : Type :=
   EngineBehaviour
-    IdentityManagementCfg
+    IdentityManagementLocalCfg
     IdentityManagementLocalState
     IdentityManagementMailboxState
     IdentityManagementTimerHandle
@@ -962,8 +969,7 @@ IdentityManagementBehaviour : Type :=
     Anoma.Msg
     Anoma.Cfg
     Anoma.Env;
-```
-<!-- --8<-- [end:IdentityManagementBehaviour] -->
+```<!-- --8<-- [end:IdentityManagementBehaviour] -->
 
 ### Instantiation
 
