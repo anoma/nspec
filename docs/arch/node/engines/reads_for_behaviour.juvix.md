@@ -82,7 +82,7 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
     ```juvix
     ReadsForAction : Type :=
       Action
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -97,7 +97,7 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
     ```juvix
     ReadsForActionInput : Type :=
       ActionInput
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -123,7 +123,7 @@ ReadsForActionArguments : Type := List ReadsForActionArgument;
     ```juvix
     ReadsForActionExec : Type :=
       ActionExec
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -162,7 +162,7 @@ readsForQueryAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.Request (RequestReadsFor.mkRequestReadsFor identityA identityB))} :=
+      | EngineMsg.mk@{msg := Anoma.Msg.ReadsFor (ReadsForMsg.Request (RequestReadsFor.mkRequestReadsFor identityA identityB))} :=
         let
           hasEvidence := isElement \{a b := a && b} true (map \{ evidence :=
               isEqual (Ord.compare (ReadsForEvidence.fromIdentity evidence) identityA) &&
@@ -178,7 +178,7 @@ readsForQueryAction
             sender := getEngineIDFromEngineCfg cfg;
             target := EngineMsg.sender emsg;
             mailbox := some 0;
-            msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.Reply responseMsg)
+            msg := Anoma.Msg.ReadsFor (ReadsForMsg.Reply responseMsg)
           }];
           timers := [];
           engines := []
@@ -218,7 +218,7 @@ submitEvidenceAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceRequest (RequestSubmitReadsForEvidence.mkRequestSubmitReadsForEvidence evidence))} :=
+      | EngineMsg.mk@{msg := Anoma.Msg.ReadsFor (ReadsForMsg.SubmitReadsForEvidenceRequest (RequestSubmitReadsForEvidence.mkRequestSubmitReadsForEvidence evidence))} :=
         case verifyEvidence evidence of {
         | true :=
           case isElement \{a b := a && b} true (map \{e := isEqual (Ord.compare e evidence)} (Set.toList (ReadsForLocalState.evidenceStore localState))) of {
@@ -229,7 +229,7 @@ submitEvidenceAction
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence (some "Evidence already exists.")))
+                msg := Anoma.Msg.ReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence (some "Evidence already exists.")))
               }];
               timers := [];
               engines := []
@@ -245,7 +245,7 @@ submitEvidenceAction
                 sender := getEngineIDFromEngineCfg cfg;
                 target := EngineMsg.sender emsg;
                 mailbox := some 0;
-                msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence none))
+                msg := Anoma.Msg.ReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence none))
               }];
               timers := [];
               engines := []
@@ -258,7 +258,7 @@ submitEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence (some "Invalid evidence provided.")))
+              msg := Anoma.Msg.ReadsFor (ReadsForMsg.SubmitReadsForEvidenceReply (ReplySubmitReadsForEvidence.mkReplySubmitReadsForEvidence (some "Invalid evidence provided.")))
             }];
             timers := [];
             engines := []
@@ -299,7 +299,7 @@ queryEvidenceAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest (RequestQueryReadsForEvidence.mkRequestQueryReadsForEvidence identity))} :=
+      | EngineMsg.mk@{msg := Anoma.Msg.ReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest (RequestQueryReadsForEvidence.mkRequestQueryReadsForEvidence identity))} :=
         let
           relevantEvidence := Set.filter \{evidence :=
               isEqual (Ord.compare (ReadsForEvidence.fromIdentity evidence) identity) ||
@@ -316,7 +316,7 @@ queryEvidenceAction
             sender := getEngineIDFromEngineCfg cfg;
             target := EngineMsg.sender emsg;
             mailbox := some 0;
-            msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceReply responseMsg)
+            msg := Anoma.Msg.ReadsFor (ReadsForMsg.QueryReadsForEvidenceReply responseMsg)
           }];
           timers := [];
           engines := []
@@ -357,7 +357,7 @@ queryEvidenceActionLabel : ReadsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     ReadsForGuard : Type :=
       Guard
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -374,7 +374,7 @@ queryEvidenceActionLabel : ReadsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     ReadsForGuardOutput : Type :=
       GuardOutput
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -391,7 +391,7 @@ queryEvidenceActionLabel : ReadsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     ReadsForGuardEval : Type :=
       GuardEval
-        ReadsForCfg
+        ReadsForLocalCfg
         ReadsForLocalState
         ReadsForMailboxState
         ReadsForTimerHandle
@@ -411,11 +411,11 @@ Condition
 ```juvix
 readsForQueryGuard
   (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg ReadsForCfg)
+  (cfg : ReadsForCfg)
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.Request _)} :=
+    | some EngineMsg.mk@{msg := Anoma.Msg.ReadsFor (ReadsForMsg.Request _)} :=
       some GuardOutput.mk@{
         action := readsForQueryActionLabel;
         args := []
@@ -434,11 +434,11 @@ Condition
 ```juvix
 submitEvidenceGuard
   (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg ReadsForCfg)
+  (cfg : ReadsForCfg)
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.SubmitReadsForEvidenceRequest _)} :=
+    | some EngineMsg.mk@{msg := Anoma.Msg.ReadsFor (ReadsForMsg.SubmitReadsForEvidenceRequest _)} :=
       some GuardOutput.mk@{
         action := submitEvidenceActionLabel;
         args := []
@@ -457,11 +457,11 @@ Condition
 ```juvix
 queryEvidenceGuard
   (tt : TimestampedTrigger ReadsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg ReadsForCfg)
+  (cfg : ReadsForCfg)
   (env : ReadsForEnv)
   : Option ReadsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
-    | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest _)} :=
+    | some EngineMsg.mk@{msg := Anoma.Msg.ReadsFor (ReadsForMsg.QueryReadsForEvidenceRequest _)} :=
       some GuardOutput.mk@{
         action := queryEvidenceActionLabel;
         args := []
@@ -479,7 +479,7 @@ queryEvidenceGuard
 ```juvix
 ReadsForBehaviour : Type :=
   EngineBehaviour
-    ReadsForCfg
+    ReadsForLocalCfg
     ReadsForLocalState
     ReadsForMailboxState
     ReadsForTimerHandle

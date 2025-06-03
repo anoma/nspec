@@ -1,0 +1,84 @@
+{
+  "engines": [
+    {
+      "name": "Engine1",
+      "initialState": 42,
+      "messageHandlers": [
+        {
+          "stateEffect": "if (state !== null) return state; return payload;",
+          "guard": "return state === null && messageType === 'broadcast';",
+          "generateMessages": [
+            {
+              "to": "Engine2",
+              "type": "broadcast",
+              "payload": "return state;"
+            },
+            {
+              "to": "Engine3",
+              "type": "broadcast",
+              "payload": "return state;"
+            }
+          ]
+        }
+      ],
+      "initialMessages": [
+        {
+          "to": "Engine2",
+          "type": "broadcast",
+          "payload": "return state;"
+        },
+        {
+          "to": "Engine3",
+          "type": "broadcast",
+          "payload": "return state;"
+        }
+      ]
+    },
+    {
+      "name": "Engine2",
+      "initialState": null,
+      "messageHandlers": [
+        {
+          "stateEffect": "if (state !== null) return state; return payload;",
+          "guard": "return state === null && messageType === 'broadcast';",
+          "generateMessages": [
+            {
+              "to": "Engine1",
+              "type": "broadcast",
+              "payload": "return state;"
+            },
+            {
+              "to": "Engine3",
+              "type": "broadcast",
+              "payload": "return state;"
+            }
+          ]
+        }
+      ],
+      "initialMessages": []
+    },
+    {
+      "name": "Engine3",
+      "initialState": null,
+      "messageHandlers": [
+        {
+          "stateEffect": "if (state !== null) return state; return payload;",
+          "guard": "return state === null && messageType === 'broadcast';",
+          "generateMessages": [
+            {
+              "to": "Engine1",
+              "type": "broadcast",
+              "payload": "return state;"
+            },
+            {
+              "to": "Engine2",
+              "type": "broadcast",
+              "payload": "return state;"
+            }
+          ]
+        }
+      ],
+      "initialMessages": []
+    }
+  ]
+}

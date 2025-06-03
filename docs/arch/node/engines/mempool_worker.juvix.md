@@ -122,16 +122,16 @@ spawned to execute the message.
 
 <!-- --8<-- [start:MempoolWorkerEngine] -->
 ```juvix
-MempoolWorkerEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
+MempoolWorkerEngine : Type :=
   Engine
-    MempoolWorkerCfg
-    (MempoolWorkerLocalState KVSKey KVSDatum Executable)
+    MempoolWorkerLocalCfg
+    MempoolWorkerLocalState
     MempoolWorkerMailboxState
     MempoolWorkerTimerHandle
     MempoolWorkerActionArguments
-    (Anoma.PreMsg KVSKey KVSDatum Executable)
-    (Anoma.PreCfg KVSKey KVSDatum Executable)
-    (Anoma.PreEnv KVSKey KVSDatum Executable ProgramState);
+    Anoma.Msg
+    Anoma.Cfg
+    Anoma.Env;
 ```
 <!-- --8<-- [end:MempoolWorkerEngine] -->
 
@@ -139,7 +139,7 @@ MempoolWorkerEngine (KVSKey KVSDatum Executable ProgramState : Type) : Type :=
 
 <!-- --8<-- [start:exampleMempoolWorkerEngine] -->
 ```juvix
-exampleMempoolWorkerEngine : MempoolWorkerEngine String String ByteString String :=
+exampleMempoolWorkerEngine : MempoolWorkerEngine :=
   Engine.mk@{
     cfg := mempoolWorkerCfg;
     env := mempoolWorkerEnv;

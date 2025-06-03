@@ -16,6 +16,7 @@ tags:
     module arch.node.types.anoma_message;
 
     import prelude open;
+    import arch.system.state.resource_machine.notes.nockma open;
 
     {- Identity -}
 
@@ -71,51 +72,49 @@ corresponding message type `TickerMsg`.
 
 <!-- --8<-- [start:Msg] -->
 ```juvix
-type PreMsg KVSKey KVSDatum Executable :=
+type Msg :=
 
   {- Identity -}
 
-  | MsgIdentityManagement IdentityManagementMsg
-  | MsgDecryption DecryptionMsg
-  | MsgEncryption EncryptionMsg
-  | MsgCommitment CommitmentMsg
+  | IdentityManagement IdentityManagementMsg
+  | Decryption DecryptionMsg
+  | Encryption EncryptionMsg
+  | Commitment CommitmentMsg
 
-  | MsgVerification VerificationMsg
-  | MsgReadsFor ReadsForMsg
-  | MsgSignsFor SignsForMsg
-  | MsgNaming NamingMsg
+  | Verification VerificationMsg
+  | ReadsFor ReadsForMsg
+  | SignsFor SignsForMsg
+  | Naming NamingMsg
 
-  | MsgLocalKVStorage LocalKVStorageMsg
-  | MsgLogging LoggingMsg
-  | MsgWallClock WallClockMsg
-  | MsgLocalTSStorage LocalTSStorageMsg
+  | LocalKVStorage LocalKVStorageMsg
+  | Logging LoggingMsg
+  | WallClock WallClockMsg
+  | LocalTSStorage LocalTSStorageMsg
 
   {- Network -}
 
-  | MsgRouter (RouterMsg (PreMsg KVSKey KVSDatum Executable))
-  | MsgTransportProtocol TransportProtocolMsg
-  | MsgTransportConnection TransportConnectionMsg
-  | MsgPubSubTopic PubSubTopicMsg
-  | MsgStorage StorageMsg
+  | Router (RouterMsg Msg)
+  | TransportProtocol TransportProtocolMsg
+  | TransportConnection TransportConnectionMsg
+  | PubSubTopic PubSubTopicMsg
+  | Storage StorageMsg
 
   {- Ordering -}
 
-  | MsgMempoolWorker (MempoolWorkerMsg KVSKey Executable)
-  | MsgExecutor (ExecutorMsg KVSKey KVSDatum)
-  | MsgShard (ShardMsg KVSKey KVSDatum)
+  | MempoolWorker (MempoolWorkerMsg Noun)
+  | Executor ExecutorMsg
+  | Shard ShardMsg
 
   {- Misc -}
 
-  | MsgTicker TickerMsg
+  | Ticker TickerMsg
 
   {- Templates -}
 
-  | MsgTemplate TemplateMsg
-  | MsgTemplateMinimum TemplateMinimumMsg
+  | Template TemplateMsg
+  | TemplateMinimum TemplateMinimumMsg
 
   -- Add more messages here
   ;
-
-Msg : Type := PreMsg String String ByteString;
 ```
 <!-- --8<-- [end:Msg] -->

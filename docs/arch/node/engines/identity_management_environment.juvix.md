@@ -79,7 +79,7 @@ type IdentityInfo := mkIdentityInfo@{
 ### `IdentityManagementLocalState`
 
 ```juvix
-type IdentityManagementLocalState := mk@{
+type IdentityManagementLocalState := mk {
   identities : Map EngineID IdentityInfo;
 };
 ```

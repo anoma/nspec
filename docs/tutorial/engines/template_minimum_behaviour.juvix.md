@@ -142,7 +142,7 @@ exampleReplyAction
   in
     case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgTemplateMinimum (TemplateMinimumMsgExampleRequest req);
+        msg := Anoma.Msg.TemplateMinimum (TemplateMinimumMsgExampleRequest req);
         sender := sender;
         target := target;
         mailbox := mailbox;
@@ -155,7 +155,7 @@ exampleReplyAction
             target := sender;
             mailbox := some 0;
             msg :=
-              Anoma.PreMsg.MsgTemplateMinimum
+              Anoma.Msg.TemplateMinimum
                 (TemplateMinimumMsgExampleReply
                   (ok mkExampleReplyOk@{
                     argOne := ExampleRequest.argOne req;
@@ -249,7 +249,7 @@ exampleReplyGuard
   : Option TemplateMinimumGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgTemplateMinimum (TemplateMinimumMsg.ExampleRequest req);
+        msg := Anoma.Msg.TemplateMinimum (TemplateMinimumMsg.ExampleRequest req);
         sender := mkPair none _; -- from local engines only (NodeID is none)
       } := some GuardOutput.mk@{
         action := exampleReplyActionLabel;

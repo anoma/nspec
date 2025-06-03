@@ -34,7 +34,7 @@ Only the protocol adapter can call [non-view functions](https://docs.soliditylan
 
 ### Commitment Accumulator
 
-The implementation uses a modified version of the [OpenZeppelin `MerkleTree` v.5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/MerkleTree.sol) that populates the binary tree from left to right and stores leaf indices in a hash table
+The [implementation](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/state/CommitmentAccumulator.sol) uses a modified version of the [OpenZeppelin `MerkleTree` v.5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/MerkleTree.sol) that populates the binary tree from left to right and [stores commitment indices in a hash table](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/state/CommitmentAccumulator.sol#L21)
 
 ```solidity
  mapping(bytes32 commitment => uint256 index) internal _indices;
@@ -42,17 +42,17 @@ The implementation uses a modified version of the [OpenZeppelin `MerkleTree` v.5
 
 allowing for commitment existence checks.
 
-In addition to the leaves, the [modified implementation](https://github.com/anoma/evm-protocol-adapter/blob/main/src/state/CommitmentAccumulator.sol) stores also the intermediary node hashes.
+In addition to the leaves, the [modified Merkle tree implementation](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/libs/MerkleTree.sol) stores also the intermediary node hashes, which allows to [obtain Merkle proofs directly from the contract](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/libs/MerkleTree.sol#L88-L136).
 
 Historical Merkle tree roots are stored in an [OpenZeppelin `EnumerableSet` v5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/EnumerableSet.sol) allowing for existence checks.
 
 ### Nullifier Set
 
-The implementation uses an [OpenZeppelin `EnumerableSet` v5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/EnumerableSet.sol) to store nullifiers of consumed resources and allow for existence checks.
+The [implementation](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/state/NullifierSet.sol) uses an [OpenZeppelin `EnumerableSet` v5.2.0](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.2.0/contracts/utils/structs/EnumerableSet.sol) to store nullifiers of consumed resources and allow for existence checks.
 
 ### Blob Storage
 
-The [implementation](https://github.com/anoma/evm-protocol-adapter/blob/main/src/state/BlobStorage.sol) uses a simple hash table to store blobs content-addressed.
+The [implementation](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/state/BlobStorage.sol) uses a simple hash table to store blobs content-addressed.
 
 ```solidity
 mapping(bytes32 blobHash => bytes blob) internal _blobs;
@@ -73,7 +73,7 @@ For hashing, we compute the SHA-256 hash of the [strictly ABI-encoded](https://d
 
 ## Types & Computable Components
 
-The RM-related type and computable component definitions in Solidity can be found in the [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol) and [`src/libs/ComputableComponents.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/libs/ComputableComponents.sol) file, respectively.
+The RM-related type and computable component definitions in Solidity can be found in the [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/Types.sol) and [`src/libs/ComputableComponents.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/libs/ComputableComponents.sol) file, respectively.
 
 ## Proving Systems
 
@@ -85,18 +85,19 @@ For proof verification, we use the [RISC ZERO verifier contracts](https://dev.ri
 
 For the current prototype and the only supported example application [basic shielded Kudos ](https://research.anoma.net/t/basic-e2e-shielded-kudos-app/1237), we use a specific circuit resulting in the loss of function privacy. This will be improved in future iterations.
 
-The associated types are defined in [`proving/Compliance.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/proving/Compliance.sol).
+The associated types are defined in [`proving/Compliance.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/proving/Logic.sol).
 
 ### Compliance Proofs
 
 Compliance units have a fixed size and contain references to one consumed and one created resource. For transaction with $n_\text{consumed} \neq n_\text{created}$, we expect padding resources (ephemeral resources with quantity 0) to be used.
 
-The associated types are defined in [`proving/Compliance.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/proving/Compliance.sol).
+The associated types are defined in [`proving/Compliance.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/proving/Compliance.sol).
 
 ### Delta Proofs
 
-The delta values are computed as 2D points (`uint256[2]`) on the `secp256k1` (K-256) curve and can be verified using ECDSA.
+The delta values are computed as 2D points (`uint256[2]`) on the `secp256k1` (K-256) elliptic curve and can be verified using ECDSA.
 
+The associated elliptic curve addition and conversion methods are defined in [`proving/Delta.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/proving/Delta.sol).
 The curve implementation is taken from [Witnet's `eliptic-curve-solidity` library v0.2.1](https://github.com/witnet/elliptic-curve-solidity/tree/0.2.1). This includes
 
 - [curve parameters](https://github.com/witnet/elliptic-curve-solidity/blob/0.2.1/examples/Secp256k1.sol)
@@ -105,15 +106,9 @@ The curve implementation is taken from [Witnet's `eliptic-curve-solidity` librar
 
 We use the zero delta public key derived from the private key `0`.
 
-As the message digest, we use the transaction hash that we've defined as follows (see [`src/ProtocolAdapter.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/ProtocolAdapter.sol)):
+As the verifying key (a.k.a. message digest), we use the keccak-256 hash over the list of all nullifier and commitments pairs being obtained by iterating over the compliance units (see [`src/proving/Delta.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/proving/Delta.sol#L31-L37)).
 
-```solidity
-function _transactionHash(bytes32[] memory tags) internal pure returns (bytes32 txHash) {
-    txHash = sha256(abi.encode(tags));
-}
-```
-
-For key recovery from the message digest and signature, we use [OpenZeppelin's `ECDSA` library](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/ECDSA.sol).
+For key recovery from the verifying key and signature, we use [OpenZeppelin's `ECDSA` library](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/ECDSA.sol).
 
 ## EVM and RM State Correspondence
 
@@ -143,7 +138,7 @@ and allows the application to ensure the correspondence.
 
 This works as follows:
 
-The protocol adapter accepts an optional `ForwarderCalldata` struct with the RM transaction object as part of the action object (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol)):
+The protocol adapter accepts an optional `ForwarderCalldata` struct with the RM transaction object as part of the action object (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/Types.sol#L46-L53)):
 
 ```solidity
 struct ForwarderCalldata {
@@ -193,9 +188,7 @@ Besides referencing the external contract by its address, the forwarder contract
 the resource kind of the associated [calldata carrier resource](#calldata-carrier-resource) that the protocol adapter will require be created. This allows the forwarder contract to also to enforce its own contract address to be part of the carrier resource label, which ensures that the correspondence between the forwarder and carrier resource is unique.
 
 !!! note
-    The mutual dependency between
-    - the calldata carrier resource label containing the forwarder contract address
-    - the forwarder contract referencing the calldata carrier resource label
+The mutual dependency between - the calldata carrier resource label containing the forwarder contract address - the forwarder contract referencing the calldata carrier resource label
 
     can be established by deterministic deployment or post-deployment initialization of the forwarder contract.
 
@@ -225,7 +218,7 @@ contract ExampleForwarder is Ownable {
 }
 ```
 
-The required calldata is passed with the RM transaction object as part of the `Action` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/Types.sol)).
+The required calldata is passed with the RM transaction object as part of the `Action` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/Types.sol#L43)).
 
 ```solidity
 struct ForwarderCalldata {
@@ -247,7 +240,7 @@ function _executeForwarderCall(ForwarderCalldata calldata call) internal {
 }
 ```
 
-The forwarder contract base class can be found in [`src/ForwarderBase.sol`](https://github.com/anoma/evm-protocol-adapter/blob/main/src/ForwarderBase.sol).
+The forwarder contract base class can be found in [`src/ForwarderBase.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/forwarders/ForwarderBase.sol).
 
 ### Calldata Carrier Resource
 
@@ -257,7 +250,7 @@ By default, calldata carrier resources can be consumed by everyone (because thei
 !!! note
     When the singleton calldata carrier resource is consumed in a transaction, subsequent transactions in the same block cannot consume it anymore. This effectively limits the current design to a single forwarder contract call per block (if the commitment of the latest, unspent calldata carrier resource is not known to the subsequent transaction ahead of time). This will be improved in upcoming protocol adapter versions.
 
-The calldata carrier resource object is passed to the protocol adapter together with the `ForwarderCalldata` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6cdf69b92f58d56dc13df1c0b52539295ea59814/src/Types.sol#L31)):
+The calldata carrier resource object is passed to the protocol adapter together with the `ForwarderCalldata` struct (see [`src/Types.sol`](https://github.com/anoma/evm-protocol-adapter/blob/6f7cde40aaec5e385408012269b85bb8173a9b87/contracts/src/Types.sol#L55-L64)):
 
 
 ```solidity
