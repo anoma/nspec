@@ -306,7 +306,7 @@ NamingActionArguments : Type := List NamingActionArgument;
     ```juvix
     NamingAction : Type :=
       Action
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -321,7 +321,7 @@ NamingActionArguments : Type := List NamingActionArgument;
     ```juvix
     NamingActionInput : Type :=
       ActionInput
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -347,7 +347,7 @@ NamingActionArguments : Type := List NamingActionArgument;
     ```juvix
     NamingActionExec : Type :=
       ActionExec
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -383,7 +383,7 @@ resolveNameAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     identityName := case getEngineMsgFromTimestampedTrigger tt of {
-      | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgNaming (NamingMsg.ResolveNameRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.Msg.Naming (NamingMsg.ResolveNameRequest req)} :=
           some (RequestResolveName.identityName req)
       | _ := none
     }
@@ -406,7 +406,7 @@ resolveNameAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.PreMsg.MsgNaming (NamingMsg.ResolveNameReply responseMsg)
+              msg := Anoma.Msg.Naming (NamingMsg.ResolveNameReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -443,7 +443,7 @@ submitNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     evidence := case getEngineMsgFromTimestampedTrigger tt of {
-      | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgNaming (NamingMsg.SubmitNameEvidenceRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.Msg.Naming (NamingMsg.SubmitNameEvidenceRequest req)} :=
           some (RequestSubmitNameEvidence.evidence req)
       | _ := none
     }
@@ -480,7 +480,7 @@ submitNameEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.PreMsg.MsgNaming (NamingMsg.SubmitNameEvidenceReply responseMsg)
+              msg := Anoma.Msg.Naming (NamingMsg.SubmitNameEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -517,7 +517,7 @@ queryNameEvidenceAction
     tt := ActionInput.trigger input;
     localState := EngineEnv.localState env;
     externalIdentity := case getEngineMsgFromTimestampedTrigger tt of {
-      | some EngineMsg.mk@{msg := Anoma.PreMsg.MsgNaming (NamingMsg.QueryNameEvidenceRequest req)} :=
+      | some EngineMsg.mk@{msg := Anoma.Msg.Naming (NamingMsg.QueryNameEvidenceRequest req)} :=
           some (RequestQueryNameEvidence.externalIdentity req)
       | _ := none
     }
@@ -538,7 +538,7 @@ queryNameEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.PreMsg.MsgNaming (NamingMsg.QueryNameEvidenceReply responseMsg)
+              msg := Anoma.Msg.Naming (NamingMsg.QueryNameEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -579,7 +579,7 @@ queryNameEvidenceActionLabel : NamingActionExec := ActionExec.Seq [ queryNameEvi
     ```juvix
     NamingGuard : Type :=
       Guard
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -596,7 +596,7 @@ queryNameEvidenceActionLabel : NamingActionExec := ActionExec.Seq [ queryNameEvi
     ```juvix
     NamingGuardOutput : Type :=
       GuardOutput
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -613,7 +613,7 @@ queryNameEvidenceActionLabel : NamingActionExec := ActionExec.Seq [ queryNameEvi
     ```juvix
     NamingGuardEval : Type :=
       GuardEval
-        NamingCfg
+        NamingLocalCfg
         NamingLocalState
         NamingMailboxState
         NamingTimerHandle
@@ -633,12 +633,12 @@ Condition
 ```juvix
 resolveNameGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
-  (cfg : EngineCfg NamingCfg)
+  (cfg : NamingCfg)
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgNaming (NamingMsg.ResolveNameRequest _)
+        msg := Anoma.Msg.Naming (NamingMsg.ResolveNameRequest _)
       } := some GuardOutput.mk@{
         action := resolveNameActionLabel;
         args := []
@@ -657,12 +657,12 @@ Condition
 ```juvix
 submitNameEvidenceGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
-  (cfg : EngineCfg NamingCfg)
+  (cfg : NamingCfg)
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgNaming (NamingMsg.SubmitNameEvidenceRequest _)
+        msg := Anoma.Msg.Naming (NamingMsg.SubmitNameEvidenceRequest _)
       } := some GuardOutput.mk@{
         action := submitNameEvidenceActionLabel;
         args := []
@@ -681,12 +681,12 @@ Condition
 ```juvix
 queryNameEvidenceGuard
   (tt : TimestampedTrigger NamingTimerHandle Anoma.Msg)
-  (cfg : EngineCfg NamingCfg)
+  (cfg : NamingCfg)
   (env : NamingEnv)
   : Option NamingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgNaming (NamingMsg.QueryNameEvidenceRequest _)
+        msg := Anoma.Msg.Naming (NamingMsg.QueryNameEvidenceRequest _)
       } := some GuardOutput.mk@{
         action := queryNameEvidenceActionLabel;
         args := []
@@ -704,7 +704,7 @@ queryNameEvidenceGuard
 ```juvix
 NamingBehaviour : Type :=
   EngineBehaviour
-    NamingCfg
+    NamingLocalCfg
     NamingLocalState
     NamingMailboxState
     NamingTimerHandle

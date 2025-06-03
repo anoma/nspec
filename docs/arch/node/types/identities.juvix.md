@@ -15,6 +15,9 @@ tags:
     module arch.node.types.identities;
 
     import arch.node.types.crypto open public;
+    import arch.system.state.resource_machine.notes.nockma open;
+    import arch.system.state.resource_machine.notes.nockma_runnable open;
+
     import prelude open;
     ```
 
@@ -389,17 +392,22 @@ syntax alias BatchNumber := Nat;
 syntax alias WallClockTime := Nat;
 ```
 
-### `keyToShard`
-
-Up to v0.2,
-the specification assumes a fixed/static assignment from
-keys of the key-value storage to
-engine IDs of shards that are
-responsible for mangaging the values associated to keys.
+### Sharding
 
 ```juvix
--- Map each key to its shard
-axiom keyToShard {KVSKey} : KVSKey -> EngineID;
+syntax alias KVSKey := Nat;
+```
+
+```juvix
+syntax alias KVSDatum := Nat;
+```
+
+```juvix
+syntax alias ProgramState := NockmaProgramState;
+```
+
+```juvix
+syntax alias Executable := Noun;
 ```
 
 !!! todo "v0.3"

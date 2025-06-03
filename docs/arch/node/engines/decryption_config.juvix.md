@@ -20,6 +20,7 @@ tags:
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.system.identity.identity as Identity;
+    import arch.system.identity.identity as Identity;
     import arch.node.types.identities open;
     ```
 
@@ -29,21 +30,23 @@ tags:
 
 The decryption engine configuration contains static information for decryption engine instances.
 
-## The Decryption Configuration
+## The Decryption Local Configuration
 
 The configuration of a Decryption Engine instance includes the identity's
 decryption capabilities.
 
-### `DecryptionCfg`
+### `DecryptionLocalCfg`
 
-<!-- --8<-- [start:DecryptionCfg] -->
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:DecryptionLocalCfg] -->
 ```juvix
-type DecryptionCfg := mk@{
+type DecryptionLocalCfg := mk@{
   decryptor : Identity.Decryptor Backend Plaintext Ciphertext;
   backend : Backend;
 };
 ```
-<!-- --8<-- [end:DecryptionCfg] -->
+<!-- --8<-- [end:DecryptionLocalCfg] -->
 
 ???+ code "Arguments"
 
@@ -53,17 +56,29 @@ type DecryptionCfg := mk@{
     `backend`:
     : The backend to use for decryption.
 
-### Instantiation
+## The Decryption Configuration
+
+### `DecryptionCfg`
+
+<!-- --8<-- [start:DecryptionCfg] -->
+```juvix
+DecryptionCfg : Type :=
+  EngineCfg
+    DecryptionLocalCfg;
+```
+<!-- --8<-- [end:DecryptionCfg] -->
+
+#### Instantiation
 
 <!-- --8<-- [start:decryptionCfg] -->
 ```juvix extract-module-statements
 module decryption_config_example;
 
-  decryptionCfg : EngineCfg DecryptionCfg :=
+  decryptionCfg : DecryptionCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "decryption";
-      cfg := DecryptionCfg.mk@{
+      cfg := DecryptionLocalCfg.mk@{
         decryptor := Identity.Decryptor.mkDecryptor@{
           decrypt := \{_ x := some x};
         };

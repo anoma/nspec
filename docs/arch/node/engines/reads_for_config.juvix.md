@@ -28,13 +28,27 @@ tags:
 
 The ReadFor engine configuration contains static information for ReadFor engine instances.
 
+## The ReadFor Local Configuration
+
+### `ReadsForLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:ReadsForLocalCfg] -->
+```juvix
+type ReadsForLocalCfg := mk;
+```
+<!-- --8<-- [end:ReadsForLocalCfg] -->
+
 ## The ReadFor Configuration
 
 ### `ReadsForCfg`
 
 <!-- --8<-- [start:ReadsForCfg] -->
 ```juvix
-type ReadsForCfg := mk
+ReadsForCfg : Type :=
+  EngineCfg
+    ReadsForLocalCfg;
 ```
 <!-- --8<-- [end:ReadsForCfg] -->
 
@@ -44,11 +58,11 @@ type ReadsForCfg := mk
 ```juvix extract-module-statements
 module reads_for_config_example;
 
-  readsForCfg : EngineCfg ReadsForCfg :=
+  readsForCfg : ReadsForCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "reads for";
-      cfg := ReadsForCfg.mk
+      cfg := ReadsForLocalCfg.mk
     }
   ;
 end;

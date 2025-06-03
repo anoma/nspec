@@ -11,16 +11,13 @@ edit_uri: edit/main/docs/
 use_directory_urls: false
 nav:
   - Home: index.md
+  - Anoma architecture: ./arch/overview.md
   - Changelog: ./changelog.md
   - Indexes:
       - List of tags: ./indexes/tags.md
       - List of modules: ./indexes/modules.md
       - List of basic types: ./prelude.juvix.md
         #   - List of engines: ./indexes/engines.md
-  - Introduction:
-      - Anomian: ./anomian.juvix.md
-      - Interactive engine timelines: ./tutorial/engines/interactive_timelines.md
-      - Anoma architecture: ./arch/overview.md
   - Node architecture:
       - Concepts:
           - Engine: ./arch/node/concepts/engine.md
@@ -176,6 +173,11 @@ nav:
                       - Storage Configuration: ./arch/node/engines/storage_config.juvix.md
                       - Storage Environment: ./arch/node/engines/storage_environment.juvix.md
                       - Storage Behaviour: ./arch/node/engines/storage_behaviour.juvix.md
+      - Integration:
+          - Engine Simulator: ./arch/node/integration/simulator.juvix.md
+          - Engine Visualizer: ./arch/node/integration/visualizer.juvix.md
+          - Examples:
+              - Increment Example: ./arch/node/integration/examples/increment.juvix.md
   - System architecture:
       - Identity Architecture:
           - Identity Architecture Types: ./arch/system/identity/identity.juvix.md
@@ -226,6 +228,13 @@ nav:
                   - Function formats:
                       - Transaction function format: ./arch/system/state/resource_machine/notes/function_formats/transaction_function_format.juvix.md
                   - Applications: ./arch/system/state/resource_machine/notes/applications.juvix.md
+                  - Runnable trait: ./arch/system/state/resource_machine/notes/runnable.juvix.md
+                  - Nockma implementation: ./arch/system/state/resource_machine/notes/nockma.juvix.md
+                  - Nockma runnable: ./arch/system/state/resource_machine/notes/nockma_runnable.juvix.md
+  - Integrations:
+      - Protocol Adapters:
+          - ./arch/integrations/adapters/index.md
+          - Ethereum Virtual Machine: ./arch/integrations/adapters/evm.md
   - Tutorials:
       - Contributor guidelines:
           - Global principles and guidelines: ./tutorial/principles_and_guidelines.md
@@ -233,6 +242,8 @@ nav:
           - Engines in Anoma:
               - ./tutorial/engines/index.md
               - Engine writing conventions: ./tutorial/engines/writing_conventions.md
+              - Anomian: ./anomian.juvix.md
+              - Interactive engine timelines: ./tutorial/engines/interactive_timelines.md
               - Examples:
                   - Template Engine:
                       - Template Engine: ./tutorial/engines/template.juvix.md

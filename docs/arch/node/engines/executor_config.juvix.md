@@ -20,6 +20,7 @@ tags:
     import arch.node.types.engine open;
     import arch.node.types.messages open;
     import arch.node.types.identities open;
+    import arch.system.state.resource_machine.notes.nockma open;
     ```
 
 # Executor Configuration
@@ -28,13 +29,15 @@ tags:
 
 The executor configuration contains static information needed for execution: the transaction program, access rights, and notification targets.
 
-## The Executor Configuration
+## The Executor Local Configuration
 
-### `ExecutorCfg`
+### `ExecutorLocalCfg`
 
-<!-- --8<-- [start:ExecutorCfg] -->
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:ExecutorLocalCfg] -->
 ```juvix
-type ExecutorCfg KVSKey Executable :=
+type ExecutorLocalCfg :=
   mk@{
     timestamp : TxFingerprint;
     executable : Executable;
@@ -44,9 +47,10 @@ type ExecutorCfg KVSKey Executable :=
     may_write_keys : Set KVSKey;
     worker : EngineID;
     issuer : EngineID;
+    keyToShard : KVSKey -> EngineID
   }
 ```
-<!-- --8<-- [end:ExecutorCfg] -->
+<!-- --8<-- [end:ExecutorLocalCfg] -->
 
 ???+ code "Arguments"
 
@@ -75,25 +79,38 @@ type ExecutorCfg KVSKey Executable :=
     `issuer`
     : ID of the transaction sender to notify on completion
 
-## Instantiation
+## The Executor Configuration
+
+### `ExecutorCfg`
+
+<!-- --8<-- [start:ExecutorCfg] -->
+```juvix
+ExecutorCfg : Type :=
+  EngineCfg
+    ExecutorLocalCfg;
+```
+<!-- --8<-- [end:ExecutorCfg] -->
+
+#### Instantiation
 
 <!-- --8<-- [start:executorCfg] -->
 ```juvix extract-module-statements
 module executor_config_example;
 
-  executorCfg : EngineCfg (ExecutorCfg String ByteString) :=
+  executorCfg : ExecutorCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "executor";
-      cfg := ExecutorCfg.mk@{
+      cfg := ExecutorLocalCfg.mk@{
         timestamp := 0;
-        executable := "";
+        executable := Noun.Atom 0;
         lazy_read_keys := Set.empty;
         eager_read_keys := Set.empty;
         will_write_keys := Set.empty;
         may_write_keys := Set.empty;
         worker := mkPair none "";
         issuer := mkPair none "";
+        keyToShard := \{_ := mkPair none "shard"}
       };
     }
   ;

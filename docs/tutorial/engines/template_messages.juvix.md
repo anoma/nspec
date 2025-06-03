@@ -63,7 +63,7 @@ Example request.
 
 <!-- --8<-- [start:ExampleRequest] -->
 ```juvix
-type ExampleRequest := mkExampleRequest@{
+type ExampleRequest := mk@{
   argOne : Nat;
   argTwo : Nat;
 }

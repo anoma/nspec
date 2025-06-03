@@ -60,7 +60,7 @@ delegated or shared.
 ```juvix
 ReadsForEngine : Type :=
   Engine
-    ReadsForCfg
+    ReadsForLocalCfg
     ReadsForLocalState
     ReadsForMailboxState
     ReadsForTimerHandle

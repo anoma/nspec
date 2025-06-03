@@ -19,9 +19,9 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
 |Name|Type|Description|
 |-|-|-|
-|`consumed`|`OrderedSet (NullifierRef, RootRef, LogicRef)`|Includes nullifiers' references of all consumed resources in the compliance unit, root references, and commitments to [[Resource | `logicRef` resource components]] (used for referencing the `logicRef` without explicitly using the component value) for consumed resources|
-|`created`|`OrderedSet (CommitmentRef, LogicRef)`|Commitments' references of all created resources in the compliance unit|
-|`unitDelta`|`DeltaHash`|Unit delta|
+|`consumed`|`List (nf: Nullifier, root: CMTree.Value, logicVKOuter: LogicVKOuterHash)`|Each entry corresponds to a consumed resource and includes a hash of the resource's [[Resource | `logicRef` component]]|
+|`created`|`List (cm: Commitment, logicVKOuter: LogicVKOuterHash)`|Each entry corresponds to a created resource|
+|`unitDelta`|`DeltaHash`||
 
 #### Witness
 
@@ -31,48 +31,46 @@ Compliance proofs are created by `ComplianceProvingSystem` and computed over com
 
     2. `nullifierKey`
 
-    3. `CMtree` path
+    3. `CMtree` path to the consumed resource commitment
 
-    4. resource commitment `cm`
+    4. pre-image of `logicVKOuter`
 
-    5. opening of `logicRefHash` (implicitly includes `logicRef`, which is already part of the resource object, and other data used to derive `logicRefHash`, such as randomness)
+    5. `deltaExtraInput` used to compute resource delta
 
 2. for created resources:
 
   1. resource object `r`
 
-  2. opening of `logicRefHash`
+  2. pre-image of `logicVKOuter`
+
+  3. `deltaExtraInput` used to compute resource delta
 
 !!! note
 
-    The instance and witness values are expected to correspond to each other: the first tag in the instance corresponds to the first resource object in the witness, and so on. Note that in the compliance proof, the tag is recomputed from the object to verify that the tag is correct
+    Instance and witness elements are expected to go in the same order: the first element of the instance corresponds to the first (4 for consumed and 2 for created) elements of the witness and so on.
 
 ## Compliance constraints
 Each resource machine compliance proof must check the following:
 
-1. Merkle path validity (for *non-ephemeral* resources only): `CMTree::Verify(cm, path, root) = True` for each resource associated with a nullifier from the `consumedResourceTagSet`
-2. for each consumed resource `r`:
+1. Merkle path validity: `CMTree::Verify(r.commitment(), path, root) = True` for each resource associated with a nullifier from the `consumed`. For ephemeral resources a "fake" relation is checked.
 
-  1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumedResourceTagSet`
-  2. Consumed commitment integrity: `r.commitment() = cm`
-  3. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
+2. For each consumed resource `r`:
 
-3. for each created resource `r`:
+  1. Nullifier integrity: `r.nullifier(nullifierKey) is in consumed`
+  2. Logic integrity: `logicVKOuter = logicVKOuterHash(r.logicRef, ...)`
 
-  1. Commitment integrity: `r.commitment() is in createdResourceTagSet`
-  2. Logic integrity: `logicRefHash = hash(r.logicRef, ...)`
-4. Delta integrity: `unitDelta = sum(r.delta() for r in consumed) - sum(r.delta() for r in created)`
+3. For each created resource `r`:
+
+  1. Commitment integrity: `r.commitment() is in created`
+  2. Logic integrity: `logicVKOuter = logicVKOuterHash(r.logicRef, ...)`
+
+4. Delta integrity: `unitDelta = sum(r.delta(deltaExtraInput(r)) for r in consumed) - sum(r.delta(deltaExtraInput(r)) for r in created)` where `deltaExtraInput(r)` returns `deltaExtraInput` associated with resource `r`
 
 !!! note
-    Kind integrity is checked implicitly in delta checks
+    Kind integrity is checked implicitly in delta integrity
 
 !!! note
     [2.3, 3.2]: Combined with checking the logic proofs, logic integrity checks allow to ensure that the logics associated with the resources are satisfied
 
 !!! note
-    [2.1, 3.1]: To ensure correct computation of a commitment/nullifier, they have to be recomputed from the raw parameters (resource object and possibly `nullifierKey`) and compared to what is provided in the public tag set.
-
-!!! note
-    To support function privacy, the compliance proof must also verify the logic verifying key integrity: given `logicRefHash` as public input and `logicRef` as private input, verify that `logicRefHash = hash(logicRef)`
-
-Compliance proofs must be composition-independent: composing two actions, the compliance proof sets can be simply united to provide a valid composed action compliance proof set.
+    [2.1, 3.1]: To ensure correct binding between the instance and the witness, resource tags have to be recomputed from the witness and compared to what is provided in the instance.

@@ -28,13 +28,27 @@ tags:
 
 The Naming engine configuration contains static information for Naming engine instances.
 
+## The Naming Local Configuration
+
+### `NamingLocalCfg`
+
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:NamingLocalCfg] -->
+```juvix
+type NamingLocalCfg := mk;
+```
+<!-- --8<-- [end:NamingLocalCfg] -->
+
 ## The Naming Configuration
 
 ### `NamingCfg`
 
 <!-- --8<-- [start:NamingCfg] -->
 ```juvix
-type NamingCfg := mk
+NamingCfg : Type :=
+  EngineCfg
+    NamingLocalCfg;
 ```
 <!-- --8<-- [end:NamingCfg] -->
 
@@ -44,11 +58,11 @@ type NamingCfg := mk
 ```juvix extract-module-statements
 module naming_config_example;
 
-  namingCfg : EngineCfg NamingCfg :=
+  namingCfg : NamingCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "naming";
-      cfg := NamingCfg.mk
+      cfg := NamingLocalCfg.mk
     }
   ;
 end;

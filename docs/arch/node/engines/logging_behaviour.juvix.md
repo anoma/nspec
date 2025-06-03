@@ -61,7 +61,7 @@ LoggingActionArguments : Type := List LoggingActionArgument;
     ```juvix
     LoggingAction : Type :=
       Action
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -78,7 +78,7 @@ LoggingActionArguments : Type := List LoggingActionArgument;
     ```juvix
     LoggingActionInput : Type :=
       ActionInput
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -108,7 +108,7 @@ LoggingActionArguments : Type := List LoggingActionArgument;
     ```juvix
     LoggingActionExec : Type :=
       ActionExec
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -145,7 +145,7 @@ appendLogAction
     trigger := ActionInput.trigger input;
   in case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgLogging (LoggingMsg.Append (AppendValue.mk@{value := value}));
+        msg := Anoma.Msg.Logging (LoggingMsg.Append (AppendValue.mk@{value := value}));
       } :=
       let
         currentLogbook := LoggingLocalState.logbook (EngineEnv.localState env);
@@ -180,7 +180,7 @@ appendLogActionLabel : LoggingActionExec := ActionExec.Seq [ appendLogAction ];
     ```juvix
     LoggingGuard : Type :=
       Guard
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -191,7 +191,7 @@ appendLogActionLabel : LoggingActionExec := ActionExec.Seq [ appendLogAction ];
 
     LoggingGuardOutput : Type :=
       GuardOutput
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -202,7 +202,7 @@ appendLogActionLabel : LoggingActionExec := ActionExec.Seq [ appendLogAction ];
 
     LoggingGuardEval : Type :=
       GuardEval
-        LoggingCfg
+        LoggingLocalCfg
         LoggingLocalState
         LoggingMailboxState
         LoggingTimerHandle
@@ -223,12 +223,12 @@ Condition
 ```juvix
 appendLogGuard
   (trigger : LoggingTimestampedTrigger)
-  (cfg : EngineCfg LoggingCfg)
+  (cfg : LoggingCfg)
   (env : LoggingEnv)
   : Option LoggingGuardOutput :=
   case getEngineMsgFromTimestampedTrigger trigger of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgLogging (LoggingMsg.Append _);
+        msg := Anoma.Msg.Logging (LoggingMsg.Append _);
       } := some GuardOutput.mk@{
         action := appendLogActionLabel;
         args := [];
@@ -246,7 +246,7 @@ appendLogGuard
 ```juvix
 LoggingBehaviour : Type :=
   EngineBehaviour
-    LoggingCfg
+    LoggingLocalCfg
     LoggingLocalState
     LoggingMailboxState
     LoggingTimerHandle
