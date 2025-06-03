@@ -168,7 +168,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
     ```juvix
     DecryptionAction : Type :=
       Action
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -185,7 +185,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
     ```juvix
     DecryptionActionInput : Type :=
       ActionInput
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -215,7 +215,7 @@ DecryptionActionArguments : Type := List DecryptionActionArgument;
     ```juvix
     DecryptionActionExec : Type :=
       ActionExec
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -254,12 +254,12 @@ decryptAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case EngineMsg.msg emsg of {
-      | Anoma.PreMsg.MsgDecryption (DecryptionMsg.Request request) :=
+      | Anoma.Msg.Decryption (DecryptionMsg.Request request) :=
         let
           decryptedData :=
             Decryptor.decrypt
-              (DecryptionCfg.decryptor (EngineCfg.cfg cfg))
-              (DecryptionCfg.backend (EngineCfg.cfg cfg))
+              (DecryptionLocalCfg.decryptor (EngineCfg.cfg cfg))
+              (DecryptionLocalCfg.backend (EngineCfg.cfg cfg))
               (RequestDecryption.data request);
           responseMsg := case decryptedData of {
             | none := ReplyDecryption.mkReplyDecryption@{
@@ -278,7 +278,7 @@ decryptAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.PreMsg.MsgDecryption (DecryptionMsg.Reply responseMsg)
+              msg := Anoma.Msg.Decryption (DecryptionMsg.Reply responseMsg)
             }
           ];
           timers := [];
@@ -309,7 +309,7 @@ decryptActionLabel : DecryptionActionExec := ActionExec.Seq [ decryptAction ];
     ```juvix
     DecryptionGuard : Type :=
       Guard
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -326,7 +326,7 @@ decryptActionLabel : DecryptionActionExec := ActionExec.Seq [ decryptAction ];
     ```juvix
     DecryptionGuardOutput : Type :=
       GuardOutput
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -345,7 +345,7 @@ decryptActionLabel : DecryptionActionExec := ActionExec.Seq [ decryptAction ];
     ```juvix
     DecryptionGuardEval : Type :=
       GuardEval
-        DecryptionCfg
+        DecryptionLocalCfg
         DecryptionLocalState
         DecryptionMailboxState
         DecryptionTimerHandle
@@ -365,12 +365,12 @@ Condition
 ```juvix
 decryptGuard
   (tt : TimestampedTrigger DecryptionTimerHandle Anoma.Msg)
-  (cfg : EngineCfg DecryptionCfg)
+  (cfg : DecryptionCfg)
   (env : DecryptionEnv)
   : Option DecryptionGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgDecryption (DecryptionMsg.Request _);
+        msg := Anoma.Msg.Decryption (DecryptionMsg.Request _);
       } := some GuardOutput.mk@{
         action := decryptActionLabel;
         args := []
@@ -388,7 +388,7 @@ decryptGuard
 ```juvix
 DecryptionBehaviour : Type :=
   EngineBehaviour
-    DecryptionCfg
+    DecryptionLocalCfg
     DecryptionLocalState
     DecryptionMailboxState
     DecryptionTimerHandle

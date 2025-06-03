@@ -158,7 +158,7 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
     ```juvix
     CommitmentAction : Type :=
       Action
-        CommitmentCfg
+        CommitmentLocalCfg
         CommitmentLocalState
         CommitmentMailboxState
         CommitmentTimerHandle
@@ -175,7 +175,7 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
     ```juvix
     CommitmentActionInput : Type :=
       ActionInput
-        CommitmentCfg
+        CommitmentLocalCfg
         CommitmentLocalState
         CommitmentMailboxState
         CommitmentTimerHandle
@@ -203,7 +203,7 @@ CommitmentActionArguments : Type := List CommitmentActionArgument;
     ```juvix
     CommitmentActionExec : Type :=
       ActionExec
-        CommitmentCfg
+        CommitmentLocalCfg
         CommitmentLocalState
         CommitmentMailboxState
         CommitmentTimerHandle
@@ -242,11 +242,11 @@ commitAction
     case getEngineMsgFromTimestampedTrigger tt of {
     | some emsg :=
       case emsg of {
-      | EngineMsg.mk@{msg := Anoma.PreMsg.MsgCommitment (CommitmentMsg.Request request)} :=
+      | EngineMsg.mk@{msg := Anoma.Msg.Commitment (CommitmentMsg.Request request)} :=
         let
           signedData := Signer.sign
-            (CommitmentCfg.signer (EngineCfg.cfg cfg))
-            (CommitmentCfg.backend (EngineCfg.cfg cfg))
+            (CommitmentLocalCfg.signer (EngineCfg.cfg cfg))
+            (CommitmentLocalCfg.backend (EngineCfg.cfg cfg))
             (RequestCommitment.data request);
           responseMsg := ReplyCommitment.mkReplyCommitment@{
             commitment := signedData;
@@ -259,7 +259,7 @@ commitAction
               sender := getEngineIDFromEngineCfg cfg;
               target := EngineMsg.sender emsg;
               mailbox := some 0;
-              msg := Anoma.PreMsg.MsgCommitment (CommitmentMsg.Reply responseMsg)
+              msg := Anoma.Msg.Commitment (CommitmentMsg.Reply responseMsg)
             }
           ];
           timers := [];
@@ -292,7 +292,7 @@ commitActionLabel : CommitmentActionExec := ActionExec.Seq [ commitAction ];
     ```juvix
     CommitmentGuard : Type :=
       Guard
-        CommitmentCfg
+        CommitmentLocalCfg
         CommitmentLocalState
         CommitmentMailboxState
         CommitmentTimerHandle
@@ -311,7 +311,7 @@ commitActionLabel : CommitmentActionExec := ActionExec.Seq [ commitAction ];
     ```juvix
     CommitmentGuardOutput : Type :=
       GuardOutput
-        CommitmentCfg
+        CommitmentLocalCfg
         CommitmentLocalState
         CommitmentMailboxState
         CommitmentTimerHandle
@@ -328,7 +328,7 @@ commitActionLabel : CommitmentActionExec := ActionExec.Seq [ commitAction ];
     ```juvix
     CommitmentGuardEval : Type :=
       GuardEval
-        CommitmentCfg
+        CommitmentLocalCfg
         CommitmentLocalState
         CommitmentMailboxState
         CommitmentTimerHandle
@@ -348,12 +348,12 @@ Condition
 ```juvix
 commitGuard
   (tt : TimestampedTrigger CommitmentTimerHandle Anoma.Msg)
-  (cfg : EngineCfg CommitmentCfg)
+  (cfg : CommitmentCfg)
   (env : CommitmentEnv)
   : Option CommitmentGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgCommitment (CommitmentMsg.Request _);
+        msg := Anoma.Msg.Commitment (CommitmentMsg.Request _);
       } := some GuardOutput.mk@{
         action := commitActionLabel;
         args := [];
@@ -371,7 +371,7 @@ commitGuard
 ```juvix
 CommitmentBehaviour : Type :=
   EngineBehaviour
-    CommitmentCfg
+    CommitmentLocalCfg
     CommitmentLocalState
     CommitmentMailboxState
     CommitmentTimerHandle

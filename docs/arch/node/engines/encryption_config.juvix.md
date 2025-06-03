@@ -29,23 +29,25 @@ tags:
 
 The Encryption engine configuration contains static information for Encryption engine instances.
 
-## The Encryption Configuration
+## The Encryption Local Configuration
 
 The configuration of an `Encryption` Engine instance includes the identity's
 encryption capabilities, the address of an associated `ReadsFor` engine, and a
 specific backend.
 
-### `EncryptionCfg`
+### `EncryptionLocalCfg`
 
-<!-- --8<-- [start:EncryptionCfg] -->
+The type for engine-specific local configuration.
+
+<!-- --8<-- [start:EncryptionLocalCfg] -->
 ```juvix
-type EncryptionCfg := mk@{
+type EncryptionLocalCfg := mk@{
   encryptor : Set ReadsForEvidence -> ExternalIdentity -> Encryptor ByteString Backend Plaintext Ciphertext;
   backend : Backend;
   readsForEngineAddress : EngineID;
 }
 ```
-<!-- --8<-- [end:EncryptionCfg] -->
+<!-- --8<-- [end:EncryptionLocalCfg] -->
 
 ???+ code "Arguments"
 
@@ -58,17 +60,29 @@ type EncryptionCfg := mk@{
     `readsForEngineAddress`:
     : The address of the associated ReadFor engine.
 
+## The Encryption Configuration
+
+### `EncryptionCfg`
+
+<!-- --8<-- [start:EncryptionCfg] -->
+```juvix
+EncryptionCfg : Type :=
+  EngineCfg
+    EncryptionLocalCfg;
+```
+<!-- --8<-- [end:EncryptionCfg] -->
+
 #### Instantiation
 
 <!-- --8<-- [start:encryptionCfg] -->
 ```juvix extract-module-statements
 module encryption_config_example;
 
-  encryptionCfg : EngineCfg EncryptionCfg :=
+  encryptionCfg : EncryptionCfg :=
     EngineCfg.mk@{
       node := PublicKey.Curve25519PubKey "0xabcd1234";
       name := "encryption";
-      cfg := EncryptionCfg.mk@{
+      cfg := EncryptionLocalCfg.mk@{
         encryptor := \{_ _ := Encryptor.mkEncryptor@{
           encrypt := \{_ x := x};
           encryptorHash := HASH.mkHASH@{

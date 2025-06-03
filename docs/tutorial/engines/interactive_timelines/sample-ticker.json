@@ -1,0 +1,64 @@
+{
+  "engines": [
+    {
+      "name": "Ticker1",
+      "initialState": 0,
+      "messageHandlers": [
+        {
+          "stateEffect": "return state + 1;",
+          "guard": "return messageType === 'tick';"
+        },
+        {
+          "stateEffect": "return state;",
+          "guard": "return messageType === 'read';",
+          "generateMessages": [
+            {
+              "to": "from",
+              "type": "read",
+              "payload": "return state;"
+            },
+            {
+              "to": "from",
+              "type": "tick",
+              "payload": null
+            }
+          ]
+        }
+      ],
+      "initialMessages": [
+        {
+          "to": "Ticker2",
+          "type": "read",
+          "payload": "return state;"
+        }
+      ]
+    },
+    {
+      "name": "Ticker2",
+      "initialState": 0,
+      "messageHandlers": [
+        {
+          "stateEffect": "return state + 1;",
+          "guard": "return messageType === 'tick';"
+        },
+        {
+          "stateEffect": "return state;",
+          "guard": "return messageType === 'read';",
+          "generateMessages": [
+            {
+              "to": "from",
+              "type": "read",
+              "payload": "return state;"
+            },
+            {
+              "to": "from",
+              "type": "tick",
+              "payload": null
+            }
+          ]
+        }
+      ],
+      "initialMessages": []
+    }
+  ]
+}

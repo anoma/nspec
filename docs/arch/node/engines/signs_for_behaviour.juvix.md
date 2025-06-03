@@ -80,7 +80,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
     ```juvix
     SignsForAction : Type :=
       Action
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -95,7 +95,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
     ```juvix
     SignsForActionInput : Type :=
       ActionInput
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -121,7 +121,7 @@ SignsForActionArguments : Type := List SignsForActionArgument;
     ```juvix
     SignsForActionExec : Type :=
       ActionExec
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -159,7 +159,7 @@ signsForQueryAction
   in
     case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SignsForRequest (RequestSignsFor.mkRequestSignsFor externalIdentityA externalIdentityB));
+        msg := Anoma.Msg.SignsFor (SignsForMsg.SignsForRequest (RequestSignsFor.mkRequestSignsFor externalIdentityA externalIdentityB));
         sender := msgSender
       } :=
       let
@@ -177,7 +177,7 @@ signsForQueryAction
           sender := getEngineIDFromEngineCfg cfg;
           target := msgSender;
           mailbox := some 0;
-          msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SignsForReply responseMsg)
+          msg := Anoma.Msg.SignsFor (SignsForMsg.SignsForReply responseMsg)
         }];
         timers := [];
         engines := []
@@ -214,7 +214,7 @@ submitEvidenceAction
   in
     case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceRequest (RequestSubmitSignsForEvidence.mkRequestSubmitSignsForEvidence evidence));
+        msg := Anoma.Msg.SignsFor (SignsForMsg.SubmitSignsForEvidenceRequest (RequestSubmitSignsForEvidence.mkRequestSubmitSignsForEvidence evidence));
         sender := msgSender
       } := case verifyEvidence evidence of {
         | true :=
@@ -234,7 +234,7 @@ submitEvidenceAction
                   sender := getEngineIDFromEngineCfg cfg;
                   target := msgSender;
                   mailbox := some 0;
-                  msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
+                  msg := Anoma.Msg.SignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
                 }];
                 timers := [];
                 engines := []
@@ -257,7 +257,7 @@ submitEvidenceAction
                   sender := getEngineIDFromEngineCfg cfg;
                   target := msgSender;
                   mailbox := some 0;
-                  msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
+                  msg := Anoma.Msg.SignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
                 }];
                 timers := [];
                 engines := []
@@ -274,7 +274,7 @@ submitEvidenceAction
               sender := getEngineIDFromEngineCfg cfg;
               target := msgSender;
               mailbox := some 0;
-              msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
+              msg := Anoma.Msg.SignsFor (SignsForMsg.SubmitSignsForEvidenceReply responseMsg)
             }];
             timers := [];
             engines := []
@@ -312,7 +312,7 @@ queryEvidenceAction
   in
     case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceRequest (RequestQuerySignsForEvidence.mkRequestQuerySignsForEvidence externalIdentity));
+        msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceRequest (RequestQuerySignsForEvidence.mkRequestQuerySignsForEvidence externalIdentity));
         sender := msgSender
       } :=
       let
@@ -331,7 +331,7 @@ queryEvidenceAction
           sender := getEngineIDFromEngineCfg cfg;
           target := msgSender;
           mailbox := some 0;
-          msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceReply responseMsg)
+          msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceReply responseMsg)
         }];
         timers := [];
         engines := []
@@ -370,7 +370,7 @@ queryEvidenceActionLabel : SignsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     SignsForGuard : Type :=
       Guard
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -387,7 +387,7 @@ queryEvidenceActionLabel : SignsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     SignsForGuardOutput : Type :=
       GuardOutput
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -404,7 +404,7 @@ queryEvidenceActionLabel : SignsForActionExec := ActionExec.Seq [ queryEvidenceA
     ```juvix
     SignsForGuardEval : Type :=
       GuardEval
-        SignsForCfg
+        SignsForLocalCfg
         SignsForLocalState
         SignsForMailboxState
         SignsForTimerHandle
@@ -424,12 +424,12 @@ Condition
 ```juvix
 signsForQueryGuard
   (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg SignsForCfg)
+  (cfg : SignsForCfg)
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SignsForRequest _);
+        msg := Anoma.Msg.SignsFor (SignsForMsg.SignsForRequest _);
       } := some GuardOutput.mk@{
         action := signsForQueryActionLabel;
         args := []
@@ -448,12 +448,12 @@ Condition
 ```juvix
 submitEvidenceGuard
   (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg SignsForCfg)
+  (cfg : SignsForCfg)
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.SubmitSignsForEvidenceRequest _);
+        msg := Anoma.Msg.SignsFor (SignsForMsg.SubmitSignsForEvidenceRequest _);
       } := some GuardOutput.mk@{
         action := submitEvidenceActionLabel;
         args := []
@@ -472,12 +472,12 @@ Condition
 ```juvix
 queryEvidenceGuard
   (tt : TimestampedTrigger SignsForTimerHandle Anoma.Msg)
-  (cfg : EngineCfg SignsForCfg)
+  (cfg : SignsForCfg)
   (env : SignsForEnv)
   : Option SignsForGuardOutput :=
   case getEngineMsgFromTimestampedTrigger tt of {
     | some EngineMsg.mk@{
-        msg := Anoma.PreMsg.MsgSignsFor (SignsForMsg.QuerySignsForEvidenceRequest _);
+        msg := Anoma.Msg.SignsFor (SignsForMsg.QuerySignsForEvidenceRequest _);
       } := some GuardOutput.mk@{
         action := queryEvidenceActionLabel;
         args := []
@@ -495,7 +495,7 @@ queryEvidenceGuard
 ```juvix
 SignsForBehaviour : Type :=
   EngineBehaviour
-    SignsForCfg
+    SignsForLocalCfg
     SignsForLocalState
     SignsForMailboxState
     SignsForTimerHandle

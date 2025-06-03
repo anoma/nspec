@@ -80,7 +80,7 @@ recipient, but also to other identities with approved access rights.
 ```juvix
 EncryptionEngine : Type :=
   Engine
-    EncryptionCfg
+    EncryptionLocalCfg
     EncryptionLocalState
     EncryptionMailboxState
     EncryptionTimerHandle

@@ -53,7 +53,7 @@ syntax alias LocalKVStorageMailboxState := Unit;
 
 <!-- --8<-- [start:LocalKVStorageLocalState] -->
 ```juvix
-type LocalKVStorageLocalState := mk@{
+type LocalKVStorageLocalState := mk {
   storage : Map StorageKey StorageValue;
   localClock : EpochTimestamp
 };
