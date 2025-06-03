@@ -68,7 +68,7 @@ repos:
         entry: python -c "import sys, re; sys.exit(1 if any(not re.match(r'^[a-z0-9_.-]+$', f.split('/')[-1]) for f in sys.argv[1:]) else 0)"
         language: python
         types: [file]
-        exclude: '.pre-commit.*|^overrides.*|^docs/(assets|images)/|^formal.*|.*Package.juvix.*|^\.github/.*|CITATION|LICENSE|Makefile|README\.md|VERSION|.changelog/.*'
+        exclude: '\.git/|\.pre-commit.*|^overrides.*|^docs/(assets|images)/|^formal.*|.*Package\.juvix.*|^\.github/.*|CITATION|LICENSE|Makefile|README\.md|VERSION|\.changelog/.*'
 
       - id: typecheck
         name: typecheck
