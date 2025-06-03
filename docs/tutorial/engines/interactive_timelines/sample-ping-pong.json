@@ -1,0 +1,46 @@
+{
+  "engines": [
+    {
+      "name": "Engine1",
+      "initialState": null,
+      "messageHandlers": [
+        {
+          "stateEffect": "return state;",
+          "guard": "return messageType === 'pong';",
+          "generateMessages": [
+            {
+              "to": "Engine2",
+              "type": "ping",
+              "payload": null
+            }
+          ]
+        }
+      ],
+      "initialMessages": [
+        {
+          "to": "Engine2",
+          "type": "ping",
+          "payload": null
+        }
+      ]
+    },
+    {
+      "name": "Engine2",
+      "initialState": null,
+      "messageHandlers": [
+        {
+          "stateEffect": "return state;",
+          "guard": "return messageType === 'ping';",
+          "generateMessages": [
+            {
+              "to": "Engine1",
+              "type": "pong",
+              "payload": null
+            }
+          ]
+        }
+      ],
+      "initialMessages": []
+    }
+  ]
+}

@@ -236,13 +236,14 @@ nav:
           - ./arch/integrations/adapters/index.md
           - Ethereum Virtual Machine: ./arch/integrations/adapters/evm.md
   - Tutorials:
-      - Anomian: ./anomian.juvix.md
       - Contributor guidelines:
           - Global principles and guidelines: ./tutorial/principles_and_guidelines.md
           - Prepare working environment: ./tutorial/install/index.md
           - Engines in Anoma:
               - ./tutorial/engines/index.md
               - Engine writing conventions: ./tutorial/engines/writing_conventions.md
+              - Anomian: ./anomian.juvix.md
+              - Interactive engine timelines: ./tutorial/engines/interactive_timelines.md
               - Examples:
                   - Template Engine:
                       - Template Engine: ./tutorial/engines/template.juvix.md
