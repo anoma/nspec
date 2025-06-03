@@ -10,6 +10,48 @@ tags:
 
 # Change Log
 
+## [v0.2.0](https://specs.anoma.net/v0.2.0/)
+
+This release introduces significant new features and improvements to the Anoma specification, including protocol adapter integration, engine simulation capabilities, and major updates to the Resource Machine specifications. Key highlights include:
+
+- Added comprehensive protocol adapter integration documentation
+- Introduced interactive engine simulator with message passing support
+- Updated Resource Machine specifications (post-HHH edition)
+- Reorganized documentation structure and navigation
+- Updated to Juvix stdlib v0.11.0
+- Various CI/CD improvements and tooling updates
+
+### Features
+
+- **System architecture**
+  -  [**#356**](https://github.com/anoma/nspec/pull/356): Add protocol adapter integration pages
+  -  [**#359**](https://github.com/anoma/nspec/pull/359): Update RM specs (post-HHH edition)
+  -  [**#369**](https://github.com/anoma/nspec/pull/369): Rename `resourceLogicProofs` to `logicVerifierInputs`
+- **Node architecture**
+  -  [**#347**](https://github.com/anoma/nspec/pull/347): Implement interactive engine simulator with message passing support
+  -  [**#355**](https://github.com/anoma/nspec/pull/355): Add engine simulator with message passing and pretty printing
+- **Repository maintenance and CI**
+  -  [**#358**](https://github.com/anoma/nspec/pull/358): Deploy pages to another repo
+  -  [**#367**](https://github.com/anoma/nspec/pull/367): Remove redundant deployment
+  -  [**#374**](https://github.com/anoma/nspec/pull/374): EVM-PA: use permalinks and small improvements
+
+### Fixes
+
+- **Repository maintenance and CI**
+  -  [**#343**](https://github.com/anoma/nspec/pull/343): Fix mkdocs nav
+  -  [**#351**](https://github.com/anoma/nspec/pull/351): Fix/update github actions
+  -  [**#363**](https://github.com/anoma/nspec/pull/363): Enforce pre-commit checks and remove auto-fix
+  -  [**#364**](https://github.com/anoma/nspec/pull/364): Remove pull request template
+- **Tutorial and documentation**
+  -  [**#381**](https://github.com/anoma/nspec/pull/381): Reorganize navigation in mkdocs.yml
+
+### Changes
+
+- **Juvix types and updates**
+  -  [**#361**](https://github.com/anoma/nspec/pull/361): Bump to stdlib 0.11.0 and name convention used for user-defined data types
+- **Repository maintenance and CI**
+  -  [**#365**](https://github.com/anoma/nspec/pull/365): Update project configuration and tooling
+
 ## [v0.1.4](https://specs.anoma.net/v0.1.4/)
 
 This release focuses on improving the prose, layout, and documentation structure. Key changes include:
