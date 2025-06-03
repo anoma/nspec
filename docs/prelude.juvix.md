@@ -88,10 +88,9 @@ join
 
 Two-argument functor
 
-```
+```juvix
 trait
 type Bifunctor (F : Type -> Type -> Type) :=
-  mk@{
   mk@{
     bimap {A B C D} :  (A -> C) -> (B -> D) -> F A B -> F C D
   };
@@ -101,10 +100,9 @@ type Bifunctor (F : Type -> Type -> Type) :=
 
 Product with associators
 
-```
+```juvix
 trait
 type AssociativeProduct (F : Type -> Type -> Type) :=
-  mk@{
   mk@{
     assocLeft {A B C} : F A (F B C) -> F (F A B) C;
     assocRight {A B C} : F (F A B) C -> F A (F B C)
@@ -115,10 +113,9 @@ type AssociativeProduct (F : Type -> Type -> Type) :=
 
 Product with commuters
 
-```
+```juvix
 trait
 type CommutativeProduct (F : Type -> Type -> Type) :=
-  mk@{
   mk@{
     swap {A B} : F A B -> F B A;
   };
@@ -128,10 +125,9 @@ type CommutativeProduct (F : Type -> Type -> Type) :=
 
 Product with units
 
-```
+```juvix
 trait
 type UnitalProduct U (F : Type -> Type -> Type) :=
-  mk@{
   mk@{
     unitLeft {A} : A -> F U A;
     unUnitLeft {A} : F U A -> A;
@@ -497,7 +493,7 @@ snd {A B} : Pair A B -> B
 
 Swap components
 
-```
+```juvix
 instance
 PairCommutativeProduct : CommutativeProduct Pair :=
   CommutativeProduct.mk@{
@@ -509,7 +505,7 @@ PairCommutativeProduct : CommutativeProduct Pair :=
 
 Pair associations
 
-```
+```juvix
 instance
 PairAssociativeProduct : AssociativeProduct Pair :=
   AssociativeProduct.mk@{
@@ -528,7 +524,7 @@ PairAssociativeProduct : AssociativeProduct Pair :=
 
 Unit maps for pairs and units
 
-```
+```juvix
 instance
 PairUnitalProduct : UnitalProduct Unit Pair :=
   UnitalProduct.mk@{
@@ -543,7 +539,7 @@ PairUnitalProduct : UnitalProduct Unit Pair :=
 
 Map functions over pairs
 
-```
+```juvix
 instance
 PairBifunctor : Bifunctor Pair :=
   Bifunctor.mk@{
@@ -651,13 +647,10 @@ swapEither {A B} (e : Either A B) : Either B A :=
   };
 ```
 
-```
+```juvix
 instance
 EitherCommutativeProduct : CommutativeProduct Either :=
-  CommutativeProduct.mk@{
-  CommutativeProduct.mk@{
-    swap := swapEither;
-  };
+  CommutativeProduct.mk@{ swap := swapEither };
 ```
 
 ### `EitherBifunctor`
