@@ -27,6 +27,6 @@ dev = [
 ]
 
 [tool.commitizen]
-version = "0.1.5"
+version = "0.1.6"
 update_changelog_on_bump = true
 changelog_file = "docs/CHANGELOG.md"
