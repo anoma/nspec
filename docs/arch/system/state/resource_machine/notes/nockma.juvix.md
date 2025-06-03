@@ -17,27 +17,36 @@ search:
 
 # Nockma Implementation
 
-```juvix
--- Operation codes for Nockma:
--- 0: Slash (/)
--- 1: Constant: Returns operand unchanged
--- 2: Apply/Ap/S:
--- 3: Cell test (?): Tests if noun is cell
--- 4: Increment (+): Add 1 to atom
--- 5: Equality test (=): Compare nouns
--- 6: If-then-else
--- 7: Compose
--- 8: Extend subject
--- 9: Invoke (call function by arm name)
--- 10: Pound (#)
--- 11: Match: Case split on Cells vs Atoms
--- 12: Scry (read storage)
+| Operation Code | Name              | Description                       |
+|----------------|-------------------|-----------------------------------|
+| 0              | Slash (/)         | Address/path selection            |
+| 1              | Constant          | Returns operand unchanged         |
+| 2              | Apply/Ap/S        | Function application              |
+| 3              | Cell test (?)     | Tests if noun is cell             |
+| 4              | Increment (+)     | Add 1 to atom                     |
+| 5              | Equality test (=) | Compare nouns                     |
+| 6              | If-then-else      | Conditional execution             |
+| 7              | Compose           | Function composition              |
+| 8              | Extend subject    | Extends the subject               |
+| 9              | Invoke            | Call function by arm name         |
+| 10             | Pound (#)         | Handle operation                  |
+| 11             | Match             | Case split on Cells vs Atoms      |
+| 12             | Scry              | Read storage                      |
 
+## Core Data Types
+
+The fundamental data structures for Nockma implementation, including the `Noun`
+type that represents all data in Nock, along with equality and display
+instances.
+
+```juvix
 -- Basic Nock types
 type Noun :=
   | Atom : Nat -> Noun
   | Cell : Noun -> Noun -> Noun;
+```
 
+```juvix
 terminating
 nounEq (n1 n2 : Noun) : Bool :=
   case mkPair n1 n2 of {
@@ -47,8 +56,11 @@ nounEq (n1 n2 : Noun) : Bool :=
   };
 
 instance EqNoun : Eq Noun := Eq.mk@{ isEqual := nounEq };
+```
 
--- Pretty-printer for Noun
+## Pretty-printer for Noun
+
+```juvix
 terminating
 showNoun (n : Noun) : String :=
   case n of {
@@ -57,16 +69,27 @@ showNoun (n : Noun) : String :=
   };
 
 instance ShowNoun : Show Noun := Show.mk@{ show := showNoun };
+```
 
+## Storage System and Operation Types
+
+Storage abstraction for scrying operations and the enumeration of all Nock
+operations with their corresponding opcodes.
+
+```juvix
 -- Helper to convert storage values to Nouns
 axiom convertToNoun : {val : Type} -> val -> Noun;
 -- Helper to convert Nouns to storage values
 axiom convertFromNoun : {val : Type} -> Noun -> Option val;
+```
 
+```juvix
 type ScryOp :=
   | Direct
   | Index;
+```
 
+```juvix
 type Storage addr val := mkStorage {
   readDirect : addr -> Option val;
   readIndex : val -> Option val
@@ -79,7 +102,9 @@ emptyStorage {addr val : Type} : Storage addr val :=
   };
 
 axiom externalStorage : {addr val : Type} -> Storage addr val;
+```
 
+```juvix
 type NockOp :=
   | Slash -- /
   | Constant -- Returns operand unchanged
@@ -94,13 +119,17 @@ type NockOp :=
   | Pound -- #
   | Match -- 11
   | Scry; -- 12
+```
 
+```juvix
 opOr {A : Type} (n m : Option A) : Option A :=
   case n of {
     | none := m
     | (some n) := some n
   };
+```
 
+```juvix
 parseOp (n : Nat) : Option NockOp :=
   let test := \{m op :=
     case (n == m) of {
@@ -113,12 +142,22 @@ parseOp (n : Nat) : Option NockOp :=
       [NockOp.Slash; NockOp.Constant; NockOp.Apply; NockOp.CellTest; NockOp.Increment;
       NockOp.EqualOp; NockOp.IfThenElse; NockOp.Compose; NockOp.Extend; NockOp.Invoke;
       NockOp.Pound; NockOp.Match; NockOp.Scry]);
+```
 
+## Gas State Monad
+
+A monadic framework for tracking gas consumption and handling errors during Nock
+evaluation. This ensures computations can be bounded and failures can be
+properly handled.
+
+```juvix
 -- Monad to encompass gas consumption and error handling.
 type GasState A := mk {
   runGasState : Nat -> Result String (Pair A Nat)
 };
+```
 
+```juvix
 instance
 GasStateMonad : Monad GasState := Monad.mk@{
   applicative := Applicative.mk@{
@@ -150,7 +189,14 @@ GasStateMonad : Monad GasState := Monad.mk@{
 };
 
 err {A : Type} (str : String) : GasState A := GasState.mk \{_ := error str};
+```
 
+## Gas Management and Storage Operations
+
+Functions for managing computational costs and implementing storage read
+operations (scrying) that allow Nock programs to interact with external data.
+
+```juvix
 -- Gas cost values for each operation type
 -- These are made up for demo purposes
 getGasCost (cost : NockOp) : Nat :=
@@ -167,7 +213,9 @@ getGasCost (cost : NockOp) : Nat :=
     | NockOp.Scry := 10
     | _ := 0
   };
+```
 
+```juvix
 consume (op : NockOp) : GasState Unit :=
   GasState.mk \{gas :=
   let cost := getGasCost op in
@@ -175,7 +223,9 @@ consume (op : NockOp) : GasState Unit :=
     | true := error "Out of gas"
     | false := ok (mkPair unit (sub gas cost))
   }};
+```
 
+```juvix
 -- Implementation of storage read operations (scrying)
 scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result String Noun :=
   case op of {
@@ -191,7 +241,14 @@ scry {val : Type} (stor : Storage Nat val) (op : ScryOp) (addr : Nat) : Result S
       | none := error "Index function not found"
     }
   };
+```
 
+## Helper Operations
+
+Implementation of the fundamental slash (`/`) and pound (`#`) operations that
+provide tree navigation and editing capabilities respectively.
+
+```juvix
 -- Helper for slash (/) operations
 terminating
 slash {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasState Noun :=
@@ -227,7 +284,9 @@ slash {val : Type} (stor : Storage Nat val) (n : Noun) (subject : Noun) : GasSta
     }
     | _ := err ("Slash axis must be atom, got: " ++str (showNoun n))
   };
+```
 
+```juvix
 -- Helper for pound (#) operations
 terminating
 pound {val : Type} (stor : Storage Nat val) (n : Noun) (b : Noun) (c : Noun) : GasState Noun :=
@@ -257,9 +316,18 @@ pound {val : Type} (stor : Storage Nat val) (n : Noun) (b : Noun) (c : Noun) : G
     }
     | _ := err ("Pound axis must be atom, got: " ++str (showNoun n))
   };
+```
 
+## Operation Evaluator
+
+The main dispatcher that handles evaluation of each Nock operation according to
+the Nock specification. Each case implements one of the 13 fundamental Nock
+operations.
+
+```juvix
 terminating
-evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : Noun) : GasState Noun :=
+evalOp
+  {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : Noun) : GasState Noun :=
   case op of {
     -- *[a 0 b] -> /[b a]
     | NockOp.Slash := slash stor args a
@@ -412,7 +480,14 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
       | _ := err ("Invalid scry (12) args (must be [b [c d]]): " ++str (showNoun args))
     }
   };
+```
 
+## Core Nockma Evaluator
+
+The main entry point for Nock evaluation. This function handles the parsing of
+Nock expressions and dispatches to the appropriate operation evaluators.
+
+```juvix
 -- Core Nockma evaluator
 terminating
 nock {val : Type} (stor : Storage Nat val) (input : Noun) : GasState Noun :=
