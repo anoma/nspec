@@ -11,15 +11,13 @@ edit_uri: edit/main/docs/
 use_directory_urls: false
 nav:
   - Home: index.md
+  - Anoma architecture: ./arch/overview.md
   - Changelog: ./changelog.md
   - Indexes:
       - List of tags: ./indexes/tags.md
       - List of modules: ./indexes/modules.md
       - List of basic types: ./prelude.juvix.md
         #   - List of engines: ./indexes/engines.md
-  - Introduction:
-      - Anomian: ./anomian.juvix.md
-      - Anoma architecture: ./arch/overview.md
   - Node architecture:
       - Concepts:
           - Engine: ./arch/node/concepts/engine.md
@@ -230,6 +228,7 @@ nav:
           - ./arch/integrations/adapters/index.md
           - Ethereum Virtual Machine: ./arch/integrations/adapters/evm.md
   - Tutorials:
+      - Anomian: ./anomian.juvix.md
       - Contributor guidelines:
           - Global principles and guidelines: ./tutorial/principles_and_guidelines.md
           - Prepare working environment: ./tutorial/install/index.md
