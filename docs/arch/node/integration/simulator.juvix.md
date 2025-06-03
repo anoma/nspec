@@ -11,40 +11,58 @@ tags:
 
 # Engine Simulator
 
+## Module Setup and Core Types
+
+The main simulator module with essential imports and the message selection strategy type definition.
+
+??? code "Juvix imports"
+
+    ```juvix
+    module arch.node.integration.simulator;
+
+    import prelude open;
+    open OMap;
+    import arch.node.types.basics open public;
+    import arch.node.types.messages open public;
+    import arch.node.types.identities open;
+    import arch.node.types.engine_config open public;
+    import arch.node.types.engine_environment open;
+    import arch.node.types.engine_behaviour open;
+    import arch.node.types.engine open public;
+    import arch.node.types.anoma_engines open;
+    import arch.node.types.anoma_message open;
+    import arch.node.types.anoma_config open;
+    import arch.node.types.anoma_environment open;
+    ```
+
 ```juvix
-module arch.node.integration.simulator;
-
-import prelude open;
-open OMap;
-import arch.node.types.basics open public;
-import arch.node.types.messages open public;
-import arch.node.types.identities open;
-import arch.node.types.engine_config open public;
-import arch.node.types.engine_environment open;
-import arch.node.types.engine_behaviour open;
-import arch.node.types.engine open public;
-import arch.node.types.anoma_engines open;
-import arch.node.types.anoma_message open;
-import arch.node.types.anoma_config open;
-import arch.node.types.anoma_environment open;
-
 -- Type for message selection strategy
 MessageSelector : Type :=
   (messages : List (EngineMsg Msg)) ->
   Option (Pair (EngineMsg Msg) (List (EngineMsg Msg)));
+```
 
+```juvix
 -- Example selector that takes the first message in the list
 selectFirstMessage (messages : List (EngineMsg Msg)) : Option (Pair (EngineMsg Msg) (List (EngineMsg Msg))) :=
   case messages of {
     | [] := none
     | msg :: rest := some (mkPair msg rest)
   };
+```
 
+## Network and Node State Types
+
+Data structures for representing nodes, network state, and the overall simulation environment.
+
+```juvix
 -- Node type that contains a map from engine names to engines
 type Node := mkNode@{
   engines : OMap EngineName Eng;
 };
+```
 
+```juvix
 -- Network state contains all nodes, in-transit messages, and current time
 type NetworkState := mkNetworkState@{
   nodes : OMap NodeID Node;
@@ -53,7 +71,13 @@ type NetworkState := mkNetworkState@{
   incrementId : NodeID -> NodeID;
   nextId : NodeID;
 };
+```
 
+## Guard Execution and Action Processing
+
+Core logic for executing guard outputs and processing engine actions based on triggers.
+
+```juvix
 -- Helper function to execute a guard output
 executeGuardOutput
   {C S B H A AM AC AE : Type}
@@ -91,7 +115,13 @@ executeGuardOutput
           };
       in executeAction actions (Engine.env eng)
   };
+```
 
+## Engine Evaluation and Execution
+
+Functions for evaluating guards and executing actions for specific engines, including both typed and untyped variants.
+
+```juvix
 -- Helper function to evaluate guards and execute actions for a specific engine type
 terminating
 evaluateAndExecute
@@ -155,7 +185,13 @@ evaluateAndExecute
       | some effect := some (mkPair (ActionEffect.msgs effect) (mkPair (ActionEffect.engines effect) newEng))
     }
   };
+```
 
+## Engine Dispatcher
+
+The large dispatcher function that handles evaluation and execution for all engine types in the system.
+
+```juvix
 -- Helper function to evaluate and execute for any engine type
 evaluateAndExecuteEng (eng : Eng) (msg : EngineMsg Msg) : Option (Pair (List (EngineMsg Msg)) (Pair (List (Pair Cfg Env)) Eng)) :=
   case eng of {
@@ -252,7 +288,13 @@ evaluateAndExecuteEng (eng : Eng) (msg : EngineMsg Msg) : Option (Pair (List (En
       | some (mkPair msgs (mkPair cfgEnvPairs newEng)) := some (mkPair msgs (mkPair cfgEnvPairs (Eng.TemplateMinimum newEng)))
     }
   };
+```
 
+## Network State Management
+
+Functions for managing network state updates, including adding new engines and updating existing ones.
+
+```juvix
 -- Helper function to add a single new engine to a node
 addNewEngine (state : NetworkState) (nodeId : NodeID) (cfg : Cfg) (env : Env) : NetworkState :=
   case OMap.lookup nodeId (NetworkState.nodes state) of {
@@ -269,7 +311,9 @@ addNewEngine (state : NetworkState) (nodeId : NodeID) (cfg : Cfg) (env : Env) : 
           }
       }
   };
+```
 
+```juvix
 -- Helper function to update an engine's state, add new messages, and create new engines
 updateNetworkState (state : NetworkState) (target : EngineID) (eng : Eng) (msgs : List (EngineMsg Msg)) (cfgEnvPairs : List (Pair Cfg Env)) : NetworkState :=
   let
@@ -300,7 +344,13 @@ updateNetworkState (state : NetworkState) (target : EngineID) (eng : Eng) (msgs 
       stateWithMessages
       cfgEnvPairs
   in finalState;
+```
 
+## Core Simulation Logic
+
+The main step function and simulation loops for processing messages and running the simulation.
+
+```juvix
 -- Step function that processes one message and updates network state
 step (selector : MessageSelector) (state : NetworkState) : Pair NetworkState (Option (EngineMsg Msg)) :=
   let
@@ -340,7 +390,9 @@ step (selector : MessageSelector) (state : NetworkState) : Pair NetworkState (Op
           }
       }
   };
+```
 
+```juvix
 -- Simulate function that runs for a specified number of steps and collects successfully delivered messages
 terminating
 simulate (selector : MessageSelector) (state : NetworkState) (steps : Nat) : List (EngineMsg Msg) :=
@@ -359,7 +411,9 @@ simulate (selector : MessageSelector) (state : NetworkState) (steps : Nat) : Lis
         | some processedMsg := processedMsg :: restMsgs
       }
   };
+```
 
+```juvix
 -- Simulate function that runs for a specified number of steps and collects both
 -- successfully delivered and failed messages.
 terminating
