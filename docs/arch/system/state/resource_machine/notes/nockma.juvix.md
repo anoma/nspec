@@ -294,7 +294,7 @@ evalOp {val : Type} (stor : Storage Nat val) (op : NockOp) (a : Noun) (args : No
     -- *[a 4 b] -> +*[a b]
     -- +[a b] -> error (specs say this should loop infinitely?)
     -- +a -> 1 + a
-    | NockOp.Increment := 
+    | NockOp.Increment :=
         -- First, evaluate the argument expression *[subject args]
         nock stor (Noun.Cell a args) >>= \{res :=
           -- Then, check if the result is an atom and increment it

@@ -213,4 +213,3 @@ The simulation uses the `selectFirstMessage` strategy and illustrates the intera
     ```
 
 This setup defines the necessary components, initial state, and transaction logic using Nockma Nouns. The simulation is executed, and the resulting message trace is stored in `simulationResult`.
-

@@ -47,7 +47,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
     ```juvix
     sign : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Signature
          := \{txfp _ := Signature.Ed25519Signature (natToString txfp)};
-    
+
     hash : TxFingerprint -> TransactionCandidate KVSKey KVSKey Executable -> Hash
          := \{txfp _ := txfp};
     ```

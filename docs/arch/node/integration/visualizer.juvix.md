@@ -16,7 +16,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
 
     ```juvix
     module arch.node.integration.visualizer;
-    
+
     import prelude open;
     import Stdlib.Data.Set as Set;
     import arch.node.types.messages open;
@@ -51,7 +51,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
     import arch.node.engines.ticker_messages open;
     import tutorial.engines.template_messages open;
     import tutorial.engines.template_minimum_messages as TemplateMinimum;
-    
+
     -- Function to convert EngineID to a String for diagram labels
     engineIdToString (eid : EngineID) : String :=
       let
@@ -61,13 +61,13 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         };
         engineNameStr := snd eid;
       in nodeStr ++str "/" ++str engineNameStr;
-    
+
     -- Helper function to convert NodeID to a String
     nodeIdToString (nodeId : NodeID) : String :=
       case nodeId of {
         | PublicKey.Curve25519PubKey pk := pk
       };
-    
+
     -- Helper to join a list of strings with a separator
     terminating
     stringJoin (separator : String) (strings : List String) : String :=
@@ -76,7 +76,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         | s :: [] := s
         | s :: rest := s ++str separator ++str (stringJoin separator rest)
       };
-    
+
     -- Helper to get unique participants
     getParticipants (messages : List (EngineMsg Msg)) : Set String :=
       let
@@ -86,13 +86,13 @@ This module provides functions to generate Mermaid sequence diagrams from a list
             targetStr := engineIdToString (EngineMsg.target msg);
           in insert senderStr (insert targetStr acc); -- Uses `insert` from prelude's Set import
       in foldr addParticipantIds Set.empty messages;
-    
+
     -- Helper to convert Bool to String
     boolToString (b : Bool) : String := if | b := "true" | else := "false";
-    
+
     -- Placeholder for Hash to String conversion
     hashToString (h : Hash) : String := "<hash>"; -- Replace with actual conversion
-    
+
     -- Placeholder for Noun to String conversion
     terminating
     nounToString (n : Noun) : String :=
@@ -100,15 +100,15 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         | Noun.Atom a := natToString a
         | Noun.Cell l r := "[" ++str (nounToString l) ++str " " ++str (nounToString r) ++str "]"
       };
-    
+
     -- Placeholder for KVSKey to String conversion
     kvsKeyToString (key : KVSKey) : String :=
       "<KVSKeyPlaceholder>";
-    
+
     -- Placeholder for KVSDatum to String conversion
     kvsDatumToString (datum : KVSDatum) : String :=
       "<KVSDatumPlaceholder>";
-    
+
     -- Placeholders for complex types
     signableToString (s : Signable) : String := "<Signable>";
     commitmentToString (c : Commitment) : String := "<Commitment>";
@@ -130,16 +130,16 @@ This module provides functions to generate Mermaid sequence diagrams from a list
     storageKeyToString (k : String) : String := k;
     storageValueToString (v : String) : String := v;
     encryptedMsgToString (em : EncryptedMsg) : String := "<EncryptedMsg>";
-    
+
     -- Helper to convert TransactionLabel to String
     transactionLabelToString (label : TransactionLabel KVSKey KVSKey) : String :=
       let
         readKeysStr := stringJoin "," (map kvsKeyToString (TransactionLabel.read label));
         writeKeysStr := stringJoin "," (map kvsKeyToString (TransactionLabel.write label));
       in "R:[" ++str readKeysStr ++str "]W:[" ++str writeKeysStr ++str "]";
-    
+
     -- Specific message type to string converters
-    
+
     terminating
     mempoolWorkerMsgToString (mwMsg : MempoolWorkerMsg Noun) : String :=
       case mwMsg of {
@@ -148,7 +148,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         | MempoolWorkerMsg.TransactionAck ack :=
           "TxAck(hash: " ++str (hashToString (TransactionAck.tx_hash ack)) ++str ", batch: " ++str (natToString (TransactionAck.batch_number ack)) ++str ")"
       };
-    
+
     terminating
     shardMsgToString (sMsg : ShardMsg) : String :=
       case sMsg of {
@@ -169,21 +169,21 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         | ShardMsg.UpdateSeenAll updateSeenAll :=
           "UpdateSeenAll(ts: " ++str (natToString (UpdateSeenAllMsg.timestamp updateSeenAll)) ++str ", write: " ++str (boolToString (UpdateSeenAllMsg.write updateSeenAll)) ++str ")"
       };
-    
+
     terminating
     executorMsgToString (execMsg : ExecutorMsg) : String :=
       case execMsg of {
         | ExecutorMsg.ExecutorFinished fin :=
           "ExecFinished(ok: " ++str (boolToString (ExecutorFinishedMsg.success fin)) ++str ")" -- Simplified for now
       };
-    
+
     terminating
     loggingMsgToString (logMsg : LoggingMsg) : String :=
       case logMsg of {
         | LoggingMsg.Append appendVal :=
           "LogAppend(val: \"" ++str (AppendValue.value appendVal) ++str "\")"
       };
-    
+
     -- Placeholder helpers for identity types
     identityNameToString (idName : IdentityName) : String := "<IdentityName>";
     externalIdentityToString (extId : ExternalIdentity) : String := "<ExternalIdentity>";
@@ -207,7 +207,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
           let evCount := length (Set.toList (ReplyQueryNameEvidence.evidence reply));
           in "QueryEvidenceReply(id:" ++str (externalIdentityToString (ReplyQueryNameEvidence.externalIdentity reply)) ++str ", evCount:" ++str (natToString evCount) ++str ", err:" ++str (option (ReplyQueryNameEvidence.err reply) "None" id) ++str ")"
       };
-    
+
     -- Identity Management
     identityManagementMsgToString (imMsg : IdentityManagementMsg) : String :=
       case imMsg of {
@@ -276,7 +276,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         | SignsForMsg.QuerySignsForEvidenceRequest req := "QuerySignsForEvReq(id:" ++str (externalIdentityToString (RequestQuerySignsForEvidence.externalIdentity req)) ++str ")"
         | SignsForMsg.QuerySignsForEvidenceReply reply := "QuerySignsForEvReply(id:" ++str (externalIdentityToString (ReplyQuerySignsForEvidence.externalIdentity reply)) ++str ",err:" ++str (option (ReplyQuerySignsForEvidence.err reply) "None" id) ++str ")"
       };
-    
+
     -- Main dispatcher function for Msg to String
     terminating
     msgToString (actualMsg : Msg) : String :=
@@ -305,7 +305,7 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         | Msg.Template tMsg := templateMsgToString tMsg
         | Msg.TemplateMinimum tmMsg := templateMinimumMsgToString tmMsg
       };
-    
+
     -- Helper to convert a single message to its Mermaid string representation
     messageToMermaid (message : EngineMsg Msg) : String :=
       let
@@ -313,15 +313,15 @@ This module provides functions to generate Mermaid sequence diagrams from a list
         targetStr : String := engineIdToString (EngineMsg.target message);
         label : String := msgToString (EngineMsg.msg message);
       in "    " ++str senderStr ++str "->>" ++str targetStr ++str ": " ++str label ++str "\n";
-    
+
     -- Function to pretty print the message list as a Mermaid sequence diagram
     prettyPrintMessageList (messages : List (EngineMsg Msg)) : String :=
       let
         participantsSet : Set String := getParticipants messages;
         participantDeclarations : String := stringJoin "\n    " (map (\{p := "participant " ++str p}) (Set.toList participantsSet));
-        
+
         messageLines : String := stringJoin "" (map messageToMermaid messages);
-    
+
       in "sequenceDiagram\n"
          ++str "    autonumber\n"
          ++str (if | Set.isEmpty participantsSet := "" | else := "    " ++str participantDeclarations ++str "\n")
@@ -444,4 +444,4 @@ This module provides functions to generate Mermaid sequence diagrams from a list
             | left err := "TemplateMinExampleReply(err:" ++str (TemplateMinimum.ReplyError.error err) ++str ")"
           }
       };
-    ``` 
+    ```
