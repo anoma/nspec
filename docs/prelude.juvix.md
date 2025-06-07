@@ -3,7 +3,6 @@ icon: material/file-document-outline
 search:
   exclude: false
 tags:
-  - node-architecture
   - prelude
   - index
 ---
