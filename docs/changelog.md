@@ -19,6 +19,10 @@ specification, focusing on:
 - resource machine specifications
 - application-specific documentation
 
+The node architecture has been removed from this (latest) release, but can be
+found in the [v0.2.0](https://specs.anoma.net/v0.2.0/) release. We plan to
+integrate it back in the future, when v2.0.0 comes in.
+
 ## [v0.2.0](https://specs.anoma.net/v0.2.0/)
 
 This release introduces significant new features and improvements to the Anoma specification, including protocol adapter integration, engine simulation capabilities, and major updates to the Resource Machine specifications. Key highlights include:
