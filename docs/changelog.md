@@ -10,6 +10,15 @@ tags:
 
 # Change Log
 
+## [v1.0.0](https://specs.anoma.net/v1.0.0/)
+
+This release introduces significant new features and improvements to the Anoma
+specification, focusing on:
+
+- protocol adapter integration
+- resource machine specifications
+- application-specific documentation
+
 ## [v0.2.0](https://specs.anoma.net/v0.2.0/)
 
 This release introduces significant new features and improvements to the Anoma specification, including protocol adapter integration, engine simulation capabilities, and major updates to the Resource Machine specifications. Key highlights include:
