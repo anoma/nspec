@@ -16,8 +16,29 @@ An action is a composite structure of type `Action` that contains the following 
 
 |Component|Type|Description|
 |-|-|-|
-|`logicVerifierInputs`|`Map Tag (isConsumed: Bool, logicVKOuter: LogicVKOuterHash, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof)`|Resource logic proofs for resources associated with the action and accompanying data. The key of each map entry is the tag of the resource for which a RL proof is to be verified. The deletion criterion field is described [[Stored data format |here]].|
+|`logicVerifierInputs`|`Map Tag LogicVerifierInputs`|For each resource tag, contains the associated logic proof and everything required to verify it. The structure of `LogicVerifierInputs` is further described below.|
 |`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
+
+### `LogicVerifierInputs`
+
+|Name|Type|Description|
+|-|-|-|
+|isConsumed|Bool|Determines if the provided tag a commitment (resource is being created) or a nullifier (resource is being consumed)|
+|logicVKOuterHash|LogicVKOuterHash|Logic verifying key, hashed|
+|applicationData|List (BitString, DeletionCriterion)|The deletion criterion field is described [[Stored data format |here]].
+|proof|ResourceLogicProvingSystem.Proof|
+
+### `applicationData` format
+
+The first three entries of `applicationData` are reserved. The table below describes what these entries are.
+
+|Name|Description|
+|-|-|
+|resourcePayload|Contains the resource object-related data. For example, in the shielded case, it contains encrypted resource object. If no resource payload is expected to be verified, the field is left empty.|
+|discoveryPayload|Contains the fast discovery-related data, for example, FMD ciphertext. If no discovery payload is expected to be verified, the field is left empty.|
+|externalCallPayload|Contains the data associated with external calls. If no external calls are made or no external calldata has to be verified, the field is left empty.|
+
+The rest of the `appData` structure contains logic-specific entries.
 
 !!! note
     For function privacy in the shielded context, instead of a logic proof we verify a proof of logic proof validity - a recursive proof. `LogicVKOuterHash` type corresponds to the RL VK commitment while verifying key in `logicVerifierInputs` refers to the key to be used for verification (i.e., a _verifier circuit verifying key_ as opposed to a _resource logic verifying key_). RL VK commitment should be included somewhere else, e.g., in `applicationData`.
