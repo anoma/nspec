@@ -37,7 +37,7 @@ Application data contains the RL-specific inputs required to verify the RL proof
 |`resourcePayload`|Contains the resource-object-related data. For example, in the shielded case, it contains encrypted resource object. If no resource payload is expected to be verified, the field is left empty.|
 |`discoveryPayload`|Contains the discovery-related data, for example, FMD ciphertext. If no discovery payload is expected to be verified, the field is left empty.|
 |`externalCallPayload`|Contains the data associated with external calls. If no external calls are made or no external calldata has to be verified, the field is left empty.|
-|`logicVKOuter`|`LogicVKOuterHash`|In the DP (data privacy only) case, contains `logicRef` associated with the corresponding resource. In the FP (data and function privacy) case, contains a hiding and binding commitment to `logicRef`. It can be said that in the DP case outer hash is an identity function and in the FP case it is instantiated by a hiding and binding commitment scheme.|
+|`logicVKOuter`|In the DP (data privacy only) case, contains `logicRef` associated with the corresponding resource. In the FP (data and function privacy) case, contains a hiding and binding commitment to `logicRef`. It can be said that in the DP case outer hash is an identity function and in the FP case it is instantiated by a hiding and binding commitment scheme.|
 
 The rest of the `appliactionData` structure contains custom RL-specific entries.
 
