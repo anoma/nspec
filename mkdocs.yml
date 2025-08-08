@@ -1,10 +1,18 @@
 site_name: !ENV [SITE_NAME, "Anoma specs"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
-site_description: !ENV [SITE_DESCRIPTION, "The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
+site_description:
+  !ENV [
+    SITE_DESCRIPTION,
+    "The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network.",
+  ]
 site_dir: !ENV [SITE_DIR, site]
-site_url: !ENV [SITE_URL, 'https://specs.anoma.net/latest/']
+site_url: !ENV [SITE_URL, "https://specs.anoma.net/latest/"]
 site_version: !ENV [SITE_VERSION, "v0.2.0"]
-copyright: !ENV [COPYRIGHT, "&copy; 2025 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
+copyright:
+  !ENV [
+    COPYRIGHT,
+    '&copy; 2025 <a href="https://anoma.net">Anoma Foundation</a>',
+  ]
 repo_url: https://github.com/anoma/nspec
 repo_name: anoma/nspec
 edit_uri: edit/main/docs/
@@ -69,6 +77,8 @@ nav:
                   - Runnable trait: ./arch/system/state/resource_machine/notes/runnable.juvix.md
                   - Nockma implementation: ./arch/system/state/resource_machine/notes/nockma.juvix.md
                   - Nockma runnable: ./arch/system/state/resource_machine/notes/nockma_runnable.juvix.md
+          - Shielded resource machine:
+              - ./arch/system/state/shielded_resource_machine/index.md
   - Integrations:
       - Protocol Adapters:
           - ./arch/integrations/adapters/index.md
@@ -174,7 +184,7 @@ plugins:
   - juvix # Provided with mkdocs-juvix-plugin
   - todos
   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
-      ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io']
+      ServerURL: !ENV [KROKI_SERVER_URL, "https://kroki.io"]
       FileTypes:
         - svg
         - png
