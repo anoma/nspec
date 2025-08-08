@@ -24,22 +24,20 @@ An action is a composite structure of type `Action` that contains the following 
 |Name|Type|Description|
 |-|-|-|
 |`verifyingKey`|`ResourceLogicProvingSystem.verifyingKey`|Contains the verifying key used to verify the logic proof|
-|`applicationData`|`List (BitString, DeletionCriterion)`|Contains the RL-specific inputs required to verify the proof. Each input has an associated deletion criterion that defines when it can be deleted from the storage. The deletion criterion field is described [[Stored data format |here]].
+|`applicationData`|`(ResourcePayload, DiscoveryPayload, ExternalPayload, ApplicationPayload)`|Contains inputs required to verify the RL proof. Each payload type is `List(BitString, DeletionCriterion)`. The tuple entries are further described below. The deletion criterion field is further described [[Stored data format |here]].
 |`proof`|`ResourceLogicProvingSystem.Proof`|
 
 
 ### `applicationData`
 
-Application data contains the RL-specific inputs required to verify the RL proof. The first four entries of `applicationData` are reserved. The table below describes these entries.
+Application data contains the inputs required to verify the RL proof. It has four entries, all of which of type `List(BitString, DeletionCriterion)`:
 
-|Name|Description|
-|-|-|
-|`resourcePayload`|Contains the resource-object-related data. For example, in the shielded case, it contains encrypted resource object. If no resource payload is expected to be verified, the field is left empty.|
-|`discoveryPayload`|Contains the discovery-related data, for example, FMD ciphertext. If no discovery payload is expected to be verified, the field is left empty.|
-|`externalCallPayload`|Contains the data associated with external calls. If no external calls are made or no external calldata has to be verified, the field is left empty.|
-|`logicVKOuter`|In the DP (data privacy only) case, contains `logicRef` associated with the corresponding resource. In the FP (data and function privacy) case, contains a hiding and binding commitment to `logicRef`. It can be said that in the DP case outer hash is an identity function and in the FP case it is instantiated by a hiding and binding commitment scheme.|
+1. `ResourcePayload` – contains resource-object-related data. For example, encrypted (or not) resource object.
+2. `DiscoveryPayload` – contains data related to discovery, for example, FMD ciphertext.
+3. `ExternalPayload` – contains data associated with external calls, for example, `forwarderCallData` from Ethereum.
+4. `ApplicationPayload` – contains other data expected by the resource logic, for example, a signature to be verified.
 
-The rest of the `appliactionData` structure contains custom RL-specific entries.
+## Definitions
 
 Actions partition the state change induced by a transaction and limit the evaluation context of resource logics: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its tag is a key of the `logicVerifierInputs` map. A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its *nullifier* is a key of the `logicVerifierInputs` map. A resource is said to be *created in the action* for a valid action if its *commitment* is a key of the `logicVerifierInputs` map.
 
