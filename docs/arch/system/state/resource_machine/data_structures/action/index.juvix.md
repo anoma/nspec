@@ -16,11 +16,28 @@ An action is a composite structure of type `Action` that contains the following 
 
 |Component|Type|Description|
 |-|-|-|
-|`logicVerifierInputs`|`Map Tag (isConsumed: Bool, logicVKOuter: LogicVKOuterHash, applicationData: List (BitString, DeletionCriterion), proof: ResourceLogicProvingSystem.Proof)`|Resource logic proofs for resources associated with the action and accompanying data. The key of each map entry is the tag of the resource for which a RL proof is to be verified. The deletion criterion field is described [[Stored data format |here]].|
+|`logicVerifierInputs`|`Map Tag LogicVerifierInputs`|For each resource tag, contains the associated logic proof and everything required to verify it. The structure of `LogicVerifierInputs` is further described below.|
 |`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
 
-!!! note
-    For function privacy in the shielded context, instead of a logic proof we verify a proof of logic proof validity - a recursive proof. `LogicVKOuterHash` type corresponds to the RL VK commitment while verifying key in `logicVerifierInputs` refers to the key to be used for verification (i.e., a _verifier circuit verifying key_ as opposed to a _resource logic verifying key_). RL VK commitment should be included somewhere else, e.g., in `applicationData`.
+### `LogicVerifierInputs`
+
+|Name|Type|Description|
+|-|-|-|
+|`verifyingKey`|`ResourceLogicProvingSystem.verifyingKey`|Contains the verifying key used to verify the logic proof|
+|`applicationData`|`(ResourcePayload, DiscoveryPayload, ExternalPayload, ApplicationPayload)`|Contains inputs required to verify the RL proof. Each payload type is `List(BitString, DeletionCriterion)`. The tuple entries are further described below. The deletion criterion field is further described [[Stored data format |here]].
+|`proof`|`ResourceLogicProvingSystem.Proof`|
+
+
+### `applicationData`
+
+Application data contains the inputs required to verify the RL proof. It has four entries, all of which of type `List(BitString, DeletionCriterion)`:
+
+1. `ResourcePayload` – contains resource-object-related data. For example, encrypted (or not) resource object.
+2. `DiscoveryPayload` – contains data related to discovery, for example, FMD ciphertext.
+3. `ExternalPayload` – contains data associated with external calls, for example, `forwarderCallData` from Ethereum.
+4. `ApplicationPayload` – contains other data expected by the resource logic, for example, a signature to be verified.
+
+## Definitions
 
 Actions partition the state change induced by a transaction and limit the evaluation context of resource logics: proofs created in the context of an action have access only to the resources associated with the action. A resource is said to be *associated with an action* if its tag is a key of the `logicVerifierInputs` map. A resource is associated with at most two actions: resource creation is associated with exactly one action and resource consumption is associated with exactly one action. A resource is said to be *consumed in the action* for a valid action if its *nullifier* is a key of the `logicVerifierInputs` map. A resource is said to be *created in the action* for a valid action if its *commitment* is a key of the `logicVerifierInputs` map.
 
