@@ -18,6 +18,7 @@ An action is a composite structure of type `Action` that contains the following 
 |-|-|-|
 |`logicVerifierInputs`|`Map Tag LogicVerifierInputs`|For each resource tag, contains the associated logic proof and everything required to verify it. The structure of `LogicVerifierInputs` is further described below.|
 |`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
+|`actionTreeSize`||Determines the depth of the Merkle tree used to store input resources. If not specified, the depth is set to the smallest necessary to fit all the input resources.|
 
 ### `LogicVerifierInputs`
 
@@ -30,7 +31,7 @@ An action is a composite structure of type `Action` that contains the following 
 
 ### `applicationData`
 
-Application data contains the inputs required to verify the RL proof. It has four entries, all of which of type `List(BitString, DeletionCriterion)`:
+Application data contains the inputs required to verify the RL proof. It has four entries, all of which of type `List (BitString, DeletionCriterion)`:
 
 1. `ResourcePayload` – contains resource-object-related data. For example, encrypted (or not) resource object.
 2. `DiscoveryPayload` – contains data related to discovery, for example, FMD ciphertext.
