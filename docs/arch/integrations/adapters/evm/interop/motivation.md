@@ -45,7 +45,7 @@ At the same time the PA makes sure that the call is accompanied by the appropria
 
 Here is approximately the logic of the PA to locate these calls and make them after running `verify` on the transaction, ensuring in particular that all RM-specified checks pass:
 
-Go through each `appData.externalPayload` of each `tag`. Recover the plantext from `appData`, and check that `hash(resourcePlaintext) = tag`. This may require the PA also knowing the nullifier key if the resource is being consumed. Finally, we check that `kind(resourcePlaintext)` is the same as the return of `calldataCarrierResourcekind`.
+Go through each `appData.externalPayload` of each `tag`. Recover the plantext from `appData.resourcePayload`, and check that `hash(resourcePlaintext) = tag`. This may require the PA also knowing the nullifier key if the resource is being consumed. Finally, we check that `kind(resourcePlaintext)` is the same as the return of `calldataCarrierResourcekind()`.
 
 Then the PA performs the calls by calling `forwardCall` on the specified address with the inputs given and check that the return data is as expected.
 

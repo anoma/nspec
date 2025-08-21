@@ -110,33 +110,22 @@ Where the compliance verifier input time is defined above, while the logic verif
 
 ```solidity
     struct VerifierInput {
-        bytes proof;
-        Instance instance;
-        bytes32 verifyingKey;
-    }
-```
-
-Where the instance is
-
-```solidity
-    struct Instance {
         bytes32 tag;
-        bool isConsumed;
-        bytes32 actionTreeRoot;
-        bytes ciphertext;
-        Payloads[] appData;
+        bytes32 verifyingKey;
+        AppData appData;
+        bytes proof;
     }
 ```
 
-The `Payloads` stands for the 4 different payloads we posess:
+The `AppData` stands for the 4 different payloads we posess:
 
 ```solidity
-struct Payloads {
-    ExpirableBlob[] resourcePayload;
-    ExpirableBlob[] discoveryPayload;
-    ExpirableBlob[] externalPayload;
-    ExpirableBlob[] applicationPayload;
-}
+    struct AppData {
+        ExpirableBlob[] resourcePayload;
+        ExpirableBlob[] discoveryPayload;
+        ExpirableBlob[] externalPayload;
+        ExpirableBlob[] applicationPayload;
+    }
 ```
 
 with `ExpirableBlob` defined as
