@@ -12,7 +12,7 @@ tags:
 
 # Ethereum Virtual Machine Protocol Adapter
 
-The Ethereum Virtual Machine (EVM) protocol adapter is a smart contract written in [Solidity](https://soliditylang.org/) that can be deployed to EVM compatible chains and roll-ups to connect them to the Anoma protocol.
+The Ethereum Virtual Machine (EVM) protocol adapter is a smart contract written in [Solidity](https://soliditylang.org/) that can be deployed to any EVM-compatible chain in order to allow it to support Anoma applications.
 
 The current prototype is a **settlement-only** protocol adapter, i.e., it is only capable of processing fully-evaluated transaction functions and therefore does not implement the full [[Executor Engine|executor engine]] behaviour.
 

@@ -29,7 +29,7 @@ and the resource from the `resourcePayload` head, checking the kind correspondan
 Resource memory resource = abi.decode(input.appData.resourcePayload[0].blob, (Resource));
 ```
 
-The calldata is defined as a following struct with evident semantics:
+The calldata is defined as a following struct with self-evident semantics:
 
 ```solidity
 struct ForwarderCalldata {

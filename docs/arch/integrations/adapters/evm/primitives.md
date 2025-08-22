@@ -37,7 +37,7 @@ For the current implementation, for resource logics and the compliance proofs we
 
 Our compliance circuits are fixed size of exactly 2 resources: 1 created and 1 consumed. This allows us to also ensure that the `nonce` of the created resource contains the hash of the consumed resource. This grants uniqueness of comitments automatically given uniqueness of nullifiers.
 
-The compliance verifying key is fixed and hardocded as:
+The compliance verifying key is fixed and hardcoded as:
 
 ```solidity
 bytes32 internal constant _VERIFYING_KEY = 0xd15203a1b0a6a096d0187241329bed9c8536dd0e61dfe6e348ee5cd10b39cfb4;

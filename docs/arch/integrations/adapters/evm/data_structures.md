@@ -50,7 +50,7 @@ Kind
 
 Delta
 
-:  Given a resource `resource` it's delta gets computed as the multiple of the resource kind and quantity seen as scalars and Pedersen-committed to a 2D point on the K256 curve. However, we do not use them for verification purposes. For details one can consult the [compliance circuit](https://github.com/anoma/arm-risc0/blob/73bb97640e24a3533587051fcf58c3ed1a12e8e8/arm/src/compliance.rs#L170).
+:  The delta of a resource `resource` is computed as the multiple of the resource kind and quantity seen as scalars and Pedersen-committed to a 2D point on the K256 curve. However, we do not use them for verification purposes. For details one can consult the [compliance circuit](https://github.com/anoma/arm-risc0/blob/73bb97640e24a3533587051fcf58c3ed1a12e8e8/arm/src/compliance.rs#L170).
 
 ## Compliance Unit
 
@@ -63,7 +63,7 @@ The compliance unit is defined as the `VerifierInput` struct:
     }
 ```
 
-whwre the instance is the expected compliance unit instance type:
+where the instance is the expected compliance unit instance type:
 
 ```solidity
     struct Instance {
@@ -146,7 +146,7 @@ There are only two deletion criteria we support:
     }
 ```
 
-The storage of the criteria is designated to the EVM event history logs. Once executed, the event will be transmitted, including the blobs, which will then be recoverable to interested party through Indexing services of their liking.
+The storage of the criteria is designated to the EVM event history logs. Once the transaction is executed, the event will be transmitted, including the blobs, which will then be recoverable by an interested party through indexing services.
 
 The `actionTreeRoot` is computed as the root of a merkle tree of depth 4 with leaves provided by the `tag`s in the corresponding Action.
 
