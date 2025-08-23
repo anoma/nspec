@@ -27,9 +27,9 @@ struct Resource {
     bytes32 labelRef;
     bytes32 valueRef;
     bytes32 nullifierKeyCommitment;
-    uint256 quantity;
-    uint256 nonce;
-    uint256 randSeed;
+    bytes32 nonce;
+    bytes32 randSeed;
+    uint128 quantity;
     bool ephemeral;
 }
 ```
@@ -38,11 +38,44 @@ struct Resource {
 
 Commitment
 
-:   A commitment of resource `resource` is computed as `sha256(abi.encode(resource))`
+:   A commitment of resource `resource` is computed as packed bytes of the resource fields alongside with hardcoded 17 bytes prepending randomness values:
+
+```solidity
+    function commitment(Resource memory resource) internal pure returns (bytes32 cm) {
+        cm = sha256(
+            abi.encodePacked(
+                resource.logicRef,
+                resource.labelRef,
+                resource.quantity,
+                resource.valueRef,
+                resource.ephemeral,
+                resource.nonce,
+                resource.nullifierKeyCommitment,
+                rcm(resource)
+            )
+        );
+    }
+
+    function rcm(Resource memory resource) internal pure returns (bytes32 randCm) {
+        bytes17 prfExpandPersonalization = 0x52495343305f457870616e645365656401;
+        randCm = sha256(abi.encodePacked(prfExpandPersonalization, resource.randSeed, resource.nonce));
+    }
+```
 
 Nullifier
 
-:  A nullifier of a resource `resource` with nullifier key `nullifierKey` is computed as `sha256(abi.encode(resource, nullifierKey))`
+:  A nullifier of a resource `resource` with nullifier key `nullifierKey` is computed as packed bytes of the nullifier key, nonce, hardcoded 17 bytes with randomness fields of a resource, as well as the commitment of a resource as described above.
+
+```solidity
+    function nullifier(Resource memory resource, bytes32 nullifierKey) internal pure returns (bytes32 nf) {
+        nf = sha256(abi.encodePacked(nullifierKey, resource.nonce, psi(resource), commitment(resource)));
+    }
+
+    function psi(Resource memory resource) internal pure returns (bytes32 randNf) {
+        bytes17 prfExpandPersonalization = 0x52495343305f457870616e645365656400;
+        randNf = sha256(abi.encodePacked(prfExpandPersonalization, resource.randSeed, resource.nonce));
+    }
+```
 
 Kind
 

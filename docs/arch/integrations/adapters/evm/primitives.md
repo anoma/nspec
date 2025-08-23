@@ -27,7 +27,7 @@ We also use Solidity's `mapping` for the commitment accumilator functionality.
 
 ## Fixed Size Type
 
-We used `bytes32` and `uint256` in the implementation.
+We generally used `bytes32`/`uint256` in the implementation, also using `uint128` for quantity of resources.
 
 ## Proving System
 
