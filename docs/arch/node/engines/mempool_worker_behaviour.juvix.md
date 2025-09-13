@@ -139,7 +139,7 @@ A mempool worker acts as a transaction coordinator, receiving transaction reques
        - `executor`: ID of spawned executor
        - `timestamp`: Generated fingerprint
 
-5. **Replys and Effects**
+5. **Replies and Effects**
    - **Reply Delivery**
      - All messages are sent with mailbox 0 (default response mailbox).
      - Transaction acknowledgment is sent back to original requester.
