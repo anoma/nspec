@@ -299,7 +299,7 @@ Likewise, its `DecryptorType` should be the type of objects that can decrypt
  `EncryptorType`.
 Implementations should ultimately include, for example,
  [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem))
- public / private keys sytems.
+ public / private keys systems.
 
 An Identity includes:
 
