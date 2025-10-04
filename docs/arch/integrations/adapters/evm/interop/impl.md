@@ -13,48 +13,27 @@ markdown_extensions:
 
 ## Implementation
 
-Below we detail the exact code using which we perform the interoperability calls. The core logic is split between the verification that can be done without making the call (done in `verify`) and after making the call (in `execute` body)
+Below we detail the exact code using which we perform the interoperability calls.
 
-During `verify`, while going over all the verifier inputs to the resource logics (i.e. `logicVerifierInputs`), if the PA notices that `(logicVerifierInput.appData.externalPayload.length != 0)` it will assume that the resource is trying to perform a forwarder call and hence execute `_verifyForwarderCall` logic.
+During `execute`, while going over all the verifier inputs to the resource logics, after their verificatoon we iterate over the `externalPayload` of said resource.
 
-We get the needed data for the verification from decoding the call from the head of the `externalPayload`
+For each element of the list, we try to decode the blob present as follows:
 
 ```solidity
-ForwarderCalldata memory call = abi.decode(input.appData.externalPayload[0].blob, (ForwarderCalldata));
+ (address untrustedForwarder, bytes memory input, bytes memory expectedOutput) =
+            abi.decode(callBlob, (address, bytes, bytes));
 ```
 
-and the resource from the `resourcePayload` head, checking the kind correspondance:
+The interpretation of the variable names should be clear.
+
+
+At this point we just execute the calls and make sure that the outputs correspond to the preset ones. Note that the verifier provides the logic reference of the appropriate resource as an explict extra input ot the function.
 
 ```solidity
-Resource memory resource = abi.decode(input.appData.resourcePayload[0].blob, (Resource));
-```
+        bytes memory actualOutput =
+            IForwarder(untrustedForwarder).forwardCall({logicRef: carrierLogicRef, input: input});
 
-The calldata is defined as a following struct with self-evident semantics:
-
-```solidity
-struct ForwarderCalldata {
-    address untrustedForwarder;
-    bytes input;
-    bytes output;
-}
-```
-
-Now, the only thing left to check is that `resource` corresponds to the tag of the corresponding input. To check this in the case where the resource is committed, we just compute `resource.commitment()`. In the case of the nullifier, we need to also get the nullifier key from the `resourcePayload` by running
-
-```solidity
-resource.nullifier(bytes32(input.appData.resourcePayload[1].blob))
-```
-
-If the data corresponds to tags, the verification then passes.
-
-On the `execute` the adapter runs over the actions and all `verifierLogicInputs` inside. Inside each one, we look into the `appData.resourcePayload`.
-
-At this point we just execute the calls and make sure that the outputs correspond to the preset ones.
-
-```solidity
-        bytes memory output = IForwarder(call.untrustedForwarder).forwardCall(call.input);
-
-        if (keccak256(output) != keccak256(call.output)) {
-            revert ForwarderCallOutputMismatch({expected: call.output, actual: output});
+        if (keccak256(actualOutput) != keccak256(expectedOutput)) {
+            revert ForwarderCallOutputMismatch({expected: expectedOutput, actual: actualOutput});
         }
 ```

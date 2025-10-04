@@ -185,11 +185,14 @@ The `actionTreeRoot` is computed as the root of a merkle tree of depth 4 with le
 
 ## Transaction
 
-The transaction is defined as a list of actions with some proofs:
+The transaction is defined as a list of actions with the delta prove attesting to the balancing of the action alongside an aggregation proof, attesting to the verification of all the logic and compliance verifying keys present in the transaction given the instances:
 
 ```solidity
 struct Transaction {
     Action[] actions;
     bytes deltaProof;
+    bytes aggregationProof;
 }
 ```
+
+If an aggregation proof is present, the PA only checks the delta and the aggregation proofs.

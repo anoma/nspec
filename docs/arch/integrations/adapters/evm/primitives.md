@@ -31,16 +31,16 @@ We generally used `bytes32`/`uint256` in the implementation, also using `uint128
 
 ## Proving System
 
-For the current implementation, for resource logics and the compliance proofs we use the Risc0 proving system, specifically v2.3.1 of Risc0 and the v2.2.2 version of the EVM verifier. The delta values are computed as 2D points (`uint256[2]`) on the `secp256k1` (K-256) elliptic curve and verified using ECDSA.
+For the current implementation, for resource logics and the compliance proofs we use the Risc0 proving system, specifically v3.0.3 of Risc0 alongside the appropriate version of the EVM verifier. The delta values are computed as 2D points (`uint256[2]`) on the `secp256k1` (K-256) elliptic curve and verified using ECDSA.
 
 ### Compliance Circuit
 
 Our compliance circuits are fixed size of exactly 2 resources: 1 created and 1 consumed. This allows us to also ensure that the `nonce` of the created resource contains the hash of the consumed resource. This grants uniqueness of comitments automatically given uniqueness of nullifiers.
 
-The compliance verifying key is fixed and hardcoded as:
+The compliance verifying key is fixed and hardcoded as an internal constant:
 
 ```solidity
-bytes32 internal constant _VERIFYING_KEY = 0xd15203a1b0a6a096d0187241329bed9c8536dd0e61dfe6e348ee5cd10b39cfb4;
+bytes32 internal constant _VERIFYING_KEY = ...;
 ```
 
 Other than the checks described in the [[Compliance Proof]] page, the compliance proof for the EVM protocol adapter constraints the created resource to use the nullifier of the consumed resource.
@@ -66,9 +66,9 @@ The curve implementation is taken from [Witnet's `eliptic-curve-solidity` librar
 
 ## Commitment Accumilator
 
-Our commitment accumulator is a modified version of OpenZeppelin's [`MerkleTree`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.3.0/contracts/utils/structs/MerkleTree.sol) and [`MerkleProof`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.3.0/contracts/utils/cryptography/MerkleProof.sol) implementations. The core difference is the fact that it is not a constant-sized tree and keep intermediary nodes instead of only leaves in order to support on-chain merkle proof generation.
+Our commitment accumulator is a modified version of OpenZeppelin's [`MerkleTree`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.3.0/contracts/utils/structs/MerkleTree.sol) and [`MerkleProof`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.3.0/contracts/utils/cryptography/MerkleProof.sol) implementations. The core difference is the fact that it is a dynamic sparse merkle tree which expands its depth when needed to fit enough leaves.
 
-We only increase the depth whenever we need to. This keeps the gas costs of updating the commitment merkle tree to a minimum. For details, please consult the [documentation](https://github.com/anoma/evm-protocol-adapter/blob/feature/dynamic-cmacc/contracts/src/libs/MerkleTree.sol)).
+This keeps the gas costs of updating the commitment merkle tree to a minimum. For details, please consult the [documentation](https://github.com/anoma/evm-protocol-adapter/blob/feature/dynamic-cmacc/contracts/src/libs/MerkleTree.sol)).
 
 ## Nullifier Accumulator
 
