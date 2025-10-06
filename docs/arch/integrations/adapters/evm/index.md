@@ -20,7 +20,7 @@ The implementation can be found in the [`anoma/evm-protocol-adapter` GH repo](ht
 
 ## Supported Networks
 
-For the upcoming product version only the [Sepolia network](https://ethereum.org/en/developers/docs/networks/#sepolia) will be supported.
+For the upcoming product version, the Protocol Adapter will be deployed on Ethereum Mainnet, Arbitrum, and Base.
 
 
 ## Contents
