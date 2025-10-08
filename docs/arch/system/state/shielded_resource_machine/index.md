@@ -6,7 +6,7 @@ This specification contains both the description of the design enabling the priv
 
 ### Risc0 shielded resource machine
 
-Out first implementation of the shielded resource machine is referred to as risc0 RM. It is called that because we use [RISC Zero zkVM]() to represent the compliance and logic circuits. More on RISC Zero can be found [here]().
+Out first implementation of the shielded resource machine is referred to as risc0 RM. It is called that because we use [RISC Zero zkVM](https://risczero.com/) to represent the compliance and logic circuits. More about RISC Zero and how we use it can be found [here](./proving/risc0.md)
 
 ### General RM spec divergence
 
@@ -24,7 +24,4 @@ All resource machines must comply with the general resource machine specificatio
 
 ### Intended privacy properties
 
-This instantiation is designed to offer privacy properties to its users. In particular, the current design offers data privacy and is accommodated to offer function privacy. Data privacy refers to the privacy of the user identity and the transaction content. Function privacy means that involved applications cannot be determined from seeing the transaction content.
-
-1. Nullifier and commitment unlinkability: it is impossible to link the nullifier of the consumed resource to its commitment by observing the global state alone.
-2. TBD
+This instantiation is designed to offer privacy properties to its users. In particular, the current design offers data privacy and is accommodated to offer function privacy. Data privacy refers to the privacy of the user identity and the encrypted transaction content. Function privacy means privacy of asset types involved in the transaction. Zero-knowledge proofs and encryption are used to provide data privacy: users prove correctness of the state transition in zk. Nullifier and commitment of the same resource must not be linkable: given a nullifier, it is impossible to figure out which commitment corresponds to the same resource having access only to public global state.

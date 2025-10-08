@@ -8,7 +8,7 @@
 | `quantity` |`u128` |
 | `isEphemeral`| `Bool` |
 | `nonce`| Guarantees the uniqueness of the commitment and nullifier. Computed from the nullifier of the resource consumed in the same compliance unit.| $nonce_{created} = nf_{consumed}$|
-| `nullifierKeyCommitment` |More details can be found [here]() | $cnk = SHA256(nk)$|
+| `nullifierKeyCommitment` |More details can be found [here](./keys/index.md) | $cnk = SHA256(nk)$|
 | `randSeed` | Generated randomly when the resource is created ||
 | `kind` | | $kind = SHA256(logicRef \|\| labelRef)$|
 | `psi`| A parameter used to compute the resource nullifier| $psi = SHA256("RISC0\_ExpandSeed" \|\| 0 \|\| randSeed \|\| nonce)$|

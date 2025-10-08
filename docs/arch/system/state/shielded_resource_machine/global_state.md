@@ -16,4 +16,4 @@ RISC Zero zkVM allows to pass arguments of variable size (vectors) as private or
 
 Therefore, this feature of RISC Zero zkVM is particularly useful for passing Merkle paths of variable length to the circuits. It allows having Merkle trees of variable size, which can be helpful to decrease the cost of the computation (the tree size is minimal necessary to accommodate the elements stored) and, in principle, to grow unbounded.
 
-We also utilise this feature to have variable depth [action trees]().
+We also utilise this feature to have variable depth [action trees](./action.md).

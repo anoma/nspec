@@ -12,21 +12,22 @@ Each potential receiver has a static discovery key pair. To enable faster discov
 
 1. generates an ephemeral discovery key pair $(edsk, edpk)$
 2. using the receiver's static discovery public key, generates the discovery encryption key $dek = KDF(DH(sdpk_{R}, edsk_{S}), edpk_{S})$
-3. encrypts a fixed string `s` $cd = Encrypt(dek, s)$ and includes the discovery message in the transaction payload: `discoveryPayload = [cd, edpk_{S}]`
+3. encrypts a fixed string `ds` $cd = Encrypt(dek, ds)$ and includes the discovery message in the transaction payload: `discoveryPayload = [cd, edpk_{S}]`
 
 #### Discovery
 
 Given the relevant key $sdsk$ by the potential receiver, the discovery server tries to decrypt each discovery message for each published transaction:
 
 1. using an ephemeral key attached to the payload, they generate the discovery encryption key $dek = KDF(DH(sdsk_{R}, edpk_{S}), edpk{S})$
-2. they decrypt a discovery string $s = Decrypt(dek, cd)$
-3. if `s` is equal to the expected value, the transaction is sent to the user. The user can decrypt the resource payload to get the resource sent to them.
+2. they decrypt a discovery string $ds = Decrypt(dek, cd)$
+3. if `ds` is equal to the expected value, the transaction is sent to the user. The user can decrypt the resource payload to get the resource sent to them.
 
 #### Resource decryption
 
 To decrypt a resource, the user:
+
 1. using an ephemeral key attached to the payload, they generate the resource encryption key $rek = KDF(DH(sesk_{R}, eepk_{S}), eepk{S})$
-2. they decrypt the resource object $s = Decrypt(rek, ce)$
+2. they decrypt the resource object $resource = Decrypt(rek, ce)$
 
 
 #### Verifiable discovery

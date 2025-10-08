@@ -10,4 +10,4 @@ Compliance and logic proofs are represented as RISC Zero circuits. [RISC Zero](h
 ## Groth16 recursive proofs for faster on-chain verification
 RISC Zero zkVM also supports creating [Groth16](http://eprint.iacr.org/2016/260.pdf) proofs for faster verification. Groth16 proofs have minimal proof size (3 field elements) but require trusted setup for each circuit. Therefore Groth16 isn't suitable for creating proofs of various programs but allows efficient verification of a fixed program. RISC Zero zkVM provides a groth16 circuit that verifies recursively an aggregated segment proof.
 
-Raw RM proofs (compliance and logic) are STARK proofs. For efficient on-chain verification, they can be wrapped in Groth16, either via [proof aggregation]() or directly.
+Raw RM proofs (compliance and logic) are STARK proofs. For efficient on-chain verification, they can be wrapped in Groth16, either via [proof aggregation](./proof_aggregation.md) or directly.
