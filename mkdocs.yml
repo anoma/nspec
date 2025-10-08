@@ -241,24 +241,21 @@ nav:
                   - Nockma runnable: ./arch/system/state/resource_machine/notes/nockma_runnable.juvix.md
           - Shielded resource machine:
               - ./arch/system/state/shielded_resource_machine/index.md
-              - Global state:
-                  - Commitment accumulator:
-                      - ./arch/system/state/shielded_resource_machine/global_state/accumulator.md
-                      - Variable size Merkle trees: ./arch/system/state/shielded_resource_machine/global_state/merkle_tree.md
-                  - Nullifier set: ./arch/system/state/shielded_resource_machine/global_state/nullifier_set.md
-              - Resource: ./arch/system/state/shielded_resource_machine/resource.md
-              - Compliance: ./arch/system/state/shielded_resource_machine/compliance.md
-              - Action: ./arch/system/state/shielded_resource_machine/action.md
-              - Transaction: ./arch/system/state/shielded_resource_machine/transaction.md
-              - Keys:
-                  - /arch/system/state/shielded_resource_machine/keys/index.md
-                  - In-band distribution: ./arch/system/state/shielded_resource_machine/keys/encryption.md
-                  - Discovery: ./arch/system/state/shielded_resource_machine/keys/discovery.md
+              - Global state: ./arch/system/state/shielded_resource_machine/global_state.md
               - Proving:
                   - ./arch/system/state/shielded_resource_machine/proving/index.md
                   - Risc0: ./arch/system/state/shielded_resource_machine/proving/risc0.md
                   - Delta proofs: ./arch/system/state/shielded_resource_machine/proving/delta.md
                   - Proof aggregation: ./arch/system/state/shielded_resource_machine/proving/proof_aggregation.md
+              - Resource: ./arch/system/state/shielded_resource_machine/resource.md
+              - Compliance: ./arch/system/state/shielded_resource_machine/compliance.md
+              - Action: ./arch/system/state/shielded_resource_machine/action.md
+              - Transaction: ./arch/system/state/shielded_resource_machine/transaction.md
+              - Keys:
+                  - ./arch/system/state/shielded_resource_machine/keys/index.md
+                  - In-band distribution: ./arch/system/state/shielded_resource_machine/keys/encryption.md
+                  - Discovery: ./arch/system/state/shielded_resource_machine/keys/discovery.md
+
               - Features:
                   - Function privacy: ./arch/system/state/shielded_resource_machine/features/function_privacy.md
   - Integrations:
