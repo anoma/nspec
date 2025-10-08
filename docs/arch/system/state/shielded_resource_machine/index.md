@@ -1,0 +1,1 @@
+# Shielded resource machine
