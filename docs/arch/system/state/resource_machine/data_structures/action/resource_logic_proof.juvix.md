@@ -14,25 +14,31 @@ module arch.system.state.resource_machine.data_structures.action.resource_logic_
 
 Resource logic proofs attest to validity of resource logics. A resource logic is a computable predicate associated with a resource (this resource is referred to as `self` in this context) that constrains the creation and consumption of a resource. Each time a resource is created or consumed, the corresponding resource logic proof is required in order for the action (and thus the transaction) to be valid.
 
-## Proving
+## Action tree
 
 When proving, resource logics take as input resources created and consumed in that action.
 
 #### Instance
 
 1. Resource's commitment/nullifier
-2. `isConsumed` - a flag that tells the logic if the resource is consumed or created
-3. `consumed` (excluding the tagged resource, if it is consumed)
-4. `created` (excluding the tagged resource, if it is created)
+2. `isConsumed` - a flag that tells the logic if the resource is consumed or created. Can be inferred from the position of the tag in the corresponding compliance unit.
+3. `actionTreeRoot`. Action tree is a Merkle tree that contains commitments and nullifiers of the action resources. The resource logic takes as input the root of the action tree.
 5. `applicationData`
 
+Including `applicationData` in the instance requires the following pre-processing:
+
+1. For each payload type, a new list must be formed by collecting the first entry from each tuple: `List (BitString, DeletionCriterion) -> List BitString`. Empty payload lists are ignored
+2. Merge all resulting lists into a single one
+3. Dereference the list and attach the elements to the tail of the instance
+
+The original order of the elements must be preserved at each step.
 
 #### Witness
 
 1. `self` resource object
 2. If `isConsumed = True`: nullifier key of `self`
-3. Resource objects of consumed resources: `List (Resource, NullifierKey)`
-4. Resource objects of created resources: `List Resource`
+3. Resource objects of consumed resources: `List (Resource, NullifierKey, ActionTreePath)`
+4. Resource objects of created resources: `List (Resource, ActionTreePath)`
 5. Application-specific inputs
 
 !!! note
