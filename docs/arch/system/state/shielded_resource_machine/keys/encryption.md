@@ -12,7 +12,7 @@ Each potential receiver has a static encryption key pair. To send a resource to 
 
 1. generates an ephemeral encryption key pair $(eesk, eepk)$
 2. using the receiver's static encrypion public key, generates the resource encryption key $rek = KDF(DH(sepk_{R}, eesk_{S}), eepk_{S})$
-3. encrypts the resource $ce = Encrypt(rek, resource)$ and includes the encrypted message in the transaction payload: `resourcePayload = [ce, eepk_{S}]`
+3. encrypts the resource $ce = Encrypt(rek, resource)$ and includes the encrypted message in the transaction payload: `resourcePayload = [(ce, eepk_{S})]`
 
 The receiver has to [discover](./discovery.md) the message sent to them and then decrypt it, inverting the process above.
 
@@ -21,4 +21,4 @@ The receiver has to [discover](./discovery.md) the message sent to them and then
 |Function|Instantiation|
 |-|-|
 |Encryption algorithm|AES256-GCM|
-|KDF|SHA256|
+|[KDF](https://en.wikipedia.org/wiki/Key_derivation_function)|SHA256|
