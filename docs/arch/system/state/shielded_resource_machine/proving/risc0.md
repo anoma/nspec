@@ -1,6 +1,6 @@
 # RISC Zero proving system
 
-Compliance and logic proofs are represented as RISC Zero circuits. [RISC Zero](https://risczero.com/) is a zkVM based on [STARK proofs](https://starkware.co/blog/scaling-blockchains-with-zero-knowledge-proofs/#starks). Each program in RISC Zero (called session) is split into segments of equal length (determined by the cycle count) and proven separately (segment proofs) which are then aggregated (succinct proof). That implies that:
+Compliance and logic constraints are represented as RISC Zero programs. [RISC Zero](https://risczero.com/) is a zkVM based on [STARK proofs](https://eprint.iacr.org/2018/046). Each program in RISC Zero (called session) is split into segments of equal length (determined by the cycle count) and proven separately (segment proofs) which are then aggregated (succinct proof). That implies that:
 
 1. the bigger the program is, the more segment proofs are required and the longer it takes to prove the whole session
 2. memory requirements are bound (segment memory upper bound)
