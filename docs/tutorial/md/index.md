@@ -33,11 +33,8 @@ search:
   exclude: false
   boost: 3
 tags:
-  - node-architecture
   - harware-subsystem
-  - engine
   - logging
-  - message-types
 ---
 ```
 

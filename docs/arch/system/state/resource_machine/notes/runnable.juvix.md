@@ -4,11 +4,7 @@ icon: octicons/container-24
 search:
   exclude: false
 tags:
-  - node-architecture
-  - ordering-subsystem
-  - engine
-  - executor
-  - environment
+  - resource-machine
 ---
 
 ??? code "Juvix imports"

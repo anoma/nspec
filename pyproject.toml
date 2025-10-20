@@ -1,6 +1,6 @@
 [project]
 name = "nspec"
-version = "0.1.5"
+version = "1.0.0"
 description = "NSpec is a specification project for the Anoma network."
 readme = "README.md"
 requires-python = ">=3.13"
