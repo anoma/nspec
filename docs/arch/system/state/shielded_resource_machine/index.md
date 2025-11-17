@@ -20,7 +20,6 @@ All resource machines must comply with the general resource machine specificatio
 |Logic private inputs|Not all resources from the same action must be passed as private input to logics. Only relevant resource objects are passed. Note that the action tree contains _all_ resources in the action and the root of the tree is passed as public input.|
 |Compliance proof|Compliance proving and verifying keys are hardcoded in the library and are not passed explicitly as input|
 |Variable size parameters|This field is not present. This is currently irrelevant.|
-|Proof aggregation|The general specification doesn't account for proof aggregation at the moment.|
 
 ### Intended privacy properties
 
