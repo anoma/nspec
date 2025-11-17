@@ -47,7 +47,7 @@ Actions partition the state change induced by a transaction and limit the evalua
 
 ## Interface
 
-1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot, applicationData, PS.Witness), List (Resource, deltaExtraInput, applicationData, PS.Witness)) -> Action`
+1. `create(List (NullifierKey, Resource, deltaExtraInput, CMtreePath, CMTreeRoot, List (BitString, DeletionCriterion)), List (Resource, deltaExtraInput, List (BitString, DeletionCriterion)), appWitness: BitString) -> Action`
 2. `verify(Action) -> Bool`
 3. `delta(Action) -> DeltaHash`
 4. `to_instance(Action, Tag) -> Maybe ResourceLogicProvingSystem.Instance`
@@ -77,4 +77,12 @@ Validity of an action can only be determined for actions that are associated wit
 
 This function assembles the instance required to verify a resource logic proof from the data in the action.
 
-The main task is to assemble the tree root containing all created and consumed resource in the action. The exact depth and shape of the tree is instantiation-dependent.
+The main task is to assemble the `consumed` and `created` lists of resources. The proposed mechanism works as follows:
+1. Iterate over all compliance units and accumulate the lists of created and consumed resources. The resulting list of consumed resources contains all consumed resources in the action. The resulting list of created resources contains all created resources in the action.
+2. Erase the `self` resource from the relevant list. If the resource is consumed and its nullifier is stored under index `n` in the list of consumed resources, the resulting list is `l[0], l[1], ..., l[n - 1], l[n + 1], ...`. Keep the list of created resources the same.
+3. If `self` is created, erase the resource from the list of created resources as in step 2. Keep the list of consumed resources the same. For each resource we assemble an instance for, we erase only one resource - itself - from one list.
+
+!!! note
+   When verifying multiple logic proofs from the same action, it might make sense to create the 'full' lists once and erase resources one at a time to create a particular instance. Note that the next instance must be created from the original `full` list, not the list with previously erased resources.
+
+All other fields of the instance (resource tag, `isConsumed`, `applicationData`) are taken from the relevant entry of the `logicVerifierInputs` map.

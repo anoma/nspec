@@ -21,16 +21,16 @@ The table below describes the components of a compliance unit:
 
 |Component|Type|Description|
 |-|-|-|
-|`vk`|`ComplianceProvingSystem.VerifyingKey`| The verifying key for the compliance circuit. Assumed to correspond to the hardcoded verifying key stored per ARM instance.|
+|`vk`|`ComplianceProvingSystem.VerifyingKey`|
 |`instance`|`ComplianceProvingSystem.Instance`|The instance required to verify the compliance proof. Includes the tags of the checked resources, compliance unit delta, `CMtree` roots for consumed resources.|
-|`proof`| `ComplianceProvingSystem.Proof`| Compliance proof.|
+|`proof`| `ComplianceProvingSystem.Proof`||
 
 The number of created and consumed resources in each unit is determined by the resource machine *instantiation*. The total number of compliance proofs required for an action is determined by the number of compliance units that comprise the action. For example, if the instantiation defines a single compliance proof to include 1 input and 1 output resource, and an action contains 3 input and 2 output resources, the total number of compliance units will be 3 (with a placeholder output resource in the third compliance unit).
 
 ## Interface
 
 1. `create(ComplianceProvingSystem.ProvingKey, ComplianceProvingSystem.VerifyingKey, ComplianceProvingSystem.Instance, ComplianceProvingSystem.Witness) -> ComplianceUnit` - computes the compliance unit proof and populates the compliance unit
-2. `created(ComplianceUnit) -> List Commitment` - returns the commitments of the created resources checked in the unit
+2. `created(ComplianceUnit) -> List Commimtent` - returns the commitments of the created resources checked in the unit
 3. `consumed(ComplianceUnit) -> List Nullifier` - returns the nullifiers of the consumed resources checked in the unit
 4. `verify(ComplianceUnit) -> Bool` - returns `ComplianceProvingSystem.Verify(vk, instance, proof)`
 5. `delta(ComplianceUnit) -> DeltaHash` - returns the compliance unit delta, which is stored in `complianceData`: `unit.delta() = unit.complianceData.delta`
@@ -59,9 +59,8 @@ As a result, the properties of `DeltaHash` allow computing the total balance for
 
 ### `verify`
 
-1. `vk` is an approved verifying key for the hardcoded compliance proof.
 1. `ComplianceProvingSystem.Verify(vk, instance, proof) = True`
-3. Global check: `CMTree` roots used to verify the proof are valid `CMTree` roots
+2. Global check: `CMTree` roots used to verify the proof are valid `CMTree` roots
 
 !!! note
   Compliance units can be verified as parts of supposedly valid transactions and individually, when building a valid transaction (e.g., in the partial solving case). In case the compliance units are verified _not_ individually, all global checks can be aggregated and verified at once to reduce the amount of global communication.
