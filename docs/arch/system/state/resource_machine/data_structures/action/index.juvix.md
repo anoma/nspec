@@ -17,15 +17,16 @@ An action is a composite structure of type `Action` that contains the following 
 |Component|Type|Description|
 |-|-|-|
 |`logicVerifierInputs`|`Map Tag LogicVerifierInputs`|For each resource tag, contains the associated logic proof and everything required to verify it. The structure of `LogicVerifierInputs` is further described below.|
-|`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]].|
+|`complianceUnits`|`List ComplianceUnit`|The set of transaction's [[Compliance unit | compliance units]]|
+|`actionTreeSize`||Determines the depth of the Merkle tree used to store input resources. If not specified, the depth is set to the smallest necessary to fit all the input resources.|
 
 ### `LogicVerifierInputs`
 
 |Name|Type|Description|
 |-|-|-|
-|`verifyingKey`|`ResourceLogicProvingSystem.verifyingKey`|Contains the verifying key used to verify the logic proof.|
+|`verifyingKey`|`ResourceLogicProvingSystem.verifyingKey`|Contains the verifying key used to verify the logic proof|
 |`applicationData`|`(ResourcePayload, DiscoveryPayload, ExternalPayload, ApplicationPayload)`|Contains inputs required to verify the RL proof. Each payload type is `List(BitString, DeletionCriterion)`. The tuple entries are further described below. The deletion criterion field is further described [[Stored data format |here]].
-|`proof`|`ResourceLogicProvingSystem.Proof`| The proof of the resource logic.|
+|`proof`|`ResourceLogicProvingSystem.Proof`|
 
 
 ### `applicationData`

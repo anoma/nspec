@@ -1,10 +1,18 @@
 site_name: !ENV [SITE_NAME, "Anoma specs"]
 site_author: !ENV [SITE_AUTHOR, "Anoma Foundation"]
-site_description: !ENV [SITE_DESCRIPTION, "The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network."]
+site_description:
+  !ENV [
+    SITE_DESCRIPTION,
+    "The Anoma specs is a collection of documents that describe the architecture, design, and implementation of the Anoma Network.",
+  ]
 site_dir: !ENV [SITE_DIR, site]
-site_url: !ENV [SITE_URL, 'https://specs.anoma.net/latest/']
+site_url: !ENV [SITE_URL, "https://specs.anoma.net/latest/"]
 site_version: !ENV [SITE_VERSION, "v0.2.0"]
-copyright: !ENV [COPYRIGHT, "&copy; 2025 <a href=\"https://anoma.net\">Anoma Foundation</a>"]
+copyright:
+  !ENV [
+    COPYRIGHT,
+    '&copy; 2025 <a href="https://anoma.net">Anoma Foundation</a>',
+  ]
 repo_url: https://github.com/anoma/nspec
 repo_name: anoma/nspec
 edit_uri: edit/main/docs/
@@ -69,6 +77,23 @@ nav:
                   - Runnable trait: ./arch/system/state/resource_machine/notes/runnable.juvix.md
                   - Nockma implementation: ./arch/system/state/resource_machine/notes/nockma.juvix.md
                   - Nockma runnable: ./arch/system/state/resource_machine/notes/nockma_runnable.juvix.md
+          - Shielded resource machine:
+              - ./arch/system/state/shielded_resource_machine/index.md
+              - Global state: ./arch/system/state/shielded_resource_machine/global_state.md
+              - Proving:
+                  - ./arch/system/state/shielded_resource_machine/proving/index.md
+                  - Risc0: ./arch/system/state/shielded_resource_machine/proving/risc0.md
+                  - Delta proofs: ./arch/system/state/shielded_resource_machine/proving/delta.md
+                  - Proof aggregation: ./arch/system/state/shielded_resource_machine/proving/proof_aggregation.md
+              - Resource: ./arch/system/state/shielded_resource_machine/resource.md
+              - Compliance: ./arch/system/state/shielded_resource_machine/compliance.md
+              - Action: ./arch/system/state/shielded_resource_machine/action.md
+              - Keys:
+                  - ./arch/system/state/shielded_resource_machine/keys/index.md
+                  - In-band distribution: ./arch/system/state/shielded_resource_machine/keys/encryption.md
+                  - Discovery: ./arch/system/state/shielded_resource_machine/keys/discovery.md
+              - Features:
+                  - Function privacy: ./arch/system/state/shielded_resource_machine/features/function_privacy.md
   - Integrations:
       - Protocol Adapters:
           - ./arch/integrations/adapters/index.md
@@ -183,7 +208,7 @@ plugins:
   - juvix # Provided with mkdocs-juvix-plugin
   - todos
   - kroki: # docs: https://github.com/AVATEAM-IT-SYSTEMHAUS/mkdocs-kroki-plugin#readme
-      ServerURL: !ENV [KROKI_SERVER_URL, 'https://kroki.io']
+      ServerURL: !ENV [KROKI_SERVER_URL, "https://kroki.io"]
       FileTypes:
         - svg
         - png
